@@ -1,235 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33951E495;
-	Sun,  2 Feb 2025 14:26:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918F415ECD7
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Feb 2025 15:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738506419; cv=none; b=N7v8w45dbFEgifABBZpHzjDPHS9pmeln1ZB9/29BJ0x4MiWioF2cOrpK5O0AI5p7fEckX1TdHYyCdBDHljcO2zCCXI0QygtXDjQbszYAi7n8AlFdNJS8Ej3mHI+6g33ZtO2ObiMejb2e84GlhAr/8GwKgbLOC6btqr+euWAiqIY=
+	t=1738508637; cv=none; b=D4YQITq6XbsHGKpDDkbyhEroU3yHkLTFAIsWhYjRpw024v91Uck/I054BTRHNSj/Ph4GZbXpetugVvzxMh7rqdExHvmblaF69WUnXX51cJr8oeH19ivERrb44I9FPtKTvE5iirwCH+ohbkvPJsHxLgMmuDFLzikJK+8Pabl21VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738506419; c=relaxed/simple;
-	bh=dwLs/Cl9YGLQTlQ7/2I0TXzF75oqcXzlJnnhF3N18Es=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cfIK/hnswcRpixLvQg+to3Jv3RVRO7ODaEVDpq9t5rBLZ4+qZey4D/ImwicopyRO8awVQMnWaR7sqGnIla7wlQKiXbmWJdlhWhvWslr1JXy3EscBSuVM7yfTpwFGsXRAeQi4liWxDJg9e6aT02xjLNRSJb1JERYWALDukR0rHbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoCdgkvY; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738508637; c=relaxed/simple;
+	bh=aK6lTOk2uznooM/v4CNjHXZcjE+PAC1jEbKNR8kOkUI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=PZFFncd8QYbdcInzt/0BWLo7Mdww1ykwA+6bEbFlCqhpD4QTtmL7nn5iAt4hxiRtgdsa3LZ6o6+eP5Re7LtmLonb2F0bLYq3X+5aOMYxSGo0Y69u1937xd0KKrVpYR8we5RipZFb1CAaDBpNmmcVYYpkHV1poEU0+KODgI1/uA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=f3MNus+j; arc=none smtp.client-ip=209.85.166.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoCdgkvY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738506417; x=1770042417;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dwLs/Cl9YGLQTlQ7/2I0TXzF75oqcXzlJnnhF3N18Es=;
-  b=YoCdgkvYnPhb0kqtJM+odiXh5LhY3DrWb+0Yb9GDLEsmvRTpzOXJiidI
-   kYN7HHKetvRBXvzG1MYewEBjryKHBNcXJlqNU8XPgDmQgiXHotUTBqBDQ
-   +uBktKxLK7A/7dlzd3xO4wPwaDZOYdT6xha0o463Wj0EnQERWofzDtWDA
-   qEdVdppbllw8njhMGkJ/6WmQGuZMEE/lhQWAkPF1MTUi9PQMwfBXsl0o7
-   TllvxRUXc5vahsBOaSh9l1M8/EikP5VTPJqFKAe21RxtlX0So4llOV1VJ
-   quiyyX1fZmqEVpusLNCMhRulAmRlYKCVn/VnKzqhxzXKRa8KA9HH7D3uM
-   w==;
-X-CSE-ConnectionGUID: cQ23NzcXRIuQMmDdqaXr2g==
-X-CSE-MsgGUID: uhR3GzNBT6KoueKkUwsfrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="39166523"
-X-IronPort-AV: E=Sophos;i="6.13,254,1732608000"; 
-   d="scan'208";a="39166523"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2025 06:26:56 -0800
-X-CSE-ConnectionGUID: j6s6Yrn0QNO+mMsblh/xUA==
-X-CSE-MsgGUID: YcQMNU70QRmleu82ETo9Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,254,1732608000"; 
-   d="scan'208";a="115065582"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Feb 2025 06:26:55 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1teaw0-000pkl-0q;
-	Sun, 02 Feb 2025 14:26:52 +0000
-Date: Sun, 2 Feb 2025 22:26:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 6/28] WARNING: modpost: "mutex_trylock"
- [arch/s390/crypto/paes_s390.ko] has no CRC!
-Message-ID: <202502022217.BEB10v2n-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="f3MNus+j"
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-8521df70be6so320458939f.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Feb 2025 07:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1738508632; x=1739113432; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KydtdbsD+IHWTKwrGwoogDQujCrW8sBiCm0O7lZ0Q5Y=;
+        b=f3MNus+jU3HPdwgoYgceEvoCU9VmfzLG9A0uTDjq2VRkN15kXhKOKOJl4ZrNdRreXf
+         ifIC0yhXSu5w5kJprOOzF54Y0kL6DTdlJcy+sfnzi6bWvvRG23nBtYHGWwTAFDOWIuQA
+         1zqGhh7nDmeyLOIpbXdtnzSx4+49uC081TSwPqjo4QgOWuV/M9ArDllHIkuObPVYoH+p
+         0ySHpiYziBjyEnymi1b7ybOotlG/KV/5WwQp9xEF3ljquWFEqSgZsGTZ6C9OQkv7a/1O
+         ajzN0O6n783SGh9OfYB97x1CV2nnS2fBnxxRMaYy+yhnzEUMwkOw9vp1cI4SF+oDLXfn
+         Tueg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738508632; x=1739113432;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KydtdbsD+IHWTKwrGwoogDQujCrW8sBiCm0O7lZ0Q5Y=;
+        b=DdKzw4qxA2Qu+UR2vlinFcuigCddxVCMHqUqgfBXW11Hq6sq8LbItaLnPTbnzEg1pV
+         eM9sxnLXGBM6JjR4tK5Es283wFQ4UpHIH+7/82tZkUU7VRhiJ03M6mvko7QiijPztEat
+         vdk9ClnAjgDGgeQgqxsgtD/oCtuqNw8ZKIbgUwBuiEZTTJ9XTo1Tn9SMm+Dbfu9o/cBY
+         8ee8HUvXI7o6tzZblsArGOnhRpPT+Rog94GNlHj87ut7+DEE7+GM7BhpsgEOLQm3AWdM
+         ywNurftNCiRgLzbBBgEYxKaFvRBATHIygFfaNyUwUU6C/DixsOdJzdxWmxXW1mNMWqL5
+         B2Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8KRynqpDe3qLyVYRYMaiN/fPOCwLCbyj5qb2P0p+WrOocCMpoePsMa2vYkWPNWUN8HkXGYeK3OlSrKFN3@lists.linux.dev
+X-Gm-Message-State: AOJu0YxelPJOV7ccflJ7R6d3i5V3e14nSAbkhV2oEjg4wvTnryDjkd2L
+	oOYHwlhXAnIZy624FnDwHa5qsnCnfxLU3agRBHtjAgJJ46yKhPzY99dWeKVgtUE=
+X-Gm-Gg: ASbGncvJZB39NqcdMwn7MbBmVPkHGuF3kzx9YFPqaAe3cjZtn1OksvJWKSOz6OraA4O
+	JzLIvpqCO2uU8uhsQxWSL7wdeAyp9wp8l2prlVjcXJzs4ja5XJjGlei+5FdNOs70pSUXdRXrmoB
+	qT/ASQqAllrXQeBlgf4IcVpMQup2dodpjObHwlK0j21fXR3GanCqbcffmrZS0vqiKlIjbW9SpLu
+	R2sgc0VyT8MRtpyq1pU3PXXghepZpoibY910MtPhGBGEEgw9jKZucJCfAJ3QFhPYtz+7XqmUTAm
+	nmwCsR5wJSGR
+X-Google-Smtp-Source: AGHT+IEPqLoat6MYW3ZdjzvI83MNOmtwXXYnpkHxGn3p4XVOYsiMR+nl85vGG6lvx+OoyjGP6weUsw==
+X-Received: by 2002:a05:6602:398b:b0:84c:e8ce:b547 with SMTP id ca18e2360f4ac-85427e11c63mr1701903539f.13.1738508632237;
+        Sun, 02 Feb 2025 07:03:52 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ec7469ef2dsm1823798173.97.2025.02.02.07.03.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Feb 2025 07:03:51 -0800 (PST)
+Message-ID: <ad76426d-7d2e-45c5-ab19-a6b9679b0b2f@kernel.dk>
+Date: Sun, 2 Feb 2025 08:03:50 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Jens Axboe <axboe@kernel.dk>
+Subject: Re: [axboe-block:io_uring-epoll-wait 7/19]
+ io_uring/io_uring.c:396:43: sparse: sparse: incorrect type in initializer
+ (different base types)
+To: kernel test robot <lkp@intel.com>
+Cc: Max Kellermann <max.kellermann@ionos.com>, oe-kbuild-all@lists.linux.dev
+References: <202502021802.ulY6VEco-lkp@intel.com>
+Content-Language: en-US
+In-Reply-To: <202502021802.ulY6VEco-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   1fb61c841ca602318a356ae71432c2b8afbf7224
-commit: 165738e93ed8ffda3d0ee4b2d958b89a23acd6d3 [6/28] linux/mutex.h: Annotate struct mutex and mutex functions
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20250202/202502022217.BEB10v2n-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250202/202502022217.BEB10v2n-lkp@intel.com/reproduce)
+On Sun, Feb 2, 2025 at 3:19?AM kernel test robot <lkp@intel.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-epoll-wait
+> head:   81a642b29d7d837fda2d86c4e1dc036effcfa4a7
+> commit: 4fbd68dbbb65f14f3fd40e1232045e06d168ecbd [7/19] io_uring: cache io_kiocb->flags in variable
+> config: hexagon-randconfig-r112-20250202 (https://download.01.org/0day-ci/archive/20250202/202502021802.ulY6VEco-lkp@intel.com/config)
+> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
+> reproduce: (https://download.01.org/0day-ci/archive/20250202/202502021802.ulY6VEco-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502021802.ulY6VEco-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>    io_uring/io_uring.c: note: in included file (through include/linux/io_uring/cmd.h):
+>    include/linux/io_uring_types.h:191:37: sparse: sparse: array of flexible structures
+> >> io_uring/io_uring.c:396:43: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int const req_flags @@     got restricted io_req_flags_t [usertype] flags @@
+>    io_uring/io_uring.c:396:43: sparse:     expected unsigned int const req_flags
+>    io_uring/io_uring.c:396:43: sparse:     got restricted io_req_flags_t [usertype] flags
+> >> io_uring/io_uring.c:398:25: sparse: sparse: restricted io_req_flags_t degrades to integer
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502022217.BEB10v2n-lkp@intel.com/
-
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: EXPORT symbol "mutex_lock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "mutex_lock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "mutex_unlock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "mutex_unlock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "ww_mutex_unlock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "ww_mutex_unlock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "ww_mutex_trylock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "ww_mutex_trylock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "mutex_lock_interruptible" [vmlinux] version generation failed, symbol will not be versioned.
-Is "mutex_lock_interruptible" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "mutex_lock_killable" [vmlinux] version generation failed, symbol will not be versioned.
-Is "mutex_lock_killable" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "mutex_trylock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "mutex_trylock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "ww_mutex_lock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "ww_mutex_lock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "ww_mutex_lock_interruptible" [vmlinux] version generation failed, symbol will not be versioned.
-Is "ww_mutex_lock_interruptible" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "atomic_dec_and_mutex_lock" [vmlinux] version generation failed, symbol will not be versioned.
-Is "atomic_dec_and_mutex_lock" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: "mutex_trylock" [arch/s390/crypto/des_s390.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [arch/s390/crypto/des_s390.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [arch/s390/crypto/aes_s390.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [arch/s390/crypto/aes_s390.ko] has no CRC!
->> WARNING: modpost: "mutex_trylock" [arch/s390/crypto/paes_s390.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [arch/s390/crypto/paes_s390.ko] has no CRC!
->> WARNING: modpost: "mutex_lock_interruptible" [arch/s390/crypto/prng.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [arch/s390/crypto/prng.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [arch/s390/kvm/kvm.ko] has no CRC!
-WARNING: modpost: "mutex_lock_killable" [arch/s390/kvm/kvm.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [arch/s390/kvm/kvm.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [arch/s390/kvm/kvm.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [kernel/rcu/rcutorture.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [kernel/rcu/rcutorture.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [kernel/rcu/rcutorture.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [kernel/torture.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [kernel/torture.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/fuse/cuse.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/fuse/cuse.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/fuse/virtiofs.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/fuse/virtiofs.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/configfs/configfs.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/configfs/configfs.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/dlm/dlm.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/dlm/dlm.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/netfs/netfs.ko] has no CRC!
->> WARNING: modpost: "mutex_trylock" [fs/netfs/netfs.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/netfs/netfs.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/cramfs/cramfs.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/cramfs/cramfs.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/squashfs/squashfs.ko] has no CRC!
->> WARNING: modpost: "mutex_unlock" [fs/squashfs/squashfs.ko] has no CRC!
->> WARNING: modpost: "mutex_lock" [fs/fat/fat.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/fat/fat.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/fat/vfat.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/fat/vfat.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/fat/msdos.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/fat/msdos.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/exfat/exfat.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/exfat/exfat.ko] has no CRC!
-WARNING: modpost: "atomic_dec_and_mutex_lock" [fs/ecryptfs/ecryptfs.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/ecryptfs/ecryptfs.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/ecryptfs/ecryptfs.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/nfs/nfs.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/nfs/nfs.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/nfs/nfsv4.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/nfs/nfsv4.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/nfsd/nfsd.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/nfsd/nfsd.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/lockd/lockd.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/lockd/lockd.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/smb/client/cifs.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/smb/client/cifs.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/ntfs3/ntfs3.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [fs/ntfs3/ntfs3.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/ntfs3/ntfs3.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/autofs/autofs4.ko] has no CRC!
-WARNING: modpost: "mutex_lock_interruptible" [fs/autofs/autofs4.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/autofs/autofs4.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/overlayfs/overlay.ko] has no CRC!
-WARNING: modpost: "mutex_lock_interruptible" [fs/overlayfs/overlay.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/overlayfs/overlay.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/udf/udf.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/udf/udf.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/jfs/jfs.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [fs/jfs/jfs.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/jfs/jfs.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/nilfs2/nilfs2.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/nilfs2/nilfs2.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/cachefiles/cachefiles.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/cachefiles/cachefiles.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/ocfs2/ocfs2.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [fs/ocfs2/ocfs2.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/ocfs2/ocfs2.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/ocfs2/ocfs2_stack_user.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/ocfs2/ocfs2_stack_user.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/ocfs2/cluster/ocfs2_nodemanager.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/ocfs2/cluster/ocfs2_nodemanager.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/gfs2/gfs2.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [fs/gfs2/gfs2.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/gfs2/gfs2.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [fs/bcachefs/bcachefs.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [fs/bcachefs/bcachefs.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [fs/bcachefs/bcachefs.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [crypto/crypto_user.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [crypto/crypto_user.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [lib/kunit/kunit.ko] has no CRC!
-WARNING: modpost: "mutex_lock_interruptible" [lib/kunit/kunit.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [lib/kunit/kunit.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [lib/math/prime_numbers.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [lib/math/prime_numbers.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [lib/test_lockup.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/virtio/virtio_balloon.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/virtio/virtio_balloon.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [drivers/virtio/virtio_balloon.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/virtio/virtio_mem.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/virtio/virtio_mem.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/char/hw_random/rng-core.ko] has no CRC!
-WARNING: modpost: "mutex_lock_interruptible" [drivers/char/hw_random/rng-core.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/char/hw_random/rng-core.ko] has no CRC!
-WARNING: modpost: "ww_mutex_lock_interruptible" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "ww_mutex_unlock" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "ww_mutex_trylock" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "atomic_dec_and_mutex_lock" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "ww_mutex_lock" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "mutex_lock_interruptible" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/gpu/drm/drm.ko] has no CRC!
-WARNING: modpost: "ww_mutex_lock_interruptible" [drivers/gpu/drm/drm_shmem_helper.ko] has no CRC!
-WARNING: modpost: "ww_mutex_unlock" [drivers/gpu/drm/drm_shmem_helper.ko] has no CRC!
-WARNING: modpost: "ww_mutex_lock" [drivers/gpu/drm/drm_shmem_helper.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/gpu/drm/drm_kms_helper.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [drivers/gpu/drm/drm_kms_helper.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/gpu/drm/drm_kms_helper.ko] has no CRC!
-WARNING: modpost: "ww_mutex_lock_interruptible" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
-WARNING: modpost: "ww_mutex_unlock" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
-WARNING: modpost: "ww_mutex_lock" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/gpu/drm/virtio/virtio-gpu.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/block/loop.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/block/loop.ko] has no CRC!
-WARNING: modpost: "mutex_lock_killable" [drivers/block/loop.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/block/nbd.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/block/nbd.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [drivers/block/nbd.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/block/drbd/drbd.ko] has no CRC!
-WARNING: modpost: "mutex_trylock" [drivers/block/drbd/drbd.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/block/drbd/drbd.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/block/rbd.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/block/rbd.ko] has no CRC!
-WARNING: modpost: "mutex_lock" [drivers/misc/enclosure.ko] has no CRC!
-WARNING: modpost: "mutex_unlock" [drivers/misc/enclosure.ko] has no CRC!
+I've folded in a patch making it io_req_flags_t, which is the correct
+type. Missed that...
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
+
