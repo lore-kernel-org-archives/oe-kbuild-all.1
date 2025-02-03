@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31CE194AEC;
-	Mon,  3 Feb 2025 16:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CA520ADE0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 17:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738601816; cv=none; b=obGkfSlaehzqeJnwDU7q++D6FRjl/cfxPzi+XwNSM7sIdwWsj3n7JTOtzxOMMp9+XLYv6lS2xbOqb6kX4OeQKtRjxbL7fAlZBGDN2d5meMOmVLQia+9UZQeOTlinmjwuz/chkSv/EXiweLu/uj0FJ3sPsB1/1znOt/D60nkfKiM=
+	t=1738602423; cv=none; b=fVaGDqsv63lwjztau+gtYN75DHHCDcv9a5V/S6rrQ8/ajZg0XHV8IRnIJsO4YxvzmvS6wIwljCdea9fwGSC+QgutGuL2U4ZK1Lxw6D8oXEjZmAQxmPUdEkxOO5Vr5ZdCV/RNg9gSwPo+faxdL84jDsXMjbDiS5aXYD/QgC6Uhrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738601816; c=relaxed/simple;
-	bh=RPGi+hi5oCiLkTSSKY2KV+BpdD7LCwIa9QElia2VBT0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iCCeHHQNxczb0C97whAom6qJirUO7bK0R15zGAa6MDW/k70jtxxwIR3YqQG32pUaVvAPcqcZ0fd44YSEAHS5mQO7PRw8i7kkt8qp3HEotp9jbdZ/D0GBE6dUFzS7VfISwKG82ppZ+WmZfCUowP7endVQbCbZT9m3/IhSc48a7KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iMdxCv7b; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1738602423; c=relaxed/simple;
+	bh=EiQB0sYBQAho8pe6u94W/tfr8rXHV1YpEzUOZK+DVUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p0eWGJhDtFWrI9coUqRnDkdlmxDohhIMt++PxEgzR3J1CtRoJ8NGHaQrxcevKXeKYTb9ODZKuJ2RKFesLFDPxIBL3tBPqhSR4BgNZd8ynmaK4VGSXn4Q5STQ4ay7kRJu3scvFptG0QzLaglbebUA4KGQFSAUmz+UXA1kgl1vMXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmS7OigK; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMdxCv7b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmS7OigK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738601815; x=1770137815;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RPGi+hi5oCiLkTSSKY2KV+BpdD7LCwIa9QElia2VBT0=;
-  b=iMdxCv7bnYYx6zmKr36JN8E2piVlrkgH+NmjJ4TfCIKe8k7ktcyTJh2b
-   sZzP9rIBLrglBI18PQggO01jdVAQ6mdAdOIEVWEbmZP+zDWBfp9ZGRPNA
-   dDAdwCz2lbT5odWaw4C4+wUkSZeFABrRdnLVBp6YaKasnw1nqxvETMDpy
-   nlKXvf+OYYLYZ0TMs+n5dypN2+48DDtfw5wnhYdOT4xthjX8oF91+fAXk
-   O8xsrcJiS5qSUBZLfuVYHtgz64hUpM2ddLVaUlYXy4tHf6LN2deZwybix
-   TK7x7cqM5LEBMFW3NglTpllKY+QNEsTG3NIHtcp7igFCrJ4XwPnyrDMoY
-   w==;
-X-CSE-ConnectionGUID: HoDOLJ09R/iyQ7UcqvVfyA==
-X-CSE-MsgGUID: jodSq6JfSsi+hCIGu284eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="49707283"
+  t=1738602420; x=1770138420;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EiQB0sYBQAho8pe6u94W/tfr8rXHV1YpEzUOZK+DVUo=;
+  b=XmS7OigKOJjwjvVfW9H1r0+bOSvjvolLjxxBY+YaT91TLDFDGtdsUt7z
+   6ybaJ+NLX7pejtrXT5MQrmiEKZW8QUsAZlXo2vaxIJGnkWRTytpI4pIQD
+   1rfkI/mvmADevukQeaUKqDa2bFz870/N6MVbtlecIH/RYOZYghzKi/Bpe
+   E7+iF7gszPdCtRQzRXdKzN2nNVF4CYNJHx6tx1KS6VhXnER7HClXSBSwU
+   xEQoWMGsQsDjNbxgl5gQdRUFex/p0pLGn7pXAq5rFUpZAOJE8pkhaX0z1
+   mP6lepLgzhrVxGeHhWhFn/LNNrsm+ibCo9ftFyY5TQvMjYlAkJtTxrUt+
+   g==;
+X-CSE-ConnectionGUID: /Q5Ff7B6SEq1BYnRU3Tvfg==
+X-CSE-MsgGUID: Iim1Ij5VSdShwhvPQVZZ6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="26706709"
 X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
-   d="scan'208";a="49707283"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 08:56:54 -0800
-X-CSE-ConnectionGUID: rwTJZFdWTh+Rt8EfmxvyfA==
-X-CSE-MsgGUID: V19IV0oeQfiF67jMx/j9cw==
+   d="scan'208";a="26706709"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 09:06:57 -0800
+X-CSE-ConnectionGUID: ia0Qpw0DQfCrdKcIAo414Q==
+X-CSE-MsgGUID: HrHf0u6URWuyOeJPMYIroQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="147547222"
+   d="scan'208";a="110150579"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Feb 2025 08:56:54 -0800
+  by orviesa010.jf.intel.com with ESMTP; 03 Feb 2025 09:06:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tezkg-000rD9-2U;
-	Mon, 03 Feb 2025 16:56:50 +0000
-Date: Tue, 4 Feb 2025 00:56:35 +0800
+	id 1tezuO-000rE7-0S;
+	Mon, 03 Feb 2025 17:06:52 +0000
+Date: Tue, 4 Feb 2025 01:06:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.13-esp32 35/53]
- drivers/misc/esp32-ipc.c:228:34: warning: unused variable 'esp32_ipc_match'
-Message-ID: <202502040003.WRLTz6Ya-lkp@intel.com>
+To: Charlie Jenkins <charlie@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Pasha Bouzarjomehri <pasha@rivosinc.com>,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: Re: [PATCH v4] riscv: Add runtime constant support
+Message-ID: <202502040018.8DyjnzNe-lkp@intel.com>
+References: <20250130-runtime_const_riscv-v4-1-2d36c41b7b9c@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,53 +70,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250130-runtime_const_riscv-v4-1-2d36c41b7b9c@rivosinc.com>
 
-Hi Max,
+Hi Charlie,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.13-esp32
-head:   f4a6cef2509c4e81637b6d5d6f0c27966895985a
-commit: 08b8a525de25b35564cb9ae5f7b5ad1122a84fed [35/53] esp_wifi: add IPC transport
-config: mips-jazz_defconfig (https://download.01.org/0day-ci/archive/20250204/202502040003.WRLTz6Ya-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040003.WRLTz6Ya-lkp@intel.com/reproduce)
+[auto build test ERROR on ffd294d346d185b70e28b1a28abe367bbfe53c04]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-Add-runtime-constant-support/20250131-092950
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250130-runtime_const_riscv-v4-1-2d36c41b7b9c%40rivosinc.com
+patch subject: [PATCH v4] riscv: Add runtime constant support
+config: riscv-randconfig-002-20250203 (https://download.01.org/0day-ci/archive/20250204/202502040018.8DyjnzNe-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040018.8DyjnzNe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502040003.WRLTz6Ya-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502040018.8DyjnzNe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/misc/esp32-ipc.c:228:34: warning: unused variable 'esp32_ipc_match' [-Wunused-const-variable]
-     228 | static const struct of_device_id esp32_ipc_match[] = {
-         |                                  ^~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from fs/dcache.c:38:
+   arch/riscv/include/asm/runtime-const.h: In function '__runtime_fixup_ptr':
+   arch/riscv/include/asm/runtime-const.h:167:63: warning: right shift count >= width of type [-Wshift-count-overflow]
+     167 |                 __runtime_fixup_32(where + 4, where + 12, val >> 32);
+         |                                                               ^~
+   fs/dcache.c: In function 'd_hash':
+   arch/riscv/include/asm/runtime-const.h:13:28: warning: unused variable '__tmp' [-Wunused-variable]
+      13 |         typeof(sym) __ret, __tmp;                               \
+         |                            ^~~~~
+   fs/dcache.c:112:16: note: in expansion of macro 'runtime_const_ptr'
+     112 |         return runtime_const_ptr(dentry_hashtable) +
+         |                ^~~~~~~~~~~~~~~~~
+   fs/dcache.c: Assembler messages:
+>> fs/dcache.c:116: Error: illegal operands `addi a0,-0x211'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ESP32_IPC
-   Depends on [n]: OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - ESP32_WIFI_SHMEM [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_ESPRESSIF [=y]
 
+vim +116 fs/dcache.c
 
-vim +/esp32_ipc_match +228 drivers/misc/esp32-ipc.c
-
-ff5d67ac76ee59 Max Filippov 2023-08-11  227  
-ff5d67ac76ee59 Max Filippov 2023-08-11 @228  static const struct of_device_id esp32_ipc_match[] = {
-ff5d67ac76ee59 Max Filippov 2023-08-11  229  	{
-ff5d67ac76ee59 Max Filippov 2023-08-11  230  		.compatible = "esp,esp32-ipc",
-ff5d67ac76ee59 Max Filippov 2023-08-11  231  	}, {},
-ff5d67ac76ee59 Max Filippov 2023-08-11  232  };
-ff5d67ac76ee59 Max Filippov 2023-08-11  233  MODULE_DEVICE_TABLE(of, esp32_ipc_match);
-ff5d67ac76ee59 Max Filippov 2023-08-11  234  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: ff5d67ac76ee59b6351fd6f70df8d0178ef4f72a misc/esp32-ipc: introduce generic IPC for ESP32
-
-:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
-:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
+ceb5bdc2d246f6 Nicholas Piggin 2011-01-07  115  
+94bdd655caba20 Al Viro         2016-04-15 @116  #define IN_LOOKUP_SHIFT 10
+94bdd655caba20 Al Viro         2016-04-15  117  static struct hlist_bl_head in_lookup_hashtable[1 << IN_LOOKUP_SHIFT];
+94bdd655caba20 Al Viro         2016-04-15  118  
 
 -- 
 0-DAY CI Kernel Test Service
