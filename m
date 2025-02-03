@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E401DC745;
-	Mon,  3 Feb 2025 21:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0D01F4275
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 21:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738616849; cv=none; b=NYDt/SqND6QkqyBfMIfLZhuZSwEfz3wowtb0QrVWEEih82JOgArFnghocHc8lHC7vY420DztsIrWsN6FWSSRAOgwDzr1Vc2tud2EWD55qkF549d1VWdonbA46wnRrXKfhpiS+Ruvd/CoFPV7ZUy3RD62y9XT0abOtScYyfeZVLQ=
+	t=1738618710; cv=none; b=VY1yiWiTZXFhJhGE9AMPK40vU7+kwIVxumAgjllMbZfuP0OJSDrbFdHVpPmSxmWrZsp6uZ9oKfYDNgwgQOYTWIpsjoWv443WmfuywzK9ABzh91/Xx2Dx7PwijJ3FpvHkxPDpEG1jd2Tu6Tw0I8rjn5UL3bKNhKTkYcuxlc26zK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738616849; c=relaxed/simple;
-	bh=I6E+KMf+GC7gcZDiOUy+LrrXr+s80/o+Eqd493BSBcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=duN4NlzfLgP8BoE0+2IYpLPB79QPa3LbUWTDdfkz3QDSIXa0risq1PF9uq3FtcDEAWFLMY00LV2IJCHLrtsPaVE4wJmDgdQW7sjKQir3l+NJ8TWGOtCmiE+3Gv/3Xkwt3zFi1Z/fcGnyibMcb+36DbBw+7xxhQWHxw/FxA6nqi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxmc/mCG; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1738618710; c=relaxed/simple;
+	bh=iLtmW/QXoPhA9E6GXUmkV7fRKcwHIBJyK5IwnF8CQAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r+iF3QhYtvBhlRclZ/j9AA0rOAxOYL5jgWnRTfaxEETfBZyvFlGyQQELd7VbLP/1dXBFFofMThHqET7+5Senbk7pZpnwGMlcRgIvCQy561LIfoNNkj1Fs9mSa8l56TKxvjVtnkY5ClzzMZuhDrb/Pm4Uthq8xERpispTc1mv8r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YDQbl2Ch; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxmc/mCG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YDQbl2Ch"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738616847; x=1770152847;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I6E+KMf+GC7gcZDiOUy+LrrXr+s80/o+Eqd493BSBcw=;
-  b=hxmc/mCGZI2jT6oeRYFAWd2YcKB/dKOXYzTJC7VSW38lZZdcLRhJzk4/
-   CyqPShPzaOr1vsdjDxnqInc2MMw6Drw+KI0DkGOFKqo5q7cb7ClREmtT3
-   sppVIKideOa/s3/g/TV9PfnnEo7E/vH2PRW/p/JbFjjVB6hXf8WXhyCsO
-   d8gFsD++4IpqCrXiHHcNDpQCQVBmvR3CY9itN1ORTUx2La5eudD4BKbSa
-   evM/sMBFocyy5FB+CBAe6ZpxKX2K5ofaZlhD39S5bdQZIEQ9g5rdMRkTs
-   tT01xuoUZMBnPQ34QTGmYU2YJ2yzVRGB2fiZq4cYo5egvT9UCygquUloF
-   g==;
-X-CSE-ConnectionGUID: NZneRmJlTZ+UVoCeGyWddg==
-X-CSE-MsgGUID: uPekbdgFSN+1JmU3I7g+lA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50538731"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="50538731"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 13:07:26 -0800
-X-CSE-ConnectionGUID: u7ApK2OGQ0CWTyIheuKY8Q==
-X-CSE-MsgGUID: nAhNm/7wQ16zDiTFT72Ydg==
+  t=1738618709; x=1770154709;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iLtmW/QXoPhA9E6GXUmkV7fRKcwHIBJyK5IwnF8CQAY=;
+  b=YDQbl2Ch67SGcBuotgpGz+EDf9vTj4d6jBWNEltHPY0pmD5SZy/S6RUw
+   gSaYxiqfGD+ti3Caxmpnc9SvUFYP0RB0gQCpJoeZZCpAMn14ewlnpo1sC
+   SHtkqIiMcj2EnHIss9r8+K7+NtwqFdtqctix9V84jfrIwrZGyXhGOlPvY
+   rbdn7ln/LcNxqq42EVpR8ybUPcRsiNYwAXxnNwGUhjeyNvVOxRUMACvzh
+   wDgeK9DB6E9HsyECFSMRerEMY1Ks4cNZmJ/S5BXqsvCQMqHXpBNZO15g6
+   5/Nr9hCLsd+k0ZAsJTZmtQDbWbCBofE0gXFoMLNAvQDqF9nBGjOoQQCjp
+   A==;
+X-CSE-ConnectionGUID: gtyWerIFSgWrQEWgpyAsVw==
+X-CSE-MsgGUID: +eH8JFStRxWG0O8eXWDVNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39006789"
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
+   d="scan'208";a="39006789"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 13:38:28 -0800
+X-CSE-ConnectionGUID: P4EoKDcYR9mSP5wDxkAF8g==
+X-CSE-MsgGUID: a7+yhwkjQ6GT1n3AxAhSlw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
-   d="scan'208";a="110171999"
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
+   d="scan'208";a="141277580"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Feb 2025 13:07:24 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Feb 2025 13:38:27 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tf3f8-000rX1-0I;
-	Mon, 03 Feb 2025 21:07:22 +0000
-Date: Tue, 4 Feb 2025 05:06:32 +0800
+	id 1tf49A-000rYF-2n;
+	Mon, 03 Feb 2025 21:38:24 +0000
+Date: Tue, 4 Feb 2025 05:37:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Naveen N Rao (AMD)" <naveen@kernel.org>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>
-Subject: Re: [PATCH v2 2/2] KVM: SVM: Limit AVIC physical max index based on
- configured max_vcpu_ids
-Message-ID: <202502040421.WqVoesZI-lkp@intel.com>
-References: <b79610c60de53048f3fda942fd45973c4ab1de97.1738563890.git.naveen@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>
+Subject: include/linux/kern_levels.h:5:25: warning: '%s' directive argument
+ is null
+Message-ID: <202502040544.apNgCoCw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,68 +62,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b79610c60de53048f3fda942fd45973c4ab1de97.1738563890.git.naveen@kernel.org>
 
-Hi Naveen,
+Hi Hans,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on eb723766b1030a23c38adf2348b7c3d1409d11f0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naveen-N-Rao-AMD/KVM-SVM-Increase-X2AVIC-limit-to-4096-vcpus/20250203-144127
-base:   eb723766b1030a23c38adf2348b7c3d1409d11f0
-patch link:    https://lore.kernel.org/r/b79610c60de53048f3fda942fd45973c4ab1de97.1738563890.git.naveen%40kernel.org
-patch subject: [PATCH v2 2/2] KVM: SVM: Limit AVIC physical max index based on configured max_vcpu_ids
-config: x86_64-randconfig-008-20250203 (https://download.01.org/0day-ci/archive/20250204/202502040421.WqVoesZI-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040421.WqVoesZI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f286757b644c226b6b31779da95a4fa7ab245ef5
+commit: 59833696442c674acbbd297772ba89e7ad8c753d iommu/vt-d: dmar: replace WARN_TAINT with pr_warn + add_taint
+date:   4 years, 11 months ago
+config: x86_64-randconfig-161-20230920 (https://download.01.org/0day-ci/archive/20250204/202502040544.apNgCoCw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040544.apNgCoCw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502040421.WqVoesZI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502040544.apNgCoCw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/svm/avic.c:20:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/x86/kvm/svm/avic.c:88:66: error: expected ')'
-      88 | static inline u32 avic_get_max_physical_id(struct kvm *kvm, bool x2apic_mode)
-         |                                                                  ^
-   arch/x86/include/asm/apic.h:258:23: note: expanded from macro 'x2apic_mode'
-     258 | #define x2apic_mode             (0)
-         |                                  ^
-   arch/x86/kvm/svm/avic.c:88:66: note: to match this '('
-   arch/x86/include/asm/apic.h:258:22: note: expanded from macro 'x2apic_mode'
-     258 | #define x2apic_mode             (0)
-         |                                 ^
-   arch/x86/kvm/svm/avic.c:88:66: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-      88 | static inline u32 avic_get_max_physical_id(struct kvm *kvm, bool x2apic_mode)
-         |                                                                  ^
-   arch/x86/include/asm/apic.h:258:23: note: expanded from macro 'x2apic_mode'
-     258 | #define x2apic_mode             (0)
-         |                                  ^
-   2 warnings and 1 error generated.
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:15,
+                    from include/asm-generic/bug.h:19,
+                    from arch/x86/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:250,
+                    from arch/x86/include/asm/string_64.h:6,
+                    from arch/x86/include/asm/string.h:5,
+                    from include/linux/string.h:20,
+                    from include/linux/uuid.h:12,
+                    from include/linux/mod_devicetable.h:13,
+                    from include/linux/pci.h:27,
+                    from drivers/iommu/dmar.c:19:
+   drivers/iommu/dmar.c: In function 'dmar_parse_one_andd':
+>> include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:306:16: note: in expansion of macro 'KERN_WARNING'
+     306 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~~~~
+   drivers/iommu/dmar.c:444:17: note: in expansion of macro 'pr_warn'
+     444 |                 pr_warn(FW_BUG
+         |                 ^~~~~~~
+   drivers/iommu/dmar.c: In function 'warn_invalid_dmar':
+>> include/linux/kern_levels.h:5:25: warning: '%s' directive argument is null [-Wformat-overflow=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:356:24: note: in definition of macro 'printk_once'
+     356 |                 printk(fmt, ##__VA_ARGS__);                     \
+         |                        ^~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:387:21: note: in expansion of macro 'KERN_WARNING'
+     387 |         printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |                     ^~~~~~~~~~~~
+   drivers/iommu/dmar.c:832:9: note: in expansion of macro 'pr_warn_once'
+     832 |         pr_warn_once(FW_BUG
+         |         ^~~~~~~~~~~~
 
 
-vim +88 arch/x86/kvm/svm/avic.c
+vim +5 include/linux/kern_levels.h
 
-    87	
-  > 88	static inline u32 avic_get_max_physical_id(struct kvm *kvm, bool x2apic_mode)
-    89	{
-    90		u32 avic_max_physical_id = x2apic_mode ? x2avic_max_physical_id : AVIC_MAX_PHYSICAL_ID;
-    91	
-    92		/*
-    93		 * Assume vcpu_id is the same as APIC ID. Per KVM_CAP_MAX_VCPU_ID, max_vcpu_ids
-    94		 * represents the max APIC ID for this vm, rather than the max vcpus.
-    95		 */
-    96		return min(kvm->arch.max_vcpu_ids - 1, avic_max_physical_id);
-    97	}
-    98	
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
