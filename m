@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E55202C4A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 23:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FAB1465BA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 23:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738625083; cv=none; b=GYfbMucB4KRnbfPTfKN65FwZkS1KZ7z1Q2WGKfdRRuP5MBcY1LA1NlzxkOinI1PkSIkUuHmHB/112AdiAbzxfSLwsJW2ie+dqqdWRX3SSzZRK2Wh7yPExTSph4oNJM9LMw9jft4zsWwxfihUPgQr5O2wWPD3qiHaJbuPgjRQqtA=
+	t=1738625743; cv=none; b=bUzRYEdF509RPECcJNIFpoDfa7f61zHAlU81uHm86yKEiqWFxmeu1c3qj6+KUze+MJUlYHKmVdXYkTYYfdmBANoov2rmuATGL7GVJ5aw5LYn5hrbvvvs4Roi7V/OfgKwtq1XcdidLcBvdP9eiPXYUhXHUqabNjSUu/saLHySbTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738625083; c=relaxed/simple;
-	bh=VDGCWIS3pj3H/ivy9W2pv5o/8aPI6vcX4grrt41ohDc=;
+	s=arc-20240116; t=1738625743; c=relaxed/simple;
+	bh=aleYFFBiE0rMKlT6ozw5LuxCn0X3X4nIF8qDg7ZOWfI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eLS2JCTWlKEzC7elgDgSnkuWlWu083Q0TlDM/7r0LhQ1FPeWIj4VtEip+yQuvBN4r6/4//tTdw6qSzHMCnsR6rt/uNWLuTInXCIsssSshWklnkKU5zEaWFMUts7GRSEzG91pnQs5gQApa01jGhV0WqdOaFDAgJX4c3GSwOHM6wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GBrR6YOo; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=jwzQ0vB975m35dLMN2aC52DOb/evtUZ+81Q0oyIK7+jNIjGE26yvzMX7qaMMYzsm0MhN9kBltp77YsLwc9nUMItGeUnzEWS71TEfkgsX5qmnQyXaPurHLKWLFLuG5LhPJm1ecAFZhsGXhnoP3h2ESWOp36gGRyWmAInt9NOfsGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KC0sG5XE; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GBrR6YOo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KC0sG5XE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738625082; x=1770161082;
+  t=1738625741; x=1770161741;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VDGCWIS3pj3H/ivy9W2pv5o/8aPI6vcX4grrt41ohDc=;
-  b=GBrR6YOoOY4oSWgYgbHyVi9x6mQPPwQ/XPSdziCHWKN1NbGEhlhQzzMo
-   51CWX23IfgfXdUbT+LDOvU1GG2h2O8+TVi0pNZKIobu39ePbSO8rhyBFm
-   3foREDYcWzchAxHP9wjDnfeDpnPcK+MrJoX94kG41oEwI59PY7oM23Mm9
-   OUr6V+wmRqOPAM2U88enk7Xo3nVRoswxox+vDlRH+KYic6OR/saOx6rP1
-   YmPOeVPOjeJES+AN3VDvGmJqMsHFYEG0vCwADSwNMsvnV5omM+vLNQe93
-   IszZtz9v1iHn55dcIy5mP4atn86p24J3ywkZC8NOeR/jsmcuXCkYY52sG
-   Q==;
-X-CSE-ConnectionGUID: Bd0fu7/jR76vJkbCzoG++A==
-X-CSE-MsgGUID: P3qP9TyLQjWJVnS5ietIZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="50526437"
+  bh=aleYFFBiE0rMKlT6ozw5LuxCn0X3X4nIF8qDg7ZOWfI=;
+  b=KC0sG5XEdLCbdYJzkhLMHPc3KbOwSkdkEOGKlAZLQV4k5gNkcuGy6Sdf
+   BMo/0VVpuOVAB9jtGiYbqCGJY0lf2nykxoDymNGeknMa7rtYrAuX0K2MY
+   HQTsK7Ws7buXXNd/s71aJy3bpmwcxOiPMuSP62YZA63QGBUijvmLKQzUk
+   Kqj/cjpyCJyGnftMEAtyOoDYPcq+b55xBZrA6WjngY9ZAJfaUArSRIhvf
+   kn566w9+VhF22cFYVZqSv5vAADWlYdC5u1RvqxI6jvTuWi5ERQPHneGO4
+   PRjIKX/yCzxnnc4nENocWsqbamkp5vxTeY6YfEaVZPWIkYANc3bPCRHpr
+   w==;
+X-CSE-ConnectionGUID: 1u6SqclzT/+8FuM3p2kusQ==
+X-CSE-MsgGUID: gBdrR1ejQdWkKqFoQ9Yw+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56569218"
 X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="50526437"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 15:24:39 -0800
-X-CSE-ConnectionGUID: mk2HC/LESuigLaSrGmk89A==
-X-CSE-MsgGUID: kQBjX/ieRDWh4WCD6OSomQ==
+   d="scan'208";a="56569218"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 15:35:40 -0800
+X-CSE-ConnectionGUID: CJZIwVjXTYOZgHWT3xgpBw==
+X-CSE-MsgGUID: +cerW0/ZQvW0+DBE29/Rbw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115588148"
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
+   d="scan'208";a="115409687"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 03 Feb 2025 15:24:38 -0800
+  by orviesa004.jf.intel.com with ESMTP; 03 Feb 2025 15:35:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tf5nv-000rfz-0s;
-	Mon, 03 Feb 2025 23:24:35 +0000
-Date: Tue, 4 Feb 2025 07:23:39 +0800
+	id 1tf5yb-000rgn-0x;
+	Mon, 03 Feb 2025 23:35:37 +0000
+Date: Tue, 4 Feb 2025 07:35:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Angelo Dureghello <adureghello@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Nuno Sa <nuno.sa@analog.com>
-Subject: [jic23-iio:testing 23/47] drivers/iio/dac/adi-axi-dac.c:731
- axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) =>
- (0-u32max >= 0)'
-Message-ID: <202502040758.DJqHqhLO-lkp@intel.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>
+Subject: [robh:arm/brbe-v19 12/12] drivers/perf/arm_pmuv3.c:1302:22: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202502040743.CwHR1Hnz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,45 +63,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   315198c0a370da031f5c3d504b99f771a0c545ab
-commit: 493122c53af1915b4b5b5f47a8c446973ebff052 [23/47] iio: dac: adi-axi-dac: add bus mode setup
-config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040758.DJqHqhLO-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git arm/brbe-v19
+head:   46af1a528a3e42e040e4fed60db4ed85e6818528
+commit: 46af1a528a3e42e040e4fed60db4ed85e6818528 [12/12] perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
+config: arm64-randconfig-r131-20250203 (https://download.01.org/0day-ci/archive/20250204/202502040743.CwHR1Hnz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250204/202502040743.CwHR1Hnz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502040758.DJqHqhLO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502040743.CwHR1Hnz-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/dac/adi-axi-dac.c:731 axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) => (0-u32max >= 0)'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/perf/arm_pmuv3.c:1302:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct perf_branch_stack *branch_stack @@     got void [noderef] __percpu *[assigned] _res @@
+   drivers/perf/arm_pmuv3.c:1302:22: sparse:     expected struct perf_branch_stack *branch_stack
+   drivers/perf/arm_pmuv3.c:1302:22: sparse:     got void [noderef] __percpu *[assigned] _res
+   drivers/perf/arm_pmuv3.c:1312:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct perf_branch_stack * @@
+   drivers/perf/arm_pmuv3.c:1312:36: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   drivers/perf/arm_pmuv3.c:1312:36: sparse:     got struct perf_branch_stack *
 
-vim +731 drivers/iio/dac/adi-axi-dac.c
+vim +1302 drivers/perf/arm_pmuv3.c
 
-   724	
-   725	static int axi_dac_bus_set_io_mode(struct iio_backend *back,
-   726					   enum ad3552r_io_mode mode)
-   727	{
-   728		struct axi_dac_state *st = iio_backend_get_priv(back);
-   729		int ival, ret;
-   730	
- > 731		if (!(mode >= AD3552R_IO_MODE_SPI && mode <= AD3552R_IO_MODE_QSPI))
-   732			return -EINVAL;
-   733	
-   734		guard(mutex)(&st->lock);
-   735	
-   736		ret = regmap_update_bits(st->regmap, AXI_DAC_CUSTOM_CTRL_REG,
-   737				AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE,
-   738				FIELD_PREP(AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE, mode));
-   739		if (ret)
-   740			return ret;
-   741	
-   742		return regmap_read_poll_timeout(st->regmap, AXI_DAC_UI_STATUS_REG, ival,
-   743				FIELD_GET(AXI_DAC_UI_STATUS_IF_BUSY, ival) == 0, 10,
-   744				100 * KILO);
-   745	}
-   746	
+  1295	
+  1296	static int branch_records_alloc(struct arm_pmu *armpmu)
+  1297	{
+  1298		struct perf_branch_stack *branch_stack;
+  1299		size_t size = struct_size(branch_stack, entries, brbe_num_branch_records(armpmu));
+  1300		int cpu;
+  1301	
+> 1302		branch_stack = __alloc_percpu_gfp(size, __alignof__(*branch_stack),
+  1303						  GFP_KERNEL);
+  1304		if (!branch_stack)
+  1305			return -ENOMEM;
+  1306	
+  1307		for_each_possible_cpu(cpu) {
+  1308			struct pmu_hw_events *events_cpu;
+  1309			struct perf_branch_stack *branch_stack_cpu;
+  1310	
+  1311			events_cpu = per_cpu_ptr(armpmu->hw_events, cpu);
+  1312			branch_stack_cpu = per_cpu_ptr(branch_stack, cpu);
+  1313			events_cpu->branch_stack = branch_stack_cpu;
+  1314		}
+  1315		return 0;
+  1316	}
+  1317	
 
 -- 
 0-DAY CI Kernel Test Service
