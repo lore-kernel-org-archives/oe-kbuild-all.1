@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425161FF5EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 22:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2E9211294
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 22:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738621896; cv=none; b=SpurOwLcPf5rrUSSI880sV/58twVLvMelj6tR/EEvWNbcE3k5/xudilYoFuGRM6Olp/7HJ9FnDJ4V1Vh/YhWthswo/OGrL0jZAo25w9pBg2hK2AkEYTkLU1NwNx+baTOPb6V9QdQhYAc1vr6WJVGmVAPCO2MR5f0hqn2tBaCJww=
+	t=1738622557; cv=none; b=PU1VMCFbETNtCGmQRqYW6dzAtwv91VtEU9F78ZpECrge1kOZDxNOD20D/Nhx3uNQijATtpJABcTc93CnyIsw1h/USp5ukDhA3AyH1ei4ac0aNWfhc13wT3s22sLGq730RQ62DpLZrktUHT8RqmCdkvWOGt2r8/4K51q3Gqv5rZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738621896; c=relaxed/simple;
-	bh=elsyxuazSNKFHclZ8NgXP48pwwvuDpwspjiJBdakC10=;
+	s=arc-20240116; t=1738622557; c=relaxed/simple;
+	bh=qtHi6v30cpsToowYnjgdN2whCBj5WgWVpPHB3qvt61k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jiNNxyt3sr1E0KCBBTJWjIsx35jkbMdv1cQL58hP3gCIMNsXA/jJoq/oefcHOOrUU4AxaLEM9Os5JJd9f1OAILJZY6ZeB/eJXSjBjxx+68NYOSrvdyklDiAnNtHqYNu5xP/fpz0nRvxDPdAvBfur3LW7yvV4UI46f04hsWNt99o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XB1jP/mU; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=tR2PORGzAMbcEU7LKo2vlncVg1RWZI1aKd7rswWYj1CVVqbmnOBJf8HwGo2WvKWAYqVeUJBR+g6hSAS5h3zGLNG451Z7dgbdb/7ZE5hgJTZQkLZgyw2VdIuiuVUPs1dqWc1+tXkx1UNFq+RBLsGHOYitT7JnvknbwpTEQ3tfNAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqdQ0NcX; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XB1jP/mU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqdQ0NcX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738621895; x=1770157895;
+  t=1738622555; x=1770158555;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=elsyxuazSNKFHclZ8NgXP48pwwvuDpwspjiJBdakC10=;
-  b=XB1jP/mUMX8p+NyFIkBv6vdwiKknxpD/Q3ew0yyQ5fzDI+H8yxlTgZcQ
-   sWlckTyECI1AmmVY5OiRQmaRZXpcwgVlQKeIkEvgOy4abuipBF65i+Acb
-   /DNj5cPimCVaqkNZGiaGewqddkZSbRrPVKn22kaxnxEvyT3TsWEjvfTuj
-   D9aCCL5CJ+JOQkm+dIBi5BWIiTzEvHgWcjf7IdSC+T3HT/UAjWL40FBJz
-   F+MmuXWCUDhuoKW1/NRdSkv4nEYgNBROnFgutd6Iirpj7RhQUjR0oV4nK
-   dMri0JfhIW/8/ldU4zz01OILjhHdKUzTknT5HitWPCVAIEeUn+wqY/G0y
-   Q==;
-X-CSE-ConnectionGUID: fhqehKtWTDGYDrXnZRHsqA==
-X-CSE-MsgGUID: zeSV8QZFTmCDpsDQJwylHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56563426"
+  bh=qtHi6v30cpsToowYnjgdN2whCBj5WgWVpPHB3qvt61k=;
+  b=AqdQ0NcXHVB/QZTWhfMVw0/BpvNSoDID3llYFviODG7PZN8Wd0UNgx8M
+   iF7U8oGJvHN7UIv/PwVFmHuqckuAxbU2gefNloZKIZnUDaU/MMx82d7jf
+   ofYUWs7ZFyShHiul4B2ySnOn0F3xE88A9iCjR6s+npcbHknoCa/zWeLj4
+   04brr3CaaWUVp+sHOfkaVc/Aw9hUvo4MJjVYN8m3YpeWzDDQBfaINGDTc
+   yEiJeTWbdQrzAhPGW5VlhNr2fcOqhTZGklbitWN5c/FBFqRiBvDmtydN1
+   F4bOwjgIB8DUR2HPSb+sx9USu8rqX9pyrsxfuA1gPVVvHac+wgoWUGxV9
+   g==;
+X-CSE-ConnectionGUID: myoLEBZaSJSGfZMSg/dD1A==
+X-CSE-MsgGUID: Us09XZfgQ5SJcLR51fEsOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="61604878"
 X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="56563426"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 14:31:34 -0800
-X-CSE-ConnectionGUID: qnKkhcIOT2e86pVH7mtoDw==
-X-CSE-MsgGUID: mfgUKL12SoqQl77IfC9RMA==
+   d="scan'208";a="61604878"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 14:42:34 -0800
+X-CSE-ConnectionGUID: d73L3O1QSyGt/jZgllWZVQ==
+X-CSE-MsgGUID: uIodteOfQoqN59ct0kGezQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="115438718"
+   d="scan'208";a="110308044"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Feb 2025 14:31:33 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Feb 2025 14:42:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tf4yY-000rbz-0y;
-	Mon, 03 Feb 2025 22:31:30 +0000
-Date: Tue, 4 Feb 2025 06:31:15 +0800
+	id 1tf59D-000rcj-0k;
+	Mon, 03 Feb 2025 22:42:31 +0000
+Date: Tue, 4 Feb 2025 06:41:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.13-esp32 27/53]
- drivers/net/wireless/espressif/esp32-ng/main.c:215:6: warning: no previous
- prototype for 'init_bt'
-Message-ID: <202502040636.K1TlvvHK-lkp@intel.com>
+Subject: [jcmvbkbc-xtensa:xtensa-6.13-esp32 50/53] kernel/events/core.c:6834
+ perf_get_unmapped_area() warn: unsigned 'ret' is never less than zero.
+Message-ID: <202502040613.KBokIuOu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,179 +64,77 @@ Content-Disposition: inline
 
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.13-esp32
 head:   f4a6cef2509c4e81637b6d5d6f0c27966895985a
-commit: 196560c41851794f16051c1c878ebdee9f765998 [27/53] drivers/net/wireless/espressif/esp32-ng: update
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250204/202502040636.K1TlvvHK-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040636.K1TlvvHK-lkp@intel.com/reproduce)
+commit: 88bd9eae01160b8518176ec8020990780152c0d6 [50/53] WIP: perf: support mmapping event on noMMU
+config: hexagon-randconfig-r071-20250203 (https://download.01.org/0day-ci/archive/20250204/202502040613.KBokIuOu-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502040636.K1TlvvHK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502040613.KBokIuOu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/events/core.c:6834 perf_get_unmapped_area() warn: unsigned 'ret' is never less than zero.
 
->> drivers/net/wireless/espressif/esp32-ng/main.c:215:6: warning: no previous prototype for 'init_bt' [-Wmissing-prototypes]
-     215 | void init_bt(struct esp_adapter *adapter)
-         |      ^~~~~~~
->> drivers/net/wireless/espressif/esp32-ng/main.c:273:5: warning: no previous prototype for 'process_event_esp_bootup' [-Wmissing-prototypes]
-     273 | int process_event_esp_bootup(struct esp_adapter *adapter, u8 *evt_buf, u8 len)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/espressif/esp32-ng/main.c:565:5: warning: no previous prototype for 'esp_stop_network_ifaces' [-Wmissing-prototypes]
-     565 | int esp_stop_network_ifaces(struct esp_adapter *adapter)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:418:22: warning: no previous prototype for 'prepare_command_request' [-Wmissing-prototypes]
-     418 | struct command_node *prepare_command_request(struct esp_adapter *adapter, u8 cmd_code, u16 len)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/espressif/esp32-ng/esp_cmd.c: In function 'cmd_assoc_request':
-   drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:885:30: warning: variable 'bss' set but not used [-Wunused-but-set-variable]
-     885 |         struct cfg80211_bss *bss;
-         |                              ^~~
-   In file included from drivers/net/wireless/espressif/esp32-ng/esp.h:11,
-                    from drivers/net/wireless/espressif/esp32-ng/esp_cmd.h:11,
-                    from drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:9:
-   In function 'destroy_cmd_wq',
-       inlined from 'esp_commands_teardown' at drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:1509:2:
->> include/linux/workqueue.h:765:9: warning: call to '__warn_flushing_systemwide_wq' declared with attribute warning: Please avoid flushing system-wide workqueues. [-Wattribute-warning]
-     765 |         __warn_flushing_systemwide_wq();                                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/espressif/esp32-ng/esp_cmd.c:412:17: note: in expansion of macro 'flush_scheduled_work'
-     412 |                 flush_scheduled_work();
-         |                 ^~~~~~~~~~~~~~~~~~~~
+vim +/ret +6834 kernel/events/core.c
 
-
-vim +/init_bt +215 drivers/net/wireless/espressif/esp32-ng/main.c
-
-   214	
- > 215	void init_bt(struct esp_adapter *adapter)
-   216	{
-   217	
-   218		if ((adapter->capabilities & ESP_BT_SPI_SUPPORT) ||
-   219			(adapter->capabilities & ESP_BT_SDIO_SUPPORT)) {
-   220			msleep(200);
-   221			esp_info("ESP Bluetooth init\n");
-   222			esp_init_bt(adapter);
-   223		}
-   224	}
-   225	
-   226	static int check_esp_version(struct fw_version *ver)
-   227	{
-   228		esp_info("ESP Firmware version: %u.%u.%u\n",
-   229				ver->major1, ver->major2, ver->minor);
-   230		if (!ver->major1) {
-   231			esp_err("Incompatible ESP firmware release detected, Please use correct ESP-Hosted branch/compatible release\n");
-   232			return -1;
-   233		}
-   234		return 0;
-   235	}
-   236	
-   237	static void print_reset_reason(uint32_t reason)
-   238	{
-   239		switch (reason)
-   240		{
-   241			case 1: esp_info("POWERON_RESET\n"); break;          /**<1, Vbat power on reset*/
-   242			case 3: esp_info("SW_RESET\n"); break;               /**<3, Software reset digital core*/
-   243			case 4: esp_info("OWDT_RESET\n"); break;             /**<4, Legacy watch dog reset digital core*/
-   244			case 5: esp_info("DEEPSLEEP_RESET\n"); break;        /**<5, Deep Sleep reset digital core*/
-   245			case 6: esp_info("SDIO_RESET\n"); break;             /**<6, Reset by SLC module, reset digital core*/
-   246			case 7: esp_info("TG0WDT_SYS_RESET\n"); break;       /**<7, Timer Group0 Watch dog reset digital core*/
-   247			case 8: esp_info("TG1WDT_SYS_RESET\n"); break;       /**<8, Timer Group1 Watch dog reset digital core*/
-   248			case 9: esp_info("RTCWDT_SYS_RESET\n"); break;       /**<9, RTC Watch dog Reset digital core*/
-   249			case 10: esp_info("INTRUSION_RESET\n"); break;       /**<10, Instrusion tested to reset CPU*/
-   250			case 11: esp_info("TGWDT_CPU_RESET\n"); break;       /**<11, Time Group reset CPU*/
-   251			case 12: esp_info("SW_CPU_RESET\n"); break;          /**<12, Software reset CPU*/
-   252			case 13: esp_info("RTCWDT_CPU_RESET\n"); break;      /**<13, RTC Watch dog Reset CPU*/
-   253			case 14: esp_info("EXT_CPU_RESET\n"); break;         /**<14, for APP CPU, reseted by PRO CPU*/
-   254			case 15: esp_info("RTCWDT_BROWN_OUT_RESET\n"); break;/**<15, Reset when the vdd voltage is not stable*/
-   255			case 16: esp_info("RTCWDT_RTC_RESET\n"); break;      /**<16, RTC Watch dog reset digital core and rtc module*/
-   256			default: esp_info("Unknown[%u]\n", reason); break;
-   257		}
-   258	}
-   259	
-   260	static int process_fw_data(struct fw_data *fw_p, int tag_len)
-   261	{
-   262		if (tag_len != sizeof(struct fw_data)) {
-   263			esp_err("Length not matching to firmware data size\n");
-   264			return -1;
-   265		}
-   266	
-   267		esp_info("ESP chipset's last reset cause:\n");
-   268		print_reset_reason(le32_to_cpu(fw_p->last_reset_reason));
-   269	
-   270		return check_esp_version(&fw_p->version);
-   271	}
-   272	
- > 273	int process_event_esp_bootup(struct esp_adapter *adapter, u8 *evt_buf, u8 len)
-   274	{
-   275		int len_left = len, tag_len, ret = 0;
-   276		u8 *pos;
-   277	
-   278		if (!adapter || !evt_buf)
-   279			return -1;
-   280	
-   281		if (len_left >= 64) {
-   282			esp_info("ESP init event len looks unexpected: %u (>=64)\n", len_left);
-   283			esp_info("You probably facing timing mismatch at transport layer\n");
-   284		}
-   285	
-   286		clear_bit(ESP_INIT_DONE, &adapter->state_flags);
-   287		/* Deinit module if already initialized */
-   288		esp_deinit_module(adapter);
-   289	
-   290		pos = evt_buf;
-   291	
-   292		while (len_left > 0) {
-   293			tag_len = *(pos + 1);
-   294	
-   295			esp_info("Bootup Event tag: %d\n", *pos);
-   296	
-   297			switch (*pos) {
-   298			case ESP_BOOTUP_CAPABILITY:
-   299				adapter->capabilities = *(pos + 2);
-   300				break;
-   301			case ESP_BOOTUP_FIRMWARE_CHIP_ID:
-   302				ret = esp_validate_chipset(adapter, *(pos + 2));
-   303				break;
-   304			case ESP_BOOTUP_FW_DATA:
-   305				ret = process_fw_data((struct fw_data *)(pos + 2), tag_len);
-   306				break;
-   307			case ESP_BOOTUP_SPI_CLK_MHZ:
-   308				ret = esp_adjust_spi_clock(adapter, *(pos + 2));
-   309				break;
-   310			default:
-   311				esp_warn("Unsupported tag=%x in bootup event\n", *pos);
-   312			}
-   313	
-   314			if (ret < 0) {
-   315				esp_err("failed to process tag=%x in bootup event\n", *pos);
-   316				return -1;
-   317			}
-   318			pos += (tag_len + 2);
-   319			len_left -= (tag_len + 2);
-   320		}
-   321	
-   322		if (esp_add_card(adapter)) {
-   323			esp_err("network iterface init failed\n");
-   324			return -1;
-   325		}
-   326		init_bt(adapter);
-   327	
-   328		if (raw_tp_mode !=0) {
-   329	#if TEST_RAW_TP
-   330			process_test_capabilities(raw_tp_mode);
-   331			esp_init_raw_tp(adapter);
-   332	#else
-   333			esp_err("RAW TP mode selected but not enabled\n");
-   334			return -1;
-   335	#endif
-   336		}
-   337		set_bit(ESP_INIT_DONE, &adapter->state_flags);
-   338		print_capabilities(adapter->capabilities);
-   339	
-   340		return 0;
-   341	}
-   342	
+  6787	
+  6788	unsigned long perf_get_unmapped_area(struct file *file,
+  6789					     unsigned long addr, unsigned long len,
+  6790					     unsigned long pgoff, unsigned long flags)
+  6791	{
+  6792		unsigned long ret = -EINVAL;
+  6793		struct perf_event *event = file->private_data;
+  6794		unsigned long nr_pages = len / PAGE_SIZE;
+  6795	
+  6796		pr_debug("%s: addr = 0x%lx, len = 0x%lx, pgoff = 0x%lx, flags = 0x%lx, event = %p, event->rb = %p\n",
+  6797			 __func__, addr, len, pgoff, flags, event, event->rb);
+  6798	
+  6799		if (!event->rb) {
+  6800			int flags = RING_BUFFER_WRITABLE;
+  6801			struct perf_buffer *rb = NULL;
+  6802	
+  6803			if (pgoff != 0) {
+  6804				ret = -EINVAL;
+  6805				goto unlock;
+  6806			}
+  6807			--nr_pages;
+  6808			rb = rb_alloc(nr_pages,
+  6809				      event->attr.watermark ? event->attr.wakeup_watermark : 0,
+  6810				      event->cpu, flags);
+  6811	
+  6812			if (!rb) {
+  6813				ret = -ENOMEM;
+  6814				goto unlock;
+  6815			}
+  6816			atomic_set(&rb->mmap_count, 1);
+  6817			rb->mmap_user = get_current_user();
+  6818			rb->mmap_locked = 0;
+  6819	
+  6820			ring_buffer_attach(event, rb);
+  6821	
+  6822			perf_event_update_time(event);
+  6823			perf_event_init_userpage(event);
+  6824			perf_event_update_userpage(event);
+  6825		}
+  6826		if (event->rb) {
+  6827			struct perf_buffer *rb = event->rb;
+  6828	
+  6829			if (!pgoff) {
+  6830				ret = (unsigned long)rb->user_page;
+  6831			} else {
+  6832				ret = rb_alloc_aux(rb, event, pgoff, nr_pages,
+  6833						   event->attr.aux_watermark, flags);
+> 6834				if (ret < 0)
+  6835					goto unlock;
+  6836				ret = (unsigned long)rb->data_pages[pgoff - 1];
+  6837			}
+  6838		}
+  6839	unlock:
+  6840		pr_debug("%s: ret = 0x%lx\n", __func__, ret);
+  6841		return ret;
+  6842	}
+  6843	
 
 -- 
 0-DAY CI Kernel Test Service
