@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CA520ADE0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Feb 2025 17:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FDF204C35;
+	Mon,  3 Feb 2025 17:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738602423; cv=none; b=fVaGDqsv63lwjztau+gtYN75DHHCDcv9a5V/S6rrQ8/ajZg0XHV8IRnIJsO4YxvzmvS6wIwljCdea9fwGSC+QgutGuL2U4ZK1Lxw6D8oXEjZmAQxmPUdEkxOO5Vr5ZdCV/RNg9gSwPo+faxdL84jDsXMjbDiS5aXYD/QgC6Uhrg=
+	t=1738604883; cv=none; b=FWkrArzq5U7FntdCt+pk1XgvpciJjNa5Gmno1hH+5h2cngRskMlg9jygPWUawmJeCRy75/AJSZk78BKK1yRaEvc7i4XLuTgecopWhlTGl6fabOpC60mUbLxiDtRbkR9SBx21Pbu1md8HnPMyLk+oXop9bo16sdfEdHcgkz615Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738602423; c=relaxed/simple;
-	bh=EiQB0sYBQAho8pe6u94W/tfr8rXHV1YpEzUOZK+DVUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0eWGJhDtFWrI9coUqRnDkdlmxDohhIMt++PxEgzR3J1CtRoJ8NGHaQrxcevKXeKYTb9ODZKuJ2RKFesLFDPxIBL3tBPqhSR4BgNZd8ynmaK4VGSXn4Q5STQ4ay7kRJu3scvFptG0QzLaglbebUA4KGQFSAUmz+UXA1kgl1vMXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmS7OigK; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1738604883; c=relaxed/simple;
+	bh=r7ywG3oPe47bFimzyLsTkzCCa+tjRwEUAzZXIfZh4rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PnLFSQ2wp6ihfDss8IIWwTjzk4WkvI67kOVZhPONWEtnWxjRAQE79MXl5bv8JIWvlIIfvvAbm4rj49Hx25xQIXzfQ8jW2vnPC9eDSFLlBqkUYgpw/XcHitRLG8oqNjaIl6amUBlq8hfNSSBuwPiXY48eLF44V08znArvXhD799Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rwuk69Gj; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmS7OigK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rwuk69Gj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738602420; x=1770138420;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EiQB0sYBQAho8pe6u94W/tfr8rXHV1YpEzUOZK+DVUo=;
-  b=XmS7OigKOJjwjvVfW9H1r0+bOSvjvolLjxxBY+YaT91TLDFDGtdsUt7z
-   6ybaJ+NLX7pejtrXT5MQrmiEKZW8QUsAZlXo2vaxIJGnkWRTytpI4pIQD
-   1rfkI/mvmADevukQeaUKqDa2bFz870/N6MVbtlecIH/RYOZYghzKi/Bpe
-   E7+iF7gszPdCtRQzRXdKzN2nNVF4CYNJHx6tx1KS6VhXnER7HClXSBSwU
-   xEQoWMGsQsDjNbxgl5gQdRUFex/p0pLGn7pXAq5rFUpZAOJE8pkhaX0z1
-   mP6lepLgzhrVxGeHhWhFn/LNNrsm+ibCo9ftFyY5TQvMjYlAkJtTxrUt+
-   g==;
-X-CSE-ConnectionGUID: /Q5Ff7B6SEq1BYnRU3Tvfg==
-X-CSE-MsgGUID: Iim1Ij5VSdShwhvPQVZZ6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="26706709"
+  t=1738604882; x=1770140882;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r7ywG3oPe47bFimzyLsTkzCCa+tjRwEUAzZXIfZh4rE=;
+  b=Rwuk69GjR7qjy+LS3UkKla56t0dlZ7s7J99wDSVbM8j6ZDsC/bBpMZmD
+   3yj6C4S8j9juUcrNotpq0VM/8Ti5mrzHEdsw3AGEFi5jYTKRO/7EKnbTG
+   BT82MHbShIylaD0vArZG8Skr8g3sss96EQdYgmWbmQrbcoXFZPOR7MjWC
+   64DkuQgLG4YxUtRcjMLFQT7L6JWv0wSwJv8oMKcVltTR8yyUuodDGVlyu
+   6LRT3+k9LBbUDF85CdNeoMxFxeFK+icCJQofKw/z48tCjpjkWBhLu56XJ
+   lo+ZIm7MgQ0R81aggLVUr2sH6FFaW+msXvTMjP60nrw7b0yP2/0UCYm6C
+   Q==;
+X-CSE-ConnectionGUID: Z2F0KHpWTxWElLILDqV9aQ==
+X-CSE-MsgGUID: TZD0eEm+TDu+gYDnt+Gwog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="42858234"
 X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
-   d="scan'208";a="26706709"
+   d="scan'208";a="42858234"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 09:06:57 -0800
-X-CSE-ConnectionGUID: ia0Qpw0DQfCrdKcIAo414Q==
-X-CSE-MsgGUID: HrHf0u6URWuyOeJPMYIroQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 09:48:02 -0800
+X-CSE-ConnectionGUID: JpYecrKMR8u+IzSlahRVuQ==
+X-CSE-MsgGUID: q2mE1B9CSR2QlNWRv6bZUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="110150579"
+   d="scan'208";a="110156375"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Feb 2025 09:06:54 -0800
+  by orviesa010.jf.intel.com with ESMTP; 03 Feb 2025 09:48:01 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tezuO-000rE7-0S;
-	Mon, 03 Feb 2025 17:06:52 +0000
-Date: Tue, 4 Feb 2025 01:06:51 +0800
+	id 1tf0Y9-000rHS-3B;
+	Mon, 03 Feb 2025 17:47:57 +0000
+Date: Tue, 4 Feb 2025 01:47:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charlie Jenkins <charlie@rivosinc.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Pasha Bouzarjomehri <pasha@rivosinc.com>,
-	Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: Re: [PATCH v4] riscv: Add runtime constant support
-Message-ID: <202502040018.8DyjnzNe-lkp@intel.com>
-References: <20250130-runtime_const_riscv-v4-1-2d36c41b7b9c@rivosinc.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.13-esp32 20/53]
+ drivers/misc/esp32-ipc.c:152:13: warning: cast to 'void *' from smaller
+ integer type 'u32' (aka 'unsigned int')
+Message-ID: <202502040118.QjCwAnwW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,51 +62,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250130-runtime_const_riscv-v4-1-2d36c41b7b9c@rivosinc.com>
 
-Hi Charlie,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ffd294d346d185b70e28b1a28abe367bbfe53c04]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charlie-Jenkins/riscv-Add-runtime-constant-support/20250131-092950
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250130-runtime_const_riscv-v4-1-2d36c41b7b9c%40rivosinc.com
-patch subject: [PATCH v4] riscv: Add runtime constant support
-config: riscv-randconfig-002-20250203 (https://download.01.org/0day-ci/archive/20250204/202502040018.8DyjnzNe-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040018.8DyjnzNe-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.13-esp32
+head:   f4a6cef2509c4e81637b6d5d6f0c27966895985a
+commit: ff5d67ac76ee59b6351fd6f70df8d0178ef4f72a [20/53] misc/esp32-ipc: introduce generic IPC for ESP32
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250204/202502040118.QjCwAnwW-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040118.QjCwAnwW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502040018.8DyjnzNe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502040118.QjCwAnwW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/dcache.c:38:
-   arch/riscv/include/asm/runtime-const.h: In function '__runtime_fixup_ptr':
-   arch/riscv/include/asm/runtime-const.h:167:63: warning: right shift count >= width of type [-Wshift-count-overflow]
-     167 |                 __runtime_fixup_32(where + 4, where + 12, val >> 32);
-         |                                                               ^~
-   fs/dcache.c: In function 'd_hash':
-   arch/riscv/include/asm/runtime-const.h:13:28: warning: unused variable '__tmp' [-Wunused-variable]
-      13 |         typeof(sym) __ret, __tmp;                               \
-         |                            ^~~~~
-   fs/dcache.c:112:16: note: in expansion of macro 'runtime_const_ptr'
-     112 |         return runtime_const_ptr(dentry_hashtable) +
-         |                ^~~~~~~~~~~~~~~~~
-   fs/dcache.c: Assembler messages:
->> fs/dcache.c:116: Error: illegal operands `addi a0,-0x211'
+>> drivers/misc/esp32-ipc.c:152:13: warning: cast to 'void *' from smaller integer type 'u32' (aka 'unsigned int') [-Wint-to-void-pointer-cast]
+     152 |         hw->hw_q = (void *)readl(p);
+         |                    ^~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +116 fs/dcache.c
+vim +152 drivers/misc/esp32-ipc.c
 
-ceb5bdc2d246f6 Nicholas Piggin 2011-01-07  115  
-94bdd655caba20 Al Viro         2016-04-15 @116  #define IN_LOOKUP_SHIFT 10
-94bdd655caba20 Al Viro         2016-04-15  117  static struct hlist_bl_head in_lookup_hashtable[1 << IN_LOOKUP_SHIFT];
-94bdd655caba20 Al Viro         2016-04-15  118  
+   144	
+   145	static int init_hw(struct platform_device *pdev, struct esp32_ipc *hw)
+   146	{
+   147		void __iomem *p;
+   148	
+   149		p = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 0, NULL);
+   150		if (IS_ERR(p))
+   151			return PTR_ERR(p);
+ > 152		hw->hw_q = (void *)readl(p);
+   153		devm_iounmap(&pdev->dev, p);
+   154	
+   155		hw->regs = devm_of_iomap(&pdev->dev, pdev->dev.of_node, 1, NULL);
+   156		if (IS_ERR(hw->regs))
+   157			return PTR_ERR(hw->regs);
+   158	
+   159		dev_dbg(&pdev->dev, "%s: regs = %p, queues = %p\n",
+   160			__func__, hw->regs, hw->hw_q);
+   161		if (hw->hw_q) {
+   162			u32 i;
+   163	
+   164			for (i = 0; i < 2; ++i) {
+   165				dev_dbg(&pdev->dev, "%s: queue %d: offset = %d, mask = %x\n",
+   166					__func__, i,
+   167					hw->hw_q[i].offset,
+   168					hw->hw_q[i].mask);
+   169			}
+   170		} else {
+   171			return -ENODEV;
+   172		}
+   173	
+   174		hw->irq = platform_get_irq(pdev, 0);
+   175		if (hw->irq >= 0) {
+   176			int ret;
+   177	
+   178			ret = devm_request_threaded_irq(&pdev->dev, hw->irq,
+   179							esp32_ipc_irq_handler,
+   180							esp32_ipc_thread_handler,
+   181							IRQF_SHARED, pdev->name, hw);
+   182			if (ret < 0) {
+   183				dev_err(&pdev->dev, "request_irq %d failed\n", hw->irq);
+   184				return ret;
+   185			}
+   186		} else {
+   187			dev_err(&pdev->dev, "missing IRQ property\n");
+   188			return -ENODEV;
+   189		}
+   190	
+   191		return 0;
+   192	}
+   193	
 
 -- 
 0-DAY CI Kernel Test Service
