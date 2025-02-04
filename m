@@ -1,118 +1,136 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694A8206F25
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 08:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4708635E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 09:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738659469; cv=none; b=e8ayC+H/tXW4p4VW1ZhJS0g50zr78cHLq2L8uoK8g/ChF2tt6+Z4bSOyomrtu0dSzt+JazLeV+lXhwp6MwdnZibtykl/fIqfZDokyidyGe4CWrCJhePwf/+h0fHNokVtKw+senC+ff2YPfTuXETRf6K7W/bbkKdMbKeqfFUq+go=
+	t=1738659626; cv=none; b=YAGChtjTQX0lnMWLKrs9XeiXYFEyFvaRLVuxDSJ7h6+uTEyJzm8d0FF9Tr4SYYVkesCwnT4lLjCCL/Noidwk9pZ5lEGyh7PSEMD35wUgz384aGQh03zuKmqU05MvSoLXjgnrVE8J6f0XvG+QhHhjGjG6aNhR8/hBoReBwo3CSkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738659469; c=relaxed/simple;
-	bh=eVeozBf4wpq86NhE9S3C3sQL2NOMurswc2M5/jG8nLo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WrpmHdqcVLSg8VwFKNuM5Wmq3AbHMr1lM+6NFxLAhwqDhbBEzGf2AAxTF+mwsNU6ifhlc7QfGy56xMCMq86Sadt61HAGy/cbuovQCWC7HS6fbJoq787FkDk0EDuJHf8ymeJmuw16EJcMcSgCbEozQYAnRzVtN9MkTDtc1rF1dJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnHJL01z0z6D9XP;
-	Tue,  4 Feb 2025 16:55:30 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id F39AC140498;
-	Tue,  4 Feb 2025 16:57:43 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Feb
- 2025 09:57:43 +0100
-Date: Tue, 4 Feb 2025 08:57:44 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Angelo Dureghello <adureghello@baylibre.com>
-CC: <oe-kbuild-all@lists.linux.dev>, Nuno Sa <nuno.sa@analog.com>,
-	<linux-iio@vger.kernel.org>
-Subject: Re: [jic23-iio:testing 23/47] drivers/iio/dac/adi-axi-dac.c:731
- axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) =>
- (0-u32max >= 0)'
-Message-ID: <20250204085744.000075d4@huawei.com>
-In-Reply-To: <rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
-References: <202502040758.DJqHqhLO-lkp@intel.com>
-	<rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1738659626; c=relaxed/simple;
+	bh=1gn7gY+0v6oP7G9Ktt59DYXSSl0ZJpLqVI+s8Z1SyaY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R6g7kuZPCUe45IAJf7GlsCA7QHzhJLwkTSMsX9Yefgagob0jsVpy7WCssst6/5Cc5qfDdWDfYpBt57Bhq+kLcx4xZgjMW9rWR27bYBaK7msJflkiO21HjipN+KqHfEESF+a3cn5YHCX5CFj9TCmt2oE3x1y5Z12jPYv50r46SEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=YF9cWX+Z; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="YF9cWX+Z"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2b2b6019a74so2635279fac.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Feb 2025 01:00:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1738659624; x=1739264424; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W8fQmOPsD1QYEv+iyRIvFNhUrWR91wOnG0QVYlZS9Hw=;
+        b=YF9cWX+ZmQ0qCr+aK757Igp8nNRicbAWHtyhT1AwS0tsC8rM1epoM3Xw3pyVfA+UAS
+         AnYfWMIUimvULBzYpEE/PyyegVCBprVU35pHOwTCw8tNX0OBHEQrYF/yISWIzsh0osXp
+         W4zeS3tKlAagwhzTdqLRTM/2xYBERYTh/zqIg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738659624; x=1739264424;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W8fQmOPsD1QYEv+iyRIvFNhUrWR91wOnG0QVYlZS9Hw=;
+        b=RjLAdGfwkwv/msbkn9DdiDy37L8W1sy+ZvH1w+ayJ6AZvBvrCBon0XJT1XWI+kKIIP
+         2hwr2FTn3G8rBDb14iiE2uv8i03lUlvNtDNkDnGarENNg5ZwuQr3n8U9/LzCLfrvhHSE
+         C8wawVHuHbU3WVKWXGawH+9N5mSu5L4afQVP0fxOIN0l81HwzkZ+iWhNt4bE7m+zZlny
+         PveD96XNcD1NBQs8yrAJBguc88VQhLSG+Zgm4Mtank5kBzSOYQFJEWQgoC0hdo8t+DgF
+         dR6VCGXLLmeywvTs66fEw9pNeqlmyldiInzcWf6o2sIFexzwU1bt2VqLX12Dc/qCnWz1
+         hmhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWlUdmZdfvOcuebc3TwsM4TxB9mRUj4ucWhsZDHKNXZEKLdo4kJbA470lRVJrh1HTnjvnbrkLdKAYkM3Su8@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHxQc33CAj7DFuyUM4yplQrpl0iBpLZjHDRAuiSmOZ9nAU4CBl
+	rNGwZCVdpBQAXYHDLmJNbHT/bl3CcDco5axc42zcgDGERfvLG6tokNQCE1rwoW7+yLkQ+l8timN
+	NCNBHaqtisYoyFBWUX5fjtCZm7gXmPp2CITpg
+X-Gm-Gg: ASbGncu86qpJ2NRMRN4uQlQceAfDY9fPZrOKPFAWu1zn/Mr+BFZnZcJbo+udbnG5Rb1
+	kczZIE60tzDm+lUPFCJF4eziFUIkrFOADWRVOaEsideW201x2EQ8NCTqafyVbaZB0B29EgZpmWg
+	==
+X-Google-Smtp-Source: AGHT+IFiBd9nJielE/XIzbGPdCPMr7+Ud9w5FJ4jepBJH+t95SmgDIWiRrTiT6mMwy2I9lWloC+7SLXMJYdfmpvoSYQ=
+X-Received: by 2002:a05:6870:548f:b0:297:26a1:3d03 with SMTP id
+ 586e51a60fabf-2b32ef657a0mr16313725fac.4.1738659623779; Tue, 04 Feb 2025
+ 01:00:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- frapeml500008.china.huawei.com (7.182.85.71)
+References: <202502041114.K8XQYeJg-lkp@intel.com> <CA+sbYW2bq3M25aH9Jm-1T+5sE27pAfj73L7A1c_c_DsXE4z2jg@mail.gmail.com>
+ <ccc10cdd-f077-41d5-8860-3a5da3800d61@app.fastmail.com>
+In-Reply-To: <ccc10cdd-f077-41d5-8860-3a5da3800d61@app.fastmail.com>
+From: Selvin Xavier <selvin.xavier@broadcom.com>
+Date: Tue, 4 Feb 2025 14:30:12 +0530
+X-Gm-Features: AWEUYZlA60EqdbxvJRls4G6V8tYEWpjn8qYIHSgZXX4zW7nbq4RV5BN3iD7SdBk
+Message-ID: <CA+sbYW1j+vMf4aUcR3fSPqgy=TdgUsrGxYTRd_OvYqVyFHGtaQ@mail.gmail.com>
+Subject: Re: [leon-rdma:rdma-next 17/75] drivers/infiniband/hw/bnxt_re/debugfs.h:34:40:
+ error: variably modified 'gen0_parms' at file scope
+To: Leon Romanovsky <leon@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 4 Feb 2025 09:43:17 +0100
-Angelo Dureghello <adureghello@baylibre.com> wrote:
-
-> Hi Jonathan,
-> 
-> On 04.02.2025 07:23, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-> > head:   315198c0a370da031f5c3d504b99f771a0c545ab
-> > commit: 493122c53af1915b4b5b5f47a8c446973ebff052 [23/47] iio: dac: adi-axi-dac: add bus mode setup
-> > config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040758.DJqHqhLO-lkp@intel.com/config)
-> > compiler: m68k-linux-gcc (GCC) 14.2.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502040758.DJqHqhLO-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/iio/dac/adi-axi-dac.c:731 axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) => (0-u32max >= 0)'
-> > 
-> > vim +731 drivers/iio/dac/adi-axi-dac.c
-> > 
-> >    724	
-> >    725	static int axi_dac_bus_set_io_mode(struct iio_backend *back,
-> >    726					   enum ad3552r_io_mode mode)
-> >    727	{
-> >    728		struct axi_dac_state *st = iio_backend_get_priv(back);
-> >    729		int ival, ret;
-> >    730	  
-> >  > 731		if (!(mode >= AD3552R_IO_MODE_SPI && mode <= AD3552R_IO_MODE_QSPI))  
-> >    732  
-> 
-> not clear to me the reason of this warning, maybe because mode is an enum ?
-> Should i take any action ?
-
-Currently there are only a few modes in there and that range covers them all I think.
-So warning is correct, but we perhaps want this check there as hardening against future
-addition of more modes.  Maybe an explicit switch with all modes listed and a default
-will have same effect and be better defense anyway against future changes?
-
-Jonathan
-
-
-> 
-> 			return -EINVAL;
-> >    733	
-> >    734		guard(mutex)(&st->lock);
-> >    735	
-> >    736		ret = regmap_update_bits(st->regmap, AXI_DAC_CUSTOM_CTRL_REG,
-> >    737				AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE,
-> >    738				FIELD_PREP(AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE, mode));
-> >    739		if (ret)
-> >    740			return ret;
-> >    741	
-> >    742		return regmap_read_poll_timeout(st->regmap, AXI_DAC_UI_STATUS_REG, ival,
-> >    743				FIELD_GET(AXI_DAC_UI_STATUS_IF_BUSY, ival) == 0, 10,
-> >    744				100 * KILO);
-> >    745	}
-> >    746	
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki  
-> 
-> Thanks,
-> regards,
-> angelo
-
+On Tue, Feb 4, 2025 at 1:55=E2=80=AFPM Leon Romanovsky <leon@kernel.org> wr=
+ote:
+>
+>
+>
+> On Tue, Feb 4, 2025, at 06:46, Selvin Xavier wrote:
+> > On Tue, Feb 4, 2025 at 8:37=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> >>
+> >> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdm=
+a.git rdma-next
+> >> head:   10565c5cadcb629f7780d24dd351878de9f46db5
+> >> commit: a3c71713d9548f1a9ee141c7cfb35550c3487443 [17/75] RDMA/bnxt_re:=
+ Congestion control settings using debugfs hook
+> >> config: s390-allyesconfig (https://download.01.org/0day-ci/archive/202=
+50204/202502041114.K8XQYeJg-lkp@intel.com/config)
+> >> compiler: s390-linux-gcc (GCC) 14.2.0
+> >> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/ar=
+chive/20250204/202502041114.K8XQYeJg-lkp@intel.com/reproduce)
+> >>
+> >> If you fix the issue in a separate patch/commit (i.e. not just a new v=
+ersion of
+> >> the same patch/commit), kindly add following tags
+> >> | Reported-by: kernel test robot <lkp@intel.com>
+> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202502041114.K8XQYeJg-=
+lkp@intel.com/
+> >>
+> >> All errors (new ones prefixed by >>):
+> >>
+> >>    In file included from drivers/infiniband/hw/bnxt_re/main.c:70:
+> >> >> drivers/infiniband/hw/bnxt_re/debugfs.h:34:40: error: variably modi=
+fied 'gen0_parms' at file scope
+> >>       34 |         struct bnxt_re_cc_param        gen0_parms[BNXT_RE_C=
+C_PARAM_GEN0];
+> >>          |                                        ^~~~~~~~~~
+> >>
+> >>
+> > Leon,
+> >  I had a fix for it. Do you want to revert this check-in and want me
+> > to post a v3 for this patch ? or shall i post a bug fix patch?
+>
+> Is it small fix? If yes, just send me Fixup patch as debugfs patch is sti=
+ll in wip branch which we can change.
+yes. i  am  hard coding the array size. Will send it to you now.
+>
+> Thanks
+>
+> >
+> > Thanks,
+> > Selvin
+> >
+> >> vim +/gen0_parms +34 drivers/infiniband/hw/bnxt_re/debugfs.h
+> >>
+> >>     32
+> >>     33  struct bnxt_re_dbg_cc_config_params {
+> >>   > 34          struct bnxt_re_cc_param        gen0_parms[BNXT_RE_CC_P=
+ARAM_GEN0];
+> >>
+> >> --
+> >> 0-DAY CI Kernel Test Service
+> >> https://github.com/intel/lkp-tests/wiki
+> >
+> > Attachments:
+> > * smime.p7s
