@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B476725A624;
-	Tue,  4 Feb 2025 05:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0491527462
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 05:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738646419; cv=none; b=Fb51sC2czfUaQhh4PhpVMRQ6iLv/SgWUAbwx819x5xieuJCf96SwjwCC1IiekYCo16Uj9m9k9tegF40yGJtjWPC/yuzJi6bECvmjGQ85L+ewfKVOgwBTsl3IZCXBBpovVehXOexcgiwl9eCffzsHGp3b+buQw92EiPIIc0fputk=
+	t=1738647041; cv=none; b=m8qcpCUAAFbrorWU1KF8hfR5d3SpsqU32tSRDy8m7nt86e5mkG/eNLMiasNkJH4IenXnJJ55wqUObe4ZZsFdKXIgkJt14gGnlkujX1lGn2e0s25GS1Zi4U4+HVMo1xekXpFwbi/xiElYgv5VFh045LmcyMPMDzy+Pb8iiHm4EX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738646419; c=relaxed/simple;
-	bh=Omwe6LnT3uBQt67RB6V+zKSmwy98tmKpwDO4Vm43r7w=;
+	s=arc-20240116; t=1738647041; c=relaxed/simple;
+	bh=jVf6rFz+4wJsovQQSeWtcCM027Tk2L0VLflRaNzXMKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=vCUecrKfY5TNl0jR4ZmsJvbESaTtMXeWnXh9nnLifITZDm4WnvfHD8QE+/KmRvncOroyYpq7sVAtXS+g39iEUbyMKeAseyZ3vOIn6nu/5RSjZTLNO/0yBdUeq2RNV65/HmGDTZBYT5aykwfU55eFmJD7DS2l+s1oh5V0+uRkgrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LfwLTHWx; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=V2KEGbM5KpNjc++NL2lIfnn/zBvkERilcf3qC9OKy8aYuEVW/YQmXUgjf+2mlb9BMR4MWxoSNMVJ/emCqvv7e8MTI9c3BrdzW8Hn/JOLeclVMR7LLuxmFojOCiQXJ3ndkn6zzsnlTwUUHbrL41+r1t5PnVNlKFRrd1CJiNynl3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SCGHRmqz; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LfwLTHWx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738646418; x=1770182418;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Omwe6LnT3uBQt67RB6V+zKSmwy98tmKpwDO4Vm43r7w=;
-  b=LfwLTHWxdXBBI9rkfX1Gum4tXUXgSP3kaj8I/CtwVaOVVUCoj/bk0TL8
-   aiwtrw+2o8sh3b7vige/BDaOzwcVbrP+Y5vEBrjuhIwyzGskJS3ID/LcS
-   WsjumLHgYVtfrVPZVJd0YK1kVuFHqQ1scvqqJmJQJMkvF/UaaIvcx7lbm
-   SZ7D9vUNt4p7oAFyKZ4Cy5TDgGJbUkQylY8uicYgmT6d3efws0abRNpw2
-   KgTVTqfkK2mNBFH4L+lOFI8RwIpd7VwPsmZG5E0/+BK6ad9skBALaFtQ1
-   PlMU/s0CZA/d2Jc9ujE08DGWTMZgNXOgoJZaaGB4/F400kNPOahwcZu2y
-   w==;
-X-CSE-ConnectionGUID: CUWzcP9xQx6thDwxFJ16eg==
-X-CSE-MsgGUID: MTE1CV9cSoC0Ujn0x5nCow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="50152226"
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="50152226"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 21:20:17 -0800
-X-CSE-ConnectionGUID: UXSw7QxNSL+GMuka1kAmjg==
-X-CSE-MsgGUID: ZHR3/1V9Rsme0lCORDZVWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="110457934"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Feb 2025 21:20:16 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfBM5-000s15-19;
-	Tue, 04 Feb 2025 05:20:13 +0000
-Date: Tue, 4 Feb 2025 13:19:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Joerg Roedel <jroedel@suse.de>,
-	Vasant Hegde <vasant.hegde@amd.com>
-Subject: vmlinux.o: warning: objtool:
- amd_iommu_domain_alloc_paging_flags+0x2c3: unreachable instruction
-Message-ID: <202502041311.kWm3wyBl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SCGHRmqz"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43634b570c1so36494735e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 03 Feb 2025 21:30:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738647037; x=1739251837; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9l5BK06s55HfdfRfg+yeGfLu0Dfk6CieqLLbpj9NArI=;
+        b=SCGHRmqzS/X5FeDXRFxe4jKgwPObg1kWHE/KmQPOhWFgKMALzqjRpuwXdLwJRS9a0p
+         hFoMQ8CE2+czTBu8r1QnTSO4JDV9FU4jIGNNzpiBfbIhvrVIhKzgteKGc9oe0nhU2EBr
+         4dYWdd5uHVFLvoQ1QwjcxYP3QfBhl9AEHzm88zWOY1C+91yYnrpukHdqri+OQpZT035U
+         5/ObLa/7hq0YJ3rEHLsqPkv9Zt9SuPQAYh07UvOSW9SC9GVy/KAGNSPWrPQ1mRSZswLv
+         rILx2M7yyfX2UcxC8Ro6mbVX1tbzUrlCTWEQyZq9emXfNCMo+5LQJx5+Q0ZaI+ublRqo
+         ZmCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738647037; x=1739251837;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9l5BK06s55HfdfRfg+yeGfLu0Dfk6CieqLLbpj9NArI=;
+        b=c8JQ7KFBP5zC6ZGVHZp3FqEiXu2d2cvzSiZOhST8Fxiw9eOmxU6fNWMdulQj3+C2Q0
+         4sh7PT+bVORPQsd42EJ5+Zxtl1aNJU4+venKprMce+EICpYgowH3vJut8qk3mzH5ZG9F
+         7oWfMOZmj2SnK20hKw/Y6JpumvMu60iQk8sllL7wi26gKSIhAQW8P/MZX/eZMAQpR1in
+         7kHhJ2wZq70jDGmVzjcTzd8/ySkhZ5LGLFxdgSbiyd+tSsGGMrZyAQ2Dsmvk31ag5cmM
+         d2bTsKpRmNNRyAZ6W4305o+aupvEf9KjkD0QrKb6t68epuhKIfodgGd37ofegp3isYdc
+         PfYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvHBKdYHza7yLC/mNm5ZyzPq6ZqDV2O6g27VPsc/gsbqicrrdrFMU/zzN1kCCjN4vynnzMb7Bd+cypewuN@lists.linux.dev
+X-Gm-Message-State: AOJu0YznWQUkHHvslIGqC9E0Yimn5orIpzbF+x0qSSUr0UprZt3EFvh4
+	Oq9q3MeKim5NqNvC2eK00KiGPisyfucE/LFyOsJ3TzOq/Fsc20J+IwTmbRWLsvk=
+X-Gm-Gg: ASbGncuAbOH0jH6kxYUrOtvk/qE7UGvGJDwsjLh0OW695PCE+8S5IHpYWBPFUHCbbZi
+	5KvY8h5fQB4Fp2mjh1Pz0mF/2n0hRNHt26lybOKLtAXm5/1ZfdjE2TQrBq+Jhd6O1HxRSbRYMtp
+	8E6VuN52GpkUzkBTAQy8PEBSx+MScLK7m3IJIyknjuaF/kKPjPyW8O2Fqt6E6MsV2Y4g9GPgS5+
+	iu4P2gN1E/4BBIIMHkop/yaG9zmZwCBrwL76INrS8DmuV7CGqfabdUMd+kEr0JuoPXOk7LhQYHm
+	PXpWhzzy+sxdlp8aURHc
+X-Google-Smtp-Source: AGHT+IFtxaHkNBSmACRD5npu5hrod1FX36ln3WWjyUEAmdq/KGt+QV9FAjFwNNJKqN2sWwnOEM1jzQ==
+X-Received: by 2002:a05:600c:3d9b:b0:434:effb:9f8a with SMTP id 5b1f17b1804b1-438dc3c3554mr221613835e9.15.1738647036975;
+        Mon, 03 Feb 2025 21:30:36 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-438dcc13151sm211443905e9.1.2025.02.03.21.30.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 21:30:36 -0800 (PST)
+Date: Tue, 4 Feb 2025 08:30:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jic23-iio:sparse-friendly-direct-mode 90/166]
+ drivers/iio/adc/stm32-dfsdm-adc.c:1320 __stm32_dfsdm_read_info_raw() error:
+ uninitialized symbol 'ret'.
+Message-ID: <08a7a56e-c4ed-41ed-92af-6cd8091777de@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,24 +73,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0de63bb7d91975e73338300a57c54b93d3cc151c
-commit: 082f1bcae8d1b5f76e92e369091176b8d61120ec iommu/amd: Fully decode all combinations of alloc_paging_flags
-date:   3 weeks ago
-config: x86_64-randconfig-075-20250203 (https://download.01.org/0day-ci/archive/20250204/202502041311.kWm3wyBl-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502041311.kWm3wyBl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git sparse-friendly-direct-mode
+head:   2d042931355bda7a2fd9e7f81d0be99c3669af4f
+commit: 92540659cab57f14a1fc6615b93e4adb97b51acd [90/166] iio: adc: stm32-dfsdm: Factor out core of reading INFO_RAW
+config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040918.N96TGHTV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502041311.kWm3wyBl-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502040918.N96TGHTV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/adc/stm32-dfsdm-adc.c:1320 __stm32_dfsdm_read_info_raw() error: uninitialized symbol 'ret'.
 
-   vmlinux.o: warning: objtool: ep_poll_callback+0x458: unreachable instruction
->> vmlinux.o: warning: objtool: amd_iommu_domain_alloc_paging_flags+0x2c3: unreachable instruction
+vim +/ret +1320 drivers/iio/adc/stm32-dfsdm-adc.c
+
+92540659cab57f Jonathan Cameron 2025-01-19  1309  static int __stm32_dfsdm_read_info_raw(struct iio_dev *indio_dev,
+92540659cab57f Jonathan Cameron 2025-01-19  1310  				       struct iio_chan_spec const *chan,
+92540659cab57f Jonathan Cameron 2025-01-19  1311  				       int *val)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1312  {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1313  	struct stm32_dfsdm_adc *adc = iio_priv(indio_dev);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1314  	int ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1315  
+3208fa0cd91914 Olivier Moysan   2024-07-30  1316  	if (adc->hwc)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1317  		ret = iio_hw_consumer_enable(adc->hwc);
+6fc839dc320cd6 Olivier Moysan   2024-07-30  1318  	if (adc->backend)
+92540659cab57f Jonathan Cameron 2025-01-19  1319  		ret = iio_backend_enable(adc->backend[chan->scan_index]);
+
+Could both adc->hwc and adc->backend be false?
+
+e2e6771c646251 Arnaud Pouliquen 2018-01-10 @1320  	if (ret < 0) {
+                                                            ^^^
+Uninitialized warning
+
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1321  		dev_err(&indio_dev->dev,
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1322  			"%s: IIO enable failed (channel %d)\n",
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1323  			__func__, chan->channel);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1324  		return ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1325  	}
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1326  	ret = stm32_dfsdm_single_conv(indio_dev, chan, val);
+3208fa0cd91914 Olivier Moysan   2024-07-30  1327  	if (adc->hwc)
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1328  		iio_hw_consumer_disable(adc->hwc);
+6fc839dc320cd6 Olivier Moysan   2024-07-30  1329  	if (adc->backend)
+92540659cab57f Jonathan Cameron 2025-01-19  1330  		iio_backend_disable(adc->backend[chan->scan_index]);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1331  	if (ret < 0) {
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1332  		dev_err(&indio_dev->dev,
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1333  			"%s: Conversion failed (channel %d)\n",
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1334  			__func__, chan->channel);
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1335  		return ret;
+e2e6771c646251 Arnaud Pouliquen 2018-01-10  1336  	}
+92540659cab57f Jonathan Cameron 2025-01-19  1337  
+92540659cab57f Jonathan Cameron 2025-01-19  1338  	return 0;
+92540659cab57f Jonathan Cameron 2025-01-19  1339  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
