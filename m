@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD91211703;
-	Tue,  4 Feb 2025 14:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7D92135D1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 14:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738678093; cv=none; b=JLqQ66Eg9gkBrra2Yh/jPCCBgJsg2rsKEl+4iNFywHKB4Pj1iDxlXpJvU7c+M9F/AZv05uOYJ+71p9fTrjCa3XhhFOwWh0dogCpgy9z+rEF7zywKwiAw4QZhIMVg7DeOGeXLcLzSO5BnA5/lZyWhwt4RSv22sm660Isrilisfzw=
+	t=1738680016; cv=none; b=u1nfELe7rwCE638kUq6NkkIQ5hQwFGGdrjf9X0vzuiqL0THzeN4w0hAzwJyZfmA/UOZe3mfVn8KvsMOhngm/SrlTUdge96k99W3W5Zf4WfSDHqWZXsVIc130qKY9TSGGy6z2aKrigiJwKqMzzgqii56Zc+0hm2SGAUacvJc2tG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738678093; c=relaxed/simple;
-	bh=VUi06TS7MWl3WrxSYaECEG9QZL6OepAlFSezS8CGqf0=;
+	s=arc-20240116; t=1738680016; c=relaxed/simple;
+	bh=FY+9IkiJhhjGBl4YozthOfWmS6Bc1663iArunCB3m/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XYcg6+SRv2pV2Z3DK27kzBxor+B6zDzta0B2GJd1q22antnV9enYPTPexKylZf5n3izWzbiokf5PGGZ9vFcTA+/+YS0+qtnFwt++x4C0CSLusu3rDDtxUebL4Tj21fgZxOEflWVOY5uEWzCc91gmz0S3bJiKAOVxO7CWv3089n0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpHqCJcK; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=LwSmj4CHST1jj7uybO9GEyMU88FywZF73GdR2dJz/cy6HI6uSImsP2x4LOVWSWfiwOSt1z9ISGaHJn+n5K03bycMcg4slG9W6TBNCt2Ea1PFigloSGTB6WYfrUc+kxIKOiE4I/Kv4SscxM5JME4eZWHQtfZbw9FoJoebilSy+UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/iAWfbb; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpHqCJcK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/iAWfbb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738678092; x=1770214092;
+  t=1738680014; x=1770216014;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VUi06TS7MWl3WrxSYaECEG9QZL6OepAlFSezS8CGqf0=;
-  b=YpHqCJcKzWcKtM5qhSa4wtqIhNND7kWMhmqoMUaENxASyGNS4vTuJDN1
-   5x4NR2BMeWjLmxFdsJdwS/5qdb5HZgADXKmMp3NzrHRRs19aDsSSFb8FI
-   3a3IWx9UPEUx7yYu8uGNUAfYXiLIuoff9gSKkrY4hEC+BbmAZTA2wYeSb
-   b/aHjhH/HfKkGFToUnEVwPeTu6JpZ/+JjIXAUO/UCd7K071RJdAVuIeAG
-   hQ5q6xLK7ZLais7XjA0Xhd/QYz4gmU//JMqPmlKmzknbTc53aU+iMEJeG
-   KM6zPDgIg8JhZuJWTPZ7KolPsABq4KlNKVmK0Bbz8r/NxjY31J39LWEod
-   A==;
-X-CSE-ConnectionGUID: Sycz9vCRSHiFj7Dgiqbbqw==
-X-CSE-MsgGUID: O58IC4NKR5S1JK8Xl/eFMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39309103"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="39309103"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 06:08:11 -0800
-X-CSE-ConnectionGUID: Kru85VL9Rm+NFBhzllo3hA==
-X-CSE-MsgGUID: LFBffYlnSvaFhhagkdBHkg==
+  bh=FY+9IkiJhhjGBl4YozthOfWmS6Bc1663iArunCB3m/U=;
+  b=d/iAWfbbcp/Sx5EEK3tqY8IA/Q8BgTbWaJVZ+B7U04/B3r7qjC7mr3mA
+   q6CRLVQDcJFIA0v8zVLAIxlwgAyJakdgC/CIzxbUb8MU8gdvMdtQV7Pmj
+   Ed+JW5u6Kg3MJiSpaiR228+RqZutu5UMt4KMjKsWmD0sKeWHLKOGsGVoI
+   kKld/4ObgCEG4Pywp9p24KEnOgJUloy0o90KVo68htQOVe97c3ffSqA8U
+   uQP6WrMYklCVp7k0ag8ummB9GlXhWaK2080ds6r2Tr59g82XncaDENMgT
+   ZoyU8cN1asMlOK56oc5uPsJcMVspvy3RRkP+TScFZDMNGlPbNTdBBOgQs
+   g==;
+X-CSE-ConnectionGUID: K3GntyHvRDKpE8Ibm1DCGg==
+X-CSE-MsgGUID: XyDFVW3STmurKHdC/tpHOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42960591"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="42960591"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 06:40:13 -0800
+X-CSE-ConnectionGUID: Wzf1G9faQ4eHpxH79/h54Q==
+X-CSE-MsgGUID: eAUy4avQRRWrSPbAtWhAhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="110386803"
+   d="scan'208";a="110493850"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Feb 2025 06:08:10 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 04 Feb 2025 06:40:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfJax-000sYZ-0c;
-	Tue, 04 Feb 2025 14:08:07 +0000
-Date: Tue, 4 Feb 2025 22:07:46 +0800
+	id 1tfK5x-000saB-2a;
+	Tue, 04 Feb 2025 14:40:09 +0000
+Date: Tue, 4 Feb 2025 22:39:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:kho/v4 12/13] error: arch/x86/include/uapi/asm/setup_data.h:
- leak CONFIG_KEXEC_HANDOVER to user-space
-Message-ID: <202502042236.a8SqWoq8-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:kho/v4 11/13] WARNING: modpost: vmlinux: section mismatch in
+ reference: memblock_reserve_kern.isra.0+0xe (section: .text) ->
+ __memblock_reserve (section: .init.text)
+Message-ID: <202502042227.C1X02V6X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,29 +63,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Mike,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/v4
 head:   a75b813f58b0bc19b2c4b06bd62afc87f02dcb43
-commit: dd730ee646a9855c98bf5e8ed8ccf1ee7c8fe122 [12/13] x86: Add KHO support
-config: x86_64-buildonly-randconfig-001-20250204 (https://download.01.org/0day-ci/archive/20250204/202502042236.a8SqWoq8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502042236.a8SqWoq8-lkp@intel.com/reproduce)
+commit: 22b792377a41eb6900c074894c7b8eea11b94938 [11/13] x86/setup: use memblock_reserve_kern for memory used by kernel
+config: i386-buildonly-randconfig-004-20250204 (https://download.01.org/0day-ci/archive/20250204/202502042227.C1X02V6X-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502042227.C1X02V6X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502042236.a8SqWoq8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502042227.C1X02V6X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> error: arch/x86/include/uapi/asm/setup_data.h: leak CONFIG_KEXEC_HANDOVER to user-space
-   make[3]: *** [scripts/Makefile.headersinst:63: usr/include/asm/setup_data.h] Error 1 shuffle=1096944769
-   make[3]: Target '__headers' not remade because of errors.
-   make[2]: *** [Makefile:1361: headers] Error 2 shuffle=1096944769
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1096944769
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1096944769
-   make: Target 'prepare' not remade because of errors.
+>> WARNING: modpost: vmlinux: section mismatch in reference: memblock_reserve_kern.isra.0+0xe (section: .text) -> __memblock_reserve (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
