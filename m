@@ -1,98 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6563207643
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 08:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694A8206F25
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 08:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738659459; cv=none; b=I3YcZCRr5RKnBQZ6obcc7SlEWcMHMmS4fZ/60MwRz231QYwo3Z+YvKCcOy/42mzNFFhEALXfwT4wQQhtZ46hyEgWJTIZ2XJmjDn0JUnoxSViTWdMWX+alh0FGWodBwBcv1bFZgxQtX+sxK3pspFS9Cdt0+cUBw7Qn5PKFuyWbnw=
+	t=1738659469; cv=none; b=e8ayC+H/tXW4p4VW1ZhJS0g50zr78cHLq2L8uoK8g/ChF2tt6+Z4bSOyomrtu0dSzt+JazLeV+lXhwp6MwdnZibtykl/fIqfZDokyidyGe4CWrCJhePwf/+h0fHNokVtKw+senC+ff2YPfTuXETRf6K7W/bbkKdMbKeqfFUq+go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738659459; c=relaxed/simple;
-	bh=BNRoJxv1dnIkxqSy6Y9SXM6+X27Ha3znH8kQ0V5KmYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fr79CA4It21087aGpl1+x8x2/KoV5KQPkNS01u5NGrrrM+v8mgWWkajHLJaXwpTcW+sqvPS1ZZMyfAV3hylc3zhr0g5/m2YBMnbd6c43Uo0WoN3OhoMUgsZbcWG5wFKazxyVK48bjCY2ZATPmIFRNMS84dF3BC7C9Qp51nY9V4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfp0BtRX; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfp0BtRX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738659458; x=1770195458;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BNRoJxv1dnIkxqSy6Y9SXM6+X27Ha3znH8kQ0V5KmYg=;
-  b=kfp0BtRX77xMhJH2Px4VSgP8bOp9nF0fGRvqfqpHWXE15SAOEf/40IRn
-   vm4uKu0/7IqtlHUqVYZy0unW5q2ULnIcHdwdqygq7huywARFHknmjp1Qc
-   3SS6HQLh63EKQicr8PN6CzxVxfByXARNAT0G9sy2VGagr9y9NNV9zfjro
-   T9QXbpVQBxRzQpZ7Ox726VWkhVrAxLuV2rwHG2S+5cZ0fBxLqYUeXXUOe
-   7EhATlohpC65FufKtvj+FKWXLacOUhielOKNBP1WawdvJo0YmoJbJp8Cq
-   6LF3L40SqaRvADxSwCcQSoXKEl9ts1fYyKr1nxjzPhzZmDXYx+k0I8/Zu
-   g==;
-X-CSE-ConnectionGUID: 2GRa21SNTvCh6bXUrFHcKQ==
-X-CSE-MsgGUID: 9FBssts/RPuHbJ3uHB4jFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39330853"
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="39330853"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 00:57:37 -0800
-X-CSE-ConnectionGUID: lOvLaNnzRK+Qq1GnvWlqgA==
-X-CSE-MsgGUID: u2JG4qJQQpaafBTpU9FDUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="111116627"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Feb 2025 00:57:37 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfEkQ-000sEX-14;
-	Tue, 04 Feb 2025 08:57:34 +0000
-Date: Tue, 4 Feb 2025 16:57:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 170/170] drivers/media/i2c/gc5035.c:1518:46:
- warning: 'gc5035_internal_ops' defined but not used
-Message-ID: <202502041639.mFDcnyy0-lkp@intel.com>
+	s=arc-20240116; t=1738659469; c=relaxed/simple;
+	bh=eVeozBf4wpq86NhE9S3C3sQL2NOMurswc2M5/jG8nLo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WrpmHdqcVLSg8VwFKNuM5Wmq3AbHMr1lM+6NFxLAhwqDhbBEzGf2AAxTF+mwsNU6ifhlc7QfGy56xMCMq86Sadt61HAGy/cbuovQCWC7HS6fbJoq787FkDk0EDuJHf8ymeJmuw16EJcMcSgCbEozQYAnRzVtN9MkTDtc1rF1dJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YnHJL01z0z6D9XP;
+	Tue,  4 Feb 2025 16:55:30 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id F39AC140498;
+	Tue,  4 Feb 2025 16:57:43 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Feb
+ 2025 09:57:43 +0100
+Date: Tue, 4 Feb 2025 08:57:44 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Angelo Dureghello <adureghello@baylibre.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Nuno Sa <nuno.sa@analog.com>,
+	<linux-iio@vger.kernel.org>
+Subject: Re: [jic23-iio:testing 23/47] drivers/iio/dac/adi-axi-dac.c:731
+ axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) =>
+ (0-u32max >= 0)'
+Message-ID: <20250204085744.000075d4@huawei.com>
+In-Reply-To: <rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
+References: <202502040758.DJqHqhLO-lkp@intel.com>
+	<rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   214a5686718f4ddf23fe02a3df2a4b37b05d1ed4
-commit: 2aa4f6ff52e147c3d01a521323fa3ccf4e8c42cf [170/170] BACKPORT: media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250204/202502041639.mFDcnyy0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502041639.mFDcnyy0-lkp@intel.com/reproduce)
+On Tue, 4 Feb 2025 09:43:17 +0100
+Angelo Dureghello <adureghello@baylibre.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502041639.mFDcnyy0-lkp@intel.com/
+> Hi Jonathan,
+> 
+> On 04.02.2025 07:23, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+> > head:   315198c0a370da031f5c3d504b99f771a0c545ab
+> > commit: 493122c53af1915b4b5b5f47a8c446973ebff052 [23/47] iio: dac: adi-axi-dac: add bus mode setup
+> > config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040758.DJqHqhLO-lkp@intel.com/config)
+> > compiler: m68k-linux-gcc (GCC) 14.2.0
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502040758.DJqHqhLO-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/iio/dac/adi-axi-dac.c:731 axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) => (0-u32max >= 0)'
+> > 
+> > vim +731 drivers/iio/dac/adi-axi-dac.c
+> > 
+> >    724	
+> >    725	static int axi_dac_bus_set_io_mode(struct iio_backend *back,
+> >    726					   enum ad3552r_io_mode mode)
+> >    727	{
+> >    728		struct axi_dac_state *st = iio_backend_get_priv(back);
+> >    729		int ival, ret;
+> >    730	  
+> >  > 731		if (!(mode >= AD3552R_IO_MODE_SPI && mode <= AD3552R_IO_MODE_QSPI))  
+> >    732  
+> 
+> not clear to me the reason of this warning, maybe because mode is an enum ?
+> Should i take any action ?
 
-All warnings (new ones prefixed by >>):
+Currently there are only a few modes in there and that range covers them all I think.
+So warning is correct, but we perhaps want this check there as hardening against future
+addition of more modes.  Maybe an explicit switch with all modes listed and a default
+will have same effect and be better defense anyway against future changes?
 
->> drivers/media/i2c/gc5035.c:1518:46: warning: 'gc5035_internal_ops' defined but not used [-Wunused-const-variable=]
-    1518 | static const struct v4l2_subdev_internal_ops gc5035_internal_ops = {
-         |                                              ^~~~~~~~~~~~~~~~~~~
---
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:402:5: warning: no previous prototype for 'vsp1_entity_init_state' [-Wmissing-prototypes]
-     402 | int vsp1_entity_init_state(struct v4l2_subdev *subdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+Jonathan
 
 
-vim +/gc5035_internal_ops +1518 drivers/media/i2c/gc5035.c
+> 
+> 			return -EINVAL;
+> >    733	
+> >    734		guard(mutex)(&st->lock);
+> >    735	
+> >    736		ret = regmap_update_bits(st->regmap, AXI_DAC_CUSTOM_CTRL_REG,
+> >    737				AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE,
+> >    738				FIELD_PREP(AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE, mode));
+> >    739		if (ret)
+> >    740			return ret;
+> >    741	
+> >    742		return regmap_read_poll_timeout(st->regmap, AXI_DAC_UI_STATUS_REG, ival,
+> >    743				FIELD_GET(AXI_DAC_UI_STATUS_IF_BUSY, ival) == 0, 10,
+> >    744				100 * KILO);
+> >    745	}
+> >    746	
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki  
+> 
+> Thanks,
+> regards,
+> angelo
 
-  1517	
-> 1518	static const struct v4l2_subdev_internal_ops gc5035_internal_ops = {
-  1519		.init_state = gc5035_init_state,
-  1520	};
-  1521	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
