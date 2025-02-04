@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576252185B1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B687C2185B4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738694387; cv=none; b=JkkGM5BytJM5rKCzQHItX9mU9cKxAwrXf3t00t7Y59IyNSJCKtkBjuDc+TQ9+vsZNpcXPWYlD7sos6kRxyZe8IYF8JH5mPqe9b0+aB/l7T2HKzfxthbng/Sls9SpFisu1TDVyvnnj/zX8BEZoUqrsyBWPhUEJYJQ3HQLER29TWw=
+	t=1738695105; cv=none; b=V8KriDVeW9UIjRP3mpXUGDy9GbamvEOupLexkmwL8VxuvfV6Wrrm8mQt7qfn1GdYHj++RovoR//VrBKtWcCJytq+b9FpA0gXuAI4SyEbCIJ0kjjjsZRgLc5C0FAV8UTnW+ilzqM28/TmkjVkxkisdZt6ouX+U/FI/ndSMzDxFT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738694387; c=relaxed/simple;
-	bh=ixQEK2Ny/BFG8Xf1/UgfDzbhB3oPw8YMPum4ThDO3ZQ=;
+	s=arc-20240116; t=1738695105; c=relaxed/simple;
+	bh=ljC2kQVqL5JtjAElI3m3jqJFdBpyfV37sFAsB/EsEDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aiLXZiFA6Lh7LYPJ1sMLfSaMRCVoAsjX/YG7iAgJP4XmzsclDGSOmURxO0h2UytKkvIe3ealscTq95tdQ2fi9sWP3czcftZ3kF3Wuc/o19nGwqzLW+9QnEqLnAGBl5z8Lja+cxFG2LMJgqEfFeRXsxwQegUxHI5fQNIxCUCHnC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2LZbx/z; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=oMZ/Zj8RFPZBHjUWfVOVJ3OKV6BA1rrvoZUZpYQy8pFwPgU29aiWO2sb+ni/7D/iAHjIEPEkAsv2boK/9hMsJvn0MbTzVLsXOU0AONO3jVNGGck60o86sfwwRoqAn2zC/sWGJPJeP9HymlysIgMKM2OhYqrWvkkiJYkNpoIPsYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwljNfbD; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2LZbx/z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwljNfbD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738694385; x=1770230385;
+  t=1738695104; x=1770231104;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ixQEK2Ny/BFG8Xf1/UgfDzbhB3oPw8YMPum4ThDO3ZQ=;
-  b=J2LZbx/z/DvHJp1BqWc3byBgaZIzpAeTmzRGDk3uF1s7gSLQICcfBTc5
-   b2/f60sgzEUiZIOQHnq5DTPNu0y+SmB7QxZ17fTkFhAq98z76C1babwBF
-   6+eADTUyVUuDegqMHbpAVbsam/0b0NqUzwa9vv4kNhxqOGWkfiVU/kTq2
-   wG5iW10t+T5wz3boVdxO77NfHJK2sczXSbQi+b3d97URmih75OYXuXx0j
-   MrCoLT9SI5kTIR9LbCG6QfO/4jf8UDcuhvxgSWEXryzrxvQgwF0HKeZoA
-   tglK/hL5wWmef95ozpFskjskRe1pomTLO/kzwukS24heRqyqZmbbQP3Ni
-   Q==;
-X-CSE-ConnectionGUID: AJYVfmj7SqyeYO7DxmNusw==
-X-CSE-MsgGUID: xfQctz4cTN20JIj0lDTVDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39343442"
+  bh=ljC2kQVqL5JtjAElI3m3jqJFdBpyfV37sFAsB/EsEDQ=;
+  b=gwljNfbD+ik1/g46/U3fMsgY/9UUSiTl6JgB1OTwDBfD5+OJSmDPH6LQ
+   fBvW9qmwSuf3RkCeUUi0SJ8H7BNzT1XEUJsOVdT2IOAot2TMtrtPdO9OD
+   40bXi5S++FX9ZQdU+MYJgVx18J5H7tkWZfoIEx/wYTqMbHZfcrDmLI7rS
+   XGbw7+dRs24RjEDfxvEhNyEubRFZvCuVx3f0LJ4Huni0g41FWdrtZvsl9
+   HmY02p1Neah4i/zuW0+JjpXVbkor9X1QrI9vUIn0zWmQfsvSAJ+olcDWh
+   eFJFvltRFzKze6ZOKOFYZhoudicEYwJcj7rjEcsovjadzQbvRU9XPyURh
+   A==;
+X-CSE-ConnectionGUID: kLohIYKTR5mk2hjSZp4cDQ==
+X-CSE-MsgGUID: +oxziV16TSmpXN299NqLGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39344839"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="39343442"
+   d="scan'208";a="39344839"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:39:42 -0800
-X-CSE-ConnectionGUID: XML98aZ5TnyWs9O0zpwuOA==
-X-CSE-MsgGUID: ckRx2jgZSjKkJDCt0YgIBw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:51:43 -0800
+X-CSE-ConnectionGUID: OWUW2S82TN+l3dezdwfdbA==
+X-CSE-MsgGUID: /S80bWqdQ7+NaLcuiXFeiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115293724"
+   d="scan'208";a="115296250"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2025 10:39:41 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2025 10:51:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfNpi-000srd-2V;
-	Tue, 04 Feb 2025 18:39:38 +0000
-Date: Wed, 5 Feb 2025 02:39:32 +0800
+	id 1tfO1M-000ssb-07;
+	Tue, 04 Feb 2025 18:51:40 +0000
+Date: Wed, 5 Feb 2025 02:50:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:kho/v4 13/13] mm/memblock.c:2434: warning: Function parameter
- or struct member 'name' not described in 'reserve_mem_kho_revive'
-Message-ID: <202502050201.rFcqHIJF-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 170/170]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mipi-tx-config@130b0000:
+ failed to match any schema with compatible: ['mediatek,mt8196-mipi-tx']
+Message-ID: <202502050256.f4ys8YWq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/v4
-head:   a75b813f58b0bc19b2c4b06bd62afc87f02dcb43
-commit: a75b813f58b0bc19b2c4b06bd62afc87f02dcb43 [13/13] memblock: Add KHO support for reserve_mem
-config: i386-buildonly-randconfig-001-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050201.rFcqHIJF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050201.rFcqHIJF-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   214a5686718f4ddf23fe02a3df2a4b37b05d1ed4
+commit: 9a5b02d04139ce72808afd297980ac2b6f6a2957 [170/170] CHROMIUM: arm64: dts: mediatek: mt8196: Add dsi and mipitx node
+config: arm64-randconfig-051-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050256.f4ys8YWq-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050256.f4ys8YWq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502050201.rFcqHIJF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050256.f4ys8YWq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> mm/memblock.c:2434: warning: Function parameter or struct member 'name' not described in 'reserve_mem_kho_revive'
->> mm/memblock.c:2434: warning: Function parameter or struct member 'size' not described in 'reserve_mem_kho_revive'
->> mm/memblock.c:2434: warning: Function parameter or struct member 'align' not described in 'reserve_mem_kho_revive'
-
-
-vim +2434 mm/memblock.c
-
-  2428	
-  2429	/**
-  2430	 * reserve_mem_kho_revive - Revive reserve_mem blocks from KHO
-  2431	 */
-  2432	static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
-  2433						  phys_addr_t align)
-> 2434	{
-  2435		const void *fdt = kho_get_fdt();
-  2436		const char *path = "/reserve_mem";
-  2437		int node, child, err;
-  2438	
-  2439		if (!IS_ENABLED(CONFIG_KEXEC_HANDOVER))
-  2440			return false;
-  2441	
-  2442		if (!fdt)
-  2443			return false;
-  2444	
-  2445		node = fdt_path_offset(fdt, "/reserve_mem");
-  2446		if (node < 0)
-  2447			return false;
-  2448	
-  2449		err = fdt_node_check_compatible(fdt, node, "reserve_mem-v1");
-  2450		if (err) {
-  2451			pr_warn("Node '%s' has unknown compatible", path);
-  2452			return false;
-  2453		}
-  2454	
-  2455		fdt_for_each_subnode(child, fdt, node) {
-  2456			const struct kho_mem *mem;
-  2457			const char *child_name;
-  2458			int len;
-  2459	
-  2460			/* Search for old kernel's reserved_mem with the same name */
-  2461			child_name = fdt_get_name(fdt, child, NULL);
-  2462			if (strcmp(name, child_name))
-  2463				continue;
-  2464	
-  2465			err = fdt_node_check_compatible(fdt, child, "reserve_mem_map-v1");
-  2466			if (err) {
-  2467				pr_warn("Node '%s/%s' has unknown compatible", path, name);
-  2468				continue;
-  2469			}
-  2470	
-  2471			mem = fdt_getprop(fdt, child, "mem", &len);
-  2472			if (!mem || len != sizeof(*mem))
-  2473				continue;
-  2474	
-  2475			if (mem->addr & (align - 1)) {
-  2476				pr_warn("KHO reserved_mem '%s' has wrong alignment (0x%lx, 0x%lx)",
-  2477					name, (long)align, (long)mem->addr);
-  2478				continue;
-  2479			}
-  2480	
-  2481			if (mem->size != size) {
-  2482				pr_warn("KHO reserved_mem '%s' has wrong size (0x%lx != 0x%lx)",
-  2483					name, (long)mem->size, (long)size);
-  2484				continue;
-  2485			}
-  2486	
-  2487			reserved_mem_add(mem->addr, mem->size, name);
-  2488			pr_info("Revived memory reservation '%s' from KHO", name);
-  2489	
-  2490			return true;
-  2491		}
-  2492	
-  2493		return false;
-  2494	}
-  2495	
+dtcheck warnings: (new ones prefixed by >>)
+   	'mediatek,mt8192-i2c' was expected
+   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt7629-i2c', 'mediatek,mt8516-i2c']
+   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt2701-i2c', 'mediatek,mt6797-i2c', 'mediatek,mt7623-i2c']
+   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt8365-i2c']
+   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt6795-i2c']
+   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt8195-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/i2c@120a0000: failed to match any schema with compatible: ['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@120c0000: failed to match any schema with compatible: ['mediatek,mt8196-imp-iic-wrap-e', 'mediatek,mt8196-imp_iic_wrap_e', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@120c0000: failed to match any schema with compatible: ['mediatek,mt8196-imp-iic-wrap-e', 'mediatek,mt8196-imp_iic_wrap_e', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mipi-tx-config@130b0000: failed to match any schema with compatible: ['mediatek,mt8196-mipi-tx']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: i2c@13130000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c'] is too long
+   	'mediatek,mt2712-i2c' was expected
+   	'mediatek,mt6577-i2c' was expected
+   	'mediatek,mt6589-i2c' was expected
+   	'mediatek,mt7622-i2c' was expected
+   	'mediatek,mt7981-i2c' was expected
+   	'mediatek,mt7986-i2c' was expected
+   	'mediatek,mt8168-i2c' was expected
+   	'mediatek,mt8173-i2c' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32400000: 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32420000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32420000: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32430000: failed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32440000: failed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dsi@32490000: failed to match any schema with compatible: ['mediatek,mt8196-dsi']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dvo0@324c0000: failed to match any schema with compatible: ['mediatek,mt8196-edp-dvo']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32600000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@32800000: failed to match any schema with compatible: ['mediatek,mt8196-ovlsys-config', 'mediatek,mt8196-ovlsys_config', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@32800000: failed to match any schema with compatible: ['mediatek,mt8196-ovlsys-config', 'mediatek,mt8196-ovlsys_config', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
