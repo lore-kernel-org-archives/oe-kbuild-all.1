@@ -1,118 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD082218AA2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076CB217658;
+	Tue,  4 Feb 2025 19:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738695118; cv=none; b=oclzboSnF/z/fKxDDHrnFyycHDoUIYzBNhcrPySxiVbVRKR6sNH8a7rts5Uc2hCoFdXLWWomlb1NLAVcavCBupLxOwbQVAfhtY0lBGHP3bdGpw5Fv7pB+pjSiaZdFK4qjY72fwPdvGqCW+9kdzAEqZnc0eUzqJ7zF3f+xxYWp3A=
+	t=1738697284; cv=none; b=g3tnm1yawWdoUQ4GoasFuCQiqu5nbHgKsf2Tzl9+jL4AqF2xDCjRrKCBYpEzbQMJIR31Pl2+8UQwYVbTtSjTQbfVo59r1cbUo3R7kPTW5rNLyR9lii7yDYyNZdAvcYYbwrDKjc6echeIPjG22XgPFMVZr/VVnjrJIreHrKpbxek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738695118; c=relaxed/simple;
-	bh=k7HIN2/4JNPmmW9EOwz5dmbwnDmMoY6rJ767bWiH8kM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvKD9FNTuZhJkh3fyqJAya7HPPQ29b/Lnik/obI3VBfASgzb/B+9Gdr7SR6QDPr8Xu24xNYAofP1stYULsslL56NScj9wqquzuaScc5Ac1kFAPNrwLKOcf0/GP1wrEI43CKhB0dihJhGfcGkJEw+RPDG7myfEvoNTkmlM9gbH+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIEE3XJ6; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738697284; c=relaxed/simple;
+	bh=5OL1rXLC4ed1yv0J7a+qTrQUTfSLB9RE3Knf5PomOz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CnwqdfWGp4gUuBu7moXyHshz5qYmrPucbGi+x0Ii/hnK80QTlSWJX18btfhlMHDMWwO3Ojncoaq+vtSRCQW8oT/U9D6OlYbvcfGRbY92uYUCnpmKqs0a2tMS5TsghekQe2b7cG8/A7yRMc9wy+gYacl/0p1Smwg/94r4er0QhWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwynTe1n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIEE3XJ6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738695114; x=1770231114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k7HIN2/4JNPmmW9EOwz5dmbwnDmMoY6rJ767bWiH8kM=;
-  b=JIEE3XJ6Ctbtk2yoXEHpvJhHXsLtWQZOwg8MeQFef+x5G/o2Phcyl5V8
-   44fw3UhNOiWg3uMaXTiH0yPrGGwcKAOzovoLMAbyim3b8CcCXJpUetc3N
-   f9DMfiudj/ZjjyMU3d8BrVFzVir5xx8pLpZo3g78xEOjq3+RtkO/W3r6F
-   ICQcSi/OeZ282n0eY6a93JonsoqZi8dgsA8tyLWnW0ATEQyNsotAAM04n
-   8Z5BJl5e6Zl670YpB4Rp9UYZ/vmZE4TXkYFk/dpkhoVEFfaQCbxzwEhg8
-   jZv+1YL4/5N2hypN2o5vAcxzzYaGtoPJMbAxswnLLqo1q9hH4p99iMKsw
-   Q==;
-X-CSE-ConnectionGUID: xcKNvV30RN+jJ5k2RkZDBQ==
-X-CSE-MsgGUID: vhucSkBbTCaBsPUmFqD21A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39268954"
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="39268954"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:51:48 -0800
-X-CSE-ConnectionGUID: mqLlYBAXRg647PCZwOhXag==
-X-CSE-MsgGUID: qyQyePwGS0WtlynkG1GLBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="110559274"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Feb 2025 10:51:42 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfO1M-000ssZ-04;
-	Tue, 04 Feb 2025 18:51:40 +0000
-Date: Wed, 5 Feb 2025 02:50:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gerhard Engleder <gerhard@engleder-embedded.com>, andrew@lunn.ch,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Gerhard Engleder <gerhard@engleder-embedded.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH net-next v4 6/7] net: selftests: Export
- net_test_phy_loopback_*
-Message-ID: <202502050234.kRVRQjkS-lkp@intel.com>
-References: <20250203191057.46351-7-gerhard@engleder-embedded.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwynTe1n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4046AC4CEDF;
+	Tue,  4 Feb 2025 19:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738697283;
+	bh=5OL1rXLC4ed1yv0J7a+qTrQUTfSLB9RE3Knf5PomOz4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UwynTe1nwdIxQmOvOkWuSTp7h3S35GRpDIdrPXRvNzpFtuEY+do51JPADAoWk5l6p
+	 PEUu27D5KDHkjZZBVR+m9PsPCqC8IX5Z8dV7hrMc97RZ1MIje/N9aS4WVQcQoEUYn+
+	 f63p4PwwS98NT5kbCCGnUv8e47h2QfzaOhG+Hn/bFgD/01ibYzyZZXYBeOtgU0vWN+
+	 DkYR0ORhmDYI8bqL/bdot3JTkh3UqfPrnsY/0ASUH0w5uMlny4Jh6ug+eKxJe6CGwY
+	 NwYm7dn+QUkgSbU6VmzuWKJe0eyGs8Y/nmSWT0yR2oE5Uyb6zQ8pqOfYjtywvYQcVL
+	 QsRVR1T8b+YSQ==
+Date: Tue, 4 Feb 2025 19:27:55 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Angelo Dureghello <adureghello@baylibre.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ oe-kbuild-all@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
+ linux-iio@vger.kernel.org
+Subject: Re: [jic23-iio:testing 23/47] drivers/iio/dac/adi-axi-dac.c:731
+ axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) =>
+ (0-u32max >= 0)'
+Message-ID: <20250204192755.1567b092@jic23-huawei>
+In-Reply-To: <l575dzyjzix2xnljfadw5uuu3qdzhmtcbkyg6eaccf2h5dtvsz@ju5mqszl2vzb>
+References: <202502040758.DJqHqhLO-lkp@intel.com>
+	<rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
+	<20250204085744.000075d4@huawei.com>
+	<l575dzyjzix2xnljfadw5uuu3qdzhmtcbkyg6eaccf2h5dtvsz@ju5mqszl2vzb>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250203191057.46351-7-gerhard@engleder-embedded.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Gerhard,
+On Tue, 4 Feb 2025 10:12:05 +0100
+Angelo Dureghello <adureghello@baylibre.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> On 04.02.2025 08:57, Jonathan Cameron wrote:
+> > On Tue, 4 Feb 2025 09:43:17 +0100
+> > Angelo Dureghello <adureghello@baylibre.com> wrote:
+> >   
+> > > Hi Jonathan,
+> > > 
+> > > On 04.02.2025 07:23, kernel test robot wrote:  
+> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+> > > > head:   315198c0a370da031f5c3d504b99f771a0c545ab
+> > > > commit: 493122c53af1915b4b5b5f47a8c446973ebff052 [23/47] iio: dac: adi-axi-dac: add bus mode setup
+> > > > config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040758.DJqHqhLO-lkp@intel.com/config)
+> > > > compiler: m68k-linux-gcc (GCC) 14.2.0
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502040758.DJqHqhLO-lkp@intel.com/
+> > > > 
+> > > > smatch warnings:
+> > > > drivers/iio/dac/adi-axi-dac.c:731 axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) => (0-u32max >= 0)'
+> > > > 
+> > > > vim +731 drivers/iio/dac/adi-axi-dac.c
+> > > > 
+> > > >    724	
+> > > >    725	static int axi_dac_bus_set_io_mode(struct iio_backend *back,
+> > > >    726					   enum ad3552r_io_mode mode)
+> > > >    727	{
+> > > >    728		struct axi_dac_state *st = iio_backend_get_priv(back);
+> > > >    729		int ival, ret;
+> > > >    730	    
+> > > >  > 731		if (!(mode >= AD3552R_IO_MODE_SPI && mode <= AD3552R_IO_MODE_QSPI))    
+> > > >    732    
+> > > 
+> > > not clear to me the reason of this warning, maybe because mode is an enum ?
+> > > Should i take any action ?  
+> > 
+> > Currently there are only a few modes in there and that range covers them all I think.
+> > So warning is correct, but we perhaps want this check there as hardening against future
+> > addition of more modes.  Maybe an explicit switch with all modes listed and a default
+> > will have same effect and be better defense anyway against future changes?
+> > 
+> > Jonathan  
+> 
+> thanks, clear now. 
+> Is maintaining the waring an issue ?
+> Another chance may be adding a AD3552R_IO_MODE_MAX as last item ?
 
-[auto build test WARNING on net-next/main]
+Hmm. If these are the only plausible modes for enum ad3552r_io_mode
+ever to have, we could just drop the check.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/net-phy-Allow-loopback-speed-selection-for-PHY-drivers/20250204-041619
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250203191057.46351-7-gerhard%40engleder-embedded.com
-patch subject: [PATCH net-next v4 6/7] net: selftests: Export net_test_phy_loopback_*
-config: s390-randconfig-001-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050234.kRVRQjkS-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050234.kRVRQjkS-lkp@intel.com/reproduce)
+> 
+> angelo
+> > 
+> >   
+> > > 
+> > > 			return -EINVAL;  
+> > > >    733	
+> > > >    734		guard(mutex)(&st->lock);
+> > > >    735	
+> > > >    736		ret = regmap_update_bits(st->regmap, AXI_DAC_CUSTOM_CTRL_REG,
+> > > >    737				AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE,
+> > > >    738				FIELD_PREP(AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE, mode));
+> > > >    739		if (ret)
+> > > >    740			return ret;
+> > > >    741	
+> > > >    742		return regmap_read_poll_timeout(st->regmap, AXI_DAC_UI_STATUS_REG, ival,
+> > > >    743				FIELD_GET(AXI_DAC_UI_STATUS_IF_BUSY, ival) == 0, 10,
+> > > >    744				100 * KILO);
+> > > >    745	}
+> > > >    746	
+> > > > 
+> > > > -- 
+> > > > 0-DAY CI Kernel Test Service
+> > > > https://github.com/intel/lkp-tests/wiki    
+> > > 
+> > > Thanks,
+> > > regards,
+> > > angelo  
+> >   
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502050234.kRVRQjkS-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/freescale/fec_main.c:42:
->> include/net/selftests.h:30:12: warning: 'net_test_phy_loopback_tcp' defined but not used [-Wunused-function]
-      30 | static int net_test_phy_loopback_tcp(struct net_device *ndev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
->> include/net/selftests.h:25:12: warning: 'net_test_phy_loopback_udp_mtu' defined but not used [-Wunused-function]
-      25 | static int net_test_phy_loopback_udp_mtu(struct net_device *ndev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/net_test_phy_loopback_tcp +30 include/net/selftests.h
-
-    24	
-  > 25	static int net_test_phy_loopback_udp_mtu(struct net_device *ndev)
-    26	{
-    27		return 0;
-    28	}
-    29	
-  > 30	static int net_test_phy_loopback_tcp(struct net_device *ndev)
-    31	{
-    32		return 0;
-    33	}
-    34	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
