@@ -1,147 +1,133 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB97204C27
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 19:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F2C212D83
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 19:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738697990; cv=none; b=N6n4dWzDBghEm03mJz4lcreomkmlxTqpbHAnU7PbsZsbVOIG4GZJmtmeX4bqjHXm7VEnGHBXrXVgid6W5I7DrVJJXuCwloBPWTF6a10ClQVtYzbwdy6G06DIPxwjVLsHndgOYfhqfKwfq4PMOHUGOkITBkJw9CBqvvcDcE9O4uE=
+	t=1738698171; cv=none; b=QDescdkmhwB7zo7duVTw2tvDUJ5VDwevyCUBW5B64FJGs+1v1Z541WzznItIYjgv7WeF7Ckokjw5Fzqf/LLaSi5SMhSW1ft5JHvnYWmqMJwWVb3NCGTSzBUhAdzMRJB/7zIaoEPqGoQwV+ZLfPu8dDIqk8w+GcFQJlgHyqBeZo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738697990; c=relaxed/simple;
-	bh=ZJiDN+nOQE6F2sddgObQCdlw5v60QylJn/xoU10lzpg=;
+	s=arc-20240116; t=1738698171; c=relaxed/simple;
+	bh=OcRqcGs6dKFHR+0eNogtaeztXKW++wmAU8qcT5RFT1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zl1WKwjxqb7UL6tHxgpuWR1Aqb5JPGTeZYjDWcHLDv6GqKW2k+xAoHP5n2mMAVBgPchTzzkE9sBjpP909yqExbNUJM6qF7nGdvoaZj9MonXcW4UgheNsSGF8vXnfQpxAB0gHv2LW5rZ1Lju9oXvcICRf9nJ+hPchzkrhhSF5cqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tj79p2IC; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=e7Fxy0Jt8xcYvMXhYfHjXFpoNl4kL09b8p2SO7Fycac5vEmGSBxH4GjrzoDonMJvDmwi8QiorgR1ShlofSPTq4H+PauVjdAMIbZUSWu2WYF88H/NBM+ru6933+O7qfFSuFxHacPbYBvu7pEiQf3rmX9BvdI/nyKhEyeuu7+kGWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lvwLrlCh; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tj79p2IC"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-436326dcb1cso42056725e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Feb 2025 11:39:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738697985; x=1739302785; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NvA9+93eZBZ2k96uE5RBukuAK+CxojboLUTlBCqCsGA=;
-        b=tj79p2ICFefNG8pgEyGwLAUymiNteBhBZ+3lvNbGflS6Uc/IZCCyR7J0inObbvhjmN
-         3Bmn58JMu8zC5LFnW3rxcYbUQaVMVNYBW2tdXoQS8LTisvYB/zrOhhdF2Kodj9eM90SD
-         QX4EyjGqXuecOOTqCTaheCgtveNjy4TmaBN/mYsLUDgljoCNpRLFA6V2kKhCpv98Sw6K
-         LfwgWMVcLqui4U9vVrbC6B4sO3a0zsGy7oBwJZ5Z7gEy1jjWmPyTsveYB3IkNfA7kqVa
-         kpV8W2DEiRe54kR44CNpB9n+H5vpBYFJwhBF4veR+AWC7HK9TjFMEfy2cI0UKEcA1m3O
-         WMdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738697985; x=1739302785;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NvA9+93eZBZ2k96uE5RBukuAK+CxojboLUTlBCqCsGA=;
-        b=fdhSbHN5+M+9gzoKNRXyumirCTURj0BqmkPN1hUEVd3FMJOH9wnZX/6D+K3YiuSyU9
-         U+AXnHQtRVrNDBZTlvtM0HitkzJMxjT4Gd/Jl1+VvJXcbl014FS2klPoifxvc4SyZ9Y7
-         izIkpaw0NNhaftoXIDILII9cWaCg1OmEk9YOytcWMhnBZHcjdl6IdQ4jgU/wR7kTR1zn
-         4joOE4ztoZIY1m1bdlY0+nOtfCgBwk8c6YRRZtNmbpZQcM1OWz/X2SNzMDXqVprCJ64v
-         +q0r20Lbq6+Uq6h9BPjfV5K8HbNQsLe82ITtz0BrGhw6V/wgeU8cv1q4IYKfPXXxWiU/
-         D/IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyoiY86CzPE8jBNqL14Mij1tbRyxD2RwDJhbq5GhRLmM9q8PG6qWldVhWdVBbr9BniHbq9ISnYVLrfBAku@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQo3R+2NouiFGSseuAuC7sBDH7l+1XY/dpAFxVQoMbqhTLgKkD
-	m+ZkbpxLZKWK17nLmni+wldcScI69bAWvdzjKQRbvZUxVdBT/uxSHCF+LPa6QfE=
-X-Gm-Gg: ASbGnctLqQOn+n8Kk6Bkb+uyw3RwuEUbGdfePpTtTxNHDw6nXNIal7EivdVvbCQBzZT
-	E4+FHoeHfWv/0W+0m4cuN1XbYTRRKa4TxH3L5a9Hw2Rpcn0ODfxcKiTxFPUmzBrFwwwuZAYlYMI
-	wRLLmw61+M0fUO0yf7FAVDMyX+a/ibFvAvbgJSBaT99MMhtMZeVSOaO+FXfQq/PhH6keZDmzSw2
-	TbNa5m/6KpFqoWvWgkbwBVBoTJI0Dyw2FnA7dER7igfbf1LG/t0YCE3QWEL2XVzFakRrm5J9T4G
-	CGAARNHrz8sJZdbtdmCR
-X-Google-Smtp-Source: AGHT+IFNWvD6NvvDhpB82LWN1FYRnfaMgfQURPzQMaeDvstK6yqFp+sb4byiALVIy8hf+6SrDlX8ow==
-X-Received: by 2002:a05:600c:2313:b0:434:fbcd:1382 with SMTP id 5b1f17b1804b1-438dc3be21fmr302287695e9.11.1738697985504;
-        Tue, 04 Feb 2025 11:39:45 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-438dcc2f17dsm234958395e9.23.2025.02.04.11.39.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 11:39:45 -0800 (PST)
-Date: Tue, 4 Feb 2025 22:39:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Subject: [usb:usb-next 5/12] drivers/usb/typec/ucsi/ucsi.c:88
- ucsi_sync_control_common() error: we previously assumed 'cci' could be null
- (see line 84)
-Message-ID: <0052316a-72c2-4e36-9cb2-ba88e9c918b3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lvwLrlCh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738698169; x=1770234169;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OcRqcGs6dKFHR+0eNogtaeztXKW++wmAU8qcT5RFT1I=;
+  b=lvwLrlChlJCCS+MZsNRvCZl7b2eDQCvsigooj1hPEyk1N2FRvafv+LAw
+   evC9Qm1LUf3Dpa3KUGyiy7AyeApivRBmp4affZagg+qeWbNOKFCdV4UJ0
+   qv7fDKkyc/HyjrzwlkheExiGmVeJMGOyyjdEpx5tj7sDLxr7M9C+A9VTg
+   RCnp6S3pCuAjKERF/NOmcjeqbmS4m1eM5/DDC12Ei+BewxF6E38/ssFfd
+   E5dqYtxtM3vfxy3YgwikP8etolZCvUOIZWih7mAJc2UGu1b+czivwaLWh
+   8CeXhZwECZoaQEE7JV4T+U7JFCuQoeLBOL55ar6+3HiPxNw3OWTQcYrp4
+   Q==;
+X-CSE-ConnectionGUID: AHbLL1OeS+amnZhEqz6KNQ==
+X-CSE-MsgGUID: 3U0AitWTQDCoBvnLM6tPqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38453121"
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
+   d="scan'208";a="38453121"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 11:42:48 -0800
+X-CSE-ConnectionGUID: aEiTdb7aSHSfdy/SDS4mFg==
+X-CSE-MsgGUID: /doQznAhQ1GgNSUy2ytvCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
+   d="scan'208";a="111231187"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 04 Feb 2025 11:42:47 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfOon-000svW-0f;
+	Tue, 04 Feb 2025 19:42:45 +0000
+Date: Wed, 5 Feb 2025 03:42:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	John Harrison <John.C.Harrison@intel.com>
+Subject: [linux-next:master 1216/1375]
+ drivers/gpu/drm/xe/xe_pxp_submit.c:46:45: sparse: sparse: Using plain
+ integer as NULL pointer
+Message-ID: <202502050322.VUBMyUHc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-head:   9682c35ff6ecd76d9462d4749b8b413d3e8e605e
-commit: 667ecac55861281c1f5e107c8550ae893b3984f6 [5/12] usb: typec: ucsi: return CCI and message from sync_control callback
-config: csky-randconfig-r072-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050227.tDYOqQsX-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   40b8e93e17bff4a4e0cc129e04f9fdf5daa5397e
+commit: dcdd6b84d9acaa0794c29de7024cfdb20cfd7b92 [1216/1375] drm/xe/pxp: Allocate PXP execution resources
+config: powerpc-randconfig-r131-20250205 (https://download.01.org/0day-ci/archive/20250205/202502050322.VUBMyUHc-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce: (https://download.01.org/0day-ci/archive/20250205/202502050322.VUBMyUHc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502050227.tDYOqQsX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050322.VUBMyUHc-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/typec/ucsi/ucsi.c:88 ucsi_sync_control_common() error: we previously assumed 'cci' could be null (see line 84)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_pxp_submit.c:46:45: sparse: sparse: Using plain integer as NULL pointer
 
-Old smatch warnings:
-drivers/usb/typec/ucsi/ucsi.c:746 ucsi_get_pd_caps() warn: passing zero to 'ERR_PTR'
-drivers/usb/typec/ucsi/ucsi.c:1456 ucsi_dr_swap() warn: missing error code 'ret'
+vim +46 drivers/gpu/drm/xe/xe_pxp_submit.c
 
-vim +/cci +88 drivers/usb/typec/ucsi/ucsi.c
-
-667ecac55861281 Dmitry Baryshkov 2025-01-20  58  int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
-667ecac55861281 Dmitry Baryshkov 2025-01-20  59  			     void *data, size_t size)
-584e8df58942338 Dmitry Baryshkov 2024-06-27  60  {
-584e8df58942338 Dmitry Baryshkov 2024-06-27  61  	bool ack = UCSI_COMMAND(command) == UCSI_ACK_CC_CI;
-584e8df58942338 Dmitry Baryshkov 2024-06-27  62  	int ret;
-584e8df58942338 Dmitry Baryshkov 2024-06-27  63  
-584e8df58942338 Dmitry Baryshkov 2024-06-27  64  	if (ack)
-584e8df58942338 Dmitry Baryshkov 2024-06-27  65  		set_bit(ACK_PENDING, &ucsi->flags);
-584e8df58942338 Dmitry Baryshkov 2024-06-27  66  	else
-584e8df58942338 Dmitry Baryshkov 2024-06-27  67  		set_bit(COMMAND_PENDING, &ucsi->flags);
-584e8df58942338 Dmitry Baryshkov 2024-06-27  68  
-e37b383df91ba9b Łukasz Bartosik  2024-12-03  69  	reinit_completion(&ucsi->complete);
-e37b383df91ba9b Łukasz Bartosik  2024-12-03  70  
-584e8df58942338 Dmitry Baryshkov 2024-06-27  71  	ret = ucsi->ops->async_control(ucsi, command);
-584e8df58942338 Dmitry Baryshkov 2024-06-27  72  	if (ret)
-584e8df58942338 Dmitry Baryshkov 2024-06-27  73  		goto out_clear_bit;
-584e8df58942338 Dmitry Baryshkov 2024-06-27  74  
-584e8df58942338 Dmitry Baryshkov 2024-06-27  75  	if (!wait_for_completion_timeout(&ucsi->complete, 5 * HZ))
-584e8df58942338 Dmitry Baryshkov 2024-06-27  76  		ret = -ETIMEDOUT;
-584e8df58942338 Dmitry Baryshkov 2024-06-27  77  
-584e8df58942338 Dmitry Baryshkov 2024-06-27  78  out_clear_bit:
-584e8df58942338 Dmitry Baryshkov 2024-06-27  79  	if (ack)
-584e8df58942338 Dmitry Baryshkov 2024-06-27  80  		clear_bit(ACK_PENDING, &ucsi->flags);
-584e8df58942338 Dmitry Baryshkov 2024-06-27  81  	else
-584e8df58942338 Dmitry Baryshkov 2024-06-27  82  		clear_bit(COMMAND_PENDING, &ucsi->flags);
-584e8df58942338 Dmitry Baryshkov 2024-06-27  83  
-667ecac55861281 Dmitry Baryshkov 2025-01-20 @84  	if (!ret && cci)
-                                                                    ^^^
-This code assumes cci can be NULL
-
-667ecac55861281 Dmitry Baryshkov 2025-01-20  85  		ret = ucsi->ops->read_cci(ucsi, cci);
-667ecac55861281 Dmitry Baryshkov 2025-01-20  86  
-667ecac55861281 Dmitry Baryshkov 2025-01-20  87  	if (!ret && data &&
-667ecac55861281 Dmitry Baryshkov 2025-01-20 @88  	    (*cci & UCSI_CCI_COMMAND_COMPLETE))
-                                                             ^^^^
-But here it's dereferenced without checking
-
-667ecac55861281 Dmitry Baryshkov 2025-01-20  89  		ret = ucsi->ops->read_message_in(ucsi, data, size);
-667ecac55861281 Dmitry Baryshkov 2025-01-20  90  
-584e8df58942338 Dmitry Baryshkov 2024-06-27  91  	return ret;
-584e8df58942338 Dmitry Baryshkov 2024-06-27  92  }
+    17	
+    18	/*
+    19	 * The VCS is used for kernel-owned GGTT submissions to issue key termination.
+    20	 * Terminations are serialized, so we only need a single queue and a single
+    21	 * batch.
+    22	 */
+    23	static int allocate_vcs_execution_resources(struct xe_pxp *pxp)
+    24	{
+    25		struct xe_gt *gt = pxp->gt;
+    26		struct xe_device *xe = pxp->xe;
+    27		struct xe_tile *tile = gt_to_tile(gt);
+    28		struct xe_hw_engine *hwe;
+    29		struct xe_exec_queue *q;
+    30		struct xe_bo *bo;
+    31		int err;
+    32	
+    33		hwe = xe_gt_hw_engine(gt, XE_ENGINE_CLASS_VIDEO_DECODE, 0, true);
+    34		if (!hwe)
+    35			return -ENODEV;
+    36	
+    37		q = xe_exec_queue_create(xe, NULL, BIT(hwe->logical_instance), 1, hwe,
+    38					 EXEC_QUEUE_FLAG_KERNEL | EXEC_QUEUE_FLAG_PERMANENT, 0);
+    39		if (IS_ERR(q))
+    40			return PTR_ERR(q);
+    41	
+    42		/*
+    43		 * Each termination is 16 DWORDS, so 4K is enough to contain a
+    44		 * termination for each sessions.
+    45		 */
+  > 46		bo = xe_bo_create_pin_map(xe, tile, 0, SZ_4K, ttm_bo_type_kernel,
+    47					  XE_BO_FLAG_SYSTEM | XE_BO_FLAG_PINNED | XE_BO_FLAG_GGTT);
+    48		if (IS_ERR(bo)) {
+    49			err = PTR_ERR(bo);
+    50			goto out_queue;
+    51		}
+    52	
+    53		pxp->vcs_exec.q = q;
+    54		pxp->vcs_exec.bo = bo;
+    55	
+    56		return 0;
+    57	
+    58	out_queue:
+    59		xe_exec_queue_put(q);
+    60		return err;
+    61	}
+    62	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
