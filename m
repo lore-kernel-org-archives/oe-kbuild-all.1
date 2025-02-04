@@ -1,47 +1,60 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E8314A4F0;
-	Tue,  4 Feb 2025 11:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEF120F074
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 13:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738668762; cv=none; b=XgADWhjvWXh0ay7h1q0ql91FDAObcQwuu6qg1P8PWdZvpuA2j98RdteVZyrEGe2NTrH/xw5UYeMfYdh/h38BliZsc3LRnnhUGklRT+B2WM+FvT54dUR8vR39FTD/ON6ebyNrWbDkinkgHWtjed7c3zuGri7a9xCdyNSMuq3eZMg=
+	t=1738674245; cv=none; b=rgA7ES+knN5oGH2MpK0Qqded/fFXreee5C2D66HEdSTtPnuze0Pl9tLKPHeVmFFud5sj0JdRzuZRnzkKlJ7uOkJqvKAutLu6twLjivslhkbOf1tVxgleirv8tOMVR2AOpg3iv6I7Mcs4xgodFkNOzQWP87qew1m15pEjA2ZGMuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738668762; c=relaxed/simple;
-	bh=XVe/wUUtmEkQzytBqE87qBgcOjGL2ZU+jr5E1or4Ce8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QBrsriUIi+wAV07VZ4tH9denj7hjUrrKVBbMZ4KnJnnfkzKTy8dpPvx3SKoLgfN1MEE0HwdqqbglzK7Uo563Gu3yQMq1l6rLTYlb6XlWa/l7f2AL1RadrUIEs8L2qohVUHzC01PwPaCR61Esxr073G/aKT+R0Ngq+wmzJwipgUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XhN2dlsr; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1738674245; c=relaxed/simple;
+	bh=oAkUrL+Uv4lO7lc2iedw/F1aDz0NV8zbZLcwgTYBCsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fwC3bkOR1in3FlkGIhEh0K/geXkoqNvKmZJdmTygDTPPbkcJEDHX9JgBlMNWapYXKBsoEiXlrfk+xhzfYVqbW0O0Ar+UdwrsN767tvp3sKgnKBUwPS48vYnSaMj990+sqD1K1P9xlCOUT4AAQTVAzdb9/u0sHXSiyA3VJfbM2ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eee+Yd/H; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XhN2dlsr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=m8zJGL5bTarexS3IdALK/2AvnwvmFt40SI1OSwoDu6A=; b=XhN2dlsrVZFXp6JdkbScItjMdA
-	06fUWpnG9d9k8CP56dwEHu4MQ7CMfR9SvJ+Aeqp7p6z/OSk/mfyFBnr81YM5oFol0zjJD9iAg0lfj
-	USfmesboTXj556z76J/Z33fdykkKVjU/cny3aapWzx2zVC2iz8/4qOMKYvAbqLlp5Oa/hckTLzH99
-	HGMB+UE8zk8hKBC83MPIVpWApvpRUZZlvMFXfqV7uvURMadn/03wE45uL3clKF5mHtshxuHl3PQ+V
-	O38m+RKriQID6fk25JV+EGnozugiOhuzCnaKJMOSO0/vdHID+0VkewbkVVCL6t2tUfbWJDPn+N9uV
-	aJI0xVkw==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfHAQ-00000002dU4-3M6D;
-	Tue, 04 Feb 2025 11:32:34 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 405673002CE; Tue,  4 Feb 2025 12:32:34 +0100 (CET)
-Date: Tue, 4 Feb 2025 12:32:34 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: lkp@intel.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	vincent.guittot@linaro.org
-Subject: Re: [PATCH] sched: Fix static declaration of 'sched_clock_irqtime'
- follows non-static declaration
-Message-ID: <20250204113234.GG14028@noisy.programming.kicks-ass.net>
-References: <202502012207.b8iyB4Fh-lkp@intel.com>
- <20250204084915.4887-1-laoar.shao@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eee+Yd/H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738674243; x=1770210243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oAkUrL+Uv4lO7lc2iedw/F1aDz0NV8zbZLcwgTYBCsE=;
+  b=Eee+Yd/HORRAicsQtU1M95CqJMoSv7xrQ6hh+/R8BhcBrJXa1E9+CvD6
+   JDlCHagVZJOecreBTYg1fWvR8Lo5IJI6nGgbndd/My2+M358BcviO0PiW
+   oDsb1DHSwFR+FSxHCXTY7enu9Bu+MbeqCQqr/V2jCZ6N9RQalPj6l4pk1
+   lODOU9rLvcRFtbv3MoQTojyVsPw0OOr/uAsMG6BcTj8GgYxSYSksotsAj
+   Sq/zKlOqu3nrMsL7V20uUC8XmDFG++hU9UUyOJq5a7IeZ1OUp4PZNrmbd
+   Vy3v8Y+/WoZJvAnkQ08uvbwKJFvLMNxuFJTsWVOzC4nbbIWYdoDNLDxy5
+   g==;
+X-CSE-ConnectionGUID: 4hfRPNFJSGiQQndtA0Wi5A==
+X-CSE-MsgGUID: PT9G6FwHSQCVvzSwM3hpTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42949230"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="42949230"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 05:04:02 -0800
+X-CSE-ConnectionGUID: k5iCquZvT4ez4Qd0i4fi2A==
+X-CSE-MsgGUID: 5pLU68ONQsO/Yhknms+M3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111035836"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 04 Feb 2025 05:04:01 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfIat-000sUV-0V;
+	Tue, 04 Feb 2025 13:03:59 +0000
+Date: Tue, 4 Feb 2025 21:03:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Konstantin Taranov <kotaranov@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
+	Shiraz Saleem <shirazsaleem@microsoft.com>,
+	Long Li <longli@microsoft.com>
+Subject: [leon-rdma:rdma-next 6/75] /tmp/ccGnQL28.s:10: Error: junk at end of
+ line, first unrecognized character is `N'
+Message-ID: <202502042044.pgaHcGTu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,31 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250204084915.4887-1-laoar.shao@gmail.com>
 
-On Tue, Feb 04, 2025 at 04:49:15PM +0800, Yafang Shao wrote:
-> kernel test robot reported the following error:
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from kernel/sched/build_policy.c:59:
-> >> kernel/sched/cputime.c:25:12: error: static declaration of 'sched_clock_irqtime' follows non-static declaration
->       25 | static int sched_clock_irqtime;
->          |            ^
->    kernel/sched/sched.h:3262:12: note: previous declaration is here
->     3262 | extern int sched_clock_irqtime;
->          |            ^
->    1 error generated.
-> 
-> vim +/sched_clock_irqtime +25 kernel/sched/cputime.c
-> 
->     24
->   > 25	static int sched_clock_irqtime;
->     26
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202502012207.b8iyB4Fh-lkp@intel.com/
-> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   1a3bdbbc9a097c2c90770c899c85dda40ea5df21
+commit: f662c0f5b3396a05fe9b149bf397f253cf1eb307 [6/75] RDMA/mana_ib: helpers to allocate kernel queues
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250204/202502042044.pgaHcGTu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502042044.pgaHcGTu-lkp@intel.com/reproduce)
 
-Once the build robot complained I dropped the patch. This don't apply to
-anything.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502042044.pgaHcGTu-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   /tmp/ccGnQL28.s: Assembler messages:
+>> /tmp/ccGnQL28.s:10: Error: junk at end of line, first unrecognized character is `N'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
