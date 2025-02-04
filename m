@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32D72135AC;
-	Tue,  4 Feb 2025 15:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193852144BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 15:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738683691; cv=none; b=YurvlF78nplfj9IOCQa/b67s0uzMhsEebo5/x8UexVsZm2E6/T3tqqn+dJcBNZLAXyDs24yoxaoY4WhCUJoDDr7f1Wy/7L5yuWvttDzHHNYIrAuXCM2IYlN9X9pEvgGiBZcDE+QsJ2TxIRmhIhLXtM5Ljk320oe/v1a7v94g86Q=
+	t=1738684344; cv=none; b=DIPMV+qHI2L++X6PFRIblnNTfLrM5c5CEUr1JPZ/KDQhFaEkruRHPzxMDuO9uZ5S/As5XhFLGWvUUtKHZr5euMbIPDPc4pPD5SHOTEUfAi0f23KNrW3hUZDha+BvvRTfPohu096e7ySATyxYmkeXk5aerUo3AymMOtqzhWoMzrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738683691; c=relaxed/simple;
-	bh=vsH1yEDEiUP/0p98fR/7UqdPl5n5kegziq2UkPiIE3A=;
+	s=arc-20240116; t=1738684344; c=relaxed/simple;
+	bh=lCqmI1yuzHeG1HLcDbTCepXVlHhUvKAwJvHoEjq8RHs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l8pz6SV/WhUJaCH8vOy1B2W8uaCQBwdXCRk8EQzNgJN7hkqkH8FArAMSqgVyb4yvRIT2JHaCCWhA/e6fv77BKOvQgv9bIBNenfDZcIOMd9X0u4blOCFapkyngzOrfWIHZK2/H0brn2oYXRidS9coEq6Uiw6ZlH7BQdf7Xrm5H8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WuCj+Im9; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=kcH7EOHNka3gDdU0Ui6If3ONqPE9IW4Cf3BTKA/JgAAl1JGFM9ttFRuDSO3FATGNf/rVsVEAaP7xmGB76cnjQoUWlat5ggG7sVkPiPUvdYLrlPHLK/QE02GM2NxlWJjmwPY8QCUrnZ+r0a6CYgPLlN1HmGJNx1p0gbnjBGwTGiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFkXASt6; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WuCj+Im9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFkXASt6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738683684; x=1770219684;
+  t=1738684342; x=1770220342;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vsH1yEDEiUP/0p98fR/7UqdPl5n5kegziq2UkPiIE3A=;
-  b=WuCj+Im9BBWHfFivFyOj161Qx66Ii13dXWBkfE7JT+v+11yvbLKUrl+o
-   UH+S5JjSQaW5nsjabrepZSj59yHp76D27BSMA/6k59yTgXgmL9qWiTVsP
-   a73zTOqp1KqDmNVQ3K6q6/CwDMPTMxhKR73rMXG5/88ImMvafqwcm4Xcb
-   QXubLLstpYbRvZehGNYxY7i1iMvtP2q9kQmBfhPTwSTeLFlpl//1lhhg2
-   x6I+qljCiXNqKMJyDw+ALYvCXFII18dYXxsvYizW6stlIqyXapGxeNrIu
-   2bR+lVUKeXn5wEo9+wh0kHAuiYGTySGO2VfaNlzI70I5yc/ZMvtONFeHl
+  bh=lCqmI1yuzHeG1HLcDbTCepXVlHhUvKAwJvHoEjq8RHs=;
+  b=mFkXASt6/B2zxbZjoECTgDkCd2Hfnbj2I14EfjFCJ6Tkmlo1TLW5AISo
+   cwhA/VffOZvihwa/NRTj3a+0gD/+nrIk/TBJSOu1l5Fvp6GwWI9eN3uKC
+   liZ728sUHzQAZHmJPDonJmRnXAdFy5I6J3Ol35feLTpLWFWTcpem16/sw
+   amhGU/TaLV/18qo444izPgFEozDAv8VlG8gjDnw4DkA929s7IgEVd1RHo
+   WQ711H1AahkxgvMCrWoHInl5tSF5ybsmitr4xonTVWBcpUkND1KGTypp/
+   irnalu+sHFjbRBgkkIN+KflxfJ5sg2IF7hRPqABugCnLVCIxRyNhxb2f6
    A==;
-X-CSE-ConnectionGUID: 6fTrvFMQQpOLaASM5/Qlaw==
-X-CSE-MsgGUID: 0s+hVSzcSYSOhmoG+JnJTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="49830940"
+X-CSE-ConnectionGUID: 1No3++jETcW0Xm3Cd3GdAg==
+X-CSE-MsgGUID: 47h7C6D+Su6x5vGfnPU9CQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50609692"
 X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="49830940"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 07:41:21 -0800
-X-CSE-ConnectionGUID: N9gIT4uhQA+teZyFuiQhYQ==
-X-CSE-MsgGUID: S7sF5V4AR3ySVSOnAXZfmA==
+   d="scan'208";a="50609692"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 07:52:21 -0800
+X-CSE-ConnectionGUID: 343cnP69SPSamSYaUdBbwg==
+X-CSE-MsgGUID: kq0rQqmxSDKzF9vHQMVRlA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="147835638"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="110462328"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Feb 2025 07:41:20 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 04 Feb 2025 07:52:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfL37-000sdd-0s;
-	Tue, 04 Feb 2025 15:41:17 +0000
-Date: Tue, 4 Feb 2025 23:40:54 +0800
+	id 1tfLDm-000seH-1W;
+	Tue, 04 Feb 2025 15:52:18 +0000
+Date: Tue, 4 Feb 2025 23:51:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kunit-kselftests 20/23]
- kunit-uapi-example.c:undefined reference to `puts'
-Message-ID: <202502042336.1EG4c06S-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:kho/v4 2/13] WARNING: modpost: vmlinux: section mismatch in
+ reference: memblock_reserve.isra.0+0xc (section: .text.unlikely) ->
+ __memblock_reserve (section: .init.text)
+Message-ID: <202502042301.mWj5QcrY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
-head:   6d126c0bfc92d0e1a6bdfa63079084a712cfaad6
-commit: 3bb4eba563cc71cd24e0ee6106cbd04a490a93c6 [20/23] kunit: uapi: Add example for UAPI tests
-config: i386-buildonly-randconfig-005-20250204 (https://download.01.org/0day-ci/archive/20250204/202502042336.1EG4c06S-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502042336.1EG4c06S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/v4
+head:   a75b813f58b0bc19b2c4b06bd62afc87f02dcb43
+commit: e415f4e35ee852667f3f2c392b73a7d4469b9d1a [2/13] memblock: add MEMBLOCK_RSRV_KERN flag
+config: parisc-randconfig-001-20250204 (https://download.01.org/0day-ci/archive/20250204/202502042301.mWj5QcrY-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502042301.mWj5QcrY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502042336.1EG4c06S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502042301.mWj5QcrY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   /usr/bin/ld: /tmp/kunit-uapi-example-b6af0a.o: in function `main':
->> kunit-uapi-example.c:(.text+0x10a): undefined reference to `puts'
-   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+>> WARNING: modpost: vmlinux: section mismatch in reference: memblock_reserve.isra.0+0xc (section: .text.unlikely) -> __memblock_reserve (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
