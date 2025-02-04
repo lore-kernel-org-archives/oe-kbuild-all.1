@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31896212F8A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA82D217F50
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738693784; cv=none; b=pNQSeAkdQ3on1F/rhdSSF+jsvpxV6Geb2gJZJerq5qWuGvw9D1UKR08RaSoRhXHT5CYESawaocY10hi29e6OxWliiK5IGvoS6zpJj+qKYwycorWUH5UAe2RrkMcFOU9hp9s8C0fU74bUdMmSfX8EHlCluYgIpv3emkqlsk++opQ=
+	t=1738694385; cv=none; b=pivG4IN4QGs/g53NR70A0GDY/NgH9UWFwvoKcsgMLZneA6iM1EK/D4gMRmD1voN8QhL+JrUwR/vKVEidZcmjWYmjpMetGyF8hd/6n+FBaDmeDhXxtYXX7/GHz7ddoyn8FVkPlapqc6c8hslvb90AkKqAMKmnmeYLghSBxNd4eZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738693784; c=relaxed/simple;
-	bh=agSECZoat0/fsf1kRhrSw+CTL2CJsQje6ZtTk5JJouQ=;
+	s=arc-20240116; t=1738694385; c=relaxed/simple;
+	bh=5S0QKmwTFeUhDozHvQ618I1DgP/95riFUr2oeJFlkeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KpqYvHmKkKwmWhmnogh66k6rgfigyPKZZ2NZGSjcGDGEG8c/AzMp4gupOl1mlD18eh/LccN6PGD04IZqXa9NaQJMl7O9bMSJNiFRBdmxmuAeQF928E+Xf2c38iWNhD4O/L3dkpm2KflZhSHI7AK4gc8DOpzSl80jI/T2yivwR50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XwMkNJbj; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=cqK2Bw4WqItlwiEIBR6OdqYbRnDWvLpLt1x1ad7uLaO9RMak0MO7pPZccJySNW0n78K1TOGom2+vL4/IFGzN0dFRhc5f3s08w0i7UQN4El2ldwJXbozm+GgAf5d4ELtdvSwPX8UHIqILS7DAOPncN3h56K5BpCciwhji7q89Vy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9jDB1fy; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XwMkNJbj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9jDB1fy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738693782; x=1770229782;
+  t=1738694383; x=1770230383;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=agSECZoat0/fsf1kRhrSw+CTL2CJsQje6ZtTk5JJouQ=;
-  b=XwMkNJbjuIU551wPI/OSrsetGiSF+Na1r3B8dUuQZiwb1IySF8GpH5KH
-   bdD1g3rp7hc3T9VFt/XFBYkomNFsbqMaW+4tNzQ3n6Hw5rV/EVFKlefL6
-   sCQw9q0vLOOIwXozpcv3MtzBxZRnq8VRJ2UKDuiHKsTV++jb+FsEl2FgQ
-   yPDw1R+Ju6+5Aor/cte8y0PbNaeo5Pv90hbU7FsethsWu1IISn/Tex+1b
-   AA/Y0CRqXADJopXvtWXLgyQcOl8N5/AHXWQGdBtPB78M786/vpC5t07c4
-   Ve4iHK+k4n9aeWxON2d0C84cZaUJR6YHUNq1Knbiz4inzubDGHThS1TYK
+  bh=5S0QKmwTFeUhDozHvQ618I1DgP/95riFUr2oeJFlkeI=;
+  b=H9jDB1fybpMm2kIKPH9jmQ3KHwuXSEjNoK+r14XfCznRQa7Wcu8KqTxV
+   QaXTT6G/fkN63bA9aykvQNwlPYMal9csLayIC14NtGj/LtVb8JmsipmXp
+   Ezah/a3AWndnby8f+Qeo4QsK8Ok0I4CERR2j+JIlAu3n7OU1Nxxm/sgXE
+   VzjsEzcxkG1a+bbjDZmyu+BTetySRiP4bsdEfgnX45gI8Jc/pu5iVvSTS
+   L30yQTah917I7NHmJmkjfjM5M99n8HJTHYcSdAREfmhdAbNNZKGLZMRsp
+   s5N14p4fs68c3YGXytF/69xn5kfbaHyE34N06I4AG06321gWuqWrX3Zwt
    A==;
-X-CSE-ConnectionGUID: bZLIRYLATnmp8h3RgEQC9w==
-X-CSE-MsgGUID: ImcztuCPQraJoNg83Zzdvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39390420"
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="39390420"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:29:41 -0800
-X-CSE-ConnectionGUID: GJ8AWI0ySfKOQDfUYIZ7CQ==
-X-CSE-MsgGUID: 7GJYtV3fTqmq9Jj/q22QOw==
+X-CSE-ConnectionGUID: B8kSInHDTWmwOe6v3sXqqw==
+X-CSE-MsgGUID: wcNWdbatSzWV1aM6aQ4oVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39343441"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39343441"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:39:42 -0800
+X-CSE-ConnectionGUID: c7nQQf1BTK+Ucz1jcLka0g==
+X-CSE-MsgGUID: sk/PULpaSdaxihg5meY0tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115858048"
+   d="scan'208";a="115293722"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Feb 2025 10:29:40 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2025 10:39:41 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfNg1-000sqi-1y;
-	Tue, 04 Feb 2025 18:29:37 +0000
-Date: Wed, 5 Feb 2025 02:29:12 +0800
+	id 1tfNpi-000srb-2R;
+	Tue, 04 Feb 2025 18:39:38 +0000
+Date: Wed, 5 Feb 2025 02:39:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zijian Zhang <zijianzhang@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>,
-	Amery Hung <amery.hung@bytedance.com>
-Subject: [congwang:tcp_bpf 4/4] net/ipv4/tcp_bpf.c:127:12: warning:
- 'tcp_bpf_ingress_backlog' defined but not used
-Message-ID: <202502050205.KsmbuRTW-lkp@intel.com>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_misc_fixes_v1 38/59] include/linux/acpi_rimt.h:9:80:
+ warning: 'struct iommu_ops' declared inside parameter list will not be
+ visible outside of this definition or declaration
+Message-ID: <202502050203.BfcAxUa6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,110 +63,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/congwang/linux.git tcp_bpf
-head:   d98266a1c1626a662b9712500b687adfdfef9bda
-commit: d98266a1c1626a662b9712500b687adfdfef9bda [4/4] tcp_bpf: improve ingress redirection performance with message corking
-config: sparc64-randconfig-002-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050205.KsmbuRTW-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050205.KsmbuRTW-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_misc_fixes_v1
+head:   65e185d21a77888b7620a36702a81f2e6c27164a
+commit: 544db00508e971a1352eab4881a73ece81c49540 [38/59] IOMMU: RISC-V: ACPI: Register IOMMU
+config: riscv-alldefconfig (https://download.01.org/0day-ci/archive/20250205/202502050203.BfcAxUa6-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050203.BfcAxUa6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502050205.KsmbuRTW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050203.BfcAxUa6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/ipv4/tcp_bpf.c:127:12: warning: 'tcp_bpf_ingress_backlog' defined but not used [-Wunused-function]
-     127 | static int tcp_bpf_ingress_backlog(struct sock *sk, struct sock *sk_redir,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/riscv/iommu.c:16:
+>> include/linux/acpi_rimt.h:9:80: warning: 'struct iommu_ops' declared inside parameter list will not be visible outside of this definition or declaration
+       9 | int rimt_iommu_configure_id(struct device *dev, const u32 *id_in, const struct iommu_ops *ops);
+         |                                                                                ^~~~~~~~~
 
 
-vim +/tcp_bpf_ingress_backlog +127 net/ipv4/tcp_bpf.c
+vim +9 include/linux/acpi_rimt.h
 
-   126	
- > 127	static int tcp_bpf_ingress_backlog(struct sock *sk, struct sock *sk_redir,
-   128					   struct sk_msg *msg, u32 apply_bytes)
-   129	{
-   130		bool ingress_msg_empty = false;
-   131		bool apply = apply_bytes;
-   132		struct sk_psock *psock;
-   133		struct sk_msg *tmp;
-   134		u32 tot_size = 0;
-   135		int ret = 0;
-   136		u8 nonagle;
-   137	
-   138		psock = sk_psock_get(sk_redir);
-   139		if (unlikely(!psock))
-   140			return -EPIPE;
-   141	
-   142		spin_lock(&psock->backlog_msg_lock);
-   143		/* If possible, coalesce the curr sk_msg to the last sk_msg from the
-   144		 * psock->backlog_msg.
-   145		 */
-   146		if (!list_empty(&psock->backlog_msg)) {
-   147			struct sk_msg *last;
-   148	
-   149			last = list_last_entry(&psock->backlog_msg, struct sk_msg, list);
-   150			if (last->sk == sk) {
-   151				int i = tcp_bpf_coalesce_msg(last, msg, &apply_bytes,
-   152							     &tot_size);
-   153	
-   154				if (i == msg->sg.end || (apply && !apply_bytes))
-   155					goto out_unlock;
-   156			}
-   157		}
-   158	
-   159		/* Otherwise, allocate a new sk_msg and transfer the data from the
-   160		 * passed in msg to it.
-   161		 */
-   162		tmp = sk_msg_alloc(GFP_ATOMIC);
-   163		if (!tmp) {
-   164			ret = -ENOMEM;
-   165			spin_unlock(&psock->backlog_msg_lock);
-   166			goto error;
-   167		}
-   168	
-   169		tmp->sk = sk;
-   170		sock_hold(tmp->sk);
-   171		tmp->sg.start = msg->sg.start;
-   172		tcp_bpf_xfer_msg(tmp, msg, &apply_bytes, &tot_size);
-   173	
-   174		ingress_msg_empty = list_empty(&psock->ingress_msg);
-   175		list_add_tail(&tmp->list, &psock->backlog_msg);
-   176	
-   177	out_unlock:
-   178		spin_unlock(&psock->backlog_msg_lock);
-   179		sk_wmem_queued_add(sk, tot_size);
-   180	
-   181		/* At this point, the data has been handled well. If one of the
-   182		 * following conditions is met, we can notify the peer socket in
-   183		 * the context of this system call immediately.
-   184		 * 1. If the write buffer has been used up;
-   185		 * 2. Or, the message size is larger than TCP_BPF_GSO_SIZE;
-   186		 * 3. Or, the ingress queue was empty;
-   187		 * 4. Or, the tcp socket is set to no_delay.
-   188		 * Otherwise, kick off the backlog work so that we can have some
-   189		 * time to wait for any incoming messages before sending a
-   190		 * notification to the peer socket.
-   191		 */
-   192		nonagle = tcp_sk(sk)->nonagle;
-   193		if (!sk_stream_memory_free(sk) ||
-   194		    tot_size >= TCP_BPF_GSO_SIZE || ingress_msg_empty ||
-   195		    (!(nonagle & TCP_NAGLE_CORK) && (nonagle & TCP_NAGLE_OFF))) {
-   196			release_sock(sk);
-   197			psock->backlog_work_delayed = false;
-   198			sk_psock_backlog_msg(psock);
-   199			lock_sock(sk);
-   200		} else {
-   201			sk_psock_run_backlog_work(psock, false);
-   202		}
-   203	
-   204	error:
-   205		sk_psock_put(sk_redir, psock);
-   206		return ret;
-   207	}
-   208	
+3dafa382fb9e96 Sunil V L 2024-08-16 @9  int rimt_iommu_configure_id(struct device *dev, const u32 *id_in, const struct iommu_ops *ops);
+
+:::::: The code at line 9 was first introduced by commit
+:::::: 3dafa382fb9e96e142e0171bf1d49ffc34ad13ea RISC-V: IOMMU: Add ACPI support using RIMT
+
+:::::: TO: Sunil V L <sunilvl@ventanamicro.com>
+:::::: CC: Anup Patel <anup@brainfault.org>
 
 -- 
 0-DAY CI Kernel Test Service
