@@ -1,62 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5172A217645;
-	Tue,  4 Feb 2025 17:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31896212F8A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738690659; cv=none; b=QF0nUYoYgHPE2bV4o6D5/gtvLT/Onob4N2YgeNBHxUpzyUIMTGTg3WDhuUssSqpxFvLH8AjXQQtWzt2drYGcFu2JuAjc7Uz7e9WH/fTGOKVaw5bieuvcOMjbj58tO3Jv/Qt1dSXo1CFRziIm6RmaEaYgDUp+x9bziFt5qNR925w=
+	t=1738693784; cv=none; b=pNQSeAkdQ3on1F/rhdSSF+jsvpxV6Geb2gJZJerq5qWuGvw9D1UKR08RaSoRhXHT5CYESawaocY10hi29e6OxWliiK5IGvoS6zpJj+qKYwycorWUH5UAe2RrkMcFOU9hp9s8C0fU74bUdMmSfX8EHlCluYgIpv3emkqlsk++opQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738690659; c=relaxed/simple;
-	bh=cFhW+HpoBr+7r9nw1AZd0Mo4cWC38oRKalx+p4MgK3M=;
+	s=arc-20240116; t=1738693784; c=relaxed/simple;
+	bh=agSECZoat0/fsf1kRhrSw+CTL2CJsQje6ZtTk5JJouQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uyVttbmGpMNJvHWGNE33yjsGNtTRxpG96sGh8fsgDmFQFchhhlouMqgARIma7laEnJH1SPFYGKOaetG5QdOH/m4BRfcvusrOQn0HtDk1faGkz6hF6RpnMJYDtyvvAmPFQmQUbs3SLbaa+mjwal1vwfHuWjzxehqid1cgmCOApHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9jvZ7in; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=KpqYvHmKkKwmWhmnogh66k6rgfigyPKZZ2NZGSjcGDGEG8c/AzMp4gupOl1mlD18eh/LccN6PGD04IZqXa9NaQJMl7O9bMSJNiFRBdmxmuAeQF928E+Xf2c38iWNhD4O/L3dkpm2KflZhSHI7AK4gc8DOpzSl80jI/T2yivwR50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XwMkNJbj; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9jvZ7in"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XwMkNJbj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738690657; x=1770226657;
+  t=1738693782; x=1770229782;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cFhW+HpoBr+7r9nw1AZd0Mo4cWC38oRKalx+p4MgK3M=;
-  b=K9jvZ7in3uBr6JfMDEeUT2VBj9rQ9GAlhVTPj9p68JaYGancsHeetYI7
-   KfUG/M9JvSrk3QUlgJ9OGQf09KAxvLaGLSZ8asMztAfMVlMGlKHydz9RB
-   qfFP5gVpC1kTGoz+zluboeoXwOi7OW1lloric2n+/5ru0akhJQP1Ce39+
-   6vDf1u1Mud3zc9DURofVY+6/aOEbDfFUd88Ym4zICB2Pm/5HzReLx5BnG
-   HZMrq74FA64q2PyfbKuc0wquGvFyPVD2Jr12oU9gWsx1YuRrMSkInf4yG
-   p1zA6wnfFiJ6DkrUy2B5nMS5uiarF/WPhNlwa2O9HuNROdR14eCHkIJrI
-   Q==;
-X-CSE-ConnectionGUID: oP1NaTxLR66ESI5VSlJ/Qw==
-X-CSE-MsgGUID: P9kRmIfyREi9v6Be/CMT1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39384576"
+  bh=agSECZoat0/fsf1kRhrSw+CTL2CJsQje6ZtTk5JJouQ=;
+  b=XwMkNJbjuIU551wPI/OSrsetGiSF+Na1r3B8dUuQZiwb1IySF8GpH5KH
+   bdD1g3rp7hc3T9VFt/XFBYkomNFsbqMaW+4tNzQ3n6Hw5rV/EVFKlefL6
+   sCQw9q0vLOOIwXozpcv3MtzBxZRnq8VRJ2UKDuiHKsTV++jb+FsEl2FgQ
+   yPDw1R+Ju6+5Aor/cte8y0PbNaeo5Pv90hbU7FsethsWu1IISn/Tex+1b
+   AA/Y0CRqXADJopXvtWXLgyQcOl8N5/AHXWQGdBtPB78M786/vpC5t07c4
+   Ve4iHK+k4n9aeWxON2d0C84cZaUJR6YHUNq1Knbiz4inzubDGHThS1TYK
+   A==;
+X-CSE-ConnectionGUID: bZLIRYLATnmp8h3RgEQC9w==
+X-CSE-MsgGUID: ImcztuCPQraJoNg83Zzdvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39390420"
 X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="39384576"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:36 -0800
-X-CSE-ConnectionGUID: XQwSIomrQyaoPSiFTA3wNA==
-X-CSE-MsgGUID: TIdzbrvpSY6xsRv+6TseRg==
+   d="scan'208";a="39390420"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:29:41 -0800
+X-CSE-ConnectionGUID: GJ8AWI0ySfKOQDfUYIZ7CQ==
+X-CSE-MsgGUID: 7GJYtV3fTqmq9Jj/q22QOw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="115643234"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115858048"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Feb 2025 09:37:34 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Feb 2025 10:29:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfMrc-000so7-09;
-	Tue, 04 Feb 2025 17:37:32 +0000
-Date: Wed, 5 Feb 2025 01:37:28 +0800
+	id 1tfNg1-000sqi-1y;
+	Tue, 04 Feb 2025 18:29:37 +0000
+Date: Wed, 5 Feb 2025 02:29:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: ld.lld: warning:
- src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6269:0:
- stack frame size (4048) exceeds limit (3072) in function
- 'dml_prefetch_check'
-Message-ID: <202502050105.2A6kZvev-lkp@intel.com>
+To: Zijian Zhang <zijianzhang@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, Cong Wang <cong.wang@bytedance.com>,
+	Amery Hung <amery.hung@bytedance.com>
+Subject: [congwang:tcp_bpf 4/4] net/ipv4/tcp_bpf.c:127:12: warning:
+ 'tcp_bpf_ingress_backlog' defined but not used
+Message-ID: <202502050205.KsmbuRTW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,27 +63,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0de63bb7d91975e73338300a57c54b93d3cc151c
-commit: a8d42cd228ec41ad99c50a270db82f0dd9127a28 drm/amd/display: mark static functions noinline_for_stack
-date:   11 days ago
-config: x86_64-randconfig-075-20250203 (https://download.01.org/0day-ci/archive/20250205/202502050105.2A6kZvev-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050105.2A6kZvev-lkp@intel.com/reproduce)
+tree:   https://github.com/congwang/linux.git tcp_bpf
+head:   d98266a1c1626a662b9712500b687adfdfef9bda
+commit: d98266a1c1626a662b9712500b687adfdfef9bda [4/4] tcp_bpf: improve ingress redirection performance with message corking
+config: sparc64-randconfig-002-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050205.KsmbuRTW-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050205.KsmbuRTW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502050105.2A6kZvev-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050205.KsmbuRTW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1725:0: stack frame size (3496) exceeds limit (3072) in function 'dml32_ModeSupportAndSystemConfigurationFull'
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6714:0: stack frame size (3416) exceeds limit (3072) in function 'dml_core_mode_support'
->> ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6269:0: stack frame size (4048) exceeds limit (3072) in function 'dml_prefetch_check'
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:8290:0: stack frame size (3584) exceeds limit (3072) in function 'dml_core_mode_programming'
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7308:0: stack frame size (4944) exceeds limit (3072) in function 'dml_core_mode_support.46549'
-   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:10360:0: stack frame size (3744) exceeds limit (3072) in function 'dml_core_mode_programming.46571'
+>> net/ipv4/tcp_bpf.c:127:12: warning: 'tcp_bpf_ingress_backlog' defined but not used [-Wunused-function]
+     127 | static int tcp_bpf_ingress_backlog(struct sock *sk, struct sock *sk_redir,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/tcp_bpf_ingress_backlog +127 net/ipv4/tcp_bpf.c
+
+   126	
+ > 127	static int tcp_bpf_ingress_backlog(struct sock *sk, struct sock *sk_redir,
+   128					   struct sk_msg *msg, u32 apply_bytes)
+   129	{
+   130		bool ingress_msg_empty = false;
+   131		bool apply = apply_bytes;
+   132		struct sk_psock *psock;
+   133		struct sk_msg *tmp;
+   134		u32 tot_size = 0;
+   135		int ret = 0;
+   136		u8 nonagle;
+   137	
+   138		psock = sk_psock_get(sk_redir);
+   139		if (unlikely(!psock))
+   140			return -EPIPE;
+   141	
+   142		spin_lock(&psock->backlog_msg_lock);
+   143		/* If possible, coalesce the curr sk_msg to the last sk_msg from the
+   144		 * psock->backlog_msg.
+   145		 */
+   146		if (!list_empty(&psock->backlog_msg)) {
+   147			struct sk_msg *last;
+   148	
+   149			last = list_last_entry(&psock->backlog_msg, struct sk_msg, list);
+   150			if (last->sk == sk) {
+   151				int i = tcp_bpf_coalesce_msg(last, msg, &apply_bytes,
+   152							     &tot_size);
+   153	
+   154				if (i == msg->sg.end || (apply && !apply_bytes))
+   155					goto out_unlock;
+   156			}
+   157		}
+   158	
+   159		/* Otherwise, allocate a new sk_msg and transfer the data from the
+   160		 * passed in msg to it.
+   161		 */
+   162		tmp = sk_msg_alloc(GFP_ATOMIC);
+   163		if (!tmp) {
+   164			ret = -ENOMEM;
+   165			spin_unlock(&psock->backlog_msg_lock);
+   166			goto error;
+   167		}
+   168	
+   169		tmp->sk = sk;
+   170		sock_hold(tmp->sk);
+   171		tmp->sg.start = msg->sg.start;
+   172		tcp_bpf_xfer_msg(tmp, msg, &apply_bytes, &tot_size);
+   173	
+   174		ingress_msg_empty = list_empty(&psock->ingress_msg);
+   175		list_add_tail(&tmp->list, &psock->backlog_msg);
+   176	
+   177	out_unlock:
+   178		spin_unlock(&psock->backlog_msg_lock);
+   179		sk_wmem_queued_add(sk, tot_size);
+   180	
+   181		/* At this point, the data has been handled well. If one of the
+   182		 * following conditions is met, we can notify the peer socket in
+   183		 * the context of this system call immediately.
+   184		 * 1. If the write buffer has been used up;
+   185		 * 2. Or, the message size is larger than TCP_BPF_GSO_SIZE;
+   186		 * 3. Or, the ingress queue was empty;
+   187		 * 4. Or, the tcp socket is set to no_delay.
+   188		 * Otherwise, kick off the backlog work so that we can have some
+   189		 * time to wait for any incoming messages before sending a
+   190		 * notification to the peer socket.
+   191		 */
+   192		nonagle = tcp_sk(sk)->nonagle;
+   193		if (!sk_stream_memory_free(sk) ||
+   194		    tot_size >= TCP_BPF_GSO_SIZE || ingress_msg_empty ||
+   195		    (!(nonagle & TCP_NAGLE_CORK) && (nonagle & TCP_NAGLE_OFF))) {
+   196			release_sock(sk);
+   197			psock->backlog_work_delayed = false;
+   198			sk_psock_backlog_msg(psock);
+   199			lock_sock(sk);
+   200		} else {
+   201			sk_psock_run_backlog_work(psock, false);
+   202		}
+   203	
+   204	error:
+   205		sk_psock_put(sk_redir, psock);
+   206		return ret;
+   207	}
+   208	
 
 -- 
 0-DAY CI Kernel Test Service
