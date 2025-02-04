@@ -1,211 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDFB28399
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 15:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85304213E81;
+	Tue,  4 Feb 2025 15:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738682029; cv=none; b=RiBXAgUHRck7dMP/OI5m+haeP7NWDU/97sUArfChLyYODnOhRNtOu2q4UROC0EHI7h/trDslP3DPr3gEp2HfJjn+tARokMYVPSsxE84TVudFCIip5aElNSsY5Rh62jiOUzRAhw3559Gq87Anyy4J1T5xbYOEbjH66fhJ2zcQius=
+	t=1738682807; cv=none; b=LhK7c7gDlReLvduGqi9iEWgJ9Ics5b2wpys9dFWVzXNqas0ZwL9FeyHhE//p9WwYvRoqXXsBgcCNolaPSEdSuGSQy8yOZ2AKN9XQpiIZ4ob9B+k3xSd0D0C23OmCEUykRQuwS2VgzXi+xvp/wYqyhq38yybnopQv6IOHeGmF6HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738682029; c=relaxed/simple;
-	bh=MNZ2eEoUcjd+c2yhCUrZCuSIP632z45uusR4g8TbTBw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fqJrNIaeaIJkAXlJtC/29CUgkgjeJHCLh31hRjLDyMzGflpIzP9lBbQ8AyqzxkU3Ue/1LHDbyj96RmH3VgOKENPbP0H6pq6JOgiRBrltukIWmn/qnJN553PVx5FfM8AfNrBA7tDxMZNYhILjbRo0dzPbdUQ+bsAvfwGCWMJeKgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z3D3+2yn; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738682807; c=relaxed/simple;
+	bh=5oxPJ8jy72qLFIDj1/K9xMM+HHBMdNhIFNGaxg0vH4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N1imV99hXr8bYIfwcJhCz1vcCE+u/wIyq7UsLO30urOQJgLZPrk8lZTgMGl7ku398R7O39NlRVPjhpZIUD2Bgj15v8uVNTZBgCOqwR3IEHP03bPk3B7He/OPNizHpliH1Wv8cK6H7WrE4MtNXWexOQSgDfdVnvEJXMEbNVb5cyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWKTOhUT; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z3D3+2yn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738682028; x=1770218028;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=MNZ2eEoUcjd+c2yhCUrZCuSIP632z45uusR4g8TbTBw=;
-  b=Z3D3+2ynghRsG69kWrCNQBhRQjrmJmTjzD/s7dCwIkfxfTMl7Ae6+PfE
-   AhHzxjAMVI5fTdbJmM+rrlDcDJ10ERKfTdO8EpuscdQ5Zx06Kw7alQ8qn
-   zIdU09A7rscA6mVauj7QRGZpU09GMM9MiuXqVH+BvRnIYhIFvSPNP1UKs
-   llOAY6Vy5cjq4fKrifASeOUdwY9rbUKYm5uzC/MEICN3ZFr60Jk0u9Yf4
-   TKrMIZdvjKuEX5RPhl9V/MpANMNTrApUyAK+4WKtqgSc47K5T6vkR526W
-   YqZkOoSEFq2K7yvHfIxpMtGgnCeblGlMTxn3gNcfhqkBLvXB9LvNLki8q
-   w==;
-X-CSE-ConnectionGUID: 8gfd6EBaQw2IofHm38A2UQ==
-X-CSE-MsgGUID: +tIS66P7RriowzAVIzlUug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39319257"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="39319257"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 07:13:47 -0800
-X-CSE-ConnectionGUID: 0Lof8Po7QjK9dp4vss3/UQ==
-X-CSE-MsgGUID: u+6EvOvwRPudTozwc9X9gg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="110457174"
-Received: from puneetse-mobl.amr.corp.intel.com (HELO [10.125.110.57]) ([10.125.110.57])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 07:13:45 -0800
-Message-ID: <2ef7503b-1b80-47ce-8ecd-b81fd280e0ae@intel.com>
-Date: Tue, 4 Feb 2025 08:13:44 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWKTOhUT"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7b6ea711805so804583585a.1;
+        Tue, 04 Feb 2025 07:26:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738682804; x=1739287604; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=a9/M1Sq3IU8+ynTHRlqAPqWJvQh8qM3cInBgFTNxjEU=;
+        b=iWKTOhUTyi9/JOZmka/RV/avgjESV4IsTknNXnBIH+KKDsSoxLNycA8CCfOIvwpYVH
+         YY6CLqAH9tKMsiOEkhJnVzF5brxL/ZVvj8ARJ4umFYYdRmlF4tq8r1ZlNINXuu2296aA
+         i+BoNccLp4Xa9TBfsyonBgq5K6Dv65Jy8WgZujXSAwFHtW3TxiqM+qTY6b7NoiC7ZPd+
+         wZzTjWTU+yMoCvdmp9H0KMZnbZyzDNvmGVRX+SdhMMkuOZSkdvnjrQsUnn/p6oBrcske
+         hLxche1i0nhVUv7AvSF4hl0HgT0rU8xJ8lcvl7RVIT98H4dL5B0BsJzmW65zIEyoXzoG
+         IpBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738682804; x=1739287604;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a9/M1Sq3IU8+ynTHRlqAPqWJvQh8qM3cInBgFTNxjEU=;
+        b=Nm+sEeEiTao2kJoux8KEgMyOTO9CCb2v3DhLbWyBv/vCDba8NkSBjyVuNH0y56JY9z
+         tNQJnSv1/p5jYYrqhGPZJF9B9sqA+O2K3LvBOMXf2LxNhBtFGMszXB38KSXNzgqym9nf
+         4Mj7x7MOs21X4S/SUdJwJgGlLQlz8lPqq3XyZi9Ai0Z3SJMaZbKwWDsQVWiZR5m5fSq3
+         x6Og/K1XV/mja6vJQnDcAPbIK5nKVPO6BPHVWZVU57ehWHmQb2cL6ISd/mOVdtR3cK/Y
+         MpHvXKaNNy9b+RUsXeZdIUNukA8DBmZlGjmQcO/wJ6nPAkCd+/42c5FWs4bwWFxPmFUg
+         kFqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVtYESOI5KbWJ3PAT1a4rnj5CLqlQQJz88cT+quvSSyzZU5BtyKzSSlQpl+VTVK4VLNGmw7H9RgL2pdl1coCg==@lists.linux.dev, AJvYcCX7hdgF0fwbn+j0rYQm+8hOE8PA7k5G+cAy/CDp2uAY2XprL2zko17up30baAq/z2WxNybn@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyu1lhbTtEQn5ZP9F217mZsDR7ytWJkInKXlgvB/km8Adva+80K
+	qnSadTjsS0JAEr8675LAi5l1h712KtD5/OijtEOemmFk8dty8cey
+X-Gm-Gg: ASbGncsVR+ATNaANBaH1lUp9YoHwX4jml5YwRH2Xj9QHgwg2g6TA2r0vMLc6dwLbCGj
+	a0fmoVdFPv4eDyL0kb0ISvCyBI0xGNox3og2AvsjIhWjKnDcWYPc+jyP7tuUKvkLSBAvS2XKay/
+	H95a9FjIX43XGlCQ057JqVklAtHTctmIYpiaE/y7p/HQV0PNjzTp8sfUc8FrjN60SivXpbiNo3d
+	Wqsnum+/HalxC33h/Z5TvYOghOcdws8B1bOH5ZF1rFPoJ23MFDJwkjGQ/UMDTzZGSWlds1EoDvR
+	8OqNtER+y+vsoXbIonirFxqrGWwyujo6tRIOJtGV+r9Oll8YEnU=
+X-Google-Smtp-Source: AGHT+IEZs1QoQFe7O34wQ91VXCKMpOjQQbMZO3pVYpq/6ZSbNskxpq+wA5hig24p0v+dRCeW0wr2WQ==
+X-Received: by 2002:a05:620a:2a0f:b0:7b6:f2a8:64d with SMTP id af79cd13be357-7bffcda88camr4314528185a.49.1738682804098;
+        Tue, 04 Feb 2025 07:26:44 -0800 (PST)
+Received: from glsmbp.wifi.local.cmu.edu (cmu-device2.nat.cmu.net. [128.2.149.252])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c00a9058e4sm649428085a.82.2025.02.04.07.26.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 07:26:43 -0800 (PST)
+Date: Tue, 4 Feb 2025 10:26:35 -0500
+From: "Gabriel L. Somlo" <gsomlo@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mateusz Holenko <mholenko@antmicro.com>
+Subject: Re: [litex-hub:litex-rebase 14/15] drivers/clk/clk-litex.c:539:21:
+ warning: use of logical '&&' with constant operand
+Message-ID: <Z6Ixq9aJtowFgink@glsmbp.wifi.local.cmu.edu>
+References: <202502012258.KCOVEE5t-lkp@intel.com>
+ <CAMuHMdUi8faCPsd5-bdG0ZR+DOZ-S212ZwRYr1LYZ3d3Vgkuhg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [cxl:next 1/1] drivers/cxl/core/pci.c:1103:9: warning: result of
- comparison of constant 18446744073709551615 with expression of type 'typeof
- (_Generic((base), char: (unsigned char)0, unsigned char: (unsigned char)0,
- signed char: (unsigned char)0, unsigned short: (unsign...
-To: kernel test robot <lkp@intel.com>, Davidlohr Bueso <dave@stgolabs.net>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <202502040454.Jtb55wW7-lkp@intel.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <202502040454.Jtb55wW7-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUi8faCPsd5-bdG0ZR+DOZ-S212ZwRYr1LYZ3d3Vgkuhg@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
+On Tue, Feb 04, 2025 at 03:59:56PM +0100, Geert Uytterhoeven wrote:
+> Nice catch!
+> 
+> All four "&& HL_TIME_MASK" should be changed to "& HL_TIME_MASK".
+> Gabriel: I guess you don't need me to send a patch? ;-)
+ 
+Done -- applied, rebased, and force-pushed.
 
+Thanks much!
 
-On 2/3/25 1:13 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-> head:   0fd158c1ea0cc70434a52b4b812cbec4579b9f66
-> commit: 0fd158c1ea0cc70434a52b4b812cbec4579b9f66 [1/1] cxl/pci: Support Global Persistent Flush (GPF)
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250204/202502040454.Jtb55wW7-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502040454.Jtb55wW7-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502040454.Jtb55wW7-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/cxl/core/pci.c:7:
->    In file included from include/linux/pci.h:1660:
->    In file included from include/linux/dmapool.h:14:
->    In file included from include/linux/scatterlist.h:8:
->    In file included from include/linux/mm.h:2224:
->    include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->      504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      505 |                            item];
->          |                            ~~~~
->    include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->      511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      512 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->      524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      525 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
->>> drivers/cxl/core/pci.c:1103:9: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((base), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (base)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
->     1103 |         ctrl = FIELD_PREP(base, GPF_TIMEOUT_BASE_MAX);
-
-Davidlohr,
-It looks like setting 'base' and 'scale' to u64 quiets the compiler warning. Do you see any issues with that?
-
-DJ
-
->          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
->      115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
->       72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
->          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
->       73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
->          |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       74 |                                  _pfx "type of reg too small for mask"); \
->          |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
->       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
->    include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
->      542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
->      530 |         __compiletime_assert(condition, msg, prefix, suffix)
->          |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
->      522 |                 if (!(condition))                                       \
->          |                       ^~~~~~~~~
->>> drivers/cxl/core/pci.c:1104:10: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((scale), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (scale)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
->     1104 |         ctrl |= FIELD_PREP(scale, GPF_TIMEOUT_SCALE_MAX);
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
->      115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
->          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
->       72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
->          |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
->       73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
->          |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       74 |                                  _pfx "type of reg too small for mask"); \
->          |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
->       39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->          |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
->    include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
->      542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->          |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
->      530 |         __compiletime_assert(condition, msg, prefix, suffix)
->          |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
->      522 |                 if (!(condition))                                       \
->          |                       ^~~~~~~~~
->    5 warnings generated.
-> 
-> 
-> vim +1103 drivers/cxl/core/pci.c
-> 
->   1074	
->   1075	static int update_gpf_port_dvsec(struct pci_dev *pdev, int dvsec, int phase)
->   1076	{
->   1077		u16 ctrl;
->   1078		int rc, offset, base, scale;
->   1079	
->   1080		switch (phase) {
->   1081		case 1:
->   1082			offset = CXL_DVSEC_PORT_GPF_PHASE_1_CONTROL_OFFSET;
->   1083			base = CXL_DVSEC_PORT_GPF_PHASE_1_TMO_BASE_MASK;
->   1084			scale = CXL_DVSEC_PORT_GPF_PHASE_1_TMO_SCALE_MASK;
->   1085			break;
->   1086		case 2:
->   1087			offset = CXL_DVSEC_PORT_GPF_PHASE_2_CONTROL_OFFSET;
->   1088			base = CXL_DVSEC_PORT_GPF_PHASE_2_TMO_BASE_MASK;
->   1089			scale = CXL_DVSEC_PORT_GPF_PHASE_2_TMO_SCALE_MASK;
->   1090			break;
->   1091		default:
->   1092			return -EINVAL;
->   1093		}
->   1094	
->   1095		rc = pci_read_config_word(pdev, dvsec + offset, &ctrl);
->   1096		if (rc)
->   1097			return rc;
->   1098	
->   1099		if (FIELD_GET(base, ctrl) == GPF_TIMEOUT_BASE_MAX &&
->   1100		    FIELD_GET(scale, ctrl) == GPF_TIMEOUT_SCALE_MAX)
->   1101			return 0;
->   1102	
->> 1103		ctrl = FIELD_PREP(base, GPF_TIMEOUT_BASE_MAX);
->> 1104		ctrl |= FIELD_PREP(scale, GPF_TIMEOUT_SCALE_MAX);
->   1105	
->   1106		rc = pci_write_config_word(pdev, dvsec + offset, ctrl);
->   1107		if (!rc)
->   1108			pci_dbg(pdev, "Port GPF phase %d timeout: %d0 secs\n",
->   1109				phase, GPF_TIMEOUT_BASE_MAX);
->   1110	
->   1111		return rc;
->   1112	}
->   1113	
-> 
-
+Cheers,
+--Gabriel
