@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AFD21578C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 17:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5172A217645;
+	Tue,  4 Feb 2025 17:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738690057; cv=none; b=nwVRtdkn/BwdEjeGu6UBJIce+rNYD6m3wYBfK7QwlfCtJppdstS9w7/GCXUru/W+eOu804D83dgM0lxM2HTDIU3AqPxd/JgT1N+5IvGCdYKBoowRfvA58o+ZOpirt5mjDY7yFZI375JK7kJRR0iuOvGbrNNL7qNkyD2emf2SGCc=
+	t=1738690659; cv=none; b=QF0nUYoYgHPE2bV4o6D5/gtvLT/Onob4N2YgeNBHxUpzyUIMTGTg3WDhuUssSqpxFvLH8AjXQQtWzt2drYGcFu2JuAjc7Uz7e9WH/fTGOKVaw5bieuvcOMjbj58tO3Jv/Qt1dSXo1CFRziIm6RmaEaYgDUp+x9bziFt5qNR925w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738690057; c=relaxed/simple;
-	bh=dg+wVMWuHJfilLm/ymamJNxBannhkgAGV6ThlFDh1BE=;
+	s=arc-20240116; t=1738690659; c=relaxed/simple;
+	bh=cFhW+HpoBr+7r9nw1AZd0Mo4cWC38oRKalx+p4MgK3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u6cq89siuUhConG1EfDtoX6POSregCoZO3iBei1a7MwSlBeCM/lhxngy6Qf9hbEXgKKIVwfRw/mwAeg8it9IXDYK2py7GRujkAHRd5XU3t/NfQByIgDKjSBRGrfWy6LOKD4A65YV1NCAxuhlJeekj2fLl0hrediDp0hdeMKf8Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnapsufQ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=uyVttbmGpMNJvHWGNE33yjsGNtTRxpG96sGh8fsgDmFQFchhhlouMqgARIma7laEnJH1SPFYGKOaetG5QdOH/m4BRfcvusrOQn0HtDk1faGkz6hF6RpnMJYDtyvvAmPFQmQUbs3SLbaa+mjwal1vwfHuWjzxehqid1cgmCOApHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9jvZ7in; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnapsufQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9jvZ7in"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738690056; x=1770226056;
+  t=1738690657; x=1770226657;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dg+wVMWuHJfilLm/ymamJNxBannhkgAGV6ThlFDh1BE=;
-  b=BnapsufQoy2jvMxw8JG7WIsIOlo6OQjhg+6HdKCDIGLBsmBpiL84LbtG
-   yX3urQ4t5C+aINZNHX8wqsmSDavCBHuVKGBJYxps6fuPUJ25aoaP+Tuhy
-   WWCCPGqksM0X4Ca/9qzEGYArlCBfeITKr/C5R1d9KyO4HsyzpUG73xjiz
-   DvzRj+HPYI4YCAXYxuV5cXvCMTVJh/5z1oFfOClkY/Rxow75w+V/Oiu9d
-   h9qs1NO8ib/UkD/DA6nuGC5eW7ybjh6PGJgvAG2hkel14Fun2iw1t73tM
-   TEesxwYzH3Vu6ZqlUD5xnM0rK1ZPOMJofDHBGhQhe7niloWQbTRNUyzTI
-   g==;
-X-CSE-ConnectionGUID: Mz1WmE0SRAWHPRZ9c5mPjw==
-X-CSE-MsgGUID: loyIHbErQ/OvdD/uQ9zMyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="56654388"
+  bh=cFhW+HpoBr+7r9nw1AZd0Mo4cWC38oRKalx+p4MgK3M=;
+  b=K9jvZ7in3uBr6JfMDEeUT2VBj9rQ9GAlhVTPj9p68JaYGancsHeetYI7
+   KfUG/M9JvSrk3QUlgJ9OGQf09KAxvLaGLSZ8asMztAfMVlMGlKHydz9RB
+   qfFP5gVpC1kTGoz+zluboeoXwOi7OW1lloric2n+/5ru0akhJQP1Ce39+
+   6vDf1u1Mud3zc9DURofVY+6/aOEbDfFUd88Ym4zICB2Pm/5HzReLx5BnG
+   HZMrq74FA64q2PyfbKuc0wquGvFyPVD2Jr12oU9gWsx1YuRrMSkInf4yG
+   p1zA6wnfFiJ6DkrUy2B5nMS5uiarF/WPhNlwa2O9HuNROdR14eCHkIJrI
+   Q==;
+X-CSE-ConnectionGUID: oP1NaTxLR66ESI5VSlJ/Qw==
+X-CSE-MsgGUID: P9kRmIfyREi9v6Be/CMT1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39384576"
 X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="56654388"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:27:35 -0800
-X-CSE-ConnectionGUID: JyMMJWHoQiuGXV53cLKFTg==
-X-CSE-MsgGUID: 6D/jVUXLQeekxg7eochokw==
+   d="scan'208";a="39384576"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:36 -0800
+X-CSE-ConnectionGUID: XQwSIomrQyaoPSiFTA3wNA==
+X-CSE-MsgGUID: TIdzbrvpSY6xsRv+6TseRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="111238016"
+   d="scan'208";a="115643234"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Feb 2025 09:27:33 -0800
+  by orviesa004.jf.intel.com with ESMTP; 04 Feb 2025 09:37:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfMhv-000snZ-0d;
-	Tue, 04 Feb 2025 17:27:31 +0000
-Date: Wed, 5 Feb 2025 01:26:42 +0800
+	id 1tfMrc-000so7-09;
+	Tue, 04 Feb 2025 17:37:32 +0000
+Date: Wed, 5 Feb 2025 01:37:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 35/35]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm0@160b0000:
- $nodename:0: 'disp-pwm0@160b0000' does not match
- '^pwm(@.*|-([0-9]|[1-9][0-9]+))?$'
-Message-ID: <202502050123.tCGjEYEf-lkp@intel.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: ld.lld: warning:
+ src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6269:0:
+ stack frame size (4048) exceeds limit (3072) in function
+ 'dml_prefetch_check'
+Message-ID: <202502050105.2A6kZvev-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +66,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   214a5686718f4ddf23fe02a3df2a4b37b05d1ed4
-commit: 45e3c3db4a7683df4312ed68cad0be0757a21052 [35/35] CHROMIUM: arm64: dts: mt8196: add pwm-mtk-disp node
-config: arm64-randconfig-051-20250203 (https://download.01.org/0day-ci/archive/20250205/202502050123.tCGjEYEf-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050123.tCGjEYEf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0de63bb7d91975e73338300a57c54b93d3cc151c
+commit: a8d42cd228ec41ad99c50a270db82f0dd9127a28 drm/amd/display: mark static functions noinline_for_stack
+date:   11 days ago
+config: x86_64-randconfig-075-20250203 (https://download.01.org/0day-ci/archive/20250205/202502050105.2A6kZvev-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050105.2A6kZvev-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502050123.tCGjEYEf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050105.2A6kZvev-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@14126000: failed to match any schema with compatible: ['mediatek,mt8196-apifrbus-ao-mem-reg', 'mediatek,mt8196-apifrbus_ao_mem_reg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@14130000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@14131000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/infracfg@14136000: failed to match any schema with compatible: ['mediatek,infracfg']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@142f4000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@14400000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@14401000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@14500000: failed to match any schema with compatible: ['mediatek,mt8196-hwv', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@14800000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/serial@16030000: failed to match any schema with compatible: ['mediatek,mt6985-uart']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm0@160b0000: $nodename:0: 'disp-pwm0@160b0000' does not match '^pwm(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm0@160b0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-disp-pwm', 'mediatek,mt8183-disp-pwm'] is too long
-   	'mediatek,mt8196-disp-pwm' is not one of ['mediatek,mt2701-disp-pwm', 'mediatek,mt6595-disp-pwm', 'mediatek,mt8173-disp-pwm', 'mediatek,mt8183-disp-pwm']
-   	'mediatek,mt8196-disp-pwm' is not one of ['mediatek,mt6795-disp-pwm', 'mediatek,mt8167-disp-pwm']
-   	'mediatek,mt8196-disp-pwm' is not one of ['mediatek,mt8186-disp-pwm', 'mediatek,mt8188-disp-pwm', 'mediatek,mt8192-disp-pwm', 'mediatek,mt8195-disp-pwm']
-   	'mediatek,mt8173-disp-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm0@160b0000: clocks: [[38, 33]] is too short
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm0@160b0000: clock-names: ['main'] is too short
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-pwm0@160b0000: failed to match any schema with compatible: ['mediatek,mt8196-disp-pwm', 'mediatek,mt8183-disp-pwm']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm1@160c0000: $nodename:0: 'disp-pwm1@160c0000' does not match '^pwm(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm1@160c0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-disp-pwm', 'mediatek,mt8183-disp-pwm'] is too long
-   	'mediatek,mt8196-disp-pwm' is not one of ['mediatek,mt2701-disp-pwm', 'mediatek,mt6595-disp-pwm', 'mediatek,mt8173-disp-pwm', 'mediatek,mt8183-disp-pwm']
-   	'mediatek,mt8196-disp-pwm' is not one of ['mediatek,mt6795-disp-pwm', 'mediatek,mt8167-disp-pwm']
-   	'mediatek,mt8196-disp-pwm' is not one of ['mediatek,mt8186-disp-pwm', 'mediatek,mt8188-disp-pwm', 'mediatek,mt8192-disp-pwm', 'mediatek,mt8195-disp-pwm']
-   	'mediatek,mt8173-disp-pwm' was expected
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm1@160c0000: clocks: [[38, 33]] is too short
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: disp-pwm1@160c0000: clock-names: ['main'] is too short
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-pwm1@160c0000: failed to match any schema with compatible: ['mediatek,mt8196-disp-pwm', 'mediatek,mt8183-disp-pwm']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@16110000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@16130000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@16150000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@16170000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@16190000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@161b0000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@161d0000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spi@161f0000: failed to match any schema with compatible: ['mediatek,mt8196-spi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: i2c@16200000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c'] is too long
+All warnings (new ones prefixed by >>):
+
+   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn32/display_mode_vba_32.c:1725:0: stack frame size (3496) exceeds limit (3072) in function 'dml32_ModeSupportAndSystemConfigurationFull'
+   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6714:0: stack frame size (3416) exceeds limit (3072) in function 'dml_core_mode_support'
+>> ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6269:0: stack frame size (4048) exceeds limit (3072) in function 'dml_prefetch_check'
+   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:8290:0: stack frame size (3584) exceeds limit (3072) in function 'dml_core_mode_programming'
+   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7308:0: stack frame size (4944) exceeds limit (3072) in function 'dml_core_mode_support.46549'
+   ld.lld: warning: src/consumer/drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:10360:0: stack frame size (3744) exceeds limit (3072) in function 'dml_core_mode_programming.46571'
 
 -- 
 0-DAY CI Kernel Test Service
