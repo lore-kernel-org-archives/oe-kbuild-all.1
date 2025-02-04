@@ -1,122 +1,98 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A2E1804A;
-	Tue,  4 Feb 2025 08:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6563207643
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 08:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738658963; cv=none; b=nlxpvORXJn2hcNjQYpe60vaFbKvIKUWaBLEO3MOxVETmcQfunsvOmo3aRzcMYz/wAu5+LAdZvAQKO2Vqoijaaw8k1gfz+gD8VrIFfwIkQBENqy9iKMCgTCIUn/UrncLb7GH5lQCV+UBzasa1NZnOEENsWrnCHqaB61egS+Gl2lA=
+	t=1738659459; cv=none; b=I3YcZCRr5RKnBQZ6obcc7SlEWcMHMmS4fZ/60MwRz231QYwo3Z+YvKCcOy/42mzNFFhEALXfwT4wQQhtZ46hyEgWJTIZ2XJmjDn0JUnoxSViTWdMWX+alh0FGWodBwBcv1bFZgxQtX+sxK3pspFS9Cdt0+cUBw7Qn5PKFuyWbnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738658963; c=relaxed/simple;
-	bh=/2Z0Ccq96RyiP1i60nZEJ4F3rVMPpBJlekBUHSkKUFQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=byBoPyntsrF3DEKHbATU8MBHQ3gYGmdB5z++xniIAJxsU/sTy/6eSfxNhnvvhvxitARJraH7J9/EIgwienA5+8dVWqrGiHxEqkR7TuRyDJU0BG9WhmOCZdMuAYA+2L+O52YnbLW4kJxkhC8BTM+HLG0bBpSXpmffcxQdhv1VI3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gUQ9mbJV; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738659459; c=relaxed/simple;
+	bh=BNRoJxv1dnIkxqSy6Y9SXM6+X27Ha3znH8kQ0V5KmYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fr79CA4It21087aGpl1+x8x2/KoV5KQPkNS01u5NGrrrM+v8mgWWkajHLJaXwpTcW+sqvPS1ZZMyfAV3hylc3zhr0g5/m2YBMnbd6c43Uo0WoN3OhoMUgsZbcWG5wFKazxyVK48bjCY2ZATPmIFRNMS84dF3BC7C9Qp51nY9V4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kfp0BtRX; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gUQ9mbJV"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2f9bac7699aso916887a91.1;
-        Tue, 04 Feb 2025 00:49:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738658961; x=1739263761; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+JVUAnaJCRmxWPMUWz8HASzTEc6XBUmX+oAPA4nCdXQ=;
-        b=gUQ9mbJV4geTpXSdukzXEd1zxoZO5WEZaQzYs0VVVyFFNtapytkPuYqtQqx5wGe1+F
-         JZOnDqZ9eN7nvSez7pIPZCN/wAzb75IhrEUx/fSCKSfsFPT1KGoUe/4f1dV9xvKiAjeZ
-         ptHJiXPiWGdIW73zNWLj8YdxTOF/9ItpTuCBa8P+y8Hd7fI0odDFgJpzZTAyVn+9pjLt
-         OeGBdYMHB1YgQof0J5/+QjUfw5jFKMKMB6DwpNLhK4RrGWoX9H4kyAAKiyD7UCEsF8eM
-         xKhA6zrW8YhbFonQf62Nc+ISPGfTvvVid1oppFRXJg3WNPZMJY4OQZyd/+B0buYGByBR
-         JmxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738658961; x=1739263761;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+JVUAnaJCRmxWPMUWz8HASzTEc6XBUmX+oAPA4nCdXQ=;
-        b=t5Ovb2+WsYthIo+Y46Tac/NVfkjSXz+ZWe3Xs7CFtYO1uw98JmaOgsQ0bYI9/kMIvV
-         bsjCHV42I0kfyKfp1AYhqvgn+egWp85DnN32aQzu4+CobwzfSdnM7x1w4jBRqVFl+d8w
-         W9pj/8rOiMXha10sT3+5VnGj/CpCn247zOc/8oSOx92B5QgULEvd9DU2VtDheQRFbCoa
-         A2wXpuz3j0oI5kgWeVgftRRX9lMGxDdNE8dyStbuEp/qr+tKjmyxvmqIofxa2L9gBOHO
-         KuP2MYE9jLsNjhgH6kRahGPjwKjll7BHIHpdg+VPM3lrrwNAxe4SLyF/rxVXFsq3h+S4
-         eFFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNTq71chDIQssQjfZYJLLJgZavkb6s0Uf+d38enxErVdgpjtdJiZvQkLWWskY63Ynozo+CylTo9jCdliyQ2g==@lists.linux.dev, AJvYcCVdAyYCbn1ppnBAAImeBKLVBEDqLLH2ow5zgkvrn8166WdysnoisxqSLMfcqBR2y3Xzcimc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx01ODp8NnSnZRJRwBnM2CU+PgThlDxQ06WOX0M/jquDhQjkcVO
-	yR8Nge+bdswhqfHJeEQn9VwAlRxQ+DqPFNnocXJRlP8+tkXTuLow
-X-Gm-Gg: ASbGncucMxCrz+rcMpOfRvDZv+McXj+NxBQla3k805JSR6cj94dPTnpL1LM1F0/xkm5
-	jExlywLQclY5x2e9CHLgDLdAac115TJAxRf3X1hql7PxO+ttiCx3/ibJR+Ur/d2d7LT6RkFjc4Z
-	vsJLXCKhPFYBH7vRQnh/W27HQ221PJByjjnFbze0ON+PGxQ8WrLuURVQbHzHocz00XOUM+c3jGe
-	xNjoU51QS2xHXuOrKoCyZbJGRVTVklgSUW/Oc6ZrHqSdQwL7wisVcvEVHmchp91b5joM4fxsQB+
-	wxCxUvgqUlm8QXcfFHieTB5OFSMBO1De
-X-Google-Smtp-Source: AGHT+IF1YDDAzfPtr/fsI49ks8wcEX7FsdGmSMaf9+Py2J8w9MsZw2dVBL+ZVG00h3a15FeXIHk4uA==
-X-Received: by 2002:a17:90b:2f0d:b0:2f6:dcc9:38e0 with SMTP id 98e67ed59e1d1-2f83aa7cfcdmr45333320a91.0.1738658961046;
-        Tue, 04 Feb 2025 00:49:21 -0800 (PST)
-Received: from 192.168.124.12 ([115.196.171.117])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f83bf93e97sm14112603a91.31.2025.02.04.00.49.18
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 04 Feb 2025 00:49:20 -0800 (PST)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: lkp@intel.com
-Cc: laoar.shao@gmail.com,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	peterz@infradead.org,
-	vincent.guittot@linaro.org
-Subject: [PATCH] sched: Fix static declaration of 'sched_clock_irqtime' follows non-static declaration
-Date: Tue,  4 Feb 2025 16:49:15 +0800
-Message-Id: <20250204084915.4887-1-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <202502012207.b8iyB4Fh-lkp@intel.com>
-References: <202502012207.b8iyB4Fh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kfp0BtRX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738659458; x=1770195458;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BNRoJxv1dnIkxqSy6Y9SXM6+X27Ha3znH8kQ0V5KmYg=;
+  b=kfp0BtRX77xMhJH2Px4VSgP8bOp9nF0fGRvqfqpHWXE15SAOEf/40IRn
+   vm4uKu0/7IqtlHUqVYZy0unW5q2ULnIcHdwdqygq7huywARFHknmjp1Qc
+   3SS6HQLh63EKQicr8PN6CzxVxfByXARNAT0G9sy2VGagr9y9NNV9zfjro
+   T9QXbpVQBxRzQpZ7Ox726VWkhVrAxLuV2rwHG2S+5cZ0fBxLqYUeXXUOe
+   7EhATlohpC65FufKtvj+FKWXLacOUhielOKNBP1WawdvJo0YmoJbJp8Cq
+   6LF3L40SqaRvADxSwCcQSoXKEl9ts1fYyKr1nxjzPhzZmDXYx+k0I8/Zu
+   g==;
+X-CSE-ConnectionGUID: 2GRa21SNTvCh6bXUrFHcKQ==
+X-CSE-MsgGUID: 9FBssts/RPuHbJ3uHB4jFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39330853"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="39330853"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 00:57:37 -0800
+X-CSE-ConnectionGUID: lOvLaNnzRK+Qq1GnvWlqgA==
+X-CSE-MsgGUID: u2JG4qJQQpaafBTpU9FDUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="111116627"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Feb 2025 00:57:37 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfEkQ-000sEX-14;
+	Tue, 04 Feb 2025 08:57:34 +0000
+Date: Tue, 4 Feb 2025 16:57:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 170/170] drivers/media/i2c/gc5035.c:1518:46:
+ warning: 'gc5035_internal_ops' defined but not used
+Message-ID: <202502041639.mFDcnyy0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot reported the following error:
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   214a5686718f4ddf23fe02a3df2a4b37b05d1ed4
+commit: 2aa4f6ff52e147c3d01a521323fa3ccf4e8c42cf [170/170] BACKPORT: media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250204/202502041639.mFDcnyy0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250204/202502041639.mFDcnyy0-lkp@intel.com/reproduce)
 
-All errors (new ones prefixed by >>):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502041639.mFDcnyy0-lkp@intel.com/
 
-   In file included from kernel/sched/build_policy.c:59:
->> kernel/sched/cputime.c:25:12: error: static declaration of 'sched_clock_irqtime' follows non-static declaration
-      25 | static int sched_clock_irqtime;
-         |            ^
-   kernel/sched/sched.h:3262:12: note: previous declaration is here
-    3262 | extern int sched_clock_irqtime;
-         |            ^
-   1 error generated.
+All warnings (new ones prefixed by >>):
 
-vim +/sched_clock_irqtime +25 kernel/sched/cputime.c
+>> drivers/media/i2c/gc5035.c:1518:46: warning: 'gc5035_internal_ops' defined but not used [-Wunused-const-variable=]
+    1518 | static const struct v4l2_subdev_internal_ops gc5035_internal_ops = {
+         |                                              ^~~~~~~~~~~~~~~~~~~
+--
+>> drivers/media/platform/renesas/vsp1/vsp1_entity.c:402:5: warning: no previous prototype for 'vsp1_entity_init_state' [-Wmissing-prototypes]
+     402 | int vsp1_entity_init_state(struct v4l2_subdev *subdev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
-    24
-  > 25	static int sched_clock_irqtime;
-    26
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202502012207.b8iyB4Fh-lkp@intel.com/
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
----
- kernel/sched/cputime.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+vim +/gc5035_internal_ops +1518 drivers/media/i2c/gc5035.c
 
-diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index c7904ce2345a..6dab4854c6c0 100644
---- a/kernel/sched/cputime.c
-+++ b/kernel/sched/cputime.c
-@@ -22,7 +22,7 @@
-  */
- DEFINE_PER_CPU(struct irqtime, cpu_irqtime);
- 
--static int sched_clock_irqtime;
-+int sched_clock_irqtime;
- 
- void enable_sched_clock_irqtime(void)
- {
+  1517	
+> 1518	static const struct v4l2_subdev_internal_ops gc5035_internal_ops = {
+  1519		.init_state = gc5035_init_state,
+  1520	};
+  1521	
+
 -- 
-2.37.1 (Apple Git-137.1)
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
