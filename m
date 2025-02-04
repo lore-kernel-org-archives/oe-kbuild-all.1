@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B687C2185B4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD082218AA2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Feb 2025 18:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738695105; cv=none; b=V8KriDVeW9UIjRP3mpXUGDy9GbamvEOupLexkmwL8VxuvfV6Wrrm8mQt7qfn1GdYHj++RovoR//VrBKtWcCJytq+b9FpA0gXuAI4SyEbCIJ0kjjjsZRgLc5C0FAV8UTnW+ilzqM28/TmkjVkxkisdZt6ouX+U/FI/ndSMzDxFT8=
+	t=1738695118; cv=none; b=oclzboSnF/z/fKxDDHrnFyycHDoUIYzBNhcrPySxiVbVRKR6sNH8a7rts5Uc2hCoFdXLWWomlb1NLAVcavCBupLxOwbQVAfhtY0lBGHP3bdGpw5Fv7pB+pjSiaZdFK4qjY72fwPdvGqCW+9kdzAEqZnc0eUzqJ7zF3f+xxYWp3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738695105; c=relaxed/simple;
-	bh=ljC2kQVqL5JtjAElI3m3jqJFdBpyfV37sFAsB/EsEDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oMZ/Zj8RFPZBHjUWfVOVJ3OKV6BA1rrvoZUZpYQy8pFwPgU29aiWO2sb+ni/7D/iAHjIEPEkAsv2boK/9hMsJvn0MbTzVLsXOU0AONO3jVNGGck60o86sfwwRoqAn2zC/sWGJPJeP9HymlysIgMKM2OhYqrWvkkiJYkNpoIPsYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwljNfbD; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1738695118; c=relaxed/simple;
+	bh=k7HIN2/4JNPmmW9EOwz5dmbwnDmMoY6rJ767bWiH8kM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XvKD9FNTuZhJkh3fyqJAya7HPPQ29b/Lnik/obI3VBfASgzb/B+9Gdr7SR6QDPr8Xu24xNYAofP1stYULsslL56NScj9wqquzuaScc5Ac1kFAPNrwLKOcf0/GP1wrEI43CKhB0dihJhGfcGkJEw+RPDG7myfEvoNTkmlM9gbH+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIEE3XJ6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwljNfbD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIEE3XJ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738695104; x=1770231104;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ljC2kQVqL5JtjAElI3m3jqJFdBpyfV37sFAsB/EsEDQ=;
-  b=gwljNfbD+ik1/g46/U3fMsgY/9UUSiTl6JgB1OTwDBfD5+OJSmDPH6LQ
-   fBvW9qmwSuf3RkCeUUi0SJ8H7BNzT1XEUJsOVdT2IOAot2TMtrtPdO9OD
-   40bXi5S++FX9ZQdU+MYJgVx18J5H7tkWZfoIEx/wYTqMbHZfcrDmLI7rS
-   XGbw7+dRs24RjEDfxvEhNyEubRFZvCuVx3f0LJ4Huni0g41FWdrtZvsl9
-   HmY02p1Neah4i/zuW0+JjpXVbkor9X1QrI9vUIn0zWmQfsvSAJ+olcDWh
-   eFJFvltRFzKze6ZOKOFYZhoudicEYwJcj7rjEcsovjadzQbvRU9XPyURh
-   A==;
-X-CSE-ConnectionGUID: kLohIYKTR5mk2hjSZp4cDQ==
-X-CSE-MsgGUID: +oxziV16TSmpXN299NqLGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39344839"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="39344839"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:51:43 -0800
-X-CSE-ConnectionGUID: OWUW2S82TN+l3dezdwfdbA==
-X-CSE-MsgGUID: /S80bWqdQ7+NaLcuiXFeiA==
+  t=1738695114; x=1770231114;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k7HIN2/4JNPmmW9EOwz5dmbwnDmMoY6rJ767bWiH8kM=;
+  b=JIEE3XJ6Ctbtk2yoXEHpvJhHXsLtWQZOwg8MeQFef+x5G/o2Phcyl5V8
+   44fw3UhNOiWg3uMaXTiH0yPrGGwcKAOzovoLMAbyim3b8CcCXJpUetc3N
+   f9DMfiudj/ZjjyMU3d8BrVFzVir5xx8pLpZo3g78xEOjq3+RtkO/W3r6F
+   ICQcSi/OeZ282n0eY6a93JonsoqZi8dgsA8tyLWnW0ATEQyNsotAAM04n
+   8Z5BJl5e6Zl670YpB4Rp9UYZ/vmZE4TXkYFk/dpkhoVEFfaQCbxzwEhg8
+   jZv+1YL4/5N2hypN2o5vAcxzzYaGtoPJMbAxswnLLqo1q9hH4p99iMKsw
+   Q==;
+X-CSE-ConnectionGUID: xcKNvV30RN+jJ5k2RkZDBQ==
+X-CSE-MsgGUID: vhucSkBbTCaBsPUmFqD21A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39268954"
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
+   d="scan'208";a="39268954"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 10:51:48 -0800
+X-CSE-ConnectionGUID: mqLlYBAXRg647PCZwOhXag==
+X-CSE-MsgGUID: qyQyePwGS0WtlynkG1GLBQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115296250"
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
+   d="scan'208";a="110559274"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2025 10:51:42 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 04 Feb 2025 10:51:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfO1M-000ssb-07;
+	id 1tfO1M-000ssZ-04;
 	Tue, 04 Feb 2025 18:51:40 +0000
-Date: Wed, 5 Feb 2025 02:50:43 +0800
+Date: Wed, 5 Feb 2025 02:50:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 170/170]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mipi-tx-config@130b0000:
- failed to match any schema with compatible: ['mediatek,mt8196-mipi-tx']
-Message-ID: <202502050256.f4ys8YWq-lkp@intel.com>
+To: Gerhard Engleder <gerhard@engleder-embedded.com>, andrew@lunn.ch,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Gerhard Engleder <gerhard@engleder-embedded.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next v4 6/7] net: selftests: Export
+ net_test_phy_loopback_*
+Message-ID: <202502050234.kRVRQjkS-lkp@intel.com>
+References: <20250203191057.46351-7-gerhard@engleder-embedded.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +67,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250203191057.46351-7-gerhard@engleder-embedded.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   214a5686718f4ddf23fe02a3df2a4b37b05d1ed4
-commit: 9a5b02d04139ce72808afd297980ac2b6f6a2957 [170/170] CHROMIUM: arm64: dts: mediatek: mt8196: Add dsi and mipitx node
-config: arm64-randconfig-051-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050256.f4ys8YWq-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050256.f4ys8YWq-lkp@intel.com/reproduce)
+Hi Gerhard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/net-phy-Allow-loopback-speed-selection-for-PHY-drivers/20250204-041619
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250203191057.46351-7-gerhard%40engleder-embedded.com
+patch subject: [PATCH net-next v4 6/7] net: selftests: Export net_test_phy_loopback_*
+config: s390-randconfig-001-20250204 (https://download.01.org/0day-ci/archive/20250205/202502050234.kRVRQjkS-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502050234.kRVRQjkS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502050256.f4ys8YWq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050234.kRVRQjkS-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'mediatek,mt8192-i2c' was expected
-   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt7629-i2c', 'mediatek,mt8516-i2c']
-   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt2701-i2c', 'mediatek,mt6797-i2c', 'mediatek,mt7623-i2c']
-   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt8365-i2c']
-   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt6795-i2c']
-   	'mediatek,mt8196-i2c' is not one of ['mediatek,mt8195-i2c']
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/i2c@120a0000: failed to match any schema with compatible: ['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@120c0000: failed to match any schema with compatible: ['mediatek,mt8196-imp-iic-wrap-e', 'mediatek,mt8196-imp_iic_wrap_e', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@120c0000: failed to match any schema with compatible: ['mediatek,mt8196-imp-iic-wrap-e', 'mediatek,mt8196-imp_iic_wrap_e', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mipi-tx-config@130b0000: failed to match any schema with compatible: ['mediatek,mt8196-mipi-tx']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: i2c@13130000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c'] is too long
-   	'mediatek,mt2712-i2c' was expected
-   	'mediatek,mt6577-i2c' was expected
-   	'mediatek,mt6589-i2c' was expected
-   	'mediatek,mt7622-i2c' was expected
-   	'mediatek,mt7981-i2c' was expected
-   	'mediatek,mt7986-i2c' was expected
-   	'mediatek,mt8168-i2c' was expected
-   	'mediatek,mt8173-i2c' was expected
---
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32400000: 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32420000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32420000: 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32430000: failed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32440000: failed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dsi@32490000: failed to match any schema with compatible: ['mediatek,mt8196-dsi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dvo0@324c0000: failed to match any schema with compatible: ['mediatek,mt8196-edp-dvo']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32600000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@32800000: failed to match any schema with compatible: ['mediatek,mt8196-ovlsys-config', 'mediatek,mt8196-ovlsys_config', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@32800000: failed to match any schema with compatible: ['mediatek,mt8196-ovlsys-config', 'mediatek,mt8196-ovlsys_config', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/net/ethernet/freescale/fec_main.c:42:
+>> include/net/selftests.h:30:12: warning: 'net_test_phy_loopback_tcp' defined but not used [-Wunused-function]
+      30 | static int net_test_phy_loopback_tcp(struct net_device *ndev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/net/selftests.h:25:12: warning: 'net_test_phy_loopback_udp_mtu' defined but not used [-Wunused-function]
+      25 | static int net_test_phy_loopback_udp_mtu(struct net_device *ndev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/net_test_phy_loopback_tcp +30 include/net/selftests.h
+
+    24	
+  > 25	static int net_test_phy_loopback_udp_mtu(struct net_device *ndev)
+    26	{
+    27		return 0;
+    28	}
+    29	
+  > 30	static int net_test_phy_loopback_tcp(struct net_device *ndev)
+    31	{
+    32		return 0;
+    33	}
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
