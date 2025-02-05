@@ -1,112 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB4C1D7E52
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 16:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 676001DF261
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 16:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738772835; cv=none; b=WNA0WuGznMlBDtGB1rXGQD8+8hCzcORkCztD4EBTo5BFWsc3yeROF4E6isn2B6tMyDPJjaOZIcC44w9/NMpoNtsW5S5WtlHQRr5L8KzlByLBE1cDRSJ7qkzv8UwFkcdsabZFJroTk1ody2qUrojLKSl0MVVZCHytHkZ7lxpNuH8=
+	t=1738774206; cv=none; b=ThoEg9GbV6uJiuDYDhyoB4RX98DOtKbjoRzsmf8ViIrMZvFFTHXn5/d9P6oI+LNPhEaQ7JPkN6g4kHa63ZQXU1sNAijRk9NcwjuM11bN85LIfZN664mOkmntDg1p/ktSWpM8r9Ey7GySX3lyIyjSGxXLoJbCQR8wK9RtwaoiUBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738772835; c=relaxed/simple;
-	bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTgzFOc9o5Dg6L1uxKHvjzDoQOhbi/yr60KMOAEa+eWCEgVImqMhiFjjaplewsZDexRNEgEOq83ftR7/DECNQCPIahv2W4jI6/wTDpcdS2QbBjog18vpvfxTpwW8z3T7BpGp9kTMegObK95FTl8qNS7Uv3mugHMABMmLD3GdzbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eeqnleog; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eeqnleog"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738772834; x=1770308834;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
-  b=Eeqnleoga2Q45nQL2sqOaTSNja4TMC9NsI+qCIFls3KckGk7fEl9z/NM
-   YOsS3l7q/Utwv//buxi4lpAYNDtxjTp/Qdveq16dJ7b0x3rE/wk2i4Fhc
-   z5a5xQx51ufWySFuIa5SyRdQ1vOtSd1lWMCdM2cp1l8vZXGEez+34QKue
-   txXhfdXh+/+H4Uh9JtK8snweAmPakPF8A9bRI1+8X00oqZcAv0VLRYiwn
-   8cGI+lJ/pRW5JmmJb+q1g7NAoS80XqgMwPm6zanUZJMSKuv+gmaMj5Gty
-   LafXZXlTjQfsxOtYL/Jujo7Ylbyw3D1ZYurWYkFTJSsajHxwqMDQdTBnb
-   A==;
-X-CSE-ConnectionGUID: f4uv5dTySrKvoWZwuX6NhA==
-X-CSE-MsgGUID: SCqVghBRRpWUWQsDK4SmNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39245292"
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="39245292"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:27:13 -0800
-X-CSE-ConnectionGUID: F55qeeNmQcmnG0H6IgCGsQ==
-X-CSE-MsgGUID: N9UgH9j7TG2lpT+LvpkA3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="115994605"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 08:27:09 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfiF1-000vmJ-0I;
-	Wed, 05 Feb 2025 16:27:07 +0000
-Date: Thu, 6 Feb 2025 00:27:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <202502060025.XJwUub6I-lkp@intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
+	s=arc-20240116; t=1738774206; c=relaxed/simple;
+	bh=qEJLCLbs9CvmUa4Sm9Q77W9q0GaeSE1O59uVKSVwrTM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lwuU0+jufQMPyrSicm2dUJUSPQHGZ/0NCemb1d/Z3ynEjpUa28AumCYzxRXlPAXOYJ9eF50SI7MiRCKUGKG5slAj1zQpqparhUMvOoAV3BnuhpXh6fHL4CplQbsZiG2XV+/YO989S7WdGgUiCohfQRcHlSgmi42k8tJFlHMUblU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4Yp5Sz0LYsz9sRk;
+	Wed,  5 Feb 2025 17:35:47 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rJSb9hOvWj2M; Wed,  5 Feb 2025 17:35:46 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4Yp5Sy6Fjjz9rvV;
+	Wed,  5 Feb 2025 17:35:46 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id C8A5B8B76C;
+	Wed,  5 Feb 2025 17:35:46 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id 1oTP_T_1tXfX; Wed,  5 Feb 2025 17:35:46 +0100 (CET)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 4BE3B8B763;
+	Wed,  5 Feb 2025 17:35:46 +0100 (CET)
+Message-ID: <08a51873-7510-4552-9bb1-3ea7ef9fbc2d@csgroup.eu>
+Date: Wed, 5 Feb 2025 17:35:44 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250203080902.1864382-2-raag.jadav@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for HUGETLBFS
+ when selected by PPC_8xx
+To: Miaohe Lin <linmiaohe@huawei.com>, kernel test robot <lkp@intel.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+References: <202501240611.LDmD2nkj-lkp@intel.com>
+ <29cf621d-db67-6c5c-0dc5-ebe79edc6cc6@huawei.com>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <29cf621d-db67-6c5c-0dc5-ebe79edc6cc6@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Raag,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+Le 05/02/2025 à 03:39, Miaohe Lin a écrit :
+> On 2025/1/24 6:24, kernel test robot wrote:
+>> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757464439%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=LU9lidWjjJE3vf0TPBp1wIvUFpjnpPKq2zQVxu4Ru%2F0%3D&reserved=0 master
+>> head:   d0d106a2bd21499901299160744e5fe9f4c83ddb
+>> commit: f8142cf94d4737ea0c3baffb3b9bad8addcb9b6b hugetlb: make hugetlb depends on SYSFS or SYSCTL
+>> date:   2 years, 4 months ago
+>> config: powerpc-kismet-CONFIG_HUGETLBFS-CONFIG_PPC_8xx-0-0 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757478112%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=9%2B4B2T41tw4xvlAkYIeOEhK9PrH17GM7KrhEOyKDxMM%3D&reserved=0)
+>> reproduce: (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757485680%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=SDjSwdEccwtqN8L4VzuYnAhq3nchpJdBi%2FaJGloeZ40%3D&reserved=0)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202501240611.LDmD2nkj-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757493154%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=DdGGMh1x6g6a%2F7hcgqmSBASk14QpA4%2F%2FmI2ztozklts%3D&reserved=0
+> 
+> Thanks for report. Sorry for late respond. I was on my Spring Festival vacation.
+> 
+>>
+>> kismet warnings: (new ones prefixed by >>)
+>>>> kismet: WARNING: unmet direct dependencies detected for HUGETLBFS when selected by PPC_8xx
+>>     WARNING: unmet direct dependencies detected for HUGETLBFS
+>>       Depends on [n]: (X86 || IA64 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=n] || SYSCTL [=n])
+>>       Selected by [y]:
+>>       - PPC_8xx [=y] && <choice>
+> 
+> I am a bit confused. HUGETLBFS depends on SYSFS or SYSCTL. How can it be selected while SYSFS [=n] || SYSCTL [=n]?
+> Or am I miss something?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250203-161554
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250203080902.1864382-2-raag.jadav%40intel.com
-patch subject: [PATCH v3 01/20] driver core: Split devres APIs to device/devres.h
-config: um-randconfig-r112-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/reproduce)
+CONFIG_HUGETLBFS is selected by CONFIG_PPC_8xx, see commit 34536d780683 
+("powerpc/8xx: Add a function to early map kernel via huge pages")
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502060025.XJwUub6I-lkp@intel.com/
+Christophe
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/pcs/pcs-xpcs-plat.c: note: in included file (through include/linux/device.h):
->> include/linux/device/devres.h:106:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   include/linux/device/devres.h:106:23: sparse:     expected void [noderef] __iomem *
-   include/linux/device/devres.h:106:23: sparse:     got void *
-
-vim +106 include/linux/device/devres.h
-
-   102	
-   103	static inline
-   104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
-   105	{
- > 106		return ERR_PTR(-EINVAL);
-   107	}
-   108	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
