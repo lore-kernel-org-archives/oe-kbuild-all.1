@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFC61519BB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 11:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3964C22A4D9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 11:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738755332; cv=none; b=KPuDyuQKYSgaUtZFLWUes6vbv6Tlz6VN6nrChzfkh403ifE/OoaZecUVIBICLvrfCKuL8iH7EwOfqq+hivQ1T9xd15eyzdmnHnyyYYFoBmJdIOWbZQ5Ajo1fwi4f4pzmj5Glp177MU4vjsK7gL5RK7+gBX4wCX/98g3r1YcExOE=
+	t=1738755392; cv=none; b=tkhdvs8tYnhy25K+Drnu15fpyeebdy2objTJBwbTDNSQwozpw8/0+Jadd6UH/dbbGa6tUIK9ZOxrErxXdkWqgnV+EeBkQ2PlIjcyzyJlmTBQe5dyUJwy5fT8koA0gBYDvypbBLR6QaIUG3LJ3lQZyWMjmU3iCc0zcIymQiNRyJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738755332; c=relaxed/simple;
-	bh=MBYSYxOMAl467s+Yp0WNUn4zTKJkztI++juZQ324Np4=;
+	s=arc-20240116; t=1738755392; c=relaxed/simple;
+	bh=8pw2sXk9y1TWQDmP8YGN6m1nXjgCU1+O9qUan1kkQ6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SuTrvJI8YO482T3NDc17uHvsKubnVrpkpLcSZnwaXKSwjH8Wxg7nuJR4zRG+HLQOggD6L90Wduh7c2DW9+fb5fJ5ki2w8Hkc6mcUXy87sTDFgZDkbr8YkM5u/89S2HtCkXCSI6DS/qE9YPjmuvnLixAAzprklK45qu11Im8sc+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsPAVF+z; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=iQlKJSo/S20FANJaZAJZnicgqgpAosDR+G3yyUTJfvSBvFnpqo3KWFAEp8p3d7qZWcgZccrROn5adj69MpHPHk7DbqygIHfF3gTRv2fR7lxJg7RjMt/9DTy3gUWKyiowV67djN+bF58ixtpUAwB96GfByk086w4+lq5XTXl1IX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYrzkl8x; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsPAVF+z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYrzkl8x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738755330; x=1770291330;
+  t=1738755390; x=1770291390;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MBYSYxOMAl467s+Yp0WNUn4zTKJkztI++juZQ324Np4=;
-  b=gsPAVF+zn/CG9wxiKg4LmVCO57LLBdo+rkpN1HiBFajQJ1eFuvf+w8+B
-   yTS5pvUJX4CPCGzR63EV8IagnWNCezaYOIxiJQJzVzeOo/olNynb8YYy5
-   D+mogpcxc6vSTGBIS4YkRXTu1Wzj8Hijf5coTLELiq9UMgfV6gVcMd/lx
-   j4MJoajDPRYKENpwtdNuJM2hPZG+LMC+WPHZ0PgiM9moZrrY0zQEY4CXe
-   jeUOxkZYUfNhIL4Lb9ZkaT5q5QK81zdRRBZ/N+jv+K04HFJ6NvLkcwh+8
-   dRdTaQs9St5k4dWo8sg9xPKxbSS7PFpTE66n3S1BRbiOyevcVdGPxVeAo
-   A==;
-X-CSE-ConnectionGUID: HwjVzFc3RvuIB4BacZBq3Q==
-X-CSE-MsgGUID: BrZmBEciRKSukgfxqXmjfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39474814"
+  bh=8pw2sXk9y1TWQDmP8YGN6m1nXjgCU1+O9qUan1kkQ6k=;
+  b=jYrzkl8x3xpWBdAIXX4s0NkG/ldnTuPMghOw5RYT8FO86VdQJpU9/wf5
+   jfcD9rC9CT4ycW5PVkmNkbXAINFrmkCOd+IIHEahO8Cp1DI6aKjrvZUys
+   mTMXuzrAMIwoAahYTfEEoHRCitt3bg990EnANVZBPzFswrJXzdKi9jxX8
+   Khh2Isl2KUF3Y7v0q/ncfmRkIVL9GWpsUXpMIJt9tseg78+xcLCfiEuSp
+   Wm8MrtRh64fLFxYQbfxvja21hNiMs0c60OnNkEr77zN40mKrS/hCcGgkE
+   3AUMqBHb637CoxQA0tvjSjSTrmtj4xIdYfU3TwQ5RRZAPwj9PSdi7ir+g
+   Q==;
+X-CSE-ConnectionGUID: XChk1Ep4T6O+VgZkmJZhVQ==
+X-CSE-MsgGUID: i08H6p9vQsOyrmNq9vQRug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="61785991"
 X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="39474814"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 03:35:29 -0800
-X-CSE-ConnectionGUID: 4pW89JHRQLyqQAqTsh5fGg==
-X-CSE-MsgGUID: znhBr6qoRs+0JkqF7SAfnA==
+   d="scan'208";a="61785991"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 03:36:29 -0800
+X-CSE-ConnectionGUID: ZC0PXwbQQUalwPI9OwqLLA==
+X-CSE-MsgGUID: HCewlNvHRneVrlc6cPWOWA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="110773167"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="148080683"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Feb 2025 03:35:28 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Feb 2025 03:36:28 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfdgk-000tpL-0W;
-	Wed, 05 Feb 2025 11:35:26 +0000
-Date: Wed, 5 Feb 2025 19:35:17 +0800
+	id 1tfdhi-000tpP-0p;
+	Wed, 05 Feb 2025 11:36:26 +0000
+Date: Wed, 5 Feb 2025 19:35:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Reding <treding@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thierryreding:pmc 1/26] arch/x86/kernel/cpu/microcode/core.c:754:6:
- error: conflicting types for 'microcode_bsp_resume'; have 'void(struct
- syscore_ops *)'
-Message-ID: <202502051939.qCBFHp3i-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 170/170]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dsc0-wrap0@32450000:
+ failed to match any schema with compatible: ['mediatek,mt8196-disp-dsc']
+Message-ID: <202502051908.s76qnZcZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,49 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/thierryreding/linux pmc
-head:   a402c19b24a5dc1ba2f6fb41de0080a97c202c1b
-commit: f5ff652a1c2ce0a75ce86425cbc5f499933c9018 [1/26] syscore: Pass context data to callbacks
-config: i386-buildonly-randconfig-003-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051939.qCBFHp3i-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051939.qCBFHp3i-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1b7d37693f7bd7e9f37c02d15753e16b5bac8c79
+commit: 13ecc998839331361a7a2182ae056b79da801118 [170/170] CHROMIUM: arm64: dts: mediatek: mt8196: Add support for dp DSC
+config: arm64-randconfig-051-20250204 (https://download.01.org/0day-ci/archive/20250205/202502051908.s76qnZcZ-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051908.s76qnZcZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502051939.qCBFHp3i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502051908.s76qnZcZ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
->> arch/x86/kernel/cpu/microcode/core.c:754:6: error: conflicting types for 'microcode_bsp_resume'; have 'void(struct syscore_ops *)'
-     754 | void microcode_bsp_resume(struct syscore_ops *ops)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/cpu/microcode/internal.h:9,
-                    from arch/x86/kernel/cpu/microcode/core.c:42:
-   arch/x86/include/asm/microcode.h:19:6: note: previous declaration of 'microcode_bsp_resume' with type 'void(void)'
-      19 | void microcode_bsp_resume(void);
-         |      ^~~~~~~~~~~~~~~~~~~~
---
->> kernel/printk/printk.c:3649: warning: Function parameter or struct member 'ops' not described in 'printk_kthreads_shutdown'
-
-
-vim +754 arch/x86/kernel/cpu/microcode/core.c
-
-   750	
-   751	/**
-   752	 * microcode_bsp_resume - Update boot CPU microcode during resume.
-   753	 */
- > 754	void microcode_bsp_resume(struct syscore_ops *ops)
-   755	{
-   756		int cpu = smp_processor_id();
-   757		struct ucode_cpu_info *uci = ucode_cpu_info + cpu;
-   758	
-   759		if (uci->mc)
-   760			microcode_ops->apply_microcode(cpu);
-   761		else
-   762			reload_early_microcode(cpu);
-   763	}
-   764	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32400000: 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32420000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32420000: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32430000: failed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32440000: failed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dsc0-wrap0@32450000: failed to match any schema with compatible: ['mediatek,mt8196-disp-dsc']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dsc1-wrap1@32460000: failed to match any schema with compatible: ['mediatek,mt8196-disp-dsc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dsi@32490000: failed to match any schema with compatible: ['mediatek,mt8196-dsi']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dvo0@324c0000: failed to match any schema with compatible: ['mediatek,mt8196-edp-dvo']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32600000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@32800000: failed to match any schema with compatible: ['mediatek,mt8196-ovlsys-config', 'mediatek,mt8196-ovlsys_config', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@32800000: failed to match any schema with compatible: ['mediatek,mt8196-ovlsys-config', 'mediatek,mt8196-ovlsys_config', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mutex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
