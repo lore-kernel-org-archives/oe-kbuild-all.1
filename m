@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030E922A1CA
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 09:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE7B22A4F6
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 09:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738747396; cv=none; b=PWX1qNf2DRiKE3G0d12O6LOAxkcmPq/TDenUjF3hqQVAqXcS+xggok4UH8oSDsBbdcdSHYzQ6Yq3zj9zL9+1A8HURF4ZRtXBK41O6FBWYv1c8yI7zmcbtqqXTvuUff6Y/S3VK5ZkO2MOhSsYBFPRPFfoaxgu9WMmrPJvAZa/eIg=
+	t=1738747398; cv=none; b=J89yTrfB5/LvTYuZtPZDvOcNVl1P+SljtXQKwHHGWMEDl2e/U8bOoOAOGPAyKHTLtN0uH7yWpgkTQ4oAzS99Y1YnxdmKNYHJefGv7Juk2WPb75GvFqowbwajRYTHuN6AMC4EZciJBQStUa89tYFuruyNGYNdG9Jvs6VqDjEfJ3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738747396; c=relaxed/simple;
-	bh=OblW3Mp4fh7xQsVzCRzyDI2gtgcU4yI5JabENeciShM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mkv40jcSeFxbyXTkfTv2HefcLx6Fn6TXhipovNdaf0BRkbDECCLrZjrq6Cck4BUTcsEJegocuzpdpnOIY0qs81QDoDYP4CGEUQQEw74azrDV4xAu/yEluH0cWexZf1d98YgQRGCLuQMxxr00gt/p/sR9GA37fMMU4EJykWUCF+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fnEwFwtN; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1738747398; c=relaxed/simple;
+	bh=ZIKAtnPAyNIjmRnPJX5oThyH4/D0PWvHXvgPBAiMKSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CvHpljwRnpI7w+dVCv2JPk4jTBzeP1UsG4YS9BiOy5T0iyzccT5Ze3sducqKiW0We56y88wsMyprjKnmk9K4eTroDx7jNRmhpESAl4lnmL2t4xUnqbqwmD+TJV8BbxTdKpXmu4zFoKNckgVr7InVsdUez2iKgHTKyxTnKDAG0+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5usJsoK; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fnEwFwtN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5usJsoK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738747395; x=1770283395;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OblW3Mp4fh7xQsVzCRzyDI2gtgcU4yI5JabENeciShM=;
-  b=fnEwFwtN5tVqa8GOQa7pLOJxAS6hYdFTBhbHzKMm6JX/gYH9mQN+nHV6
-   KJJnRc8haHwE1o0qOV1m2B4OpW8WUhhdnxjEPSZ06QRp/t1LEpWBKjpSY
-   KUYXhIGDVG0rETZ7kOMgcpTqz+0oIQUsYEvp7lo0o94No5gyG0Q+cmyqk
-   VB6DC2gGhWNYlbbhxO1MP+QxrqN0Ad9fVmVjA3eAVTJdBgmsK90uxiWr9
-   t4oLkTugM74D2TBPxpd0wjf4eGz31y0cU7x9SkdL14ZdtzjhwmAesmcan
-   fgHAi9x5qstd/WTcWxGVfY+TcBxTIJGt4oeVACDW+hTzsG48Wg9RN/u7B
-   Q==;
-X-CSE-ConnectionGUID: s9BZ67HkTOCVt1Pov5aKUQ==
-X-CSE-MsgGUID: pyDkSkmBRNKHyHwy6lQZvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39198842"
+  t=1738747396; x=1770283396;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZIKAtnPAyNIjmRnPJX5oThyH4/D0PWvHXvgPBAiMKSw=;
+  b=T5usJsoKfmwkJ34p7D8kQGRO3pzRpNtqLr1gWfiUUXJ/hk4OOdDGDasS
+   gTJB4K33htGW1GVRjyI1/GAr6wWymN92fFWTPKLqnRreV4It0dXLNYVEH
+   YbC4tA/mg7TnwFQH85FzjLe9KfWnLr2icpWaHCoSWW2A5ZqYH/1weyLf+
+   MnbLMARKehHrik0/20a3jsyxQryia93VvudpW09LvrJbF30FVpu2wYAjF
+   oZoXh3fCGJLoTDuO2p/jxXK5yMDiG7rSQ2AD3VEh8dOgrkoDA5OXmhIz3
+   efyTIwX4VaaypMY1I2BGIiX/nxqlph3h+8SzKzfRViLa9yqu7mZKrtRbz
+   A==;
+X-CSE-ConnectionGUID: +Qgg1SfjSj2LGd16ngJssg==
+X-CSE-MsgGUID: spOrH4imQ0+kISuSj13KSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39198844"
 X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="39198842"
+   d="scan'208";a="39198844"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 01:23:14 -0800
-X-CSE-ConnectionGUID: jXadj6TIQreGtih+WD5saQ==
-X-CSE-MsgGUID: uiPKJoajRZKSo15QnBqroA==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 01:23:16 -0800
+X-CSE-ConnectionGUID: 0p90qPdvTUW8DbIsBJdpKA==
+X-CSE-MsgGUID: o1M10QCJTjSRDdZazQc0qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="110826750"
+   d="scan'208";a="110826770"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 05 Feb 2025 01:23:14 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfbcl-000tgv-2B;
+	id 1tfbcl-000tgt-22;
 	Wed, 05 Feb 2025 09:23:11 +0000
-Date: Wed, 5 Feb 2025 17:22:14 +0800
+Date: Wed, 5 Feb 2025 17:22:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 192/192]
- drivers/firmware/arm_scmi/tinysys-scmi-drv.c:71:5: warning: no previous
- prototype for function 'scmi_tinysys_notifier_fn'
-Message-ID: <202502051753.LxJdjtY4-lkp@intel.com>
+To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, edumazet@google.com,
+	sridhar.samudrala@intel.com, Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Mina Almasry <almasrymina@google.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3] netdev-genl: Elide napi_id when not present
+Message-ID: <202502051756.62x7XJ1n-lkp@intel.com>
+References: <20250204192724.199209-1-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +66,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250204192724.199209-1-jdamato@fastly.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1b7d37693f7bd7e9f37c02d15753e16b5bac8c79
-commit: f1e104ed61ffbb353b91e2a25e09f96ac805bd4c [192/192] CHROMIUM: firmware: arm_scmi: Porting tinysys_scmi driver
-config: i386-buildonly-randconfig-006-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051753.LxJdjtY4-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051753.LxJdjtY4-lkp@intel.com/reproduce)
+Hi Joe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c2933b2befe25309f4c5cfbea0ca80909735fd76]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netdev-genl-Elide-napi_id-when-not-present/20250205-033024
+base:   c2933b2befe25309f4c5cfbea0ca80909735fd76
+patch link:    https://lore.kernel.org/r/20250204192724.199209-1-jdamato%40fastly.com
+patch subject: [PATCH net-next v3] netdev-genl: Elide napi_id when not present
+config: i386-buildonly-randconfig-004-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051756.62x7XJ1n-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051756.62x7XJ1n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502051753.LxJdjtY4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502051756.62x7XJ1n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/firmware/arm_scmi/tinysys-scmi-drv.c:71:5: warning: no previous prototype for function 'scmi_tinysys_notifier_fn' [-Wmissing-prototypes]
-      71 | int scmi_tinysys_notifier_fn(struct notifier_block *nb,
-         |     ^
-   drivers/firmware/arm_scmi/tinysys-scmi-drv.c:71:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      71 | int scmi_tinysys_notifier_fn(struct notifier_block *nb,
-         | ^
-         | static 
-   1 warning generated.
+   net/core/netdev-genl.c: In function 'netdev_nl_queue_fill_one':
+>> net/core/netdev-genl.c:380:30: warning: variable 'txq' set but not used [-Wunused-but-set-variable]
+     380 |         struct netdev_queue *txq;
+         |                              ^~~
 
 
-vim +/scmi_tinysys_notifier_fn +71 drivers/firmware/arm_scmi/tinysys-scmi-drv.c
+vim +/txq +380 net/core/netdev-genl.c
 
-    70	
-  > 71	int scmi_tinysys_notifier_fn(struct notifier_block *nb,
-    72				unsigned long action, void *data)
-    73	{
-    74		struct scmi_tinysys_notifier_report *r = data;
-    75		struct scmi_tinysys_report_st *report = (struct scmi_tinysys_report_st *)&(r->f_id);
-    76		f_handler_t func;
-    77	
-    78		dev_dbg(&(t_info->sdev->dev), "scmi notify report ktime:%lld f_id:%d p1:%d %d %d %d\n",
-    79			r->timestamp, r->f_id, r->p1_status, r->p2_status, r->p3_status,
-    80			r->p4_status);
-    81	
-    82		if (r->f_id < SCMI_TINYSYS_CB_MAX) {
-    83	
-    84			func = cb_array[r->f_id];
-    85			if (func)
-    86				func(r->f_id, report);
-    87		}
-    88		return NOTIFY_OK;
-    89	}
-    90	
+4e43e696a7aeb2 Joe Damato      2025-02-04  373  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  374  static int
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  375  netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  376  			 u32 q_idx, u32 q_type, const struct genl_info *info)
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  377  {
+d0caf9876a1c9f Mina Almasry    2024-09-10  378  	struct net_devmem_dmabuf_binding *binding;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  379  	struct netdev_rx_queue *rxq;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01 @380  	struct netdev_queue *txq;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  381  	void *hdr;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  382  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  383  	hdr = genlmsg_iput(rsp, info);
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  384  	if (!hdr)
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  385  		return -EMSGSIZE;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  386  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  387  	if (nla_put_u32(rsp, NETDEV_A_QUEUE_ID, q_idx) ||
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  388  	    nla_put_u32(rsp, NETDEV_A_QUEUE_TYPE, q_type) ||
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  389  	    nla_put_u32(rsp, NETDEV_A_QUEUE_IFINDEX, netdev->ifindex))
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  390  		goto nla_put_failure;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  391  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  392  	switch (q_type) {
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  393  	case NETDEV_QUEUE_TYPE_RX:
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  394  		rxq = __netif_get_rx_queue(netdev, q_idx);
+4e43e696a7aeb2 Joe Damato      2025-02-04  395  		if (nla_put_napi_id(rsp, rxq->napi))
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  396  			goto nla_put_failure;
+d0caf9876a1c9f Mina Almasry    2024-09-10  397  
+d0caf9876a1c9f Mina Almasry    2024-09-10  398  		binding = rxq->mp_params.mp_priv;
+d0caf9876a1c9f Mina Almasry    2024-09-10  399  		if (binding &&
+d0caf9876a1c9f Mina Almasry    2024-09-10  400  		    nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF, binding->id))
+d0caf9876a1c9f Mina Almasry    2024-09-10  401  			goto nla_put_failure;
+d0caf9876a1c9f Mina Almasry    2024-09-10  402  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  403  		break;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  404  	case NETDEV_QUEUE_TYPE_TX:
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  405  		txq = netdev_get_tx_queue(netdev, q_idx);
+4e43e696a7aeb2 Joe Damato      2025-02-04  406  		if (nla_put_napi_id(rsp, rxq->napi))
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  407  			goto nla_put_failure;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  408  	}
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  409  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  410  	genlmsg_end(rsp, hdr);
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  411  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  412  	return 0;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  413  
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  414  nla_put_failure:
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  415  	genlmsg_cancel(rsp, hdr);
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  416  	return -EMSGSIZE;
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  417  }
+6b6171db7fc8f7 Amritha Nambiar 2023-12-01  418  
 
 -- 
 0-DAY CI Kernel Test Service
