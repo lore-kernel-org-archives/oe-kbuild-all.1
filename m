@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627E3215056;
-	Wed,  5 Feb 2025 04:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D164D2F46
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 05:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738729368; cv=none; b=g5tgh3Q/nOjs/dcGGHWTWWztkTo2dEy43jZNyJWkr9qfDCmckV8FNWkHZBrix8FGZVYeGdDh9a7zhHomdk1LOotS6Fnt8XDp0NcdOjOrK3UrWnFvw9dEMrKmFEmI8eTUcdBzys/FG6oYPaAw8O9SHDydvw1QNP2LMT4+Iv2rYzk=
+	t=1738733695; cv=none; b=bu2hCUcb5i5Qy71znHOGu9D11Kt3Vr+kUL5104BA3uhI0btawJKbhgrRWvWtP3TlTm4nj/GiTYfgDXnB4oykJp08fCRFAn1xghCk0zK4hH12FIg52b++DgkKlrgXSYLFVOIzd1rjSVnYMgNHgR1KY+O27iBKRtcFMChSOxV9HkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738729368; c=relaxed/simple;
-	bh=qRCydSc1bWa9uXemEOUCMN4cJ6bF3gXl+tOLoHdi0TI=;
+	s=arc-20240116; t=1738733695; c=relaxed/simple;
+	bh=1UgCevqHM1s4X/FGwV/MxXZd+l6cycEjJeVW6OJxvl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F2CFod3XAz/Fqtg0R5Gl4RRon+z1gW8Z4l2EZ9MpSuhLG1L7NuPFz81cnVIFY+dNN2q6+SpmSqLcdGt3YYHE6ksig/neCSF+K+ZVWOpvX7rZ74zkO5NdGIS5WzFQOA9NV8l+fHBSMUh4AOA2tCt/JOeWdu4QnaFlKfxKrkxoRjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKggIGt7; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=B9x8N/4omUEoH1/MgEkKcqFLCTRhjLjtzGjqWpE7mO3SlOjk8aZc4ZuxjEc14GH/MGpScg8NB3VznOPAt8qcqphvHifvlS+SpyEn334f2+lnuquyiOOPvokr2WWA8hITYb56X3isas9M7v+zYD0tZz2gghVRDphcL9BEhXIZtD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDBd74RH; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKggIGt7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDBd74RH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738729365; x=1770265365;
+  t=1738733693; x=1770269693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qRCydSc1bWa9uXemEOUCMN4cJ6bF3gXl+tOLoHdi0TI=;
-  b=FKggIGt7GA51iXC3EHLXL+694Lc/eMUxLpGU+6FyVd363NxFE4FOxjiI
-   g/FIbjKVdPxq3h6CQNLJADYfhabS0FE8/jEJOtdTgm84D1iBsmfdFilIy
-   G3/oF3iw+HOsmUqOzM7uWcKmIFaymlpGEQPszXSvMFx22uyHOWexLh2bL
-   elJK6VFER7rkk0roJR8hN4Lc9rzKC1Iau9lrPg87xJ3KVvOuiC8GIEu7H
-   OnqQ/NlPifcPAsovgGkviJcpziERFAgLYlXrrHnCSEkLOf6BJBBpkgL9G
-   kXCwJNQtOPE8vgr0v0EskU3C4ct14TErdPRZWJcz2DCVaAIx6Dj3Rabo8
-   A==;
-X-CSE-ConnectionGUID: TYHUFfjBTgOzvXWAYLaLsA==
-X-CSE-MsgGUID: 1u5LBhlWSRmIsXmrfM/JBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39310326"
-X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
-   d="scan'208";a="39310326"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 20:22:44 -0800
-X-CSE-ConnectionGUID: zhYBfjrlRSKeCfHa9bhCnw==
-X-CSE-MsgGUID: 8gd/O9v4QGawVwWsTgitQA==
+  bh=1UgCevqHM1s4X/FGwV/MxXZd+l6cycEjJeVW6OJxvl0=;
+  b=kDBd74RH4ReAp2AxX4JzHkqGAnUsjoNR/XR9NPZVu8lWcZ1tVshYEe2C
+   qsv1zpyu569dmm3QhgAZ+e1/56Bv1c7hdv6sImvpqWxnP2YIPZnyNsLS2
+   GzfWhBMqz3fe/WlFWmcYWC7hIgw6pxfZB6AkCx4kQn+cZ42Af5DeClvui
+   CJDJuVU9Rn0ZEdCDJp5+AO1KRjcEKiAQqFQOU91rEcT9PzlYn2oi3gzTr
+   CbEiN44eS4DAn2UJPqEjcqBQXjDClOF3DhMcjnPTCNHZIm4pnacrJSSPK
+   Fd9Kr6b54I1OH6SMyExOLvxiJCIMj+cuQLYyUt3tyyJGK0hm+kmW6KxNs
+   g==;
+X-CSE-ConnectionGUID: bdBKPyXVRG+Te9F3u1Td1w==
+X-CSE-MsgGUID: uX+FTmbNTiuQ064W5Brbww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39394145"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39394145"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 21:34:52 -0800
+X-CSE-ConnectionGUID: aGbnJcsqTHu7C7iG3866VQ==
+X-CSE-MsgGUID: 2xQg/A0bQy6qOGEbGC3QLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114850175"
+   d="scan'208";a="115993715"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Feb 2025 20:22:43 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Feb 2025 21:34:50 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfWvw-000tQn-2h;
-	Wed, 05 Feb 2025 04:22:40 +0000
-Date: Wed, 5 Feb 2025 12:21:42 +0800
+	id 1tfY3k-000tTv-0d;
+	Wed, 05 Feb 2025 05:34:48 +0000
+Date: Wed, 5 Feb 2025 13:33:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Graf <graf@amazon.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:kho/v4 10/13] kernel/kexec_handover.c:104: warning: Function
- parameter or struct member 'mem' not described in 'kho_return_mem'
-Message-ID: <202502051237.fgLGQZuN-lkp@intel.com>
+To: Filip Kokosinski <fkokosinski@internships.antmicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Gabriel Somlo <gsomlo@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [litex-hub:litex-rebase 3/15] drivers/spi/spi-litespi.c:90:50:
+ sparse: sparse: cast to restricted __be16
+Message-ID: <202502051327.dUo3s7aG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,102 +63,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alexander,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/v4
-head:   a75b813f58b0bc19b2c4b06bd62afc87f02dcb43
-commit: 4a0ee0e000d8043b5fea97eb1716f4eda837f9b6 [10/13] arm64: Add KHO support
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250205/202502051237.fgLGQZuN-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051237.fgLGQZuN-lkp@intel.com/reproduce)
+tree:   https://github.com/litex-hub/linux litex-rebase
+head:   a1cd33eb9593685b8b0716cbecf1a817b6410ca2
+commit: 4743eb95afc8c00bcdc3b4e5fc8b7602e9b096e8 [3/15] LiteX: driver for LiteSPI
+config: arm-randconfig-r123-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051327.dUo3s7aG-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce: (https://download.01.org/0day-ci/archive/20250205/202502051327.dUo3s7aG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502051237.fgLGQZuN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502051327.dUo3s7aG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-litespi.c:90:50: sparse: sparse: cast to restricted __be16
+>> drivers/spi/spi-litespi.c:96:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/spi/spi-litespi.c:96:39: sparse:     expected unsigned short [usertype]
+   drivers/spi/spi-litespi.c:96:39: sparse:     got restricted __be16 [usertype]
+>> drivers/spi/spi-litespi.c:107:50: sparse: sparse: cast to restricted __be32
+>> drivers/spi/spi-litespi.c:113:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/spi/spi-litespi.c:113:39: sparse:     expected unsigned int [usertype]
+   drivers/spi/spi-litespi.c:113:39: sparse:     got restricted __be32 [usertype]
 
->> kernel/kexec_handover.c:104: warning: Function parameter or struct member 'mem' not described in 'kho_return_mem'
->> kernel/kexec_handover.c:142: warning: Function parameter or struct member 'mem' not described in 'kho_claim_mem'
+vim +90 drivers/spi/spi-litespi.c
 
-
-vim +104 kernel/kexec_handover.c
-
-076599f0959a3c Alexander Graf 2024-01-17   94  
-076599f0959a3c Alexander Graf 2024-01-17   95  /**
-076599f0959a3c Alexander Graf 2024-01-17   96   * kho_return_mem - Notify the kernel that initially reserved memory is no
-076599f0959a3c Alexander Graf 2024-01-17   97   * longer needed.
-076599f0959a3c Alexander Graf 2024-01-17   98   * @mem - memory range that was preserved during kexec handover
-076599f0959a3c Alexander Graf 2024-01-17   99   *
-076599f0959a3c Alexander Graf 2024-01-17  100   * When the last consumer of a page returns their memory, kho returns the page
-076599f0959a3c Alexander Graf 2024-01-17  101   * to the buddy allocator as free page.
-076599f0959a3c Alexander Graf 2024-01-17  102   */
-076599f0959a3c Alexander Graf 2024-01-17  103  void kho_return_mem(const struct kho_mem *mem)
-076599f0959a3c Alexander Graf 2024-01-17 @104  {
-076599f0959a3c Alexander Graf 2024-01-17  105  	uint64_t start_pfn, end_pfn, pfn;
-076599f0959a3c Alexander Graf 2024-01-17  106  
-076599f0959a3c Alexander Graf 2024-01-17  107  	start_pfn = PFN_DOWN(mem->addr);
-076599f0959a3c Alexander Graf 2024-01-17  108  	end_pfn = PFN_UP(mem->addr + mem->size);
-076599f0959a3c Alexander Graf 2024-01-17  109  
-076599f0959a3c Alexander Graf 2024-01-17  110  	for (pfn = start_pfn; pfn < end_pfn; pfn++)
-076599f0959a3c Alexander Graf 2024-01-17  111  		kho_return_pfn(pfn);
-076599f0959a3c Alexander Graf 2024-01-17  112  }
-076599f0959a3c Alexander Graf 2024-01-17  113  EXPORT_SYMBOL_GPL(kho_return_mem);
-076599f0959a3c Alexander Graf 2024-01-17  114  
-076599f0959a3c Alexander Graf 2024-01-17  115  static int kho_claim_pfn(ulong pfn)
-076599f0959a3c Alexander Graf 2024-01-17  116  {
-076599f0959a3c Alexander Graf 2024-01-17  117  	struct page *page = pfn_to_online_page(pfn);
-076599f0959a3c Alexander Graf 2024-01-17  118  
-076599f0959a3c Alexander Graf 2024-01-17  119  	if (!page)
-076599f0959a3c Alexander Graf 2024-01-17  120  		return -ENOMEM;
-076599f0959a3c Alexander Graf 2024-01-17  121  
-076599f0959a3c Alexander Graf 2024-01-17  122  	/* almost as free_reserved_page(), just don't free the page */
-076599f0959a3c Alexander Graf 2024-01-17  123  	ClearPageReserved(page);
-076599f0959a3c Alexander Graf 2024-01-17  124  	init_page_count(page);
-076599f0959a3c Alexander Graf 2024-01-17  125  	adjust_managed_page_count(page, 1);
-076599f0959a3c Alexander Graf 2024-01-17  126  
-076599f0959a3c Alexander Graf 2024-01-17  127  	return 0;
-076599f0959a3c Alexander Graf 2024-01-17  128  }
-076599f0959a3c Alexander Graf 2024-01-17  129  
-076599f0959a3c Alexander Graf 2024-01-17  130  /**
-076599f0959a3c Alexander Graf 2024-01-17  131   * kho_claim_mem - Notify the kernel that a handed over memory range is now
-076599f0959a3c Alexander Graf 2024-01-17  132   * in use
-076599f0959a3c Alexander Graf 2024-01-17  133   * @mem - memory range that was preserved during kexec handover
-076599f0959a3c Alexander Graf 2024-01-17  134   *
-076599f0959a3c Alexander Graf 2024-01-17  135   * A kernel subsystem preserved that range during handover and it is going
-076599f0959a3c Alexander Graf 2024-01-17  136   * to reuse this range after kexec. The pages in the range are treated as
-076599f0959a3c Alexander Graf 2024-01-17  137   * allocated, but not %PG_reserved.
-076599f0959a3c Alexander Graf 2024-01-17  138   *
-076599f0959a3c Alexander Graf 2024-01-17  139   * Return: virtual address of the preserved memory range
-076599f0959a3c Alexander Graf 2024-01-17  140   */
-076599f0959a3c Alexander Graf 2024-01-17  141  void *kho_claim_mem(const struct kho_mem *mem)
-076599f0959a3c Alexander Graf 2024-01-17 @142  {
-076599f0959a3c Alexander Graf 2024-01-17  143  	u64 start_pfn, end_pfn, pfn;
-076599f0959a3c Alexander Graf 2024-01-17  144  	void *va = __va(mem->addr);
-076599f0959a3c Alexander Graf 2024-01-17  145  
-076599f0959a3c Alexander Graf 2024-01-17  146  	start_pfn = PFN_DOWN(mem->addr);
-076599f0959a3c Alexander Graf 2024-01-17  147  	end_pfn = PFN_UP(mem->addr + mem->size);
-076599f0959a3c Alexander Graf 2024-01-17  148  
-076599f0959a3c Alexander Graf 2024-01-17  149  	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
-076599f0959a3c Alexander Graf 2024-01-17  150  		int err = kho_claim_pfn(pfn);
-076599f0959a3c Alexander Graf 2024-01-17  151  
-076599f0959a3c Alexander Graf 2024-01-17  152  		if (err)
-076599f0959a3c Alexander Graf 2024-01-17  153  			return NULL;
-076599f0959a3c Alexander Graf 2024-01-17  154  	}
-076599f0959a3c Alexander Graf 2024-01-17  155  
-076599f0959a3c Alexander Graf 2024-01-17  156  	return va;
-076599f0959a3c Alexander Graf 2024-01-17  157  }
-076599f0959a3c Alexander Graf 2024-01-17  158  EXPORT_SYMBOL_GPL(kho_claim_mem);
-076599f0959a3c Alexander Graf 2024-01-17  159  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: 076599f0959a3cd16a8d2a95e552f6f83607ef9a kexec: Add KHO parsing support
-
-:::::: TO: Alexander Graf <graf@amazon.com>
-:::::: CC: Mike Rapoport <rppt@kernel.org>
+    44	
+    45	static int litespi_rxtx(struct spi_controller *ctlr, struct spi_device *spi,
+    46				struct spi_transfer *t)
+    47	{
+    48		struct litespi_hw *hw = spi_controller_get_devdata(ctlr);
+    49		u16 ctl_word = t->bits_per_word << LITESPI_CTRL_SHIFT_BPW;
+    50		int i;
+    51	
+    52		/* set chip select */
+    53		litex_write8(hw->base + LITESPI_OFF_CS, BIT(spi_get_chipselect(spi, 0)));
+    54	
+    55		/* set word size */
+    56		litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+    57	
+    58		/* add start bit to ctl_word */
+    59		ctl_word |= BIT(LITESPI_CTRL_START_BIT);
+    60	
+    61		/*
+    62		 * Validated SPI transfer length is multiple of SPI word size, which
+    63		 * is itself a power-of-two multiple, and fits in a litex subregister
+    64		 */
+    65		if (t->bits_per_word <= 8) {
+    66			const u8 *tx = t->tx_buf;
+    67			u8 *rx = t->rx_buf;
+    68	
+    69			/* word size is 1 byte */
+    70			for (i = 0; i < t->len; i++) {
+    71				if (tx)
+    72					litex_write8(hw->base +
+    73							 LITESPI_OFF_MOSI, *tx++);
+    74	
+    75				litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+    76				litespi_wait_xfer_end(hw);
+    77	
+    78				if (rx)
+    79					*rx++ = litex_read8(hw->base +
+    80								LITESPI_OFF_MISO);
+    81			}
+    82		} else if (t->bits_per_word <= 16) {
+    83			const u16 *tx = t->tx_buf;
+    84			u16 *rx = t->rx_buf;
+    85	
+    86			/* word size is 2 bytes */
+    87			for (i = 0; i < t->len / 2; i++) {
+    88				if (tx)
+    89					litex_write16(hw->base + LITESPI_OFF_MOSI,
+  > 90							 be16_to_cpu(*tx++));
+    91	
+    92				litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+    93				litespi_wait_xfer_end(hw);
+    94	
+    95				if (rx)
+  > 96					*rx++ = cpu_to_be16(litex_read16(
+    97							hw->base + LITESPI_OFF_MISO));
+    98			}
+    99		} else {
+   100			const u32 *tx = t->tx_buf;
+   101			u32 *rx = t->rx_buf;
+   102	
+   103			/* word size is 4 bytes */
+   104			for (i = 0; i < t->len / 4; i++) {
+   105				if (tx)
+   106					litex_write32(hw->base + LITESPI_OFF_MOSI,
+ > 107							 be32_to_cpu(*tx++));
+   108	
+   109				litex_write16(hw->base + LITESPI_OFF_CTRL, ctl_word);
+   110				litespi_wait_xfer_end(hw);
+   111	
+   112				if (rx)
+ > 113					*rx++ = cpu_to_be32(litex_read32(
+   114							hw->base + LITESPI_OFF_MISO));
+   115			}
+   116		}
+   117	
+   118		return 0;
+   119	}
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
