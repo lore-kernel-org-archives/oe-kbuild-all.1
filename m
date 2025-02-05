@@ -1,145 +1,359 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0635F18DF65
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 15:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B640B1519BA;
+	Wed,  5 Feb 2025 16:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738770923; cv=none; b=nS3RLQciqF+g4DUGrPZ0XmFmgOPusEDnw2XY5tTxlSw2fwNF4TamUrvnONY31rdV460naluMY/k1vXPwtX3AVRNJOatQk+seaWpACQC9Da4c+QTwmBrVop5LcY1oQjm+UgQMpJgiucstLpsiVhaumY0zAcftqiOCJfxiLRglO2o=
+	t=1738772286; cv=none; b=l2L7JxEP2c6jHDfZYc6+BqAAjC20fWyipnmW8spVqOtp81RjWq05uwuBreZTYS09SCALxE3brtS/zXKeGNCXSOlmelZVXmPG+Teo/9AH9vUGC3JBfylSdeUMtw6DitqFLy1c2E5CRHsTcVdsLcJ3ElmOS7w3HMXh/woxqezAUTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738770923; c=relaxed/simple;
-	bh=4NXurgLuHno147UmQBKIloAwgjMwE/wzj7LPYojOwRA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K8hYQfheWojdUK1BM9YlKOKSYI//65M0Sc2vFA/oAYDuLk7LjoLBNRHW9WMmm0BCGZMIOC/VHe1qA4b4UStn/CnpTaSY+ukG5ZJ+YJTgwVF3jWSI1dEJiQsG7uVslZMyHAVm7D6f/W8o+4Kyxk8IFxM1o1Yxw+DSeXh6Jwt4o7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5187aa2c97dso2303396e0c.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Feb 2025 07:55:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738770918; x=1739375718;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OaYuM2Hcw7PBsvDFKxLZHCWf9qTRRGOvbo+7Eykm+wE=;
-        b=HAPzFS8dYBpZ0HI1A3Rk7lSlY8j+KOF20l9gbyx9BZsZQ7N+nlh81E4ok/RRU+55Fk
-         T+0Nc3mJQ5DECR/CgY9aKSGUsHRpQqURaBNk/Q2ezDUyK358w1g3KGiWfcFUmUoI2Y9O
-         byvakdpfI8rFjSdsRRZmhAV17Q/8Oms6B1fzlAtfsVUBTZuIYq0HlKp5O1NuD6lz7Twn
-         wtWoZPVfaUDrnHkP8o4W577ix4T9120Acqrtsc6J4D6Wacb/pH/+m/e8XfFYGJ7WuAiT
-         pa4asSanjYa7R09y3H35ffM3ot/iUhE54BpgxWuNr2sNypJkHb+DGlxmrpXUhXv58FWe
-         Kw8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWCIXxcIG30Z2DXEBiXN0k02NZRE8bTacI2ks08/kQJrYQk5BdF1DXSLteqOfNe7BUBdosAp1g38Z69zuFl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzprkrl05FIeUfsPVzk5RxsAkYNqeRxkM0sWvlA96hDJQyvDcAf
-	nh/4z58IZmpfTOAA5nq4/UBkqUYCFCH19oOQghSsE7+ywBmRkv1GODCvPaVO
-X-Gm-Gg: ASbGncvXwDqB+a7OC5KxaMlJjlPNvMlVtxzp5+MHEb/uQ8YIxDv/gn1hP7HSGWRurTy
-	ecFMvxg9BW966aVFJEeRAIcnF0DK+eFFqrXy0XBc7D0G3BsGeOTP6AfIUMM29nc8uUrSCrjWebF
-	E9QWOrkVr9HuGH/dZnR0pTXg/U1JWMDLOpQN4hiizne+IuKdNtTzxxt3qVyowIWvx+ghpfXMW/M
-	tBzKyKOHSQ9OkaxVtbu8j2G5tQzBID1+ZsJ//rc+2Wqegp6jBavPYLFB8xucqJ/31CBmoleUwAR
-	YYFgKRXMfMb+q7mvlldjzpPDatt15eMOjCUNfymCupAMFCeeeaqP8w==
-X-Google-Smtp-Source: AGHT+IEkPUbSnwkaROoMEl7pmXgXeP5H7pzwP0weLPE9YaazkOdKIB5h/XmHm1jpxyIs4Cy0wc0GYw==
-X-Received: by 2002:a05:6122:4f92:b0:51b:8949:c996 with SMTP id 71dfb90a1353d-51f0c4e50b8mr2155135e0c.9.1738770917891;
-        Wed, 05 Feb 2025 07:55:17 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51eb1be84f7sm1847433e0c.8.2025.02.05.07.55.17
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2025 07:55:17 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-866f01c2f2aso142445241.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Feb 2025 07:55:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVsJPtyGLjPALZk0xWjJGtJa4uw6jBAFJ4dGNRuqwDuPO6BkmTllINyZW04pD400AFLO+RPTWKT1SsJmFDl@lists.linux.dev
-X-Received: by 2002:a05:6102:f12:b0:4b2:48ef:3cf2 with SMTP id
- ada2fe7eead31-4ba47abd438mr2354978137.25.1738770916865; Wed, 05 Feb 2025
- 07:55:16 -0800 (PST)
+	s=arc-20240116; t=1738772286; c=relaxed/simple;
+	bh=iGZBK7ZrvUDCbG9R9aejJ1P3OnGZxfZITVVVBjkZBSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rzyaS0EsYUlHNgVcwFBgxL4W9oBRmoRRiGEfw11PkWwlBG5xk3ul6jLi4TbOq8MrQ2/7fF1uGTlHSbOF/YcRebMtOcOOVrhiospb4Rd05laq1reJKZLUW+6Vhtph+L7aReSHIJsxzlpy2e0TmhkTwAwB6Yjmov6Jkw1ZGkGQkC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQSkmfWu; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQSkmfWu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738772285; x=1770308285;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iGZBK7ZrvUDCbG9R9aejJ1P3OnGZxfZITVVVBjkZBSE=;
+  b=XQSkmfWuOKMFdg2463WJxOVQ0IIX/D41H35mGbgjFAO5aKD7kG21Gp5h
+   YfNbDbuqVllE54zjWrb+WyJhUWbn6HlJn11PjLq65UWQuj7ff4Ds3Zvg+
+   Kp5UQMMcGrA3XWWFOmbt5Zuj/f230/SdUhCVQDx0wareXebWOND7+gGwY
+   XQRJ6/NfK+TuVM99wIkpI8KHym+27xAOVP4XMosyIUARaiHxoh0ZGpiI2
+   oWdBjZUCasylkwxP1MH5QrwUqGHzKSmjWeIeyEVkyf1O3Vt7Q5D+qy5o+
+   MBA393jULKoFS8bkDpN3denQbAX+vq2/XjQDalZ54QCwoCvaId4ltoLak
+   A==;
+X-CSE-ConnectionGUID: 0i/3l9cFRrqcQEqmYH4Mmw==
+X-CSE-MsgGUID: DxhLTU6/STmFpv5lDO2FaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50735739"
+X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
+   d="scan'208";a="50735739"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:17:10 -0800
+X-CSE-ConnectionGUID: UIsIFtS1Q66l1r9iSSMlkw==
+X-CSE-MsgGUID: EaclNrySR3Cu4fksrs4/eQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
+   d="scan'208";a="141820920"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 05 Feb 2025 08:17:08 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfi5J-000vl7-2R;
+	Wed, 05 Feb 2025 16:17:05 +0000
+Date: Thu, 6 Feb 2025 00:16:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [brauner-vfs:vfs.all 11/48]
+ fs/notify/fanotify/fanotify_user.c:2004:13: warning: variable 'obj' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <202502060049.cygRkOiu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202502051703.2QcrfJ0B-lkp@intel.com> <Z6N76QX8uLeZQYIK@glsmbp.wifi.local.cmu.edu>
-In-Reply-To: <Z6N76QX8uLeZQYIK@glsmbp.wifi.local.cmu.edu>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 5 Feb 2025 16:55:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXonYO8fj5kUZTXCo4s1QNHZ8zLWJ8La7CBEqTGvfGjYw@mail.gmail.com>
-X-Gm-Features: AWEUYZm--ViJ3BDY8m4KhTOpX1VbR0uoecRumt_BI91lPMQUysaUSXldCzZHIWs
-Message-ID: <CAMuHMdXonYO8fj5kUZTXCo4s1QNHZ8zLWJ8La7CBEqTGvfGjYw@mail.gmail.com>
-Subject: Re: [litex-hub:litex-rebase 11/15] drivers/fpga/litex-fpga.c:114:17:
- sparse: sparse: cast to restricted __be32
-To: "Gabriel L. Somlo" <gsomlo@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Robert Winkler <rwinkler@antmicro.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Gabriel,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+head:   b7601b2abc4dbae86d85da3939ce185eac2ed4ff
+commit: 21c1471c81dc7fd8de1f47d74cef9efc91356971 [11/48] fanotify: notify on mount attach and detach
+config: i386-buildonly-randconfig-005-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060049.cygRkOiu-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060049.cygRkOiu-lkp@intel.com/reproduce)
 
-On Wed, 5 Feb 2025 at 15:55, Gabriel L. Somlo <gsomlo@gmail.com> wrote:
-> On Wed, Feb 05, 2025 at 06:06:11PM +0800, kernel test robot wrote:
-> > tree:   https://github.com/litex-hub/linux litex-rebase
-> > head:   a1cd33eb9593685b8b0716cbecf1a817b6410ca2
-> > commit: 8e7a6c0a5ea5b945506ef310544efdd7c64bb3ae [11/15] LiteX: driver for ICAPBitstream fpga manager
-> > config: arm-randconfig-r113-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051703.2QcrfJ0B-lkp@intel.com/config)
-> > compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20250205/202502051703.2QcrfJ0B-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502051703.2QcrfJ0B-lkp@intel.com/
->
-> Thanks for the report!
->
-> > sparse warnings: (new ones prefixed by >>)
-> > >> drivers/fpga/litex-fpga.c:114:17: sparse: sparse: cast to restricted __be32
-> >
-> > vim +114 drivers/fpga/litex-fpga.c
-> >
-> >     89
-> >     90        static int litex_fpga_write(struct fpga_manager *mgr,
-> >     91                                    const char *buf, size_t count)
-> >     92        {
-> >     93                const struct litex_fpga *fpga_s = (const struct litex_fpga *) mgr->priv;
-> >     94                uint32_t *buf32;
->
-> changed this to s/uint32_t/__be32/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502060049.cygRkOiu-lkp@intel.com/
 
-LGTM
+All warnings (new ones prefixed by >>):
 
-> >     95                int i, count32;
-> >     96
-> >     97                /* Bitstream should consist of 32bit words*/
-> >     98                if (!bit_is_aligned((uint8_t *) buf, count)) {
-> >     99                        dev_err(&mgr->dev, "Invalid bitstream alignment\n");
-> >    100                        return -EINVAL;
-> >    101                }
-> >    102
-> >    103                /* Correct bitstream contains sync word */
-> >    104                if (!bit_has_sync((uint8_t *) buf, count)) {
-> >    105                        dev_err(&mgr->dev, "Bitstream has no sync word\n");
-> >    106                        return -EINVAL;
-> >    107                }
-> >    108
-> >    109                buf32 = (uint32_t *) buf;
->
-> also changed this to s/uint32_t/__be32/
+>> fs/notify/fanotify/fanotify_user.c:2004:13: warning: variable 'obj' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2004 |         } else if (obj_type == FSNOTIFY_OBJ_TYPE_MNTNS) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/notify/fanotify/fanotify_user.c:2009:7: note: uninitialized use occurs here
+    2009 |         if (!obj)
+         |              ^~~
+   fs/notify/fanotify/fanotify_user.c:2004:9: note: remove the 'if' if its condition is always true
+    2004 |         } else if (obj_type == FSNOTIFY_OBJ_TYPE_MNTNS) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/notify/fanotify/fanotify_user.c:1819:11: note: initialize the variable 'obj' to silence this warning
+    1819 |         void *obj;
+         |                  ^
+         |                   = NULL
+   1 warning generated.
 
-Likewise.
 
-Note: If fpga_manager_ops.write() would take a "const void *buf",
-no casts would be needed...
+vim +2004 fs/notify/fanotify/fanotify_user.c
 
-> Geert: I left this as a separate "fixup" patch (for now); I'll merge
-> it into the original "LiteX: driver for ICAPBitstream fpga manager"
-> once we convince ourselves it was the right thing to do (I am not set
-> up to test this patch at the moment).
-
-FWIW, no change in the generated assembler output.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+  1806	
+  1807	static int do_fanotify_mark(int fanotify_fd, unsigned int flags, __u64 mask,
+  1808				    int dfd, const char  __user *pathname)
+  1809	{
+  1810		struct inode *inode = NULL;
+  1811		struct fsnotify_group *group;
+  1812		struct path path;
+  1813		struct fan_fsid __fsid, *fsid = NULL;
+  1814		u32 valid_mask = FANOTIFY_EVENTS | FANOTIFY_EVENT_FLAGS;
+  1815		unsigned int mark_type = flags & FANOTIFY_MARK_TYPE_BITS;
+  1816		unsigned int mark_cmd = flags & FANOTIFY_MARK_CMD_BITS;
+  1817		unsigned int ignore = flags & FANOTIFY_MARK_IGNORE_BITS;
+  1818		unsigned int obj_type, fid_mode;
+  1819		void *obj;
+  1820		u32 umask = 0;
+  1821		int ret;
+  1822	
+  1823		pr_debug("%s: fanotify_fd=%d flags=%x dfd=%d pathname=%p mask=%llx\n",
+  1824			 __func__, fanotify_fd, flags, dfd, pathname, mask);
+  1825	
+  1826		/* we only use the lower 32 bits as of right now. */
+  1827		if (upper_32_bits(mask))
+  1828			return -EINVAL;
+  1829	
+  1830		if (flags & ~FANOTIFY_MARK_FLAGS)
+  1831			return -EINVAL;
+  1832	
+  1833		switch (mark_type) {
+  1834		case FAN_MARK_INODE:
+  1835			obj_type = FSNOTIFY_OBJ_TYPE_INODE;
+  1836			break;
+  1837		case FAN_MARK_MOUNT:
+  1838			obj_type = FSNOTIFY_OBJ_TYPE_VFSMOUNT;
+  1839			break;
+  1840		case FAN_MARK_FILESYSTEM:
+  1841			obj_type = FSNOTIFY_OBJ_TYPE_SB;
+  1842			break;
+  1843		case FAN_MARK_MNTNS:
+  1844			obj_type = FSNOTIFY_OBJ_TYPE_MNTNS;
+  1845			break;
+  1846		default:
+  1847			return -EINVAL;
+  1848		}
+  1849	
+  1850		switch (mark_cmd) {
+  1851		case FAN_MARK_ADD:
+  1852		case FAN_MARK_REMOVE:
+  1853			if (!mask)
+  1854				return -EINVAL;
+  1855			break;
+  1856		case FAN_MARK_FLUSH:
+  1857			if (flags & ~(FANOTIFY_MARK_TYPE_BITS | FAN_MARK_FLUSH))
+  1858				return -EINVAL;
+  1859			break;
+  1860		default:
+  1861			return -EINVAL;
+  1862		}
+  1863	
+  1864		if (IS_ENABLED(CONFIG_FANOTIFY_ACCESS_PERMISSIONS))
+  1865			valid_mask |= FANOTIFY_PERM_EVENTS;
+  1866	
+  1867		if (mask & ~valid_mask)
+  1868			return -EINVAL;
+  1869	
+  1870	
+  1871		/* We don't allow FAN_MARK_IGNORE & FAN_MARK_IGNORED_MASK together */
+  1872		if (ignore == (FAN_MARK_IGNORE | FAN_MARK_IGNORED_MASK))
+  1873			return -EINVAL;
+  1874	
+  1875		/*
+  1876		 * Event flags (FAN_ONDIR, FAN_EVENT_ON_CHILD) have no effect with
+  1877		 * FAN_MARK_IGNORED_MASK.
+  1878		 */
+  1879		if (ignore == FAN_MARK_IGNORED_MASK) {
+  1880			mask &= ~FANOTIFY_EVENT_FLAGS;
+  1881			umask = FANOTIFY_EVENT_FLAGS;
+  1882		}
+  1883	
+  1884		CLASS(fd, f)(fanotify_fd);
+  1885		if (fd_empty(f))
+  1886			return -EBADF;
+  1887	
+  1888		/* verify that this is indeed an fanotify instance */
+  1889		if (unlikely(fd_file(f)->f_op != &fanotify_fops))
+  1890			return -EINVAL;
+  1891		group = fd_file(f)->private_data;
+  1892	
+  1893		/* Only report mount events on mnt namespace */
+  1894		if (FAN_GROUP_FLAG(group, FAN_REPORT_MNT)) {
+  1895			if (mask & ~FANOTIFY_MOUNT_EVENTS)
+  1896				return -EINVAL;
+  1897			if (mark_type != FAN_MARK_MNTNS)
+  1898				return -EINVAL;
+  1899		} else {
+  1900			if (mask & FANOTIFY_MOUNT_EVENTS)
+  1901				return -EINVAL;
+  1902			if (mark_type == FAN_MARK_MNTNS)
+  1903				return -EINVAL;
+  1904		}
+  1905	
+  1906		/*
+  1907		 * An unprivileged user is not allowed to setup mount nor filesystem
+  1908		 * marks.  This also includes setting up such marks by a group that
+  1909		 * was initialized by an unprivileged user.
+  1910		 */
+  1911		if ((!capable(CAP_SYS_ADMIN) ||
+  1912		     FAN_GROUP_FLAG(group, FANOTIFY_UNPRIV)) &&
+  1913		    mark_type != FAN_MARK_INODE)
+  1914			return -EPERM;
+  1915	
+  1916		/*
+  1917		 * Permission events are not allowed for FAN_CLASS_NOTIF.
+  1918		 * Pre-content permission events are not allowed for FAN_CLASS_CONTENT.
+  1919		 */
+  1920		if (mask & FANOTIFY_PERM_EVENTS &&
+  1921		    group->priority == FSNOTIFY_PRIO_NORMAL)
+  1922			return -EINVAL;
+  1923		else if (mask & FANOTIFY_PRE_CONTENT_EVENTS &&
+  1924			 group->priority == FSNOTIFY_PRIO_CONTENT)
+  1925			return -EINVAL;
+  1926	
+  1927		if (mask & FAN_FS_ERROR &&
+  1928		    mark_type != FAN_MARK_FILESYSTEM)
+  1929			return -EINVAL;
+  1930	
+  1931		/*
+  1932		 * Evictable is only relevant for inode marks, because only inode object
+  1933		 * can be evicted on memory pressure.
+  1934		 */
+  1935		if (flags & FAN_MARK_EVICTABLE &&
+  1936		     mark_type != FAN_MARK_INODE)
+  1937			return -EINVAL;
+  1938	
+  1939		/*
+  1940		 * Events that do not carry enough information to report
+  1941		 * event->fd require a group that supports reporting fid.  Those
+  1942		 * events are not supported on a mount mark, because they do not
+  1943		 * carry enough information (i.e. path) to be filtered by mount
+  1944		 * point.
+  1945		 */
+  1946		fid_mode = FAN_GROUP_FLAG(group, FANOTIFY_FID_BITS);
+  1947		if (mask & ~(FANOTIFY_FD_EVENTS|FANOTIFY_MOUNT_EVENTS|FANOTIFY_EVENT_FLAGS) &&
+  1948		    (!fid_mode || mark_type == FAN_MARK_MOUNT))
+  1949			return -EINVAL;
+  1950	
+  1951		/*
+  1952		 * FAN_RENAME uses special info type records to report the old and
+  1953		 * new parent+name.  Reporting only old and new parent id is less
+  1954		 * useful and was not implemented.
+  1955		 */
+  1956		if (mask & FAN_RENAME && !(fid_mode & FAN_REPORT_NAME))
+  1957			return -EINVAL;
+  1958	
+  1959		/* Pre-content events are not currently generated for directories. */
+  1960		if (mask & FANOTIFY_PRE_CONTENT_EVENTS && mask & FAN_ONDIR)
+  1961			return -EINVAL;
+  1962	
+  1963		if (mark_cmd == FAN_MARK_FLUSH) {
+  1964			if (mark_type == FAN_MARK_MOUNT)
+  1965				fsnotify_clear_vfsmount_marks_by_group(group);
+  1966			else if (mark_type == FAN_MARK_FILESYSTEM)
+  1967				fsnotify_clear_sb_marks_by_group(group);
+  1968			else
+  1969				fsnotify_clear_inode_marks_by_group(group);
+  1970			return 0;
+  1971		}
+  1972	
+  1973		ret = fanotify_find_path(dfd, pathname, &path, flags,
+  1974				(mask & ALL_FSNOTIFY_EVENTS), obj_type);
+  1975		if (ret)
+  1976			return ret;
+  1977	
+  1978		if (mark_cmd == FAN_MARK_ADD) {
+  1979			ret = fanotify_events_supported(group, &path, mask, flags);
+  1980			if (ret)
+  1981				goto path_put_and_out;
+  1982		}
+  1983	
+  1984		if (fid_mode) {
+  1985			ret = fanotify_test_fsid(path.dentry, flags, &__fsid);
+  1986			if (ret)
+  1987				goto path_put_and_out;
+  1988	
+  1989			ret = fanotify_test_fid(path.dentry, flags);
+  1990			if (ret)
+  1991				goto path_put_and_out;
+  1992	
+  1993			fsid = &__fsid;
+  1994		}
+  1995	
+  1996		/* inode held in place by reference to path; group by fget on fd */
+  1997		if (obj_type == FSNOTIFY_OBJ_TYPE_INODE) {
+  1998			inode = path.dentry->d_inode;
+  1999			obj = inode;
+  2000		} else if (obj_type == FSNOTIFY_OBJ_TYPE_VFSMOUNT) {
+  2001			obj = path.mnt;
+  2002		} else if (obj_type == FSNOTIFY_OBJ_TYPE_SB) {
+  2003			obj = path.mnt->mnt_sb;
+> 2004		} else if (obj_type == FSNOTIFY_OBJ_TYPE_MNTNS) {
+  2005			obj = mnt_ns_from_dentry(path.dentry);
+  2006		}
+  2007	
+  2008		ret = -EINVAL;
+  2009		if (!obj)
+  2010			goto path_put_and_out;
+  2011	
+  2012		/*
+  2013		 * If some other task has this inode open for write we should not add
+  2014		 * an ignore mask, unless that ignore mask is supposed to survive
+  2015		 * modification changes anyway.
+  2016		 */
+  2017		if (mark_cmd == FAN_MARK_ADD && (flags & FANOTIFY_MARK_IGNORE_BITS) &&
+  2018		    !(flags & FAN_MARK_IGNORED_SURV_MODIFY)) {
+  2019			ret = !inode ? -EINVAL : -EISDIR;
+  2020			/* FAN_MARK_IGNORE requires SURV_MODIFY for sb/mount/dir marks */
+  2021			if (ignore == FAN_MARK_IGNORE &&
+  2022			    (!inode || S_ISDIR(inode->i_mode)))
+  2023				goto path_put_and_out;
+  2024	
+  2025			ret = 0;
+  2026			if (inode && inode_is_open_for_write(inode))
+  2027				goto path_put_and_out;
+  2028		}
+  2029	
+  2030		/* Mask out FAN_EVENT_ON_CHILD flag for sb/mount/non-dir marks */
+  2031		if (!inode || !S_ISDIR(inode->i_mode)) {
+  2032			mask &= ~FAN_EVENT_ON_CHILD;
+  2033			umask = FAN_EVENT_ON_CHILD;
+  2034			/*
+  2035			 * If group needs to report parent fid, register for getting
+  2036			 * events with parent/name info for non-directory.
+  2037			 */
+  2038			if ((fid_mode & FAN_REPORT_DIR_FID) &&
+  2039			    (flags & FAN_MARK_ADD) && !ignore)
+  2040				mask |= FAN_EVENT_ON_CHILD;
+  2041		}
+  2042	
+  2043		/* create/update an inode mark */
+  2044		switch (mark_cmd) {
+  2045		case FAN_MARK_ADD:
+  2046			ret = fanotify_add_mark(group, obj, obj_type, mask, flags,
+  2047						fsid);
+  2048			break;
+  2049		case FAN_MARK_REMOVE:
+  2050			ret = fanotify_remove_mark(group, obj, obj_type, mask, flags,
+  2051						   umask);
+  2052			break;
+  2053		default:
+  2054			ret = -EINVAL;
+  2055		}
+  2056	
+  2057	path_put_and_out:
+  2058		path_put(&path);
+  2059		return ret;
+  2060	}
+  2061	
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
