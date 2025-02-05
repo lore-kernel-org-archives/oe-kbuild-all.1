@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE7B22A4F6
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 09:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A629921A458
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 09:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738747398; cv=none; b=J89yTrfB5/LvTYuZtPZDvOcNVl1P+SljtXQKwHHGWMEDl2e/U8bOoOAOGPAyKHTLtN0uH7yWpgkTQ4oAzS99Y1YnxdmKNYHJefGv7Juk2WPb75GvFqowbwajRYTHuN6AMC4EZciJBQStUa89tYFuruyNGYNdG9Jvs6VqDjEfJ3M=
+	t=1738748663; cv=none; b=tRJZmGPIr6sNrvnRlsgsUS01AKaVr0KS/rHSRIUp9HxIGoS8jiZ++HdC2rEAyNfgzA91IextWQnN3iKDIiRxkz4hwXmyQ+l6jxnamJZW7TxIuHyFhT6hFE4M+W5amY+7wC5pCO6LxxFXRKXI/fQcvNYrkdNBsKvCAbWQ2AXaYvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738747398; c=relaxed/simple;
-	bh=ZIKAtnPAyNIjmRnPJX5oThyH4/D0PWvHXvgPBAiMKSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CvHpljwRnpI7w+dVCv2JPk4jTBzeP1UsG4YS9BiOy5T0iyzccT5Ze3sducqKiW0We56y88wsMyprjKnmk9K4eTroDx7jNRmhpESAl4lnmL2t4xUnqbqwmD+TJV8BbxTdKpXmu4zFoKNckgVr7InVsdUez2iKgHTKyxTnKDAG0+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T5usJsoK; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1738748663; c=relaxed/simple;
+	bh=brk5QFwx5XcWUq9g1tc3iioO7QlqGPXi6atj7jQv2CM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C22xAH8YNefaT3HJq/G4BjamJfEoeii8cR7TXqdWmde90UValiozg6Eg4Fk6kyDQdfDmZpzewaWKaaW1jfszbe9C8syd3z7fxSxar6MgqAC8tNj9jbspnw8llyK1XM7968vyXvbA1nzxuYOSdwTMgdvL+bHnnETMIFhyv0S/wX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhiN12Kq; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5usJsoK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhiN12Kq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738747396; x=1770283396;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZIKAtnPAyNIjmRnPJX5oThyH4/D0PWvHXvgPBAiMKSw=;
-  b=T5usJsoKfmwkJ34p7D8kQGRO3pzRpNtqLr1gWfiUUXJ/hk4OOdDGDasS
-   gTJB4K33htGW1GVRjyI1/GAr6wWymN92fFWTPKLqnRreV4It0dXLNYVEH
-   YbC4tA/mg7TnwFQH85FzjLe9KfWnLr2icpWaHCoSWW2A5ZqYH/1weyLf+
-   MnbLMARKehHrik0/20a3jsyxQryia93VvudpW09LvrJbF30FVpu2wYAjF
-   oZoXh3fCGJLoTDuO2p/jxXK5yMDiG7rSQ2AD3VEh8dOgrkoDA5OXmhIz3
-   efyTIwX4VaaypMY1I2BGIiX/nxqlph3h+8SzKzfRViLa9yqu7mZKrtRbz
-   A==;
-X-CSE-ConnectionGUID: +Qgg1SfjSj2LGd16ngJssg==
-X-CSE-MsgGUID: spOrH4imQ0+kISuSj13KSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39198844"
+  t=1738748658; x=1770284658;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=brk5QFwx5XcWUq9g1tc3iioO7QlqGPXi6atj7jQv2CM=;
+  b=DhiN12KqUMsfJGQLNHAAqdpvSQhlpeQ8kZ70boo77CkVzqPpyLE9N4ES
+   JfYYDAzx5dSlyaZ9ry7xjqWjq/TiHr5SNsBRRkZTHB8pDi2skrLseNZSh
+   3xMeAM8WQGB577Ma8HQxqE5VKAD77dTbE6X6bJ0xqQMZPsFzC5Zoo2adV
+   9RgtXdC426rEjqvcGLa5e8MNcnJpOYf3kI4qjxKVJBfFLlnh+vfe5NLCA
+   GtshwX7et6EqT2OX6VvdCS7eHjxaPzwiggQ+AEUdYPYPNYUrqPv5vr4CV
+   jVxxLzYTwJoiG22AfLqf0K2bn7rOGNGTFCktVazpnxdVEdYBTKNBlZ5sd
+   g==;
+X-CSE-ConnectionGUID: diU8iuURTvq2sWqYjrauIw==
+X-CSE-MsgGUID: btTqb0dbQLiMOtaxoD1Itg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42142044"
 X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="39198844"
+   d="scan'208";a="42142044"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 01:23:16 -0800
-X-CSE-ConnectionGUID: 0p90qPdvTUW8DbIsBJdpKA==
-X-CSE-MsgGUID: o1M10QCJTjSRDdZazQc0qg==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 01:44:17 -0800
+X-CSE-ConnectionGUID: uCvhU7bvTRCet4d8qSMEMA==
+X-CSE-MsgGUID: XauHwmPATEyRaEXUnzrumg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,261,1732608000"; 
-   d="scan'208";a="110826770"
+   d="scan'208";a="110838363"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Feb 2025 01:23:14 -0800
+  by orviesa006.jf.intel.com with ESMTP; 05 Feb 2025 01:44:15 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfbcl-000tgt-22;
-	Wed, 05 Feb 2025 09:23:11 +0000
-Date: Wed, 5 Feb 2025 17:22:21 +0800
+	id 1tfbx7-000ti3-1b;
+	Wed, 05 Feb 2025 09:44:13 +0000
+Date: Wed, 5 Feb 2025 17:43:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, edumazet@google.com,
-	sridhar.samudrala@intel.com, Joe Damato <jdamato@fastly.com>,
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Mina Almasry <almasrymina@google.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v3] netdev-genl: Elide napi_id when not present
-Message-ID: <202502051756.62x7XJ1n-lkp@intel.com>
-References: <20250204192724.199209-1-jdamato@fastly.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 192/192]
+ drivers/thermal/mediatek/soc_temp_lvts_mt8196.c:74:28: warning: variable
+ 's_index' set but not used
+Message-ID: <202502051701.stN88Tb9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,83 +62,235 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250204192724.199209-1-jdamato@fastly.com>
 
-Hi Joe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c2933b2befe25309f4c5cfbea0ca80909735fd76]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netdev-genl-Elide-napi_id-when-not-present/20250205-033024
-base:   c2933b2befe25309f4c5cfbea0ca80909735fd76
-patch link:    https://lore.kernel.org/r/20250204192724.199209-1-jdamato%40fastly.com
-patch subject: [PATCH net-next v3] netdev-genl: Elide napi_id when not present
-config: i386-buildonly-randconfig-004-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051756.62x7XJ1n-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051756.62x7XJ1n-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1b7d37693f7bd7e9f37c02d15753e16b5bac8c79
+commit: da40e24aff5b36a331b3113fa10dcc46a6cdda9b [192/192] CHROMIUM: thermal/mediatek: add thermal driver
+config: arm64-randconfig-003-20250205 (https://download.01.org/0day-ci/archive/20250205/202502051701.stN88Tb9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250205/202502051701.stN88Tb9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502051756.62x7XJ1n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502051701.stN88Tb9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/core/netdev-genl.c: In function 'netdev_nl_queue_fill_one':
->> net/core/netdev-genl.c:380:30: warning: variable 'txq' set but not used [-Wunused-but-set-variable]
-     380 |         struct netdev_queue *txq;
-         |                              ^~~
+   drivers/thermal/mediatek/soc_temp_lvts_mt8196.c: In function 'lvts_read_all_tc_temperature':
+>> drivers/thermal/mediatek/soc_temp_lvts_mt8196.c:74:28: warning: variable 's_index' set but not used [-Wunused-but-set-variable]
+      74 |         unsigned int i, j, s_index, msr_raw;
+         |                            ^~~~~~~
+   drivers/thermal/mediatek/soc_temp_lvts_mt8196.c: At top level:
+>> drivers/thermal/mediatek/soc_temp_lvts_mt8196.c:230:6: warning: no previous prototype for 'lvts_wait_for_all_sensing_point_idle' [-Wmissing-prototypes]
+     230 | void lvts_wait_for_all_sensing_point_idle(struct lvts_data *lvts_data)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/thermal/mediatek/soc_temp_lvts_mt8196.c: In function 'lvts_resume_noirq':
+>> drivers/thermal/mediatek/soc_temp_lvts_mt8196.c:860:27: warning: variable 'lvts_data' set but not used [-Wunused-but-set-variable]
+     860 |         struct lvts_data *lvts_data;
+         |                           ^~~~~~~~~
 
 
-vim +/txq +380 net/core/netdev-genl.c
+vim +/s_index +74 drivers/thermal/mediatek/soc_temp_lvts_mt8196.c
 
-4e43e696a7aeb2 Joe Damato      2025-02-04  373  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  374  static int
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  375  netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  376  			 u32 q_idx, u32 q_type, const struct genl_info *info)
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  377  {
-d0caf9876a1c9f Mina Almasry    2024-09-10  378  	struct net_devmem_dmabuf_binding *binding;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  379  	struct netdev_rx_queue *rxq;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01 @380  	struct netdev_queue *txq;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  381  	void *hdr;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  382  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  383  	hdr = genlmsg_iput(rsp, info);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  384  	if (!hdr)
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  385  		return -EMSGSIZE;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  386  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  387  	if (nla_put_u32(rsp, NETDEV_A_QUEUE_ID, q_idx) ||
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  388  	    nla_put_u32(rsp, NETDEV_A_QUEUE_TYPE, q_type) ||
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  389  	    nla_put_u32(rsp, NETDEV_A_QUEUE_IFINDEX, netdev->ifindex))
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  390  		goto nla_put_failure;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  391  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  392  	switch (q_type) {
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  393  	case NETDEV_QUEUE_TYPE_RX:
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  394  		rxq = __netif_get_rx_queue(netdev, q_idx);
-4e43e696a7aeb2 Joe Damato      2025-02-04  395  		if (nla_put_napi_id(rsp, rxq->napi))
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  396  			goto nla_put_failure;
-d0caf9876a1c9f Mina Almasry    2024-09-10  397  
-d0caf9876a1c9f Mina Almasry    2024-09-10  398  		binding = rxq->mp_params.mp_priv;
-d0caf9876a1c9f Mina Almasry    2024-09-10  399  		if (binding &&
-d0caf9876a1c9f Mina Almasry    2024-09-10  400  		    nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF, binding->id))
-d0caf9876a1c9f Mina Almasry    2024-09-10  401  			goto nla_put_failure;
-d0caf9876a1c9f Mina Almasry    2024-09-10  402  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  403  		break;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  404  	case NETDEV_QUEUE_TYPE_TX:
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  405  		txq = netdev_get_tx_queue(netdev, q_idx);
-4e43e696a7aeb2 Joe Damato      2025-02-04  406  		if (nla_put_napi_id(rsp, rxq->napi))
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  407  			goto nla_put_failure;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  408  	}
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  409  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  410  	genlmsg_end(rsp, hdr);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  411  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  412  	return 0;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  413  
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  414  nla_put_failure:
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  415  	genlmsg_cancel(rsp, hdr);
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  416  	return -EMSGSIZE;
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  417  }
-6b6171db7fc8f7 Amritha Nambiar 2023-12-01  418  
+    70	
+    71	static int __used lvts_read_all_tc_temperature(struct lvts_data *lvts_data, bool in_isr)
+    72	{
+    73		struct tc_settings *tc = lvts_data->tc;
+  > 74		unsigned int i, j, s_index, msr_raw;
+    75		int max_temp = THERMAL_TEMP_INVALID, current_temp;
+    76		void __iomem *base;
+    77		struct platform_ops *ops = &lvts_data->ops;
+    78	
+    79		for (i = 0; i < lvts_data->num_tc; i++) {
+    80			base = GET_BASE_ADDR(i);
+    81			for (j = 0; j < tc[i].num_sensor; j++) {
+    82				if (tc[i].sensor_on_off[j] != SEN_ON)
+    83					continue;
+    84	
+    85				s_index = tc[i].sensor_map[j];
+    86	
+    87				if (lvts_data->is_tsfdc_n3e_ver)
+    88					msr_raw = lvts_read_tc_msr_raw(LVTSATP0_0 + base + 0x4 * j);
+    89				else
+    90					msr_raw = lvts_read_tc_msr_raw(LVTSMSR0_0 + base + 0x4 * j);
+    91	
+    92				if (msr_raw == 0)
+    93					current_temp = THERMAL_TEMP_INVALID;
+    94				else
+    95					current_temp = ops->lvts_raw_to_temp(&(tc[i].coeff), j, msr_raw);
+    96	
+    97				if (current_temp > max_temp)
+    98					max_temp = current_temp;
+    99			}
+   100		}
+   101	
+   102		return max_temp;
+   103	}
+   104	
+   105	static int lvts_read_tc_temperature(struct lvts_data *lvts_data, unsigned int tz_id, bool in_isr)
+   106	{
+   107		struct tc_settings *tc = lvts_data->tc;
+   108		unsigned int i, j, msr_raw;
+   109		unsigned int s_index = tz_id - 1;
+   110		int current_temp;
+   111		void __iomem *base;
+   112		struct platform_ops *ops = &lvts_data->ops;
+   113	
+   114		for (i = 0; i < lvts_data->num_tc; i++) {
+   115			base = GET_BASE_ADDR(i);
+   116			for (j = 0; j < tc[i].num_sensor; j++) {
+   117				if (s_index != tc[i].sensor_map[j])
+   118					continue;
+   119	#ifdef GPU_POWERCHK
+   120				if (lvts_data->gpu_power_ctrl_id)
+   121					if (i == lvts_data->gpu_power_ctrl_id)
+   122						if (mfg0_pwr_sta() != MFG0_PWR_ON)
+   123							return THERMAL_TEMP_INVALID;
+   124	#endif /* GPU_POWERCHK */
+   125	
+   126				if (lvts_data->is_tsfdc_n3e_ver)
+   127					msr_raw = lvts_read_tc_msr_raw(LVTSATP0_0 + base + 0x4 * j);
+   128				else
+   129					msr_raw = lvts_read_tc_msr_raw(LVTSMSR0_0 + base + 0x4 * j);
+   130	
+   131				if (msr_raw == 0)
+   132					current_temp = THERMAL_TEMP_INVALID;
+   133				else
+   134					current_temp = ops->lvts_raw_to_temp(&(tc[i].coeff), j, msr_raw);
+   135	
+   136				return current_temp;
+   137			}
+   138		}
+   139	
+   140		return THERMAL_TEMP_INVALID;
+   141	}
+   142	
+   143	static int soc_temp_lvts_read_temp(struct thermal_zone_device *tz, int *temperature)
+   144	{
+   145		struct soc_temp_tz *lvts_tz = (struct soc_temp_tz *)tz->devdata;
+   146		struct lvts_data *lvts_data = lvts_tz->lvts_data;
+   147	
+   148		if (lvts_tz->id == 0)
+   149			*temperature = lvts_read_all_tc_temperature(lvts_data, false);
+   150		else if (lvts_tz->id - 1 < lvts_data->num_sensor)
+   151			*temperature = lvts_read_tc_temperature(lvts_data, lvts_tz->id, false);
+   152		else
+   153			return -EINVAL;
+   154	
+   155		return 0;
+   156	}
+   157	
+   158	static void disable_all_sensing_points(struct lvts_data *lvts_data)
+   159	{
+   160		unsigned int i;
+   161		void __iomem *base;
+   162	
+   163		for (i = 0; i < lvts_data->num_tc; i++) {
+   164			base = GET_BASE_ADDR(i);
+   165			writel(DISABLE_SENSING_POINT, LVTSMONCTL0_0 + base);
+   166		}
+   167	}
+   168	
+   169	static void enable_all_sensing_points(struct lvts_data *lvts_data)
+   170	{
+   171		struct device *dev = lvts_data->dev;
+   172		struct tc_settings *tc = lvts_data->tc;
+   173		unsigned int i, j, num;
+   174		void __iomem *base;
+   175		unsigned int flag;
+   176	
+   177		for (i = 0; i < lvts_data->num_tc; i++) {
+   178			base = GET_BASE_ADDR(i);
+   179			num = tc[i].num_sensor;
+   180	
+   181			if (num > ALL_SENSING_POINTS) {
+   182				dev_err(dev,
+   183					"%s, LVTS%d, illegal number of sensors: %d\n",
+   184					__func__, i, tc[i].num_sensor);
+   185				continue;
+   186			}
+   187	
+   188			flag = LVTS_SINGLE_SENSE;
+   189			for (j = 0; j < tc[i].num_sensor; j++) {
+   190				if (tc[i].sensor_on_off[j] != SEN_ON)
+   191					continue;
+   192	
+   193				flag = flag | (0x1<<j);
+   194			}
+   195			writel(flag, LVTSMONCTL0_0 + base);
+   196		}
+   197	}
+   198	
+   199	/*
+   200	 * lvts_thermal_check_all_sensing_point_idle -
+   201	 * Check if all sensing points are idle
+   202	 * Return: 0 if all sensing points are idle
+   203	 *         an error code if one of them is busy
+   204	 * error code[31:16]: an index of LVTS thermal controller
+   205	 * error code[2]: bit 10 of LVTSMSRCTL1
+   206	 * error code[1]: bit 7 of LVTSMSRCTL1
+   207	 * error code[0]: bit 0 of LVTSMSRCTL1
+   208	 */
+   209	static int lvts_thermal_check_all_sensing_point_idle(struct lvts_data *lvts_data)
+   210	{
+   211		int i, temp, error_code;
+   212		void __iomem *base;
+   213	
+   214		for (i = 0; i < lvts_data->num_tc; i++) {
+   215			base = GET_BASE_ADDR(i);
+   216			temp = readl(base + LVTSMSRCTL1_0);
+   217			/* Check if bit10=bit7=bit0=0 */
+   218			if ((temp & 0x481) != 0) {
+   219				error_code = (i << 16) + ((temp & BIT(10)) >> 8) +
+   220					((temp & BIT(7)) >> 6) +
+   221					(temp & BIT(0));
+   222	
+   223				return error_code;
+   224			}
+   225		}
+   226	
+   227		return 0;
+   228	}
+   229	
+ > 230	void lvts_wait_for_all_sensing_point_idle(struct lvts_data *lvts_data)
+   231	{
+   232		struct device *dev = lvts_data->dev;
+   233		int cnt = 0, i, error_code, mask;
+   234		int temp;
+   235		void __iomem *base;
+   236	
+   237		mask = BIT(10) | BIT(7) | BIT(0);
+   238		/*
+   239		 * Wait until all sensoring points idled.
+   240		 * No need to check LVTS status when suspend/resume,
+   241		 * this will spend extra 100us of suspend flow.
+   242		 * LVTS status will be reset after resume.
+   243		 */
+   244		while (cnt < 80) {
+   245			temp = lvts_thermal_check_all_sensing_point_idle(lvts_data);
+   246			if (temp == 0)
+   247				goto TAIL;
+   248	
+   249			udelay(2);
+   250			cnt++;
+   251		}
+   252		for (i = 0; i < lvts_data->num_tc; i++) {
+   253			base = GET_BASE_ADDR(i);
+   254			temp = readl(LVTSMSRCTL1_0 + base);
+   255			if ((temp & mask) != 0) {
+   256				error_code = ((temp & BIT(10)) >> 8) +
+   257					((temp & BIT(7)) >> 6) +
+   258					(temp & BIT(0));
+   259	
+   260				dev_info(dev, "Error LVTS %d sensing points aren't idle, error_code %d\n",
+   261					i, error_code);
+   262			}
+   263		}
+   264	TAIL:
+   265		return;
+   266	}
+   267	
 
 -- 
 0-DAY CI Kernel Test Service
