@@ -1,210 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9171FFC4B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 21:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCA821516D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 21:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738792367; cv=none; b=Oko8SwZ3+V0Ev4Z9dk5GH83Z9tZaYuM8nmnVBN5vcwK2JBmaZmo4NpIn3HS7B1EjECZ4UWIWDAVoj/W9sSj3aPjid4oM8uZx8xRzMynQzloWpEnqWh5oL0ibRVtox5VmhTZXWIi9setTrYelcUcM5EHaANBpG4+EH8C8pLNMJyo=
+	t=1738792617; cv=none; b=dME5hI2OsOKsKMu5/XGi+bIFQ+KGX/OLOFH4F1iTf5pXIvhPNW53n7Izu7nWsvzC0W8RqvigWu38VYo0PEL/oRGL6VjyZ14wPvKmV0m1IexFtHVS+PnybOl8BlmhNWFmJNxBva3ygA4V23v6LxaJvdM4yf+5MAXTCypQLOZJLdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738792367; c=relaxed/simple;
-	bh=WbEuz3amGp+JdcO4H3ZXX+HuWIatzgWsEJXhLU8jAUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RLF7bNCFgj4fXIbhRkJQ0XdCYYRw65vxc/Mipf9azcWHq3tHyoizSiNErf9p1x3hajs5qlt39q6RKAJegS/htbXcjUzuuLokl3YmaJn+CtO8ryRrTN+DHnvPPut6hNMV2YuBrFIC1Zp+rod0f8OZ8Ulo5y5izfZnIX/beKfV1XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBEbVZvU; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738792617; c=relaxed/simple;
+	bh=4qql90pn4szEvuE1q2VwoHg70ZIx94oUk+Hs3pTwU2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DssSCG6vQzWM7DN9Wx+J7ca3CaOXa91ptmjTKTwM4ZGiZxCkFFkGNPKn6QHvsfvT/ZII6WKIoiyOelZ7ugCtK+6tK1UNYxqt7JZuhxUl4yljvH31qGraYw5DjKfZZtptc/siUO0d2KGrHojl7GK7M8x/vBxldKD0P6Wu/3KayVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljaS9P5L; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBEbVZvU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738792366; x=1770328366;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WbEuz3amGp+JdcO4H3ZXX+HuWIatzgWsEJXhLU8jAUo=;
-  b=YBEbVZvUGerURN4d5I3q/VVZWjCN3I2M5s7BfGxYtgx2WA9JFnhwWEc+
-   bQO9zenRGObAeRtpEAvTRibRxQ5/JQg+x2iQn7qUpp1ICDM9ElpHwFhbZ
-   WhHusJ9LegzAFt44sis+k0lXzsPUtCMF1P+KsaybBZV5qRxqerCfuLtui
-   X5BydL2QdXJfSzMdfimDGINxWlzvrtTEzVkLONcpxPco/ICF8UGEHjwCd
-   T+GHpt50BUTuBukVsFODm8Oq7atus7CerIUzdTFLF1pkQCH+GuJBG8qBQ
-   AnU9BAtof3wXCixJvnY1FlvIN8nHaODE56q3JiVi7RIh9j231kFBoEaHe
-   g==;
-X-CSE-ConnectionGUID: vuGRkY5sR9iV55YK79VnMw==
-X-CSE-MsgGUID: 3aFDCRRLQI6jfS6IwdMgig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43301890"
-X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="43301890"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 13:52:45 -0800
-X-CSE-ConnectionGUID: utK+r5H5T061hmvXl19YxQ==
-X-CSE-MsgGUID: DsLO2eRsTVWs7LOga+8jcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="141910078"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Feb 2025 13:52:43 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfnK5-000w6x-2c;
-	Wed, 05 Feb 2025 21:52:41 +0000
-Date: Thu, 6 Feb 2025 05:52:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis 19/21] mm/kfence/core.c:462:15: warning:
- calling function 'metadata_to_pageaddr' requires holding raw_spinlock
- 'meta->lock' exclusively
-Message-ID: <202502060558.8DhPNdwn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljaS9P5L"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43622267b2eso2527785e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Feb 2025 13:56:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738792612; x=1739397412; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ExpNnKUIu15RnPJeZ+26Wmgur2xuMxA57BJC1TlkS3k=;
+        b=ljaS9P5LpPRqMkVhSKU2GktZo6NGXtglaD7r/bFpP797Jfo6pHEMkx5bfXYGMGj6DM
+         B+S6kpJ4FbtcJLqwFd6teywNMTAPAkyWTPsNkKvngSTlFx3QL65Z1u0FW/6NZ8AILsxO
+         LLgLSdi3T4JUQHQFNDio7Ntpql1mrw4tAmsMICdGj8SqIYhgnLvOcHOyN3Wy0oZyz8X9
+         eGvVJ3tcJAkY1CK/Ja5G3fUWjBihnZZe7MRi/S8jd8BGBbGZF3HbnYvOy3Wvg4Eim0n8
+         82WEJgL6pPOTrugD7z2CUJgwSTOOWfOht+OElwamHA+VXIZXhVgSB2DHVGisCELINj/1
+         +rOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738792612; x=1739397412;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ExpNnKUIu15RnPJeZ+26Wmgur2xuMxA57BJC1TlkS3k=;
+        b=dnxV7kOCAgpNfukATjuE8lEjizH3dJ8L7y/72npmV7b0qSrkHOMY261GHOdgMlKAKv
+         vDy4couLvEuAB2DzuSJl0U7wF6Y75yRU8Lq/sVPhPA99I9CQSYM8Lrdlhnb4mGwzBtJd
+         zw9kkbwWhsS3hHkYw50YTeCnwa4xIJ213YSGg9xkHvN39kp8RGs9m8y4lglbBZCDBtmw
+         eW9fedlgFyis4cBMI0JXhMYfqpaRYOOqjup4OkMrxuklK8g6971qA8Zbn4l6JLcC9gQM
+         FHZP3m6jpctdOrsmOEuGFJ2BoifsbZ6RyTWOCvfxfLzElCvau3Jztsneea2UcBLQsI76
+         u7uA==
+X-Forwarded-Encrypted: i=1; AJvYcCVWHKPAY0UmSa+lX/kKyeSaP+ZTOnwE3Mg02LyVaNH8EuuJxAway4pxKduei7tI37biHV1YWKNTWhRqV3n8@lists.linux.dev
+X-Gm-Message-State: AOJu0YzpuuZhyqLxsZGwh4WG1LuGlEQVSmlsh92oSb9UDCviA6mCEd31
+	sPvCwNvAeTKUV+3kXV69+T7VpVzEry321QAJV1FL9V9DCWqkIdVC
+X-Gm-Gg: ASbGncujCYb+P5R2mSZj6d0N3/gA41vccsccjwDKUKYiNcH4K62jfaYTuRBqBMbg5hH
+	0baPhKTGE+qBtLJ+R/xkcQzcbdO8HVdFpvZg3iWdZSdRlggZ0lkO4JgjmpsVL0kQIbV59fA7gu8
+	uq79dVcL783QJ8ruI05p/F7EvfgYXZrKduzZTrOphez5U27KicBUo6YZAu+IdPxifmgCWrKrP97
+	G/YdOnv8mCD+5m7+yC37W4fOU8bdqXAn4Yt0u9VUhouNKSK0RQtAhTOv4zbQlC1o+KxJHuTsZsO
+	hFUs7+uezM9AKd6zMmDlcyRkisICbuEcOPiKqvEH9kLbRP09r2rA6Q==
+X-Google-Smtp-Source: AGHT+IF9Lnac8vLx0Lch1E/U4g3+70BcOuxYX6wPveyHWXIkh22if2ugk0Wjk5x+SbNJB9g+wbpVMg==
+X-Received: by 2002:a05:600c:314a:b0:438:e256:a77d with SMTP id 5b1f17b1804b1-4390d43db08mr38919505e9.15.1738792611470;
+        Wed, 05 Feb 2025 13:56:51 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1cf896sm20490902f8f.94.2025.02.05.13.56.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 13:56:51 -0800 (PST)
+Date: Wed, 5 Feb 2025 21:56:50 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: "Xu, Even" <even.xu@intel.com>
+Cc: lkp <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+ <oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, "Sun,
+ Xinpeng" <xinpeng.sun@intel.com>, "Srinivas Pandruvada"
+ <srinivas.pandruvada@linux.intel.com>, Mark Pearson
+ <mpearson-lenovo@squebb.ca>
+Subject: Re: drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38:
+ sparse: sparse: dubious: !x | !y
+Message-ID: <20250205215650.1a93dc58@pumpkin>
+In-Reply-To: <IA1PR11MB6098ECA558A36C0EAA1F21FCF4F72@IA1PR11MB6098.namprd11.prod.outlook.com>
+References: <202501292144.eFDq4ovr-lkp@intel.com>
+	<20250129222141.478c03df@pumpkin>
+	<IA1PR11MB6098ECA558A36C0EAA1F21FCF4F72@IA1PR11MB6098.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis
-head:   a0d770da40bf833f1f658fc84741c8f3fee2a385
-commit: 9d248937bc5b8446bd9af84f6f11329dc6985d95 [19/21] kfence: Enable capability analysis
-config: i386-buildonly-randconfig-004-20250206 (https://download.01.org/0day-ci/archive/20250206/202502060558.8DhPNdwn-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060558.8DhPNdwn-lkp@intel.com/reproduce)
+On Wed, 5 Feb 2025 02:56:05 +0000
+"Xu, Even" <even.xu@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502060558.8DhPNdwn-lkp@intel.com/
+> > -----Original Message-----
+> > From: David Laight <david.laight.linux@gmail.com>
+> > Sent: Thursday, January 30, 2025 6:22 AM
+> > To: lkp <lkp@intel.com>
+> > Cc: Xu, Even <even.xu@intel.com>; oe-kbuild-all@lists.linux.dev; linux-
+> > kernel@vger.kernel.org; Jiri Kosina <jikos@kernel.org>; Sun, Xinpeng
+> > <xinpeng.sun@intel.com>; Srinivas Pandruvada
+> > <srinivas.pandruvada@linux.intel.com>; Mark Pearson <mpearson-  
+> > lenovo@squebb.ca>  
+> > Subject: Re: drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38: sparse:
+> > sparse: dubious: !x | !y
+> > 
+> > On Wed, 29 Jan 2025 22:02:59 +0800
+> > kernel test robot <lkp@intel.com> wrote:
+> >   
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   05dbaf8dd8bf537d4b4eb3115ab42a5fb40ff1f5
+> > > commit: a688404b2e20f00cce6d0a2b888ef4ca9154e144 HID: intel-thc-hid:  
+> > intel-thc: Add THC DMA interfaces  
+> > > date:   3 weeks ago
+> > > config: x86_64-allyesconfig
+> > > (https://download.01.org/0day-ci/archive/20250129/202501292144.eFDq4ov
+> > > r-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0 reproduce (this is a W=1
+> > > build):
+> > > (https://download.01.org/0day-ci/archive/20250129/202501292144.eFDq4ov
+> > > r-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > > version of the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes:
+> > > | https://lore.kernel.org/oe-kbuild-all/202501292144.eFDq4ovr-lkp@inte
+> > > | l.com/
+> > >
+> > > sparse warnings: (new ones prefixed by >>)  
+> > > >> drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38: sparse:
+> > > >> sparse: dubious: !x | !y  
+> > >    drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c: note: in included file  
+> > (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h, ...):  
+> > >    include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always  
+> > evaluates to false  
+> > >    include/linux/page-flags.h:237:46: sparse: sparse: self-comparison
+> > > always evaluates to false
+> > >
+> > > vim +298 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c  
+> > ...  
+> > >    297		for (i = 0; i < config->prd_tbl_num; i++) {  
+> > >  > 298			if (!config->sgls[i] | !config->sgls_nent[i])  
+> > >    299				continue;  
+> > ...
+> > 
+> > If zeros are unlikely the bit-wise 'or' is pretty likely to generate better code than a
+> > logical 'or'.
+> > 
+> > 	David  
+> 
+> Good suggestion!
+> So the code can be optimized to:
+> 	for (i = 0; i < config->prd_tbl_num; i++) {
+> 	         if (config->sgls[i] && config->sgls_nent[i]) {
+>                                     ......
+>                        }
 
-All warnings (new ones prefixed by >>):
+That just adds a level of indentation to the source.
+It'll generate much the same code as !x || !y.
+Both will generate two conditional branches.
 
->> mm/kfence/core.c:462:15: warning: calling function 'metadata_to_pageaddr' requires holding raw_spinlock 'meta->lock' exclusively [-Wthread-safety-analysis]
-     462 |         meta->addr = metadata_to_pageaddr(meta);
-         |                      ^
->> mm/kfence/core.c:484:2: warning: calling function 'metadata_update_state' requires holding raw_spinlock 'meta->lock' exclusively [-Wthread-safety-analysis]
-     484 |         metadata_update_state(meta, KFENCE_OBJECT_ALLOCATED, stack_entries, num_stack_entries);
-         |         ^
->> mm/kfence/core.c:488:8: warning: writing variable 'alloc_stack_hash' requires holding raw_spinlock '&kfence_metadata::lock' exclusively [-Wthread-safety-analysis]
-     488 |         meta->alloc_stack_hash = alloc_stack_hash;
-         |               ^
->> mm/kfence/core.c:489:2: warning: releasing raw_spinlock 'meta->lock' that was not held [-Wthread-safety-analysis]
-     489 |         raw_spin_unlock_irqrestore(&meta->lock, flags);
-         |         ^
-   include/linux/spinlock.h:283:3: note: expanded from macro 'raw_spin_unlock_irqrestore'
-     283 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
-         |                 ^
-   4 warnings generated.
+It almost certainly makes in immeasurable difference here, but !x | !y
+can be generated using (on x86) the 'sete' instruction to get a 0/1 from
+the x == 0 compare (that sets the flags), and then doing an 'or' and a
+single jump.
 
+	David
 
-vim +462 mm/kfence/core.c
+> 	}
+> 
+> Will create a patch for this.
+> 
+> Best Regards,
+> Even Xu
+> 
+> 
 
-0ce20dd840897b Alexander Potapenko 2021-02-25  419  
-a9ab52bbcb52df Marco Elver         2021-11-05  420  static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t gfp,
-08f6b10630f284 Marco Elver         2021-11-05  421  				  unsigned long *stack_entries, size_t num_stack_entries,
-08f6b10630f284 Marco Elver         2021-11-05  422  				  u32 alloc_stack_hash)
-0ce20dd840897b Alexander Potapenko 2021-02-25  423  {
-0ce20dd840897b Alexander Potapenko 2021-02-25  424  	struct kfence_metadata *meta = NULL;
-0ce20dd840897b Alexander Potapenko 2021-02-25  425  	unsigned long flags;
-8dae0cfed57357 Vlastimil Babka     2021-11-03  426  	struct slab *slab;
-0ce20dd840897b Alexander Potapenko 2021-02-25  427  	void *addr;
-8032bf1233a746 Jason A. Donenfeld  2022-10-09  428  	const bool random_right_allocate = get_random_u32_below(2);
-327b18b7aaed5d Jason A. Donenfeld  2022-06-09  429  	const bool random_fault = CONFIG_KFENCE_STRESS_TEST_FAULTS &&
-8032bf1233a746 Jason A. Donenfeld  2022-10-09  430  				  !get_random_u32_below(CONFIG_KFENCE_STRESS_TEST_FAULTS);
-0ce20dd840897b Alexander Potapenko 2021-02-25  431  
-0ce20dd840897b Alexander Potapenko 2021-02-25  432  	/* Try to obtain a free object. */
-0ce20dd840897b Alexander Potapenko 2021-02-25  433  	raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-0ce20dd840897b Alexander Potapenko 2021-02-25  434  	if (!list_empty(&kfence_freelist)) {
-0ce20dd840897b Alexander Potapenko 2021-02-25  435  		meta = list_entry(kfence_freelist.next, struct kfence_metadata, list);
-0ce20dd840897b Alexander Potapenko 2021-02-25  436  		list_del_init(&meta->list);
-0ce20dd840897b Alexander Potapenko 2021-02-25  437  	}
-0ce20dd840897b Alexander Potapenko 2021-02-25  438  	raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-9a19aeb5665068 Marco Elver         2021-11-05  439  	if (!meta) {
-9a19aeb5665068 Marco Elver         2021-11-05  440  		atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_CAPACITY]);
-0ce20dd840897b Alexander Potapenko 2021-02-25  441  		return NULL;
-9a19aeb5665068 Marco Elver         2021-11-05  442  	}
-0ce20dd840897b Alexander Potapenko 2021-02-25  443  
-0ce20dd840897b Alexander Potapenko 2021-02-25  444  	if (unlikely(!raw_spin_trylock_irqsave(&meta->lock, flags))) {
-0ce20dd840897b Alexander Potapenko 2021-02-25  445  		/*
-0ce20dd840897b Alexander Potapenko 2021-02-25  446  		 * This is extremely unlikely -- we are reporting on a
-0ce20dd840897b Alexander Potapenko 2021-02-25  447  		 * use-after-free, which locked meta->lock, and the reporting
-0ce20dd840897b Alexander Potapenko 2021-02-25  448  		 * code via printk calls kmalloc() which ends up in
-0ce20dd840897b Alexander Potapenko 2021-02-25  449  		 * kfence_alloc() and tries to grab the same object that we're
-0ce20dd840897b Alexander Potapenko 2021-02-25  450  		 * reporting on. While it has never been observed, lockdep does
-0ce20dd840897b Alexander Potapenko 2021-02-25  451  		 * report that there is a possibility of deadlock. Fix it by
-0ce20dd840897b Alexander Potapenko 2021-02-25  452  		 * using trylock and bailing out gracefully.
-0ce20dd840897b Alexander Potapenko 2021-02-25  453  		 */
-0ce20dd840897b Alexander Potapenko 2021-02-25  454  		raw_spin_lock_irqsave(&kfence_freelist_lock, flags);
-0ce20dd840897b Alexander Potapenko 2021-02-25  455  		/* Put the object back on the freelist. */
-0ce20dd840897b Alexander Potapenko 2021-02-25  456  		list_add_tail(&meta->list, &kfence_freelist);
-0ce20dd840897b Alexander Potapenko 2021-02-25  457  		raw_spin_unlock_irqrestore(&kfence_freelist_lock, flags);
-0ce20dd840897b Alexander Potapenko 2021-02-25  458  
-0ce20dd840897b Alexander Potapenko 2021-02-25  459  		return NULL;
-0ce20dd840897b Alexander Potapenko 2021-02-25  460  	}
-0ce20dd840897b Alexander Potapenko 2021-02-25  461  
-0ce20dd840897b Alexander Potapenko 2021-02-25 @462  	meta->addr = metadata_to_pageaddr(meta);
-0ce20dd840897b Alexander Potapenko 2021-02-25  463  	/* Unprotect if we're reusing this page. */
-0ce20dd840897b Alexander Potapenko 2021-02-25  464  	if (meta->state == KFENCE_OBJECT_FREED)
-0ce20dd840897b Alexander Potapenko 2021-02-25  465  		kfence_unprotect(meta->addr);
-0ce20dd840897b Alexander Potapenko 2021-02-25  466  
-0ce20dd840897b Alexander Potapenko 2021-02-25  467  	/*
-0ce20dd840897b Alexander Potapenko 2021-02-25  468  	 * Note: for allocations made before RNG initialization, will always
-0ce20dd840897b Alexander Potapenko 2021-02-25  469  	 * return zero. We still benefit from enabling KFENCE as early as
-0ce20dd840897b Alexander Potapenko 2021-02-25  470  	 * possible, even when the RNG is not yet available, as this will allow
-0ce20dd840897b Alexander Potapenko 2021-02-25  471  	 * KFENCE to detect bugs due to earlier allocations. The only downside
-0ce20dd840897b Alexander Potapenko 2021-02-25  472  	 * is that the out-of-bounds accesses detected are deterministic for
-0ce20dd840897b Alexander Potapenko 2021-02-25  473  	 * such allocations.
-0ce20dd840897b Alexander Potapenko 2021-02-25  474  	 */
-327b18b7aaed5d Jason A. Donenfeld  2022-06-09  475  	if (random_right_allocate) {
-0ce20dd840897b Alexander Potapenko 2021-02-25  476  		/* Allocate on the "right" side, re-calculate address. */
-0ce20dd840897b Alexander Potapenko 2021-02-25  477  		meta->addr += PAGE_SIZE - size;
-0ce20dd840897b Alexander Potapenko 2021-02-25  478  		meta->addr = ALIGN_DOWN(meta->addr, cache->align);
-0ce20dd840897b Alexander Potapenko 2021-02-25  479  	}
-0ce20dd840897b Alexander Potapenko 2021-02-25  480  
-0ce20dd840897b Alexander Potapenko 2021-02-25  481  	addr = (void *)meta->addr;
-0ce20dd840897b Alexander Potapenko 2021-02-25  482  
-0ce20dd840897b Alexander Potapenko 2021-02-25  483  	/* Update remaining metadata. */
-a9ab52bbcb52df Marco Elver         2021-11-05 @484  	metadata_update_state(meta, KFENCE_OBJECT_ALLOCATED, stack_entries, num_stack_entries);
-0ce20dd840897b Alexander Potapenko 2021-02-25  485  	/* Pairs with READ_ONCE() in kfence_shutdown_cache(). */
-0ce20dd840897b Alexander Potapenko 2021-02-25  486  	WRITE_ONCE(meta->cache, cache);
-0ce20dd840897b Alexander Potapenko 2021-02-25  487  	meta->size = size;
-08f6b10630f284 Marco Elver         2021-11-05 @488  	meta->alloc_stack_hash = alloc_stack_hash;
-49332956227adb Marco Elver         2021-11-05 @489  	raw_spin_unlock_irqrestore(&meta->lock, flags);
-08f6b10630f284 Marco Elver         2021-11-05  490  
-49332956227adb Marco Elver         2021-11-05  491  	alloc_covered_add(alloc_stack_hash, 1);
-0ce20dd840897b Alexander Potapenko 2021-02-25  492  
-8dae0cfed57357 Vlastimil Babka     2021-11-03  493  	/* Set required slab fields. */
-9d248937bc5b84 Marco Elver         2025-01-09  494  	slab = virt_to_slab(addr);
-8dae0cfed57357 Vlastimil Babka     2021-11-03  495  	slab->slab_cache = cache;
-8dae0cfed57357 Vlastimil Babka     2021-11-03  496  	slab->objects = 1;
-0ce20dd840897b Alexander Potapenko 2021-02-25  497  
-0ce20dd840897b Alexander Potapenko 2021-02-25  498  	/* Memory initialization. */
-1ba3cbf3ec3b21 Peng Zhang          2023-04-03  499  	set_canary(meta);
-0ce20dd840897b Alexander Potapenko 2021-02-25  500  
-0ce20dd840897b Alexander Potapenko 2021-02-25  501  	/*
-0ce20dd840897b Alexander Potapenko 2021-02-25  502  	 * We check slab_want_init_on_alloc() ourselves, rather than letting
-0ce20dd840897b Alexander Potapenko 2021-02-25  503  	 * SL*B do the initialization, as otherwise we might overwrite KFENCE's
-0ce20dd840897b Alexander Potapenko 2021-02-25  504  	 * redzone.
-0ce20dd840897b Alexander Potapenko 2021-02-25  505  	 */
-0ce20dd840897b Alexander Potapenko 2021-02-25  506  	if (unlikely(slab_want_init_on_alloc(gfp, cache)))
-0ce20dd840897b Alexander Potapenko 2021-02-25  507  		memzero_explicit(addr, size);
-0ce20dd840897b Alexander Potapenko 2021-02-25  508  	if (cache->ctor)
-0ce20dd840897b Alexander Potapenko 2021-02-25  509  		cache->ctor(addr);
-0ce20dd840897b Alexander Potapenko 2021-02-25  510  
-327b18b7aaed5d Jason A. Donenfeld  2022-06-09  511  	if (random_fault)
-0ce20dd840897b Alexander Potapenko 2021-02-25  512  		kfence_protect(meta->addr); /* Random "faults" by protecting the object. */
-0ce20dd840897b Alexander Potapenko 2021-02-25  513  
-0ce20dd840897b Alexander Potapenko 2021-02-25  514  	atomic_long_inc(&counters[KFENCE_COUNTER_ALLOCATED]);
-0ce20dd840897b Alexander Potapenko 2021-02-25  515  	atomic_long_inc(&counters[KFENCE_COUNTER_ALLOCS]);
-0ce20dd840897b Alexander Potapenko 2021-02-25  516  
-0ce20dd840897b Alexander Potapenko 2021-02-25  517  	return addr;
-0ce20dd840897b Alexander Potapenko 2021-02-25  518  }
-0ce20dd840897b Alexander Potapenko 2021-02-25  519  
-
-:::::: The code at line 462 was first introduced by commit
-:::::: 0ce20dd840897b12ae70869c69f1ba34d6d16965 mm: add Kernel Electric-Fence infrastructure
-
-:::::: TO: Alexander Potapenko <glider@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
