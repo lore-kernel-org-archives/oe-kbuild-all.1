@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA910149C7B;
-	Wed,  5 Feb 2025 16:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB4C1D7E52
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Feb 2025 16:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738772832; cv=none; b=al+YkmRH5i2CRPS0aDeXoiPQGCHoceFjBw7XFmC9RLL5P2CYwoDyQO1XDMCGZNkYfvyt5HdYMSTJJ4XKvpp2CluvGTz+k1LQg04HXzb02TnzLYTSl8WJECs+r9oW5O5ICshwdAc4JZj4IgI3njEQH9m3oIB08SK1Sg8AaS8ZefU=
+	t=1738772835; cv=none; b=WNA0WuGznMlBDtGB1rXGQD8+8hCzcORkCztD4EBTo5BFWsc3yeROF4E6isn2B6tMyDPJjaOZIcC44w9/NMpoNtsW5S5WtlHQRr5L8KzlByLBE1cDRSJ7qkzv8UwFkcdsabZFJroTk1ody2qUrojLKSl0MVVZCHytHkZ7lxpNuH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738772832; c=relaxed/simple;
-	bh=cgtPRPDH/CfUpiLZefEwEaRtR5XN2lErrcDSyn54iTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i3hrdnacpNfBF585smG1ExrKzr5FwGAUhucbD3xs2U9DEzM/fNhOPIwuZ/Q4jHAbGQ7ayU+01jI/FQ0XkthzRtIAAEkqxa9353Co1YBydB2XM19te+5WZ14A/4KDvlnQTsqM+HB91yaPjHa4MP1wdq7D/jQrILnSsc0ca+nCQcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U91dup5e; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1738772835; c=relaxed/simple;
+	bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MTgzFOc9o5Dg6L1uxKHvjzDoQOhbi/yr60KMOAEa+eWCEgVImqMhiFjjaplewsZDexRNEgEOq83ftR7/DECNQCPIahv2W4jI6/wTDpcdS2QbBjog18vpvfxTpwW8z3T7BpGp9kTMegObK95FTl8qNS7Uv3mugHMABMmLD3GdzbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eeqnleog; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U91dup5e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eeqnleog"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738772831; x=1770308831;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cgtPRPDH/CfUpiLZefEwEaRtR5XN2lErrcDSyn54iTU=;
-  b=U91dup5eojqMdXwk5tEOAU026XcFDrUKrYqWXI4cJO5WaBvWZ7WHzklH
-   1fFfwGbGBOOxOct5VGSXjoZkEGM/Nks9vak6XMroEP7iS1orXniV9NMQQ
-   C0nC+IIlHzcSM5xKgZjxuNDBghYDO0h2hYvHq8dcoO0TjbF1PaKfFfQqc
-   ooB/aXD7Mi6BKyvhE+LdX9eHt/sUF+nx1a4fi8vypxCXu9WTvH1b3Wf9v
-   dA4E6F0CHf/z37HxXHAjWvS3HTNCS+SjXG/6pHWM5Xfa/OdDvqRq+7WrS
-   Ehq4jA+f7Kg8xPtdrmvrJ++p+azm42eUovVQzczIbgjcRvcKb748H/6Bw
-   g==;
-X-CSE-ConnectionGUID: JuSkJm6qT4K7KFD9ksXS/w==
-X-CSE-MsgGUID: gS2UqD4uQ4yp57UwursxTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39505755"
+  t=1738772834; x=1770308834;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kMFmV0IehhGOWygBpPpcYAxC51tino8AxCfonOIIqPg=;
+  b=Eeqnleoga2Q45nQL2sqOaTSNja4TMC9NsI+qCIFls3KckGk7fEl9z/NM
+   YOsS3l7q/Utwv//buxi4lpAYNDtxjTp/Qdveq16dJ7b0x3rE/wk2i4Fhc
+   z5a5xQx51ufWySFuIa5SyRdQ1vOtSd1lWMCdM2cp1l8vZXGEez+34QKue
+   txXhfdXh+/+H4Uh9JtK8snweAmPakPF8A9bRI1+8X00oqZcAv0VLRYiwn
+   8cGI+lJ/pRW5JmmJb+q1g7NAoS80XqgMwPm6zanUZJMSKuv+gmaMj5Gty
+   LafXZXlTjQfsxOtYL/Jujo7Ylbyw3D1ZYurWYkFTJSsajHxwqMDQdTBnb
+   A==;
+X-CSE-ConnectionGUID: f4uv5dTySrKvoWZwuX6NhA==
+X-CSE-MsgGUID: SCqVghBRRpWUWQsDK4SmNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39245292"
 X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
-   d="scan'208";a="39505755"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:27:10 -0800
-X-CSE-ConnectionGUID: 9zZZlKv+Qz6dvrtx5RxvDA==
-X-CSE-MsgGUID: h3acer63RZaQoiYWJemopw==
+   d="scan'208";a="39245292"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 08:27:13 -0800
+X-CSE-ConnectionGUID: F55qeeNmQcmnG0H6IgCGsQ==
+X-CSE-MsgGUID: N9UgH9j7TG2lpT+LvpkA3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134180184"
+X-IronPort-AV: E=Sophos;i="6.13,262,1732608000"; 
+   d="scan'208";a="115994605"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Feb 2025 08:27:09 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 08:27:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfiF1-000vmL-0N;
+	id 1tfiF1-000vmJ-0I;
 	Wed, 05 Feb 2025 16:27:07 +0000
-Date: Thu, 6 Feb 2025 00:27:04 +0800
+Date: Thu, 6 Feb 2025 00:27:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:device_private 17/22] mm/rmap.c:2461:2: error: use
- of undeclared identifier 'ret'
-Message-ID: <202502060059.yn9VnfUY-lkp@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
+	rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
+Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <202502060025.XJwUub6I-lkp@intel.com>
+References: <20250203080902.1864382-2-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,178 +70,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250203080902.1864382-2-raag.jadav@intel.com>
 
-tree:   https://github.com/davidhildenbrand/linux device_private
-head:   ddc42f5fd72394838fc2d280ff2486ccb7178b9a
-commit: 9c7678e94573361a0a89e3e79bf8311006d6b55d [17/22] mm/rmap: avoid -EBUSY from make_device_exclusive()
-config: x86_64-buildonly-randconfig-001-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060059.yn9VnfUY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060059.yn9VnfUY-lkp@intel.com/reproduce)
+Hi Raag,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250203-161554
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250203080902.1864382-2-raag.jadav%40intel.com
+patch subject: [PATCH v3 01/20] driver core: Split devres APIs to device/devres.h
+config: um-randconfig-r112-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502060059.yn9VnfUY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502060025.XJwUub6I-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/pcs/pcs-xpcs-plat.c: note: in included file (through include/linux/device.h):
+>> include/linux/device/devres.h:106:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   include/linux/device/devres.h:106:23: sparse:     expected void [noderef] __iomem *
+   include/linux/device/devres.h:106:23: sparse:     got void *
 
-   In file included from mm/rmap.c:76:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/rmap.c:2461:2: error: use of undeclared identifier 'ret'
-    2461 |         ret = folio_lock_killable(folio);
-         |         ^
-   mm/rmap.c:2462:6: error: use of undeclared identifier 'ret'
-    2462 |         if (ret) {
-         |             ^
-   mm/rmap.c:2464:18: error: use of undeclared identifier 'ret'
-    2464 |                 return ERR_PTR(ret);
-         |                                ^
-   2 warnings and 3 errors generated.
+vim +106 include/linux/device/devres.h
 
-
-vim +/ret +2461 mm/rmap.c
-
-  2385	
-  2386	#ifdef CONFIG_DEVICE_PRIVATE
-  2387	/**
-  2388	 * make_device_exclusive() - Mark a page for exclusive use by a device
-  2389	 * @mm: mm_struct of associated target process
-  2390	 * @addr: the virtual address to mark for exclusive device access
-  2391	 * @owner: passed to MMU_NOTIFY_EXCLUSIVE range notifier to allow filtering
-  2392	 * @foliop: folio pointer will be stored here on success.
-  2393	 *
-  2394	 * This function looks up the page mapped at the given address, grabs a
-  2395	 * folio reference, locks the folio and replaces the PTE with special
-  2396	 * device-exclusive PFN swap entry, preventing access through the process
-  2397	 * page tables. The function will return with the folio locked and referenced.
-  2398	 *
-  2399	 * On fault, the device-exclusive entries are replaced with the original PTE
-  2400	 * under folio lock, after calling MMU notifiers.
-  2401	 *
-  2402	 * Only anonymous non-hugetlb folios are supported and the VMA must have
-  2403	 * write permissions such that we can fault in the anonymous page writable
-  2404	 * in order to mark it exclusive. The caller must hold the mmap_lock in read
-  2405	 * mode.
-  2406	 *
-  2407	 * A driver using this to program access from a device must use a mmu notifier
-  2408	 * critical section to hold a device specific lock during programming. Once
-  2409	 * programming is complete it should drop the folio lock and reference after
-  2410	 * which point CPU access to the page will revoke the exclusive access.
-  2411	 *
-  2412	 * Notes:
-  2413	 *   #. This function always operates on individual PTEs mapping individual
-  2414	 *      pages. PMD-sized THPs are first remapped to be mapped by PTEs before
-  2415	 *      the conversion happens on a single PTE corresponding to @addr.
-  2416	 *   #. While concurrent access through the process page tables is prevented,
-  2417	 *      concurrent access through other page references (e.g., earlier GUP
-  2418	 *      invocation) is not handled and not supported.
-  2419	 *   #. device-exclusive entries are considered "clean" and "old" by core-mm.
-  2420	 *      Device drivers must update the folio state when informed by MMU
-  2421	 *      notifiers.
-  2422	 *
-  2423	 * Returns: pointer to mapped page on success, otherwise a negative error.
-  2424	 */
-  2425	struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-  2426			void *owner, struct folio **foliop)
-  2427	{
-  2428		struct mmu_notifier_range range;
-  2429		struct folio *folio, *fw_folio;
-  2430		struct vm_area_struct *vma;
-  2431		struct folio_walk fw;
-  2432		struct page *page;
-  2433		swp_entry_t entry;
-  2434		pte_t swp_pte;
-  2435	
-  2436		mmap_assert_locked(mm);
-  2437		addr = PAGE_ALIGN_DOWN(addr);
-  2438	
-  2439		/*
-  2440		 * Fault in the page writable and try to lock it; note that if the
-  2441		 * address would already be marked for exclusive use by a device,
-  2442		 * the GUP call would undo that first by triggering a fault.
-  2443		 *
-  2444		 * If any other device would already map this page exclusively, the
-  2445		 * fault will trigger a conversion to an ordinary
-  2446		 * (non-device-exclusive) PTE and issue a MMU_NOTIFY_EXCLUSIVE.
-  2447		 */
-  2448	retry:
-  2449		page = get_user_page_vma_remote(mm, addr,
-  2450						FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
-  2451						&vma);
-  2452		if (IS_ERR(page))
-  2453			return page;
-  2454		folio = page_folio(page);
-  2455	
-  2456		if (!folio_test_anon(folio) || folio_test_hugetlb(folio)) {
-  2457			folio_put(folio);
-  2458			return ERR_PTR(-EOPNOTSUPP);
-  2459		}
-  2460	
-> 2461		ret = folio_lock_killable(folio);
-  2462		if (ret) {
-  2463			folio_put(folio);
-  2464			return ERR_PTR(ret);
-  2465		}
-  2466	
-  2467		/*
-  2468		 * Inform secondary MMUs that we are going to convert this PTE to
-  2469		 * device-exclusive, such that they unmap it now. Note that the
-  2470		 * caller must filter this event out to prevent livelocks.
-  2471		 */
-  2472		mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0,
-  2473					      mm, addr, addr + PAGE_SIZE, owner);
-  2474		mmu_notifier_invalidate_range_start(&range);
-  2475	
-  2476		/*
-  2477		 * Let's do a second walk and make sure we still find the same page
-  2478		 * mapped writable. Note that a page of an anonymous folio can
-  2479		 * only be mapped writable using exactly one page table mapping
-  2480		 * ("exclusive"), so there cannot be other mappings.
-  2481		 */
-  2482		fw_folio = folio_walk_start(&fw, vma, addr, 0);
-  2483		if (fw_folio != folio || fw.page != page ||
-  2484		    fw.level != FW_LEVEL_PTE || !pte_write(fw.pte)) {
-  2485			if (fw_folio)
-  2486				folio_walk_end(&fw, vma);
-  2487			mmu_notifier_invalidate_range_end(&range);
-  2488			folio_unlock(folio);
-  2489			folio_put(folio);
-  2490			goto retry;
-  2491		}
-  2492	
-  2493		/* Nuke the page table entry so we get the uptodate dirty bit. */
-  2494		flush_cache_page(vma, addr, page_to_pfn(page));
-  2495		fw.pte = ptep_clear_flush(vma, addr, fw.ptep);
-  2496	
-  2497		/* Set the dirty flag on the folio now the PTE is gone. */
-  2498		if (pte_dirty(fw.pte))
-  2499			folio_mark_dirty(folio);
-  2500	
-  2501		/*
-  2502		 * Store the pfn of the page in a special device-exclusive PFN swap PTE.
-  2503		 * do_swap_page() will trigger the conversion back while holding the
-  2504		 * folio lock.
-  2505		 */
-  2506		entry = make_device_exclusive_entry(page_to_pfn(page));
-  2507		swp_pte = swp_entry_to_pte(entry);
-  2508		if (pte_soft_dirty(fw.pte))
-  2509			swp_pte = pte_swp_mksoft_dirty(swp_pte);
-  2510		/* The pte is writable, uffd-wp does not apply. */
-  2511		set_pte_at(mm, addr, fw.ptep, swp_pte);
-  2512	
-  2513		folio_walk_end(&fw, vma);
-  2514		mmu_notifier_invalidate_range_end(&range);
-  2515		*foliop = folio;
-  2516		return page;
-  2517	}
-  2518	EXPORT_SYMBOL_GPL(make_device_exclusive);
-  2519	#endif
-  2520	
+   102	
+   103	static inline
+   104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
+   105	{
+ > 106		return ERR_PTR(-EINVAL);
+   107	}
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
