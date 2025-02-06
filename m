@@ -1,128 +1,104 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21A8151991
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3FB214209
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738841950; cv=none; b=j9pJk0j2aIyU86KaVdJyuGCQyRzWGkmI7XGbU5q+N+kePitThLlyTYwAPx9UTlY+mE9TCbPsQIMM1mdnjGXJ7SWdMGyKRvnRD/nvI7widmoN5tuGBP/W+irLNe2JVUfr50HTg3z7qgRbShY59v+MGEm79iyl5OGbiOOlUAw5XkI=
+	t=1738842736; cv=none; b=iXsJGtkTQweTasxbjP18SyHCapJ6MrWiWqj1aMcRYjwouI3kxgwKGR+JTOoSFx3m+Kj5q1x0VQR79h2cJJcIYHuXVmh+OsmIqWel/SzZluWozGWigfm3sXIdo3dHeAG8hGy+2+0wBMbI3yom7aMPnHrEfhLRAu4Y9BVggrvSK98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738841950; c=relaxed/simple;
-	bh=YgOJD+kd2mC/GASdIn57a6LE/LeB1QV1j6FJAJ2yk94=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=PYsHr9Q5ASotDiqQSrF8PnwBHkPAc4CSDJqjuDRC7h+CCC2ujnR0O/AnbKVAzwncBvtxSDnKfQgThsyY3YfMfHWS4sRecwTVA3d6HfH7i9+vjj6C3TyNtTptodFHaKgDQYjAnSkE4S0EetZTjiJt2kz/vApBm/1yqwbkU4oLE4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4YpZlw722fz1V66D;
-	Thu,  6 Feb 2025 19:35:24 +0800 (CST)
-Received: from kwepemd200019.china.huawei.com (unknown [7.221.188.193])
-	by mail.maildlp.com (Postfix) with ESMTPS id D2DF01A0188;
-	Thu,  6 Feb 2025 19:39:03 +0800 (CST)
-Received: from [10.173.127.72] (10.173.127.72) by
- kwepemd200019.china.huawei.com (7.221.188.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 6 Feb 2025 19:39:02 +0800
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for HUGETLBFS
- when selected by PPC_8xx
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
-	<fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>, kernel test
- robot <lkp@intel.com>
-References: <202501240611.LDmD2nkj-lkp@intel.com>
- <29cf621d-db67-6c5c-0dc5-ebe79edc6cc6@huawei.com>
- <08a51873-7510-4552-9bb1-3ea7ef9fbc2d@csgroup.eu>
- <0c0c6af5-7766-6cc0-d141-d725b84bef09@huawei.com>
- <5528c76d-d8f1-41be-a742-8bafa74c24f9@csgroup.eu>
- <d6c06a9c-4d43-4528-c5d1-019f91087f30@huawei.com>
- <5c99458f-4a91-485f-8a35-3618a992e2e4@csgroup.eu>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <053701eb-b2da-b3e2-de16-50384805b69f@huawei.com>
-Date: Thu, 6 Feb 2025 19:39:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1738842736; c=relaxed/simple;
+	bh=B4HG+d/JXvnoF0+Z6N/G7rmFS00QwfzACzjM8xI6CRk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jwGRyxbwiLQIoWMVq7dFHqdIIc0SfjQ5wWPHXjlqBqcHthvT45ixWPfR2eU1XlwSFOJneJcmkdgPF/URQhj1z5qapTaev3P/fha+rq0jGSFR/6+GWLgnnldTaJQ2aRCoevc4LdMQq8HCCuxGE4YueNplMKg3BnpYhpcx47BfP/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8NtOdyh; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8NtOdyh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738842734; x=1770378734;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B4HG+d/JXvnoF0+Z6N/G7rmFS00QwfzACzjM8xI6CRk=;
+  b=V8NtOdyhBtKxil5xiJRvk9xtxacGDYc4wbqHM+gmkZ3JP1TvpLDpfy6p
+   CWJTH2pVLBB/+jwf4hVmjLwCdx6B+SHsGFVr/ljXKp1cWDBvKNrVeyvn0
+   41I0J3/RU/4v+adaQ5L9AQXpFxrZQztDRFSYaxH8+TifR8TmzKw/CtofE
+   QdtGsT5pT8IAmTl+oYPt47NWrZMz9UzkDDoVyVH/O4Sv+tsiB0b/uC8iZ
+   umNoqVuSIh0FwuSIPxbOTu4yvVB1lgFWXjtq+ae0mmIaREGXGAOHUpDTR
+   1JFmGkjo1h+zMHyIDAKEtW/Thza7Sh8fENAo6c5O32nVokPJ64wBjn2Kx
+   w==;
+X-CSE-ConnectionGUID: FJrTI9KfRZSFjGipiNZibg==
+X-CSE-MsgGUID: IYc4yN3FTNusP7EMf84ifw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39555215"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39555215"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 03:52:13 -0800
+X-CSE-ConnectionGUID: U3ml9Q7wS5aw65V9RTPJ1w==
+X-CSE-MsgGUID: r5oazt8STIOF4kRxxM0Rrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="116172958"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 06 Feb 2025 03:52:12 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tg0QT-000wpD-1F;
+	Thu, 06 Feb 2025 11:52:09 +0000
+Date: Thu, 6 Feb 2025 19:51:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 204/204]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mcupm@c240000: failed to
+ match any schema with compatible: ['mediatek,mt8196-mcupm']
+Message-ID: <202502061912.a1fXvypR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <5c99458f-4a91-485f-8a35-3618a992e2e4@csgroup.eu>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemd200019.china.huawei.com (7.221.188.193)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025/2/6 16:47, Christophe Leroy wrote:
-> 
-> 
-> Le 06/02/2025 à 08:12, Miaohe Lin a écrit :
->> On 2025/2/6 14:30, Christophe Leroy wrote:
->>>
->>>
->>> Le 06/02/2025 à 03:08, Miaohe Lin a écrit :
->>>> On 2025/2/6 0:35, Christophe Leroy wrote:
->>>>>
->>>>>
->>>>> Le 05/02/2025 à 03:39, Miaohe Lin a écrit :
->>>>>> On 2025/1/24 6:24, kernel test robot wrote:
->>>>>>> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571348001%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=rpToSy%2BI2rTH5db2ST62gNZF0efdupnNQRpYevV2CRY%3D&reserved=0 master
->>>>>>> head:   d0d106a2bd21499901299160744e5fe9f4c83ddb
->>>>>>> commit: f8142cf94d4737ea0c3baffb3b9bad8addcb9b6b hugetlb: make hugetlb depends on SYSFS or SYSCTL
->>>>>>> date:   2 years, 4 months ago
->>>>>>> config: powerpc-kismet-CONFIG_HUGETLBFS-CONFIG_PPC_8xx-0-0 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571371397%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=27pzb6aOPaarlX2fX%2B3%2FvCp8GWwysleJoVw9L6Yrytc%3D&reserved=0)
->>>>>>> reproduce: (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571381016%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=XEjM2tEaDz%2BINDJbCOD2ciJU24koPd9msdwNiP3lPLw%3D&reserved=0)
->>>>>>>
->>>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>>>> the same patch/commit), kindly add following tags
->>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>>>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202501240611.LDmD2nkj-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571390239%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=W%2F8GHsXQwmaG22bsTyQes1zdMG7o2aHc%2Fly%2BHO57LwI%3D&reserved=0
->>>>>>
->>>>>> Thanks for report. Sorry for late respond. I was on my Spring Festival vacation.
->>>>>>
->>>>>>>
->>>>>>> kismet warnings: (new ones prefixed by >>)
->>>>>>>>> kismet: WARNING: unmet direct dependencies detected for HUGETLBFS when selected by PPC_8xx
->>>>>>>       WARNING: unmet direct dependencies detected for HUGETLBFS
->>>>>>>         Depends on [n]: (X86 || IA64 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=n] || SYSCTL [=n])
->>>>>>>         Selected by [y]:
->>>>>>>         - PPC_8xx [=y] && <choice>
->>>>>>
->>>>>> I am a bit confused. HUGETLBFS depends on SYSFS or SYSCTL. How can it be selected while SYSFS [=n] || SYSCTL [=n]?
->>>>>> Or am I miss something?
->>>>>
->>>>> CONFIG_HUGETLBFS is selected by CONFIG_PPC_8xx, see commit 34536d780683 ("powerpc/8xx: Add a function to early map kernel via huge pages")
->>>>
->>>> Thanks for your providing. But I'm saying that since HUGETLBFS depends on (SYSFS or SYSCTL), how CONFIG_PPC_8xx succeeds to select it while
->>>> SYSFS and SYSCTL are disabled? I'm not really familiar with Kconfig but I assume Kconfig will confirm that the dependencies are satisfied
->>>> before HUGETLBFS is enabled. Or am I miss something?
->>>
->>> I suggest you read https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdocs.kernel.org%2Fkbuild%2Fkconfig-language.html&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571400924%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=UtQJlI0P7JV%2BQy0jlHFoGZ8ipnl5SzhuL1G%2Bbr0an9Y%3D&reserved=0
->>
->> Thanks.
->>
->>>
->>> Extract:
->>>
->>> Note:
->>>      select should be used with care. select will force a symbol to a value without visiting the dependencies. By abusing select you are able to select a symbol FOO even if FOO depends on BAR that is not set.
->>
->> IMHO, it seems it's the use of "select" breaks the dependencies and leads to the kismet warnings. So it might be better to fix the PPC_8xx side.
-> 
-> 
-> The dependencies are wrong, I have a kernel without CONFIG_SYSFS and without CONFIG_SYSCTL and hugetlbfs works perfecly well.
-> 
-> I boot the kernel with following parameters:
-> 
->     hugepagesz=512k hugepages=8 hugepagesz=8M hugepages=2
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1fe62fcb2a55fbf67fb3bb11d7398dfbebfa9f71
+commit: af8ef1affaf7bd9978e0f1e27c0eb17ace6f93f8 [204/204] CHROMIUM: arm64: dts: mt8196: Add MCUPM device node
+config: arm64-randconfig-051-20250206 (https://download.01.org/0day-ci/archive/20250206/202502061912.a1fXvypR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061912.a1fXvypR-lkp@intel.com/reproduce)
 
-I think you are right. Hugetlb can still be used with boot parameter while CONFIG_SYSFS and CONFIG_SYSCTL are disabled.
-So my commit should be reverted.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061912.a1fXvypR-lkp@intel.com/
 
-Thanks.
-.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mcupm@c240000: failed to match any schema with compatible: ['mediatek,mt8196-mcupm']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: performance-controller@c2c0f20: reg: [[0, 204214048, 0, 288], [0, 204214336, 0, 288], [0, 204214624, 0, 288]] is too long
+   	from schema $id: http://devicetree.org/schemas/cpufreq/cpufreq-mediatek-hw.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: performance-controller@c2c0f20: 'reg-names' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/cpufreq/cpufreq-mediatek-hw.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000000: failed to match any schema with compatible: ['mediatek,mt8196-cksys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c000: failed to match any schema with compatible: ['mediatek,mt8196-cksys-gp2', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
