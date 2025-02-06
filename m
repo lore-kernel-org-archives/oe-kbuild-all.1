@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FD122370D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 06:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5DC224882
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 06:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738822402; cv=none; b=FwtMKfuoGfpsWKHC9MEWvJ/R+riyjWampPZNoLahBGFgj1SLwXR8+MtFkN/BRCEA4z6UL+lZj9UbZLz+ysuL32Cwa0kk7ocdiA95J808gGrf/wDgJ+p7B1FIcqlq4+am3fwIDokVuYZ//o5cZRf0GBxaU//PnOMwmtSmgUcyg2g=
+	t=1738824582; cv=none; b=Uhq6ywIAIarUBlrkOjK/m+neqjwFemrVUtwNGtzYgcZbVfKRBrwCBqDHAESmJLXrSKXGupWamK/q1RpvXTmoZllnL20d78LaEdTSKsGzkXWmYRS+P5QFz8YW1PokR4UNgg89J/pt0PVael8iD4tQd0fVgu/2USyRunuP3zGuk9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738822402; c=relaxed/simple;
-	bh=G/uXESj2JGAsl3H6oUiYOmRWk8xQHzLvrNq4aQWgpTc=;
+	s=arc-20240116; t=1738824582; c=relaxed/simple;
+	bh=v1Uq0ArCQZi2SYzNDPugTKvvEHz/QhanShBOFyH5rdU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bKDUhj+m4fhAf6aKSgqUHn67pGACMGLKMMQZHGu9iTaRVQM2brWZdpsRrcb0sPoKNZJGM+rDDvc2AWkZfKv+ABJRMwGH/uJQXqZYeOSrEIUmC4SxeGE6aGFUkrq44WRSbEr0E1PNvqRLGgUzsSQLmwORDnfvaFc02k79AGrYUWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z3miBtWu; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zvn6Rkpn95euyCM9pM9n7rmPTf9iE8wkB3b4HSv2+6gSOkw+5GKXaBUxWBmkBLNLCYdbzNaq7n+YLp037XwLNG5zVhx1rmIbf34QdCxNH0kRGvh53fECuQ+I5e5iyOpvSq1G3DxPEnCw4vqu3MP5gzJYC41Egvy6ZB2fJl8Qb+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dT2+bh6K; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z3miBtWu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dT2+bh6K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738822401; x=1770358401;
+  t=1738824579; x=1770360579;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=G/uXESj2JGAsl3H6oUiYOmRWk8xQHzLvrNq4aQWgpTc=;
-  b=Z3miBtWuGFUkNhVXT4H32dUp32y6rG0fzbDs14Ryrjd1mKWdaIub/n7h
-   b+HnqTo6VB0hTfjPYenv63iR5Ar3FI5nJv96dBRwgSIlSXXK9QSmMEkz/
-   2+QfmybDXh3WsyXOO0wrUpiu5k2/YQshazOwysuk/TSDNwIfcP0Om+oFj
-   zey13Sw/H5FpNfCx9B1yXvxDxf6QwGTXD3fcGDNGME4uoJtKOW6dG2o4J
-   +RnbtoVvTezqTjM3LqRQhu//ywRFpR0TAGNr63xXHVtNKy3EWPp/w5IRW
-   QazsDoqqGgOwxy1txKJzWP7fIUh0SK3YXB2/AdDoqZeO77nRLu8ZAY/xT
+  bh=v1Uq0ArCQZi2SYzNDPugTKvvEHz/QhanShBOFyH5rdU=;
+  b=dT2+bh6KvkKr1x6ed483WVij9Y4HqCfn/3j2bJ2dl5FBbzIpZhSHUVPT
+   +0IZM6R+xxM/UHXfhprwWZOrQTk+HnglZNSvmCrap/GLL8osI7jrrWEek
+   zkOvCqrpP1HOP7eiAVttktFlAMtAT5Yh34zeZBUvl5e5G9PXG6ULcnBZJ
+   v9dTXGtCpW5N6xg9DbIjla4XkosadmQqMawtW/jg1+CB01vXHEa0gIcE4
+   4Hi2qqRIAxkZP6vURTDrTJvBC6q5EGq3VbBzdXNt/Aaju61iqCUz6YAvL
+   UCdVCRJ39scfQOSx3IGF7kXlL9RtTvxS9oKyNvVbFrST88N8YLu81Mqaj
    Q==;
-X-CSE-ConnectionGUID: AZIbO3e3Q36EeOFG90W/cg==
-X-CSE-MsgGUID: pt2pdpgvQbGM77PMbiuglA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43072689"
+X-CSE-ConnectionGUID: SDyBMO3VQtuoyeBcDD/UtQ==
+X-CSE-MsgGUID: c2qC3hcERQ6GXIWpL2zE0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38615735"
 X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
-   d="scan'208";a="43072689"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 22:13:20 -0800
-X-CSE-ConnectionGUID: 73IRZEykTVCpRWvAzcgH3g==
-X-CSE-MsgGUID: dam6islsRUyXPtS40V2PVA==
+   d="scan'208";a="38615735"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 22:49:38 -0800
+X-CSE-ConnectionGUID: lepeyWM5QFaK99kODWG8ng==
+X-CSE-MsgGUID: Y1SfbRy9R+KI/D8ZU4zY+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
-   d="scan'208";a="110897994"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 22:13:15 -0800
-Date: Thu, 6 Feb 2025 08:13:12 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: kernel test robot <lkp@intel.com>, andriy.shevchenko@linux.intel.com
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
-	jic23@kernel.org, przemyslaw.kitszel@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
- <202502060025.XJwUub6I-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115731181"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 05 Feb 2025 22:49:36 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfvhe-000wXP-0O;
+	Thu, 06 Feb 2025 06:49:34 +0000
+Date: Thu, 6 Feb 2025 14:49:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Liang Jie <buaajxlj@163.com>, Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+	Michal Luczaj <mhal@rbox.co>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Liang Jie <liangjie@lixiang.com>
+Subject: Re: [PATCH net-next] af_unix: Refine UNIX domain sockets autobind
+ identifier length
+Message-ID: <202502061416.GZjhJTOs-lkp@intel.com>
+References: <20250205060653.2221165-1-buaajxlj@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,44 +67,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502060025.XJwUub6I-lkp@intel.com>
+In-Reply-To: <20250205060653.2221165-1-buaajxlj@163.com>
 
-On Thu, Feb 06, 2025 at 12:27:03AM +0800, kernel test robot wrote:
-> Hi Raag,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250203-161554
-> base:   2014c95afecee3e76ca4a56956a936e23283f05b
-> patch link:    https://lore.kernel.org/r/20250203080902.1864382-2-raag.jadav%40intel.com
-> patch subject: [PATCH v3 01/20] driver core: Split devres APIs to device/devres.h
-> config: um-randconfig-r112-20250205 (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 355d0b186f178668b103068537e517f3d52ad639)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060025.XJwUub6I-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502060025.XJwUub6I-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    drivers/net/pcs/pcs-xpcs-plat.c: note: in included file (through include/linux/device.h):
-> >> include/linux/device/devres.h:106:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
->    include/linux/device/devres.h:106:23: sparse:     expected void [noderef] __iomem *
->    include/linux/device/devres.h:106:23: sparse:     got void *
-> 
-> vim +106 include/linux/device/devres.h
-> 
->    102	
->    103	static inline
->    104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
->    105	{
->  > 106		return ERR_PTR(-EINVAL);
->    107	}
->    108	
+Hi Liang,
 
-Andy, are we expecting this?
+kernel test robot noticed the following build warnings:
 
-Raag
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Liang-Jie/af_unix-Refine-UNIX-domain-sockets-autobind-identifier-length/20250205-141123
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250205060653.2221165-1-buaajxlj%40163.com
+patch subject: [PATCH net-next] af_unix: Refine UNIX domain sockets autobind identifier length
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250206/202502061416.GZjhJTOs-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061416.GZjhJTOs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061416.GZjhJTOs-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   net/unix/af_unix.c: In function 'unix_autobind':
+>> net/unix/af_unix.c:1227:48: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+    1227 |         sprintf(addr->name->sun_path + 1, "%0*x", AUTOBIND_LEN - 1, ordernum);
+         |                                                ^
+   net/unix/af_unix.c:1227:9: note: 'sprintf' output 6 bytes into a destination of size 5
+    1227 |         sprintf(addr->name->sun_path + 1, "%0*x", AUTOBIND_LEN - 1, ordernum);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/sprintf +1227 net/unix/af_unix.c
+
+  1195	
+  1196	static int unix_autobind(struct sock *sk)
+  1197	{
+  1198		struct unix_sock *u = unix_sk(sk);
+  1199		unsigned int new_hash, old_hash;
+  1200		struct net *net = sock_net(sk);
+  1201		struct unix_address *addr;
+  1202		u32 lastnum, ordernum;
+  1203		int err;
+  1204	
+  1205		err = mutex_lock_interruptible(&u->bindlock);
+  1206		if (err)
+  1207			return err;
+  1208	
+  1209		if (u->addr)
+  1210			goto out;
+  1211	
+  1212		err = -ENOMEM;
+  1213		addr = kzalloc(sizeof(*addr) +
+  1214			       offsetof(struct sockaddr_un, sun_path) + AUTOBIND_LEN, GFP_KERNEL);
+  1215		if (!addr)
+  1216			goto out;
+  1217	
+  1218		addr->len = offsetof(struct sockaddr_un, sun_path) + AUTOBIND_LEN;
+  1219		addr->name->sun_family = AF_UNIX;
+  1220		refcount_set(&addr->refcnt, 1);
+  1221	
+  1222		old_hash = sk->sk_hash;
+  1223		ordernum = get_random_u32();
+  1224		lastnum = ordernum & 0xFFFFF;
+  1225	retry:
+  1226		ordernum = (ordernum + 1) & 0xFFFFF;
+> 1227		sprintf(addr->name->sun_path + 1, "%0*x", AUTOBIND_LEN - 1, ordernum);
+  1228	
+  1229		new_hash = unix_abstract_hash(addr->name, addr->len, sk->sk_type);
+  1230		unix_table_double_lock(net, old_hash, new_hash);
+  1231	
+  1232		if (__unix_find_socket_byname(net, addr->name, addr->len, new_hash)) {
+  1233			unix_table_double_unlock(net, old_hash, new_hash);
+  1234	
+  1235			/* __unix_find_socket_byname() may take long time if many names
+  1236			 * are already in use.
+  1237			 */
+  1238			cond_resched();
+  1239	
+  1240			if (ordernum == lastnum) {
+  1241				/* Give up if all names seems to be in use. */
+  1242				err = -ENOSPC;
+  1243				unix_release_addr(addr);
+  1244				goto out;
+  1245			}
+  1246	
+  1247			goto retry;
+  1248		}
+  1249	
+  1250		__unix_set_addr_hash(net, sk, addr, new_hash);
+  1251		unix_table_double_unlock(net, old_hash, new_hash);
+  1252		err = 0;
+  1253	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
