@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38617DA8C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 20:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0891547F3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 20:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738872433; cv=none; b=sRMbt5CBcAwXWtyjibeeC/OWi+aV8qed6zHkg4f5YY8RFiJ5ApktfoanFa1WdoA9fVpI2EBXSx+rbn8WihJdxdL/PdYiLgOe89YvCFTd2j69wOrfxDMalqt4VpWPZ2SnuZm+Tap8jj29JlqtVnkvgwrNPB2ZTqKPu9Ev5oW0U/Y=
+	t=1738873038; cv=none; b=oV2XidOTuaEl/9McXASf5zDYrjvoRqDV8AmflHZ93trN8qZe0iUsD9lgL7qENUHvIXSORDNtK/EbEOX6t43w4KA0zKOzznuG5Ie8yyIwI705ybxwWnSxtweFMxRO77b8WIMcPVi/0ZA2pE9KJ/JPL+brueqc3DGY8PTjjvu24v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738872433; c=relaxed/simple;
-	bh=RKVcCa9bN8nAkks2jAt+e7e/MXCLDh3WzgiZylCL3FM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+IXI2u7hbzQynl2GfjefMeIyJCTtkPcT0Napd71y7V8ycZemHBd2R+/4uyz+zhQ13b3ae4K7XWI9VSyCNxzxx/gyfegdha/mhCGAJX76qc+no2m1iVDLdZgx4f6niBRkYO6KUn0IVqUJ2tKSTPToebvyuqSob8ySdtDQB06ZNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iT75D7wB; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1738873038; c=relaxed/simple;
+	bh=RQPvCWsY/BQguRfUzo+fpG8pR53URrLFzf89Pab/HXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XD8qK5BNr2DkMDvvr23CiND6SbX2h4ivehnvLEbRdbeCPjot46day0h1z0phlgXXpKF3hPX5uHa/nJ6f7ulu+PPCgAtVwQ33s85rQLijR1B1lobBwfMhHsbIp8DmBb/kTwo2U4YBNkHL3kkBcwwFfY9+mVkrCbT4GwSn8Cp2FB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NtqZIiry; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iT75D7wB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NtqZIiry"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738872432; x=1770408432;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RKVcCa9bN8nAkks2jAt+e7e/MXCLDh3WzgiZylCL3FM=;
-  b=iT75D7wBPgRVSi4ZX4tduyyS/0iYluqkKMeIAaLw5xTwvV75qtgFQj+v
-   81bl9coMdk9sVzT3idLnhvWvfOoQwdMwCHAGfANKfoT9bW0UpdGnDiOss
-   WEqu1/jENZYI3LR+N4lSXtwWKnkVevfyMDGpcqBmhFVxcY/u9scxBH5NC
-   p2KXMjL6yjp398p8DLOzZngwy921eaMx4C850CA8iFAvzF5f/obDi7x0e
-   c7gf5TmFjS731KkgMZllqUewWj/K3sPZ0YAZvZwSN97BU3yp2DxY9tPoh
-   v1HsZ4hIcLhZtP5DqpKO98DbYUDps9ktz4YZUl7C6J4pex2qIfXOxyCvA
-   g==;
-X-CSE-ConnectionGUID: dSuTS31ESWWw/z7HraF2Sg==
-X-CSE-MsgGUID: DJ6//z91RBWA6IOlv8XHuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38696240"
+  t=1738873035; x=1770409035;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RQPvCWsY/BQguRfUzo+fpG8pR53URrLFzf89Pab/HXw=;
+  b=NtqZIirypvdzdN7f6rtT/gLNn+iG1LOUpjqAoZUONNhj5HTLdW8Xt0Lf
+   PQCkJuwhW5UFEhtglEo93RM2uaAq/lk1/FhUjpyVFVAzZrzMNlWga5q2a
+   O5CbwCVmXqaabIOIr08E3oFdWS3jT1gKp/jOQ3dONmk382A589CWDIMBa
+   964UpMnKU0x4O35yh92y/MDBbpzqVKstdAKttPJ73zE/i/5qHIRNhkUwT
+   wqLB2zCkvYRXNCLBzgonnZ5PKjrdFsSWMs/Bcuk2tT8evcWhgevsU++1i
+   PHfEbGUe1dEK4sc9TOKimhQCLuULlkrX43+Ssv0HjfcMULIc45Fq7peFc
+   w==;
+X-CSE-ConnectionGUID: KZzEvI5qQ9a6CZh2TOrPuQ==
+X-CSE-MsgGUID: tnixjhUiQeOhVvSddD+wZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="56916266"
 X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="38696240"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 12:07:11 -0800
-X-CSE-ConnectionGUID: 5MPmEQkeR6GZg1Zbh3dKjQ==
-X-CSE-MsgGUID: HxIxPSJBSU+VcF0oaKtzlA==
+   d="scan'208";a="56916266"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 12:17:15 -0800
+X-CSE-ConnectionGUID: 5SEnKldTReuLMMfamp8bEg==
+X-CSE-MsgGUID: Yyt/L7V6Ti6BaqvcooCXcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="142193227"
+   d="scan'208";a="111515726"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Feb 2025 12:07:08 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2025 12:17:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tg89R-000xHb-1R;
-	Thu, 06 Feb 2025 20:07:05 +0000
-Date: Fri, 7 Feb 2025 04:06:17 +0800
+	id 1tg8J8-000xI5-0d;
+	Thu, 06 Feb 2025 20:17:06 +0000
+Date: Fri, 7 Feb 2025 04:16:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: alucerop@amd.com, linux-cxl@vger.kernel.org, netdev@vger.kernel.org,
-	dan.j.williams@intel.com, edward.cree@amd.com, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
-	dave.jiang@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>
-Subject: Re: [PATCH v10 21/26] cxl: allow region creation by type2 drivers
-Message-ID: <202502070349.mdD2BTuL-lkp@intel.com>
-References: <20250205151950.25268-22-alucerop@amd.com>
+To: Grygorii Strashko <grygorii.strashko@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: undefined reference to `gen_pool_size'
+Message-ID: <202502070436.5MKqMPJW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250205151950.25268-22-alucerop@amd.com>
 
-Hi,
+Hi Grygorii,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 6cd498f39cf5e1475b567eb67a6fcf1ca3d67d46]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alucerop-amd-com/cxl-make-memdev-creation-type-agnostic/20250205-233651
-base:   6cd498f39cf5e1475b567eb67a6fcf1ca3d67d46
-patch link:    https://lore.kernel.org/r/20250205151950.25268-22-alucerop%40amd.com
-patch subject: [PATCH v10 21/26] cxl: allow region creation by type2 drivers
-config: i386-buildonly-randconfig-006-20250206 (https://download.01.org/0day-ci/archive/20250207/202502070349.mdD2BTuL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070349.mdD2BTuL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   92514ef226f511f2ca1fb1b8752966097518edc0
+commit: 99f629718272974405e8d180d2fa70c03c06d61f net: ethernet: ti: cpsw: drop TI_DAVINCI_CPDMA config option
+date:   6 years ago
+config: alpha-randconfig-r004-20230123 (https://download.01.org/0day-ci/archive/20250207/202502070436.5MKqMPJW-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070436.5MKqMPJW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502070349.mdD2BTuL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502070436.5MKqMPJW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/cxl/core/region.c:3589: warning: Function parameter or struct member 'ways' not described in 'cxl_create_region'
-
-
-vim +3589 drivers/cxl/core/region.c
-
-  3578	
-  3579	/**
-  3580	 * cxl_create_region - Establish a region given an endpoint decoder
-  3581	 * @cxlrd: root decoder to allocate HPA
-  3582	 * @cxled: endpoint decoder with reserved DPA capacity
-  3583	 *
-  3584	 * Returns a fully formed region in the commit state and attached to the
-  3585	 * cxl_region driver.
-  3586	 */
-  3587	struct cxl_region *cxl_create_region(struct cxl_root_decoder *cxlrd,
-  3588					     struct cxl_endpoint_decoder *cxled, int ways)
-> 3589	{
-  3590		struct cxl_region *cxlr;
-  3591	
-  3592		mutex_lock(&cxlrd->range_lock);
-  3593		cxlr = __construct_new_region(cxlrd, cxled, ways);
-  3594		mutex_unlock(&cxlrd->range_lock);
-  3595	
-  3596		if (IS_ERR(cxlr))
-  3597			return cxlr;
-  3598	
-  3599		if (device_attach(&cxlr->dev) <= 0) {
-  3600			dev_err(&cxlr->dev, "failed to create region\n");
-  3601			drop_region(cxlr);
-  3602			return ERR_PTR(-ENODEV);
-  3603		}
-  3604		return cxlr;
-  3605	}
-  3606	EXPORT_SYMBOL_NS_GPL(cxl_create_region, "CXL");
-  3607	
+   alpha-linux-ld: warning: arch/alpha/lib/styncpy.o: missing .note.GNU-stack section implies executable stack
+   alpha-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   alpha-linux-ld: warning: arch/alpha/lib/styncpy.o: missing .note.GNU-stack section implies executable stack
+   alpha-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   alpha-linux-ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   alpha-linux-ld: drivers/net/ethernet/ti/davinci_cpdma.o: in function `cpdma_desc_pool_destroy':
+>> (.text+0x34): undefined reference to `gen_pool_size'
+>> alpha-linux-ld: (.text+0x38): undefined reference to `gen_pool_size'
+>> alpha-linux-ld: (.text+0x48): undefined reference to `gen_pool_avail'
+   alpha-linux-ld: (.text+0x50): undefined reference to `gen_pool_avail'
+   alpha-linux-ld: (.text+0xb4): undefined reference to `gen_pool_size'
+   alpha-linux-ld: (.text+0xb8): undefined reference to `gen_pool_size'
+   alpha-linux-ld: (.text+0xc8): undefined reference to `gen_pool_avail'
+   alpha-linux-ld: (.text+0xd0): undefined reference to `gen_pool_avail'
+   alpha-linux-ld: drivers/net/ethernet/ti/davinci_cpdma.o: in function `cpdma_desc_pool_create.constprop.0':
+>> (.text+0x3f4): undefined reference to `devm_gen_pool_create'
+>> alpha-linux-ld: (.text+0x428): undefined reference to `devm_gen_pool_create'
+   alpha-linux-ld: (.text+0x4a4): undefined reference to `gen_pool_add_virt'
+   alpha-linux-ld: (.text+0x4ac): undefined reference to `gen_pool_add_virt'
+   alpha-linux-ld: drivers/net/ethernet/ti/davinci_cpdma.o: in function `__cpdma_chan_free':
+>> (.text+0x714): undefined reference to `gen_pool_free'
+   alpha-linux-ld: (.text+0x71c): undefined reference to `gen_pool_free'
+   alpha-linux-ld: drivers/net/ethernet/ti/davinci_cpdma.o: in function `cpdma_chan_submit':
+>> (.text+0x1bcc): undefined reference to `gen_pool_alloc'
+   alpha-linux-ld: (.text+0x1bd8): undefined reference to `gen_pool_alloc'
+   alpha-linux-ld: (.text+0x205c): undefined reference to `gen_pool_free'
+   alpha-linux-ld: (.text+0x206c): undefined reference to `gen_pool_free'
+   alpha-linux-ld: drivers/net/ethernet/ti/davinci_cpdma.o: in function `cpdma_check_free_tx_desc':
+>> (.text+0x20f4): undefined reference to `gen_pool_avail'
+   alpha-linux-ld: (.text+0x20f8): undefined reference to `gen_pool_avail'
 
 -- 
 0-DAY CI Kernel Test Service
