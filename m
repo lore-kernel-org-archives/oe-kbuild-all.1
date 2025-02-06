@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C10C1A23A6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 18:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD06239597
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 19:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738868183; cv=none; b=q5thfdKICa+e+ifszBTfcfhnHu9qNALdahFGDTONqXJuZLHOiWKZlxtI0+uBIBlIUKQMUbfERQ7gtGO/MNymB83jzhxHzLlmn7U7LorlVhk0H3uzZ9U5uvnproEy+fCZoQ4nvfFevQ37oWi1TYXM6GgU4XGBmeaNmLdFRswZtWU=
+	t=1738868464; cv=none; b=qZCaoqscfF8jM6CAZO63C3jwHAHl5BtffU8TQ/THYLazcQB+kkYWC+9Xj/82+OTgqf2jc8jZHXFaLLyxW1rOIldnXG79rfX6MY3s88EM45Q4ERr5RiBQsagPsqKpDVwZixcvD2NCcqm0GsjnaOvyDU3mY1dN6zwWLjKj7kN3zvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738868183; c=relaxed/simple;
-	bh=OVIX+I9s2Gn9nEIsO4OMzsbU9FZlTuUnVtikqRD0/u4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qyuNHpbaMNNI0VfTPwYuBeH18TbVGr0Z7jemFcoYTYYPJd0fwpIuYI72i8JMV8WToy8aOX+p7TKdXKfl8e5bUDFBjmjW3BPCiGXdNORSxMsUOoA6liU7Oh5yuMV+JC2ofyfrxcy1kLUQfzw6SH98ezmXHmmyrH0rZgeCzfZodFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPsD/Kxl; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738868464; c=relaxed/simple;
+	bh=yq80KneS+HiZkFFGT0L+GfsCTmqXIqc8Yq1BN0S8uo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KaAlBVFM+ejuNUV6S6QoVplWb6eEzYDb0AlaLBnaWQQxw5abRoAWVZDNaGkb7xo7pgqRHUH8bqeLVO0KKHOv3/kepDtlqzJnQsqRQhl8t/x0wqcjGmvvLH55uq0au7d49KPfpbsCF1vDGLTwFfe1TJ0Fn4CVUcwHPJg+XcpzrH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8Sf7a7m; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPsD/Kxl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8Sf7a7m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738868182; x=1770404182;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OVIX+I9s2Gn9nEIsO4OMzsbU9FZlTuUnVtikqRD0/u4=;
-  b=UPsD/Kxl43vN204WBOHSeoi603l3aRjWNRmtYmFiAbb/JUoHg7zi0XoL
-   qTwlRrag3kZBFuXLvgtbD5p9J4zzDAhb+NPPMR26gDsFdiJgwgwpG3/CM
-   HYJp1JmyL+EtmVfrP5/N0AiCouK918u8UdOWCkTNshof9icQ/THn3EEM0
-   bTq/rBJyhlUHjp9eU/J38n+L4rQz6km1s9MKfodCMRRfB7+083nYKiv0T
-   20JRFwkrlvsAdQbgPrlk1NFdlYiGFGAdzuV2D3euqIzXMeWyoTylVen63
-   p0d5reNY+mto9a+f1WF4dA8O5ZrvDh2nS2bmPrYCu5bZdCWadfPdCrL0X
+  t=1738868463; x=1770404463;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yq80KneS+HiZkFFGT0L+GfsCTmqXIqc8Yq1BN0S8uo8=;
+  b=h8Sf7a7mfMwyIBVcjSMlYECtliMDTz59/igfuF4Nh3DTI8EVYg0LOg3T
+   TX6qYx47zUPIRjOYEzzR5JRYzjOX0RKmshCVtSj4MzgdNwAn8Z0JDJoES
+   bpSL+cafXBCPoe/c6+wbQ0vD7b3qFe1pb82ohIaJgj6MRzzR5q0CzYkwT
+   TtjNEF9oGE7+4HmPH7lBE5IL8CkjwSpbrlM+unx8L8uxQOJyI2pVQO36X
+   4IRgNJkjAgH1vWOR3qvJ/45GM4H+rEmXTiJIRVcyL3lkMJ6SMeCFAE+AM
+   vr3r2Js2no4dRh7g2rdDQZn10xZ/5x2SPPxAWtUl5r7Vut74/NqumhvIc
    Q==;
-X-CSE-ConnectionGUID: oQSYzPo2Q0aSjrE+4Ru3uw==
-X-CSE-MsgGUID: LqzySeZ+TCCvb7a1RLrWRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50129492"
+X-CSE-ConnectionGUID: JxY8EzqeTI2Ddlp8RiX/4Q==
+X-CSE-MsgGUID: GtlofStDQauXG28k9Hy7hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="49738488"
 X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="50129492"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:56:21 -0800
-X-CSE-ConnectionGUID: 76E51o4ORZKr0zRu6nVOxA==
-X-CSE-MsgGUID: sJ1vyTjsTNGLJLvZagFQzg==
+   d="scan'208";a="49738488"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 11:01:02 -0800
+X-CSE-ConnectionGUID: 0Znyhv7dTBem7dIU+e0lfg==
+X-CSE-MsgGUID: Qo7SNXHKQzWDgwaBTMjXWQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="116235177"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 10:56:16 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tg72q-00000008oyh-2O83;
-	Thu, 06 Feb 2025 20:56:12 +0200
-Date: Thu, 6 Feb 2025 20:56:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
-	jic23@kernel.org, przemyslaw.kitszel@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6UFzP7M4ng_17s_@smile.fi.intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
- <202502060025.XJwUub6I-lkp@intel.com>
- <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
- <Z6TRcWCKe__oxCUV@smile.fi.intel.com>
- <Z6TRveCRK7LFwSNV@smile.fi.intel.com>
- <Z6T7PE2Qpw4VbQyn@black.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
+   d="scan'208";a="111137735"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 06 Feb 2025 11:01:01 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tg77S-000xEL-2f;
+	Thu, 06 Feb 2025 19:00:58 +0000
+Date: Fri, 7 Feb 2025 03:00:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 170/170]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /firmware/mtk-svp-heap: failed
+ to match any schema with compatible: ['mediatek,secure-heap']
+Message-ID: <202502070211.7I2nj2t4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,46 +62,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6T7PE2Qpw4VbQyn@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 06, 2025 at 08:11:08PM +0200, Raag Jadav wrote:
-> On Thu, Feb 06, 2025 at 05:14:05PM +0200, Andy Shevchenko wrote:
-> > On Thu, Feb 06, 2025 at 05:12:49PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Feb 06, 2025 at 08:13:12AM +0200, Raag Jadav wrote:
-> > > > On Thu, Feb 06, 2025 at 12:27:03AM +0800, kernel test robot wrote:
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1fe62fcb2a55fbf67fb3bb11d7398dfbebfa9f71
+commit: f5e37d37aba390d2da55a97217855369e9f19fb0 [170/170] CHROMIUM: arm64: dts: mediatek: mt8196: Add optee dtsi setting
+config: arm64-randconfig-051-20250204 (https://download.01.org/0day-ci/archive/20250207/202502070211.7I2nj2t4-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070211.7I2nj2t4-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502070211.7I2nj2t4-lkp@intel.com/
 
-> > > > >    102	
-> > > > >    103	static inline
-> > > > >    104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
-> > > > >    105	{
-> > > > >  > 106		return ERR_PTR(-EINVAL);
-> > > > >    107	}
-> > > > >    108	
-> > > > 
-> > > > Andy, are we expecting this?
-> > > 
-> > > Oh, no, it's sparse error, but easy to fix. Need to have
-> > > 
-> > > 		return IOMEM_ERR_PTR(-EINVAL);
-> > 
-> > But isn't it the original issue? I mean that it was already before this series.
-> 
-> For all this time?
-
-Yep. 0-day bot doesn't complain on pre-existed issues, but in case one touches
-the line it becomes a new issue from its point of view.
-
-> > If so, perhaps you can fix all sparse errors like this in the devres* code.
-> 
-> With a fixes tag?
-
-Maybe.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: $nodename:0: 'clkitg' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /firmware/mtk-svp-heap: failed to match any schema with compatible: ['mediatek,secure-heap']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/adsp-mem-region@90000000: failed to match any schema with compatible: ['mediatek,adsp-reserved-memory']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/vcp-reserved-memory@a0200000: failed to match any schema with compatible: ['mediatek,me-vcp-reserved']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/secure-region@a3000000: failed to match any schema with compatible: ['mediatek,dynamic-restricted-region']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
