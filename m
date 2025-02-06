@@ -1,94 +1,130 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AD9D529
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 02:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1241FD529
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 02:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738807724; cv=none; b=ZHI804pxyG/aoJCSqWw3z2VaAg9+4AVH+TN1NSWU6cNWlQ0KH2PdBGkPxD93HgVT8moLAbsTC/1H7+Y18ORrFeFx9Wfzp6XKJJYyR7NP/hhMKtvWTJ0Ztb/KxnArcETyWqKB49r/jNaJap/jCYlzXIi1sSjveTLzPd06UTfqVko=
+	t=1738807935; cv=none; b=i/wm8lxUe+q31J1nspEJucGlEh3xAEfzJX+kXAa+2MnLWiL1whOAljE9UzX+zf2k1YCCV41aHnx417SKTvaSCgX7evgm+h2I5Eg7ed2ZPnl8l9at+Lnao7Zo1u0k1IrMS7v0ke1l3bth66WlratUoPpMMHw9GtzLLKEOtRUtYpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738807724; c=relaxed/simple;
-	bh=9c7C1CqHgHBAKCGd3jALYWsIRNhtErJ+Nt/N67wkbvk=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=O8vs6mp2gLWgBlAjacGerBYRFJOFTRoSU450DQEb/AeEqEuV/QfpaDRV2fB62R9fUytCR/VYRtfAV+SY9BfR0be6MJMmsWdNcBsdbOJxLMsc2BJeBPkAf1P/x0N5uffj4Z8ffxgft1Bqlg+4wgfa5yF40MLMSNA95CYW+FXICGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4YpL5g0xQhz2FcvK;
-	Thu,  6 Feb 2025 10:04:55 +0800 (CST)
-Received: from kwepemd200019.china.huawei.com (unknown [7.221.188.193])
-	by mail.maildlp.com (Postfix) with ESMTPS id E036D140118;
-	Thu,  6 Feb 2025 10:08:32 +0800 (CST)
-Received: from [10.173.127.72] (10.173.127.72) by
- kwepemd200019.china.huawei.com (7.221.188.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 6 Feb 2025 10:08:32 +0800
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for HUGETLBFS
- when selected by PPC_8xx
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-CC: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
-	<fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>, kernel test
- robot <lkp@intel.com>
-References: <202501240611.LDmD2nkj-lkp@intel.com>
- <29cf621d-db67-6c5c-0dc5-ebe79edc6cc6@huawei.com>
- <08a51873-7510-4552-9bb1-3ea7ef9fbc2d@csgroup.eu>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <0c0c6af5-7766-6cc0-d141-d725b84bef09@huawei.com>
-Date: Thu, 6 Feb 2025 10:08:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1738807935; c=relaxed/simple;
+	bh=sxDt0FfeALrgHKnlbbVV+xxRMifnw8OxS4n/820Fo+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RiL9sd7/P56mFUqFk3YfbJlUeasYJPblSe5EKc52vEj8RlnzSU8aW7K9ER+lZ1SbiXhgbo/otuPILAPBjAfR54ZcFATEgMbzkbnz9f+T/se7rHHr1SEL1uIlmhpNX1ltyjb4nVz5khAOyS8KqzrRQhOd3bYLn8QEJVb3TuQ5DMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eukCqtE9; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eukCqtE9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738807933; x=1770343933;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sxDt0FfeALrgHKnlbbVV+xxRMifnw8OxS4n/820Fo+M=;
+  b=eukCqtE9gWeaOlpI/P4IhyNGIhAVLbWf55xxIc47+deZqI//PeBSKRal
+   C96kdVIeIbWgiGXe0RLeXP/R3Y0nXkypQU0XDfqHQ+BoBX5Lb8KEtNWwW
+   gSqXXpkofMPdAhB3oCcUagXLPkko7jtASQp9HWv20Y+gBHUTv1pIlvFlV
+   HA0lkKP0Bdp1fvmFu05QStORltYOQ8ot9YxxL5FXhu0U5LQ4sn54bekUt
+   O7rtqFHtOYPYarDlmpbSapFYCQC2bQ1pB9pno8xs90xAElr5VBvMt/CE+
+   UxGG5n6+VOWnPNgWwvaQ2bavFaW6wruVrzLl0RaNB+gTgVVsoSHntiKp+
+   Q==;
+X-CSE-ConnectionGUID: o7TvNRK6TYmDjuaHcnr9jw==
+X-CSE-MsgGUID: 0K79xl58REqDU5Z6XCsaEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50017693"
+X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
+   d="scan'208";a="50017693"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 18:12:12 -0800
+X-CSE-ConnectionGUID: ulsl4jEiRJGxKzgVZ0G5lg==
+X-CSE-MsgGUID: esOtSqcHTMyHtB8mY7ZJbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
+   d="scan'208";a="116112537"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Feb 2025 18:12:11 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfrNB-000wLp-1Q;
+	Thu, 06 Feb 2025 02:12:09 +0000
+Date: Thu, 6 Feb 2025 10:11:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis 17/21]
+ include/linux/local_lock_internal.h:32:20: error: 'current' undeclared
+Message-ID: <202502061038.6CCfKHm4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <08a51873-7510-4552-9bb1-3ea7ef9fbc2d@csgroup.eu>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemd200019.china.huawei.com (7.221.188.193)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025/2/6 0:35, Christophe Leroy wrote:
-> 
-> 
-> Le 05/02/2025 à 03:39, Miaohe Lin a écrit :
->> On 2025/1/24 6:24, kernel test robot wrote:
->>> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757464439%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=LU9lidWjjJE3vf0TPBp1wIvUFpjnpPKq2zQVxu4Ru%2F0%3D&reserved=0 master
->>> head:   d0d106a2bd21499901299160744e5fe9f4c83ddb
->>> commit: f8142cf94d4737ea0c3baffb3b9bad8addcb9b6b hugetlb: make hugetlb depends on SYSFS or SYSCTL
->>> date:   2 years, 4 months ago
->>> config: powerpc-kismet-CONFIG_HUGETLBFS-CONFIG_PPC_8xx-0-0 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757478112%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=9%2B4B2T41tw4xvlAkYIeOEhK9PrH17GM7KrhEOyKDxMM%3D&reserved=0)
->>> reproduce: (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757485680%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=SDjSwdEccwtqN8L4VzuYnAhq3nchpJdBi%2FaJGloeZ40%3D&reserved=0)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202501240611.LDmD2nkj-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C9284805dd2a148bd1d7e08dd458e511f%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638743199757493154%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=DdGGMh1x6g6a%2F7hcgqmSBASk14QpA4%2F%2FmI2ztozklts%3D&reserved=0
->>
->> Thanks for report. Sorry for late respond. I was on my Spring Festival vacation.
->>
->>>
->>> kismet warnings: (new ones prefixed by >>)
->>>>> kismet: WARNING: unmet direct dependencies detected for HUGETLBFS when selected by PPC_8xx
->>>     WARNING: unmet direct dependencies detected for HUGETLBFS
->>>       Depends on [n]: (X86 || IA64 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=n] || SYSCTL [=n])
->>>       Selected by [y]:
->>>       - PPC_8xx [=y] && <choice>
->>
->> I am a bit confused. HUGETLBFS depends on SYSFS or SYSCTL. How can it be selected while SYSFS [=n] || SYSCTL [=n]?
->> Or am I miss something?
-> 
-> CONFIG_HUGETLBFS is selected by CONFIG_PPC_8xx, see commit 34536d780683 ("powerpc/8xx: Add a function to early map kernel via huge pages")
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis
+head:   a0d770da40bf833f1f658fc84741c8f3fee2a385
+commit: e283c1f3a2ae347061eb98f4a3b46af0ed80eded [17/21] locking/local_lock: Support Clang's capability analysis
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250206/202502061038.6CCfKHm4-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061038.6CCfKHm4-lkp@intel.com/reproduce)
 
-Thanks for your providing. But I'm saying that since HUGETLBFS depends on (SYSFS or SYSCTL), how CONFIG_PPC_8xx succeeds to select it while
-SYSFS and SYSCTL are disabled? I'm not really familiar with Kconfig but I assume Kconfig will confirm that the dependencies are satisfied
-before HUGETLBFS is enabled. Or am I miss something?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061038.6CCfKHm4-lkp@intel.com/
 
-Thank.
-.
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/local_lock.h:5,
+                    from lib/test_capability-analysis.c:8:
+   include/linux/local_lock_internal.h: In function 'local_lock_acquire':
+>> include/linux/local_lock_internal.h:32:20: error: 'current' undeclared (first use in this function)
+      32 |         l->owner = current;
+         |                    ^~~~~~~
+   include/linux/local_lock_internal.h:32:20: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from include/linux/bit_spinlock.h:5,
+                    from lib/test_capability-analysis.c:7:
+   include/linux/local_lock_internal.h: In function 'local_lock_release':
+   include/linux/local_lock_internal.h:37:41: error: 'current' undeclared (first use in this function)
+      37 |         DEBUG_LOCKS_WARN_ON(l->owner != current);
+         |                                         ^~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/local_lock_internal.h:37:9: note: in expansion of macro 'DEBUG_LOCKS_WARN_ON'
+      37 |         DEBUG_LOCKS_WARN_ON(l->owner != current);
+         |         ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/current +32 include/linux/local_lock_internal.h
+
+91710728d1725d Thomas Gleixner 2020-05-27  18  
+91710728d1725d Thomas Gleixner 2020-05-27  19  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+d8bbd97ad0b99a Thomas Gleixner 2021-08-15  20  # define LOCAL_LOCK_DEBUG_INIT(lockname)		\
+91710728d1725d Thomas Gleixner 2020-05-27  21  	.dep_map = {					\
+91710728d1725d Thomas Gleixner 2020-05-27  22  		.name = #lockname,			\
+91710728d1725d Thomas Gleixner 2020-05-27  23  		.wait_type_inner = LD_WAIT_CONFIG,	\
+dfd5e3f5fe27bd Peter Zijlstra  2020-12-09  24  		.lock_type = LD_LOCK_PERCPU,		\
+d8bbd97ad0b99a Thomas Gleixner 2021-08-15  25  	},						\
+d8bbd97ad0b99a Thomas Gleixner 2021-08-15  26  	.owner = NULL,
+91710728d1725d Thomas Gleixner 2020-05-27  27  
+91710728d1725d Thomas Gleixner 2020-05-27  28  static inline void local_lock_acquire(local_lock_t *l)
+91710728d1725d Thomas Gleixner 2020-05-27  29  {
+91710728d1725d Thomas Gleixner 2020-05-27  30  	lock_map_acquire(&l->dep_map);
+91710728d1725d Thomas Gleixner 2020-05-27  31  	DEBUG_LOCKS_WARN_ON(l->owner);
+91710728d1725d Thomas Gleixner 2020-05-27 @32  	l->owner = current;
+91710728d1725d Thomas Gleixner 2020-05-27  33  }
+91710728d1725d Thomas Gleixner 2020-05-27  34  
+
+:::::: The code at line 32 was first introduced by commit
+:::::: 91710728d1725de51d06b40674abf6e860d592c7 locking: Introduce local_lock()
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
