@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4600422DF87
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CDD22CBC9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738839609; cv=none; b=crLkeOMSsQFk0ovacKYxdn26f0zIH7zSICGVweieRnKGLPF8E1M4EFeJsjjkTHHoVx7wl3ePig3KlK7X9/cDiYfDxDt1GRJ19KuhKju2jwsJ5T7e0wr8yLrpr8xNBAJsqXnxn5veCQTBIA1XTvdIigKaRsiRb2kKTL5ijSMjR2Y=
+	t=1738840268; cv=none; b=KpnIUR4jc7iok+4h+BEjpsfZHssgYzSHIEqcd1Y4UMxNZ+pazuESJwRe2GhmtM5xkP1mf/Ag1LRI8Ej8Nxd/Dc3IxfjZvS6zWkWNAcnX5M0Ou2WejOYnDPZhUco7EaW7U64A9lGoD9qPJ++J1lF07gdYxVCGNaCniqV6JeUBakw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738839609; c=relaxed/simple;
-	bh=RCBLqwwO5xTzxFvTAMfg8JgH02peePijIg/bl5pyjJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MgM0urVPSUOdcnjkIBjkFH+JPQfxOA+eDth90DuReXqXVpsS13WFvhOj4CGbOPSzyUV9n98L/w1z1CB2/TmT3/MMqMtwf+LJauLyviKTmmp7CYUEHEsxn9oqpE3qasIQ54RS9DJ0y4tXZb+pPsvHAPTSDlX23hirKS1HKcyWSJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GRU9d0J5; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1738840268; c=relaxed/simple;
+	bh=r+OGepa90skBiTGbO4Zk6MzCmgLBsa/kwV9jMh6f+4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iUyCmMy4hom8w3ioveiDO4vvQe+Oyu9K7E4W99K0DF7tjJW3H/vNN2tVwG+z5Z9oCRY5MlromZCHfR37r3X0Q3vBQLsZiiZQIa8zyCZXTeLFAj8SesKMsWTIEAMt6RJwg2vobtUrOFcGBnEsW35A5wwAuSOS5n8Tb7RSB2y/T7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9IAfc7C; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GRU9d0J5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9IAfc7C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738839606; x=1770375606;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RCBLqwwO5xTzxFvTAMfg8JgH02peePijIg/bl5pyjJM=;
-  b=GRU9d0J5JVmn5s9xRp4cexLbGkVXLSdHmc9gkpl01DmlS12saCnkQ8Yd
-   fd9hvb8cGFcgeekgrGucFy4EjIEGEcRxhROA9jK8Ki5+Nhu8/FknxYZAp
-   Oo2nq7QVBAt9/RdwdbRabLHtCk2YnOi6u8PimxiVTzZPTR8Y6evgoIWUD
-   tX0YgKsYBESOI2UU/n1AoHx5SjxHYwVcMJneeqPVYr0+L/aGY6PJTx2U3
-   b8t6BQwYlPxI1fsODsVu76SNtpBYuPg07ZvcahIdNXTjK5X3scFMHd1sI
-   n0vF06j4iBzO7n+ku5Do9ot8qHd6RHgIPfIAtLsmdkBjR8NxZyUGeQm4x
-   g==;
-X-CSE-ConnectionGUID: zhGca5y6QY+j4P/432NVOQ==
-X-CSE-MsgGUID: WLQNAvzCSWqbGBODtC9JDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42271786"
+  t=1738840267; x=1770376267;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r+OGepa90skBiTGbO4Zk6MzCmgLBsa/kwV9jMh6f+4I=;
+  b=X9IAfc7Cr/1hfdP76jvReRVFhHPK77So0I7kRfFTeGEprWDLslhHHLtA
+   xNxrSjkOZCx3gA5bSQKb80PxUMj27/uE24s/QJhKrW2Bl4REMgSxxigOU
+   IUFn7JuwoUZqXRGoYsWCW6njPFj53RZplEYhoy0Tx7jCF1KrhxnRNTBVx
+   Wu70KGYdt25q7xNdlHvG7cz8IBAIoOvLjgza+RR08yUm7QCugcSCZnsEF
+   q6/oJaLG5ZrJI3gz6ocO9XjlQSqeblT3Jen/banOy5S6h3vv8H1BHp1ER
+   TssRqZIS1ZePhBoxe5jM/rKHC1f726PAxY7B74mv0rSUFphzBAgfGRZdo
+   Q==;
+X-CSE-ConnectionGUID: UWnu0VOfQ22zYC6GB7yoiQ==
+X-CSE-MsgGUID: v8otgTrZSLu7j21XG0ioDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42272789"
 X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="42271786"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 03:00:06 -0800
-X-CSE-ConnectionGUID: VmDwNHEFRNud2JV6iomtsw==
-X-CSE-MsgGUID: iU/tKXjkQJSyf7B4aLklPw==
+   d="scan'208";a="42272789"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 03:11:06 -0800
+X-CSE-ConnectionGUID: 0hU3N0YBRxqn1MnqSj2/Rw==
+X-CSE-MsgGUID: BeaBgLdrScanYLOs2HWlsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148390671"
+   d="scan'208";a="116372641"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Feb 2025 03:00:05 -0800
+  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2025 03:11:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfzc1-000wlt-2w;
-	Thu, 06 Feb 2025 11:00:01 +0000
-Date: Thu, 6 Feb 2025 18:59:48 +0800
+	id 1tfzmg-000wmB-2Q;
+	Thu, 06 Feb 2025 11:11:02 +0000
+Date: Thu, 6 Feb 2025 19:10:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: T Pratham <t-pratham@ti.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 170/170]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb:
- /reserved-memory/adsp-mem-region@90000000: failed to match any schema with
- compatible: ['mediatek,adsp-reserved-memory']
-Message-ID: <202502061800.PsIwfgyc-lkp@intel.com>
+Subject: Re: [PATCH RFC 1/3] dt-bindings: crypto: Add binding for TI DTHE V2
+ driver
+Message-ID: <202502061805.0hKPOnnK-lkp@intel.com>
+References: <20250206-dthe-v2-aes-v1-1-1e86cf683928@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,77 +63,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250206-dthe-v2-aes-v1-1-1e86cf683928@ti.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1fe62fcb2a55fbf67fb3bb11d7398dfbebfa9f71
-commit: 990c0028a0ae7e53185e8a333c0405bc9b5febcc [170/170] CHROMIUM: arm64: dts: mediatek: mt8196: Add DSP device node
-config: arm64-randconfig-051-20250204 (https://download.01.org/0day-ci/archive/20250206/202502061800.PsIwfgyc-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061800.PsIwfgyc-lkp@intel.com/reproduce)
+Hi Pratham,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9d4f8e54cef2c42e23ef258833dbd06a1eaff89b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/T-Pratham/dt-bindings-crypto-Add-binding-for-TI-DTHE-V2-driver/20250206-172514
+base:   9d4f8e54cef2c42e23ef258833dbd06a1eaff89b
+patch link:    https://lore.kernel.org/r/20250206-dthe-v2-aes-v1-1-1e86cf683928%40ti.com
+patch subject: [PATCH RFC 1/3] dt-bindings: crypto: Add binding for TI DTHE V2 driver
+reproduce: (https://download.01.org/0day-ci/archive/20250206/202502061805.0hKPOnnK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502061800.PsIwfgyc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061805.0hKPOnnK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: #size-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: $nodename:0: 'clkitg' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: #size-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/adsp-mem-region@90000000: failed to match any schema with compatible: ['mediatek,adsp-reserved-memory']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/vcp-reserved-memory@a0200000: failed to match any schema with compatible: ['mediatek,me-vcp-reserved']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
---
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@18000000: failed to match any schema with compatible: ['mediatek,mt8196-ssr-top', 'mediatek,mt8196-ssr_top', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@18000000: failed to match any schema with compatible: ['mediatek,mt8196-ssr-top', 'mediatek,mt8196-ssr_top', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@180f3000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/adsp@1a000000: failed to match any schema with compatible: ['mediatek,mt8196-dsp']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@1a019000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1a110000: failed to match any schema with compatible: ['mediatek,mt8196-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mt8196-afe-pcm@1a110000: failed to match any schema with compatible: ['mediatek,mt8196-sound']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a350000: compatible:0: 'mediatek,mt8196-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a350000: compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mailbox@1a350000: failed to match any schema with compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a360000: compatible:0: 'mediatek,mt8196-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a360000: compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mailbox@1a360000: failed to match any schema with compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/power-controller@1c004000: failed to match any schema with compatible: ['mediatek,mt8196-scpsys-hwv', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c00d000: failed to match any schema with compatible: ['mediatek,mt8196-scpsys-bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: watchdog@1c010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-wdt', 'mediatek,mt6589-wdt', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt8196-wdt' is not one of ['mediatek,mt2712-wdt', 'mediatek,mt6589-wdt', 'mediatek,mt6735-wdt', 'mediatek,mt6795-wdt', 'mediatek,mt7986-wdt', 'mediatek,mt8183-wdt', 'mediatek,mt8186-wdt', 'mediatek,mt8188-wdt', 'mediatek,mt8192-wdt', 'mediatek,mt8195-wdt']
-   	'mediatek,mt8196-wdt' is not one of ['mediatek,mt2701-wdt', 'mediatek,mt6582-wdt', 'mediatek,mt6797-wdt', 'mediatek,mt7622-wdt', 'mediatek,mt7623-wdt', 'mediatek,mt7629-wdt', 'mediatek,mt8173-wdt', 'mediatek,mt8365-wdt', 'mediatek,mt8516-wdt']
-   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: watchdog@1c010000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/watchdog@1c010000: failed to match any schema with compatible: ['mediatek,mt8196-wdt', 'mediatek,mt6589-wdt', 'syscon', 'simple-mfd']
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/crypto/ti,dthe-v2.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
