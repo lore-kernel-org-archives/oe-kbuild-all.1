@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8892417D2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 22:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E722417C0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 23:07:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738882468; cv=none; b=IWYZOsNYSBE4f3IEybi/foucd4UgqVPumECy+92IcEpFGovX/E+The4dMH5ZFuvOPC6BGscWXZW8IYh998c3LATygeG1uPiVVwTS5dRpMEYiz5k/E36WUynGxfQmrscWvCc7h4cCFVK5C5tnaav+p2AV0oMZIUPnrGw6atmDS3M=
+	t=1738883255; cv=none; b=DXcqpfaDAPgMr2LwjRlUSwu3wIyuksdAIf7j1Ybchu8MR8Ah2Ax+xsuUeFYgsyn0tBCO1TozgN9xU8mOrrKFetWG+ey1DBya21EuQDamyuAgw10ZC5RHD1FEe5lenjsnegRxfNOJdxw0GMYx6m9PWb0wPZ7w53qZu8vFZVEu1Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738882468; c=relaxed/simple;
-	bh=RAIzp3tBXLPA4K+VX5xl9vBBGpJQirIOPhiTLIejoQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PELpiMmRFpN8GuWsoDTAKc/dV+xr7MoyMVBffmBeIVDes1BgXfT7ERmqwivt3whTuFz7ciZgjoi+Dc+56wtalIrbpY0RQFs74vP0msbDGSVvySgvfJRhSQ2fh85LKIUbW57ZkkkPckebhL98MUpQN2VbXCRFsMTUmLz87vEXsgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3D99c7W; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1738883255; c=relaxed/simple;
+	bh=boGdQ7S8b0YyNfxIm4I50jD6mtmzak8c74/jeqYssO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tsJjVwhzdIN4qlULh5unSR5HN5BKt6WqtO3cVyDFbZgbNp8mgt4bzEu7WFnygRYPv+LABKCeqKZT0uUXmcHgNET9JrT5Gr7adG8kAxAU/wHWUiayiwXmm4bS/IinEnxv7U2oWdPkYBmzj5iyrpZMwakf7DKcDtw5zFTKMe6VbRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUZh0+q3; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3D99c7W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUZh0+q3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738882467; x=1770418467;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RAIzp3tBXLPA4K+VX5xl9vBBGpJQirIOPhiTLIejoQo=;
-  b=B3D99c7WNJtOV5N0xCu6qxBqmrQHqFZwJFTpdyw+O3nooNk8/sJJIq2r
-   182aln/OCwjLMo7zz+40b8EJ3P66XYmGtXwmNAf8Yd6NITtm9kSgs/5PT
-   NPf6+f4PbFCB04g6vQ92m+SALBkhc5AjWf7afbMGNZ4cql80c7N8oofju
-   FAc/1brGZEiJv3FFs0Gq+j4eZpSffB9tEjHlFJT50Tj/EzSY6igVL/C+t
-   tZDBXl2Nqpmbj0OrAbnUmRSx4kxXmNGwRXi4ApxIDtHQyJwld+VMMQ20P
-   H1qNlA9z2v5X4cvtvhQFJRqacXDUERYv13psv/Ao3LEta4Vf4CK38c7UJ
-   Q==;
-X-CSE-ConnectionGUID: lNCkZnGXSpGNhdr5FAgw9w==
-X-CSE-MsgGUID: Gxtk8wEkSvi/I0uqV90v+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39643476"
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="39643476"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 14:54:27 -0800
-X-CSE-ConnectionGUID: 3SQirPYORLG1XLF53SlrKw==
-X-CSE-MsgGUID: kodT+i6SRECOLOp4jy3Njw==
+  t=1738883254; x=1770419254;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=boGdQ7S8b0YyNfxIm4I50jD6mtmzak8c74/jeqYssO4=;
+  b=cUZh0+q3LZecYwv1gA2KcouWYhKMkxw/EY+NyzJQZCQD8roCwQVY5TMh
+   ZTysU5fj+fg6rArHIdm+gIQxKAQgw8sviPfz/WeQvYRXqGyNhW+tB6Qwd
+   rKTroNEZ1yn4mCi2Pkv0cS8s0m91x+XQUUAXJVVO63FPpz5edUb87cRuQ
+   /O5gpNZcd+RmQ44m7hlyeZLp/zWtKmayk2j8zu7yf9heTh6Sw4tOiyT/4
+   x3hHwCLm2Y8pH98taMsya3qQN8Gw1id/O0A6p5GUd2+nVFjMc2iFWt+nM
+   /41FN/sYMcatr9RXti373upCr6uvHdlGg+jSBca560ldFD6ilWNCRjU6A
+   w==;
+X-CSE-ConnectionGUID: 2n7VArLqTVe/PhvtEHHZMg==
+X-CSE-MsgGUID: XwXExiRXRw2TdElIOjSFhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50946254"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="50946254"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 15:07:32 -0800
+X-CSE-ConnectionGUID: EQwYRrGCRW2DHPzG7W2gkg==
+X-CSE-MsgGUID: q85618KpRbu5Bb86PHmPeQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134588099"
+X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
+   d="scan'208";a="111132680"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Feb 2025 14:54:25 -0800
+  by orviesa009.jf.intel.com with ESMTP; 06 Feb 2025 15:07:27 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgAlL-000xUH-1K;
-	Thu, 06 Feb 2025 22:54:23 +0000
-Date: Fri, 7 Feb 2025 06:53:36 +0800
+	id 1tgAxw-000xUd-1j;
+	Thu, 06 Feb 2025 23:07:24 +0000
+Date: Fri, 7 Feb 2025 07:06:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:task/work 5/6]
- include/linux/sched/isolation.h:93:1: warning: no return statement in
- function returning non-void
-Message-ID: <202502070636.m8tkFw1T-lkp@intel.com>
+To: Lorenzo Bianconi <lorenzo@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Felix Fietkau <nbd@nbd.name>, Sean Wang <sean.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+	upstream@airoha.com
+Subject: Re: [PATCH net-next 10/13] net: airoha: Introduce PPE initialization
+ via NPU
+Message-ID: <202502070610.tbfoIwkS-lkp@intel.com>
+References: <20250205-airoha-en7581-flowtable-offload-v1-10-d362cfa97b01@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +77,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250205-airoha-en7581-flowtable-offload-v1-10-d362cfa97b01@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git task/work
-head:   3a5b43d6075ec915d0bf17d38d15f9c75d05dc26
-commit: 1526f337fd88fdf6bf5184dd1d8ad334a40baac2 [5/6] sched/isolation: Introduce isolated task work
-config: csky-randconfig-002-20250207 (https://download.01.org/0day-ci/archive/20250207/202502070636.m8tkFw1T-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070636.m8tkFw1T-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 135c3c86a7cef4ba3d368da15b16c275b74582d3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-airoha-Move-airoha_eth-driver-in-a-dedicated-folder/20250206-022555
+base:   135c3c86a7cef4ba3d368da15b16c275b74582d3
+patch link:    https://lore.kernel.org/r/20250205-airoha-en7581-flowtable-offload-v1-10-d362cfa97b01%40kernel.org
+patch subject: [PATCH net-next 10/13] net: airoha: Introduce PPE initialization via NPU
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250207/202502070610.tbfoIwkS-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070610.tbfoIwkS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502070636.m8tkFw1T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502070610.tbfoIwkS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/time/hrtimer.c:41:
-   include/linux/sched/isolation.h: In function 'isolated_task_work_queue':
->> include/linux/sched/isolation.h:93:1: warning: no return statement in function returning non-void [-Wreturn-type]
-      93 | static inline int isolated_task_work_queue(void) { }
-         | ^~~~~~
-   kernel/time/hrtimer.c: At top level:
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
-     124 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
+   In file included from include/linux/device.h:15,
+                    from include/linux/devcoredump.h:8,
+                    from drivers/net/ethernet/airoha/airoha_npu.c:7:
+   drivers/net/ethernet/airoha/airoha_npu.c: In function 'airoha_npu_run_firmware':
+>> drivers/net/ethernet/airoha/airoha_npu.c:200:30: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     200 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/net/ethernet/airoha/airoha_npu.c:200:17: note: in expansion of macro 'dev_err'
+     200 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+         |                 ^~~~~~~
+   drivers/net/ethernet/airoha/airoha_npu.c:200:60: note: format string is defined here
+     200 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+         |                                                          ~~^
+         |                                                            |
+         |                                                            long int
+         |                                                          %d
+   drivers/net/ethernet/airoha/airoha_npu.c:220:30: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     220 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/net/ethernet/airoha/airoha_npu.c:220:17: note: in expansion of macro 'dev_err'
+     220 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+         |                 ^~~~~~~
+   drivers/net/ethernet/airoha/airoha_npu.c:220:60: note: format string is defined here
+     220 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+         |                                                          ~~^
+         |                                                            |
+         |                                                            long int
+         |                                                          %d
 
 
-vim +93 include/linux/sched/isolation.h
+vim +200 drivers/net/ethernet/airoha/airoha_npu.c
 
-    90	
-    91	extern void isolated_task_work_init(struct task_struct *tsk);
-    92	#else
-  > 93	static inline int isolated_task_work_queue(void) { }
-    94	static inline void isolated_task_work_init(struct task_struct *tsk) { }
-    95	#endif /* CONFIG_NO_HZ_FULL */
-    96	
+   187	
+   188	static int airoha_npu_run_firmware(struct airoha_npu *npu, struct reserved_mem *rmem)
+   189	{
+   190		struct device *dev = &npu->pdev->dev;
+   191		const struct firmware *fw;
+   192		void __iomem *addr;
+   193		int ret;
+   194	
+   195		ret = request_firmware(&fw, NPU_EN7581_FIRMWARE_RV32, dev);
+   196		if (ret)
+   197			return ret;
+   198	
+   199		if (fw->size > NPU_EN7581_FIRMWARE_RV32_MAX_SIZE) {
+ > 200			dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+   201				NPU_EN7581_FIRMWARE_RV32, fw->size);
+   202			ret = -E2BIG;
+   203			goto out;
+   204		}
+   205	
+   206		addr = devm_ioremap(dev, rmem->base, rmem->size);
+   207		if (!addr) {
+   208			ret = -ENOMEM;
+   209			goto out;
+   210		}
+   211	
+   212		memcpy_toio(addr, fw->data, fw->size);
+   213		release_firmware(fw);
+   214	
+   215		ret = request_firmware(&fw, NPU_EN7581_FIRMWARE_DATA, dev);
+   216		if (ret)
+   217			return ret;
+   218	
+   219		if (fw->size > NPU_EN7581_FIRMWARE_DATA_MAX_SIZE) {
+   220			dev_err(dev, "%s: fw size too overlimit (%ld)\n",
+   221				NPU_EN7581_FIRMWARE_DATA, fw->size);
+   222			ret = -E2BIG;
+   223			goto out;
+   224		}
+   225	
+   226		memcpy_toio(npu->base + REG_NPU_LOCAL_SRAM, fw->data, fw->size);
+   227	out:
+   228		release_firmware(fw);
+   229	
+   230		return ret;
+   231	}
+   232	
 
 -- 
 0-DAY CI Kernel Test Service
