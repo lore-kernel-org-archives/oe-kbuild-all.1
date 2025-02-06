@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A0764D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 04:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9D815199B;
+	Thu,  6 Feb 2025 04:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738814485; cv=none; b=lcJrwp5R/7q8Rsv9k76nDPucSWCKAtV1CO71HMb38cjdMvSkL2R3aPdhX1WQOCe9HJIsjNR6cQoiitTIcswHbKqqvCWlh9SPgW/tCCQUXoN5fyY6/1o8MAA6wU9OyBzq0QulJuY8EgclqyFXdgKZ+4TnwBKMCYP1X+p4VvrUpYs=
+	t=1738814485; cv=none; b=KboaCJRkt6uGkZCL1SF32cZGmXF4EOBID/g+V9FwoQiB/4t5xIIoJFj6HPHGerMsxgJa4TCxvSyKzvkBGVWA+Lm3dDHy5W9BfJRdCwE9a9DaiKxyZppWp1xsuUIYc+07zdoK6UvTG0d2xX26GqFJuV8AZ3+Vl8RqKTKbXnVreR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738814485; c=relaxed/simple;
-	bh=213zxA3EGaqAgLKa8QoE+8l/VIEmC9+c9hqtuf4Woew=;
+	bh=VBG8ueTC/i8Z61HJM1RINScLHP8vnPug/fMhVPkSafU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y8UwRhg+8uGgYr5X0ZSgQTDw323OyBiS0vJ5NkjfApLG0E5VVq6Uzfhp42n84Ph+csOxVxr6ymKu35ydZLyXQMqh4140gZucO24BWTiDRtTj4uVpreVA72H9sJEzUiKHJpVWVQjgz+zCB7jFpuDmwRpO7Hc/FIkPHALr+A1lSD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1wPcpnM; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=HGQasato9PVX8SVEPQ7oJSNkWno17JboS9WBE67s5Er09BQuEhhla8FDsOmXiKgiLeRQ3NONTDw+vGgiyPvovIJKtCm2XD2OEAYp6bgavb0/Axs9ybY9ya2ry76m8qf8DJ9jWGR90QHK4h9uMW0bZwiSbfGXpJsQq/edjTqpdlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q49FxVOb; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1wPcpnM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q49FxVOb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738814483; x=1770350483;
+  t=1738814484; x=1770350484;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=213zxA3EGaqAgLKa8QoE+8l/VIEmC9+c9hqtuf4Woew=;
-  b=a1wPcpnMH+14+Ev8TnFAMfZvUgdTnjuXFy3HVPPdeuCeR1yUGGZ9/U7d
-   rxzGY637/ZTq00vNkKwnEC2vM4jhYHivgnwEj7gUZiG5kROIxTYfflfe8
-   oQDxYH/Y3dH48sLinguOdb5mOPk71ed6R9fHh7ApYb88kT/7UmSjV+obM
-   +Q1uSVUCYysV4ilhW2/EruBI+hgKgxkDRUZ5xI78sVP7i+Zf3DxvsS7TS
-   piBG5DyFYI0W2WiPSHk86y55k/NtEMdWu4rZvu2ILl4p6LzCA77xqzCzk
-   nJ7irOFS4tY0swFPAAJVJVHK3jML2+/7dvXoMbpEMYkkdMOpygPBNV2Rh
-   A==;
-X-CSE-ConnectionGUID: WaqbvD+TTUyky6fR2QoBPw==
-X-CSE-MsgGUID: 1YSRYVvuRqObmB2bhAj2Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="49648574"
+  bh=VBG8ueTC/i8Z61HJM1RINScLHP8vnPug/fMhVPkSafU=;
+  b=Q49FxVOb9RCkLZyMMwzngsYWx1GTMndgTfdam/IffYKkbhTZlafLMjpw
+   ygeMY7l1Xzc+0wJ4byID/Fr7M6+DvHVaYn4noigXMmUXaetMmBHRkMS45
+   R1pOVhfL597h3ZSqCo1E/K813fKZny7/jz73wBPha9tz9GnT7EZK8XLZH
+   7hOBVoe2jsnNBiGZn+JsgsRdMe3YJ9FhliwqitY25n1zC0yLX9cdxLPoN
+   B2TS1IsG62HwPXhHZ9HDXd072jr1rJTPkC7YIz1gWvEm3Gn1W5bt4kkuZ
+   NMz04ElEWyrQ+tAc8I1SgT/H/cZra+lYCuiZhb/lEdTl4FOczNriSXFXE
+   w==;
+X-CSE-ConnectionGUID: kMP6E3BhRWqMJz09Kmmr1w==
+X-CSE-MsgGUID: vsXX68sbT3e+T1GOpfeD5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39536947"
 X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
-   d="scan'208";a="49648574"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 20:01:23 -0800
-X-CSE-ConnectionGUID: 3S4O7vV4So2PNimh2p5LdA==
-X-CSE-MsgGUID: lXSa0L4tR5+7E6vwOCWpVA==
+   d="scan'208";a="39536947"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 20:01:23 -0800
+X-CSE-ConnectionGUID: 1rRFeGtWQWW/ht4EMl2fpw==
+X-CSE-MsgGUID: TSGdv4oyQ8iuMrJ9FcnOEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148289458"
+   d="scan'208";a="116286043"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Feb 2025 20:01:22 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Feb 2025 20:01:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tft4p-000wQV-04;
+	id 1tft4p-000wQX-0A;
 	Thu, 06 Feb 2025 04:01:19 +0000
-Date: Thu, 6 Feb 2025 12:00:31 +0800
+Date: Thu, 6 Feb 2025 12:00:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis 17/21]
- include/linux/local_lock_internal.h:32:13: error: use of undeclared
- identifier 'current'
-Message-ID: <202502061132.K0WpcCEC-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [paulmckrcu:dev.2025.01.30a 71/73] include/linux/printk.h:319:13:
+ error: unused function 'pr_flush'
+Message-ID: <202502061107.63OiEuce-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,266 +62,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis
-head:   54cd719532c3784e74f9773c6be7005dec2c74bb
-commit: e283c1f3a2ae347061eb98f4a3b46af0ed80eded [17/21] locking/local_lock: Support Clang's capability analysis
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250206/202502061132.K0WpcCEC-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061132.K0WpcCEC-lkp@intel.com/reproduce)
+tree:   https://github.com/paulmckrcu/linux dev.2025.01.30a
+head:   a87cfdd8dfd5499a8b2e29a40ce4ad6ffca6eb56
+commit: 1edbc527e3d6610b4781edba8e927ebca102eaf6 [71/73] fixup! printk: Flush console log from kernel_power_off()
+config: um-randconfig-001-20250206 (https://download.01.org/0day-ci/archive/20250206/202502061107.63OiEuce-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061107.63OiEuce-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502061132.K0WpcCEC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061107.63OiEuce-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from lib/test_capability-analysis.c:8:
-   In file included from include/linux/local_lock.h:5:
->> include/linux/local_lock_internal.h:32:13: error: use of undeclared identifier 'current'
-      32 |         l->owner = current;
-         |                    ^
-   include/linux/local_lock_internal.h:37:34: error: use of undeclared identifier 'current'
-      37 |         DEBUG_LOCKS_WARN_ON(l->owner != current);
-         |                                         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:59:7: error: call to undeclared function 'local_irq_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      59 |                     local_unlock_irq(_T->lock))
-         |                     ^
-   include/linux/local_lock.h:43:33: note: expanded from macro 'local_unlock_irq'
-      43 | #define local_unlock_irq(lock)          __local_unlock_irq(lock)
-         |                                         ^
-   include/linux/local_lock_internal.h:111:3: note: expanded from macro '__local_unlock_irq'
-     111 |                 local_irq_enable();                             \
-         |                 ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:58:7: error: call to undeclared function 'local_irq_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      58 |                     local_lock_irq(_T->lock),
-         |                     ^
-   include/linux/local_lock.h:22:31: note: expanded from macro 'local_lock_irq'
-      22 | #define local_lock_irq(lock)            __local_lock_irq(lock)
-         |                                         ^
-   include/linux/local_lock_internal.h:88:3: note: expanded from macro '__local_lock_irq'
-      88 |                 local_irq_disable();                            \
-         |                 ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:62:7: error: call to undeclared function 'local_irq_restore'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      62 |                     local_unlock_irqrestore(_T->lock, _T->flags),
-         |                     ^
-   include/linux/local_lock.h:52:2: note: expanded from macro 'local_unlock_irqrestore'
-      52 |         __local_unlock_irqrestore(lock, flags)
-         |         ^
-   include/linux/local_lock_internal.h:118:3: note: expanded from macro '__local_unlock_irqrestore'
-     118 |                 local_irq_restore(flags);                       \
-         |                 ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:61:7: error: call to undeclared function 'local_irq_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      61 |                     local_lock_irqsave(_T->lock, _T->flags),
-         |                     ^
-   include/linux/local_lock.h:31:2: note: expanded from macro 'local_lock_irqsave'
-      31 |         __local_lock_irqsave(lock, flags)
-         |         ^
-   include/linux/local_lock_internal.h:95:3: note: expanded from macro '__local_lock_irqsave'
-      95 |                 local_irq_save(flags);                          \
-         |                 ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      72 |                     local_lock_nested_bh(_T->lock),
-         |                     ^
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:375:31: note: expanded from macro 'this_cpu_read_1'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:136:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     136 |         raw_local_irq_save(___flags);                                   \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_restore'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:375:31: note: expanded from macro 'this_cpu_read_1'
-     375 | #define this_cpu_read_1(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:138:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     138 |         raw_local_irq_restore(___flags);                                \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:378:31: note: expanded from macro 'this_cpu_read_2'
-     378 | #define this_cpu_read_2(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:136:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     136 |         raw_local_irq_save(___flags);                                   \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_restore'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:378:31: note: expanded from macro 'this_cpu_read_2'
-     378 | #define this_cpu_read_2(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:138:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     138 |         raw_local_irq_restore(___flags);                                \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:381:31: note: expanded from macro 'this_cpu_read_4'
-     381 | #define this_cpu_read_4(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:136:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     136 |         raw_local_irq_save(___flags);                                   \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_restore'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:381:31: note: expanded from macro 'this_cpu_read_4'
-     381 | #define this_cpu_read_4(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:138:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     138 |         raw_local_irq_restore(___flags);                                \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_save'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:384:31: note: expanded from macro 'this_cpu_read_8'
-     384 | #define this_cpu_read_8(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:136:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     136 |         raw_local_irq_save(___flags);                                   \
-         |         ^
-   In file included from lib/test_capability-analysis.c:8:
->> include/linux/local_lock.h:72:7: error: call to undeclared function 'raw_local_irq_restore'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   include/linux/local_lock.h:66:2: note: expanded from macro 'local_lock_nested_bh'
-      66 |         __local_lock_nested_bh(_lock)
-         |         ^
-   include/linux/local_lock_internal.h:123:3: note: expanded from macro '__local_lock_nested_bh'
-     123 |                 lockdep_assert_in_softirq();                    \
-         |                 ^
-   include/linux/lockdep.h:618:15: note: expanded from macro 'lockdep_assert_in_softirq'
-     618 |         WARN_ON_ONCE(__lockdep_enabled                  &&              \
-         |                      ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/asm-generic/percpu.h:384:31: note: expanded from macro 'this_cpu_read_8'
-     384 | #define this_cpu_read_8(pcp)            this_cpu_generic_read(pcp)
-         |                                         ^
-   include/asm-generic/percpu.h:148:11: note: expanded from macro 'this_cpu_generic_read'
-     148 |                 __ret = __this_cpu_generic_read_noirq(pcp);             \
-         |                         ^
-   include/asm-generic/percpu.h:138:2: note: expanded from macro '__this_cpu_generic_read_noirq'
-     138 |         raw_local_irq_restore(___flags);                                \
-         |         ^
-   14 errors generated.
+   In file included from lib/test_bitops.c:10:
+   In file included from include/linux/module.h:17:
+   In file included from include/linux/kmod.h:9:
+   In file included from include/linux/umh.h:4:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:79:
+   In file included from ./arch/um/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:13:
+   In file included from include/linux/bug.h:5:
+   In file included from ./arch/um/include/generated/asm/bug.h:1:
+   In file included from include/asm-generic/bug.h:22:
+>> include/linux/printk.h:319:13: error: unused function 'pr_flush' [-Werror,-Wunused-function]
+   static bool pr_flush(int timeout_ms, bool reset_on_progress)
+               ^
+   1 error generated.
 
 
-vim +/current +32 include/linux/local_lock_internal.h
+vim +/pr_flush +319 include/linux/printk.h
 
-91710728d1725d Thomas Gleixner 2020-05-27  18  
-91710728d1725d Thomas Gleixner 2020-05-27  19  #ifdef CONFIG_DEBUG_LOCK_ALLOC
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  20  # define LOCAL_LOCK_DEBUG_INIT(lockname)		\
-91710728d1725d Thomas Gleixner 2020-05-27  21  	.dep_map = {					\
-91710728d1725d Thomas Gleixner 2020-05-27  22  		.name = #lockname,			\
-91710728d1725d Thomas Gleixner 2020-05-27  23  		.wait_type_inner = LD_WAIT_CONFIG,	\
-dfd5e3f5fe27bd Peter Zijlstra  2020-12-09  24  		.lock_type = LD_LOCK_PERCPU,		\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  25  	},						\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  26  	.owner = NULL,
-91710728d1725d Thomas Gleixner 2020-05-27  27  
-91710728d1725d Thomas Gleixner 2020-05-27  28  static inline void local_lock_acquire(local_lock_t *l)
-91710728d1725d Thomas Gleixner 2020-05-27  29  {
-91710728d1725d Thomas Gleixner 2020-05-27  30  	lock_map_acquire(&l->dep_map);
-91710728d1725d Thomas Gleixner 2020-05-27  31  	DEBUG_LOCKS_WARN_ON(l->owner);
-91710728d1725d Thomas Gleixner 2020-05-27 @32  	l->owner = current;
-91710728d1725d Thomas Gleixner 2020-05-27  33  }
-91710728d1725d Thomas Gleixner 2020-05-27  34  
-
-:::::: The code at line 32 was first introduced by commit
-:::::: 91710728d1725de51d06b40674abf6e860d592c7 locking: Introduce local_lock()
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   318	
+ > 319	static bool pr_flush(int timeout_ms, bool reset_on_progress)
+   320	{
+   321		return true;
+   322	}
+   323	
 
 -- 
 0-DAY CI Kernel Test Service
