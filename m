@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382A9227581;
-	Thu,  6 Feb 2025 10:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4600422DF87
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738838408; cv=none; b=DRaprctvOvoFVUOc9lavXdqGmNwaW0JTep5tEgUhqTP2DFchOKohb8ZDcVZHXagjjFnAZMltv57mxUp30zruHqW8zNezmKZtNbRlIGChuDmNne7pi+hmcc2C5nHbof38+Nzx+MNB1TI1gvYVDMxX6F8NRCiHVOo9K5c7KvXMeXs=
+	t=1738839609; cv=none; b=crLkeOMSsQFk0ovacKYxdn26f0zIH7zSICGVweieRnKGLPF8E1M4EFeJsjjkTHHoVx7wl3ePig3KlK7X9/cDiYfDxDt1GRJ19KuhKju2jwsJ5T7e0wr8yLrpr8xNBAJsqXnxn5veCQTBIA1XTvdIigKaRsiRb2kKTL5ijSMjR2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738838408; c=relaxed/simple;
-	bh=FdibQnL131/L0M2R5AMACpiiKHrQgNDDYYi3NknCtAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/zPDnqZ1aQ7HZx9LzFfBb5REln+dtPv/Hbpku6lka5gKmHNML02EyaI2iH5WgtE1r1tc+NGiEKkyK4DhlVdKN6l564gFthM4R50ZYzOFdbJXKk0tU7Q+6gEuZiXB5u0lELVm3OMEcTILraekbcOttOMjzyJvGHX+nEQdL1JL6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0+shFSY; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1738839609; c=relaxed/simple;
+	bh=RCBLqwwO5xTzxFvTAMfg8JgH02peePijIg/bl5pyjJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MgM0urVPSUOdcnjkIBjkFH+JPQfxOA+eDth90DuReXqXVpsS13WFvhOj4CGbOPSzyUV9n98L/w1z1CB2/TmT3/MMqMtwf+LJauLyviKTmmp7CYUEHEsxn9oqpE3qasIQ54RS9DJ0y4tXZb+pPsvHAPTSDlX23hirKS1HKcyWSJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GRU9d0J5; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0+shFSY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GRU9d0J5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738838406; x=1770374406;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FdibQnL131/L0M2R5AMACpiiKHrQgNDDYYi3NknCtAE=;
-  b=D0+shFSY4b9c89lynqr8NG8ajMYrhehj7fA8w8mFdBhDMdhGXrt3oVdm
-   cEVCLzMMqZgADCP8NfgR6OLdLbtx2ADpnX02328MFQ2TqBWpWSmlKyZzd
-   gMvMLXRPRVg+YKSrikdpXvXPDmqSiPHeF6CwnHPO3av0eCF5aWay8jWpS
-   5swucZlgwVL9IJF5dGCxQwQLlgchPFO/gK2GojE/Ex0HFZLwwB5l2w8Y1
-   tVWdLdkD1P+HnnNxF6QJyGX0XvuY1yOB5nOOwL6+zdYFYfpTfZ+OpbqJj
-   jSFeZqGXnNygKr3yFPwtA87fbgJk6yJhvlRpg/dRDfspudrOo6vpf/fDf
-   w==;
-X-CSE-ConnectionGUID: 7Sw9zaA9Seeh7zIrX1jGOw==
-X-CSE-MsgGUID: QcWzyBf1S9+VumtMv0VXfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="49680107"
+  t=1738839606; x=1770375606;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RCBLqwwO5xTzxFvTAMfg8JgH02peePijIg/bl5pyjJM=;
+  b=GRU9d0J5JVmn5s9xRp4cexLbGkVXLSdHmc9gkpl01DmlS12saCnkQ8Yd
+   fd9hvb8cGFcgeekgrGucFy4EjIEGEcRxhROA9jK8Ki5+Nhu8/FknxYZAp
+   Oo2nq7QVBAt9/RdwdbRabLHtCk2YnOi6u8PimxiVTzZPTR8Y6evgoIWUD
+   tX0YgKsYBESOI2UU/n1AoHx5SjxHYwVcMJneeqPVYr0+L/aGY6PJTx2U3
+   b8t6BQwYlPxI1fsODsVu76SNtpBYuPg07ZvcahIdNXTjK5X3scFMHd1sI
+   n0vF06j4iBzO7n+ku5Do9ot8qHd6RHgIPfIAtLsmdkBjR8NxZyUGeQm4x
+   g==;
+X-CSE-ConnectionGUID: zhGca5y6QY+j4P/432NVOQ==
+X-CSE-MsgGUID: WLQNAvzCSWqbGBODtC9JDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42271786"
 X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="49680107"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 02:40:06 -0800
-X-CSE-ConnectionGUID: FsrH/Y1kTC+E0tbcEPoU9w==
-X-CSE-MsgGUID: Buw5YOnuQZmiHLhcq5rqEg==
+   d="scan'208";a="42271786"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 03:00:06 -0800
+X-CSE-ConnectionGUID: VmDwNHEFRNud2JV6iomtsw==
+X-CSE-MsgGUID: iU/tKXjkQJSyf7B4aLklPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="142053882"
+   d="scan'208";a="148390671"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Feb 2025 02:40:02 -0800
+  by orviesa001.jf.intel.com with ESMTP; 06 Feb 2025 03:00:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfzId-000wkl-1i;
-	Thu, 06 Feb 2025 10:39:59 +0000
-Date: Thu, 6 Feb 2025 18:39:16 +0800
+	id 1tfzc1-000wlt-2w;
+	Thu, 06 Feb 2025 11:00:01 +0000
+Date: Thu, 6 Feb 2025 18:59:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeroen de Borst <jeroendb@google.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, jeroendb@google.com, pkaligineedi@google.com,
-	shailend@google.com, andrew+netdev@lunn.ch, willemb@google.com,
-	hramamurthy@google.com, ziweixiao@google.com, horms@kernel.org,
-	linux-kernel@vger.kernel.org, Jeroen de Borst <jeroend@google.com>
-Subject: Re: [PATCH net-next v2] gve: Add RSS cache for non RSS device option
- scenario
-Message-ID: <202502061802.Co0dVfXU-lkp@intel.com>
-References: <20250204213121.14195-1-jeroendb@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 170/170]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb:
+ /reserved-memory/adsp-mem-region@90000000: failed to match any schema with
+ compatible: ['mediatek,adsp-reserved-memory']
+Message-ID: <202502061800.PsIwfgyc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,136 +63,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250204213121.14195-1-jeroendb@google.com>
 
-Hi Jeroen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeroen-de-Borst/gve-Add-RSS-cache-for-non-RSS-device-option-scenario/20250205-053317
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250204213121.14195-1-jeroendb%40google.com
-patch subject: [PATCH net-next v2] gve: Add RSS cache for non RSS device option scenario
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250206/202502061802.Co0dVfXU-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061802.Co0dVfXU-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   1fe62fcb2a55fbf67fb3bb11d7398dfbebfa9f71
+commit: 990c0028a0ae7e53185e8a333c0405bc9b5febcc [170/170] CHROMIUM: arm64: dts: mediatek: mt8196: Add DSP device node
+config: arm64-randconfig-051-20250204 (https://download.01.org/0day-ci/archive/20250206/202502061800.PsIwfgyc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061800.PsIwfgyc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502061802.Co0dVfXU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061800.PsIwfgyc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/google/gve/gve_ethtool.c:7:
-   In file included from include/linux/rtnetlink.h:7:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/google/gve/gve_ethtool.c:502:6: warning: variable 'reset_rss' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     502 |         if (new_rx != priv->rx_cfg.num_queues &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     503 |             priv->cache_rss_config && !netif_is_rxfh_configured(netdev))
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:509:57: note: uninitialized use occurs here
-     509 |         return gve_adjust_queues(priv, new_rx_cfg, new_tx_cfg, reset_rss);
-         |                                                                ^~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:502:2: note: remove the 'if' if its condition is always true
-     502 |         if (new_rx != priv->rx_cfg.num_queues &&
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     503 |             priv->cache_rss_config && !netif_is_rxfh_configured(netdev))
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     504 |                 reset_rss = true;
->> drivers/net/ethernet/google/gve/gve_ethtool.c:502:6: warning: variable 'reset_rss' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-     502 |         if (new_rx != priv->rx_cfg.num_queues &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     503 |             priv->cache_rss_config && !netif_is_rxfh_configured(netdev))
-         |             ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:509:57: note: uninitialized use occurs here
-     509 |         return gve_adjust_queues(priv, new_rx_cfg, new_tx_cfg, reset_rss);
-         |                                                                ^~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:502:6: note: remove the '&&' if its condition is always true
-     502 |         if (new_rx != priv->rx_cfg.num_queues &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     503 |             priv->cache_rss_config && !netif_is_rxfh_configured(netdev))
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/google/gve/gve_ethtool.c:502:6: warning: variable 'reset_rss' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-     502 |         if (new_rx != priv->rx_cfg.num_queues &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:509:57: note: uninitialized use occurs here
-     509 |         return gve_adjust_queues(priv, new_rx_cfg, new_tx_cfg, reset_rss);
-         |                                                                ^~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:502:6: note: remove the '&&' if its condition is always true
-     502 |         if (new_rx != priv->rx_cfg.num_queues &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/google/gve/gve_ethtool.c:485:16: note: initialize the variable 'reset_rss' to silence this warning
-     485 |         bool reset_rss;
-         |                       ^
-         |                        = 0
-   6 warnings generated.
-
-
-vim +502 drivers/net/ethernet/google/gve/gve_ethtool.c
-
-   475	
-   476	static int gve_set_channels(struct net_device *netdev,
-   477				    struct ethtool_channels *cmd)
-   478	{
-   479		struct gve_priv *priv = netdev_priv(netdev);
-   480		struct gve_queue_config new_tx_cfg = priv->tx_cfg;
-   481		struct gve_queue_config new_rx_cfg = priv->rx_cfg;
-   482		struct ethtool_channels old_settings;
-   483		int new_tx = cmd->tx_count;
-   484		int new_rx = cmd->rx_count;
-   485		bool reset_rss;
-   486	
-   487		gve_get_channels(netdev, &old_settings);
-   488	
-   489		/* Changing combined is not allowed */
-   490		if (cmd->combined_count != old_settings.combined_count)
-   491			return -EINVAL;
-   492	
-   493		if (!new_rx || !new_tx)
-   494			return -EINVAL;
-   495	
-   496		if (priv->num_xdp_queues &&
-   497		    (new_tx != new_rx || (2 * new_tx > priv->tx_cfg.max_queues))) {
-   498			dev_err(&priv->pdev->dev, "XDP load failed: The number of configured RX queues should be equal to the number of configured TX queues and the number of configured RX/TX queues should be less than or equal to half the maximum number of RX/TX queues");
-   499			return -EINVAL;
-   500		}
-   501	
- > 502		if (new_rx != priv->rx_cfg.num_queues &&
-   503		    priv->cache_rss_config && !netif_is_rxfh_configured(netdev))
-   504			reset_rss = true;
-   505	
-   506		new_tx_cfg.num_queues = new_tx;
-   507		new_rx_cfg.num_queues = new_rx;
-   508	
- > 509		return gve_adjust_queues(priv, new_rx_cfg, new_tx_cfg, reset_rss);
-   510	}
-   511	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clk-ao: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: $nodename:0: 'clkitg' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/adsp-mem-region@90000000: failed to match any schema with compatible: ['mediatek,adsp-reserved-memory']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/vcp-reserved-memory@a0200000: failed to match any schema with compatible: ['mediatek,me-vcp-reserved']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@18000000: failed to match any schema with compatible: ['mediatek,mt8196-ssr-top', 'mediatek,mt8196-ssr_top', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@18000000: failed to match any schema with compatible: ['mediatek,mt8196-ssr-top', 'mediatek,mt8196-ssr_top', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@180f3000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/adsp@1a000000: failed to match any schema with compatible: ['mediatek,mt8196-dsp']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@1a019000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1a110000: failed to match any schema with compatible: ['mediatek,mt8196-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mt8196-afe-pcm@1a110000: failed to match any schema with compatible: ['mediatek,mt8196-sound']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a350000: compatible:0: 'mediatek,mt8196-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a350000: compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mailbox@1a350000: failed to match any schema with compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a360000: compatible:0: 'mediatek,mt8196-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a360000: compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mailbox@1a360000: failed to match any schema with compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/power-controller@1c004000: failed to match any schema with compatible: ['mediatek,mt8196-scpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c00d000: failed to match any schema with compatible: ['mediatek,mt8196-scpsys-bus', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: watchdog@1c010000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8196-wdt', 'mediatek,mt6589-wdt', 'syscon', 'simple-mfd'] is too long
+   	'mediatek,mt8196-wdt' is not one of ['mediatek,mt2712-wdt', 'mediatek,mt6589-wdt', 'mediatek,mt6735-wdt', 'mediatek,mt6795-wdt', 'mediatek,mt7986-wdt', 'mediatek,mt8183-wdt', 'mediatek,mt8186-wdt', 'mediatek,mt8188-wdt', 'mediatek,mt8192-wdt', 'mediatek,mt8195-wdt']
+   	'mediatek,mt8196-wdt' is not one of ['mediatek,mt2701-wdt', 'mediatek,mt6582-wdt', 'mediatek,mt6797-wdt', 'mediatek,mt7622-wdt', 'mediatek,mt7623-wdt', 'mediatek,mt7629-wdt', 'mediatek,mt8173-wdt', 'mediatek,mt8365-wdt', 'mediatek,mt8516-wdt']
+   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: watchdog@1c010000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/watchdog@1c010000: failed to match any schema with compatible: ['mediatek,mt8196-wdt', 'mediatek,mt6589-wdt', 'syscon', 'simple-mfd']
 
 -- 
 0-DAY CI Kernel Test Service
