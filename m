@@ -1,158 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC2A1FF5FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 08:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B172F22577D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 09:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738831074; cv=none; b=qCGntbSxiCBa8RF9RirTXnQbYuelF/12JP8aR9Ey1NHTL0pPCjcAC/cY3s1fPZUH1nNn3K5pw1PX4znssL2+bMRTUtXvmZj1PGKE/9KPwnFdjfuueEIZqkMPZlh20hvqo3+i7kngDwAcg4zG9CaHBIwv/Q/+X4jjliPUEjAwjoQ=
+	t=1738832686; cv=none; b=do9/pB2yTwdrKMw901rUamvdeNf+vShOBOyFGNU2ViR6oPeLGGLNHBRy943j4uh2uMIrfFXg6fNAxsOn0qZyKJVOgMJE3XScuoFmzDAxwNk/z1rYFZ/HRjuKtQUUlgdfqJ3bd9EIWJM4KCGjcbOdCeKIHXcG/+0xH0KL98btmpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738831074; c=relaxed/simple;
-	bh=UeeJ0YfW++RJZcJOfs+CcEi3vfHFlt4pSLe/2oLblvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HjcjC6SnM78P1wy6fhZ26wXCNdTZyiurk4GQSj+HeBoOwIGojAO8KCNJrVVbX37yIyEseEfc5WpqqUasSqfVSHGZhdv6EQ8NB23b3DB0j1FpCgHhIpVRgYhdK2GLxi//M7k61mYVyd45LUVhW0rO3IqIQPeMU/Ttav9Gcoar1E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJq54x1f; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738832686; c=relaxed/simple;
+	bh=LP4dK31wcFSB2SAjUnFFSG15Ot8orCOC/FFNmbf4TaA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ajpCx/Cu+BD6JAqUcAP0FEhTCseElow1C9plx8UvCxfhePTUo7QQahbzjqLsbAE27zCA6l+TQG5eXITy7Ay5erwqIrOvBWlRadoU9WLKeh4XoV14JInr1F1fnx+5JDRXyZEdqd4X3uy7rWvq778td/9VQJRL1T8L8L8n1Cei7ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VRy7h0si; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJq54x1f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738831071; x=1770367071;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UeeJ0YfW++RJZcJOfs+CcEi3vfHFlt4pSLe/2oLblvM=;
-  b=IJq54x1fSf2NXkPSPmN9Y0Tvhui7IqXxiN5jEUzFYOkkY5+8nvSB6282
-   p4o/eFW3Y+wD9Am+viW3AGI4yfGsHoYHxQZKGZWoRB4Er8HCCxh4G4Cb6
-   HfSCumXG1M8fuz0DQ52/Kjevm2+YcEERSA3ju9Sv4hL69laFut9vDNKLc
-   5K5/q+tm1ynPwIi/QDSSdsOVVwnq5JoRCPGGDw0MEfLgEFIqpt9LAWENT
-   7Cs6DDjT9nlovkIzIizeyujajfqdp8Qpg0MMxWaVOGmzTfQcei2UtXtgy
-   K3OjUOnjDfyPTJ+OduNwGaTxrqiqZWe8VegpIkckNy0TayuqhdIMjyKLu
-   w==;
-X-CSE-ConnectionGUID: DXY++BJxQcqWYJA15PV5wg==
-X-CSE-MsgGUID: LQNhwspfRNCxvouD74Yy2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="49667660"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="49667660"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 00:37:50 -0800
-X-CSE-ConnectionGUID: vbmGbxQgSeWitR4klweYiA==
-X-CSE-MsgGUID: asqLH+O7RKOFytX0+Y827Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="110978626"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Feb 2025 00:37:49 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfxOM-000wdn-27;
-	Thu, 06 Feb 2025 08:37:46 +0000
-Date: Thu, 6 Feb 2025 16:37:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/3]
- drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct
- member 'notify_client' not described in 'xhci_sideband_register'
-Message-ID: <202502061649.PMOqgDM3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRy7h0si"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361c705434so4044495e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Feb 2025 01:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738832683; x=1739437483; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bsyEsq1JFUX/+Vqr9eaRC5qhshNu0SP+iy3UfIGUGZc=;
+        b=VRy7h0si4c18UBfbXORk/aIqE9bGWC4rY7dfFamIHdHWNEC7Xi1CNRPtx3ujhXiGQr
+         foCtVZrM1+ySmM5bQdQcpc1J1hwQ6mWDvxM1+pv87AbCzOp74cSJngeNIVEoQ9v0dYLT
+         JETQ3Ss5/OKuGNmojDKOVPeY8Fq6/7xC3lA20rudHSgxcy/0d9dNSZKj3xNCE4XS5/NL
+         Q4iZALciKB409Qw2ba0LVLn7tvhP7W1mtyVzsSV4z76X2oYzvnOjB+y2G3dmtPqvt1ty
+         Yc6Vd/VvQI90xBP7VlfQvh4Jl/T/syPD2VEIzBjKO74hyGaW2HgrlklUswxgvP9xo1t2
+         fzNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738832683; x=1739437483;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bsyEsq1JFUX/+Vqr9eaRC5qhshNu0SP+iy3UfIGUGZc=;
+        b=Su5VZ0s8KL+EDEhqXZ3pd4ksoF5ApU/ZmUzd+g3xSb4nasFgp5Q4xi4Zm4wIBctjeC
+         3Rgdjb++IpqFRUXhYFwH5fRtm0vGf9ert2kKrmV04xA8TcljX9iR5ELwBRnW50foBolo
+         716EwS+LqVj0L4zBmb31I1ZcplfsmbQDgLE5ivYqOynYcYvCm1sE+hpXUbTRZAX7qwfU
+         hXFgpYgAj5cFZ4X2W9805GZpzJabMSiQRj8htxhD2xgljwTfewPSmvkIvNwn00+P2eRa
+         eqLv7m7nViSn+eq4VXtTiNsNq5U6kDnqaBRoCh+c7LVOPoLdDVYJKtDa9QaHnGmqZGUO
+         UEMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBiY9uAUINynwEpYhj53VOy7macpGNmm6FFDENc5GsMV22qWYRwG3OlFZOsozRapADiaFnj8DFQoA+Ag0T@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLd+WxW5u7VEsCXJVRWCSRAO48PIUqNvL8YLhao7qdorZvyGSA
+	1F6ADM87hwvQSkehGp29+bQtG2D12ORogP/++6bGB3Y4NDQ9ot39
+X-Gm-Gg: ASbGncuuudkt27kkpJ5MUJau8kTuDCXZ7WSLtdHAEQBp04TnsRlmypC3UcMJHs2mirh
+	DuGKeqw6S68oI4IUW2Du75HdxojKY2ZdgROy8RmfzXASD0LiaX/rRJtPbyzAxskg8GUiwmlmDbn
+	xREcFpx4skZR/ZwWdFodYd6k0sZVjWcCpKZDNgINaPx0NvtpgqLSJ9WWJckbP5DKsZEyX/nygsf
+	m4fU3Uz+6N1F1A7h2MO5LVE9yAcP3Pi9GDhUZXqBDdAoQPaV+IATPsG9mzj9FEzbz5VPG81S7pg
+	/H3874SjAG7RZU6LFlkjHiZTZuzcvqxzhXvozGP+wnwwkZlUSUZjPw==
+X-Google-Smtp-Source: AGHT+IF9fy6M1v4d0lWhKbUDLOQiqlGUYo7EzNe2DjmFHvUdUwMdkQLZL5+HmiuJwmh09aueJUCXjg==
+X-Received: by 2002:a05:600c:3c8e:b0:436:f3f6:9582 with SMTP id 5b1f17b1804b1-4390d433bbamr43134835e9.8.1738832682587;
+        Thu, 06 Feb 2025 01:04:42 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dca004esm12263035e9.13.2025.02.06.01.04.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Feb 2025 01:04:41 -0800 (PST)
+Date: Thu, 6 Feb 2025 09:04:41 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: "Xu, Even" <even.xu@intel.com>
+Cc: lkp <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+ <oe-kbuild-all@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>, "Sun,
+ Xinpeng" <xinpeng.sun@intel.com>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>, Mark Pearson
+ <mpearson-lenovo@squebb.ca>
+Subject: Re: drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38:
+ sparse: sparse: dubious: !x | !y
+Message-ID: <20250206090441.56c61c27@pumpkin>
+In-Reply-To: <IA1PR11MB6098B4AFF412D34D2F62C535F4F62@IA1PR11MB6098.namprd11.prod.outlook.com>
+References: <202501292144.eFDq4ovr-lkp@intel.com>
+	<20250129222141.478c03df@pumpkin>
+	<IA1PR11MB6098ECA558A36C0EAA1F21FCF4F72@IA1PR11MB6098.namprd11.prod.outlook.com>
+	<20250205215650.1a93dc58@pumpkin>
+	<IA1PR11MB6098B4AFF412D34D2F62C535F4F62@IA1PR11MB6098.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   6550429f8dbead9ef7fc53fbabc5c985b491a9eb
-commit: 551a5598eaf310b6665a31d28e1199f58f939c08 [0/3] FROMLIST: usb: host: xhci: Notify xHCI sideband on transfer ring free
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250206/202502061649.PMOqgDM3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061649.PMOqgDM3-lkp@intel.com/reproduce)
+On Thu, 6 Feb 2025 02:50:17 +0000
+"Xu, Even" <even.xu@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502061649.PMOqgDM3-lkp@intel.com/
+> > -----Original Message-----
+> > From: David Laight <david.laight.linux@gmail.com>
+> > Sent: Thursday, February 6, 2025 5:57 AM
+> > To: Xu, Even <even.xu@intel.com>
+> > Cc: lkp <lkp@intel.com>; oe-kbuild-all@lists.linux.dev; linux-
+> > kernel@vger.kernel.org; Jiri Kosina <jikos@kernel.org>; Sun, Xinpeng
+> > <xinpeng.sun@intel.com>; Srinivas Pandruvada
+> > <srinivas.pandruvada@linux.intel.com>; Mark Pearson <mpearson-  
+> > lenovo@squebb.ca>  
+> > Subject: Re: drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38: sparse:
+> > sparse: dubious: !x | !y
+> > 
+> > On Wed, 5 Feb 2025 02:56:05 +0000
+> > "Xu, Even" <even.xu@intel.com> wrote:
+> >   
+> > > > -----Original Message-----
+> > > > From: David Laight <david.laight.linux@gmail.com>
+> > > > Sent: Thursday, January 30, 2025 6:22 AM
+> > > > To: lkp <lkp@intel.com>
+> > > > Cc: Xu, Even <even.xu@intel.com>; oe-kbuild-all@lists.linux.dev;
+> > > > linux- kernel@vger.kernel.org; Jiri Kosina <jikos@kernel.org>; Sun,
+> > > > Xinpeng <xinpeng.sun@intel.com>; Srinivas Pandruvada
+> > > > <srinivas.pandruvada@linux.intel.com>; Mark Pearson <mpearson-  
+> > > > lenovo@squebb.ca>  
+> > > > Subject: Re: drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38:  
+> > sparse:  
+> > > > sparse: dubious: !x | !y
+> > > >
+> > > > On Wed, 29 Jan 2025 22:02:59 +0800
+> > > > kernel test robot <lkp@intel.com> wrote:
+> > > >  
+> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git  
+> > master  
+> > > > > head:   05dbaf8dd8bf537d4b4eb3115ab42a5fb40ff1f5
+> > > > > commit: a688404b2e20f00cce6d0a2b888ef4ca9154e144 HID: intel-thc-hid:  
+> > > > intel-thc: Add THC DMA interfaces  
+> > > > > date:   3 weeks ago
+> > > > > config: x86_64-allyesconfig
+> > > > > (https://download.01.org/0day-ci/archive/20250129/202501292144.eFD
+> > > > > q4ov
+> > > > > r-lkp@intel.com/config)
+> > > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0 reproduce (this is a
+> > > > > W=1
+> > > > > build):
+> > > > > (https://download.01.org/0day-ci/archive/20250129/202501292144.eFD
+> > > > > q4ov
+> > > > > r-lkp@intel.com/reproduce)
+> > > > >
+> > > > > If you fix the issue in a separate patch/commit (i.e. not just a
+> > > > > new version of the same patch/commit), kindly add following tags
+> > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > | Closes:
+> > > > > | https://lore.kernel.org/oe-kbuild-all/202501292144.eFDq4ovr-lkp@
+> > > > > | inte
+> > > > > | l.com/
+> > > > >
+> > > > > sparse warnings: (new ones prefixed by >>)  
+> > > > > >> drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c:298:38: sparse:
+> > > > > >> sparse: dubious: !x | !y  
+> > > > >    drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c: note: in
+> > > > > included file  
+> > > > (through include/linux/mmzone.h, include/linux/gfp.h,  
+> > include/linux/mm.h, ...):  
+> > > > >    include/linux/page-flags.h:237:46: sparse: sparse:
+> > > > > self-comparison always  
+> > > > evaluates to false  
+> > > > >    include/linux/page-flags.h:237:46: sparse: sparse:
+> > > > > self-comparison always evaluates to false
+> > > > >
+> > > > > vim +298 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c  
+> > > > ...  
+> > > > >    297		for (i = 0; i < config->prd_tbl_num; i++) {  
+> > > > >  > 298			if (!config->sgls[i] | !config->sgls_nent[i])  
+> > > > >    299				continue;  
+> > > > ...
+> > > >
+> > > > If zeros are unlikely the bit-wise 'or' is pretty likely to generate
+> > > > better code than a logical 'or'.
+> > > >
+> > > > 	David  
+> > >
+> > > Good suggestion!
+> > > So the code can be optimized to:
+> > > 	for (i = 0; i < config->prd_tbl_num; i++) {
+> > > 	         if (config->sgls[i] && config->sgls_nent[i]) {
+> > >                                     ......
+> > >                        }  
+> > 
+> > That just adds a level of indentation to the source.
+> > It'll generate much the same code as !x || !y.
+> > Both will generate two conditional branches.
+> > 
+> > It almost certainly makes in immeasurable difference here, but !x | !y can be
+> > generated using (on x86) the 'sete' instruction to get a 0/1 from the x == 0
+> > compare (that sets the flags), and then doing an 'or' and a single jump.  
+> 
+> You are right.
 
-All warnings (new ones prefixed by >>):
+I'm always right (except when I'm not)
 
-   drivers/usb/host/xhci-sideband.c:287: warning: Function parameter or struct member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
-   drivers/usb/host/xhci-sideband.c:287: warning: Function parameter or struct member 'intr_num' not described in 'xhci_sideband_create_interrupter'
-   drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct member 'type' not described in 'xhci_sideband_register'
->> drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct member 'notify_client' not described in 'xhci_sideband_register'
+> I do a simple testing:
+> 
+> 83 7d f8 00             cmpl   $0x0,-0x8(%rbp)
+> 0f 94 c2                sete   %dl
+> 83 7d fc 00             cmpl   $0x0,-0x4(%rbp)
+> 0f 94 c0                sete   %al
+
+On a modern cpu those two pairs will run in parallel.
+
+> 09 d0                   or     %edx,%eax
+> 84 c0                   test   %al,%al
+
+The compiler needn't to add the 'test' instruction, but doesn't really like
+the fact that the x86 'sete' is only available for 8-bit registers.
+
+> 74 0f                   je     1186 <main+0x3d>
+> 
+> Compare to:
+> 
+> 83 7d f8 00             cmpl   $0x0,-0x8(%rbp)
+> 74 06                   je     116f <main+0x26>
+> 83 7d fc 00             cmpl   $0x0,-0x4(%rbp)
+> 75 0f                   jne    117e <main+0x35>
+> 
+> So you suggest I'd better keep the original (!x | !y) code, if just for unlikely Zero comparing?
+
+Looking at the code I'd guess common case is that both values are non-zero.
+So in the normal case both tests are needed.
+
+The branch predictor will (hopefully) get the tests right after the first
+iteration, and I suspect the performance of this code isn't that critical.
+
+So while using | might be an optimisation (rather than a mistake)
+changing it to || probably doesn't matter.
+
+	David
 
 
-vim +372 drivers/usb/host/xhci-sideband.c
+> 
+> Thanks!
+> 
+> Best Regards,
+> Even Xu
+> 
+> > 
+> > 	David
+> >   
+> > > 	}
+> > >
+> > > Will create a patch for this.
+> > >
+> > > Best Regards,
+> > > Even Xu
+> > >
+> > >  
+> 
 
-7b946a32948f90 Mathias Nyman 2023-02-06  358  
-7b946a32948f90 Mathias Nyman 2023-02-06  359  /**
-7b946a32948f90 Mathias Nyman 2023-02-06  360   * xhci_sideband_register - register a sideband for a usb device
-7b946a32948f90 Mathias Nyman 2023-02-06  361   * @intf: usb interface associated with the sideband device
-7b946a32948f90 Mathias Nyman 2023-02-06  362   *
-7b946a32948f90 Mathias Nyman 2023-02-06  363   * Allows for clients to utilize XHCI interrupters and fetch transfer and event
-7b946a32948f90 Mathias Nyman 2023-02-06  364   * ring parameters for executing data transfers.
-7b946a32948f90 Mathias Nyman 2023-02-06  365   *
-7b946a32948f90 Mathias Nyman 2023-02-06  366   * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
-7b946a32948f90 Mathias Nyman 2023-02-06  367   */
-7b946a32948f90 Mathias Nyman 2023-02-06  368  struct xhci_sideband *
-551a5598eaf310 Wesley Cheng  2025-01-28  369  xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
-551a5598eaf310 Wesley Cheng  2025-01-28  370  		       int (*notify_client)(struct usb_interface *intf,
-551a5598eaf310 Wesley Cheng  2025-01-28  371  				    struct xhci_sideband_event *evt))
-7b946a32948f90 Mathias Nyman 2023-02-06 @372  {
-7b946a32948f90 Mathias Nyman 2023-02-06  373  	struct usb_device *udev = interface_to_usbdev(intf);
-7b946a32948f90 Mathias Nyman 2023-02-06  374  	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-7b946a32948f90 Mathias Nyman 2023-02-06  375  	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-7b946a32948f90 Mathias Nyman 2023-02-06  376  	struct xhci_virt_device *vdev;
-7b946a32948f90 Mathias Nyman 2023-02-06  377  	struct xhci_sideband *sb;
-7b946a32948f90 Mathias Nyman 2023-02-06  378  
-7b946a32948f90 Mathias Nyman 2023-02-06  379  	/*
-7b946a32948f90 Mathias Nyman 2023-02-06  380  	 * Make sure the usb device is connected to a xhci controller.  Fail
-7b946a32948f90 Mathias Nyman 2023-02-06  381  	 * registration if the type is anything other than  XHCI_SIDEBAND_VENDOR,
-7b946a32948f90 Mathias Nyman 2023-02-06  382  	 * as this is the only type that is currently supported by xhci-sideband.
-7b946a32948f90 Mathias Nyman 2023-02-06  383  	 */
-7b946a32948f90 Mathias Nyman 2023-02-06  384  	if (!udev->slot_id || type != XHCI_SIDEBAND_VENDOR)
-7b946a32948f90 Mathias Nyman 2023-02-06  385  		return NULL;
-7b946a32948f90 Mathias Nyman 2023-02-06  386  
-7b946a32948f90 Mathias Nyman 2023-02-06  387  	sb = kzalloc_node(sizeof(*sb), GFP_KERNEL, dev_to_node(hcd->self.sysdev));
-7b946a32948f90 Mathias Nyman 2023-02-06  388  	if (!sb)
-7b946a32948f90 Mathias Nyman 2023-02-06  389  		return NULL;
-7b946a32948f90 Mathias Nyman 2023-02-06  390  
-7b946a32948f90 Mathias Nyman 2023-02-06  391  	mutex_init(&sb->mutex);
-7b946a32948f90 Mathias Nyman 2023-02-06  392  
-7b946a32948f90 Mathias Nyman 2023-02-06  393  	/* check this device isn't already controlled via sideband */
-7b946a32948f90 Mathias Nyman 2023-02-06  394  	spin_lock_irq(&xhci->lock);
-7b946a32948f90 Mathias Nyman 2023-02-06  395  
-7b946a32948f90 Mathias Nyman 2023-02-06  396  	vdev = xhci->devs[udev->slot_id];
-7b946a32948f90 Mathias Nyman 2023-02-06  397  
-7b946a32948f90 Mathias Nyman 2023-02-06  398  	if (!vdev || vdev->sideband) {
-7b946a32948f90 Mathias Nyman 2023-02-06  399  		xhci_warn(xhci, "XHCI sideband for slot %d already in use\n",
-7b946a32948f90 Mathias Nyman 2023-02-06  400  			  udev->slot_id);
-7b946a32948f90 Mathias Nyman 2023-02-06  401  		spin_unlock_irq(&xhci->lock);
-7b946a32948f90 Mathias Nyman 2023-02-06  402  		kfree(sb);
-7b946a32948f90 Mathias Nyman 2023-02-06  403  		return NULL;
-7b946a32948f90 Mathias Nyman 2023-02-06  404  	}
-7b946a32948f90 Mathias Nyman 2023-02-06  405  
-7b946a32948f90 Mathias Nyman 2023-02-06  406  	sb->xhci = xhci;
-7b946a32948f90 Mathias Nyman 2023-02-06  407  	sb->vdev = vdev;
-7b946a32948f90 Mathias Nyman 2023-02-06  408  	sb->intf = intf;
-7b946a32948f90 Mathias Nyman 2023-02-06  409  	sb->type = type;
-551a5598eaf310 Wesley Cheng  2025-01-28  410  	sb->notify_client = notify_client;
-7b946a32948f90 Mathias Nyman 2023-02-06  411  	vdev->sideband = sb;
-7b946a32948f90 Mathias Nyman 2023-02-06  412  
-7b946a32948f90 Mathias Nyman 2023-02-06  413  	spin_unlock_irq(&xhci->lock);
-7b946a32948f90 Mathias Nyman 2023-02-06  414  
-7b946a32948f90 Mathias Nyman 2023-02-06  415  	return sb;
-7b946a32948f90 Mathias Nyman 2023-02-06  416  }
-7b946a32948f90 Mathias Nyman 2023-02-06  417  EXPORT_SYMBOL_GPL(xhci_sideband_register);
-7b946a32948f90 Mathias Nyman 2023-02-06  418  
-
-:::::: The code at line 372 was first introduced by commit
-:::::: 7b946a32948f90b198e3e51c824576458ceda3a4 FROMLIST: xhci: sideband: add initial api to register a secondary interrupter entity
-
-:::::: TO: Mathias Nyman <mathias.nyman@linux.intel.com>
-:::::: CC: Neill Kapron <nkapron@google.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
