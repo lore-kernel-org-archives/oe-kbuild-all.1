@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE591A3056
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 19:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B19123959B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 19:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738869185; cv=none; b=A/WBbUPEg5QJSvmeE7ILhjCKguh4e6+9qxMdupOjHO2ZRQgv0vuiyBXM+dAH5j+1DFJxc2RQoG5MWvBKMOhHvZJ1yt3w9gohOE8PGaZIrdtkWV69ajvYloQCk0X237FPId69SkQp4R6ITaVPZu1tlBJlXpHI/fFoAmtie7ai3sM=
+	t=1738869187; cv=none; b=sz672zabSLeknvLlU4R2U/+tJTGAakq9G00Bbl9EEfeSqct/WM50ioT8fXQoW+gvbqh6q4y9UPfQENP6BHn2CN8mSIHVS+wi2EI9iE+RoNG+wu1sE5P1+2YAxfoVfBK6PWXCOE1/yaWm6EEmovgJUYFmYrwBRe49+Ap7A31NL5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738869185; c=relaxed/simple;
-	bh=XDdfhyle8WXlRNyPUCRu0L7q7ZLxiuSNoaka1FCwSf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oVhKk5w9tjXJfJ+OMwO12uMpymyFC63kdMA/vjAwwrRjnK05KI+1JpQZNWIBI41wbgKy3Zgi8Sw08qD+99pXog2nNYvAlx8NoyWiGW8Q2RZYnB33pP7wLlefyFwymCRg9AOG86DzcGFoFUUIZXKJ3RqYlpdnttc6O88Xek2e75Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDyrkZ2a; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1738869187; c=relaxed/simple;
+	bh=zwh7LYQ2PcG7Pp6G4r7bjhGRplqUju5h9X/U+t1IADI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MW8Dn7pl/XB2aXXk/3e2jtStIx3SgIkalqHO7T6zEbXNqzcTsXrMLcpe9km4gCmR5h5g0Cl8q7U2IAdNsAov5geVOr2Z2RvXNQCSuWV4YDqLeG7u7h9M+ADjNd456MSS9bRCkTp8ieBJ4uL5jbNCvIZgIeZ0fp17CuJ12LMP/nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7PObECF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDyrkZ2a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7PObECF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738869184; x=1770405184;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XDdfhyle8WXlRNyPUCRu0L7q7ZLxiuSNoaka1FCwSf4=;
-  b=mDyrkZ2a4khx+WtTet/kb2y/cCCBtH++dJN6PeVbPy6MTBkcpTELEUg+
-   Bf8CJ4NHT/2jq+Yph5EDyImTcYKUMC8aJLoDDpDaRVwgXg+cm8temZYSw
-   DgHu9MRdEEh76jMYgmL5vrZgzKl/LJX75rJgkZrfaN3LlixMcswEHkrWb
-   lKNOwaqn8+UDSmpjcgyyDR/7EZXG1nrBQrbmCICKvALk7OwFA0mCsGvx2
-   X86dCy1of5fxFPRH1+ObbQ9E9ikiUwz4t3YDSI0ufqJfdTseSWcHj7UtT
-   syuO9DaGN9B1uALFyRo8O7ykCw8aGVHZJTJ67keSKjbiqIQ+HurYwjpAK
+  t=1738869185; x=1770405185;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zwh7LYQ2PcG7Pp6G4r7bjhGRplqUju5h9X/U+t1IADI=;
+  b=J7PObECFE24E/c9CB7kMA40ZMcVFJEfoEsh4uQMlI01b82MZJA7DmtTJ
+   vTp5SlWgo1atrD5rn5fNXgNOuoytt42gqMlP1YwEPX/pYshqCpD+Xn04B
+   mzVt4SnU/2uzkYJsrk5DUhWyaCcNiyW3X6nXfPL9eL6PLWXZSUM2o3ij5
+   LCTcdL3Kf2zMJPjFEdHMZOJftKsBS3ynLsbEkKdDlhK5WCUEHldL33POh
+   Yxaxe6qlND4CT/rWqB4Q3mTLs2eX9tgkFYnQLn/aXt+bYTjL73Jeg0kuK
+   eHFNEGa5W9KOe7QlRSpv6Ff11fIKZj0fVPb2pkELKVkPsTZH7DSsBdSa7
    w==;
-X-CSE-ConnectionGUID: T69kFxTaQMu+a79aaUAWew==
-X-CSE-MsgGUID: CK51qM0fSoiaQX7Mwbca/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39397222"
+X-CSE-ConnectionGUID: +djf5SlaSoe/YQlI4p5+yw==
+X-CSE-MsgGUID: KFEIwGOsR1OykBus2G3Wag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39517023"
 X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="39397222"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 11:13:03 -0800
-X-CSE-ConnectionGUID: b4e47NGRStWff6T0hd837g==
-X-CSE-MsgGUID: vNu/aBGIQu+NNv4cytrsxA==
+   d="scan'208";a="39517023"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 11:13:05 -0800
+X-CSE-ConnectionGUID: ouTKhg2GROCuruDiLSADyQ==
+X-CSE-MsgGUID: +5KCRvisS8iZrvfBwYEw6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="111501121"
+   d="scan'208";a="111915148"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2025 11:13:02 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 06 Feb 2025 11:13:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tg7J6-000xEv-0t;
+	id 1tg7J6-000xEt-0p;
 	Thu, 06 Feb 2025 19:13:00 +0000
-Date: Fri, 7 Feb 2025 03:12:12 +0800
+Date: Fri, 7 Feb 2025 03:11:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 204/204]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/fdvfs@c220400: failed to
- match any schema with compatible: ['mediatek,fdvfs']
-Message-ID: <202502070329.rVf0LPCG-lkp@intel.com>
+To: alucerop@amd.com, linux-cxl@vger.kernel.org, netdev@vger.kernel.org,
+	dan.j.williams@intel.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	dave.jiang@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>
+Subject: Re: [PATCH v10 16/26] cxl: define a driver interface for DPA
+ allocation
+Message-ID: <202502070213.8GNIAg8A-lkp@intel.com>
+References: <20250205151950.25268-17-alucerop@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +66,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250205151950.25268-17-alucerop@amd.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1fe62fcb2a55fbf67fb3bb11d7398dfbebfa9f71
-commit: 89dcc6e10841258aa5eab119acfad06515ac74c0 [204/204] CHROMIUM: arm64: dts: mt8196: add cpuhvfs & fdvfs node
-config: arm64-randconfig-051-20250206 (https://download.01.org/0day-ci/archive/20250207/202502070329.rVf0LPCG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070329.rVf0LPCG-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6cd498f39cf5e1475b567eb67a6fcf1ca3d67d46]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alucerop-amd-com/cxl-make-memdev-creation-type-agnostic/20250205-233651
+base:   6cd498f39cf5e1475b567eb67a6fcf1ca3d67d46
+patch link:    https://lore.kernel.org/r/20250205151950.25268-17-alucerop%40amd.com
+patch subject: [PATCH v10 16/26] cxl: define a driver interface for DPA allocation
+config: i386-buildonly-randconfig-006-20250206 (https://download.01.org/0day-ci/archive/20250207/202502070213.8GNIAg8A-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070213.8GNIAg8A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502070329.rVf0LPCG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502070213.8GNIAg8A-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e4000: failed to match any schema with compatible: ['mediatek,mt8196-ptppll-pll-ctrl', 'mediatek,mt8196-ptppll_pll_ctrl', 'syscon']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/fdvfs@c220400: failed to match any schema with compatible: ['mediatek,fdvfs']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mcupm@c240000: failed to match any schema with compatible: ['mediatek,mt8196-mcupm']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/performance-controller@c2c0f20: failed to match any schema with compatible: ['mediatek,cpufreq-hw-v1']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/cpuhvfs@c2c2310: failed to match any schema with compatible: ['mediatek,cpufreq-hybrid']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000000: failed to match any schema with compatible: ['mediatek,mt8196-cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c000: failed to match any schema with compatible: ['mediatek,mt8196-cksys-gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/pinctrl@1002d000: failed to match any schema with compatible: ['mediatek,mt8196-pinctrl']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@102f3000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@10613000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+All warnings (new ones prefixed by >>):
+
+>> drivers/cxl/core/hdm.c:743: warning: Function parameter or struct member 'alloc' not described in 'cxl_request_dpa'
+>> drivers/cxl/core/hdm.c:743: warning: Excess function parameter 'min' description in 'cxl_request_dpa'
+
+
+vim +743 drivers/cxl/core/hdm.c
+
+   722	
+   723	/**
+   724	 * cxl_request_dpa - search and reserve DPA given input constraints
+   725	 * @cxlmd: memdev with an endpoint port with available decoders
+   726	 * @is_ram: DPA operation mode (ram vs pmem)
+   727	 * @min: the minimum amount of capacity the call needs
+   728	 *
+   729	 * Given that a region needs to allocate from limited HPA capacity it
+   730	 * may be the case that a device has more mappable DPA capacity than
+   731	 * available HPA. So, the expectation is that @min is a driver known
+   732	 * value for how much capacity is needed, and @max is the limit of
+   733	 * how much HPA space is available for a new region.
+   734	 *
+   735	 * Returns a pinned cxl_decoder with at least @min bytes of capacity
+   736	 * reserved, or an error pointer. The caller is also expected to own the
+   737	 * lifetime of the memdev registration associated with the endpoint to
+   738	 * pin the decoder registered as well.
+   739	 */
+   740	struct cxl_endpoint_decoder *cxl_request_dpa(struct cxl_memdev *cxlmd,
+   741						     bool is_ram,
+   742						     resource_size_t alloc)
+ > 743	{
+   744		struct cxl_port *endpoint = cxlmd->endpoint;
+   745		struct cxl_endpoint_decoder *cxled;
+   746		enum cxl_partition_mode mode;
+   747		struct device *cxled_dev;
+   748		int rc;
+   749	
+   750		if (!IS_ALIGNED(alloc, SZ_256M))
+   751			return ERR_PTR(-EINVAL);
+   752	
+   753		down_read(&cxl_dpa_rwsem);
+   754		cxled_dev = device_find_child(&endpoint->dev, NULL, find_free_decoder);
+   755		up_read(&cxl_dpa_rwsem);
+   756	
+   757		if (!cxled_dev)
+   758			return ERR_PTR(-ENXIO);
+   759	
+   760		cxled = to_cxl_endpoint_decoder(cxled_dev);
+   761	
+   762		if (!cxled) {
+   763			rc = -ENODEV;
+   764			goto err;
+   765		}
+   766	
+   767		if (is_ram)
+   768			mode = CXL_PARTMODE_RAM;
+   769		else
+   770			mode = CXL_PARTMODE_PMEM;
+   771	
+   772		rc = cxl_dpa_set_part(cxled, mode);
+   773		if (rc)
+   774			goto err;
+   775	
+   776		rc = cxl_dpa_alloc(cxled, alloc);
+   777		if (rc)
+   778			goto err;
+   779	
+   780		return cxled;
+   781	err:
+   782		put_device(cxled_dev);
+   783		return ERR_PTR(rc);
+   784	}
+   785	EXPORT_SYMBOL_NS_GPL(cxl_request_dpa, "CXL");
+   786	
 
 -- 
 0-DAY CI Kernel Test Service
