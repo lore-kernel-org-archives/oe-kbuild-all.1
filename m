@@ -1,99 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CDD22CBC9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21A8151991
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 11:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738840268; cv=none; b=KpnIUR4jc7iok+4h+BEjpsfZHssgYzSHIEqcd1Y4UMxNZ+pazuESJwRe2GhmtM5xkP1mf/Ag1LRI8Ej8Nxd/Dc3IxfjZvS6zWkWNAcnX5M0Ou2WejOYnDPZhUco7EaW7U64A9lGoD9qPJ++J1lF07gdYxVCGNaCniqV6JeUBakw=
+	t=1738841950; cv=none; b=j9pJk0j2aIyU86KaVdJyuGCQyRzWGkmI7XGbU5q+N+kePitThLlyTYwAPx9UTlY+mE9TCbPsQIMM1mdnjGXJ7SWdMGyKRvnRD/nvI7widmoN5tuGBP/W+irLNe2JVUfr50HTg3z7qgRbShY59v+MGEm79iyl5OGbiOOlUAw5XkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738840268; c=relaxed/simple;
-	bh=r+OGepa90skBiTGbO4Zk6MzCmgLBsa/kwV9jMh6f+4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUyCmMy4hom8w3ioveiDO4vvQe+Oyu9K7E4W99K0DF7tjJW3H/vNN2tVwG+z5Z9oCRY5MlromZCHfR37r3X0Q3vBQLsZiiZQIa8zyCZXTeLFAj8SesKMsWTIEAMt6RJwg2vobtUrOFcGBnEsW35A5wwAuSOS5n8Tb7RSB2y/T7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9IAfc7C; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9IAfc7C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738840267; x=1770376267;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=r+OGepa90skBiTGbO4Zk6MzCmgLBsa/kwV9jMh6f+4I=;
-  b=X9IAfc7Cr/1hfdP76jvReRVFhHPK77So0I7kRfFTeGEprWDLslhHHLtA
-   xNxrSjkOZCx3gA5bSQKb80PxUMj27/uE24s/QJhKrW2Bl4REMgSxxigOU
-   IUFn7JuwoUZqXRGoYsWCW6njPFj53RZplEYhoy0Tx7jCF1KrhxnRNTBVx
-   Wu70KGYdt25q7xNdlHvG7cz8IBAIoOvLjgza+RR08yUm7QCugcSCZnsEF
-   q6/oJaLG5ZrJI3gz6ocO9XjlQSqeblT3Jen/banOy5S6h3vv8H1BHp1ER
-   TssRqZIS1ZePhBoxe5jM/rKHC1f726PAxY7B74mv0rSUFphzBAgfGRZdo
-   Q==;
-X-CSE-ConnectionGUID: UWnu0VOfQ22zYC6GB7yoiQ==
-X-CSE-MsgGUID: v8otgTrZSLu7j21XG0ioDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42272789"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="42272789"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 03:11:06 -0800
-X-CSE-ConnectionGUID: 0hU3N0YBRxqn1MnqSj2/Rw==
-X-CSE-MsgGUID: BeaBgLdrScanYLOs2HWlsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116372641"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Feb 2025 03:11:05 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfzmg-000wmB-2Q;
-	Thu, 06 Feb 2025 11:11:02 +0000
-Date: Thu, 6 Feb 2025 19:10:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: T Pratham <t-pratham@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 1/3] dt-bindings: crypto: Add binding for TI DTHE V2
- driver
-Message-ID: <202502061805.0hKPOnnK-lkp@intel.com>
-References: <20250206-dthe-v2-aes-v1-1-1e86cf683928@ti.com>
+	s=arc-20240116; t=1738841950; c=relaxed/simple;
+	bh=YgOJD+kd2mC/GASdIn57a6LE/LeB1QV1j6FJAJ2yk94=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=PYsHr9Q5ASotDiqQSrF8PnwBHkPAc4CSDJqjuDRC7h+CCC2ujnR0O/AnbKVAzwncBvtxSDnKfQgThsyY3YfMfHWS4sRecwTVA3d6HfH7i9+vjj6C3TyNtTptodFHaKgDQYjAnSkE4S0EetZTjiJt2kz/vApBm/1yqwbkU4oLE4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4YpZlw722fz1V66D;
+	Thu,  6 Feb 2025 19:35:24 +0800 (CST)
+Received: from kwepemd200019.china.huawei.com (unknown [7.221.188.193])
+	by mail.maildlp.com (Postfix) with ESMTPS id D2DF01A0188;
+	Thu,  6 Feb 2025 19:39:03 +0800 (CST)
+Received: from [10.173.127.72] (10.173.127.72) by
+ kwepemd200019.china.huawei.com (7.221.188.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 6 Feb 2025 19:39:02 +0800
+Subject: Re: kismet: WARNING: unmet direct dependencies detected for HUGETLBFS
+ when selected by PPC_8xx
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
+	<fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>, kernel test
+ robot <lkp@intel.com>
+References: <202501240611.LDmD2nkj-lkp@intel.com>
+ <29cf621d-db67-6c5c-0dc5-ebe79edc6cc6@huawei.com>
+ <08a51873-7510-4552-9bb1-3ea7ef9fbc2d@csgroup.eu>
+ <0c0c6af5-7766-6cc0-d141-d725b84bef09@huawei.com>
+ <5528c76d-d8f1-41be-a742-8bafa74c24f9@csgroup.eu>
+ <d6c06a9c-4d43-4528-c5d1-019f91087f30@huawei.com>
+ <5c99458f-4a91-485f-8a35-3618a992e2e4@csgroup.eu>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <053701eb-b2da-b3e2-de16-50384805b69f@huawei.com>
+Date: Thu, 6 Feb 2025 19:39:02 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206-dthe-v2-aes-v1-1-1e86cf683928@ti.com>
+In-Reply-To: <5c99458f-4a91-485f-8a35-3618a992e2e4@csgroup.eu>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemd200019.china.huawei.com (7.221.188.193)
 
-Hi Pratham,
+On 2025/2/6 16:47, Christophe Leroy wrote:
+> 
+> 
+> Le 06/02/2025 à 08:12, Miaohe Lin a écrit :
+>> On 2025/2/6 14:30, Christophe Leroy wrote:
+>>>
+>>>
+>>> Le 06/02/2025 à 03:08, Miaohe Lin a écrit :
+>>>> On 2025/2/6 0:35, Christophe Leroy wrote:
+>>>>>
+>>>>>
+>>>>> Le 05/02/2025 à 03:39, Miaohe Lin a écrit :
+>>>>>> On 2025/1/24 6:24, kernel test robot wrote:
+>>>>>>> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571348001%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=rpToSy%2BI2rTH5db2ST62gNZF0efdupnNQRpYevV2CRY%3D&reserved=0 master
+>>>>>>> head:   d0d106a2bd21499901299160744e5fe9f4c83ddb
+>>>>>>> commit: f8142cf94d4737ea0c3baffb3b9bad8addcb9b6b hugetlb: make hugetlb depends on SYSFS or SYSCTL
+>>>>>>> date:   2 years, 4 months ago
+>>>>>>> config: powerpc-kismet-CONFIG_HUGETLBFS-CONFIG_PPC_8xx-0-0 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571371397%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=27pzb6aOPaarlX2fX%2B3%2FvCp8GWwysleJoVw9L6Yrytc%3D&reserved=0)
+>>>>>>> reproduce: (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571381016%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=XEjM2tEaDz%2BINDJbCOD2ciJU24koPd9msdwNiP3lPLw%3D&reserved=0)
+>>>>>>>
+>>>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>>>>>> the same patch/commit), kindly add following tags
+>>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>>>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202501240611.LDmD2nkj-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571390239%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=W%2F8GHsXQwmaG22bsTyQes1zdMG7o2aHc%2Fly%2BHO57LwI%3D&reserved=0
+>>>>>>
+>>>>>> Thanks for report. Sorry for late respond. I was on my Spring Festival vacation.
+>>>>>>
+>>>>>>>
+>>>>>>> kismet warnings: (new ones prefixed by >>)
+>>>>>>>>> kismet: WARNING: unmet direct dependencies detected for HUGETLBFS when selected by PPC_8xx
+>>>>>>>       WARNING: unmet direct dependencies detected for HUGETLBFS
+>>>>>>>         Depends on [n]: (X86 || IA64 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=n] || SYSCTL [=n])
+>>>>>>>         Selected by [y]:
+>>>>>>>         - PPC_8xx [=y] && <choice>
+>>>>>>
+>>>>>> I am a bit confused. HUGETLBFS depends on SYSFS or SYSCTL. How can it be selected while SYSFS [=n] || SYSCTL [=n]?
+>>>>>> Or am I miss something?
+>>>>>
+>>>>> CONFIG_HUGETLBFS is selected by CONFIG_PPC_8xx, see commit 34536d780683 ("powerpc/8xx: Add a function to early map kernel via huge pages")
+>>>>
+>>>> Thanks for your providing. But I'm saying that since HUGETLBFS depends on (SYSFS or SYSCTL), how CONFIG_PPC_8xx succeeds to select it while
+>>>> SYSFS and SYSCTL are disabled? I'm not really familiar with Kconfig but I assume Kconfig will confirm that the dependencies are satisfied
+>>>> before HUGETLBFS is enabled. Or am I miss something?
+>>>
+>>> I suggest you read https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdocs.kernel.org%2Fkbuild%2Fkconfig-language.html&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571400924%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=UtQJlI0P7JV%2BQy0jlHFoGZ8ipnl5SzhuL1G%2Bbr0an9Y%3D&reserved=0
+>>
+>> Thanks.
+>>
+>>>
+>>> Extract:
+>>>
+>>> Note:
+>>>      select should be used with care. select will force a symbol to a value without visiting the dependencies. By abusing select you are able to select a symbol FOO even if FOO depends on BAR that is not set.
+>>
+>> IMHO, it seems it's the use of "select" breaks the dependencies and leads to the kismet warnings. So it might be better to fix the PPC_8xx side.
+> 
+> 
+> The dependencies are wrong, I have a kernel without CONFIG_SYSFS and without CONFIG_SYSCTL and hugetlbfs works perfecly well.
+> 
+> I boot the kernel with following parameters:
+> 
+>     hugepagesz=512k hugepages=8 hugepagesz=8M hugepages=2
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+I think you are right. Hugetlb can still be used with boot parameter while CONFIG_SYSFS and CONFIG_SYSCTL are disabled.
+So my commit should be reverted.
 
-[auto build test WARNING on 9d4f8e54cef2c42e23ef258833dbd06a1eaff89b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/T-Pratham/dt-bindings-crypto-Add-binding-for-TI-DTHE-V2-driver/20250206-172514
-base:   9d4f8e54cef2c42e23ef258833dbd06a1eaff89b
-patch link:    https://lore.kernel.org/r/20250206-dthe-v2-aes-v1-1-1e86cf683928%40ti.com
-patch subject: [PATCH RFC 1/3] dt-bindings: crypto: Add binding for TI DTHE V2 driver
-reproduce: (https://download.01.org/0day-ci/archive/20250206/202502061805.0hKPOnnK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502061805.0hKPOnnK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/crypto/ti,dthe-v2.yaml
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks.
+.
