@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FB31EA7F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 13:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B691A5BBD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 15:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738849531; cv=none; b=De8rtyVzaC7/gavFxHesmF8J313TIhvaZryWfXcbBO9hUFBFSsAHkl5uHGDNljTFFkG2Xd0Ve93OMjR92gvU5SoJhu3Qrh/02n0EpiDqbLUnqen/h2sXWpOjH4bEaD70rhyU43UmucJl56MtBPVu3E+RdOZSjWVBKFIWdA6FfxU=
+	t=1738854778; cv=none; b=TzD3S7jQs549Cgg85wCR4149cZ3AXYzKLeL0jGtFQn6XTfQsPh91iehjucutw97GvHzV9h/cpPs+2XGKTCCm1lUrw6Wxmx8WiT53+XRQ91djW4ATYH58+wKoAA+wH5j3dxr7AbqlTYdBPMPxrB8d7HDNPFHMl2HNaFAixGdC6Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738849531; c=relaxed/simple;
-	bh=SRSvG5HwxZt0UO+3dEaQjyiR3UkWZ2T7gx9rUKQKTv0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IvG0qLYEEztL4ZcsdJ8l93e5i/KCnijHN7iF1sL8/DLeEJ8yR6RGsnw8CU0Rzbh0HmxC32J8/HY9UDPOj9WZzEhxsII3CTVcDSXyVYuzo7VOph2pcx1PM8ZKNvPSPq+6JOxdG7ZGUK9RGm4mqYa4ehFLuMbpv7SHJ4ABLIJkWqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DgOhjPwf; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738854778; c=relaxed/simple;
+	bh=RJROzD70sbLf/RKSEZXXu1DnnrsB6KPPwD5H/f13nuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jK3zRy5ODLgAG1YA3FzqmhmGBUbQU8PNtDINiqFihWIURpZ1JN++vIiy02qhKZ99xaFBxDa62cw6dh+Yxb8FLtlyDSkyaNpYQhWaG51zNk7o0DXwoiE+8vGJNyA9MtAvXcM7ACy/nSm9AcC4oXjKLuBX0JtTgK7EhGHnBlKYBAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f52nrzr2; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DgOhjPwf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f52nrzr2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738849528; x=1770385528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SRSvG5HwxZt0UO+3dEaQjyiR3UkWZ2T7gx9rUKQKTv0=;
-  b=DgOhjPwfK4qYCY3f/BACpa6Enu+Drxt1ObHfEPeTTOg5TWagBWRwWMNc
-   s79iddah8e9u2WVDsEE1zmfLLdlkqxXlfU2A4iaqDHJcmHaqPIjMR/Od2
-   rRLhfzBnSHmdKi70r7NAP4FDaQscJ+qbAobZ+wL8YFejRscfQmlCMXZH7
-   s3LWcWVCLH8xonfJHPa1taigFdrTvEAvN9Jw7+Ih+gq/hrXd9h2ne6IJc
-   KACKQD8qhTVFOWEIWz/nx0REomQ/mUN2rPAwWLzpT4YMFwQuzJ8ntaR5c
-   AJDdo+W/6/AbDlRP4aOlC5fAMHLi8euoFEhcV51ZoFh05af6d56YrgUME
-   Q==;
-X-CSE-ConnectionGUID: eIM8LYIdRP6TF1FDcQo6HA==
-X-CSE-MsgGUID: DGXyd/M3RACerUPoyDTFpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="64803896"
+  t=1738854777; x=1770390777;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RJROzD70sbLf/RKSEZXXu1DnnrsB6KPPwD5H/f13nuM=;
+  b=f52nrzr2l5lXIl6xecjDZfjGNXcMBCkYmXCxofG0qaSvVVLmopY1OICG
+   9QVaajw39e33DxMzLHkAgr5T5baBSJSc83zt93lx4ZMrB3F2zvGQFxZEG
+   sydeLk7wHTbwhqZnZJgVsAw9oTv48W9Gds23NekLSOEN+IE2EUq/+ieNV
+   ZM6AyLT2GQNpxk8TJTz28AHc2r9gai4zfacsXXErIn4HzbzH4oNc+aZkZ
+   nXK1OIyfarn7qQL28qdiVOoZtZ5Z6vRVQl6hDVbFlHndWenRgoj1+C4gq
+   rrz2bsxDW7JKoXs9dt17v0M74J1mvB9ZLvGi4K+5jhRWU0FIlqPg8UWvo
+   A==;
+X-CSE-ConnectionGUID: ct4C/fCiTRyxiCGsmAriaA==
+X-CSE-MsgGUID: sR50oS96S3i6HfDshTScLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50448755"
 X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="64803896"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 05:45:28 -0800
-X-CSE-ConnectionGUID: f6o1KvPERWmcUIdi0hW5Jg==
-X-CSE-MsgGUID: j6bZKlHnRX2bF3BT7lMIGg==
+   d="scan'208";a="50448755"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 07:12:56 -0800
+X-CSE-ConnectionGUID: QnALr2VzTZyFg9bpJmXmjA==
+X-CSE-MsgGUID: 2xYi5FCITu6xcFHgfqxkaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="116247325"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Feb 2025 05:45:26 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tg2C4-000wvz-2H;
-	Thu, 06 Feb 2025 13:45:24 +0000
-Date: Thu, 6 Feb 2025 21:45:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrea Gelmini <andrea.gelmini@gelma.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:pr/739 1/1] fs/bcachefs/btree_cache.c:834:31:
- error: 'PF_MEMALLOC_NORECLAIM' undeclared; did you mean 'PF_MEMALLOC_NOIO'?
-Message-ID: <202502062140.gyZ0XhQe-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="142128361"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 07:12:52 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tg3Yf-00000008l6g-2fnM;
+	Thu, 06 Feb 2025 17:12:49 +0200
+Date: Thu, 6 Feb 2025 17:12:49 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
+	rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6TRcWCKe__oxCUV@smile.fi.intel.com>
+References: <20250203080902.1864382-2-raag.jadav@intel.com>
+ <202502060025.XJwUub6I-lkp@intel.com>
+ <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,213 +73,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://github.com/koverstreet/bcachefs pr/739
-head:   8fd3bb46913c536490fe0c180ce57dc1c0d630ba
-commit: e3b1a703e7d59c52b87285f06275155c49b4c3ac [1/1] Fix typos
-config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20250206/202502062140.gyZ0XhQe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502062140.gyZ0XhQe-lkp@intel.com/reproduce)
+On Thu, Feb 06, 2025 at 08:13:12AM +0200, Raag Jadav wrote:
+> On Thu, Feb 06, 2025 at 12:27:03AM +0800, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502062140.gyZ0XhQe-lkp@intel.com/
+> >    102	
+> >    103	static inline
+> >    104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
+> >    105	{
+> >  > 106		return ERR_PTR(-EINVAL);
+> >    107	}
+> >    108	
+> 
+> Andy, are we expecting this?
 
-All errors (new ones prefixed by >>):
+Oh, no, it's sparse error, but easy to fix. Need to have
 
-   In file included from fs/bcachefs/btree_locking.h:13,
-                    from fs/bcachefs/btree_io.h:7,
-                    from fs/bcachefs/btree_cache.c:7:
-   fs/bcachefs/btree_cache.c: In function 'bch2_btree_node_mem_alloc':
->> fs/bcachefs/btree_cache.c:834:31: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
-     834 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
-         |                               ^~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
-   fs/bcachefs/btree_cache.c:834:31: note: each undeclared identifier is reported only once for each function it appears in
-     834 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
-         |                               ^~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
---
-   In file included from fs/bcachefs/btree_key_cache.c:5:
-   fs/bcachefs/btree_key_cache.c: In function 'bkey_cached_alloc':
->> fs/bcachefs/btree_iter.h:900:44: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
-     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
-         |                                            ^~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
-   fs/bcachefs/btree_key_cache.c:149:14: note: in expansion of macro 'allocate_dropping_locks'
-     149 |         ck = allocate_dropping_locks(trans, ret,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:900:44: note: each undeclared identifier is reported only once for each function it appears in
-     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
-         |                                            ^~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
-   fs/bcachefs/btree_key_cache.c:149:14: note: in expansion of macro 'allocate_dropping_locks'
-     149 |         ck = allocate_dropping_locks(trans, ret,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
->> fs/bcachefs/btree_iter.h:900:66: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
-     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
-         |                                                                  ^~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
-   fs/bcachefs/btree_key_cache.c:149:14: note: in expansion of macro 'allocate_dropping_locks'
-     149 |         ck = allocate_dropping_locks(trans, ret,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_key_cache.c: In function 'btree_key_cache_create':
->> fs/bcachefs/btree_iter.h:900:44: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
-     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
-         |                                            ^~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
-   fs/bcachefs/btree_key_cache.c:245:40: note: in expansion of macro 'allocate_dropping_locks'
-     245 |                 struct bkey_i *new_k = allocate_dropping_locks(trans, ret,
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
->> fs/bcachefs/btree_iter.h:900:66: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
-     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
-         |                                                                  ^~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_iter.h:882:53: note: in definition of macro 'memalloc_flags_do'
-     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
-         |                                                     ^~~~~~
-   fs/bcachefs/btree_key_cache.c:245:40: note: in expansion of macro 'allocate_dropping_locks'
-     245 |                 struct bkey_i *new_k = allocate_dropping_locks(trans, ret,
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +834 fs/bcachefs/btree_cache.c
-
-   774	
-   775	struct btree *bch2_btree_node_mem_alloc(struct btree_trans *trans, bool pcpu_read_locks)
-   776	{
-   777		struct bch_fs *c = trans->c;
-   778		struct btree_cache *bc = &c->btree_cache;
-   779		struct list_head *freed = pcpu_read_locks
-   780			? &bc->freed_pcpu
-   781			: &bc->freed_nonpcpu;
-   782		struct btree *b, *b2;
-   783		u64 start_time = local_clock();
-   784	
-   785		mutex_lock(&bc->lock);
-   786	
-   787		/*
-   788		 * We never free struct btree itself, just the memory that holds the on
-   789		 * disk node. Check the freed list before allocating a new one:
-   790		 */
-   791		list_for_each_entry(b, freed, list)
-   792			if (!btree_node_reclaim(c, b, false)) {
-   793				list_del_init(&b->list);
-   794				goto got_node;
-   795			}
-   796	
-   797		b = __btree_node_mem_alloc(c, GFP_NOWAIT|__GFP_NOWARN);
-   798		if (!b) {
-   799			mutex_unlock(&bc->lock);
-   800			bch2_trans_unlock(trans);
-   801			b = __btree_node_mem_alloc(c, GFP_KERNEL);
-   802			if (!b)
-   803				goto err;
-   804			mutex_lock(&bc->lock);
-   805		}
-   806	
-   807		bch2_btree_lock_init(&b->c, pcpu_read_locks ? SIX_LOCK_INIT_PCPU : 0);
-   808	
-   809		BUG_ON(!six_trylock_intent(&b->c.lock));
-   810		BUG_ON(!six_trylock_write(&b->c.lock));
-   811	
-   812	got_node:
-   813		/*
-   814		 * btree_free() doesn't free memory; it sticks the node on the end of
-   815		 * the list. Check if there's any freed nodes there:
-   816		 */
-   817		list_for_each_entry(b2, &bc->freeable, list)
-   818			if (!btree_node_reclaim(c, b2, false)) {
-   819				swap(b->data, b2->data);
-   820				swap(b->aux_data, b2->aux_data);
-   821	
-   822				list_del_init(&b2->list);
-   823				--bc->nr_freeable;
-   824				btree_node_to_freedlist(bc, b2);
-   825				mutex_unlock(&bc->lock);
-   826	
-   827				six_unlock_write(&b2->c.lock);
-   828				six_unlock_intent(&b2->c.lock);
-   829				goto got_mem;
-   830			}
-   831	
-   832		mutex_unlock(&bc->lock);
-   833	
- > 834		if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
-   835				      btree_node_data_alloc(c, b, GFP_KERNEL|__GFP_NOWARN))) {
-   836			bch2_trans_unlock(trans);
-   837			if (btree_node_data_alloc(c, b, GFP_KERNEL|__GFP_NOWARN))
-   838				goto err;
-   839		}
-   840	
-   841	got_mem:
-   842		BUG_ON(!list_empty(&b->list));
-   843		BUG_ON(btree_node_hashed(b));
-   844		BUG_ON(btree_node_dirty(b));
-   845		BUG_ON(btree_node_write_in_flight(b));
-   846	out:
-   847		b->flags		= 0;
-   848		b->written		= 0;
-   849		b->nsets		= 0;
-   850		b->sib_u64s[0]		= 0;
-   851		b->sib_u64s[1]		= 0;
-   852		b->whiteout_u64s	= 0;
-   853		bch2_btree_keys_init(b);
-   854		set_btree_node_accessed(b);
-   855	
-   856		bch2_time_stats_update(&c->times[BCH_TIME_btree_node_mem_alloc],
-   857				       start_time);
-   858	
-   859		int ret = bch2_trans_relock(trans);
-   860		if (unlikely(ret)) {
-   861			bch2_btree_node_to_freelist(c, b);
-   862			return ERR_PTR(ret);
-   863		}
-   864	
-   865		return b;
-   866	err:
-   867		mutex_lock(&bc->lock);
-   868	
-   869		/* Try to cannibalize another cached btree node: */
-   870		if (bc->alloc_lock == current) {
-   871			b2 = btree_node_cannibalize(c);
-   872			clear_btree_node_just_written(b2);
-   873			__bch2_btree_node_hash_remove(bc, b2);
-   874	
-   875			if (b) {
-   876				swap(b->data, b2->data);
-   877				swap(b->aux_data, b2->aux_data);
-   878				btree_node_to_freedlist(bc, b2);
-   879				six_unlock_write(&b2->c.lock);
-   880				six_unlock_intent(&b2->c.lock);
-   881			} else {
-   882				b = b2;
-   883			}
-   884	
-   885			BUG_ON(!list_empty(&b->list));
-   886			mutex_unlock(&bc->lock);
-   887	
-   888			trace_and_count(c, btree_cache_cannibalize, trans);
-   889			goto out;
-   890		}
-   891	
-   892		mutex_unlock(&bc->lock);
-   893		return ERR_PTR(-BCH_ERR_ENOMEM_btree_node_mem_alloc);
-   894	}
-   895	
+		return IOMEM_ERR_PTR(-EINVAL);
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
