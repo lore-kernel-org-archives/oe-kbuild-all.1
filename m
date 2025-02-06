@@ -1,83 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail-m49204.qiye.163.com (mail-m49204.qiye.163.com [45.254.49.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C1C1225A44
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 09:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A7C18B477
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 09:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738832995; cv=none; b=nGVI3SWdyn+o5V21bYcJTWaiecHcpyHXd193qHSTOo5JWt/VeN9j0EaeCKIRHf6Dmpre/QzyQj1EJeX91MjXqMl5IKeslq5WEa2Zj2hzUEMlWp8/mUdHrjSlEoB/qHk1sTVKJTzWFMDXdK5yxQozMlqd5ndPhlKDvz+EiugcxDQ=
+	t=1738833371; cv=none; b=kAWNJskS/3OAZ6M3jDEAbj4IZPUTYqnvphCbPJ3qTq76CCko5oTEUJVH9lA+O8R5T5nQG8D+TFRebkApYlGbxDQJGQRUV11CL5fFpUZrZ5KN2oAHDhd2MLx9zT4V/q6TnX6F3TucqSkeEPSC8Hn4NyKXCai5pj43lesHTTq9cug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738832995; c=relaxed/simple;
-	bh=MllZBxDuR5xB1AcuV5XtF31ktGOF3bW531gMTSloiiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j/FI5ewr+wZIvGHzbEtXOtvoAl9ULxCDvIvUchZU3s/Ua4z5XGrkxXRJXn4/cvftgKorZs+31p0bOOOpNXv79KwV8UMtvhG9SrniQqmKutGv2hLfpyOFw1s2yzaWuO9h77UwWljEBYw8aPtQ6TPXVZF68RvxdXP97dCUJwH94Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HkECtiUT; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738833371; c=relaxed/simple;
+	bh=UUe7zqsK9R8R0GZjgCi/GJIsPenPnBTS936aWBRKrc8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NXuM5nj976ibwpJoli42zIAbPRKzNr4HNbQPXsAwN/1DA4HBF5hW13ZS7jK5EfLEaX9oKpM+uIYe2j1L7ijNfheTLDowAOriKe8Sf3oXO9p4icYfRYEqzG06v9ByGTTWbaopXqguLn2iFkv2y41DXvKw3xoxYNsOxdoK6z5pEZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=fFR6cGq9; arc=none smtp.client-ip=45.254.49.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkECtiUT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738832994; x=1770368994;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MllZBxDuR5xB1AcuV5XtF31ktGOF3bW531gMTSloiiY=;
-  b=HkECtiUTI9jV/v7dflC+PS8z9bLisYUZJ31F00z4WKzUBpMeOidDX5dk
-   N1RHhmRvlrdbmX9kcE8V522GqKrvuOhuST0cf1DnRjCo7iKTM9wNLjeJm
-   jROEckZHzs3wGGeYVwL+IsX4byJdfQHiv37KLgwHalt1ePR9BcztWA54o
-   5bJYndYCkHeSOxoYn0/A4GMsn7mIT1ZlDYCNNze0S+ojTz3AgGShx8wDF
-   GWcADggyTAnxasCkf0Ru4JxspCt8LnAFs9y5Dfo+YijJvDZoMtaLdVthc
-   OBsbtqqhHvWYeQA7ZWOmwjZor04Ti6x5ytVnYR3IX9086bYtJLPbA3sQ3
-   g==;
-X-CSE-ConnectionGUID: h7E26SjeTleKw/zLc0eEwA==
-X-CSE-MsgGUID: KKO6DsGFShOAhin2O42yJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="61902437"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="61902437"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 01:09:53 -0800
-X-CSE-ConnectionGUID: FWSYz/9qTO+Rn1Y4O9nrvw==
-X-CSE-MsgGUID: FOezAQpBQcavEEE3cEuNUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148354636"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Feb 2025 01:09:52 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tfxtN-000wep-2G;
-	Thu, 06 Feb 2025 09:09:49 +0000
-Date: Thu, 6 Feb 2025 17:09:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2723/2723] net/tls/tls_device.o: warning:
- objtool: tls_device_rx_resync_new_rec()+0x941: unreachable instruction
-Message-ID: <202502061607.3EO2vKCF-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="fFR6cGq9"
+Received: from [192.168.6.2] (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a5118189;
+	Thu, 6 Feb 2025 17:10:51 +0800 (GMT+08:00)
+Message-ID: <52f55e71-c48e-45fd-8d5e-876264cc1fc7@cqsoftware.com.cn>
+Date: Thu, 6 Feb 2025 17:10:50 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [lwn:docs-next 9/11] htmldocs: Warning:
+ Documentation/translations/zh_CN/security/credentials.rst references a file
+ that doesn't exist: Documentation/translations/zh_CN/security/keys/*
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Yanteng Si <si.yanteng@linux.dev>,
+ Alex Shi <alexs@kernel.org>
+References: <202502050403.uFwUnStI-lkp@intel.com>
+From: zhaoshuo <zhaoshuo@cqsoftware.com.cn>
+In-Reply-To: <202502050403.uFwUnStI-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTh1PVkoYTkhCH05KQx4YTFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94da86c07b09d0kunma5118189
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Myo6CSo4ETIJSwgvDxoTKiMc
+	Dj4wFBZVSlVKTEhDQ0hIS05JTEhIVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSU9JQjcG
+DKIM-Signature:a=rsa-sha256;
+	b=fFR6cGq9eJOcdeLcxiyLxH0B/Qm9+JnAfg0obiDaMYiGwJsCpMveo3+tWuxQXBtD1qwG9Bz7d7M1cX782OG15xsUXoM+qLBwtsfB0ZEyN1EQB/FNxLDgMORrnrTGV8jsCSZKrsE6DcNb1g1BPzlHuo2wut8Lwdo3naMMzr1cYp0=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=cyRk1f9a3qigXehXxrwyIBWgGE9b9zqiTJzAb5RTp18=;
+	h=date:mime-version:subject:message-id:from;
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   86893ebd6e3edffebb8d7dc1091533735c6bb082
-commit: f2c902d8c653f8021f9761092a27f7b9db42b662 [2723/2723] tracing: Make tracepoint lockdep check actually test something
-config: x86_64-randconfig-102-20250206 (https://download.01.org/0day-ci/archive/20250206/202502061607.3EO2vKCF-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061607.3EO2vKCF-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502061607.3EO2vKCF-lkp@intel.com/
+在 2025/2/5 4:55, kernel test robot 写道:
+> tree:   git://git.lwn.net/linux.git docs-next
+> head:   e8bcda12176c47f2ce6c5104955845d028a640e8
+> commit: f5c7cc77acf5abebc5aec4f4236954c23f29e09b [9/11] docs/zh_CN: Add security credentials Chinese translation
+> reproduce: (https://download.01.org/0day-ci/archive/20250205/202502050403.uFwUnStI-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502050403.uFwUnStI-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>     Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>     Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>     Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+>     Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+>     Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>>> Warning: Documentation/translations/zh_CN/security/credentials.rst references a file that doesn't exist: Documentation/translations/zh_CN/security/keys/*
 
-All warnings (new ones prefixed by >>):
 
->> net/tls/tls_device.o: warning: objtool: tls_device_rx_resync_new_rec()+0x941: unreachable instruction
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ok，This document will be added later.
+
+Thanks，
+
+ZhaoShuo
+
+>     Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+>     Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>     Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>     Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+>     Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+>
