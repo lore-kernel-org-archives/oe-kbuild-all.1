@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF25BBE49;
-	Thu,  6 Feb 2025 01:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C48F32C85
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 01:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738806012; cv=none; b=OJ0XfCuNbz+2oq48KB5OYu01tG7WuvtxJDaKl8tdLYSTGYoKurw74642tAgFnhymc6MPW5/5vHzRMiX+PkNfh3RxCW4O88OdfsgFwfoon2X3iDYMs/FIQAiKxlYXyw9d8BOb00jN1CMWamDcQIusw6GrwrA9byxTJ/PNBKtJrL4=
+	t=1738806013; cv=none; b=ZFBPkjVtqk/iIVvgohv3UHKx3ugXBDsuWSonS/B7x/aDbujIbgh7q15LTbOmmzeqmNMFlI+X+6JgI+mRbbRkKzGk2o5UBsE/aiiO4+XvHxdurw4RqV2/YmH5Mcirj40O6pXV0YRu8NCJ14oOkE6n8qBwKwg1cqAOJ+xNByrA3vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738806012; c=relaxed/simple;
-	bh=W9pDPPAcog5toBT+xp8jBBC7LxadDyj4qTaMyXUs+RU=;
+	s=arc-20240116; t=1738806013; c=relaxed/simple;
+	bh=ezFWX4ZcbDQu97v6ePkekA/w+Bh1RFcksrh5/+ha+SE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F8ayfUfokLqxKB3V2xwfwzN9MFz41rNfBGQu9H/rQjdYKd0j8xZbGTNhCsAkHMO5Djuy49i4Uu06dJ9SPT4gNJkyiLRUxWBwofaIr91MMIViiE/cOpmtY7Q9whi4tTQfIf9sG9Iiv7w0w8BWEbFPKUqRk1a5hWYcNa3io+xTB38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfMB2mE2; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=CFzAzRPA5lD23+9s+UYQOjbfBeG9FFnlDj8dsIULy1JgLqUzrL58Om8nIEL8E/f7vUDDm+y8caJiTHlLqlkAKT/J3FzB6mWFiuucL2g0ofSs6R0e5jCFCXZcL3vpe96bAN2TyBTKMvOOGQ833qD76pnMbbrBIVjXoWxFMidPIw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtFfNTnA; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfMB2mE2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtFfNTnA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1738806011; x=1770342011;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W9pDPPAcog5toBT+xp8jBBC7LxadDyj4qTaMyXUs+RU=;
-  b=nfMB2mE2+FLUw/uyis6XXdqeJkAcLEF9UNS0KfsDqqWHC3Ca5cHWGhKk
-   dBmUCRwZYTLppJUKfusIr+PfjQ0kV+3D4zMXGQan4JBQtw4RLw3IvvoJA
-   GwcXDr/rJOshBu16IuuLgsmmBgfOjEErQ4FWkwS7VhQxhxY3jW9WMHWIK
-   7qemhUSOF0A1d6irOfDC32VC6FICqMKCOMrb9o6dVCFjum6fUNb9rU49I
-   tt2LrQAPXlT5qCiZBkTjaLTH/0Z2mQZ8+iQmoLT4g+QJXlNAj9l346DJs
-   KJVowttfyhJNz0Xq0jEuQy5RMSxGR7Z9elW81Ua+hTx28+/NoEVzxcni2
+  bh=ezFWX4ZcbDQu97v6ePkekA/w+Bh1RFcksrh5/+ha+SE=;
+  b=BtFfNTnAndrZ8citTdzzVO7e292dW9Ei8eiI1Rn+4jWUBItoPPX+Xw4G
+   YxSLMXrYikQswWOuC4v3DQsTjd5YSwATfg7941Lallurwjl0W5IB4dwK/
+   TsYVVV4ke0zdshugZn30F9XLqRzTGLWb5ZicMQXQ9syAiLyScxY/OY4XZ
+   d9RkVsUm85r0BoTlFU3fLHSUJVg4OhWBBPRQz2LWP7y2TKSNRcaYrhlA5
+   q7FZDdvMqB5fkWRSOhqyaXmPBfMWCHcKCDWXoHLscj0uHI3gOFzDYbyX3
+   6di3HKuc9tHMvMZ6x7tVl5ltjddJ9OjgvA+mVvj4R9e7m7ehzk7QXmNrF
    g==;
-X-CSE-ConnectionGUID: FwNxXyzZR2iqcavjsUEFUg==
-X-CSE-MsgGUID: oaHbP5qFQyys6HJXacUmKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50015765"
+X-CSE-ConnectionGUID: eUa5awZ+Txu54dlTW3dqlw==
+X-CSE-MsgGUID: D4dyJzOlTLuvnPKNYF4Ghg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38627177"
 X-IronPort-AV: E=Sophos;i="6.13,263,1732608000"; 
-   d="scan'208";a="50015765"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 17:40:10 -0800
-X-CSE-ConnectionGUID: vNi0daFcRla4hQroCidfkg==
-X-CSE-MsgGUID: s8bWwbmXT5yxpWw8uSoU+g==
+   d="scan'208";a="38627177"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2025 17:40:10 -0800
+X-CSE-ConnectionGUID: bvieQUgJTMqpkAKx43Hylg==
+X-CSE-MsgGUID: dPf9ilClTkSSgIphc6kt7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="141949807"
+   d="scan'208";a="148264502"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Feb 2025 17:40:09 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Feb 2025 17:40:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tfqsA-000wKn-20;
+	id 1tfqsA-000wKl-1w;
 	Thu, 06 Feb 2025 01:40:06 +0000
-Date: Thu, 6 Feb 2025 09:39:16 +0800
+Date: Thu, 6 Feb 2025 09:39:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Boqun Feng <boqun.feng@gmail.com>
-Subject: [rcu:torture.2025.02.04a 1/10] kernel/rcu/rcutorture.c:1152:33:
- error: call to undeclared function 'get_torture_init_jiffies'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202502060904.wYhRuUph-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis 21/21] lib/stackdepot.c:660:4: warning: calling
+ function 'depot_alloc_stack' requires holding raw_spinlock 'pool_lock'
+ exclusively
+Message-ID: <202502060903.57HEAr6G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,133 +63,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git torture.2025.02.04a
-head:   7b4389d6456ab5bca223c6cd4829724d984c8511
-commit: 65c7582d8315f7f0451eac635d803b2def726d44 [1/10] rcutorture: Add a test_boost_holdoff module parameter
-config: i386-buildonly-randconfig-004-20250206 (https://download.01.org/0day-ci/archive/20250206/202502060904.wYhRuUph-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis
+head:   a0d770da40bf833f1f658fc84741c8f3fee2a385
+commit: a0d770da40bf833f1f658fc84741c8f3fee2a385 [21/21] stackdepot: Enable capability analysis
+config: x86_64-buildonly-randconfig-003-20250206 (https://download.01.org/0day-ci/archive/20250206/202502060903.57HEAr6G-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060904.wYhRuUph-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502060903.57HEAr6G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502060904.wYhRuUph-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502060903.57HEAr6G-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/rcu/rcutorture.c:1152:33: error: call to undeclared function 'get_torture_init_jiffies'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1152 |         unsigned long booststarttime = get_torture_init_jiffies() + test_boost_holdoff * HZ;
-         |                                        ^
-   1 error generated.
+   lib/stackdepot.c:654:2: warning: raw_spinlock 'pool_lock' is not held on every path through here [-Wthread-safety-analysis]
+     654 |         printk_deferred_enter();
+         |         ^
+   include/linux/printk.h:177:33: note: expanded from macro 'printk_deferred_enter'
+     177 | #define printk_deferred_enter() __printk_deferred_enter()
+         |                                 ^
+   lib/stackdepot.c:652:3: note: raw_spinlock acquired here
+     652 |                 raw_spin_lock_irqsave(&pool_lock, flags);
+         |                 ^
+   include/linux/spinlock.h:245:11: note: expanded from macro 'raw_spin_lock_irqsave'
+     245 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                         ^
+>> lib/stackdepot.c:660:4: warning: calling function 'depot_alloc_stack' requires holding raw_spinlock 'pool_lock' exclusively [-Wthread-safety-analysis]
+     660 |                         depot_alloc_stack(entries, nr_entries, hash, depot_flags, &prealloc);
+         |                         ^
+>> lib/stackdepot.c:678:3: warning: calling function 'depot_keep_new_pool' requires holding raw_spinlock 'pool_lock' exclusively [-Wthread-safety-analysis]
+     678 |                 depot_keep_new_pool(&prealloc);
+         |                 ^
+>> lib/stackdepot.c:682:2: warning: releasing raw_spinlock 'pool_lock' that was not held [-Wthread-safety-analysis]
+     682 |         raw_spin_unlock_irqrestore(&pool_lock, flags);
+         |         ^
+   include/linux/spinlock.h:283:3: note: expanded from macro 'raw_spin_unlock_irqrestore'
+     283 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
+         |                 ^
+   4 warnings generated.
 
 
-vim +/get_torture_init_jiffies +1152 kernel/rcu/rcutorture.c
+vim +660 lib/stackdepot.c
 
-  1145	
-  1146	static int rcu_torture_boost(void *arg)
-  1147	{
-  1148		unsigned long endtime;
-  1149		unsigned long gp_state;
-  1150		unsigned long gp_state_time;
-  1151		unsigned long oldstarttime;
-> 1152		unsigned long booststarttime = get_torture_init_jiffies() + test_boost_holdoff * HZ;
-  1153	
-  1154		if (test_boost_holdoff <= 0 || time_after(jiffies, booststarttime)) {
-  1155			VERBOSE_TOROUT_STRING("rcu_torture_boost started");
-  1156		} else {
-  1157			VERBOSE_TOROUT_STRING("rcu_torture_boost started holdoff period");
-  1158			while (time_before(jiffies, booststarttime)) {
-  1159				schedule_timeout_idle(HZ);
-  1160				if (kthread_should_stop())
-  1161					goto cleanup;
-  1162			}
-  1163			VERBOSE_TOROUT_STRING("rcu_torture_boost finished holdoff period");
-  1164		}
-  1165	
-  1166		/* Set real-time priority. */
-  1167		sched_set_fifo_low(current);
-  1168	
-  1169		/* Each pass through the following loop does one boost-test cycle. */
-  1170		do {
-  1171			bool failed = false; // Test failed already in this test interval
-  1172			bool gp_initiated = false;
-  1173	
-  1174			if (kthread_should_stop())
-  1175				goto checkwait;
-  1176	
-  1177			/* Wait for the next test interval. */
-  1178			oldstarttime = READ_ONCE(boost_starttime);
-  1179			while (time_before(jiffies, oldstarttime)) {
-  1180				schedule_timeout_interruptible(oldstarttime - jiffies);
-  1181				if (stutter_wait("rcu_torture_boost"))
-  1182					sched_set_fifo_low(current);
-  1183				if (torture_must_stop())
-  1184					goto checkwait;
-  1185			}
-  1186	
-  1187			// Do one boost-test interval.
-  1188			endtime = oldstarttime + test_boost_duration * HZ;
-  1189			while (time_before(jiffies, endtime)) {
-  1190				// Has current GP gone too long?
-  1191				if (gp_initiated && !failed && !cur_ops->poll_gp_state(gp_state))
-  1192					failed = rcu_torture_boost_failed(gp_state, &gp_state_time);
-  1193				// If we don't have a grace period in flight, start one.
-  1194				if (!gp_initiated || cur_ops->poll_gp_state(gp_state)) {
-  1195					gp_state = cur_ops->start_gp_poll();
-  1196					gp_initiated = true;
-  1197					gp_state_time = jiffies;
-  1198				}
-  1199				if (stutter_wait("rcu_torture_boost")) {
-  1200					sched_set_fifo_low(current);
-  1201					// If the grace period already ended,
-  1202					// we don't know when that happened, so
-  1203					// start over.
-  1204					if (cur_ops->poll_gp_state(gp_state))
-  1205						gp_initiated = false;
-  1206				}
-  1207				if (torture_must_stop())
-  1208					goto checkwait;
-  1209			}
-  1210	
-  1211			// In case the grace period extended beyond the end of the loop.
-  1212			if (gp_initiated && !failed && !cur_ops->poll_gp_state(gp_state))
-  1213				rcu_torture_boost_failed(gp_state, &gp_state_time);
-  1214	
-  1215			/*
-  1216			 * Set the start time of the next test interval.
-  1217			 * Yes, this is vulnerable to long delays, but such
-  1218			 * delays simply cause a false negative for the next
-  1219			 * interval.  Besides, we are running at RT priority,
-  1220			 * so delays should be relatively rare.
-  1221			 */
-  1222			while (oldstarttime == READ_ONCE(boost_starttime) && !kthread_should_stop()) {
-  1223				if (mutex_trylock(&boost_mutex)) {
-  1224					if (oldstarttime == boost_starttime) {
-  1225						WRITE_ONCE(boost_starttime,
-  1226							   jiffies + test_boost_interval * HZ);
-  1227						n_rcu_torture_boosts++;
-  1228					}
-  1229					mutex_unlock(&boost_mutex);
-  1230					break;
-  1231				}
-  1232				schedule_timeout_uninterruptible(HZ / 20);
-  1233			}
-  1234	
-  1235			/* Go do the stutter. */
-  1236	checkwait:	if (stutter_wait("rcu_torture_boost"))
-  1237				sched_set_fifo_low(current);
-  1238		} while (!torture_must_stop());
-  1239	
-  1240	cleanup:
-  1241		/* Clean up and exit. */
-  1242		while (!kthread_should_stop()) {
-  1243			torture_shutdown_absorb("rcu_torture_boost");
-  1244			schedule_timeout_uninterruptible(HZ / 20);
-  1245		}
-  1246		torture_kthread_stopping("rcu_torture_boost");
-  1247		return 0;
-  1248	}
-  1249	
+cd11016e5f5212 Alexander Potapenko 2016-03-25  595  
+022012dcf44209 Andrey Konovalov    2023-11-20  596  depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
+c0cfc337264c5e Thomas Gleixner     2019-04-25  597  					    unsigned int nr_entries,
+022012dcf44209 Andrey Konovalov    2023-11-20  598  					    gfp_t alloc_flags,
+022012dcf44209 Andrey Konovalov    2023-11-20  599  					    depot_flags_t depot_flags)
+cd11016e5f5212 Alexander Potapenko 2016-03-25  600  {
+4805180bc16523 Andrey Konovalov    2023-11-20  601  	struct list_head *bucket;
+4805180bc16523 Andrey Konovalov    2023-11-20  602  	struct stack_record *found = NULL;
+603c000c115b40 Andrey Konovalov    2023-11-20  603  	depot_stack_handle_t handle = 0;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  604  	struct page *page = NULL;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  605  	void *prealloc = NULL;
+022012dcf44209 Andrey Konovalov    2023-11-20  606  	bool can_alloc = depot_flags & STACK_DEPOT_FLAG_CAN_ALLOC;
+c0cfc337264c5e Thomas Gleixner     2019-04-25  607  	unsigned long flags;
+c0cfc337264c5e Thomas Gleixner     2019-04-25  608  	u32 hash;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  609  
+022012dcf44209 Andrey Konovalov    2023-11-20  610  	if (WARN_ON(depot_flags & ~STACK_DEPOT_FLAGS_MASK))
+022012dcf44209 Andrey Konovalov    2023-11-20  611  		return 0;
+022012dcf44209 Andrey Konovalov    2023-11-20  612  
+e940066089490e Marco Elver         2022-01-21  613  	/*
+e940066089490e Marco Elver         2022-01-21  614  	 * If this stack trace is from an interrupt, including anything before
+e940066089490e Marco Elver         2022-01-21  615  	 * interrupt entry usually leads to unbounded stack depot growth.
+e940066089490e Marco Elver         2022-01-21  616  	 *
+b232b9995a6dba Andrey Konovalov    2023-02-10  617  	 * Since use of filter_irq_stacks() is a requirement to ensure stack
+b232b9995a6dba Andrey Konovalov    2023-02-10  618  	 * depot can efficiently deduplicate interrupt stacks, always
+e940066089490e Marco Elver         2022-01-21  619  	 * filter_irq_stacks() to simplify all callers' use of stack depot.
+e940066089490e Marco Elver         2022-01-21  620  	 */
+e940066089490e Marco Elver         2022-01-21  621  	nr_entries = filter_irq_stacks(entries, nr_entries);
+e940066089490e Marco Elver         2022-01-21  622  
+735df3c3a3493c Andrey Konovalov    2023-02-10  623  	if (unlikely(nr_entries == 0) || stack_depot_disabled)
+603c000c115b40 Andrey Konovalov    2023-11-20  624  		return 0;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  625  
+c0cfc337264c5e Thomas Gleixner     2019-04-25  626  	hash = hash_stack(entries, nr_entries);
+f9987921cb541b Vlastimil Babka     2022-06-20  627  	bucket = &stack_table[hash & stack_hash_mask];
+cd11016e5f5212 Alexander Potapenko 2016-03-25  628  
+4434a56ec20925 Marco Elver         2024-01-18  629  	/* Fast path: look the stack trace up without locking. */
+4434a56ec20925 Marco Elver         2024-01-18  630  	found = find_stack(bucket, entries, nr_entries, hash, depot_flags);
+4434a56ec20925 Marco Elver         2024-01-18  631  	if (found)
+cd11016e5f5212 Alexander Potapenko 2016-03-25  632  		goto exit;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  633  
+cd11016e5f5212 Alexander Potapenko 2016-03-25  634  	/*
+a6cd957021f2bb Andrey Konovalov    2023-11-20  635  	 * Allocate memory for a new pool if required now:
+a6cd957021f2bb Andrey Konovalov    2023-11-20  636  	 * we won't be able to do that under the lock.
+cd11016e5f5212 Alexander Potapenko 2016-03-25  637  	 */
+31639fd6cebd4f Marco Elver         2024-01-29  638  	if (unlikely(can_alloc && !READ_ONCE(new_pool))) {
+70c435ca8dcb64 Dave Chinner        2024-04-30  639  		page = alloc_pages(gfp_nested_mask(alloc_flags),
+70c435ca8dcb64 Dave Chinner        2024-04-30  640  				   DEPOT_POOL_ORDER);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  641  		if (page)
+cd11016e5f5212 Alexander Potapenko 2016-03-25  642  			prealloc = page_address(page);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  643  	}
+cd11016e5f5212 Alexander Potapenko 2016-03-25  644  
+031e04bdc834cd Marco Elver         2024-11-22  645  	if (in_nmi()) {
+031e04bdc834cd Marco Elver         2024-11-22  646  		/* We can never allocate in NMI context. */
+031e04bdc834cd Marco Elver         2024-11-22  647  		WARN_ON_ONCE(can_alloc);
+031e04bdc834cd Marco Elver         2024-11-22  648  		/* Best effort; bail if we fail to take the lock. */
+031e04bdc834cd Marco Elver         2024-11-22  649  		if (!raw_spin_trylock_irqsave(&pool_lock, flags))
+031e04bdc834cd Marco Elver         2024-11-22  650  			goto exit;
+031e04bdc834cd Marco Elver         2024-11-22  651  	} else {
+4434a56ec20925 Marco Elver         2024-01-18  652  		raw_spin_lock_irqsave(&pool_lock, flags);
+031e04bdc834cd Marco Elver         2024-11-22  653  	}
+a914d8d6cf2042 Andrey Konovalov    2023-12-19  654  	printk_deferred_enter();
+cd11016e5f5212 Alexander Potapenko 2016-03-25  655  
+4434a56ec20925 Marco Elver         2024-01-18  656  	/* Try to find again, to avoid concurrently inserting duplicates. */
+4434a56ec20925 Marco Elver         2024-01-18  657  	found = find_stack(bucket, entries, nr_entries, hash, depot_flags);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  658  	if (!found) {
+b232b9995a6dba Andrey Konovalov    2023-02-10  659  		struct stack_record *new =
+31639fd6cebd4f Marco Elver         2024-01-29 @660  			depot_alloc_stack(entries, nr_entries, hash, depot_flags, &prealloc);
+7f2b8818ea1361 Marco Elver         2021-11-05  661  
+cd11016e5f5212 Alexander Potapenko 2016-03-25  662  		if (new) {
+4434a56ec20925 Marco Elver         2024-01-18  663  			/*
+4434a56ec20925 Marco Elver         2024-01-18  664  			 * This releases the stack record into the bucket and
+4434a56ec20925 Marco Elver         2024-01-18  665  			 * makes it visible to readers in find_stack().
+4434a56ec20925 Marco Elver         2024-01-18  666  			 */
+4434a56ec20925 Marco Elver         2024-01-18  667  			list_add_rcu(&new->hash_list, bucket);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  668  			found = new;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  669  		}
+4434a56ec20925 Marco Elver         2024-01-18  670  	}
+4434a56ec20925 Marco Elver         2024-01-18  671  
+4434a56ec20925 Marco Elver         2024-01-18  672  	if (prealloc) {
+cd11016e5f5212 Alexander Potapenko 2016-03-25  673  		/*
+4434a56ec20925 Marco Elver         2024-01-18  674  		 * Either stack depot already contains this stack trace, or
+4434a56ec20925 Marco Elver         2024-01-18  675  		 * depot_alloc_stack() did not consume the preallocated memory.
+4434a56ec20925 Marco Elver         2024-01-18  676  		 * Try to keep the preallocated memory for future.
+cd11016e5f5212 Alexander Potapenko 2016-03-25  677  		 */
+b6a353d3ebc2b5 Andrey Konovalov    2023-11-20 @678  		depot_keep_new_pool(&prealloc);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  679  	}
+cd11016e5f5212 Alexander Potapenko 2016-03-25  680  
+a914d8d6cf2042 Andrey Konovalov    2023-12-19  681  	printk_deferred_exit();
+4434a56ec20925 Marco Elver         2024-01-18 @682  	raw_spin_unlock_irqrestore(&pool_lock, flags);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  683  exit:
+cd11016e5f5212 Alexander Potapenko 2016-03-25  684  	if (prealloc) {
+b232b9995a6dba Andrey Konovalov    2023-02-10  685  		/* Stack depot didn't use this memory, free it. */
+424cafee4a9c66 Andrey Konovalov    2023-02-10  686  		free_pages((unsigned long)prealloc, DEPOT_POOL_ORDER);
+cd11016e5f5212 Alexander Potapenko 2016-03-25  687  	}
+cd11016e5f5212 Alexander Potapenko 2016-03-25  688  	if (found)
+603c000c115b40 Andrey Konovalov    2023-11-20  689  		handle = found->handle.handle;
+603c000c115b40 Andrey Konovalov    2023-11-20  690  	return handle;
+cd11016e5f5212 Alexander Potapenko 2016-03-25  691  }
+022012dcf44209 Andrey Konovalov    2023-11-20  692  EXPORT_SYMBOL_GPL(stack_depot_save_flags);
+11ac25c62cd2f3 Marco Elver         2021-11-05  693  
+
+:::::: The code at line 660 was first introduced by commit
+:::::: 31639fd6cebd4fc3687cceda14814f140c9fd95b stackdepot: use variable size records for non-evictable entries
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
