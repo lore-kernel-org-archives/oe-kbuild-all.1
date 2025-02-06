@@ -1,164 +1,320 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4CC0225A34
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 09:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F9022C352;
+	Thu,  6 Feb 2025 09:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738833606; cv=none; b=Qe2nDdhuyQbA6ZC71+mcr5v9I42uVEPJ4G6DJCRBtgpTWoeH0b1dAfqHcrpfbjlB1HLT+VrLGIURxsCRB6aCwrbkAbnwC7cPBCWWmrHKE0GArzDKwD3dmy1XMZswVr1xRr/TWlv0K1mm2tpFwf5znSrxZCdWT4hhg6+rhthHevc=
+	t=1738834324; cv=none; b=CN7e18Bv4qxCC5i2kHB0BpWcQATdRAK4xvqXsrPnJsjJoIXQEMCwTjfL3dZpBH2ELN2rL6AY6LiIznUFPMLbBala1yYyAKrgaNZZ6+Aq+h8NbWqXphpZZsS6q49gP+mElt73m/RElB0kWOaYz05e0S/S42jEb+Yaxs3U5csqUuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738833606; c=relaxed/simple;
-	bh=QLBpb7Dh5FlSdfYTMWiGRZqWmT2NxG9TZMJ70mXobAM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SKmqYzolzVSZw2J/Y3+jmZNyGuQPVVeEH0ihcZMu/3NOMHP09cZbOyDI1kbhpHPc6xxB5ZbtzsuJifSzmv7tPdEHiZwAN5b29HPz5WQefc62wlH588MuUWxV44xOxIuLloHvc+g//O8wXHONkxOLM0qtpC7Vi0c5kCkTCMLMQgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4YpW2113VQz9sPd;
-	Thu,  6 Feb 2025 09:47:21 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id weBgdKPzt__3; Thu,  6 Feb 2025 09:47:21 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4YpW210799z9rvV;
-	Thu,  6 Feb 2025 09:47:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id EB5948B774;
-	Thu,  6 Feb 2025 09:47:20 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id ZfJe-ItsVFtx; Thu,  6 Feb 2025 09:47:20 +0100 (CET)
-Received: from [192.168.202.221] (unknown [192.168.202.221])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 2788C8B763;
-	Thu,  6 Feb 2025 09:47:20 +0100 (CET)
-Message-ID: <5c99458f-4a91-485f-8a35-3618a992e2e4@csgroup.eu>
-Date: Thu, 6 Feb 2025 09:47:18 +0100
+	s=arc-20240116; t=1738834324; c=relaxed/simple;
+	bh=ebn36sY7VM8LnTISOZn8OjLwV8d2NBTHyEeM0+XORdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hnY4gNlaE6/0X8wp0TkC2G7kvW/OI71n3ATOg8UGjtdgKlZ9qv88RyImms5yZQ06mzwCi3dORnWX4Fp1e7VKFiPonmoqFoVESlZilYMeJXonqPnXZLzbOZfUNeA4PjSoWgs+WMaSQiiiNVk5tvZ4XTUZn5bzyi2kx284rNBTNeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ezp08FrK; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ezp08FrK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738834321; x=1770370321;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ebn36sY7VM8LnTISOZn8OjLwV8d2NBTHyEeM0+XORdo=;
+  b=Ezp08FrKX3ZON+A5Fq586XEFH8nqv5G3NhqXVfdtRzmskwbDY4ge3Fv5
+   RlSRKMKPRXelA8vZMyQ5yyqphhNEZrbnsvTWglWgyJQg0srFZoerkWUpV
+   GvQootZv68fl67EAzQPN6AW5TUQ/VGbheEuxwiv7/GdoiacNA/VDcPjf/
+   oCFyF6S0wc8dBQOx5pAJ8dptn2VyJXgLpCAJ2CSHnWEYVLU9J70PHZWTr
+   UpFq6Lp+xNTqvPLQkpP+E7S2F2v1TtI0CSCfHTpRegnOeQLs2pgEa99x8
+   uISHSSpowshvDYIwC7o5VJdT81CPdX0477OsyOWTiyg/haBM9ychCT4aV
+   Q==;
+X-CSE-ConnectionGUID: G98JT/lNTeimH6NLLk5Vwg==
+X-CSE-MsgGUID: Z/eSF6egQaKgHN6iRZF4HQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43090434"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="43090434"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 01:32:00 -0800
+X-CSE-ConnectionGUID: rOxyr2INRNKjy6DjPbY1vQ==
+X-CSE-MsgGUID: MaJHPNCPSqiEYN89QW45yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="111126000"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 06 Feb 2025 01:31:55 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfyEi-000wgd-0M;
+	Thu, 06 Feb 2025 09:31:52 +0000
+Date: Thu, 6 Feb 2025 17:31:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uday Shankar <ushankar@purestorage.com>,
+	Breno Leitao <leitao@debian.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-doc@vger.kernel.org, Uday Shankar <ushankar@purestorage.com>
+Subject: Re: [PATCH v2 1/2] net, treewide: define and use MAC_ADDR_LEN
+Message-ID: <202502061751.GNyqzMGp-lkp@intel.com>
+References: <20250204-netconsole-v2-1-5ef5eb5f6056@purestorage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: kismet: WARNING: unmet direct dependencies detected for HUGETLBFS
- when selected by PPC_8xx
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- kernel test robot <lkp@intel.com>
-References: <202501240611.LDmD2nkj-lkp@intel.com>
- <29cf621d-db67-6c5c-0dc5-ebe79edc6cc6@huawei.com>
- <08a51873-7510-4552-9bb1-3ea7ef9fbc2d@csgroup.eu>
- <0c0c6af5-7766-6cc0-d141-d725b84bef09@huawei.com>
- <5528c76d-d8f1-41be-a742-8bafa74c24f9@csgroup.eu>
- <d6c06a9c-4d43-4528-c5d1-019f91087f30@huawei.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <d6c06a9c-4d43-4528-c5d1-019f91087f30@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250204-netconsole-v2-1-5ef5eb5f6056@purestorage.com>
+
+Hi Uday,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c2933b2befe25309f4c5cfbea0ca80909735fd76]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uday-Shankar/net-treewide-define-and-use-MAC_ADDR_LEN/20250205-054620
+base:   c2933b2befe25309f4c5cfbea0ca80909735fd76
+patch link:    https://lore.kernel.org/r/20250204-netconsole-v2-1-5ef5eb5f6056%40purestorage.com
+patch subject: [PATCH v2 1/2] net, treewide: define and use MAC_ADDR_LEN
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250206/202502061751.GNyqzMGp-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250206/202502061751.GNyqzMGp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502061751.GNyqzMGp-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/scsi/qla4xxx/ql4_os.c:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/scsi/qla4xxx/ql4_os.c:15:
+>> drivers/scsi/qla4xxx/ql4_def.h:148:9: warning: 'MAC_ADDR_LEN' macro redefined [-Wmacro-redefined]
+     148 | #define MAC_ADDR_LEN                    6       /* in bytes */
+         |         ^
+   include/linux/if_ether.h:23:9: note: previous definition is here
+      23 | #define MAC_ADDR_LEN (3 * ETH_ALEN - 1)
+         |         ^
+   4 warnings generated.
+--
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c:4:
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8188ee/../wifi.h:11:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c:8:
+>> drivers/net/wireless/realtek/rtlwifi/rtl8188ee/reg.h:1230:9: warning: 'MAC_ADDR_LEN' macro redefined [-Wmacro-redefined]
+    1230 | #define MAC_ADDR_LEN                            6
+         |         ^
+   include/linux/if_ether.h:23:9: note: previous definition is here
+      23 | #define MAC_ADDR_LEN (3 * ETH_ALEN - 1)
+         |         ^
+   4 warnings generated.
+--
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8192ee/dm.c:4:
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8192ee/../wifi.h:11:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8192ee/dm.c:8:
+>> drivers/net/wireless/realtek/rtlwifi/rtl8192ee/reg.h:1192:9: warning: 'MAC_ADDR_LEN' macro redefined [-Wmacro-redefined]
+    1192 | #define MAC_ADDR_LEN                            6
+         |         ^
+   include/linux/if_ether.h:23:9: note: previous definition is here
+      23 | #define MAC_ADDR_LEN (3 * ETH_ALEN - 1)
+         |         ^
+   4 warnings generated.
+--
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8723ae/dm.c:4:
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8723ae/../wifi.h:11:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8723ae/dm.c:8:
+>> drivers/net/wireless/realtek/rtlwifi/rtl8723ae/reg.h:1194:9: warning: 'MAC_ADDR_LEN' macro redefined [-Wmacro-redefined]
+    1194 | #define MAC_ADDR_LEN                            6
+         |         ^
+   include/linux/if_ether.h:23:9: note: previous definition is here
+      23 | #define MAC_ADDR_LEN (3 * ETH_ALEN - 1)
+         |         ^
+   4 warnings generated.
+--
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8723be/dm.c:4:
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8723be/../wifi.h:11:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8723be/dm.c:8:
+>> drivers/net/wireless/realtek/rtlwifi/rtl8723be/reg.h:1245:9: warning: 'MAC_ADDR_LEN' macro redefined [-Wmacro-redefined]
+    1245 | #define MAC_ADDR_LEN                            6
+         |         ^
+   include/linux/if_ether.h:23:9: note: previous definition is here
+      23 | #define MAC_ADDR_LEN (3 * ETH_ALEN - 1)
+         |         ^
+   4 warnings generated.
+--
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c:4:
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8821ae/../wifi.h:11:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c:8:
+>> drivers/net/wireless/realtek/rtlwifi/rtl8821ae/reg.h:1274:9: warning: 'MAC_ADDR_LEN' macro redefined [-Wmacro-redefined]
+    1274 | #define MAC_ADDR_LEN                    6
+         |         ^
+   include/linux/if_ether.h:23:9: note: previous definition is here
+      23 | #define MAC_ADDR_LEN (3 * ETH_ALEN - 1)
+         |         ^
+   4 warnings generated.
 
 
+vim +/MAC_ADDR_LEN +148 drivers/scsi/qla4xxx/ql4_def.h
 
-Le 06/02/2025 à 08:12, Miaohe Lin a écrit :
-> On 2025/2/6 14:30, Christophe Leroy wrote:
->>
->>
->> Le 06/02/2025 à 03:08, Miaohe Lin a écrit :
->>> On 2025/2/6 0:35, Christophe Leroy wrote:
->>>>
->>>>
->>>> Le 05/02/2025 à 03:39, Miaohe Lin a écrit :
->>>>> On 2025/1/24 6:24, kernel test robot wrote:
->>>>>> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571348001%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=rpToSy%2BI2rTH5db2ST62gNZF0efdupnNQRpYevV2CRY%3D&reserved=0 master
->>>>>> head:   d0d106a2bd21499901299160744e5fe9f4c83ddb
->>>>>> commit: f8142cf94d4737ea0c3baffb3b9bad8addcb9b6b hugetlb: make hugetlb depends on SYSFS or SYSCTL
->>>>>> date:   2 years, 4 months ago
->>>>>> config: powerpc-kismet-CONFIG_HUGETLBFS-CONFIG_PPC_8xx-0-0 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571371397%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=27pzb6aOPaarlX2fX%2B3%2FvCp8GWwysleJoVw9L6Yrytc%3D&reserved=0)
->>>>>> reproduce: (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250124%2F202501240611.LDmD2nkj-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571381016%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=XEjM2tEaDz%2BINDJbCOD2ciJU24koPd9msdwNiP3lPLw%3D&reserved=0)
->>>>>>
->>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>>> the same patch/commit), kindly add following tags
->>>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202501240611.LDmD2nkj-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571390239%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=W%2F8GHsXQwmaG22bsTyQes1zdMG7o2aHc%2Fly%2BHO57LwI%3D&reserved=0
->>>>>
->>>>> Thanks for report. Sorry for late respond. I was on my Spring Festival vacation.
->>>>>
->>>>>>
->>>>>> kismet warnings: (new ones prefixed by >>)
->>>>>>>> kismet: WARNING: unmet direct dependencies detected for HUGETLBFS when selected by PPC_8xx
->>>>>>       WARNING: unmet direct dependencies detected for HUGETLBFS
->>>>>>         Depends on [n]: (X86 || IA64 || SPARC64 || ARCH_SUPPORTS_HUGETLBFS [=y] || BROKEN [=n]) && (SYSFS [=n] || SYSCTL [=n])
->>>>>>         Selected by [y]:
->>>>>>         - PPC_8xx [=y] && <choice>
->>>>>
->>>>> I am a bit confused. HUGETLBFS depends on SYSFS or SYSCTL. How can it be selected while SYSFS [=n] || SYSCTL [=n]?
->>>>> Or am I miss something?
->>>>
->>>> CONFIG_HUGETLBFS is selected by CONFIG_PPC_8xx, see commit 34536d780683 ("powerpc/8xx: Add a function to early map kernel via huge pages")
->>>
->>> Thanks for your providing. But I'm saying that since HUGETLBFS depends on (SYSFS or SYSCTL), how CONFIG_PPC_8xx succeeds to select it while
->>> SYSFS and SYSCTL are disabled? I'm not really familiar with Kconfig but I assume Kconfig will confirm that the dependencies are satisfied
->>> before HUGETLBFS is enabled. Or am I miss something?
->>
->> I suggest you read https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdocs.kernel.org%2Fkbuild%2Fkconfig-language.html&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C4568427e535f47ba6e7108dd467da005%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638744227571400924%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=UtQJlI0P7JV%2BQy0jlHFoGZ8ipnl5SzhuL1G%2Bbr0an9Y%3D&reserved=0
-> 
-> Thanks.
-> 
->>
->> Extract:
->>
->> Note:
->>      select should be used with care. select will force a symbol to a value without visiting the dependencies. By abusing select you are able to select a symbol FOO even if FOO depends on BAR that is not set.
-> 
-> IMHO, it seems it's the use of "select" breaks the dependencies and leads to the kismet warnings. So it might be better to fix the PPC_8xx side.
+afaf5a2d341d33 David Somayajulu 2006-09-19  144  
+afaf5a2d341d33 David Somayajulu 2006-09-19  145  /*
+afaf5a2d341d33 David Somayajulu 2006-09-19  146   * Misc
+afaf5a2d341d33 David Somayajulu 2006-09-19  147   */
+afaf5a2d341d33 David Somayajulu 2006-09-19 @148  #define MAC_ADDR_LEN			6	/* in bytes */
+afaf5a2d341d33 David Somayajulu 2006-09-19  149  #define IP_ADDR_LEN			4	/* in bytes */
+2a49a78ed3c8d7 Vikas Chaudhary  2010-04-28  150  #define IPv6_ADDR_LEN			16	/* IPv6 address size */
+afaf5a2d341d33 David Somayajulu 2006-09-19  151  #define DRIVER_NAME			"qla4xxx"
+afaf5a2d341d33 David Somayajulu 2006-09-19  152  
 
-
-The dependencies are wrong, I have a kernel without CONFIG_SYSFS and 
-without CONFIG_SYSCTL and hugetlbfs works perfecly well.
-
-I boot the kernel with following parameters:
-
-	hugepagesz=512k hugepages=8 hugepagesz=8M hugepages=2
-
-dmesg shows:
-
-[    0.560754] HugeTLB: registered 512 KiB page size, pre-allocated 8 pages
-[    0.567293] HugeTLB: 0 KiB vmemmap can be freed for a 512 KiB page
-[    0.593912] HugeTLB: registered 8.00 MiB page size, pre-allocated 2 pages
-[    0.600543] HugeTLB: 0 KiB vmemmap can be freed for a 8.00 MiB page
-
-
-hugetlb selftest works well:
-
-:~# ./map_hugetlb 4 19
-TAP version 13
-1..1
-# 512 kB hugepages
-# Mapping 4 Mbytes
-# Returned address is 0x77800000
-# First hex is 0
-# First hex is 10203
-ok 1 Read correct data
-# Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
-
-~# ./map_hugetlb 16 23
-TAP version 13
-1..1
-# 8192 kB hugepages
-# Mapping 16 Mbytes
-# Returned address is 0x76800000
-# First hex is 0
-# First hex is 10203
-ok 1 Read correct data
-# Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
-
-So I think your commit f8142cf94d47 ("hugetlb: make hugetlb depends on 
-SYSFS or SYSCTL") is just wrong and has to be reverted.
-
-Christophe
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
