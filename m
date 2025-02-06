@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95AA13BADF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 15:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A2E1A5BA1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Feb 2025 15:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738854870; cv=none; b=tE936cdcJHxTrp+1LMp7rSvxtjO7gN2WTQtwZSajzQa3HJ6ocRZi4lpU8RWHyX09WGjAdjzTooynqNutbJkJ3uVBch3VVxAECHyZCc5iwQS4/JkqIOv0asW5Fay5K6t6c1m/S3yDfJXV0qKmbxHCtrsqq7MuVv3K2Ld4PbiRJyc=
+	t=1738856323; cv=none; b=DVhGrE5GY+cZ0q36IURaO69fz/NomXIZUJ8OGPjx3TQ6Vgk3Nmhy1QQUlEmIgQ93biDjCeDI8Cj6EqhZBFvrsCgD69ufIvFcDH4JCGvy6SWaeKJoV+fhTJLOJiQSSfhKhY1y2r2O0rFMAMlGIWxUc4fCy7EGDNFj+d738WeZBRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738854870; c=relaxed/simple;
-	bh=t9cqZ73hIkX27lcJLtc+ipmxM7vC2a5RxdsIIVAnrsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J8PIjL+SDnrpG/9/ZDWjduoZII/pmtDvXQhz7B4Tm9jiwHb1mt4uIV6vHXqmtxiUCs+8EgucGCONVkM7yOm0BAlaJZ/+jxqEVYXKDKyL0yyixRJMJJreVklQDbZPOW/GeQzWmw80tyYhdiHkUkTo6G7DcqNUQNQ7b0AEkuxA/M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HAMAfu77; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738856323; c=relaxed/simple;
+	bh=tUwyzTk3jgRlV2xPYe/NPEnqn1CPmxBKNXk4cnhiJgI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RqC/05f+As+lYgeJc3+AcQ20Qg5P7E1LXMvMUdCkWQaN+TN5a6GkGr78zEky33D60prZU+lO+BxTH0W/ww6gZ5GAMsdMCQOH3l37SaLhvun2kSV7iEMBUqNqlsCkYo8/d+fKX2FB51c2/GBkBJS2b5veHPN5W1y9sz1mi4E+auw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RrKd9AFO; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HAMAfu77"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RrKd9AFO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738854869; x=1770390869;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=t9cqZ73hIkX27lcJLtc+ipmxM7vC2a5RxdsIIVAnrsk=;
-  b=HAMAfu77ZBVsmu20c9imTIv/7e43R1qj310gq/wawx2sWTbHMxn4p/eR
-   NgygL9HvqkkrZCFthVL3ciaKYwg7ewXd5xCVSu3TybPyNneNCmHjblvw7
-   PIwCVQMwbnl3RDVBAWLOP7rV7ryH5K9Yt63bknyHHB/auFPo2yYUfCA/k
-   HD4Su9GoLANPv4f25PErCimYHEe3FaYCuEEMWyMtDQrBg3QVlYGkrGk2e
-   QSn5o1LZKZkBgrV9UIsPR8QLKAOANNqAmKCje2wbPOMz2jFU4879WyQhi
-   J2322jVMTFPWw+IIINz5iCkQc8I7v1H8/SoXV5PK7j1o0BLrye8BWOoUU
-   w==;
-X-CSE-ConnectionGUID: lfK/hoOuSmyxaHZ63HdfYg==
-X-CSE-MsgGUID: mbePV9NeSi6l0QIKEvj14w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42296126"
+  t=1738856321; x=1770392321;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tUwyzTk3jgRlV2xPYe/NPEnqn1CPmxBKNXk4cnhiJgI=;
+  b=RrKd9AFOLR/y+0s4XTeBhhi8NDaYwndYjO1/KTpcu26BHFHWiuj0lIcs
+   wZsddGOzzBKSFzODNbnJnO+92CCt9vGrE8oPw2SOiLQjCYyve4aRCvsJP
+   wgsgfiQLcGa3pYPjW2r/hlajxj06HeKzfTjPlxv/a+jZr45D7kPztXIle
+   5/vjE8V6Re7MpxKrtPr5r3Vz60DkH7OiB2CKQpuDeUnWSdLE5hFF+rKed
+   S4WqaMUrMR1qsSJnVS6xaCA7i1HUMjsJfPLRjqkAh7qDQMLnAqxcL046W
+   znykBAA9SFFaCjCHq4HfG2RUW9RmC+J2fKsEON0OS8rltLY/aE+7htRx7
+   g==;
+X-CSE-ConnectionGUID: ej1UlZatRCGhTMLsAZ8niA==
+X-CSE-MsgGUID: X88D7fU6S96zqW5rRPMy7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="27067678"
 X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="42296126"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 07:14:28 -0800
-X-CSE-ConnectionGUID: ygznJFoSRH2VjRKbP8U1mg==
-X-CSE-MsgGUID: 9cOaqXNrQDSU5OfiOKsN0w==
+   d="scan'208";a="27067678"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 07:38:40 -0800
+X-CSE-ConnectionGUID: YDZxocitQoiwTcWnq8yilA==
+X-CSE-MsgGUID: 0sQzWjdCQVCg9IPpo3bS1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111084299"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 07:14:23 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tg3Zt-00000008l7W-3Qru;
-	Thu, 06 Feb 2025 17:14:05 +0200
-Date: Thu, 6 Feb 2025 17:14:05 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: kernel test robot <lkp@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
-	jic23@kernel.org, przemyslaw.kitszel@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v3 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6TRveCRK7LFwSNV@smile.fi.intel.com>
-References: <20250203080902.1864382-2-raag.jadav@intel.com>
- <202502060025.XJwUub6I-lkp@intel.com>
- <Z6RS-A2FFjYuPoyn@black.fi.intel.com>
- <Z6TRcWCKe__oxCUV@smile.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
+   d="scan'208";a="111433156"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2025 07:38:39 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tg3xd-000x2g-15;
+	Thu, 06 Feb 2025 15:38:37 +0000
+Date: Thu, 6 Feb 2025 23:37:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: ld.lld: error: vmlinux.a(kernel/panic.o):(function panic:
+ .text.unlikely.+0x28): relocation R_RISCV_HI20 out of range: 533364 is not
+ in [-524288, 524287]; references 'panic_on_warn'
+Message-ID: <202502062306.dwioNmYP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,34 +62,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6TRcWCKe__oxCUV@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 06, 2025 at 05:12:49PM +0200, Andy Shevchenko wrote:
-> On Thu, Feb 06, 2025 at 08:13:12AM +0200, Raag Jadav wrote:
-> > On Thu, Feb 06, 2025 at 12:27:03AM +0800, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   92514ef226f511f2ca1fb1b8752966097518edc0
+commit: a07eb4f67ed085f32002a1af2b6073546d67de3f spi: omap2-mcspi: Correctly handle devm_clk_get_optional() errors
+date:   2 weeks ago
+config: riscv-randconfig-r111-20250205 (https://download.01.org/0day-ci/archive/20250206/202502062306.dwioNmYP-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250206/202502062306.dwioNmYP-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502062306.dwioNmYP-lkp@intel.com/
 
-> > >    102	
-> > >    103	static inline
-> > >    104	void __iomem *devm_ioremap_resource(struct device *dev, const struct resource *res)
-> > >    105	{
-> > >  > 106		return ERR_PTR(-EINVAL);
-> > >    107	}
-> > >    108	
-> > 
-> > Andy, are we expecting this?
-> 
-> Oh, no, it's sparse error, but easy to fix. Need to have
-> 
-> 		return IOMEM_ERR_PTR(-EINVAL);
+All errors (new ones prefixed by >>):
 
-But isn't it the original issue? I mean that it was already before this series.
-If so, perhaps you can fix all sparse errors like this in the devres* code.
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x28): relocation R_RISCV_HI20 out of range: 533364 is not in [-524288, 524287]; references 'panic_on_warn'
+   >>> referenced by panic.c:288 (kernel/panic.c:288)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x36): relocation R_RISCV_HI20 out of range: 533364 is not in [-524288, 524287]; references 'crash_kexec_post_notifiers'
+   >>> referenced by panic.c:296 (kernel/panic.c:296)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x118): relocation R_RISCV_HI20 out of range: 533364 is not in [-524288, 524287]; references 'panic_triggering_all_cpu_backtrace'
+   >>> referenced by panic.c:0 (kernel/panic.c:0)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x124): relocation R_RISCV_HI20 out of range: 531810 is not in [-524288, 524287]; references 'panic_notifier_list'
+   >>> referenced by panic.c:0 (kernel/panic.c:0)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x12c): relocation R_RISCV_HI20 out of range: 533369 is not in [-524288, 524287]; references 'panic.buf'
+   >>> referenced by panic.c:0 (kernel/panic.c:0)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x14c): relocation R_RISCV_HI20 out of range: 533364 is not in [-524288, 524287]; references 'panic_print'
+   >>> referenced by panic.c:0 (kernel/panic.c:0)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x40): relocation R_RISCV_HI20 out of range: 533340 is not in [-524288, 524287]; references '.LCPI6_0'
+   >>> referenced by panic.c:296 (kernel/panic.c:296)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0x6a): relocation R_RISCV_HI20 out of range: 533340 is not in [-524288, 524287]; references 'panic_cpu'
+   >>> referenced by panic.c:294 (kernel/panic.c:294)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0xd2): relocation R_RISCV_HI20 out of range: 531140 is not in [-524288, 524287]; references '.L.str.4'
+   >>> referenced by panic.c:296 (kernel/panic.c:296)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0xe0): relocation R_RISCV_HI20 out of range: 533340 is not in [-524288, 524287]; references 'tainted_mask'
+   >>> referenced by panic.c:303 (kernel/panic.c:303)
+   >>> defined in vmlinux.a(kernel/panic.o)
+--
+>> ld.lld: error: vmlinux.a(kernel/panic.o):(function panic: .text.unlikely.+0xee): relocation R_RISCV_HI20 out of range: 533364 is not in [-524288, 524287]; references 'oops_in_progress'
+   >>> referenced by panic.c:303 (kernel/panic.c:303)
+   >>> defined in vmlinux.a(kernel/printk/printk.o)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
