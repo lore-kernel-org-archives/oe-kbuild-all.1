@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE790155321
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 06:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1324619340D;
+	Fri,  7 Feb 2025 06:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738909998; cv=none; b=neL7UL9sYrKfDITregGg75q5eIPy9zJCSIv+qs6Hp8OoeVCmTADaNvQTwjppLcVZT7tXYcnjHkV4wGAP2qFBNNdJyycXY0BHy1vF3NjfuDXC5wCJvLskME3NKOGH8UBm3NPMFkYYeaZBVvlsr1EffwbYsQ2FyIk7RPvxqDWsffM=
+	t=1738910600; cv=none; b=l5XRQchOTjqKt4P/WK0dlYZu72HCxK/r+dcPbCZBo2CydGzoj2fC7GRNIBxsKpVBDU+ukZ8ZkF580Dl4M2fz9ZczFLgpsiVwWGvhGoUZQ+kmmnzchZ1SmTSjy+3X7zk6Lh4g3GcDDJ/BLiJSAQCSlCdMlsZzgCv5cYwHKEpc1bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738909998; c=relaxed/simple;
-	bh=au6i48DmqgDmdw5B5PRYvyaNhtMaG4CNJoutN/saTt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UH+kqAZFERu9zjYrIPRfyMgMCxz8Bq4IOTONJ7/YOjC8UNMMLno0rOPB+1kIR6zyHSTdrMf6z5vUsPVDPstslhNM/ZqzYEbnSj1k6iV2/ztn+dJi//I8LjMIXFqLIFClKtuni5/g0We9WL65oyt5x0pytFnyl5nJTw+xtkmX9wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUGR5Gw6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1738910600; c=relaxed/simple;
+	bh=vMCr6BCHMe6xJlPJJVMI5c+9PXqQM7J+fDibucBDvVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIznmLo7tHubmejfg6Jen0zd7pf+OKQN1REJUS1inY9RW5C9RO7KscU4pizDxTBTRczfBWyYnJXc9fU4Oi8/rWstOqynBMckcgT6oSG1oCDh/XoOz5wsTd9Q/7qgIdsVUaiQCC+cu5FsG1FXUngJxLiqcwCJC3szZcWxUvqIZHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJu2bQjv; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUGR5Gw6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJu2bQjv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738909996; x=1770445996;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=au6i48DmqgDmdw5B5PRYvyaNhtMaG4CNJoutN/saTt8=;
-  b=WUGR5Gw6DVKoNAprJM9k+QEGI1jQ3MHIenPtaW4b++E3UYRPlYwmu0n0
-   lETCoo3VdqLM1senlT+Yq7L4AgO3TvJOCBd1l0rIzyBdFVvVgUhfXoxFr
-   GN8pVY4J9IPtLvVh8Q61CpfciMJGwS+FpRLDkq+d6HmC3jRYNk/+c7qNR
-   DyxwvyDbY9Lw36VNaHGjtqvA+aIiZd8y5whELTlMcxs2vUepsKuj6gVYg
-   +rnRxbLiguidO/iwK1MGd7AINGBl00jG0OH3ij5xwG++RGQ/OBpunyoQM
-   +TelHMQR8dedea+AGFtQEpiAeUhh9nnPNsmE853d4mbfpCySwoq6ZW9/P
+  t=1738910599; x=1770446599;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vMCr6BCHMe6xJlPJJVMI5c+9PXqQM7J+fDibucBDvVM=;
+  b=fJu2bQjvnnDYbwZeSYiXyCE76IdTmI1s9C0w/5ZiBkqq3IpU8FTDZewW
+   RdfwF/DHFxd4INRPGdOaNpsibPSGnCA21KHk5FdXeQ9ifkmdMu1oUFF0G
+   HEOzLghjeI7ukB1uqeXfCvre5gDBzwMeMFIRHr7GVU0RXQ25MKrIZ7Pru
+   0z95c+4E1zQrlCFJ/h/OomGxml/Qi7ORJqwGTvZephpbpZ5NsOZb2W5Eg
+   Utzu7Bgf+DPGSzKtqd98TgeW3J84mnv05WE8I14x1LY5ANLVcJRPRBsoN
+   OtH70NQ2AotYtDlZXBuHKs9g8/0urcnn7tFfQalSgR5GJwbNzRTMk2YTj
    A==;
-X-CSE-ConnectionGUID: IyHhAkJYSISaZt8tlnfqVw==
-X-CSE-MsgGUID: pmvSsOOeRGikg9sybP+Lbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50977766"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="50977766"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 22:33:15 -0800
-X-CSE-ConnectionGUID: SkE8rweYSP+3p8631rCMqg==
-X-CSE-MsgGUID: mWuD+YEvSBOJ3OLi1GvlHw==
+X-CSE-ConnectionGUID: b0hKwhZcRTu6xrFabCdlFw==
+X-CSE-MsgGUID: Du2C8dZYRNOC/sl+YjXd0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43206390"
+X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; 
+   d="scan'208";a="43206390"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 22:43:19 -0800
+X-CSE-ConnectionGUID: TlB73ylvRbuVhCqj0tYHIw==
+X-CSE-MsgGUID: U9exOrEYRmSEsVY6t4ddUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; 
-   d="scan'208";a="116477324"
+   d="scan'208";a="111268994"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Feb 2025 22:33:13 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Feb 2025 22:43:14 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgHvL-000xqN-1Z;
-	Fri, 07 Feb 2025 06:33:11 +0000
-Date: Fri, 7 Feb 2025 14:32:48 +0800
+	id 1tgI52-000xql-0u;
+	Fri, 07 Feb 2025 06:43:12 +0000
+Date: Fri, 7 Feb 2025 14:43:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1897/1897] mm/memblock.c:1409:20: warning: no
- previous prototype for 'memblock_alloc_range_nid_flags'
-Message-ID: <202502071449.bIBBpkJp-lkp@intel.com>
+To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
+	Joe Damato <jdamato@fastly.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Mina Almasry <almasrymina@google.com>,
+	Daniel Jurgens <danielj@nvidia.com>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/2] netdev-genl: Add an XSK attribute to
+ queues
+Message-ID: <202502071452.B85Lw7aV-lkp@intel.com>
+References: <20250204191108.161046-2-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,255 +74,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250204191108.161046-2-jdamato@fastly.com>
 
-Hi Ma,
+Hi Joe,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   fdc8c83a12a8fc4b7c55971d552758ffe2f34c14
-commit: 64018b291c1f49622c4b23b303364d760306d662 [1897/1897] mm/memblock: Introduce ability to alloc memory from specify memory region
-config: x86_64-alldefconfig (https://download.01.org/0day-ci/archive/20250207/202502071449.bIBBpkJp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502071449.bIBBpkJp-lkp@intel.com/reproduce)
+[auto build test ERROR on c2933b2befe25309f4c5cfbea0ca80909735fd76]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netdev-genl-Add-an-XSK-attribute-to-queues/20250205-031236
+base:   c2933b2befe25309f4c5cfbea0ca80909735fd76
+patch link:    https://lore.kernel.org/r/20250204191108.161046-2-jdamato%40fastly.com
+patch subject: [PATCH net-next v3 1/2] netdev-genl: Add an XSK attribute to queues
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20250207/202502071452.B85Lw7aV-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project ee3bccab34f57387bdf33853cdd5f214fef349a2)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502071452.B85Lw7aV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502071449.bIBBpkJp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502071452.B85Lw7aV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memblock.c:1409:20: warning: no previous prototype for 'memblock_alloc_range_nid_flags' [-Wmissing-prototypes]
-    1409 | phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> mm/memblock.c:1579: warning: expecting prototype for memblock_alloc_internal(). Prototype was for __memblock_alloc_internal() instead
+>> net/core/netdev-genl.c:398:12: error: no member named 'pool' in 'struct netdev_rx_queue'
+     398 |                 if (rxq->pool) {
+         |                     ~~~  ^
+>> net/core/netdev-genl.c:410:12: error: no member named 'pool' in 'struct netdev_queue'
+     410 |                 if (txq->pool) {
+         |                     ~~~  ^
+   2 errors generated.
 
 
-vim +/memblock_alloc_range_nid_flags +1409 mm/memblock.c
+vim +398 net/core/netdev-genl.c
 
-  1386	
-  1387	/**
-  1388	 * memblock_alloc_range_nid_flags - allocate boot memory block with specify flag
-  1389	 * @size: size of memory block to be allocated in bytes
-  1390	 * @align: alignment of the region and block's size
-  1391	 * @start: the lower bound of the memory region to allocate (phys address)
-  1392	 * @end: the upper bound of the memory region to allocate (phys address)
-  1393	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-  1394	 * @exact_nid: control the allocation fall back to other nodes
-  1395	 * @flags: alloc memory from specify memblock flag
-  1396	 *
-  1397	 * The allocation is performed from memory region limited by
-  1398	 * memblock.current_limit if @end == %MEMBLOCK_ALLOC_ACCESSIBLE.
-  1399	 *
-  1400	 * If the specified node can not hold the requested memory and @exact_nid
-  1401	 * is false, the allocation falls back to any node in the system.
-  1402	 *
-  1403	 * In addition, function sets the min_count to 0 using kmemleak_alloc_phys for
-  1404	 * allocated boot memory block, so that it is never reported as leaks.
-  1405	 *
-  1406	 * Return:
-  1407	 * Physical address of allocated memory block on success, %0 on failure.
-  1408	 */
-> 1409	phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
-  1410						phys_addr_t align, phys_addr_t start,
-  1411						phys_addr_t end, int nid,
-  1412						bool exact_nid,
-  1413						enum memblock_flags flags)
-  1414	{
-  1415		phys_addr_t found;
-  1416	
-  1417		if (WARN_ONCE(nid == MAX_NUMNODES, "Usage of MAX_NUMNODES is deprecated. Use NUMA_NO_NODE instead\n"))
-  1418			nid = NUMA_NO_NODE;
-  1419	
-  1420		if (!align) {
-  1421			/* Can't use WARNs this early in boot on powerpc */
-  1422			dump_stack();
-  1423			align = SMP_CACHE_BYTES;
-  1424		}
-  1425	
-  1426	again:
-  1427		found = memblock_find_in_range_node(size, align, start, end, nid,
-  1428						    flags);
-  1429		if (found && !memblock_reserve(found, size))
-  1430			goto done;
-  1431	
-  1432		if (nid != NUMA_NO_NODE && !exact_nid) {
-  1433			found = memblock_find_in_range_node(size, align, start,
-  1434							    end, NUMA_NO_NODE,
-  1435							    flags);
-  1436			if (found && !memblock_reserve(found, size))
-  1437				goto done;
-  1438		}
-  1439	
-  1440		if (flags & MEMBLOCK_MIRROR) {
-  1441			flags &= ~MEMBLOCK_MIRROR;
-  1442			pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
-  1443				&size);
-  1444			goto again;
-  1445		}
-  1446	
-  1447		return 0;
-  1448	
-  1449	done:
-  1450		/*
-  1451		 * Skip kmemleak for those places like kasan_init() and
-  1452		 * early_pgtable_alloc() due to high volume.
-  1453		 */
-  1454		if (end != MEMBLOCK_ALLOC_NOLEAKTRACE)
-  1455			/*
-  1456			 * Memblock allocated blocks are never reported as
-  1457			 * leaks. This is because many of these blocks are
-  1458			 * only referred via the physical address which is
-  1459			 * not looked up by kmemleak.
-  1460			 */
-  1461			kmemleak_alloc_phys(found, size, 0);
-  1462	
-  1463		/*
-  1464		 * Some Virtual Machine platforms, such as Intel TDX or AMD SEV-SNP,
-  1465		 * require memory to be accepted before it can be used by the
-  1466		 * guest.
-  1467		 *
-  1468		 * Accept the memory of the allocated buffer.
-  1469		 */
-  1470		accept_memory(found, found + size);
-  1471	
-  1472		return found;
-  1473	}
-  1474	
-  1475	/**
-  1476	 * memblock_alloc_range_nid - allocate boot memory block
-  1477	 * @size: size of memory block to be allocated in bytes
-  1478	 * @align: alignment of the region and block's size
-  1479	 * @start: the lower bound of the memory region to allocate (phys address)
-  1480	 * @end: the upper bound of the memory region to allocate (phys address)
-  1481	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-  1482	 * @exact_nid: control the allocation fall back to other nodes
-  1483	 *
-  1484	 * The allocation is performed from memory region limited by
-  1485	 * memblock.current_limit if @end == %MEMBLOCK_ALLOC_ACCESSIBLE.
-  1486	 *
-  1487	 * If the specified node can not hold the requested memory and @exact_nid
-  1488	 * is false, the allocation falls back to any node in the system.
-  1489	 *
-  1490	 * For systems with memory mirroring, the allocation is attempted first
-  1491	 * from the regions with mirroring enabled and then retried from any
-  1492	 * memory region.
-  1493	 *
-  1494	 * In addition, function using kmemleak_alloc_phys for allocated boot
-  1495	 * memory block, it is never reported as leaks.
-  1496	 *
-  1497	 * Return:
-  1498	 * Physical address of allocated memory block on success, %0 on failure.
-  1499	 */
-  1500	phys_addr_t __init memblock_alloc_range_nid(phys_addr_t size,
-  1501						phys_addr_t align, phys_addr_t start,
-  1502						phys_addr_t end, int nid,
-  1503						bool exact_nid)
-  1504	{
-  1505		return memblock_alloc_range_nid_flags(size, align, start, end, nid,
-  1506						      exact_nid,
-  1507						      choose_memblock_flags());
-  1508	}
-  1509	
-  1510	/**
-  1511	 * memblock_phys_alloc_range - allocate a memory block inside specified range
-  1512	 * @size: size of memory block to be allocated in bytes
-  1513	 * @align: alignment of the region and block's size
-  1514	 * @start: the lower bound of the memory region to allocate (physical address)
-  1515	 * @end: the upper bound of the memory region to allocate (physical address)
-  1516	 *
-  1517	 * Allocate @size bytes in the between @start and @end.
-  1518	 *
-  1519	 * Return: physical address of the allocated memory block on success,
-  1520	 * %0 on failure.
-  1521	 */
-  1522	phys_addr_t __init memblock_phys_alloc_range(phys_addr_t size,
-  1523						     phys_addr_t align,
-  1524						     phys_addr_t start,
-  1525						     phys_addr_t end)
-  1526	{
-  1527		memblock_dbg("%s: %llu bytes align=0x%llx from=%pa max_addr=%pa %pS\n",
-  1528			     __func__, (u64)size, (u64)align, &start, &end,
-  1529			     (void *)_RET_IP_);
-  1530		return memblock_alloc_range_nid(size, align, start, end, NUMA_NO_NODE,
-  1531						false);
-  1532	}
-  1533	
-  1534	/**
-  1535	 * memblock_phys_alloc_try_nid - allocate a memory block from specified NUMA node
-  1536	 * @size: size of memory block to be allocated in bytes
-  1537	 * @align: alignment of the region and block's size
-  1538	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-  1539	 *
-  1540	 * Allocates memory block from the specified NUMA node. If the node
-  1541	 * has no available memory, attempts to allocated from any node in the
-  1542	 * system.
-  1543	 *
-  1544	 * Return: physical address of the allocated memory block on success,
-  1545	 * %0 on failure.
-  1546	 */
-  1547	phys_addr_t __init memblock_phys_alloc_try_nid(phys_addr_t size, phys_addr_t align, int nid)
-  1548	{
-  1549		return memblock_alloc_range_nid(size, align, 0,
-  1550						MEMBLOCK_ALLOC_ACCESSIBLE, nid, false);
-  1551	}
-  1552	
-  1553	/**
-  1554	 * memblock_alloc_internal - allocate boot memory block
-  1555	 * @size: size of memory block to be allocated in bytes
-  1556	 * @align: alignment of the region and block's size
-  1557	 * @min_addr: the lower bound of the memory region to allocate (phys address)
-  1558	 * @max_addr: the upper bound of the memory region to allocate (phys address)
-  1559	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-  1560	 * @exact_nid: control the allocation fall back to other nodes
-  1561	 * @flags: alloc memory from specify memblock flag
-  1562	 *
-  1563	 * Allocates memory block using memblock_alloc_range_nid() and
-  1564	 * converts the returned physical address to virtual.
-  1565	 *
-  1566	 * The @min_addr limit is dropped if it can not be satisfied and the allocation
-  1567	 * will fall back to memory below @min_addr. Other constraints, such
-  1568	 * as node and mirrored memory will be handled again in
-  1569	 * memblock_alloc_range_nid().
-  1570	 *
-  1571	 * Return:
-  1572	 * Virtual address of allocated memory block on success, NULL on failure.
-  1573	 */
-  1574	static void * __init __memblock_alloc_internal(
-  1575					phys_addr_t size, phys_addr_t align,
-  1576					phys_addr_t min_addr, phys_addr_t max_addr,
-  1577					int nid, bool exact_nid,
-  1578					enum memblock_flags flags)
-> 1579	{
-  1580		phys_addr_t alloc;
-  1581	
-  1582		/*
-  1583		 * Detect any accidental use of these APIs after slab is ready, as at
-  1584		 * this moment memblock may be deinitialized already and its
-  1585		 * internal data may be destroyed (after execution of memblock_free_all)
-  1586		 */
-  1587		if (WARN_ON_ONCE(slab_is_available()))
-  1588			return kzalloc_node(size, GFP_NOWAIT, nid);
-  1589	
-  1590		if (max_addr > memblock.current_limit)
-  1591			max_addr = memblock.current_limit;
-  1592	
-  1593		alloc = memblock_alloc_range_nid_flags(size, align, min_addr, max_addr, nid,
-  1594						exact_nid, flags);
-  1595	
-  1596		/* retry allocation without lower limit */
-  1597		if (!alloc && min_addr)
-  1598			alloc = memblock_alloc_range_nid_flags(size, align, 0, max_addr, nid,
-  1599							exact_nid, flags);
-  1600	
-  1601		if (!alloc)
-  1602			return NULL;
-  1603	
-  1604		return phys_to_virt(alloc);
-  1605	}
-  1606	
+   366	
+   367	static int
+   368	netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
+   369				 u32 q_idx, u32 q_type, const struct genl_info *info)
+   370	{
+   371		struct net_devmem_dmabuf_binding *binding;
+   372		struct netdev_rx_queue *rxq;
+   373		struct netdev_queue *txq;
+   374		struct nlattr *nest;
+   375		void *hdr;
+   376	
+   377		hdr = genlmsg_iput(rsp, info);
+   378		if (!hdr)
+   379			return -EMSGSIZE;
+   380	
+   381		if (nla_put_u32(rsp, NETDEV_A_QUEUE_ID, q_idx) ||
+   382		    nla_put_u32(rsp, NETDEV_A_QUEUE_TYPE, q_type) ||
+   383		    nla_put_u32(rsp, NETDEV_A_QUEUE_IFINDEX, netdev->ifindex))
+   384			goto nla_put_failure;
+   385	
+   386		switch (q_type) {
+   387		case NETDEV_QUEUE_TYPE_RX:
+   388			rxq = __netif_get_rx_queue(netdev, q_idx);
+   389			if (rxq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
+   390						     rxq->napi->napi_id))
+   391				goto nla_put_failure;
+   392	
+   393			binding = rxq->mp_params.mp_priv;
+   394			if (binding &&
+   395			    nla_put_u32(rsp, NETDEV_A_QUEUE_DMABUF, binding->id))
+   396				goto nla_put_failure;
+   397	
+ > 398			if (rxq->pool) {
+   399				nest = nla_nest_start(rsp, NETDEV_A_QUEUE_XSK);
+   400				nla_nest_end(rsp, nest);
+   401			}
+   402	
+   403			break;
+   404		case NETDEV_QUEUE_TYPE_TX:
+   405			txq = netdev_get_tx_queue(netdev, q_idx);
+   406			if (txq->napi && nla_put_u32(rsp, NETDEV_A_QUEUE_NAPI_ID,
+   407						     txq->napi->napi_id))
+   408				goto nla_put_failure;
+   409	
+ > 410			if (txq->pool) {
+   411				nest = nla_nest_start(rsp, NETDEV_A_QUEUE_XSK);
+   412				nla_nest_end(rsp, nest);
+   413			}
+   414		}
+   415	
+   416		genlmsg_end(rsp, hdr);
+   417	
+   418		return 0;
+   419	
+   420	nla_put_failure:
+   421		genlmsg_cancel(rsp, hdr);
+   422		return -EMSGSIZE;
+   423	}
+   424	
 
 -- 
 0-DAY CI Kernel Test Service
