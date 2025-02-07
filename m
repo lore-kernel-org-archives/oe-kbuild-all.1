@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBB4187342
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 20:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A8719992C;
+	Fri,  7 Feb 2025 20:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738958647; cv=none; b=mhCTi41tgntN2Dke+OGUJ7yTxD0HmL/feDgsm6IuhESxQ71bOxna55BzqtP8oyMlFcKMUUVShOBhEkjYy17BY/846sDB17TfDsbgjN8RrwYFZYCVTCBLy0o+1Vu1eLNJ1BJ06cTbljLFA7pojlEOV1ih8ttJ4X/4vLP49EnVOt0=
+	t=1738959909; cv=none; b=B9L2+2Z0idjqeRbZI0W+3bijUCHDRASZBqUDBdZVEGCCFK2n2bBSE4TTdybx9AJIQv9QuHRbiZWt5uibr7QTpETBvFGfiJPSrkVTzfR1dOM1u/HVL5xkLJmcp8g0gthH6JHuLLkz+K2H+hHkWI9J4hWqrkDYK1HidDi7GS7du1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738958647; c=relaxed/simple;
-	bh=WjlNe0sVb6+Z/v6gi86kjLnaUhKqTTz0OLGVmjtl99c=;
+	s=arc-20240116; t=1738959909; c=relaxed/simple;
+	bh=KAppddcGy75M1GijtWeVnHspaf0hv7YTbaO7eU7CW+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=camblUosJowf8umnegIFzuqXMzLukOOBeFxVQ8PYzV2REjItqYF4IjQxW3K0GbxDFHk8PGGQTTmrxqrhmc3Dj+Y2ftvgZAdhJygOOA+4WJWVGofmFHch0S8OWFhbOO9ASuGdirithDMzaLfjIckigxHr9cG5GqyLXSI2knDbAbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eau21S+4; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=AFz8RvFD4nE9GG+1qxDRFDXN1PVRjddbSBNI6mCf6dJ5C1fj0LIW99Umke3lUWF2gjpJXFEur1RMjFH+/08FjfKRmVEKuQ08QgJVxDuFAHvZVCzaUwaelZKsbDrCLCDi9sQU6mHw8GqHZd+jRb9SxCZvz9leWvT7yHL4oXRs8fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kSF3MG1O; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eau21S+4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kSF3MG1O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738958646; x=1770494646;
+  t=1738959908; x=1770495908;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WjlNe0sVb6+Z/v6gi86kjLnaUhKqTTz0OLGVmjtl99c=;
-  b=Eau21S+4c+dw0OSXMwj10ecfnAvst9IHk+LbjsUoi+msW/phcVuZPlQu
-   eMX4+IjGjnut6RvCp4oy9jH8nIUhoXrQrjsnUNGO96e3Z2kyagKiLEV4M
-   TxZSmkibVUER98owrujQuek0W2H8PscGyGxO/dLuhqL8eoBhez2umWXe8
-   1eRaXh2sCEXC08Vvuf5vho9imP7MRhSL7uoijCpQXPmmcFqMVqrfTZ9UL
-   WLElO0k8aPWuy6qRTX/dILijgNUC3/ZjJrgpvVtKY+HHNxIpLQw1V9QQz
-   ssDI6To+GiDCd4X6Btd4k4BRnfzmeB6FFNX2u9op22tfVWpZB8D8XEBgp
+  bh=KAppddcGy75M1GijtWeVnHspaf0hv7YTbaO7eU7CW+A=;
+  b=kSF3MG1OlXU4ZC9g2nzwujJQsHOUEnCoR/Ht/k/p2/oIzLhu3LU0kySU
+   dWCgYAr2BLkGtyDTREKANpbbYkzGrXKcuaaBZWUTxbLDe4C1UhSVVNS1y
+   tphGQdAW9F7hYEsOi+TaLypr1mXSt74NCSldrZ09EOFWQ9ZiIdWBjPk1F
+   gfJu7i3zy6NsD8OfZ8a/aNeoGewqXYSPQ7OA3KeZm6lR32UYVK1/nXcqW
+   /7XVtwtg2hOm1S6rh+KUH5KLzD4G+KHDhYSw8eov5t6hPjHJ21bgFUhgz
+   DO0twCUFM0j+4Um/APiuu3SaVr/O+twjy1UPkwktyD7OMgTgy9/unn59Q
    Q==;
-X-CSE-ConnectionGUID: hNFQWrLrS4GdenDVPUPf9Q==
-X-CSE-MsgGUID: l951XZQ5Qce3Cm+YU25OqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39303884"
+X-CSE-ConnectionGUID: jcw6Q3nYQPW/kB1yJe6XVg==
+X-CSE-MsgGUID: fkHUYsQ4SRWajKqN5x7Y8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="27219097"
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39303884"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 12:04:06 -0800
-X-CSE-ConnectionGUID: 0v98F1P2TGqq5H5QmNuAcA==
-X-CSE-MsgGUID: fWFbOHFTS7iFzYy6Pn10Ow==
+   d="scan'208";a="27219097"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 12:25:07 -0800
+X-CSE-ConnectionGUID: d18eyhYiScW1fPYwWK7LnQ==
+X-CSE-MsgGUID: 1551tkwPTYCfUn66SQBp4w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116824606"
+X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
+   d="scan'208";a="111392184"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Feb 2025 12:04:02 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2025 12:25:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgUZz-000yyR-23;
-	Fri, 07 Feb 2025 20:03:59 +0000
-Date: Sat, 8 Feb 2025 04:03:04 +0800
+	id 1tgUuL-000z07-2H;
+	Fri, 07 Feb 2025 20:25:01 +0000
+Date: Sat, 8 Feb 2025 04:24:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikola Jelic <nikola.jelic83@gmail.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, rwalton@cmlmicro.com
-Subject: Re: [PATCH v3 2/2] ASoC: codecs: cmx655: Add CML's CMX655D codec
-Message-ID: <202502080303.D7LqDToV-lkp@intel.com>
-References: <20250207161412.6281-2-nikola.jelic83@gmail.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Dipen Patel <dipenp@nvidia.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	timestamp@lists.linux.dev,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v2] gpiolib: don't build HTE code with CONFIG_HTE disabled
+Message-ID: <202502080425.N7HVOOJr-lkp@intel.com>
+References: <20250207083146.17872-1-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,47 +66,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207161412.6281-2-nikola.jelic83@gmail.com>
+In-Reply-To: <20250207083146.17872-1-brgl@bgdev.pl>
 
-Hi Nikola,
+Hi Bartosz,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on robh/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.14-rc1 next-20250207]
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.14-rc1 next-20250207]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikola-Jelic/ASoC-codecs-cmx655-Add-CML-s-CMX655D-codec/20250208-001527
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250207161412.6281-2-nikola.jelic83%40gmail.com
-patch subject: [PATCH v3 2/2] ASoC: codecs: cmx655: Add CML's CMX655D codec
-reproduce: (https://download.01.org/0day-ci/archive/20250208/202502080303.D7LqDToV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpiolib-don-t-build-HTE-code-with-CONFIG_HTE-disabled/20250207-163408
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20250207083146.17872-1-brgl%40bgdev.pl
+patch subject: [PATCH v2] gpiolib: don't build HTE code with CONFIG_HTE disabled
+config: i386-buildonly-randconfig-002-20250208 (https://download.01.org/0day-ci/archive/20250208/202502080425.N7HVOOJr-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080425.N7HVOOJr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080303.D7LqDToV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502080425.N7HVOOJr-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
->> ./sound/soc/codecs/cmx655-i2c.c: 3 linux/version.h not needed.
->> ./sound/soc/codecs/cmx655-spi.c: 3 linux/version.h not needed.
->> ./sound/soc/codecs/cmx655.c: 3 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 424: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/power/supply/max8903_charger.c:9:
+   include/linux/gpio/consumer.h:557:3: error: call to undeclared function 'WARN_ON'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     557 |                 WARN_ON(desc);
+         |                 ^
+>> include/linux/gpio/consumer.h:559:10: error: use of undeclared identifier 'ENOSYS'
+     559 |         return -ENOSYS;
+         |                 ^
+   include/linux/gpio/consumer.h:565:3: error: call to undeclared function 'WARN_ON'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     565 |                 WARN_ON(desc);
+         |                 ^
+   include/linux/gpio/consumer.h:567:10: error: use of undeclared identifier 'ENOSYS'
+     567 |         return -ENOSYS;
+         |                 ^
+   4 errors generated.
+
+
+vim +/ENOSYS +559 include/linux/gpio/consumer.h
+
+   548	
+   549	#if IS_ENABLED(CONFIG_GPIOLIB) && IS_ENABLED(CONFIG_HTE)
+   550	int gpiod_enable_hw_timestamp_ns(struct gpio_desc *desc, unsigned long flags);
+   551	int gpiod_disable_hw_timestamp_ns(struct gpio_desc *desc, unsigned long flags);
+   552	#else
+   553	static inline int gpiod_enable_hw_timestamp_ns(struct gpio_desc *desc,
+   554						       unsigned long flags)
+   555	{
+   556		if (!IS_ENABLED(CONFIG_GPIOLIB))
+   557			WARN_ON(desc);
+   558	
+ > 559		return -ENOSYS;
+   560	}
+   561	static inline int gpiod_disable_hw_timestamp_ns(struct gpio_desc *desc,
+   562							unsigned long flags)
+   563	{
+   564		if (!IS_ENABLED(CONFIG_GPIOLIB))
+   565			WARN_ON(desc);
+   566	
+   567		return -ENOSYS;
+   568	}
+   569	#endif /* CONFIG_GPIOLIB && CONFIG_HTE */
+   570	
 
 -- 
 0-DAY CI Kernel Test Service
