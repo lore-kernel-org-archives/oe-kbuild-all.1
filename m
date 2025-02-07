@@ -1,58 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CA9238D51
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 15:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692FC1DA10C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 15:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738941442; cv=none; b=H5g2EUrHEqB+tsjM6Xv/hOR6iKIMN6Ysv8lFBYIM2vg6BrEwZDS8XSNLzh1gakxy8Eko5IoLkIedoTe9oupeYQbgLDTfG6m4arUeYDeKGNkM2pxoxYPF+CtvpP/4uyODFZgmK4bn/gTi2fj7llK/7QbFvoz7whhMdrEdQ6LwGZo=
+	t=1738942049; cv=none; b=Mf7DAzoReV2G+qTYfzLWo0ANXJr0V0NKLEqiaDHeBjwgiimHSAWS8c4VY5nxESkWanogOHK/ghQnM5FkoPMjUGCJ6z6d2muhw+WRpYtlqY6MVOp87JLuh3GUKovIF/T0MMvOrV62ENyAureUOL8oio3gMjGTPquAopTV2xhE5tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738941442; c=relaxed/simple;
-	bh=AlWkW/bn/wwn+0Act9PRVvMzz/ucwlHmdx7axDlSsNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JNcBNyNaDK2oAVfJtcO2V4Qr7C/fTpZc/af+HlKmbAWRv1gPX18wcOetKV1BehwuAkCJxz4K5kEWgTl4U4bWcoscaZ0fVmofcxJNuKZoMM5fP1wZghPt8fFZVGQEjQfNJ4BCgqpaiuIAdC377MwkYXpFbiPUKW1zKvgolH3xZbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kp62T8XE; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1738942049; c=relaxed/simple;
+	bh=6GE9Dr6wuDcMJE5qZBlWMnYEgJHzTHm8FhWdCrRJ3Gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1KBttcycxBXcoM8iaPqN5B7KGodYynFrhEXd8Okb4GfrZ+yJvFJcy8307Hj5qqfgJM7pw9QA9rY+Z5PXL6dUvuzXUtf1ekJbvSaml3b6i9ivWxN9tWXOvo8yR5Gv9cLNS6uddR83lDoiV0te/fRzeC1WZd/qg6mgZa8LpnJJKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbavoyW/; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kp62T8XE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbavoyW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738941441; x=1770477441;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AlWkW/bn/wwn+0Act9PRVvMzz/ucwlHmdx7axDlSsNA=;
-  b=Kp62T8XEUMv4pseK7MMcNfXz28DK9vipvmdKqt5abchke1k8FcyONArA
-   M34e92DNGZ/uIFFWG054xEGo3+Op0Brn7GTAECU/XQeosLQn2LAm/IDBU
-   Rd8TUaZMUWTdAKAM+YMf6a8TWQHTC7YO/Vw4UNCxmJ5rUtr8ivYPNyWKE
-   oR+6htNtBPKzRHKG02Y6/nk2SAuv5eFhWevJeKcM/M9Brzs0O6nLLcLnZ
-   SzI+7D5lCWNXVsSMoiFwKS6pgvnCtDPXOXI1pNJyTc3pY434Jgnft9Zi5
-   Zh+o9w9D0S181AyEmvDEEpjAFYr/ENc+qtWPhLM7Af4X+ULqTNqlYiSok
-   A==;
-X-CSE-ConnectionGUID: tCOxXQ5SS9qZyNBR7Z2eXw==
-X-CSE-MsgGUID: +UT0P5NxQKK1JiniKxLoqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="57000469"
+  t=1738942047; x=1770478047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6GE9Dr6wuDcMJE5qZBlWMnYEgJHzTHm8FhWdCrRJ3Gs=;
+  b=KbavoyW/ITcABH4dQ/XoBykpqdXuaXygIi66w2us1AItUQWQmVq7bdF/
+   NxnK/EU34dO8pNKXM72s66ecrNh7YrB4swdMeoOUHQfWhi2B+GqTrOeca
+   PGEskZXVoPNz+RIXutqqB9MluteCz+aTcBSrKT9trrt58tcWb0FCcIxSo
+   H0lD3vaT+hwJVvdjqWwQAPNHvoq19EUaw6ux/jslZ5vlkGskEWJXZ+HNG
+   AsJ5OU8mp31ZpVrDB/pERxWHxKrIHYbmXBFwM37bjRxEx6JJz8BjZHsC2
+   9D7+rJ8Fhs+/JWkXW24phX+wBTYH2WBtvuooSsWzcJfiwGME1jVsP8iP7
+   Q==;
+X-CSE-ConnectionGUID: j0BN1TgIQbKtQydUMlzCAg==
+X-CSE-MsgGUID: hf/gEOftRSa2PtfqD8XtSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="42426786"
 X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="57000469"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 07:17:20 -0800
-X-CSE-ConnectionGUID: 2lZJKGmURmqXM4NfGiqrAQ==
-X-CSE-MsgGUID: T43U2T3YSviP82D3PZ/QRQ==
+   d="scan'208";a="42426786"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 07:27:26 -0800
+X-CSE-ConnectionGUID: 0SbW1BpCT1KUK1j159TXaQ==
+X-CSE-MsgGUID: dTs5T6O9TJ6I7nDWk0GB7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="111756911"
+   d="scan'208";a="116556719"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Feb 2025 07:17:19 -0800
+  by orviesa004.jf.intel.com with ESMTP; 07 Feb 2025 07:27:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgQ6W-000yVd-2j;
-	Fri, 07 Feb 2025 15:17:16 +0000
-Date: Fri, 7 Feb 2025 23:16:59 +0800
+	id 1tgQGD-000yWJ-2O;
+	Fri, 07 Feb 2025 15:27:17 +0000
+Date: Fri, 7 Feb 2025 23:27:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1418/1418] mm/ioremap.o: warning:
- objtool: missing symbol for section .text
-Message-ID: <202502072305.gE5j9Qd8-lkp@intel.com>
+To: Michael Riesch <michael.riesch@wolfvision.net>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Val Packett <val@packett.cool>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH v3 4/7] media: rockchip: add a driver for the rockchip
+ camera interface
+Message-ID: <202502072356.crcHKSbX-lkp@intel.com>
+References: <20250206-v6-8-topic-rk3568-vicap-v3-4-69d1f19e5c40@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +87,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250206-v6-8-topic-rk3568-vicap-v3-4-69d1f19e5c40@wolfvision.net>
 
-Hi Nicholas,
+Hi Michael,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   3e25b4f1b2a403f9c9bbcabb005b882397477053
-commit: 004cface9c1c0b6351473934a4ce452193e05b07 [1418/1418] mm: Move vmap_range from mm/ioremap.c to mm/vmalloc.c
-config: x86_64-buildonly-randconfig-005-20250207 (https://download.01.org/0day-ci/archive/20250207/202502072305.gE5j9Qd8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502072305.gE5j9Qd8-lkp@intel.com/reproduce)
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Riesch/media-dt-bindings-media-video-interfaces-add-defines-for-sampling-modes/20250206-180041
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250206-v6-8-topic-rk3568-vicap-v3-4-69d1f19e5c40%40wolfvision.net
+patch subject: [PATCH v3 4/7] media: rockchip: add a driver for the rockchip camera interface
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250207/202502072356.crcHKSbX-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502072356.crcHKSbX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502072305.gE5j9Qd8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502072356.crcHKSbX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/ioremap.o: warning: objtool: missing symbol for section .text
+   drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c: In function 'rkcif_dvp_isr':
+>> drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c:759:32: warning: variable 'ctl' set but not used [-Wunused-but-set-variable]
+     759 |         u32 lastline, lastpix, ctl, cif_frmst;
+         |                                ^~~
+
+
+vim +/ctl +759 drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c
+
+   752	
+   753	irqreturn_t rkcif_dvp_isr(int irq, void *ctx)
+   754	{
+   755		struct device *dev = ctx;
+   756		struct rkcif_device *rkcif = dev_get_drvdata(dev);
+   757		struct rkcif_stream *stream;
+   758		unsigned int intstat;
+ > 759		u32 lastline, lastpix, ctl, cif_frmst;
+   760		irqreturn_t ret = IRQ_NONE;
+   761	
+   762		if (!rkcif->match_data->dvp)
+   763			return ret;
+   764	
+   765		intstat = cif_dvp_read(rkcif, RKCIF_DVP_INTSTAT);
+   766		cif_frmst = cif_dvp_read(rkcif, RKCIF_DVP_FRAME_STATUS);
+   767		lastline = RKCIF_FETCH_Y_LAST_LINE(
+   768			cif_dvp_read(rkcif, RKCIF_DVP_LAST_LINE));
+   769		lastpix = RKCIF_FETCH_Y_LAST_LINE(
+   770			cif_dvp_read(rkcif, RKCIF_DVP_LAST_PIX));
+   771		ctl = cif_dvp_read(rkcif, RKCIF_DVP_CTRL);
+   772	
+   773		if (intstat & RKCIF_INTSTAT_FRAME_END) {
+   774			cif_dvp_write(rkcif, RKCIF_DVP_INTSTAT,
+   775				      RKCIF_INTSTAT_FRAME_END_CLR |
+   776					      RKCIF_INTSTAT_LINE_END_CLR);
+   777	
+   778			stream = &rkcif->interfaces[RKCIF_DVP].streams[RKCIF_ID0];
+   779	
+   780			if (stream->stopping) {
+   781				cif_dvp_stop_streaming(stream);
+   782				wake_up(&stream->wq_stopped);
+   783				return IRQ_HANDLED;
+   784			}
+   785	
+   786			if (lastline != stream->pix.height) {
+   787				v4l2_err(&rkcif->v4l2_dev,
+   788					 "bad frame, irq:%#x frmst:%#x size:%dx%d\n",
+   789					 intstat, cif_frmst, lastpix, lastline);
+   790	
+   791				cif_dvp_reset_stream(rkcif);
+   792			}
+   793	
+   794			rkcif_stream_pingpong(stream);
+   795	
+   796			ret = IRQ_HANDLED;
+   797		}
+   798	
+   799		return ret;
+   800	}
+   801	
 
 -- 
 0-DAY CI Kernel Test Service
