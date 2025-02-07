@@ -1,74 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DCD2E403;
-	Fri,  7 Feb 2025 01:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1F42417D3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 02:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738891367; cv=none; b=Hf/D8jIVO6U9LRndCFbcB3eG0H2jGhDImZXxr7zG62RnLFp61PgvEnNxC/GUuhdvVksGQFDAxNglfWYtJxVEA8jr4kLo2mTmVUmIzM5K1T7/yqhqsGdVT3ooDQkGC2f+G8VWwWjdK+8F+ayJsuaj9JET0Nt/L8yeVjikP9P0S2U=
+	t=1738894549; cv=none; b=lV9qPDVhyeRgJMSXnMTrTWCqxXliRNYffAkv2ixXOcitC7Qigk3WK2zjx+qw5fgAcsoW+M2J7tH2CUd+xqfqoSlKJbTKXlB2kDE0qRzWz/D6TlAQkdu3UotUm2QW0ZM3hhJBjutDUzaaZlCTDuPBk8GhZRAszhoZBJNuAZFj9vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738891367; c=relaxed/simple;
-	bh=5ut+Ydpor1ahOdNF19/psEAjOTq+kvpzRyrgKmmrAj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SsGAxo+X/IAsczOLGxnL3V4PifQN7iYcFYPbccEMFPq+FWS2+0BZ/oAz3/Mxnej2l5cgtZLt0wcWU4QVsSnkx7knWSaJB5+4C1M1LzUW4nmMx/mDFqACNyIrEQKz0YhLVdvP5xpXgE52II0JtrvAw7rPJ1xbabhtq5ZO3VJ0z2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrVaz5iU; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1738894549; c=relaxed/simple;
+	bh=mlMhT4N05K5CguIf0QuSN7IOj82wtEOK5XAEPWD25Mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k8Lc0Rl3RyBNfGlPTJv9ZewDMZv89Hapnjt+nSDxBaimcNXV86sKt+CjlXq9/fTe+R9bEAMgEiluDd19EdXJbhDpnv7l2txWMMjAIunli33NqM4U52IjPeHewK4msYDtNu/wOA21pobXh8nuqHArvF5XEhMAXus9bfRrHDTC4qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXFWqHHP; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrVaz5iU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXFWqHHP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738891365; x=1770427365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5ut+Ydpor1ahOdNF19/psEAjOTq+kvpzRyrgKmmrAj0=;
-  b=BrVaz5iUlC7yYoUYPWs35bzOm5/0IbeNK2pmEF/2lF2NdYroSlBIVUkT
-   ovpAl68h/2VpAKE/qtAWLPLMQIZW226RLHdLPWJ2tIkr9ODmcxeH0q+/z
-   rV7r+emhAlMPstqC6o3d6i49KyRYNm0SaQ2YdyBi8Y9evg+VM4Z/Abh1f
-   YeOCMZFJ7jwxLdjxXFzd/CwIW2w4d8MpmdKdDFlQplnfqfaikLX38PLW1
-   0VWr+yL+ZQwwhngA1bgJOz0CCv3/1eG7LYDF+Ro/dgwVHvFTIp2RBooNZ
-   BZCXcrdx2gu8P5T/VUiPYUZssHNcGp8Eu4U6z9O0vyqAWiiHRCTchPYrj
+  t=1738894547; x=1770430547;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mlMhT4N05K5CguIf0QuSN7IOj82wtEOK5XAEPWD25Mw=;
+  b=MXFWqHHPuz5q1alP8HiqHL1LalcPl4De7k+HFFnXMR745rj/+a6xIvjs
+   7oKDAS6RRxjG8QWUi4iwjPFFLXw5CUMeGXXhK5JcpgmYGBlqMVwI86rHK
+   Ps1Jlew2a/pQ+KgFg3zn/zzGCPRDI7+Dx8IGcGN9fJhk0HODkqiQX4Zwr
+   5NErtDJIeacnVr7p153oGn/+045CMvOAU9jsnabvGSVwbwUVRoJAU8jz2
+   SCJTRqP4qMw7HfAByFN0x24PLNb+UJJTc8mtmRIJ9gYpSUSqoY6yDPr8v
+   UKxIowMvzixM3CNIs9BbsJNNvF2IbrtnuV+cRiwVVdY00IgNv48nt206m
    Q==;
-X-CSE-ConnectionGUID: 1KGKi8J6Rxa9+eN/d7JHAg==
-X-CSE-MsgGUID: 7uwVAB8SReuxZaMThpnzeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50163524"
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="50163524"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 17:22:44 -0800
-X-CSE-ConnectionGUID: 3BgyQzXhS+O8cXOSB2i9Dg==
-X-CSE-MsgGUID: TVAGk+wRSrKWwYeco9ojng==
+X-CSE-ConnectionGUID: TeGOnmxjTV++1zkX9U/bbA==
+X-CSE-MsgGUID: /1ELkuWRQxqwMyo/vgfq6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="50510613"
+X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; 
+   d="scan'208";a="50510613"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 18:15:46 -0800
+X-CSE-ConnectionGUID: ZqiC0PZKRaSj8T2+zgkEFw==
+X-CSE-MsgGUID: WYtnNFSoSSuVIOFVF66geA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; 
-   d="scan'208";a="112002202"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116013795"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Feb 2025 17:22:40 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Feb 2025 18:15:45 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgD4n-000xbb-2Y;
-	Fri, 07 Feb 2025 01:22:37 +0000
-Date: Fri, 7 Feb 2025 09:21:37 +0800
+	id 1tgDuB-000xdx-1a;
+	Fri, 07 Feb 2025 02:15:43 +0000
+Date: Fri, 7 Feb 2025 10:15:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Felix Fietkau <nbd@nbd.name>, Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	upstream@airoha.com
-Subject: Re: [PATCH net-next 10/13] net: airoha: Introduce PPE initialization
- via NPU
-Message-ID: <202502070935.LuHfHz3M-lkp@intel.com>
-References: <20250205-airoha-en7581-flowtable-offload-v1-10-d362cfa97b01@kernel.org>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:task/work 6/6] kernel/sched/isolation.c:256:9:
+ error: implicit declaration of function 'lru_add_and_bh_lrus_drain'
+Message-ID: <202502071032.ahwOfi8m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,104 +61,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250205-airoha-en7581-flowtable-offload-v1-10-d362cfa97b01@kernel.org>
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 135c3c86a7cef4ba3d368da15b16c275b74582d3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-airoha-Move-airoha_eth-driver-in-a-dedicated-folder/20250206-022555
-base:   135c3c86a7cef4ba3d368da15b16c275b74582d3
-patch link:    https://lore.kernel.org/r/20250205-airoha-en7581-flowtable-offload-v1-10-d362cfa97b01%40kernel.org
-patch subject: [PATCH net-next 10/13] net: airoha: Introduce PPE initialization via NPU
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250207/202502070935.LuHfHz3M-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502070935.LuHfHz3M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git task/work
+head:   3a5b43d6075ec915d0bf17d38d15f9c75d05dc26
+commit: 3a5b43d6075ec915d0bf17d38d15f9c75d05dc26 [6/6] mm: Drain LRUs upon resume to userspace on nohz_full CPUs
+config: sparc64-randconfig-002-20250207 (https://download.01.org/0day-ci/archive/20250207/202502071032.ahwOfi8m-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250207/202502071032.ahwOfi8m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502070935.LuHfHz3M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502071032.ahwOfi8m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/airoha/airoha_npu.c:201:30: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     200 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
-         |                                                          ~~~
-         |                                                          %zu
-     201 |                         NPU_EN7581_FIRMWARE_RV32, fw->size);
-         |                                                   ^~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/net/ethernet/airoha/airoha_npu.c:221:30: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     220 |                 dev_err(dev, "%s: fw size too overlimit (%ld)\n",
-         |                                                          ~~~
-         |                                                          %zu
-     221 |                         NPU_EN7581_FIRMWARE_DATA, fw->size);
-         |                                                   ^~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   2 warnings generated.
+   In file included from kernel/sched/build_utility.c:104:
+   kernel/sched/isolation.c: In function 'isolated_task_work':
+>> kernel/sched/isolation.c:256:9: error: implicit declaration of function 'lru_add_and_bh_lrus_drain' [-Wimplicit-function-declaration]
+     256 |         lru_add_and_bh_lrus_drain();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +201 drivers/net/ethernet/airoha/airoha_npu.c
+vim +/lru_add_and_bh_lrus_drain +256 kernel/sched/isolation.c
 
-   187	
-   188	static int airoha_npu_run_firmware(struct airoha_npu *npu, struct reserved_mem *rmem)
-   189	{
-   190		struct device *dev = &npu->pdev->dev;
-   191		const struct firmware *fw;
-   192		void __iomem *addr;
-   193		int ret;
-   194	
-   195		ret = request_firmware(&fw, NPU_EN7581_FIRMWARE_RV32, dev);
-   196		if (ret)
-   197			return ret;
-   198	
-   199		if (fw->size > NPU_EN7581_FIRMWARE_RV32_MAX_SIZE) {
-   200			dev_err(dev, "%s: fw size too overlimit (%ld)\n",
- > 201				NPU_EN7581_FIRMWARE_RV32, fw->size);
-   202			ret = -E2BIG;
-   203			goto out;
-   204		}
-   205	
-   206		addr = devm_ioremap(dev, rmem->base, rmem->size);
-   207		if (!addr) {
-   208			ret = -ENOMEM;
-   209			goto out;
-   210		}
-   211	
-   212		memcpy_toio(addr, fw->data, fw->size);
-   213		release_firmware(fw);
-   214	
-   215		ret = request_firmware(&fw, NPU_EN7581_FIRMWARE_DATA, dev);
-   216		if (ret)
-   217			return ret;
-   218	
-   219		if (fw->size > NPU_EN7581_FIRMWARE_DATA_MAX_SIZE) {
-   220			dev_err(dev, "%s: fw size too overlimit (%ld)\n",
-   221				NPU_EN7581_FIRMWARE_DATA, fw->size);
-   222			ret = -E2BIG;
-   223			goto out;
-   224		}
-   225	
-   226		memcpy_toio(npu->base + REG_NPU_LOCAL_SRAM, fw->data, fw->size);
-   227	out:
-   228		release_firmware(fw);
-   229	
-   230		return ret;
-   231	}
-   232	
+   252	
+   253	#if defined(CONFIG_NO_HZ_FULL)
+   254	static void isolated_task_work(struct callback_head *head)
+   255	{
+ > 256		lru_add_and_bh_lrus_drain();
+   257	}
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
