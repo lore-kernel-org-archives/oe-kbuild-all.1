@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95E712E1CD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 16:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38F318DB08
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 16:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738945173; cv=none; b=g6SImOJQbVjVV3bWNS3xDPUsfXzjD6NlVpmNWnqqG6ccfp755Shs4Hav2fmSNXJJ4Wy7SnTycI7o7t7fNHoq0ewbSX/hckRcFuSVPlmzudmjiRgdMT1bRQZZH5YDvxmef7WLU8J8NFaZf91h2W+Fdmjo3M8JUl6rT9f/v1dTpeY=
+	t=1738947037; cv=none; b=DEeQWXtMDWRcaSmgUbQ9z1ri5+RAX+JFnBjZmb43xVrSK0cs43Y9muQHvmAQIEuHCUT9SBOTgouht1wb0E5Sro7ZEZlKrKn7lcB3QboeiPJfJJOS3IVZvvsTRcgL6FHFaSfBQc6P7PBBwfAMTVJT0Jxj9tXA9UI7NMCDBLMk66c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738945173; c=relaxed/simple;
-	bh=xH0Igg3pkLU3XM47chgqUJCsnPJTkGVxN85f9SNRdck=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZLiW4PWlMqdaFdDzTnTf2f5ZTnrCW4COxnnYYRxIvYjz+etgpY6gfxjMT+KFIK8YlBHuHSaCjdwQBtBRAlz4kFPgH2ORxB8R/exjI5BYEC6jXspYKvjLV3GkelvG6M7XE3vq66Vap000qlvbMAY4tYSdL8iSmLXL56ciEs2wpI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJ1w58jy; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1738947037; c=relaxed/simple;
+	bh=DkEejrWx0XQokmcY9bvrm0iMZbgql3NhyFtjjmT6C7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l6CMadf8DLUwbx+32mE2P8d72pjmwOpCaKzDJwBgSFVaWmR5QCvCQqK88bDZ4DYPjNlYLLgWe5otcr+1ZkCCcGXYT4ORi//2BuwVh3rBUOsFVl/pxnxkcKHmmLsdk4ac/W3f9va3zZThrUSpK+o3aiyzZ+VB4LIsbLiopP21Sk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6wTCIGZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJ1w58jy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6wTCIGZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738945170; x=1770481170;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xH0Igg3pkLU3XM47chgqUJCsnPJTkGVxN85f9SNRdck=;
-  b=VJ1w58jyeAvO/PrF0PjiUbuUA0IInn43AsckXXF+e2ZWzAztM/K7WxT0
-   yVOLJDQp/rrQXXla+wPh3qHm+DN5zI6L62TTq2u8CIZ8+NHiFT72xWNtr
-   n8NlhTrjsJq6acj4gLUOIRsyfo4ZDpL6wNFU67cxYGE4ovz3QkvQ2xAW9
-   NcHpKW7FMY5At93w311b0HElX3LRDc89EzYFAxZpxuEOyhFULsDHFhJS+
-   qCoX5e4bErGljqRch+qAxJrHCy9WifCV6Q/2lhcFDkfpjrwkQYbcRns+Y
-   4+S8W7AfBvRymYeu6D0a8hLrY1tKRdkOnPHFDP6zIdgT3c6ubgEj1JD8+
-   Q==;
-X-CSE-ConnectionGUID: zwBKYg8uRamNMyySkpz/jQ==
-X-CSE-MsgGUID: YXnfXpnFRLqaJeNQuEyvpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="49833073"
+  t=1738947035; x=1770483035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DkEejrWx0XQokmcY9bvrm0iMZbgql3NhyFtjjmT6C7s=;
+  b=U6wTCIGZRcyFhthlZ2fHiycIpTiwCqtDDtDMxjQulopoZFu0+TG8EOn6
+   IFU/+XSqnAhj4VoZPg6eUH5qReAXTtEJK6HUE1k2QJJVf9anEG1QSOM7k
+   fnFepHD0txhvq1NBE2wRmieZh0eeiw63tFnW447aBNgx2lpfFkA3BVFrs
+   +WxawTC/b/8iDozLByDBycWT7T1mkyukC3PZ+gBHbqzoUjGuzqtofg30v
+   iuD6w0wBGzc1nI0KH3FDFYIBZ+/7gbiqFopWSVxSmuf4/omAFoD3yS1Fj
+   fnTfXNd/6begQNt868Zaix22DHqYVkx/bo38YI7kMHfgxaahjrh20BUd7
+   g==;
+X-CSE-ConnectionGUID: AOSIgIZuQlWYL1Wyw8aMCg==
+X-CSE-MsgGUID: g6hPFYO6R2+vUe4MbGodNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="50215625"
 X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="49833073"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 08:19:28 -0800
-X-CSE-ConnectionGUID: 564zWVsAQ9iskpWtXBXK+A==
-X-CSE-MsgGUID: raildP85TB6oo1ryNWxN2w==
+   d="scan'208";a="50215625"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 08:50:34 -0800
+X-CSE-ConnectionGUID: 3W97wincTMSapLK1n61aUw==
+X-CSE-MsgGUID: pXO2nomhQtitMxxhgehHUw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; 
-   d="scan'208";a="111344119"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="116509262"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2025 08:19:28 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Feb 2025 08:50:31 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgR4f-000yab-1q;
-	Fri, 07 Feb 2025 16:19:25 +0000
-Date: Sat, 8 Feb 2025 00:18:36 +0800
+	id 1tgRYi-000ycZ-1F;
+	Fri, 07 Feb 2025 16:50:28 +0000
+Date: Sat, 8 Feb 2025 00:50:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 204/204]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb:
- /soc/memory-controller@10236000: failed to match any schema with compatible:
- ['mediatek,mt8196-dramc']
-Message-ID: <202502080034.lhMfVbhc-lkp@intel.com>
+To: edward.cree@amd.com, linux-net-drivers@amd.com, davem@davemloft.net,
+	kuba@kernel.org, edumazet@google.com, pabeni@redhat.com,
+	horms@kernel.org, andrew+netdev@lunn.ch
+Cc: oe-kbuild-all@lists.linux.dev, Edward Cree <ecree.xilinx@gmail.com>,
+	habetsm.xilinx@gmail.com, jiri@resnulli.us, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next 2/4] sfc: extend NVRAM MCDI handlers
+Message-ID: <202502080054.s619TTmK-lkp@intel.com>
+References: <6ad7f4af17c2566ddc53fd247a0d0a790eff02ae.1738881614.git.ecree.xilinx@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +65,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6ad7f4af17c2566ddc53fd247a0d0a790eff02ae.1738881614.git.ecree.xilinx@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
-commit: 2905358ad1479d24cb988c6cad8be353488b2b6d [204/204] CHROMIUM: arm64: dts: mt8196: Add memory-controller node
-config: arm64-randconfig-051-20250206 (https://download.01.org/0day-ci/archive/20250208/202502080034.lhMfVbhc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080034.lhMfVbhc-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/edward-cree-amd-com/sfc-parse-headers-of-devlink-flash-images/20250207-081201
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/6ad7f4af17c2566ddc53fd247a0d0a790eff02ae.1738881614.git.ecree.xilinx%40gmail.com
+patch subject: [PATCH net-next 2/4] sfc: extend NVRAM MCDI handlers
+config: i386-randconfig-002-20250207 (https://download.01.org/0day-ci/archive/20250208/202502080054.s619TTmK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080054.s619TTmK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080034.lhMfVbhc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502080054.s619TTmK-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/performance-controller@c2c0f20: failed to match any schema with compatible: ['mediatek,cpufreq-hw-v1']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/cpuhvfs@c2c2310: failed to match any schema with compatible: ['mediatek,cpufreq-hybrid']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000000: failed to match any schema with compatible: ['mediatek,mt8196-cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c000: failed to match any schema with compatible: ['mediatek,mt8196-cksys-gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/pinctrl@1002d000: failed to match any schema with compatible: ['mediatek,mt8196-pinctrl']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/memory-controller@10236000: failed to match any schema with compatible: ['mediatek,mt8196-dramc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@102f3000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@10613000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@10693000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: i2c@120a0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c'] is too long
-   	'mediatek,mt2712-i2c' was expected
-   	'mediatek,mt6577-i2c' was expected
-   	'mediatek,mt6589-i2c' was expected
-   	'mediatek,mt7622-i2c' was expected
-   	'mediatek,mt7981-i2c' was expected
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/sfc/mcdi.c:2195:12: warning: 'efx_mcdi_nvram_read' defined but not used [-Wunused-function]
+    2195 | static int efx_mcdi_nvram_read(struct efx_nic *efx, unsigned int type,
+         |            ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/efx_mcdi_nvram_read +2195 drivers/net/ethernet/sfc/mcdi.c
+
+45a3fd55acc898 Ben Hutchings 2012-11-28  2194  
+45a3fd55acc898 Ben Hutchings 2012-11-28 @2195  static int efx_mcdi_nvram_read(struct efx_nic *efx, unsigned int type,
+45a3fd55acc898 Ben Hutchings 2012-11-28  2196  			       loff_t offset, u8 *buffer, size_t length)
+45a3fd55acc898 Ben Hutchings 2012-11-28  2197  {
+5fb1beeceab857 Bert Kenward  2019-01-16  2198  	MCDI_DECLARE_BUF(inbuf, MC_CMD_NVRAM_READ_IN_V2_LEN);
+45a3fd55acc898 Ben Hutchings 2012-11-28  2199  	MCDI_DECLARE_BUF(outbuf,
+45a3fd55acc898 Ben Hutchings 2012-11-28  2200  			 MC_CMD_NVRAM_READ_OUT_LEN(EFX_MCDI_NVRAM_LEN_MAX));
+45a3fd55acc898 Ben Hutchings 2012-11-28  2201  	size_t outlen;
+45a3fd55acc898 Ben Hutchings 2012-11-28  2202  	int rc;
+45a3fd55acc898 Ben Hutchings 2012-11-28  2203  
+45a3fd55acc898 Ben Hutchings 2012-11-28  2204  	MCDI_SET_DWORD(inbuf, NVRAM_READ_IN_TYPE, type);
+45a3fd55acc898 Ben Hutchings 2012-11-28  2205  	MCDI_SET_DWORD(inbuf, NVRAM_READ_IN_OFFSET, offset);
+45a3fd55acc898 Ben Hutchings 2012-11-28  2206  	MCDI_SET_DWORD(inbuf, NVRAM_READ_IN_LENGTH, length);
+5fb1beeceab857 Bert Kenward  2019-01-16  2207  	MCDI_SET_DWORD(inbuf, NVRAM_READ_IN_V2_MODE,
+5fb1beeceab857 Bert Kenward  2019-01-16  2208  		       MC_CMD_NVRAM_READ_IN_V2_DEFAULT);
+45a3fd55acc898 Ben Hutchings 2012-11-28  2209  
+45a3fd55acc898 Ben Hutchings 2012-11-28  2210  	rc = efx_mcdi_rpc(efx, MC_CMD_NVRAM_READ, inbuf, sizeof(inbuf),
+45a3fd55acc898 Ben Hutchings 2012-11-28  2211  			  outbuf, sizeof(outbuf), &outlen);
+45a3fd55acc898 Ben Hutchings 2012-11-28  2212  	if (rc)
+1e0b8120b2aef5 Edward Cree   2013-05-31  2213  		return rc;
+45a3fd55acc898 Ben Hutchings 2012-11-28  2214  
+45a3fd55acc898 Ben Hutchings 2012-11-28  2215  	memcpy(buffer, MCDI_PTR(outbuf, NVRAM_READ_OUT_READ_BUFFER), length);
+45a3fd55acc898 Ben Hutchings 2012-11-28  2216  	return 0;
+45a3fd55acc898 Ben Hutchings 2012-11-28  2217  }
+45a3fd55acc898 Ben Hutchings 2012-11-28  2218  
 
 -- 
 0-DAY CI Kernel Test Service
