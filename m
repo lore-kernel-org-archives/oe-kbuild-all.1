@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F871B4F0A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Feb 2025 21:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F9C23C8C7;
+	Fri,  7 Feb 2025 22:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738965500; cv=none; b=o4TfS4gO9JA5KtMzodxJ7n0qrKcEBudySfmrsAzVjZoO4T6mbz29Rmaq2yydDIXRTEEQyHDmUShIAdA/L2tQm5mQH8pBMix+MIoCZFbgT6Eq11AMwPg4bUlD4O+wjcB7stcCLghDIyazGGQJiIgv3bW36dHFvo+FYvMQyDO6Jnw=
+	t=1738968623; cv=none; b=F3mkNFCheguve9lFBp+JDC+MLn5DVl3wsrTh/gmvSiLkI03DRzaZZviDeXAKplHELwSnQLqIdmS93CEXGGXqXoTq8UFbF7KAM8s7wSzke5zELm1ng8wus78jqtjg+swhLuAVsBk9+ohF1mnSFJJnbBx8Ku0RE8bOOq83/pUTssQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738965500; c=relaxed/simple;
-	bh=A8K1lPwcu0u/+g2qPFYDFYyZLdtBTLN2RJHwr4L60kY=;
+	s=arc-20240116; t=1738968623; c=relaxed/simple;
+	bh=Rywow2VJHbUjqGlzct/KBtLKpCyad14t3+Sp4fnvnng=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SPoNF2ZObN+lucBuz6fC3ZlLaqPBYJxP9F5ErBXgeHr/RND88SfRXFZFJ6jEMawJicpmcJSc8BzU5RUcbUKLbvMlKpSAG1kBqH5RBZ6LDHgM1uqpLJpsnexC4rTK4pM3INMZ9SuOr469Zu8nRQSx2eICuRSloEbjYn4Gae8iwK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A86AE6pF; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=PnQ7LjqCjiX+YpXKsjFsZ895p78pcs43ceqYngQhtSrqAfI60FL70xDSzcoe808RsbNMN4zVSI2PcKXAk65wAfQc4ZGIpSStRxeFpasjOABYTs2kp6Srzhzy+MdxEIWoZnU86UInByuUjVxW7g2Z5agwrwiRZAJYU+17FeNAo8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJLb6/uB; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A86AE6pF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJLb6/uB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738965499; x=1770501499;
+  t=1738968621; x=1770504621;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A8K1lPwcu0u/+g2qPFYDFYyZLdtBTLN2RJHwr4L60kY=;
-  b=A86AE6pFNiYWXtxg+I6qmDBqqrzQq0TVchYQEkwF1UZKXRmwZlu+LCDb
-   05s0OqsY5dtOVg407WGBMPTYisEcAqPqFc2CMsw/IWleBoC0flpzzcJat
-   Q7Oc5huEFVFunO2ciTjsIynvqKurqLnZ8y2VfNZR2Fh5hJf03FNWih1dP
-   yLYTbbmf0YUz5KLKm+Rw/D2zqOIZnhgN6RxgRB1+7qK0zl/O8s6Ag2Ppn
-   SS2B0qq8pA+xgGHeLcHHwd1OWkfr4cfAbOyNX9gONU14GmjCdqelfLB8b
-   nR3wYG8sHIzKx8hS1k9LgIAZR4HjHfynV1rv6sr6CisVAupHXFVtJSCQG
+  bh=Rywow2VJHbUjqGlzct/KBtLKpCyad14t3+Sp4fnvnng=;
+  b=kJLb6/uBzIr1BkudAYQ99sbbkwTzT9IXr4kHlfQC3A4gwGMA/b0mWKav
+   Vz1JmorUgkOBOH2OEKdHyZWqo2dMadsDnQW/66/ahl+zKBAPQmKLMmPdi
+   pReq6QabsJ5ARIL5IUCsQ0FvRsxqjmNzh4QtxgCjQQPT8bHJG1J9ItTkF
+   jAC539YgNh1rWvustSsO6X7XCHKc7tqTzkLzOVviX/v/uWeAZ4i2v3oUh
+   TMf8J9Wl3iuHFPETHZs+LO51fh3d9/Uh0cdUEje4KPTNhuTlZ8QbY7zC5
+   vtkTPyiLEwyzdkMAZwvvd7mGzmEgDV/4oPjlDGvzDWffRuElXhx1xPbvg
    w==;
-X-CSE-ConnectionGUID: fzonMlTSSW2kJe4Hbw9Uug==
-X-CSE-MsgGUID: y5OSchpqRUaiSkU8HFJrvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39311850"
+X-CSE-ConnectionGUID: lUDO6/4OSAe4f3JyS0ppAA==
+X-CSE-MsgGUID: lGYXehirTwOMczoCn23MkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="49862104"
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39311850"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 13:58:15 -0800
-X-CSE-ConnectionGUID: cVCbWYtOS+GRiLlJsh+omA==
-X-CSE-MsgGUID: 5sl2Il7+SiKrIEioNkpDDQ==
+   d="scan'208";a="49862104"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 14:50:20 -0800
+X-CSE-ConnectionGUID: Fzk086L5SAW0dWNr78r0dQ==
+X-CSE-MsgGUID: gjTR0XvlRAqjOjFK6x4m3A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="111584873"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116251474"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Feb 2025 13:58:14 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 07 Feb 2025 14:50:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgWMV-000z67-20;
-	Fri, 07 Feb 2025 21:58:11 +0000
-Date: Sat, 8 Feb 2025 05:57:53 +0800
+	id 1tgXAu-000z93-2c;
+	Fri, 07 Feb 2025 22:50:16 +0000
+Date: Sat, 8 Feb 2025 06:49:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 204/204]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/video@36000000: failed to
- match any schema with compatible: ['mediatek,mt8196-vcodec-dec']
-Message-ID: <202502080541.4FrTtMC6-lkp@intel.com>
+To: Andrea Gelmini <andrea.gelmini@gelma.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:pr/739 1/1]
+ fs/bcachefs/btree_key_cache.c:149:7: error: use of undeclared identifier
+ 'PF_MEMALLOC_NORECLAIM'
+Message-ID: <202502080600.dIbMsRzU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +63,115 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
-commit: f5d71366577c8d26e848fb29e3f402624f3eb97f [204/204] CHROMIUM: arm64: dts: mt8196: Add decoder node
-config: arm64-randconfig-051-20250206 (https://download.01.org/0day-ci/archive/20250208/202502080541.4FrTtMC6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080541.4FrTtMC6-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs pr/739
+head:   8fd3bb46913c536490fe0c180ce57dc1c0d630ba
+commit: 8fd3bb46913c536490fe0c180ce57dc1c0d630ba [1/1] Fix typos
+config: i386-buildonly-randconfig-005-20250208 (https://download.01.org/0day-ci/archive/20250208/202502080600.dIbMsRzU-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080600.dIbMsRzU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080541.4FrTtMC6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502080600.dIbMsRzU-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,outproc.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: outproc@32dc0000: 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,outproc.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32e60000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32e70000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32e80000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32e90000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/video@36000000: failed to match any schema with compatible: ['mediatek,mt8196-vcodec-dec']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@3600d000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@3600e000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@3600f000: failed to match any schema with compatible: ['mediatek,mt8196-vdecsys-soc', 'mediatek,mt8196-vdecsys_soc', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@3600f000: failed to match any schema with compatible: ['mediatek,mt8196-vdecsys-soc', 'mediatek,mt8196-vdecsys_soc', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@3602e000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@3602f000: failed to match any schema with compatible: ['mediatek,mt8196-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@38000000: failed to match any schema with compatible: ['mediatek,mt8196-vencsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@38010000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-sub-comm@38070000: failed to match any schema with compatible: ['mediatek,mt8196-smi-sub-common']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@38090000: failed to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+All errors (new ones prefixed by >>):
+
+>> fs/bcachefs/btree_key_cache.c:149:7: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     149 |         ck = allocate_dropping_locks(trans, ret,
+         |              ^
+   fs/bcachefs/btree_iter.h:900:37: note: expanded from macro 'allocate_dropping_locks'
+     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^
+>> fs/bcachefs/btree_key_cache.c:149:7: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:900:59: note: expanded from macro 'allocate_dropping_locks'
+     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^
+   fs/bcachefs/btree_key_cache.c:245:26: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     245 |                 struct bkey_i *new_k = allocate_dropping_locks(trans, ret,
+         |                                        ^
+   fs/bcachefs/btree_iter.h:900:37: note: expanded from macro 'allocate_dropping_locks'
+     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^
+   fs/bcachefs/btree_key_cache.c:245:26: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:900:59: note: expanded from macro 'allocate_dropping_locks'
+     900 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^
+   4 errors generated.
+--
+>> fs/bcachefs/btree_cache.c:834:24: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'; did you mean 'KMALLOC_RECLAIM'?
+     834 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+         |                               KMALLOC_RECLAIM
+   fs/bcachefs/btree_iter.h:882:46: note: expanded from macro 'memalloc_flags_do'
+     882 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^
+   include/linux/slab.h:609:2: note: 'KMALLOC_RECLAIM' declared here
+     609 |         KMALLOC_RECLAIM,
+         |         ^
+   1 error generated.
+--
+>> fs/bcachefs/ec.c:950:9: error: use of undeclared identifier 'PF_MEMALLOC_NORECLAIM'
+     950 |         return allocate_dropping_locks_errcode(trans,
+         |                ^
+   fs/bcachefs/btree_iter.h:890:31: note: expanded from macro 'allocate_dropping_locks_errcode'
+     890 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^
+>> fs/bcachefs/ec.c:950:9: error: use of undeclared identifier 'PF_MEMALLOC_NOWARN'
+   fs/bcachefs/btree_iter.h:890:53: note: expanded from macro 'allocate_dropping_locks_errcode'
+     890 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                            ^
+   2 errors generated.
+
+
+vim +/PF_MEMALLOC_NORECLAIM +149 fs/bcachefs/btree_key_cache.c
+
+d2cb6b219d3728 Kent Overstreet 2024-06-08  134  
+2ca88e5ad9b296 Kent Overstreet 2019-03-07  135  static struct bkey_cached *
+d2cb6b219d3728 Kent Overstreet 2024-06-08  136  bkey_cached_alloc(struct btree_trans *trans, struct btree_path *path, unsigned key_u64s)
+2ca88e5ad9b296 Kent Overstreet 2019-03-07  137  {
+5f1929f1f077d3 Kent Overstreet 2024-06-13  138  	struct bch_fs *c = trans->c;
+5f1929f1f077d3 Kent Overstreet 2024-06-13  139  	struct btree_key_cache *bc = &c->btree_key_cache;
+3d21d48e898a2e Kent Overstreet 2022-09-03  140  	bool pcpu_readers = btree_uses_pcpu_readers(path->btree_id);
+6c36318cc702f0 Kent Overstreet 2023-01-07  141  	int ret;
+8f7f566f5774d3 Kent Overstreet 2022-06-17  142  
+5f1929f1f077d3 Kent Overstreet 2024-06-13  143  	struct bkey_cached *ck = container_of_or_null(
+5f1929f1f077d3 Kent Overstreet 2024-06-13  144  				rcu_pending_dequeue(&bc->pending[pcpu_readers]),
+5f1929f1f077d3 Kent Overstreet 2024-06-13  145  				struct bkey_cached, rcu);
+5f1929f1f077d3 Kent Overstreet 2024-06-13  146  	if (ck)
+5f1929f1f077d3 Kent Overstreet 2024-06-13  147  		goto lock;
+5f1929f1f077d3 Kent Overstreet 2024-06-13  148  
+5f1929f1f077d3 Kent Overstreet 2024-06-13 @149  	ck = allocate_dropping_locks(trans, ret,
+8fd3bb46913c53 Andrea Gelmini  2024-12-22  150  				     __bkey_cached_alloc(key_u64s));
+6c36318cc702f0 Kent Overstreet 2023-01-07  151  	if (ret) {
+d2cb6b219d3728 Kent Overstreet 2024-06-08  152  		if (ck)
+d2cb6b219d3728 Kent Overstreet 2024-06-08  153  			kfree(ck->k);
+6c36318cc702f0 Kent Overstreet 2023-01-07  154  		kmem_cache_free(bch2_key_cache, ck);
+6c36318cc702f0 Kent Overstreet 2023-01-07  155  		return ERR_PTR(ret);
+6c36318cc702f0 Kent Overstreet 2023-01-07  156  	}
+6c36318cc702f0 Kent Overstreet 2023-01-07  157  
+5f1929f1f077d3 Kent Overstreet 2024-06-13  158  	if (ck) {
+0d2234a79e877b Kent Overstreet 2023-05-20  159  		bch2_btree_lock_init(&ck->c, pcpu_readers ? SIX_LOCK_INIT_PCPU : 0);
+4e6defd106b69c Kent Overstreet 2022-08-31  160  		ck->c.cached = true;
+5f1929f1f077d3 Kent Overstreet 2024-06-13  161  		goto lock;
+5f1929f1f077d3 Kent Overstreet 2024-06-13  162  	}
+5f1929f1f077d3 Kent Overstreet 2024-06-13  163  
+5f1929f1f077d3 Kent Overstreet 2024-06-13  164  	ck = container_of_or_null(rcu_pending_dequeue_from_all(&bc->pending[pcpu_readers]),
+5f1929f1f077d3 Kent Overstreet 2024-06-13  165  				  struct bkey_cached, rcu);
+5f1929f1f077d3 Kent Overstreet 2024-06-13  166  	if (ck)
+5f1929f1f077d3 Kent Overstreet 2024-06-13  167  		goto lock;
+5f1929f1f077d3 Kent Overstreet 2024-06-13  168  lock:
+5f1929f1f077d3 Kent Overstreet 2024-06-13  169  	six_lock_intent(&ck->c.lock, NULL, NULL);
+5f1929f1f077d3 Kent Overstreet 2024-06-13  170  	six_lock_write(&ck->c.lock, NULL, NULL);
+125907203cc902 Kent Overstreet 2020-11-19  171  	return ck;
+125907203cc902 Kent Overstreet 2020-11-19  172  }
+2ca88e5ad9b296 Kent Overstreet 2019-03-07  173  
+
+:::::: The code at line 149 was first introduced by commit
+:::::: 5f1929f1f077d3997ab8cd4a8136aad304b0e9df bcachefs: key cache can now allocate from pending
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
