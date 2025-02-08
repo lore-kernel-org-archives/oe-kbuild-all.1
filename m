@@ -1,71 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C0D10F4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 00:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C661D52B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 01:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738975419; cv=none; b=njA3Vpg3F6JiGdDw5elQP+fIJ24KT9g3lrdQ5EV5h8i5GM/Oi3vBsJ0fXr/YPneq4i15W7SVAjH+AQ3cm0lExj/oxUhDcIA/mR8Yu1kp/4vm4RcDdUkekNzeTJHpScWZjMzX0gQZBoguOMg/Wn6X9zxnSor3wIhsjpKhvyfLvBM=
+	t=1738976743; cv=none; b=oAcTueDhlTLbGo8Kb5l0MGGkniSdjvOQJmj+CwwDlLvgShEJgCG37JEGpWDRsjlUU+0lEjwGmhe83htEhPTlZ73G+HYyXFTCMjlvk6Hioow+Kjp6xhMggfPkOdfPG+7DksKpSy+9p5VkrBKQwkBsWNA+Cc6/sbkoQNWhUqm8HSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738975419; c=relaxed/simple;
-	bh=Xg/MgPonWvECjQA65kTkegGR9LxFyeFNABlwMtYCpSU=;
+	s=arc-20240116; t=1738976743; c=relaxed/simple;
+	bh=d8vzZRwLPwViD420OdIgJhDQbhL+2kT+lTYaavjXEgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XiGgawgiE16br+CZfWR8eFKtKWuZ3FfI7Vm/fPXDCR5le6WOOrCjErmri4p/TpYgUICS+z3VrIrRPi+P+VPgaartNyNKxSbnYo8OMrZDPXDuMA1RAyTcbzupBxI6hLnqTev2YzUHERDeGDxNnh1jbW41rfR1ZMJFpJAeHnQIWcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4DDrIpN; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgmyWEsAbqPZIbu8HBUtDl2XhZ+1RdepJqezs5nCNQM5KBHOcaEfWHxV3djJgwDD1hEX4L3p2CAPwr5/1VOCMw+bVLCqv72HAlqC7QR8Dqq6VJjy7kyrdfWLhCblK6ncGaUzCNBDQmBXFP88JpoJdx+ORrlMvVV+nz0yPj/Av8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjC6fNht; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4DDrIpN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjC6fNht"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738975418; x=1770511418;
+  t=1738976742; x=1770512742;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Xg/MgPonWvECjQA65kTkegGR9LxFyeFNABlwMtYCpSU=;
-  b=C4DDrIpNf8vJJnJBzKMDonz9rnLAg6Q/aYS9ivdQH2rNqZPpJvWuDR1v
-   b1QFeoOez57D3Lr2vbmrha0DpOYarmR4ZGjA/jWQqFRpSEvB4RjODnCCX
-   XiPlAtIfHRHrtILpu6z6BaOr4cJxiK01g4gzdrqGlrGpCzKsyWaCEXbZk
-   +YqknnLobo1yjzEskA41pRlHsOPxLp3qZP3eyjioEQU6fb5bthE0E8xq+
-   xq89UqRqb6/R0+aZmB4nf0QrZutQD/n2dfZ2NU7+cifRZvaOJjAT+Bc/K
-   SmjuB1svbaTtQOIrDjpuoMJb547he64trZ4NcP5iOBhaU6h2mPmULdHN/
-   Q==;
-X-CSE-ConnectionGUID: zaKhHh9yRdmIOtXL/adUyg==
-X-CSE-MsgGUID: ZOXaMSGYSpObIrsU43JUvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39892896"
+  bh=d8vzZRwLPwViD420OdIgJhDQbhL+2kT+lTYaavjXEgk=;
+  b=jjC6fNhtVYjIr3Z4tOtfx66lV+JHiHUcMFKPAhuPn4MemtsyUkIECpWa
+   TOEkqq+OEcBkO77ukfN5dl+cSROt8lf2hKeBzexZlRjBzQjCKDDfoo3Pq
+   OuO6h0H8H8ZntTTn6NZyK1Y7sM2WZFQIXIE1MWrvTTTcu2pN7RAtVd96U
+   HHoP+G3zeFFbPle/ZJ5tTjjte2PP2Q54RlWlosuUKkz5f2tShxGjZecc3
+   /9GiZYzn6zmJQ3wH97B+oHgyqsQjyutHXR77oUnc67qWa14Ii1E+HHCBL
+   CT1cgMXdlsI/nyTeG3i+6j2/PCKYRamyZ+3MylHRq7fMqGjCHO9atR9M2
+   g==;
+X-CSE-ConnectionGUID: uMJnBHNPSam7YhVE/xJxDg==
+X-CSE-MsgGUID: qkPsM5I4Ttehxee7DTF/gg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39757004"
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39892896"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 16:43:37 -0800
-X-CSE-ConnectionGUID: Ge764EICRVGS8/4ATAXARw==
-X-CSE-MsgGUID: gxJI/wlCTI2SpRIv2Y6toA==
+   d="scan'208";a="39757004"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 17:05:41 -0800
+X-CSE-ConnectionGUID: S6SyaLI+TpuY3YmuzPn2cQ==
+X-CSE-MsgGUID: H55n+kLZTaO7+KZt1W2iow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="116672578"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="134911131"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Feb 2025 16:43:32 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 07 Feb 2025 17:05:38 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgYwU-000zGd-14;
-	Sat, 08 Feb 2025 00:43:30 +0000
-Date: Sat, 8 Feb 2025 08:43:24 +0800
+	id 1tgZHr-000zKh-1X;
+	Sat, 08 Feb 2025 01:05:35 +0000
+Date: Sat, 8 Feb 2025 09:04:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
-	Will Deacon <will@kernel.org>, Waiman Long <llong@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Barret Rhoden <brho@google.com>, Josh Don <joshdon@google.com>,
-	Dohyun Kim <dohyunkim@google.com>,
-	linux-arm-kernel@lists.infradead.org, kernel-team@meta.com
-Subject: Re: [PATCH bpf-next v2 18/26] rqspinlock: Add entry to Makefile,
- MAINTAINERS
-Message-ID: <202502080835.XRxxo7P5-lkp@intel.com>
-References: <20250206105435.2159977-19-memxor@gmail.com>
+To: zihan zhou <15645113830zzh@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, bsegall@google.com,
+	dietmar.eggemann@arm.com, juri.lelli@redhat.com,
+	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com,
+	peterz@infradead.org, rostedt@goodmis.org,
+	vincent.guittot@linaro.org, vschneid@redhat.com
+Subject: Re: [PATCH V2 2/2] sched: Reduce the default slice to avoid tasks
+ getting an extra tick
+Message-ID: <202502080831.VwRnAlxo-lkp@intel.com>
+References: <20250207062402.33725-1-15645113830zzh@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,68 +67,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206105435.2159977-19-memxor@gmail.com>
+In-Reply-To: <20250207062402.33725-1-15645113830zzh@gmail.com>
 
-Hi Kumar,
+Hi zihan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 0abff462d802a352c87b7f5e71b442b09bf9cfff]
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on peterz-queue/sched/core linus/master v6.14-rc1 next-20250207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/locking-Move-MCS-struct-definition-to-public-header/20250206-190258
-base:   0abff462d802a352c87b7f5e71b442b09bf9cfff
-patch link:    https://lore.kernel.org/r/20250206105435.2159977-19-memxor%40gmail.com
-patch subject: [PATCH bpf-next v2 18/26] rqspinlock: Add entry to Makefile, MAINTAINERS
-config: x86_64-randconfig-121-20250207 (https://download.01.org/0day-ci/archive/20250208/202502080835.XRxxo7P5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080835.XRxxo7P5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/zihan-zhou/sched-Reduce-the-default-slice-to-avoid-tasks-getting-an-extra-tick/20250207-142556
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20250207062402.33725-1-15645113830zzh%40gmail.com
+patch subject: [PATCH V2 2/2] sched: Reduce the default slice to avoid tasks getting an extra tick
+config: i386-randconfig-141-20250208 (https://download.01.org/0day-ci/archive/20250208/202502080831.VwRnAlxo-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080831.VwRnAlxo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080835.XRxxo7P5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502080831.VwRnAlxo-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/locking/rqspinlock.c:101:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/locking/rqspinlock.c:101:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/locking/rqspinlock.c:101:39: sparse:     got struct rqspinlock_held *
-   kernel/locking/rqspinlock.c:123:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/locking/rqspinlock.c:123:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/locking/rqspinlock.c:123:39: sparse:     got struct rqspinlock_held *
-   kernel/locking/rqspinlock.c:136:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/locking/rqspinlock.c:136:51: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/locking/rqspinlock.c:136:51: sparse:     got struct rqspinlock_held *
-   kernel/locking/rqspinlock.c:206:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct rqspinlock_held * @@
-   kernel/locking/rqspinlock.c:206:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/locking/rqspinlock.c:206:39: sparse:     got struct rqspinlock_held *
->> kernel/locking/rqspinlock.c:572:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct qnode *qnodes @@     got struct qnode [noderef] __percpu * @@
-   kernel/locking/rqspinlock.c:572:41: sparse:     expected struct qnode *qnodes
-   kernel/locking/rqspinlock.c:572:41: sparse:     got struct qnode [noderef] __percpu *
-   kernel/locking/rqspinlock.c: note: in included file:
-   kernel/locking/qspinlock.h:67:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct mcs_spinlock * @@
-   kernel/locking/qspinlock.h:67:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   kernel/locking/qspinlock.h:67:16: sparse:     got struct mcs_spinlock *
+All errors (new ones prefixed by >>):
 
-vim +101 kernel/locking/rqspinlock.c
+   In file included from kernel/sched/build_utility.c:72:
+>> kernel/sched/debug.c:193:2: error: call to undeclared function 'sched_update_scaling'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     193 |         sched_update_scaling();
+         |         ^
+   1 error generated.
 
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06   97  
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06   98  static noinline int check_deadlock_AA(rqspinlock_t *lock, u32 mask,
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06   99  				      struct rqspinlock_timeout *ts)
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  100  {
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06 @101  	struct rqspinlock_held *rqh = this_cpu_ptr(&rqspinlock_held_locks);
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  102  	int cnt = min(RES_NR_HELD, rqh->cnt);
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  103  
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  104  	/*
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  105  	 * Return an error if we hold the lock we are attempting to acquire.
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  106  	 * We'll iterate over max 32 locks; no need to do is_lock_released.
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  107  	 */
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  108  	for (int i = 0; i < cnt - 1; i++) {
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  109  		if (rqh->locks[i] == lock)
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  110  			return -EDEADLK;
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  111  	}
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  112  	return 0;
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  113  }
-6516ce00a1482f Kumar Kartikeya Dwivedi 2025-02-06  114  
+
+vim +/sched_update_scaling +193 kernel/sched/debug.c
+
+   168	
+   169	
+   170	static ssize_t sched_base_slice_write(struct file *filp, const char __user *ubuf,
+   171					   size_t cnt, loff_t *ppos)
+   172	{
+   173		char buf[16];
+   174		unsigned int base_slice;
+   175	
+   176		if (cnt > 15)
+   177			cnt = 15;
+   178	
+   179		if (copy_from_user(&buf, ubuf, cnt))
+   180			return -EFAULT;
+   181		buf[cnt] = '\0';
+   182	
+   183		if (kstrtouint(buf, 10, &base_slice))
+   184			return -EINVAL;
+   185	
+   186	
+   187		base_slice = clamp_t(u64, base_slice,
+   188						NSEC_PER_MSEC/10,   /* HZ=1000 * 10 */
+   189						NSEC_PER_MSEC*100); /* HZ=100  / 10 */
+   190	
+   191		sysctl_sched_base_slice = base_slice;
+   192	
+ > 193		sched_update_scaling();
+   194	
+   195		*ppos += cnt;
+   196		return cnt;
+   197	}
+   198	
 
 -- 
 0-DAY CI Kernel Test Service
