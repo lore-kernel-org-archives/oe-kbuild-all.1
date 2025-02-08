@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C661D52B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 01:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A71DDC1;
+	Sat,  8 Feb 2025 01:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738976743; cv=none; b=oAcTueDhlTLbGo8Kb5l0MGGkniSdjvOQJmj+CwwDlLvgShEJgCG37JEGpWDRsjlUU+0lEjwGmhe83htEhPTlZ73G+HYyXFTCMjlvk6Hioow+Kjp6xhMggfPkOdfPG+7DksKpSy+9p5VkrBKQwkBsWNA+Cc6/sbkoQNWhUqm8HSk=
+	t=1738977343; cv=none; b=VCAbHa7qhT5B+2GdLptevuQYrIAjxm8v+FjFNJDd8yJOlgguwOyc5HGeHiBPlBi9JWrOJ9rkRRSdsCElNAohsp1xpQP6tjW3r0QIw71rpAj6ct6t0jGNA8Vaa6QxRsRLKAjmuU3yn02VfRrsdml1YxuMERihjjinmTlykQ/qVFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738976743; c=relaxed/simple;
-	bh=d8vzZRwLPwViD420OdIgJhDQbhL+2kT+lTYaavjXEgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jgmyWEsAbqPZIbu8HBUtDl2XhZ+1RdepJqezs5nCNQM5KBHOcaEfWHxV3djJgwDD1hEX4L3p2CAPwr5/1VOCMw+bVLCqv72HAlqC7QR8Dqq6VJjy7kyrdfWLhCblK6ncGaUzCNBDQmBXFP88JpoJdx+ORrlMvVV+nz0yPj/Av8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jjC6fNht; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1738977343; c=relaxed/simple;
+	bh=ZzbCngDiS4HH+GTtGTmyk7NcY5EF+xBYG0rU5hbY08k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QY8WS49DGHJQK+/rnmjxclTV1dcIJywJ1De6ckyKNmmq6Q2hLCZbivzRUt7y0Yeh6LEjayNuG8shcTVFIBOVwdaIAiuxPZp7a8ypN5eqUuVHRUMZakRGvojvVUpIvn0cUrsFAQtjR9/aOseRaMzGLfRtjSFMm/FK22vCecD8jMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCp/f648; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jjC6fNht"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCp/f648"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738976742; x=1770512742;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d8vzZRwLPwViD420OdIgJhDQbhL+2kT+lTYaavjXEgk=;
-  b=jjC6fNhtVYjIr3Z4tOtfx66lV+JHiHUcMFKPAhuPn4MemtsyUkIECpWa
-   TOEkqq+OEcBkO77ukfN5dl+cSROt8lf2hKeBzexZlRjBzQjCKDDfoo3Pq
-   OuO6h0H8H8ZntTTn6NZyK1Y7sM2WZFQIXIE1MWrvTTTcu2pN7RAtVd96U
-   HHoP+G3zeFFbPle/ZJ5tTjjte2PP2Q54RlWlosuUKkz5f2tShxGjZecc3
-   /9GiZYzn6zmJQ3wH97B+oHgyqsQjyutHXR77oUnc67qWa14Ii1E+HHCBL
-   CT1cgMXdlsI/nyTeG3i+6j2/PCKYRamyZ+3MylHRq7fMqGjCHO9atR9M2
-   g==;
-X-CSE-ConnectionGUID: uMJnBHNPSam7YhVE/xJxDg==
-X-CSE-MsgGUID: qkPsM5I4Ttehxee7DTF/gg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39757004"
+  t=1738977341; x=1770513341;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZzbCngDiS4HH+GTtGTmyk7NcY5EF+xBYG0rU5hbY08k=;
+  b=oCp/f648dSCxj8EVW2z+uyW74XeRyHYAoXnjNvlKBFUj9IDOe8ZKOBjT
+   JF7GP0UvQvF/l++/j+vxkFVl3hQ692CrxMPiP4asna8vsWOa5kbqQJ2e9
+   m2YlYU3B9hmKoIHaBvYRjB6GkjJ/u01Y9p+01xYeqWsmwFZN3LxdnWE5V
+   mbM2AyDT2t0es94VOZ6pRTQwWqILtOoJ3HvDWueyLMhQK2hLLvtLRoCoG
+   /fgn5QwY6fRgVPFVShNNpK1qgeD/sEXzsgAx/P9vxiXNubn23AkRgUBvo
+   ciNE1FTm9blk7q13bZUsr8NwJjk86Mu9DdfskiMJ4N2O4cF/J+qZ2xvRS
+   w==;
+X-CSE-ConnectionGUID: /vwytOFVQaKmhoE5H7XA2A==
+X-CSE-MsgGUID: Ns8cRk1QSk25De8BqMgvug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="38830154"
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39757004"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 17:05:41 -0800
-X-CSE-ConnectionGUID: S6SyaLI+TpuY3YmuzPn2cQ==
-X-CSE-MsgGUID: H55n+kLZTaO7+KZt1W2iow==
+   d="scan'208";a="38830154"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 17:15:40 -0800
+X-CSE-ConnectionGUID: rgofqlFeRjmfGANYwyAk5g==
+X-CSE-MsgGUID: hpPhOs+4QNOq33o13yWsHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134911131"
+   d="scan'208";a="116885389"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Feb 2025 17:05:38 -0800
+  by orviesa005.jf.intel.com with ESMTP; 07 Feb 2025 17:15:39 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgZHr-000zKh-1X;
-	Sat, 08 Feb 2025 01:05:35 +0000
-Date: Sat, 8 Feb 2025 09:04:43 +0800
+	id 1tgZRY-000zLF-1h;
+	Sat, 08 Feb 2025 01:15:36 +0000
+Date: Sat, 8 Feb 2025 09:14:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: zihan zhou <15645113830zzh@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, bsegall@google.com,
-	dietmar.eggemann@arm.com, juri.lelli@redhat.com,
-	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com,
-	peterz@infradead.org, rostedt@goodmis.org,
-	vincent.guittot@linaro.org, vschneid@redhat.com
-Subject: Re: [PATCH V2 2/2] sched: Reduce the default slice to avoid tasks
- getting an extra tick
-Message-ID: <202502080831.VwRnAlxo-lkp@intel.com>
-References: <20250207062402.33725-1-15645113830zzh@gmail.com>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mark:arm64/kvm/fpsimd-fixes 11/11] arch/arm64/kvm/fpsimd.c:141:16:
+ warning: variable 'old_vl' set but not used
+Message-ID: <202502080941.kKctv9BR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,73 +61,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207062402.33725-1-15645113830zzh@gmail.com>
 
-Hi zihan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.14-rc1 next-20250207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zihan-zhou/sched-Reduce-the-default-slice-to-avoid-tasks-getting-an-extra-tick/20250207-142556
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250207062402.33725-1-15645113830zzh%40gmail.com
-patch subject: [PATCH V2 2/2] sched: Reduce the default slice to avoid tasks getting an extra tick
-config: i386-randconfig-141-20250208 (https://download.01.org/0day-ci/archive/20250208/202502080831.VwRnAlxo-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080831.VwRnAlxo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/kvm/fpsimd-fixes
+head:   874ec7cd4fdbab02ffc8297b012721f9c74f7954
+commit: 874ec7cd4fdbab02ffc8297b012721f9c74f7954 [11/11] HACK: Check the host's VL isn't artifically constrained
+config: arm64-randconfig-004-20250208 (https://download.01.org/0day-ci/archive/20250208/202502080941.kKctv9BR-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080941.kKctv9BR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080831.VwRnAlxo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502080941.kKctv9BR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:72:
->> kernel/sched/debug.c:193:2: error: call to undeclared function 'sched_update_scaling'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     193 |         sched_update_scaling();
-         |         ^
-   1 error generated.
+>> arch/arm64/kvm/fpsimd.c:141:16: warning: variable 'old_vl' set but not used [-Wunused-but-set-variable]
+                   unsigned int old_vl, new_vl, max_vl;
+                                ^
+   1 warning generated.
 
 
-vim +/sched_update_scaling +193 kernel/sched/debug.c
+vim +/old_vl +141 arch/arm64/kvm/fpsimd.c
 
-   168	
-   169	
-   170	static ssize_t sched_base_slice_write(struct file *filp, const char __user *ubuf,
-   171					   size_t cnt, loff_t *ppos)
-   172	{
-   173		char buf[16];
-   174		unsigned int base_slice;
-   175	
-   176		if (cnt > 15)
-   177			cnt = 15;
-   178	
-   179		if (copy_from_user(&buf, ubuf, cnt))
-   180			return -EFAULT;
-   181		buf[cnt] = '\0';
-   182	
-   183		if (kstrtouint(buf, 10, &base_slice))
-   184			return -EINVAL;
-   185	
-   186	
-   187		base_slice = clamp_t(u64, base_slice,
-   188						NSEC_PER_MSEC/10,   /* HZ=1000 * 10 */
-   189						NSEC_PER_MSEC*100); /* HZ=100  / 10 */
-   190	
-   191		sysctl_sched_base_slice = base_slice;
-   192	
- > 193		sched_update_scaling();
-   194	
-   195		*ppos += cnt;
-   196		return cnt;
-   197	}
-   198	
+    88	
+    89	/*
+    90	 * Called just after exiting the guest. If the guest FPSIMD state
+    91	 * was loaded, update the host's context tracking data mark the CPU
+    92	 * FPSIMD regs as dirty and belonging to vcpu so that they will be
+    93	 * written back if the kernel clobbers them due to kernel-mode NEON
+    94	 * before re-entry into the guest.
+    95	 */
+    96	void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
+    97	{
+    98		struct cpu_fp_state fp_state;
+    99	
+   100		WARN_ON_ONCE(!irqs_disabled());
+   101	
+   102		if (guest_owns_fp_regs()) {
+   103			if (system_supports_sve()) {
+   104				unsigned int active_vl = sve_get_vl();
+   105				unsigned int guest_max_vl = vcpu->arch.sve_max_vl;
+   106	
+   107				WARN_ONCE(active_vl != guest_max_vl,
+   108					  "Active VL (%u) is not guest max VL (%u)\n",
+   109					  active_vl, guest_max_vl);
+   110			}
+   111	
+   112			/*
+   113			 * Currently we do not support SME guests so SVCR is
+   114			 * always 0 and we just need a variable to point to.
+   115			 */
+   116			fp_state.st = &vcpu->arch.ctxt.fp_regs;
+   117			fp_state.sve_state = vcpu->arch.sve_state;
+   118			fp_state.sve_vl = vcpu->arch.sve_max_vl;
+   119			fp_state.sme_state = NULL;
+   120			fp_state.svcr = &__vcpu_sys_reg(vcpu, SVCR);
+   121			fp_state.fpmr = &__vcpu_sys_reg(vcpu, FPMR);
+   122			fp_state.fp_type = &vcpu->arch.fp_type;
+   123	
+   124			if (vcpu_has_sve(vcpu))
+   125				fp_state.to_save = FP_STATE_SVE;
+   126			else
+   127				fp_state.to_save = FP_STATE_FPSIMD;
+   128	
+   129			fpsimd_bind_state_to_cpu(&fp_state);
+   130	
+   131			clear_thread_flag(TIF_FOREIGN_FPSTATE);
+   132		}
+   133	
+   134		/*
+   135		 * HACK: test that the hsot can use its maximum VL, regardless of the
+   136		 * guest configuration.
+   137		 *
+   138		 * This relies on NOT being in streaming mode.
+   139		 */
+   140		if (system_supports_sve()) {
+ > 141			unsigned int old_vl, new_vl, max_vl;
+   142	
+   143			old_vl = sve_get_vl();
+   144	
+   145			max_vl = sve_max_vl();
+   146			sve_cond_update_zcr_vq(sve_vq_from_vl(max_vl) - 1, SYS_ZCR_EL1);
+   147			new_vl = sve_get_vl();
+   148	
+   149			WARN_ONCE(new_vl != max_vl, "Unable to set max VL (%u), got %u\n",
+   150				  max_vl, new_vl);
+   151	
+   152			sve_cond_update_zcr_vq(sve_vq_from_vl(old_vl) - 1, SYS_ZCR_EL1);
+   153		}
+   154	}
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
