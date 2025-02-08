@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31C11854
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 04:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE691854
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 04:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738987380; cv=none; b=Q14SwY4uA+fdOlARWiyb3amfd+8MGBSEsrdao+LXltjh6THaNR7elo+7/8zjHXNA2ielgMFZLIPQ72uVXZbwrPimgnVwpha8FDIdtGFdX7X8ynfpWXHEbeMkWcugbYzqyInzOWIP2AlZBmxaT74b/WoR1vSU/LHg+lL1IqRbieo=
+	t=1738987382; cv=none; b=dsEe71jqN8kPnlPOOeELBDWhPsPMW6cdCu+Wq85acOav0LoQqgWUbEenRdCRyW5/Hn1iSBclnCUS1CEB5oorov2opDC0621SfS2tYkU0dm8QyEj1p2CgkjpR0REFrL2noKYWl4n1eM5W8L7QhygSIrbPxuf5u6GtXj8EzFMJOsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738987380; c=relaxed/simple;
-	bh=Gr0AI03PKB8fWRpk2lIwPnTtxlTKRtosUG3YijiUPK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JRT2OvX66CtTwykdMoafuiAI9hKPEl8JBFJzi+Fv2Uo1CLSSc4jlSCxQCeQ2gDRU5SjChmX2nGGdvGClpJTGAx/MZL5Pc5Ug/7Bb0O0Qtt8DTd1SquUbjgVdC3kWdjPs+BgCYOq+262qL9fl+sndqiHkcbMZzOG0nM3sXdxvyGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JF73pr9U; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1738987382; c=relaxed/simple;
+	bh=7w1wbifFqli/Z6iK9htLZF5fuWaXyXeAXa24eNfZ1rM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TnS0B5qkMOmOmgocIeCQ7ZqQQTww2AvBIawuyKVYXv5O97uveuJ8B1sC4y6rpyVR6LuZoBn2FS9vzc4O5Io9JKEEn++qz3gL82EQnvDHVoGGhXYtDB8a/D5DGRmi+9NWZZSaScxcR1VqYi12xzW9PqH06w2xIxqlyDpJwdvgdPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JX7HsPoF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JF73pr9U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JX7HsPoF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738987379; x=1770523379;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gr0AI03PKB8fWRpk2lIwPnTtxlTKRtosUG3YijiUPK4=;
-  b=JF73pr9UQvWaSnkL+FquehFUWvSa22MxT4vT28Td+EWuYBJ7lDr7n2N+
-   qYipztWDQl9Kkb5f3QXU9ucr+DxO8ivOtUO+EpTj+1OLm9fdOo0a4SaBC
-   ig9rmF6Ia7L9pTVZ4xXHlqcbGtB4mmxDyjlrAgzUjfWmGvk3vn3oILbnU
-   1ErY6LjqZplceBwKeJdB4jthIj9la1qQuDXjjPrEsvz3St4o891P2DFbd
-   92j6PuVy1aLbGTG8N0TTfNRHqv7p/F98NC46RKTorSxSiRwcPUZc0QWl6
-   PPCjn1rcMlQ0yEah4uzkYf/N31oDfcApofgNjaPoxrnC52JTvpR5tdJXP
-   Q==;
-X-CSE-ConnectionGUID: W5d1YPW4SgOUzedrMDPHGg==
-X-CSE-MsgGUID: /r2MV6IzR6ePGkYrhipIAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="57172346"
+  t=1738987381; x=1770523381;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7w1wbifFqli/Z6iK9htLZF5fuWaXyXeAXa24eNfZ1rM=;
+  b=JX7HsPoF+NBnhjRJOYy1lYa5933tlTjvUaphfEppsLBniv+Ut1pWy6Yc
+   sAFi1jAHJgP03uvvVE6wTznjDLpWRS+opAx+kbHhw0XDtvmPcjrWAknOS
+   qaHU7SY6vH3oN0Pss+kzVGuh9YOduUL/KcnSn+b6JTOJnBpazByjw5G30
+   TVT0EkrPv3vocJcRyB21EKRgOKzhNUi058v0wm2DHVBFrMuqJKJkBog7k
+   roGIy5CP6Z3Ot5RilMOw7ufErbMPXIsunjkj72enEqr2hdiGbgXDpKSUR
+   NBTqFGuFKiSaKGdiwstX4gcU8ikJ+V3uI+r61tWImfp9n0gahg2jUVfWe
+   A==;
+X-CSE-ConnectionGUID: rlW8SDSkSAqT/LMPCZE6Eg==
+X-CSE-MsgGUID: 4lWH8C0oRPO5B2WICbJtPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="57055716"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="57172346"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 20:02:57 -0800
-X-CSE-ConnectionGUID: PTNzXNKHRZSyhzeTAtKNzQ==
-X-CSE-MsgGUID: UQl0i53DQAi+Sb99W1rqRw==
+   d="scan'208";a="57055716"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 20:03:00 -0800
+X-CSE-ConnectionGUID: H6AH0HuzSGSs2dQn5qyBlw==
+X-CSE-MsgGUID: BEj6K6kNS9mAXJ5iad85+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="112214132"
+   d="scan'208";a="111906998"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Feb 2025 20:02:56 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 07 Feb 2025 20:02:56 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgc3S-000zVO-1E;
+	id 1tgc3S-000zVL-0p;
 	Sat, 08 Feb 2025 04:02:54 +0000
-Date: Sat, 8 Feb 2025 12:02:02 +0800
+Date: Sat, 8 Feb 2025 12:02:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 211/211]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/nsmpu@1046f000: failed to
- match any schema with compatible: ['mediatek,smpu']
-Message-ID: <202502081221.2a8Qi1yR-lkp@intel.com>
+To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, edumazet@google.com,
+	sridhar.samudrala@intel.com, Joe Damato <jdamato@fastly.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Daniel Jurgens <danielj@nvidia.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	David Wei <dw@davidwei.uk>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v4 2/3] netdev-genl: Add an XSK attribute to
+ queues
+Message-ID: <202502081141.R4zMr9v1-lkp@intel.com>
+References: <20250207030916.32751-3-jdamato@fastly.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +74,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250207030916.32751-3-jdamato@fastly.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
-commit: 3a41185f82d985856c99ad9c706c1434214d62b2 [211/211] CHROMIUM: arm64: dts: mt8196: add nsmpu, ssmpu, nkp, skp node
-config: arm64-randconfig-051-20250207 (https://download.01.org/0day-ci/archive/20250208/202502081221.2a8Qi1yR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081221.2a8Qi1yR-lkp@intel.com/reproduce)
+Hi Joe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f3eba8edd885db439f4bfaa2cf9d766bad1ae6c5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netlink-Add-nla_put_empty_nest-helper/20250207-111126
+base:   f3eba8edd885db439f4bfaa2cf9d766bad1ae6c5
+patch link:    https://lore.kernel.org/r/20250207030916.32751-3-jdamato%40fastly.com
+patch subject: [PATCH net-next v4 2/3] netdev-genl: Add an XSK attribute to queues
+config: i386-buildonly-randconfig-001-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081141.R4zMr9v1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081141.R4zMr9v1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081221.2a8Qi1yR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081141.R4zMr9v1-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000000: failed to match any schema with compatible: ['mediatek,mt8196-cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@10000800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c000: failed to match any schema with compatible: ['mediatek,mt8196-cksys-gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1000c800: failed to match any schema with compatible: ['mediatek,mt8196-apmixedsys-gp2', 'mediatek,mt8196-apmixedsys_gp2', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1002c000: failed to match any schema with compatible: ['mediatek,mt8196-ifr-bus', 'mediatek,mt8196-ifr_bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/pinctrl@1002d000: failed to match any schema with compatible: ['mediatek,mt8196-pinctrl']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/memory-controller@10236000: failed to match any schema with compatible: ['mediatek,mt8196-dramc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@102f3000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/nsmpu@1046f000: failed to match any schema with compatible: ['mediatek,smpu']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/ssmpu@1056f000: failed to match any schema with compatible: ['mediatek,smpu']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/nkp@1046f000: failed to match any schema with compatible: ['mediatek,smpu']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/skp@1056f000: failed to match any schema with compatible: ['mediatek,smpu']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@10613000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@10693000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: i2c@120a0000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-i2c', 'mediatek,mt8188-i2c'] is too long
-   	'mediatek,mt2712-i2c' was expected
-   	'mediatek,mt6577-i2c' was expected
-   	'mediatek,mt6589-i2c' was expected
-   	'mediatek,mt7622-i2c' was expected
-   	'mediatek,mt7981-i2c' was expected
-   	'mediatek,mt7986-i2c' was expected
+All warnings (new ones prefixed by >>):
+
+   net/core/netdev-genl.c: In function 'netdev_nl_queue_fill_one':
+>> net/core/netdev-genl.c:383:13: warning: unused variable 'ret' [-Wunused-variable]
+     383 |         int ret;
+         |             ^~~
+
+
+vim +/ret +383 net/core/netdev-genl.c
+
+   374	
+   375	static int
+   376	netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
+   377				 u32 q_idx, u32 q_type, const struct genl_info *info)
+   378	{
+   379		struct pp_memory_provider_params *params;
+   380		struct netdev_rx_queue *rxq;
+   381		struct netdev_queue *txq;
+   382		void *hdr;
+ > 383		int ret;
+   384	
+   385		hdr = genlmsg_iput(rsp, info);
+   386		if (!hdr)
+   387			return -EMSGSIZE;
+   388	
+   389		if (nla_put_u32(rsp, NETDEV_A_QUEUE_ID, q_idx) ||
+   390		    nla_put_u32(rsp, NETDEV_A_QUEUE_TYPE, q_type) ||
+   391		    nla_put_u32(rsp, NETDEV_A_QUEUE_IFINDEX, netdev->ifindex))
+   392			goto nla_put_failure;
+   393	
+   394		switch (q_type) {
+   395		case NETDEV_QUEUE_TYPE_RX:
+   396			rxq = __netif_get_rx_queue(netdev, q_idx);
+   397			if (nla_put_napi_id(rsp, rxq->napi))
+   398				goto nla_put_failure;
+   399	
+   400			params = &rxq->mp_params;
+   401			if (params->mp_ops &&
+   402			    params->mp_ops->nl_fill(params->mp_priv, rsp, rxq))
+   403				goto nla_put_failure;
+   404	
+   405			if (rxq->pool)
+   406				if (nla_put_empty_nest(rsp, NETDEV_A_QUEUE_XSK))
+   407					goto nla_put_failure;
+   408	
+   409			break;
+   410		case NETDEV_QUEUE_TYPE_TX:
+   411			txq = netdev_get_tx_queue(netdev, q_idx);
+   412			if (nla_put_napi_id(rsp, txq->napi))
+   413				goto nla_put_failure;
+   414	
+   415			if (txq->pool)
+   416				if (nla_put_empty_nest(rsp, NETDEV_A_QUEUE_XSK))
+   417					goto nla_put_failure;
+   418	
+   419			break;
+   420		}
+   421	
+   422		genlmsg_end(rsp, hdr);
+   423	
+   424		return 0;
+   425	
+   426	nla_put_failure:
+   427		genlmsg_cancel(rsp, hdr);
+   428		return -EMSGSIZE;
+   429	}
+   430	
 
 -- 
 0-DAY CI Kernel Test Service
