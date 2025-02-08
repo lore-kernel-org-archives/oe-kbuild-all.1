@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1E62451E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 12:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049AB10E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 12:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739016653; cv=none; b=e7jf4QX8RLW+t2VUYaXJKSu27hCF1JUVYtpFHgLmhY6QR0SrWQpWFlDkWVYVHiuOmOk4EQyL5zolKJ5j4VVfj977NL8KD1cxXon41J++k4FPh0c5dUpe7S84WlBPcupP3m8ZXFxjyktVnmdcZoCY8XwB1UZ4CwtzFqwqg1GBsC0=
+	t=1739016653; cv=none; b=gcRF/ygrD4EbMgCV6c6jCLM7tvicYLGivxKAF1u+5/DAwPHMtVHrtsMrZM6ckD5awYB+Ydw20xg+92hWtX5ca2CtPyD3xgxsLf/vHCS/YhHYOnL0Ok0XDGfrDRRmJEW+MkPCujGeDtSJ0vZmprpnzveFIWEpVcys5RDBSwATyaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739016653; c=relaxed/simple;
-	bh=gedZ10rFZMWPs16/6O/KbeedffwccIPIcS97DUiNdhE=;
+	bh=ki82FshDGtm+FixwfZs1LZlYgPJjX5G1fwf1WGbxLwg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TXg99CksG1dCE0X6U/akxI7nyoxLT1Z+BKkR1mpAFMLnPy3/5agsiKKZy1v3nxGJ3UHZwmc6xfLFm1A3oOR1BJ9AhpzxC0GHtqMkQCAaLBwBIb492+wwFyq6U606eeZ0OBRTY0XpuDCqNoas/Bo2WnV6alH1mKzyc+PZa5lP9NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/91CWJY; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=GeTK+FQ9G3Io4WkrNHFdYrEWw3dCk5URy+wihtY8xWQh8Iodru0WsyLBsbueYWlwJrPw10YIAgdOTv+drsL4lLwy16LO+o8IjZFPJDU8KiZhZ/QsN9iQIxNHEGX8p3oae1oQjEOPDnMYhIqeMeXjsW9UHNMCQb1J5n56ODQg2Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpI8bDfs; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/91CWJY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpI8bDfs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739016652; x=1770552652;
+  t=1739016651; x=1770552651;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gedZ10rFZMWPs16/6O/KbeedffwccIPIcS97DUiNdhE=;
-  b=K/91CWJYH0cySSJDHoapWSnF9moZHgzCgDmtKgYw7wByfFLKLfD/ync/
-   0tKP556kNYSMYBZ8eC+hBWzuY3WAN2CvrJrnhDZJQYoay2OXqKY+UR5+2
-   zYv2x4tF2AKxEysxXFl21XUqDNKVz2qORw/BkMaGLe4JEnyBO1MgqDjY6
-   xR6Dmj4zZRGzqtekPwKPGU2qYIK5c9TobvdOUrqoqzSdv6SpVwfbZ9v+j
-   O/AVMZI3rgaa6QbVounK1JU/Vq28WIOF3LuSEENA5fq80uSBR08KNKDRD
-   G1JTL5vtqblq8cTu4vTy2nUpKCzm53MYArsObFZuaA+HhSR9N0v0F8DZ0
-   w==;
-X-CSE-ConnectionGUID: ZkF447yVQcWyWk7CEcw2Mw==
-X-CSE-MsgGUID: Fb7vv0mZTaWcpZEsWRyQEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="57070801"
+  bh=ki82FshDGtm+FixwfZs1LZlYgPJjX5G1fwf1WGbxLwg=;
+  b=fpI8bDfsZo3dXgTvL7SDZtHNJfKPydbb+qdwgJ6pHP3m2MVOMSVnoUI+
+   YVs5lQaNoiW9JX3IpDT8hA3rvMZOpj1ib+rZkS9i5vVKzxsvud/rNpePF
+   boLDB9Q8xurT92dyyDYZbnpt22COKkssIXNCRhbMWN+qC0TNwPRPmVF3y
+   mYKmPjhJ97LqX5xUzxCaKcsEFED1JNUSBWoFkLo75ftF1eYf/Z0pfNmjJ
+   +X8LTyIuaSJT/X86wbjFGK2fyDz1EGJg6UNkaWVyRJR/PeajLkTFyzaLq
+   +Wit6ZKgLcTR3b+ZL5JxWTXosy4dEDYVuOyRX+SDOxn7NoPhSlIHwEbEW
+   A==;
+X-CSE-ConnectionGUID: lgPrAjGcQV+Ong5ff/nXrA==
+X-CSE-MsgGUID: O46BgNK/RRW7c541Ge3u2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="57070803"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="57070801"
+   d="scan'208";a="57070803"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 04:10:50 -0800
-X-CSE-ConnectionGUID: zadj7Tw9Qp+HqSUxMXLSgg==
-X-CSE-MsgGUID: URrAKzBeQWWkFy5Fkcwm7w==
+X-CSE-ConnectionGUID: 7+5doYy+QC2oTKAhI+ETHA==
+X-CSE-MsgGUID: wwUjErBASQaU/nRZqh/RyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="116770918"
+   d="scan'208";a="116770917"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Feb 2025 04:10:50 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Feb 2025 04:10:49 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgjfb-000zwC-03;
-	Sat, 08 Feb 2025 12:10:47 +0000
-Date: Sat, 8 Feb 2025 20:10:02 +0800
+	id 1tgjfa-000zwA-3D;
+	Sat, 08 Feb 2025 12:10:46 +0000
+Date: Sat, 8 Feb 2025 20:10:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Vyukov <dvyukov@google.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dvyukov:dvyukov-rseq-pkey 3/3] kernel/rseq.c:406:9: error: unknown
- type name 'pkey_reg_t'
-Message-ID: <202502082017.0GixUctp-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 211/211]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb:
+ /reserved-memory/apu-reserve-memory@95000000: failed to match any schema
+ with compatible: ['mediatek,apu-resv-mem']
+Message-ID: <202502082058.XUPaIeZF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,108 +64,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/dvyukov/linux dvyukov-rseq-pkey
-head:   b991732d23294a961eed6a4a2758c16f0430de9c
-commit: b991732d23294a961eed6a4a2758c16f0430de9c [3/3] rseq: Make rseq work with protection keys
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20250208/202502082017.0GixUctp-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082017.0GixUctp-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
+commit: eedd3dc85418bed76f97e53a19c649187456e91a [211/211] CHROMIUM: arm64: dts: mt8196: Add device nodes for APU
+config: arm64-randconfig-051-20250207 (https://download.01.org/0day-ci/archive/20250208/202502082058.XUPaIeZF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082058.XUPaIeZF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502082017.0GixUctp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502082058.XUPaIeZF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   kernel/rseq.c: In function '__rseq_handle_notify_resume':
->> kernel/rseq.c:406:9: error: unknown type name 'pkey_reg_t'
-     406 |         pkey_reg_t saved;
-         |         ^~~~~~~~~~
->> kernel/rseq.c:426:17: error: implicit declaration of function 'write_pkey_reg' [-Wimplicit-function-declaration]
-     426 |                 write_pkey_reg(saved);
-         |                 ^~~~~~~~~~~~~~
->> kernel/rseq.c:455:25: error: implicit declaration of function 'switch_to_permissive_pkey_reg' [-Wimplicit-function-declaration]
-     455 |                 saved = switch_to_permissive_pkey_reg();
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/pkey_reg_t +406 kernel/rseq.c
-
-   390	
-   391	/*
-   392	 * This resume handler must always be executed between any of:
-   393	 * - preemption,
-   394	 * - signal delivery,
-   395	 * and return to user-space.
-   396	 *
-   397	 * This is how we can ensure that the entire rseq critical section
-   398	 * will issue the commit instruction only if executed atomically with
-   399	 * respect to other threads scheduled on the same CPU, and with respect
-   400	 * to signal handlers.
-   401	 */
-   402	void __rseq_handle_notify_resume(struct ksignal *ksig, struct pt_regs *regs)
-   403	{
-   404		struct task_struct *t = current;
-   405		int ret, sig;
- > 406		pkey_reg_t saved;
-   407		bool switched_pkey_reg = false;
-   408	
-   409		if (unlikely(t->flags & PF_EXITING))
-   410			return;
-   411	
-   412	retry:
-   413		/*
-   414		 * regs is NULL if and only if the caller is in a syscall path.  Skip
-   415		 * fixup and leave rseq_cs as is so that rseq_sycall() will detect and
-   416		 * kill a misbehaving userspace on debug kernels.
-   417		 */
-   418		if (regs) {
-   419			ret = rseq_ip_fixup(regs);
-   420			if (unlikely(ret < 0))
-   421				goto error;
-   422		}
-   423		if (unlikely(rseq_update_cpu_node_id(t)))
-   424			goto error;
-   425		if (switched_pkey_reg)
- > 426			write_pkey_reg(saved);
-   427		return;
-   428	
-   429	error:
-   430		/*
-   431		 * If the application registers rseq, and ever switches to another
-   432		 * pkey protection (such that the rseq becomes inaccessible), then
-   433		 * any context switch will cause failure here attemping to read/write
-   434		 * struct rseq and/or rseq_cs. Since context switches are
-   435		 * asynchronous and are outside of the application control
-   436		 * (not part of the restricted code scope), we temporarily switch
-   437		 * to premissive pkey register to read/write rseq/rseq_cs,
-   438		 * similarly to signal delivery.
-   439		 *
-   440		 * We don't bother to check if the failure really happened due to
-   441		 * pkeys or not, since it does not matter (performance-wise and
-   442		 * otherwise).
-   443		 *
-   444		 * If the restricted code installs rseq_cs in inaccessible to it
-   445		 * due to pkeys page, we still let this function read the rseq_cs.
-   446		 * It's unclear what benefits the resticted code gets by doing this
-   447		 * (it probably already hijacked control flow at this point), and
-   448		 * presumably any sane sandbox should prohibit restricted code
-   449		 * from accessing struct rseq, and this is still better than
-   450		 * terminating the app unconditionally (it always has a choice
-   451		 * of not using rseq and pkeys together).
-   452		 */
-   453		if (!switched_pkey_reg) {
-   454			switched_pkey_reg = true;
- > 455			saved = switch_to_permissive_pkey_reg();
-   456			goto retry;
-   457		} else {
-   458			write_pkey_reg(saved);
-   459		}
-   460		sig = ksig ? ksig->sig : 0;
-   461		force_sigsegv(sig);
-   462	}
-   463	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: $nodename:0: 'clkitg' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: clkitg: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /firmware/mtk-svp-heap: failed to match any schema with compatible: ['mediatek,secure-heap']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: scmi: 'protocol@80' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/firmware/arm,scmi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/adsp-mem-region@90000000: failed to match any schema with compatible: ['mediatek,adsp-reserved-memory']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/apu-reserve-memory@95000000: failed to match any schema with compatible: ['mediatek,apu-resv-mem']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/gpueb-reserved-memory@a0000000: failed to match any schema with compatible: ['mediatek,gpueb-resv-mem']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/vcp-reserved-memory@a0200000: failed to match any schema with compatible: ['mediatek,me-vcp-reserved']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/mali-protected@a2000000: failed to match any schema with compatible: ['mali-reserved']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/secure-region@a3000000: failed to match any schema with compatible: ['mediatek,dynamic-restricted-region']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/apu-smmu-reserve-memory0: failed to match any schema with compatible: ['mediatek,apu-smmu-resv-mem']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /ged: failed to match any schema with compatible: ['mediatek,ged']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /gpu-dcs: failed to match any schema with compatible: ['mediatek,gpu-dcs']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /gpu-loading-mode: failed to match any schema with compatible: ['mediatek,gpu-loading-mode']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /protected-memory-allocator: failed to match any schema with compatible: ['arm,protected-memory-allocator']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /gpufreq-wrapper: failed to match any schema with compatible: ['mediatek,gpufreq-wrapper']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /mgm: failed to match any schema with compatible: ['arm,physical-memory-group-manager']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: opp-table-apu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: mvpu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: mtk-apu-mem-data: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: mtk-apu-mem-code: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: apusys-apummu: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/therm-intf@114000: failed to match any schema with compatible: ['mediatek,therm_intf']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/slbc@117800: failed to match any schema with compatible: ['mediatek,mt8196-slbc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/qos@11bb00: failed to match any schema with compatible: ['mediatek,mt8196-qos']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/gpu-qos@13f800: failed to match any schema with compatible: ['mediatek,gpu-qos']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: cm-mgr@c100000: required-opps: [[40], [41], [42], [43], [44], [45], [46], [47], [48], [49]] is too long
+   	from schema $id: http://devicetree.org/schemas/opp/opp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/cm-mgr@c100000: failed to match any schema with compatible: ['mediatek,mt8196-cm-mgr']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
+--
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp0cfg-ao', 'mediatek,mt8196-pextp0cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169b0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000: failed to match any schema with compatible: ['mediatek,mt8196-pextp1cfg-ao', 'mediatek,mt8196-pextp1cfg_ao', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@169e0000/reset-controller: failed to match any schema with compatible: ['ti,syscon-reset']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@18000000: failed to match any schema with compatible: ['mediatek,mt8196-ssr-top', 'mediatek,mt8196-ssr_top', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@18000000: failed to match any schema with compatible: ['mediatek,mt8196-ssr-top', 'mediatek,mt8196-ssr_top', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@180f3000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000: failed to match any schema with compatible: ['mediatek,mt8196-apusys_rv']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-ctrl: failed to match any schema with compatible: ['mediatek,apu-ctrl-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-top-rpmsg: failed to match any schema with compatible: ['mediatek,aputop-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-mdw-rpmsg: failed to match any schema with compatible: ['mediatek,apu-mdw-rpmsg-v5']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-apummu: failed to match any schema with compatible: ['mediatek,apu-apummu-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-apummu-rx: failed to match any schema with compatible: ['mediatek,apu-apummu-rx']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-edma: failed to match any schema with compatible: ['mediatek,apu-edma-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/edma-rx: failed to match any schema with compatible: ['mediatek,edma-rx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-mnoc: failed to match any schema with compatible: ['mediatek,apu-mnoc-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/mdla-tx-rpmsg: failed to match any schema with compatible: ['mediatek,mdla-tx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/mdla-rx-rpmsg: failed to match any schema with compatible: ['mediatek,mdla-rx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/mvpu-tx-rpmsg: failed to match any schema with compatible: ['mediatek,mvpu-tx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/mvpu-rx-rpmsg: failed to match any schema with compatible: ['mediatek,mvpu-rx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/aps-tx-rpmsg: failed to match any schema with compatible: ['mediatek,aps-tx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/aps-rx-rpmsg: failed to match any schema with compatible: ['mediatek,aps-rx-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/sapu-lock-rpmsg: failed to match any schema with compatible: ['mediatek,apu-lock-rv-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-scp-mdw-rpmsg: failed to match any schema with compatible: ['mediatek,apu-scp-mdw-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-scp-np-recover-rpmsg: failed to match any schema with compatible: ['mediatek,apu-scp-np-recover-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/remoteproc@19001000/apu-ipi-ut-rpmsg: failed to match any schema with compatible: ['mediatek,apu-ipi-ut-rpmsg']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: opp-table-apu: Unevaluated properties are not allowed ('opp@1115000000', 'opp@1300000000', 'opp@1450000000', 'opp@1600000000', 'opp@1800000000', 'opp@385000000', 'opp@457500000', 'opp@530000000', 'opp@630000000', 'opp@730000000', 'opp@930000000' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: power-controller@19020000: '#power-domain-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/power-controller@19020000: failed to match any schema with compatible: ['mt8196,apu-top-3']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/logger@19024000: failed to match any schema with compatible: ['mediatek,apusys-hw-logger']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/adsp@1a000000: failed to match any schema with compatible: ['mediatek,mt8196-dsp']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@1a019000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1a110000: failed to match any schema with compatible: ['mediatek,mt8196-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mt8196-afe-pcm@1a110000: failed to match any schema with compatible: ['mediatek,mt8196-sound']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a350000: compatible:0: 'mediatek,mt8196-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a350000: compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mailbox@1a350000: failed to match any schema with compatible: ['mediatek,mt8196-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mailbox@1a360000: compatible:0: 'mediatek,mt8196-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+--
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@4b810400: failed to match any schema with compatible: ['mediatek,mt8196-mfgpll-sc0-pll-ctrl', 'mediatek,mt8196-mfgpll_sc0_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/ghpm@4b800000: failed to match any schema with compatible: ['mediatek,ghpm']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@4b810800: failed to match any schema with compatible: ['mediatek,mt8196-mfgpll-sc1-pll-ctrl', 'mediatek,mt8196-mfgpll_sc1_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@4b810800: failed to match any schema with compatible: ['mediatek,mt8196-mfgpll-sc1-pll-ctrl', 'mediatek,mt8196-mfgpll_sc1_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@4b890000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@4b8b0000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@4c000000: compatible:0: 'arm,smmu-v3' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@4c000000: compatible: ['mediatek,mt8196-apu-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@4c000000: 'smmu-mediatek-parents' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/iommu@4c000000: failed to match any schema with compatible: ['mediatek,mt8196-apu-smmu', 'arm,smmu-v3']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/apusys-apummu: failed to match any schema with compatible: ['mediatek,rv-apummu-mt8196']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder: failed to match any schema with compatible: ['mediatek,mt8196-jpgdec']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder/jpeg-decoder@38040000: failed to match any schema with compatible: ['mediatek,mt8196-jpgdec-hw']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder/jpeg-decoder@38840000: failed to match any schema with compatible: ['mediatek,mt8196-jpgdec-hw']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-encoder: failed to match any schema with compatible: ['mediatek,mt8196-jpgenc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-encoder/jpeg-encoder@38030000: failed to match any schema with compatible: ['mediatek,mt8196-jpgenc-hw']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-encoder/jpeg-encoder@38830000: failed to match any schema with compatible: ['mediatek,mt8196-jpgenc-hw']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mtk-apu-mem-code: compatible:0: 'mediatek, apu_mem_code' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mtk-apu-mem-code: failed to match any schema with compatible: ['mediatek, apu_mem_code']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mtk-apu-mem-data: compatible:0: 'mediatek, apu_mem_data' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mtk-apu-mem-data: failed to match any schema with compatible: ['mediatek, apu_mem_data']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mvpu: compatible:0: 'mediatek, mt8196-mvpu' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/mvpu: failed to match any schema with compatible: ['mediatek, mt8196-mvpu']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/sound: failed to match any schema with compatible: ['mediatek,mt8196-mt6681-sound']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: panel: 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
