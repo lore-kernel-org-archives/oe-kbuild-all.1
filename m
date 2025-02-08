@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124DD1A3151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9347D1AF0AF
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 23:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739058806; cv=none; b=YmLWSFObVjDTdfx9rv6mFbMBCDj05O4MFQmMa5By0UQ6F19slPWqeZnt5SB+nW9NlUA1Nektq2DnJ5ivKRLLlvwc62qcOCZ1J8EobvJLLwXoOHmbgwnchbz23RogfYW5m/RjKXxaPDy/v5hJeiwufNLfggVrJouuUYX7+QmzLaE=
+	t=1739058807; cv=none; b=VR/iwTX804fMS7NG0nZD7krk9Nvcldc0CdGlMYefmqsrQ1frn9QsfqeU1DyC1DaZrsXtncDCNi3zC5RgDLptZ+/7NJdaVkkJff4iCPxKUpA4Pj//nQdClc2YEhgjWccN22vj/l/Z35brgdfd2puhGUTSYpF1sEQNbKee454OD/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739058806; c=relaxed/simple;
-	bh=jmp6fvzhXSBCMgBVA4KBoyqIjomlicBaPDoV5N8Wv/0=;
+	s=arc-20240116; t=1739058807; c=relaxed/simple;
+	bh=hLqim3sgfebyvWaoYyIOvyZap4dyK7C1QSvW1a7qJM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jRGs5ja5a67czxh2XG+Y6ugWsopMmo47CRMV1mlLjszZnQFlTeMGIX4AWm/rtzalro9uWQeOFnEgMmPzxVC5WLKgR6ubdL/SUT4sRdWAIqQhT5aBCwLNDz11JTIjPn2LDGnrlsLhXG2xkBFh3mrsa1rJtgNbISRzZdWg+6d/vu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQa2F7dZ; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=remkgesSraM+R1IARVnplsGJPOTO/BoJqIQzVxiOS5UsdPWaFBlRj2VGscDxYx7IDWdl93LwIEAI0Zbsnpu6fvfVDLsFRM4mNgMh5pVDXYmuz3b2A1wXdIpKVHPUvpKkSZcLkvy4SKSyBeQsbCB60nS4sY5YEhOCSGTheFa8NZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLRlbYKh; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQa2F7dZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLRlbYKh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739058805; x=1770594805;
+  t=1739058806; x=1770594806;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jmp6fvzhXSBCMgBVA4KBoyqIjomlicBaPDoV5N8Wv/0=;
-  b=UQa2F7dZHkW1zyy0eud+leV28nVEbTPu8puTPQvJWDZO506sh2QvvU/U
-   BDsK1fnvYorIJkUWKnvy5fabrPtxdMBHw8jeFYX+sDtmv8HrqLnuRRAY0
-   EU2JLC6lJ5yYrwgl9egxGCa38mIU8MG5+k0qYIv9/921/g2YQnrHm33Bq
-   YcW1XUkVgeOnhIaUbcdKtaHiviwii3icUsozSSSWzaj547CkM4Qtr5omw
-   ZaE/WU1gpH3Li2NsMKHxw5iXUIuuwhbZFHvsdAM8Cfg1WIVX9zz2QPIfJ
-   /0FImahkkkuAFR0716o2WcrxMri48xiegL0s4du3S/uzjkjZzxOMQOnLX
+  bh=hLqim3sgfebyvWaoYyIOvyZap4dyK7C1QSvW1a7qJM0=;
+  b=dLRlbYKhoDw15fbyRRVKNDZDqIh6ibMXOr4gsplYBOdLaSutiy2hPh7I
+   ehlI08SvmsSzlECSSQv/D7PMKYC2SwpfzCXUsxBYuV7KP8b56asgo0qrd
+   DhuaWmx/sEYa+90+EGaXuzDUXW7xhvZLcXgvVJM1FoHhmxGT975n9akSF
+   HpVixmPg1QZLZauJ01KGCfHyZ5tQDZN0Z7gKtbFFsijPM6NUNjmERRVgo
+   IzQ1RNZywDwyrvqiI2LTU9EXwZ6UPWbTguz+c2W6BYS9MliKPPuwxCeKv
+   Vy6N6bPltKylAsYXn0B3EIIV6hVXp4fGYo3Qdj7TqPdn1E07jIbi82VJT
    Q==;
-X-CSE-ConnectionGUID: FmOouFcVS9yXyagJ7sfh8w==
-X-CSE-MsgGUID: Ivaqd4YNRcOsTQN/l2B1Mw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43595085"
+X-CSE-ConnectionGUID: 497OCznLRF+1WFgXPyaUQw==
+X-CSE-MsgGUID: 3qA4D/kvQtCRirsilC4RPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43595088"
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="43595085"
+   d="scan'208";a="43595088"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 15:53:21 -0800
-X-CSE-ConnectionGUID: 9sU5NAclQFSXPjEmT5xxgw==
-X-CSE-MsgGUID: rU8RNHSlSCKl4y6AOA0mQQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 15:53:22 -0800
+X-CSE-ConnectionGUID: dR264rSfQTuWYzSgwyT0nQ==
+X-CSE-MsgGUID: 62tiPC3sTyGkuBSw8mQBAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112284250"
+   d="scan'208";a="112284248"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 08 Feb 2025 15:53:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgudS-0010mv-05;
+	id 1tgudS-0010n1-0C;
 	Sat, 08 Feb 2025 23:53:18 +0000
-Date: Sun, 9 Feb 2025 07:52:53 +0800
+Date: Sun, 9 Feb 2025 07:52:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.13/prjc 2/2] include/linux/sched.h:2205:20: error:
- redefinition of 'task_is_runnable'
-Message-ID: <202502090705.29edRYXj-lkp@intel.com>
+To: Baihan Li <libaihan@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Yongbang Shi <shiyongbang@huawei.com>,
+	Tian Tao <tiantao6@hisilicon.com>
+Subject: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:87: undefined reference
+ to `drm_dp_dpcd_write'
+Message-ID: <202502090741.9ypSEryz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +65,313 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.13/prjc
-head:   359095094f9446de0bc3637a66a97c5c9e56d2ba
-commit: 359095094f9446de0bc3637a66a97c5c9e56d2ba [2/2] sched/alt: [Sync] sched/fair: Fix external p->on_rq users
-config: i386-buildonly-randconfig-001-20250209 (https://download.01.org/0day-ci/archive/20250209/202502090705.29edRYXj-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   493f3f38da21cf61b25254f7a3dc817179b497c8
+commit: 54063d86e0369f53f180137e5e889bc19cd9015b drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+date:   5 weeks ago
+config: x86_64-randconfig-r063-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090741.9ypSEryz-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090705.29edRYXj-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090741.9ypSEryz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090705.29edRYXj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090741.9ypSEryz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/percpu.h:12,
-                    from arch/x86/include/asm/msr.h:15,
-                    from arch/x86/include/asm/tsc.h:10,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/jiffies.h:10,
-                    from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/uprobes.h:18,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/crypto.h:17,
-                    from arch/x86/kernel/asm-offsets.c:9:
->> include/linux/sched.h:2205:20: error: redefinition of 'task_is_runnable'
-    2205 | static inline bool task_is_runnable(struct task_struct *p)
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/sched.h:2196:20: note: previous definition of 'task_is_runnable' with type 'bool(struct task_struct *)' {aka '_Bool(struct task_struct *)'}
-    2196 | static inline bool task_is_runnable(struct task_struct *p)
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/sched.h: In function 'task_is_runnable':
->> include/linux/sched.h:2207:30: error: 'struct task_struct' has no member named 'se'
-    2207 |         return p->on_rq && !p->se.sched_delayed;
-         |                              ^~
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=3813010482
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1263: prepare0] Error 2 shuffle=3813010482
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=3813010482
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=3813010482
-   make: Target 'prepare' not remade because of errors.
+   ld: vmlinux.o: in function `hibmc_dp_aux_init':
+   drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c:163: undefined reference to `drm_dp_aux_init'
+   ld: vmlinux.o: in function `hibmc_dp_link_set_pattern':
+>> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:87: undefined reference to `drm_dp_dpcd_write'
+   ld: vmlinux.o: in function `hibmc_dp_link_training_configure':
+   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:29: undefined reference to `drm_dp_dpcd_write'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:38: undefined reference to `drm_dp_dpcd_write'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:44: undefined reference to `drm_dp_read_dpcd_caps'
+   ld: vmlinux.o: in function `hibmc_dp_link_get_adjust_train':
+>> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:129: undefined reference to `drm_dp_get_adjust_request_voltage'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:130: undefined reference to `drm_dp_get_adjust_request_pre_emphasis'
+   ld: vmlinux.o: in function `hibmc_dp_link_training_cr':
+>> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:196: undefined reference to `drm_dp_clock_recovery_ok'
+   ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:209: undefined reference to `drm_dp_dpcd_write'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:188: undefined reference to `drm_dp_link_train_clock_recovery_delay'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:190: undefined reference to `drm_dp_dpcd_read_link_status'
+   ld: vmlinux.o: in function `hibmc_dp_link_training_channel_eq':
+>> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:236: undefined reference to `drm_dp_link_train_channel_eq_delay'
+   ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:238: undefined reference to `drm_dp_dpcd_read_link_status'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:244: undefined reference to `drm_dp_clock_recovery_ok'
+>> ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:251: undefined reference to `drm_dp_channel_eq_ok'
+   ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:258: undefined reference to `drm_dp_dpcd_write'
+   ld: vmlinux.o: in function `hibmc_dp_link_training_cr_pre':
+   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:113: undefined reference to `drm_dp_dpcd_write'
 
 
-vim +/task_is_runnable +2205 include/linux/sched.h
+vim +87 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
 
-  2204	
-> 2205	static inline bool task_is_runnable(struct task_struct *p)
-  2206	{
-> 2207		return p->on_rq && !p->se.sched_delayed;
-  2208	}
-  2209	
+    11	
+    12	static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
+    13	{
+    14		u8 buf[2];
+    15		int ret;
+    16	
+    17		/* DP 2 lane */
+    18		hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_LANE_DATA_EN,
+    19					 dp->link.cap.lanes == 0x2 ? 0x3 : 0x1);
+    20		hibmc_dp_reg_write_field(dp, HIBMC_DP_DPTX_GCTL0, HIBMC_DP_CFG_PHY_LANE_NUM,
+    21					 dp->link.cap.lanes == 0x2 ? 0x1 : 0);
+    22	
+    23		/* enhanced frame */
+    24		hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_FRAME_MODE, 0x1);
+    25	
+    26		/* set rate and lane count */
+    27		buf[0] = dp->link.cap.link_rate;
+    28		buf[1] = DP_LANE_COUNT_ENHANCED_FRAME_EN | dp->link.cap.lanes;
+    29		ret = drm_dp_dpcd_write(&dp->aux, DP_LINK_BW_SET, buf, sizeof(buf));
+    30		if (ret != sizeof(buf)) {
+    31			drm_dbg_dp(dp->dev, "dp aux write link rate and lanes failed, ret: %d\n", ret);
+    32			return ret >= 0 ? -EIO : ret;
+    33		}
+    34	
+    35		/* set 8b/10b and downspread */
+    36		buf[0] = DP_SPREAD_AMP_0_5;
+    37		buf[1] = DP_SET_ANSI_8B10B;
+  > 38		ret = drm_dp_dpcd_write(&dp->aux, DP_DOWNSPREAD_CTRL, buf, sizeof(buf));
+    39		if (ret != sizeof(buf)) {
+    40			drm_dbg_dp(dp->dev, "dp aux write 8b/10b and downspread failed, ret: %d\n", ret);
+    41			return ret >= 0 ? -EIO : ret;
+    42		}
+    43	
+  > 44		ret = drm_dp_read_dpcd_caps(&dp->aux, dp->dpcd);
+    45		if (ret)
+    46			drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
+    47	
+    48		return ret;
+    49	}
+    50	
+    51	static int hibmc_dp_link_set_pattern(struct hibmc_dp_dev *dp, int pattern)
+    52	{
+    53		int ret;
+    54		u8 val;
+    55		u8 buf;
+    56	
+    57		buf = (u8)pattern;
+    58		if (pattern != DP_TRAINING_PATTERN_DISABLE && pattern != DP_TRAINING_PATTERN_4) {
+    59			buf |= DP_LINK_SCRAMBLING_DISABLE;
+    60			hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_SCRAMBLE_EN, 0x1);
+    61		} else {
+    62			hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_SCRAMBLE_EN, 0);
+    63		}
+    64	
+    65		switch (pattern) {
+    66		case DP_TRAINING_PATTERN_DISABLE:
+    67			val = 0;
+    68			break;
+    69		case DP_TRAINING_PATTERN_1:
+    70			val = 1;
+    71			break;
+    72		case DP_TRAINING_PATTERN_2:
+    73			val = 2;
+    74			break;
+    75		case DP_TRAINING_PATTERN_3:
+    76			val = 3;
+    77			break;
+    78		case DP_TRAINING_PATTERN_4:
+    79			val = 4;
+    80			break;
+    81		default:
+    82			return -EINVAL;
+    83		}
+    84	
+    85		hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_PAT_SEL, val);
+    86	
+  > 87		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_PATTERN_SET, &buf, sizeof(buf));
+    88		if (ret != sizeof(buf)) {
+    89			drm_dbg_dp(dp->dev, "dp aux write training pattern set failed\n");
+    90			return ret >= 0 ? -EIO : ret;
+    91		}
+    92	
+    93		return 0;
+    94	}
+    95	
+    96	static int hibmc_dp_link_training_cr_pre(struct hibmc_dp_dev *dp)
+    97	{
+    98		u8 *train_set = dp->link.train_set;
+    99		int ret;
+   100		u8 i;
+   101	
+   102		ret = hibmc_dp_link_training_configure(dp);
+   103		if (ret)
+   104			return ret;
+   105	
+   106		ret = hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_1);
+   107		if (ret)
+   108			return ret;
+   109	
+   110		for (i = 0; i < dp->link.cap.lanes; i++)
+   111			train_set[i] = DP_TRAIN_VOLTAGE_SWING_LEVEL_2;
+   112	
+   113		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set, dp->link.cap.lanes);
+   114		if (ret != dp->link.cap.lanes) {
+   115			drm_dbg_dp(dp->dev, "dp aux write training lane set failed\n");
+   116			return ret >= 0 ? -EIO : ret;
+   117		}
+   118	
+   119		return 0;
+   120	}
+   121	
+   122	static bool hibmc_dp_link_get_adjust_train(struct hibmc_dp_dev *dp,
+   123						   u8 lane_status[DP_LINK_STATUS_SIZE])
+   124	{
+   125		u8 train_set[HIBMC_DP_LANE_NUM_MAX] = {0};
+   126		u8 lane;
+   127	
+   128		for (lane = 0; lane < dp->link.cap.lanes; lane++)
+ > 129			train_set[lane] = drm_dp_get_adjust_request_voltage(lane_status, lane) |
+ > 130					  drm_dp_get_adjust_request_pre_emphasis(lane_status, lane);
+   131	
+   132		if (memcmp(dp->link.train_set, train_set, HIBMC_DP_LANE_NUM_MAX)) {
+   133			memcpy(dp->link.train_set, train_set, HIBMC_DP_LANE_NUM_MAX);
+   134			return true;
+   135		}
+   136	
+   137		return false;
+   138	}
+   139	
+   140	static inline int hibmc_dp_link_reduce_rate(struct hibmc_dp_dev *dp)
+   141	{
+   142		switch (dp->link.cap.link_rate) {
+   143		case DP_LINK_BW_2_7:
+   144			dp->link.cap.link_rate = DP_LINK_BW_1_62;
+   145			return 0;
+   146		case DP_LINK_BW_5_4:
+   147			dp->link.cap.link_rate = DP_LINK_BW_2_7;
+   148			return 0;
+   149		case DP_LINK_BW_8_1:
+   150			dp->link.cap.link_rate = DP_LINK_BW_5_4;
+   151			return 0;
+   152		default:
+   153			return -EINVAL;
+   154		}
+   155	}
+   156	
+   157	static inline int hibmc_dp_link_reduce_lane(struct hibmc_dp_dev *dp)
+   158	{
+   159		switch (dp->link.cap.lanes) {
+   160		case 0x2:
+   161			dp->link.cap.lanes--;
+   162			break;
+   163		case 0x1:
+   164			drm_err(dp->dev, "dp link training reduce lane failed, already reach minimum\n");
+   165			return -EIO;
+   166		default:
+   167			return -EINVAL;
+   168		}
+   169	
+   170		return 0;
+   171	}
+   172	
+   173	static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
+   174	{
+   175		u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
+   176		bool level_changed;
+   177		u32 voltage_tries;
+   178		u32 cr_tries;
+   179		int ret;
+   180	
+   181		/*
+   182		 * DP 1.4 spec define 10 for maxtries value, for pre DP 1.4 version set a limit of 80
+   183		 * (4 voltage levels x 4 preemphasis levels x 5 identical voltage retries)
+   184		 */
+   185	
+   186		voltage_tries = 1;
+   187		for (cr_tries = 0; cr_tries < 80; cr_tries++) {
+ > 188			drm_dp_link_train_clock_recovery_delay(&dp->aux, dp->dpcd);
+   189	
+ > 190			ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
+   191			if (ret != DP_LINK_STATUS_SIZE) {
+   192				drm_err(dp->dev, "Get lane status failed\n");
+   193				return ret;
+   194			}
+   195	
+ > 196			if (drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
+   197				drm_dbg_dp(dp->dev, "dp link training cr done\n");
+   198				dp->link.status.clock_recovered = true;
+   199				return 0;
+   200			}
+   201	
+   202			if (voltage_tries == 5) {
+   203				drm_dbg_dp(dp->dev, "same voltage tries 5 times\n");
+   204				dp->link.status.clock_recovered = false;
+   205				return 0;
+   206			}
+   207	
+   208			level_changed = hibmc_dp_link_get_adjust_train(dp, lane_status);
+   209			ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, dp->link.train_set,
+   210						dp->link.cap.lanes);
+   211			if (ret != dp->link.cap.lanes) {
+   212				drm_dbg_dp(dp->dev, "Update link training failed\n");
+   213				return ret >= 0 ? -EIO : ret;
+   214			}
+   215	
+   216			voltage_tries = level_changed ? 1 : voltage_tries + 1;
+   217		}
+   218	
+   219		drm_err(dp->dev, "dp link training clock recovery 80 times failed\n");
+   220		dp->link.status.clock_recovered = false;
+   221	
+   222		return 0;
+   223	}
+   224	
+   225	static int hibmc_dp_link_training_channel_eq(struct hibmc_dp_dev *dp)
+   226	{
+   227		u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
+   228		u8 eq_tries;
+   229		int ret;
+   230	
+   231		ret = hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_2);
+   232		if (ret)
+   233			return ret;
+   234	
+   235		for (eq_tries = 0; eq_tries < HIBMC_EQ_MAX_RETRY; eq_tries++) {
+ > 236			drm_dp_link_train_channel_eq_delay(&dp->aux, dp->dpcd);
+   237	
+   238			ret = drm_dp_dpcd_read_link_status(&dp->aux, lane_status);
+   239			if (ret != DP_LINK_STATUS_SIZE) {
+   240				drm_err(dp->dev, "get lane status failed\n");
+   241				break;
+   242			}
+   243	
+ > 244			if (!drm_dp_clock_recovery_ok(lane_status, dp->link.cap.lanes)) {
+   245				drm_dbg_dp(dp->dev, "clock recovery check failed\n");
+   246				drm_dbg_dp(dp->dev, "cannot continue channel equalization\n");
+   247				dp->link.status.clock_recovered = false;
+   248				break;
+   249			}
+   250	
+ > 251			if (drm_dp_channel_eq_ok(lane_status, dp->link.cap.lanes)) {
+   252				dp->link.status.channel_equalized = true;
+   253				drm_dbg_dp(dp->dev, "dp link training eq done\n");
+   254				break;
+   255			}
+   256	
+   257			hibmc_dp_link_get_adjust_train(dp, lane_status);
+   258			ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
+   259						dp->link.train_set, dp->link.cap.lanes);
+   260			if (ret != dp->link.cap.lanes) {
+   261				drm_dbg_dp(dp->dev, "Update link training failed\n");
+   262				ret = (ret >= 0) ? -EIO : ret;
+   263				break;
+   264			}
+   265		}
+   266	
+   267		if (eq_tries == HIBMC_EQ_MAX_RETRY)
+   268			drm_err(dp->dev, "channel equalization failed %u times\n", eq_tries);
+   269	
+   270		hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_DISABLE);
+   271	
+   272		return ret < 0 ? ret : 0;
+   273	}
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
