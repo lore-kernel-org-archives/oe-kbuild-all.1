@@ -1,149 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2FD1B4F02;
-	Sat,  8 Feb 2025 15:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229CC19995E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 15:22:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739027444; cv=none; b=RwziSLVTO1pmkDSJvF3ybwKp2jgiUxf5zbyRMopaNMYCi3xByEF0ORsW0Cd2F0rQXDReHYfnF8Getxr28JO9fxOzoff5s0Txw8Giy8i/gFQcVimmIx95Z2r724rWSOfHDrH7InxWVZMt5LrhwME95cMAGWrLt0xZU0vYOoEnV9w=
+	t=1739028135; cv=none; b=niH6DQYkX7o0rH6bcml+64jLVWeXTvMOGOjk8vkaUxMQO4QXTx5gUkk92tTp+92ZVMqA3wOwVjvI0AHMcpbrSv8q5aELoKDLWzvS9MBuVy2+znZGlRiZQ6CmYrLS5P2KWXN38YpbByWjHAj235rqT4ZfkFqHJKGgWEV0tloLHps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739027444; c=relaxed/simple;
-	bh=i8+kRdKRPeYi3lyzebDtCwbhO0gp7XkoFr+f8SUZlck=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WwzbPohHbYfnYXaoCBiMqsL5R21Le1XM4tXtqRfBI7oIhL9hwBB49iZclurtByBstj0b+NWit2GoBhCWByq171c0R54wYo6E/fjZiSiQTmVY2Ovent1i90TCH35RjGvG7/nOeL41+xUbMwDI1L8OvyKuWDheWjx9IaK4NS3Eq8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNJq8SvP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739028135; c=relaxed/simple;
+	bh=ryYRbgy52vofkGjP6MY5Iqwdl2s7CuRK2ydWnQQwDg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=olYyNCZSANyvnU33ku1wvP0dbJJvOMcGAPnWRIUeu+Ixllq7FZoj6xGTHJzip62glvmSDVqAXIYMgR7wBVTOfz9jp/HEAEIQ4R+wP0bxLlYrXFVrjTfCKeALkATlC2eEnWS1aOyxk4UpQ2klIrSx/tuyVBufzSrMnL0pKvvbJcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSVWeCvw; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNJq8SvP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DA89C4CED6;
-	Sat,  8 Feb 2025 15:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739027443;
-	bh=i8+kRdKRPeYi3lyzebDtCwbhO0gp7XkoFr+f8SUZlck=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RNJq8SvPGLLKlTDKpH4hGX6m3UBlUe+wwRIL7T3MFgEWxabwQBER2ONrLzxzOMYqE
-	 hbLIZSdvhWGEOTRNDZCyhA2ttkVpGY8eQICaXUaKgeNz3E0uyzRYGPuSIsReOjuOtJ
-	 qo2D/0hiwBRCejCL/HSJKXAC5Z7A407u2P5XWzlm7O1HkK7ueAgtUsTtN8xHA9TN3V
-	 VdVk5lxHftQyy8Am8lNBYuUUQ2U4nv2kcoKPuN+E3cnF4aR2hgcn0tzfsj7NMbrMDL
-	 jUhSFPecz0KkxdeYWJe6/XT273dN4f6UsEiHpIO2MfUuaDvyzSveNueUo7WvC5E51F
-	 xxhmRkjWaOxOA==
-Date: Sat, 8 Feb 2025 15:10:35 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Angelo Dureghello <adureghello@baylibre.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- oe-kbuild-all@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
- linux-iio@vger.kernel.org
-Subject: Re: [jic23-iio:testing 23/47] drivers/iio/dac/adi-axi-dac.c:731
- axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) =>
- (0-u32max >= 0)'
-Message-ID: <20250208151035.499fab6f@jic23-huawei>
-In-Reply-To: <20250204192755.1567b092@jic23-huawei>
-References: <202502040758.DJqHqhLO-lkp@intel.com>
-	<rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
-	<20250204085744.000075d4@huawei.com>
-	<l575dzyjzix2xnljfadw5uuu3qdzhmtcbkyg6eaccf2h5dtvsz@ju5mqszl2vzb>
-	<20250204192755.1567b092@jic23-huawei>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSVWeCvw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739028133; x=1770564133;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ryYRbgy52vofkGjP6MY5Iqwdl2s7CuRK2ydWnQQwDg0=;
+  b=iSVWeCvw1rJsAtR4nOs0+fXLXfZcaBPioce3u721XPDPzMtBpHb2HkUa
+   ZCqgiX8Pyeaq2ah1GmNE2vt0QELm5X7ZKPTeFolhPmJ6xKpYmh9PwJtfX
+   Jc7a30L3bEzsJUKm9eINVViMRIsxUpMR6A7JkmObVx+MMVKYTxUKh8pnQ
+   vCmpQHl3Q/PbSIXb4AL3Mv01T4MMwZOYk2abB5jcFD+T+VuxFWpVBFKpZ
+   nHO6lFgp0jdGl0bm+WDJ8NVTMr6wXnshwGr/WRUrs3nqmritpMLMHsAfN
+   tfW0J4UYLxAuh9AHuvlleDGMMxRJWSAR/35uL5duRvsY35MXDSxe19KDL
+   Q==;
+X-CSE-ConnectionGUID: BV2NKnd0QiGua/bU2Ana7Q==
+X-CSE-MsgGUID: YXYSql7DT8eoi3OSetbP3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="50641846"
+X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
+   d="scan'208";a="50641846"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 07:22:13 -0800
+X-CSE-ConnectionGUID: AXjYFCoJSIyOZYxelNLZtg==
+X-CSE-MsgGUID: 9VaB1iIITcGLq4Hfx6arKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
+   d="scan'208";a="142654541"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 08 Feb 2025 07:22:11 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tgmen-0010AZ-0q;
+	Sat, 08 Feb 2025 15:22:09 +0000
+Date: Sat, 8 Feb 2025 23:21:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zhong Jinghua <zhongjinghua@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2729/2729] mm/damon/core-test.h:284:2: warning:
+ comparison of distinct pointer types ('typeof (__left) *' (aka 'unsigned int
+ *') and 'typeof (__right) *' (aka 'int *'))
+Message-ID: <202502082340.S6mQ2xsd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 4 Feb 2025 19:27:55 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+Hi SeongJae,
 
-> On Tue, 4 Feb 2025 10:12:05 +0100
-> Angelo Dureghello <adureghello@baylibre.com> wrote:
-> 
-> > On 04.02.2025 08:57, Jonathan Cameron wrote:  
-> > > On Tue, 4 Feb 2025 09:43:17 +0100
-> > > Angelo Dureghello <adureghello@baylibre.com> wrote:
-> > >     
-> > > > Hi Jonathan,
-> > > > 
-> > > > On 04.02.2025 07:23, kernel test robot wrote:    
-> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-> > > > > head:   315198c0a370da031f5c3d504b99f771a0c545ab
-> > > > > commit: 493122c53af1915b4b5b5f47a8c446973ebff052 [23/47] iio: dac: adi-axi-dac: add bus mode setup
-> > > > > config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040758.DJqHqhLO-lkp@intel.com/config)
-> > > > > compiler: m68k-linux-gcc (GCC) 14.2.0
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502040758.DJqHqhLO-lkp@intel.com/
-> > > > > 
-> > > > > smatch warnings:
-> > > > > drivers/iio/dac/adi-axi-dac.c:731 axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) => (0-u32max >= 0)'
-> > > > > 
-> > > > > vim +731 drivers/iio/dac/adi-axi-dac.c
-> > > > > 
-> > > > >    724	
-> > > > >    725	static int axi_dac_bus_set_io_mode(struct iio_backend *back,
-> > > > >    726					   enum ad3552r_io_mode mode)
-> > > > >    727	{
-> > > > >    728		struct axi_dac_state *st = iio_backend_get_priv(back);
-> > > > >    729		int ival, ret;
-> > > > >    730	      
-> > > > >  > 731		if (!(mode >= AD3552R_IO_MODE_SPI && mode <= AD3552R_IO_MODE_QSPI))      
-> > > > >    732      
-> > > > 
-> > > > not clear to me the reason of this warning, maybe because mode is an enum ?
-> > > > Should i take any action ?    
-> > > 
-> > > Currently there are only a few modes in there and that range covers them all I think.
-> > > So warning is correct, but we perhaps want this check there as hardening against future
-> > > addition of more modes.  Maybe an explicit switch with all modes listed and a default
-> > > will have same effect and be better defense anyway against future changes?
-> > > 
-> > > Jonathan    
-> > 
-> > thanks, clear now. 
-> > Is maintaining the waring an issue ?
-> > Another chance may be adding a AD3552R_IO_MODE_MAX as last item ?  
-> 
-> Hmm. If these are the only plausible modes for enum ad3552r_io_mode
-> ever to have, we could just drop the check.
-I've dropped the check.
+FYI, the error/warning still remains.
 
-Thanks,
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   263072f655dcd6fd63f7d5dd1f9c5553134982fa
+commit: 83b931be40b2829e20f38356509d8706ea6b6238 [2729/2729] mm/damon/core-test: test damon_set_regions
+config: x86_64-buildonly-randconfig-004-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082340.S6mQ2xsd-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082340.S6mQ2xsd-lkp@intel.com/reproduce)
 
-Jonathan
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502082340.S6mQ2xsd-lkp@intel.com/
 
-> 
-> > 
-> > angelo  
-> > > 
-> > >     
-> > > > 
-> > > > 			return -EINVAL;    
-> > > > >    733	
-> > > > >    734		guard(mutex)(&st->lock);
-> > > > >    735	
-> > > > >    736		ret = regmap_update_bits(st->regmap, AXI_DAC_CUSTOM_CTRL_REG,
-> > > > >    737				AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE,
-> > > > >    738				FIELD_PREP(AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE, mode));
-> > > > >    739		if (ret)
-> > > > >    740			return ret;
-> > > > >    741	
-> > > > >    742		return regmap_read_poll_timeout(st->regmap, AXI_DAC_UI_STATUS_REG, ival,
-> > > > >    743				FIELD_GET(AXI_DAC_UI_STATUS_IF_BUSY, ival) == 0, 10,
-> > > > >    744				100 * KILO);
-> > > > >    745	}
-> > > > >    746	
-> > > > > 
-> > > > > -- 
-> > > > > 0-DAY CI Kernel Test Service
-> > > > > https://github.com/intel/lkp-tests/wiki      
-> > > > 
-> > > > Thanks,
-> > > > regards,
-> > > > angelo    
-> > >     
-> >   
-> 
-> 
+All warnings (new ones prefixed by >>):
 
+   In file included from mm/damon/core.c:13:
+   In file included from include/linux/mm.h:1573:
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/damon/core.c:1248:
+>> mm/damon/core-test.h:284:2: warning: comparison of distinct pointer types ('typeof (__left) *' (aka 'unsigned int *') and 'typeof (__right) *' (aka 'int *')) [-Wcompare-distinct-pointer-types]
+     284 |         KUNIT_EXPECT_EQ(test, damon_nr_regions(t), 3);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1234:2: note: expanded from macro 'KUNIT_EXPECT_EQ'
+    1234 |         KUNIT_BINARY_EQ_ASSERTION(test, KUNIT_EXPECTATION, left, right)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:871:2: note: expanded from macro 'KUNIT_BINARY_EQ_ASSERTION'
+     871 |         KUNIT_BINARY_EQ_MSG_ASSERTION(test,                                    \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     872 |                                       assert_type,                             \
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     873 |                                       left,                                    \
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     874 |                                       right,                                   \
+         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     875 |                                       NULL)
+         |                                       ~~~~~
+   include/kunit/test.h:861:2: note: expanded from macro 'KUNIT_BINARY_EQ_MSG_ASSERTION'
+     861 |         KUNIT_BASE_EQ_MSG_ASSERTION(test,                                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     862 |                                     kunit_binary_assert,                       \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     863 |                                     KUNIT_INIT_BINARY_ASSERT_STRUCT,           \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     864 |                                     assert_type,                               \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     865 |                                     left,                                      \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     866 |                                     right,                                     \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     867 |                                     fmt,                                       \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     868 |                                     ##__VA_ARGS__)
+         |                                     ~~~~~~~~~~~~~~
+   include/kunit/test.h:772:2: note: expanded from macro 'KUNIT_BASE_EQ_MSG_ASSERTION'
+     772 |         KUNIT_BASE_BINARY_ASSERTION(test,                                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     773 |                                     assert_class,                              \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     774 |                                     ASSERT_CLASS_INIT,                         \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     775 |                                     assert_type,                               \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     776 |                                     left, ==, right,                           \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     777 |                                     fmt,                                       \
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     778 |                                     ##__VA_ARGS__)
+         |                                     ~~~~~~~~~~~~~~
+   include/kunit/test.h:748:9: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     748 |         ((void)__typecheck(__left, __right));                                  \
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +284 mm/damon/core-test.h
+
+   269	
+   270	static void damon_test_set_regions(struct kunit *test)
+   271	{
+   272		struct damon_target *t = damon_new_target();
+   273		struct damon_region *r1 = damon_new_region(4, 16);
+   274		struct damon_region *r2 = damon_new_region(24, 32);
+   275		struct damon_addr_range range = {.start = 8, .end = 28};
+   276		unsigned long expects[] = {8, 16, 16, 24, 24, 28};
+   277		int expect_idx = 0;
+   278		struct damon_region *r;
+   279	
+   280		damon_add_region(r1, t);
+   281		damon_add_region(r2, t);
+   282		damon_set_regions(t, &range, 1);
+   283	
+ > 284		KUNIT_EXPECT_EQ(test, damon_nr_regions(t), 3);
+   285		damon_for_each_region(r, t) {
+   286			KUNIT_EXPECT_EQ(test, r->ar.start, expects[expect_idx++]);
+   287			KUNIT_EXPECT_EQ(test, r->ar.end, expects[expect_idx++]);
+   288		}
+   289		damon_destroy_target(t);
+   290	}
+   291	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
