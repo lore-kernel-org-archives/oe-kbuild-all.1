@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8387B2500D0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E2B2500A1
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 15:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739029460; cv=none; b=a7FPb++j93fKr/UBU1GQDI7PPHgmuQGSE+ISpOO4bSff6kiHRRX/3ybJq8YwzaU3CpCf6N5iBeMjRqqZ/X+3kTWEwTYgiFSGRXdMAepFnkSXx2fEJxkdmB8sWFYfGksdm38Ql1BEQP7Y6pkel5TG41SM1ebcIReXxtAzGMH9WQU=
+	t=1739029460; cv=none; b=s3MWVpwhhDN8g4ixzw1OHHIRr8jB/jgxGhzN43KLbFt2EysCkaP1XTJggGt+2TP9VmGvw9SaC+kWPVX3uAhU7Oc3o8JqSr/sEuJy12tZFcLD878PkO9RknDeik68B8ZXoqx7XaA+h6DgHd6ewASyreU1XxFV32LGcHvuB8/iFFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739029460; c=relaxed/simple;
-	bh=ZpMEECqllP5SDZSuEWLGVmXv1701v0vXGG+u3egY5D4=;
+	bh=ZYvZgKRdOqLHb6Gp+t0IQxWp/UjX54mdAGkjrUokLT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hu4zavNg0VVYDY459eWJXTIh7qG/tcaK3oo+TfniMw05Vs6CcFEZdqkwn38jz8S7fM41/uCOJ434DpeVJJ8rLcu8qW9FlqYPvqYCc64iEcmZ8zOPxfpW4i3JzIoR97D+igMY1paLwrSlcez6V0f+eonzXt9+YrWWx2buhwqtVSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kc6ViEB1; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=AwM8Z4A3jko8Q7ZyjxppZ7Aj6HhYd8qL6T47nIfrWIBTZZ30HlieGPpiDym27VUbQLsk4ghjR3MeQfUPBkffdcL48AUXLdZmPVzouKDQ7/KMJzTmZoQxhkYbFj5uIsGKoCgBz5rccSpnyl8UkWZAUHp0UYGoIrjkfIVTac48ge0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cbq7z8cV; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kc6ViEB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbq7z8cV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1739029459; x=1770565459;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZpMEECqllP5SDZSuEWLGVmXv1701v0vXGG+u3egY5D4=;
-  b=kc6ViEB1Cn/sOaJnN9tlB0F3pQKPnVnQbbEIWJkCJ6M3QY177DUZ446k
-   ZirQzF0EmNq7wD3++q5zI+8fKL+DmQKwMDllhx1rbDWs61wFarT6It4Gy
-   e3trdvu0wa3DyfW9rN7mFk+EzxnJxp5zq340JEXxO9/+l7I4XJLHscf/T
-   DOxxQ3rc2ImgSqJfWfxgzvyIZ1T+14MHwy3VNdSAGcWAqi+yrv/J3ER3z
-   OcCkK8WiUE+r0wnAS/2ZDdN5/AmetRfMBY1fvWEuH+M0nQELwRLmXeXXQ
-   1OgiNofYTnVoOOw7+Tslizdz2f6fe5PZSUMUo3qixJ0Xjkf/ZjRXPl92h
-   Q==;
-X-CSE-ConnectionGUID: h24I/QBBTRCcSYQeYb0xgg==
-X-CSE-MsgGUID: iQvWxlIDSDuHF6lQ0CTFiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39565691"
+  bh=ZYvZgKRdOqLHb6Gp+t0IQxWp/UjX54mdAGkjrUokLT4=;
+  b=cbq7z8cVUcomV8RN8emd26LKASrPba2B4K3EAreEyHBNNDvVxVns7uRG
+   YRFeNtdj6Cyuzzn8avYxUMwIhT0KIxCttdvqCxK3V4Vf0gx0C9QG0iUnl
+   Q8msTOlK8wAigqZXsyEfIr9yq2yFeZLRthzjBuVln+M9HKusZGFOuHw6Y
+   qsfhRY0Rp+rcNksDbQNX52piCPYKO35HTjTwNSFahNvydghhuahSFH700
+   rHzXf3NVjBBDKBuq/lEb7yy9mR1RaSlR2PRJ7Z19k9oDPYnUytAN8DSvS
+   7bjVzS6QMOL/Ry7KEYQ5CAYCHvJNyAV1G+RKVz11ebPX+rjVMf+HDp9tr
+   w==;
+X-CSE-ConnectionGUID: hJQMblVhTaikNe4hVE6etg==
+X-CSE-MsgGUID: tQnPaYtlS1+zixy1ClV0pA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="50285378"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="39565691"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 07:44:16 -0800
-X-CSE-ConnectionGUID: U0IfHmbxRnGuoeLtqLyB9g==
-X-CSE-MsgGUID: gy60i0DOTJ6gq3m+4H4xEQ==
+   d="scan'208";a="50285378"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 07:44:16 -0800
+X-CSE-ConnectionGUID: vGmw9m2vSwSdLTc6ufezMg==
+X-CSE-MsgGUID: PiEXl7kwRY+/WnfDYXlzoA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="111619573"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112682431"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Feb 2025 07:44:14 -0800
+  by orviesa008.jf.intel.com with ESMTP; 08 Feb 2025 07:44:15 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgn08-0010Dz-29;
+	id 1tgn08-0010EC-2R;
 	Sat, 08 Feb 2025 15:44:12 +0000
-Date: Sat, 8 Feb 2025 23:43:27 +0800
+Date: Sat, 8 Feb 2025 23:43:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: [broonie-sound:for-next 6/13] sound/soc/codecs/cs35l41.c:1166:31:
- error: implicit declaration of function 'acpi_device_hid'; did you mean
- 'acpi_device_handle'?
-Message-ID: <202502082338.UoPVUCIP-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.13/invlpgb-v9 5/13] arch/x86/include/asm/invlpgb.h:30:49:
+ error: invalid input size for constraint 'a'
+Message-ID: <202502082340.MdGy6PqI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,66 +62,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-head:   f3a0dfda57f208c90c8c73f3bee2e8390f585b1f
-commit: 1d44a30ae3f9195cb4eb7d81bb9ced2776232094 [6/13] ASoC: cs35l41: Fallback to using HID for system_name if no SUB is available
-config: arm-randconfig-004-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082338.UoPVUCIP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082338.UoPVUCIP-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.13/invlpgb-v9
+head:   df542b65e9753dea56b584fdca48cb8f8e3f74cd
+commit: 83464118a5db5f7faeadcfac9a09205147c0c604 [5/13] x86/mm: add INVLPGB support code
+config: i386-buildonly-randconfig-002-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082340.MdGy6PqI-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082340.MdGy6PqI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502082338.UoPVUCIP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502082340.MdGy6PqI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/cs35l41.c: In function 'cs35l41_acpi_get_name':
->> sound/soc/codecs/cs35l41.c:1166:31: error: implicit declaration of function 'acpi_device_hid'; did you mean 'acpi_device_handle'? [-Wimplicit-function-declaration]
-    1166 |                         hid = acpi_device_hid(adev);
-         |                               ^~~~~~~~~~~~~~~
-         |                               acpi_device_handle
->> sound/soc/codecs/cs35l41.c:1166:29: error: assignment to 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1166 |                         hid = acpi_device_hid(adev);
-         |                             ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:9:
+   In file included from include/linux/sched/task.h:13:
+   In file included from include/linux/uaccess.h:12:
+   In file included from arch/x86/include/asm/uaccess.h:17:
+   In file included from arch/x86/include/asm/tlbflush.h:13:
+>> arch/x86/include/asm/invlpgb.h:30:49: error: invalid input size for constraint 'a'
+      30 |         asm volatile(".byte 0x0f, 0x01, 0xfe" : : "a" (rax), "c" (ecx), "d" (edx));
+         |                                                        ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=3934676415
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1263: prepare0] Error 2 shuffle=3934676415
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=3934676415
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=3934676415
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for X86_BROADCAST_TLB_FLUSH
+   Depends on [n]: CPU_SUP_AMD [=y] && 64BIT [=n]
+   Selected by [y]:
+   - CPU_SUP_AMD [=y]
 
 
-vim +1166 sound/soc/codecs/cs35l41.c
+vim +/a +30 arch/x86/include/asm/invlpgb.h
 
-  1150	
-  1151	static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
-  1152	{
-  1153		struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
-  1154		acpi_handle handle = acpi_device_handle(adev);
-  1155		const char *hid;
-  1156		const char *sub;
-  1157	
-  1158		/* If there is no acpi_device, there is no ACPI for this system, return 0 */
-  1159		if (!adev)
-  1160			return 0;
-  1161	
-  1162		sub = acpi_get_subsystem_id(handle);
-  1163		if (IS_ERR(sub)) {
-  1164			/* If no _SUB, fallback to _HID, otherwise fail */
-  1165			if (PTR_ERR(sub) == -ENODATA) {
-> 1166				hid = acpi_device_hid(adev);
-  1167				/* If dummy hid, return 0 and fallback to legacy firmware path */
-  1168				if (!strcmp(hid, "device"))
-  1169					return 0;
-  1170				sub = kstrdup(hid, GFP_KERNEL);
-  1171				if (!sub)
-  1172					sub = ERR_PTR(-ENOMEM);
-  1173	
-  1174			} else
-  1175				return PTR_ERR(sub);
-  1176		}
-  1177	
-  1178		cs35l41->dsp.system_name = sub;
-  1179		dev_dbg(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
-  1180	
-  1181		return 0;
-  1182	}
-  1183	
+     8	
+     9	/*
+    10	 * INVLPGB does broadcast TLB invalidation across all the CPUs in the system.
+    11	 *
+    12	 * The INVLPGB instruction is weakly ordered, and a batch of invalidations can
+    13	 * be done in a parallel fashion.
+    14	 *
+    15	 * TLBSYNC is used to ensure that pending INVLPGB invalidations initiated from
+    16	 * this CPU have completed.
+    17	 */
+    18	static inline void __invlpgb(unsigned long asid, unsigned long pcid,
+    19				     unsigned long addr, u16 extra_count,
+    20				     bool pmd_stride, u8 flags)
+    21	{
+    22		u32 edx = (pcid << 16) | asid;
+    23		u32 ecx = (pmd_stride << 31) | extra_count;
+    24		u64 rax = addr | flags;
+    25	
+    26		/* The low bits in rax are for flags. Verify addr is clean. */
+    27		VM_WARN_ON_ONCE(addr & ~PAGE_MASK);
+    28	
+    29		/* INVLPGB; supported in binutils >= 2.36. */
+  > 30		asm volatile(".byte 0x0f, 0x01, 0xfe" : : "a" (rax), "c" (ecx), "d" (edx));
+    31	}
+    32	
 
 -- 
 0-DAY CI Kernel Test Service
