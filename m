@@ -1,77 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA8417A5A4;
-	Sat,  8 Feb 2025 05:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1412818E3F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 06:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738993697; cv=none; b=g/68KKmaK425Jl/n3EngHss8jNWWmkbFUJ879USXOCuoOlhMmQP/eFp19whqRW6lM5bsnFKEqhgMKNmJ/5+Ucf6btiZv7cI1AG9lfOf69yJ2exwfzPwjoEDE6g6Aqlo6VHCXXF655oxUUEq3bfOGns8raoUeuTCzLUu02+EXYwE=
+	t=1738994412; cv=none; b=SiPWYshbgb82fNl27zGIT+i+ASs1Vs9ITEcBxrPSCw5SBDJK+OuzVTE21s4/FKUnBWLT11klEP/yA8Iv2OaS6xh1Dj9xXoWuq7jUDU/xXPic7gVkzcvduYHwgnmiBWZn3GZXvYQQ9tHxCupewAQXE8ES0FnA6dx5yK2yJCoxvd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738993697; c=relaxed/simple;
-	bh=/+xK94e+yjaY7pIU+ENGfoo6EpPjaPcXcfXS8xbIUxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ah+los5c+RAp8Z58F4Acd8lf75M/BJjF+mvit0z/431D6E8PVgv8Ik2HtcVq414Za15ui2S1GmKoclgds/iGozmDToRkDaQLLsnoqIbGntFWhdYrd+eD9ZXc8+npuIMq9dXj/O6FgucRywd6IVI5Wn6Q8wY0CbLhLPz9HfPbRF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fS0CTOtw; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1738994412; c=relaxed/simple;
+	bh=HQPqBTA3tdabCU9rLNhwRvnLudSY579iVNYaph7pejU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Crc3N6Q8TjCL09A2ssbc3n0BeRY2DIO+AKToc4fqx/9PxgNiMmJ8CGmOiAo2tZQKG1SlHvjPMExpDTsWRRBPGDvj4tYQPjYUn/+S92eSVKt/PYwR9CB4w2SHTEaTQM9PsXEy4ZwBQ6frQYHgNrrPkGlJf5GQ2n4X3oC9LjS3tiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HV5fZ1CD; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fS0CTOtw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HV5fZ1CD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738993696; x=1770529696;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/+xK94e+yjaY7pIU+ENGfoo6EpPjaPcXcfXS8xbIUxY=;
-  b=fS0CTOtwJQBuhs4Zb585a8r0435/x3NjgWFZTWvcABxSunMlizlgDPKq
-   H6vIRouj8yo9ExUBaRAwJRVWO/hx3P8t6aMZ6RMSdX8FNPoFK88ASAyA7
-   Q54Jskv2mZsPeLTqrJ1R/liRdIUTk0awsncmKiY5JqJ6rBVWF6uxnXp/y
-   dKeQZlEve7H1dNV55fH4l+Q3aaGubmlmDcg+W1ZRkqTSaPHgvVRkieE4/
-   QNywThuUwZ1RWn4Vo8jYnEHI+Q88OudR1VSzP9S9A4xoKnJYJnKTFfBXF
-   5J+xztQQXaTsC/FyuOCLvQRdJnEjX/IWi4SJIzJHCbdb00siRfNi2QcjV
-   Q==;
-X-CSE-ConnectionGUID: LSedL4tzQeqtQRr+nBLOWw==
-X-CSE-MsgGUID: Pu6PpmyMT5C+H9gKTn1wYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="51028456"
+  t=1738994411; x=1770530411;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HQPqBTA3tdabCU9rLNhwRvnLudSY579iVNYaph7pejU=;
+  b=HV5fZ1CDA+zBCKTfON9rPHfZeoC9ZZpDf8vvOjWq5VBIMFFN41L4tQO6
+   g3IkNJx+W/O1zW5+LdS9vU4lJmMd3uGsb1sZPUfGeyvq9lbuM+wshubUH
+   zVd6APCdiPgaakkgNnl43sM8JvqhRsM5h4L2frcZpTd76BlUEmXPMs+jw
+   O6dYo/M9IZWMoRsjAzMM4WsScQ6uZ8cvy9sncFjR5yjW61umLmpcALdOT
+   /Zrzm7/4xNGyz+6+7o/5sQlD2dXOyRelubjH+iD9jmSM/PByCeUtaUu+z
+   vVZkyJRHZ4dT6VdsxLBC3DcqN0BWLmzcj82fvkVdNdJQdQewCYbfYb2AV
+   w==;
+X-CSE-ConnectionGUID: 1GWl08ZHTV6tvo0PLquqNA==
+X-CSE-MsgGUID: m9q2glAZQBmg3IDTaozN2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="51028705"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="51028456"
+   d="scan'208";a="51028705"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 21:48:14 -0800
-X-CSE-ConnectionGUID: +EAt0Cf+T5aw3Y22PjBv1g==
-X-CSE-MsgGUID: H41t+OPjTw20gvwb7MPZ7w==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 22:00:10 -0800
+X-CSE-ConnectionGUID: vVh13mHFRNyJL3r5VmZE+Q==
+X-CSE-MsgGUID: /yiv8Hb5Sd6D9kLfp0/FyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134955065"
+   d="scan'208";a="134956829"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Feb 2025 21:48:07 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 07 Feb 2025 22:00:09 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgdhF-000zbV-0g;
-	Sat, 08 Feb 2025 05:48:05 +0000
-Date: Sat, 8 Feb 2025 13:47:52 +0800
+	id 1tgdss-000zc1-2l;
+	Sat, 08 Feb 2025 06:00:06 +0000
+Date: Sat, 8 Feb 2025 13:59:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abel Wu <wuyun.abel@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bitao Hu <yaoma@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	Chen Ridong <chenridong@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"(open list:CONTROL GROUP (CGROUP))" <cgroups@vger.kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] cgroup/rstat: Add run_delay accounting for cgroups
-Message-ID: <202502081318.c9fYNNx8-lkp@intel.com>
-References: <20250207041012.89192-3-wuyun.abel@bytedance.com>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [l1k:spdm-future 23/31] lib/spdm/req-sysfs.c:374:38: error:
+ initialization of 'ssize_t (*)(struct file *, struct kobject *, struct
+ bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *,
+ struct kobject *, struct bin_attribute *, char *, long long int,  unsigned
+ i...
+Message-ID: <202502081352.s412zr0F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,68 +64,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207041012.89192-3-wuyun.abel@bytedance.com>
 
-Hi Abel,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tj-cgroup/for-next]
-[also build test ERROR on tip/sched/core akpm-mm/mm-everything linus/master v6.14-rc1 next-20250207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Wu/cgroup-rstat-Fix-forceidle-time-in-cpu-stat/20250207-121257
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20250207041012.89192-3-wuyun.abel%40bytedance.com
-patch subject: [PATCH v3 2/2] cgroup/rstat: Add run_delay accounting for cgroups
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250208/202502081318.c9fYNNx8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081318.c9fYNNx8-lkp@intel.com/reproduce)
+tree:   https://github.com/l1k/linux spdm-future
+head:   9df9c6e64b331989df081c840685e2477a50c06a
+commit: b629ea55d7450da816e58232c60d03af80eca470 [23/31] PCI/CMA: Expose a log of received signatures in sysfs
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250208/202502081352.s412zr0F-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081352.s412zr0F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081318.c9fYNNx8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081352.s412zr0F-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:19:
-   In file included from include/linux/sched/isolation.h:5:
-   In file included from include/linux/cpuset.h:17:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/build_policy.c:59:
->> kernel/sched/cputime.c:254:22: error: no member named 'rq_sched_info' in 'struct rq'
-     254 |         return cpu_rq(cpu)->rq_sched_info.run_delay;
-         |                ~~~~~~~~~~~  ^
-   3 warnings and 1 error generated.
+   lib/spdm/req-sysfs.c: In function 'spdm_create_log_entry':
+>> lib/spdm/req-sysfs.c:374:38: error: initialization of 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} [-Wincompatible-pointer-types]
+     374 |                         .read      = sysfs_bin_attr_simple_read,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/spdm/req-sysfs.c:374:38: note: (near initialization for '(anonymous).sig.read')
+   lib/spdm/req-sysfs.c:382:38: error: initialization of 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} [-Wincompatible-pointer-types]
+     382 |                         .read      = sysfs_bin_attr_simple_read,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/spdm/req-sysfs.c:382:38: note: (near initialization for '(anonymous).req_nonce.read')
+   lib/spdm/req-sysfs.c:389:38: error: initialization of 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} [-Wincompatible-pointer-types]
+     389 |                         .read      = sysfs_bin_attr_simple_read,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/spdm/req-sysfs.c:389:38: note: (near initialization for '(anonymous).rsp_nonce.read')
+   lib/spdm/req-sysfs.c:396:38: error: initialization of 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} [-Wincompatible-pointer-types]
+     396 |                         .read      = sysfs_bin_attr_simple_read,
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/spdm/req-sysfs.c:396:38: note: (near initialization for '(anonymous).transcript.read')
 
 
-vim +254 kernel/sched/cputime.c
+vim +374 lib/spdm/req-sysfs.c
 
-   251	
-   252	u64 get_cpu_run_delay(int cpu)
-   253	{
- > 254		return cpu_rq(cpu)->rq_sched_info.run_delay;
-   255	}
-   256	#endif
-   257	
+   342	
+   343	/**
+   344	 * spdm_create_log_entry() - Allocate log entry for one received SPDM signature
+   345	 *
+   346	 * @spdm_state: SPDM session state
+   347	 * @spdm_context: SPDM context (needed to create combined_spdm_prefix)
+   348	 * @slot: Slot which was used to generate the signature
+   349	 *	(needed to create certificate_chain symlink)
+   350	 * @req_nonce_off: Requester nonce offset within the transcript
+   351	 * @rsp_nonce_off: Responder nonce offset within the transcript
+   352	 *
+   353	 * Allocate and populate a struct spdm_log_entry upon device authentication.
+   354	 * Publish it in sysfs if the device has already been registered through
+   355	 * device_add().
+   356	 */
+   357	void spdm_create_log_entry(struct spdm_state *spdm_state,
+   358				   const char *spdm_context, u8 slot,
+   359				   size_t req_nonce_off, size_t rsp_nonce_off)
+   360	{
+   361		struct spdm_log_entry *log = kmalloc(sizeof(*log), GFP_KERNEL);
+   362		if (!log)
+   363			return;
+   364	
+   365		*log = (struct spdm_log_entry) {
+   366			.slot		   = slot,
+   367			.version	   = spdm_state->version,
+   368			.counter	   = spdm_state->log_counter,
+   369			.list		   = LIST_HEAD_INIT(log->list),
+   370	
+   371			.sig = {
+   372				.attr.name = log->sig_name,
+   373				.attr.mode = 0444,
+ > 374				.read	   = sysfs_bin_attr_simple_read,
+   375				.private   = spdm_state->transcript_end -
+   376					     spdm_state->sig_len,
+   377				.size	   = spdm_state->sig_len },
+   378	
+   379			.req_nonce = {
+   380				.attr.name = log->req_nonce_name,
+   381				.attr.mode = 0444,
+   382				.read	   = sysfs_bin_attr_simple_read,
+   383				.private   = spdm_state->transcript + req_nonce_off,
+   384				.size	   = SPDM_NONCE_SZ },
+   385	
+   386			.rsp_nonce = {
+   387				.attr.name = log->rsp_nonce_name,
+   388				.attr.mode = 0444,
+   389				.read	   = sysfs_bin_attr_simple_read,
+   390				.private   = spdm_state->transcript + rsp_nonce_off,
+   391				.size	   = SPDM_NONCE_SZ },
+   392	
+   393			.transcript = {
+   394				.attr.name = log->transcript_name,
+   395				.attr.mode = 0444,
+   396				.read	   = sysfs_bin_attr_simple_read,
+   397				.private   = spdm_state->transcript,
+   398				.size	   = spdm_state->transcript_end -
+   399					     spdm_state->transcript -
+   400					     spdm_state->sig_len },
+   401	
+   402			.combined_prefix = {
+   403				.attr.name = log->combined_prefix_name,
+   404				.attr.mode = 0444,
+   405				.read	   = spdm_read_combined_prefix,
+   406				.private   = log,
+   407				.size	   = spdm_state->version <= 0x11 ? 0 :
+   408					     SPDM_COMBINED_PREFIX_SZ },
+   409	
+   410			.spdm_context = {
+   411				.attr.attr.name = log->spdm_context_name,
+   412				.attr.attr.mode = 0444,
+   413				.attr.show = device_show_string,
+   414				.var	   = (char *)spdm_context },
+   415	
+   416			.hash_alg = {
+   417				.attr.attr.name = log->hash_alg_name,
+   418				.attr.attr.mode = 0444,
+   419				.attr.show = device_show_string,
+   420				.var	   = (char *)spdm_state->base_hash_alg_name },
+   421		};
+   422	
+   423		snprintf(log->sig_name, sizeof(log->sig_name),
+   424			 "%u_signature", spdm_state->log_counter);
+   425		snprintf(log->req_nonce_name, sizeof(log->req_nonce_name),
+   426			 "%u_requester_nonce", spdm_state->log_counter);
+   427		snprintf(log->rsp_nonce_name, sizeof(log->rsp_nonce_name),
+   428			 "%u_responder_nonce", spdm_state->log_counter);
+   429		snprintf(log->transcript_name, sizeof(log->transcript_name),
+   430			 "%u_transcript", spdm_state->log_counter);
+   431		snprintf(log->combined_prefix_name, sizeof(log->combined_prefix_name),
+   432			 "%u_combined_spdm_prefix", spdm_state->log_counter);
+   433		snprintf(log->spdm_context_name, sizeof(log->spdm_context_name),
+   434			 "%u_type", spdm_state->log_counter);
+   435		snprintf(log->hash_alg_name, sizeof(log->hash_alg_name),
+   436			 "%u_hash_algorithm", spdm_state->log_counter);
+   437	
+   438		sysfs_bin_attr_init(&log->sig);
+   439		sysfs_bin_attr_init(&log->req_nonce);
+   440		sysfs_bin_attr_init(&log->rsp_nonce);
+   441		sysfs_bin_attr_init(&log->transcript);
+   442		sysfs_bin_attr_init(&log->combined_prefix);
+   443		sysfs_attr_init(&log->spdm_context.attr.attr);
+   444		sysfs_attr_init(&log->hash_alg.attr.attr);
+   445	
+   446		list_add_tail(&log->list, &spdm_state->log);
+   447		spdm_state->log_counter++;
+   448	
+   449		/* Steal transcript pointer ahead of spdm_free_transcript() */
+   450		spdm_state->transcript = NULL;
+   451	
+   452		if (device_is_registered(spdm_state->dev))
+   453			spdm_publish_log_entry(&spdm_state->dev->kobj, log);
+   454	}
+   455	
 
 -- 
 0-DAY CI Kernel Test Service
