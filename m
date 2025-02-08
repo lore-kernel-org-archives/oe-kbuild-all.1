@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFD5241129
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 19:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0344F19DF6A
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 19:08:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739041734; cv=none; b=VikUwZfIMemdzA88QR9UehN2ZXcd1rXevJuVhgbMoXwTuiB54HEkatQtUSzpyW47ebJ7Q3/Xri0EHKNSrgFJvLAMKKHZLTO06Z5dV0c/DaWg90JizT2pqyI4CoXHoArEs81E0R8/xoZ4WT8IJqd2953co/ClEI/luX/4KL/7H4o=
+	t=1739041735; cv=none; b=FwinFHkwCQtW2M/2BJDFo+7OPx2E5PvEWxj/gVTbv0JbBPQ8lEiSgsgoZuGuPYxNrviPLZ519VHORMltudxeDKtfCzc7y9pRZ0VX8U3/x9AmF90S9fs7eG5SzzuHxXeubHqrhrL01UrwhG2QZoRnKCMSwb4VH9yzFwZ+g3JEcuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739041734; c=relaxed/simple;
-	bh=bDprb0D+1YoEnLPTdQmDYMULODPcP5GKbtxhqz++Xn0=;
+	s=arc-20240116; t=1739041735; c=relaxed/simple;
+	bh=CxkHCcxS0Ctc+nU+7vghqihyM26KK+hEgw4OP4QZefk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U0k+TKt1D+fMZWFImdJh42NLW3f5uFLWwN077ETFL4UnPC8jdhjrR3T6dqWmOhNwyAj+HZIwwgfX5DDHHyBS6V2Q8+AUKIAEqKK6fSuBYCA6wG1/1Vj0nvNbIvF2xDpU57TP3bsu2A1EcjEGX/TCMrQ0FumNBkrbyanzsoDe5ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2Mh6AQy; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=e07rKddxvBsFmbVwz6Wwz4Kz3vRo/Mp+QH7z0Zo8UZfQpXdKWEZdZTKnyylblOkU5tMsDzQ6YPRJqrJZEamTSPpBx4gLiV1Zr0dPrxozsZE5E70xLgf+ijpEqvCGhTcgS9ABYrKVLkDGM1PwvET01XkHbXD8ONs2/oyohNkBzOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AaxBao2I; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2Mh6AQy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AaxBao2I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739041732; x=1770577732;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bDprb0D+1YoEnLPTdQmDYMULODPcP5GKbtxhqz++Xn0=;
-  b=X2Mh6AQyH45eRbk7c28zzpVch+huR8zkGR7qoMXKrZIMuo67lFR7gcI7
-   2KwB5cgfn2KIKPKwOBwj2gjg9xUaGYVnWsJnKchtUvau1wWpEZSJFs8/H
-   EGGS3aDmYi/uoocazCjvWXUBwycCFgmb8YPw+q3BLE9m+4trrwgXvkFHa
-   KGYy2D0uo6VbMfMN6DMqTqU9Zmg/qD/EjjiI8vGRwfgN1iotEDsbyLGa3
-   +MVY5CN9cei0aHBv+cmcTYm/0dOohlLu+zHBVvzEiJcKsaOzr3XEmTHJ5
-   keTtifIMM4Os7ZE1wz0BvWFnMG7a9priTrEqOKk57IhUpu4+rnrRFTp2N
-   g==;
-X-CSE-ConnectionGUID: Pgyoc430S2yCIlHIfgsDYQ==
-X-CSE-MsgGUID: 9jx5cqCuTAWY5QXqDV+f+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39926882"
+  t=1739041733; x=1770577733;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CxkHCcxS0Ctc+nU+7vghqihyM26KK+hEgw4OP4QZefk=;
+  b=AaxBao2IOhrXVt0/ltXjRVjuAmq1xVVFrsFoUkbMtHO3wkICVc9AIbNM
+   JUZknTbU3hDKMfGkdaqICb/b8XEJHbQ+5hd6eFD8eNcZm9dEPmzXPT93E
+   2HNH+ZSEOY9Fo6r8uShAKdVrF3NPxDm07+bgjfMe7i801y0kt+NkkBEsh
+   G4PxXTh6wRsZCr9q7eH8R9FgkMO3P5keHl7ZMDi/cDlBZugepdBE83YgM
+   p9tCs9qc9DBiOSjbmPaeX1zNb6cS8QcChQocTA4W9k47EO31Ww0QDuj0I
+   PZzmmHy9zCXrVr7iR+00XDvsiKOAuh6qLyvMAv+0cd5smzAaeZC7HoWce
+   A==;
+X-CSE-ConnectionGUID: pSsn0xM0Txm0d2fgM2SXfA==
+X-CSE-MsgGUID: ereO7g00Qn+7NidJbbNDGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39926884"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="39926882"
+   d="scan'208";a="39926884"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 11:08:49 -0800
-X-CSE-ConnectionGUID: 4zGS7E9ZQYuzeLrX6JPzkw==
-X-CSE-MsgGUID: CfJKu3TRSg+HIAk7cSupFw==
+X-CSE-ConnectionGUID: BIGnTC0ERwm17wTzJz5n2Q==
+X-CSE-MsgGUID: GtW0WIAUTVilEEJmtc/YFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="111767377"
+   d="scan'208";a="111767379"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 08 Feb 2025 11:08:47 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgqC4-0010X3-2N;
+	id 1tgqC4-0010Wx-2A;
 	Sat, 08 Feb 2025 19:08:44 +0000
 Date: Sun, 9 Feb 2025 03:08:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1418/1418] mm/khugepaged.c:1336:
- warning: Function parameter or member 'reliable' not described in
- 'collapse_shmem'
-Message-ID: <202502090339.Fw3TyU0R-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 211/211]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32800000: 'async',
+ 'mm-hw-ccf-regmap' do not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202502090326.OuJCHlS9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,341 +63,310 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   cc7cb040bd0afe96f1da94c9f21eda5a986510a5
-commit: ff0fb9e816fac221fa24a1810dd895745406070b [1418/1418] mm: thp: Add memory reliable support for hugepaged collapse
-config: x86_64-buildonly-randconfig-001-20250207 (https://download.01.org/0day-ci/archive/20250209/202502090339.Fw3TyU0R-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090339.Fw3TyU0R-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-6.6
+head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
+commit: fd00cab3fe36e486cd2aaf166b98a6a5b943a097 [211/211] FIXUP: CHROMIUM:=
+ arm64: dts: mt8196: Add MT8196 EVB dts
+config: arm64-randconfig-051-20250207 (https://download.01.org/0day-ci/arch=
+ive/20250209/202502090326.OuJCHlS9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20250209/202502090326.OuJCHlS9-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090339.Fw3TyU0R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090326.OuJCHlS9-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mu=
+tex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32430000: fail=
+ed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-intf@32440000: fail=
+ed to match any schema with compatible: ['mediatek,mt8196-dp-intf']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dsc0-wrap0@324500=
+00: failed to match any schema with compatible: ['mediatek,mt8196-disp-dsc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dsc1-wrap1@324600=
+00: failed to match any schema with compatible: ['mediatek,mt8196-disp-dsc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dsi@32490000: failed t=
+o match any schema with compatible: ['mediatek,mt8196-dsi']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/disp-dvo0@324c0000: fa=
+iled to match any schema with compatible: ['mediatek,mt8196-edp-dvo']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32600000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32800000: 'async', '=
+mm-hw-ccf-regmap' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
+sys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'power-doma=
+ins' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mu=
+tex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32820000: 'oneOf' con=
+ditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mu=
+tex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: dma-controller@32860000: 'i=
+ommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediate=
+k,exdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: dma-controller@32870000: 'i=
+ommus' is a required property
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediate=
+k,outproc.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: outproc@329c0000: 'oneOf' c=
+onditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediate=
+k,outproc.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32a60000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32a70000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32a80000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@32a90000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32c00000: 'async', '=
+mm-hw-ccf-regmap' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
+sys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32c20000: 'power-doma=
+ins' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mu=
+tex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: mutex@32c20000: 'oneOf' con=
+ditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,mu=
+tex.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: dma-controller@32c50000: 'i=
+ommus' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediate=
+k,exdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: dma-controller@32c60000: 'i=
+ommus' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@38890000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@38c00000: faile=
+d to match any schema with compatible: ['mediatek,mt8196-vencsys-c2', 'medi=
+atek,mt8196-vencsys_c2', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@38c00000: faile=
+d to match any schema with compatible: ['mediatek,mt8196-vencsys-c2', 'medi=
+atek,mt8196-vencsys_c2', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@38c10000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-sub-comm@38c70000:=
+ failed to match any schema with compatible: ['mediatek,mt8196-smi-sub-comm=
+on']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@38c90000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@3e000000: faile=
+d to match any schema with compatible: ['mediatek,mt8196-mdpsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@3e030000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@3e400000: faile=
+d to match any schema with compatible: ['mediatek,mt8196-mdpsys1', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/larb@3e430000: failed =
+to match any schema with compatible: ['mediatek,mt8196-smi-larb']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@3e800000: 'mm-hw-ccf=
+-regmap' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
+sys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-sub-comm@3e810000:=
+ failed to match any schema with compatible: ['mediatek,mt8196-smi-sub-comm=
+on']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-sub-comm@3e820000:=
+ failed to match any schema with compatible: ['mediatek,mt8196-smi-sub-comm=
+on']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-sub-comm@3e830000:=
+ failed to match any schema with compatible: ['mediatek,mt8196-smi-sub-comm=
+on']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-sub-comm@3e840000:=
+ failed to match any schema with compatible: ['mediatek,mt8196-smi-sub-comm=
+on']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: dp-tx@3ec00000: 'dptx,phy-p=
+arams' does not match any of the regexes: '^#.*', '^(at25|bm|devbus|dmacap|=
+dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*', '^(keypa=
+d|m25p|max8952|max8997|max8998|mpmc),.*', '^(pinctrl-single|#pinctrl-single=
+|PowerPC),.*', '^(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*=
+', '^(simple-audio-card|st-plgpio|st-spics|ts),.*', '^100ask,.*', '^70mai,.=
+*', '^8dev,.*', '^GEFanuc,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA=
+-Z0-9+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^a=
+bilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acer,.*', '^acme,.*', '=
+^actions,.*', '^active-semi,.*', '^ad,.*', '^adafruit,.*', '^adapteva,.*', =
+'^adaptrum,.*', '^adh,.*', '^adi,.*', '^advantech,.*', '^aeroflexgaisler,.*=
+', '^aesop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-=
+network,.*', '^allegro,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', =
+'^alps,.*', '^alt,.*', '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*',=
+ '^amd,.*', '^amediatech,.*', '^amlogic,.*', '^ampere,.*', '^ampire,.*', '^=
+ams,.*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^=
+anvo,.*', '^apm,.*', '^apple,.*', '^aptina,.*', '^arasan,.*', '^archermind,=
+=2E*', '^arctic,.*', '^arcx,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^=
+arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.*', '^aspee=
+d,.*', '^asrock,.*', '^asus,.*', '^atheros,.*', '^atlas,.*', '^atmel,.*', '=
+^auo,.*', '^auvidea,.*', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet,.*', =
+'^awinic,.*', '^axentia,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,=
+=2E*', '^bananapi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bhf,.*'=
+, '^bitmain,.*', '^blutek,.*', '^boe,.*', '^bosch,.*', '^boundary,.*', '^br=
+cm,.*', '^broadmobi,.*', '^bsh,.*', '^bticino,.*', '^buffalo,.*', '^bur,.*'=
+, '^bytedance,.*', '^calamp,.*', '^calaosystems,.*', '^calxeda,.*', '^canaa=
+n,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', '^catalyst,.*', '^caviu=
+m,.*', '^cdns,.*', '^cdtech,.*', '^cellwise,.*', '^ceva,.*', '^chargebyte,.=
+*', '^checkpoint,.*', '^chefree,.*', '^chipidea,.*', '^chipone,.*', '^chips=
+park,.*', '^chongzhou,.*', '^chrontel,.*', '^chrp,.*', '^chunghwa,.*', '^ch=
+uwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisco,.*', '^clockwork,.*', '^cloos,.*=
+', '^cloudengines,.*', '^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^compulab,.*=
+', '^congatec,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.*', '^cosmic,.=
+*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.*', '^csq,.*',=
+ '^ctera,.*', '^ctu,.*', '^cubietech,.*', '^cui,.*', '^cypress,.*', '^cyx,.=
+*', '^cznic,.*', '^dallas,.*', '^dataimage,.*', '^davicom,.*', '^dell,.*', =
+'^delta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dh,=
+=2E*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^diodes,.*', '^dioo,.*',=
+ '^dlc,.*', '^dlg,.*', '^dlink,.*', '^dmo,.*', '^domintech,.*', '^dongwoon,=
+=2E*', '^dptechnics,.*', '^dragino,.*', '^ds,.*', '^dserve,.*', '^dynaimage=
+,.*', '^ea,.*', '^ebang,.*', '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^ec=
+kelmann,.*', '^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*',=
+ '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '^=
+elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emli=
+d,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*', '^enclustra,.=
+*', '^endless,.*', '^ene,.*', '^energymicro,.*', '^engicam,.*', '^engleder,=
+=2E*', '^epcos,.*', '^epfl,.*', '^epson,.*', '^esp,.*', '^est,.*', '^ettus,=
+=2E*', '^eukrea,.*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exa=
+r,.*', '^excito,.*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairphon=
+e,.*', '^faraday,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^feiyang,.*'=
+, '^fii,.*', '^firefly,.*', '^focaltech,.*', '^forlinx,.*', '^frida,.*', '^=
+friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^fxtec,.*', '^gardena,.*', '^ga=
+teworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gemei,.*',=
+ '^genesys,.*', '^geniatech,.*', '^giantec,.*', '^giantplus,.*', '^globalsc=
+ale,.*', '^globaltop,.*', '^gmt,.*', '^goldelico,.*', '^goodix,.*', '^googl=
+e,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*', '^gw,.*', '^han=
+nstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*', '^hechuang,.*'=
+, '^hideep,.*', '^himax,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*',=
+ '^hit,.*', '^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeyw=
+ell,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^huawei,.*', '^hug=
+sun,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', '^hydis,.*', '^hynitron,.*',=
+ '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,.*', '^icplus,.*', '^idt,.*'=
+, '^ifi,.*', '^ilitek,.*', '^imagis,.*', '^img,.*', '^imi,.*', '^inanbo,.*'=
+, '^incircuit,.*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^info=
+rce,.*', '^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^i=
+nnolux,.*', '^inside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*',=
+ '^intercontrol,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '=
+^iom,.*', '^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', =
+'^itead,.*', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.=
+*', '^jdi,.*', '^jedec,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^j=
+oz,.*', '^kam,.*', '^karo,.*', '^keithkoep,.*', '^keymile,.*', '^khadas,.*'=
+, '^kiebackpeter,.*', '^kinetic,.*', '^kingdisplay,.*', '^kingnovel,.*', '^=
+kionix,.*', '^kobo,.*', '^kobol,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*'=
+, '^kvg,.*', '^kyo,.*', '^lacie,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*=
+', '^lattice,.*', '^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^le=
+maker,.*', '^lenovo,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^lich=
+eepi,.*', '^linaro,.*', '^lineartechnology,.*', '^linksprite,.*', '^linksys=
+,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liteon,.*', '^litex,.*',=
+ '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^longcheer,.*', '^lontium,.=
+*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*', '^lunzn,.*', '^lwn,.*', '=
+^lxa,.*', '^m5stack,.*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^m=
+arvell,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^mbvl,.*', '^mcu=
+be,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '^megachips,.*', '^mele,.*=
+', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^memsensing,.*', '^memsic,=
+=2E*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^merrii,.*', '^methode,.*'=
+, '^micrel,.*', '^microchip,.*', '^microcrystal,.*', '^micron,.*', '^micros=
+oft,.*', '^microsys,.*', '^mikroe,.*', '^mikrotik,.*', '^miniand,.*', '^min=
+ix,.*', '^miramems,.*', '^mitsubishi,.*', '^mixel,.*', '^miyoo,.*', '^mntre=
+,.*', '^modtronix,.*', '^moortec,.*', '^mosaixtech,.*', '^motorcomm,.*', '^=
+motorola,.*', '^moxa,.*', '^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', =
+'^mscc,.*', '^msi,.*', '^mstar,.*', '^mti,.*', '^multi-inno,.*', '^mundorea=
+der,.*', '^murata,.*', '^mxic,.*', '^mxicy,.*', '^myir,.*', '^national,.*',=
+ '^nec,.*', '^neofidelity,.*', '^neonode,.*', '^netgear,.*', '^netlogic,.*'=
+, '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven=
+,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nintendo,=
+=2E*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^novatek,.*', '^novtech,.*', =
+'^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^ocean=
+ic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,=
+=2E*', '^oneplus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^o=
+palkelly,.*', '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpand=
+ora,.*', '^openrisc,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^ort=
+ustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^ovt=
+i,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^paral=
+lax,.*', '^pda,.*', '^pericom,.*', '^pervasive,.*', '^phicomm,.*', '^phytec=
+,.*', '^picochip,.*', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^planto=
+wer,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^poc=
+ketbook,.*', '^polaroid,.*', '^polyhex,.*', '^portwell,.*', '^poslab,.*', '=
+^pov,.*', '^powertip,.*', '^powervr,.*', '^primux,.*', '^probox2,.*', '^prt=
+,.*', '^pulsedlight,.*', '^purism,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '=
+^qi,.*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quan=
+ta,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspbe=
+rrypi,.*', '^raydium,.*', '^rda,.*', '^realtek,.*', '^remarkable,.*', '^ren=
+esas,.*', '^rervision,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^rico=
+h,.*', '^rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech=
+,.*', '^rohm,.*', '^ronbo,.*', '^roofull,.*', '^roseapplepi,.*', '^saef,.*'=
+, '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^sandisk,.*', '^satoz,.*', =
+'^sbs,.*', '^schindler,.*', '^seagate,.*', '^seeed,.*', '^seirobotics,.*', =
+'^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensortek,.*', '^sercomm,=
+=2E*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^sharp,.*', '^shift=
+,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', '^si-en,.*', '^si=
+-linux,.*', '^siemens,.*', '^sifive,.*', '^sigma,.*', '^sii,.*', '^sil,.*',=
+ '^silabs,.*', '^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*=
+', '^siliconfile,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*', '^si=
+nlinx,.*', '^sinovoip,.*', '^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^si=
+s,.*', '^sitronix,.*', '^skov,.*', '^skyworks,.*', '^smartlabs,.*', '^smsc,=
+=2E*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun,.*', '^solomon=
+,.*', '^sony,.*', '^sourceparts,.*', '^spansion,.*', '^sparkfun,.*', '^spin=
+alhdl,.*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^s=
+t,.*', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^st=
+arterkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^s=
+toropack,.*', '^summit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '=
+^supermicro,.*', '^swir,.*', '^syna,.*', '^synology,.*', '^synopsys,.*', '^=
+tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*', '^tdo,.*', =
+'^team-source-display,.*', '^technexion,.*', '^technologic,.*', '^techstar,=
+=2E*', '^teejet,.*', '^teltonika,.*', '^tempo,.*', '^terasic,.*', '^tesla,.=
+*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercomm,.*',=
+ '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.*', '^=
+topic,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*', '^toshiba,.*', '^to=
+umaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*', '^traverse,.*', '^t=
+ronfy,.*', '^tronsmart,.*', '^truly,.*', '^tsd,.*', '^tyan,.*', '^u-blox,.*=
+', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', =
+'^ugoos,.*', '^uniwest,.*', '^upisemi,.*', '^urt,.*', '^usi,.*', '^utoo,.*'=
+, '^v3,.*', '^vaisala,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^verte=
+xcom,.*', '^via,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio=
+,.*', '^virtual,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante=
+,.*', '^vivax,.*', '^vocore,.*', '^voipac,.*', '^vot,.*', '^vxt,.*', '^wanc=
+hanglong,.*', '^wand,.*', '^waveshare,.*', '^wd,.*', '^we,.*', '^welltech,.=
+*', '^wetek,.*', '^wexler,.*', '^whwave,.*', '^wi2wi,.*', '^widora,.*', '^w=
+iligear,.*', '^willsemi,.*', '^winbond,.*', '^wingtech,.*', '^winlink,.*', =
+'^winstar,.*', '^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.=
+*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xillybus,.*', '^x=
+ingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xun=
+long,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*'=
+, '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys,=
+=2E*', '^ysoft,.*', '^zarlink,.*', '^zealz,.*', '^zeitec,.*', '^zidoo,.*', =
+'^zii,.*', '^zinitix,.*', '^zkmagic,.*', '^zte,.*', '^zyxel,.*', 'pinctrl-[=
+0-9]+'
+   	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dp-tx@3ec00000: failed=
+ to match any schema with compatible: ['mediatek,mt8196-dp-tx']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/edp-tx@3ec40000: faile=
+d to match any schema with compatible: ['mediatek,mt8196-edp-tx']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/gpu@48000000: failed t=
+o match any schema with compatible: ['mediatek,mali-mt8196', 'mediatek,mali=
+']
 
-   mm/khugepaged.c:1336: warning: Function parameter or member 'mm' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'mapping' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'start' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'hpage' not described in 'collapse_shmem'
-   mm/khugepaged.c:1336: warning: Function parameter or member 'node' not described in 'collapse_shmem'
->> mm/khugepaged.c:1336: warning: Function parameter or member 'reliable' not described in 'collapse_shmem'
-
-
-vim +1336 mm/khugepaged.c
-
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1314  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1315  /**
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1316   * collapse_shmem - collapse small tmpfs/shmem pages into huge one.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1317   *
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1318   * Basic scheme is simple, details are more complex:
-af24c01831e4e21 Hugh Dickins       2018-11-30  1319   *  - allocate and lock a new huge page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1320   *  - scan over radix tree replacing old pages the new one
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1321   *    + swap in pages if necessary;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1322   *    + fill in gaps;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1323   *    + keep old pages around in case if rollback is required;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1324   *  - if replacing succeed:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1325   *    + copy data over;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1326   *    + free old pages;
-af24c01831e4e21 Hugh Dickins       2018-11-30  1327   *    + unlock huge page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1328   *  - if replacing failed;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1329   *    + put all pages back and unfreeze them;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1330   *    + restore gaps in the radix-tree;
-af24c01831e4e21 Hugh Dickins       2018-11-30  1331   *    + unlock and free huge page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1332   */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1333  static void collapse_shmem(struct mm_struct *mm,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1334  		struct address_space *mapping, pgoff_t start,
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1335  		struct page **hpage, int node, bool reliable)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26 @1336  {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1337  	gfp_t gfp;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1338  	struct page *page, *new_page, *tmp;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1339  	struct mem_cgroup *memcg;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1340  	pgoff_t index, end = start + HPAGE_PMD_NR;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1341  	LIST_HEAD(pagelist);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1342  	struct radix_tree_iter iter;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1343  	void **slot;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1344  	int nr_none = 0, result = SCAN_SUCCEED;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1345  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1346  	VM_BUG_ON(start & (HPAGE_PMD_NR - 1));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1347  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1348  	/* Only allocate from the target node */
-41b6167e8f746b4 Michal Hocko       2017-01-10  1349  	gfp = alloc_hugepage_khugepaged_gfpmask() | __GFP_THISNODE;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1350  
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1351  	if (reliable)
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1352  		gfp |= ___GFP_RELIABILITY;
-ff0fb9e816fac22 Ma Wupeng          2022-02-09  1353  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1354  	new_page = khugepaged_alloc_page(hpage, gfp, node);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1355  	if (!new_page) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1356  		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1357  		goto out;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1358  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1359  
-2a70f6a76bb86d1 Michal Hocko       2018-04-10  1360  	if (unlikely(mem_cgroup_try_charge(new_page, mm, gfp, &memcg, true))) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1361  		result = SCAN_CGROUP_CHARGE_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1362  		goto out;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1363  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1364  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1365  	__SetPageLocked(new_page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1366  	__SetPageSwapBacked(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1367  	new_page->index = start;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1368  	new_page->mapping = mapping;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1369  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1370  	/*
-af24c01831e4e21 Hugh Dickins       2018-11-30  1371  	 * At this point the new_page is locked and not up-to-date.
-af24c01831e4e21 Hugh Dickins       2018-11-30  1372  	 * It's safe to insert it into the page cache, because nobody would
-af24c01831e4e21 Hugh Dickins       2018-11-30  1373  	 * be able to map it or use it in another way until we unlock it.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1374  	 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1375  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1376  	index = start;
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1377  	xa_lock_irq(&mapping->i_pages);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1378  	radix_tree_for_each_slot(slot, &mapping->i_pages, &iter, start) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1379  		int n = min(iter.index, end) - index;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1380  
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1381  		/*
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1382  		 * Stop if extent has been hole-punched, and is now completely
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1383  		 * empty (the more obvious i_size_read() check would take an
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1384  		 * irq-unsafe seqlock on 32-bit).
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1385  		 */
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1386  		if (n >= HPAGE_PMD_NR) {
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1387  			result = SCAN_TRUNCATED;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1388  			goto tree_locked;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1389  		}
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1390  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1391  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1392  		 * Handle holes in the radix tree: charge it from shmem and
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1393  		 * insert relevant subpage of new_page into the radix-tree.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1394  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1395  		if (n && !shmem_charge(mapping->host, n)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1396  			result = SCAN_FAIL;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1397  			goto tree_locked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1398  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1399  		for (; index < min(iter.index, end); index++) {
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1400  			radix_tree_insert(&mapping->i_pages, index,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1401  					new_page + (index % HPAGE_PMD_NR));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1402  		}
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1403  		nr_none += n;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1404  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1405  		/* We are done. */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1406  		if (index >= end)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1407  			break;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1408  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1409  		page = radix_tree_deref_slot_protected(slot,
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1410  				&mapping->i_pages.xa_lock);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1411  		if (radix_tree_exceptional_entry(page) || !PageUptodate(page)) {
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1412  			xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1413  			/* swap in or instantiate fallocated page */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1414  			if (shmem_getpage(mapping->host, index, &page,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1415  						SGP_NOHUGE)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1416  				result = SCAN_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1417  				goto tree_unlocked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1418  			}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1419  		} else if (trylock_page(page)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1420  			get_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1421  			xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1422  		} else {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1423  			result = SCAN_PAGE_LOCK;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1424  			goto tree_locked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1425  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1426  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1427  		/*
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1428  		 * The page must be locked, so we can drop the i_pages lock
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1429  		 * without racing with truncate.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1430  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1431  		VM_BUG_ON_PAGE(!PageLocked(page), page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1432  		VM_BUG_ON_PAGE(!PageUptodate(page), page);
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1433  
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1434  		/*
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1435  		 * If file was truncated then extended, or hole-punched, before
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1436  		 * we locked the first page, then a THP might be there already.
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1437  		 */
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1438  		if (PageTransCompound(page)) {
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1439  			result = SCAN_PAGE_COMPOUND;
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1440  			goto out_unlock;
-8b37c40503eadc6 Hugh Dickins       2018-11-30  1441  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1442  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1443  		if (page_mapping(page) != mapping) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1444  			result = SCAN_TRUNCATED;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1445  			goto out_unlock;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1446  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1447  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1448  		if (isolate_lru_page(page)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1449  			result = SCAN_DEL_PAGE_LRU;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1450  			goto out_unlock;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1451  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1452  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1453  		if (page_mapped(page))
-977fbdcd5986c9f Matthew Wilcox     2018-01-31  1454  			unmap_mapping_pages(mapping, index, 1, false);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1455  
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1456  		xa_lock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1457  
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1458  		slot = radix_tree_lookup_slot(&mapping->i_pages, index);
-91a45f71078a656 Johannes Weiner    2016-12-12  1459  		VM_BUG_ON_PAGE(page != radix_tree_deref_slot_protected(slot,
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1460  					&mapping->i_pages.xa_lock), page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1461  		VM_BUG_ON_PAGE(page_mapped(page), page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1462  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1463  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1464  		 * The page is expected to have page_count() == 3:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1465  		 *  - we hold a pin on it;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1466  		 *  - one reference from radix tree;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1467  		 *  - one from isolate_lru_page;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1468  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1469  		if (!page_ref_freeze(page, 3)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1470  			result = SCAN_PAGE_COUNT;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1471  			xa_unlock_irq(&mapping->i_pages);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1472  			putback_lru_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1473  			goto out_unlock;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1474  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1475  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1476  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1477  		 * Add the page to the list to be able to undo the collapse if
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1478  		 * something go wrong.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1479  		 */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1480  		list_add_tail(&page->lru, &pagelist);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1481  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1482  		/* Finally, replace with the new page. */
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1483  		radix_tree_replace_slot(&mapping->i_pages, slot,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1484  				new_page + (index % HPAGE_PMD_NR));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1485  
-148deab223b2373 Matthew Wilcox     2016-12-14  1486  		slot = radix_tree_iter_resume(slot, &iter);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1487  		index++;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1488  		continue;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1489  out_unlock:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1490  		unlock_page(page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1491  		put_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1492  		goto tree_unlocked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1493  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1494  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1495  	/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1496  	 * Handle hole in radix tree at the end of the range.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1497  	 * This code only triggers if there's nothing in radix tree
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1498  	 * beyond 'end'.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1499  	 */
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1500  	if (index < end) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1501  		int n = end - index;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1502  
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1503  		/* Stop if extent has been truncated, and is now empty */
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1504  		if (n >= HPAGE_PMD_NR) {
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1505  			result = SCAN_TRUNCATED;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1506  			goto tree_locked;
-8797f2f4fe0d555 Hugh Dickins       2018-11-30  1507  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1508  		if (!shmem_charge(mapping->host, n)) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1509  			result = SCAN_FAIL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1510  			goto tree_locked;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1511  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1512  		for (; index < end; index++) {
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1513  			radix_tree_insert(&mapping->i_pages, index,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1514  					new_page + (index % HPAGE_PMD_NR));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1515  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1516  		nr_none += n;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1517  	}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1518  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1519  	__inc_node_page_state(new_page, NR_SHMEM_THPS);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1520  	if (nr_none) {
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1521  		struct zone *zone = page_zone(new_page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1522  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1523  		__mod_node_page_state(zone->zone_pgdat, NR_FILE_PAGES, nr_none);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1524  		__mod_node_page_state(zone->zone_pgdat, NR_SHMEM, nr_none);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1525  	}
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1526  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1527  tree_locked:
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1528  	xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1529  tree_unlocked:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1530  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1531  	if (result == SCAN_SUCCEED) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1532  		/*
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1533  		 * Replacing old pages with new one has succeed, now we need to
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1534  		 * copy the content and free old pages.
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1535  		 */
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1536  		index = start;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1537  		list_for_each_entry_safe(page, tmp, &pagelist, lru) {
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1538  			while (index < page->index) {
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1539  				clear_highpage(new_page + (index % HPAGE_PMD_NR));
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1540  				index++;
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1541  			}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1542  			copy_highpage(new_page + (page->index % HPAGE_PMD_NR),
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1543  					page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1544  			list_del(&page->lru);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1545  			page->mapping = NULL;
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1546  			page_ref_unfreeze(page, 1);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1547  			ClearPageActive(page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1548  			ClearPageUnevictable(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1549  			unlock_page(page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1550  			put_page(page);
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1551  			index++;
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1552  		}
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1553  		while (index < end) {
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1554  			clear_highpage(new_page + (index % HPAGE_PMD_NR));
-ee13d69bc1e8a55 Hugh Dickins       2018-11-30  1555  			index++;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1556  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1557  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1558  		SetPageUptodate(new_page);
-af24c01831e4e21 Hugh Dickins       2018-11-30  1559  		page_ref_add(new_page, HPAGE_PMD_NR - 1);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1560  		set_page_dirty(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1561  		mem_cgroup_commit_charge(new_page, memcg, false, true);
-9d5425af85abe36 Chris Down         2021-06-30  1562  		count_memcg_events(memcg, THP_COLLAPSE_ALLOC, 1);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1563  		lru_cache_add_anon(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1564  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1565  		/*
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1566  		 * Remove pte page tables, so we can re-fault the page as huge.
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1567  		 */
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1568  		retract_page_tables(mapping, start);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1569  		*hpage = NULL;
-87aa752906ecf69 Yang Shi           2018-08-17  1570  
-87aa752906ecf69 Yang Shi           2018-08-17  1571  		khugepaged_pages_collapsed++;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1572  	} else {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1573  		/* Something went wrong: rollback changes to the radix-tree */
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1574  		xa_lock_irq(&mapping->i_pages);
-78141aabfbb9560 Hugh Dickins       2018-11-30  1575  		mapping->nrpages -= nr_none;
-78141aabfbb9560 Hugh Dickins       2018-11-30  1576  		shmem_uncharge(mapping->host, nr_none);
-78141aabfbb9560 Hugh Dickins       2018-11-30  1577  
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1578  		radix_tree_for_each_slot(slot, &mapping->i_pages, &iter, start) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1579  			if (iter.index >= end)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1580  				break;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1581  			page = list_first_entry_or_null(&pagelist,
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1582  					struct page, lru);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1583  			if (!page || iter.index < page->index) {
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1584  				if (!nr_none)
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1585  					break;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1586  				nr_none--;
-59749e6ce53735d Johannes Weiner    2016-12-12  1587  				/* Put holes back where they were */
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1588  				radix_tree_delete(&mapping->i_pages, iter.index);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1589  				continue;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1590  			}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1591  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1592  			VM_BUG_ON_PAGE(page->index != iter.index, page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1593  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1594  			/* Unfreeze the page. */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1595  			list_del(&page->lru);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1596  			page_ref_unfreeze(page, 2);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1597  			radix_tree_replace_slot(&mapping->i_pages, slot, page);
-148deab223b2373 Matthew Wilcox     2016-12-14  1598  			slot = radix_tree_iter_resume(slot, &iter);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1599  			xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1600  			unlock_page(page);
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1601  			putback_lru_page(page);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1602  			xa_lock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1603  		}
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1604  		VM_BUG_ON(nr_none);
-b93b016313b3ba8 Matthew Wilcox     2018-04-10  1605  		xa_unlock_irq(&mapping->i_pages);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1606  
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1607  		mem_cgroup_cancel_charge(new_page, memcg, true);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1608  		new_page->mapping = NULL;
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1609  	}
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1610  
-3e9646c76cb91d6 Hugh Dickins       2018-11-30  1611  	unlock_page(new_page);
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1612  out:
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1613  	VM_BUG_ON(!list_empty(&pagelist));
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1614  	/* TODO: tracepoints */
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1615  }
-f3f0e1d2150b2b9 Kirill A. Shutemov 2016-07-26  1616  
-
-:::::: The code at line 1336 was first introduced by commit
-:::::: f3f0e1d2150b2b99da2cbdfaad000089efe9bf30 khugepaged: add support of collapse for tmpfs/shmem pages
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
