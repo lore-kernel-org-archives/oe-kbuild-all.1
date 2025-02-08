@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC93C1B4121;
-	Sat,  8 Feb 2025 10:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6F418A6A6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 11:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739011305; cv=none; b=UXPLsIpsA6z/HPgQURKOC8sQjvMuYXxQmp/lRS1rSBf63BAQFQut+bi2d5zeoY8iaH/g+hVc4hv+orchNGfDNrZeQjiPyaUPjS7D/svAUXzX81PDDxztEtMxm/vgohiJM8ecjpC4wnoglpKV2n0g7wQoFQGqA318zb+AhRNe5CE=
+	t=1739013166; cv=none; b=T3qG7h9T95LnSFM5v7g0OxrL0811LaTUPgZEziMIGxwT2BMJb3zOBG9LCx5RtM4lBb4a7MVcRQMZFhwIGucJ/0xnRxtyqROP5DC8zpvqBzlKwQpOztsccEUd7psE258uRfq9x70SvnLqSVGt1geFeRS6AjaJNY+xC0ZMFwisqzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739011305; c=relaxed/simple;
-	bh=MWG+6WKuPs6vj1SH93Cdkkga8aIS5/n3tbVO+NuMbIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KGo8T7RklESgu9cYY6IIEyCQPpi7cOl9PCF2BYLOinVQW+9oyjodHyRqRVR7r/UprswR0LFXJLP0guxamfVyhUv/+CmwY0/w2KG7tY6Pq+5Hd6241oXVdwsfy/OUi57DFNze/4PQ2GoglpZg/xmbfh8joCG2NtkBdHoFxNuQv2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1rPeHMO; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1739013166; c=relaxed/simple;
+	bh=77rQGx21Ayeb1DDaG2cGncdZFL2SzphziRDR+LrIUHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UxR0OuU/3ezh20wA66GsUvM1cFutsq3sKaF5vgB5ZTZ87hFPwRxTAILLjOtfbnYzQB1Ds2zLWx7h/jAS6uzoQSGujinneFXUPqYY4fbxE8BGod7xPnwk+PI0ajnj2EpB6f2GP/WMR8O7aRUNIKf/j7cmURBdhTqmLnUL2mgbLaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pw11ENmp; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1rPeHMO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pw11ENmp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739011304; x=1770547304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MWG+6WKuPs6vj1SH93Cdkkga8aIS5/n3tbVO+NuMbIk=;
-  b=I1rPeHMOgSCdgC7U++V9J+TJcIFNUOJuG2Jnr6rTZlswymIvHCthfQsb
-   hhkUdwF9ulv9Rqe4W3VwCwvmQ1wf2WRYS2eRGl0zmdSu+CRwW3VxX9p5C
-   kHnjpSss6w4SRdMAuOK+TXqvxFhigNmajq/03ZTMaCM8qtho3BVTv84UY
-   yODYvaLCyxmtyFz6MyCvuvzoBhqpCSq0Ccc3cIHY+C7qvaUUBCosHW8K7
-   jJEa7+4JmikMQBDUhr8Bqx30Aplu2iwuj+lyeqJ9ywBQhY9cuVDvFSET6
-   DGQ+ddL54cuYYEJXV2z3DTapzVKktTRXtux6Wk6dB4rTkbBR3BA1Q+MX5
-   w==;
-X-CSE-ConnectionGUID: Urf2M1+hRua1bFIrvpMeOw==
-X-CSE-MsgGUID: W3PLJZMSRH+FD36GsPZgPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="43570983"
-X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="43570983"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 02:41:43 -0800
-X-CSE-ConnectionGUID: xNCE5HYdSH2fX+RnJcWXRQ==
-X-CSE-MsgGUID: rwzju1O6RKalfAEbK8WziA==
+  t=1739013165; x=1770549165;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=77rQGx21Ayeb1DDaG2cGncdZFL2SzphziRDR+LrIUHg=;
+  b=Pw11ENmpfoBP+4EAA4F/yf8uz9+Q7gyhMmlTZr9mCKRBmbUAdHZ9pKpF
+   scUAcg7pGW4XvwEoPM55TZiWSe3Y/vWVshhLkqCUbkDjoLnEUlNCBNrNb
+   Rzp6J+0SfaYqv0uXJymnTr0XW0mz9wy5G9SVTmfqjX92mXU5wXtX/DsYa
+   TR+Th6qy7G5+G/bDckMIbQ1OeLXEwYx9oaZlne1jPss97nVns1OogxW13
+   4V3AEeEKyySGy9EvaZ9nXDCCbZQ/6GxjL+nDxXLv/nM+ijA3GY96d/MH4
+   AemC88Zgy+Wh4pB6HFBL0cGF4aK3YDSwiPqBsRM8xQ0ZLusmp+zZLK9MK
+   A==;
+X-CSE-ConnectionGUID: 1BTJSU2qRs2Lurb+SibHsQ==
+X-CSE-MsgGUID: BLQhC0aJTQWi09FAayF4Xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51081234"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51081234"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 03:12:44 -0800
+X-CSE-ConnectionGUID: AW1hzXltQXOTHoPNMxlJOg==
+X-CSE-MsgGUID: qNHqHV1CSBC1OQsTn5m9bw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="116697290"
+X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
+   d="scan'208";a="112270374"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2025 02:41:40 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 08 Feb 2025 03:12:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgiHJ-000zrX-2T;
-	Sat, 08 Feb 2025 10:41:37 +0000
-Date: Sat, 8 Feb 2025 18:40:50 +0800
+	id 1tgilM-000ztF-2v;
+	Sat, 08 Feb 2025 11:12:40 +0000
+Date: Sat, 8 Feb 2025 19:12:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
-	pabeni@redhat.com, Willem de Bruijn <willemb@google.com>
-Subject: Re: [PATCH net-next 5/7] icmp: reflect tos through ip cookie rather
- than updating inet_sk
-Message-ID: <202502081845.hsTDUryC-lkp@intel.com>
-References: <20250206193521.2285488-6-willemdebruijn.kernel@gmail.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20250203 6/16]
+ drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2163:2: error: call to
+ '__compiletime_assert_1138' declared with 'error' attribute: BUILD_BUG_ON
+ failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
+Message-ID: <202502081807.8dh4fSjz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,105 +65,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206193521.2285488-6-willemdebruijn.kernel@gmail.com>
 
-Hi Willem,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Willem-de-Bruijn/tcp-only-initialize-sockcm-tsflags-field/20250207-033912
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250206193521.2285488-6-willemdebruijn.kernel%40gmail.com
-patch subject: [PATCH net-next 5/7] icmp: reflect tos through ip cookie rather than updating inet_sk
-config: x86_64-buildonly-randconfig-002-20250207 (https://download.01.org/0day-ci/archive/20250208/202502081845.hsTDUryC-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081845.hsTDUryC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20250203
+head:   c8a61127eedf61fcbf8d3f34301d29a782b9eeb0
+commit: 8bfdf37e1eeb4f469702361a8c511f40f6c6e486 [6/16] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20250208/202502081807.8dh4fSjz-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081807.8dh4fSjz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081845.hsTDUryC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081807.8dh4fSjz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/ipv4/icmp.c:408:20: warning: variable 'inet' set but not used [-Wunused-but-set-variable]
-     408 |         struct inet_sock *inet;
-         |                           ^
-   1 warning generated.
+   In file included from drivers/net/wireless/intel/iwlwifi/mvm/d3.c:7:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/riscv/include/asm/cacheflush.h:9:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2163:2: error: call to '__compiletime_assert_1138' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
+    2163 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:542:2: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:530:2: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:523:4: note: expanded from macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:167:1: note: expanded from here
+     167 | __compiletime_assert_1138
+         | ^
+>> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2162:2: error: call to '__compiletime_assert_1137' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
+    2162 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:542:2: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:530:2: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:523:4: note: expanded from macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:163:1: note: expanded from here
+     163 | __compiletime_assert_1137
+         | ^
+   3 warnings and 2 errors generated.
 
 
-vim +/inet +408 net/ipv4/icmp.c
+vim +2163 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
 
-^1da177e4c3f41 Linus Torvalds         2005-04-16  395  
-^1da177e4c3f41 Linus Torvalds         2005-04-16  396  /*
-^1da177e4c3f41 Linus Torvalds         2005-04-16  397   *	Driving logic for building and sending ICMP messages.
-^1da177e4c3f41 Linus Torvalds         2005-04-16  398   */
-^1da177e4c3f41 Linus Torvalds         2005-04-16  399  
-^1da177e4c3f41 Linus Torvalds         2005-04-16  400  static void icmp_reply(struct icmp_bxm *icmp_param, struct sk_buff *skb)
-^1da177e4c3f41 Linus Torvalds         2005-04-16  401  {
-^1da177e4c3f41 Linus Torvalds         2005-04-16  402  	struct ipcm_cookie ipc;
-511c3f92ad5b6d Eric Dumazet           2009-06-02  403  	struct rtable *rt = skb_rtable(skb);
-d8d1f30b95a635 Changli Gao            2010-06-10  404  	struct net *net = dev_net(rt->dst.dev);
-8c2bd38b95f75f Eric Dumazet           2024-08-29  405  	bool apply_ratelimit = false;
-77968b78242ee2 David S. Miller        2011-05-08  406  	struct flowi4 fl4;
-fdc0bde90a689b Denis V. Lunev         2008-08-23  407  	struct sock *sk;
-fdc0bde90a689b Denis V. Lunev         2008-08-23 @408  	struct inet_sock *inet;
-35ebf65e851c6d David S. Miller        2012-06-28  409  	__be32 daddr, saddr;
-e110861f86094c Lorenzo Colitti        2014-05-13  410  	u32 mark = IP4_REPLY_MARK(net, skb->mark);
-c0303efeab7391 Jesper Dangaard Brouer 2017-01-09  411  	int type = icmp_param->data.icmph.type;
-c0303efeab7391 Jesper Dangaard Brouer 2017-01-09  412  	int code = icmp_param->data.icmph.code;
-^1da177e4c3f41 Linus Torvalds         2005-04-16  413  
-91ed1e666a4ea2 Paolo Abeni            2017-08-03  414  	if (ip_options_echo(net, &icmp_param->replyopts.opt.opt, skb))
-f00c401b9b5f0a Horms                  2006-02-02  415  		return;
-^1da177e4c3f41 Linus Torvalds         2005-04-16  416  
-8c2bd38b95f75f Eric Dumazet           2024-08-29  417  	/* Needed by both icmpv4_global_allow and icmp_xmit_lock */
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  418  	local_bh_disable();
-^1da177e4c3f41 Linus Torvalds         2005-04-16  419  
-8c2bd38b95f75f Eric Dumazet           2024-08-29  420  	/* is global icmp_msgs_per_sec exhausted ? */
-8c2bd38b95f75f Eric Dumazet           2024-08-29  421  	if (!icmpv4_global_allow(net, type, code, &apply_ratelimit))
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  422  		goto out_bh_enable;
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  423  
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  424  	sk = icmp_xmit_lock(net);
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  425  	if (!sk)
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  426  		goto out_bh_enable;
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  427  	inet = inet_sk(sk);
-c0303efeab7391 Jesper Dangaard Brouer 2017-01-09  428  
-^1da177e4c3f41 Linus Torvalds         2005-04-16  429  	icmp_param->data.icmph.checksum = 0;
-^1da177e4c3f41 Linus Torvalds         2005-04-16  430  
-351782067b6be8 Willem de Bruijn       2018-07-06  431  	ipcm_init(&ipc);
-bbd17d3104f5a7 Willem de Bruijn       2025-02-06  432  	ipc.tos = ip_hdr(skb)->tos;
-0da7536fb47f51 Willem de Bruijn       2020-07-01  433  	ipc.sockc.mark = mark;
-9f6abb5f175bdb David S. Miller        2011-05-09  434  	daddr = ipc.addr = ip_hdr(skb)->saddr;
-35ebf65e851c6d David S. Miller        2012-06-28  435  	saddr = fib_compute_spec_dst(skb);
-aa6615814533c6 Francesco Fusco        2013-09-24  436  
-f6d8bd051c391c Eric Dumazet           2011-04-21  437  	if (icmp_param->replyopts.opt.opt.optlen) {
-f6d8bd051c391c Eric Dumazet           2011-04-21  438  		ipc.opt = &icmp_param->replyopts.opt;
-f6d8bd051c391c Eric Dumazet           2011-04-21  439  		if (ipc.opt->opt.srr)
-f6d8bd051c391c Eric Dumazet           2011-04-21  440  			daddr = icmp_param->replyopts.opt.opt.faddr;
-^1da177e4c3f41 Linus Torvalds         2005-04-16  441  	}
-77968b78242ee2 David S. Miller        2011-05-08  442  	memset(&fl4, 0, sizeof(fl4));
-77968b78242ee2 David S. Miller        2011-05-08  443  	fl4.daddr = daddr;
-35ebf65e851c6d David S. Miller        2012-06-28  444  	fl4.saddr = saddr;
-e110861f86094c Lorenzo Colitti        2014-05-13  445  	fl4.flowi4_mark = mark;
-e2d118a1cb5e60 Lorenzo Colitti        2016-11-04  446  	fl4.flowi4_uid = sock_net_uid(net, NULL);
-0ed373390c5c18 Guillaume Nault        2024-10-22  447  	fl4.flowi4_tos = inet_dscp_to_dsfield(ip4h_dscp(ip_hdr(skb)));
-77968b78242ee2 David S. Miller        2011-05-08  448  	fl4.flowi4_proto = IPPROTO_ICMP;
-385add906b6155 David Ahern            2015-09-29  449  	fl4.flowi4_oif = l3mdev_master_ifindex(skb->dev);
-3df98d79215ace Paul Moore             2020-09-27  450  	security_skb_classify_flow(skb, flowi4_to_flowi_common(&fl4));
-9d6ec938019c6b David S. Miller        2011-03-12  451  	rt = ip_route_output_key(net, &fl4);
-b23dd4fe42b455 David S. Miller        2011-03-02  452  	if (IS_ERR(rt))
-^1da177e4c3f41 Linus Torvalds         2005-04-16  453  		goto out_unlock;
-8c2bd38b95f75f Eric Dumazet           2024-08-29  454  	if (icmpv4_xrlim_allow(net, rt, &fl4, type, code, apply_ratelimit))
-a15c89c703d434 Eric Dumazet           2022-01-24  455  		icmp_push_reply(sk, icmp_param, &fl4, &ipc, &rt);
-^1da177e4c3f41 Linus Torvalds         2005-04-16  456  	ip_rt_put(rt);
-^1da177e4c3f41 Linus Torvalds         2005-04-16  457  out_unlock:
-405666db84b984 Denis V. Lunev         2008-02-29  458  	icmp_xmit_unlock(sk);
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  459  out_bh_enable:
-7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  460  	local_bh_enable();
-^1da177e4c3f41 Linus Torvalds         2005-04-16  461  }
-^1da177e4c3f41 Linus Torvalds         2005-04-16  462  
+  2148	
+  2149	static bool iwl_mvm_gtk_rekey(struct iwl_wowlan_status_data *status,
+  2150				      struct ieee80211_vif *vif,
+  2151				      struct iwl_mvm *mvm, u32 gtk_cipher)
+  2152	{
+  2153		int i, j;
+  2154		struct ieee80211_key_conf *key;
+  2155		DEFINE_FLEX(struct ieee80211_key_conf, conf, key, keylen,
+  2156			    WOWLAN_KEY_MAX_SIZE);
+  2157		int link_id = vif->active_links ? __ffs(vif->active_links) : -1;
+  2158	
+  2159		conf->cipher = gtk_cipher;
+  2160	
+  2161		BUILD_BUG_ON(WLAN_KEY_LEN_CCMP != WLAN_KEY_LEN_GCMP);
+> 2162		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
+> 2163		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
+  2164		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_TKIP);
+  2165		BUILD_BUG_ON(conf->keylen < sizeof(status->gtk[0].key));
+  2166	
+  2167		switch (gtk_cipher) {
+  2168		case WLAN_CIPHER_SUITE_CCMP:
+  2169		case WLAN_CIPHER_SUITE_GCMP:
+  2170			conf->keylen = WLAN_KEY_LEN_CCMP;
+  2171			break;
+  2172		case WLAN_CIPHER_SUITE_GCMP_256:
+  2173			conf->keylen = WLAN_KEY_LEN_GCMP_256;
+  2174			break;
+  2175		case WLAN_CIPHER_SUITE_TKIP:
+  2176			conf->keylen = WLAN_KEY_LEN_TKIP;
+  2177			break;
+  2178		default:
+  2179			WARN_ON(1);
+  2180		}
+  2181	
+  2182		for (i = 0; i < ARRAY_SIZE(status->gtk); i++) {
+  2183			if (!status->gtk[i].len)
+  2184				continue;
+  2185	
+  2186			conf->keyidx = status->gtk[i].id;
+  2187			IWL_DEBUG_WOWLAN(mvm,
+  2188					 "Received from FW GTK cipher %d, key index %d\n",
+  2189					 conf->cipher, conf->keyidx);
+  2190			memcpy(conf->key, status->gtk[i].key,
+  2191			       sizeof(status->gtk[i].key));
+  2192	
+  2193			key = ieee80211_gtk_rekey_add(vif, conf, link_id);
+  2194			if (IS_ERR(key))
+  2195				return false;
+  2196	
+  2197			for (j = 0; j < ARRAY_SIZE(status->gtk_seq); j++) {
+  2198				if (!status->gtk_seq[j].valid ||
+  2199				    status->gtk_seq[j].key_id != key->keyidx)
+  2200					continue;
+  2201				iwl_mvm_set_key_rx_seq_idx(key, status, j);
+  2202				break;
+  2203			}
+  2204			WARN_ON(j == ARRAY_SIZE(status->gtk_seq));
+  2205		}
+  2206	
+  2207		return true;
+  2208	}
+  2209	
 
 -- 
 0-DAY CI Kernel Test Service
