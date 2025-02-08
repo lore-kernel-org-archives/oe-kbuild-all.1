@@ -1,185 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9842500A3;
-	Sat,  8 Feb 2025 15:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2FD1B4F02;
+	Sat,  8 Feb 2025 15:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739026878; cv=none; b=GO7Nv2YbVBBBWA3tEAwjCrjXyTb/zrOPlcRvBNLhnwe04CrZN77gmYMV31b8ox/2ut6Drwx4prZTY8x/n4TRMGSpMpPJH8E0qMbNqt1PwIl1oXU1Ll13jJ4Vkm21/DxE8nM5FnzQ94x7fF0/mY7UW98w5AuT2LTvVneXbSzOVZw=
+	t=1739027444; cv=none; b=RwziSLVTO1pmkDSJvF3ybwKp2jgiUxf5zbyRMopaNMYCi3xByEF0ORsW0Cd2F0rQXDReHYfnF8Getxr28JO9fxOzoff5s0Txw8Giy8i/gFQcVimmIx95Z2r724rWSOfHDrH7InxWVZMt5LrhwME95cMAGWrLt0xZU0vYOoEnV9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739026878; c=relaxed/simple;
-	bh=oE+gp+Gkz95T/V3xgiAIKokUUM1ToOZwtq4ssSOD7/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hW6k/F5IVbnwr2X6I/c7UBFYgCHDbYvXj0hf8IWPtbxTZ48QWVgkbg50s2JPV76l4E8WQ31jNxMQ693+Txnb3JbGbgVtlEMJuhFMRrol+MpzeI+ICczob8j6Gl3imMUIWtk8HaN7kitJXaeAxrL/WfqWY8Solw4h7hZYMjS1okc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOvrOR9C; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739027444; c=relaxed/simple;
+	bh=i8+kRdKRPeYi3lyzebDtCwbhO0gp7XkoFr+f8SUZlck=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WwzbPohHbYfnYXaoCBiMqsL5R21Le1XM4tXtqRfBI7oIhL9hwBB49iZclurtByBstj0b+NWit2GoBhCWByq171c0R54wYo6E/fjZiSiQTmVY2Ovent1i90TCH35RjGvG7/nOeL41+xUbMwDI1L8OvyKuWDheWjx9IaK4NS3Eq8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNJq8SvP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOvrOR9C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739026878; x=1770562878;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oE+gp+Gkz95T/V3xgiAIKokUUM1ToOZwtq4ssSOD7/I=;
-  b=TOvrOR9C+X/7Miz3A/chE382dD9UGSeHWPwLLHnLD8EEYHWZgXR+LZXt
-   ZZK48FEVpmj0zg9MwdxRjm7tMfd3Y2q+h5hHrmwYCp92zbHMeKwU37G7K
-   Ax9CpxQSvLCbTdAcdc78RsVcKospNPEWi2HvJYZQOXhHYcxZyer9Sc4nl
-   obHnrU4S+MW7Zu8+6I89eLga98RFtHhyfYwl23vbp80FODWvYoiL9EsOn
-   4Ny2XbYZumuE7McKsL4OJYq1nEv92uljMz4Dtd5jIck8aAY6pnSs4jhAV
-   kebeWimLKV5eZOvmPD466MwKKPK+du8eBQyVXxSWmdHxQe+BjU1wn8h3u
-   Q==;
-X-CSE-ConnectionGUID: jUdSvI49TjOpT0fwJh8m0w==
-X-CSE-MsgGUID: BmMIULGIQseit4+Fsm+P1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43420853"
-X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="43420853"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 07:01:17 -0800
-X-CSE-ConnectionGUID: ygCPJfQNTd2FTQwdEqLvbw==
-X-CSE-MsgGUID: htZzMBuzSS+sXX7/Kz/DBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="116726461"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2025 07:01:09 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tgmKQ-001099-1a;
-	Sat, 08 Feb 2025 15:01:06 +0000
-Date: Sat, 8 Feb 2025 23:00:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Anup Patel <apatel@ventanamicro.com>, Marc Zyngier <maz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
-	dlemoal@kernel.org, jdmason@kudzu.us, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v14 07/15] PCI: endpoint: pci-ep-msi: Add MSI
- address/data pair mutable check
-Message-ID: <202502082242.pOq1hB1d-lkp@intel.com>
-References: <20250207-ep-msi-v14-7-9671b136f2b8@nxp.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNJq8SvP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DA89C4CED6;
+	Sat,  8 Feb 2025 15:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739027443;
+	bh=i8+kRdKRPeYi3lyzebDtCwbhO0gp7XkoFr+f8SUZlck=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RNJq8SvPGLLKlTDKpH4hGX6m3UBlUe+wwRIL7T3MFgEWxabwQBER2ONrLzxzOMYqE
+	 hbLIZSdvhWGEOTRNDZCyhA2ttkVpGY8eQICaXUaKgeNz3E0uyzRYGPuSIsReOjuOtJ
+	 qo2D/0hiwBRCejCL/HSJKXAC5Z7A407u2P5XWzlm7O1HkK7ueAgtUsTtN8xHA9TN3V
+	 VdVk5lxHftQyy8Am8lNBYuUUQ2U4nv2kcoKPuN+E3cnF4aR2hgcn0tzfsj7NMbrMDL
+	 jUhSFPecz0KkxdeYWJe6/XT273dN4f6UsEiHpIO2MfUuaDvyzSveNueUo7WvC5E51F
+	 xxhmRkjWaOxOA==
+Date: Sat, 8 Feb 2025 15:10:35 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Angelo Dureghello <adureghello@baylibre.com>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ oe-kbuild-all@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
+ linux-iio@vger.kernel.org
+Subject: Re: [jic23-iio:testing 23/47] drivers/iio/dac/adi-axi-dac.c:731
+ axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) =>
+ (0-u32max >= 0)'
+Message-ID: <20250208151035.499fab6f@jic23-huawei>
+In-Reply-To: <20250204192755.1567b092@jic23-huawei>
+References: <202502040758.DJqHqhLO-lkp@intel.com>
+	<rhmmbt3yqfqhodivu2smuu4g2i77sqyzr3jjjxtvjsny7a6jgd@64bong6elaul>
+	<20250204085744.000075d4@huawei.com>
+	<l575dzyjzix2xnljfadw5uuu3qdzhmtcbkyg6eaccf2h5dtvsz@ju5mqszl2vzb>
+	<20250204192755.1567b092@jic23-huawei>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250207-ep-msi-v14-7-9671b136f2b8@nxp.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Frank,
+On Tue, 4 Feb 2025 19:27:55 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-kernel test robot noticed the following build errors:
+> On Tue, 4 Feb 2025 10:12:05 +0100
+> Angelo Dureghello <adureghello@baylibre.com> wrote:
+> 
+> > On 04.02.2025 08:57, Jonathan Cameron wrote:  
+> > > On Tue, 4 Feb 2025 09:43:17 +0100
+> > > Angelo Dureghello <adureghello@baylibre.com> wrote:
+> > >     
+> > > > Hi Jonathan,
+> > > > 
+> > > > On 04.02.2025 07:23, kernel test robot wrote:    
+> > > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+> > > > > head:   315198c0a370da031f5c3d504b99f771a0c545ab
+> > > > > commit: 493122c53af1915b4b5b5f47a8c446973ebff052 [23/47] iio: dac: adi-axi-dac: add bus mode setup
+> > > > > config: m68k-randconfig-r071-20250204 (https://download.01.org/0day-ci/archive/20250204/202502040758.DJqHqhLO-lkp@intel.com/config)
+> > > > > compiler: m68k-linux-gcc (GCC) 14.2.0
+> > > > > 
+> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > > the same patch/commit), kindly add following tags
+> > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502040758.DJqHqhLO-lkp@intel.com/
+> > > > > 
+> > > > > smatch warnings:
+> > > > > drivers/iio/dac/adi-axi-dac.c:731 axi_dac_bus_set_io_mode() warn: always true condition '(mode >= 0) => (0-u32max >= 0)'
+> > > > > 
+> > > > > vim +731 drivers/iio/dac/adi-axi-dac.c
+> > > > > 
+> > > > >    724	
+> > > > >    725	static int axi_dac_bus_set_io_mode(struct iio_backend *back,
+> > > > >    726					   enum ad3552r_io_mode mode)
+> > > > >    727	{
+> > > > >    728		struct axi_dac_state *st = iio_backend_get_priv(back);
+> > > > >    729		int ival, ret;
+> > > > >    730	      
+> > > > >  > 731		if (!(mode >= AD3552R_IO_MODE_SPI && mode <= AD3552R_IO_MODE_QSPI))      
+> > > > >    732      
+> > > > 
+> > > > not clear to me the reason of this warning, maybe because mode is an enum ?
+> > > > Should i take any action ?    
+> > > 
+> > > Currently there are only a few modes in there and that range covers them all I think.
+> > > So warning is correct, but we perhaps want this check there as hardening against future
+> > > addition of more modes.  Maybe an explicit switch with all modes listed and a default
+> > > will have same effect and be better defense anyway against future changes?
+> > > 
+> > > Jonathan    
+> > 
+> > thanks, clear now. 
+> > Is maintaining the waring an issue ?
+> > Another chance may be adding a AD3552R_IO_MODE_MAX as last item ?  
+> 
+> Hmm. If these are the only plausible modes for enum ad3552r_io_mode
+> ever to have, we could just drop the check.
+I've dropped the check.
 
-[auto build test ERROR on 00f3246adeeacbda0bd0b303604e46eb59c32e6e]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/platform-msi-Add-msi_remove_device_irq_domain-in-platform_device_msi_free_irqs_all/20250208-034445
-base:   00f3246adeeacbda0bd0b303604e46eb59c32e6e
-patch link:    https://lore.kernel.org/r/20250207-ep-msi-v14-7-9671b136f2b8%40nxp.com
-patch subject: [PATCH v14 07/15] PCI: endpoint: pci-ep-msi: Add MSI address/data pair mutable check
-config: i386-buildonly-randconfig-003-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082242.pOq1hB1d-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082242.pOq1hB1d-lkp@intel.com/reproduce)
+Jonathan
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502082242.pOq1hB1d-lkp@intel.com/
+> 
+> > 
+> > angelo  
+> > > 
+> > >     
+> > > > 
+> > > > 			return -EINVAL;    
+> > > > >    733	
+> > > > >    734		guard(mutex)(&st->lock);
+> > > > >    735	
+> > > > >    736		ret = regmap_update_bits(st->regmap, AXI_DAC_CUSTOM_CTRL_REG,
+> > > > >    737				AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE,
+> > > > >    738				FIELD_PREP(AXI_DAC_CUSTOM_CTRL_MULTI_IO_MODE, mode));
+> > > > >    739		if (ret)
+> > > > >    740			return ret;
+> > > > >    741	
+> > > > >    742		return regmap_read_poll_timeout(st->regmap, AXI_DAC_UI_STATUS_REG, ival,
+> > > > >    743				FIELD_GET(AXI_DAC_UI_STATUS_IF_BUSY, ival) == 0, 10,
+> > > > >    744				100 * KILO);
+> > > > >    745	}
+> > > > >    746	
+> > > > > 
+> > > > > -- 
+> > > > > 0-DAY CI Kernel Test Service
+> > > > > https://github.com/intel/lkp-tests/wiki      
+> > > > 
+> > > > Thanks,
+> > > > regards,
+> > > > angelo    
+> > >     
+> >   
+> 
+> 
 
-All errors (new ones prefixed by >>):
-
-   drivers/pci/endpoint/pci-ep-msi.c: In function 'pci_epf_alloc_doorbell':
->> drivers/pci/endpoint/pci-ep-msi.c:49:14: error: implicit declaration of function 'irq_domain_is_msi_immutable'; did you mean 'irq_domain_is_msi_device'? [-Werror=implicit-function-declaration]
-      49 |         if (!irq_domain_is_msi_immutable(dom)) {
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |              irq_domain_is_msi_device
-   drivers/pci/endpoint/pci-ep-msi.c:61:15: error: implicit declaration of function 'platform_device_msi_init_and_alloc_irqs' [-Werror=implicit-function-declaration]
-      61 |         ret = platform_device_msi_init_and_alloc_irqs(&epf->dev, num_db, pci_epf_write_msi_msg);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/pci-ep-msi.c: In function 'pci_epf_free_doorbell':
-   drivers/pci/endpoint/pci-ep-msi.c:83:9: error: implicit declaration of function 'platform_device_msi_free_irqs_all' [-Werror=implicit-function-declaration]
-      83 |         platform_device_msi_free_irqs_all(&epf->dev);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +49 drivers/pci/endpoint/pci-ep-msi.c
-
-    26	
-    27	int pci_epf_alloc_doorbell(struct pci_epf *epf, u16 num_db)
-    28	{
-    29		struct pci_epc *epc = epf->epc;
-    30		struct device *dev = &epf->dev;
-    31		struct irq_domain *dom;
-    32		void *msg;
-    33		u32 rid;
-    34		int ret;
-    35		int i;
-    36	
-    37		rid = PCI_EPF_DEVID(epf->func_no, epf->vfunc_no);
-    38		dom = of_msi_map_get_device_domain(epc->dev.parent, rid, DOMAIN_BUS_PLATFORM_MSI);
-    39		if (!dom) {
-    40			dev_err(dev, "Can't find msi domain\n");
-    41			return -EINVAL;
-    42		}
-    43	
-    44		dev_set_msi_domain(dev, dom);
-    45	
-    46		if (!irq_domain_is_msi_parent(dom))
-    47			return -EINVAL;
-    48	
-  > 49		if (!irq_domain_is_msi_immutable(dom)) {
-    50			dev_err(dev, "Can't support mutable address/data pair MSI controller\n");
-    51			return -EINVAL;
-    52		}
-    53	
-    54		msg = kcalloc(num_db, sizeof(struct pci_epf_doorbell_msg), GFP_KERNEL);
-    55		if (!msg)
-    56			return -ENOMEM;
-    57	
-    58		epf->num_db = num_db;
-    59		epf->db_msg = msg;
-    60	
-    61		ret = platform_device_msi_init_and_alloc_irqs(&epf->dev, num_db, pci_epf_write_msi_msg);
-    62		if (ret) {
-    63			/*
-    64			 * The pcie_ep DT node has to specify 'msi-parent' for EP
-    65			 * doorbell support to work. Right now only GIC ITS is
-    66			 * supported. If you have GIC ITS and reached this print,
-    67			 * perhaps you are missing 'msi-map' in DT.
-    68			 */
-    69			dev_err(dev, "Failed to allocate MSI\n");
-    70			kfree(msg);
-    71			return -ENOMEM;
-    72		}
-    73	
-    74		for (i = 0; i < num_db; i++)
-    75			epf->db_msg[i].virq = msi_get_virq(dev, i);
-    76	
-    77		return ret;
-    78	}
-    79	EXPORT_SYMBOL_GPL(pci_epf_alloc_doorbell);
-    80	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
