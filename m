@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF1C1F3B97;
-	Sat,  8 Feb 2025 17:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC84241C9D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 17:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739034637; cv=none; b=o2EyYM2IJZrZ9HWjyffftELRy0MhVd0aYq5CIzGj34tVaPF/AhavVrW5M5aEz6utk6a2v3OBo7o8zUqomz9IEsCHYRtU2M+64GnvJt5h8GV+uPXigqt19CIhHMVnzTvCLw6k6aVBKz41ww0nm40jUrz2A74860wfHmOeaYUoAvA=
+	t=1739035958; cv=none; b=Rbjv7ag0T14ocBliowZ+ob2omtwdnGbecMXzFqRzI+niP7h9+lwRvNVtJ2Jm4TVI00A+TtXvaHVPpd55OJciM0qeJTVXdgWMp3i+2m7kKkSvlmLcC5/6gEZb+Yd5d5nUaBVfDICkaltLiT28ctmoz7uZPhMKDreh/snesZtjk7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739034637; c=relaxed/simple;
-	bh=bkfIF4AQ4n0bpyCeGoHYqeCHse3Cf7s+TMyVifTUq1w=;
+	s=arc-20240116; t=1739035958; c=relaxed/simple;
+	bh=lxw9meEwMbCqVQ2bzm0/3F0ariB539eDVwY6/t4KCqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RjfvXsDwpajttfFcU/mh9a5OKeUllB+z9Icz51OScVG1rXcrAKa37pnCT0n0n45XQYfUSRaxvMVOujDuxxgt9gDn3Xln8E7v9h6AUZVtcy7opKEQUKKul+eRfTnt1Ngo9gNLeMnLR3RmRmyfKHn+QfUfNtw1UbmXaBzUmHHh1G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfFppRVf; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=bXYcUINjYKA8/w81QWzfYDu8fTdKhmV0nuh8/5U/DqNO2AF9kgKAr1ZAZiTIA1bYdpxmHgBYecUfs+D/H5PJhKIIM8CE1zi0q2/TEWuzVcXnQA19Sd8D6UCnjZqsFZEwHZApmafOe77yk2VlqFLEkZxlU+woU/Bn+8Xzhhxw5E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lh5lnqB1; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfFppRVf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lh5lnqB1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739034636; x=1770570636;
+  t=1739035956; x=1770571956;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bkfIF4AQ4n0bpyCeGoHYqeCHse3Cf7s+TMyVifTUq1w=;
-  b=DfFppRVfjzK3tKEsMdke2wCkNsB9vdHU5+iC6rki3CuPjQYIA8mMRCa/
-   Rkw132ZvhoM+nGG9ukeRbuyisouTNdqxlzlREvLZdzIwqjDQgoAz/LTTv
-   yYGnC+3lJDG+vJjtrVVmkgzn2ble/mFdS0ntzq+ni1HwdiGcSt6fEdyW9
-   ucb/YAFOgje5Cr5XeYMFUfYEA0Gqk5ifscNqn2APViKgNLfdfo7EApm+K
-   dCqRLG2V8OezVyyDOEeqqBhDnvYc0Omin22thM/eJFLtAAGsnh3zWGHFM
-   BuTaGrqsWXd6vNLTnIv28iJ5OebEQwiZIKjHMApUvz+wods42wE6DZQeQ
-   A==;
-X-CSE-ConnectionGUID: H3lQAW40SdyYQmVno1FLGw==
-X-CSE-MsgGUID: sdNVOewbQQKei0CqOrqpOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51090614"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="51090614"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 09:10:33 -0800
-X-CSE-ConnectionGUID: lce/3GB4QSeTn9TXRVG22Q==
-X-CSE-MsgGUID: oCSzy4enSVydCE1YFlQi8A==
+  bh=lxw9meEwMbCqVQ2bzm0/3F0ariB539eDVwY6/t4KCqc=;
+  b=lh5lnqB1GRp0a2vk7hWAy9j4HD8j28WJAfW+CTDQDLDAtF+I4Ub/NiBp
+   CBZMzezlKUgEcx1blszWLMM14ptAYR9W149ZN6JzOwzK8mYQCkjNOUIAU
+   U08fw6uU3ebSVhrmR5g3IvM5acSa+BMsWcp3+lvyh0l7YJh9PUoCTxsR2
+   AJ0PBFGM5Qt+TgSCqWTomd2WVJYPJzkE+BBZHI8NJPH/b3Es6S4fj125d
+   oD4ZGnLNoGEg59w1SaTBPdpOEMKsjuxPYa9S3Sw4hy5TsZnsUbABllAfr
+   86kb+tztcVL7t4ZdWqNbDuWhU0GOB44k8pUuKH4nhV8QZU4PgL3G4ptVi
+   Q==;
+X-CSE-ConnectionGUID: I6zggGGJTmCsarTHRFjUsQ==
+X-CSE-MsgGUID: yxL1GNKLQpKx+jMufJiLwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43583995"
+X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
+   d="scan'208";a="43583995"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 09:32:36 -0800
+X-CSE-ConnectionGUID: 4sf1Y9eMTNKxxLz7X7R3Gw==
+X-CSE-MsgGUID: 9RorDhdkTHyP2JEarMMp9w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148998675"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="116745400"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 08 Feb 2025 09:10:31 -0800
+  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2025 09:32:34 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgoLc-0010Ox-2f;
-	Sat, 08 Feb 2025 17:10:28 +0000
-Date: Sun, 9 Feb 2025 01:10:13 +0800
+	id 1tgogy-0010Qd-13;
+	Sat, 08 Feb 2025 17:32:32 +0000
+Date: Sun, 9 Feb 2025 01:31:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: [broonie-sound:for-next 6/13] sound/soc/codecs/cs35l41.c:1166:10:
- error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do
- not support implicit function declarations
-Message-ID: <202502090100.SbXmGFqs-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1418/1418] mm/maccess.c:64:6: warning:
+ no previous prototype for '__probe_user_read'
+Message-ID: <202502090137.3KkiIJ8x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,69 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-head:   f3a0dfda57f208c90c8c73f3bee2e8390f585b1f
-commit: 1d44a30ae3f9195cb4eb7d81bb9ced2776232094 [6/13] ASoC: cs35l41: Fallback to using HID for system_name if no SUB is available
-config: arm64-randconfig-001-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090100.SbXmGFqs-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090100.SbXmGFqs-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   cc7cb040bd0afe96f1da94c9f21eda5a986510a5
+commit: 5c5bac1227aee80ee106ec07b32c981558049304 [1418/1418] uaccess: Add non-pagefault user-space read functions
+config: x86_64-buildonly-randconfig-001-20250207 (https://download.01.org/0day-ci/archive/20250209/202502090137.3KkiIJ8x-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090137.3KkiIJ8x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090100.SbXmGFqs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090137.3KkiIJ8x-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/codecs/cs35l41.c:1166:10: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1166 |                         hid = acpi_device_hid(adev);
-         |                               ^
-   sound/soc/codecs/cs35l41.c:1166:10: note: did you mean 'acpi_device_handle'?
-   include/linux/acpi.h:857:27: note: 'acpi_device_handle' declared here
-     857 | static inline acpi_handle acpi_device_handle(struct acpi_device *adev)
-         |                           ^
->> sound/soc/codecs/cs35l41.c:1166:8: error: incompatible integer to pointer conversion assigning to 'const char *' from 'int' [-Wint-conversion]
-    1166 |                         hid = acpi_device_hid(adev);
-         |                             ^ ~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+>> mm/maccess.c:64:6: warning: no previous prototype for '__probe_user_read' [-Wmissing-prototypes]
+      64 | long __probe_user_read(void *dst, const void __user *src, size_t size)
+         |      ^~~~~~~~~~~~~~~~~
 
 
-vim +/acpi_device_hid +1166 sound/soc/codecs/cs35l41.c
+vim +/__probe_user_read +64 mm/maccess.c
 
-  1150	
-  1151	static int cs35l41_acpi_get_name(struct cs35l41_private *cs35l41)
-  1152	{
-  1153		struct acpi_device *adev = ACPI_COMPANION(cs35l41->dev);
-  1154		acpi_handle handle = acpi_device_handle(adev);
-  1155		const char *hid;
-  1156		const char *sub;
-  1157	
-  1158		/* If there is no acpi_device, there is no ACPI for this system, return 0 */
-  1159		if (!adev)
-  1160			return 0;
-  1161	
-  1162		sub = acpi_get_subsystem_id(handle);
-  1163		if (IS_ERR(sub)) {
-  1164			/* If no _SUB, fallback to _HID, otherwise fail */
-  1165			if (PTR_ERR(sub) == -ENODATA) {
-> 1166				hid = acpi_device_hid(adev);
-  1167				/* If dummy hid, return 0 and fallback to legacy firmware path */
-  1168				if (!strcmp(hid, "device"))
-  1169					return 0;
-  1170				sub = kstrdup(hid, GFP_KERNEL);
-  1171				if (!sub)
-  1172					sub = ERR_PTR(-ENOMEM);
-  1173	
-  1174			} else
-  1175				return PTR_ERR(sub);
-  1176		}
-  1177	
-  1178		cs35l41->dsp.system_name = sub;
-  1179		dev_dbg(cs35l41->dev, "Subsystem ID: %s\n", cs35l41->dsp.system_name);
-  1180	
-  1181		return 0;
-  1182	}
-  1183	
+    50	
+    51	/**
+    52	 * probe_user_read(): safely attempt to read from a user-space location
+    53	 * @dst: pointer to the buffer that shall take the data
+    54	 * @src: address to read from. This must be a user address.
+    55	 * @size: size of the data chunk
+    56	 *
+    57	 * Safely read from user address @src to the buffer at @dst. If a kernel fault
+    58	 * happens, handle that and return -EFAULT.
+    59	 */
+    60	
+    61	long __weak probe_user_read(void *dst, const void __user *src, size_t size)
+    62	    __attribute__((alias("__probe_user_read")));
+    63	
+  > 64	long __probe_user_read(void *dst, const void __user *src, size_t size)
+    65	{
+    66		long ret = -EFAULT;
+    67		mm_segment_t old_fs = get_fs();
+    68	
+    69		set_fs(USER_DS);
+    70		if (access_ok(src, size))
+    71			ret = probe_read_common(dst, src, size);
+    72		set_fs(old_fs);
+    73	
+    74		return ret;
+    75	}
+    76	EXPORT_SYMBOL_GPL(probe_user_read);
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
