@@ -1,121 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA052941C;
-	Sat,  8 Feb 2025 01:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E592286A1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 01:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738978009; cv=none; b=YErmCpLYjw41dNqkaQuDI6jUxM4Sa04Mq4UrGmL/ulETg8rMN8niNofcCbNC8NJ1FzD2DTueQUfSXL4bImYLF10iis5m9W6dBM61RAi4TAthccSmrIgnyBlAprjSi/EU+7SEzvFwGgVKKVS+Vzx/TLzie3aSACu3zIMp0i6RZ1s=
+	t=1738978604; cv=none; b=q6FyKpMmYsKf8JBW/XoAIF+rySMFCFBOyzOa2KABHcvDgrEm8zN800JEXHyu9cd7Fi1PTQ++WCbIQMt6nEKoERGJAQNrLErCWBPmbfx18Qd9eLC8GYscFlCqVc/qjG68iIAY/mRpnx2sY0ChaWj5XM3aIaUPRMjxy3iXEh10kWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738978009; c=relaxed/simple;
-	bh=Vf+orbI0MIxZ+NdnmW8ZrODzdSpawbZ5ZYwzT7WkFHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fB1qGbhswiLq1GDEZyK5fosrscIotoC8f4AKHU7vXWLqinaY8gm+eIYokdfzYOUqObyC9qpXvcTkp6wf13IWZpXulH/elB9EtViUJBf2vxLOqKQH75Gvgy39oOgSSrT45DcswarnRyqdMjJ66QngMe2/5TgdiFJ2HJTLYnYzFAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kv8AWxYy; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1738978604; c=relaxed/simple;
+	bh=5EGu5u1f0ydDutC5y/1wybZU7GDAKmN5PAhBrwnUFfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LOoXY7I33/vTy1evCO0lUgAO7HMbcQ9URQhxCZqlsglN/d1C838cRJB1F/NDs8OUPNobGaXY4+Q9cGLdFIpJzTOArzqx/F9M7y4qUYjNkJFuNwyh5QXlgN4l8UC3JFBB/4xGJzv9sl7nsxmELvliFkfOOiVG1Vc1vjfJ0i+nbac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3exBdc2; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kv8AWxYy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3exBdc2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738978008; x=1770514008;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Vf+orbI0MIxZ+NdnmW8ZrODzdSpawbZ5ZYwzT7WkFHs=;
-  b=Kv8AWxYyZg+r4zhQRCIye+sQI73IRZebZApdl3398S2rE2ri4fHyVj7x
-   8VDRL05amBD4ga/31Pfox1kvhGhmv4yG0HAclQ6+X14k8bcgFZje/8Oql
-   MlMdAymvSUj3sqU7X8twqawD2cjd/9hfNR5rTPwHEGnb+I0rprTqq5XCQ
-   4t7weH+rvjdf/jXXOKEI5RoFYOTFZQL9xMT6o5Pu0GogJwcK4ZKIeAfez
-   o6sQYCC63k3vsMk4ZccN653/fajMRs1zIZXVJYsU6FZTk/Z/cF+vpmuga
-   0vBNcAogolHhscMzZ5HB8y4TZi14j5BrKNzAA8lwWm1TWoYZjAjVQaX9g
-   Q==;
-X-CSE-ConnectionGUID: d+ERmbBERA2afTFC7ujsEg==
-X-CSE-MsgGUID: 6xnjb4zJRTyIM16ejjw9bQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="50613575"
+  t=1738978602; x=1770514602;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5EGu5u1f0ydDutC5y/1wybZU7GDAKmN5PAhBrwnUFfk=;
+  b=I3exBdc2OFzGzS+FGYxz1f8jgAbRlklNQ9P5q5YWV1ID3mPL8kk4l6UB
+   5itqCL6aih4nHKhzEZVarqUQNy7MKyZLn3BjSw5Z0QBTnBvPG/GYGOlfW
+   NDxxZ3E/mxSWZ+qeGmyZ3DiCZ+lc+hL0ec3BEt7eJHCAp+P8Z0F9o+jJF
+   xPRvzy3dzQvg2xSzqijPaHBWniS1+LyAB8KFCsTAUcF4g5avqe4bc+ofr
+   4afxHGFxkCgf9hMTztWp5TmQ0hebcnbNpZ80WXpPjRaOS0AuAVQ6D7uad
+   +Hj/B8RF5lluJkJP6m17A3Jsv+wxlgrVjuaKcDJTQ1LH/SRXM+heoI1Ve
+   w==;
+X-CSE-ConnectionGUID: IleDU5lqRZqpCUv99+JG7Q==
+X-CSE-MsgGUID: uBkpa0otQXymGCJ5DC2vUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39502509"
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="50613575"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 17:26:47 -0800
-X-CSE-ConnectionGUID: 3S9sGSljQLuj0EiY8i0xug==
-X-CSE-MsgGUID: NQdROjzMTsa5FP6NHBmBrA==
+   d="scan'208";a="39502509"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 17:36:41 -0800
+X-CSE-ConnectionGUID: v70rjiL0R8mSZoLEGfxQDQ==
+X-CSE-MsgGUID: t5jU+nn1SB26Iw+KGQwLBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="116720032"
+   d="scan'208";a="111508027"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Feb 2025 17:26:40 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 07 Feb 2025 17:36:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgZcD-000zM7-1v;
-	Sat, 08 Feb 2025 01:26:37 +0000
-Date: Sat, 8 Feb 2025 09:26:10 +0800
+	id 1tgZlu-000zMU-1O;
+	Sat, 08 Feb 2025 01:36:38 +0000
+Date: Sat, 8 Feb 2025 09:36:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?J=2E_Neusch=E4fer?= via B4 Relay <devnull+j.ne.posteo.net@kernel.org>,
-	devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
-	Scott Wood <oss@buserror.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>, Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Lee Jones <lee@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	=?iso-8859-1?Q?J=2E_Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-ide@vger.kernel.org
-Subject: Re: [PATCH v2 06/12] dt-bindings: pci: Convert fsl,mpc83xx-pcie to
- YAML
-Message-ID: <202502080922.nK85none-lkp@intel.com>
-References: <20250207-ppcyaml-v2-6-8137b0c42526@posteo.net>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 211/211]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder: failed to
+ match any schema with compatible: ['mediatek,mt8196-jpgdec']
+Message-ID: <202502080908.cQvYQqeF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250207-ppcyaml-v2-6-8137b0c42526@posteo.net>
 
-Hi Neuschäfer,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/dt-bindings-powerpc-Add-Freescale-NXP-MPC83xx-SoCs/20250208-053519
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250207-ppcyaml-v2-6-8137b0c42526%40posteo.net
-patch subject: [PATCH v2 06/12] dt-bindings: pci: Convert fsl,mpc83xx-pcie to YAML
-reproduce: (https://download.01.org/0day-ci/archive/20250208/202502080922.nK85none-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
+commit: e818ec0bd11a22b46209da46ccd1a11941177a90 [211/211] CHROMIUM: arm64: dts: mt8196: add jpegdec and jpegenc nodes
+config: arm64-randconfig-051-20250207 (https://download.01.org/0day-ci/archive/20250208/202502080908.cQvYQqeF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502080908.cQvYQqeF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502080922.nK85none-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502080908.cQvYQqeF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/arch/powerpc/cxl.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-cxl
->> Warning: Documentation/devicetree/bindings/pci/fsl,mpc8xxx-pci.yaml references a file that doesn't exist: Documentation/devicetree/bindings/pci/fsl,pci.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/ghpm@4b800000: failed to match any schema with compatible: ['mediatek,ghpm']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@4b810800: failed to match any schema with compatible: ['mediatek,mt8196-mfgpll-sc1-pll-ctrl', 'mediatek,mt8196-mfgpll_sc1_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@4b810800: failed to match any schema with compatible: ['mediatek,mt8196-mfgpll-sc1-pll-ctrl', 'mediatek,mt8196-mfgpll_sc1_pll_ctrl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@4b890000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@4b8b0000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@4c000000: compatible:0: 'arm,smmu-v3' was expected
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@4c000000: compatible: ['mediatek,mt8196-apu-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/iommu@4c000000: failed to match any schema with compatible: ['mediatek,mt8196-apu-smmu', 'arm,smmu-v3']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder: failed to match any schema with compatible: ['mediatek,mt8196-jpgdec']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder/jpeg-decoder@38040000: failed to match any schema with compatible: ['mediatek,mt8196-jpgdec-hw']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-decoder/jpeg-decoder@38840000: failed to match any schema with compatible: ['mediatek,mt8196-jpgdec-hw']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-encoder: failed to match any schema with compatible: ['mediatek,mt8196-jpgenc']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-encoder/jpeg-encoder@38030000: failed to match any schema with compatible: ['mediatek,mt8196-jpgenc-hw']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/jpeg-encoder/jpeg-encoder@38830000: failed to match any schema with compatible: ['mediatek,mt8196-jpgenc-hw']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/sound: failed to match any schema with compatible: ['mediatek,mt8196-mt6681-sound']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: thermal-zones: 'soc_max' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: panel: 'power-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
