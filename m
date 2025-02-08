@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7153A244EA2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 22:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAED1F2B87;
+	Sat,  8 Feb 2025 22:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739053214; cv=none; b=Yh3GA/zOm0yg8NvFSzYggQPl0Sjn6ruG8FJoW7KActbfQGkaWfKnWy5/5HSp1vUPENjHDQXIycLnPMGrDCmhyMMapImmZszHDWl83qJSU25WKU+blyDhsF44izPGUso1xhwtQziCNOThvu2jt0w7fFn6TMt56zX0n/7d3om5c+4=
+	t=1739053818; cv=none; b=TVVYVj2vqJYbzjcmFv2944bDXS+xmeGnJ/LzfCJ06HrBXbNPQf0HvQhwlduLkrF3SRLCLYbuOSpE5KD/7ii+S+1WadeRx+C6F8g7/59LC5igZXKVznoIMxfjiabFGUuS6kVRSh1fneDcp23gz5BT36rr4NpZpZQiCP6l6EIoCoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739053214; c=relaxed/simple;
-	bh=DwSwBXncQMcvxwWr7RbeoNgFDzwZJiHM88wDdmBOa1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QFu1vOfXoBxLO3dHR4zet7LXZtjC7Aj+WSn14tDLrwXpFirmKJYqvqLndzJUdH2e9nmabd6VzpyRD+zLTDjOef7syaw7N4E+dVYagh+K+E8PG7izMzNOX7rG5AaKWsgiV0oogh1qJQdSqD4HvvyHTaDGb5d63Cpb9RBaj3EibU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0IyUFBX; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1739053818; c=relaxed/simple;
+	bh=QUj11CsSy8WVXJW4TTp1f2R/odv4DJQy02Qwct09Bxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sS8JQLgNjs1C20EhSmYcjIoewpg0t4oszVn/3PioxfwyvsMSn8y4U7lKbAlAI1FGeenKCnZf7Vadmy1MYyzRZjZXm+gQAoIb8fvFjRJIThzJNUH/Ho6DDe1xRB3/I6c8kraH826VpjiD4LO+OBXNjO2m/7nrYggoOLzUEuWjd08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMS3VutA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0IyUFBX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMS3VutA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739053212; x=1770589212;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DwSwBXncQMcvxwWr7RbeoNgFDzwZJiHM88wDdmBOa1w=;
-  b=m0IyUFBXRsdRoF3eVbTlu/JQ3OV0MUC0SLCYxv3h4idrim07cd6rBbu8
-   dxMOuxoF+tqCnny4chEgYJPzuQN/T66+YWWbCgCvkV61OllFK6NeW0Xoq
-   w3T9aLqoOlMEMLWh92ldOvxHxrRnTCYKtzWsQ/pFVDglFaaKaMV6gdCwN
-   RcjoNjmJlTs5fiBO+ROIA/qkUfuqHlrOJmYib62znOOFZgXhwtDKJso07
-   15YPHw3xHXZ57aFDz4/o+AVL8PaX6U+H8h2aycAoJmlODU5BFmqSCHEDs
-   UMaIyR/SsB5k5PO5WaOsRtlr3L0MOiQJOByysBz1rMr6XG1jDTxNnQ9I0
-   A==;
-X-CSE-ConnectionGUID: H0eU8ToXSZaCb3T9pAIAlg==
-X-CSE-MsgGUID: C6BjdLX+SuuIl6BEmwGKEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="65025337"
+  t=1739053816; x=1770589816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QUj11CsSy8WVXJW4TTp1f2R/odv4DJQy02Qwct09Bxg=;
+  b=eMS3VutAPKGh1qPtCQx0iPqVfZDDwzZTxkdMudHbCnIPzLTQzAKRMCx1
+   51NRW5+de3Q4hpSszu5tZrz5jSTNGduJx3z2JPOlWrMUTa+XNvwefxgnh
+   pQnSZnligMyFpi1tQx2VvbQZHPAAY6wWKXT9cTi+3Tzx5+A6OsPqIFRv7
+   43SakjnyO9cUsc2IdIOpYoMH1D5ZHxJ9MOPbs5uyjgdd1FPpPoYeYOSjG
+   /kKuwqh/UEmeaxumf857MIt63k/IA+C1T/mDZHCX4Nbry9l7TTHCZ9kMQ
+   rx4pu/TfBqQdkXD+w7eVCvrHlgYklLK6DTCi7ZqcONXddDJoeAIiKVoT0
+   g==;
+X-CSE-ConnectionGUID: VfD0J5AEQyCFo225fJ8t1w==
+X-CSE-MsgGUID: kOeovORsR+qPqHjTCGjn9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="57204052"
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="65025337"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 14:20:11 -0800
-X-CSE-ConnectionGUID: pm+wr3A5QH6WERaL0RZ7Lw==
-X-CSE-MsgGUID: i41c+p1RTdyknnXZXQgUsw==
+   d="scan'208";a="57204052"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 14:30:14 -0800
+X-CSE-ConnectionGUID: nv0rcM/hQ7iMDYu8+mLPZg==
+X-CSE-MsgGUID: neJqry3XT9WkTA0bI4fY0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="112468312"
+   d="scan'208";a="111790884"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Feb 2025 14:20:09 -0800
+  by orviesa006.jf.intel.com with ESMTP; 08 Feb 2025 14:30:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgtBH-0010hj-2Q;
-	Sat, 08 Feb 2025 22:20:07 +0000
-Date: Sun, 9 Feb 2025 06:19:32 +0800
+	id 1tgtKz-0010iJ-0T;
+	Sat, 08 Feb 2025 22:30:09 +0000
+Date: Sun, 9 Feb 2025 06:29:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.13/invlpgb-v9 2/5] arch/x86/mm/tlb.c:1448:3: error: call to
- undeclared function 'invlpgb_flush_addr_nosync'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202502090616.oGx7Cuc8-lkp@intel.com>
+To: Tamir Duberstein <tamird@gmail.com>, David Gow <davidgow@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Tamir Duberstein <tamird@gmail.com>
+Subject: Re: [PATCH v2 2/2] lib/prime_numbers: convert self-test to KUnit
+Message-ID: <202502090614.UJPLikn4-lkp@intel.com>
+References: <20250208-prime_numbers-kunit-convert-v2-2-863119447e04@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +68,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250208-prime_numbers-kunit-convert-v2-2-863119447e04@gmail.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.13/invlpgb-v9
-head:   df542b65e9753dea56b584fdca48cb8f8e3f74cd
-commit: 562d058d0cd7501740dca61a16d2f9e55c1f1981 [2/5] x86/mm: do targeted broadcast flushing from tlbbatch code
-config: x86_64-buildonly-randconfig-006-20250209 (https://download.01.org/0day-ci/archive/20250209/202502090616.oGx7Cuc8-lkp@intel.com/config)
+Hi Tamir,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 2014c95afecee3e76ca4a56956a936e23283f05b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/lib-math-Hook-up-tests-Makefile/20250208-220040
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250208-prime_numbers-kunit-convert-v2-2-863119447e04%40gmail.com
+patch subject: [PATCH v2 2/2] lib/prime_numbers: convert self-test to KUnit
+config: i386-buildonly-randconfig-002-20250209 (https://download.01.org/0day-ci/archive/20250209/202502090614.UJPLikn4-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090616.oGx7Cuc8-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090614.UJPLikn4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090616.oGx7Cuc8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090614.UJPLikn4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/mm/tlb.c:1448:3: error: call to undeclared function 'invlpgb_flush_addr_nosync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1448 |                 invlpgb_flush_addr_nosync(addr, nr);
+>> lib/math/prime_numbers.c:126:8: error: call to undeclared function 'kmalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     126 |         new = kmalloc(sizeof(*new) + bitmap_size(sz),
+         |               ^
+   lib/math/prime_numbers.c:126:8: note: did you mean 'mm_alloc'?
+   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
+      16 | extern struct mm_struct *mm_alloc(void);
+         |                          ^
+>> lib/math/prime_numbers.c:126:6: error: incompatible integer to pointer conversion assigning to 'struct primes *' from 'int' [-Wint-conversion]
+     126 |         new = kmalloc(sizeof(*new) + bitmap_size(sz),
+         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     127 |                       GFP_KERNEL | __GFP_NOWARN);
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/math/prime_numbers.c:134:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     134 |                 kfree(new);
          |                 ^
-   arch/x86/mm/tlb.c:1448:3: note: did you mean '__invlpgb_flush_addr_nosync'?
-   arch/x86/include/asm/invlpgb.h:88:20: note: '__invlpgb_flush_addr_nosync' declared here
-      88 | static inline void __invlpgb_flush_addr_nosync(unsigned long addr, u16 nr)
-         |                    ^
->> arch/x86/mm/tlb.c:1689:3: error: call to undeclared function 'invlpgb_flush_user_nr_nosync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1689 |                 invlpgb_flush_user_nr_nosync(kern_pcid(asid), uaddr, 1, false);
-         |                 ^
-   arch/x86/mm/tlb.c:1689:3: note: did you mean '__invlpgb_flush_user_nr_nosync'?
-   arch/x86/include/asm/invlpgb.h:66:20: note: '__invlpgb_flush_user_nr_nosync' declared here
-      66 | static inline void __invlpgb_flush_user_nr_nosync(unsigned long pcid,
-         |                    ^
-   2 errors generated.
+   3 errors generated.
 
 
-vim +/invlpgb_flush_addr_nosync +1448 arch/x86/mm/tlb.c
+vim +/kmalloc +126 lib/math/prime_numbers.c
 
-3df3212f9722c7 Alex Shi     2012-06-28  1429  
-b2ac10f4b65686 Rik van Riel 2025-02-05  1430  static bool broadcast_kernel_range_flush(struct flush_tlb_info *info)
-b2ac10f4b65686 Rik van Riel 2025-02-05  1431  {
-b2ac10f4b65686 Rik van Riel 2025-02-05  1432  	unsigned long addr;
-b2ac10f4b65686 Rik van Riel 2025-02-05  1433  	unsigned long nr;
-b2ac10f4b65686 Rik van Riel 2025-02-05  1434  
-b2ac10f4b65686 Rik van Riel 2025-02-05  1435  	if (!IS_ENABLED(CONFIG_X86_BROADCAST_TLB_FLUSH))
-b2ac10f4b65686 Rik van Riel 2025-02-05  1436  		return false;
-b2ac10f4b65686 Rik van Riel 2025-02-05  1437  
-b2ac10f4b65686 Rik van Riel 2025-02-05  1438  	if (!cpu_feature_enabled(X86_FEATURE_INVLPGB))
-b2ac10f4b65686 Rik van Riel 2025-02-05  1439  		return false;
-b2ac10f4b65686 Rik van Riel 2025-02-05  1440  
-b2ac10f4b65686 Rik van Riel 2025-02-05  1441  	if (info->end == TLB_FLUSH_ALL) {
-b2ac10f4b65686 Rik van Riel 2025-02-05  1442  		invlpgb_flush_all();
-b2ac10f4b65686 Rik van Riel 2025-02-05  1443  		return true;
-b2ac10f4b65686 Rik van Riel 2025-02-05  1444  	}
-b2ac10f4b65686 Rik van Riel 2025-02-05  1445  
-b2ac10f4b65686 Rik van Riel 2025-02-05  1446  	for (addr = info->start; addr < info->end; addr += nr << PAGE_SHIFT) {
-b2ac10f4b65686 Rik van Riel 2025-02-05  1447  		nr = min((info->end - addr) >> PAGE_SHIFT, invlpgb_count_max);
-b2ac10f4b65686 Rik van Riel 2025-02-05 @1448  		invlpgb_flush_addr_nosync(addr, nr);
-b2ac10f4b65686 Rik van Riel 2025-02-05  1449  	}
-b2ac10f4b65686 Rik van Riel 2025-02-05  1450  	tlbsync();
-b2ac10f4b65686 Rik van Riel 2025-02-05  1451  	return true;
-b2ac10f4b65686 Rik van Riel 2025-02-05  1452  }
-b2ac10f4b65686 Rik van Riel 2025-02-05  1453  
-
-:::::: The code at line 1448 was first introduced by commit
-:::::: b2ac10f4b65686ca371571bd150c18ea71c7277c x86/mm: use INVLPGB for kernel TLB flushes
-
-:::::: TO: Rik van Riel <riel@surriel.com>
-:::::: CC: Steven Barrett <steven@liquorix.net>
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  106  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  107  static bool expand_to_next_prime(unsigned long x)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  108  {
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  109  	const struct primes *p;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  110  	struct primes *new;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  111  	unsigned long sz, y;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  112  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  113  	/* Betrand's Postulate (or Chebyshev's theorem) states that if n > 3,
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  114  	 * there is always at least one prime p between n and 2n - 2.
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  115  	 * Equivalently, if n > 1, then there is always at least one prime p
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  116  	 * such that n < p < 2n.
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  117  	 *
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  118  	 * http://mathworld.wolfram.com/BertrandsPostulate.html
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  119  	 * https://en.wikipedia.org/wiki/Bertrand's_postulate
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  120  	 */
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  121  	sz = 2 * x;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  122  	if (sz < x)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  123  		return false;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  124  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  125  	sz = round_up(sz, BITS_PER_LONG);
+717c8ae7aae4f2 lib/prime_numbers.c Chris Wilson 2017-01-13 @126  	new = kmalloc(sizeof(*new) + bitmap_size(sz),
+717c8ae7aae4f2 lib/prime_numbers.c Chris Wilson 2017-01-13  127  		      GFP_KERNEL | __GFP_NOWARN);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  128  	if (!new)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  129  		return false;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  130  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  131  	mutex_lock(&lock);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  132  	p = rcu_dereference_protected(primes, lockdep_is_held(&lock));
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  133  	if (x < p->last) {
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22 @134  		kfree(new);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  135  		goto unlock;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  136  	}
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  137  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  138  	/* Where memory permits, track the primes using the
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  139  	 * Sieve of Eratosthenes. The sieve is to remove all multiples of known
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  140  	 * primes from the set, what remains in the set is therefore prime.
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  141  	 */
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  142  	bitmap_fill(new->primes, sz);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  143  	bitmap_copy(new->primes, p->primes, p->sz);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  144  	for (y = 2UL; y < sz; y = find_next_bit(new->primes, sz, y + 1))
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  145  		new->last = clear_multiples(y, new->primes, p->sz, sz);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  146  	new->sz = sz;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  147  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  148  	BUG_ON(new->last <= x);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  149  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  150  	rcu_assign_pointer(primes, new);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  151  	if (p != &small_primes)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  152  		kfree_rcu((struct primes *)p, rcu);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  153  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  154  unlock:
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  155  	mutex_unlock(&lock);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  156  	return true;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  157  }
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  158  
 
 -- 
 0-DAY CI Kernel Test Service
