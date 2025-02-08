@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18739241C8C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 17:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7F21F3B95
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 17:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739034636; cv=none; b=DeEJUwfZcSIoEGFO46OVmI3r8NOJqU6H3sKD1RRn1tohaLVzE7ATtEVrkZ7VDPpxWLNuya+bi4x3jAIrZg9jXFY9t+GYvodkqfphWfoyV7SJdyusmLje9rsWpTToxZZ9WH6icRPOCr5PbVewnySHJfxAM3hPYQ1KQgijAPbOHzg=
+	t=1739034637; cv=none; b=b52yKl0AXxpSUnLzX8T9udZME1nPioNEvnXqGgE9or7CJcpve11uWBexV1gHeMMYl+hvTYveCGC6uhzVMOFUnfCRrBHVvmpuKhACnao+D/pWnTg7PwCjGO01GWZXXuiPD+oQqypC7HrE4wWWjvW0f6OfXDdsq9NY+eOS5xRHqyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739034636; c=relaxed/simple;
-	bh=nntRjvnyBnc7FPELKgaMh8ksUKpO0KI5HXshMLpIf/k=;
+	s=arc-20240116; t=1739034637; c=relaxed/simple;
+	bh=5I4gv1iz+Iwzbf1Guaw6B313j642/FARaai0A9sSN5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BmHN5k7JHr5m2yD7Hjeq43GttEF5DCFjSxNpHPd8EK2qW7CxQXpGK/0VCbNI2g8zavWV8lqlihVZ/5mUwaeYnmam0vTeTMujCbVtwwWms7TmcccebO1pjCFuCEuXYHQ8c8GeQdJRYrNPKwmxQ3DrJrMjKpbmsLaP+v4KSyEROI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fM4R2bWQ; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Z+b9fSlgtERwA0eOLzjwqYVhzDx2ok4mL9AM7EZFBHIL2Lt5X/5dDuZnXg6wQ7L/YPNX567aTb24PPXKe3x+wct67DSG2Sa7M+iLwpS/YyCEpdK6+VtF2ZjXsRTphQzyz5TtUzTnYcdgv27pqq5JtAAsQO+EFetHDi4IEuLzqLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mh84/ICq; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fM4R2bWQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mh84/ICq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739034634; x=1770570634;
+  t=1739034637; x=1770570637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nntRjvnyBnc7FPELKgaMh8ksUKpO0KI5HXshMLpIf/k=;
-  b=fM4R2bWQKfCAqYexPL3xp8I9ibiKr9q7eyUgwNF0MtsJiHWHvZgBDkta
-   aXlar7++gSbHnxjDIYucsyB7NLOZE8/JfZsYzaBnHTlB/JbmNUvEOSEOX
-   VaLB+K2wisHKoG62KACwsr0DHZa1SAHKaOBy/jM/tr3A0onfmx/nPQGDt
-   52T+pkWvccMepu/TLtXaOTDHvMw2kbtEBT5wur/uSQbNF8IpZPKaphz5m
-   oRWeH4wG6+To//u/2mvlo38zGHycImt0tJlGtPPZa/XxAKbzupUOBQZb3
-   E/KYjt1/1VzHV3K7uc806M0uM6rzW0S3kNrqBWRbx5lBig74JtwB6KamX
+  bh=5I4gv1iz+Iwzbf1Guaw6B313j642/FARaai0A9sSN5Q=;
+  b=Mh84/ICqSEUscT6P8/amW1lhgMqr+gIoTRdrc7wjs7/ZaxCBhA9YXlOp
+   DHppoTmbtHHey8hZHTvv6lUOQBPtj6WCOVkvvazaPR4Gitd/g0BEZwc0H
+   ZAJYc7QaTK6vWqe4zDjlScziCy/bIeRVFD6fq2wFosJio//amu2j9VxSo
+   htHHn5gLR9tMgalE7k6K2kMLjUmZSJ+RYUFik9WNgb8C05kmQYYmvW6db
+   lalGpGSAnJpNRnhly0KtwZd6PWjs/JGXZCxuwyc7tuIwNhZh0sLR8T7JR
+   mQi7x+eJBZAyPhn55MuL3l21HDc+jYBRQj7GZJXGu2VmX7HYuPMacQbuB
    Q==;
-X-CSE-ConnectionGUID: pPsEXhDvRD+FgqDGY22v7Q==
-X-CSE-MsgGUID: Q3/dEuJlS0C5fOFwj/JXrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39788606"
+X-CSE-ConnectionGUID: F2vtbPjAQReIOe3zvcP1RA==
+X-CSE-MsgGUID: Mb7hClnIRgCNk1cjlh/AkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39788608"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="39788606"
+   d="scan'208";a="39788608"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 09:10:33 -0800
-X-CSE-ConnectionGUID: 7274/L1+QUiAU/6lJD882g==
-X-CSE-MsgGUID: QQnGUDC2TAW3kPJkmtbP4Q==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 09:10:34 -0800
+X-CSE-ConnectionGUID: 4A0OKAZJSfKEV9IQzWNrxw==
+X-CSE-MsgGUID: 33s9b7lkSyySSRSue7pDRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112692638"
+   d="scan'208";a="112692637"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 08 Feb 2025 09:10:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgoLc-0010P0-2q;
+	id 1tgoLc-0010P2-2y;
 	Sat, 08 Feb 2025 17:10:28 +0000
-Date: Sun, 9 Feb 2025 01:10:12 +0800
+Date: Sun, 9 Feb 2025 01:10:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 204/204]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/slbc@117800: failed to
- match any schema with compatible: ['mediatek,mt8196-slbc']
-Message-ID: <202502090144.Ete5fu2Q-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: [tip:sched/urgent 2/2] kernel/sched/fair.c:3785:23: error: 'struct
+ cfs_rq' has no member named 'nr_queued'
+Message-ID: <202502090110.YeF4kwO1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +63,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
-commit: 35ddc053cc4d9759176eeb552ab755e47d697c06 [204/204] CHROMIUM: arm64: dts: mt8196: Add slbc device node
-config: arm64-randconfig-051-20250206 (https://download.01.org/0day-ci/archive/20250209/202502090144.Ete5fu2Q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090144.Ete5fu2Q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/urgent
+head:   55294004b122c997591d9de8446f5a4c60402805
+commit: 55294004b122c997591d9de8446f5a4c60402805 [2/2] sched/fair: Adhere to place_entity() constraints
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250209/202502090110.YeF4kwO1-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090110.YeF4kwO1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090144.Ete5fu2Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090110.YeF4kwO1-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /reserved-memory/secure-region@a3000000: failed to match any schema with compatible: ['mediatek,dynamic-restricted-region']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /ged: failed to match any schema with compatible: ['mediatek,ged']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /gpu-dcs: failed to match any schema with compatible: ['mediatek,gpu-dcs']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /gpu-loading-mode: failed to match any schema with compatible: ['mediatek,gpu-loading-mode']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /protected-memory-allocator: failed to match any schema with compatible: ['arm,protected-memory-allocator']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /gpufreq-wrapper: failed to match any schema with compatible: ['mediatek,gpufreq-wrapper']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /mgm: failed to match any schema with compatible: ['arm,physical-memory-group-manager']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/therm-intf@114000: failed to match any schema with compatible: ['mediatek,therm_intf']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/slbc@117800: failed to match any schema with compatible: ['mediatek,mt8196-slbc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/qos@11bb00: failed to match any schema with compatible: ['mediatek,mt8196-qos']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/gpu-qos@13f800: failed to match any schema with compatible: ['mediatek,gpu-qos']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0000: failed to match any schema with compatible: ['mediatek,mt8196-ccipll-pll-ctrl', 'mediatek,mt8196-ccipll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0400: failed to match any schema with compatible: ['mediatek,mt8196-armpll-ll-pll-ctrl', 'mediatek,mt8196-armpll_ll_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0800: failed to match any schema with compatible: ['mediatek,mt8196-armpll-bl-pll-ctrl', 'mediatek,mt8196-armpll_bl_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@c1e0c00: failed to match any schema with compatible: ['mediatek,mt8196-armpll-b-pll-ctrl', 'mediatek,mt8196-armpll_b_pll_ctrl', 'syscon']
+All errors (new ones prefixed by >>):
+
+   kernel/sched/fair.c: In function 'reweight_entity':
+>> kernel/sched/fair.c:3785:23: error: 'struct cfs_rq' has no member named 'nr_queued'
+    3785 |                 cfs_rq->nr_queued--;
+         |                       ^~
+   kernel/sched/fair.c:3816:23: error: 'struct cfs_rq' has no member named 'nr_queued'
+    3816 |                 cfs_rq->nr_queued++;
+         |                       ^~
+
+
+vim +3785 kernel/sched/fair.c
+
+  3773	
+  3774	static void reweight_entity(struct cfs_rq *cfs_rq, struct sched_entity *se,
+  3775				    unsigned long weight)
+  3776	{
+  3777		bool curr = cfs_rq->curr == se;
+  3778	
+  3779		if (se->on_rq) {
+  3780			/* commit outstanding execution time */
+  3781			update_curr(cfs_rq);
+  3782			update_entity_lag(cfs_rq, se);
+  3783			se->deadline -= se->vruntime;
+  3784			se->rel_deadline = 1;
+> 3785			cfs_rq->nr_queued--;
+  3786			if (!curr)
+  3787				__dequeue_entity(cfs_rq, se);
+  3788			update_load_sub(&cfs_rq->load, se->load.weight);
+  3789		}
+  3790		dequeue_load_avg(cfs_rq, se);
+  3791	
+  3792		/*
+  3793		 * Because we keep se->vlag = V - v_i, while: lag_i = w_i*(V - v_i),
+  3794		 * we need to scale se->vlag when w_i changes.
+  3795		 */
+  3796		se->vlag = div_s64(se->vlag * se->load.weight, weight);
+  3797		if (se->rel_deadline)
+  3798			se->deadline = div_s64(se->deadline * se->load.weight, weight);
+  3799	
+  3800		update_load_set(&se->load, weight);
+  3801	
 
 -- 
 0-DAY CI Kernel Test Service
