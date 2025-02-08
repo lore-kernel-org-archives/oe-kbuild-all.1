@@ -1,58 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963BE244EBF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 21:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F9818C011
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 21:37:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739050629; cv=none; b=Un9Ehicnri/uc00foJ/eW9rUPy/w3eZiDCVwPfxtKCFNt2z6WzBvRPdzTiocwPqhFy1yG/ldyGJVZxrqDZ7eNTe3efnoqM+0toWY3PeztoBF5A0bCjotN2nMSPS+pTzfUUB20NM6ybD5C14vAJFZ1FOdF1XMm/Ya6UK8kFU40ws=
+	t=1739050630; cv=none; b=V8bgONNy/Rjx8LzHbfs+ppPstbPEdmUm15OGQQijYbOOcOR1BMwhUlLHFIWLENL5QLyTjJVGyamnhDhMY81y8wbEqY03WXhrWDvDMw/la0CsaJJ0YBm3MiB0N3WntEV7ZBk2Oo7K3pFcVKmGY9enW0uJC0t+1LF19yXVz/5TZB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739050629; c=relaxed/simple;
-	bh=RS3i0PiOPaXEsEqlfNvrNvZ8iX8o2JAxcVSXk4lZxdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jkZ6TJrusIeEqRETWiYNqN5Rk1Vkc6IkCp7lZXpDK1V/IIlXtfusfOouSiVyaaAlHdbTcfzh1p4SLUoUoKiXxKuX6i8cPzkjIaISi/8KYonzGvI/IEyr6cjyjHNIMu6r7IXIufi7n2PXhxGbh8LiG9krofK4p1dpLOyHG4w5MQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fB712lJ1; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1739050630; c=relaxed/simple;
+	bh=gAPK9Is+rOUBT73Lo8OH1NZL5UmFB9ClxFnT+xOzjv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evjZDKw25XtLHpJCb2iNGJRm+wtu7DJSQx49Kis0TZqQg/5dls6vpPCccik0/9rTg3HSIEE7gibuRl6A43CZFGWpYMv7l/EdfxSzy2DeYmGYIHhh5/Pt2GKYvSWAqzU/VbCCWQ7nAjkc1YeQB+7/3nrPa5w3mIfSTBrZDn5Dfy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pc6ldOqJ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fB712lJ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pc6ldOqJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739050627; x=1770586627;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RS3i0PiOPaXEsEqlfNvrNvZ8iX8o2JAxcVSXk4lZxdY=;
-  b=fB712lJ1oqqFk+tXYWOCVvLbeO8Q6JlIfBS+LDCLnj1jOI6NZMpZeNls
-   n5+nOTOGz65G1iCJNm/lYT7PRUk/Ls4xIPVcXp50mP0Z8bCOgXDT9zEAT
-   UBTJS+roQpnMndeg3NO/CsDY18ldSk80agOixXMifeA2OO+Ee1gksqb7F
-   MkP8GfdV+0Os0MizDABmqj74WFB2BNODt02zqG79QKL5G0VxN46X9p/p8
-   KG9aMv3PDBTKsfs/Ji0L1ZwjxeB4yWjZbtbaPYc0lP9CpeR+DDsX51aVA
-   7k98RgzsUB7FTc2ZaGRqS/KtEVUd2+d2uWJA9glN16bujHZWb6cMuru2Q
-   g==;
-X-CSE-ConnectionGUID: wQGOypjvSXm7CJWBBfq/UQ==
-X-CSE-MsgGUID: Pm2Fgx6oSQGbberwxHYIKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="38868691"
+  t=1739050628; x=1770586628;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gAPK9Is+rOUBT73Lo8OH1NZL5UmFB9ClxFnT+xOzjv8=;
+  b=Pc6ldOqJfAvaFtHmDz9Y5BI5+R2/ouyUe0OhyyBV8Esl12JY5s9xAnKm
+   cqaIogbjbb3VP8v8/jeJesTgjsHxd31tjnQH1QhTlJ42wGJelMI6PnEy2
+   8rEXAEubcCt+qhNnpMPLzuICo9adagwbbL0yDjgMmVQPshX57dBAZMioE
+   Pi9oSFn38+wKCmpTnLwnsrFldzUTfgt54OkUyc90IPihFM8ejM/Rigfno
+   wu8N2azjopmeLDVJ8GBygmxeGshr7+SJOoBW6CHWLKjXCqXBUYhl8+UeL
+   WPPGc8uuZsa3sVPGIB1IkGsotU8MlJuNg3+gDi73ZihFYmak/TrTteDoN
+   w==;
+X-CSE-ConnectionGUID: pDhJyRBlTeujyvs6lzFQGA==
+X-CSE-MsgGUID: W5C9zTedQyGwPnOeF3PKUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="38868694"
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="38868691"
+   d="scan'208";a="38868694"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 13:37:06 -0800
-X-CSE-ConnectionGUID: WUlrLgmaRGelY8fkG1VFqw==
-X-CSE-MsgGUID: 3VelkQJsRp6EAxHUrxeXAg==
+X-CSE-ConnectionGUID: VZ5hyFqbQ+KF/aZLFzH/DQ==
+X-CSE-MsgGUID: j1TpE7JpS7Kyltz53MM2GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="111661762"
+   d="scan'208";a="111661760"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 08 Feb 2025 13:37:05 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgsVa-0010f5-33;
+	id 1tgsVa-0010f1-2v;
 	Sat, 08 Feb 2025 21:37:02 +0000
-Date: Sun, 9 Feb 2025 05:36:14 +0800
+Date: Sun, 9 Feb 2025 05:36:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ma Wupeng <mawupeng1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2729/2729] mm/hugetlb.c:2216:9: warning:
- variable 'gfp' set but not used
-Message-ID: <202502090535.KiiKAKub-lkp@intel.com>
+To: Tamir Duberstein <tamird@gmail.com>, David Gow <davidgow@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Tamir Duberstein <tamird@gmail.com>
+Subject: Re: [PATCH v2 2/2] lib/prime_numbers: convert self-test to KUnit
+Message-ID: <202502090509.wLhmGzkc-lkp@intel.com>
+References: <20250208-prime_numbers-kunit-convert-v2-2-863119447e04@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,69 +68,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250208-prime_numbers-kunit-convert-v2-2-863119447e04@gmail.com>
 
-Hi Ben,
+Hi Tamir,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   263072f655dcd6fd63f7d5dd1f9c5553134982fa
-commit: 27a782f719fdab073c5b0e19764fad1f93cddd00 [2729/2729] mm/hugetlb: add support for mempolicy MPOL_PREFERRED_MANY
-config: x86_64-buildonly-randconfig-004-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090535.KiiKAKub-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090535.KiiKAKub-lkp@intel.com/reproduce)
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/lib-math-Hook-up-tests-Makefile/20250208-220040
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250208-prime_numbers-kunit-convert-v2-2-863119447e04%40gmail.com
+patch subject: [PATCH v2 2/2] lib/prime_numbers: convert self-test to KUnit
+config: i386-buildonly-randconfig-001-20250209 (https://download.01.org/0day-ci/archive/20250209/202502090509.wLhmGzkc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090509.wLhmGzkc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090535.KiiKAKub-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090509.wLhmGzkc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/hugetlb.c:8:
-   In file included from include/linux/mm.h:1573:
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> mm/hugetlb.c:2216:9: warning: variable 'gfp' set but not used [-Wunused-but-set-variable]
-    2216 |                 gfp_t gfp = gfp_mask | __GFP_NOWARN;
-         |                       ^
-   2 warnings generated.
+   lib/math/prime_numbers.c: In function 'expand_to_next_prime':
+   lib/math/prime_numbers.c:126:15: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
+     126 |         new = kmalloc(sizeof(*new) + bitmap_size(sz),
+         |               ^~~~~~~
+         |               mm_alloc
+>> lib/math/prime_numbers.c:126:13: warning: assignment to 'struct primes *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     126 |         new = kmalloc(sizeof(*new) + bitmap_size(sz),
+         |             ^
+   lib/math/prime_numbers.c:134:17: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+     134 |                 kfree(new);
+         |                 ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/gfp +2216 mm/hugetlb.c
+vim +126 lib/math/prime_numbers.c
 
-  2200	
-  2201	/*
-  2202	 * Use the VMA's mpolicy to allocate a huge page from the buddy.
-  2203	 */
-  2204	static
-  2205	struct page *alloc_buddy_huge_page_with_mpol(struct hstate *h,
-  2206			struct vm_area_struct *vma, unsigned long addr)
-  2207	{
-  2208		struct page *page = NULL;
-  2209		struct mempolicy *mpol;
-  2210		gfp_t gfp_mask = htlb_alloc_mask(h);
-  2211		int nid;
-  2212		nodemask_t *nodemask;
-  2213	
-  2214		nid = huge_node(vma, addr, gfp_mask, &mpol, &nodemask);
-  2215		if (mpol_is_preferred_many(mpol)) {
-> 2216			gfp_t gfp = gfp_mask | __GFP_NOWARN;
-  2217	
-  2218			gfp &=  ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
-  2219			page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask);
-  2220	
-  2221			/* Fallback to all nodes if page==NULL */
-  2222			nodemask = NULL;
-  2223		}
-  2224	
-  2225		if (!page)
-  2226			page = alloc_surplus_huge_page(h, gfp_mask, nid, nodemask);
-  2227		mpol_cond_put(mpol);
-  2228		return page;
-  2229	}
-  2230	
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  106  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  107  static bool expand_to_next_prime(unsigned long x)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  108  {
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  109  	const struct primes *p;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  110  	struct primes *new;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  111  	unsigned long sz, y;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  112  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  113  	/* Betrand's Postulate (or Chebyshev's theorem) states that if n > 3,
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  114  	 * there is always at least one prime p between n and 2n - 2.
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  115  	 * Equivalently, if n > 1, then there is always at least one prime p
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  116  	 * such that n < p < 2n.
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  117  	 *
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  118  	 * http://mathworld.wolfram.com/BertrandsPostulate.html
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  119  	 * https://en.wikipedia.org/wiki/Bertrand's_postulate
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  120  	 */
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  121  	sz = 2 * x;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  122  	if (sz < x)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  123  		return false;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  124  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  125  	sz = round_up(sz, BITS_PER_LONG);
+717c8ae7aae4f2 lib/prime_numbers.c Chris Wilson 2017-01-13 @126  	new = kmalloc(sizeof(*new) + bitmap_size(sz),
+717c8ae7aae4f2 lib/prime_numbers.c Chris Wilson 2017-01-13  127  		      GFP_KERNEL | __GFP_NOWARN);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  128  	if (!new)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  129  		return false;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  130  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  131  	mutex_lock(&lock);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  132  	p = rcu_dereference_protected(primes, lockdep_is_held(&lock));
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  133  	if (x < p->last) {
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  134  		kfree(new);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  135  		goto unlock;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  136  	}
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  137  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  138  	/* Where memory permits, track the primes using the
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  139  	 * Sieve of Eratosthenes. The sieve is to remove all multiples of known
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  140  	 * primes from the set, what remains in the set is therefore prime.
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  141  	 */
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  142  	bitmap_fill(new->primes, sz);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  143  	bitmap_copy(new->primes, p->primes, p->sz);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  144  	for (y = 2UL; y < sz; y = find_next_bit(new->primes, sz, y + 1))
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  145  		new->last = clear_multiples(y, new->primes, p->sz, sz);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  146  	new->sz = sz;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  147  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  148  	BUG_ON(new->last <= x);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  149  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  150  	rcu_assign_pointer(primes, new);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  151  	if (p != &small_primes)
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  152  		kfree_rcu((struct primes *)p, rcu);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  153  
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  154  unlock:
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  155  	mutex_unlock(&lock);
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  156  	return true;
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  157  }
+cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  158  
 
 -- 
 0-DAY CI Kernel Test Service
