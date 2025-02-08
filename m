@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D39623C8DA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 07:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272D72556E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 07:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739000303; cv=none; b=GYW4dydQN5GcJqenAsUFOjIMac+0kfq/t/2jwMtPUyb2r1S1Kzj3SIbqbqahYAK9H2uMQSBSo2i4xU0j19rMo6uZHSibY4tkon9hLOE2KXEz+VH0ik3MjZeS7F+WMV2KbvPJBHLBvnZj+Nw5Ek12OD0rVElftilIgOWgw1A/ir4=
+	t=1739000905; cv=none; b=DWBsotl/iEtr+nvt0oyplY81D3SZoxZ+vsPtGGEmg3o60hVh/tV7mCZxsOfpczO36YP17IC+Tau9b9CxSxegjlQmKkCsUeMxqOClupOz+YRfOpjCiRIDfPGHoVH3AYHH5VsHh57ax7Lhrdx62gm35TESduBEV73Ro7XGunkxDc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739000303; c=relaxed/simple;
-	bh=e+WfQV89Rp9PtLaArS0T1l3bvI/Cr+7XcNoT8CiCg5M=;
+	s=arc-20240116; t=1739000905; c=relaxed/simple;
+	bh=8nrrxds1NLUVD7kcoXGw94uBr7NxEuCLmlQWM8Hy92Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D+F+AFSiDRrOinFlT7pIQ8oc5D4cTojjqs+r62YU9vvkjILdRLLM8cY2eDQDuI6Yl9iYHMhQvXuT/4H4K7PdURf9wuu4tJhKlc9szWtOZIEh1pdRK/C6+9RtnWsuHtzsi/JlLtadibcbjyGSzfpahZ77z+zh1z+chOmNCpnOqhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVw3Bkxq; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=BtT8yYm2/NNYH0s8ewW8T4ZaX7varIkbYumvXVEXS3Pp0Qv4ez83aYOpbvHFd+uDyxSuvnWr8HQ9BrgP+RGvodtcRmh8GAWkxq3b1BqAJzkd9BKyHp7xD0p17NyPuvvyvKbTpfVITa2WtJgZ8SM8pMX+eOemkpYTP+XG554nmVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrZCNrMn; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVw3Bkxq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrZCNrMn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739000301; x=1770536301;
+  t=1739000903; x=1770536903;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e+WfQV89Rp9PtLaArS0T1l3bvI/Cr+7XcNoT8CiCg5M=;
-  b=aVw3BkxqApv3CnTAW77z2cspKY4NmczDx/xwOJ3RbE4GSf8QvS6lEVhL
-   qgeAyy9+MPo8XDSj+7wI3nnAml6QfVUzy1QjcwNLw0n2khdiNHDaQ5kTI
-   Nc1/g/jZOSFSoHAS8c9BUqvdcnPA+cAsWMo1qWQfns1s6aaRkOdzub4vf
-   Ge8SL41L+n+Ckbf/aJSopuUOR5CtgsC2fBfj5lIrgt+nGFzk59RvZiL4T
-   kM0M+Rqlzl5O8Ku7oiY4RGd+LxsUqL1bXJBpH/dsMxRASz9eXaq3SZ8RV
-   u0wNFAunhI6aj3ONad04smnpGalXjKGiQh9K+U2pQrOTKsUoQB+tC0kED
-   Q==;
-X-CSE-ConnectionGUID: F8SJwUh6QOK7uRKTOz+eXQ==
-X-CSE-MsgGUID: ieJx3TVITpyy1lBJwtedcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39772455"
+  bh=8nrrxds1NLUVD7kcoXGw94uBr7NxEuCLmlQWM8Hy92Q=;
+  b=HrZCNrMnWTd364ZWKLCXYesL8eIskZhvMxzmF3K8EhrTB6u9QUoWhmUI
+   CzZWVAzzcro4z9eUM5+T10+bpS0uye1m1P2nbFazfZfaUWIvLgXLsE6YS
+   w0MLzqWo+ugi9Vi3jOZT1kubertRBEbFx++ZKekEWgLjtvVcWUlYC+3d1
+   uPGLvSaDpTAq8oyqD5gdBDOgqA6PW3E8LxOSwoJSjhTr4yBYQ13Hi9vZW
+   6Dp13LXEEHc53xqMWkj6y6K1OILHp4TpBsoL4nZ2xy9Yt7xIqI8AiQvUl
+   kDiSd0gGjxV2Wzu35CpgBK+0kPGPEWu5gU8L/+Cxirrg7ldB+zMZmmIIF
+   A==;
+X-CSE-ConnectionGUID: KvVb40TfQF6H5Zuj5tUI3w==
+X-CSE-MsgGUID: WeD6iJg6Qw+9Ankhgsz7lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="62120114"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="39772455"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 23:38:21 -0800
-X-CSE-ConnectionGUID: TItk76NzQHKb8zacIXN9zA==
-X-CSE-MsgGUID: 9pSdOgegRGaYmZDIq4Prjg==
+   d="scan'208";a="62120114"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 23:48:23 -0800
+X-CSE-ConnectionGUID: Y9T7O+xcSsKVqVxk2Fp9ag==
+X-CSE-MsgGUID: r3cAH43RQhCTfZOTngV+xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116332179"
+   d="scan'208";a="112163169"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Feb 2025 23:38:19 -0800
+  by orviesa007.jf.intel.com with ESMTP; 07 Feb 2025 23:48:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgfPt-000zhx-0y;
-	Sat, 08 Feb 2025 07:38:17 +0000
-Date: Sat, 8 Feb 2025 15:37:59 +0800
+	id 1tgfZa-000zid-3A;
+	Sat, 08 Feb 2025 07:48:18 +0000
+Date: Sat, 8 Feb 2025 15:48:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zsolt Kajtar <soci@c64.rulez.org>
-Cc: oe-kbuild-all@lists.linux.dev, Helge Deller <deller@gmx.de>
-Subject: [deller-fbdev:for-next 13/15]
- drivers/video/fbdev/core/fb_imageblit.h:332:14: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202502081503.sOVHPKm3-lkp@intel.com>
+To: Himanshu Chauhan <hchauhan@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_misc_fixes_v1 52/68]
+ arch/riscv/kernel/hw_breakpoint.c:441:22: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202502081559.eVXTEY7M-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git for-next
-head:   720fcad9d12e92368192689a90e2b932a1e44406
-commit: d244899de08c324fdcf4dbed95ecb64ea292ff61 [13/15] fbdev: core: Use generic imageblit for as cfb_imageblit
-config: microblaze-randconfig-r111-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081503.sOVHPKm3-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250208/202502081503.sOVHPKm3-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_misc_fixes_v1
+head:   f0b453b30038af57df379934d55e6b73af29f50f
+commit: 0e1dea4868dd2cef4513e65cb9f6bf4314c4f8d9 [52/68] riscv: Introduce support for hardware break/watchpoints
+config: riscv-randconfig-r131-20250207 (https://download.01.org/0day-ci/archive/20250208/202502081559.eVXTEY7M-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce: (https://download.01.org/0day-ci/archive/20250208/202502081559.eVXTEY7M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081503.sOVHPKm3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081559.eVXTEY7M-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/core/cfbimgblt.c: note: in included file:
->> drivers/video/fbdev/core/fb_imageblit.h:332:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem *dst1 @@     got void * @@
-   drivers/video/fbdev/core/fb_imageblit.h:332:14: sparse:     expected unsigned char [noderef] [usertype] __iomem *dst1
-   drivers/video/fbdev/core/fb_imageblit.h:332:14: sparse:     got void *
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> arch/riscv/kernel/hw_breakpoint.c:441:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata1 @@     got restricted __le64 [usertype] @@
+   arch/riscv/kernel/hw_breakpoint.c:441:22: sparse:     expected unsigned long tdata1
+   arch/riscv/kernel/hw_breakpoint.c:441:22: sparse:     got restricted __le64 [usertype]
+>> arch/riscv/kernel/hw_breakpoint.c:442:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata2 @@     got restricted __le64 [usertype] @@
+   arch/riscv/kernel/hw_breakpoint.c:442:22: sparse:     expected unsigned long tdata2
+   arch/riscv/kernel/hw_breakpoint.c:442:22: sparse:     got restricted __le64 [usertype]
+>> arch/riscv/kernel/hw_breakpoint.c:443:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata3 @@     got restricted __le64 [usertype] @@
+   arch/riscv/kernel/hw_breakpoint.c:443:22: sparse:     expected unsigned long tdata3
+   arch/riscv/kernel/hw_breakpoint.c:443:22: sparse:     got restricted __le64 [usertype]
+>> arch/riscv/kernel/hw_breakpoint.c:454:15: sparse: sparse: cast to restricted __le64
+   arch/riscv/kernel/hw_breakpoint.c:558:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata1 @@     got restricted __le64 [usertype] @@
+   arch/riscv/kernel/hw_breakpoint.c:558:22: sparse:     expected unsigned long tdata1
+   arch/riscv/kernel/hw_breakpoint.c:558:22: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kernel/hw_breakpoint.c:559:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata2 @@     got restricted __le64 [usertype] @@
+   arch/riscv/kernel/hw_breakpoint.c:559:22: sparse:     expected unsigned long tdata2
+   arch/riscv/kernel/hw_breakpoint.c:559:22: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kernel/hw_breakpoint.c:560:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long tdata3 @@     got restricted __le64 [usertype] @@
+   arch/riscv/kernel/hw_breakpoint.c:560:22: sparse:     expected unsigned long tdata3
+   arch/riscv/kernel/hw_breakpoint.c:560:22: sparse:     got restricted __le64 [usertype]
 
-vim +332 drivers/video/fbdev/core/fb_imageblit.h
+vim +441 arch/riscv/kernel/hw_breakpoint.c
 
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  310  
-24d36dc5bee2bf Zsolt Kajtar 2025-02-07  311  void FB_IMAGEBLIT (struct fb_info *p, const struct fb_image *image)
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  312  {
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  313          u32 fgcolor, bgcolor, start_index, bitstart, pitch_index = 0;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  314          u32 bpl = sizeof(u32), bpp = p->var.bits_per_pixel;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  315          u32 width = image->width;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  316          u32 dx = image->dx, dy = image->dy;
-24d36dc5bee2bf Zsolt Kajtar 2025-02-07  317          u8 FB_MEM *dst1;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  318  
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  319          if (p->state != FBINFO_STATE_RUNNING)
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  320                  return;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  321  
-24d36dc5bee2bf Zsolt Kajtar 2025-02-07  322          if ((p->flags & FBINFO_VIRTFB) != FB_SPACE)
-24d36dc5bee2bf Zsolt Kajtar 2025-02-07  323                  fb_warn_once(p, "Framebuffer is not in " FB_SPACE_NAME
-24d36dc5bee2bf Zsolt Kajtar 2025-02-07  324                               " address space.");
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  325  
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  326          bitstart = (dy * p->fix.line_length * 8) + (dx * bpp);
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  327          start_index = bitstart & (32 - 1);
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  328          pitch_index = (p->fix.line_length & (bpl - 1)) * 8;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  329  
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  330          bitstart /= 8;
-d933e6d9f4eb8e Zsolt Kajtar 2025-02-07  331          bitstart &= ~(bpl - 1);
-24d36dc5bee2bf Zsolt Kajtar 2025-02-07 @332          dst1 = (void __force *)FB_SCREEN_BASE(p) + bitstart;
-
-:::::: The code at line 332 was first introduced by commit
-:::::: 24d36dc5bee2bf0768f51e207925d044d7e66b6f fbdev: core: Make fb_imageblit generic
-
-:::::: TO: Zsolt Kajtar <soci@c64.rulez.org>
-:::::: CC: Helge Deller <deller@gmx.de>
+   423	
+   424	/* atomic: counter->ctx->lock is held */
+   425	int arch_install_hw_breakpoint(struct perf_event *event)
+   426	{
+   427		struct arch_hw_breakpoint *bp = counter_arch_bp(event);
+   428		struct sbi_dbtr_shmem_entry *shmem = this_cpu_ptr(sbi_dbtr_shmem);
+   429		struct sbi_dbtr_data_msg *xmit;
+   430		struct sbi_dbtr_id_msg *recv;
+   431		struct perf_event **slot;
+   432		unsigned long idx;
+   433		struct sbiret ret;
+   434		int err = 0;
+   435	
+   436		raw_spin_lock_irqsave(this_cpu_ptr(&ecall_lock),
+   437				      *this_cpu_ptr(&ecall_lock_flags));
+   438	
+   439		xmit = &shmem->data;
+   440		recv = &shmem->id;
+ > 441		xmit->tdata1 = cpu_to_le(bp->tdata1);
+ > 442		xmit->tdata2 = cpu_to_le(bp->tdata2);
+ > 443		xmit->tdata3 = cpu_to_le(bp->tdata3);
+   444	
+   445		ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_TRIG_INSTALL,
+   446				1, 0, 0, 0, 0, 0);
+   447	
+   448		if (ret.error) {
+   449			pr_warn("%s: failed to install trigger\n", __func__);
+   450			err = -EIO;
+   451			goto done;
+   452		}
+   453	
+ > 454		idx = le_to_cpu(recv->idx);
+   455		if (idx >= dbtr_total_num) {
+   456			pr_warn("%s: invalid trigger index %lu\n", __func__, idx);
+   457			err = -EINVAL;
+   458			goto done;
+   459		}
+   460	
+   461		slot = this_cpu_ptr(&pcpu_hw_bp_events[idx]);
+   462		if (*slot) {
+   463			pr_warn("%s: slot %lu is in use\n", __func__, idx);
+   464			err = -EBUSY;
+   465			goto done;
+   466		}
+   467	
+   468		pr_debug("Trigger 0x%lu installed at index 0x%lx\n", bp->tdata2, idx);
+   469	
+   470		/* Save the event - to be looked up in handler */
+   471		*slot = event;
+   472	
+   473	done:
+   474		raw_spin_unlock_irqrestore(this_cpu_ptr(&ecall_lock),
+   475					   *this_cpu_ptr(&ecall_lock_flags));
+   476		return err;
+   477	}
+   478	
 
 -- 
 0-DAY CI Kernel Test Service
