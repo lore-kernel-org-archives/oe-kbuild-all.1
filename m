@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAED1F2B87;
-	Sat,  8 Feb 2025 22:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18751F2BA4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 22:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739053818; cv=none; b=TVVYVj2vqJYbzjcmFv2944bDXS+xmeGnJ/LzfCJ06HrBXbNPQf0HvQhwlduLkrF3SRLCLYbuOSpE5KD/7ii+S+1WadeRx+C6F8g7/59LC5igZXKVznoIMxfjiabFGUuS6kVRSh1fneDcp23gz5BT36rr4NpZpZQiCP6l6EIoCoE=
+	t=1739055018; cv=none; b=mCysQ064xgUuk9jYctY4c2uGwGNqUyhE4w+oacd8TST1stApF2l/BD5t6FNgUZDhsHhZJPPoR4WoQCSN4yDH5ucvapus54lZ1aRKBzrxSu/JayX/LUipE3IjNtDJapBQssDwZMIe7hb38GT1WXpUgvGVlWYO2TS0ZUzCMZNG/gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739053818; c=relaxed/simple;
-	bh=QUj11CsSy8WVXJW4TTp1f2R/odv4DJQy02Qwct09Bxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sS8JQLgNjs1C20EhSmYcjIoewpg0t4oszVn/3PioxfwyvsMSn8y4U7lKbAlAI1FGeenKCnZf7Vadmy1MYyzRZjZXm+gQAoIb8fvFjRJIThzJNUH/Ho6DDe1xRB3/I6c8kraH826VpjiD4LO+OBXNjO2m/7nrYggoOLzUEuWjd08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMS3VutA; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1739055018; c=relaxed/simple;
+	bh=xU1SakhLV7wglhc6dhdh7/EHB5Wum8HoNp1yUN24eSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K/NEseU3jluGcNIWGDHumK8OE5wILgDwLjnB9hInccagLNDvW45Bld8mcJj1mYgpEsWTImnRY4nR2B1vDvDeu2tJ2xnvqxJdfY7c61VyhZHBU1wxUTkbczDW6HslZSljWFkxr/kF3ORcNF13Vb1S6u6QePS+yq9npEE9RUKXeYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zd0STTsD; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMS3VutA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zd0STTsD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739053816; x=1770589816;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QUj11CsSy8WVXJW4TTp1f2R/odv4DJQy02Qwct09Bxg=;
-  b=eMS3VutAPKGh1qPtCQx0iPqVfZDDwzZTxkdMudHbCnIPzLTQzAKRMCx1
-   51NRW5+de3Q4hpSszu5tZrz5jSTNGduJx3z2JPOlWrMUTa+XNvwefxgnh
-   pQnSZnligMyFpi1tQx2VvbQZHPAAY6wWKXT9cTi+3Tzx5+A6OsPqIFRv7
-   43SakjnyO9cUsc2IdIOpYoMH1D5ZHxJ9MOPbs5uyjgdd1FPpPoYeYOSjG
-   /kKuwqh/UEmeaxumf857MIt63k/IA+C1T/mDZHCX4Nbry9l7TTHCZ9kMQ
-   rx4pu/TfBqQdkXD+w7eVCvrHlgYklLK6DTCi7ZqcONXddDJoeAIiKVoT0
+  t=1739055016; x=1770591016;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xU1SakhLV7wglhc6dhdh7/EHB5Wum8HoNp1yUN24eSg=;
+  b=Zd0STTsD2Mzcs2KC60U8k27fQCKCQLxKDsiK2v+8x+FJ17ZTWDa3+Qxh
+   KZTD8xiinh75UYxJJfJvmsLwNn1gnUEGqHMy2HjZkMa4vOvu1pykRb21s
+   D//Z2gN3318LSX4L9u+BsfVrAy7VNpR+DHAn/8NF8kdWEEu+tT0goJa9k
+   LdHaeuTA0LNSX8XBEJGRbsjIjJ9EI9kRfhMbt0/Kg9ZBSnAYt+MPVnuAc
+   2KFKbS5Sci/sitJo/G0F6QK99Bga7b8D9ckSzWrAmKXgNZgCVNaJNJhqa
+   hRIpVxI4DQ8xeFGuTWmETmgzZ4cQ0HQGWFGcuwuyrkPGM1RfkZntegPKc
    g==;
-X-CSE-ConnectionGUID: VfD0J5AEQyCFo225fJ8t1w==
-X-CSE-MsgGUID: kOeovORsR+qPqHjTCGjn9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="57204052"
+X-CSE-ConnectionGUID: 7uXM+MGYTvWkFU1nw+2RVQ==
+X-CSE-MsgGUID: SGAHu1uqTciCq8efDSuFDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="50653190"
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="57204052"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 14:30:14 -0800
-X-CSE-ConnectionGUID: nv0rcM/hQ7iMDYu8+mLPZg==
-X-CSE-MsgGUID: neJqry3XT9WkTA0bI4fY0Q==
+   d="scan'208";a="50653190"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 14:50:16 -0800
+X-CSE-ConnectionGUID: UAt+lhRiSti1m7HaARduMQ==
+X-CSE-MsgGUID: sI9jgae/QmWQ835wRMwIUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="111790884"
+   d="scan'208";a="142709317"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 08 Feb 2025 14:30:12 -0800
+  by orviesa002.jf.intel.com with ESMTP; 08 Feb 2025 14:50:14 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgtKz-0010iJ-0T;
-	Sat, 08 Feb 2025 22:30:09 +0000
-Date: Sun, 9 Feb 2025 06:29:45 +0800
+	id 1tgteN-0010k1-1M;
+	Sat, 08 Feb 2025 22:50:11 +0000
+Date: Sun, 9 Feb 2025 06:50:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tamir Duberstein <tamird@gmail.com>, David Gow <davidgow@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Tamir Duberstein <tamird@gmail.com>
-Subject: Re: [PATCH v2 2/2] lib/prime_numbers: convert self-test to KUnit
-Message-ID: <202502090614.UJPLikn4-lkp@intel.com>
-References: <20250208-prime_numbers-kunit-convert-v2-2-863119447e04@gmail.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+Message-ID: <202502090624.WfIB0TP5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,102 +62,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250208-prime_numbers-kunit-convert-v2-2-863119447e04@gmail.com>
 
-Hi Tamir,
+Hi Darrick,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 2014c95afecee3e76ca4a56956a936e23283f05b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/lib-math-Hook-up-tests-Makefile/20250208-220040
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250208-prime_numbers-kunit-convert-v2-2-863119447e04%40gmail.com
-patch subject: [PATCH v2 2/2] lib/prime_numbers: convert self-test to KUnit
-config: i386-buildonly-randconfig-002-20250209 (https://download.01.org/0day-ci/archive/20250209/202502090614.UJPLikn4-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090614.UJPLikn4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f6629c004b193d23612641c3607e785819e97ab
+commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
+date:   3 months ago
+config: arm-randconfig-002-20250207 (https://download.01.org/0day-ci/archive/20250209/202502090624.WfIB0TP5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090624.WfIB0TP5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090614.UJPLikn4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090624.WfIB0TP5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/math/prime_numbers.c:126:8: error: call to undeclared function 'kmalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     126 |         new = kmalloc(sizeof(*new) + bitmap_size(sz),
-         |               ^
-   lib/math/prime_numbers.c:126:8: note: did you mean 'mm_alloc'?
-   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
-      16 | extern struct mm_struct *mm_alloc(void);
-         |                          ^
->> lib/math/prime_numbers.c:126:6: error: incompatible integer to pointer conversion assigning to 'struct primes *' from 'int' [-Wint-conversion]
-     126 |         new = kmalloc(sizeof(*new) + bitmap_size(sz),
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     127 |                       GFP_KERNEL | __GFP_NOWARN);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/math/prime_numbers.c:134:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     134 |                 kfree(new);
-         |                 ^
-   3 errors generated.
+   In file included from include/linux/bitfield.h:10,
+                    from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:390,
+                    from include/linux/uuid.h:11,
+                    from fs/xfs/xfs_linux.h:10,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/xfs_super.c:7:
+   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:133:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     133 |         XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,         3);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:136:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     136 |         XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused,      6);
+         |         ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/kmalloc +126 lib/math/prime_numbers.c
+vim +78 include/linux/build_bug.h
 
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  106  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  107  static bool expand_to_next_prime(unsigned long x)
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  108  {
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  109  	const struct primes *p;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  110  	struct primes *new;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  111  	unsigned long sz, y;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  112  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  113  	/* Betrand's Postulate (or Chebyshev's theorem) states that if n > 3,
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  114  	 * there is always at least one prime p between n and 2n - 2.
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  115  	 * Equivalently, if n > 1, then there is always at least one prime p
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  116  	 * such that n < p < 2n.
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  117  	 *
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  118  	 * http://mathworld.wolfram.com/BertrandsPostulate.html
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  119  	 * https://en.wikipedia.org/wiki/Bertrand's_postulate
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  120  	 */
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  121  	sz = 2 * x;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  122  	if (sz < x)
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  123  		return false;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  124  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  125  	sz = round_up(sz, BITS_PER_LONG);
-717c8ae7aae4f2 lib/prime_numbers.c Chris Wilson 2017-01-13 @126  	new = kmalloc(sizeof(*new) + bitmap_size(sz),
-717c8ae7aae4f2 lib/prime_numbers.c Chris Wilson 2017-01-13  127  		      GFP_KERNEL | __GFP_NOWARN);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  128  	if (!new)
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  129  		return false;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  130  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  131  	mutex_lock(&lock);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  132  	p = rcu_dereference_protected(primes, lockdep_is_held(&lock));
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  133  	if (x < p->last) {
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22 @134  		kfree(new);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  135  		goto unlock;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  136  	}
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  137  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  138  	/* Where memory permits, track the primes using the
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  139  	 * Sieve of Eratosthenes. The sieve is to remove all multiples of known
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  140  	 * primes from the set, what remains in the set is therefore prime.
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  141  	 */
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  142  	bitmap_fill(new->primes, sz);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  143  	bitmap_copy(new->primes, p->primes, p->sz);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  144  	for (y = 2UL; y < sz; y = find_next_bit(new->primes, sz, y + 1))
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  145  		new->last = clear_multiples(y, new->primes, p->sz, sz);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  146  	new->sz = sz;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  147  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  148  	BUG_ON(new->last <= x);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  149  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  150  	rcu_assign_pointer(primes, new);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  151  	if (p != &small_primes)
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  152  		kfree_rcu((struct primes *)p, rcu);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  153  
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  154  unlock:
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  155  	mutex_unlock(&lock);
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  156  	return true;
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  157  }
-cf4a7207b1cb4a lib/prime_numbers.c Chris Wilson 2016-12-22  158  
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
