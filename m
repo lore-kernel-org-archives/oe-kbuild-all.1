@@ -1,232 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9450842AA2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 16:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739030450; cv=fail; b=jcz/6L0BYLjYh/KSH0u53it9feG1FWfkDt930A89xCdiUYF6Mteq+84W3PT0Y4pPkv+1mFIf9ntf+EThR8aViQ0YovcuNlBpxUbwdsP28X81qdSLjaRyc51hNmQaP0P/ohVOfcW0HOdZW8REVOxzG/HoXP913U1ZR/LSqPHYDcc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739030450; c=relaxed/simple;
-	bh=xoz26esMqs66PiXEgyFA/edhGIgMuNu+ogq0ZBR0hlY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ged+j/vkexx752K4EwYDpmwfZ19LhQWkH82DPxUxcwqtAR1j4DhnQdJqc7YSwa/MLXL7tLSsW/p6ItyBwx1bIYV3QxalM0PzZkD2oOwd5nkhV7rm7DE+zwmDA2g7H3jfRXHqSCMxoBsLGGBjgTeHH/QQuIHF6gohUNtGyk4PNHE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HopvgKAj; arc=fail smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5193BBF2;
+	Sat,  8 Feb 2025 16:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739030727; cv=none; b=UzpxRKqqjCBpb7AeXUSVyS5z5pbXVYTCBL/XNM5pbwdEVQbVxiMG4Uk/7PY0MgPRXzF2my/qb7nskXwP3DGNJ9QgXJ2DLTCSpUL8L8Kgh118VHq6IMJQLR2BEp8J2pubgEKWOce/GpAzmmrnAA9kifOwIYPySDeEk+kNXufzdOs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739030727; c=relaxed/simple;
+	bh=+Up3R3tTo0WF2tM25OhGWnezyR3uKz7Ir9pL8p4zHP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCk0LJ6WpTgpE6TFoZai5Um0Ccds/8px+H1DxK69EhJthWOzkoyXSGTVxitjk9uh+JbXWV/JJE8BiSgUopozS826MRO+x2fhDNigPB1WBVKP+ys1J3kQh14mzr3Tee9isPD3HWVRjeMm85qTPLxFGgkNftKAm7PKVha6nAxyzwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7Iw6IwP; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HopvgKAj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7Iw6IwP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739030448; x=1770566448;
+  t=1739030726; x=1770566726;
   h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=xoz26esMqs66PiXEgyFA/edhGIgMuNu+ogq0ZBR0hlY=;
-  b=HopvgKAjKPCXQNAz0BgmDODLqJwzpzTRnJaN+qitdVF/E5KIUQLuB9M9
-   0oHSGzexoaQ6FfJZKMiACM8cu/BESYjWkN6pj1MVjYfBpD9fsiqNcnON9
-   1DmxwDjP0QFL+2/A8fVVetGmN7ZSiZk4jnlmTdPIKI9TNSN1mqL+vbNf2
-   qMF99KxlCMCypXpC8XR/Q2e2gE62q+8JcWZSFBosRPiTjM9PnML7dXYTk
-   yG9QhZuj2zZvlbuWmp0gzlx9qX46ht0r2bAxxS2VEPkMcTW1JxvLbX8Cr
-   QFHwBpFs1inowLhzJnd+vnoSMQ3tkxcAkaowd9HbaULzpCeVvtk1CijJK
-   A==;
-X-CSE-ConnectionGUID: lTpWyQDxSECVKx2DMu4CVA==
-X-CSE-MsgGUID: w1uDM5/tTSuh81wRbzCQEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="50296353"
+   mime-version:in-reply-to;
+  bh=+Up3R3tTo0WF2tM25OhGWnezyR3uKz7Ir9pL8p4zHP4=;
+  b=i7Iw6IwPygp8bU4zQf7fuge6Km8nEIHmIv3onIMos+Ub57FtMyJd6o/C
+   C/j6XjFIxBuGDU8P3Az/pjIyRDmJ5Hm4XBsSwd7bvJfAT0W7QObWZdYJX
+   nDiA2EqvQ47uAm4WqtB2XXAIRVljUerlVcxKMGM7R3vYkBHJsE86yku38
+   lasX2I5R8Ym4u6wcrZhTCOmPKc+Wk27Gz+38JJRPt6Gc1P2CdrdDGaztM
+   YoSur3NyUivQkmdoOB6yaFh1RW31kNe9RihUMv1tAd1wzoSJuzd7j29mn
+   nbeoZ+IpY55ByUTHVS2En8Vbv2HorlGulNg50D0Q1r5OoaOC1gm4E7wZk
+   w==;
+X-CSE-ConnectionGUID: EdALaggiSQ6jm1NGdCSLNg==
+X-CSE-MsgGUID: Q4FsWS7KTKetXA5rUUJ2Ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="27265509"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="50296353"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 08:00:47 -0800
-X-CSE-ConnectionGUID: INdEXA2pSD6L8+H7vj6bxw==
-X-CSE-MsgGUID: 2NkclkSyRVupUKboAyA+9A==
+   d="scan'208";a="27265509"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 08:05:25 -0800
+X-CSE-ConnectionGUID: xxm7HiRqT8OWewmMmaOfAg==
+X-CSE-MsgGUID: p65siFknQdO+3gJ8w+uhUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="135029669"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Feb 2025 08:00:47 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Sat, 8 Feb 2025 08:00:46 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Sat, 8 Feb 2025 08:00:46 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.170)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sat, 8 Feb 2025 08:00:46 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FjNOaX+vsYZy1q1u30S1i1tfp/taLrleh7J+8qFsTLZAq9CxweV1hreESrXYWczQ4jWZSR4gYTJ2Au9BV2HylXy1bgFzTzG2Wjcp4mC+GcAOtsymRn1DUKjdXXcPCbUjkrYCg2W1w62DorLHXmAtyKxV0KgjNO+j5AlIw/pzetQKzvuFmuD5Fw6llob+A7T5sa4PhHrizKmvfjG3hzK/nll9FiMJP94ylxSxVYDHxBA92+Uo5uLCbQjIxAzwKjzqbIlDAh7n90CvcZp9FZCtcj9zAN4zr4OVzFMTO6isAXAjSWirVyBseDRsg8JnjHzEI241rY1kYqZFP5WjmRwaig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FmloDmLv3EUtkVyrZLMW6jav6oFJEUSNh3ygW/YPCoI=;
- b=S0pph05I/bcbHSMYo4/NEDVaGUchd1cm56Ei8Z2pd9aOadnsQBT0XIg8oYBqkgRTMK1XX07ArmevwxhZE7aE3vJ1fkS+ziOzJgunLrAOrOaOA9iVdgZyVsSHwtxmH8aSio1JsQqHFFz2Ui3yX0DCQlAtaQEuxgD1ykz7NBMAkJwLF49gh4J0BfsAuPiSUNVmfRQutR9EDBa5VtO9+z0uVSXZGXgyjFc58LVO2y8UXe1QnNaTH9ncds6+5LqbGK8r46e6nBDTNpIzFdGobrNPre2hoTkvqBKbTw0Ljy7zpr3v7FxBEOrZPNoNJCkx68hF+LpisuW/lOUIogvmkBTAWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by BL3PR11MB6364.namprd11.prod.outlook.com (2603:10b6:208:3b7::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Sat, 8 Feb
- 2025 16:00:03 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8422.012; Sat, 8 Feb 2025
- 16:00:03 +0000
-Date: Sat, 8 Feb 2025 23:59:53 +0800
-From: Philip Li <philip.li@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: kernel test robot <lkp@intel.com>, Paul Gazzillo <paul@pgazz.com>, "Necip
- Fazil Yildiran" <fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List
-	<linux-mm@kvack.org>
-Subject: Re: [linux-next:master 1418/1780] kismet: WARNING: unmet direct
- dependencies detected for FB_DEFERRED_IO when selected by
- FB_DMAMEM_HELPERS_DEFERRED
-Message-ID: <Z6d/eVGOR3Y0L2Os@rli9-mobl>
-References: <202502070305.1rGTDnW0-lkp@intel.com>
- <6142d666-5245-4e00-8b1f-c43c6e98638f@lucifer.local>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <6142d666-5245-4e00-8b1f-c43c6e98638f@lucifer.local>
-X-ClientProxiedBy: SG2PR04CA0161.apcprd04.prod.outlook.com (2603:1096:4::23)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+   d="scan'208";a="142672695"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 08 Feb 2025 08:05:18 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tgnKW-0010Gh-0j;
+	Sat, 08 Feb 2025 16:05:16 +0000
+Date: Sun, 9 Feb 2025 00:04:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, thomas.petazzoni@bootlin.com,
+	Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-arm-kernel@lists.infradead.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	=?iso-8859-1?Q?Nicol=F2?= Veronese <nicveronese@gmail.com>,
+	Simon Horman <horms@kernel.org>, mwojtas@chromium.org,
+	Antoine Tenart <atenart@kernel.org>, devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Romain Gantois <romain.gantois@bootlin.com>
+Subject: Re: [PATCH net-next 11/13] net: phy: Only rely on phy_port for
+ PHY-driven SFP
+Message-ID: <202502082347.tFufJ529-lkp@intel.com>
+References: <20250207223634.600218-12-maxime.chevallier@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|BL3PR11MB6364:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a9f5240-2b17-450d-54d0-08dd4859a5fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|13003099007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Wy849tcP6gNDRTfOluYxc4f4l7fPNVOWEbjm9CEIDO/ajjUDtK7KOjNqO7Qr?=
- =?us-ascii?Q?iU+MCECRXczsyR0/ojReuGXlskBgIE/k+ukOcMLn/5Ihh+0ygXVVwS4CURFY?=
- =?us-ascii?Q?wqf/y7XfF6c1c//fl486TSj0bN3OGNd38Srp0jGtkqmPeU8F+kBcXkNPFBmS?=
- =?us-ascii?Q?imX8Th/g2x4s7sKZMdVMRQNWv2lfgJuWwPDkkTlZDfYpeBXhku5mtUCrpNiC?=
- =?us-ascii?Q?sajXhGDsTjC2jhMQithRJb4juvK21yZSVC8Udzd1fgGHMDjHxa3wNQzK0Vzh?=
- =?us-ascii?Q?gM9OynRM+K6JE30iYTCYsfwT6zsML+GuZH517gtP1K5pbDvHfzlt7FVzCOyb?=
- =?us-ascii?Q?z2/pKLRoaQB24pbFeUR2Heml7F1Aj9E+P1hgVCqK8Gr1FDC4+zJU5jwDQ3Fl?=
- =?us-ascii?Q?ZHZ4Q9gxmZqgKFcTGEr3giLkYP/jbL9zpnA/H/hO/CnO4ylGhx1Gm9IoUiep?=
- =?us-ascii?Q?EuwRPaRT7ZKA66+FdINSThBsKu3SxO8F4MO6k0VPMesJX/wlKA6ix3lb6Qxm?=
- =?us-ascii?Q?+xRR9xW39Yv0oOqmv3UAN+roSQOqJdJ8Sy2IfPKvKLmGY9aXvZ2a+S7GvU8+?=
- =?us-ascii?Q?LK9jXAcYrfmYDsthz+pRoHVp6qrX/HGhmiucr5TGgw72k1fZ2pkf3Z3xqXdx?=
- =?us-ascii?Q?OtFbu/hArxkWTHNXmstNusUM/3IOx/Fvz0xiW5ysDADRfgrVzIl0bkuVDwNF?=
- =?us-ascii?Q?N4z929v7YmnGs07MTVOYHO2PdLFG8pj0ojd6zbVvKpixTcF1amv3B2WPgcXs?=
- =?us-ascii?Q?oXcK2SVq2KofzrYbjnA8AYfLWfk4s3W40na33jBMM0+7nwKnYMR3nbw725w+?=
- =?us-ascii?Q?z8p74LA8vfH+qNKK8d4EPZU/p6TU+arY/PglwE14byCmkts2jpOPgkjaWUyo?=
- =?us-ascii?Q?qRW5Aji4sa7ewyja2Cf8dNMH4/2iPMuK39a3tzK517zEUgfdo22zUAB75CHv?=
- =?us-ascii?Q?FdxHcT0RpGmupF3X0hSyNurZA3y5/hfUiomAxjejf3Hmg3gUzR6sl/G4jmSs?=
- =?us-ascii?Q?5LG+M+9IJknI9O8l9tlVKiVpP2Z5eAoH9QXEdzohq3NwjLBQqkmM1ZrPcIjH?=
- =?us-ascii?Q?HokaHjS1Zfa1PS9Ut3CXrCwUFA5wkEeKd4MYUOOVeJtzEHAH1pplGW+KlSC8?=
- =?us-ascii?Q?K4FvMp9GPllwxJWcS6sdzyIUJFJXG0Aw3wFaWRzVPMjbU+n7gy9Y8JUtQSlw?=
- =?us-ascii?Q?8pEQCqkr9PFTvylyqiBM2Zoo58ZadIhRe01w9JrhC38I3Jg+zbnWSBTfsnzS?=
- =?us-ascii?Q?52By+jNlcyaRzA7olJ236iziA6SoO1omYBmkdkiX/dpI5x26bhsTdbtQLreY?=
- =?us-ascii?Q?j8Uh7EayVnksapMF1iB2XpsQXQK5rBNBAoEW+Mb5nYrGLA=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xVGfpz00TxCkODSPd6T9dob6+TdoGL+eGwu4enMZBdNapJAIVf04/xnf7Ve5?=
- =?us-ascii?Q?rCNv1CGGUsfnBYxb3b/HXRi7t5Wy0/NW3WpcVKPjZcxjviC9b/69N+YPGaI0?=
- =?us-ascii?Q?ykjTM5oTmHfuBEo07JnoCdRkCYZNMP8Z/2DtVaVsdtBXV9NHXAHbJnVmikK2?=
- =?us-ascii?Q?AOwfnOAHCNbKyjJlyaJCYxkF8sGQNiNOLuGyAM8Qy3FJlolWxB82RwHnOVbz?=
- =?us-ascii?Q?cRZK4I5ih5Ma+i2bIZLRsdLBgIypSq/sltUN/RDplXtedmTYNXx36ItiF9Dj?=
- =?us-ascii?Q?U0ZQDOa16OiwnjX/n2HHtTZZmMx6IbYOavx9nxx+verHwtybrBPDdAT/strz?=
- =?us-ascii?Q?V2xfNSj5vApS/6AXr8YlSJon1aHYLs11xtyhIwNOmSCy1r6rjoAZkUQUBlRg?=
- =?us-ascii?Q?qIBHvQ/iAjZSAgM5iqUYlBl7XjkfxS3cB+hFgDMZhWCqzMWcBijYCkrcqv+8?=
- =?us-ascii?Q?5AYbEXDqi/Owdex7cDj/fkeFdKn3ciafU6yD2EKvpjX7mkzZUNx0WtsQTaoW?=
- =?us-ascii?Q?4dL0+LRHtCq1iUUlnFkdhlzDJVYMtJj7SkY/FloiarcrMgLwFOUaDoReKvgh?=
- =?us-ascii?Q?EfjzFb6k7eJgSISwo8kzXm5/Td7s6AQr5bz+k9fiQ4/VHw77mDoFhNV5ckc0?=
- =?us-ascii?Q?1ogYIJ+CT9yqAgah9nGubcudNNc6o7+2kHUcKKezKDZ55v2gM2xIlsNmxYLe?=
- =?us-ascii?Q?MnY7Ryq8DHryiYQ3lkxpEAv6fDU9yUbzLWsM4CiO32CR8ekuFcxKXPUgknVo?=
- =?us-ascii?Q?qAiiNOeNyN6nWv1dg4zxBAovVCwSLWHkAYB4gPgPU6wuov10gOHp23z8h9BO?=
- =?us-ascii?Q?H1vtpQOhbw/NxS5WUvRHDUtx5D2PSqpVErCCjw2evlSJZPmCHEyvn8qs3USL?=
- =?us-ascii?Q?cBQvzp4SbBMs1D8RG5iamAGK0yL7ugAYO0eQLuyGoAtfRyBrxAuGSEuAXfcc?=
- =?us-ascii?Q?t3cIEQgn6mzlZnaIOB8I8VVZCQ+zDVHGYK2KA6yBi1kh/zzb8ymR0i2zDDD1?=
- =?us-ascii?Q?yS8UPGFr8OnYeWULkoOWRZZzlR/E6T/g0poJRNdrRXN4ZWvqzy3OhMtUshdp?=
- =?us-ascii?Q?migsAv5cnjGNJR6vKSVd5dba/U8e8BjXwlfwcfA1zlHVOjS7teMAOvnkPg6E?=
- =?us-ascii?Q?6/fF73UbUK+WIFbxMdhBAuda1Fz5PuyfPGcVsjZPufdTcRA8Wi+Pl1tGDTqL?=
- =?us-ascii?Q?JipJUsVKuVJNoa9BONnqvUhWRVOSRINNak7k/CLVTVBq1EIahOUMr7y1sy9e?=
- =?us-ascii?Q?oXtke8pZKOnJEtCgYigAC6t0pxOf19fHKrRWqJNugmr/UdSpbczKunS/OfwQ?=
- =?us-ascii?Q?2F6e/PzhFQva6lMr7jzX6wnw+sBVMKUWmp1r5yv20EdsbqQT+MFtFA8Bqhxb?=
- =?us-ascii?Q?QSJEX+F5csu8z9+xz29fL4XegUI9YNCX29TuLItcSluicddmE/Hkc4JMmVxd?=
- =?us-ascii?Q?fv/QIkZNiFAF3QEz0qqNF1MPdUuIkGuzXrnf/4bOeuTfgoGURV1TOr47Q2Ae?=
- =?us-ascii?Q?NHh/OaqPwDudtvxl5Ba/CenJfyQhZas1prWJOGVnYiwCpYXH3Wc0yP8RhXvU?=
- =?us-ascii?Q?Bg6ZLKGvXkGX0mW59HmDUpizI5WW/vtrFGYKj8rx?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a9f5240-2b17-450d-54d0-08dd4859a5fc
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2025 16:00:03.3487
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s30mZLj8bjiLw0Y9JLO+ves3mIOV/ic2T0qWqoDPNlulBG7tPoYaWnVQhUTQa44KGejSqvJUQn29bFD/w0TpjA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6364
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250207223634.600218-12-maxime.chevallier@bootlin.com>
 
-On Fri, Feb 07, 2025 at 11:59:58AM +0000, Lorenzo Stoakes wrote:
-> On Fri, Feb 07, 2025 at 03:24:13AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   808eb958781e4ebb6e9c0962af2e856767e20f45
-> > commit: 236ee083f1b9128fd5bd266054c5b8868f803cee [1418/1780] fbdev: have CONFIG_FB_DEFERRED_IO depend on CONFIG_MMU
-> > config: arm-kismet-CONFIG_FB_DEFERRED_IO-CONFIG_FB_DMAMEM_HELPERS_DEFERRED-0-0 (https://download.01.org/0day-ci/archive/20250207/202502070305.1rGTDnW0-lkp@intel.com/config)
-> 
-> I'm not really sure what a kismet device is or how it's configured or where
-> on earth this comes from?
-> 
-> Could somebody on intel test side please clarify? Because you might just
-> have a broken config here?
+Hi Maxime,
 
-Hi Lorenzo, kismet is part of kmax [1] by Paul Gazzillo, which checks for unmet
-dependency bugs in Kconfig specifications due to reverse dependencies overriding
-direct dependencies.
+kernel test robot noticed the following build errors:
 
-The 0day bot had used it to detect possible dependency issues [2]. And the issue
-can also be reproduced by running "make ARCH=arm olddefconfig" on the attached
-.config.
+[auto build test ERROR on net-next/main]
 
-Would you mind check again whether the generated .config is a valid one that
-exposes potential issue?
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-ethtool-Introduce-ETHTOOL_LINK_MEDIUM_-values/20250208-064223
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250207223634.600218-12-maxime.chevallier%40bootlin.com
+patch subject: [PATCH net-next 11/13] net: phy: Only rely on phy_port for PHY-driven SFP
+config: i386-buildonly-randconfig-005-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082347.tFufJ529-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082347.tFufJ529-lkp@intel.com/reproduce)
 
-[1] https://github.com/paulgazz/kmax#using-kismet
-[2] https://lore.kernel.org/oe-kbuild-all/?q=kismet
-[3] https://download.01.org/0day-ci/archive/20250207/202502070305.1rGTDnW0-lkp@intel.com/reproduce
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502082347.tFufJ529-lkp@intel.com/
 
-> 
-> Thanks!
-> 
-> > reproduce: (https://download.01.org/0day-ci/archive/20250207/202502070305.1rGTDnW0-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502070305.1rGTDnW0-lkp@intel.com/
-> >
-> > kismet warnings: (new ones prefixed by >>)
-> > >> kismet: WARNING: unmet direct dependencies detected for FB_DEFERRED_IO when selected by FB_DMAMEM_HELPERS_DEFERRED
-> >    WARNING: unmet direct dependencies detected for FB_DEFERRED_IO
-> >      Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=y] && MMU [=n]
-> >      Selected by [y]:
-> >      - FB_DMAMEM_HELPERS_DEFERRED [=y] && HAS_IOMEM [=y] && FB_CORE [=y]
-> 
-> This is a nommu device selecting a feature that absolutely requires an
-> mmu. Something's broken here.
-> 
-> I'm not sure pretending an mmu-dependent feature is does not rely on the
-> mmu is the way to fix this.
-> 
-> I'm VERY reluctant to add a stub for the function that explicitly relies on
-> CONFIG_MMU because it'd be very misleading.
-> 
-> 
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
+All errors (new ones prefixed by >>):
+
+>> drivers/net/phy/qcom/qca807x.c:698:12: error: use of undeclared identifier 'phy_sfp_attach'; did you mean 'phy_attach'?
+     698 |         .attach = phy_sfp_attach,
+         |                   ^~~~~~~~~~~~~~
+         |                   phy_attach
+   include/linux/phy.h:1912:20: note: 'phy_attach' declared here
+    1912 | struct phy_device *phy_attach(struct net_device *dev, const char *bus_id,
+         |                    ^
+>> drivers/net/phy/qcom/qca807x.c:699:12: error: use of undeclared identifier 'phy_sfp_detach'; did you mean 'phy_detach'?
+     699 |         .detach = phy_sfp_detach,
+         |                   ^~~~~~~~~~~~~~
+         |                   phy_detach
+   include/linux/phy.h:1924:6: note: 'phy_detach' declared here
+    1924 | void phy_detach(struct phy_device *phydev);
+         |      ^
+>> drivers/net/phy/qcom/qca807x.c:702:17: error: use of undeclared identifier 'phy_sfp_connect_phy'
+     702 |         .connect_phy = phy_sfp_connect_phy,
+         |                        ^
+>> drivers/net/phy/qcom/qca807x.c:703:20: error: use of undeclared identifier 'phy_sfp_disconnect_phy'
+     703 |         .disconnect_phy = phy_sfp_disconnect_phy,
+         |                           ^
+>> drivers/net/phy/qcom/qca807x.c:748:9: error: call to undeclared function 'phy_sfp_probe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     748 |                 ret = phy_sfp_probe(phydev, &qca807x_sfp_ops);
+         |                       ^
+   5 errors generated.
+
+
+vim +698 drivers/net/phy/qcom/qca807x.c
+
+d1cb613efbd3cd Robert Marko      2024-02-06  696  
+d1cb613efbd3cd Robert Marko      2024-02-06  697  static const struct sfp_upstream_ops qca807x_sfp_ops = {
+d1cb613efbd3cd Robert Marko      2024-02-06 @698  	.attach = phy_sfp_attach,
+d1cb613efbd3cd Robert Marko      2024-02-06 @699  	.detach = phy_sfp_detach,
+d1cb613efbd3cd Robert Marko      2024-02-06  700  	.module_insert = qca807x_sfp_insert,
+d1cb613efbd3cd Robert Marko      2024-02-06  701  	.module_remove = qca807x_sfp_remove,
+b2db6f4ace72e7 Maxime Chevallier 2024-08-21 @702  	.connect_phy = phy_sfp_connect_phy,
+b2db6f4ace72e7 Maxime Chevallier 2024-08-21 @703  	.disconnect_phy = phy_sfp_disconnect_phy,
+d1cb613efbd3cd Robert Marko      2024-02-06  704  };
+d1cb613efbd3cd Robert Marko      2024-02-06  705  
+d1cb613efbd3cd Robert Marko      2024-02-06  706  static int qca807x_probe(struct phy_device *phydev)
+d1cb613efbd3cd Robert Marko      2024-02-06  707  {
+d1cb613efbd3cd Robert Marko      2024-02-06  708  	struct device_node *node = phydev->mdio.dev.of_node;
+d1cb613efbd3cd Robert Marko      2024-02-06  709  	struct qca807x_shared_priv *shared_priv;
+d1cb613efbd3cd Robert Marko      2024-02-06  710  	struct device *dev = &phydev->mdio.dev;
+d1cb613efbd3cd Robert Marko      2024-02-06  711  	struct phy_package_shared *shared;
+d1cb613efbd3cd Robert Marko      2024-02-06  712  	struct qca807x_priv *priv;
+d1cb613efbd3cd Robert Marko      2024-02-06  713  	int ret;
+d1cb613efbd3cd Robert Marko      2024-02-06  714  
+d1cb613efbd3cd Robert Marko      2024-02-06  715  	ret = devm_of_phy_package_join(dev, phydev, sizeof(*shared_priv));
+d1cb613efbd3cd Robert Marko      2024-02-06  716  	if (ret)
+d1cb613efbd3cd Robert Marko      2024-02-06  717  		return ret;
+d1cb613efbd3cd Robert Marko      2024-02-06  718  
+d1cb613efbd3cd Robert Marko      2024-02-06  719  	if (phy_package_probe_once(phydev)) {
+d1cb613efbd3cd Robert Marko      2024-02-06  720  		ret = qca807x_phy_package_probe_once(phydev);
+d1cb613efbd3cd Robert Marko      2024-02-06  721  		if (ret)
+d1cb613efbd3cd Robert Marko      2024-02-06  722  			return ret;
+d1cb613efbd3cd Robert Marko      2024-02-06  723  	}
+d1cb613efbd3cd Robert Marko      2024-02-06  724  
+d1cb613efbd3cd Robert Marko      2024-02-06  725  	shared = phydev->shared;
+d1cb613efbd3cd Robert Marko      2024-02-06  726  	shared_priv = shared->priv;
+d1cb613efbd3cd Robert Marko      2024-02-06  727  
+d1cb613efbd3cd Robert Marko      2024-02-06  728  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+d1cb613efbd3cd Robert Marko      2024-02-06  729  	if (!priv)
+d1cb613efbd3cd Robert Marko      2024-02-06  730  		return -ENOMEM;
+d1cb613efbd3cd Robert Marko      2024-02-06  731  
+d1cb613efbd3cd Robert Marko      2024-02-06  732  	priv->dac_full_amplitude = of_property_read_bool(node, "qcom,dac-full-amplitude");
+d1cb613efbd3cd Robert Marko      2024-02-06  733  	priv->dac_full_bias_current = of_property_read_bool(node, "qcom,dac-full-bias-current");
+d1cb613efbd3cd Robert Marko      2024-02-06  734  	priv->dac_disable_bias_current_tweak = of_property_read_bool(node,
+d1cb613efbd3cd Robert Marko      2024-02-06  735  								     "qcom,dac-disable-bias-current-tweak");
+d1cb613efbd3cd Robert Marko      2024-02-06  736  
+1677293ed89166 Robert Marko      2024-03-05  737  #if IS_ENABLED(CONFIG_GPIOLIB)
+d1cb613efbd3cd Robert Marko      2024-02-06  738  	/* Do not register a GPIO controller unless flagged for it */
+d1cb613efbd3cd Robert Marko      2024-02-06  739  	if (of_property_read_bool(node, "gpio-controller")) {
+d1cb613efbd3cd Robert Marko      2024-02-06  740  		ret = qca807x_gpio(phydev);
+d1cb613efbd3cd Robert Marko      2024-02-06  741  		if (ret)
+d1cb613efbd3cd Robert Marko      2024-02-06  742  			return ret;
+d1cb613efbd3cd Robert Marko      2024-02-06  743  	}
+1677293ed89166 Robert Marko      2024-03-05  744  #endif
+d1cb613efbd3cd Robert Marko      2024-02-06  745  
+d1cb613efbd3cd Robert Marko      2024-02-06  746  	/* Attach SFP bus on combo port*/
+d1cb613efbd3cd Robert Marko      2024-02-06  747  	if (phy_read(phydev, QCA807X_CHIP_CONFIGURATION)) {
+d1cb613efbd3cd Robert Marko      2024-02-06 @748  		ret = phy_sfp_probe(phydev, &qca807x_sfp_ops);
+d1cb613efbd3cd Robert Marko      2024-02-06  749  		if (ret)
+d1cb613efbd3cd Robert Marko      2024-02-06  750  			return ret;
+d1cb613efbd3cd Robert Marko      2024-02-06  751  		linkmode_set_bit(ETHTOOL_LINK_MODE_FIBRE_BIT, phydev->supported);
+d1cb613efbd3cd Robert Marko      2024-02-06  752  		linkmode_set_bit(ETHTOOL_LINK_MODE_FIBRE_BIT, phydev->advertising);
+d1cb613efbd3cd Robert Marko      2024-02-06  753  	}
+d1cb613efbd3cd Robert Marko      2024-02-06  754  
+d1cb613efbd3cd Robert Marko      2024-02-06  755  	phydev->priv = priv;
+d1cb613efbd3cd Robert Marko      2024-02-06  756  
+d1cb613efbd3cd Robert Marko      2024-02-06  757  	return 0;
+d1cb613efbd3cd Robert Marko      2024-02-06  758  }
+d1cb613efbd3cd Robert Marko      2024-02-06  759  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
