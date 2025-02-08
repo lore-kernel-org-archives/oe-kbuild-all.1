@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE691854
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 04:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFCA183098
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 04:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738987382; cv=none; b=dsEe71jqN8kPnlPOOeELBDWhPsPMW6cdCu+Wq85acOav0LoQqgWUbEenRdCRyW5/Hn1iSBclnCUS1CEB5oorov2opDC0621SfS2tYkU0dm8QyEj1p2CgkjpR0REFrL2noKYWl4n1eM5W8L7QhygSIrbPxuf5u6GtXj8EzFMJOsE=
+	t=1738989183; cv=none; b=Yj4tlYoNQlMh7/DIQChZ9wTKfZtW7XsHkvNQyzxtQFqn7yvvoW/MMYjq5pp8OrIBHfCC/9eJaXHT9QYbxSxwKvmDMjzEnLmMeDKdauuxsfSefVonA2xRBlcnCpI+LC4Qo6JPYXcSMES25CwCk6U1OMCessTSFyp+DyP+t4nEsUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738987382; c=relaxed/simple;
-	bh=7w1wbifFqli/Z6iK9htLZF5fuWaXyXeAXa24eNfZ1rM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TnS0B5qkMOmOmgocIeCQ7ZqQQTww2AvBIawuyKVYXv5O97uveuJ8B1sC4y6rpyVR6LuZoBn2FS9vzc4O5Io9JKEEn++qz3gL82EQnvDHVoGGhXYtDB8a/D5DGRmi+9NWZZSaScxcR1VqYi12xzW9PqH06w2xIxqlyDpJwdvgdPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JX7HsPoF; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1738989183; c=relaxed/simple;
+	bh=G2UL/6Gh8pQN7/PARDw737ak3XpZRanUftSwH3i6Tus=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a38ikTgjxMHtIwgeoJT+suz4VOnQGXwElACqlzoJRVsO5hMCS6zH2UtRivK6CdofSPGykTABYCa4xeXR3ZOO9Z34jms9jzwQ5mTbJ3GqsBM+ZLkQAEgy0Qv29YGI4AZjEuSBE+qRPX+KYflnVmgjCNY9BzWNzjmLO3UKHdFjEyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XiINyAhP; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JX7HsPoF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XiINyAhP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738987381; x=1770523381;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7w1wbifFqli/Z6iK9htLZF5fuWaXyXeAXa24eNfZ1rM=;
-  b=JX7HsPoF+NBnhjRJOYy1lYa5933tlTjvUaphfEppsLBniv+Ut1pWy6Yc
-   sAFi1jAHJgP03uvvVE6wTznjDLpWRS+opAx+kbHhw0XDtvmPcjrWAknOS
-   qaHU7SY6vH3oN0Pss+kzVGuh9YOduUL/KcnSn+b6JTOJnBpazByjw5G30
-   TVT0EkrPv3vocJcRyB21EKRgOKzhNUi058v0wm2DHVBFrMuqJKJkBog7k
-   roGIy5CP6Z3Ot5RilMOw7ufErbMPXIsunjkj72enEqr2hdiGbgXDpKSUR
-   NBTqFGuFKiSaKGdiwstX4gcU8ikJ+V3uI+r61tWImfp9n0gahg2jUVfWe
-   A==;
-X-CSE-ConnectionGUID: rlW8SDSkSAqT/LMPCZE6Eg==
-X-CSE-MsgGUID: 4lWH8C0oRPO5B2WICbJtPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="57055716"
+  t=1738989181; x=1770525181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G2UL/6Gh8pQN7/PARDw737ak3XpZRanUftSwH3i6Tus=;
+  b=XiINyAhPlhW/TpeVcy5WJqrxH4D3V4V2GDaOsi/vuNxE9Yu8mzZwSJzb
+   PB6y7RK1TSHqr2y82G+r23vMrhJIAeWjXaXQzONqzQgEm1J/JdOLwKXKt
+   isUUyXsyIQruNoTQXp7leJbF8UXJ+W4DRXecqw5Sr9TTuk3DtXQdOmC+E
+   5IZR1IqKAa8ndQ8ipmCNW9BXn6KPkwVxZpWMNs0bTovkRvGLkCt583kug
+   rMdHPh1cliXB9V0uEnXAXBrvTfvQomRGGnqlYbrYUBThxWtYJgbJSrS1+
+   lPYcXAOwk2wgnohW2OdC22O6EEHACaDOyWumAbiR+R3D1Uz2c4A+OXrZR
+   w==;
+X-CSE-ConnectionGUID: wFYkBum8Qgm1Z5zC2fiIwQ==
+X-CSE-MsgGUID: ka2K0PyBTFyK5YmBWmYLQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39903205"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="57055716"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 20:03:00 -0800
-X-CSE-ConnectionGUID: H6AH0HuzSGSs2dQn5qyBlw==
-X-CSE-MsgGUID: BEj6K6kNS9mAXJ5iad85+w==
+   d="scan'208";a="39903205"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 20:33:00 -0800
+X-CSE-ConnectionGUID: W9FHOg7ET3yu/i2zECNNNg==
+X-CSE-MsgGUID: gTO+THO8RzecOHRZRPKWHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="111906998"
+   d="scan'208";a="111479170"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Feb 2025 20:02:56 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Feb 2025 20:33:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgc3S-000zVL-0p;
-	Sat, 08 Feb 2025 04:02:54 +0000
-Date: Sat, 8 Feb 2025 12:02:01 +0800
+	id 1tgcWW-000zWn-33;
+	Sat, 08 Feb 2025 04:32:56 +0000
+Date: Sat, 8 Feb 2025 12:32:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joe Damato <jdamato@fastly.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pabeni@redhat.com, edumazet@google.com,
-	sridhar.samudrala@intel.com, Joe Damato <jdamato@fastly.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Mina Almasry <almasrymina@google.com>,
-	Daniel Jurgens <danielj@nvidia.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	David Wei <dw@davidwei.uk>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 2/3] netdev-genl: Add an XSK attribute to
- queues
-Message-ID: <202502081141.R4zMr9v1-lkp@intel.com>
-References: <20250207030916.32751-3-jdamato@fastly.com>
+To: Alexander Graf <graf@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:kho/v4 12/14] WARNING: modpost: vmlinux: section mismatch in
+ reference: kho_reserve_scratch+0x80 (section: .text) -> scratch_size
+ (section: .init.text)
+Message-ID: <202502081201.wmSv6QGF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,94 +62,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207030916.32751-3-jdamato@fastly.com>
 
-Hi Joe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on f3eba8edd885db439f4bfaa2cf9d766bad1ae6c5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Damato/netlink-Add-nla_put_empty_nest-helper/20250207-111126
-base:   f3eba8edd885db439f4bfaa2cf9d766bad1ae6c5
-patch link:    https://lore.kernel.org/r/20250207030916.32751-3-jdamato%40fastly.com
-patch subject: [PATCH net-next v4 2/3] netdev-genl: Add an XSK attribute to queues
-config: i386-buildonly-randconfig-001-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081141.R4zMr9v1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081141.R4zMr9v1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git kho/v4
+head:   c46ab1adade1c0ece83ff5ad4c3aa57ea0126275
+commit: 2201f6a39fa2540d835be3859cf650251641f920 [12/14] x86: Add KHO support
+config: x86_64-randconfig-006-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081201.wmSv6QGF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081201.wmSv6QGF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081141.R4zMr9v1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081201.wmSv6QGF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   net/core/netdev-genl.c: In function 'netdev_nl_queue_fill_one':
->> net/core/netdev-genl.c:383:13: warning: unused variable 'ret' [-Wunused-variable]
-     383 |         int ret;
-         |             ^~~
-
-
-vim +/ret +383 net/core/netdev-genl.c
-
-   374	
-   375	static int
-   376	netdev_nl_queue_fill_one(struct sk_buff *rsp, struct net_device *netdev,
-   377				 u32 q_idx, u32 q_type, const struct genl_info *info)
-   378	{
-   379		struct pp_memory_provider_params *params;
-   380		struct netdev_rx_queue *rxq;
-   381		struct netdev_queue *txq;
-   382		void *hdr;
- > 383		int ret;
-   384	
-   385		hdr = genlmsg_iput(rsp, info);
-   386		if (!hdr)
-   387			return -EMSGSIZE;
-   388	
-   389		if (nla_put_u32(rsp, NETDEV_A_QUEUE_ID, q_idx) ||
-   390		    nla_put_u32(rsp, NETDEV_A_QUEUE_TYPE, q_type) ||
-   391		    nla_put_u32(rsp, NETDEV_A_QUEUE_IFINDEX, netdev->ifindex))
-   392			goto nla_put_failure;
-   393	
-   394		switch (q_type) {
-   395		case NETDEV_QUEUE_TYPE_RX:
-   396			rxq = __netif_get_rx_queue(netdev, q_idx);
-   397			if (nla_put_napi_id(rsp, rxq->napi))
-   398				goto nla_put_failure;
-   399	
-   400			params = &rxq->mp_params;
-   401			if (params->mp_ops &&
-   402			    params->mp_ops->nl_fill(params->mp_priv, rsp, rxq))
-   403				goto nla_put_failure;
-   404	
-   405			if (rxq->pool)
-   406				if (nla_put_empty_nest(rsp, NETDEV_A_QUEUE_XSK))
-   407					goto nla_put_failure;
-   408	
-   409			break;
-   410		case NETDEV_QUEUE_TYPE_TX:
-   411			txq = netdev_get_tx_queue(netdev, q_idx);
-   412			if (nla_put_napi_id(rsp, txq->napi))
-   413				goto nla_put_failure;
-   414	
-   415			if (txq->pool)
-   416				if (nla_put_empty_nest(rsp, NETDEV_A_QUEUE_XSK))
-   417					goto nla_put_failure;
-   418	
-   419			break;
-   420		}
-   421	
-   422		genlmsg_end(rsp, hdr);
-   423	
-   424		return 0;
-   425	
-   426	nla_put_failure:
-   427		genlmsg_cancel(rsp, hdr);
-   428		return -EMSGSIZE;
-   429	}
-   430	
+WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0x68 (section: .text) -> memblock_alloc_try_nid (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0x80 (section: .text) -> scratch_size (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0x94 (section: .text) -> memblock_phys_alloc_range (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0xb2 (section: .text) -> memblock_free (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0x168 (section: .text) -> scratch_size (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0x185 (section: .text) -> memblock_alloc_range_nid (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: kho_reserve_scratch+0x288 (section: .text) -> memblock_phys_free (section: .init.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
 
 -- 
 0-DAY CI Kernel Test Service
