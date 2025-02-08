@@ -1,81 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A6423F292;
-	Sat,  8 Feb 2025 14:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF4820328
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 14:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739024292; cv=none; b=MpBh2kvssmlR3wBXNbIqa4tB+p47SDefftSTAskPvKt8eI+eYdUx7GXeV6Lsi9h+MnR9yLdNV2ggSews5yU55/4wytDujEqOBTRDTS75iD5edUFFeoU74AwqVBoj5cQoXLDp4z0ULv5/x7ExuJVOeEF2SmFyqM+ph2ZD5MORx8U=
+	t=1739024947; cv=none; b=W4Ec4f1w58D/TkR2AKKFFFalwsRUHBEcb5khn2PRzxNiSHSyyoIou/ToiEDMnpi8d8bbBC8y+kCPGDPlJvul08RS6aROW+505N3NaYJIuCAZ5r89d6plmnU4Qxz/vvMK1dl1dHsxOJ0p8LPN2BLJqgwRLmKa7GXmKd+VnHoeSI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739024292; c=relaxed/simple;
-	bh=VPpd2YYWjZluEJs9Qvp1Y2nnNlnf0rQUcWOQWnGi/4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y1DKPc8tydiDMdFF+aDsA2bJXeD+0udWQJJlPlz7pJx7/UtGXgSq043t5IECwGBkGAtAEWpF77nhGD/yTRtloEK3mEstlJA/cN7qQXRoeUyIGt7JWjsL2np8Us/CBY1M5ioOyFCywNDV7COnvss19SQ2RKaM3IIlEaUE2MaHAec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbUq05oo; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1739024947; c=relaxed/simple;
+	bh=bCsBq7OLFzNRKKc8aQO+w5SuYDZ8q275ScDKlIz60jE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ygh/m9WaQwjN3/goXh1NXc1vSFwPilfXfxZTR2lgGIxg7unPC2CjD7Lutu0RxV1ReMrU/FO/M7GT33Owd7Tj0F4Xf9VymDmsDYVQLLSz8ZwISuV9/1UWWh98XrkR/WkBs6lrtdxQjY8zSwkpbCrHtPf0Y/1JtGS+hRh6jwH30Cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLMmmpBS; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbUq05oo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLMmmpBS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739024290; x=1770560290;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VPpd2YYWjZluEJs9Qvp1Y2nnNlnf0rQUcWOQWnGi/4E=;
-  b=nbUq05oojgR1cH6uSddvh9ZyyMCKHie15sZ2GCfGEI2YVksj3CQGGbhu
-   7ZDBThtyfUoXmYYzfAFF9ZO0Wz7ZdvFCyu7eOfwsS5WwwkSirATBWqAAN
-   ABTC0rshmo89U/owjU9pnfT7qvDb7SNU4qm+TJQ+ix4kC2Lhqixaw5Ckn
-   cEOPXOAIiGnSusTeZw4yFlZOvpzfb86woGCBPSmNvn6fQ7YP1DceIUqQQ
-   kEXtJ+S4JYYVflUi5mJmDWapudmBvDogP8ZaPMXOUNeqPE2iQ+s7GQeqN
-   K27yV70aoEOWbtbmt8xBzgCBFKSAGbF9+XQLo1UhKLoc9GfGfEfHmkXmb
-   Q==;
-X-CSE-ConnectionGUID: ErfCaWSeQYObeyTsZJXszg==
-X-CSE-MsgGUID: qJVsEUK3TL+WDOxbOM874A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="51044190"
+  t=1739024946; x=1770560946;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bCsBq7OLFzNRKKc8aQO+w5SuYDZ8q275ScDKlIz60jE=;
+  b=LLMmmpBSVVL8E4jiTJNOVR3j5QdEdZ6bHVNAwQ4RHI5kU6X2wsX+VKLj
+   KspOc6cFUtbgW5gRFJRhxeuz72+XkirVpBJSvHM4na4ByF+1b/SANVmaN
+   j1C+zy8ySpZQ4L6Lo69wHY1RKPUFvmXPh150j4YI/creBR/beg7vDxp5t
+   18bmK+OL4BOu/Fif9qniDSX6u3QOu/xbcPjI1oI93YcYk2aCQTf0G6/4L
+   6Bn+/f8zlJIFFG0NFa+54S4OHI6mihPkxXllfv87itvnqmVtjp3tdf9ZS
+   WEyA84e3He/g7CgHVGgPflsOOi7JiQ8I9pNgvRcpIRN7iRObVFfDs3fZA
+   A==;
+X-CSE-ConnectionGUID: +8NkQq6JSTOigFqSXASZaA==
+X-CSE-MsgGUID: ZO0a04lNSgCRAk9w4wM6tQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43419545"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="51044190"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 06:18:10 -0800
-X-CSE-ConnectionGUID: 5SCY/wYtTf2L5TycPuB0vA==
-X-CSE-MsgGUID: 0P956+EpRVirLOVEYoefGg==
+   d="scan'208";a="43419545"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 06:29:05 -0800
+X-CSE-ConnectionGUID: kasfZqTaTXGt5AVeNC9heA==
+X-CSE-MsgGUID: HFviub4cTUmLQXwQ5U8wOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="116788686"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="148979924"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Feb 2025 06:18:03 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Feb 2025 06:29:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tglei-00103D-12;
-	Sat, 08 Feb 2025 14:18:00 +0000
-Date: Sat, 8 Feb 2025 22:17:50 +0800
+	id 1tglpN-00104R-2o;
+	Sat, 08 Feb 2025 14:29:01 +0000
+Date: Sat, 8 Feb 2025 22:28:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Anup Patel <apatel@ventanamicro.com>, Marc Zyngier <maz@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Niklas Cassel <cassel@kernel.org>,
-	dlemoal@kernel.org, jdmason@kudzu.us, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v14 06/15] PCI: endpoint: Add RC-to-EP doorbell support
- using platform MSI controller
-Message-ID: <202502082204.6PRR3cfG-lkp@intel.com>
-References: <20250207-ep-msi-v14-6-9671b136f2b8@nxp.com>
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 1921/2219]
+ arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb:
+ jpeg-decoder@1a040000: iommus: [[123, 685], [123, 686], [123, 690], [123,
+ 691], [123, 692], [123, 693]] is too long
+Message-ID: <202502082233.ZOd8nse1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,92 +64,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207-ep-msi-v14-6-9671b136f2b8@nxp.com>
 
-Hi Frank,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 00f3246adeeacbda0bd0b303604e46eb59c32e6e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/platform-msi-Add-msi_remove_device_irq_domain-in-platform_device_msi_free_irqs_all/20250208-034445
-base:   00f3246adeeacbda0bd0b303604e46eb59c32e6e
-patch link:    https://lore.kernel.org/r/20250207-ep-msi-v14-6-9671b136f2b8%40nxp.com
-patch subject: [PATCH v14 06/15] PCI: endpoint: Add RC-to-EP doorbell support using platform MSI controller
-config: i386-buildonly-randconfig-003-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082204.6PRR3cfG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082204.6PRR3cfG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ed58d103e6da15a442ff87567898768dc3a66987
+commit: 3ac908716b8297d3ba6c6010104065517ec341a8 [1921/2219] arm64: dts: mediatek: add device-tree for Genio 510 EVK board
+config: arm64-randconfig-051-20250207 (https://download.01.org/0day-ci/archive/20250208/202502082233.ZOd8nse1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082233.ZOd8nse1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502082204.6PRR3cfG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502082233.ZOd8nse1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/pci/endpoint/pci-ep-msi.c: In function 'pci_epf_alloc_doorbell':
->> drivers/pci/endpoint/pci-ep-msi.c:53:15: error: implicit declaration of function 'platform_device_msi_init_and_alloc_irqs' [-Werror=implicit-function-declaration]
-      53 |         ret = platform_device_msi_init_and_alloc_irqs(&epf->dev, num_db, pci_epf_write_msi_msg);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/pci-ep-msi.c: In function 'pci_epf_free_doorbell':
->> drivers/pci/endpoint/pci-ep-msi.c:75:9: error: implicit declaration of function 'platform_device_msi_free_irqs_all' [-Werror=implicit-function-declaration]
-      75 |         platform_device_msi_free_irqs_all(&epf->dev);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/platform_device_msi_init_and_alloc_irqs +53 drivers/pci/endpoint/pci-ep-msi.c
-
-    26	
-    27	int pci_epf_alloc_doorbell(struct pci_epf *epf, u16 num_db)
-    28	{
-    29		struct pci_epc *epc = epf->epc;
-    30		struct device *dev = &epf->dev;
-    31		struct irq_domain *dom;
-    32		void *msg;
-    33		u32 rid;
-    34		int ret;
-    35		int i;
-    36	
-    37		rid = PCI_EPF_DEVID(epf->func_no, epf->vfunc_no);
-    38		dom = of_msi_map_get_device_domain(epc->dev.parent, rid, DOMAIN_BUS_PLATFORM_MSI);
-    39		if (!dom) {
-    40			dev_err(dev, "Can't find msi domain\n");
-    41			return -EINVAL;
-    42		}
-    43	
-    44		dev_set_msi_domain(dev, dom);
-    45	
-    46		msg = kcalloc(num_db, sizeof(struct pci_epf_doorbell_msg), GFP_KERNEL);
-    47		if (!msg)
-    48			return -ENOMEM;
-    49	
-    50		epf->num_db = num_db;
-    51		epf->db_msg = msg;
-    52	
-  > 53		ret = platform_device_msi_init_and_alloc_irqs(&epf->dev, num_db, pci_epf_write_msi_msg);
-    54		if (ret) {
-    55			/*
-    56			 * The pcie_ep DT node has to specify 'msi-parent' for EP
-    57			 * doorbell support to work. Right now only GIC ITS is
-    58			 * supported. If you have GIC ITS and reached this print,
-    59			 * perhaps you are missing 'msi-map' in DT.
-    60			 */
-    61			dev_err(dev, "Failed to allocate MSI\n");
-    62			kfree(msg);
-    63			return -ENOMEM;
-    64		}
-    65	
-    66		for (i = 0; i < num_db; i++)
-    67			epf->db_msg[i].virq = msi_get_virq(dev, i);
-    68	
-    69		return ret;
-    70	}
-    71	EXPORT_SYMBOL_GPL(pci_epf_alloc_doorbell);
-    72	
-    73	void pci_epf_free_doorbell(struct pci_epf *epf)
-    74	{
-  > 75		platform_device_msi_free_irqs_all(&epf->dev);
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pinctrl@10005000: 'pcie-default' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8188-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic: regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic: '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10320000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10330000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: jpeg-decoder@1a040000: iommus: [[123, 685], [123, 686], [123, 690], [123, 691], [123, 692], [123, 693]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
