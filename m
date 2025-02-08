@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB5B23C8D4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 10:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC93C1B4121;
+	Sat,  8 Feb 2025 10:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739010582; cv=none; b=brrOLnkaEaVL8ss/YYZw6B3VTMf9VVUoSWk368mz7jy9gH/zmW1yGQAMORA2q4B0UD1oHWgxYjv40KfWpt1UvuT1O8Cf1NEBXCY07iXO/amwdXB39CYrQl8lb650FgttoiFJPMIp2D6Mf76S+ORr24ho4FSJHq84hSOo0tm8Elw=
+	t=1739011305; cv=none; b=UXPLsIpsA6z/HPgQURKOC8sQjvMuYXxQmp/lRS1rSBf63BAQFQut+bi2d5zeoY8iaH/g+hVc4hv+orchNGfDNrZeQjiPyaUPjS7D/svAUXzX81PDDxztEtMxm/vgohiJM8ecjpC4wnoglpKV2n0g7wQoFQGqA318zb+AhRNe5CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739010582; c=relaxed/simple;
-	bh=8K/33ky2ZG9yFrKrVQvCOoNrSNKpBySngxzP69mmQek=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BVGQyFzejtAHM/JV6kxKCRQ0oJtK74rqrK/CskmPfa9UWJkGERKi1gv+huZl4sC8Qbr39Oxa+5rVpYS2DMjZXpifsn8f3VswtrIqtR5Ql2oQ5lcfXXrZ/Wq2soveGWkd5fGRrBlyQ8T2gx2e+DDP6Bf6oj2fS8jsv+Za8wpYSeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FzMIkZuE; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1739011305; c=relaxed/simple;
+	bh=MWG+6WKuPs6vj1SH93Cdkkga8aIS5/n3tbVO+NuMbIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KGo8T7RklESgu9cYY6IIEyCQPpi7cOl9PCF2BYLOinVQW+9oyjodHyRqRVR7r/UprswR0LFXJLP0guxamfVyhUv/+CmwY0/w2KG7tY6Pq+5Hd6241oXVdwsfy/OUi57DFNze/4PQ2GoglpZg/xmbfh8joCG2NtkBdHoFxNuQv2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1rPeHMO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FzMIkZuE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1rPeHMO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739010581; x=1770546581;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8K/33ky2ZG9yFrKrVQvCOoNrSNKpBySngxzP69mmQek=;
-  b=FzMIkZuE9JGB6FUfYwyF6gqRWnVoNhYExM+jt/l7HPgIl1CCFODxcIDD
-   kiY/UhGHKeC8cUXY7UimeNqVAbEKULyLN504X5RocjS2mUYniXyfgUcHM
-   IYONH6WLg86cm1hYRhtmklPzpNnQ4QpJhd/c/vfpFUWzCtEBNhDcCWb1S
-   aXKnA5UPDvm52NCAVp97dZ62nNMA4Jeyl3lg7iv/OG/Gk71Wz0PWxT96i
-   AMX9lw+RnNse7ob4Y+GWjTwiSB1LdUGEYXFf1XEjvwqpVK9Iumpc4KiTO
-   noj5nIaIuZdiOOaAJzHKsKKcFmv/2+8y41cuYSVEwIZg8EIL8ZTvy2laj
+  t=1739011304; x=1770547304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MWG+6WKuPs6vj1SH93Cdkkga8aIS5/n3tbVO+NuMbIk=;
+  b=I1rPeHMOgSCdgC7U++V9J+TJcIFNUOJuG2Jnr6rTZlswymIvHCthfQsb
+   hhkUdwF9ulv9Rqe4W3VwCwvmQ1wf2WRYS2eRGl0zmdSu+CRwW3VxX9p5C
+   kHnjpSss6w4SRdMAuOK+TXqvxFhigNmajq/03ZTMaCM8qtho3BVTv84UY
+   yODYvaLCyxmtyFz6MyCvuvzoBhqpCSq0Ccc3cIHY+C7qvaUUBCosHW8K7
+   jJEa7+4JmikMQBDUhr8Bqx30Aplu2iwuj+lyeqJ9ywBQhY9cuVDvFSET6
+   DGQ+ddL54cuYYEJXV2z3DTapzVKktTRXtux6Wk6dB4rTkbBR3BA1Q+MX5
    w==;
-X-CSE-ConnectionGUID: 0I/ZZyS8RHG/MWRv6Aa0/w==
-X-CSE-MsgGUID: qYIvJg8mQzy+J8jaFOgt2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="38847594"
+X-CSE-ConnectionGUID: Urf2M1+hRua1bFIrvpMeOw==
+X-CSE-MsgGUID: W3PLJZMSRH+FD36GsPZgPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="43570983"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="38847594"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 02:29:40 -0800
-X-CSE-ConnectionGUID: PT21gBoXSiSdCSRFRWBg5w==
-X-CSE-MsgGUID: HiesR9BTSHmk/9lEI7YSgA==
+   d="scan'208";a="43570983"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 02:41:43 -0800
+X-CSE-ConnectionGUID: xNCE5HYdSH2fX+RnJcWXRQ==
+X-CSE-MsgGUID: rwzju1O6RKalfAEbK8WziA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116957727"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="116697290"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Feb 2025 02:29:39 -0800
+  by orviesa003.jf.intel.com with ESMTP; 08 Feb 2025 02:41:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgi5g-000zr1-0E;
-	Sat, 08 Feb 2025 10:29:36 +0000
-Date: Sat, 8 Feb 2025 18:29:24 +0800
+	id 1tgiHJ-000zrX-2T;
+	Sat, 08 Feb 2025 10:41:37 +0000
+Date: Sat, 8 Feb 2025 18:40:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 204/204]
- arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dvfsrc@1c013000: failed to
- match any schema with compatible: ['mediatek,mt8196-dvfsrc']
-Message-ID: <202502081852.RSJcOxuQ-lkp@intel.com>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
+	pabeni@redhat.com, Willem de Bruijn <willemb@google.com>
+Subject: Re: [PATCH net-next 5/7] icmp: reflect tos through ip cookie rather
+ than updating inet_sk
+Message-ID: <202502081845.hsTDUryC-lkp@intel.com>
+References: <20250206193521.2285488-6-willemdebruijn.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +66,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250206193521.2285488-6-willemdebruijn.kernel@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   fd00cab3fe36e486cd2aaf166b98a6a5b943a097
-commit: a5a854b9d1f4b667c31596d727f6d7f0f6025e96 [204/204] CHROMIUM: arm64: dts: mt8196: add vcore dvfs device node
-config: arm64-randconfig-051-20250206 (https://download.01.org/0day-ci/archive/20250208/202502081852.RSJcOxuQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081852.RSJcOxuQ-lkp@intel.com/reproduce)
+Hi Willem,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Willem-de-Bruijn/tcp-only-initialize-sockcm-tsflags-field/20250207-033912
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250206193521.2285488-6-willemdebruijn.kernel%40gmail.com
+patch subject: [PATCH net-next 5/7] icmp: reflect tos through ip cookie rather than updating inet_sk
+config: x86_64-buildonly-randconfig-002-20250207 (https://download.01.org/0day-ci/archive/20250208/202502081845.hsTDUryC-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081845.hsTDUryC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081852.RSJcOxuQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081845.hsTDUryC-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/power-controller@1c004000: failed to match any schema with compatible: ['mediatek,mt8196-scpsys-hwv', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c00d000: failed to match any schema with compatible: ['mediatek,mt8196-scpsys-bus', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: watchdog@1c010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt8196-wdt', 'mediatek,mt6589-wdt', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt8196-wdt' is not one of ['mediatek,mt2712-wdt', 'mediatek,mt6589-wdt', 'mediatek,mt6735-wdt', 'mediatek,mt6795-wdt', 'mediatek,mt7986-wdt', 'mediatek,mt8183-wdt', 'mediatek,mt8186-wdt', 'mediatek,mt8188-wdt', 'mediatek,mt8192-wdt', 'mediatek,mt8195-wdt']
-   	'mediatek,mt8196-wdt' is not one of ['mediatek,mt2701-wdt', 'mediatek,mt6582-wdt', 'mediatek,mt6797-wdt', 'mediatek,mt7622-wdt', 'mediatek,mt7623-wdt', 'mediatek,mt7629-wdt', 'mediatek,mt8173-wdt', 'mediatek,mt8365-wdt', 'mediatek,mt8516-wdt']
-   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: watchdog@1c010000: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml#
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/watchdog@1c010000: failed to match any schema with compatible: ['mediatek,mt8196-wdt', 'mediatek,mt6589-wdt', 'syscon', 'simple-mfd']
->> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/dvfsrc@1c013000: failed to match any schema with compatible: ['mediatek,mt8196-dvfsrc']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c016000: failed to match any schema with compatible: ['mediatek,mt8196-vlp-cksys', 'mediatek,mt8196-vlp_cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@1c016000: failed to match any schema with compatible: ['mediatek,mt8196-vlp-cksys', 'mediatek,mt8196-vlp_cksys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000: failed to match any schema with compatible: ['mediatek,mt8196-spmi']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@6: failed to match any schema with compatible: ['mediatek,mt6316']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@6/mt6316-6-regulator: failed to match any schema with compatible: ['mediatek,mt6316-6-regulator']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@7: failed to match any schema with compatible: ['mediatek,mt6316']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@7/mt6316-7-regulator: failed to match any schema with compatible: ['mediatek,mt6316-7-regulator']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@8: failed to match any schema with compatible: ['mediatek,mt6316']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@8/mt6316-8-regulator: failed to match any schema with compatible: ['mediatek,mt6316-8-regulator']
-   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/spmi@1c01a000/mt6316@15: failed to match any schema with compatible: ['mediatek,mt6316']
+All warnings (new ones prefixed by >>):
+
+>> net/ipv4/icmp.c:408:20: warning: variable 'inet' set but not used [-Wunused-but-set-variable]
+     408 |         struct inet_sock *inet;
+         |                           ^
+   1 warning generated.
+
+
+vim +/inet +408 net/ipv4/icmp.c
+
+^1da177e4c3f41 Linus Torvalds         2005-04-16  395  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  396  /*
+^1da177e4c3f41 Linus Torvalds         2005-04-16  397   *	Driving logic for building and sending ICMP messages.
+^1da177e4c3f41 Linus Torvalds         2005-04-16  398   */
+^1da177e4c3f41 Linus Torvalds         2005-04-16  399  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  400  static void icmp_reply(struct icmp_bxm *icmp_param, struct sk_buff *skb)
+^1da177e4c3f41 Linus Torvalds         2005-04-16  401  {
+^1da177e4c3f41 Linus Torvalds         2005-04-16  402  	struct ipcm_cookie ipc;
+511c3f92ad5b6d Eric Dumazet           2009-06-02  403  	struct rtable *rt = skb_rtable(skb);
+d8d1f30b95a635 Changli Gao            2010-06-10  404  	struct net *net = dev_net(rt->dst.dev);
+8c2bd38b95f75f Eric Dumazet           2024-08-29  405  	bool apply_ratelimit = false;
+77968b78242ee2 David S. Miller        2011-05-08  406  	struct flowi4 fl4;
+fdc0bde90a689b Denis V. Lunev         2008-08-23  407  	struct sock *sk;
+fdc0bde90a689b Denis V. Lunev         2008-08-23 @408  	struct inet_sock *inet;
+35ebf65e851c6d David S. Miller        2012-06-28  409  	__be32 daddr, saddr;
+e110861f86094c Lorenzo Colitti        2014-05-13  410  	u32 mark = IP4_REPLY_MARK(net, skb->mark);
+c0303efeab7391 Jesper Dangaard Brouer 2017-01-09  411  	int type = icmp_param->data.icmph.type;
+c0303efeab7391 Jesper Dangaard Brouer 2017-01-09  412  	int code = icmp_param->data.icmph.code;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  413  
+91ed1e666a4ea2 Paolo Abeni            2017-08-03  414  	if (ip_options_echo(net, &icmp_param->replyopts.opt.opt, skb))
+f00c401b9b5f0a Horms                  2006-02-02  415  		return;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  416  
+8c2bd38b95f75f Eric Dumazet           2024-08-29  417  	/* Needed by both icmpv4_global_allow and icmp_xmit_lock */
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  418  	local_bh_disable();
+^1da177e4c3f41 Linus Torvalds         2005-04-16  419  
+8c2bd38b95f75f Eric Dumazet           2024-08-29  420  	/* is global icmp_msgs_per_sec exhausted ? */
+8c2bd38b95f75f Eric Dumazet           2024-08-29  421  	if (!icmpv4_global_allow(net, type, code, &apply_ratelimit))
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  422  		goto out_bh_enable;
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  423  
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  424  	sk = icmp_xmit_lock(net);
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  425  	if (!sk)
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  426  		goto out_bh_enable;
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  427  	inet = inet_sk(sk);
+c0303efeab7391 Jesper Dangaard Brouer 2017-01-09  428  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  429  	icmp_param->data.icmph.checksum = 0;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  430  
+351782067b6be8 Willem de Bruijn       2018-07-06  431  	ipcm_init(&ipc);
+bbd17d3104f5a7 Willem de Bruijn       2025-02-06  432  	ipc.tos = ip_hdr(skb)->tos;
+0da7536fb47f51 Willem de Bruijn       2020-07-01  433  	ipc.sockc.mark = mark;
+9f6abb5f175bdb David S. Miller        2011-05-09  434  	daddr = ipc.addr = ip_hdr(skb)->saddr;
+35ebf65e851c6d David S. Miller        2012-06-28  435  	saddr = fib_compute_spec_dst(skb);
+aa6615814533c6 Francesco Fusco        2013-09-24  436  
+f6d8bd051c391c Eric Dumazet           2011-04-21  437  	if (icmp_param->replyopts.opt.opt.optlen) {
+f6d8bd051c391c Eric Dumazet           2011-04-21  438  		ipc.opt = &icmp_param->replyopts.opt;
+f6d8bd051c391c Eric Dumazet           2011-04-21  439  		if (ipc.opt->opt.srr)
+f6d8bd051c391c Eric Dumazet           2011-04-21  440  			daddr = icmp_param->replyopts.opt.opt.faddr;
+^1da177e4c3f41 Linus Torvalds         2005-04-16  441  	}
+77968b78242ee2 David S. Miller        2011-05-08  442  	memset(&fl4, 0, sizeof(fl4));
+77968b78242ee2 David S. Miller        2011-05-08  443  	fl4.daddr = daddr;
+35ebf65e851c6d David S. Miller        2012-06-28  444  	fl4.saddr = saddr;
+e110861f86094c Lorenzo Colitti        2014-05-13  445  	fl4.flowi4_mark = mark;
+e2d118a1cb5e60 Lorenzo Colitti        2016-11-04  446  	fl4.flowi4_uid = sock_net_uid(net, NULL);
+0ed373390c5c18 Guillaume Nault        2024-10-22  447  	fl4.flowi4_tos = inet_dscp_to_dsfield(ip4h_dscp(ip_hdr(skb)));
+77968b78242ee2 David S. Miller        2011-05-08  448  	fl4.flowi4_proto = IPPROTO_ICMP;
+385add906b6155 David Ahern            2015-09-29  449  	fl4.flowi4_oif = l3mdev_master_ifindex(skb->dev);
+3df98d79215ace Paul Moore             2020-09-27  450  	security_skb_classify_flow(skb, flowi4_to_flowi_common(&fl4));
+9d6ec938019c6b David S. Miller        2011-03-12  451  	rt = ip_route_output_key(net, &fl4);
+b23dd4fe42b455 David S. Miller        2011-03-02  452  	if (IS_ERR(rt))
+^1da177e4c3f41 Linus Torvalds         2005-04-16  453  		goto out_unlock;
+8c2bd38b95f75f Eric Dumazet           2024-08-29  454  	if (icmpv4_xrlim_allow(net, rt, &fl4, type, code, apply_ratelimit))
+a15c89c703d434 Eric Dumazet           2022-01-24  455  		icmp_push_reply(sk, icmp_param, &fl4, &ipc, &rt);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  456  	ip_rt_put(rt);
+^1da177e4c3f41 Linus Torvalds         2005-04-16  457  out_unlock:
+405666db84b984 Denis V. Lunev         2008-02-29  458  	icmp_xmit_unlock(sk);
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  459  out_bh_enable:
+7ba91ecb16824f Jesper Dangaard Brouer 2017-01-09  460  	local_bh_enable();
+^1da177e4c3f41 Linus Torvalds         2005-04-16  461  }
+^1da177e4c3f41 Linus Torvalds         2005-04-16  462  
 
 -- 
 0-DAY CI Kernel Test Service
