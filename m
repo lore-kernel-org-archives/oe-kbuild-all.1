@@ -1,73 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2AA24111A;
-	Sat,  8 Feb 2025 18:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468691714AC
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 18:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739039869; cv=none; b=coNEDsynzz2L0/b46Ikk/d9EPVgim+97IenEUej6/TCLk9YLz7WNqk+GAWbeVVUfcqhCcGhf/OZU1266R5D5U0KHHJLXAKoZh3OfVcIuQIi5VuTsrtpPn9spGSL9hAx5fD6yJ0zXtkXVoRcNxRoWQ0INf4Vkdj6UeS4+cWaTpAA=
+	t=1739041130; cv=none; b=p22NX9ER4EfqlXTzS/I/zc/Cl9a79ODM9dk6ONfVddSRMsSD0Wkbjn09PZNYvsv9YPWiD60wyjqDPDwiJzD6N5Xwi66IYg+eTDl+1CBKqZfbdgN5QdV2JPUPoF+sZa0o70T5XDPat3RAFK0nmVwDqeoDxDdQ8YXWy9lOvqqsvm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739039869; c=relaxed/simple;
-	bh=OiPh1lu4rx22B7KSumWl+7P7nOfgNMfxfiVWxLMUgfo=;
+	s=arc-20240116; t=1739041130; c=relaxed/simple;
+	bh=WbZ0hbTVYx/mSIb3Za2bBc+5S6gAqWODblg6AScJPwA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rIofEOo5r0ip5+uaxvXZjoRkX+ACsD3b7bSXUvnqe6AEEMTwX5ChxNXb+JLvUGrCkZKLGpjp8yO+gxFs5nboZ4vNBHTMoy8yXLHuJiuwKFApe5jUoOZvd2yMxb/4pLVhjIVkY4CdN/dFDN0eteIjEb5iMQ8V8zx7pGQZ5/4nSLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMeK9eeu; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rqbn1DHqDhZ9Yn25v9MLxF1ttD78iADxdPz7+n7l5vq6+l19+nFrZhZqTOGVk1yKHlwEgj8gxh3EsjLJBRwJM21v3yXCm55+VgSDACKjkyw1SLuZvd3IcUvI128VYjHclo4AwGm8HXqhjfOEwoiXVJvc37uq6g/fq4EJ7YRdpc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWdnkHCi; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMeK9eeu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWdnkHCi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739039868; x=1770575868;
+  t=1739041129; x=1770577129;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OiPh1lu4rx22B7KSumWl+7P7nOfgNMfxfiVWxLMUgfo=;
-  b=JMeK9eeuM0uTs6p5f+k/iLBWybKeqGegd1vl5E218jcC4fgbvWjaPEw3
-   6qQUy0pKutlkmqEC8fmILIYYe9J9vQP6RUB/c7in4AbNXprkEsBC3UkI4
-   gSbNgU5A51yUq1iKfnRqApeZVAuUl5dwRurrEMF8amZlhvIwNIwZ8lv4R
-   AvCgtYC4oWDpmgnySGZFu1+0qK6/ev8wYW4J78w3uwaDaFkfZa/SSooEA
-   OYw+Jh3s3QIWcKFOXnsFRVlMmwwY07Rn80yIZZ38g8pHdAyii8qfoN0uc
-   IIAvLfQrGShYCfZ/WNu9k9UIKJGsMJKlil/mNCrLvj2dApvfmjn0BtXMr
-   w==;
-X-CSE-ConnectionGUID: Gk1+uL4aQmySNXGfSIAQzw==
-X-CSE-MsgGUID: SetzGgOMQDOgc9P+UeWnqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39555632"
+  bh=WbZ0hbTVYx/mSIb3Za2bBc+5S6gAqWODblg6AScJPwA=;
+  b=IWdnkHCi8eiAo0wJfGgU1HHRC59tkMnuDJOK9IzIe5u8MwLRoBVpz7Id
+   j0wT4tFtpOcCQoBS3SZtXK1QUg60FxPxlGVDEXvN0Sg0+kaz1uDQ3z2Q/
+   BZqmwevTl1Bjo9gzJHXDQnOw/94aXqc7GIeRLgamzbEPxZVFEmmeu2tcH
+   3UGYtaiuS85C5hTq5zIUO3pkxRUP/HxMULVnQt6eBacWMFa0Zr/8V8Q1P
+   mOj6adq0ctqlzIUDXmmotjL38+WIUhO/QtPrpjg51A2XYIAekp72QLOrd
+   SFDG7bjLdte4xlc+D2hrENffSUrkv6VKzSoyOp6E4N6zpgIc3dgFXXAF5
+   g==;
+X-CSE-ConnectionGUID: Fhsgt62wRP+1TSyRkJXubA==
+X-CSE-MsgGUID: D6KyNQn7RvmAorxMSarMxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="49903142"
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="39555632"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 10:37:47 -0800
-X-CSE-ConnectionGUID: ZUCm+zcCTCSDgP0A12ya5Q==
-X-CSE-MsgGUID: hRILAmttT0GVWW/cfCbPkA==
+   d="scan'208";a="49903142"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 10:58:48 -0800
+X-CSE-ConnectionGUID: HfjdxAuIT7CFiQv4RByAGg==
+X-CSE-MsgGUID: 9PZQPT0sS1Cz52H3vZKq4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,270,1732608000"; 
-   d="scan'208";a="112441264"
+   d="scan'208";a="116859948"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Feb 2025 10:37:43 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 08 Feb 2025 10:58:44 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgpi0-0010V9-2U;
-	Sat, 08 Feb 2025 18:37:40 +0000
-Date: Sun, 9 Feb 2025 02:36:40 +0800
+	id 1tgq2M-0010WF-1w;
+	Sat, 08 Feb 2025 18:58:42 +0000
+Date: Sun, 9 Feb 2025 02:58:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tamir Duberstein <tamird@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-	Tamir Duberstein <tamird@gmail.com>
-Subject: Re: [PATCH] blackhole_dev: convert self-test to KUnit
-Message-ID: <202502090223.qCYMBjWT-lkp@intel.com>
-References: <20250207-blackholedev-kunit-convert-v1-1-8ef0dc1ff881@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Md Sadre Alam <quic_mdalam@quicinc.com>,
+	linux-mtd@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] mtd: rawnand: qcom: fix broken config in
+ qcom_param_page_type_exec
+Message-ID: <202502090258.EVrsPFF7-lkp@intel.com>
+References: <20250207195442.19157-1-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,79 +72,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207-blackholedev-kunit-convert-v1-1-8ef0dc1ff881@gmail.com>
+In-Reply-To: <20250207195442.19157-1-ansuelsmth@gmail.com>
 
-Hi Tamir,
+Hi Christian,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+[auto build test WARNING on mtd/nand/next]
+[also build test WARNING on mani-mhi/mhi-next linus/master v6.14-rc1 next-20250207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/blackhole_dev-convert-self-test-to-KUnit/20250208-074037
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250207-blackholedev-kunit-convert-v1-1-8ef0dc1ff881%40gmail.com
-patch subject: [PATCH] blackhole_dev: convert self-test to KUnit
-config: i386-randconfig-062-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090223.qCYMBjWT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502090223.qCYMBjWT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/mtd-rawnand-qcom-fix-broken-config-in-qcom_param_page_type_exec/20250208-035717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20250207195442.19157-1-ansuelsmth%40gmail.com
+patch subject: [PATCH] mtd: rawnand: qcom: fix broken config in qcom_param_page_type_exec
+config: sh-randconfig-r133-20250208 (https://download.01.org/0day-ci/archive/20250209/202502090258.EVrsPFF7-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250209/202502090258.EVrsPFF7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502090223.qCYMBjWT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502090258.EVrsPFF7-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/blackhole_dev_kunit.c:55:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] payload_len @@     got unsigned int @@
-   lib/blackhole_dev_kunit.c:55:27: sparse:     expected restricted __be16 [usertype] payload_len
-   lib/blackhole_dev_kunit.c:55:27: sparse:     got unsigned int
+>> drivers/mtd/nand/raw/qcom_nandc.c:1884:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cfg0 @@     got unsigned long @@
+   drivers/mtd/nand/raw/qcom_nandc.c:1884:27: sparse:     expected restricted __le32 [usertype] cfg0
+   drivers/mtd/nand/raw/qcom_nandc.c:1884:27: sparse:     got unsigned long
+>> drivers/mtd/nand/raw/qcom_nandc.c:1889:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cfg1 @@     got unsigned long @@
+   drivers/mtd/nand/raw/qcom_nandc.c:1889:27: sparse:     expected restricted __le32 [usertype] cfg1
+   drivers/mtd/nand/raw/qcom_nandc.c:1889:27: sparse:     got unsigned long
 
-vim +55 lib/blackhole_dev_kunit.c
+vim +1884 drivers/mtd/nand/raw/qcom_nandc.c
 
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  26  
-a644885645ce86 lib/blackhole_dev_kunit.c Tamir Duberstein 2025-02-07  27  static void test_blackholedev(struct kunit *test)
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  28  {
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  29  	struct ipv6hdr *ip6h;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  30  	struct sk_buff *skb;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  31  	struct udphdr *uh;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  32  	int data_len;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  33  
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  34  	skb = alloc_skb(SKB_SIZE, GFP_KERNEL);
-a644885645ce86 lib/blackhole_dev_kunit.c Tamir Duberstein 2025-02-07  35  	KUNIT_ASSERT_NOT_NULL(test, skb);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  36  
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  37  	/* Reserve head-room for the headers */
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  38  	skb_reserve(skb, HEAD_SIZE);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  39  
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  40  	/* Add data to the skb */
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  41  	data_len = SKB_SIZE - (HEAD_SIZE + TAIL_SIZE);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  42  	memset(__skb_put(skb, data_len), 0xf, data_len);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  43  
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  44  	/* Add protocol data */
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  45  	/* (Transport) UDP */
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  46  	uh = (struct udphdr *)skb_push(skb, sizeof(struct udphdr));
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  47  	skb_set_transport_header(skb, 0);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  48  	uh->source = uh->dest = htons(UDP_PORT);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  49  	uh->len = htons(data_len);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  50  	uh->check = 0;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  51  	/* (Network) IPv6 */
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  52  	ip6h = (struct ipv6hdr *)skb_push(skb, sizeof(struct ipv6hdr));
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  53  	skb_set_network_header(skb, 0);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  54  	ip6h->hop_limit = 32;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01 @55  	ip6h->payload_len = data_len + sizeof(struct udphdr);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  56  	ip6h->nexthdr = IPPROTO_UDP;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  57  	ip6h->saddr = in6addr_loopback;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  58  	ip6h->daddr = in6addr_loopback;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  59  	/* Ether */
-843a8851e89e2e lib/test_blackhole_dev.c  Breno Leitao     2024-02-02  60  	skb_push(skb, sizeof(struct ethhdr));
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  61  	skb_set_mac_header(skb, 0);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  62  
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  63  	skb->protocol = htons(ETH_P_IPV6);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  64  	skb->pkt_type = PACKET_HOST;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  65  	skb->dev = blackhole_netdev;
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  66  
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  67  	/* Now attempt to send the packet */
-a644885645ce86 lib/blackhole_dev_kunit.c Tamir Duberstein 2025-02-07  68  	KUNIT_EXPECT_EQ(test, dev_queue_xmit(skb), NET_XMIT_SUCCESS);
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  69  }
-509e56b37cc32c lib/test_blackhole_dev.c  Mahesh Bandewar  2019-07-01  70  
+  1857	
+  1858	static int qcom_param_page_type_exec(struct nand_chip *chip,  const struct nand_subop *subop)
+  1859	{
+  1860		struct qcom_nand_host *host = to_qcom_nand_host(chip);
+  1861		struct qcom_nand_controller *nandc = get_qcom_nand_controller(chip);
+  1862		struct qcom_op q_op = {};
+  1863		const struct nand_op_instr *instr = NULL;
+  1864		unsigned int op_id = 0;
+  1865		unsigned int len = 0;
+  1866		int ret;
+  1867	
+  1868		ret = qcom_parse_instructions(chip, subop, &q_op);
+  1869		if (ret)
+  1870			return ret;
+  1871	
+  1872		q_op.cmd_reg |= cpu_to_le32(PAGE_ACC | LAST_PAGE);
+  1873	
+  1874		nandc->buf_count = 0;
+  1875		nandc->buf_start = 0;
+  1876		host->use_ecc = false;
+  1877		qcom_clear_read_regs(nandc);
+  1878		qcom_clear_bam_transaction(nandc);
+  1879	
+  1880		nandc->regs->cmd = q_op.cmd_reg;
+  1881		nandc->regs->addr0 = 0;
+  1882		nandc->regs->addr1 = 0;
+  1883	
+> 1884		nandc->regs->cfg0 = FIELD_PREP(CW_PER_PAGE_MASK, 0) |
+  1885				    FIELD_PREP(UD_SIZE_BYTES_MASK, 512) |
+  1886				    FIELD_PREP(NUM_ADDR_CYCLES_MASK, 5) |
+  1887				    FIELD_PREP(SPARE_SIZE_BYTES_MASK, 0);
+  1888	
+> 1889		nandc->regs->cfg1 = FIELD_PREP(NAND_RECOVERY_CYCLES_MASK, 7) |
+  1890				    FIELD_PREP(BAD_BLOCK_BYTE_NUM_MASK, 17) |
+  1891				    FIELD_PREP(CS_ACTIVE_BSY, 0) |
+  1892				    FIELD_PREP(BAD_BLOCK_IN_SPARE_AREA, 1) |
+  1893				    FIELD_PREP(WR_RD_BSY_GAP_MASK, 2) |
+  1894				    FIELD_PREP(WIDE_FLASH, 0) |
+  1895				    FIELD_PREP(DEV0_CFG1_ECC_DISABLE, 1);
+  1896	
+  1897		if (!nandc->props->qpic_version2)
+  1898			nandc->regs->ecc_buf_cfg = cpu_to_le32(ECC_CFG_ECC_DISABLE);
+  1899	
+  1900		/* configure CMD1 and VLD for ONFI param probing in QPIC v1 */
+  1901		if (!nandc->props->qpic_version2) {
+  1902			nandc->regs->vld = cpu_to_le32((nandc->vld & ~READ_START_VLD));
+  1903			nandc->regs->cmd1 = cpu_to_le32((nandc->cmd1 & ~(0xFF << READ_ADDR))
+  1904					    | NAND_CMD_PARAM << READ_ADDR);
+  1905		}
+  1906	
+  1907		nandc->regs->exec = cpu_to_le32(1);
+  1908	
+  1909		if (!nandc->props->qpic_version2) {
+  1910			nandc->regs->orig_cmd1 = cpu_to_le32(nandc->cmd1);
+  1911			nandc->regs->orig_vld = cpu_to_le32(nandc->vld);
+  1912		}
+  1913	
+  1914		instr = q_op.data_instr;
+  1915		op_id = q_op.data_instr_idx;
+  1916		len = nand_subop_get_data_len(subop, op_id);
+  1917	
+  1918		nandc_set_read_loc(chip, 0, 0, 0, len, 1);
+  1919	
+  1920		if (!nandc->props->qpic_version2) {
+  1921			qcom_write_reg_dma(nandc, &nandc->regs->vld, NAND_DEV_CMD_VLD, 1, 0);
+  1922			qcom_write_reg_dma(nandc, &nandc->regs->cmd1, NAND_DEV_CMD1, 1, NAND_BAM_NEXT_SGL);
+  1923		}
+  1924	
+  1925		nandc->buf_count = len;
+  1926		memset(nandc->data_buffer, 0xff, nandc->buf_count);
+  1927	
+  1928		config_nand_single_cw_page_read(chip, false, 0);
+  1929	
+  1930		qcom_read_data_dma(nandc, FLASH_BUF_ACC, nandc->data_buffer,
+  1931				   nandc->buf_count, 0);
+  1932	
+  1933		/* restore CMD1 and VLD regs */
+  1934		if (!nandc->props->qpic_version2) {
+  1935			qcom_write_reg_dma(nandc, &nandc->regs->orig_cmd1, NAND_DEV_CMD1_RESTORE, 1, 0);
+  1936			qcom_write_reg_dma(nandc, &nandc->regs->orig_vld, NAND_DEV_CMD_VLD_RESTORE, 1,
+  1937					   NAND_BAM_NEXT_SGL);
+  1938		}
+  1939	
+  1940		ret = qcom_submit_descs(nandc);
+  1941		if (ret) {
+  1942			dev_err(nandc->dev, "failure in submitting param page descriptor\n");
+  1943			goto err_out;
+  1944		}
+  1945	
+  1946		ret = qcom_wait_rdy_poll(chip, q_op.rdy_timeout_ms);
+  1947		if (ret)
+  1948			goto err_out;
+  1949	
+  1950		memcpy(instr->ctx.data.buf.in, nandc->data_buffer, len);
+  1951	
+  1952	err_out:
+  1953		return ret;
+  1954	}
+  1955	
 
 -- 
 0-DAY CI Kernel Test Service
