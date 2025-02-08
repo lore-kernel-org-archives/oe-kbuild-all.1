@@ -1,61 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B6619006F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Feb 2025 05:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973E6188938;
+	Sat,  8 Feb 2025 05:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738991167; cv=none; b=B870Ea99FwcefXYkLq9I3YnCWrPmmADx7kvYaSjiEnBono1ybjCB9FLowo6StOOL0jIhtfbWNi8knpgn44U5zCD6re7KvmSggcegozyr0nZ066RQImF9aV8OwQQMjiprR8e1HojU6u7S3BkZP/pM+mmrFVeVx4ZCaw1iUQAoX7s=
+	t=1738991168; cv=none; b=Wm0IOPDF4yCfgn73bFCE7fmxeVBxKOwgpfln/xHYkd1MK0nJiJnNPo9qwceBWqza6CytdqiQNxyFtDmGZoI8ORPnlHZmzevd9X0rqozs8Gp8e+nS5laD7059OMaqTKX8KCPJlM6uuRILqyN4I0C/Lu/aBFgv/xCqWJLQ/EYVpGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738991167; c=relaxed/simple;
-	bh=RJBZL6UZs19a6OzJHcM479GtWYHXlJb/vFweOUwBJI8=;
+	s=arc-20240116; t=1738991168; c=relaxed/simple;
+	bh=m0g7hmMIIdKW3hcbFcSJsacbfGpHX2VNfkJTRpDeFU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f4NVEVu2UVttXKTsbi52i/UW+nkMEVVwP5+3UUKHwYUZImFpafop4+zmx90+InRm/00YSSS8ngKw5Q3XzZoA9diKKmC1r0UMJ/YrN7MYkyYIf9zT77/omQ/LNVAYp9zFD8NrEwCuU0Xu1AqvpEmpjjXGsVKXouUDDS/Q1xrjj0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATlFjIiv; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=BFhkFuLeoDcSuIaUt2tyY9BtqVtWBKZaZaMKTCVz8hNbIUH7+4+edwfiKbow6zaingXSlpbgUY7wPII1eYVHhHp1S+NORQ5eNrgmvE/1LZejgMaUx0QEiHhMCBOWsX75spq75opx4U9jF8FUcxnbZWN9TlNAaGxusBy/xsO3aEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k6ozzINZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATlFjIiv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6ozzINZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738991166; x=1770527166;
+  t=1738991167; x=1770527167;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RJBZL6UZs19a6OzJHcM479GtWYHXlJb/vFweOUwBJI8=;
-  b=ATlFjIivwO5XPaAXrD+7+ujyxiahGFHz7A5uNUa/VLs2SNRFkwXeImNp
-   aGty4WYjr8s5VVU9HaaPtsuC6EKCm9IwhBXH0jsEqQoTYYxcIQQRs3tEr
-   j08GS4bmjEHhvwdRTenz9IgcM9Li6Ly//LHYX0OTZE+rY2YsXnPhM6jS4
-   i4v7iuJT/nQRb/smOzvNr61o+5c6oBNB2PPH9VL6B+dhvOM5UtkNjEhSD
-   z5CF19nIjGWHFjFWkRtlpbp1YezB5x4Z7TtMOdM3zXS29lwo3pfeUjVXx
-   toSmj9Q6qB6KpGJnOUmh2MfouIGMhpINu7K0PuM+wm/hZ1oTwxOK6pwL7
-   Q==;
-X-CSE-ConnectionGUID: HpmHFhmbSDyyVc/605sxJw==
-X-CSE-MsgGUID: FxDVQ2pmTVGKHpeXKlcVVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39330036"
+  bh=m0g7hmMIIdKW3hcbFcSJsacbfGpHX2VNfkJTRpDeFU8=;
+  b=k6ozzINZb17rO0SFitfIqAilsengqglwwJZyvD7oPwF8iRzb9g1ewMxD
+   KcFD9UouCIDDbmjRFkcrlgo1tmuCvY78CM+h33KXWvlGDZNeBOfv7ohB7
+   I2LxtqbBUCxmwCkzTGaZ+Znt5HVF7z2A8eq3KLXozCz70P0NwGddzyzXR
+   nhDrnFI7Hm1BtMzewcZuDo+W6MUxZiRGBaKGQjiyEs7nWhcPibYb8+o58
+   IVzS6uQh7N+N98gJIXDhD1KdxfDVpzo34AmpOv3tulBeGvCT1nblBke4D
+   QzmNx98cAzjsA2OIsqc5p2j5rBJtHZdtivy0G4+WAHTeU5RcG6LPhLpX0
+   w==;
+X-CSE-ConnectionGUID: 2nwPl9L9RqW5wDwhK2pHGw==
+X-CSE-MsgGUID: rZQXlqD3S7aI3Hg5cI7o/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39330043"
 X-IronPort-AV: E=Sophos;i="6.13,269,1732608000"; 
-   d="scan'208";a="39330036"
+   d="scan'208";a="39330043"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 21:06:03 -0800
-X-CSE-ConnectionGUID: 15yElDjIRxiN4I03NgkpTQ==
-X-CSE-MsgGUID: nO3xeBjjQbKDMZerdCnRkA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 21:06:04 -0800
+X-CSE-ConnectionGUID: bTV46BUgSJaY3od3boUvGQ==
+X-CSE-MsgGUID: aSTEt52AQ4idhLyhPiWo8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="116651552"
+   d="scan'208";a="116651551"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 07 Feb 2025 21:06:02 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tgd2V-000zY9-1n;
+	id 1tgd2V-000zY7-1j;
 	Sat, 08 Feb 2025 05:05:59 +0000
-Date: Sat, 8 Feb 2025 13:05:41 +0800
+Date: Sat, 8 Feb 2025 13:05:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>
 Subject: [akpm-mm:mm-unstable 146/165]
- drivers/video/fbdev/core/fb_defio.c:272:17: error: implicit declaration of
- function 'mapping_wrprotect_range'
-Message-ID: <202502081235.v7ook2My-lkp@intel.com>
+ drivers/video/fbdev/core/fb_defio.c:272:3: error: call to undeclared
+ function 'mapping_wrprotect_range'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202502081229.nVX901zo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,41 +73,43 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
 head:   8bf30f9d23eb5040d37e6e712789cee8e71e1577
 commit: 85d65aec481df149bc5280cf1ad5f9b76f59f153 [146/165] fb_defio: do not use deprecated page->mapping, index fields
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250208/202502081235.v7ook2My-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081235.v7ook2My-lkp@intel.com/reproduce)
+config: arm-randconfig-003-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081229.nVX901zo-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502081229.nVX901zo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502081235.v7ook2My-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502081229.nVX901zo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/video/fbdev/core/fb_defio.c: In function 'fb_deferred_io_fault':
-   drivers/video/fbdev/core/fb_defio.c:136:48: error: macro "fb_err" requires 3 arguments, but only 1 given
+   drivers/video/fbdev/core/fb_defio.c:136:34: error: too few arguments provided to function-like macro invocation
      136 |                 fb_err("no mapping available\n");
          |                                                ^
-   In file included from drivers/video/fbdev/core/fb_defio.c:19:
-   include/linux/fb.h:887:9: note: macro "fb_err" defined here
+   include/linux/fb.h:887:9: note: macro 'fb_err' defined here
      887 | #define fb_err(fb_info, fmt, ...)                                       \
-         |         ^~~~~~
-   drivers/video/fbdev/core/fb_defio.c:136:17: error: 'fb_err' undeclared (first use in this function); did you mean 'xa_err'?
+         |         ^
+   drivers/video/fbdev/core/fb_defio.c:136:3: error: use of undeclared identifier 'fb_err'; did you mean 'xa_err'?
      136 |                 fb_err("no mapping available\n");
          |                 ^~~~~~
          |                 xa_err
-   drivers/video/fbdev/core/fb_defio.c:136:17: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/video/fbdev/core/fb_defio.c: In function 'fb_deferred_io_work':
->> drivers/video/fbdev/core/fb_defio.c:272:17: error: implicit declaration of function 'mapping_wrprotect_range' [-Wimplicit-function-declaration]
+   include/linux/xarray.h:223:19: note: 'xa_err' declared here
+     223 | static inline int xa_err(void *entry)
+         |                   ^
+   drivers/video/fbdev/core/fb_defio.c:136:3: warning: expression result unused [-Wunused-value]
+     136 |                 fb_err("no mapping available\n");
+         |                 ^~~~~~
+>> drivers/video/fbdev/core/fb_defio.c:272:3: error: call to undeclared function 'mapping_wrprotect_range'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      272 |                 mapping_wrprotect_range(fbdefio->mapping, pgoff,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 ^
+   1 warning and 3 errors generated.
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for FB_DEFERRED_IO
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=m] && MMU [=n]
-   Selected by [m]:
-   - FB_SH_MOBILE_LCDC [=m] && FB [=m] && HAVE_CLK [=y] && HAS_IOMEM [=y] && (SUPERH [=y] || COMPILE_TEST [=y]) && FB_DEVICE [=y] && BACKLIGHT_CLASS_DEVICE [=m]
-   - FB_SYSMEM_HELPERS_DEFERRED [=y] && HAS_IOMEM [=y] && FB_CORE [=m]
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=y] && MMU [=n]
+   Selected by [y]:
+   - FB_DMAMEM_HELPERS_DEFERRED [=y] && HAS_IOMEM [=y] && FB_CORE [=y]
 
 
 vim +/mapping_wrprotect_range +272 drivers/video/fbdev/core/fb_defio.c
