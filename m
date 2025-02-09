@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED25C4C9F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 08:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C27243369
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 08:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739090062; cv=none; b=jVPQEOEgUsOihATgd1pQjgFq96gTwEow6weCOTQX7iEGayasdmF7mriaKlfZE+heitvf28xttEBV0AUpMJ2omd8bzQuZwr4zQd8V3LK1nWnwMd28e78lIZKm43LA5lqBuDHw+awmcRP13odctvYc3rJQlGogAIkMRuA3sY1/aKI=
+	t=1739091383; cv=none; b=p4D/80fXXLjDrtc2zczDyk7b/hNC+PenhYcORs/T7hsGDaU0ufCwDu3kEO+tKm1vXr6/JcR3Z+7UI1rYv9mc5ujRbxG+vBJQ4SQ1QjPF0i//dDADWzkqDtV1oPRx5o3ZyK61gdtj2bcvgduKDllzMJLyI/caosaXz3Vcckq2cHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739090062; c=relaxed/simple;
-	bh=ibaHzK2tbx2iJGOyQV2XNEGc6tn7nTXinzE1MQQjlWM=;
+	s=arc-20240116; t=1739091383; c=relaxed/simple;
+	bh=AYClwSFsT326mdJJnn0PPoZo6gcy5VsJ6VsgQwwT2YE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pH9CgggxHndnDZhgRXFAETcQB+BoM1P19bC0zUbiV9WQLDe0ykDA03cZiahdmBRNjGBwsBWPuiGheZJzE2wDxCgnbfu3P+mmaSfVEbpMoE0gRTqShce5sI3MpKZUJmZuRELXz28DjzSwMGk+ZySy5Q+gPTNUylHYS5UqFM7I0jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRBj7qcR; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=jA6CD6Z13lNpJMNDvFofCBeARoY6/SGT+IgNG7ESwu+08pq5hkexbtT9UO6piXZMxoKGF8hCsX19EWRGgT+53tgYDTTcgvD5sCsYJD6zXcS3aZlEPReSoN3gfbpwfINy/LesMJ3oHSrTf7koDenhJ9bOSYQvrm6viuth+fhTgyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMCGb569; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRBj7qcR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMCGb569"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739090060; x=1770626060;
+  t=1739091382; x=1770627382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ibaHzK2tbx2iJGOyQV2XNEGc6tn7nTXinzE1MQQjlWM=;
-  b=BRBj7qcR40UZ9CmzQHpU0X6Z/9Bj86ExpjLX7l5If08EQD70Yi2K45Hv
-   BOOfMEEZ/7JhCilyoOsi2tvOGathZYoulOGsQIDxo5axHbxmzFRe079Vx
-   MDzHXpAxg8+y22Q9RH4/MkmVfiY8XtcAXwPpw9PA4hu+emgpWTNXoRe+B
-   tGZ//7x4ojfuX/fxCrkRnVJWbmjkSjpijzOPfqfAJNrLDD14/6l4vbk/k
-   HK7PbP0hP6xxb0vmHGIc9fio0nqCd5H+1Ve8dk9t8PhAkuxz/ka0ya4w3
-   EUo0vOaf0WyZ4mIUxMVsXhGXLbZsG79eUC6YNomFUNCBSQEHPtRBGjDzg
-   g==;
-X-CSE-ConnectionGUID: 0TG10h2eSH+z+gwKq4c+Mw==
-X-CSE-MsgGUID: 8LwV1hY/TkKQ2HzQ+jW/Tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43450306"
-X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="43450306"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 00:34:19 -0800
-X-CSE-ConnectionGUID: 2Ca1a8J3TkGVnc+8jWzsWw==
-X-CSE-MsgGUID: D+PZY/pKSm6Phyvis8/vmg==
+  bh=AYClwSFsT326mdJJnn0PPoZo6gcy5VsJ6VsgQwwT2YE=;
+  b=NMCGb569Aob9Q3yWaKusqY3rUIdaep0THD9KqQWz6GwRGkY9q9syMBpn
+   pQ3VEK/dZa692poVzDdCHml3BKilWelOU/9Aoq+vSb/Avr4Hw/dHoDkYo
+   5L1BOd/x9tR/YABgim1BTrvbk3idn0jZA2qfFcU8Kf0BnV0w2TZDzrKCR
+   iAAMVKKlA+ryPpxvZPraPCqsnVhq59nR7NGTak583rp6huC/3T2vHNpaU
+   bBNT+VroxXVUMuh/jginptGe48U1SVEPLjXXHUZqw6p/2+jGWF3aFD2mm
+   qcveSEayMBa8jJ2C3WDwLzJbMrPfKn4NAPDz6IUco2kK72zVJS7QbnuqA
+   Q==;
+X-CSE-ConnectionGUID: Gi327sibTBKUL5YzT9IM3A==
+X-CSE-MsgGUID: xSCPMS+gQTWDs1Wanf7BTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39801966"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39801966"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 00:56:21 -0800
+X-CSE-ConnectionGUID: H9K660x3Tmq6cMXpSI/QhQ==
+X-CSE-MsgGUID: ibn/vsAAQuGSIjMVZm1KkQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116509792"
+X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
+   d="scan'208";a="111738964"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Feb 2025 00:34:18 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 09 Feb 2025 00:56:19 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1th2lc-0011GX-0d;
-	Sun, 09 Feb 2025 08:34:16 +0000
-Date: Sun, 9 Feb 2025 16:34:06 +0800
+	id 1th36v-0011H2-27;
+	Sun, 09 Feb 2025 08:56:17 +0000
+Date: Sun, 9 Feb 2025 16:55:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_unaligned_test_skip_v1 75/77]
- arch/riscv/kernel/unaligned_access_speed.c:198:39: error:
- 'fast_misaligned_access' undeclared; did you mean
- 'vector_misaligned_access'?
-Message-ID: <202502091615.oPZdysXq-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1420/1420] mm/mem_reliable.c:126:5:
+ sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it
+ be static?
+Message-ID: <202502091601.sH0xhPOM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,59 +63,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_unaligned_test_skip_v1
-head:   aa50b53026d20b9d37c6d17a3cf2f42e65a2a636
-commit: 48a98b4fd16db3e47ba4de51cdc1ccf7965ee074 [75/77] riscv: Prepare for unaligned access type table lookups
-config: riscv-randconfig-002-20250209 (https://download.01.org/0day-ci/archive/20250209/202502091615.oPZdysXq-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502091615.oPZdysXq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   cc7cb040bd0afe96f1da94c9f21eda5a986510a5
+commit: 1845e7add95773a24019fb72bbea24a0a568663b [1420/1420] mm: Add reliable memory use limit for user tasks
+config: arm64-randconfig-r131-20250208 (https://download.01.org/0day-ci/archive/20250209/202502091601.sH0xhPOM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250209/202502091601.sH0xhPOM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502091615.oPZdysXq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502091601.sH0xhPOM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/mem_reliable.c:126:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:126:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
+     126 | int reliable_limit_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
-   arch/riscv/kernel/unaligned_access_speed.c: In function 'set_unaligned_access_static_branches_except_cpu':
->> arch/riscv/kernel/unaligned_access_speed.c:198:39: error: 'fast_misaligned_access' undeclared (first use in this function); did you mean 'vector_misaligned_access'?
-     198 |         cpumask_and(&fast_except_me, &fast_misaligned_access, cpu_online_mask);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~
-         |                                       vector_misaligned_access
-   arch/riscv/kernel/unaligned_access_speed.c:198:39: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/kernel/unaligned_access_speed.c: In function 'set_unaligned_access_static_branches':
-   arch/riscv/kernel/unaligned_access_speed.c:217:40: error: 'fast_misaligned_access' undeclared (first use in this function); did you mean 'vector_misaligned_access'?
-     217 |         cpumask_and(&fast_and_online, &fast_misaligned_access, cpu_online_mask);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                                        vector_misaligned_access
+vim +/reliable_limit_handler +126 mm/mem_reliable.c
 
-
-vim +198 arch/riscv/kernel/unaligned_access_speed.c
-
-f413aae96cda059 Charlie Jenkins 2024-03-08  186  
-f413aae96cda059 Charlie Jenkins 2024-03-08  187  static void set_unaligned_access_static_branches_except_cpu(int cpu)
-f413aae96cda059 Charlie Jenkins 2024-03-08  188  {
-f413aae96cda059 Charlie Jenkins 2024-03-08  189  	/*
-f413aae96cda059 Charlie Jenkins 2024-03-08  190  	 * Same as set_unaligned_access_static_branches, except excludes the
-f413aae96cda059 Charlie Jenkins 2024-03-08  191  	 * given CPU from the result. When a CPU is hotplugged into an offline
-f413aae96cda059 Charlie Jenkins 2024-03-08  192  	 * state, this function is called before the CPU is set to offline in
-f413aae96cda059 Charlie Jenkins 2024-03-08  193  	 * the cpumask, and thus the CPU needs to be explicitly excluded.
-f413aae96cda059 Charlie Jenkins 2024-03-08  194  	 */
-f413aae96cda059 Charlie Jenkins 2024-03-08  195  
-f413aae96cda059 Charlie Jenkins 2024-03-08  196  	cpumask_t fast_except_me;
-f413aae96cda059 Charlie Jenkins 2024-03-08  197  
-f413aae96cda059 Charlie Jenkins 2024-03-08 @198  	cpumask_and(&fast_except_me, &fast_misaligned_access, cpu_online_mask);
-f413aae96cda059 Charlie Jenkins 2024-03-08  199  	cpumask_clear_cpu(cpu, &fast_except_me);
-f413aae96cda059 Charlie Jenkins 2024-03-08  200  
-f413aae96cda059 Charlie Jenkins 2024-03-08  201  	modify_unaligned_access_branches(&fast_except_me, num_online_cpus() - 1);
-f413aae96cda059 Charlie Jenkins 2024-03-08  202  }
-f413aae96cda059 Charlie Jenkins 2024-03-08  203  
-
-:::::: The code at line 198 was first introduced by commit
-:::::: f413aae96cda059635910c462ede0a8f0385897c riscv: Set unaligned access speed at compile time
-
-:::::: TO: Charlie Jenkins <charlie@rivosinc.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+   124	
+   125	#ifdef CONFIG_SYSCTL
+ > 126	int reliable_limit_handler(struct ctl_table *table, int write,
+   127		void __user *buffer, size_t *length, loff_t *ppos)
+   128	{
+   129		unsigned long old = task_reliable_limit;
+   130		int ret;
+   131	
+   132		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   133		if (ret == 0 && write) {
+   134			if (task_reliable_limit > total_reliable_mem_sz()) {
+   135				task_reliable_limit = old;
+   136				return -EINVAL;
+   137			}
+   138		}
+   139	
+   140		return ret;
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
