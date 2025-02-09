@@ -1,173 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010004.outbound.protection.outlook.com [52.103.67.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4BE4C79;
-	Sun,  9 Feb 2025 07:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739085797; cv=none; b=qFElFgp6LppPF7B6BBQTFEcOE0SC1Eq924NMZA133OmYcfDqAnhLQnjWBoRhp+oyrZoRX3/CAYoDnVLq8ZLoPv+t6gVuTgNvF10bb9pdrFtZJUuzLA2T5qP2a/347ywI4LwzX/BL5ET0j5o7MHVaE/nHtjTehtUmvIZitUBL5Sk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739085797; c=relaxed/simple;
-	bh=5GqIc+1kCxkhd7PHGBP5vf6u6aXir0IC/lpMivcNzjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qj7ZXmQuboAnoInI4TE6W76+8ozYBqumEiqy6nONLBrywB5lKeGp0opcIDfpEYa7WyossIjykSl56KckTx5JivTVfHGzH+nybl5Yuu6MGc9dezwV0ZDF4em7A8p72CwDxyvkv8dugIv6/Dka3ihDNnFhL7WiZD9xZLC3cO+g0kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LuAd+8nT; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53F14C9F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 07:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739086245; cv=fail; b=JbVUUjTtKd5zofPGmzDrFeTeL/Gh4OuqJ5MGy7hJASucgbiaBkjRP6KhGkePr5r9sAjZhFrfFzT71B1l3ZNfSJgAgyb+cjIwqvEfXSrqmTx7o9HNbXFG0YEHV4ZeDM3/2tSZ3Dl3OtFvsD95QAhRJ0WRYQwBOmU058+Xo2gdJXc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739086245; c=relaxed/simple;
+	bh=lI5ggas/x1I0FrJyagnakuFe/3Sog9sQBMVij9iUTlQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=F1Z0O+EnG8aPOaC/r0GcOZGyUIM4JM1oiay/HFQuAANOZYjOQwZ+BpGfM7eZcQYPwm04aP4M1/MyreqT4HwBBTSfADAvyeQ5IP3uVVjnXCdX/E8FgflNRx1l0jN5TNvwJhVgFY5f5e1nEeNS0YFR6451ba7Ysd5GnhDS/dG+JGg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=QAeZKadV; arc=fail smtp.client-ip=52.103.67.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LuAd+8nT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739085795; x=1770621795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5GqIc+1kCxkhd7PHGBP5vf6u6aXir0IC/lpMivcNzjE=;
-  b=LuAd+8nT4QQa8QhP8aShnASIZiap74VFRxoGmPpUIg4rLw3VsvMiwp1z
-   oKiTJz7y6gMo0IDFpZItQ1BbbuQjdcdOm7zIVPJtbY6j+vgKw4YkP/AE9
-   JpxMIqkM4+XA1v27jHHGNXE0Q9A0EVKKgC5MGlhz+h9cE7mj4dDRd8ybv
-   /Y7R2wbF+RIeOi1tsZZSLzGZYfGfdunhRfQTMPl9bs3NpNmE38zny3jUA
-   5i3sZOkzhm+52a6R2kktjmMWP3Uf2xqwcVLYzzoKzYUGxj6twr5/5Nr5a
-   1tXhcH7Xp0aEt4T793eu7Hd5kd5U/IJUOSKhUtIogW/5zlOlpGp4N4Vvn
-   g==;
-X-CSE-ConnectionGUID: WnqYMvnQQIWlGvWWYrjf7A==
-X-CSE-MsgGUID: 4swB4KgcTF+nZb00omhKsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43345762"
-X-IronPort-AV: E=Sophos;i="6.13,271,1732608000"; 
-   d="scan'208";a="43345762"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2025 23:23:14 -0800
-X-CSE-ConnectionGUID: mkRfQn5lRKSOaj/45geYcw==
-X-CSE-MsgGUID: qhG2bFFvT8CbNdrGgGMsnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117104206"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Feb 2025 23:23:13 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1th1en-0011Cn-3D;
-	Sun, 09 Feb 2025 07:23:09 +0000
-Date: Sun, 9 Feb 2025 15:22:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_unaligned_test_skip_v1 28/77]
- drivers/mailbox/riscv-sbi-mpxy-mbox.c:1005:36: warning: unused variable
- 'mpxy_mbox_acpi_match'
-Message-ID: <202502091536.UuAYP9pL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="QAeZKadV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KV5pxIadSKPAw419JtXY8fSaG6RIEiCyOxHNpmoGqWOcYQYRyDs9DUgqgdELCzkAXwod7ccelFfHFLWKiRKPPOAgGrTHuCpXZks/nkBCCHwtK5pCU2wbowKr14k237Mf50QQlKMa4ZiILqEnuwdISPPYuKCMAb+5mnd+ODwHTfjGbvFmFHBofmIYXcoR74vtchMcTb1A99IRzxdDDeBCOfdjU724vNGGuc+d+GIAz8WukRtbI5IiEy+8wb0BxfqVNOee7ahG+D09IEqahuy0v6HgO44xverDD2odtlieXn43C+TDHl8sSwKJ7KOztpxtzar1DLk3vePobeH9gRUt+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lI5ggas/x1I0FrJyagnakuFe/3Sog9sQBMVij9iUTlQ=;
+ b=DSr5DM0zsqzV2LihVFMUevfG8xwLx7A+/ydxXeuyi8cnZ+RoJC17ybbxASBZw2nMC8R0knNlVN7TZArTuDIQCTDtM99UcEQNKa8ZawPuy8ZNg5aeVhAxt07/E1u1Q+H+9hn7sy61sYxroA3mRr+M9f+xc8E9wHMIuj2moP9EyEwQwFAPI1OuBj4XJDtC1JK/pTUPGUXKGqsV2vEvBUtWY/8haXi6B0DSvpyBPXJiEC66KK/FtfEbTrp584sP/Mpdw8MmorFJClgNd9NF2BoInEQ9RteP3w299FXKvCPzIbBjGt6FoBEMEKDeADJ+OkkGfkPL/w8TcDEtILpoE7GxAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lI5ggas/x1I0FrJyagnakuFe/3Sog9sQBMVij9iUTlQ=;
+ b=QAeZKadVlzoJ3l8LQ/t7p5fF3xjEzCsUlkkjekK832WLmyLHFXpYGUZwktJkGZRv5XnHX2zdLnC/PPkUFmOgvmr14RwQ/X2GT+q0F8PLyEeaINS6jhXWLjw3gc9rBgoGvvzjyZRIaaaf7v//LVjqzEn7FAZVxgrw2b6dJfk2NE0Z5ao7vN0BXNU50fOJVRi/NEjXViv9BH4Oio0HQAsROr7sgR9CE0tGyw23dcXSP6Rt/hZgqU4HCFIFscvn2cbCVouMnL+k4nO8UCCZKdNKLAs0aO54hZZiv+Rcq1jLUNp6m1p+TabslCsDCrdrZtSTGul/vdtd+aLVpraQwGwWaA==
+Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:110::10)
+ by PN3PR01MB10379.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1e0::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.17; Sun, 9 Feb
+ 2025 07:30:38 +0000
+Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::972:abe8:752:bbde]) by PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::972:abe8:752:bbde%5]) with mapi id 15.20.8422.015; Sun, 9 Feb 2025
+ 07:30:38 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: kernel test robot <lkp@intel.com>
+CC: Kerem Karabay <kekrby@gmail.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, Jiri Kosina <jikos@kernel.org>
+Subject: Re: [hid:for-6.15/apple 2/4] drivers/hid/hid-appletb-kbd.c:119:18:
+ sparse: sparse: symbol 'appletb_kbd_attrs' was not declared. Should it be
+ static?
+Thread-Topic: [hid:for-6.15/apple 2/4] drivers/hid/hid-appletb-kbd.c:119:18:
+ sparse: sparse: symbol 'appletb_kbd_attrs' was not declared. Should it be
+ static?
+Thread-Index: AQHbeqSRi0NvRdMETEuilhP4auL2hbM+k7AA
+Date: Sun, 9 Feb 2025 07:30:38 +0000
+Message-ID: <0D0DB51C-2D9A-401A-B471-42A027CA45E0@live.com>
+References: <202502091105.ZsLoBSIh-lkp@intel.com>
+In-Reply-To: <202502091105.ZsLoBSIh-lkp@intel.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN0PR01MB9608:EE_|PN3PR01MB10379:EE_
+x-ms-office365-filtering-correlation-id: b266e36a-454d-4d28-a593-08dd48dba660
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|15080799006|461199028|7092599003|8062599003|19110799003|8060799006|1602099012|10035399004|3412199025|4302099013|440099028|102099032;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?UDRlSG1jYkJ5Sjk3elZEem1BbUtadEpqSG1wMjJNRm85R3hhbXloaldxQ0F1?=
+ =?utf-8?B?MWkwVW9vOU9Qdk53ZU5SMFZOelF0MmVaMFBpUXpFdzdEK0d0MG1TK1hFdzU2?=
+ =?utf-8?B?dEdkVnVNTE1jVzB2K0E4TW41NGcyaGl5ZDdaTk5SZThsVzBBd0NrdktUU2Jj?=
+ =?utf-8?B?MEFMVG9jaWpQWUFGZ0FWamxlTnNmZE5WeHRtWC9CQUd2T0R2b1NTTmFlODFm?=
+ =?utf-8?B?c2xKamV6Zjczbmg5MkNBdGxVM0cxMmxZVG43N0NYWnlNZnRPKzJma3VLQVBI?=
+ =?utf-8?B?RkdqUjViSXFYZUM1M1VNUFBtb2ZFK2RBN3ZSamRCa0cyd1NoUzZhT3RQd1Y4?=
+ =?utf-8?B?UWIwQURxckVuVzNScUx4eFhKbE81QmVHYndlTk1SUWZETmRVeEIxY3lxQnd3?=
+ =?utf-8?B?V3RYNHdHM2FrU0taRktyWTBrS3czdEpqeXVZcTZ5bHNIQXZXdGEzdzYyRjZs?=
+ =?utf-8?B?SmRwYzJnQTdpR2tiMnRRbzRnOFg3cjdpS1F2YWFCUm1GbkEreVFIbjFjWFdp?=
+ =?utf-8?B?ZWxoZVROeWREUlh1cUZ4UmdOL0loVTI1VHdWV3hlUnFJUjBoTm9OcldyWXpq?=
+ =?utf-8?B?QTNjUlp2Mm9qQXMrS05QTE5Ga0lFQkFxNCtQVmQ3akZKZnJYcUZRQnlISXpx?=
+ =?utf-8?B?dUIvSDNnWUtBUjQ1MUVxM0E0Yy9nSmtVMlpqR1d2SUxQY0dWc3B1aXdVS2Fm?=
+ =?utf-8?B?WG5MaHpsZUpOY0RZTEJyMXR0ODNnMUc4bDZlWlNobkF0RVRwWnRRSTN1V0Na?=
+ =?utf-8?B?N1c4THlNYWhiSEpkeGJOOXQvOTJIUEkrek1aWW9BUE9UWlVucGN2c0xUWklz?=
+ =?utf-8?B?MWlidkQ5MmNUbzJMaWdsdlZhQ2tpZjBGbE9uNzFZMzd3SG5qRlkwcm1vRjRH?=
+ =?utf-8?B?NDZXL3BZU2g4TzlRdHhSMExjMHRYRWVJT2VpMDhTVkw0WlV4L3lFTE90MlJJ?=
+ =?utf-8?B?dDBoeXJocmd0RDhTdnFBOXU2bFNreE92SWdUMVVieURRdFAxbUdNRm1weDRZ?=
+ =?utf-8?B?aGhkVmZ4SDVJUkRDS1dqbW1ZbnZyb3VXa1o2NllOWHFNNGRpb2Z0T2dYcDU3?=
+ =?utf-8?B?RHV2Y2V0cXhPYTlnb1cvREgycTFpK3lmaVJUeXREdU0vR1JGK3hobDI5a0pE?=
+ =?utf-8?B?TUtSYTlvWkU3RDIyejhVMjBERFhneVR0dnhGSTRxazNzUXI2R0J6VUZ5UnpG?=
+ =?utf-8?B?MXkwd0VpREIzQndGdTZTSTRYMlN5aVBNMGp0eG5tMWFHcW9rblFKSTVRYlBJ?=
+ =?utf-8?B?cFBSWWVmUHBra2YyaXJaUEFFV0NZdG1kS1JSYkJNeU9LMnFFb0NkVklMdVFS?=
+ =?utf-8?B?b0QxZDdjVTZYVmJNVFk5YVVLNHhhaFNHdnVFMmNHYU5KOUpuTC9DeG9RZlBi?=
+ =?utf-8?B?R1p1ZGVFQkJXL1VBMDcwTStHY0hHTkNRQWZMa0RTWTRIQlF3Qzh0K3N1ZUtk?=
+ =?utf-8?B?UTE0ZElJQmtRVThMWm9OZWl3T2R0QU9Qekl4aWpIT1FDWVQ4U1k5VG5BcVBC?=
+ =?utf-8?B?NzAvaUNCelk2NDN3R3F5R1c2KzdmUzNPUGlaWmV5Y3RNL0FRUVg1M09Dd3pa?=
+ =?utf-8?Q?F592tV2MqKEphPEQkhAJgObCgt+wjG4BxWKCDbp8DKOl3x?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?bmhldGt0bE0ycUQ1Z3Q2Y3lGc29RNllSK3BXZG5oaVB1ODBmQ0tCNmVNM01i?=
+ =?utf-8?B?UVNHT1JYLzQrNzBERnpQdHN0Smk0bGNUWDlVNC9ZU1RTRjFZckhMWWZISjEv?=
+ =?utf-8?B?c2orb25mM1hMbDZwQy9ycE5RMSswUjd1SmdvRmFZNUpUVEVtS0Zab040Z2p4?=
+ =?utf-8?B?QW9UdzZRZHdtQ2N3bitudVpMYW11K05vSGxyRGVVbGdjMVBSdnJtNHB0K3VI?=
+ =?utf-8?B?NDF6ZVpMb04wZlhyVkw1V1pHdE1TL3RadkJ0MDBqSy8vM3N1WG04UXpKMkdx?=
+ =?utf-8?B?RDJPSXRrY0JQdHBLY21jRzJNVElhSXpxTmkvcUErSGhmNHRma3FqTkFOLytB?=
+ =?utf-8?B?USswcDBFL0FsUE1PZ0w3bkpOZlkrWVY1MEU0MHd1UTJwaDdqclp5b0Q1blVV?=
+ =?utf-8?B?RXk1WGdzazlNbTdEZGMxZktKZHRnRTMyNDlJd2RjRkdLWDRsQ0xoRnZrTC9i?=
+ =?utf-8?B?Nm1jektoMGVrbDFnTVVzd0dDZnlSRUp5K1hMaS9ZdFI5djhNcG9RTDROOEI2?=
+ =?utf-8?B?UEdOMjAvbTFDaGh3MkZUVWlYYmkwQlhGUnJ6TlVCTVFFa3JGRkNDQXpQY3pq?=
+ =?utf-8?B?N0hGdS9LbjVBMlcvdnlOTzdZRHh5N3VEUDZzRWh1b2UyTjkrOVp3M25EL3Fi?=
+ =?utf-8?B?SjRId2VCTHNXTzN6TldveHZhZGNSZERMUlBRTFhBMzh3Myt4N055cjRtRWQz?=
+ =?utf-8?B?UDBnRDdhNUZrT0d2SUZnbFI3UmxXN0YzdzB0dHBSSGxtZkhnUURqVEl1bzZ0?=
+ =?utf-8?B?dDhTVjBXb2tEaC9BRVp4TVlyQjR2SXkrYVNUblZxZFJvajhCNmp1clgwTDht?=
+ =?utf-8?B?VytoeWxPZkJPTWlTbVA0ZWt3QkhJTkRQYzBJYkhTR1hQUGg2dVBVaGJ4d1BN?=
+ =?utf-8?B?WG5PU1Q1N2R5NmdYMkNETHJtT0xFUjdlVzlUdW5hZi9ndSsyc2VSY1Y0WGNF?=
+ =?utf-8?B?bGIzczVZMDAzZUliTkpqSUtBOHp3enBGd0RLcVZLZ3RrSDIxNEx0cDdsZ2JK?=
+ =?utf-8?B?SU9BZ0JIR2VKc0dCMExKdWJQS3FKZ1Z4cUc1emN2WHZMRlFDdSt3c1h0NTdW?=
+ =?utf-8?B?UUZjUnhaeDdVNHVyWWZBanpMd29tUm5GUWFnWVplLzJnd0thTmVUZVRtWlN5?=
+ =?utf-8?B?cnNQbEhGYWVOUVVEMzI2NGwrcU1xbnM0L05VZnVOejEvSXRwbW95bk5lQnZm?=
+ =?utf-8?B?cG84bnJYN1JQUHJEM0J6aWtVak5NOVFYa0FpTmVaczJrZTNTTURKaWE5T2E5?=
+ =?utf-8?B?ellzTnFaRWgzMk1mbUJxblVHWHNuVDZYc2NTNzhsOXpWUVkycGF0Z1pvaEVn?=
+ =?utf-8?B?VjBsRk12bVRyVzFSUVMrdXBHVkM3VGpXUDNDY2hGTFI0MkN3ZEFudDFQN1pa?=
+ =?utf-8?B?N0VqYzhHbm53YnFuczVoNTQ2ZjdwSGN6bllpRGdyRWk5NjdoeTdIM2RDK1Er?=
+ =?utf-8?B?Q2VoTGZleUFoQ1Z3Zks2SUtEWVZuQjVIV25YdHk2dnpqQ2l2TzJQK05mYkJr?=
+ =?utf-8?B?YXp1SnNXTVY4dld0eHhENFVaSDR6bGNrYkpwbzNJZkhMVFJJR051bUFIdXF2?=
+ =?utf-8?B?Vy9NMUVFWXFva3NDSXRQcy9jQUk4cDRkTGl1UGtwQTgzcmNFeFh0aXNWcHVC?=
+ =?utf-8?B?cDlHZVd5enhmdHptMzNMZzBObTdZRStnYllKNDI2aS9BaWx2c3djMFRDaDNX?=
+ =?utf-8?B?Sit0V21ZNlNnMmM3M2xTNWgyZmtnQzJjRmluQUg1VUx4cER5MWVNMFlRVWV1?=
+ =?utf-8?Q?uwSpfoOE0kM05UUj3hQ68Vu40tOy0HMCiezuxFo?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AC7F0DB6D17E9B45A3629BA3F53B1E24@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: b266e36a-454d-4d28-a593-08dd48dba660
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2025 07:30:38.2510
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB10379
 
-tree:   https://github.com/avpatel/linux.git riscv_unaligned_test_skip_v1
-head:   aa50b53026d20b9d37c6d17a3cf2f42e65a2a636
-commit: 13851aef320d7e43e85b08933a00593dd1322653 [28/77] mailbox/riscv-sbi-mpxy: Add ACPI support
-config: riscv-randconfig-001-20250209 (https://download.01.org/0day-ci/archive/20250209/202502091536.UuAYP9pL-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502091536.UuAYP9pL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502091536.UuAYP9pL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     804 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     812 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     820 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     829 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     838 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     847 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/mailbox/riscv-sbi-mpxy-mbox.c:20:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/mailbox/riscv-sbi-mpxy-mbox.c:1005:36: warning: unused variable 'mpxy_mbox_acpi_match' [-Wunused-const-variable]
-    1005 | static const struct acpi_device_id mpxy_mbox_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~
-   8 warnings generated.
-
-
-vim +/mpxy_mbox_acpi_match +1005 drivers/mailbox/riscv-sbi-mpxy-mbox.c
-
-  1004	
-> 1005	static const struct acpi_device_id mpxy_mbox_acpi_match[] = {
-  1006		{ "RSCV0005" },
-  1007		{}
-  1008	};
-  1009	MODULE_DEVICE_TABLE(acpi, mpxy_mbox_acpi_match);
-  1010	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rml4ZXMgc2VudCBoZXJlOg0KDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1pbnB1dC8z
+QUUzMUZEQS0yRjZCLTRDRkEtOUUxOS0wREVFQ0UzNjNEMzBAbGl2ZS5jb20vVC8jdA0KDQo+IE9u
+IDkgRmViIDIwMjUsIGF0IDk6MTHigK9BTSwga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5j
+b20+IHdyb3RlOg0KPiANCj4gdHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
+bGludXgva2VybmVsL2dpdC9oaWQvaGlkLmdpdCBmb3ItNi4xNS9hcHBsZQ0KPiBoZWFkOiAgIDkz
+YTBmYzQ4OTQ4MTA3ZTBjYzM0ZTFkZTIyYzNjYjM2M2E4ZjI3ODMNCj4gY29tbWl0OiA4ZTliOTE1
+MmNmYmRjMmE5MGE4YWNiNjhhY2JjMTQwN2VmNjdkMTM5IFsyLzRdIEhJRDogaGlkLWFwcGxldGIt
+a2JkOiBhZGQgZHJpdmVyIGZvciB0aGUga2V5Ym9hcmQgbW9kZSBvZiBBcHBsZSBUb3VjaCBCYXJz
+DQo+IGNvbmZpZzogYXJjLXJhbmRjb25maWctcjEyMi0yMDI1MDIwOSAoaHR0cHM6Ly9kb3dubG9h
+ZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjUwMjA5LzIwMjUwMjA5MTEwNS5ac0xvQlNJaC1s
+a3BAaW50ZWwuY29tL2NvbmZpZykNCj4gY29tcGlsZXI6IGFyY2ViLWVsZi1nY2MgKEdDQykgMTMu
+Mi4wDQo+IHJlcHJvZHVjZTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2
+ZS8yMDI1MDIwOS8yMDI1MDIwOTExMDUuWnNMb0JTSWgtbGtwQGludGVsLmNvbS9yZXByb2R1Y2Up
+DQo+IA0KPiBJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAo
+aS5lLiBub3QganVzdCBhIG5ldyB2ZXJzaW9uIG9mDQo+IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCks
+IGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MNCj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qg
+cm9ib3QgPGxrcEBpbnRlbC5jb20+DQo+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9vZS1rYnVpbGQtYWxsLzIwMjUwMjA5MTEwNS5ac0xvQlNJaC1sa3BAaW50ZWwuY29tLw0KPiAN
+Cj4gc3BhcnNlIHdhcm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pDQo+Pj4gZHJpdmVy
+cy9oaWQvaGlkLWFwcGxldGIta2JkLmM6MTE5OjE4OiBzcGFyc2U6IHNwYXJzZTogc3ltYm9sICdh
+cHBsZXRiX2tiZF9hdHRycycgd2FzIG5vdCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0YXRpYz8N
+Cj4gDQo+IHZpbSArL2FwcGxldGJfa2JkX2F0dHJzICsxMTkgZHJpdmVycy9oaWQvaGlkLWFwcGxl
+dGIta2JkLmMNCj4gDQo+ICAgMTE4DQo+PiAxMTkgc3RydWN0IGF0dHJpYnV0ZSAqYXBwbGV0Yl9r
+YmRfYXR0cnNbXSA9IHsNCj4gICAxMjAgJmRldl9hdHRyX21vZGUuYXR0ciwNCj4gICAxMjEgTlVM
+TA0KPiAgIDEyMiB9Ow0KPiAgIDEyMyBBVFRSSUJVVEVfR1JPVVBTKGFwcGxldGJfa2JkKTsNCj4g
+ICAxMjQgDQo+IA0KPiAtLSANCj4gMC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQ0KPiBodHRw
+czovL2dpdGh1Yi5jb20vaW50ZWwvbGtwLXRlc3RzL3dpa2kNCg0K
