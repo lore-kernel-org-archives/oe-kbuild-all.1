@@ -1,41 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4F61B87F5;
-	Sun,  9 Feb 2025 11:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5196715A87C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 11:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739100251; cv=none; b=Jex9veRjmcwrX3HlSJcql6N1UahpJU9Hb6EjgdT3E8OoXYycM1d7+zW5pX9UZ4cX+mKefXPlyRwnxRDX8aMYeQ02zo8pOdU+qQ2zwc0TkZvZojNC9BPcHutGLi2K+Jt+Lt45nwK1zhdVh33RtKNIwN1YhwvyhLvWcJVQmqVbJS0=
+	t=1739100700; cv=none; b=niw9/lZZjO2n6+KcwSTvW7KUcjXo9ZbCQp1cT+yOCbG43bE8kz9/tz/3+yhX0QRmvCMi+MlBQ7vWGkvlOQY53HBxyDHQc2XeC5unewb30RraACfd9/kSybccI593FHy2AiJS0nz8OpI8XxsQ/0Jc0OBUQ5RZyBX/HmX+1UQCLw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739100251; c=relaxed/simple;
-	bh=UHNdqv0EXE0B/ru7G2d2D0XYFCeH4J/1fbALQ/ig2Ec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fATaIdqYJ4wPlcFrurGjyVjnv3SsDH1tZtBClEuXzrSQ9XTh6m9PJpc9nocPcsxtJIzvyOSWmUl0lHk7WD8yNK0fdGIQ1R9hx2+WOyyJi5kOglkpcZKo2Od8WilxbvtuC+ka04SLx924r14hPKFOlturmTztZdDVK7gMKzCY94w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6YWPxyC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739100700; c=relaxed/simple;
+	bh=beW5uXdDs1vYTChWZI7QQEisYeUs1uY2gXjwZVDVV8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Tz4CMkiAPsifEuVoRKZRV4msWcfIBpcY+Cy4ebCCo5ZrgPFJUNZHX1D0sFLBLepQdwFssAplW8p5AhfEw6vAT34b1Rl62vKelZSsitdcERbMIUZhTAZ6RvfaB0WhUeyCCVw9qdcqybJAOYT7JI/94lWxzwLoefj76tklAlBB/9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGZiH2KA; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6YWPxyC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 154CAC4CEDD;
-	Sun,  9 Feb 2025 11:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739100249;
-	bh=UHNdqv0EXE0B/ru7G2d2D0XYFCeH4J/1fbALQ/ig2Ec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F6YWPxyCnM7miYEPEEkHDbNDwVh93wBpe/sMG5CI4YxHlyGagwtuoSqunI0IAmwi9
-	 iEk2Kies4Esytn/Ysq9xsX1z7H8bOx6eNBnBlwfYMmEUgRG99i6fF3vvS53EMdjmNB
-	 NPNJ6leRYPLOR8ZVevG/9Nr5+okhcBA6QC1afzgAT3/pOwVhjbLdoOcuvrGxRe9rYY
-	 hhQVIXWQaAn4yXKYgYkOERjBQxNsiBHbNQ9XGeEjNf8741LvRGZHujcNwt3KD1NBLM
-	 tXGiXXxdQylYcTDz6RD9SVD9OrI4LvcuPbG7//aU970yKSoL/YCs8/fL1A842ipgk3
-	 lYKTpEb9xYWNQ==
-Date: Sun, 9 Feb 2025 13:24:03 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Maher Sanalla <msanalla@nvidia.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [leon-rdma:rdma-next 76/77]
- drivers/infiniband/core/uverbs_cmd.c:1492 create_qp() error: 'pd'
- dereferencing possible ERR_PTR()
-Message-ID: <20250209112403.GC17863@unreal>
-References: <1ae70453-f983-4e0d-9707-02e041da0789@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGZiH2KA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739100698; x=1770636698;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=beW5uXdDs1vYTChWZI7QQEisYeUs1uY2gXjwZVDVV8s=;
+  b=AGZiH2KAjb4Qg+3uO4Gf4FV1ww/aVjc8zWZmbW+QugtpJKAtn6I7tegV
+   75Bx6gd8hhEsv584GjKcxgP2vAjJ8sCaXywKk82PHg0Akd5JFtr4GqFsH
+   3WSfbkTwD+B5NfopfzJNSOjqeXWZbh9imTuHlezg0zSTUqC6netBqlDt4
+   jMmT1S7BL5i1AsaXLanKsKOeJsDKteg4gArI3W2maaHqKFiZq6dRSNeSX
+   sdC4JAy12vGT5E/0Sq3xFaYHmDs1eFWNoR5EdozjgbEaRbVGYrEbgHMy6
+   ZyftZhqbUHzUesarOCaxnAkO89g8FvI7TZmEHyqNIsIXChlZ7xHFEMPag
+   g==;
+X-CSE-ConnectionGUID: 41BhHmD3SFKSDa0+d7XAkw==
+X-CSE-MsgGUID: UUFVDGH7T8OJ8twJIx8fKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39807945"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="39807945"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 03:31:38 -0800
+X-CSE-ConnectionGUID: tNKIGTqOTAq5A1r36uAXUg==
+X-CSE-MsgGUID: MzfVJorzTGKB0/6L4WUtgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116015505"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Feb 2025 03:31:34 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1th5XC-0011P9-0R;
+	Sun, 09 Feb 2025 11:31:34 +0000
+Date: Sun, 9 Feb 2025 19:31:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, James Morse <james.morse@arm.com>
+Subject: [morse:mpam/snapshot+extras/v6.14-rc1 137/165]
+ drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted
+ __le32
+Message-ID: <202502091954.KSuOsOcP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,28 +62,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1ae70453-f983-4e0d-9707-02e041da0789@stanley.mountain>
 
-On Fri, Feb 07, 2025 at 10:48:48AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-> head:   98119a2a0f09ec10bf3a35026f43a0e5732be742
-> commit: 84633f80b89acfaa55e09c273f27843a2277143e [76/77] RDMA/uverbs: Propagate errors from rdma_lookup_get_uobject()
-> config: i386-randconfig-141-20250207 (https://download.01.org/0day-ci/archive/20250207/202502070936.x78bftbK-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502070936.x78bftbK-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/infiniband/core/uverbs_cmd.c:1492 create_qp() error: 'pd' dereferencing possible ERR_PTR()
-> drivers/infiniband/core/uverbs_cmd.c:1494 create_qp() error: 'scq' dereferencing possible ERR_PTR()
-> drivers/infiniband/core/uverbs_cmd.c:1497 create_qp() error: 'rcq' dereferencing possible ERR_PTR()
-> drivers/infiniband/core/uverbs_cmd.c:1500 create_qp() error: 'srq' dereferencing possible ERR_PTR()
-> drivers/infiniband/core/uverbs_cmd.c:1503 create_qp() error: 'ind_tbl' dereferencing possible ERR_PTR()
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot+extras/v6.14-rc1
+head:   5ae8648f2b4bc8b0af2425c5a22548d5bcfd3a69
+commit: acf6e613a77a2b3cf5d46838d6a940e7a672b4fe [137/165] firmware: arm_scmi: add MPAM-FB SCMI protocol stub
+config: m68k-randconfig-r121-20250209 (https://download.01.org/0day-ci/archive/20250209/202502091954.KSuOsOcP-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250209/202502091954.KSuOsOcP-lkp@intel.com/reproduce)
 
-<...>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502091954.KSuOsOcP-lkp@intel.com/
 
-Thanks, fixed and squashed locally.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted __le32
+>> drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted __le32
+>> drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted __le32
+>> drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted __le32
+>> drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted __le32
+>> drivers/firmware/arm_scmi/mpam.c:32:28: sparse: sparse: cast to restricted __le32
+
+vim +32 drivers/firmware/arm_scmi/mpam.c
+
+    12	
+    13	static int scmi_mpam_transfer_buf(const struct scmi_protocol_handle *ph,
+    14					  u8 msg_id, void *msg_buf, size_t msg_len,
+    15					  u32 *ret_val)
+    16	{
+    17		int ret;
+    18		struct scmi_xfer *t;
+    19	
+    20		ret = ph->xops->xfer_get_init(ph, msg_id, msg_len,
+    21					      ret_val ? sizeof(*ret_val) : 0, &t);
+    22		if (ret)
+    23			return ret;
+    24	
+    25		memcpy(t->tx.buf, msg_buf, msg_len);
+    26	
+    27		ret = ph->xops->do_xfer(ph, t);
+    28		if (!ret && ret_val) {
+    29			u32 value;
+    30	
+    31			memcpy(&value, t->rx.buf, sizeof(value));
+  > 32			*ret_val = le32_to_cpu((__le32)value);
+    33		}
+    34	
+    35		ph->xops->xfer_put(ph, t);
+    36	
+    37		return ret;
+    38	}
+    39	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
