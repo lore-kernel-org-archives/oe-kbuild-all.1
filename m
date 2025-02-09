@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467601DF973
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 16:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695AD1DCB24
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 16:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739117651; cv=none; b=skEtObTWbYondKGaHIFLhKE84fTR5vHQadvaiz7TpG5yy6jKAsJrZfItwBlyc3xSNb/hw9UxttgAXgVJJvBJHFGQ0fTh+xcnTfPWqFKWc9tlN4z+10RUwwHCpVgx4DCriK0R/4tAt8f/Wqe038Uma0jlapBCzRx2FnRZhDsQL+4=
+	t=1739120116; cv=none; b=Irazzc8bVI3noJA0rpgi9hyoVCNTcfeqXJzQmA8H1qognDN22xcqwNP13ZLvNAG9ShHO7MJJSDGGtseJkif3v4KA/rZiWukBN1EW0okjfmXTRIk7MeKsypCeDf8IpohZrnwr8/oozoOwB1bxJiGUJ+w0F8c6vXzS0zVagrIsMK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739117651; c=relaxed/simple;
-	bh=UXlmCg1pqQ3pX2ppD94ehT6ABO4k5BwPVSL5+vMWQOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nBtgazQAahSK7doFO/r63++Rb8ArBAV3xrzxjCUCFEC5shRsVu8WmeYL6T/Syr20t8qILDtwWiMDBCVCDKRNJB3LAEVcH2qgBg3RTNj+2Nk4Bj7Axz23XdWQPMnRCpjAlIuUWIgXdK5P+Q7O5GUl/9LJ8ZtAAO7GiCB1LxiFpII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWvqM6pf; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1739120116; c=relaxed/simple;
+	bh=14Gbc40vH/LGvz81BBABcSPKxrmHTY1anjXiSgClj5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IFzTZIchYRj7+97aMbgQKl0ss+lVq2QI1MdWJ3vfCfNUVm+Yqx4B/f6Be+frYVzuTmJ3XAHaYf1XfXrLqThQ7YvO+xNOoWP0ZQ/isyBQFRN731cDGVS83JcnRs5k4jDUQLtROnoU+sicHhBGl1jCURZnWrsf8H03EKP1JBIVvIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XgUN8wlc; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWvqM6pf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgUN8wlc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739117649; x=1770653649;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UXlmCg1pqQ3pX2ppD94ehT6ABO4k5BwPVSL5+vMWQOw=;
-  b=NWvqM6pfLhTvCGo8kVNPxy9H0JDztXtKjq1SGwK2P69lXiqpj6Vw6VK8
-   6hmUcsDt82DxyRN5MN8/gMnj9Pm+1pmFWBvo1+NpnZPcV3yeqGJ0zM6HU
-   Wz503lRZd/Nnvmuo83Bb9DKevpZpbpgXJqZp0MJGvmsem1gZuMRDPagQc
-   Zz8j5ToU//X6J234MIHXPL7+OUiT2e7XXk1041lM4u6GJGFSCnz/apppV
-   yWvli4SCkgacK8PZXdHiwH+T1X5xfj1A06JN8wS4JGZ1ApQYvLfXrrHnh
-   +gptISWnNyiSMw+nbxgTPl+WwQqgJmsdN9mYnZGIbduL6EiILluA/MJrC
-   A==;
-X-CSE-ConnectionGUID: 0CZDzGyOTXa/iJ4zY3MV1g==
-X-CSE-MsgGUID: 6u09I1AxStOcd86GxCQAuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="57235993"
+  t=1739120115; x=1770656115;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=14Gbc40vH/LGvz81BBABcSPKxrmHTY1anjXiSgClj5s=;
+  b=XgUN8wlc1r6XCu1JzUszpPOedgjHTv1QOzajbJggLIDHIYDiI58YJe/c
+   acF4mKB40utoipYcGrCkGpa+qUQ1Ca+X+RnNPyZfZ3O7Wmyjr6SqnZ+gA
+   CEZFYbLqcK/9mUq0efLTsGJDdFhOZxPSswSrFm8/eER19meGVBokmMAdK
+   8tDH1iEc5v+Xm/fk/IUv4LzR0rCT0AgopakQbXbKOw2PsRa/psHJ39vWu
+   rQd+ChRh4we4kxr0TPZm21PvfmA30TiZSo0WjtUN7qaYWj1yKXdwobgOP
+   ZrvL2nx26sa12NIXYh1vdP9x61sV9v7rKjjoUXQM+zRNrWOSt3yvcxUkc
+   w==;
+X-CSE-ConnectionGUID: h6G6J5jeSaW87BuK6T98qw==
+X-CSE-MsgGUID: v359qQ/2SPa6PJJk7deGzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39613210"
 X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="57235993"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 08:14:08 -0800
-X-CSE-ConnectionGUID: RysUWHh6RhyGkv0lj9bBeQ==
-X-CSE-MsgGUID: IalT7e6iTxCmDfxFfXrf6w==
+   d="scan'208";a="39613210"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 08:55:14 -0800
+X-CSE-ConnectionGUID: QebUnKI4SZKqYzxRDLEmwA==
+X-CSE-MsgGUID: /NsRg2IrQLS2Rwp9vrQzTw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="112482636"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116057560"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2025 08:14:07 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 09 Feb 2025 08:55:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1th9wb-0011fT-1Y;
-	Sun, 09 Feb 2025 16:14:05 +0000
-Date: Mon, 10 Feb 2025 00:13:07 +0800
+	id 1thAaL-0011hP-3C;
+	Sun, 09 Feb 2025 16:55:09 +0000
+Date: Mon, 10 Feb 2025 00:54:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.13-rsslro 110/110]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000:
- pinctrl-names:1: 'state_uhs' was expected
-Message-ID: <202502100003.uHh1yIyp-lkp@intel.com>
+To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
+	Nilay Shroff <nilay@linux.ibm.com>,
+	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+	Ming Lei <ming.lei@redhat.com>
+Subject: Re: [PATCH 7/7] block: don't grab q->debugfs_mutex
+Message-ID: <202502100010.Kok1H3KF-lkp@intel.com>
+References: <20250209122035.1327325-8-ming.lei@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +66,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250209122035.1327325-8-ming.lei@redhat.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-rsslro
-head:   cb6612a57bbcc77b70a9fc1c521c14c48303714d
-commit: cb6612a57bbcc77b70a9fc1c521c14c48303714d [110/110] msdc: multi-slot support
-config: arm64-randconfig-052-20250209 (https://download.01.org/0day-ci/archive/20250210/202502100003.uHh1yIyp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100003.uHh1yIyp-lkp@intel.com/reproduce)
+Hi Ming,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on linus/master v6.14-rc1 next-20250207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/block-remove-hctx-debugfs_dir/20250209-202320
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20250209122035.1327325-8-ming.lei%40redhat.com
+patch subject: [PATCH 7/7] block: don't grab q->debugfs_mutex
+config: arc-randconfig-001-20250209 (https://download.01.org/0day-ci/archive/20250210/202502100010.Kok1H3KF-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100010.Kok1H3KF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502100003.uHh1yIyp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502100010.Kok1H3KF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11200000: clock-names:4: 'xhci_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11200000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11200000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/audio-controller@11210000: failed to match any schema with compatible: ['mediatek,mt79xx-audio']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names:1: 'state_uhs' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names:2: 'state_eint' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names: ['emmc-default', 'emmc-state_uhs', 'sdcard-default', 'sdcard-state_uhs'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: 'vmmc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: 'vqmmc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: Unevaluated properties are not allowed ('pinctrl-3', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0: failed to match any schema with compatible: ['mediatek,mmc-slot']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: card@0: 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0/card@0/block: failed to match any schema with compatible: ['block-device']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1: failed to match any schema with compatible: ['mediatek,mmc-slot']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: card@0: 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1/card@0/block: failed to match any schema with compatible: ['block-device']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcie@11280000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie'] is too long
-   	'mediatek,mt7988-pcie' is not one of ['mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
-   	'mediatek,mt8192-pcie' was expected
-   	'airoha,en7581-pcie' was expected
-   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcie@11280000: failed to match any schema with compatible: ['mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie']
+All warnings (new ones prefixed by >>):
+
+   block/blk-sysfs.c: In function 'blk_debugfs_remove':
+>> block/blk-sysfs.c:745:31: warning: unused variable 'q' [-Wunused-variable]
+     745 |         struct request_queue *q = disk->queue;
+         |                               ^
+
+
+vim +/q +745 block/blk-sysfs.c
+
+8324aa91d1e11a Jens Axboe        2008-01-29  742  
+6fc75f309d291d Christoph Hellwig 2022-11-14  743  static void blk_debugfs_remove(struct gendisk *disk)
+6fc75f309d291d Christoph Hellwig 2022-11-14  744  {
+6fc75f309d291d Christoph Hellwig 2022-11-14 @745  	struct request_queue *q = disk->queue;
+6fc75f309d291d Christoph Hellwig 2022-11-14  746  
+6fc75f309d291d Christoph Hellwig 2022-11-14  747  	blk_trace_shutdown(q);
+abe3d073fa86b7 Ming Lei          2025-02-09  748  	debugfs_lookup_and_remove(disk->disk_name, blk_debugfs_root);
+6fc75f309d291d Christoph Hellwig 2022-11-14  749  }
+6fc75f309d291d Christoph Hellwig 2022-11-14  750  
 
 -- 
 0-DAY CI Kernel Test Service
