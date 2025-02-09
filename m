@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1B53FD4
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 10:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D471213DBA0;
+	Sun,  9 Feb 2025 10:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739098176; cv=none; b=oE+pPnUBnVB9ULN6J8vchSctXYAoc69DLs8B5JZQ84XemHM2An7y/gFt5XHmhOGJXxA5wQJiqeUCPp4s3nIZH+9PjXDxcg+McBzSjyo94wJQZ5w5vWh9pB6k+FslgXFzlolW+9q6vGYGPS4KnlSba8bofQcoXLPVR1mAz8YgPOs=
+	t=1739098176; cv=none; b=PJQShEOt1bA6BdYyQEQo/HFqqMEE4gRQerQ/MrANtn2PDdK/1nTMnV8bEqwWS5kSfrPa/BtbX4rWPpnK1U8p3beXz7/mOrm854m3IG1TeE9hvSo4+jahRlWiwoKs5kRalPayGCkjvu1zQZ11JpOhUirTRnivwLc8ka8OyHlL3m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739098176; c=relaxed/simple;
-	bh=De5m1YVev61eXvqtDQPWdVCsIdsugNEqs6KURoedcK8=;
+	bh=jgVffz6pWpd3nWaNApVq+/g346kd5Nrp2vT9fB4yFcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=txLZmphE70+PyBZco5+EJJwcKlDHEd6H9VMRuEHbeOzxmIqdvlG6hTONR69QRGzrRtybBkWctieAkclqGyEwgFb8X7ilFwkyzTiJ3DGPSK3leuKLeFaLsEW3ZSES6yHaBBK7maXwpvpDhYQBtpgZIQMmc9pJ5zIg3WQQENrEa7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWu9xc03; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=sy2eYAhFg3Uu19ZpSB6ZY+ut+cSQv/I3gOXHk2lQA05u4KPdHGJqkXHf1Ofmwrx3r7KOmudzTIIb1sb+T1CjvtGPJTICzGNx8Fnsyxn7pSbuZxZMYUpuiGoC02l0b3BOuz29HBe1DjWnzYd0K6AT3BEXfjCo+YmxaOoaaPnZlMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z0hBxjE4; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWu9xc03"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z0hBxjE4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739098174; x=1770634174;
+  t=1739098175; x=1770634175;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=De5m1YVev61eXvqtDQPWdVCsIdsugNEqs6KURoedcK8=;
-  b=YWu9xc03qwBloHnjUtuKCqpg/qYeQcGtkhZsIh9iSwvLGuOAGuOh44aW
-   pX7afdxcP5YeNwZhrzZf97YYLIdxPM+NXYBMV7MBOv+GjInHLUe3Xe3rv
-   /u0TcK3L9zzrFhAHSOh9+em2nKqm1iE/vdCCEdc3dtjRxXzOWEwP6PMI3
-   DFF7zOEZv5mYWYkDuoAtH4viEWbIUYxvSDQL6ImyXQMm1OUcyDhUbnchP
-   B6GXftLe4TOG83A5LwhfFJN8TQ5ajraMvZjadXhewew2EZ8mbsjVG7OIK
-   BzW2BI2qJLd+XC5t13Wlo8BFY7u03+so3tZqdMvYUWwRWZhXqXxVd7346
-   g==;
-X-CSE-ConnectionGUID: MUNpZZVsRHOihSc/w+B8dg==
-X-CSE-MsgGUID: kmmm0FA2TkudhHfQPpB2lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="39558479"
+  bh=jgVffz6pWpd3nWaNApVq+/g346kd5Nrp2vT9fB4yFcs=;
+  b=Z0hBxjE4IIo+u9MG9/Jxl9uWUhuAkbWkjqMVItJlYbXSIFQiXIS5aC1g
+   YUIq4if7kqbdqCkYNyauT0zL1ACU1uPjsAKaOJzrvu7QJzmZ2Mq+Jn9N3
+   5x49+1bhY6ZBO7knQ/ZlCSL7K1MDoIBBJpw5uNgOM65kapJBFN0nfJa5z
+   NhcU17OKXYjw38wKLjkNKLFBV9S0bQh5GAu4IHM1+O45Nw038UvjOjfeS
+   Oj5W8bZyDvLslF1My9P4uLheq1STcnvewABm60cc9aDVxYcNrlh8M8FDd
+   JbTI5Jr7XDklY1SIiWXG0WzjggnEHVGA2DM9W7A5NtwfFdAyKRm9H+kzw
+   Q==;
+X-CSE-ConnectionGUID: 8UGVPBYFR5Cvty56lAtZ2w==
+X-CSE-MsgGUID: 2dEzyPxOTWWeOqKyHl0xhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11339"; a="43614308"
 X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="39558479"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 02:49:34 -0800
-X-CSE-ConnectionGUID: 4dGj+rGmSUKAFJRLU96Gjw==
-X-CSE-MsgGUID: oU0UjIANRMGWIlIej4F4yQ==
+   d="scan'208";a="43614308"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 02:49:34 -0800
+X-CSE-ConnectionGUID: 9VL2oWQXTSeVYOLKbb1X3Q==
+X-CSE-MsgGUID: AOWasBjZRpOvc51EwuNHgQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="116866047"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112813958"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Feb 2025 02:49:33 -0800
+  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2025 02:49:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1th4sU-0011Mi-0J;
+	id 1th4sU-0011Mg-0E;
 	Sun, 09 Feb 2025 10:49:30 +0000
-Date: Sun, 9 Feb 2025 18:49:08 +0800
+Date: Sun, 9 Feb 2025 18:49:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1420/1420] mm/shmem.c:1601:19: sparse:
- sparse: invalid assignment: |=
-Message-ID: <202502091809.4Ney4Px5-lkp@intel.com>
+To: James Morse <james.morse@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/snapshot/v6.14-rc1 68/124]
+ drivers/platform/arm64/mpam/mpam_devices.c:352:17: warning: result of
+ comparison of constant 18446744073709551615 with expression of type 'u32'
+ (aka 'unsigned int') is always false
+Message-ID: <202502091848.Rcd80pME-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,37 +64,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   cc7cb040bd0afe96f1da94c9f21eda5a986510a5
-commit: 3a3a1f75d885bc1d1a25bb753dd2cf9111c457f7 [1420/1420] shmem: Introduce shmem reliable
-config: arm64-randconfig-r131-20250208 (https://download.01.org/0day-ci/archive/20250209/202502091809.4Ney4Px5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250209/202502091809.4Ney4Px5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.14-rc1
+head:   a185f01212c6b5421e944bef6839d6d6660e2b8b
+commit: dfef24fe9ee10fc0c85f7bd6dec37e1fc003db85 [68/124] arm_mpam: Add the class and component structures for ris firmware described
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250209/202502091848.Rcd80pME-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250209/202502091848.Rcd80pME-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502091809.4Ney4Px5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502091848.Rcd80pME-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/shmem.c:688:9: sparse: sparse: self-comparison always evaluates to false
->> mm/shmem.c:1601:19: sparse: sparse: invalid assignment: |=
-   mm/shmem.c:1601:19: sparse:    left side has type restricted gfp_t
-   mm/shmem.c:1601:19: sparse:    right side has type unsigned int
-   mm/shmem.c: note: in included file (through include/linux/percpu_counter.h, include/linux/quota.h, include/linux/fs.h):
-   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +1601 mm/shmem.c
+>> drivers/platform/arm64/mpam/mpam_devices.c:352:17: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     352 |                         if (cache_id == ~0UL) {
+         |                             ~~~~~~~~ ^  ~~~~
+   1 warning generated.
 
-  1595	
-  1596	static inline void shmem_prepare_alloc(gfp_t *gfp_mask)
-  1597	{
-  1598		if (!shmem_reliable_is_enabled())
-  1599			return;
-  1600	
-> 1601		*gfp_mask |= ___GFP_RELIABILITY;
-  1602	}
-  1603	
+
+vim +352 drivers/platform/arm64/mpam/mpam_devices.c
+
+   316	
+   317	/*
+   318	 * The cacheinfo structures are only populated when CPUs are online.
+   319	 * This helper walks the device tree to include offline CPUs too.
+   320	 */
+   321	static int get_cpumask_from_cache_id(u32 cache_id, u32 cache_level,
+   322					     cpumask_t *affinity)
+   323	{
+   324		int cpu, err;
+   325		u32 iter_level;
+   326		struct device_node *iter;
+   327		unsigned long iter_cache_id;
+   328	
+   329		if (!acpi_disabled)
+   330			return acpi_pptt_get_cpumask_from_cache_id(cache_id, affinity);
+   331	
+   332		for_each_possible_cpu(cpu) {
+   333			iter = of_get_cpu_node(cpu, NULL);
+   334			if (!iter) {
+   335				pr_err("Failed to find cpu%d device node\n", cpu);
+   336				return -ENOENT;
+   337			}
+   338	
+   339			while ((iter = of_find_next_cache_node(iter))) {
+   340				err = of_property_read_u32(iter, "cache-level",
+   341							   &iter_level);
+   342				if (err || iter_level != cache_level) {
+   343					of_node_put(iter);
+   344					continue;
+   345				}
+   346	
+   347				/*
+   348				 * get_cpu_cacheinfo_id() isn't ready until sometime
+   349				 * during device_initcall(). Use cache_of_get_id().
+   350				 */
+   351				iter_cache_id = cache_of_get_id(iter);
+ > 352				if (cache_id == ~0UL) {
+   353					of_node_put(iter);
+   354					continue;
+   355				}
+   356	
+   357				if (iter_cache_id == cache_id)
+   358					cpumask_set_cpu(cpu, affinity);
+   359	
+   360				of_node_put(iter);
+   361			}
+   362		}
+   363	
+   364		return 0;
+   365	}
+   366	
 
 -- 
 0-DAY CI Kernel Test Service
