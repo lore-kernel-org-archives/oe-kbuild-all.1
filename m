@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695AD1DCB24
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 16:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B821DF246
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 17:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739120116; cv=none; b=Irazzc8bVI3noJA0rpgi9hyoVCNTcfeqXJzQmA8H1qognDN22xcqwNP13ZLvNAG9ShHO7MJJSDGGtseJkif3v4KA/rZiWukBN1EW0okjfmXTRIk7MeKsypCeDf8IpohZrnwr8/oozoOwB1bxJiGUJ+w0F8c6vXzS0zVagrIsMK8=
+	t=1739121981; cv=none; b=W63b0kE5vUBgLNxe882P11DWIFgO/1JJorjUchPcTTF+SX0lULIUVFXTLkFkk0XWX3WlA7OC8jlYxx2An+tbQ7XYAC1nfDnmWSaDdgW6rBUQZXnduy97q9QE/71smDzMp7VCzzW3YhN/qdixQxd5bEDNRyDSdX/4ApWr4ibCIdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739120116; c=relaxed/simple;
-	bh=14Gbc40vH/LGvz81BBABcSPKxrmHTY1anjXiSgClj5s=;
+	s=arc-20240116; t=1739121981; c=relaxed/simple;
+	bh=1+LNXsFOjhvHxlmKQUdFR2fSkH2jqnxwgGL7iflJX1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IFzTZIchYRj7+97aMbgQKl0ss+lVq2QI1MdWJ3vfCfNUVm+Yqx4B/f6Be+frYVzuTmJ3XAHaYf1XfXrLqThQ7YvO+xNOoWP0ZQ/isyBQFRN731cDGVS83JcnRs5k4jDUQLtROnoU+sicHhBGl1jCURZnWrsf8H03EKP1JBIVvIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XgUN8wlc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=XbuM89zOH9VMswBo+qholMakJJlgjA5rwCJrEtcCbYiModqbORt/SimuSOEEwzVsl68/OFW04CMIrG1NTupsnPHXOBKvAus9r20nHrjpfyY12G9B24x31YHBICv+cVT3GwNjKC+qOkiHLJ+XuabLSoW1sPJ9dwtpkhOoPz+PHxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTg/wK2P; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgUN8wlc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTg/wK2P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739120115; x=1770656115;
+  t=1739121978; x=1770657978;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=14Gbc40vH/LGvz81BBABcSPKxrmHTY1anjXiSgClj5s=;
-  b=XgUN8wlc1r6XCu1JzUszpPOedgjHTv1QOzajbJggLIDHIYDiI58YJe/c
-   acF4mKB40utoipYcGrCkGpa+qUQ1Ca+X+RnNPyZfZ3O7Wmyjr6SqnZ+gA
-   CEZFYbLqcK/9mUq0efLTsGJDdFhOZxPSswSrFm8/eER19meGVBokmMAdK
-   8tDH1iEc5v+Xm/fk/IUv4LzR0rCT0AgopakQbXbKOw2PsRa/psHJ39vWu
-   rQd+ChRh4we4kxr0TPZm21PvfmA30TiZSo0WjtUN7qaYWj1yKXdwobgOP
-   ZrvL2nx26sa12NIXYh1vdP9x61sV9v7rKjjoUXQM+zRNrWOSt3yvcxUkc
-   w==;
-X-CSE-ConnectionGUID: h6G6J5jeSaW87BuK6T98qw==
-X-CSE-MsgGUID: v359qQ/2SPa6PJJk7deGzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39613210"
+  bh=1+LNXsFOjhvHxlmKQUdFR2fSkH2jqnxwgGL7iflJX1w=;
+  b=LTg/wK2PdTD/ve3aJ+p80vfrFoF/1dXYy9AU/uSlrBQRTuLIIIac+zSJ
+   lz/rx2TrWiQyAh2yZeqrCI09BoIVOpcN8EWUxKDUwZwNMw3LBxh+bAsvr
+   EhnZCcK2J8A/uuEfWpDWS6/sjRPzMOnPGtYwtqqGUpnA6in5etFUVuLTF
+   u/TWuoRsk7SKOVhsUPFlpHrWpLzamOfVP40PQaDE306EB7Xxny/nyBVyJ
+   Ouc1cSxJEpoGUy00HE37zyDs40+pC9TglyTr4NHGK+SVRxdIIOIG7xy17
+   8//gueS0iZIU6llcXBKNF8LS9Z2RMh/R7Of/3rqvgddcAt5Om26+g4ax3
+   Q==;
+X-CSE-ConnectionGUID: 3ASloD5CRsC03XsCy2o/yA==
+X-CSE-MsgGUID: cF9l+XA3THimDZPrFJsAtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39572715"
 X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="39613210"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 08:55:14 -0800
-X-CSE-ConnectionGUID: QebUnKI4SZKqYzxRDLEmwA==
-X-CSE-MsgGUID: /NsRg2IrQLS2Rwp9vrQzTw==
+   d="scan'208";a="39572715"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 09:26:17 -0800
+X-CSE-ConnectionGUID: CENKPEMsQ3q0DcqTYJb+Gw==
+X-CSE-MsgGUID: bGEHtzYgQUCL+84ElruMjw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116057560"
+X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
+   d="scan'208";a="142848039"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Feb 2025 08:55:12 -0800
+  by orviesa002.jf.intel.com with ESMTP; 09 Feb 2025 09:26:16 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thAaL-0011hP-3C;
-	Sun, 09 Feb 2025 16:55:09 +0000
-Date: Mon, 10 Feb 2025 00:54:37 +0800
+	id 1thB4P-0011jL-1I;
+	Sun, 09 Feb 2025 17:26:13 +0000
+Date: Mon, 10 Feb 2025 01:25:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Christoph Hellwig <hch@lst.de>,
-	Nilay Shroff <nilay@linux.ibm.com>,
-	Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
-	Ming Lei <ming.lei@redhat.com>
-Subject: Re: [PATCH 7/7] block: don't grab q->debugfs_mutex
-Message-ID: <202502100010.Kok1H3KF-lkp@intel.com>
-References: <20250209122035.1327325-8-ming.lei@redhat.com>
+To: Mateusz Guzik <mjguzik@gmail.com>, brauner@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, viro@zeniv.linux.org.uk, jack@suse.cz,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [PATCH v3 3/3] vfs: use the new debug macros in
+ inode_set_cached_link()
+Message-ID: <202502100145.hCrPMGW4-lkp@intel.com>
+References: <20250208162611.628145-4-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,50 +65,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250209122035.1327325-8-ming.lei@redhat.com>
+In-Reply-To: <20250208162611.628145-4-mjguzik@gmail.com>
 
-Hi Ming,
+Hi Mateusz,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.14-rc1 next-20250207]
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20250207]
+[cannot apply to brauner-vfs/vfs.all viro-vfs/for-next akpm-mm/mm-nonmm-unstable v6.14-rc1]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/block-remove-hctx-debugfs_dir/20250209-202320
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20250209122035.1327325-8-ming.lei%40redhat.com
-patch subject: [PATCH 7/7] block: don't grab q->debugfs_mutex
-config: arc-randconfig-001-20250209 (https://download.01.org/0day-ci/archive/20250210/202502100010.Kok1H3KF-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100010.Kok1H3KF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/vfs-add-initial-support-for-CONFIG_VFS_DEBUG/20250209-002857
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250208162611.628145-4-mjguzik%40gmail.com
+patch subject: [PATCH v3 3/3] vfs: use the new debug macros in inode_set_cached_link()
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250210/202502100145.hCrPMGW4-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100145.hCrPMGW4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502100010.Kok1H3KF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502100145.hCrPMGW4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   block/blk-sysfs.c: In function 'blk_debugfs_remove':
->> block/blk-sysfs.c:745:31: warning: unused variable 'q' [-Wunused-variable]
-     745 |         struct request_queue *q = disk->queue;
-         |                               ^
-
-
-vim +/q +745 block/blk-sysfs.c
-
-8324aa91d1e11a Jens Axboe        2008-01-29  742  
-6fc75f309d291d Christoph Hellwig 2022-11-14  743  static void blk_debugfs_remove(struct gendisk *disk)
-6fc75f309d291d Christoph Hellwig 2022-11-14  744  {
-6fc75f309d291d Christoph Hellwig 2022-11-14 @745  	struct request_queue *q = disk->queue;
-6fc75f309d291d Christoph Hellwig 2022-11-14  746  
-6fc75f309d291d Christoph Hellwig 2022-11-14  747  	blk_trace_shutdown(q);
-abe3d073fa86b7 Ming Lei          2025-02-09  748  	debugfs_lookup_and_remove(disk->disk_name, blk_debugfs_root);
-6fc75f309d291d Christoph Hellwig 2022-11-14  749  }
-6fc75f309d291d Christoph Hellwig 2022-11-14  750  
+>> ERROR: modpost: "dump_inode" [fs/ext4/ext4.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
