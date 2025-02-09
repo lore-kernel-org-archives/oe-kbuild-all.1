@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9D71E526
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 15:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467601DF973
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 16:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739115727; cv=none; b=lwC8QX7DbMVII8AWxEfl8do4rSVPkD1F+SawyKlHf/JJoTCdBx2EFSkJ7xIQhJHONIS4CKmNRnfV3NJex+Lih0IkqKDLNzp3JRRqIX22qHhS4Sp1FKGg4AggWV0lypE1I7g8Kv6fRr+adg6rMaG8u9LD1aL7skPMMh6dJPaXsW0=
+	t=1739117651; cv=none; b=skEtObTWbYondKGaHIFLhKE84fTR5vHQadvaiz7TpG5yy6jKAsJrZfItwBlyc3xSNb/hw9UxttgAXgVJJvBJHFGQ0fTh+xcnTfPWqFKWc9tlN4z+10RUwwHCpVgx4DCriK0R/4tAt8f/Wqe038Uma0jlapBCzRx2FnRZhDsQL+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739115727; c=relaxed/simple;
-	bh=aha61taFB/jn3LojHvj+zb2FAmUx6nc5NCCO+YMjibs=;
+	s=arc-20240116; t=1739117651; c=relaxed/simple;
+	bh=UXlmCg1pqQ3pX2ppD94ehT6ABO4k5BwPVSL5+vMWQOw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KK2EvU928xLWOW6QXxhV8bT//z1Xozm48zn99DraSIUFbGsmgKhHSNXZ51jctkeYyOwSuk8wNCECLrDrJcVRGTpAMqO+oRsOP6OrqoCC7wvZilTjQyHq4z2kYnr7OdXBLvobPJoenuKSEtgAEHRaVEU+CIzXgHXgYpOjqK/5qEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYJ4yOoa; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=nBtgazQAahSK7doFO/r63++Rb8ArBAV3xrzxjCUCFEC5shRsVu8WmeYL6T/Syr20t8qILDtwWiMDBCVCDKRNJB3LAEVcH2qgBg3RTNj+2Nk4Bj7Axz23XdWQPMnRCpjAlIuUWIgXdK5P+Q7O5GUl/9LJ8ZtAAO7GiCB1LxiFpII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWvqM6pf; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYJ4yOoa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWvqM6pf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739115725; x=1770651725;
+  t=1739117649; x=1770653649;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aha61taFB/jn3LojHvj+zb2FAmUx6nc5NCCO+YMjibs=;
-  b=UYJ4yOoaNFPqAfEeMcEl9pNFDNCAA7ra5l/ACVB9VkBJF+ToulaECXcg
-   wRmsz1DdbAK+TcZ5icB9lU2qvzmH/jrUy4qhh6U9u2Ia/IJeQll+tiUek
-   TflV0ec+0rFlnk1vCdA2lswX/XPP4iMAwfj0KyuZ4oI4bFVyZCOpEMUe5
-   pw+SWlOSCf4tOkaegraQHSDLqPT4EY/Q+RL104niQ1nsVm8iCITsBUM+8
-   YezeJXSF7/PNEYdo1vOnSoqcnl8UnFEQggAoG2MdiGv/j7s1CHatdFw4w
-   Ie2feBRjpX1QQdjembfr1faxTRN3lWUkMAbQEglFY81dBnNSJwrbKad9r
-   g==;
-X-CSE-ConnectionGUID: VssJ3d8uStmkuDdHQbfg+w==
-X-CSE-MsgGUID: dCOgPjJYTZWBqUFQ/26RVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39724230"
+  bh=UXlmCg1pqQ3pX2ppD94ehT6ABO4k5BwPVSL5+vMWQOw=;
+  b=NWvqM6pfLhTvCGo8kVNPxy9H0JDztXtKjq1SGwK2P69lXiqpj6Vw6VK8
+   6hmUcsDt82DxyRN5MN8/gMnj9Pm+1pmFWBvo1+NpnZPcV3yeqGJ0zM6HU
+   Wz503lRZd/Nnvmuo83Bb9DKevpZpbpgXJqZp0MJGvmsem1gZuMRDPagQc
+   Zz8j5ToU//X6J234MIHXPL7+OUiT2e7XXk1041lM4u6GJGFSCnz/apppV
+   yWvli4SCkgacK8PZXdHiwH+T1X5xfj1A06JN8wS4JGZ1ApQYvLfXrrHnh
+   +gptISWnNyiSMw+nbxgTPl+WwQqgJmsdN9mYnZGIbduL6EiILluA/MJrC
+   A==;
+X-CSE-ConnectionGUID: 0CZDzGyOTXa/iJ4zY3MV1g==
+X-CSE-MsgGUID: 6u09I1AxStOcd86GxCQAuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="57235993"
 X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="39724230"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 07:42:04 -0800
-X-CSE-ConnectionGUID: 81n6WismRpuqsLZO4mlkeA==
-X-CSE-MsgGUID: vZvu9FspQQaypuXfa8ZwBg==
+   d="scan'208";a="57235993"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 08:14:08 -0800
+X-CSE-ConnectionGUID: RysUWHh6RhyGkv0lj9bBeQ==
+X-CSE-MsgGUID: IalT7e6iTxCmDfxFfXrf6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111806264"
+X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
+   d="scan'208";a="112482636"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Feb 2025 07:42:03 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2025 08:14:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1th9RY-0011cR-0q;
-	Sun, 09 Feb 2025 15:42:00 +0000
-Date: Sun, 9 Feb 2025 23:41:32 +0800
+	id 1th9wb-0011fT-1Y;
+	Sun, 09 Feb 2025 16:14:05 +0000
+Date: Mon, 10 Feb 2025 00:13:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1420/1420] mm/mem_reliable.c:401:5:
- sparse: sparse: symbol 'reliable_pagecache_max_bytes_write' was not
- declared. Should it be static?
-Message-ID: <202502092339.Fe6S9ctM-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.13-rsslro 110/110]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000:
+ pinctrl-names:1: 'state_uhs' was expected
+Message-ID: <202502100003.uHh1yIyp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,144 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   cc7cb040bd0afe96f1da94c9f21eda5a986510a5
-commit: 6943b93b464351cbc35aa002e86bac48e08b1c3f [1420/1420] mm: add support for limiting the usage of reliable memory in pagecache
-config: arm64-randconfig-r131-20250208 (https://download.01.org/0day-ci/archive/20250209/202502092339.Fe6S9ctM-lkp@intel.com/config)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-rsslro
+head:   cb6612a57bbcc77b70a9fc1c521c14c48303714d
+commit: cb6612a57bbcc77b70a9fc1c521c14c48303714d [110/110] msdc: multi-slot support
+config: arm64-randconfig-052-20250209 (https://download.01.org/0day-ci/archive/20250210/202502100003.uHh1yIyp-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250209/202502092339.Fe6S9ctM-lkp@intel.com/reproduce)
+dtschema version: 2024.12.dev6+gc4da38d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100003.uHh1yIyp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502092339.Fe6S9ctM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502100003.uHh1yIyp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mem_reliable.c:39:1: sparse: sparse: symbol '__pcpu_scope_pagecache_reliable_pages' was not declared. Should it be static?
-   mm/mem_reliable.c:67:14: sparse: sparse: restricted gfp_t degrades to integer
-   mm/mem_reliable.c:250:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
-   mm/mem_reliable.c:323:5: sparse: sparse: symbol 'reliable_debug_handler' was not declared. Should it be static?
-   mm/mem_reliable.c:356:5: sparse: sparse: symbol 'reliable_reserve_size_handler' was not declared. Should it be static?
-   mm/mem_reliable.c:380:5: sparse: sparse: symbol 'reliable_shmem_bytes_limit_handler' was not declared. Should it be static?
->> mm/mem_reliable.c:401:5: sparse: sparse: symbol 'reliable_pagecache_max_bytes_write' was not declared. Should it be static?
->> mm/mem_reliable.c:487:14: sparse: sparse: invalid assignment: |=
-   mm/mem_reliable.c:487:14: sparse:    left side has type restricted gfp_t
-   mm/mem_reliable.c:487:14: sparse:    right side has type unsigned int
-   mm/mem_reliable.c:491:14: sparse: sparse: invalid assignment: &=
-   mm/mem_reliable.c:491:14: sparse:    left side has type restricted gfp_t
-   mm/mem_reliable.c:491:14: sparse:    right side has type unsigned int
-   mm/mem_reliable.c:250:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
-     250 | int reliable_limit_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   mm/mem_reliable.c:323:5: warning: no previous prototype for 'reliable_debug_handler' [-Wmissing-prototypes]
-     323 | int reliable_debug_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   mm/mem_reliable.c:356:5: warning: no previous prototype for 'reliable_reserve_size_handler' [-Wmissing-prototypes]
-     356 | int reliable_reserve_size_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mem_reliable.c:380:5: warning: no previous prototype for 'reliable_shmem_bytes_limit_handler' [-Wmissing-prototypes]
-     380 | int reliable_shmem_bytes_limit_handler(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mem_reliable.c:401:5: warning: no previous prototype for 'reliable_pagecache_max_bytes_write' [-Wmissing-prototypes]
-     401 | int reliable_pagecache_max_bytes_write(struct ctl_table *table, int write,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-vim +/reliable_pagecache_max_bytes_write +401 mm/mem_reliable.c
-
-   400	
- > 401	int reliable_pagecache_max_bytes_write(struct ctl_table *table, int write,
-   402		void __user *buffer, size_t *length, loff_t *ppos)
-   403	{
-   404		unsigned long old_value = reliable_pagecache_max_bytes;
-   405		int ret;
-   406	
-   407		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
-   408		if (!ret && write) {
-   409			if (reliable_pagecache_max_bytes > total_reliable_mem_sz()) {
-   410				reliable_pagecache_max_bytes = old_value;
-   411				return -EINVAL;
-   412			}
-   413		}
-   414	
-   415		return ret;
-   416	}
-   417	
-   418	static struct ctl_table reliable_ctl_table[] = {
-   419		{
-   420			.procname = "task_reliable_limit",
-   421			.data = &task_reliable_limit,
-   422			.maxlen = sizeof(task_reliable_limit),
-   423			.mode = 0644,
-   424			.proc_handler = reliable_limit_handler,
-   425		},
-   426		{
-   427			.procname = "reliable_debug",
-   428			.data = &mem_reliable_ctrl_bits,
-   429			.maxlen = sizeof(mem_reliable_ctrl_bits),
-   430			.mode = 0600,
-   431			.proc_handler = reliable_debug_handler,
-   432		},
-   433		{
-   434			.procname = "reliable_reserve_size",
-   435			.data = &sysctl_reliable_reserve_size,
-   436			.maxlen = sizeof(sysctl_reliable_reserve_size),
-   437			.mode = 0644,
-   438			.proc_handler = reliable_reserve_size_handler,
-   439		},
-   440	#ifdef CONFIG_SHMEM
-   441		{
-   442			.procname = "shmem_reliable_bytes_limit",
-   443			.data = &sysctl_shmem_reliable_bytes_limit,
-   444			.maxlen = sizeof(sysctl_shmem_reliable_bytes_limit),
-   445			.mode = 0644,
-   446			.proc_handler = reliable_shmem_bytes_limit_handler,
-   447		},
-   448	#endif
-   449		{
-   450			.procname = "reliable_pagecache_max_bytes",
-   451			.data = &reliable_pagecache_max_bytes,
-   452			.maxlen = sizeof(reliable_pagecache_max_bytes),
-   453			.mode = 0644,
-   454			.proc_handler = reliable_pagecache_max_bytes_write,
-   455			.extra1 = &zero,
-   456		},
-   457		{}
-   458	};
-   459	
-   460	static struct ctl_table reliable_dir_table[] = {
-   461		{
-   462			.procname = "vm",
-   463			.maxlen = 0,
-   464			.mode = 0555,
-   465			.child = reliable_ctl_table,
-   466		},
-   467		{}
-   468	};
-   469	
-   470	void page_cache_prepare_alloc(gfp_t *gfp)
-   471	{
-   472		long nr_reliable = 0;
-   473		int cpu;
-   474	
-   475		if (!mem_reliable_is_enabled())
-   476			return;
-   477	
-   478		for_each_possible_cpu(cpu)
-   479			nr_reliable += this_cpu_read(pagecache_reliable_pages);
-   480	
-   481		if (nr_reliable < 0)
-   482			goto no_reliable;
-   483	
-   484		if (nr_reliable > reliable_pagecache_max_bytes >> PAGE_SHIFT)
-   485			goto no_reliable;
-   486	
- > 487		*gfp |= ___GFP_RELIABILITY;
-   488		return;
-   489	
-   490	no_reliable:
-   491		*gfp &= ~___GFP_RELIABILITY;
-   492	}
-   493	
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11200000: clock-names:4: 'xhci_ck' was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11200000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11200000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/audio-controller@11210000: failed to match any schema with compatible: ['mediatek,mt79xx-audio']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names:1: 'state_uhs' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names:2: 'state_eint' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: pinctrl-names: ['emmc-default', 'emmc-state_uhs', 'sdcard-default', 'sdcard-state_uhs'] is too long
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: 'vmmc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: 'vqmmc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000: Unevaluated properties are not allowed ('pinctrl-3', 'pinctrl-names' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0: failed to match any schema with compatible: ['mediatek,mmc-slot']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: card@0: 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0/card@0/block: failed to match any schema with compatible: ['block-device']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1: failed to match any schema with compatible: ['mediatek,mmc-slot']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: card@0: 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1/card@0/block: failed to match any schema with compatible: ['block-device']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcie@11280000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie'] is too long
+   	'mediatek,mt7988-pcie' is not one of ['mediatek,mt7986-pcie', 'mediatek,mt8188-pcie', 'mediatek,mt8195-pcie']
+   	'mediatek,mt8192-pcie' was expected
+   	'airoha,en7581-pcie' was expected
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcie@11280000: failed to match any schema with compatible: ['mediatek,mt7988-pcie', 'mediatek,mt7986-pcie', 'mediatek,mt8192-pcie']
 
 -- 
 0-DAY CI Kernel Test Service
