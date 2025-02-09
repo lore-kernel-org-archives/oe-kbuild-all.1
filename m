@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AED71DE3BE
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 13:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5860914A0A8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 14:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739109416; cv=none; b=RytRtVjvwuKZceRJfJS0PRSH05KpP5XAaLWWNu9xzgEaobjvSyHuKoNxbrgD9ncrNh6Gawxc270DgPLEOfZdAaCWktclAGlfD6muRYIPtgM5tAS1KUi7kMK2FEHTbMgmqV1y1lU8RESWZkjO6FFtS78G1RWzitHsNnKiJgxLvT0=
+	t=1739110137; cv=none; b=oXlJneJOWXelObPv9tVpCCu+0WdV9sHlGono8ayowNpH3hlnNsdtMwQYYceuzUnKdX6l9EW62wMFnq+XJ8Je3n3GKTwGKC9y6QAhqRyc+Uhnw8FlERh5LDtoNNsAiJdX3aGA0gWh/Or0CioT/gij7nEvVt66WP+CBSUPXncwzKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739109416; c=relaxed/simple;
-	bh=T3dvdEJKtegPtpiJchkTYBuDLXqLmV3QJgfeNnChzz8=;
+	s=arc-20240116; t=1739110137; c=relaxed/simple;
+	bh=wQx0sMb4igQvQQ/6/wdXTqk9cSSkraunXRvLSXZaJfU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cdbMdkxXGnt1W7UQKceYCDRiyX0GtxOGrifUUp6Nijz+kdJqcGKo7bDWUlBg1bsLlBIJgdcjDR50VF1j8i53JdeA+apGahAz4vHnosqJKaysQFUFAu8smlllWFRHQocemB1ekchrJBoTQu6wze9+QVnKWHSAQN/RqFlBkU1OvGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8xZJtwe; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=NErDO8h749pbWJeUYZOIR2QNlQpZsFZZYPbQxeC73PS+za/bXi8q+ZFA0TVUWFMvq305tnVP7MakGsam7X8er3Tj4X2lGlnIKNXbvaVJm9xgwVSYuY+FKN1hvN/sm1CMPl6nNWmqUZPkJrJXZ/7Ofc2w7twxU+3sOyZg3Aqzbuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBQsuTZ2; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8xZJtwe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBQsuTZ2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739109415; x=1770645415;
+  t=1739110136; x=1770646136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T3dvdEJKtegPtpiJchkTYBuDLXqLmV3QJgfeNnChzz8=;
-  b=n8xZJtwec0geZf6XlHvui01oWK1HDByrYZhPlp1AW/TXIGKTs2lQHpe/
-   GpMWO/NTH2CFOrL7ETebfsXn9SSQEFd2TjySj0JZ7H6NIVhOhBd1vRFLr
-   mBLuHfiLJhfCHU9mq2eD/gF/VSjiQti5ijEZC+IR9kBsahtFsKW0KOgnj
-   AbihwLuk4reBMbzgL8AKXKEcNYGGUWkd6VshhiYvd3RrLqQTTKpmDw/xh
-   VIO+C20NLOga3xUBuY0bHvE/6uOzh32K7f7sUo04NIxBRHyqOEkBlmZfB
-   m5CbvJ0YowWdkNCm51J2S8+4/fq+6yXA8O9Ag9yCnxafzbzIjuKJGZHJU
-   w==;
-X-CSE-ConnectionGUID: JsPhhUmrQ+y5eXwp5cKKGQ==
-X-CSE-MsgGUID: 45N7qFfFS7KHFPP5VZ9Njg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39960044"
+  bh=wQx0sMb4igQvQQ/6/wdXTqk9cSSkraunXRvLSXZaJfU=;
+  b=dBQsuTZ22/EsYcYdjm9l2qq/gEuY+qgB0ouXpk2IKn2kxOobwFVaWroz
+   QbrAg/vhIX5SM0UajuYK9+/vmUDP0iFyhvfNm0RZdz8GBlDHpP8egla0T
+   jOTFSksIxXF3xACrWLr6Z1L04jVB0er3JnFd9XitIfqLCkvM61PGkaxfC
+   BEjwv00dMExXgDL/Fc+6CTlYW35M26RRJATSDlopCnCOSbnbDgXhTWaR3
+   byMpltqHatAInWiKzqLqll6dDCv/wCgQrggW1Nbc+aVtSTWyUVpaxOhHX
+   8dnnfqjkV62PWfb2f+dBQ/JdsOOeIMsQ+4WwM4WwOZshdFHq8j2yFroLP
+   A==;
+X-CSE-ConnectionGUID: Kc5qrqW2TpGAeqVh9Jg5vQ==
+X-CSE-MsgGUID: kh1kse+eT/iiFvbb+/hwSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39720124"
 X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="39960044"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 05:56:54 -0800
-X-CSE-ConnectionGUID: cN5WI4zWQjKqNjFFvsPBTQ==
-X-CSE-MsgGUID: kBCqIGCiSx+h/fc1DGz68w==
+   d="scan'208";a="39720124"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 06:08:55 -0800
+X-CSE-ConnectionGUID: FQAyxtgnRXa7Xg9bN/pW/g==
+X-CSE-MsgGUID: 0y119NPjTYWNhWemqSiGtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,272,1732608000"; 
-   d="scan'208";a="112588510"
+   d="scan'208";a="116969352"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Feb 2025 05:56:52 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Feb 2025 06:08:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1th7nl-0011X3-31;
-	Sun, 09 Feb 2025 13:56:49 +0000
-Date: Sun, 9 Feb 2025 21:56:17 +0800
+	id 1th7zP-0011XP-0j;
+	Sun, 09 Feb 2025 14:08:51 +0000
+Date: Sun, 9 Feb 2025 22:07:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wende Tan <twd2.me@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: ld.lld: error: vmlinux.o:(.debug_frame+0x2b7884): relocation
- R_RISCV_SET32 out of range: 2158664622 is not in
-Message-ID: <202502092134.1ptPMAu1-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1420/1420] mm/mem_reliable.c:349:5:
+ sparse: sparse: symbol 'reliable_shmem_bytes_limit_handler' was not
+ declared. Should it be static?
+Message-ID: <202502092233.9edRdxQm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,123 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9946eaf552b194bb352c2945b54ff98c8193b3f1
-commit: 021d23428bdbae032294e8f4a29cb53cb50ae71c RISC-V: build: Allow LTO to be selected
-date:   1 year, 1 month ago
-config: riscv-randconfig-r133-20250208 (https://download.01.org/0day-ci/archive/20250209/202502092134.1ptPMAu1-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-reproduce: (https://download.01.org/0day-ci/archive/20250209/202502092134.1ptPMAu1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   cc7cb040bd0afe96f1da94c9f21eda5a986510a5
+commit: 7a36955e5c8808a4b45d826a127e136c97f2a6f8 [1420/1420] mm: Introduce shmem mirrored memory limit for memory reliable
+config: arm64-randconfig-r131-20250208 (https://download.01.org/0day-ci/archive/20250209/202502092233.9edRdxQm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250209/202502092233.9edRdxQm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502092134.1ptPMAu1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502092233.9edRdxQm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/mem_reliable.c:63:14: sparse: sparse: restricted gfp_t degrades to integer
+   mm/mem_reliable.c:219:5: sparse: sparse: symbol 'reliable_limit_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:292:5: sparse: sparse: symbol 'reliable_debug_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:325:5: sparse: sparse: symbol 'reliable_reserve_size_handler' was not declared. Should it be static?
+>> mm/mem_reliable.c:349:5: sparse: sparse: symbol 'reliable_shmem_bytes_limit_handler' was not declared. Should it be static?
+   mm/mem_reliable.c:219:5: warning: no previous prototype for 'reliable_limit_handler' [-Wmissing-prototypes]
+     219 | int reliable_limit_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   mm/mem_reliable.c:292:5: warning: no previous prototype for 'reliable_debug_handler' [-Wmissing-prototypes]
+     292 | int reliable_debug_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   mm/mem_reliable.c:325:5: warning: no previous prototype for 'reliable_reserve_size_handler' [-Wmissing-prototypes]
+     325 | int reliable_reserve_size_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/mem_reliable.c:349:5: warning: no previous prototype for 'reliable_shmem_bytes_limit_handler' [-Wmissing-prototypes]
+     349 | int reliable_shmem_bytes_limit_handler(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.42) is being placed in '.bss..L_MergedGlobals.42'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.23) is being placed in '.bss..L_MergedGlobals.23'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.4) is being placed in '.bss..L_MergedGlobals.4'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.49) is being placed in '.bss..L_MergedGlobals.49'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.39) is being placed in '.bss..L_MergedGlobals.39'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.16) is being placed in '.bss..L_MergedGlobals.16'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.15) is being placed in '.bss..L_MergedGlobals.15'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.40) is being placed in '.bss..L_MergedGlobals.40'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.25) is being placed in '.bss..L_MergedGlobals.25'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.51) is being placed in '.bss..L_MergedGlobals.51'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.72) is being placed in '.bss..L_MergedGlobals.72'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.38) is being placed in '.bss..L_MergedGlobals.38'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.47) is being placed in '.bss..L_MergedGlobals.47'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.20) is being placed in '.bss..L_MergedGlobals.20'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.26) is being placed in '.bss..L_MergedGlobals.26'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.18) is being placed in '.bss..L_MergedGlobals.18'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.113) is being placed in '.bss..L_MergedGlobals.113'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.45) is being placed in '.bss..L_MergedGlobals.45'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.34) is being placed in '.bss..L_MergedGlobals.34'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.55) is being placed in '.bss..L_MergedGlobals.55'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.30) is being placed in '.bss..L_MergedGlobals.30'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.81) is being placed in '.bss..L_MergedGlobals.81'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.12) is being placed in '.bss..L_MergedGlobals.12'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.24) is being placed in '.bss..L_MergedGlobals.24'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.32) is being placed in '.bss..L_MergedGlobals.32'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.52) is being placed in '.bss..L_MergedGlobals.52'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.41) is being placed in '.bss..L_MergedGlobals.41'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.46) is being placed in '.bss..L_MergedGlobals.46'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.10) is being placed in '.bss..L_MergedGlobals.10'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.22) is being placed in '.bss..L_MergedGlobals.22'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.8) is being placed in '.bss..L_MergedGlobals.8'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.37) is being placed in '.bss..L_MergedGlobals.37'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.86) is being placed in '.bss..L_MergedGlobals.86'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.85) is being placed in '.bss..L_MergedGlobals.85'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.99) is being placed in '.bss..L_MergedGlobals.99'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.54) is being placed in '.bss..L_MergedGlobals.54'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.36) is being placed in '.bss..L_MergedGlobals.36'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.62) is being placed in '.bss..L_MergedGlobals.62'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.13) is being placed in '.bss..L_MergedGlobals.13'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals) is being placed in '.bss..L_MergedGlobals'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.27) is being placed in '.bss..L_MergedGlobals.27'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.31) is being placed in '.bss..L_MergedGlobals.31'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.21) is being placed in '.bss..L_MergedGlobals.21'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.11) is being placed in '.bss..L_MergedGlobals.11'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.43) is being placed in '.bss..L_MergedGlobals.43'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.6) is being placed in '.bss..L_MergedGlobals.6'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.98) is being placed in '.bss..L_MergedGlobals.98'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.61) is being placed in '.bss..L_MergedGlobals.61'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.35) is being placed in '.bss..L_MergedGlobals.35'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.14) is being placed in '.bss..L_MergedGlobals.14'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.57) is being placed in '.bss..L_MergedGlobals.57'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.44) is being placed in '.bss..L_MergedGlobals.44'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.29) is being placed in '.bss..L_MergedGlobals.29'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.19) is being placed in '.bss..L_MergedGlobals.19'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.1) is being placed in '.bss..L_MergedGlobals.1'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.7) is being placed in '.bss..L_MergedGlobals.7'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.9) is being placed in '.bss..L_MergedGlobals.9'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.33) is being placed in '.bss..L_MergedGlobals.33'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.17) is being placed in '.bss..L_MergedGlobals.17'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.104) is being placed in '.bss..L_MergedGlobals.104'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.3) is being placed in '.bss..L_MergedGlobals.3'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.28) is being placed in '.bss..L_MergedGlobals.28'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.5) is being placed in '.bss..L_MergedGlobals.5'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.42) is being placed in '.bss..L_MergedGlobals.42'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.23) is being placed in '.bss..L_MergedGlobals.23'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.4) is being placed in '.bss..L_MergedGlobals.4'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.49) is being placed in '.bss..L_MergedGlobals.49'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.39) is being placed in '.bss..L_MergedGlobals.39'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.16) is being placed in '.bss..L_MergedGlobals.16'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.15) is being placed in '.bss..L_MergedGlobals.15'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.40) is being placed in '.bss..L_MergedGlobals.40'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.25) is being placed in '.bss..L_MergedGlobals.25'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.51) is being placed in '.bss..L_MergedGlobals.51'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.72) is being placed in '.bss..L_MergedGlobals.72'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.38) is being placed in '.bss..L_MergedGlobals.38'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.47) is being placed in '.bss..L_MergedGlobals.47'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.20) is being placed in '.bss..L_MergedGlobals.20'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.26) is being placed in '.bss..L_MergedGlobals.26'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.18) is being placed in '.bss..L_MergedGlobals.18'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.113) is being placed in '.bss..L_MergedGlobals.113'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.45) is being placed in '.bss..L_MergedGlobals.45'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.34) is being placed in '.bss..L_MergedGlobals.34'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.55) is being placed in '.bss..L_MergedGlobals.55'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.30) is being placed in '.bss..L_MergedGlobals.30'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.81) is being placed in '.bss..L_MergedGlobals.81'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.12) is being placed in '.bss..L_MergedGlobals.12'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.24) is being placed in '.bss..L_MergedGlobals.24'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.32) is being placed in '.bss..L_MergedGlobals.32'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.52) is being placed in '.bss..L_MergedGlobals.52'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.41) is being placed in '.bss..L_MergedGlobals.41'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.46) is being placed in '.bss..L_MergedGlobals.46'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.10) is being placed in '.bss..L_MergedGlobals.10'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.22) is being placed in '.bss..L_MergedGlobals.22'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.8) is being placed in '.bss..L_MergedGlobals.8'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.37) is being placed in '.bss..L_MergedGlobals.37'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.86) is being placed in '.bss..L_MergedGlobals.86'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.85) is being placed in '.bss..L_MergedGlobals.85'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.99) is being placed in '.bss..L_MergedGlobals.99'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.54) is being placed in '.bss..L_MergedGlobals.54'
-   ld.lld: warning: vmlinux.o:(.bss..L_MergedGlobals.36) is being placed in '.bss..L_MergedGlobals.36'
->> ld.lld: error: vmlinux.o:(.debug_frame+0x2b7884): relocation R_RISCV_SET32 out of range: 2158664622 is not in [-2147483648, 2147483647]
-   >>> referenced by delay.c; consider recompiling with -fdebug-types-section to reduce size of debug sections
+vim +/reliable_shmem_bytes_limit_handler +349 mm/mem_reliable.c
+
+   348	
+ > 349	int reliable_shmem_bytes_limit_handler(struct ctl_table *table, int write,
+   350		void __user *buffer, size_t *length, loff_t *ppos)
+   351	{
+   352		unsigned long *data_ptr = (unsigned long *)(table->data);
+   353		unsigned long old = *data_ptr;
+   354		int ret;
+   355	
+   356		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   357		if (ret == 0 && write) {
+   358			if (*data_ptr > total_reliable_mem_sz()) {
+   359				*data_ptr = old;
+   360				return -EINVAL;
+   361			}
+   362	
+   363			shmem_reliable_nr_page = *data_ptr >> PAGE_SHIFT;
+   364		}
+   365	
+   366		return ret;
+   367	}
+   368	#endif
+   369	
 
 -- 
 0-DAY CI Kernel Test Service
