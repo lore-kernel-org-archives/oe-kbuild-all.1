@@ -1,73 +1,60 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F2223AE7A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Feb 2025 21:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FEF1E284C;
+	Sun,  9 Feb 2025 21:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739134952; cv=none; b=Xv/V08toH42mKReHc0WOoWD+oJWIHZdLQIqkg9fuKExyVYXe16YVvolU4zcQdVPmLyvLvomO7JTh5aym+A3hnwhuBvrR4i17j29I64S/5TlR2wtBiJYjcXbt6H+XaVmZCZfK/zIJvHLJ+RYX/PYZKkfS7st8bvlmCFVZz2ricPU=
+	t=1739136225; cv=none; b=Yhw5lsEjYlE6+eFDkdEbcJuXjb7fvKrY+ulwIjMihEVudKvTveYopCypiytmNqaNqBej1SoIcdkNh1d94FjxMYcLZyQNhxB0Z/Z0vE/ejeZhMfGjTBhKmLhpgLTJqmWu9mXfRQI6u1ulqNaE45JJSFhxC2jCbwYwnD2wsjvEqAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739134952; c=relaxed/simple;
-	bh=4SVxuKZLLsKLapg3peIJUvAfuw38TL2/jgXgew7C5gg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LWwuFRxI89BX3T9MNivQJvAQjGUyTwVHAy2D65M8VM5Jx8ZpuMFdAfAOsoaG6/K9JBfVexsea2ifopKidNtdnT+Pk6RvsNti62i3MotC8K2A1PdA6/X9jyWj5wWvFGl+YfS7fPeC+1cHEWMSgGzOQ9gLohXGLBUQbQTxpM46BWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfUbXaNd; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739136225; c=relaxed/simple;
+	bh=uV/WgMn8m089k8GMcTNX08suqey0hWPffoduC6ozYqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MwazXtxAbLIKlzzoP4qOP6U4c6X1KqPY1vOmXmZa0GNf3JXv4Tjk3qjch0tYzpR25cc+4GtA2wV42gUTSSzXAKLUoGRoqYAJkR1/cZirO/NPVo4vaVzuNUgFtpR+OSCwVXubxiBix9C27mkwJg2XACRIZ4J0PuqmFiKFClR7jqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FXsW2M6F; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfUbXaNd"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4717bb7e7deso11664341cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 09 Feb 2025 13:02:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739134950; x=1739739750; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gZTeYoZ8aMOr0omJJEej1ScbEw8FjdkOq2Wv5fHMVJw=;
-        b=YfUbXaNdq4xNyhMcYXOX2ZNuxtjJI5y4TTyKQGa5iGollWJ49+PWY5S1wUzAvnIebR
-         wZ2YYkeEnK0c202HIqdJP3iduWpI29aoVaxoCT796j3gf8vyNAbm1Iova0Y71s8s10TO
-         Va4oLOmEFTX3fXd+XLGKedNW9xXMr/SdCsalUX/PhSovmnBEHPRaIUemAWQsfjf7yG9g
-         6OJU6PFo+SP/cGmkrTrwIuK5SiDfbfQyuP1WKCZgVex0FNqW+lzAirKoFObX5Fx1c7W7
-         xMKvnydBTILET5QTJ759pfrh5TOqwjSG4tAP3DvlQoxnQ2rO+ajzgdtbEWV0lgQlv/W9
-         ASOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739134950; x=1739739750;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gZTeYoZ8aMOr0omJJEej1ScbEw8FjdkOq2Wv5fHMVJw=;
-        b=XwU5fHP2MVp6+w6QraD2jVrxycr44Q4GvAnusv5tiFnZIYQFCesGLvNvFuusABgbUb
-         m5ZsbP+5CdvNFnkPqkiabk8N2M/UAcTfjiEdnVBZC+PX0Etbcz7T09qaxzlfGZ28zV8E
-         we5UAcHNjp6WJaOndWcOpdopZC1b/zFmNUZoPkNXAjl5/76lWWcYAUfFcI24K1mH7GSx
-         nC4aTh0D/xTHhfg+ograGJT1XVTPoZjr2NC7YNJg7ddqso9FHFZtT0Nn1IXyZUOiAGb4
-         b5DNq93QOSBRFeF5bvxM8eTx+OQN3zDY2Z0ldMB/RBAumgxgSd6PSk/AFa7y6YBCWisU
-         sODg==
-X-Forwarded-Encrypted: i=1; AJvYcCVhCcBoH3+JaxY4GX8LTiblndrjsfbN9WciTUpuddnodEH2kJT6z83KHaMjePSdN/vhql5sXegTCXKgRwfv@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFd0HLBictghvTf6dRbAX9MWTZkWIePWpn4fV4HBfK79xeSNZL
-	5uW7EMMCJuUjG09pQU6SORrOxZbCTgoBECBZ9DHWS6q2tQetVuwQ
-X-Gm-Gg: ASbGnctuA1Z+eQgmQrg6/j7d1n1QHRqnmVTZbErDwpEy1MlE8FMFHWWkpHCP8FjtzBM
-	B68C5Ui2I39VYSbdG+GZSyZP0bDpNO/WRJIPYtB4aNdz2BRL9jXypDzBsTZpj0FTJySoLddfcmp
-	WWfBzzypBB0ZmQ+dtAgzfxQhdq+4CK90lVj/W+SvVddWWVTuN9xUubTmjgAovoxCBcaqibCLYus
-	VjrEXNelnX0fwsfDELZwysxTUEPmzJyUcHdSeT5xT+NvXBBYyyasWtGPzLueCQvls2qRdz7R4so
-	as7AOq3TaHWSxjf1dyQHBWiXYMwexAErh/+bi11E80vhwmsGCFYi9buYdvH0/6fpzA==
-X-Google-Smtp-Source: AGHT+IGXedG5xIcJLYwQ7b9JitN+tT8qyMBZiVtrlpwz/gzVVNOcoZhjUhSr1+y5powicbGuQ4RYvQ==
-X-Received: by 2002:a05:622a:244c:b0:471:86c8:c93a with SMTP id d75a77b69052e-47186c8dc59mr68691191cf.19.1739134949831;
-        Sun, 09 Feb 2025 13:02:29 -0800 (PST)
-Received: from errol.ini.cmu.edu (pool-108-39-141-40.pitbpa.fios.verizon.net. [108.39.141.40])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4718cb6d2b0sm8898321cf.16.2025.02.09.13.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 13:02:28 -0800 (PST)
-Date: Sun, 9 Feb 2025 16:02:26 -0500
-From: "Gabriel L. Somlo" <gsomlo@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Robert Winkler <rwinkler@antmicro.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [litex-hub:litex-rebase 11/15] drivers/fpga/litex-fpga.c:114:17:
- sparse: sparse: cast to restricted __be32
-Message-ID: <Z6kX4jvAJPh_1pLH@errol.ini.cmu.edu>
-References: <202502051703.2QcrfJ0B-lkp@intel.com>
- <Z6N76QX8uLeZQYIK@glsmbp.wifi.local.cmu.edu>
- <CAMuHMdXonYO8fj5kUZTXCo4s1QNHZ8zLWJ8La7CBEqTGvfGjYw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FXsW2M6F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739136223; x=1770672223;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uV/WgMn8m089k8GMcTNX08suqey0hWPffoduC6ozYqU=;
+  b=FXsW2M6FbjCAmz9+ab2uXEyo/BNMXsyvyav6Qvew4a8mVT4IEEHh4Rtp
+   gDuQrBWxzgQvlLejwPxrhvjoGgnopHdsjrqXTuTjY44C+Zc9RuQEHN8z8
+   Hv7kr5vXbpqfSEfvkQz97qqzQTgpWwJtRQLx2TrtEAs5EW6hejd5zkrT5
+   67Y2xF0ov/DDvV+QXS33PDN8BQgRPp18aKhToeUbf72jR+6bUHLTmxJuy
+   nKzNfB2+u9tHQKaVs7tAT6vnnziAERhMcbK/R/750yEGBL6YNpEL7VGP7
+   94v06PP4t9tg8/TO+0fl1kHQPwVphsyY63xgujrknIdLI9qBq7k0xLbsa
+   Q==;
+X-CSE-ConnectionGUID: qQrMcR0ZRHujBpdCGTsrjw==
+X-CSE-MsgGUID: hub6UIE1Q/6qspPkaDsSZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="42553687"
+X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
+   d="scan'208";a="42553687"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 13:23:42 -0800
+X-CSE-ConnectionGUID: mxn63RIaTZm1u84IuuZVUw==
+X-CSE-MsgGUID: aPV5KyghSO+/ZSN89QG50A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116088146"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Feb 2025 13:23:41 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thEmA-0011v9-2i;
+	Sun, 09 Feb 2025 21:23:38 +0000
+Date: Mon, 10 Feb 2025 05:23:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/020-dart 17/22] drivers/iommu/apple-dart.c:783:16:
+ warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka
+ 'unsigned int') changes value from 18446744073709551615 to 4294967295
+Message-ID: <202502100542.4C09aYEy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,90 +63,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXonYO8fj5kUZTXCo4s1QNHZ8zLWJ8La7CBEqTGvfGjYw@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Geert,
+tree:   https://github.com/AsahiLinux/linux bits/020-dart
+head:   20a369d106d69cb8fb5e42c09f6a1881dbbdfd2c
+commit: 5dfbd033f4a67bb174d466b1c52fa28e14bf6653 [17/22] iommu: apple-dart: Support specifying the DMA aperture in the DT
+config: i386-buildonly-randconfig-003-20250210 (https://download.01.org/0day-ci/archive/20250210/202502100542.4C09aYEy-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100542.4C09aYEy-lkp@intel.com/reproduce)
 
-On Wed, Feb 05, 2025 at 04:55:05PM +0100, Geert Uytterhoeven wrote:
-> On Wed, 5 Feb 2025 at 15:55, Gabriel L. Somlo <gsomlo@gmail.com> wrote:
-> > On Wed, Feb 05, 2025 at 06:06:11PM +0800, kernel test robot wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502100542.4C09aYEy-lkp@intel.com/
 
-[...]
+All warnings (new ones prefixed by >>):
 
-> > > sparse warnings: (new ones prefixed by >>)
-> > > >> drivers/fpga/litex-fpga.c:114:17: sparse: sparse: cast to restricted __be32
-> > >
-> > > vim +114 drivers/fpga/litex-fpga.c
-> > >
-> > >     89
-> > >     90        static int litex_fpga_write(struct fpga_manager *mgr,
-> > >     91                                    const char *buf, size_t count)
-> > >     92        {
-> > >     93                const struct litex_fpga *fpga_s = (const struct litex_fpga *) mgr->priv;
-> > >     94                uint32_t *buf32;
-> >
-> > changed this to s/uint32_t/__be32/
-> 
-> LGTM
-> 
-> > >     95                int i, count32;
-> > >     96
-> > >     97                /* Bitstream should consist of 32bit words*/
-> > >     98                if (!bit_is_aligned((uint8_t *) buf, count)) {
-> > >     99                        dev_err(&mgr->dev, "Invalid bitstream alignment\n");
-> > >    100                        return -EINVAL;
-> > >    101                }
-> > >    102
-> > >    103                /* Correct bitstream contains sync word */
-> > >    104                if (!bit_has_sync((uint8_t *) buf, count)) {
-> > >    105                        dev_err(&mgr->dev, "Bitstream has no sync word\n");
-> > >    106                        return -EINVAL;
-> > >    107                }
-> > >    108
-> > >    109                buf32 = (uint32_t *) buf;
-> >
-> > also changed this to s/uint32_t/__be32/
-> 
-> Likewise.
-> 
-> Note: If fpga_manager_ops.write() would take a "const void *buf",
-> no casts would be needed...
+>> drivers/iommu/apple-dart.c:783:16: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     783 |                                         dma_max = DMA_BIT_MASK(pgtbl_cfg.ias);
+         |                                                 ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:40: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                        ^~~~~
+   drivers/iommu/apple-dart.c:1387:18: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+    1387 |         dart->dma_max = DMA_BIT_MASK(dart->ias);
+         |                       ~ ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:40: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                        ^~~~~
+   2 warnings generated.
 
-Would I not still need some sort of 32-bit cast for where this stuff
-is actually accessed, a few lines below:
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_IOMMU
+   Depends on [n]: IOMMU_SUPPORT [=y] && OF [=n] && IOMMU_API [=y]
+   Selected by [y]:
+   - APPLE_DART [=y] && IOMMU_SUPPORT [=y] && (ARCH_APPLE || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
 
-        buf32 = (__be32 *) buf;
-        count32 = count / BITSTREAM_INSTR_SIZE;
-        for (i = 0; i < count32; ++i) {
-                while (!READ_SINK_READY(fpga_s->membase))
-                        ;
-                WRITE_SINK_DATA(fpga_s->membase, be32_to_cpu(buf32[i]));
-                                                             ^^^^^^^^   
-... here? I could presumably use `be32_to_cpu(buf + sizeof(__be32) * i)`,
-but not sure the legibility would benefit from that...
 
-LMK what you think. As stated earlier, I'm not actually set up to test
-this myself, so I'm a bit paranoid about breaking it while trying to
-fix it :D
+vim +783 drivers/iommu/apple-dart.c
 
-Thanks,
---Gabriel
- 
-> > Geert: I left this as a separate "fixup" patch (for now); I'll merge
-> > it into the original "LiteX: driver for ICAPBitstream fpga manager"
-> > once we convince ourselves it was the right thing to do (I am not set
-> > up to test this patch at the moment).
-> 
-> FWIW, no change in the generated assembler output.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+   723	
+   724	static int apple_dart_finalize_domain(struct apple_dart_domain *dart_domain,
+   725					      struct device *dev,
+   726					      struct apple_dart_master_cfg *cfg)
+   727	{
+   728		struct apple_dart *dart = cfg->stream_maps[0].dart;
+   729		struct io_pgtable_cfg pgtbl_cfg;
+   730		dma_addr_t dma_max = dart->dma_max;
+   731		u32 ias = min_t(u32, dart->ias, fls64(dma_max));
+   732		int ret = 0;
+   733		int i, j;
+   734	
+   735		if (dart->pgsize > PAGE_SIZE)
+   736			return -EINVAL;
+   737	
+   738		mutex_lock(&dart_domain->init_lock);
+   739	
+   740		if (dart_domain->finalized)
+   741			goto done;
+   742	
+   743		for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
+   744			dart_domain->stream_maps[i].dart = cfg->stream_maps[i].dart;
+   745			for (j = 0; j < BITS_TO_LONGS(dart->num_streams); j++)
+   746				atomic_long_set(&dart_domain->stream_maps[i].sidmap[j],
+   747						cfg->stream_maps[i].sidmap[j]);
+   748		}
+   749	
+   750		pgtbl_cfg = (struct io_pgtable_cfg){
+   751			.pgsize_bitmap = dart->pgsize,
+   752			.ias = ias,
+   753			.oas = dart->oas,
+   754			.coherent_walk = 1,
+   755			.iommu_dev = dart->dev,
+   756		};
+   757	
+   758		if (dart->locked) {
+   759			unsigned long *sidmap;
+   760			int sid;
+   761			u32 ttbr;
+   762	
+   763			/* Locked DARTs can only have a single stream bound */
+   764			sidmap = cfg->stream_maps[0].sidmap;
+   765			sid = find_first_bit(sidmap, dart->num_streams);
+   766	
+   767			WARN_ON((sid < 0) || bitmap_weight(sidmap, dart->num_streams) > 1);
+   768			ttbr = readl(dart->regs + DART_TTBR(dart, sid, 0));
+   769	
+   770			WARN_ON(!(ttbr & dart->hw->ttbr_valid));
+   771	
+   772			/* If the DART is locked, we need to keep the translation level count. */
+   773			if (dart->hw->tcr_4level && dart->ias > 36) {
+   774				if (readl(dart->regs + DART_TCR(dart, sid)) & dart->hw->tcr_4level) {
+   775					if (ias < 37) {
+   776						dev_info(dart->dev, "Expanded to ias=37 due to lock\n");
+   777						pgtbl_cfg.ias = 37;
+   778					}
+   779				} else if (ias > 36) {
+   780					dev_info(dart->dev, "Limited to ias=36 due to lock\n");
+   781					pgtbl_cfg.ias = 36;
+   782					if (dart->dma_min == 0 && dma_max == DMA_BIT_MASK(dart->ias)) {
+ > 783						dma_max = DMA_BIT_MASK(pgtbl_cfg.ias);
+   784					} else if ((dart->dma_min ^ dma_max) & ~DMA_BIT_MASK(36)) {
+   785						dev_err(dart->dev,
+   786							"Invalid DMA range for locked 3-level PT\n");
+   787						ret = -ENOMEM;
+   788						goto done;
+   789					}
+   790				}
+   791			}
+   792		}
+   793	
+   794		dart_domain->pgtbl_ops = alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg,
+   795							      &dart_domain->domain);
+   796		if (!dart_domain->pgtbl_ops) {
+   797			ret = -ENOMEM;
+   798			goto done;
+   799		}
+   800	
+   801		if (pgtbl_cfg.pgsize_bitmap == SZ_4K)
+   802			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 32));
+   803		else if (pgtbl_cfg.apple_dart_cfg.n_levels == 3)
+   804			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 36));
+   805		else if (pgtbl_cfg.apple_dart_cfg.n_levels == 4)
+   806			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 47));
+   807	
+   808		dart_domain->domain.pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
+   809		dart_domain->domain.geometry.aperture_start = dart->dma_min;
+   810		dart_domain->domain.geometry.aperture_end = dma_max;
+   811		dart_domain->domain.geometry.force_aperture = true;
+   812	
+   813		dart_domain->finalized = true;
+   814	
+   815		ret = apple_dart_setup_resv_locked(&dart_domain->domain, dev, dart->pgsize);
+   816	done:
+   817		mutex_unlock(&dart_domain->init_lock);
+   818		return ret;
+   819	}
+   820	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
