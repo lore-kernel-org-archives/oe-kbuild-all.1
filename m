@@ -1,94 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B9B2586C2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 16:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEF51F4629;
+	Mon, 10 Feb 2025 17:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739206189; cv=none; b=uCROIC2tydke8b6ifL8MhYSOV0Ka+PjLQFSIHoVAbNAaeWklm4XeycLvlfCDpA/GBrbi13xNq8XdmOie5c2IVprwI4U/99MT+hepv6Kvnj2CXc4SqR0LFfL+R5Y3p0vP5R21XpHeJz1VUVvmYlySa42ktK2cTCtxcnvKVCbsRgk=
+	t=1739207907; cv=none; b=TBbbhB8nYKGzwgLtFa7u16Xjz2KDeD+G2413iaQN0vkU/HtIIPkWJpm0qMuKxiigVYbxymnriSGNomu08KcCUuQrJWPyAXETTEhxFo6jzFtv9kL/cBmxd+osc6ZkLmRgncqGV+dmJRsFlGFO4DGw0rQtW8mpqHgg4/vLO/2x1OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739206189; c=relaxed/simple;
-	bh=0OT77P9hluW+rHK4q+E2LsD2iJIO0NHBUGgBxZpnvBM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kHMmHd7owifz4+wGPcBm0LOjVH9GMYDtxle8WgYev7qlqGXsiFPI2gheLXaRUCPbM+GihpS3fYoVIiFxpYXpdt71ykm7INMz4G0LDPOY2kzE2NKrCZ3Y9rJU0vCeUHzgvSPnHI9CI6rZhf41kX1CmdrH6hkS52du28Lxxj8dLbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5xBlW6C; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739207907; c=relaxed/simple;
+	bh=VC00JklNOrgwjOXHHIYgIMfJnTeRDFzcAi5RpR/TxNY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NsNyiZVL4BXaDy6nxVi1Zg/dKv2A4UsgXsFXCfATi9XxkaIbCugV+M5UBaHP0hS+ajXIntYjJ0+WVttV5HkhHgkgVFcWNTZOpXSsH2yC17K9OKP7B+GGUB+mW+2dj8rJCd84NBtX3dVhxsCOVitjsR939d7pzVioEsAI7J/bx/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ot1MiNjG; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5xBlW6C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739206188; x=1770742188;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0OT77P9hluW+rHK4q+E2LsD2iJIO0NHBUGgBxZpnvBM=;
-  b=A5xBlW6CllZPrKAaRPQqPusvRcU0ra0MZU8sm+B80kim0//MGQkdDHaJ
-   VjWtIWJ8kuBHorNUyxU4sgw4olvRqyXVuteXn8QOoXWBteZWlGz33irYc
-   XW2XqPVDqP8cIiqdzdNYBnXNFqOqAcey3UfIVVqLtSV9rykqgbBAoqRXc
-   XwcHroEYT6JyAdDPD9f/Pw7lIJldwlRHKfXv1gBjbHFQqfykx4lNwVDYn
-   PsahRe0iMPmuDeOoNu0nEF0CrnNM63JT7Z2GkK8+ebSL1qVNWuwRHqFky
-   SV/KO4cAdlDFY90CzP2UcGh823FWxll8aCd7OJrDg+2b0a0muVyNw5Air
-   A==;
-X-CSE-ConnectionGUID: +UvZAIleRGCLnVjCeiW07g==
-X-CSE-MsgGUID: tRaZPhKxQjS7n1PGCG8abA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39484040"
-X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="39484040"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 08:49:47 -0800
-X-CSE-ConnectionGUID: z6QtziKsSIOS+VAPRHgYVg==
-X-CSE-MsgGUID: T/GNvgXZTOuhdRT+F5sg2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="143114089"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Feb 2025 08:49:47 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thWye-00134z-0L;
-	Mon, 10 Feb 2025 16:49:44 +0000
-Date: Tue, 11 Feb 2025 00:48:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Emil Renner Berthing <kernel@esmil.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [esmil:visionfive 27/33] sound/soc/starfive/pdm.h: linux/types.h is
- included more than once.
-Message-ID: <202502110052.eujCZsQ4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ot1MiNjG"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f6a47d617so36331005ad.2;
+        Mon, 10 Feb 2025 09:18:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739207906; x=1739812706; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6Hr2gj90SAJvZYYKvX3lI+NWXPn0IZtRtW+Ba4PvwI=;
+        b=Ot1MiNjGlWElkLJbEX2OwAOUn8N+QK8hPCnw/KylPxk61shiDsmaY3q5SpbkExXft1
+         sKiUj34682B/Ds3urDoJZ0hEwg6rQMTreuw0iEYcceYp3uXvu4AMXW2c1RZOo+KqudJd
+         XzQPWRjaX/yNxCJQziOhDq6m4c2L1bSRJjr4OpZ01tmCc8qLN2JHZETmwVX09rVHfcdp
+         4viIh9xgFALdSS0yt6TDJL/fg15A805Z3l1CqOqdVoE4Dai2ibsLHWI242OSpQg6SSTh
+         KWQXj5Sc47WNPrtxXUIOX4J8z1i/B6fTE44x+gbLGkhfTB1tjx78f6eToxEUFKQetG6/
+         qHgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739207906; x=1739812706;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y6Hr2gj90SAJvZYYKvX3lI+NWXPn0IZtRtW+Ba4PvwI=;
+        b=RybbGfWlnZSDmg1Yh1nD0mBjAmr7CQrE7gqc9kmz9S5QbeX/HgcA6w0NF/lYjMT//h
+         aE7WC4afJyNljpe7BuovGcLBgoqCrDMFvf0jWIHW4NnxsY75Vkk3mMMY8DlTgJVYwmym
+         n51nKcpPXV9K8GM4EP2fe8rxxXEUj6rxFZYyaoT+vnJUqhUJg40WjiAVgLk3mLkD5Pwy
+         KriOi6kV0VHeeJw36KInzhPjUqDXC6DAVwCzLGpPsMdtncz8n2BijRSC5EO0SBzj9ug6
+         5Eqsafglt0w0EGOY8Almygd8MeCA1wkWwxFThZcHac/YIpVUaTft3901JClKW4yR0DqJ
+         8Nlw==
+X-Forwarded-Encrypted: i=1; AJvYcCVAlICneRkGniHTybeKUZSKPfvx41/kkSXflkwy2NuR/xCEcb6Yz/A7A5cR9X+CdT0nm69G@lists.linux.dev, AJvYcCVsj03HxkQnu0N/YOogZ+GafcAzroFWh+pmDs6ftEYa3uc6wNMPXSdq5HvfgzvVreoJQRMM33BSbWOWcsV/KQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSy997KY9y+Ja/IyudK3aBhJCf2DdZH8evxjPvmYDd1ihoxpgV
+	VE6dca29P27p0qFH2Ym7MAiRvYG8kneH4fviif6B/WxZuEu8dn+7K/fOFJ8L+qIA76d85/g7woI
+	BiG5Kb0nifNl3AmKvLfdDdw38E9cOkC3ViQ0=
+X-Gm-Gg: ASbGncvKIF5QXQY12WyR+iMF/Rr8W5rvUPH0d4IcrbDgQ2OayleCmxz/hyA0UZIjS9e
+	JkTPYLG6TaoJi+1t5MxuPqpFgIPJHHpsHmIpceHzp+Wdf6gmVRev1cZkdS1Jnrpnw9W0mbyr/
+X-Google-Smtp-Source: AGHT+IEXZ5lqBOERsIeVCEiZf+6SKGWkoAr+EjNWtFeKsutJOZCFiQi7Te+5lhD9Pf+7cxxxQEYooMyUXelC0GOYWCg=
+X-Received: by 2002:a17:902:d512:b0:215:b8c6:338a with SMTP id
+ d9443c01a7336-21f4e6a05c0mr236794695ad.4.1739207905763; Mon, 10 Feb 2025
+ 09:18:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250207203441.945196-1-jilliandonahue58@gmail.com> <202502082022.ILQXjseT-lkp@intel.com>
+In-Reply-To: <202502082022.ILQXjseT-lkp@intel.com>
+From: Jillian Donahue <jilliandonahue58@gmail.com>
+Date: Mon, 10 Feb 2025 10:18:13 -0700
+X-Gm-Features: AWEUYZkEYqytkrljgvhIt2HQh3vA3pz_JwF1sjfbnL48BEb20zELvkxqTlRWhmo
+Message-ID: <CAArt=LhOBqH-qZVkdBsh13Csvv1GrDBqakfPGjpFt0TF8KBYsg@mail.gmail.com>
+Subject: Re: [PATCH v3] f_midi_complete to call tasklet_hi_schedule
+To: kernel test robot <lkp@intel.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/esmil/linux visionfive
-head:   dcb5a245dbe2203ae35f6b1b5cb28929f758008c
-commit: e8916d018c5219f3e996f1a11f11ed767dd727ff [27/33] ASoC: starfive: Add StarFive JH7100 audio drivers
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Ah yea, this error happens because in this commit:
+https://github.com/torvalds/linux/commit/8653d71ce3763aedcf3d2331f59beda3fecd79e4
+the tasklets are replaced with works. Should I request the patch to be
+in v5.10 or should I update the fix to use
+queue_work(system_highpri_wq, &midi->work) ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502110052.eujCZsQ4-lkp@intel.com/
+> >> drivers/usb/gadget/function/f_midi.c:286:31: error: no member named 'tasklet' in 'struct f_midi'
+>      286 |                         tasklet_hi_schedule(&midi->tasklet);
+>          |                                              ~~~~  ^
+>    1 error generated.
 
-includecheck warnings: (new ones prefixed by >>)
->> sound/soc/starfive/pdm.h: linux/types.h is included more than once.
---
->> sound/soc/starfive/spdif.h: linux/types.h is included more than once.
-
-vim +10 sound/soc/starfive/pdm.h
-
-     7	
-     8	#include <linux/clk.h>
-     9	#include <linux/device.h>
-  > 10	#include <linux/types.h>
-    11	#include <sound/dmaengine_pcm.h>
-    12	#include <sound/pcm.h>
-    13	#include <linux/dmaengine.h>
-  > 14	#include <linux/types.h>
-    15	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jill
