@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB552F2E;
-	Mon, 10 Feb 2025 05:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514411ADC8C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 05:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739166452; cv=none; b=FZpgeM0DXrd3vEzuFiK5bQYkqKXqfNUCTW3K7iqtytw7YoceDCTYQYeI6XU1Gk2FLTGHeTNv8DBaFYShhMFYtbkEMHaQ7WnXiMsLehZ6NHVTl7zVd8hcs/q7T9N56qhc5lT6S3rnCHni4ZGeCzdqyzEu58VTFV2En1DtkhD91IY=
+	t=1739167174; cv=none; b=KBBAQYCXuveun49nFDIHGNJ4FB4bzW3BtjpvCVSZhNjuols/5Rqi6D7teE+qK2E6yEDbFWmZWN6KuExZtH1TANt5wmyAM95bCRgecEDtYjBErKS3az6jRLayWosgbRlNNrOLtgWaCW6g+E0+b8mOPHhFMejM6WB1mWQ9iu6HFgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739166452; c=relaxed/simple;
-	bh=cnjco74loFHQnD+KeSx9BLMP4PTTTfvem73VY9+LInQ=;
+	s=arc-20240116; t=1739167174; c=relaxed/simple;
+	bh=PpmSQeoYKvT8oteDm+bsrMk+6sWdVLNpEflWL3onPq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CABjYEILrv8GDHVFyBEnd/okHrtWk2O3pZYgHOWMo2kK9SYQv7HKIlZZvHpJ1gmahb/FE/YdId6LyfTs68c2Be1e+X0dpoULe9/p23UUJ0gwUPwPZRzyy1aYuxWCj0yEIN6Y0whfXHsWAijpe6rI3U1Z/x285kXhTaSZCFMiGHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSwi6Fjg; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=DGLhiI+wCoyE+oiluKfCuoKIbGbL7T6hZr0wSDksAm1X5I5tOC59Cm8Zq1MGmnfBywqn6t5ClAvDqayAHLSrMHp/ZtHlANaIsDlAxKq39qKk/n94xP+PQanvytwSKyuYNvLDhG2NYFH6xn1zw/QEZg5ZfvSVLtxdtw12xxeV7Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gdq7Meuc; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSwi6Fjg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gdq7Meuc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739166451; x=1770702451;
+  t=1739167173; x=1770703173;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cnjco74loFHQnD+KeSx9BLMP4PTTTfvem73VY9+LInQ=;
-  b=OSwi6FjgEQs8CgMlUoT/PUssJG5/FEc+WbRHy3FF5cmFZlrw+Dhpe/Hp
-   xN+OJQKWPpw8tTjCJ7qccjp5/CNnKPnUF5lf9MngZj81lTOOUfvd8Nes8
-   nsqufrFIj8DKIRD5s0zu2SVJl1uhjzaMOCfGxjSE7pZ9CdroAq1WDsaxf
-   kb0mv07D0uiBMra+H7s7GbVI0cGI68wMivgyGk1u0QTjPgf+cEMW3ASDh
-   ca14D76+MPCenHJZ865+OlmxH5CYd056VGbzN4MycNi/uZrwPE3Z/yM5I
-   4Vz7TZhWthI8tqF1Az0zLgYFrQQBeLXj17H9pMFI3kSWgH96XNHPkySVW
-   A==;
-X-CSE-ConnectionGUID: 6FZKIKr4SJOHwD2LJ2MXhw==
-X-CSE-MsgGUID: GCMydeePTpCcHqtDhJ0d6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="39882224"
+  bh=PpmSQeoYKvT8oteDm+bsrMk+6sWdVLNpEflWL3onPq0=;
+  b=Gdq7Meuc1abYhIlB8Me0xYTquR62lMG0PsIeDwrluwtsBEP8boA2kB7H
+   IatL3fDN5XWn+bM81ruY7y28FBAOxGad9yzCdAi+Pmf9vj+52/v3rgODA
+   FYo80v92S2mG9bRAoKdxsdzNctrX4UmkMYzuStmqu1WoqTZJnLV8lK+kJ
+   upygQOpGFFqWyNjNmTCwwi7hrnxKB96w3ix8QKKT/LDtj0uu262xqPcwO
+   fI5fQgoun7APTKgtKQnwzeSNnnNVD/XTWJ/iRhU1QHTgkY29xfxDlCBR3
+   gJTaHHsWJmxi9HZPmDDeO85Rp5xYDcrfmIEIcjnWhpn1+UuXcCK8hwaHg
+   g==;
+X-CSE-ConnectionGUID: o7dxkWBtRz6Nl0AAk6Aa5A==
+X-CSE-MsgGUID: lm5/QWyAQMqoOIPCuPuP8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="43495741"
 X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
-   d="scan'208";a="39882224"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 21:47:30 -0800
-X-CSE-ConnectionGUID: 10NRnUSZT8Wgox5hWxphbw==
-X-CSE-MsgGUID: TkFPFqCaQxq0CftsXOt2eA==
+   d="scan'208";a="43495741"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 21:59:32 -0800
+X-CSE-ConnectionGUID: s7ToiNH+Riqq8iubV3tV9A==
+X-CSE-MsgGUID: PaEhpk5wQj+/K45+rwk1JA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="142972640"
+X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
+   d="scan'208";a="112604239"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Feb 2025 21:47:29 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 09 Feb 2025 21:59:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thMdj-0012KN-05;
-	Mon, 10 Feb 2025 05:47:27 +0000
-Date: Mon, 10 Feb 2025 13:47:26 +0800
+	id 1thMpM-0012Kp-06;
+	Mon, 10 Feb 2025 05:59:28 +0000
+Date: Mon, 10 Feb 2025 13:58:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:afs-testing 33/35] ld.lld: error: undefined symbol:
- rxgk_kernel_query_challenge
-Message-ID: <202502101307.m8LMmsqT-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/250-aop 112/112] warning: unresolved link to
+ `remove`
+Message-ID: <202502101315.Zf0gbPNA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +62,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-testing
-head:   6385ba8f265471ebf57f38e2bd2e6a4fabac7424
-commit: 3b951c84a1a0a64bcd64148f838c699c9abdf8e0 [33/35] afs: Use rxgk RESPONSE to pass token for callback channel
-config: hexagon-randconfig-002-20250210 (https://download.01.org/0day-ci/archive/20250210/202502101307.m8LMmsqT-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502101307.m8LMmsqT-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   fd3792ec2053672fb9359a570552a51ae48f4035
+commit: fd3792ec2053672fb9359a570552a51ae48f4035 [112/112] rust: bindgen: Make snd_dec_flac opaque
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250210/202502101315.Zf0gbPNA-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502101315.Zf0gbPNA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502101307.m8LMmsqT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502101315.Zf0gbPNA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: rxgk_kernel_query_challenge
-   >>> referenced by cm_security.c:194 (fs/afs/cm_security.c:194)
-   >>>               fs/afs/cm_security.o:(afs_process_oob_queue) in archive vmlinux.a
-   >>> referenced by cm_security.c:194 (fs/afs/cm_security.c:194)
-   >>>               fs/afs/cm_security.o:(afs_process_oob_queue) in archive vmlinux.a
+>> warning: unresolved link to `remove`
+   --> rust/kernel/alloc/kvec.rs:633:58
+   |
+   633 |     /// If you need to preserve the element order, use [`remove`] instead.
+   |                                                          ^^^^^^ no item named `remove` in scope
+   |
+   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
 
 -- 
 0-DAY CI Kernel Test Service
