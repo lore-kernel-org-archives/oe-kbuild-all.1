@@ -1,231 +1,323 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E3535280
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 14:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739198840; cv=fail; b=MuP64QYmO21S1Z6G0ABKazhhgYi9feNKHxTpi0sGuVF7bUA/X1AJrv1rJr5K+Rl104jVjTMRYOnT+3jN/0U+qlA2Nmt/SuyQo68bstHC4AObchsykvdf0HrjD+dFyeUNbtY0WmAxqr7zkc3MZZ6celAJA+1hF5g5A9NHWHnsR+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739198840; c=relaxed/simple;
-	bh=OWk7Ug/YlHLA2JAqh/zowJ9A8FRkvsV875EqBxVXHt4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ecQ+RaRro9ZGa0ltDG/J8pJJoMK4EDUyHaOkdfsu7w7Jod3xLnYdjKoLZ96aTFtMXdvORFeP7AF56tGvwT0rZZLRhutj9S/KfSm6xgsWGG48odxOLe069Ts022yNGs84CqIJ0FlCGcHSpLUdsVjDu4xuIuX2AEkrWQxOobbtlMQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0Wl0kg5; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6DE22E412
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 15:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739201056; cv=none; b=otKs8pCo5FWQl6bCAtPNYfW/3IfDj7YNJlNYtNJu/7sZt2KcwniV8DblsCNGy22BGYKyjWx+IH7MflttQ2Xypbiz8AgQ/UaYKZ8dDrj5JwApWjQlrUOZ6QkJPSZqR881EApSyzFWSUZCKcBo10fzMPagpV1IE+5jFiYP0WxdSW0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739201056; c=relaxed/simple;
+	bh=Bl4aWPTf5f5nrCTeN8xLg/PAETVh6FjqfV1lvA9c140=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nhqwYIaB61gIY7nx+YvBrbYdaV3sbQpCpDFTUKmdxG6LavnVYO/J2w4sqjCXgC4gtMsi7k/7S5Eh3P8wMzOGG1KjWyUNHVkU5iooizNXn93Zz8metnmNnMi2JrZc4CmMfrkuCXeLoLsYHD7JtUx8n6fzcUzR5dD5W6oVN6MEZ1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vo3PlBUx; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0Wl0kg5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vo3PlBUx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739198838; x=1770734838;
+  t=1739201054; x=1770737054;
   h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=OWk7Ug/YlHLA2JAqh/zowJ9A8FRkvsV875EqBxVXHt4=;
-  b=Q0Wl0kg5Ed+fe6Pelawf0O08QcjErYZTdFOpuLUxggLR4PAoyfELoSh8
-   yYce2mh0Yyam1ZTc0rcV46uHXvCrhj7jjBtBKc7g8yCc2cWkE31I3RzoG
-   6gqubEYR8EDXjz3sxa4WB7sa2uXSbIXDXYPZ43mCFpu50VGRbVNRejRpc
-   uKjFAuIkJsKp2n/OdyULMiT4+/dW6HGAtlYOM2lVPTlkB0+JmGAGN/aX+
-   euASLchAVc5z7XlhVdfaTNhayy+ICP7WSXonob7B6+U2j/SoDyvftpOq6
-   mVsRhT/VbNOuUUf5jKmOLfiWLiDn7+ngRFSDPc0kndSTqpK6brnzkofOa
+   mime-version:in-reply-to;
+  bh=Bl4aWPTf5f5nrCTeN8xLg/PAETVh6FjqfV1lvA9c140=;
+  b=Vo3PlBUxew+p9CyJ6wqa4GhcLvlRreN/2RyWTGyVnFxNVsz4rYAbhTcA
+   nafy0XZtxTNzr5Jguvep9cC72wPcAiwhfgfHyVbBqjX9zZIvf4NtvvNjw
+   4TWn/eC7MO9boPCx6kk8JOWQrfpwyEuk9F7K/9/VRtLiQuV6b7sfYV7D8
+   0L+Let4pOqLZroZvV7+Bn6oQA4ZkW0mo0LHTwMFS2JA5tGMg5a6Qxg4FE
+   Lkb25M1svDJ6EvRzC0j7adIcwcJKJgqR76fKLXmvVsY2hG2viVbtWIpWO
+   NFw0pSqp5QW0LUAf9mDzrHIq0KoKx8f278gDeOLBPqBkZm/KWFmbbiI39
    w==;
-X-CSE-ConnectionGUID: zocPJYUyTzKmQy3u6pT7nQ==
-X-CSE-MsgGUID: B1D3lmGJS9S9gJ0CD2Oozg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39468990"
+X-CSE-ConnectionGUID: h0owwalgQ/uLM6v+3Y2Ykg==
+X-CSE-MsgGUID: Dw46v5MJRQORajyF4LT6sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50415893"
 X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="39468990"
+   d="scan'208";a="50415893"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:47:17 -0800
-X-CSE-ConnectionGUID: xidyEOSiSL2zCUMSf/D61A==
-X-CSE-MsgGUID: dtCQN4ARQgGKszne4iaaag==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 07:23:42 -0800
+X-CSE-ConnectionGUID: /X6U1de0QgO9H/8op+nnhg==
+X-CSE-MsgGUID: gPbyCxDFRhqFB2NIj8UVGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117426577"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Feb 2025 06:47:17 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 10 Feb 2025 06:47:16 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 10 Feb 2025 06:47:16 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 10 Feb 2025 06:47:14 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mipUO4yAA1HYvAwaB0tCUDFmR6HKaHEKCB/roASv37K8n2XGNZko36aMqqlRs/QuYJZ3hEcfAOi+BnlvYjHkDpgDYNA0THdsANt0KthnJB9wH85Gb3jRA/gA5ytZD/x+EQr8PngS0dnFppSOhvJ+KFZ5NlaKAyNltBnbsZ/vtT1FeUSoR7Q7SMEoqbBdoU8jg+xuUtTMJD1PdGhCMAbtdSPmucshLkhDt/6QAd0PesgKvgdNf9UM79Ecdg7XAGINgwRU+SI3GjcCAgc6thj4q54mt1XxmPHx+qWHwokVbnJnM5VZYr8tDhj1CzVqVL42Byg2ahPdIl1sx53j7o0Rbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PfGkhRwEUlUSiqPEQXEcTTpPciL6StfYM0hlOgdBFq0=;
- b=XfEl5esyX0jXl+XfcG2IcduMAjpFg/YLXu213roahu1wBFvjEP2Eh8SwkCmIBcjTdym9Z3rM0EntzbEuNZ75ydqgSc49YHyYNuCoVSvTsiaNjgEAdb6u0Ow5dHoR1d+oNHjAAFntVl+0kN4pTYNgBJLyJ/Ttkb2uvcKjFKRaMehRZiTb1Dh0PHwF9E3q43xjjF2VHi9tBeaQmGJe88x23Xzoy1DaOWuRCLKLllXjvQ7l1Ihk4/EgLsVsHY3VqHXtVeCaQV7bQhwww3qyB0U5h/aj/KvzgeiD/1syV2WPvrulFzWw8ZeTYYAcJOxWeSthvoduJI4lEGq63lqu5+zEDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by PH8PR11MB6732.namprd11.prod.outlook.com (2603:10b6:510:1c8::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Mon, 10 Feb
- 2025 14:47:12 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8422.015; Mon, 10 Feb 2025
- 14:47:12 +0000
-Date: Mon, 10 Feb 2025 22:47:05 +0800
-From: Philip Li <philip.li@intel.com>
-To: Waiman Long <llong@redhat.com>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: net/8021q/vlan.c:241:46: warning: '%.4i' directive output may be
- truncated writing between 4 and 5 bytes into a region of size between 0 and
- 15
-Message-ID: <Z6oRaZBeKpIg+4nv@rli9-mobl>
-References: <202502101253.TDZbCYh6-lkp@intel.com>
- <3008ca8d-e599-437b-8f1e-0dbe86202f38@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <3008ca8d-e599-437b-8f1e-0dbe86202f38@redhat.com>
-X-ClientProxiedBy: SG2PR04CA0172.apcprd04.prod.outlook.com (2603:1096:4::34)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+   d="scan'208";a="117434708"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 07:23:38 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1thVdF-0000000ADZe-3dpG;
+	Mon, 10 Feb 2025 17:23:33 +0200
+Date: Mon, 10 Feb 2025 17:23:33 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
+	rafael@kernel.org, linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	lgirdwood@gmail.com, broonie@kernel.org, sre@kernel.org,
+	jic23@kernel.org, przemyslaw.kitszel@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+References: <20250210064906.2181867-2-raag.jadav@intel.com>
+ <202502102201.zLWaJC6V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH8PR11MB6732:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6b2dcee-3bc4-4183-9189-08dd49e1cda6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?L/fe7XX8DNbIbY6NDonUfegCyTPXBb5XLlYKX9fFHF5S/h87StxsQaqPIZus?=
- =?us-ascii?Q?sU0SgAQ+tMCZf7iCJdTxj2HWxPnxfaL3Nyt+ZZjcp3TDBqEOHEvFcIUNqPQy?=
- =?us-ascii?Q?ZUXnywUV0JKbA3hAVSMMMWwK4BwmW9oUZPLUq88mkwnJV2PHkJnPM0x+TGPf?=
- =?us-ascii?Q?ZYWz2Pjvz+syA5WgYhxPQlt7cLtLPvCxltGOdN2r3ylkWAjQrFT15MPuOSqZ?=
- =?us-ascii?Q?gY27+baWKeIg3Dcdt47bO6VH3ptCeThX2k8nJJYzvy/HxNDr2NqskoLE2emn?=
- =?us-ascii?Q?YBq4nWKgSruCGfWLmL7xuP1Chggmk+bfqw2szuOuxArHOA45Ote1GXfgJc35?=
- =?us-ascii?Q?MvXFjO6YeR0tREkRk1ujDIG+N/pwIvA+lyzGY46chplUHVgNezqNHdAqYHQT?=
- =?us-ascii?Q?xSWFda1mBjtBQ+qfho9VQu5yxk3AajdaAqFvz+kZVPa5IgsmRW/5FSpCIWS9?=
- =?us-ascii?Q?/+TNhaLqmn5N2rCa+d6SE8mU4yPjYojcQ6PuIJ6OKjmCbOnn+60pMAwqjyGk?=
- =?us-ascii?Q?nLBaOQFXIcv/KLoR8pa6ImOHhFeF6Hkyc5HnubuZRthGP8o5melY8y+1f3/a?=
- =?us-ascii?Q?pFE5SdExCBQsEAcQMWXsxT8YgJguYchu6PEkto0nItnJNRPjGtoyf2yjGYBp?=
- =?us-ascii?Q?7FEv7UUPTCpVSJbAytwcTDntj8tzPz6eIL2ogY6uTG4MMCmoIha0IFEL34Eo?=
- =?us-ascii?Q?6y4b3kT9ug/d4D2VL675qeP4XS6FBA2yvRK4nDuqaXHgDLTdukrK/yFc4Qak?=
- =?us-ascii?Q?xnkwDJN3XGlSiIgoaXyF8caMW23VV2SEwHQxRVoKfZ2x3izuyTm1OFNzDpDR?=
- =?us-ascii?Q?3VylKxtz51Cj4OFNuMZONHN9PBzjyPUbMGq5W4ND2mF1CDEM2Q1kT7V61RQ+?=
- =?us-ascii?Q?UapXkkTAqphpdRWrO2UhrizAmPGpXE9VDJDFuLdO1OqsoR8GeeF5Seqfj3pY?=
- =?us-ascii?Q?OpTxtI/iS26WANHShe7OerivOucf6aj3aMpRVZ7023oSBur3YgKgETYQZVTF?=
- =?us-ascii?Q?gxl/BSVzNmoKJUl9BX51P0xXqV2Vn35iJ1nz6TfjvpZsPlJFqOo+6LNM+ghw?=
- =?us-ascii?Q?RsQON4FogLjD6CW1U8WwwVGrQ4EKOBHMbewkOnDc6k1XelFFk5EIQ9ztW85I?=
- =?us-ascii?Q?bFC/rmNdrZ/XwIHjJ1H/wXq2fShH6AIQyOPRqWEaH9xzImyQk5FArsvm/WJ8?=
- =?us-ascii?Q?c+oT5maevTSCPxa/VD0hG4klGDkML0W7uLdKHT+ynnT8kCOgvF+87JbjRIri?=
- =?us-ascii?Q?3prjI1FFNI+kLfR6rz2YmrD65sa0HTqnLfH9mLI39BHFks5kdljjKcJ1qywC?=
- =?us-ascii?Q?56JR8XLF0TuxJADzsWMRh2qRd/JRZ1rJUROgGCzVj3mxEQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RSRlIZ9tVCtYxElmOTRO+Cp7oVL/ddGlNkp3jWoTOxWZIsJiBSqGleFclYA0?=
- =?us-ascii?Q?C2eyjJWlQPqRKqHG2Qyf+td3eSt/BPSTu8L+wYs0fRnU1Ff8G++ySGsD9hvN?=
- =?us-ascii?Q?CHmhJU14n4Ppfw/FZtF/tV9nc5+9Ms5qKG8mRmpTEwrym9lFRb16zbZv1Knt?=
- =?us-ascii?Q?47TNQ8VjjSOUxgQm+fhGNINkdGbNjrUv1IuJlSOxLAU+vRC6+dFM9+z3UePf?=
- =?us-ascii?Q?IDY3eVKHdg6SurH2d0tTGaI7vYShC17g1RlzE4v7l8B70svUKv6AEJAEoR7K?=
- =?us-ascii?Q?L5rUsmMaA95np6x1Vu/tZit4MXQ4CXNKBpwxBeBFyTcMulbRPK46cbdxiHhU?=
- =?us-ascii?Q?T7RzkvDdhIVTYnfj1fNZShVW7+/AS5qWknaRJp3G+LOexGdqiGbN43PNzdDy?=
- =?us-ascii?Q?6bjXPq84o9sLDPnxzGfvKd3oikesLLPZ0TDnFoBEKc/QirrtNcONkB8xa1jx?=
- =?us-ascii?Q?zejfzBlBQrudcu2S73nZmrjfmDCAzJiiLAe902qDuVsqb3EJHfskTo69R7iK?=
- =?us-ascii?Q?qn9PWeaATWtY3FXFDDWU0PRTfsA2ojCCesP5ipsEiMujUU05W3ruFXrCNX6h?=
- =?us-ascii?Q?pLRcdUw29XhXVJB1+35nfLVTvxTSLjVv7eLUjIYopXGvyqMw7rTuMfLroEun?=
- =?us-ascii?Q?B9U6FsBng1nX22bJqurc6xPSwlgSR/crtI0wZeoXJt6QBTPyhRWM30IoZ9Cq?=
- =?us-ascii?Q?nvsma37BOQo+F716AQh6oJ8rpDntdS6QPDk0cwpcNQLpT4r8TzzO/UyAjQ+H?=
- =?us-ascii?Q?iAAXdulbLQSXrrWoyilpSoii/SIiinjtWmD53zTWAX1IjlXmkdzwuqbD1mXB?=
- =?us-ascii?Q?O9Uqy54vsdUuNc26e0MT0HvC/axWWZFM2Rm7NGFi5RGqnB2jcfWjYPdxBQ5X?=
- =?us-ascii?Q?NW699wMDPwnsv8/nGrg7SyC3g9nzGHy02Z2/8elapB2+OC1YdkbuMf3V0BFx?=
- =?us-ascii?Q?0I5egGem+2SymKopC3yq7e3Ad+19qkkoZf4vLqgOrQVEuii4EB1hDlnHU3ms?=
- =?us-ascii?Q?MhQHa19gYsob9UmqHEjaNguCizdYzErEZmw+qGLv9VX7+Z25eCMe6FrI7c+v?=
- =?us-ascii?Q?FkCTY2apnt9GeS36ExPW1BDtnvPK9JAaq0Wa1krdBz/2naP7/JQRYhTT139R?=
- =?us-ascii?Q?zx1Lem2ZFvn973WSBhkCvoVha8vu2uL2JYmPeEZkxfm0/ZogyQb/2NNLeyho?=
- =?us-ascii?Q?sCFyVuydYPPx3wv9VhZv5JtglRnm1OBzQHrh2MJwqq1ptB/6e/hsYzCd+Bcu?=
- =?us-ascii?Q?sGCvBi1SMezP24M6JknsGPwdEqRDnV6KMVNc8bhjbuucBftoTF09utaTl3kq?=
- =?us-ascii?Q?DB3fdqD4dgJb8tE6MynnKgnZHafF3Vz4PK1CMYeH4bqBMNGEZKacqRgujK1p?=
- =?us-ascii?Q?arkC6FcDwwp9ihMFPuumkSed7p0bPQJzrBtUCwuz2aAcgNhZelX2TrdMTFxF?=
- =?us-ascii?Q?DnXM4bTPgQ4CeWNJvue1HlI+HBqLzCXucnjtP2k7mOQUJr1oirSMeme4+kDi?=
- =?us-ascii?Q?DNoaKUHIXO1v90VAvz7SIc17GcKIlFLiMAqiW02eK3xPcHOyR2ON2e1o3oDJ?=
- =?us-ascii?Q?anlVd24Lp+oVE/MroOa9ZKZw681FX2EQuulPQOXN?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6b2dcee-3bc4-4183-9189-08dd49e1cda6
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2025 14:47:12.6372
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LF72FCBSGGaXkcc5blrvyBcPU2u9MgiElgDDSa6HPMeaV1O4fftDV1Absfr7p0vJaqeudCkzbVL+WDFzzYBjdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6732
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202502102201.zLWaJC6V-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Feb 10, 2025 at 09:24:58AM -0500, Waiman Long wrote:
-> On 2/9/25 11:44 PM, kernel test robot wrote:
-> > Hi Waiman,
-> > 
-> > FYI, the error/warning still remains.
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-> > commit: 925da92ba5cb0c82d07cdd5049a07e40f54e9c44 rcu: Avoid unneeded function call in rcu_read_unlock()
-> > date:   3 years, 5 months ago
-> > config: sparc-randconfig-r122-20240116 (https://download.01.org/0day-ci/archive/20250210/202502101253.TDZbCYh6-lkp@intel.com/config)
-> > compiler: sparc-linux-gcc (GCC) 12.4.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502101253.TDZbCYh6-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502101253.TDZbCYh6-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >     net/8021q/vlan.c: In function 'vlan_ioctl_handler':
-> >     net/8021q/vlan.c:253:46: warning: '%i' directive output may be truncated writing between 1 and 5 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
-> >       253 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
-> >           |                                              ^~
-> >     In function 'register_vlan_device',
-> >         inlined from 'vlan_ioctl_handler' at net/8021q/vlan.c:628:9:
-> >     net/8021q/vlan.c:253:42: note: directive argument in the range [0, 65535]
-> >       253 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
-> >           |                                          ^~~~~~~
-> >     net/8021q/vlan.c:253:17: note: 'snprintf' output between 3 and 22 bytes into a destination of size 16
-> >       253 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
-> >           |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >     net/8021q/vlan.c: In function 'vlan_ioctl_handler':
-> > > > net/8021q/vlan.c:241:46: warning: '%.4i' directive output may be truncated writing between 4 and 5 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
-> >       241 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
-> >           |                                              ^~~~
-> >     In function 'register_vlan_device',
-> >         inlined from 'vlan_ioctl_handler' at net/8021q/vlan.c:628:9:
-> >     net/8021q/vlan.c:241:42: note: directive argument in the range [0, 65535]
-> >       241 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
-> >           |                                          ^~~~~~~~~
-> >     net/8021q/vlan.c:241:17: note: 'snprintf' output between 6 and 22 bytes into a destination of size 16
-> >       241 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
-> >           |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > 
-> > vim +241 net/8021q/vlan.c
-> 
-> Why me? I have never touched net/8021q/vlan.c and I don't believe commit
-> 925da92ba5cb ("rcu: Avoid unneeded function call in rcu_read_unlock()") has
-> anything to do with the snprintf format warnings.
++Cc: Arnd
 
-Sorry about this, this is a wrong report and we will fix the
-bug in the bot side asap. Sorry for any inconvenience.
+On Mon, Feb 10, 2025 at 10:30:28PM +0800, kernel test robot wrote:
+> Hi Raag,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250210-145732
+> base:   a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744
+> patch link:    https://lore.kernel.org/r/20250210064906.2181867-2-raag.jadav%40intel.com
+> patch subject: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
+> config: powerpc64-randconfig-002-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102201.zLWaJC6V-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102201.zLWaJC6V-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502102201.zLWaJC6V-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
 
+TBH I have no quick idea how to address this. It seems that io.h includes device.h
+for no reason (but I haven't checked that carefully). OTOH, we need only
+IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h as the
+former includes the latter and the definition depends only on compiler_types.h.
+
+Arnd?
+
+>    In file included from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from arch/powerpc/include/asm/io.h:22,
+>                     from include/linux/scatterlist.h:9,
+>                     from crypto/rsassa-pkcs1.c:11:
+>    include/linux/io.h: In function 'pci_remap_cfgspace':
+>    include/linux/io.h:106:16: error: implicit declaration of function 'ioremap_np' [-Wimplicit-function-declaration]
+>      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
+>          |                ^~~~~~~~~~
+>    include/linux/io.h:106:44: error: implicit declaration of function 'ioremap' [-Wimplicit-function-declaration]
+>      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
+>          |                                            ^~~~~~~
+>    include/linux/io.h:106:42: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
+>      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
+>          |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+>    arch/powerpc/include/asm/io.h: At top level:
+> >> arch/powerpc/include/asm/io.h:885:22: error: conflicting types for 'ioremap'; have 'void *(phys_addr_t,  long unsigned int)' {aka 'void *(long long unsigned int,  long unsigned int)'}
+>      885 | extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
+>          |                      ^~~~~~~
+>    include/linux/io.h:106:44: note: previous implicit declaration of 'ioremap' with type 'int()'
+>      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
+>          |                                            ^~~~~~~
+>    In file included from include/asm-generic/io.h:17,
+>                     from arch/powerpc/include/asm/io.h:1031:
+> >> include/asm-generic/iomap.h:106:20: error: conflicting types for 'ioremap_np'; have 'void *(phys_addr_t,  size_t)' {aka 'void *(long long unsigned int,  long unsigned int)'}
+>      106 | #define ioremap_np ioremap_np
+>          |                    ^~~~~~~~~~
+>    include/asm-generic/iomap.h:107:29: note: in expansion of macro 'ioremap_np'
+>      107 | static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
+>          |                             ^~~~~~~~~~
+>    include/linux/io.h:106:16: note: previous implicit declaration of 'ioremap_np' with type 'int()'
+>      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
+>          |                ^~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/acpi.h:14,
+>                     from include/linux/i2c.h:13,
+>                     from drivers/input/touchscreen/ili210x.c:5:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/touchright.c:17:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/touchright.c: In function 'tr_connect':
+>    drivers/input/touchscreen/touchright.c:114:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>      114 |         snprintf(tr->phys, sizeof(tr->phys), "%s/input0", serio->phys);
+>          |                                                 ^~~~~~~
+>    drivers/input/touchscreen/touchright.c:114:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>      114 |         snprintf(tr->phys, sizeof(tr->phys), "%s/input0", serio->phys);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/penmount.c:17:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/penmount.c: In function 'pm_connect':
+>    drivers/input/touchscreen/penmount.c:211:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>      211 |         snprintf(pm->phys, sizeof(pm->phys), "%s/input0", serio->phys);
+>          |                                                 ^~~~~~~
+>    drivers/input/touchscreen/penmount.c:211:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>      211 |         snprintf(pm->phys, sizeof(pm->phys), "%s/input0", serio->phys);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/inexio.c:19:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/inexio.c: In function 'inexio_connect':
+>    drivers/input/touchscreen/inexio.c:126:59: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>      126 |         snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
+>          |                                                           ^~~~~~~
+>    drivers/input/touchscreen/inexio.c:126:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>      126 |         snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/touchwin.c:24:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/touchwin.c: In function 'tw_connect':
+>    drivers/input/touchscreen/touchwin.c:121:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>      121 |         snprintf(tw->phys, sizeof(tw->phys), "%s/input0", serio->phys);
+>          |                                                 ^~~~~~~
+>    drivers/input/touchscreen/touchwin.c:121:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>      121 |         snprintf(tw->phys, sizeof(tw->phys), "%s/input0", serio->phys);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/hampshire.c:19:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/hampshire.c: In function 'hampshire_connect':
+>    drivers/input/touchscreen/hampshire.c:122:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>      122 |                  "%s/input0", serio->phys);
+>          |                     ^~~~~~~
+>    drivers/input/touchscreen/hampshire.c:121:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>      121 |         snprintf(phampshire->phys, sizeof(phampshire->phys),
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      122 |                  "%s/input0", serio->phys);
+>          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/tsc40.c:12:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/tsc40.c: In function 'tsc_connect':
+>    drivers/input/touchscreen/tsc40.c:95:53: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>       95 |         snprintf(ptsc->phys, sizeof(ptsc->phys), "%s/input0", serio->phys);
+>          |                                                     ^~~~~~~
+>    drivers/input/touchscreen/tsc40.c:95:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>       95 |         snprintf(ptsc->phys, sizeof(ptsc->phys), "%s/input0", serio->phys);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> --
+>    In file included from arch/powerpc/include/asm/io.h:274,
+>                     from include/linux/io.h:14,
+>                     from include/linux/device/devres.h:7,
+>                     from include/linux/device.h:31,
+>                     from include/linux/input.h:19,
+>                     from drivers/input/touchscreen/dynapro.c:20:
+> >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
+>      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
+>          |                                             ^~~~~~~~~~~
+>    drivers/input/touchscreen/dynapro.c: In function 'dynapro_connect':
+>    drivers/input/touchscreen/dynapro.c:123:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+>      123 |                  "%s/input0", serio->phys);
+>          |                     ^~~~~~~
+>    drivers/input/touchscreen/dynapro.c:122:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
+>      122 |         snprintf(pdynapro->phys, sizeof(pdynapro->phys),
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>      123 |                  "%s/input0", serio->phys);
+>          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> Regards,
-> Longman
 > 
+> vim +885 arch/powerpc/include/asm/io.h
 > 
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  853  
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  854  /**
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  855   * ioremap     -   map bus memory into CPU space
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  856   * @address:   bus address of the memory
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  857   * @size:      size of the resource to map
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  858   *
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  859   * ioremap performs a platform specific sequence of operations to
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  860   * make bus memory CPU accessible via the readb/readw/readl/writeb/
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  861   * writew/writel functions and the other mmio helpers. The returned
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  862   * address is not guaranteed to be usable directly as a virtual
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  863   * address.
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  864   *
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  865   * We provide a few variations of it:
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  866   *
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  867   * * ioremap is the standard one and provides non-cacheable guarded mappings
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  868   *   and can be hooked by the platform via ppc_md
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  869   *
+> 40f1ce7fb7e8b5d arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  870   * * ioremap_prot allows to specify the page flags as an argument and can
+> 40f1ce7fb7e8b5d arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  871   *   also be hooked by the platform via ppc_md.
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  872   *
+> be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  873   * * ioremap_wc enables write combining
+> be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  874   *
+> 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  875   * * ioremap_wt enables write through
+> 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  876   *
+> 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  877   * * ioremap_coherent maps coherent cached memory
+> 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  878   *
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  879   * * iounmap undoes such a mapping and can be hooked
+> 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  880   *
+> 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  881   * * __ioremap_caller is the same as above but takes an explicit caller
+> 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  882   *   reference rather than using __builtin_return_address(0)
+> 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  883   *
+> ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  884   */
+> 68a64357d15ae4f include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-13 @885  extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
+> 8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06  886  #define ioremap ioremap
+> 8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06  887  #define ioremap_prot ioremap_prot
+> be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  888  extern void __iomem *ioremap_wc(phys_addr_t address, unsigned long size);
+> 894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  889  #define ioremap_wc ioremap_wc
+> 894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  890  
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
