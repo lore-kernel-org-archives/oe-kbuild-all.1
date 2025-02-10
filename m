@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5502C22331E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 12:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B885D2309AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 13:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739192002; cv=none; b=gWU/GhNg1zUqAHJHAG0i101Cjp25l/U9DD3IZuRem+7xPItaoajSQ3aZNfFnSsYU863Xfc1a0cfESqExuU1HmF2vuUPgnRg8R4L9oO0f31hj5JPRNMPKnLJOtijWfc/pdjKXWDeFuqLMQ59yY4LS8PZI9OkmlSLvR0jVddHs0/M=
+	t=1739195910; cv=none; b=KmkFYYoUW4s8c3BgahUiZ2kSbocIa1LLloPEmMA0196eD1WbLHpWfDgU6NpYQVd/M2zhEURKx0qEtK9eqp36qMVDwXwz1PXhgAsvGXtYfHNDIaxnwAsBXD5A7EfdiWct7Te2R5aJf6rqpW2WSPzlmlyyLIlJ5DDCRaKSFiWZ3C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739192002; c=relaxed/simple;
-	bh=dDqeST810SciDLnRjmQGaUvxR7rt4kKNVdnuNGyfEaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cmKwjeHNp9MdrfJkoX7tTfMkPVHjlpcUk76D+Y4eqob1e2cSM9fVj8yREWhcApPOC69Nwv5AUHAAE/HXlG8/ZlDIBklSpgDoniNqtYcl4e/aSCBD9FMEZoM47RGT2bxn2hjpMxYd5b5wW3XMNANJWhSdmMPX7/iOtZ/25csEVUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WmGPiKev; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1739195910; c=relaxed/simple;
+	bh=UGwO/bFqaojHA1cvkelalC2GX7lXAc1A55AXlqrKry4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fTrm3wyOTsimMeNVGiF0M4xqUUVraV0UQiMqnhn2tT6OeP1WumWFCJnMII/INrOgTdtgDNK5kCDdfuSEohGlttEAs/PiLVrIk5CXlxTmUYa0SoYuzyqHmRz5cgIcJdu6MBTFmSoX8Mgv+b3vC4WKxixsDyDW4GcHebXorWbd+Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arYhk81k; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WmGPiKev"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arYhk81k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739192000; x=1770728000;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dDqeST810SciDLnRjmQGaUvxR7rt4kKNVdnuNGyfEaI=;
-  b=WmGPiKevw/CYyQuj8Px1LQKiHUyAYiLf2hsWooxiTFGgDqpZK0sw/BiH
-   VyH+ydV3tP2ltqVeIfGKQ9OdzAMEM/vBPJlGHJdyWDUUPK0VkNilvXyBd
-   nOn8CMIyrfN8u5IroFOm2uK+tdbXTyO5MY5P7N0JPtk90rVjN4heFoD9L
-   8eVIA6W7ZLYrEcrAr8qOl2SceT8bz0Ld00UYr8AlbrGtQyI2o+piqCi80
-   Kc8RqUHg2PhGG4enufXEWWBv+m6brFOauGtRhMcmmU8+jFS2CNyIWK1Ha
-   8pmFDFD//+J5/45uFXFnp2kxzyMx7IIY9camh1eGPptZiuVTz2zjtSgjE
-   g==;
-X-CSE-ConnectionGUID: pDkIxlODSqa45GB9hXJteQ==
-X-CSE-MsgGUID: 94kN9UzbT/6E4V0wejOEZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="43530681"
+  t=1739195909; x=1770731909;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UGwO/bFqaojHA1cvkelalC2GX7lXAc1A55AXlqrKry4=;
+  b=arYhk81kpGGP3ETPd+imtI0+6OQrvzzDfK0S5Rot/ZVTm66B4IolZK0N
+   SW3iPX9hCeBNdPJ/jQGCzMc+/nlDYr0cg9vIzbNsWtszQ69y7P0rr8M4I
+   yY1KIyTADRSd35Qte46WmVdCHIhwVUNAtVYnFebgbViDYmgEQmFd5oXQ6
+   D967psa9AaEquOR2ezAQQKg2J8Gf5J2Do87ctLI69Mxb4WgVf/13ZTEIW
+   XVLiLWuXhgGI7/PjLn1w2a2jI264sHnCvXJIaeGLgPV3eXxBnwG4pKn+u
+   g9tEdif+E1LOCCkbe6Z7roVsbr/unWLGIiuDjd7qpSn9T7qm6SJ4ZWkcL
+   A==;
+X-CSE-ConnectionGUID: VWcAbF1JRjijmINcr3GJ0g==
+X-CSE-MsgGUID: Fcxb0KvsSuWjmOE+yy8PVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="40044621"
 X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="43530681"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 04:53:18 -0800
-X-CSE-ConnectionGUID: hg10GrRZQeCmnEUfL1HA9w==
-X-CSE-MsgGUID: JbJumYVvRIm0K5RE5x3AIQ==
+   d="scan'208";a="40044621"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 05:58:28 -0800
+X-CSE-ConnectionGUID: g4zW3PwQQ/y4x6/DFjGosw==
+X-CSE-MsgGUID: 9durtbzBQDi8ifZqB5boSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143075272"
+   d="scan'208";a="112634957"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2025 04:53:16 -0800
+  by orviesa007.jf.intel.com with ESMTP; 10 Feb 2025 05:58:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thTHm-0012lh-1H;
-	Mon, 10 Feb 2025 12:53:14 +0000
-Date: Mon, 10 Feb 2025 20:53:00 +0800
+	id 1thUIn-0012ql-2c;
+	Mon, 10 Feb 2025 13:58:21 +0000
+Date: Mon, 10 Feb 2025 21:58:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
-Subject: [vbabka:maple-tree-sheaves-v3-hack 19/21] lib/maple_tree.c:6481:30:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202502102217.0YW7bpVS-lkp@intel.com>
+To: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
+	bingbu.cao@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
+	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
+	balamurugan.c@intel.com, wei.a.fu@intel.com
+Subject: Re: [PATCH v5] media: i2c: add lt6911uxe hdmi bridge driver
+Message-ID: <202502102128.fEu1NOLZ-lkp@intel.com>
+References: <20250210060923.2434047-1-dongcheng.yan@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,67 +68,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210060923.2434047-1-dongcheng.yan@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git maple-tree-sheaves-v3-hack
-head:   9b7a825f40a76d8502c0e96c19cfd47c53d8bd4d
-commit: 0cf12ebfec24f08ea972ca4a28b71f0b212388e0 [19/21] maple_tree: Convert forking to use the sheaf interface
-config: hexagon-randconfig-r113-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102217.0YW7bpVS-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250210/202502102217.0YW7bpVS-lkp@intel.com/reproduce)
+Hi Dongcheng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-add-lt6911uxe-hdmi-bridge-driver/20250210-141140
+base:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
+patch link:    https://lore.kernel.org/r/20250210060923.2434047-1-dongcheng.yan%40intel.com
+patch subject: [PATCH v5] media: i2c: add lt6911uxe hdmi bridge driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250210/202502102128.fEu1NOLZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102128.fEu1NOLZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502102217.0YW7bpVS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502102128.fEu1NOLZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/maple_tree.c:6481:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
-   lib/maple_tree.c:6481:30: sparse:     expected void [noderef] __rcu *
-   lib/maple_tree.c:6481:30: sparse:     got struct maple_node *
->> lib/maple_tree.c:6481:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
-   lib/maple_tree.c:6481:30: sparse:     expected void [noderef] __rcu *
-   lib/maple_tree.c:6481:30: sparse:     got struct maple_node *
+All error/warnings (new ones prefixed by >>):
 
-vim +6481 lib/maple_tree.c
+   drivers/media/i2c/lt6911uxe.c: In function 'lt6911uxe_get_mbus_config':
+>> drivers/media/i2c/lt6911uxe.c:444:12: error: 'struct v4l2_mbus_config' has no member named 'link_freq'
+     444 |         cfg->link_freq = lt6911uxe->cur_mode.link_freq;
+         |            ^~
+   drivers/media/i2c/lt6911uxe.c: At top level:
+>> drivers/media/i2c/lt6911uxe.c:106:32: warning: 'lt6911uxe_ev_stream_end' defined but not used [-Wunused-const-variable=]
+     106 | static const struct v4l2_event lt6911uxe_ev_stream_end = {
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~
 
-  6448	
-  6449	/*
-  6450	 * mas_dup_alloc() - Allocate child nodes for a maple node.
-  6451	 * @mas: The maple state of source tree.
-  6452	 * @new_mas: The maple state of new tree.
-  6453	 * @gfp: The GFP_FLAGS to use for allocations.
-  6454	 *
-  6455	 * This function allocates child nodes for @new_mas->node during the duplication
-  6456	 * process. If memory allocation fails, @mas is set to -ENOMEM.
-  6457	 */
-  6458	static inline void mas_dup_alloc(struct ma_state *mas, struct ma_state *new_mas,
-  6459			gfp_t gfp)
-  6460	{
-  6461		struct maple_node *node = mte_to_node(mas->node);
-  6462		struct maple_node *new_node = mte_to_node(new_mas->node);
-  6463		enum maple_type type;
-  6464		unsigned char count, i;
-  6465		void __rcu **slots;
-  6466		void __rcu **new_slots;
-  6467		unsigned long val;
-  6468	
-  6469		/* Allocate memory for child nodes. */
-  6470		type = mte_node_type(mas->node);
-  6471		new_slots = ma_slots(new_node, type);
-  6472		count = mas->node_request = mas_data_end(mas) + 1;
-  6473		mas_alloc_nodes(mas, gfp);
-  6474		if (unlikely(mas_is_err(mas)))
-  6475			return;
-  6476	
-  6477		slots = ma_slots(node, type);
-  6478		for (i = 0; i < count; i++) {
-  6479			val = (unsigned long)mt_slot_locked(mas->tree, slots, i);
-  6480			val &= MAPLE_NODE_MASK;
-> 6481			new_slots[i] = ma_mnode_ptr((unsigned long)mas_pop_node(mas) |
-  6482						    val);
-  6483		}
-  6484	}
-  6485	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +444 drivers/media/i2c/lt6911uxe.c
+
+   434	
+   435	static int lt6911uxe_get_mbus_config(struct v4l2_subdev *sd,
+   436					     unsigned int pad,
+   437					     struct v4l2_mbus_config *cfg)
+   438	{
+   439		struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
+   440		struct v4l2_subdev_state *state;
+   441	
+   442		state = v4l2_subdev_lock_and_get_active_state(sd);
+   443		cfg->type = V4L2_MBUS_CSI2_DPHY;
+ > 444		cfg->link_freq = lt6911uxe->cur_mode.link_freq;
+   445		v4l2_subdev_unlock_state(state);
+   446	
+   447		return 0;
+   448	}
+   449	
 
 -- 
 0-DAY CI Kernel Test Service
