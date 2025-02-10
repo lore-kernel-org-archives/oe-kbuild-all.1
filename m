@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911AC264602
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 21:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7B124E4B1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 21:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739223320; cv=none; b=GCO7QfKRmRG60DnffvX1QsDUoiihAuzz6pDMJYHrHHCoRAlRqLJY5JkhRh2tte8TEryQcy+3E9Q/zsi+RjDDDh8vUn9BkPsIdJV0w09UiWqtaX1e8zQOQnGwzmT59CrOm/CruZDmbZq2iiDFZgmMcfimy7y8KnZ47AW6hnHMUa0=
+	t=1739223625; cv=none; b=gprtPgQ+aOU5MHUrl0DcegE0uHFXx2jQnCf8O6FCEvN5+Fwd4QIVbm88lm+hhy1CaieceoW7G9knwKPNV2DM1DRmhLUkSibdYWM2501zJgV4M+nuOY9vDRlo0jS7vZmebk09JkFzGTmArGaUnSfVK20wbGoP5qdJexZj8ovbTQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739223320; c=relaxed/simple;
-	bh=H7RSqJLsURJtj4e0K5zWf3Vea8L8TxbXHl2Kl4kO0KA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WSwiadaxd3SJRx+bcKK5AJXUeKLLxVj6c+E1moPZkYtv/3BqPWMmHXvB7+WQUUa3u8WgYPfudmoDS3eHynrdGLrRlzka1nFAo8EXC1wqleA8OEvO1SScwRDi0HqK/1HrTx6v97wdo5a/iMQph+5At4UIc8P/+L37GYpamDxMgpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UEfCDIaq; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1739223625; c=relaxed/simple;
+	bh=prnteViesIGDgRYqEM9GnFwLb0GsqG/fuygOM/J+4FI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TrG31ARACX6DrLdXcTjxD1saKq0ZMbP7LctB9fJTmjFkgvC0UpA2hHIvexxD6pjAxlIaopwvT2Rqbrz0zoWDbjQtKkToF6TBzc7mJA/d4csT8Uj7pf6AFcbQYBkhf//F8j5WIEwFBKa526HdrdxCFVvKzaW7KhQHTTMqLfcd+0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfYbq8EV; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UEfCDIaq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfYbq8EV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739223318; x=1770759318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H7RSqJLsURJtj4e0K5zWf3Vea8L8TxbXHl2Kl4kO0KA=;
-  b=UEfCDIaq5sj1xixvHWxVUpohvY1cMJb3+GYJ10xZcgL3DUGuqOcr9YRu
-   UXDuTH22JewcOlI7yf38f3oeX2R7kPAANkdeGdY4kYuJumVo0TEHIKbpl
-   8vAkNg/JM8/UOz6hqcd97GmIcYtbnRYrYmZ2hjk+kW+OmW61xxDau97ho
-   iebU6qS6qoUwDnLLMTdCTfY0OY1b2TSAcESupitZQGxKrqtj1haomyDdh
-   GqRYPb32vAHFQth8vuAi1qRPtE84NVxCh/gjghVndU9pqVLlg2Ap0vsPG
-   xVLg2Pe8grgyn6ZJ+ATRga0EnuK8xZRgU5ZH6UZRI3EDPxzGwl9RFiDVp
-   A==;
-X-CSE-ConnectionGUID: XX3Ofhx4T6Wp8kqDAi0hgA==
-X-CSE-MsgGUID: GFcmDW38SSeRR/bFAkYBQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50812058"
+  t=1739223623; x=1770759623;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=prnteViesIGDgRYqEM9GnFwLb0GsqG/fuygOM/J+4FI=;
+  b=RfYbq8EVVOiUCG1pOx2I7lcYv2f/GmP4O0vFK/4Xai2L5z8jIy593J1q
+   Rb2q21qKVW2LcL8t5LkLhQRJ9fmPpyXxMUYjqjAjQq+Zve1HnG2bEPnfg
+   vSXQhe97VYMKsK7CMxj2yIJtxM1zw1YJEhno9NA3wqzevESg4WWCltOek
+   +lb5TlTyg7aCCcXzRZc2zBr4dA2KC6xDtZAjYdrEjR4Bnu6FJN/jx3ZK3
+   tR5qUvbCyBucwEMX6U0PGUky9GRBgdp8w5fLpvSf69rceL4F0ZiwaQw1U
+   JOMa+QbIasrUCCYSRGgoshWKu1jBtbkyqQLVqCpxsEM+VN03n49ubG6tv
+   g==;
+X-CSE-ConnectionGUID: gJyDoE3sRwa3kZ9HCM+Y7Q==
+X-CSE-MsgGUID: OmTxo484TVWDPl4y2Be3Pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39689560"
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="50812058"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 13:35:17 -0800
-X-CSE-ConnectionGUID: glPiKZtjRjS9g6fzlCmivQ==
-X-CSE-MsgGUID: heVC2K6PRKyNOw3v7yoCeg==
+   d="scan'208";a="39689560"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 13:40:22 -0800
+X-CSE-ConnectionGUID: kD5r0LoUQ/qtNLCv+udTPA==
+X-CSE-MsgGUID: k3HgOt1BSnesMuqEssHGLw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117515530"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 13:35:12 -0800
-Date: Mon, 10 Feb 2025 23:35:09 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
-	gregkh@linuxfoundation.org, rafael@kernel.org,
-	linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6pxDTUE60CKwHlE@black.fi.intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
- <202502102201.zLWaJC6V-lkp@intel.com>
- <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
+   d="scan'208";a="117389538"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Feb 2025 13:40:21 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thbVr-0013RH-0n;
+	Mon, 10 Feb 2025 21:40:19 +0000
+Date: Tue, 11 Feb 2025 05:39:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 217/217]
+ drivers/misc/mediatek/slbc/slbc.c:283:5: warning: no previous prototype for
+ function 'slbc_force_cache_ratio'
+Message-ID: <202502110503.0KWM4nMr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,257 +62,209 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
 
-On Mon, Feb 10, 2025 at 05:23:33PM +0200, Andy Shevchenko wrote:
-> +Cc: Arnd
-> 
-> On Mon, Feb 10, 2025 at 10:30:28PM +0800, kernel test robot wrote:
-> > Hi Raag,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250210-145732
-> > base:   a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744
-> > patch link:    https://lore.kernel.org/r/20250210064906.2181867-2-raag.jadav%40intel.com
-> > patch subject: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
-> > config: powerpc64-randconfig-002-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102201.zLWaJC6V-lkp@intel.com/config)
-> > compiler: powerpc64-linux-gcc (GCC) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102201.zLWaJC6V-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202502102201.zLWaJC6V-lkp@intel.com/
-> > 
-> > All error/warnings (new ones prefixed by >>):
-> 
-> TBH I have no quick idea how to address this. It seems that io.h includes device.h
-> for no reason (but I haven't checked that carefully). OTOH, we need only
-> IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h as the
-> former includes the latter and the definition depends only on compiler_types.h.
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   b603fe68bcf1fd8aa46dd46190c53d641dce5cf0
+commit: 506f6613f2e6836fd59eeab2456dcfb0a000954d [217/217] CHROMIUM: misc: mediatek: slc: Porting SLBC driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250211/202502110503.0KWM4nMr-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110503.0KWM4nMr-lkp@intel.com/reproduce)
 
-I atleast managed to build this after dropping device.h from asm/io.h however
-eeh.h is just something else.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502110503.0KWM4nMr-lkp@intel.com/
 
-Raag
+All warnings (new ones prefixed by >>):
 
-> Arnd?
-> 
-> >    In file included from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from arch/powerpc/include/asm/io.h:22,
-> >                     from include/linux/scatterlist.h:9,
-> >                     from crypto/rsassa-pkcs1.c:11:
-> >    include/linux/io.h: In function 'pci_remap_cfgspace':
-> >    include/linux/io.h:106:16: error: implicit declaration of function 'ioremap_np' [-Wimplicit-function-declaration]
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                ^~~~~~~~~~
-> >    include/linux/io.h:106:44: error: implicit declaration of function 'ioremap' [-Wimplicit-function-declaration]
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                                            ^~~~~~~
-> >    include/linux/io.h:106:42: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-> >    arch/powerpc/include/asm/io.h: At top level:
-> > >> arch/powerpc/include/asm/io.h:885:22: error: conflicting types for 'ioremap'; have 'void *(phys_addr_t,  long unsigned int)' {aka 'void *(long long unsigned int,  long unsigned int)'}
-> >      885 | extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-> >          |                      ^~~~~~~
-> >    include/linux/io.h:106:44: note: previous implicit declaration of 'ioremap' with type 'int()'
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                                            ^~~~~~~
-> >    In file included from include/asm-generic/io.h:17,
-> >                     from arch/powerpc/include/asm/io.h:1031:
-> > >> include/asm-generic/iomap.h:106:20: error: conflicting types for 'ioremap_np'; have 'void *(phys_addr_t,  size_t)' {aka 'void *(long long unsigned int,  long unsigned int)'}
-> >      106 | #define ioremap_np ioremap_np
-> >          |                    ^~~~~~~~~~
-> >    include/asm-generic/iomap.h:107:29: note: in expansion of macro 'ioremap_np'
-> >      107 | static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-> >          |                             ^~~~~~~~~~
-> >    include/linux/io.h:106:16: note: previous implicit declaration of 'ioremap_np' with type 'int()'
-> >      106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-> >          |                ^~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/acpi.h:14,
-> >                     from include/linux/i2c.h:13,
-> >                     from drivers/input/touchscreen/ili210x.c:5:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/touchright.c:17:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/touchright.c: In function 'tr_connect':
-> >    drivers/input/touchscreen/touchright.c:114:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      114 |         snprintf(tr->phys, sizeof(tr->phys), "%s/input0", serio->phys);
-> >          |                                                 ^~~~~~~
-> >    drivers/input/touchscreen/touchright.c:114:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      114 |         snprintf(tr->phys, sizeof(tr->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/penmount.c:17:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/penmount.c: In function 'pm_connect':
-> >    drivers/input/touchscreen/penmount.c:211:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      211 |         snprintf(pm->phys, sizeof(pm->phys), "%s/input0", serio->phys);
-> >          |                                                 ^~~~~~~
-> >    drivers/input/touchscreen/penmount.c:211:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      211 |         snprintf(pm->phys, sizeof(pm->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/inexio.c:19:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/inexio.c: In function 'inexio_connect':
-> >    drivers/input/touchscreen/inexio.c:126:59: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      126 |         snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
-> >          |                                                           ^~~~~~~
-> >    drivers/input/touchscreen/inexio.c:126:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      126 |         snprintf(pinexio->phys, sizeof(pinexio->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/touchwin.c:24:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/touchwin.c: In function 'tw_connect':
-> >    drivers/input/touchscreen/touchwin.c:121:49: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      121 |         snprintf(tw->phys, sizeof(tw->phys), "%s/input0", serio->phys);
-> >          |                                                 ^~~~~~~
-> >    drivers/input/touchscreen/touchwin.c:121:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      121 |         snprintf(tw->phys, sizeof(tw->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/hampshire.c:19:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/hampshire.c: In function 'hampshire_connect':
-> >    drivers/input/touchscreen/hampshire.c:122:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      122 |                  "%s/input0", serio->phys);
-> >          |                     ^~~~~~~
-> >    drivers/input/touchscreen/hampshire.c:121:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      121 |         snprintf(phampshire->phys, sizeof(phampshire->phys),
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >      122 |                  "%s/input0", serio->phys);
-> >          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/tsc40.c:12:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/tsc40.c: In function 'tsc_connect':
-> >    drivers/input/touchscreen/tsc40.c:95:53: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >       95 |         snprintf(ptsc->phys, sizeof(ptsc->phys), "%s/input0", serio->phys);
-> >          |                                                     ^~~~~~~
-> >    drivers/input/touchscreen/tsc40.c:95:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >       95 |         snprintf(ptsc->phys, sizeof(ptsc->phys), "%s/input0", serio->phys);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > --
-> >    In file included from arch/powerpc/include/asm/io.h:274,
-> >                     from include/linux/io.h:14,
-> >                     from include/linux/device/devres.h:7,
-> >                     from include/linux/device.h:31,
-> >                     from include/linux/input.h:19,
-> >                     from drivers/input/touchscreen/dynapro.c:20:
-> > >> arch/powerpc/include/asm/eeh.h:304:45: warning: 'struct iommu_group' declared inside parameter list will not be visible outside of this definition or declaration
-> >      304 | struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-> >          |                                             ^~~~~~~~~~~
-> >    drivers/input/touchscreen/dynapro.c: In function 'dynapro_connect':
-> >    drivers/input/touchscreen/dynapro.c:123:21: warning: '/input0' directive output may be truncated writing 7 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
-> >      123 |                  "%s/input0", serio->phys);
-> >          |                     ^~~~~~~
-> >    drivers/input/touchscreen/dynapro.c:122:9: note: 'snprintf' output between 8 and 39 bytes into a destination of size 32
-> >      122 |         snprintf(pdynapro->phys, sizeof(pdynapro->phys),
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >      123 |                  "%s/input0", serio->phys);
-> >          |                  ~~~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > 
-> > vim +885 arch/powerpc/include/asm/io.h
-> > 
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  853  
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  854  /**
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  855   * ioremap     -   map bus memory into CPU space
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  856   * @address:   bus address of the memory
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  857   * @size:      size of the resource to map
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  858   *
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  859   * ioremap performs a platform specific sequence of operations to
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  860   * make bus memory CPU accessible via the readb/readw/readl/writeb/
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  861   * writew/writel functions and the other mmio helpers. The returned
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  862   * address is not guaranteed to be usable directly as a virtual
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  863   * address.
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  864   *
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  865   * We provide a few variations of it:
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  866   *
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  867   * * ioremap is the standard one and provides non-cacheable guarded mappings
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  868   *   and can be hooked by the platform via ppc_md
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  869   *
-> > 40f1ce7fb7e8b5d arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  870   * * ioremap_prot allows to specify the page flags as an argument and can
-> > 40f1ce7fb7e8b5d arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  871   *   also be hooked by the platform via ppc_md.
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  872   *
-> > be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  873   * * ioremap_wc enables write combining
-> > be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  874   *
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  875   * * ioremap_wt enables write through
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  876   *
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  877   * * ioremap_coherent maps coherent cached memory
-> > 86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  878   *
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  879   * * iounmap undoes such a mapping and can be hooked
-> > 4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  880   *
-> > 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  881   * * __ioremap_caller is the same as above but takes an explicit caller
-> > 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  882   *   reference rather than using __builtin_return_address(0)
-> > 1cdab55d8a8313f arch/powerpc/include/asm/io.h Benjamin Herrenschmidt 2009-02-22  883   *
-> > ^1da177e4c3f415 include/asm-ppc64/io.h        Linus Torvalds         2005-04-16  884   */
-> > 68a64357d15ae4f include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-13 @885  extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-> > 8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06  886  #define ioremap ioremap
-> > 8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06  887  #define ioremap_prot ioremap_prot
-> > be135f40899cb33 arch/powerpc/include/asm/io.h Anton Blanchard        2011-05-08  888  extern void __iomem *ioremap_wc(phys_addr_t address, unsigned long size);
-> > 894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  889  #define ioremap_wc ioremap_wc
-> > 894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  890  
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+>> drivers/misc/mediatek/slbc/slbc.c:283:5: warning: no previous prototype for function 'slbc_force_cache_ratio' [-Wmissing-prototypes]
+     283 | int slbc_force_cache_ratio(enum slc_ach_uid uid, unsigned int ratio)
+         |     ^
+   drivers/misc/mediatek/slbc/slbc.c:283:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     283 | int slbc_force_cache_ratio(enum slc_ach_uid uid, unsigned int ratio)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc.c:301:5: warning: no previous prototype for function 'slbc_total_ceil' [-Wmissing-prototypes]
+     301 | int slbc_total_ceil(unsigned int ceil)
+         |     ^
+   drivers/misc/mediatek/slbc/slbc.c:301:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     301 | int slbc_total_ceil(unsigned int ceil)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc.c:319:5: warning: no previous prototype for function 'slbc_cg_priority' [-Wmissing-prototypes]
+     319 | int slbc_cg_priority(bool gpu_first)
+         |     ^
+   drivers/misc/mediatek/slbc/slbc.c:319:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     319 | int slbc_cg_priority(bool gpu_first)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc.c:328:5: warning: no previous prototype for function 'slbc_disable_dcc' [-Wmissing-prototypes]
+     328 | int slbc_disable_dcc(bool disable)
+         |     ^
+   drivers/misc/mediatek/slbc/slbc.c:328:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     328 | int slbc_disable_dcc(bool disable)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc.c:337:5: warning: no previous prototype for function 'slbc_disable_slc' [-Wmissing-prototypes]
+     337 | int slbc_disable_slc(bool disable)
+         |     ^
+   drivers/misc/mediatek/slbc/slbc.c:337:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     337 | int slbc_disable_slc(bool disable)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc.c:394:12: warning: no previous prototype for function 'slbc_common_module_init' [-Wmissing-prototypes]
+     394 | int __init slbc_common_module_init(void)
+         |            ^
+   drivers/misc/mediatek/slbc/slbc.c:394:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     394 | int __init slbc_common_module_init(void)
+         | ^
+         | static 
+   6 warnings generated.
+--
+>> drivers/misc/mediatek/slbc/slbc_mt8196.c:186:6: warning: no previous prototype for function 'slbc_sram_init' [-Wmissing-prototypes]
+     186 | void slbc_sram_init(struct mtk_slbc *slbc)
+         |      ^
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:186:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     186 | void slbc_sram_init(struct mtk_slbc *slbc)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc_mt8196.c:251:6: warning: no previous prototype for function '_slbc_force_cmd' [-Wmissing-prototypes]
+     251 | void _slbc_force_cmd(unsigned int force)
+         |      ^
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:251:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     251 | void _slbc_force_cmd(unsigned int force)
+         | ^
+         | static 
+>> drivers/misc/mediatek/slbc/slbc_mt8196.c:377:6: warning: no previous prototype for function 'slbc_buffer_cb_notify' [-Wmissing-prototypes]
+     377 | void slbc_buffer_cb_notify(u32 res, u32 sid, u32 sid_list)
+         |      ^
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:377:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     377 | void slbc_buffer_cb_notify(u32 res, u32 sid, u32 sid_list)
+         | ^
+         | static 
+   3 warnings generated.
+
+
+vim +/slbc_force_cache_ratio +283 drivers/misc/mediatek/slbc/slbc.c
+
+   282	
+ > 283	int slbc_force_cache_ratio(enum slc_ach_uid uid, unsigned int ratio)
+   284	{
+   285		if (common_ops && common_ops->slbc_force_cache_ratio)
+   286			return common_ops->slbc_force_cache_ratio(uid, ratio);
+   287		else
+   288			return -ENODEV;
+   289	}
+   290	EXPORT_SYMBOL_GPL(slbc_force_cache_ratio);
+   291	
+   292	int slbc_ceil(enum slc_ach_uid uid, unsigned int ceil)
+   293	{
+   294		if (common_ops && common_ops->slbc_ceil)
+   295			return common_ops->slbc_ceil(uid, ceil);
+   296		else
+   297			return -ENODEV;
+   298	}
+   299	EXPORT_SYMBOL_GPL(slbc_ceil);
+   300	
+ > 301	int slbc_total_ceil(unsigned int ceil)
+   302	{
+   303		if (common_ops && common_ops->slbc_total_ceil)
+   304			return common_ops->slbc_total_ceil(ceil);
+   305		else
+   306			return -ENODEV;
+   307	}
+   308	EXPORT_SYMBOL_GPL(slbc_total_ceil);
+   309	
+   310	int slbc_window(unsigned int window)
+   311	{
+   312		if (common_ops && common_ops->slbc_window)
+   313			return common_ops->slbc_window(window);
+   314		else
+   315			return -ENODEV;
+   316	}
+   317	EXPORT_SYMBOL_GPL(slbc_window);
+   318	
+ > 319	int slbc_cg_priority(bool gpu_first)
+   320	{
+   321		if (common_ops && common_ops->slbc_cg_priority)
+   322			return common_ops->slbc_cg_priority(gpu_first);
+   323		else
+   324			return -ENODEV;
+   325	}
+   326	EXPORT_SYMBOL_GPL(slbc_cg_priority);
+   327	
+ > 328	int slbc_disable_dcc(bool disable)
+   329	{
+   330		if (common_ops && common_ops->slbc_disable_dcc)
+   331			return common_ops->slbc_disable_dcc(disable);
+   332		else
+   333			return -ENODEV;
+   334	}
+   335	EXPORT_SYMBOL_GPL(slbc_disable_dcc);
+   336	
+ > 337	int slbc_disable_slc(bool disable)
+   338	{
+   339		if (common_ops && common_ops->slbc_disable_slc)
+   340			return common_ops->slbc_disable_slc(disable);
+   341		else
+   342			return -ENODEV;
+   343	}
+   344	EXPORT_SYMBOL_GPL(slbc_disable_slc);
+   345	
+   346	int slbc_get_cache_size(enum slc_ach_uid uid)
+   347	{
+   348		if (common_ops && common_ops->slbc_get_cache_size)
+   349			return common_ops->slbc_get_cache_size(uid);
+   350		else
+   351			return -ENODEV;
+   352	}
+   353	EXPORT_SYMBOL_GPL(slbc_get_cache_size);
+   354	
+   355	int slbc_get_cache_hit_rate(enum slc_ach_uid uid)
+   356	{
+   357		if (common_ops && common_ops->slbc_get_cache_hit_rate)
+   358			return common_ops->slbc_get_cache_hit_rate(uid);
+   359		else
+   360			return -ENODEV;
+   361	}
+   362	EXPORT_SYMBOL_GPL(slbc_get_cache_hit_rate);
+   363	
+   364	int slbc_get_cache_hit_bw(enum slc_ach_uid uid)
+   365	{
+   366		if (common_ops && common_ops->slbc_get_cache_hit_bw)
+   367			return common_ops->slbc_get_cache_hit_bw(uid);
+   368		else
+   369			return -ENODEV;
+   370	}
+   371	EXPORT_SYMBOL_GPL(slbc_get_cache_hit_bw);
+   372	
+   373	int slbc_get_cache_usage(int *cpu, int *gpu, int *other)
+   374	{
+   375		if (common_ops && common_ops->slbc_get_cache_usage)
+   376			return common_ops->slbc_get_cache_usage(cpu, gpu, other);
+   377		else
+   378			return -ENODEV;
+   379	}
+   380	EXPORT_SYMBOL_GPL(slbc_get_cache_usage);
+   381	
+   382	void slbc_register_common_ops(struct slbc_common_ops *ops)
+   383	{
+   384		common_ops = ops;
+   385	}
+   386	EXPORT_SYMBOL_GPL(slbc_register_common_ops);
+   387	
+   388	void slbc_unregister_common_ops(struct slbc_common_ops *ops)
+   389	{
+   390		common_ops = NULL;
+   391	}
+   392	EXPORT_SYMBOL_GPL(slbc_unregister_common_ops);
+   393	
+ > 394	int __init slbc_common_module_init(void)
+   395	{
+   396		return 0;
+   397	}
+   398	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
