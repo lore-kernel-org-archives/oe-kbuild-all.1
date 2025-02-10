@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77393204879
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 14:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E07252902
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 14:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739197240; cv=none; b=CRrmwVVsjMkBhcd9fNTpdFsPFv2mK9G85aYtJI4zS1+LtTz2qFX6vGydP37xms4nD84QRwEEdxyr3EVqaY8IiTXfLkTa+CVrSOzNa6CkP0cuSqD7w89bg4yZt9NEUZHfHt3ZLheh/aKs8JHltZsThzL/USDA+uoiaO4LpRnYYF4=
+	t=1739197259; cv=none; b=lujmSPSfJtzPVeoZ/Ift/DPxhdfd7dG+tNbWy2f2qbq7FO9iW0jusdUhpoyPkHqsX0+8ZifwG6qoLrdaTgbZzpXyEmAbZusIc7MXAD9SsZI2Ol1MM631GP/fYXTjYd+qr4g8AV0bQrNXLyZXwGLMhkpsW7opkHKCTBKVJJx5hIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739197240; c=relaxed/simple;
-	bh=Id7O3wQRQWOE4tb7hDKAB68MxniMTeTjFJiBVBa8gsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KEygV0uqoaHZgrhkE3l5jZecYR3eXc5MdU9DkQHvWpc6m6QUMcxKPnDDL0syuKn7fe9z6oqate5SXqzmFusS1Hat+bj3Jdx4OP1pkXHrI36w2itDk/q996PvgeKNgYSgwyDzDps8++ouAzOETfKgqtvZcs0t77r2ke0j+npzCW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtFmw+RO; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739197259; c=relaxed/simple;
+	bh=BZQ2UfCw3l9fNDxVIzxAMbZ0wdKtfAIgPDsOoGvr6ZI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=meoRMqI032B1Wl/VNWXwJ4LePvJmuJuoO7GRLx/EjIZK4nPmY5qubIljTW+2gzcbkCNwAEwMASsbx9BYx+9ninHu0FObxAfzkbkUuxi1D9LP7IXiTAkWyWx//D1Ab3VdqMIjce+COELRd0AYFLfq+SULPqxsfAfzExmtlzuq04U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oos3+iKt; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtFmw+RO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739197238; x=1770733238;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Id7O3wQRQWOE4tb7hDKAB68MxniMTeTjFJiBVBa8gsY=;
-  b=jtFmw+ROI0mhjUKaULW239aDWBeNPJtODCNFBOUlF1LrApFM1C7yMu5n
-   zhoQ8cjIVVNDfz04FRBgiTfEkT6VVuAemJ/vPhGBc1WBhJk0pLNtQoEPh
-   o85dkOLAEzHm+Pzual6QhiR0sBSmc7YgwPOpqKzjdL69intIx1uQu7g4c
-   dhsebsvzDOktmD2cXCZKw2tS23WClnzvOI114bNa8FHCf+rLXohmM0SPj
-   nygdY8247hciqcjs74mAEGMBMJYv2UBcvkasnmkfEEQ1wJhnEqWGMkyjb
-   TzlmH0Pwfx0ZJDSRHMmoB5NjipkIfJr5V5Ntb8EoXWC/riq0pt5rqesCj
-   g==;
-X-CSE-ConnectionGUID: 2Ih7irpWQYCzj8l2O0GC1g==
-X-CSE-MsgGUID: 7LH4YAINRc+GRhckv2NAZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="43704985"
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="43704985"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:20:27 -0800
-X-CSE-ConnectionGUID: ti/NEqACRhOZv6BxTRdOzw==
-X-CSE-MsgGUID: 9zpwNT/8T9WJLKKQO2emFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112046359"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Feb 2025 06:20:26 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thUe7-0012sF-2U;
-	Mon, 10 Feb 2025 14:20:23 +0000
-Date: Mon, 10 Feb 2025 22:19:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2735/2735]
- arch/x86/kernel/cpu/resctrl/rdtgroup.c:1504:6: warning: variable 'h' set but
- not used
-Message-ID: <202502102259.fAt19b0s-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oos3+iKt"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-47191bcb2afso8001501cf.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 06:20:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739197256; x=1739802056; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nd1ObVE5Z00Ryg9gpKxx1Rw+GEaVsA6tcK1PYNFiI18=;
+        b=Oos3+iKt1hoeDEu3PiLZCZOPY0+Z5X6g/YQUSReYl5BlTw0pr4pqDgk3OqahyJ07zs
+         Vb/0cQtlDacHZNY7bbgPymxV+E1U+DX0blsNW4xEJJ3JnSNT5bp6YvFdXfu6Mu8lHHUY
+         k55xA2B2zBwC7kh95zIQtSvOPq5iHXt637TupCQevY0Xg/N8l4U9wlql08WJAXHLLKEr
+         m3xzTgz+anVj4oZx6HHb/O3eFRnEzVJM+bh2IgRf5vfPTNfCN/154jjwzYFvBTAdYyIc
+         16/lKBFvX3zIhz8fSBl8WCTprXZpSEATJvZTVp3C8nPGymwIuMN3yA9gRobGxMSSzER0
+         jItg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739197256; x=1739802056;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nd1ObVE5Z00Ryg9gpKxx1Rw+GEaVsA6tcK1PYNFiI18=;
+        b=RJF7jmXSE7WG2zxnvkXxUddob/czrOOqAL0D81Rbk1qzqzwF+vnBUUH21aEZx4ZuFE
+         UWXDdp+aFKPC6x2ChwC6JB6IDlPYvx1t5OV8daAQVEI0PsbbdQLkIAH6VwV7EdjNlNOW
+         59QodPrSJ7jLYoJyPIPMq5b4CbGWbCr7Cw8lU59Q8Zurv8T4da2fx3Yb4S2KjRP9Mpkl
+         i/Jzncr4rV95jUAIapKVqxxpuJWfwOnOUkwRktaLb9ZlG2YIiBTW1Pyy31NDdgB8HOP8
+         Z3jBcKkUexZQMyiSMN29R8ZGfAq6WE+iEljTA6QjdtGzfYqSgwoFV9JrJtxaApDoK1RI
+         uaAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX0h0qJNzUBs+7dwlbhr59UKMR8KdBBLWd1XaQcf6IaLvGh/D4LLkQP4IEQZcylVBIa1OFwAdsEmMrtCT7u@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/xkQFdr47Q3o6pY3335mf0VMKqsCnezYfhfYQkvhqZhTJByJr
+	q4N/3Fc7F/hllwWE0T+3UmQDdqFyIh5hz7KWKmYvExsGfNS6YIbz
+X-Gm-Gg: ASbGncvKtXOvMLBYARs+R0ot8GhvuIri2dJKoMlG7vU+FdHNGmQ5gbZA/ClarAskDkA
+	620fvz6SF+ELrRvlfB9znpIUoOu285XxTLk4qv7sqeMagExQNLuLbdwpMPotGp3xh31PhJox9pk
+	vZuav5N9LkpYUkR/+e+0QfMqmL0KHGIaObKvI2tlC3LlCvBS88vfd7kP+zkJd0QTd4Pvwh1sNPh
+	zzLLpcnrD5ZpXyJdbOKr5IO80lOg9dls/le1z3Nl7L9wRqkflPV60Oy1NE+YQLZ9rhPdGJesR6o
+	5xmTkGXBaawt8jbcggIn41LPc4G3nEtX1UaEW1MGxPeljCFvKg==
+X-Google-Smtp-Source: AGHT+IG+/WMO4rGl/AY+NFFLsBCfJq8xmKImxkzLt4XM6DMiRMlFf/x9i3f5BY8wuOQGIZKxxlL1uA==
+X-Received: by 2002:ad4:5caf:0:b0:6da:dc79:a3cd with SMTP id 6a1803df08f44-6e4453fdde1mr215486246d6.0.1739197254843;
+        Mon, 10 Feb 2025 06:20:54 -0800 (PST)
+Received: from glsmbp.wifi.local.cmu.edu (cmu-device.nat.cmu.net. [128.2.149.254])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e44c1aba8asm33384446d6.42.2025.02.10.06.20.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 06:20:54 -0800 (PST)
+Date: Mon, 10 Feb 2025 09:20:52 -0500
+From: "Gabriel L. Somlo" <gsomlo@gmail.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Robert Winkler <rwinkler@antmicro.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [litex-hub:litex-rebase 11/15] drivers/fpga/litex-fpga.c:114:17:
+ sparse: sparse: cast to restricted __be32
+Message-ID: <Z6oLRFM1PuHz9zwv@glsmbp.wifi.local.cmu.edu>
+References: <202502051703.2QcrfJ0B-lkp@intel.com>
+ <Z6N76QX8uLeZQYIK@glsmbp.wifi.local.cmu.edu>
+ <CAMuHMdXonYO8fj5kUZTXCo4s1QNHZ8zLWJ8La7CBEqTGvfGjYw@mail.gmail.com>
+ <Z6kX4jvAJPh_1pLH@errol.ini.cmu.edu>
+ <CAMuHMdVBtdgdZ_nt3Nmu4oDaR4qtNAM5JHZKWRvjrbnSV2JSSg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,76 +78,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAMuHMdVBtdgdZ_nt3Nmu4oDaR4qtNAM5JHZKWRvjrbnSV2JSSg@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   d0165578d0df9962ea30fbabcf76cf41f8789d27
-commit: 540e1ae2f7aca5a427a52f12bef657b1e3e81fc1 [2735/2735] x86/resctrl: Add interface to read mbm_total_bytes_config
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250210/202502102259.fAt19b0s-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102259.fAt19b0s-lkp@intel.com/reproduce)
+On Mon, Feb 10, 2025 at 09:29:45AM +0100, Geert Uytterhoeven wrote:
+> Hi Gabriel,
+> 
+> On Sun, 9 Feb 2025 at 22:02, Gabriel L. Somlo <gsomlo@gmail.com> wrote:
+> > On Wed, Feb 05, 2025 at 04:55:05PM +0100, Geert Uytterhoeven wrote:
+> > > On Wed, 5 Feb 2025 at 15:55, Gabriel L. Somlo <gsomlo@gmail.com> wrote:
+> > > > On Wed, Feb 05, 2025 at 06:06:11PM +0800, kernel test robot wrote:
+> >
+> > [...]
+> >
+> > > > > sparse warnings: (new ones prefixed by >>)
+> > > > > >> drivers/fpga/litex-fpga.c:114:17: sparse: sparse: cast to restricted __be32
+> > > > >
+> > > > > vim +114 drivers/fpga/litex-fpga.c
+> > > > >
+> > > > >     89
+> > > > >     90        static int litex_fpga_write(struct fpga_manager *mgr,
+> > > > >     91                                    const char *buf, size_t count)
+> > > > >     92        {
+> > > > >     93                const struct litex_fpga *fpga_s = (const struct litex_fpga *) mgr->priv;
+> > > > >     94                uint32_t *buf32;
+> > > >
+> > > > changed this to s/uint32_t/__be32/
+> > >
+> > > LGTM
+> > >
+> > > > >     95                int i, count32;
+> > > > >     96
+> > > > >     97                /* Bitstream should consist of 32bit words*/
+> > > > >     98                if (!bit_is_aligned((uint8_t *) buf, count)) {
+> > > > >     99                        dev_err(&mgr->dev, "Invalid bitstream alignment\n");
+> > > > >    100                        return -EINVAL;
+> > > > >    101                }
+> > > > >    102
+> > > > >    103                /* Correct bitstream contains sync word */
+> > > > >    104                if (!bit_has_sync((uint8_t *) buf, count)) {
+> > > > >    105                        dev_err(&mgr->dev, "Bitstream has no sync word\n");
+> > > > >    106                        return -EINVAL;
+> > > > >    107                }
+> > > > >    108
+> > > > >    109                buf32 = (uint32_t *) buf;
+> > > >
+> > > > also changed this to s/uint32_t/__be32/
+> > >
+> > > Likewise.
+> > >
+> > > Note: If fpga_manager_ops.write() would take a "const void *buf",
+> > > no casts would be needed...
+> >
+> > Would I not still need some sort of 32-bit cast for where this stuff
+> > is actually accessed, a few lines below:
+> >
+> >         buf32 = (__be32 *) buf;
+> >         count32 = count / BITSTREAM_INSTR_SIZE;
+> >         for (i = 0; i < count32; ++i) {
+> >                 while (!READ_SINK_READY(fpga_s->membase))
+> >                         ;
+> >                 WRITE_SINK_DATA(fpga_s->membase, be32_to_cpu(buf32[i]));
+> >                                                              ^^^^^^^^
+> > ... here? I could presumably use `be32_to_cpu(buf + sizeof(__be32) * i)`,
+> > but not sure the legibility would benefit from that...
+> 
+> I think you misunderstood. You still need the buf32 intermediate.
+> But if buf would be "const void *", you could drop the casts,
+> as you can assign a "void *" to any other type of pointer without a cast:
+> 
+>     -       buf32 = (__be32 *) buf;
+>     +       buf32 = buf;
+> 
+> Likewise:
+> 
+>     -        if (!bit_has_sync((uint8_t *) buf, count)) {
+>     +       if (!bit_has_sync(buf, count)) {
+> 
+> Note that changing fpga_manager_ops.write() means changing all users
+> of fpga_manager_ops, not just this driver.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502102259.fAt19b0s-lkp@intel.com/
+Oh, I see, this would be an act of "community cleanup" -- making
+things a tiny bit nicer for everyone involved. I'm considering it,
+as it is a good suggestion -- although it will most likely be a week
+or two before I get enough spare cycles for this type of volunteer
+work :)
+ 
+> >
+> > LMK what you think. As stated earlier, I'm not actually set up to test
+> > this myself, so I'm a bit paranoid about breaking it while trying to
+> > fix it :D
+> 
+> Me neither, but ...
+> 
+> > > FWIW, no change in the generated assembler output.
+> 
+> ... i.e. if it worked before, it should still work...
 
-All warnings (new ones prefixed by >>):
+Got it. Thanks again, I think I'm finally catching up to the rest of
+the class... :D
 
-   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:19:
-   In file included from include/linux/fs_parser.h:11:
-   In file included from include/linux/fs_context.h:14:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:1587:
-   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     418 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     425 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     437 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:445:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     445 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     446 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1504:6: warning: variable 'h' set but not used [-Wunused-but-set-variable]
-    1504 |         u32 h;
-         |             ^
-   6 warnings generated.
-
-
-vim +/h +1504 arch/x86/kernel/cpu/resctrl/rdtgroup.c
-
-  1499	
-  1500	static void mon_event_config_read(void *info)
-  1501	{
-  1502		struct mon_config_info *mon_info = info;
-  1503		unsigned int index;
-> 1504		u32 h;
-  1505	
-  1506		index = mon_event_config_index_get(mon_info->evtid);
-  1507		if (index == INVALID_CONFIG_INDEX) {
-  1508			pr_warn_once("Invalid event id %d\n", mon_info->evtid);
-  1509			return;
-  1510		}
-  1511		rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
-  1512	
-  1513		/* Report only the valid event configuration bits */
-  1514		mon_info->mon_config &= MAX_EVT_CONFIG_BITS;
-  1515	}
-  1516	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+--Gabriel
