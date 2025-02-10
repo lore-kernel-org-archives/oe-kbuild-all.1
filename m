@@ -1,102 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349E725C71A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 19:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B4343AA1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 20:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739216773; cv=none; b=Ynez7fgpbTuMjBHIYwa33bshBzGh8tvMm4HknDJAdz87g/WORc7LmB2FqmS2Cdih11YJuzZJsYr5+RE51FOhOokI1iKaZtpNQRL3wVUwz/S4gBFc//EGXBmeltFqZtKtvzKdmJrzeVT0Xfh4lIsrtPd2hgjuiZ5RFlANLIJOh3Q=
+	t=1739220944; cv=none; b=F45//SLPUELxdIQISn8/Cy7QsAwuYD6/5QHgqTq4ymLhFKasAm3YpwYWcEJ6Juj38Fu55kNv2bF2wIHCK5q0UjBLh1doveMBbQRascHNS0rkWaVuh88bplK57KazEW0PP2+O5pdW4Q6PAP9dismuGtYyIkpLI7jdGbFxqi4ix/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739216773; c=relaxed/simple;
-	bh=iRAVmBJPNssfV1ZJAnUoXw3F+xH7ii0lbtEiv1kTJmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ac6wlnuCbuT+M6Lqgc/mZ5GEvZVLMpPUjQ1qTYHcvMGv2aDRbYNEu6cQS0jd8YMrM2ILTN9jf1om0WkZHSWc6ggKkPAvTCB/RFe07KMTGQHqBwR2UsbCT79xhMVnt4uwY4Kp7I9wyk++xxd+nvy44hlX8OnIZl+P5uJD74EBEVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXAHOkwO; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739220944; c=relaxed/simple;
+	bh=uHf/vmyy7NYkuQS3DHVmxLI9LIwEcT1DGVZtcXwULec=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lSKxTZS7371WJsDjGQLWBTEaoFqfrzZXweGij5Wau09vmuJBrmbEyXyRMonweQFUI3aoUYrZIvXMYjzPF/PKX4X/X6wLvB/scSbHuL7IbpAsltt+yZIsVEMz9VP6YRHB4rop9ezYUu8x/es3ZLkUoP2kKIAgDDeuHfyGsOvjPXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=l3jb4In6; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXAHOkwO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739216770; x=1770752770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iRAVmBJPNssfV1ZJAnUoXw3F+xH7ii0lbtEiv1kTJmc=;
-  b=MXAHOkwOiyZIcFm2zrSYsuV7zbHhUdJfe/68htUP+z47fh9giOY9Tl1W
-   G5WPPx3Tegv6ufwQOzqloMzBgpuAR0UDb61rrYWU8VglUui0PNAUb1kB+
-   DGxZus/0O6jU6GO/533U+DQeR+DaYMwOptl18sDUCZVW/D3WL3ScqK3lG
-   6OjV1pnGsO4mC/E+i5ItWL6p57VZSzlFGPaMFrW8aCqhSk9Y89KXbfy1+
-   IpRvW8aV83LBeoRHiZhMc4uitCd4f+0maSwoNoX+MiXBhOwtPFbDEamIg
-   a2r72FhuXKgYBu3V11o+1BcAQQoHfc1eb/9ThUH1N09fedZAwVAJK+VvU
-   Q==;
-X-CSE-ConnectionGUID: rjGE52L9ReeVSR4yU4jHQA==
-X-CSE-MsgGUID: XjbvAhIeQw+hHta/ts+2JA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51246383"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="51246383"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 11:46:09 -0800
-X-CSE-ConnectionGUID: TF/q20afQqCj10j3+c4Gmg==
-X-CSE-MsgGUID: ba4mJojWTy+RPKfJ5yYEVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143178487"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2025 11:46:06 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thZjH-0013HT-2m;
-	Mon, 10 Feb 2025 19:46:03 +0000
-Date: Tue, 11 Feb 2025 03:45:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
-	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
-	balamurugan.c@intel.com, wei.a.fu@intel.com
-Subject: Re: [PATCH v5] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <202502110350.ZNdLnsy4-lkp@intel.com>
-References: <20250210060923.2434047-1-dongcheng.yan@intel.com>
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="l3jb4In6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5lbuFdIRJcMP9duYpPh0kw7F3VwQoNHB0OvF6tDBdrA=; b=l3jb4In6OU1lDgr+mTgJh85GRt
+	pMyGqKLc5Bif5ZmQVUS2sLkDhBrzecQ+BG6ySyEzuAiWPqHNrEMRvdWyfNlkYHsjePZx/O0uLfcgG
+	OeKjIDE7AYcIkcBSJUTvizyjytQAZ9RwL9JelDsbq4WtM980BzUpZXagEcJYXxgWkTxQua9HqUwse
+	yHYFqX1PPvd7o9fJkIw4skmgiMFjasIVOlBBdnOu1YEUMvrDZGg+f2ogcobR4IGV18ttGEyUuatnq
+	/i/nTSXSJL1OmFWYC/mooStm3G7BfQuYtUnRhpRLGwL+q4yYDgTaebuaQbztbvfWyJMCNsm237OiX
+	DA0mpdwQ==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1thaZG-00Bf03-17;
+	Mon, 10 Feb 2025 14:39:46 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>
+Subject:
+ Re: include/linux/thread_info.h:259:25: error: call to '__bad_copy_to'
+ declared with attribute error: copy destination size is too small
+Date: Mon, 10 Feb 2025 14:39:46 -0600
+Message-ID: <2421077.NG923GbCHz@camazotz>
+In-Reply-To: <202502072019.LYoCR9bF-lkp@intel.com>
+References: <202502072019.LYoCR9bF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250210060923.2434047-1-dongcheng.yan@intel.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Hi Dongcheng,
+On Friday, 7 February 2025 06:11:47 CST kernel test robot wrote:
+>    In file included from include/linux/spinlock.h:60,
+>                     from include/linux/wait.h:9,
+>                     from include/linux/wait_bit.h:8,
+>                     from include/linux/fs.h:6,
+>                     from drivers/misc/ntsync.c:11:
+>    In function 'check_copy_size',
+>        inlined from 'copy_from_user' at include/linux/uaccess.h:207:7,
+>        inlined from 'setup_wait' at drivers/misc/ntsync.c:888:6:
+> >> include/linux/thread_info.h:259:25: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
+>      259 |                         __bad_copy_to();
+>          |                         ^~~~~~~~~~~~~~~
 
-kernel test robot noticed the following build warnings:
+This was caught before and mentioned in [1]. The suggestion there of changing "args->count" to "count" doesn't help.
 
-[auto build test WARNING on 2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2]
+Somehow gcc 12 thinks that the array_size(count, sizeof(*fds)) parameter is constant, although it's finnicky and depends on exactly where __builtin_constant_p() is evaluated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-add-lt6911uxe-hdmi-bridge-driver/20250210-141140
-base:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-patch link:    https://lore.kernel.org/r/20250210060923.2434047-1-dongcheng.yan%40intel.com
-patch subject: [PATCH v5] media: i2c: add lt6911uxe hdmi bridge driver
-config: x86_64-kismet-CONFIG_V4L2_CCI_I2C-CONFIG_VIDEO_LT6911UXE-0-0 (https://download.01.org/0day-ci/archive/20250211/202502110350.ZNdLnsy4-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250211/202502110350.ZNdLnsy4-lkp@intel.com/reproduce)
+The bug goes away with gcc 13. Is this worth trying to work around? I don't have any ideas for how to do so.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502110350.ZNdLnsy4-lkp@intel.com/
+[1] https://lore.kernel.org/all/21811752-06d3-44cd-b3e6-f8124676df87@app.fastmail.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for V4L2_CCI_I2C when selected by VIDEO_LT6911UXE
-   WARNING: unmet direct dependencies detected for V4L2_CCI_I2C
-     Depends on [n]: MEDIA_SUPPORT [=y] && I2C [=n]
-     Selected by [y]:
-     - VIDEO_LT6911UXE [=y] && MEDIA_SUPPORT [=y] && ACPI [=y] && VIDEO_DEV [=y]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
