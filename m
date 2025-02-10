@@ -1,97 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD9F43151
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 09:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263BC14A639;
+	Mon, 10 Feb 2025 09:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739178893; cv=none; b=JStUqdwOk4W0SNNOPRuIFt+BtpLZditskLBxRboKp0FAED5k1JZddsmxU87TYdNOK4ZoyoK/FVR5/biKbk8amGwq8gNA5myu8zzXDndWUb1G03G3h/CM67lL++2/xrySNsbaQIYVEL3ratBcz3K0Ja06CpHm8IKt3rOk9Uu/5Q4=
+	t=1739179293; cv=none; b=pZKz/7oemqwCtw8POGmM5wuoweGqTyuf39ysXmiEAdvw8YGXjMsjfYGSm/hO0Md3hH0TLXwY2z+lXxHi3hLc0jBQXDLABZZQpJQAKparLe30WSl3L0rmCauBEivAxB+Mx3WsAbPwgrLKJ8pQyR2iRIGsaTj6a4MjUSbNWTCNAtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739178893; c=relaxed/simple;
-	bh=uPnsilcxMO44zRzlYwAUASkTO8MPK8Bd/RGsblht0fM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X4thlIs/AjhGX5TQOPR7jeAkmAVegXyMiYRPsqzxGn8Fdu+LPAAgqWC1Bl4EBQJ9/DN9wNbB3B2VXMijuqRUxfug7jLDS0JyQAAjI3qSbNBhT0QJID5zbREK2D7f3wFjGj3sBkBpRWLGFxalj5QSSbJO4Pw00mtcRind2yJAX0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brldkQUh; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739179293; c=relaxed/simple;
+	bh=vBG2TnCFp07FXDNxi+pNodmf7UR3oHXHYl3Z5N+P8q4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HtGK6UWnsq+zXBIPUYCVfuUwF5Yz3KHWXRuDnqe6B3uQOCkya7FblQ84+i69s4ONHMxDw1neLqSdPaTFHDTp0igEVzDJXw4S2SNu1+WGpeC/Ym+1QgNduFXNGDfo4zMt2eeFR2btD/bmDndyFDb9vVhJKOLAZkg2mhmJgFAVy7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8pLXoFa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brldkQUh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739178892; x=1770714892;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uPnsilcxMO44zRzlYwAUASkTO8MPK8Bd/RGsblht0fM=;
-  b=brldkQUhBJPQMd9rJLpOte1oX5htZwSEd8V/WzY1ffo4rmRtBNW4c7D4
-   nYaws9eFaulBxCdjIVpxDyy9vX6J41fOXaxhDi4VIsl9o20dZyq2un1ko
-   XqT8vPcYMs41eiKO0tQDLWuYlDNukdeEqcgLHcP+PlqZmWPwpXT+rwYGl
-   dIGPkFik3vAkOCVCCeBBNFPf+MrtikhO2k5N4OJwzXETeDTVA4kPfbcuz
-   3WxJSciLpv4efZaQWyoTbhjmvLvS4yCpZ8SfZjV1hF4F9jX8FmrFj/UTQ
-   btpuMHcbED8H4UFrKgJU2OJz3rd57W2u5xLPHwRu3R65/zlCTb2xeAmgu
-   A==;
-X-CSE-ConnectionGUID: oFOVV7JXQ/mihmZTeRF+GA==
-X-CSE-MsgGUID: B5t8hYSXS9mDzEir/tuzCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="57165441"
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="57165441"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 01:14:51 -0800
-X-CSE-ConnectionGUID: k0LyYfm1SFadjKMrWL8eDw==
-X-CSE-MsgGUID: Cu5GJD9JQTiZRX1rvxLVlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="117197077"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Feb 2025 01:14:50 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thPsN-0012Ux-2Q;
-	Mon, 10 Feb 2025 09:14:47 +0000
-Date: Mon, 10 Feb 2025 17:14:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 78/112] warning: unused import:
- `error::to_result`
-Message-ID: <202502101747.NRAfNeDS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8pLXoFa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 890AAC4CED1;
+	Mon, 10 Feb 2025 09:21:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739179292;
+	bh=vBG2TnCFp07FXDNxi+pNodmf7UR3oHXHYl3Z5N+P8q4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=S8pLXoFaEcX/xnssNk5tIf4vioqZJx+XLNBGcu5HVwDsLTG+4+lf83MbnLNUvJwDl
+	 2H6+7girgSa3KVdfRS+756qt4748hnYytjRlGV7H2R8Gj3sK0iL9V7gz82H4nkZz9K
+	 GZeQXGT5qbM0ZQRZXH0n0hMViLhv+Z1FBBbilNjEQIdq1dOrF30IPjZQCiSCQ0D4ym
+	 C2NO3Yksq0sGYNb+zS4g0ZSZqBkV/6W21GFmg70/DyqJKvbxenpIYg4Qansb0fbGTW
+	 n3tQ+IrSVyQDsHmYzK+DkqqoWp54MBII1nR9Fg3RlL0Xs67mx6n3vP1v0apysJ6ykF
+	 Fqb2dlHUVDFgA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1thPyr-002TTI-Qu;
+	Mon, 10 Feb 2025 09:21:30 +0000
+Date: Mon, 10 Feb 2025 09:21:29 +0000
+Message-ID: <868qqetasm.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To:  Quentin Perret <qperret@google.com>, kernel test robot <lkp@intel.com>
+Cc:	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.cs.columbia.edu,
+	Oliver Upton <oliver.upton@linux.dev>
+Subject: Re: [kvmarm:fixes 18/18] arch/arm64/kvm/hyp/nvhe/mem_protect.c:1086:9: warning: variable 'ret' is uninitialized when used here
+In-Reply-To: <202502100911.8c9DbtKD-lkp@intel.com>
+References: <202502100911.8c9DbtKD-lkp@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: qperret@google.com, lkp@intel.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu, oliver.upton@linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   fd3792ec2053672fb9359a570552a51ae48f4035
-commit: 05ee061d013fffe313ec788233c61c76aae525a6 [78/112] rust: of: Add Node::address_as_resource()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250210/202502101747.NRAfNeDS-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502101747.NRAfNeDS-lkp@intel.com/reproduce)
+On Mon, 10 Feb 2025 01:39:04 +0000,
+kernel test robot <lkp@intel.com> wrote:
+>=20
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvmarm/kvmarm.git=
+ fixes
+> head:   eabc7aaef7a553b64bf6e631ce04526af6c8d104
+> commit: eabc7aaef7a553b64bf6e631ce04526af6c8d104 [18/18] KVM: arm64: Simp=
+lify np-guest hypercalls
+> config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250=
+210/202502100911.8c9DbtKD-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
+5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250210/202502100911.8c9DbtKD-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502100911.8c9DbtKD-lkp=
+@intel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+> >> arch/arm64/kvm/hyp/nvhe/mem_protect.c:1086:9: warning: variable 'ret' =
+is uninitialized when used here [-Wuninitialized]
+>     1086 |         return ret;
+>          |                ^~~
+>    arch/arm64/kvm/hyp/nvhe/mem_protect.c:1076:9: note: initialize the var=
+iable 'ret' to silence this warning
+>     1076 |         int ret;
+>          |                ^
+>          |                 =3D 0
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502101747.NRAfNeDS-lkp@intel.com/
+Nice catch. I wish the compiler would warn for these by default...
 
-All warnings (new ones prefixed by >>):
+Quentin, are you happy with the following patch that I can stash on
+top of the current set of fixes?
 
->> warning: unused import: `error::to_result`
-   --> rust/kernel/of.rs:7:47
-   |
-   7 | use crate::{bindings, device_id::RawDeviceId, error::to_result, io_mem::Resource, prelude::*};
-   |                                               ^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
---
->> warning: unused variable: `index`
-   --> rust/kernel/of.rs:257:39
-   |
-   257 |     pub fn address_as_resource(&self, index: usize) -> Result<Resource> {
-   |                                       ^^^^^ help: if this is intentional, prefix it with an underscore: `_index`
-   |
-   = note: `#[warn(unused_variables)]` on by default
+	M.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+=46rom 5da62486aeda7d7d11107db8ed4e6421e3a2a364 Mon Sep 17 00:00:00 2001
+From: Marc Zyngier <maz@kernel.org>
+Date: Mon, 10 Feb 2025 09:17:58 +0000
+Subject: [PATCH] KVM: arm64: Fix __pkvm_host_mkyoung_guest() return value
+
+Don't use an uninitialised stack variable, and just return 0
+on the non-error path.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202502100911.8c9DbtKD-lkp@int=
+el.com/
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+---
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/arch/arm64/kvm/hyp/nvhe/mem_protect.c b/arch/arm64/kvm/hyp/nvh=
+e/mem_protect.c
+index 4c2f6a6a2efe1..19c3c631708ce 100644
+--- a/arch/arm64/kvm/hyp/nvhe/mem_protect.c
++++ b/arch/arm64/kvm/hyp/nvhe/mem_protect.c
+@@ -1073,7 +1073,6 @@ int __pkvm_host_mkyoung_guest(u64 gfn, struct pkvm_hy=
+p_vcpu *vcpu)
+ {
+ 	struct pkvm_hyp_vm *vm =3D pkvm_hyp_vcpu_to_hyp_vm(vcpu);
+ 	u64 ipa =3D hyp_pfn_to_phys(gfn);
+-	int ret;
+=20
+ 	if (pkvm_hyp_vm_is_protected(vm))
+ 		return -EPERM;
+@@ -1083,5 +1082,5 @@ int __pkvm_host_mkyoung_guest(u64 gfn, struct pkvm_hy=
+p_vcpu *vcpu)
+ 	kvm_pgtable_stage2_mkyoung(&vm->pgt, ipa, 0);
+ 	guest_unlock_component(vm);
+=20
+-	return ret;
++	return 0;
+ }
+--=20
+2.39.2
+
+
+--=20
+Without deviation from the norm, progress is not possible.
