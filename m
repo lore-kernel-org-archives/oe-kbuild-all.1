@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DC2257AF8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 18:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA05025E441
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 18:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739213046; cv=none; b=RXXTebJiXAwiyK5h9lNPYjWVseXDh48PG9CtRdBxou7BcrwCWHyNUSY/z3Fu7tnqaOspHMldjevqanoGdMnIgGEXvV1a63/G+nj2kZGEaf0UBEXmRjK3ueNLqbcKPPmU2xbQp84fgWitVeLd/PLfhZaOqIuValuwfcjwEnxXUWA=
+	t=1739213643; cv=none; b=MAYtbAzR0dNolqi6uwYRBFi+/swWK89IFBuGayaBTs+Wr2Wwo2REh2seh4wV+BlkCwTzUR/DJuHxwRZNCIewRUvZSWVkCd6apLMFv5Vl1cM4SFLUvCiSYx9gjOAS5FMGBl/NJQsGqUPy4vgm5/WDotdLLFUmTPemlSQNpqgeNQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739213046; c=relaxed/simple;
-	bh=F/oLFAsAG4O3sgYtk2OCtyqCA7pKAu0hVAyFxYmR1LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0cdf6vgK/KDhNSxrDsjhRXY/LgHIyUtwaJlIgrjgPmbx9RS4GOsP9JrsCWp49ImN4pHbdSv7vaKoq3mhRGDt+Cbw2qR/tECy3MJ3H8UCbMYHBCiVoy5gUBhKmd8H/HlkCjgCqU0JzmXQF+/kKAdBTrZsvi8NYNWLljc7/q+Q3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AuH9vNyp; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1739213643; c=relaxed/simple;
+	bh=mFjdyd5t9wPwbJQ5i/VMABKs0hXeuFUINQVlIyRdDFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uaI9XLq3EDq4FcEH0fkXnfvLFxMZlLaNU+CRuwOsWjCx6nKcUowxAlnrAQ12AeDr58aQQa+A7TSgAnY//sG0lXxFrtXSEIVwRL8Vfbcx90vMFsqiCxPk+VoSJabAYgGDumdsmYrlFb+G7HOJW+QP9j03bJX5lBV/sV0ql328ZXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+iUhPgv; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AuH9vNyp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+iUhPgv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739213044; x=1770749044;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F/oLFAsAG4O3sgYtk2OCtyqCA7pKAu0hVAyFxYmR1LI=;
-  b=AuH9vNypspWPmFDQfFMZJshgiUeszyOAPkjsZPc+QeK2X6BpANF3wSeT
-   4Yxhg9FxGG6pDWBX+okPzp92ppahN9cYMHP02ITYPZr9WEVqdkjjX1obY
-   fIeYJq4U4F3nDCqrKFjp0mc9YoyvS8jjVvJzUR4r/HJ9JYQu2v2N+s63N
-   n38Kyii1jL5B/uq8qNIsLythEfPq59GU9Ml4d03llwT9TV3fGOg0GH9Pp
-   hOdKw94PNUdmwO8KMndH1dhqIpW0MhbbuMZlh5FeTLr/qkRu+wHxwFuiE
-   AQJuNO2W2i0k/9bHiOAbtkNWiFfO2n/RZ/sDc0Rq8U9GJeY1IgyPLPZvZ
+  t=1739213641; x=1770749641;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mFjdyd5t9wPwbJQ5i/VMABKs0hXeuFUINQVlIyRdDFg=;
+  b=X+iUhPgvmn4DkRpBVAqZO1qVTbXq1RaFOcIK8dlahAzPGymxwb4xkg8s
+   83z9JonVlslvq0TjEHdfZWKp7DZNuHtwTg3/yuPFcZXE9E0oUhyJvE83V
+   ODFFzxBwRRePsngigd5L9F1Fe5kKpH38Mp41vO/H+yzmOF7i1jfz7m0Hp
+   wKhrofg/JGNjzMbs74gYfgfOOye1hQ47FJgSAPKDaXsABXRwa0Ip3CwaR
+   NRBzO5pAadOdtcGJjinI/2C6WDUDFd7pY2E115rnNKWW8fpDWb/zbug0P
+   dS0j3w0sCzSJmZBlrDKIrZRLGNlYcxToqv0fH1dgssRHnlUQL+BS88kfC
    w==;
-X-CSE-ConnectionGUID: upojwe8NSAm4PQAhASpy2Q==
-X-CSE-MsgGUID: 16fEpH2bQL25kp0cyOow8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50446548"
+X-CSE-ConnectionGUID: RUp5Ok0nQkWRXSvDpidHfg==
+X-CSE-MsgGUID: AqtJ4/pDTlKS35lPEopj0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="42647902"
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="50446548"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 10:44:03 -0800
-X-CSE-ConnectionGUID: 9rYFJW/PQUKsazG2Bj+83w==
-X-CSE-MsgGUID: fCjjHb5vSfyS3GeQ/UtrLQ==
+   d="scan'208";a="42647902"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 10:54:01 -0800
+X-CSE-ConnectionGUID: FXpeuVmlSGeEEVi/fLICYg==
+X-CSE-MsgGUID: kw3bPyNfR2mEWGImyUSwHg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="117352813"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135537496"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Feb 2025 10:43:59 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 10 Feb 2025 10:54:00 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thYlA-0013Ct-2b;
-	Mon, 10 Feb 2025 18:43:56 +0000
-Date: Tue, 11 Feb 2025 02:43:26 +0800
+	id 1thYus-0013EA-1E;
+	Mon, 10 Feb 2025 18:53:58 +0000
+Date: Tue, 11 Feb 2025 02:53:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <202502110256.ZtYROQTy-lkp@intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 217/217] clang: warning: no such include
+ directory: 'drivers/remoteproc/vcp'
+Message-ID: <202502110212.b1xohlbs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,95 +61,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210064906.2181867-2-raag.jadav@intel.com>
 
-Hi Raag,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250210-145732
-base:   a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744
-patch link:    https://lore.kernel.org/r/20250210064906.2181867-2-raag.jadav%40intel.com
-patch subject: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250211/202502110256.ZtYROQTy-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110256.ZtYROQTy-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   b603fe68bcf1fd8aa46dd46190c53d641dce5cf0
+commit: ea8227ece8dcae6cc6897798cac94b4aa2cf6a8c [217/217] CHROMIUM: soc: mediatek: add mtk-vdisp driver
+config: arm64-randconfig-002-20250210 (https://download.01.org/0day-ci/archive/20250211/202502110212.b1xohlbs-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110212.b1xohlbs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502110256.ZtYROQTy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502110212.b1xohlbs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/input/input.c:14:
-   In file included from include/linux/input/mt.h:11:
-   In file included from include/linux/input.h:19:
-   In file included from include/linux/device.h:31:
-   In file included from include/linux/device/devres.h:7:
-   In file included from include/linux/io.h:14:
-   In file included from arch/powerpc/include/asm/io.h:274:
->> arch/powerpc/include/asm/eeh.h:304:45: warning: declaration of 'struct iommu_group' will not be visible outside of this function [-Wvisibility]
-   struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-                                               ^
+>> clang: warning: no such include directory: 'drivers/remoteproc/vcp' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/remoteproc/vcp/include' [-Wmissing-include-dirs]
+   In file included from drivers/soc/mediatek/mtk-regulator-coupler.c:14:
+   In file included from include/linux/regulator/coupler.h:12:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2194:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
+--
+>> clang: warning: no such include directory: 'drivers/remoteproc/vcp' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/remoteproc/vcp/include' [-Wmissing-include-dirs]
+--
+>> clang: warning: no such include directory: 'drivers/remoteproc/vcp' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/remoteproc/vcp/include' [-Wmissing-include-dirs]
+   drivers/soc/mediatek/mtk-mutex.c:1079:15: warning: variable 'sof_id' set but not used [-Wunused-but-set-variable]
+    1079 |         unsigned int sof_id;
+         |                      ^
    1 warning generated.
---
-   In file included from drivers/input/touchscreen/mms114.c:10:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/device.h:31:
-   In file included from include/linux/device/devres.h:7:
-   In file included from include/linux/io.h:14:
-   In file included from arch/powerpc/include/asm/io.h:274:
->> arch/powerpc/include/asm/eeh.h:304:45: warning: declaration of 'struct iommu_group' will not be visible outside of this function [-Wvisibility]
-   struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-                                               ^
-   drivers/input/touchscreen/mms114.c:507:15: warning: cast to smaller integer type 'enum mms_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-           data->type = (enum mms_type)match_data;
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
---
-   In file included from drivers/input/touchscreen/wdt87xx_i2c.c:12:
-   In file included from include/linux/i2c.h:13:
-   In file included from include/linux/acpi.h:14:
-   In file included from include/linux/device.h:31:
-   In file included from include/linux/device/devres.h:7:
-   In file included from include/linux/io.h:14:
-   In file included from arch/powerpc/include/asm/io.h:274:
->> arch/powerpc/include/asm/eeh.h:304:45: warning: declaration of 'struct iommu_group' will not be visible outside of this function [-Wvisibility]
-   struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-                                               ^
-   drivers/input/touchscreen/wdt87xx_i2c.c:1156:36: warning: unused variable 'wdt87xx_acpi_id' [-Wunused-const-variable]
-   static const struct acpi_device_id wdt87xx_acpi_id[] = {
-                                      ^
-   2 warnings generated.
-
-
-vim +304 arch/powerpc/include/asm/eeh.h
-
-55037d176107c3 arch/powerpc/include/asm/eeh.h Gavin Shan        2012-09-07  292  
-c44e4ccadaca58 arch/powerpc/include/asm/eeh.h Sam Bobroff       2019-08-16  293  void eeh_show_enabled(void);
-d125aedb404204 arch/powerpc/include/asm/eeh.h Oliver O'Halloran 2020-09-18  294  int __init eeh_init(struct eeh_ops *ops);
-3e938052fb7655 arch/powerpc/include/asm/eeh.h Gavin Shan        2014-09-30  295  int eeh_check_failure(const volatile void __iomem *token);
-f8f7d63fd96ead arch/powerpc/include/asm/eeh.h Gavin Shan        2012-09-07  296  int eeh_dev_check_failure(struct eeh_dev *edev);
-685a0bc00abcf1 arch/powerpc/include/asm/eeh.h Sam Bobroff       2019-08-16  297  void eeh_addr_cache_init(void);
-e86350f70a02e5 arch/powerpc/include/asm/eeh.h Oliver O'Halloran 2020-03-06  298  void eeh_probe_device(struct pci_dev *pdev);
-807a827d4e7455 arch/powerpc/include/asm/eeh.h Gavin Shan        2013-07-24  299  void eeh_remove_device(struct pci_dev *);
-188fdea69fa91d arch/powerpc/include/asm/eeh.h Sam Bobroff       2018-11-29  300  int eeh_unfreeze_pe(struct eeh_pe *pe);
-5cfb20b96f624e arch/powerpc/include/asm/eeh.h Gavin Shan        2014-09-30  301  int eeh_pe_reset_and_recover(struct eeh_pe *pe);
-212d16cdca2d0f arch/powerpc/include/asm/eeh.h Gavin Shan        2014-06-10  302  int eeh_dev_open(struct pci_dev *pdev);
-212d16cdca2d0f arch/powerpc/include/asm/eeh.h Gavin Shan        2014-06-10  303  void eeh_dev_release(struct pci_dev *pdev);
-212d16cdca2d0f arch/powerpc/include/asm/eeh.h Gavin Shan        2014-06-10 @304  struct eeh_pe *eeh_iommu_group_to_pe(struct iommu_group *group);
-212d16cdca2d0f arch/powerpc/include/asm/eeh.h Gavin Shan        2014-06-10  305  int eeh_pe_set_option(struct eeh_pe *pe, int option);
-212d16cdca2d0f arch/powerpc/include/asm/eeh.h Gavin Shan        2014-06-10  306  int eeh_pe_get_state(struct eeh_pe *pe);
-1ef52073fd25ea arch/powerpc/include/asm/eeh.h Sam Bobroff       2018-11-29  307  int eeh_pe_reset(struct eeh_pe *pe, int option, bool include_passed);
-212d16cdca2d0f arch/powerpc/include/asm/eeh.h Gavin Shan        2014-06-10  308  int eeh_pe_configure(struct eeh_pe *pe);
-ec33d36e5ab5d5 arch/powerpc/include/asm/eeh.h Gavin Shan        2015-03-26  309  int eeh_pe_inject_err(struct eeh_pe *pe, int type, int func,
-ec33d36e5ab5d5 arch/powerpc/include/asm/eeh.h Gavin Shan        2015-03-26  310  		      unsigned long addr, unsigned long mask);
-b0e2b828dfca64 arch/powerpc/include/asm/eeh.h Narayana Murty N  2024-09-09  311  int eeh_pe_inject_mmio_error(struct pci_dev *pdev);
-e2a296eeaa3444 include/asm-powerpc/eeh.h      Linas Vepstas     2005-11-03  312  
 
 -- 
 0-DAY CI Kernel Test Service
