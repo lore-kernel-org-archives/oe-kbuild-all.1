@@ -1,61 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A383596A;
-	Mon, 10 Feb 2025 01:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8143595B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 03:23:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739151610; cv=none; b=eq9OdHZepQy0atjQW2j+VgTXqRe37lHpO9umxeFBRISQj6UT59PzX7oQa8cJwr95GbROMXO6FdgnZBVt0NEn0DTQKJMcSyb3hzaiXWrQ0G6bcmbGB9vGBF/m8z+rRNwviwdkopEzn4bRcU0+3En3s3uQpqh2/LD5m1Q++fRGBiM=
+	t=1739157800; cv=none; b=R+PjX9E3Dd0CTBfg0jwdY2RBzhAS0wtKhB4F4uvU2Sp7GOe9a92+rucTFD/61O5wchDue0qj8/ex8gbM7DoH278bi0VYxugR6yRZJoE5UY5SEoc2lJgPw8+F029U8i5NsadcW5fxGWU9KcD84Glytzxg9j6h0+KgF2pbE2zTz/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739151610; c=relaxed/simple;
-	bh=0X3TGr6+RrerfXCFz/YSGMQebGxVzRjsYIWZ35TeNNg=;
+	s=arc-20240116; t=1739157800; c=relaxed/simple;
+	bh=r/VlNjsLHTgn3Vqm7QpoNGyhrMHtWrZbYsI2Khm5sWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NIsJBwlNR61GSXJJ1UPeWBK1ZNXnA3IvNdTgsUkMmHxKD3CV5KZj97EnaVY2MEaqziknVmh/5RHJa33B2+BrM43f3uFNH9P8Ywe3aZN3dMs5j+uoKr3/PbOuOOMjHBWYHoxGCxLaGcq2jHgaBq+5ZT6bvGMNkFBPWuJbm227KCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORqh4iOu; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=F906ZD/Z0gYBngFP54iYEr//m0qONk8Z3ZHsS2llQ/4/30qnG+ubFoZC6oeSxSlF24YFZbIK2+5+ob8PNz3P8iun2WFoTHhOnWYM3eK9ZaXQCLKO7xUicBCfaT8W93UB3PnBmNdQH+0VhCMm0X+vMj8vjRWf29/133g/NKuI79I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lp+TZvMQ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORqh4iOu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lp+TZvMQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739151608; x=1770687608;
+  t=1739157798; x=1770693798;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0X3TGr6+RrerfXCFz/YSGMQebGxVzRjsYIWZ35TeNNg=;
-  b=ORqh4iOujM8Usg0Po0NbhKSg9vK3eYOq6RwXQB9gNtET3kNSl4Xcmh9s
-   man8W6pGApRN9GE9aZJXEEUrZWTT6Jhd4crNH/jJhBs+7jIW+lezs/5zO
-   WgEDrq6NGnQIgMKB6Gmoyuqu0+vXt48EhV9gFfrILEgKzmVTpD1W75YvH
-   sW4nliWNuJ9bOVQ965dEu2n4rNGQuGXoK5djE9M2rOqMZTlhklnDt4F8V
-   kiNEy0Dh7Kx5gUyI8Jw9ZzaFeY5NNmOzJsHGTYCusBqsWztQIXO8zE+SP
-   B2JKX8Sp/K9h7yTbPlKzcnuJgEV66ub/lJLOg9g9fQOr92KGNGzRlnnJm
-   Q==;
-X-CSE-ConnectionGUID: C5txWT03SlGl2c7dA9DrMQ==
-X-CSE-MsgGUID: D2VKB9jLR4uEPLeIaxnVvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="51112188"
+  bh=r/VlNjsLHTgn3Vqm7QpoNGyhrMHtWrZbYsI2Khm5sWk=;
+  b=lp+TZvMQuaM8sZO9ov8IIN8tbOJVnbMWY81QpCYAljGLECwnbMFS0iAU
+   fNMihGTmU7tx+AsjCFcAr2PYkIUNgwaWcOlH/qaJSrYDwwelJULEok5K1
+   RmYHMGRW0CasDvMSUSrTNmQg5FmgbNmXrS0npqcpK031xgqKnXdIcuuyJ
+   OWl/ydDkqvGxO3Jt/RY4cfjlxuPRRJ+4xlwFNpN7K++KH/qiKIF2NSb7R
+   6vcYELwuYSDHvXxiy33YWvsZK1Q4Q5hLNL0J5oJ0U2ujEplkIXKBr6nrX
+   jufKRLnrTq24nZWSw+F3s0AEeUwkkrUryLLx3J2X+5s2nzaatKmaBA19I
+   A==;
+X-CSE-ConnectionGUID: PO7WjK3rRzWRbiqNUuQIOA==
+X-CSE-MsgGUID: aLnxbIrlTBC7pWrARy9zWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="51118051"
 X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
-   d="scan'208";a="51112188"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 17:40:08 -0800
-X-CSE-ConnectionGUID: J/iQNsU+ShWZDGxNupx+iQ==
-X-CSE-MsgGUID: 827OAA7iQNWFPr2Pt/rE3g==
+   d="scan'208";a="51118051"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2025 19:23:17 -0800
+X-CSE-ConnectionGUID: FafrhcL1QWi8OQSoivhCAQ==
+X-CSE-MsgGUID: F7JEbR0sTCyxMeeTawd8BA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,273,1732608000"; 
-   d="scan'208";a="112686731"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117273144"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Feb 2025 17:40:05 -0800
+  by orviesa005.jf.intel.com with ESMTP; 09 Feb 2025 19:23:16 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thImI-001283-36;
-	Mon, 10 Feb 2025 01:40:02 +0000
-Date: Mon, 10 Feb 2025 09:39:04 +0800
+	id 1thKO9-0012E0-0d;
+	Mon, 10 Feb 2025 03:23:13 +0000
+Date: Mon, 10 Feb 2025 11:22:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Quentin Perret <qperret@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>
-Subject: [kvmarm:fixes 18/18] arch/arm64/kvm/hyp/nvhe/mem_protect.c:1086:9:
- warning: variable 'ret' is uninitialized when used here
-Message-ID: <202502100911.8c9DbtKD-lkp@intel.com>
+To: Mark Pearson <markpearson@lenovo.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: drivers/platform/x86/think-lmi.c:758:51: warning: '%s' directive
+ argument is null
+Message-ID: <202502101149.2WSaGTJp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,54 +63,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvmarm/kvmarm.git fixes
-head:   eabc7aaef7a553b64bf6e631ce04526af6c8d104
-commit: eabc7aaef7a553b64bf6e631ce04526af6c8d104 [18/18] KVM: arm64: Simplify np-guest hypercalls
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250210/202502100911.8c9DbtKD-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502100911.8c9DbtKD-lkp@intel.com/reproduce)
+Hi Mark,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+commit: b49f72e7f96d4ed147447428f2ae5b4cea598ca7 platform/x86: think-lmi: Certificate authentication support
+date:   2 years, 11 months ago
+config: x86_64-randconfig-161-20230920 (https://download.01.org/0day-ci/archive/20250210/202502101149.2WSaGTJp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502101149.2WSaGTJp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502100911.8c9DbtKD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502101149.2WSaGTJp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/mem_protect.c:1086:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-    1086 |         return ret;
-         |                ^~~
-   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1076:9: note: initialize the variable 'ret' to silence this warning
-    1076 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+   drivers/platform/x86/think-lmi.c: In function 'certificate_store':
+>> drivers/platform/x86/think-lmi.c:758:51: warning: '%s' directive argument is null [-Wformat-overflow=]
+     758 |                 auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+         |                                                   ^~
 
 
-vim +/ret +1086 arch/arm64/kvm/hyp/nvhe/mem_protect.c
+vim +758 drivers/platform/x86/think-lmi.c
 
-76f0b18b3db578 Quentin Perret 2024-12-18  1071  
-76f0b18b3db578 Quentin Perret 2024-12-18  1072  int __pkvm_host_mkyoung_guest(u64 gfn, struct pkvm_hyp_vcpu *vcpu)
-76f0b18b3db578 Quentin Perret 2024-12-18  1073  {
-76f0b18b3db578 Quentin Perret 2024-12-18  1074  	struct pkvm_hyp_vm *vm = pkvm_hyp_vcpu_to_hyp_vm(vcpu);
-76f0b18b3db578 Quentin Perret 2024-12-18  1075  	u64 ipa = hyp_pfn_to_phys(gfn);
-76f0b18b3db578 Quentin Perret 2024-12-18  1076  	int ret;
-76f0b18b3db578 Quentin Perret 2024-12-18  1077  
-eabc7aaef7a553 Quentin Perret 2025-02-07  1078  	if (pkvm_hyp_vm_is_protected(vm))
-eabc7aaef7a553 Quentin Perret 2025-02-07  1079  		return -EPERM;
-76f0b18b3db578 Quentin Perret 2024-12-18  1080  
-eabc7aaef7a553 Quentin Perret 2025-02-07  1081  	assert_host_shared_guest(vm, ipa);
-eabc7aaef7a553 Quentin Perret 2025-02-07  1082  	guest_lock_component(vm);
-76f0b18b3db578 Quentin Perret 2024-12-18  1083  	kvm_pgtable_stage2_mkyoung(&vm->pgt, ipa, 0);
-76f0b18b3db578 Quentin Perret 2024-12-18  1084  	guest_unlock_component(vm);
-76f0b18b3db578 Quentin Perret 2024-12-18  1085  
-76f0b18b3db578 Quentin Perret 2024-12-18 @1086  	return ret;
-
-:::::: The code at line 1086 was first introduced by commit
-:::::: 76f0b18b3db57868fb0cabe691201aad3085b712 KVM: arm64: Introduce __pkvm_host_mkyoung_guest()
-
-:::::: TO: Quentin Perret <qperret@google.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+   727	
+   728	static ssize_t certificate_store(struct kobject *kobj,
+   729					  struct kobj_attribute *attr,
+   730					  const char *buf, size_t count)
+   731	{
+   732		struct tlmi_pwd_setting *setting = to_tlmi_pwd_setting(kobj);
+   733		char *auth_str, *new_cert;
+   734		char *guid;
+   735		int ret;
+   736	
+   737		if (!capable(CAP_SYS_ADMIN))
+   738			return -EPERM;
+   739	
+   740		if (!tlmi_priv.certificate_support)
+   741			return -EOPNOTSUPP;
+   742	
+   743		new_cert = kstrdup(buf, GFP_KERNEL);
+   744		if (!new_cert)
+   745			return -ENOMEM;
+   746		/* Strip out CR if one is present */
+   747		strip_cr(new_cert);
+   748	
+   749		/* If empty then clear installed certificate */
+   750		if (new_cert[0] == '\0') { /* Clear installed certificate */
+   751			kfree(new_cert);
+   752	
+   753			/* Check that signature is set */
+   754			if (!setting->signature || !setting->signature[0])
+   755				return -EACCES;
+   756	
+   757			/* Format: 'serial#, signature' */
+ > 758			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+   759					dmi_get_system_info(DMI_PRODUCT_SERIAL),
+   760					setting->signature);
+   761			if (!auth_str)
+   762				return -ENOMEM;
+   763	
+   764			ret = tlmi_simple_call(LENOVO_CLEAR_BIOS_CERT_GUID, auth_str);
+   765			kfree(auth_str);
+   766			if (ret)
+   767				return ret;
+   768	
+   769			kfree(setting->certificate);
+   770			setting->certificate = NULL;
+   771			return count;
+   772		}
+   773	
+   774		if (setting->cert_installed) {
+   775			/* Certificate is installed so this is an update */
+   776			if (!setting->signature || !setting->signature[0]) {
+   777				kfree(new_cert);
+   778				return -EACCES;
+   779			}
+   780			guid = LENOVO_UPDATE_BIOS_CERT_GUID;
+   781			/* Format: 'Certificate,Signature' */
+   782			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+   783					new_cert, setting->signature);
+   784		} else {
+   785			/* This is a fresh install */
+   786			if (!setting->valid || !setting->password[0]) {
+   787				kfree(new_cert);
+   788				return -EACCES;
+   789			}
+   790			guid = LENOVO_SET_BIOS_CERT_GUID;
+   791			/* Format: 'Certificate,Admin-password' */
+   792			auth_str = kasprintf(GFP_KERNEL, "%s,%s",
+   793					new_cert, setting->password);
+   794		}
+   795		if (!auth_str) {
+   796			kfree(new_cert);
+   797			return -ENOMEM;
+   798		}
+   799	
+   800		ret = tlmi_simple_call(guid, auth_str);
+   801		kfree(auth_str);
+   802		if (ret) {
+   803			kfree(new_cert);
+   804			return ret;
+   805		}
+   806	
+   807		kfree(setting->certificate);
+   808		setting->certificate = new_cert;
+   809		return count;
+   810	}
+   811	
 
 -- 
 0-DAY CI Kernel Test Service
