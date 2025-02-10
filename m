@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FDA233127
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 14:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77393204879
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 14:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739196572; cv=none; b=kD8TzUuTU+gXBVrPFX36DdO5TKGs6dazSwq9Grz9lun9jogNAtxaHTtFY1+KzjFwt8AhhsYgFSHll/2Cb+kR4aR2Bbrw93Sx98xWU+vj4ZhXhnSqVmILl33hdzx70PyhCV4l7b56Qw6jOQmru4qmsByf79eon5yEmd+iS6BSIsI=
+	t=1739197240; cv=none; b=CRrmwVVsjMkBhcd9fNTpdFsPFv2mK9G85aYtJI4zS1+LtTz2qFX6vGydP37xms4nD84QRwEEdxyr3EVqaY8IiTXfLkTa+CVrSOzNa6CkP0cuSqD7w89bg4yZt9NEUZHfHt3ZLheh/aKs8JHltZsThzL/USDA+uoiaO4LpRnYYF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739196572; c=relaxed/simple;
-	bh=RSJHSeUykncMmWA9ukvup+xfsW+60QnBx5gLQnMN9s8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WITRGbv5uvTGZEv9tWyxNedGxBdikMw6NPRE8PPgzIx1Lh6cCFky8ZUVrWvYY4QoC2FBIGDf/PQgK5bn4iNEtM6q0GFq3yeSP30yS7BYrdjLs6hcM7nxi6p71wFAlARvjrjsPlXB8SWlY5mTtV3f3f2YMdHdohUsBg/hdPhb6WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mxGWAuc9; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1739197240; c=relaxed/simple;
+	bh=Id7O3wQRQWOE4tb7hDKAB68MxniMTeTjFJiBVBa8gsY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KEygV0uqoaHZgrhkE3l5jZecYR3eXc5MdU9DkQHvWpc6m6QUMcxKPnDDL0syuKn7fe9z6oqate5SXqzmFusS1Hat+bj3Jdx4OP1pkXHrI36w2itDk/q996PvgeKNgYSgwyDzDps8++ouAzOETfKgqtvZcs0t77r2ke0j+npzCW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtFmw+RO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mxGWAuc9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtFmw+RO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739196570; x=1770732570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RSJHSeUykncMmWA9ukvup+xfsW+60QnBx5gLQnMN9s8=;
-  b=mxGWAuc9uZd4qhoGPLnO2MhqOLqwXSLXcZI1SEdstm2/BWWd+kL06A/I
-   B+TntmlGRyNEvEsmfIRi5mCYvdQGxYd4DZo7G0sz9u5R94r6OL3F+P7FQ
-   V9kG9iObxYj7em65FXyfONLYC1XnywUQ9zFnGL7SKucZSYrRnRyZnjAv8
-   uQSEM7fkdbUvZbPMMT0WnvvwBOC+I9Ss+lbEeuWIybn+J//h5yIq6PAoo
-   c985/Kjlcgl4uNkE+AAXcoYlVMFiJ2/nyolh+9onBBWiXq+3oJ3ezaouo
-   TpZc4NABvyNCuE/T91QQop9F3kBK17wrGI4DjOEJNYZ5qjfoPFFQlPLcl
+  t=1739197238; x=1770733238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Id7O3wQRQWOE4tb7hDKAB68MxniMTeTjFJiBVBa8gsY=;
+  b=jtFmw+ROI0mhjUKaULW239aDWBeNPJtODCNFBOUlF1LrApFM1C7yMu5n
+   zhoQ8cjIVVNDfz04FRBgiTfEkT6VVuAemJ/vPhGBc1WBhJk0pLNtQoEPh
+   o85dkOLAEzHm+Pzual6QhiR0sBSmc7YgwPOpqKzjdL69intIx1uQu7g4c
+   dhsebsvzDOktmD2cXCZKw2tS23WClnzvOI114bNa8FHCf+rLXohmM0SPj
+   nygdY8247hciqcjs74mAEGMBMJYv2UBcvkasnmkfEEQ1wJhnEqWGMkyjb
+   TzlmH0Pwfx0ZJDSRHMmoB5NjipkIfJr5V5Ntb8EoXWC/riq0pt5rqesCj
    g==;
-X-CSE-ConnectionGUID: 2trZ5wo0TNePIPfudSudSQ==
-X-CSE-MsgGUID: OFMxzkkuSoKu3EdJ4Qc/QQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39012594"
+X-CSE-ConnectionGUID: 2Ih7irpWQYCzj8l2O0GC1g==
+X-CSE-MsgGUID: 7LH4YAINRc+GRhckv2NAZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="43704985"
 X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="39012594"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:09:30 -0800
-X-CSE-ConnectionGUID: O5WsGvLGTVGQ7i8p3P/9Aw==
-X-CSE-MsgGUID: wJB6oeoBTRyy3NjF1mo6DQ==
+   d="scan'208";a="43704985"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:20:27 -0800
+X-CSE-ConnectionGUID: ti/NEqACRhOZv6BxTRdOzw==
+X-CSE-MsgGUID: 9zpwNT/8T9WJLKKQO2emFQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="143065127"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112046359"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Feb 2025 06:09:26 -0800
+  by orviesa010.jf.intel.com with ESMTP; 10 Feb 2025 06:20:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thUTS-0012rN-2A;
-	Mon, 10 Feb 2025 14:09:22 +0000
-Date: Mon, 10 Feb 2025 22:08:28 +0800
+	id 1thUe7-0012sF-2U;
+	Mon, 10 Feb 2025 14:20:23 +0000
+Date: Mon, 10 Feb 2025 22:19:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	rafael@kernel.org, linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	sre@kernel.org, jic23@kernel.org, przemyslaw.kitszel@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <202502102137.SA3rtuTB-lkp@intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2735/2735]
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c:1504:6: warning: variable 'h' set but
+ not used
+Message-ID: <202502102259.fAt19b0s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,133 +62,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210064906.2181867-2-raag.jadav@intel.com>
 
-Hi Raag,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/driver-core-Split-devres-APIs-to-device-devres-h/20250210-145732
-base:   a1e062ab4a1f19bb0e94093ef90ab9a74f1f7744
-patch link:    https://lore.kernel.org/r/20250210064906.2181867-2-raag.jadav%40intel.com
-patch subject: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
-config: powerpc-randconfig-003-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102137.SA3rtuTB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102137.SA3rtuTB-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   d0165578d0df9962ea30fbabcf76cf41f8789d27
+commit: 540e1ae2f7aca5a427a52f12bef657b1e3e81fc1 [2735/2735] x86/resctrl: Add interface to read mbm_total_bytes_config
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250210/202502102259.fAt19b0s-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102259.fAt19b0s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502102137.SA3rtuTB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502102259.fAt19b0s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device/devres.h:7,
-                    from include/linux/device.h:31,
-                    from arch/powerpc/include/asm/io.h:22,
-                    from drivers/video/fbdev/sis/init.h:64,
-                    from drivers/video/fbdev/sis/init.c:59:
-   include/linux/io.h: In function 'pci_remap_cfgspace':
->> include/linux/io.h:106:16: error: implicit declaration of function 'ioremap_np' [-Wimplicit-function-declaration]
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                ^~~~~~~~~~
->> include/linux/io.h:106:44: error: implicit declaration of function 'ioremap' [-Wimplicit-function-declaration]
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                                            ^~~~~~~
->> include/linux/io.h:106:42: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h: At top level:
->> arch/powerpc/include/asm/io.h:885:22: error: conflicting types for 'ioremap'; have 'void *(phys_addr_t,  long unsigned int)' {aka 'void *(unsigned int,  long unsigned int)'}
-     885 | extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-         |                      ^~~~~~~
-   include/linux/io.h:106:44: note: previous implicit declaration of 'ioremap' with type 'int()'
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                                            ^~~~~~~
-   In file included from arch/powerpc/include/asm/io.h:1031:
->> include/asm-generic/io.h:1161:20: error: conflicting types for 'ioremap_np'; have 'void *(phys_addr_t,  size_t)' {aka 'void *(unsigned int,  unsigned int)'}
-    1161 | #define ioremap_np ioremap_np
-         |                    ^~~~~~~~~~
-   include/asm-generic/io.h:1162:29: note: in expansion of macro 'ioremap_np'
-    1162 | static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-         |                             ^~~~~~~~~~
-   include/linux/io.h:106:16: note: previous implicit declaration of 'ioremap_np' with type 'int()'
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                ^~~~~~~~~~
---
-   In file included from include/linux/device/devres.h:7,
-                    from include/linux/device.h:31,
-                    from arch/powerpc/include/asm/io.h:22,
-                    from drivers/video/fbdev/sis/init301.h:64,
-                    from drivers/video/fbdev/sis/init301.c:72:
-   include/linux/io.h: In function 'pci_remap_cfgspace':
->> include/linux/io.h:106:16: error: implicit declaration of function 'ioremap_np' [-Wimplicit-function-declaration]
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                ^~~~~~~~~~
->> include/linux/io.h:106:44: error: implicit declaration of function 'ioremap' [-Wimplicit-function-declaration]
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                                            ^~~~~~~
->> include/linux/io.h:106:42: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/io.h: At top level:
->> arch/powerpc/include/asm/io.h:885:22: error: conflicting types for 'ioremap'; have 'void *(phys_addr_t,  long unsigned int)' {aka 'void *(unsigned int,  long unsigned int)'}
-     885 | extern void __iomem *ioremap(phys_addr_t address, unsigned long size);
-         |                      ^~~~~~~
-   include/linux/io.h:106:44: note: previous implicit declaration of 'ioremap' with type 'int()'
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                                            ^~~~~~~
-   In file included from arch/powerpc/include/asm/io.h:1031:
->> include/asm-generic/io.h:1161:20: error: conflicting types for 'ioremap_np'; have 'void *(phys_addr_t,  size_t)' {aka 'void *(unsigned int,  unsigned int)'}
-    1161 | #define ioremap_np ioremap_np
-         |                    ^~~~~~~~~~
-   include/asm-generic/io.h:1162:29: note: in expansion of macro 'ioremap_np'
-    1162 | static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-         |                             ^~~~~~~~~~
-   include/linux/io.h:106:16: note: previous implicit declaration of 'ioremap_np' with type 'int()'
-     106 |         return ioremap_np(offset, size) ?: ioremap(offset, size);
-         |                ^~~~~~~~~~
-   drivers/video/fbdev/sis/init301.c: In function 'SiS_SetCRT2ModeRegs':
-   drivers/video/fbdev/sis/init301.c:2687:24: warning: variable 'modeflag' set but not used [-Wunused-but-set-variable]
-    2687 |   unsigned short i, j, modeflag, tempah=0;
-         |                        ^~~~~~~~
-   drivers/video/fbdev/sis/init301.c: In function 'SiS_SetGroup1':
-   drivers/video/fbdev/sis/init301.c:6233:52: warning: variable 'resinfo' set but not used [-Wunused-but-set-variable]
-    6233 |   unsigned short  pushbx=0, CRT1Index=0, modeflag, resinfo=0;
-         |                                                    ^~~~~~~
+   In file included from arch/x86/kernel/cpu/resctrl/rdtgroup.c:19:
+   In file included from include/linux/fs_parser.h:11:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:1587:
+   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     418 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     425 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     437 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:445:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     445 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     446 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:1504:6: warning: variable 'h' set but not used [-Wunused-but-set-variable]
+    1504 |         u32 h;
+         |             ^
+   6 warnings generated.
 
 
-vim +/ioremap_np +106 include/linux/io.h
+vim +/h +1504 arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
-7d3dcf26a6559f Christoph Hellwig 2015-08-10   84  
-4d312ac057da57 Arnd Bergmann     2023-05-16   85  /* architectures can override this */
-4d312ac057da57 Arnd Bergmann     2023-05-16   86  pgprot_t __init early_memremap_pgprot_adjust(resource_size_t phys_addr,
-4d312ac057da57 Arnd Bergmann     2023-05-16   87  					unsigned long size, pgprot_t prot);
-4d312ac057da57 Arnd Bergmann     2023-05-16   88  
-4d312ac057da57 Arnd Bergmann     2023-05-16   89  
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19   90  #ifdef CONFIG_PCI
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19   91  /*
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19   92   * The PCI specifications (Rev 3.0, 3.2.5 "Transaction Ordering and
-b10eb2d50911f9 Hector Martin     2021-03-25   93   * Posting") mandate non-posted configuration transactions. This default
-b10eb2d50911f9 Hector Martin     2021-03-25   94   * implementation attempts to use the ioremap_np() API to provide this
-b10eb2d50911f9 Hector Martin     2021-03-25   95   * on arches that support it, and falls back to ioremap() on those that
-b10eb2d50911f9 Hector Martin     2021-03-25   96   * don't. Overriding this function is deprecated; arches that properly
-b10eb2d50911f9 Hector Martin     2021-03-25   97   * support non-posted accesses should implement ioremap_np() instead, which
-b10eb2d50911f9 Hector Martin     2021-03-25   98   * this default implementation can then use to return mappings compliant with
-b10eb2d50911f9 Hector Martin     2021-03-25   99   * the PCI specification.
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  100   */
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  101  #ifndef pci_remap_cfgspace
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  102  #define pci_remap_cfgspace pci_remap_cfgspace
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  103  static inline void __iomem *pci_remap_cfgspace(phys_addr_t offset,
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  104  					       size_t size)
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  105  {
-b10eb2d50911f9 Hector Martin     2021-03-25 @106  	return ioremap_np(offset, size) ?: ioremap(offset, size);
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  107  }
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  108  #endif
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  109  #endif
-cf9ea8ca4a0bea Lorenzo Pieralisi 2017-04-19  110  
+  1499	
+  1500	static void mon_event_config_read(void *info)
+  1501	{
+  1502		struct mon_config_info *mon_info = info;
+  1503		unsigned int index;
+> 1504		u32 h;
+  1505	
+  1506		index = mon_event_config_index_get(mon_info->evtid);
+  1507		if (index == INVALID_CONFIG_INDEX) {
+  1508			pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+  1509			return;
+  1510		}
+  1511		rdmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, h);
+  1512	
+  1513		/* Report only the valid event configuration bits */
+  1514		mon_info->mon_config &= MAX_EVT_CONFIG_BITS;
+  1515	}
+  1516	
 
 -- 
 0-DAY CI Kernel Test Service
