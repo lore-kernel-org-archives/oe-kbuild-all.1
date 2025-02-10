@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AEB2566D3;
-	Mon, 10 Feb 2025 17:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A581925B672
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 18:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739209255; cv=none; b=pV33Dq5LexMZZcZ/vlzxPBIhZkK5ombgy1lBew0KXA31DcE9QXlwwomIo68QztI+joLnZwQk5BVHV/RU95mSKYTlw5ScE0LtA2HV73hv2An/7EMqdSiGZmXTOj8lVRwpNkiHP9AEp3vqtFOZZlXz+94juT8NvzadL0wwPtJpvxc=
+	t=1739210577; cv=none; b=rn7mAdlN2Gng3eTkvvGrb7eqe4D1+PMZm01KUtMGn1h40PO8XaDRnsPMn1R5znmJKuP79S5gm3pyKA5eQGO6sMGHLsqFZzkYfChaUzfMY1LzX0cCG9oWms7HeeCXsCJRKMTfGPM10/T2r3atnaNSC3M0UUicVs33qxBG6WA53lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739209255; c=relaxed/simple;
-	bh=Czx2ZN+CNV69HTBXtqBdziAmQDS9Uz5v9f4Kjae0P2Y=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N63mbcksRXBQYjzYstL9o03vycYHYK7plfJWAw30S9OZihDN03uUw2fxXsPHBaDXlozL659f1ldCw3WgpH89IBEM/XGdAlL/h+kkpYUDe2tZ53MCQCTwxYwHuA2c0X+Z9xOCoUrEkddlvmTXOZA9rvLD0bXS2ZV4+KytIw/CrOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g52Fkkuu; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1739210577; c=relaxed/simple;
+	bh=3/vOz0jTHfFvG9Zp8OiPsiOYRPWK2qTPwPQbp/aJe50=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mHrD/8R0PO7ZlgBbkMhL+UnXhdyOK5MNtDY4KMmp2HsEW5OT+tF6Ic/VCQ/d1Qyql2aWG0OKexHsZbKUtKqlS2yXrfC8CkHg6KIgDxh16wvflUcwcVS9t7iq4LdtKgM0W9VyW6PISSwtxIOf8X7+zha4aNyqwAjk65oI87HO12I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CEvNiRYX; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g52Fkkuu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CEvNiRYX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739209253; x=1770745253;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Czx2ZN+CNV69HTBXtqBdziAmQDS9Uz5v9f4Kjae0P2Y=;
-  b=g52Fkkuu84lMOou2Q8/YnU3EvZu8r+ZVvqgzaZ7bfyQt/vIP1XusfKaD
-   t6sKI9xUrtOearhR9Aqq91+Jd0gsSmPzmKsap1VEeOtrzZaJuPe47mJ3E
-   OXZOYf9Fb+fDVgFBkUnjrk0ydRwpqh6BQW9SLrHTuZRFOfNI97kJ1ny2j
-   gJipueVFWEtsxXH+MgnD8YFioZAZn5zvkPvNtNmMiZrAjNv8sJRgvV0BK
-   iMRgUwrYXrpkeVjE8FUIsSMEA5ZWBxDSX4gmOgJevun6lYmACpxSOhHaa
-   HwTPJmLlJMLky36WBGoHAE3G1DoB58db8wGFlInMha9K2050xRhJMYuws
+  t=1739210576; x=1770746576;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3/vOz0jTHfFvG9Zp8OiPsiOYRPWK2qTPwPQbp/aJe50=;
+  b=CEvNiRYXVaPytruTf++Gshztl/UldDAZ1ObAZwWR+o+e1DO57SskmuCD
+   0Lt5S/8ucUBJBjoYot68TWGlb7PSRsR3uQtnEy0vwmaF0FdtVwEQ3EQfS
+   z35+TyfrxsBSM/+4KgTN8T0q+m49oE0kRYTQ5OpQ+86CUFzPOmtBNdL3X
+   Vqf48GpVXbwXgsFD7lFwhxRRn4d6ZeW2p673DcMeqoMCDo7EYRolBxqH+
+   eHHbmUt7YppX9+CT4X4wGqCCJ4weOJXESYrpK54OONbv96ccfPD23rhVL
+   EgBfua+n3yggA47ICtF1U6lHD0ioCZvDuwJq0YjUhR4K97wEdh5Z6vPn/
    w==;
-X-CSE-ConnectionGUID: rTmM382dR3CPKwAkfE4RkQ==
-X-CSE-MsgGUID: wCIi/zQtT8WVYMBexw1qJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39950600"
+X-CSE-ConnectionGUID: R9eAEC0uTSWsIuFFDct6tQ==
+X-CSE-MsgGUID: 5Fw0yZ6tS6umJN7lmzGBaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50035420"
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="39950600"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 09:40:52 -0800
-X-CSE-ConnectionGUID: S/nu/nfQRaaXJz/u6btLJA==
-X-CSE-MsgGUID: swoCu7DnQw2eDZtI4/gc7w==
+   d="scan'208";a="50035420"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 10:02:55 -0800
+X-CSE-ConnectionGUID: OwVKNQX0R8yuSGtFU02yzQ==
+X-CSE-MsgGUID: duYhkd5mSLu1rVY2krEtqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149441067"
+X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
+   d="scan'208";a="112891197"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Feb 2025 09:40:52 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 10 Feb 2025 10:02:54 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thXm5-00138H-11;
-	Mon, 10 Feb 2025 17:40:49 +0000
-Date: Tue, 11 Feb 2025 01:40:35 +0800
+	id 1thY7P-0013AF-1V;
+	Mon, 10 Feb 2025 18:02:51 +0000
+Date: Tue, 11 Feb 2025 02:01:57 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: net/devlink/devl_internal.h:21:19: warning: arithmetic between
- different enumeration types ('enum devlink_reload_limit' and 'enum
- devlink_reload_action')
-Message-ID: <202502110106.4DHWwEvB-lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Subject: [broonie-ci:20250205_ckeepax_add_sdca_disco_parsing_support 33/37]
+ sound/soc/sdca/sdca_functions.c:630:23: sparse: sparse: cast to restricted
+ __le16
+Message-ID: <202502110129.tHRpGeoS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,107 +64,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-kernel@vger.kernel.org
-TO: Jakub Kicinski <kuba@kernel.org>
-CC: Jacob Keller <jacob.e.keller@intel.com>
-CC: Jiri Pirko <jiri@nvidia.com>
-
-Hi Jakub,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-commit: 687125b5799cd5120437fa455cfccbe8537916ff devlink: split out core code
-date:   2 years, 1 month ago
-config: arm-randconfig-004-20250120 (https://download.01.org/0day-ci/archive/20250211/202502110106.4DHWwEvB-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20250205_ckeepax_add_sdca_disco_parsing_support
+head:   9da195880f167ab7c2d595388decf783c9920121
+commit: 64fb5af1d1bbcf1b808e9bb092b22fa1b691ae63 [33/37] ASoC: SDCA: Add parsing for Control range structures
+config: i386-randconfig-061-20250210 (https://download.01.org/0day-ci/archive/20250211/202502110129.tHRpGeoS-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110106.4DHWwEvB-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110129.tHRpGeoS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502110106.4DHWwEvB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502110129.tHRpGeoS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/sdca/sdca_functions.c:233:36: sparse: sparse: cast to restricted __le32
+>> sound/soc/sdca/sdca_functions.c:630:23: sparse: sparse: cast to restricted __le16
+   sound/soc/sdca/sdca_functions.c:631:23: sparse: sparse: cast to restricted __le16
+   sound/soc/sdca/sdca_functions.c:639:34: sparse: sparse: cast to restricted __le32
 
-   In file included from net/devlink/leftover.c:10:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:1856:
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from net/devlink/leftover.c:34:
->> net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/leftover.c:4473:20: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-    4473 |                 stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
-         |                            ~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/leftover.c:4521:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-    4521 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
---
-   In file included from net/devlink/core.c:7:
-   In file included from include/net/genetlink.h:5:
-   In file included from include/linux/genetlink.h:5:
-   In file included from include/uapi/linux/genetlink.h:6:
-   In file included from include/linux/netlink.h:7:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:1856:
-   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from net/devlink/core.c:9:
->> net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
+vim +630 sound/soc/sdca/sdca_functions.c
 
-
-vim +21 net/devlink/devl_internal.h
-
-    16	
-    17	#define DEVLINK_RELOAD_STATS_ARRAY_SIZE \
-    18		(__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-    19	
-    20	struct devlink_dev_stats {
-  > 21		u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-    22		u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-    23	};
-    24	
+   605	
+   606	static int find_sdca_control_range(struct device *dev,
+   607					   struct fwnode_handle *control_node,
+   608					   struct sdca_control_range *range)
+   609	{
+   610		u8 *range_list;
+   611		int num_range;
+   612		u16 *limits;
+   613		int i;
+   614	
+   615		num_range = fwnode_property_count_u8(control_node, "mipi-sdca-control-range");
+   616		if (!num_range || num_range == -EINVAL)
+   617			return 0;
+   618		else if (num_range < 0)
+   619			return num_range;
+   620	
+   621		range_list = devm_kcalloc(dev, num_range, sizeof(*range_list), GFP_KERNEL);
+   622		if (!range_list)
+   623			return -ENOMEM;
+   624	
+   625		fwnode_property_read_u8_array(control_node, "mipi-sdca-control-range",
+   626					      range_list, num_range);
+   627	
+   628		limits = (u16 *)range_list;
+   629	
+ > 630		range->cols = le16_to_cpu(limits[0]);
+   631		range->rows = le16_to_cpu(limits[1]);
+   632		range->data = (u32 *)&limits[2];
+   633	
+   634		num_range = (num_range - (2 * sizeof(*limits))) / sizeof(*range->data);
+   635		if (num_range != range->cols * range->rows)
+   636			return -EINVAL;
+   637	
+   638		for (i = 0; i < num_range; i++)
+   639			range->data[i] = le32_to_cpu(range->data[i]);
+   640	
+   641		return 0;
+   642	}
+   643	
 
 -- 
 0-DAY CI Kernel Test Service
