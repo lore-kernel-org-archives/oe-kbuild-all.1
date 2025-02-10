@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C75231A23
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Feb 2025 15:34:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8CB24BCFB;
+	Mon, 10 Feb 2025 15:45:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739201679; cv=none; b=XrtUMGcfxQLcLBTtbr4haCS1eGBmJW4gbTs+Twynds+5BQBf7dqXcOpKWhkZNJYAIXfjHvby/xxZpYS1aaAtSJY5hsw+FwOPXHSBbRTQtZJyx2FN78YdboaaGvgqhNx5OKPBBX3IHddAEbQwtSrHsU7NTEUzr82/R5DMh6xzVcc=
+	t=1739202340; cv=none; b=YYDBOiq0VY80HUJIdo54Xt8MWcdh1vB5Wu1/UOE0Ran1lcZy4UgeF79af71RCA/pdC2g0udcJaJ40IMFwJIpPsPKBJMFN00pvEYXVpZowc9oiC5DhQjrCOQG/rN5MiU6mDQeATAr5yv/VZ/YXcfYLSN1KbHOSOq/sVIay80PL7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739201679; c=relaxed/simple;
-	bh=OOrnmuqtL2dSCkUj/XXGetqz78lrbriOA+RqUEfU6o4=;
+	s=arc-20240116; t=1739202340; c=relaxed/simple;
+	bh=EZNJjSAN8A/FftUfus1hj9pLxxr71iG+EIIm+NeCf4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lp02fN+2MOyw/eGRlZdpzSBU5hx11zBDvTgyaHp6vLrs+67ymLfkCQEAA1/f7KwYQ+crMoLWcnrXZUcwL10kR4D5z90FcMW8uXZT6GZJjZVXNd6Wy50RRJLWMC0lVzo75omn30D/C7kCUmNBBcQKCTyrx3dc4aWSSMvjbhomoBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Olb5cxoh; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=mnvpwAW5OIHedC6pJg+AnSB6alEXswj1LW3IjIhn507H4FIUrz9XMfqr1m3Btr6m3viS+ZWcrjrNR8omm/3UMGrtCLSnG/E3cPFBwVeZ/mOEK7kl/CgI7wEXhtD1AhMVU8BZ4pUw/D4LitImpHwlZYqMnlOSbufZ3kwkzDrWYxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpyAxfs5; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Olb5cxoh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpyAxfs5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739201677; x=1770737677;
+  t=1739202339; x=1770738339;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OOrnmuqtL2dSCkUj/XXGetqz78lrbriOA+RqUEfU6o4=;
-  b=Olb5cxohzQX2AhWnIGQr9fjBNWspD11MYKNi2lb5KwjAqOyS30hNPb00
-   5fPnTKSGMxb5KXrR+v1ECCoKEn6BY1ZOUrDfGGlBCK69tejAVPWsQckqg
-   ql4RDU3ci7O+qAn4VVitHgD8v5+oCbAj2t7uHL8HjY60NOMppZztDCyhA
-   UXHHK3WnYUhdX5J8d0EuDXJXG9LNHo0Slu7Y7I0j0mnGLvPg0wB+dGqiU
-   BdA1hHXkTuHVX2ajMDs73c/2TlV/GBVaVTLElEOSmorq8hBLILKhOvDw3
-   Md8WWtJBIvT7qzZXBZjrudfgf0wT9YNZV1GX2//4lHz0rTKC33Par9I4c
-   A==;
-X-CSE-ConnectionGUID: Zwl06akQQ0uE/05rarnZXw==
-X-CSE-MsgGUID: AMMV6f37SqyKjhGNg13x4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50417799"
+  bh=EZNJjSAN8A/FftUfus1hj9pLxxr71iG+EIIm+NeCf4Y=;
+  b=QpyAxfs5IldqXtTXyWY5ofLbqhMQzh2ubEsVEl/vDMxYwgZZ4AhTYAG9
+   +BeNNEBc2x7fzzDs81iGUVEeNxx5AEMp8g76nd8V2tOqg/uKfgl0n+EOg
+   WMUQeY7c6+yqirNYZYDryC+gUAqhJtwjLjGVYF4VY76szIAahRmFjFwKc
+   wUf2vXy9HsEIL+t1mr6kDqVLAj//efMOsb9P6IK9pf4cNPGF/eC3bHz8Y
+   sTdgV/6PJ5efECi3E7aK1RIjkkyIge9VvfN2VoNfasTKF7sumjHZSVycp
+   Pq6HWYzCOVBlhTEmgPr0X5G5deqwbfbTQ0eIvCCHML2S2OVJ5JJCYX/1s
+   w==;
+X-CSE-ConnectionGUID: rkapWYDRSPu3Wy+3m72U6g==
+X-CSE-MsgGUID: 9t/Lvdj3QcK5XF/AroWaOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50419253"
 X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="50417799"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 07:34:36 -0800
-X-CSE-ConnectionGUID: vmEMLkMfTKKQWeyEJdNg3w==
-X-CSE-MsgGUID: qrBMJDRBSQm85WgzuPx7uA==
+   d="scan'208";a="50419253"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 07:45:38 -0800
+X-CSE-ConnectionGUID: kAvpajYwSzKsqQn7eM9b5A==
+X-CSE-MsgGUID: RaW5HIlIRDChG/LzfkionQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="112441674"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="143120728"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Feb 2025 07:34:35 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Feb 2025 07:45:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thVnt-0012y3-1e;
-	Mon, 10 Feb 2025 15:34:33 +0000
-Date: Mon, 10 Feb 2025 23:33:37 +0800
+	id 1thVyY-0012yl-2K;
+	Mon, 10 Feb 2025 15:45:34 +0000
+Date: Mon, 10 Feb 2025 23:44:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Reaver <me@davidreaver.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH 6/6] debugfs: Replace debugfs_node #define with
  struct wrapping dentry
-Message-ID: <202502102334.VOT8cUT6-lkp@intel.com>
+Message-ID: <202502102301.7D1vpwVw-lkp@intel.com>
 References: <20250210052039.144513-7-me@davidreaver.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,32 +76,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/David-Reaver/debugfs-Add-
 base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
 patch link:    https://lore.kernel.org/r/20250210052039.144513-7-me%40davidreaver.com
 patch subject: [RFC PATCH 6/6] debugfs: Replace debugfs_node #define with struct wrapping dentry
-config: arm64-randconfig-001-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102334.VOT8cUT6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102334.VOT8cUT6-lkp@intel.com/reproduce)
+config: arm64-randconfig-003-20250210 (https://download.01.org/0day-ci/archive/20250210/202502102301.7D1vpwVw-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102301.7D1vpwVw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502102334.VOT8cUT6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502102301.7D1vpwVw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/imagination/pvr_debugfs.c:21:24: error: initialization of 'void (*)(struct pvr_device *, struct dentry *)' from incompatible pointer type 'void (*)(struct pvr_device *, struct debugfs_node *)' [-Wincompatible-pointer-types]
+>> drivers/gpu/drm/imagination/pvr_debugfs.c:21:17: error: incompatible function pointer types initializing 'void (*)(struct pvr_device *, struct dentry *)' with an expression of type 'void (struct pvr_device *, struct debugfs_node *)' [-Wincompatible-function-pointer-types]
       21 |         {"pvr_params", pvr_params_debugfs_init},
          |                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_debugfs.c:21:24: note: (near initialization for 'pvr_debugfs_entries[0].init')
-   drivers/gpu/drm/imagination/pvr_debugfs.c:22:20: error: initialization of 'void (*)(struct pvr_device *, struct dentry *)' from incompatible pointer type 'void (*)(struct pvr_device *, struct debugfs_node *)' [-Wincompatible-pointer-types]
+   drivers/gpu/drm/imagination/pvr_debugfs.c:22:13: error: incompatible function pointer types initializing 'void (*)(struct pvr_device *, struct dentry *)' with an expression of type 'void (struct pvr_device *, struct debugfs_node *)' [-Wincompatible-function-pointer-types]
       22 |         {"pvr_fw", pvr_fw_trace_debugfs_init},
          |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_debugfs.c:22:20: note: (near initialization for 'pvr_debugfs_entries[1].init')
-   drivers/gpu/drm/imagination/pvr_debugfs.c: In function 'pvr_debugfs_init':
->> drivers/gpu/drm/imagination/pvr_debugfs.c:45:38: error: passing argument 2 of 'entry->init' from incompatible pointer type [-Wincompatible-pointer-types]
+>> drivers/gpu/drm/imagination/pvr_debugfs.c:45:24: error: incompatible pointer types passing 'struct debugfs_node *' to parameter of type 'struct dentry *' [-Werror,-Wincompatible-pointer-types]
       45 |                 entry->init(pvr_dev, dir);
          |                                      ^~~
-         |                                      |
-         |                                      struct debugfs_node *
-   drivers/gpu/drm/imagination/pvr_debugfs.c:45:38: note: expected 'struct dentry *' but argument is of type 'struct debugfs_node *'
+   3 errors generated.
 
 
 vim +21 drivers/gpu/drm/imagination/pvr_debugfs.c
