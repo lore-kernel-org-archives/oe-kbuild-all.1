@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2218B79C8;
-	Tue, 11 Feb 2025 00:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC851C5F26
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 00:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739232945; cv=none; b=H0Wg+dHG3ZcXaI4PSdosy7E7K/a+nI8BrsY8mbv8Ms0qJ82wUScgDZU4eNk8jseU8NiiJnmaIPDfV2gh6Zn+N1DKID1Jt6+AvAklHD52Fw30H4aSXQN3EpnegBdJnDqA7Eyvfo5lVR7kNN5lvCkA0tuREFFtE6sF7pd/BQsqV3Y=
+	t=1739234809; cv=none; b=J5xjhqNCe+RIc6bp6d2YqcDWWNUNmSnSJ2shZi02y223sjyUy34juQ4YVZSypbBQUACssPCYdr7UMOjP6UECkJflWoxCpDeKBqiv+z/5bNrpRMN7kZjn1tsmzTvj77fUMxciX3qPKTlYfnNvwStIlT6IiR5Co3Oz6MJDffYsauI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739232945; c=relaxed/simple;
-	bh=jP2/DBnUGN3BOpehz5g1+zoYGsD68CHwfFOqF/YpI0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U36rf4KRY29haGtitIxR1cYDGkiu+g1ae7Ey04SgXLqkvN4XnATsMsfULCvgKn8rupaiXueJKXAxsZS0S1EGWl9vTJLFTHrxPWIn4eKuk6rOm/++mHqaHrMnaq5ZtLBu8px768heg3o5RFMvaBPXJo9qR8K1/ShgnT3TSWrouNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDDpf1bh; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1739234809; c=relaxed/simple;
+	bh=dzd/pnrSbPqU6qEZ56FjJpSR9Qq6SKybEq5vAflSsuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=reGVvJj7j5ubUQQzf/5/NcnJw9anYjjtuWPNgzD7OmV0IivNQmPllN20ehcP3QHzeGr1REAoeiRxMgBBlPg4K2IJ7I7JJXJsZF6LChJZR5ChJvSTJgkLLQ030wxDiFA+W7IHp1fNPufVDtsyKPzpDZhKJ+uGF77W/uKB99yuUYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B7tekcqJ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDDpf1bh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B7tekcqJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739232943; x=1770768943;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jP2/DBnUGN3BOpehz5g1+zoYGsD68CHwfFOqF/YpI0k=;
-  b=MDDpf1bhQcbQDID+rPyEHDLEQBOrO40GmbCwfCcttsFXfjD0/2P5Spzq
-   brsJPQS6koN2wr0n383ggKMVjEjOZP6mX+2Ts6YWfWDKm0+5WAN9b9WM8
-   xRypWZbPwzFW6C3dYfDx8anzK4b4VkIXfTjsU1DcyoFQmKnqe51iUScud
-   ycoBdMM2MVO9Ktf+4beNP0mmyMS6rcsDfnH0GEBL37SKyaP3pSS18OPwF
-   49lztJvWgW19eBV1aXWxjE3w4O2s1A1YPoHiFAHNbY08ki6OklfxZnxjH
-   Cwt8c2MG+3WW3VxcNaZBuP1uMc0a01lU9nRqpYSqTnOGCBmctklUQqYzp
-   w==;
-X-CSE-ConnectionGUID: eIbaZpFzRL2DGeZcswsqQA==
-X-CSE-MsgGUID: IgrU06WFT2S++K9fjTY2VA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="51230291"
+  t=1739234807; x=1770770807;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dzd/pnrSbPqU6qEZ56FjJpSR9Qq6SKybEq5vAflSsuE=;
+  b=B7tekcqJijIT09XmSkR5v30VRGDlr4NInmfeAgwcKXeaTvAcu3kWZEi6
+   NY2uy9tOmEEoy1pAewecgq8MB6V4OMbGXO2BHeo7h5idQQEmr3CkWUc+Y
+   Hza2q5+hgN4k/n9P89b65lBf6lpgU1IHfF3UOQi25lyYeYI9s1y3eJ4Ga
+   PpNSNjvC0ed5pmGzKw/XKEnp8+jORtGHSKCdmiGtQ7RM99YrlNl4l61C8
+   APvbk8Cu7tcPa5fImVEjVCyXdI1HCJU0HE5uSrdAdZdZyMWM+M9kCo+HR
+   CZXDzLquFOXftcsGRdFg51RZiM9vZ/H+rsuEEJNVZCFc4vP/yMwH/IqFC
+   A==;
+X-CSE-ConnectionGUID: VHDOgiAxQsqIYGbco7Uu3g==
+X-CSE-MsgGUID: lZOuFwtoR+GEbcdx37jQJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="62314092"
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="51230291"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 16:15:43 -0800
-X-CSE-ConnectionGUID: dV0J4/6SSNK4MqSB+EczmA==
-X-CSE-MsgGUID: emHhbxrrR46lcR3JjhJu8A==
+   d="scan'208";a="62314092"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 16:46:45 -0800
+X-CSE-ConnectionGUID: V5xER/bVSQeTswIuBweemg==
+X-CSE-MsgGUID: ECKn6JBqQYeggKOesvaGJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,275,1732608000"; 
-   d="scan'208";a="112280225"
+   d="scan'208";a="112993562"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Feb 2025 16:15:41 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 10 Feb 2025 16:46:44 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thdwA-0013YZ-2r;
-	Tue, 11 Feb 2025 00:15:38 +0000
-Date: Tue, 11 Feb 2025 08:15:23 +0800
+	id 1theQD-0013Zh-26;
+	Tue, 11 Feb 2025 00:46:41 +0000
+Date: Tue, 11 Feb 2025 08:46:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/4] ACPI/MRRM: Create /sys/devices/system/memory/rangeX
- ABI
-Message-ID: <202502110859.OJYEQrj1-lkp@intel.com>
-References: <20250210211223.6139-3-tony.luck@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1422/1422] kernel/sched/.tmp_core.o:
+ warning: objtool: missing symbol for section .text.unlikely
+Message-ID: <202502110821.EGD3OpQb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,178 +61,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210211223.6139-3-tony.luck@intel.com>
 
-Hi Tony,
+Hi Thomas,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Luck/ACPICA-Define-MRRM-ACPI-table/20250211-051427
-base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-patch link:    https://lore.kernel.org/r/20250210211223.6139-3-tony.luck%40intel.com
-patch subject: [PATCH 2/4] ACPI/MRRM: Create /sys/devices/system/memory/rangeX ABI
-config: i386-buildonly-randconfig-006-20250211 (https://download.01.org/0day-ci/archive/20250211/202502110859.OJYEQrj1-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110859.OJYEQrj1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e7e24815dc35fd89241933daa8733b46f157ec60
+commit: f2701b77bbd992f3df4631de8493f21db0830452 [1422/1422] Merge 4.18-rc7 into master to pick up the KVM dependcy
+config: x86_64-buildonly-randconfig-002-20250210 (https://download.01.org/0day-ci/archive/20250211/202502110821.EGD3OpQb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502110821.EGD3OpQb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502110859.OJYEQrj1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502110821.EGD3OpQb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/page_ext.c:6:
->> include/linux/memory.h:196:55: error: use of undeclared identifier 'EONENT'
-     196 | static inline int mrrm_max_mem_region(void) { return -EONENT; }
-         |                                                       ^
-   1 error generated.
---
-   In file included from mm/slab_common.c:12:
->> include/linux/memory.h:196:55: error: use of undeclared identifier 'EONENT'
-     196 | static inline int mrrm_max_mem_region(void) { return -EONENT; }
-         |                                                       ^
-   In file included from mm/slab_common.c:34:
-   In file included from mm/internal.h:13:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   2 warnings and 1 error generated.
---
-   In file included from mm/mm_init.c:13:
->> include/linux/memory.h:196:55: error: use of undeclared identifier 'EONENT'
-     196 | static inline int mrrm_max_mem_region(void) { return -EONENT; }
-         |                                                       ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/mm_init.c:16:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
---
-   In file included from mm/migrate.c:22:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/migrate.c:43:
->> include/linux/memory.h:196:55: error: use of undeclared identifier 'EONENT'
-     196 | static inline int mrrm_max_mem_region(void) { return -EONENT; }
-         |                                                       ^
-   2 warnings and 1 error generated.
-
-
-vim +/EONENT +196 include/linux/memory.h
-
-   191	
-   192	#ifdef CONFIG_ACPI_MRRM
-   193	int mrrm_max_mem_region(void);
-   194	int memory_subsys_device_register(struct device *dev);
-   195	#else
- > 196	static inline int mrrm_max_mem_region(void) { return -EONENT; }
-   197	static inline int memory_subsys_device_register(struct device *dev) { return -EINVAL; }
-   198	#define memory_subsys_device_register memory_subsys_device_register
-   199	#endif
-   200	
+         |                                 ^~~~~~~
+   include/linux/compiler.h:58:49: note: in definition of macro '__trace_if'
+      58 |         if (__builtin_constant_p(!!(cond)) ? !!(cond) :                 \
+         |                                                 ^~~~
+   kernel/sched/core.c:6738:17: note: in expansion of macro 'if'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                 ^~
+   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
+      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:416:41: note: in expansion of macro 'likely'
+     416 | #define static_branch_likely(x)         likely(static_key_enabled(&(x)->key))
+         |                                         ^~~~~~
+   include/linux/cgroup.h:92:9: note: in expansion of macro 'static_branch_likely'
+      92 |         static_branch_likely(&ss ## _on_dfl_key)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6738:21: note: in expansion of macro 'cgroup_subsys_on_dfl'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:61:31: warning: ignoring attribute 'section ("_ftrace_branch")' because it conflicts with previous 'section ("_ftrace_annotated_branch")' [-Wattributes]
+      61 |                 static struct ftrace_branch_data                        \
+         |                               ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:49: note: in definition of macro '__trace_if'
+      58 |         if (__builtin_constant_p(!!(cond)) ? !!(cond) :                 \
+         |                                                 ^~~~
+   kernel/sched/core.c:6738:17: note: in expansion of macro 'if'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                 ^~
+   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
+      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:416:41: note: in expansion of macro 'likely'
+     416 | #define static_branch_likely(x)         likely(static_key_enabled(&(x)->key))
+         |                                         ^~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   include/linux/jump_label.h:325:9: note: in expansion of macro 'if'
+     325 |         if (!__builtin_types_compatible_p(typeof(*x), struct static_key) &&     \
+         |         ^~
+   include/linux/jump_label.h:416:48: note: in expansion of macro 'static_key_enabled'
+     416 | #define static_branch_likely(x)         likely(static_key_enabled(&(x)->key))
+         |                                                ^~~~~~~~~~~~~~~~~~
+   include/linux/cgroup.h:92:9: note: in expansion of macro 'static_branch_likely'
+      92 |         static_branch_likely(&ss ## _on_dfl_key)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6738:21: note: in expansion of macro 'cgroup_subsys_on_dfl'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:28:33: note: previous declaration here
+      28 |                                 ______f = {                             \
+         |                                 ^~~~~~~
+   include/linux/compiler.h:58:49: note: in definition of macro '__trace_if'
+      58 |         if (__builtin_constant_p(!!(cond)) ? !!(cond) :                 \
+         |                                                 ^~~~
+   kernel/sched/core.c:6738:17: note: in expansion of macro 'if'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                 ^~
+   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
+      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:416:41: note: in expansion of macro 'likely'
+     416 | #define static_branch_likely(x)         likely(static_key_enabled(&(x)->key))
+         |                                         ^~~~~~
+   include/linux/cgroup.h:92:9: note: in expansion of macro 'static_branch_likely'
+      92 |         static_branch_likely(&ss ## _on_dfl_key)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6738:21: note: in expansion of macro 'cgroup_subsys_on_dfl'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
+      25 |                         static struct ftrace_likely_data                \
+         |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
+      69 |                 ______r = !!(cond);                                     \
+         |                              ^~~~
+   kernel/sched/core.c:6738:17: note: in expansion of macro 'if'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                 ^~
+   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
+      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/linux/jump_label.h:416:41: note: in expansion of macro 'likely'
+     416 | #define static_branch_likely(x)         likely(static_key_enabled(&(x)->key))
+         |                                         ^~~~~~
+   include/linux/cgroup.h:92:9: note: in expansion of macro 'static_branch_likely'
+      92 |         static_branch_likely(&ss ## _on_dfl_key)
+         |         ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6738:21: note: in expansion of macro 'cgroup_subsys_on_dfl'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:64:25: note: previous declaration here
+      64 |                         ______f = {                                     \
+         |                         ^~~~~~~
+   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
+      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
+         |                       ^~~~~~~~~~
+   kernel/sched/core.c:6738:17: note: in expansion of macro 'if'
+    6738 |                 if (cgroup_subsys_on_dfl(cpu_cgrp_subsys)) {
+         |                 ^~
+>> kernel/sched/.tmp_core.o: warning: objtool: missing symbol for section .text.unlikely
 
 -- 
 0-DAY CI Kernel Test Service
