@@ -1,184 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB7B1E3DF8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D301E3DD8;
+	Tue, 11 Feb 2025 09:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739264867; cv=none; b=VwCcxqVOR5+zfaGB4Hsb18GPOYuYe4f+MxjPQHgo2XLUcDA2Wz+Kf/6kB7xGn3v8fp426g9ln6qoGHF7GvpgfULaCm09EOK2+acBbcBTNQLdB86uyk/cqnRGPouC5/I2Zdi20q+PFVA3askvBchf+/zj7stMSgUvFc/jsyrQC2A=
+	t=1739265464; cv=none; b=ERo9iRbeu3kW2UNmTDD8omUFHfkB9ZRHieZzoLz1y7anFYqu7kS/zMvn5dWNrs0S3n2sjitw1aZrfrkP5+4jXDnvI2Nt1CX3do78NAtHsWUbfIubVDmPxjzJqh7LawX1JB1gb0eYZ7+CMnPLS+dLTtVicN6DJx3JICy3A4IbVHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739264867; c=relaxed/simple;
-	bh=hFx79QumT2efvDIu9SQG+KhJyUcuw+IZ0OY2d/uT+og=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K8KLf8G0DcSbkJ8kxhlabyRaRpX/43uIvTlnybzTN7xJeeC4dDRYdbZLRHjoVEeIyipdtoiz217oS1MomEcl11l1UKJum5XktG1SEOxuFXUVt9ycltXIzhjz6z49vtkJDDyt1HuaPHTzpi+LHolrh+MIQrR2MriWBqVoVeF2x3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5xgcR2j; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739265464; c=relaxed/simple;
+	bh=q1ph39zTYKj5k8jovBlZb0OmW0D/Cl5sBfBfHNGZ+Fs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sj2SKqN90VXUsvBQDvoqT6M/yy2K4pK+ydhrrB//S6ljnfhZ2FrEeBq8rlga0mHVhs+MlvxxsDBeU/Ks8hpEnTTtTp8qD8Gp1jGz51a9b312jEUtZLmHlD1MB+1XVRhXwBYERTl4G6xgwxkFLn65vDhdYXV+bgZNErWAiXgzmpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=T7xACDYR; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5xgcR2j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739264866; x=1770800866;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hFx79QumT2efvDIu9SQG+KhJyUcuw+IZ0OY2d/uT+og=;
-  b=X5xgcR2jSLNt89s/67ieR8yzJN1T+7/bPWJsXx7aT4thNw9Fkgs2nVaI
-   f0hdP9qApM+UReHx07eahi+LNSLiBLG9h65aZyBciNU4I8McMXhTbZ1jC
-   cSkq479Gp4tE+GDcnnI/qEgT5tQUZUCt1/9GVkE7nK0BIJzespdvRTcPq
-   nmkoSv7glLVxBOz4dFhwCnblxXstMYSXdY+MF52dE69sueEVyF2N7J+ms
-   IRooQLEpjnXK01Q9u5YXSEOU00vL41invI6ZNRUDgaSYPCMmBcArowMUg
-   DVVq4MAcRikY+VTimfbaNUBjydXBTDujjobn/fQi3hnEKnahqEoEZeKBF
-   g==;
-X-CSE-ConnectionGUID: 6l6VSWClQByvS5OuqaiRfw==
-X-CSE-MsgGUID: qY+6Tu9bQMS9V1yUmnMsHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39758892"
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="39758892"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:07:45 -0800
-X-CSE-ConnectionGUID: Wlse3+4DSkGTXxDkvf01tQ==
-X-CSE-MsgGUID: nbHe+6jIRwa8BdCdBKGWcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="135702696"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Feb 2025 01:07:42 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thmF2-0013wj-0a;
-	Tue, 11 Feb 2025 09:07:40 +0000
-Date: Tue, 11 Feb 2025 17:07:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH] arm64: scripts/sorttable: Implement sorting mcount_loc
- at boot for arm64
-Message-ID: <202502111626.K7CTghCR-lkp@intel.com>
-References: <20250210142647.083ff456@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="T7xACDYR"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 27539433D9;
+	Tue, 11 Feb 2025 09:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1739265459;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T128NbBeShVjgHAQHFQBVXrcbz3LydX8l7wGrFI7ueM=;
+	b=T7xACDYRo4ZKNUXI1/0DERPK7oBUD4COOhQeQ03s6RH8EOyByC+6pjBEZ6OzrOskPxeFuS
+	bj1x1oMaVubfmt3p26TgQVuUpl2zcK0XoiUC456N7+IGvvckqpqJgCItd7YswXw26TdEOJ
+	M91jZud9cbdMfRKvKG0rkxCGpLdYdpRNO1gh9mW3iT33Ge4lrkju+oPKRM6FENGcYAigOS
+	AMmT/wHxfjhD2hbhK6CFJZvEZDF1S2DQtqSVDuLGIfB4sw7wuuj4cIXdgh7E5LPVHPgIIh
+	G5b8e1G431JQKCpx/CGPenErBzIhdyOHy2eojCn4jjfcomZSr06/ZsDQrE6S7g==
+Date: Tue, 11 Feb 2025 10:17:35 +0100
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: davem@davemloft.net, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski
+ <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ linux-arm-kernel@lists.infradead.org, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Herve Codina <herve.codina@bootlin.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Marek
+ =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, =?UTF-8?B?Tmljb2zDsg==?= Veronese
+ <nicveronese@gmail.com>, Simon Horman <horms@kernel.org>,
+ mwojtas@chromium.org, Antoine Tenart <atenart@kernel.org>,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Romain Gantois
+ <romain.gantois@bootlin.com>, Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH net-next 11/13] net: phy: Only rely on phy_port for
+ PHY-driven SFP
+Message-ID: <20250211101735.0af025c4@fedora-1.home>
+In-Reply-To: <202502082347.tFufJ529-lkp@intel.com>
+References: <20250207223634.600218-12-maxime.chevallier@bootlin.com>
+	<202502082347.tFufJ529-lkp@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250210142647.083ff456@gandalf.local.home>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegtdeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepofgrgihimhgvucevhhgvvhgrlhhlihgvrhcuoehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeifeejgeevhffhhfefvdfhgefgudefkeefgeeivdeuveejueeljeekgfffieeihfenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecukfhppedvrgdtudemtggsudelmeekugegtgemlehftddtmegstgdvudemkeekleelmeehgedttgemvgehlegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgduleemkegugegtmeelfhdttdemsggtvddumeekkeelleemheegtdgtmegvheelvgdphhgvlhhopehfvgguohhrrgdquddrhhhomhgvpdhmrghilhhfrhhomhepmhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedvpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtr
+ dhnvghtpdhrtghpthhtoheplhhlvhhmsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-Hi Steven,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On Sun, 9 Feb 2025 00:04:55 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.14-rc2 next-20250210]
-[cannot apply to arm64/for-next/core arm-perf/for-next/perf kvmarm/next soc/for-next arm/for-next arm/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Hi Maxime,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-ethtool-Introduce-ETHTOOL_LINK_MEDIUM_-values/20250208-064223
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20250207223634.600218-12-maxime.chevallier%40bootlin.com
+> patch subject: [PATCH net-next 11/13] net: phy: Only rely on phy_port for PHY-driven SFP
+> config: i386-buildonly-randconfig-005-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082347.tFufJ529-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082347.tFufJ529-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502082347.tFufJ529-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/net/phy/qcom/qca807x.c:698:12: error: use of undeclared identifier 'phy_sfp_attach'; did you mean 'phy_attach'?  
+>      698 |         .attach = phy_sfp_attach,
+>          |                   ^~~~~~~~~~~~~~
+>          |                   phy_attach
+>    include/linux/phy.h:1912:20: note: 'phy_attach' declared here
+>     1912 | struct phy_device *phy_attach(struct net_device *dev, const char *bus_id,
+>          |                    ^
+> >> drivers/net/phy/qcom/qca807x.c:699:12: error: use of undeclared identifier 'phy_sfp_detach'; did you mean 'phy_detach'?  
+>      699 |         .detach = phy_sfp_detach,
+>          |                   ^~~~~~~~~~~~~~
+>          |                   phy_detach
+>    include/linux/phy.h:1924:6: note: 'phy_detach' declared here
+>     1924 | void phy_detach(struct phy_device *phydev);
+>          |      ^
+> >> drivers/net/phy/qcom/qca807x.c:702:17: error: use of undeclared identifier 'phy_sfp_connect_phy'  
+>      702 |         .connect_phy = phy_sfp_connect_phy,
+>          |                        ^
+> >> drivers/net/phy/qcom/qca807x.c:703:20: error: use of undeclared identifier 'phy_sfp_disconnect_phy'  
+>      703 |         .disconnect_phy = phy_sfp_disconnect_phy,
+>          |                           ^
+> >> drivers/net/phy/qcom/qca807x.c:748:9: error: call to undeclared function 'phy_sfp_probe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]  
+>      748 |                 ret = phy_sfp_probe(phydev, &qca807x_sfp_ops);
+>          |                       ^
+>    5 errors generated.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/arm64-scripts-sorttable-Implement-sorting-mcount_loc-at-boot-for-arm64/20250211-032956
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250210142647.083ff456%40gandalf.local.home
-patch subject: [PATCH] arm64: scripts/sorttable: Implement sorting mcount_loc at boot for arm64
-config: riscv-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111626.K7CTghCR-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111626.K7CTghCR-lkp@intel.com/reproduce)
+Ah damned, I missed that qca807x now also supports SFP. I'll include a
+conversion fr that driver too in V2 (and add Robert in CC:)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502111626.K7CTghCR-lkp@intel.com/
+Thanks,
 
-All warnings (new ones prefixed by >>):
-
->> scripts/sorttable.c:306:13: warning: 'rela_write_addend' defined but not used [-Wunused-function]
-     306 | static void rela_write_addend(Elf_Rela *rela, uint64_t val)
-         |             ^~~~~~~~~~~~~~~~~
->> scripts/sorttable.c:287:17: warning: 'rela_addend' defined but not used [-Wunused-function]
-     287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
-         |                 ^~~~~
-   scripts/sorttable.c:294:1: note: in expansion of macro 'RELA_ADDR'
-     294 | RELA_ADDR(addend)
-         | ^~~~~~~~~
->> scripts/sorttable.c:287:17: warning: 'rela_info' defined but not used [-Wunused-function]
-     287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
-         |                 ^~~~~
-   scripts/sorttable.c:293:1: note: in expansion of macro 'RELA_ADDR'
-     293 | RELA_ADDR(info)
-         | ^~~~~~~~~
->> scripts/sorttable.c:287:17: warning: 'rela_offset' defined but not used [-Wunused-function]
-     287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
-         |                 ^~~~~
-   scripts/sorttable.c:292:1: note: in expansion of macro 'RELA_ADDR'
-     292 | RELA_ADDR(offset)
-         | ^~~~~~~~~
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   include/linux/ftrace.h: In function 'ftrace_get_regs':
-   include/linux/ftrace.h:190:16: error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean 'arch_ftrace_regs'? [-Wimplicit-function-declaration]
-     190 |         return arch_ftrace_get_regs(fregs);
-         |                ^~~~~~~~~~~~~~~~~~~~
-         |                arch_ftrace_regs
-   include/linux/ftrace.h:190:16: error: returning 'int' from a function with return type 'struct pt_regs *' makes pointer from integer without a cast [-Wint-conversion]
-     190 |         return arch_ftrace_get_regs(fregs);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=1925395641
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=1925395641
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1925395641
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1925395641
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/rela_write_addend +306 scripts/sorttable.c
-
-   275	
-   276	#define RELA_ADDR(fn_name)				\
-   277	static uint64_t rela64_##fn_name(Elf_Rela *rela)	\
-   278	{							\
-   279		return r8((uint64_t *)&rela->e64.r_##fn_name);	\
-   280	}							\
-   281								\
-   282	static uint64_t rela32_##fn_name(Elf_Rela *rela)	\
-   283	{							\
-   284		return r((uint32_t *)&rela->e32.r_##fn_name);	\
-   285	}							\
-   286								\
- > 287	static uint64_t rela_##fn_name(Elf_Rela *rela)		\
-   288	{							\
-   289		return e.rela_##fn_name(rela);			\
-   290	}
-   291	
-   292	RELA_ADDR(offset)
-   293	RELA_ADDR(info)
-   294	RELA_ADDR(addend)
-   295	
-   296	static void rela64_write_addend(Elf_Rela *rela, uint64_t val)
-   297	{
-   298		w8(val, (uint64_t *)&rela->e64.r_addend);
-   299	}
-   300	
-   301	static void rela32_write_addend(Elf_Rela *rela, uint64_t val)
-   302	{
-   303		w(val, (uint32_t *)&rela->e32.r_addend);
-   304	}
-   305	
- > 306	static void rela_write_addend(Elf_Rela *rela, uint64_t val)
-   307	{
-   308		e.rela_write_addend(rela, val);
-   309	}
-   310	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Maxime
