@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F2024C694
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 14:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D841F3FD0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 15:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739285792; cv=none; b=W7YNA/UhPQjYbiveH8xsoBWTXdHltVVl8C86F4sAjnFAL4PNJhS1WMnVgZ+FKXXdc5nTz1iPKZVWooerxygEx8WTplAQpCsjXSCmv2hSfQTktRoH0ZRA0VPaNOAyGq6R7AzawyLb1oERiBeakMPuhVpLr3l+GdY+tjkryasNdAM=
+	t=1739286448; cv=none; b=fBzumosyDO6LrpwLGCh52m1aTLn+FX2cuZiAnxzn7ORCA/5mtRWwNtLUxPyizjUtxSA5JHY29UUxZuA+Iz3Vdy+AyAW3PCLOgXqLqrIy7ddVR5Zp76RYQncuvPSc/1tn8IUpYtIQL3qcstLUDlXihfGRHNhVy0gPkYqt89rEOSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739285792; c=relaxed/simple;
-	bh=WNY5BpReGnMFCUhFSVF6Xwe/N44NwM9NGvZS4KxU0E8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TiuShPZpn+CH7gvnPgTKI+DoK3xoXpUDTzCX5gScYoruCNakzQLaCDMyzArNdWVLtXv8ffrleD5Kd4PdgtP/T9L7F2heht47ivW+jKAjZsxQMAOEYv5Ko9YSlPVQnZGii18DtiMMQwUTy2JCDI9enR7vlom6fTlkAT12zqzAROQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+lNtTKq; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1739286448; c=relaxed/simple;
+	bh=63VFTzhlfsv+FsZFWjumFpyRmumdLMBYpTENKjOczHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RtajRQzxY4BXBXKT+ic0gB5GJhiSF1isTqDCRF7N8N1Wa1yV3BG59AVysDnL7/I9BY6CDnXLdyiDxg0DCKHjsrfJsq+QueV3K3v+NY20WgNtjiQaEceZrqLtH9WZnnGSiFPU5TVfTpfhGkJb58SpYTs/LoASDhgaQVERwKFWRJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRBoTkIK; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+lNtTKq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRBoTkIK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739285791; x=1770821791;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WNY5BpReGnMFCUhFSVF6Xwe/N44NwM9NGvZS4KxU0E8=;
-  b=Q+lNtTKqCZ61B5O6C9+lF5TogV733Q39je4vea7YmR+Dw8WCrO2NLmV3
-   jxEvPXmsSvXQEwHOuUyOvwCs+GujNu1U4T8Ohh6J/XvTA0TuTUWgpvxrQ
-   imqK/OkSywM04PO++laQA0M97gD7FF4GX/U8vTM+rtvxFkT5f09eqwMGB
-   Qo73vfDtb4fGrXDfOyevI1mXCJ1svkn5vOZnu99GP0nj4Bi0C3z6dmsWv
-   fkXA+/LQmmoF9ey8X0zNdkV/KXtiZinsN6uUbKe18Fs05Fnk6pLR5lbLZ
-   J0RtOOc2gUjvdzyEpFACrMCd3aCa200N//rZU3K1thYWpMlA0B1bamlXT
-   Q==;
-X-CSE-ConnectionGUID: GOvh6D2JRqeypGorYf3LrA==
-X-CSE-MsgGUID: 2WGjlcuCSSGCH9qd4NED5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39790326"
+  t=1739286447; x=1770822447;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=63VFTzhlfsv+FsZFWjumFpyRmumdLMBYpTENKjOczHc=;
+  b=HRBoTkIKPK8tvvGbipPB2Vlr2tkxNVKf7TWi4uiRh+yEz5BpDJPd4Eiy
+   hWCfJE+N6iTj1DpGpCUzH8crHzsKoc4x7bFzjd1oM54U0VYzR5BwJnktS
+   0Bjh5dZkLG2b4hFg1RFZNTz99NQEN8+rN1oht5RAn3AK8gR4J7LVLf211
+   xHVMqB9Q9rxWSz1KpGlJX/O9mEEgWzVQvAWorixRLPcQuIT0HUUZLoF5Y
+   Zvrhi59Lv6IiLj5OGD4IbONb1Dup9n9MaXyjlKp3bdPtg+AHHr7Nq1TTE
+   aziwae+GjAFiCQ4eWIG6T9pcWMEHduVMBPJAtrfASg55c+6OcazUUyXVV
+   w==;
+X-CSE-ConnectionGUID: vNPCzgRMQAebwwlaz9N0Kw==
+X-CSE-MsgGUID: eLpuU6vcQhGXUpz97eFmfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="65265099"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="39790326"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 06:56:25 -0800
-X-CSE-ConnectionGUID: g/6/ZSo5Rru0HZwr7EwXIw==
-X-CSE-MsgGUID: RpUIaBMJRVC5WgL0pGNCDQ==
+   d="scan'208";a="65265099"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 07:07:26 -0800
+X-CSE-ConnectionGUID: NNsH8mroR9G95lu4V/QFpA==
+X-CSE-MsgGUID: PMIuv5/aQt6Jwd2faijUjw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="143383624"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149723779"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Feb 2025 06:56:23 -0800
+  by orviesa001.jf.intel.com with ESMTP; 11 Feb 2025 07:07:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thrgS-0014KB-1R;
-	Tue, 11 Feb 2025 14:56:20 +0000
-Date: Tue, 11 Feb 2025 22:55:40 +0800
+	id 1thrr7-0014Kt-1S;
+	Tue, 11 Feb 2025 15:07:21 +0000
+Date: Tue, 11 Feb 2025 23:06:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:cpusetisolation 5/5] include/linux/sched/isolation.h:63:52:
- warning: omitting the parameter name in a function definition is a C2x
- extension
-Message-ID: <202502112215.CuIJEolZ-lkp@intel.com>
+To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com,
+	Saeed Mahameed <saeed@kernel.org>
+Subject: Re: [PATCH net-next 04/11] net: hold netdev instance lock during
+ rtnetlink operations
+Message-ID: <202502112254.DdkYlmMx-lkp@intel.com>
+References: <20250210192043.439074-5-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,98 +65,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210192043.439074-5-sdf@fomichev.me>
 
-tree:   https://github.com/alexshi/linux.git cpusetisolation
-head:   9861605548c2952b76f12b4ff62edaa42e6cb61e
-commit: 9861605548c2952b76f12b4ff62edaa42e6cb61e [5/5] sched/isolation: no housekeeping work for cpuset isolated_cpus
-config: um-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502112215.CuIJEolZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502112215.CuIJEolZ-lkp@intel.com/reproduce)
+Hi Stanislav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-hold-netdev-instance-lock-during-ndo_open-ndo_stop/20250211-032336
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250210192043.439074-5-sdf%40fomichev.me
+patch subject: [PATCH net-next 04/11] net: hold netdev instance lock during rtnetlink operations
+config: arc-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502112254.DdkYlmMx-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502112254.DdkYlmMx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502112215.CuIJEolZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502112254.DdkYlmMx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/workqueue.c:52:
->> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-      63 | static inline void reset_housekeeping(cpumask_var_t){ }
-         |                                                    ^
-   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
-         |                 ^
-   kernel/workqueue.c:2519:8: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2519 |                 if (!housekeeping_cpu(cpu, HK_TYPE_TIMER))
-         |                      ^
-   1 warning and 2 errors generated.
+   net/core/dev.c: In function 'dev_set_mtu':
+   net/core/dev.c:9320:15: error: implicit declaration of function 'netdev_set_mtu_ext_locked'; did you mean 'netdev_ops_assert_locked'? [-Werror=implicit-function-declaration]
+    9320 |         err = netdev_set_mtu_ext_locked(dev, new_mtu, &extack);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |               netdev_ops_assert_locked
+   net/core/dev.c: At top level:
+>> net/core/dev.c:11390:12: warning: 'netdev_lock_cmp_fn' defined but not used [-Wunused-function]
+   11390 | static int netdev_lock_cmp_fn(const struct lockdep_map *a, const struct lockdep_map *b)
+         |            ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
-   In file included from kernel/kthread.c:30:
->> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-      63 | static inline void reset_housekeeping(cpumask_var_t){ }
-         |                                                    ^
-   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
-         |                 ^
-   1 warning and 1 error generated.
---
-   In file included from kernel/time/hrtimer.c:41:
->> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-      63 | static inline void reset_housekeeping(cpumask_var_t){ }
-         |                                                    ^
-   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
-         |                 ^
-   kernel/time/hrtimer.c:124:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     124 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:27: note: previous initialization is here
-     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:125:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     125 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:27: note: previous initialization is here
-     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:126:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     126 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:27: note: previous initialization is here
-     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:127:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     127 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:27: note: previous initialization is here
-     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings and 1 error generated.
---
-   In file included from kernel/sched/core.c:34:
->> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-      63 | static inline void reset_housekeeping(cpumask_var_t){ }
-         |                                                    ^
-   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
-         |                 ^
-   kernel/sched/core.c:5643:6: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    5643 |         if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
-         |             ^
-   1 warning and 2 errors generated.
+>> net/core/dev_api.c:109: warning: Excess function parameter 'new_ifindex' description in 'dev_change_net_namespace'
 
 
-vim +63 include/linux/sched/isolation.h
+vim +/netdev_lock_cmp_fn +11390 net/core/dev.c
 
-    58	
-    59	static inline void housekeeping_affine(struct task_struct *t,
-    60					       enum hk_type type) { }
-    61	
-    62	static inline void housekeeping_init(void) { }
-  > 63	static inline void reset_housekeeping(cpumask_var_t){ }
-    64	#endif /* CONFIG_CPU_ISOLATION */
-    65	
+ 11389	
+ 11390	static int netdev_lock_cmp_fn(const struct lockdep_map *a, const struct lockdep_map *b)
+ 11391	{
+ 11392		/* Only lower devices currently grab the instance lock, so no
+ 11393		 * real ordering issues can occur. In the near future, only
+ 11394		 * hardware devices will grab instance lock which also does not
+ 11395		 * involve any ordering. Suppress lockdep ordering warnings
+ 11396		 * until (if) we start grabbing instance lock on pure SW
+ 11397		 * devices (bond/team/etc).
+ 11398		 */
+ 11399		return -1;
+ 11400	}
+ 11401	
 
 -- 
 0-DAY CI Kernel Test Service
