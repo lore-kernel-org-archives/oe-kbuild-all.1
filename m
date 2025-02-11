@@ -1,132 +1,131 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D301E3DD8;
-	Tue, 11 Feb 2025 09:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F811F12F7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739265464; cv=none; b=ERo9iRbeu3kW2UNmTDD8omUFHfkB9ZRHieZzoLz1y7anFYqu7kS/zMvn5dWNrs0S3n2sjitw1aZrfrkP5+4jXDnvI2Nt1CX3do78NAtHsWUbfIubVDmPxjzJqh7LawX1JB1gb0eYZ7+CMnPLS+dLTtVicN6DJx3JICy3A4IbVHA=
+	t=1739266061; cv=none; b=gQgzmDIG86Cb628GmzLmu76oFhsVwY74gQ60ISshDFj6VS12hV/2DlXUYS4zLXdhuXy+4xC2q5PniEwR2vA12UkKtAKcjdZX6/k8xOMtZZHPz651sxakhD0xluTV0pAv45igH0oLZycDw4d0wJGfziEJ0Rp0vfvpWrpv4sagTe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739265464; c=relaxed/simple;
-	bh=q1ph39zTYKj5k8jovBlZb0OmW0D/Cl5sBfBfHNGZ+Fs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sj2SKqN90VXUsvBQDvoqT6M/yy2K4pK+ydhrrB//S6ljnfhZ2FrEeBq8rlga0mHVhs+MlvxxsDBeU/Ks8hpEnTTtTp8qD8Gp1jGz51a9b312jEUtZLmHlD1MB+1XVRhXwBYERTl4G6xgwxkFLn65vDhdYXV+bgZNErWAiXgzmpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=T7xACDYR; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1739266061; c=relaxed/simple;
+	bh=2RCq9ghRVTkmfN4A7dFDaEQ2QNjkz/H5tvfKNfB13eU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=haoh4n0nOn7dCCnjTASVZ6E1MbVuJa0fPnBSAKXl+GAss/uS5gfzhb4+2cujkPA6gHcbBuL/T1nHaWXZdJUqexjDNI5BvKb/G9ITjfgdZ2YxDD3W2e8K4turxAteqOR5s2voI2pObNV9MKi6oXzkBn4JpjYB20qRwTgUq+/gcyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDDmRhXh; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="T7xACDYR"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 27539433D9;
-	Tue, 11 Feb 2025 09:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1739265459;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T128NbBeShVjgHAQHFQBVXrcbz3LydX8l7wGrFI7ueM=;
-	b=T7xACDYRo4ZKNUXI1/0DERPK7oBUD4COOhQeQ03s6RH8EOyByC+6pjBEZ6OzrOskPxeFuS
-	bj1x1oMaVubfmt3p26TgQVuUpl2zcK0XoiUC456N7+IGvvckqpqJgCItd7YswXw26TdEOJ
-	M91jZud9cbdMfRKvKG0rkxCGpLdYdpRNO1gh9mW3iT33Ge4lrkju+oPKRM6FENGcYAigOS
-	AMmT/wHxfjhD2hbhK6CFJZvEZDF1S2DQtqSVDuLGIfB4sw7wuuj4cIXdgh7E5LPVHPgIIh
-	G5b8e1G431JQKCpx/CGPenErBzIhdyOHy2eojCn4jjfcomZSr06/ZsDQrE6S7g==
-Date: Tue, 11 Feb 2025 10:17:35 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: davem@davemloft.net, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- thomas.petazzoni@bootlin.com, Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski
- <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Herve Codina <herve.codina@bootlin.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
- =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>, Marek
- =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>, Oleksij Rempel
- <o.rempel@pengutronix.de>, =?UTF-8?B?Tmljb2zDsg==?= Veronese
- <nicveronese@gmail.com>, Simon Horman <horms@kernel.org>,
- mwojtas@chromium.org, Antoine Tenart <atenart@kernel.org>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, Romain Gantois
- <romain.gantois@bootlin.com>, Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next 11/13] net: phy: Only rely on phy_port for
- PHY-driven SFP
-Message-ID: <20250211101735.0af025c4@fedora-1.home>
-In-Reply-To: <202502082347.tFufJ529-lkp@intel.com>
-References: <20250207223634.600218-12-maxime.chevallier@bootlin.com>
-	<202502082347.tFufJ529-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDDmRhXh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739266059; x=1770802059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2RCq9ghRVTkmfN4A7dFDaEQ2QNjkz/H5tvfKNfB13eU=;
+  b=fDDmRhXhRg9FVICNTUiHLphk4e2HKFLsvGBYTLIIe2iYHrMEtkzHMWrx
+   33DZgnWNApLOg1m2saPulm2JfKDvOYRfUmU6FoQdOM4fNb0Y3unNsgb94
+   S1tXbGluVqPieAHLTtxeCcVB3L/DuygReu0SZJNlp8y8wylIn/86ez1n7
+   HXDaAvhB8EyUmFaY8NATWLLQU/ZZRh69G1rL+ls09LW4uXZ37wMDDt2yX
+   FyAS0ccaZW4MbjyqN7NdHrhjiaQq1CVdNxzEwUhSW3mBVX6dDeb320JJr
+   y3LpzAcgxSnekBEBTEqOMvEeABZL+0elOXe39ouMgsPzWl8T8OMg/7dqO
+   A==;
+X-CSE-ConnectionGUID: SwLIn4METfKXx5MlCELnEA==
+X-CSE-MsgGUID: 79Gfiia4RjmAFN218EKx/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39793019"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="39793019"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:27:39 -0800
+X-CSE-ConnectionGUID: Pr/8aBGuQweEYzaNj0jMlw==
+X-CSE-MsgGUID: y0A1/oeOSyyoww7IQv5H7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="143360490"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:27:34 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1thmYF-0000000ASOG-1dII;
+	Tue, 11 Feb 2025 11:27:31 +0200
+Date: Tue, 11 Feb 2025 11:27:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: kernel test robot <lkp@intel.com>, Raag Jadav <raag.jadav@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
+	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
+References: <20250210064906.2181867-2-raag.jadav@intel.com>
+ <202502102201.zLWaJC6V-lkp@intel.com>
+ <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+ <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegtdeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepofgrgihimhgvucevhhgvvhgrlhhlihgvrhcuoehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeifeejgeevhffhhfefvdfhgefgudefkeefgeeivdeuveejueeljeekgfffieeihfenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecukfhppedvrgdtudemtggsudelmeekugegtgemlehftddtmegstgdvudemkeekleelmeehgedttgemvgehlegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgduleemkegugegtmeelfhdttdemsggtvddumeekkeelleemheegtdgtmegvheelvgdphhgvlhhopehfvgguohhrrgdquddrhhhomhgvpdhmrghilhhfrhhomhepmhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedvpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtr
- dhnvghtpdhrtghpthhtoheplhhlvhhmsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvghtuggvvhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
-X-GND-Sasl: maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi,
+On Tue, Feb 11, 2025 at 08:36:47AM +0100, Arnd Bergmann wrote:
+> On Mon, Feb 10, 2025, at 16:23, Andy Shevchenko wrote:
+> >
+> > TBH I have no quick idea how to address this. It seems that io.h 
+> > includes device.h
+> > for no reason (but I haven't checked that carefully). OTOH, we need only
+> > IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h 
+> > as the
+> > former includes the latter and the definition depends only on 
+> > compiler_types.h.
+> >
+> > Arnd?
+> 
+> Removing linux/device.h from asm/io.h is probably the right step,
+> it really has no business in there and no other architecture
+> includes it. I don't see an IOMEM_IS_ERR() definition, do you 
+> mean EEH_POSSIBLE_ERROR?
 
-On Sun, 9 Feb 2025 00:04:55 +0800
-kernel test robot <lkp@intel.com> wrote:
+The definition is in the generic header and patch here relies on
+that definition to fix the sparse warning. The simplest solution
+is to add another patch that simply moves the macro from
+linux/io.h to linux/err.h.
 
-> Hi Maxime,
+> Most of asm/eeh.h probably shouldn't be included by asm/io.h
+> either, my guess is that we can get away with the
+> eeh_{s,}{b,w,l,q}{_be} helpers, eeh_memcpy_fromio() and
+> eeh_check_failure(), which have no dependency on 'struct
+> device' in the header.
 > 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-ethtool-Introduce-ETHTOOL_LINK_MEDIUM_-values/20250208-064223
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20250207223634.600218-12-maxime.chevallier%40bootlin.com
-> patch subject: [PATCH net-next 11/13] net: phy: Only rely on phy_port for PHY-driven SFP
-> config: i386-buildonly-randconfig-005-20250208 (https://download.01.org/0day-ci/archive/20250208/202502082347.tFufJ529-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250208/202502082347.tFufJ529-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502082347.tFufJ529-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/net/phy/qcom/qca807x.c:698:12: error: use of undeclared identifier 'phy_sfp_attach'; did you mean 'phy_attach'?  
->      698 |         .attach = phy_sfp_attach,
->          |                   ^~~~~~~~~~~~~~
->          |                   phy_attach
->    include/linux/phy.h:1912:20: note: 'phy_attach' declared here
->     1912 | struct phy_device *phy_attach(struct net_device *dev, const char *bus_id,
->          |                    ^
-> >> drivers/net/phy/qcom/qca807x.c:699:12: error: use of undeclared identifier 'phy_sfp_detach'; did you mean 'phy_detach'?  
->      699 |         .detach = phy_sfp_detach,
->          |                   ^~~~~~~~~~~~~~
->          |                   phy_detach
->    include/linux/phy.h:1924:6: note: 'phy_detach' declared here
->     1924 | void phy_detach(struct phy_device *phydev);
->          |      ^
-> >> drivers/net/phy/qcom/qca807x.c:702:17: error: use of undeclared identifier 'phy_sfp_connect_phy'  
->      702 |         .connect_phy = phy_sfp_connect_phy,
->          |                        ^
-> >> drivers/net/phy/qcom/qca807x.c:703:20: error: use of undeclared identifier 'phy_sfp_disconnect_phy'  
->      703 |         .disconnect_phy = phy_sfp_disconnect_phy,
->          |                           ^
-> >> drivers/net/phy/qcom/qca807x.c:748:9: error: call to undeclared function 'phy_sfp_probe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]  
->      748 |                 ret = phy_sfp_probe(phydev, &qca807x_sfp_ops);
->          |                       ^
->    5 errors generated.
+> Removing a giant header inclusion from another one likely causes
+> build regressions in drivers that should have included the
+> header (linux/device.h or something included by that) themselves,
+> so ideally there should be some separate build testing of
+> powerpc kernels.
 
-Ah damned, I missed that qca807x now also supports SFP. I'll include a
-conversion fr that driver too in V2 (and add Robert in CC:)
+I believe this might be far out of scope for this series due to potential
+fallouts here and there. But would be good to have it separately.
 
-Thanks,
+Raag, I think if you have time and motivation you can create that patch,
+but send it separately. And this series can be fixed with the move of the
+macro.
 
-Maxime
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
