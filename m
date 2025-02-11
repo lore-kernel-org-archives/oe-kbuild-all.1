@@ -1,73 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19751E2616;
-	Tue, 11 Feb 2025 17:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7C12580CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 18:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739296611; cv=none; b=b714eidQTqgoUdd40YC5nyCIP/Luiu0hn4z5UeG90AEpx0O1HYkAsLSHCR2Di5MGctAn62E1EpjREeUu8G0HNOgp3O8JySgA+HZXRShedl/eMeu5DVuuv5897gFjM2is4tc+rU9AcNR65qIOFpVu7tWepgI3PIongzh8MFf9MYI=
+	t=1739299191; cv=none; b=oEaf7RDHlecjXoinIavUKcYpTsheTddIDcj0lAwHr/l1SPtQI1//l69vXjqn79E9sPMS+GhWUiUPIkhupuCGB/RAd5vDgyVHRrWNlNWcpqE6dWrkAGTFWN3rZy7bo0WaK1GOiqTZHicnCAG/w2cRl39DEBedPfpYnpFp5dk91CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739296611; c=relaxed/simple;
-	bh=tUfnbQLqPmzNMMTnPDZCp5d6eeH/3wvctepWEQ6MdPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzEXFgzu3ND/biw9G06P5kwyZfW/Awlvgzs6KMv1qLXFL2xEXv06L8p1K8NCiybPXSHKt7JCx30W0DVN4shvPqDd1Vve4KNX+CNTdcCFViEDfNOnCY0HLfbNTrgB66ZyEwAF3cKAB7tUB44aHnBdTiYyc2WV5q6hSHTaVs4SU80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KGxGsk6N; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1739299191; c=relaxed/simple;
+	bh=BPzbUuqe+YqweRRoU4Yp6bfOhR0LRnWT8H9JOLeXJaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Uk9wqLaaywN4/ZLDZiBTIqRSCZ7VTbZvyVA/QBBC8YMBnwoIJJ1uqAUBTjEYKquMc9QgGK5DObvrSq2R4O0c088YEt4hj0QdGTB4Hrg6R12qyCeKEq/Gpq3/BWYYa8UUj+MeK2BV5p5HYs9L+NbJ6ibt+RwXhW0KgOuxkaW5Bkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHmKmoYD; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGxGsk6N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHmKmoYD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739296609; x=1770832609;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tUfnbQLqPmzNMMTnPDZCp5d6eeH/3wvctepWEQ6MdPE=;
-  b=KGxGsk6NrKtdcN3c5X76v9+8g29aU/129TQd3SVFqKSaimD6wr7EMyho
-   z5ITlKgfMSARsJuDsnjIHohg2Gy9WJ2w80HceJgiZZl0Q8hIQnvV02dUP
-   i+Zaicv8wDRPKwfBtRvST/AdwnIb8H/jK5P3xo+OMQSJsTsFjk9ZEt85d
-   Adbo41X1QQwread+k8g/qZXa0IkzQk7VlbmkKA8HaC1G5kQdtKyHincEq
-   sabt4SUeJZcK0R3Z6zQ+TRf1pcLHD7aiUF//f+01mzYXMHDw1ziqtzutN
-   2sSTht1aVc4QCu0Xse5gC33VunbsLA1kyHORSPoSVLX6p5nGmTIKvwG4j
-   Q==;
-X-CSE-ConnectionGUID: ITJgkc3TT5S9meb9yKxIsA==
-X-CSE-MsgGUID: r8CUKkKdSNuj0NmqSD0U8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39812851"
-X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="39812851"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 09:56:48 -0800
-X-CSE-ConnectionGUID: UsqZjJAaRQq3xmGjVQ4LIw==
-X-CSE-MsgGUID: Xams3y/UT4yCGUgFrWF3dg==
+  t=1739299189; x=1770835189;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BPzbUuqe+YqweRRoU4Yp6bfOhR0LRnWT8H9JOLeXJaE=;
+  b=fHmKmoYDdQXxZXk9LmlibYCxzVEikyviF7V2INzqZ+LW6EMuTuGr2ePR
+   SRb1+TWeEoYjFQ6QaBjSztwEzqHAYreCXKTUjVVb2s42SdLWKVEXIGGdg
+   kCxmx1obpiIv7Jc2BwP6Ba0A90vG+MdarH66W2ORgbYMTfCwVmoP++uZe
+   fuWlHUQ2nuJbY6uBs7eHdCiy77wvalBvqsJu/hSv7kgkLsQWov7EHUBFJ
+   4Vb/R6IcRlD29yk+EO9JDOQtsXtDNFmYe7Y24gWOvwGY20q2PXisYN/ce
+   TwF5Dif/VCseNXHDXi0Fj2q6bhfeVvMOAvR8snwD6mjknKcuE6sZtAehp
+   w==;
+X-CSE-ConnectionGUID: 07QMWxcmRUK7qXctLz7AEg==
+X-CSE-MsgGUID: t6Rmcg0lR++6i1afG5ufCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51362816"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51362816"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 10:39:49 -0800
+X-CSE-ConnectionGUID: e47LbekCR6WMlNgARFRH+w==
+X-CSE-MsgGUID: ALx6m8GtS8atOL59LMpJMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="143430133"
+   d="scan'208";a="112808033"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Feb 2025 09:56:43 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 11 Feb 2025 10:39:47 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thuUx-0014Wl-1g;
-	Tue, 11 Feb 2025 17:56:39 +0000
-Date: Wed, 12 Feb 2025 01:56:27 +0800
+	id 1thvAf-0014Zd-0j;
+	Tue, 11 Feb 2025 18:39:45 +0000
+Date: Wed, 12 Feb 2025 02:39:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: patrice.chotard@foss.st.com, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	christophe.kerello@foss.st.com, patrice.chotard@foss.st.com
-Subject: Re: [PATCH v3 4/8] memory: Add STM32 Octo Memory Manager driver
-Message-ID: <202502120118.27fjrRqt-lkp@intel.com>
-References: <20250210131826.220318-5-patrice.chotard@foss.st.com>
+To: Steve French <stfrench@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [smfrench-smb3:ksmbd-for-next-next 1/1]
+ fs/smb/server/smbacl.c:401:15: warning: result of comparison of constant
+ 2305843009213693951 with expression of type 'u16' (aka 'unsigned short') is
+ always false
+Message-ID: <202502120216.Dw3PS0UN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,362 +63,252 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210131826.220318-5-patrice.chotard@foss.st.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-spi/for-next]
-[also build test ERROR on atorgue-stm32/stm32-next krzk-mem-ctrl/for-next linus/master v6.14-rc2 next-20250210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/patrice-chotard-foss-st-com/dt-bindings-spi-Add-STM32-OSPI-controller/20250210-212554
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20250210131826.220318-5-patrice.chotard%40foss.st.com
-patch subject: [PATCH v3 4/8] memory: Add STM32 Octo Memory Manager driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250212/202502120118.27fjrRqt-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120118.27fjrRqt-lkp@intel.com/reproduce)
+tree:   https://github.com/smfrench/smb3-kernel.git ksmbd-for-next-next
+head:   d2b8db9f4873a117bb3307b8b8063bc647c07492
+commit: d2b8db9f4873a117bb3307b8b8063bc647c07492 [1/1] smb: common: change the data type of num_aces to le16
+config: um-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120216.Dw3PS0UN-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120216.Dw3PS0UN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120118.27fjrRqt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120216.Dw3PS0UN-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/memory/stm32_omm.c:83:5: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      82 |                         dev_err(dev, "[0x%llx-0x%llx] doesn't fit inside [0x%llx-0x%llx]\n",
-         |                                          ~~~~
-         |                                          %x
-      83 |                                 res.start, res.end,
-         |                                 ^~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:83:16: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      82 |                         dev_err(dev, "[0x%llx-0x%llx] doesn't fit inside [0x%llx-0x%llx]\n",
-         |                                                 ~~~~
-         |                                                 %x
-      83 |                                 res.start, res.end,
-         |                                            ^~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:84:5: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      82 |                         dev_err(dev, "[0x%llx-0x%llx] doesn't fit inside [0x%llx-0x%llx]\n",
-         |                                                                             ~~~~
-         |                                                                             %x
-      83 |                                 res.start, res.end,
-      84 |                                 omm->mm_res->start, omm->mm_res->end);
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:84:25: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      82 |                         dev_err(dev, "[0x%llx-0x%llx] doesn't fit inside [0x%llx-0x%llx]\n",
-         |                                                                                    ~~~~
-         |                                                                                    %x
-      83 |                                 res.start, res.end,
-      84 |                                 omm->mm_res->start, omm->mm_res->end);
-         |                                                     ^~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:97:6: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      96 |                                 dev_err(dev, "[0x%llx-0x%llx] overlaps [0x%llx-0x%llx]\n",
-         |                                                  ~~~~
-         |                                                  %x
-      97 |                                         res1.start, res1.end, res.start, res.end);
-         |                                         ^~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:97:18: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      96 |                                 dev_err(dev, "[0x%llx-0x%llx] overlaps [0x%llx-0x%llx]\n",
-         |                                                         ~~~~
-         |                                                         %x
-      97 |                                         res1.start, res1.end, res.start, res.end);
-         |                                                     ^~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:97:28: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      96 |                                 dev_err(dev, "[0x%llx-0x%llx] overlaps [0x%llx-0x%llx]\n",
-         |                                                                           ~~~~
-         |                                                                           %x
-      97 |                                         res1.start, res1.end, res.start, res.end);
-         |                                                               ^~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/memory/stm32_omm.c:97:39: warning: format specifies type 'unsigned long long' but the argument has type 'resource_size_t' (aka 'unsigned int') [-Wformat]
-      96 |                                 dev_err(dev, "[0x%llx-0x%llx] overlaps [0x%llx-0x%llx]\n",
-         |                                                                                  ~~~~
-         |                                                                                  %x
-      97 |                                         res1.start, res1.end, res.start, res.end);
-         |                                                                          ^~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
->> drivers/memory/stm32_omm.c:224:14: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     224 |                         req2ack = FIELD_PREP(CR_REQ2ACK_MASK, req2ack);
-         |                                   ^
-   drivers/memory/stm32_omm.c:239:14: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     239 |                 omm->cr |= FIELD_PREP(CR_MUXENMODE_MASK, mux);
-         |                            ^
-   drivers/memory/stm32_omm.c:246:14: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     246 |                 omm->cr |= FIELD_PREP(CR_CSSEL_OVR_MASK, cssel_ovr);
-         |                            ^
-   8 warnings and 3 errors generated.
+>> fs/smb/server/smbacl.c:401:15: warning: result of comparison of constant 2305843009213693951 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
+           if (num_aces > ULONG_MAX / sizeof(struct smb_ace *))
+               ~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/FIELD_PREP +224 drivers/memory/stm32_omm.c
+vim +401 fs/smb/server/smbacl.c
 
-    44	
-    45	static int stm32_omm_set_amcr(struct device *dev, bool set)
-    46	{
-    47		struct stm32_omm *omm = dev_get_drvdata(dev);
-    48		struct regmap *syscfg_regmap;
-    49		struct device_node *node;
-    50		struct resource res, res1;
-    51		resource_size_t mm_ospi2_size = 0;
-    52		static const char * const mm_name[] = { "ospi1", "ospi2" };
-    53		u32 amcr_base, amcr_mask;
-    54		int ret, i, idx;
-    55		unsigned int amcr, read_amcr;
-    56	
-    57		for (i = 0; i < omm->nb_child; i++) {
-    58			idx = of_property_match_string(dev->of_node,
-    59						       "memory-region-names",
-    60						       mm_name[i]);
-    61			if (idx < 0)
-    62				continue;
-    63	
-    64			/* res1 only used on second loop iteration */
-    65			res1.start = res.start;
-    66			res1.end = res.end;
-    67	
-    68			node = of_parse_phandle(dev->of_node, "memory-region", idx);
-    69			if (!node)
-    70				continue;
-    71	
-    72			ret = of_address_to_resource(node, 0, &res);
-    73			if (ret) {
-    74				dev_err(dev, "unable to resolve memory region\n");
-    75				return ret;
-    76			}
-    77	
-    78			/* check that memory region fits inside OMM memory map area */
-    79			if (!resource_contains(omm->mm_res, &res)) {
-    80				dev_err(dev, "%s doesn't fit inside OMM memory map area\n",
-    81					mm_name[i]);
-    82				dev_err(dev, "[0x%llx-0x%llx] doesn't fit inside [0x%llx-0x%llx]\n",
-  > 83					res.start, res.end,
-    84					omm->mm_res->start, omm->mm_res->end);
-    85	
-    86				return -EFAULT;
-    87			}
-    88	
-    89			if (i == 1) {
-    90				mm_ospi2_size = resource_size(&res);
-    91	
-    92				/* check that OMM memory region 1 doesn't overlap memory region 2 */
-    93				if (resource_overlaps(&res, &res1)) {
-    94					dev_err(dev, "OMM memory-region %s overlaps memory region %s\n",
-    95						mm_name[0], mm_name[1]);
-    96					dev_err(dev, "[0x%llx-0x%llx] overlaps [0x%llx-0x%llx]\n",
-    97						res1.start, res1.end, res.start, res.end);
-    98	
-    99					return -EFAULT;
-   100				}
-   101			}
-   102		}
-   103	
-   104		syscfg_regmap = syscon_regmap_lookup_by_phandle(dev->of_node, "st,syscfg-amcr");
-   105		if (IS_ERR(syscfg_regmap)) {
-   106			dev_err(dev, "Failed to get st,syscfg-amcr property\n");
-   107			return PTR_ERR(syscfg_regmap);
-   108		}
-   109	
-   110		ret = of_property_read_u32_index(dev->of_node, "st,syscfg-amcr", 1,
-   111						 &amcr_base);
-   112		if (ret)
-   113			return ret;
-   114	
-   115		ret = of_property_read_u32_index(dev->of_node, "st,syscfg-amcr", 2,
-   116						 &amcr_mask);
-   117		if (ret)
-   118			return ret;
-   119	
-   120		amcr = mm_ospi2_size / SZ_64M;
-   121	
-   122		if (set)
-   123			regmap_update_bits(syscfg_regmap, amcr_base, amcr_mask, amcr);
-   124	
-   125		/* read AMCR and check coherency with memory-map areas defined in DT */
-   126		regmap_read(syscfg_regmap, amcr_base, &read_amcr);
-   127		read_amcr = read_amcr >> (ffs(amcr_mask) - 1);
-   128	
-   129		if (amcr != read_amcr) {
-   130			dev_err(dev, "AMCR value not coherent with DT memory-map areas\n");
-   131			ret = -EINVAL;
-   132		}
-   133	
-   134		return ret;
-   135	}
-   136	
-   137	static int stm32_omm_enable_child_clock(struct device *dev, bool enable)
-   138	{
-   139		/* As there is only 2 children, remember first child in case of error */
-   140		struct clk *first_child_clk = NULL;
-   141		struct stm32_omm *omm = dev_get_drvdata(dev);
-   142		u8 i;
-   143		int ret;
-   144	
-   145		for (i = 0; i < omm->nb_child; i++) {
-   146			if (enable) {
-   147				ret = clk_prepare_enable(omm->child[i].clk);
-   148				if (ret) {
-   149					if (first_child_clk)
-   150						clk_disable_unprepare(first_child_clk);
-   151	
-   152					dev_err(dev, "Can not enable clock\n");
-   153					return ret;
-   154				}
-   155			} else {
-   156				clk_disable_unprepare(omm->child[i].clk);
-   157			}
-   158	
-   159			first_child_clk = omm->child[i].clk;
-   160		}
-   161	
-   162		return 0;
-   163	}
-   164	
-   165	static int stm32_omm_configure(struct device *dev)
-   166	{
-   167		struct stm32_omm *omm = dev_get_drvdata(dev);
-   168		struct reset_control *rstc;
-   169		unsigned long clk_rate, clk_rate_max = 0;
-   170		int ret;
-   171		u8 i;
-   172		u32 mux = 0;
-   173		u32 cssel_ovr = 0;
-   174		u32 req2ack = 0;
-   175	
-   176		omm->clk = devm_clk_get(dev, NULL);
-   177		if (IS_ERR(omm->clk)) {
-   178			dev_err(dev, "Failed to get OMM clock (%ld)\n",
-   179				PTR_ERR(omm->clk));
-   180	
-   181			return PTR_ERR(omm->clk);
-   182		}
-   183	
-   184		ret = pm_runtime_resume_and_get(dev);
-   185		if (ret < 0)
-   186			return ret;
-   187	
-   188		/* parse children's clock */
-   189		for (i = 0; i < omm->nb_child; i++) {
-   190			clk_rate = clk_get_rate(omm->child[i].clk);
-   191			if (!clk_rate) {
-   192				dev_err(dev, "Invalid clock rate\n");
-   193				goto err_clk_disable;
-   194			}
-   195	
-   196			if (clk_rate > clk_rate_max)
-   197				clk_rate_max = clk_rate;
-   198		}
-   199	
-   200		rstc = devm_reset_control_get_optional_exclusive(dev, NULL);
-   201		if (IS_ERR(rstc)) {
-   202			ret = dev_err_probe(dev, PTR_ERR(rstc), "reset get failed\n");
-   203			goto err_clk_disable;
-   204		}
-   205	
-   206		reset_control_assert(rstc);
-   207		udelay(2);
-   208		reset_control_deassert(rstc);
-   209	
-   210		omm->cr = readl_relaxed(omm->io_base + OMM_CR);
-   211		/* optional */
-   212		ret = of_property_read_u32(dev->of_node, "st,omm-mux", &mux);
-   213		if (!ret) {
-   214			if (mux & CR_MUXEN) {
-   215				ret = of_property_read_u32(dev->of_node, "st,omm-req2ack-ns",
-   216							   &req2ack);
-   217				if (!ret && !req2ack) {
-   218					req2ack = DIV_ROUND_UP(req2ack, NSEC_PER_SEC / clk_rate_max) - 1;
-   219	
-   220					if (req2ack > 256)
-   221						req2ack = 256;
-   222				}
-   223	
- > 224				req2ack = FIELD_PREP(CR_REQ2ACK_MASK, req2ack);
-   225	
-   226				omm->cr &= ~CR_REQ2ACK_MASK;
-   227				omm->cr |= FIELD_PREP(CR_REQ2ACK_MASK, req2ack);
-   228	
-   229				/*
-   230				 * If the mux is enabled, the 2 OSPI clocks have to be
-   231				 * always enabled
-   232				 */
-   233				ret = stm32_omm_enable_child_clock(dev, true);
-   234				if (ret)
-   235					goto err_clk_disable;
-   236			}
-   237	
-   238			omm->cr &= ~CR_MUXENMODE_MASK;
-   239			omm->cr |= FIELD_PREP(CR_MUXENMODE_MASK, mux);
-   240		}
-   241	
-   242		/* optional */
-   243		ret = of_property_read_u32(dev->of_node, "st,omm-cssel-ovr", &cssel_ovr);
-   244		if (!ret) {
-   245			omm->cr &= ~CR_CSSEL_OVR_MASK;
-   246			omm->cr |= FIELD_PREP(CR_CSSEL_OVR_MASK, cssel_ovr);
-   247			omm->cr |= CR_CSSEL_OVR_EN;
-   248		}
-   249	
-   250		omm->restore_omm = true;
-   251		writel_relaxed(omm->cr, omm->io_base + OMM_CR);
-   252	
-   253		ret = stm32_omm_set_amcr(dev, true);
-   254	
-   255	err_clk_disable:
-   256		pm_runtime_put_sync_suspend(dev);
-   257	
-   258		return ret;
-   259	}
-   260	
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  364  
+4d7ca4090184c1 fs/ksmbd/smbacl.c      Christian Brauner 2023-01-13  365  static void parse_dacl(struct mnt_idmap *idmap,
+af34983e831587 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-06-30  366  		       struct smb_acl *pdacl, char *end_of_acl,
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  367  		       struct smb_sid *pownersid, struct smb_sid *pgrpsid,
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  368  		       struct smb_fattr *fattr)
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  369  {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  370  	int i, ret;
+d2b8db9f4873a1 fs/smb/server/smbacl.c Namjae Jeon       2025-02-11  371  	u16 num_aces = 0;
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  372  	unsigned int acl_size;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  373  	char *acl_base;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  374  	struct smb_ace **ppace;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  375  	struct posix_acl_entry *cf_pace, *cf_pdace;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  376  	struct posix_acl_state acl_state, default_acl_state;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  377  	umode_t mode = 0, acl_mode;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  378  	bool owner_found = false, group_found = false, others_found = false;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  379  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  380  	if (!pdacl)
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  381  		return;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  382  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  383  	/* validate that we do not go past end of acl */
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  384  	if (end_of_acl < (char *)pdacl + sizeof(struct smb_acl) ||
+548e9ad317393b fs/cifsd/smbacl.c      Namjae Jeon       2021-03-21  385  	    end_of_acl < (char *)pdacl + le16_to_cpu(pdacl->size)) {
+bde1694aecdb53 fs/cifsd/smbacl.c      Namjae Jeon       2021-06-28  386  		pr_err("ACL too small to parse DACL\n");
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  387  		return;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  388  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  389  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  390  	ksmbd_debug(SMB, "DACL revision %d size %d num aces %d\n",
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  391  		    le16_to_cpu(pdacl->revision), le16_to_cpu(pdacl->size),
+d2b8db9f4873a1 fs/smb/server/smbacl.c Namjae Jeon       2025-02-11  392  		    le16_to_cpu(pdacl->num_aces));
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  393  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  394  	acl_base = (char *)pdacl;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  395  	acl_size = sizeof(struct smb_acl);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  396  
+d2b8db9f4873a1 fs/smb/server/smbacl.c Namjae Jeon       2025-02-11  397  	num_aces = le16_to_cpu(pdacl->num_aces);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  398  	if (num_aces <= 0)
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  399  		return;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  400  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16 @401  	if (num_aces > ULONG_MAX / sizeof(struct smb_ace *))
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  402  		return;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  403  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  404  	ret = init_acl_state(&acl_state, num_aces);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  405  	if (ret)
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  406  		return;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  407  	ret = init_acl_state(&default_acl_state, num_aces);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  408  	if (ret) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  409  		free_acl_state(&acl_state);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  410  		return;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  411  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  412  
+0066f623bce8f9 fs/smb/server/smbacl.c Namjae Jeon       2024-11-22  413  	ppace = kmalloc_array(num_aces, sizeof(struct smb_ace *), KSMBD_DEFAULT_GFP);
+8cf9bedfc3c47d fs/smb/server/smbacl.c Fedor Pchelkin    2024-01-09  414  	if (!ppace) {
+8cf9bedfc3c47d fs/smb/server/smbacl.c Fedor Pchelkin    2024-01-09  415  		free_acl_state(&default_acl_state);
+8cf9bedfc3c47d fs/smb/server/smbacl.c Fedor Pchelkin    2024-01-09  416  		free_acl_state(&acl_state);
+8cf9bedfc3c47d fs/smb/server/smbacl.c Fedor Pchelkin    2024-01-09  417  		return;
+8cf9bedfc3c47d fs/smb/server/smbacl.c Fedor Pchelkin    2024-01-09  418  	}
+8cf9bedfc3c47d fs/smb/server/smbacl.c Fedor Pchelkin    2024-01-09  419  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  420  	/*
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  421  	 * reset rwx permissions for user/group/other.
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  422  	 * Also, if num_aces is 0 i.e. DACL has no ACEs,
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  423  	 * user/group/other have no permissions
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  424  	 */
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  425  	for (i = 0; i < num_aces; ++i) {
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  426  		if (end_of_acl - acl_base < acl_size)
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  427  			break;
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  428  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  429  		ppace[i] = (struct smb_ace *)(acl_base + acl_size);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  430  		acl_base = (char *)ppace[i];
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  431  		acl_size = offsetof(struct smb_ace, sid) +
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  432  			offsetof(struct smb_sid, sub_auth);
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  433  
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  434  		if (end_of_acl - acl_base < acl_size ||
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  435  		    ppace[i]->sid.num_subauth > SID_MAX_SUB_AUTHORITIES ||
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  436  		    (end_of_acl - acl_base <
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  437  		     acl_size + sizeof(__le32) * ppace[i]->sid.num_subauth) ||
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  438  		    (le16_to_cpu(ppace[i]->size) <
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  439  		     acl_size + sizeof(__le32) * ppace[i]->sid.num_subauth))
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  440  			break;
+8f77150c15f877 fs/ksmbd/smbacl.c      Hyunchul Lee      2021-09-24  441  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  442  		acl_size = le16_to_cpu(ppace[i]->size);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  443  		ppace[i]->access_req =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  444  			smb_map_generic_desired_access(ppace[i]->access_req);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  445  
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  446  		if (!(compare_sids(&ppace[i]->sid, &sid_unix_NFS_mode))) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  447  			fattr->cf_mode =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  448  				le32_to_cpu(ppace[i]->sid.sub_auth[2]);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  449  			break;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  450  		} else if (!compare_sids(&ppace[i]->sid, pownersid)) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  451  			acl_mode = access_flags_to_mode(fattr,
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon       2021-05-26  452  							ppace[i]->access_req,
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon       2021-05-26  453  							ppace[i]->type);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  454  			acl_mode &= 0700;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  455  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  456  			if (!owner_found) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  457  				mode &= ~(0700);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  458  				mode |= acl_mode;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  459  			}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  460  			owner_found = true;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  461  		} else if (!compare_sids(&ppace[i]->sid, pgrpsid) ||
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  462  			   ppace[i]->sid.sub_auth[ppace[i]->sid.num_subauth - 1] ==
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  463  			    DOMAIN_USER_RID_LE) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  464  			acl_mode = access_flags_to_mode(fattr,
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon       2021-05-26  465  							ppace[i]->access_req,
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon       2021-05-26  466  							ppace[i]->type);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  467  			acl_mode &= 0070;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  468  			if (!group_found) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  469  				mode &= ~(0070);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  470  				mode |= acl_mode;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  471  			}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  472  			group_found = true;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  473  		} else if (!compare_sids(&ppace[i]->sid, &sid_everyone)) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  474  			acl_mode = access_flags_to_mode(fattr,
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon       2021-05-26  475  							ppace[i]->access_req,
+070fb21e5912b6 fs/cifsd/smbacl.c      Namjae Jeon       2021-05-26  476  							ppace[i]->type);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  477  			acl_mode &= 0007;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  478  			if (!others_found) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  479  				mode &= ~(0007);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  480  				mode |= acl_mode;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  481  			}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  482  			others_found = true;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  483  		} else if (!compare_sids(&ppace[i]->sid, &creator_owner)) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  484  			continue;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  485  		} else if (!compare_sids(&ppace[i]->sid, &creator_group)) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  486  			continue;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  487  		} else if (!compare_sids(&ppace[i]->sid, &sid_authusers)) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  488  			continue;
+64b39f4a2fd293 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-30  489  		} else {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  490  			struct smb_fattr temp_fattr;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  491  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  492  			acl_mode = access_flags_to_mode(fattr, ppace[i]->access_req,
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  493  							ppace[i]->type);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  494  			temp_fattr.cf_uid = INVALID_UID;
+4d7ca4090184c1 fs/ksmbd/smbacl.c      Christian Brauner 2023-01-13  495  			ret = sid_to_id(idmap, &ppace[i]->sid, SIDOWNER, &temp_fattr);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  496  			if (ret || uid_eq(temp_fattr.cf_uid, INVALID_UID)) {
+bde1694aecdb53 fs/cifsd/smbacl.c      Namjae Jeon       2021-06-28  497  				pr_err("%s: Error %d mapping Owner SID to uid\n",
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  498  				       __func__, ret);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  499  				continue;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  500  			}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  501  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  502  			acl_state.owner.allow = ((acl_mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  503  			acl_state.users->aces[acl_state.users->n].uid =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  504  				temp_fattr.cf_uid;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  505  			acl_state.users->aces[acl_state.users->n++].perms.allow =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  506  				((acl_mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  507  			default_acl_state.owner.allow = ((acl_mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  508  			default_acl_state.users->aces[default_acl_state.users->n].uid =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  509  				temp_fattr.cf_uid;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  510  			default_acl_state.users->aces[default_acl_state.users->n++].perms.allow =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  511  				((acl_mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  512  		}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  513  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  514  	kfree(ppace);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  515  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  516  	if (owner_found) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  517  		/* The owner must be set to at least read-only. */
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  518  		acl_state.owner.allow = ((mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  519  		acl_state.users->aces[acl_state.users->n].uid = fattr->cf_uid;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  520  		acl_state.users->aces[acl_state.users->n++].perms.allow =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  521  			((mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  522  		default_acl_state.owner.allow = ((mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  523  		default_acl_state.users->aces[default_acl_state.users->n].uid =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  524  			fattr->cf_uid;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  525  		default_acl_state.users->aces[default_acl_state.users->n++].perms.allow =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  526  			((mode & 0700) >> 6) | 0004;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  527  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  528  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  529  	if (group_found) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  530  		acl_state.group.allow = (mode & 0070) >> 3;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  531  		acl_state.groups->aces[acl_state.groups->n].gid =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  532  			fattr->cf_gid;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  533  		acl_state.groups->aces[acl_state.groups->n++].perms.allow =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  534  			(mode & 0070) >> 3;
+86df49e105afa6 fs/cifsd/smbacl.c      Dan Carpenter     2021-03-18  535  		default_acl_state.group.allow = (mode & 0070) >> 3;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  536  		default_acl_state.groups->aces[default_acl_state.groups->n].gid =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  537  			fattr->cf_gid;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  538  		default_acl_state.groups->aces[default_acl_state.groups->n++].perms.allow =
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  539  			(mode & 0070) >> 3;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  540  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  541  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  542  	if (others_found) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  543  		fattr->cf_mode &= ~(0007);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  544  		fattr->cf_mode |= mode & 0007;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  545  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  546  		acl_state.other.allow = mode & 0007;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  547  		default_acl_state.other.allow = mode & 0007;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  548  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  549  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  550  	if (acl_state.users->n || acl_state.groups->n) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  551  		acl_state.mask.allow = 0x07;
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  552  
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  553  		if (IS_ENABLED(CONFIG_FS_POSIX_ACL)) {
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  554  			fattr->cf_acls =
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  555  				posix_acl_alloc(acl_state.users->n +
+0066f623bce8f9 fs/smb/server/smbacl.c Namjae Jeon       2024-11-22  556  					acl_state.groups->n + 4, KSMBD_DEFAULT_GFP);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  557  			if (fattr->cf_acls) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  558  				cf_pace = fattr->cf_acls->a_entries;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  559  				posix_state_to_acl(&acl_state, cf_pace);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  560  			}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  561  		}
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  562  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  563  
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  564  	if (default_acl_state.users->n || default_acl_state.groups->n) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  565  		default_acl_state.mask.allow = 0x07;
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  566  
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  567  		if (IS_ENABLED(CONFIG_FS_POSIX_ACL)) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  568  			fattr->cf_dacls =
+67d1c432994cbf fs/cifsd/smbacl.c      Namjae Jeon       2021-06-22  569  				posix_acl_alloc(default_acl_state.users->n +
+0066f623bce8f9 fs/smb/server/smbacl.c Namjae Jeon       2024-11-22  570  				default_acl_state.groups->n + 4, KSMBD_DEFAULT_GFP);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  571  			if (fattr->cf_dacls) {
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  572  				cf_pdace = fattr->cf_dacls->a_entries;
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  573  				posix_state_to_acl(&default_acl_state, cf_pdace);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  574  			}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  575  		}
+777cad1604d68e fs/ksmbd/smbacl.c      Namjae Jeon       2021-08-13  576  	}
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  577  	free_acl_state(&acl_state);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  578  	free_acl_state(&default_acl_state);
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  579  }
+e2f34481b24db2 fs/cifsd/smbacl.c      Namjae Jeon       2021-03-16  580  
+
+:::::: The code at line 401 was first introduced by commit
+:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
+
+:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
