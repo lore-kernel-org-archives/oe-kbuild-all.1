@@ -1,115 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E6D1F3FD1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 10:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AE31F3BAD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 10:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739269195; cv=none; b=PTaQxwblVXFc/dPjT4SJuecy2JmhpX6GJVkNNnSKlUDaa8H7xn5nLr/2VmZefRe08BTwvo7hJC2KKovFhEGAqYPwAWTY+cKlYdYv85nhQfSny09+GTJoeUrtyN7putlVZuuNC7jd3eDE6JVHPbc7JZxm+ImPTfHYX3A8FNp1P2o=
+	t=1739269410; cv=none; b=rWSns3msUH0+KzC9o2xNjv2HJJ0xWZ1hgw1xiezNXG97uB8v39nqQ7QpRbz3Yqkfa30zwnO4t7tAGS9JSZehqZuNFSHW+u9kkKLt2zXCBR+m7phlt+3i/KDIdyCSIkvjuCk6bqMakFCyZzqAE12K5EcFgjHV1o8GNlynMSnbEdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739269195; c=relaxed/simple;
-	bh=tKi1b/J+6mgYwTkiF7hzrI3I2yPrzHDNRC6KC5aiJUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C1isJBSeYZfc4MOrSOXecNGRAZN7EhKgR5I+5EtH6TvxbKm3GHTW62Xc4d7H6Pw76093u3p3fN4PhZp4hzcUSKHuwAt1ZbC3STD6wthB0XhbFSzFFCis7UWvce2AQaZw5trY/RQi78Enw9w0UzNs++0EZKJ66TGXHIj0AcsXWds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCk1qH+P; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739269410; c=relaxed/simple;
+	bh=xGVNrU+Td07Sq/OfoziyU6CAIh+CFau93NGRqIkJUjg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bHeyZxm0yqDBIKnLM/sb52sdI0YgzT8ro3l3bgZSJz+lPXXMGia/3E+Saz6XmqrD2WwIFdVMddET87WA9roqh87Frq9xy+7QKj62K5636L87PhwRl8U6MUyHRQlrBd2Dq9UHpR0I+otxJAP+htHNLBJWHj/po0+4NkUw8nm+rtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=7jiT3OiS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o4dWhCRk; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCk1qH+P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739269194; x=1770805194;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tKi1b/J+6mgYwTkiF7hzrI3I2yPrzHDNRC6KC5aiJUw=;
-  b=GCk1qH+PXbhgPqtVb7rbigeoQxA4bTU3EBrcUXF07HKgJYJMIsNYDqzW
-   kt4lYIIetjRL+hZb7jQfOZVtNE8Kk7NqDmJuWyFKJgZX7JXynDobU41Co
-   teWo8SnFYNY1kxMKA1zE8jFNY83e0YzghLvqk8JMUZIctsjzlGxrYzS9u
-   pZoq11nNTcdhEng4pm9IaTl14wTzXvf6cOiER8pnumm+weoUkBQKMOtdw
-   7jE93a7kBIa7KAbZ2sOHhlGefx2TZtaRVxac2dhRzdbeRFjP+dfI6aUA6
-   +I+4aEfKvPLR8VOfSYMW1cRBDiKzMmTyI4cHTUqOPNps/KwCr/HBs2f43
-   Q==;
-X-CSE-ConnectionGUID: ytMR/1ZHT7GfsPYdmqkt6g==
-X-CSE-MsgGUID: /WBs/g9QRj+EkUNkQpiX3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50863960"
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="50863960"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:19:53 -0800
-X-CSE-ConnectionGUID: ysYydUSNR7yUqzf7uOfQWQ==
-X-CSE-MsgGUID: z8QFJUDaT5qq8EVb9wFm0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="117499321"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Feb 2025 02:19:52 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thnMq-00141J-2F;
-	Tue, 11 Feb 2025 10:19:48 +0000
-Date: Tue, 11 Feb 2025 18:19:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Li Ming <ming.li@zohomail.com>
-Subject: [djiang:cxl/fwctl 19/26] drivers/cxl/core/features.c:387:undefined
- reference to `_fwctl_alloc_device'
-Message-ID: <202502111855.pX4aQbi2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="7jiT3OiS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o4dWhCRk"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3235613801EA;
+	Tue, 11 Feb 2025 05:23:28 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-07.internal (MEProxy); Tue, 11 Feb 2025 05:23:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1739269408;
+	 x=1739355808; bh=8OyYLNftrq4qsPpVbcCZjPTAkDXA++bvU6mWCFjEjgw=; b=
+	7jiT3OiSpA32reTMzba8ong48JFOgVF1U6a/YhE+4hM+N4lPWP6VdAMdNJG4eqpW
+	jy2ZuhgN8H4sARf6uwBwrUfOBu1EYIKmIgq/E5rSmLNchTlhwv3Qwui5NOMUKE77
+	uuQHRJxqvlbIIUvsSvpIrfDt7VIX32RPC6LAEhr3R0N6+uwY+lggC2MYpfPglDAA
+	x1cY0JNj9pgZT92ohW9w03Q7Oqp53okxso3H3D+dYMDiOAEYcY8CvIE1DggWn+7M
+	LnYgWH19tkgs9IC0BJjs+6geR/ZvlQhiAEIp0j9nKZGPemiNzOhVypH7R5LgQRbE
+	Ruvri524FrQeNymKKkhJGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739269408; x=
+	1739355808; bh=8OyYLNftrq4qsPpVbcCZjPTAkDXA++bvU6mWCFjEjgw=; b=o
+	4dWhCRkdj4qkaNqhhPfJvLUVKiW9tPyFpvdyy9b0EGiPkRcll+xQkcbrSPJ7aj7x
+	0WLpuT6sDRveNwFp1OmHd+d68i0kuE+AfPp9SKs8bP3llOZ41o74GPbRHVmZZBPT
+	cqz9T+R44zFDcyumuIhpLjdUu/QvXhb4z/4soGf+vBJX3dF5jGK6FjCS8Osf5WZO
+	YaOr8zQeGgrxrH1seTBbcWm/eZCbqwa80f5meNvG/OJedAKPf6Pqdorl/26V8pxn
+	UrNuCGuKhmxv9c/5Y0LxDu11S+EJaKnNuMTn17Dv4nzD6m24376CM7eDV3K285rR
+	L+CAUxMCaiNPnvKR3XUeA==
+X-ME-Sender: <xms:HyWrZ26wHeJmj1eYHHDJ_3ZWEa_xwAeSt6ZCS6aWQfgb7qDfoAM2Dw>
+    <xme:HyWrZ9sAr9XdFcg7XJplGIdZ9q0Vb3LpTZsQL3ikp9EWV2eYAYPB3s0n2WxsHbqa4
+    FmCG1BmSUquhX0hYkM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegtdejhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedv
+    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhh
+    hovhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhl
+    rdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehprh
+    iivghmhihslhgrfidrkhhithhsiigvlhesihhnthgvlhdrtghomhdprhgtphhtthhopehr
+    rggrghdrjhgruggrvhesihhnthgvlhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihgtvdefsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhrvg
+    eskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:HyWrZ_5UbZd6U-PsEAdgo-UuxpcBhgDo44UH9H0ZQWE9eV-SlLTvDA>
+    <xmx:HyWrZwWyp6B9-dwn-rssMz-baxnFh-3GaCaPG-BGfm2skTTAb0GcBg>
+    <xmx:HyWrZ59d3gv-TbLJSalbb526wpA9l5YwAcQI5vgVAp71mgRA6mOjlw>
+    <xmx:HyWrZ0mdiyFLSyGCoKVFrxDMPn4pJf2nuCY-ELIgdb46mVwJZNOS7w>
+    <xmx:ICWrZ8EhdH1Y_BZY7xcGwPfx99z1LQ-8fLRW3OD5Qa3L5OxUSU3Xytjw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C3E5D2220073; Tue, 11 Feb 2025 05:23:27 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Tue, 11 Feb 2025 11:23:07 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
+Cc: "kernel test robot" <lkp@intel.com>, "Raag Jadav" <raag.jadav@intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Mika Westerberg" <mika.westerberg@linux.intel.com>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
+ "Mark Brown" <broonie@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
+ oe-kbuild-all@lists.linux.dev,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org
+Message-Id: <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
+In-Reply-To: <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
+References: <20250210064906.2181867-2-raag.jadav@intel.com>
+ <202502102201.zLWaJC6V-lkp@intel.com> <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+ <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+ <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
+ <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
+ <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
-head:   f1c28027be3e76704befbc3e0fdb1839b60e62dd
-commit: 56c76248f0a108679d5be9c5cd652fb08e444b22 [19/26] cxl: Add support for FWCTL get driver information callback
-config: xtensa-randconfig-r064-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111855.pX4aQbi2-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111855.pX4aQbi2-lkp@intel.com/reproduce)
+On Tue, Feb 11, 2025, at 11:11, Andy Shevchenko wrote:
+> On Tue, Feb 11, 2025 at 10:39:16AM +0100, Arnd Bergmann wrote:
+>> On Tue, Feb 11, 2025, at 10:27, Andy Shevchenko wrote:
+>
+>> I don't mind moving that if it helps you, but don't see what
+>> the problem is here. Is this missing because of a circular
+>> #include list with linux/device.h including asm/io.h and vice
+>> versa? If that is the root cause, then I assume there will be
+>> additional problems either way until the loop can be broken.
+>
+> I don't see how. io.h already includes err.h, so whoever includes io.h should
+> have that as previously.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502111855.pX4aQbi2-lkp@intel.com/
+I mean I never understood what problem you are trying to solve
+exactly. From the log, it appears that the problem is an include
+loop between linux/device.h, linux/device/devres.h and asm/io.h,
+and anything that breaks the loop should work. Your suggestion of
+stopping asm/io.h from including linux/device.h sounds like
+the most promising here, but this should be possible regardless
+of whether IOMEM_ERR_PTR() gets moved.
 
-All errors (new ones prefixed by >>):
-
-   xtensa-linux-ld: drivers/cxl/core/features.o: in function `cxl_get_supported_features_count':
-   include/uapi/linux/swab.h:51:(.text+0x3c0): undefined reference to `fwctl_unregister'
-   xtensa-linux-ld: drivers/cxl/core/features.o: in function `cxl_get_supported_features_count':
-   drivers/cxl/core/features.c:62:(.text+0x3e2): undefined reference to `fwctl_unregister'
-   xtensa-linux-ld: drivers/cxl/core/features.o: in function `__devm_add_action_or_reset':
-   include/linux/device.h:430:(.text+0x418): undefined reference to `_fwctl_alloc_device'
-   xtensa-linux-ld: include/linux/device.h:430:(.text+0x41c): undefined reference to `fwctl_register'
-   xtensa-linux-ld: drivers/cxl/core/features.o: in function `free_memdev_fwctl':
->> drivers/cxl/core/features.c:387:(.text+0x494): undefined reference to `_fwctl_alloc_device'
-   xtensa-linux-ld: drivers/cxl/core/features.o: in function `free_memdev_fwctl':
-   include/linux/fwctl.h:114:(.text+0x4c3): undefined reference to `fwctl_register'
-
-
-vim +387 drivers/cxl/core/features.c
-
-21969e46c91286 Dave Jiang 2025-02-05  385  
-21969e46c91286 Dave Jiang 2025-02-05  386  static void free_memdev_fwctl(void *_fwctl_dev)
-21969e46c91286 Dave Jiang 2025-02-05 @387  {
-21969e46c91286 Dave Jiang 2025-02-05  388  	struct fwctl_device *fwctl_dev = _fwctl_dev;
-21969e46c91286 Dave Jiang 2025-02-05  389  
-21969e46c91286 Dave Jiang 2025-02-05  390  	fwctl_unregister(fwctl_dev);
-21969e46c91286 Dave Jiang 2025-02-05  391  	fwctl_put(fwctl_dev);
-21969e46c91286 Dave Jiang 2025-02-05  392  }
-21969e46c91286 Dave Jiang 2025-02-05  393  
-
-:::::: The code at line 387 was first introduced by commit
-:::::: 21969e46c91286ed183be11d5fd30cd28c7daf7b cxl: Add FWCTL support to CXL
-
-:::::: TO: Dave Jiang <dave.jiang@intel.com>
-:::::: CC: Dave Jiang <dave.jiang@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+    Arnd
