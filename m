@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F3A26A095
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 23:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D127F27291F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 23:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739316263; cv=none; b=g6ersTbBMivIdMicgOqIZ5+AwEguCWO8O4sR7zTjeK8BLNmQhDh2rr0ZJSwHQ0bu80799VYmYbQoqdcgXlk0Su0Ovpr9EWeIlUpMAx0dGsEb1ShaQIJH7AYI2rZhajTwZz88UjFYwYCsM/LknDyAPFmlxb0iQZIpx6hh2iB/wns=
+	t=1739316863; cv=none; b=tngC8NwBzkB1RYNmLEoG13mIrW4OqFwiMqMPw3E1ddACZAopNLkl6DE5WG5S+GclIGb+TwgElttIeIW9oY73pnrs91FXv0rwLkmbiGZIN8iOlaDsdfKkQ3+WO5CKRFCUFOoAFi1VAFCespmVKiB23WlbT30n8NSDhS/cqDJsxnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739316263; c=relaxed/simple;
-	bh=DwyXs23OOSwodnmXz6cMhByD1SRkyts/hRAUWzXR+fg=;
+	s=arc-20240116; t=1739316863; c=relaxed/simple;
+	bh=K8/odiG2Gw4uZ3VGvaaLKD+pHvtesDsNb/eVKeEB2fo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=htqNrelrR0ZwP/Bhuousphng8yP77QrotSEFnAKczTEDEG6rvpDWDp9g88N9etLcrU3FxPbBWyTOO9umqOlaxDWYl67VLX1EVzclxOKin5XNGmNyxYM15yki6PgZ92XNmtZNOaB98lTGgBuaHiip7h0Lm0wuvivlW2Tw+nW91gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYMA3SHh; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=ax83vanTBBkv8ofD5H48qnnyEX7Y4w9vu5XM9eJsD/qMbJ2BZx8/me6+DB+FscDpw5ChI15qWTUrCWOmitTsDauvHMHU16ZKwQBKUtg3rgT/JsSnG1rj+weq51+Q45tUeTplasoC2B1dwHcqmFbnxyiuRKpYzFZljnjY+Rc9g0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TXxiKk7L; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYMA3SHh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXxiKk7L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739316260; x=1770852260;
+  t=1739316862; x=1770852862;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DwyXs23OOSwodnmXz6cMhByD1SRkyts/hRAUWzXR+fg=;
-  b=WYMA3SHhIB5tPTBOohdIlrNK2fjENMvaCxC5YeyYfSw2QRPY6ISV9h5T
-   Sn0mlGJdwMp4hya+9Df6bMJY7b3QORy6c3XF9UkObGY8ZTh4GAVr3z4j5
-   DR1UhpRuUjvnDOtiJ6XnnKPmSF7RQ2ly1mrLNlkn6qys/50qy5WbqCOD8
-   vOENXVbMCz/8XLhfLqYHoiWWUQlXNeE8lCdv0/fkgs3KDQ8COdJQcqVEj
-   61KkZuEpXiw7Ef92PjkEF+11C9P8GgcwqEP31RFMQDSejZ4opxeDzPUoV
-   jQEuNCQf02rRnpHzabIsaV/iWgft41hLtO8rSylx3HJe8XkFtmSTR6URx
-   Q==;
-X-CSE-ConnectionGUID: JPp5pg88TJW8wQyQWzO0Lg==
-X-CSE-MsgGUID: DFFLNL/HT1aJV/spWDiYxg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="42801951"
+  bh=K8/odiG2Gw4uZ3VGvaaLKD+pHvtesDsNb/eVKeEB2fo=;
+  b=TXxiKk7LYn4lSeV+t0kAaByQy6mWjKkrPpS7RNmrzuI2ew2ts+8HQafy
+   Ima2YsUKdIZSrMVMtP8V+y/UYmdAU7+qb6ZFS69+nYN6nZTF1t8ZgdwgI
+   IiAvPSy3xPYFEXDmjvOD23FVMnB+amkOXPAvwwXqaULtWkvJPC5JB5R7k
+   5ZbxQHTnIjRadv7oXyHx4aPPZe9/MQ7MCQd98rQYgNjf5D4quGgulpTub
+   z3MV9ZoIgUpAQkiqux9MaCs0E1G/yaA23XYoOYhkVv3LBe0IDqLNcv/aa
+   9KW2DwVleMzzMP8yn/ShIrY2Hy8+R/jD8SDRTwAWkK7nt48gT8BEbbM9H
+   g==;
+X-CSE-ConnectionGUID: Zo4XrVHcQrKy4HqXTAa6Nw==
+X-CSE-MsgGUID: 4PVAnYeMQBS3GenAtf3JBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="57492405"
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="42801951"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 15:24:20 -0800
-X-CSE-ConnectionGUID: poFpDHptSNK9nXJK2GM+ew==
-X-CSE-MsgGUID: Hiq2t7LgSMazDU3LZXSugQ==
+   d="scan'208";a="57492405"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 15:34:21 -0800
+X-CSE-ConnectionGUID: JhRyrZtNRp6IpxAgW2aAfA==
+X-CSE-MsgGUID: ftQj3r6dTEq15MLp7kAApg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="112410158"
+   d="scan'208";a="143499677"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2025 15:24:18 -0800
+  by orviesa002.jf.intel.com with ESMTP; 11 Feb 2025 15:34:20 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thzc0-0014pQ-1F;
-	Tue, 11 Feb 2025 23:24:16 +0000
-Date: Wed, 12 Feb 2025 07:23:58 +0800
+	id 1thzlh-0014pr-2W;
+	Tue, 11 Feb 2025 23:34:17 +0000
+Date: Wed, 12 Feb 2025 07:34:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 2/2]
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtb:
- /soc/pwrap@1000d000/pmic/clocks: failed to match any schema with compatible:
- ['mediatek,mt6397-clk']
-Message-ID: <202502120700.qtGvzDFo-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 229/229]
+ drivers/gpu/drm/mediatek/mtk_dp_v2.c:5324:3: error: call to undeclared
+ function 'mtk_dp_suspend_v2'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202502120715.k0xHkKTw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,85 +64,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   a1a1ad68de7c4bf2a2f108e96efab0507f44eefb
-commit: 35a4758e11e9aed4e10a301df49b2da774277d26 [2/2] arm64: dts: mediatek: mt8173-elm: Fix MT6397 PMIC sub-node names
-config: arm64-randconfig-051-20250211 (https://download.01.org/0day-ci/archive/20250212/202502120700.qtGvzDFo-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
-dtschema version: 2024.12.dev6+gc4da38d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120700.qtGvzDFo-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   69fc64873274f4b1c5a6c4617cc39b8d59fafbdf
+commit: 8fd26707ff2ec98f3a31cafc54c74a1399171b24 [229/229] CHROMIUM: drm/mediatek: Add dp and dp_intf base
+config: arm64-randconfig-003-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120715.k0xHkKTw-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120715.k0xHkKTw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120700.qtGvzDFo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120715.k0xHkKTw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1114.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   marvell,wakeup-pin: size (2) error for type uint32
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: power-controller@10001000: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: power-controller@10003000: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/pmic/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: thermal@1100b000: Unevaluated properties are not allowed ('bank0-supply', 'bank1-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8173-afe-pcm']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: btmrvl@2: marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/mmc@11260000/btmrvl@2: failed to match any schema with compatible: ['marvell,sd8897-bt']
---
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1114.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   marvell,wakeup-pin: size (2) error for type uint32
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: power-controller@10001000: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: power-controller@10003000: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/pmic/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: thermal@1100b000: Unevaluated properties are not allowed ('bank0-supply', 'bank1-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11010000/touchscreen@34: failed to match any schema with compatible: ['melfas,mip4_ts']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8173-afe-pcm']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: btmrvl@2: marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi:926.13-1114.4: Warning (avoid_unnecessary_addr_size): /soc/pwrap@1000d000/pmic: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   marvell,wakeup-pin: size (2) error for type uint32
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: power-controller@10001000: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: power-controller@10003000: '#power-domain-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pinctrl@1000b000: 'aud_i2s2', 'gpio-line-names', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'rt5650_irq', 'spi1', 'trackpad_irq', 'usb', 'xxx' do not match any of the regexes: 'pinctrl-[0-9]+', 'pins$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/pmic/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: thermal@1100b000: Unevaluated properties are not allowed ('bank0-supply', 'bank1-supply' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/thermal/mediatek,thermal.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11010000/touchscreen@34: failed to match any schema with compatible: ['melfas,mip4_ts']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8173-afe-pcm']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: btmrvl@2: marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3370:5: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+           u8 data;
+              ^
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4285:36: warning: variable 'state' set but not used [-Wunused-but-set-variable]
+           struct drm_dp_mst_topology_state *state;
+                                             ^
+>> drivers/gpu/drm/mediatek/mtk_dp_v2.c:5324:3: error: call to undeclared function 'mtk_dp_suspend_v2'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   mtk_dp_suspend_v2(dev);
+                   ^
+>> drivers/gpu/drm/mediatek/mtk_dp_v2.c:5327:3: error: call to undeclared function 'mtk_dp_resume_v2'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   mtk_dp_resume_v2(dev);
+                   ^
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:5327:3: note: did you mean 'mtk_dp_read_v2'?
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:315:5: note: 'mtk_dp_read_v2' declared here
+   u32 mtk_dp_read_v2(struct mtk_dp *mtk_dp, u32 offset)
+       ^
+   2 warnings and 2 errors generated.
+
+
+vim +/mtk_dp_suspend_v2 +5324 drivers/gpu/drm/mediatek/mtk_dp_v2.c
+
+  5311	
+  5312	static int mtk_drm_dp_notifier_v2(struct notifier_block *notifier,
+  5313				       unsigned long pm_event, void *unused)
+  5314	{
+  5315		struct mtk_dp *mtk_dp = container_of(notifier, struct mtk_dp, notifier);
+  5316		struct device *dev = mtk_dp->dev;
+  5317	
+  5318		dev_dbg(mtk_dp->dev, "%s pm_event %lu dev %s usage_count %d nb priority %d\n",
+  5319			__func__, pm_event, dev_name(dev), atomic_read(&dev->power.usage_count),
+  5320			notifier->priority);
+  5321	
+  5322		switch (pm_event) {
+  5323		case PM_SUSPEND_PREPARE:
+> 5324			mtk_dp_suspend_v2(dev);
+  5325			return NOTIFY_OK;
+  5326		case PM_POST_SUSPEND:
+> 5327			mtk_dp_resume_v2(dev);
+  5328			return NOTIFY_OK;
+  5329		}
+  5330		return NOTIFY_DONE;
+  5331	}
+  5332	
 
 -- 
 0-DAY CI Kernel Test Service
