@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D97C190486
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 08:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C011EE7B9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 08:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739260953; cv=none; b=JusBngE4C5qYe91jFEqjycbMVPy5FoN0bqpmlVeWevf7LIT9xRYMyoeq+j6K33MWkmhYs13YJCVlvxXXLj5MQnIumtSb2ZEwTGJMHgznUFKieZ8D5W3O3mgdTASZA8MNKq+/D7Ne6SmNHKuwbKigHFlJt4LP3ATr2h9XoAnvpzk=
+	t=1739261696; cv=none; b=YvBYp5ZMmYyuFK9xrIneXRBJxgUm8Epl4yRWL7LtDJFoMDszLSP6ek4aUm0BUQ3NHRyrJVWjEQk+pjqDWpzlfcYnBwK0izCK4G0ONHavH8hV49UPK5cKzUS2Njh+o0LDf9nK0vvX7xbReqIYYYGrqhyqU7OnFYtxDvpJsCI7flE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739260953; c=relaxed/simple;
-	bh=7Z0QCNEFgFlGbxUd9C8YGSeo3pJ0qVWvaQp1zNvBFxA=;
+	s=arc-20240116; t=1739261696; c=relaxed/simple;
+	bh=u3HEH7+KRUgfzb1YwdfHiQD4cz8weo86cFpq6JLpF8Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aMcXYWKRlZhIn2O0j2AF6F5Sj/WzXnj3NH10vIBttpuR5IfZxN6ZrhkCXWnF95C8oH3mzuMJdzS7q90Uvy2Fkcwp6H7ByfvXVD+ap9xZMRYg11VdfeRGNvuSb07On2gg2b21w+3L4j6FTEkfYsf7aCaFJhpjJ/cquppOnq6BHys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGBICcm3; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=G+Mt5ZieOMxiKHPfBsBcH+Dhm7/TFrBD92rvcJ7eAkP0iZzJv660Lj/kII1vldJ9ZxVVlLuEEBTi/Iadt90LDDjELGmpDtr8KhvaSJ/Bs1I7aqOYtJumJ6aRJfhKY0I8sEWNrwkpeXZ/PiaZHqyhLEkAjbfXBlaXceZ9pCS6LnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5d8sYXM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGBICcm3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5d8sYXM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739260951; x=1770796951;
+  t=1739261694; x=1770797694;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Z0QCNEFgFlGbxUd9C8YGSeo3pJ0qVWvaQp1zNvBFxA=;
-  b=OGBICcm3EEG8O6cFLMWIvkZNDNFTyulUXa1k1H4RC0jEK2lJghxHZbNZ
-   GRUacoE92UNNGXIisQNfsfG1veYmyevD6aqrPz0ko7ZiKfTpULR0B3udU
-   M1KymPVvgfdmcIA7WHODX91To7eDfPzv4fXhfZPnlBTIxI0aTx2kqY421
-   vSG5f8I3Z5yv9r+wAsdKh2oGkwSDJIBfOhxl00GTdac6A+LwmBxWfwsbk
-   SL9C1kIi5kTmz019l/kM2P1FG+6QUIlzyANoayibuUn5BXYrbDMkr639X
-   r8rNG2rioJIFIiLhsWTa+lMA/600WOobR4QoAZ3G4n+JCNtmmpFF6cAVk
-   Q==;
-X-CSE-ConnectionGUID: anRJ4Zc9TWCd0oFALDdHPw==
-X-CSE-MsgGUID: KpqZlLGFQCaIbMKCBffpow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50095953"
+  bh=u3HEH7+KRUgfzb1YwdfHiQD4cz8weo86cFpq6JLpF8Y=;
+  b=R5d8sYXMy6m6sRQDkADOVey8N8/lcnYBJfMIaqeO9d1yuNDbkwADsq7X
+   dhabh0CfQL7I7Z5tpAv9gdKhP0U2mxa2Ep1cn02QhCNKEu1AzExHSrslS
+   DhMZWQ6tTA47aTtd2kZ1iBzxY7QD/uKViKut34I/yh719epIgWJrrvH88
+   qWJsgdzeyly4LS9bSFXhlF2xNkHh+Yo/TZMliIrNlXfhyg/YdEya2tf7j
+   +dbrKUPyIn8m3Z7hErrIg4prV30k9iyzMt09V7YnMwXTJK3sIOs/PZdjw
+   8zNcLthaEl29KwXcCh/7CJaKAoXQ8UsxSPiKsAxmLZXpky/0z80tl8RSq
+   g==;
+X-CSE-ConnectionGUID: NRK5PQbcQ86q5kdfhGsXIw==
+X-CSE-MsgGUID: 5LNCqaC5Sd6iCRYbjAtRlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="40138142"
 X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; 
-   d="scan'208";a="50095953"
+   d="scan'208";a="40138142"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 00:02:30 -0800
-X-CSE-ConnectionGUID: PdknFYBBTmmkrsEbKBeFdA==
-X-CSE-MsgGUID: iiLlQiTbRHqJljeR1rdu/A==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 00:14:48 -0800
+X-CSE-ConnectionGUID: he11YhHySmye8y/yLcbEeg==
+X-CSE-MsgGUID: /NNKReeWS12NJKXwIJO9gQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143338302"
+   d="scan'208";a="143342704"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Feb 2025 00:02:28 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 11 Feb 2025 00:14:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thlDu-0013tz-0K;
-	Tue, 11 Feb 2025 08:02:26 +0000
-Date: Tue, 11 Feb 2025 16:01:45 +0800
+	id 1thlPX-0013uT-1e;
+	Tue, 11 Feb 2025 08:14:27 +0000
+Date: Tue, 11 Feb 2025 16:14:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 217/217]
- drivers/misc/mediatek/slbc/slbc.c:283:5: warning: no previous prototype for
- 'slbc_force_cache_ratio'
-Message-ID: <202502111519.48o6q97l-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2735/2735] kernel/sched/core.c:8279:18: error:
+ member reference base type 'struct task_group *(struct task_struct *)' is
+ not a structure or union
+Message-ID: <202502111634.nTWpsBtE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,221 +63,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   b603fe68bcf1fd8aa46dd46190c53d641dce5cf0
-commit: 506f6613f2e6836fd59eeab2456dcfb0a000954d [217/217] CHROMIUM: misc: mediatek: slc: Porting SLBC driver
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250211/202502111519.48o6q97l-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111519.48o6q97l-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   7152a244f5f9fb024d93d293168ce0b62309680a
+commit: b7772972a0a76efac27078392f3f706914fe2af7 [2735/2735] sched/core: Add cpu.steal_task in cgroup v1 cpu subsystem
+config: x86_64-randconfig-103-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111634.nTWpsBtE-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111634.nTWpsBtE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502111519.48o6q97l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502111634.nTWpsBtE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   cc1: warning: drivers/misc/mediatek/include: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/include/mt-plat: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm/v3: No such file or directory [-Wmissing-include-dirs]
->> drivers/misc/mediatek/slbc/slbc.c:283:5: warning: no previous prototype for 'slbc_force_cache_ratio' [-Wmissing-prototypes]
-     283 | int slbc_force_cache_ratio(enum slc_ach_uid uid, unsigned int ratio)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc.c:301:5: warning: no previous prototype for 'slbc_total_ceil' [-Wmissing-prototypes]
-     301 | int slbc_total_ceil(unsigned int ceil)
-         |     ^~~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc.c:319:5: warning: no previous prototype for 'slbc_cg_priority' [-Wmissing-prototypes]
-     319 | int slbc_cg_priority(bool gpu_first)
-         |     ^~~~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc.c:328:5: warning: no previous prototype for 'slbc_disable_dcc' [-Wmissing-prototypes]
-     328 | int slbc_disable_dcc(bool disable)
-         |     ^~~~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc.c:337:5: warning: no previous prototype for 'slbc_disable_slc' [-Wmissing-prototypes]
-     337 | int slbc_disable_slc(bool disable)
-         |     ^~~~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc.c:394:12: warning: no previous prototype for 'slbc_common_module_init' [-Wmissing-prototypes]
-     394 | int __init slbc_common_module_init(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
---
-   cc1: warning: drivers/misc/mediatek/include: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/include/mt-plat: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm/v3: No such file or directory [-Wmissing-include-dirs]
->> drivers/misc/mediatek/slbc/slbc_mt8196.c:186:6: warning: no previous prototype for 'slbc_sram_init' [-Wmissing-prototypes]
-     186 | void slbc_sram_init(struct mtk_slbc *slbc)
-         |      ^~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc_mt8196.c:251:6: warning: no previous prototype for '_slbc_force_cmd' [-Wmissing-prototypes]
-     251 | void _slbc_force_cmd(unsigned int force)
-         |      ^~~~~~~~~~~~~~~
->> drivers/misc/mediatek/slbc/slbc_mt8196.c:377:6: warning: no previous prototype for 'slbc_buffer_cb_notify' [-Wmissing-prototypes]
-     377 | void slbc_buffer_cb_notify(u32 res, u32 sid, u32 sid_list)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/mediatek/slbc/slbc_mt8196.c: In function '_slbc_request':
->> drivers/misc/mediatek/slbc/slbc_mt8196.c:655:40: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     655 |                         d->emi_paddr = (void __iomem *)((((unsigned long)d->paddr)
-         |                                        ^
-   drivers/misc/mediatek/slbc/slbc_mt8196.c: In function 'slbc_suspend_cb':
->> drivers/misc/mediatek/slbc/slbc_mt8196.c:1610:40: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
-    1610 |                         } else if (sid == UID_AOV |
-         |                                    ~~~~^~~~~~~~~~
-   drivers/misc/mediatek/slbc/slbc_mt8196.c:1612:45: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
-    1612 |                                         sid == UID_AOV_APU) {
-         |                                         ~~~~^~~~~~~~~~~~~~
-   drivers/misc/mediatek/slbc/slbc_mt8196.c: In function 'slbc_resume_cb':
-   drivers/misc/mediatek/slbc/slbc_mt8196.c:1637:40: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
-    1637 |                         } else if (sid == UID_AOV |
-         |                                    ~~~~^~~~~~~~~~
-   drivers/misc/mediatek/slbc/slbc_mt8196.c:1639:45: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
-    1639 |                                         sid == UID_AOV_APU) {
-         |                                         ~~~~^~~~~~~~~~~~~~
---
-   cc1: warning: drivers/misc/mediatek/include: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/include/mt-plat: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm/v3: No such file or directory [-Wmissing-include-dirs]
-   drivers/misc/mediatek/slbc/slbc_ipi.c: In function '_slbc_request_cache_scmi':
->> drivers/misc/mediatek/slbc/slbc_ipi.c:432:36: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     432 |                         d->paddr = (void __iomem *)(long long)rvalue.slbc_resv1;
-         |                                    ^
-   drivers/misc/mediatek/slbc/slbc_ipi.c: In function '_slbc_release_cache_scmi':
-   drivers/misc/mediatek/slbc/slbc_ipi.c:465:36: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     465 |                         d->paddr = (void __iomem *)(long long)rvalue.slbc_resv1;
-         |                                    ^
-   drivers/misc/mediatek/slbc/slbc_ipi.c: In function '_slbc_request_buffer_scmi':
-   drivers/misc/mediatek/slbc/slbc_ipi.c:527:36: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     527 |                         d->paddr = (void __iomem *)(long long)rvalue.slbc_resv1;
-         |                                    ^
-   drivers/misc/mediatek/slbc/slbc_ipi.c: In function '_slbc_release_buffer_scmi':
-   drivers/misc/mediatek/slbc/slbc_ipi.c:559:36: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     559 |                         d->paddr = (void __iomem *)(long long)rvalue.slbc_resv1;
-         |                                    ^
---
-   cc1: warning: drivers/misc/mediatek/include: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/include/mt-plat: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm: No such file or directory [-Wmissing-include-dirs]
->> cc1: warning: drivers/misc/mediatek/sspm/v3: No such file or directory [-Wmissing-include-dirs]
+   In file included from kernel/sched/core.c:10:
+   In file included from include/trace/events/sched.h:738:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:21:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:1587:
+   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     418 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     425 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     437 |                            NR_VM_NUMA_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/core.c:13:
+   kernel/sched/sched.h:1863:15: warning: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Wcast-function-type-strict]
+    1863 |         head->func = (void (*)(struct callback_head *))func;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:2750:6: warning: no previous prototype for function 'sched_set_stop_task' [-Wmissing-prototypes]
+    2750 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         |      ^
+   kernel/sched/core.c:2750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2750 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         | ^
+         | static 
+   kernel/sched/core.c:4126:10: warning: cast from 'void (*)(struct callback_head *)' to 'void (*)(struct rq *)' converts to incompatible function type [-Wcast-function-type-strict]
+    4126 |                 func = (void (*)(struct rq *))head->func;
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:8279:3: error: use of undeclared identifier 'root_task_group'; did you mean 'task_group'?
+    8279 |                 root_task_group.steal_task = TG_STEAL_NO;
+         |                 ^~~~~~~~~~~~~~~
+         |                 task_group
+   kernel/sched/sched.h:2058:34: note: 'task_group' declared here
+    2058 | static inline struct task_group *task_group(struct task_struct *p)
+         |                                  ^
+>> kernel/sched/core.c:8279:18: error: member reference base type 'struct task_group *(struct task_struct *)' is not a structure or union
+    8279 |                 root_task_group.steal_task = TG_STEAL_NO;
+         |                 ~~~~~~~~~~~~~~~^~~~~~~~~~~
+>> kernel/sched/core.c:8279:32: error: use of undeclared identifier 'TG_STEAL_NO'; did you mean 'PGSTEAL_ANON'?
+    8279 |                 root_task_group.steal_task = TG_STEAL_NO;
+         |                                              ^~~~~~~~~~~
+         |                                              PGSTEAL_ANON
+   include/linux/vm_event_item.h:41:3: note: 'PGSTEAL_ANON' declared here
+      41 |                 PGSTEAL_ANON,
+         |                 ^
+   7 warnings and 3 errors generated.
 
 
-vim +/slbc_force_cache_ratio +283 drivers/misc/mediatek/slbc/slbc.c
+vim +8279 kernel/sched/core.c
 
-   282	
- > 283	int slbc_force_cache_ratio(enum slc_ach_uid uid, unsigned int ratio)
-   284	{
-   285		if (common_ops && common_ops->slbc_force_cache_ratio)
-   286			return common_ops->slbc_force_cache_ratio(uid, ratio);
-   287		else
-   288			return -ENODEV;
-   289	}
-   290	EXPORT_SYMBOL_GPL(slbc_force_cache_ratio);
-   291	
-   292	int slbc_ceil(enum slc_ach_uid uid, unsigned int ceil)
-   293	{
-   294		if (common_ops && common_ops->slbc_ceil)
-   295			return common_ops->slbc_ceil(uid, ceil);
-   296		else
-   297			return -ENODEV;
-   298	}
-   299	EXPORT_SYMBOL_GPL(slbc_ceil);
-   300	
- > 301	int slbc_total_ceil(unsigned int ceil)
-   302	{
-   303		if (common_ops && common_ops->slbc_total_ceil)
-   304			return common_ops->slbc_total_ceil(ceil);
-   305		else
-   306			return -ENODEV;
-   307	}
-   308	EXPORT_SYMBOL_GPL(slbc_total_ceil);
-   309	
-   310	int slbc_window(unsigned int window)
-   311	{
-   312		if (common_ops && common_ops->slbc_window)
-   313			return common_ops->slbc_window(window);
-   314		else
-   315			return -ENODEV;
-   316	}
-   317	EXPORT_SYMBOL_GPL(slbc_window);
-   318	
- > 319	int slbc_cg_priority(bool gpu_first)
-   320	{
-   321		if (common_ops && common_ops->slbc_cg_priority)
-   322			return common_ops->slbc_cg_priority(gpu_first);
-   323		else
-   324			return -ENODEV;
-   325	}
-   326	EXPORT_SYMBOL_GPL(slbc_cg_priority);
-   327	
- > 328	int slbc_disable_dcc(bool disable)
-   329	{
-   330		if (common_ops && common_ops->slbc_disable_dcc)
-   331			return common_ops->slbc_disable_dcc(disable);
-   332		else
-   333			return -ENODEV;
-   334	}
-   335	EXPORT_SYMBOL_GPL(slbc_disable_dcc);
-   336	
- > 337	int slbc_disable_slc(bool disable)
-   338	{
-   339		if (common_ops && common_ops->slbc_disable_slc)
-   340			return common_ops->slbc_disable_slc(disable);
-   341		else
-   342			return -ENODEV;
-   343	}
-   344	EXPORT_SYMBOL_GPL(slbc_disable_slc);
-   345	
-   346	int slbc_get_cache_size(enum slc_ach_uid uid)
-   347	{
-   348		if (common_ops && common_ops->slbc_get_cache_size)
-   349			return common_ops->slbc_get_cache_size(uid);
-   350		else
-   351			return -ENODEV;
-   352	}
-   353	EXPORT_SYMBOL_GPL(slbc_get_cache_size);
-   354	
-   355	int slbc_get_cache_hit_rate(enum slc_ach_uid uid)
-   356	{
-   357		if (common_ops && common_ops->slbc_get_cache_hit_rate)
-   358			return common_ops->slbc_get_cache_hit_rate(uid);
-   359		else
-   360			return -ENODEV;
-   361	}
-   362	EXPORT_SYMBOL_GPL(slbc_get_cache_hit_rate);
-   363	
-   364	int slbc_get_cache_hit_bw(enum slc_ach_uid uid)
-   365	{
-   366		if (common_ops && common_ops->slbc_get_cache_hit_bw)
-   367			return common_ops->slbc_get_cache_hit_bw(uid);
-   368		else
-   369			return -ENODEV;
-   370	}
-   371	EXPORT_SYMBOL_GPL(slbc_get_cache_hit_bw);
-   372	
-   373	int slbc_get_cache_usage(int *cpu, int *gpu, int *other)
-   374	{
-   375		if (common_ops && common_ops->slbc_get_cache_usage)
-   376			return common_ops->slbc_get_cache_usage(cpu, gpu, other);
-   377		else
-   378			return -ENODEV;
-   379	}
-   380	EXPORT_SYMBOL_GPL(slbc_get_cache_usage);
-   381	
-   382	void slbc_register_common_ops(struct slbc_common_ops *ops)
-   383	{
-   384		common_ops = ops;
-   385	}
-   386	EXPORT_SYMBOL_GPL(slbc_register_common_ops);
-   387	
-   388	void slbc_unregister_common_ops(struct slbc_common_ops *ops)
-   389	{
-   390		common_ops = NULL;
-   391	}
-   392	EXPORT_SYMBOL_GPL(slbc_unregister_common_ops);
-   393	
- > 394	int __init slbc_common_module_init(void)
-   395	{
-   396		return 0;
-   397	}
-   398	
+  8253	
+  8254		wait_bit_init();
+  8255	
+  8256	#ifdef CONFIG_FAIR_GROUP_SCHED
+  8257		ptr += 2 * nr_cpu_ids * sizeof(void **);
+  8258	#endif
+  8259	#ifdef CONFIG_RT_GROUP_SCHED
+  8260		ptr += 2 * nr_cpu_ids * sizeof(void **);
+  8261	#endif
+  8262		if (ptr) {
+  8263			ptr = (unsigned long)kzalloc(ptr, GFP_NOWAIT);
+  8264	
+  8265	#ifdef CONFIG_FAIR_GROUP_SCHED
+  8266			root_task_group.se = (struct sched_entity **)ptr;
+  8267			ptr += nr_cpu_ids * sizeof(void **);
+  8268	
+  8269			root_task_group.cfs_rq = (struct cfs_rq **)ptr;
+  8270			ptr += nr_cpu_ids * sizeof(void **);
+  8271	
+  8272			root_task_group.shares = ROOT_TASK_GROUP_LOAD;
+  8273			init_cfs_bandwidth(&root_task_group.cfs_bandwidth);
+  8274	#endif /* CONFIG_FAIR_GROUP_SCHED */
+  8275	#ifdef CONFIG_QOS_SCHED_SMT_EXPELLER
+  8276			root_task_group.smt_expell = TG_SMT_EXPELL;
+  8277	#endif
+  8278	#ifdef CONFIG_SCHED_STEAL
+> 8279			root_task_group.steal_task = TG_STEAL_NO;
+  8280	#endif
+  8281	#ifdef CONFIG_RT_GROUP_SCHED
+  8282			root_task_group.rt_se = (struct sched_rt_entity **)ptr;
+  8283			ptr += nr_cpu_ids * sizeof(void **);
+  8284	
+  8285			root_task_group.rt_rq = (struct rt_rq **)ptr;
+  8286			ptr += nr_cpu_ids * sizeof(void **);
+  8287	
 
 -- 
 0-DAY CI Kernel Test Service
