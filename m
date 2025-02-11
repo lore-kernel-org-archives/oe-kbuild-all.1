@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F481F55FB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 10:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B3C1F8692
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 10:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739270516; cv=none; b=Q29ObQ/sndbFjuwtTKRf2peGWevmtlD+w1OCQ+tnarD0c5hVXby22ckRpQ3r+VNjJU+xF+5M/49OICbKOezrb4rgLtuHx1KM8/wqJP6CfP+bi3/+ajAiGClEjmjrC0pmPQgLsWB1+i1DjWx+OOjl8UiZdHrxemGoObZxNtJV+Wk=
+	t=1739270518; cv=none; b=huO/I/oYuWHeAhJWjY2gy9Ap/45txBuSq3Ku5E51Zr/x3J8h3hmEcqMbee5BAnD1knOAvRlVMe+b2rMIAvx78e82tdefbwdv5HrZTvs4NFwKMne5WJyUITxTM7PaqZ9dqCoAZuKcjQiHwrdvwXJwyvVzH64r0hIwKCLffown0CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739270516; c=relaxed/simple;
-	bh=7s1fU+veOrMbK2tmRwtLwCEtP6i2NCIMaCVX+omg7+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m5IzcvX7PjYkebnJl3HiWwk252KexdCCdXiZYGzgk4IoHQhRx0L64+o6PMPRCZ4GW8eCLE3t46p28/lRu3yA4aRFOhnQHm7Sn0S0kftOjRFppOAwbUgNw84DoqTK1HeFbsylXPvU+KvX7JNelc3WFserauETPoPod8Yx4aBX7dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0cqMmqA; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1739270518; c=relaxed/simple;
+	bh=5rTaqC26aI6wSJF/+cWaMWP95+stJL5KOnV1Y+y3Iio=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u09vBpDbeuqcbB9PX741JVNnihY18xX6BEL0quEn4P+NaXhlYMQ1F9qvjaSatXBwgIBuh3DJraPp3XvsUIfJJQCT98Mea4ZvlX0d6tJF6lh10rC24+5xMzokIrzJRRSPMkFqzbF9nnNuXI4JFRG84029Vmcih9l9+uPcHlMJV98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F73yxb8X; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0cqMmqA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F73yxb8X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1739270515; x=1770806515;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7s1fU+veOrMbK2tmRwtLwCEtP6i2NCIMaCVX+omg7+Y=;
-  b=I0cqMmqATEh32iWJwqZb+EFpIg1hEPAmM+P+uQ6oC8isQTSlWFDwPRh0
-   hv3UYOYmg/F0osYEUgsUBxXcxv0XhLUQZidxjmKl1dnwPRj+xUfKLdilD
-   V9umvMDjScNEBwiLsEMD2o8Eo21HiVx1rUUQcbD+JOnG7B38LxnUcHpYX
-   4qs8bBlXjgHir9gNI1rq4JTV0Y6obcFMB3G4Si5pIuDKUAkh3u0gYOd5l
-   Evz87N94F9HOlpuE4PdlnysG47J8lVP3TSFdzK96ypJQTScRmvMmj2v0Y
-   RiZ1aOv9hVyLkUtl1eq7H4nhLvXhLnvmcXTGaage1KrvN4E/Ru3WA2nAx
-   w==;
-X-CSE-ConnectionGUID: vp4Y6E2fSgeufozLK1Vcbg==
-X-CSE-MsgGUID: rTkKnIATQRqwNa8Tqpc7jw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40001307"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="40001307"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:41:54 -0800
-X-CSE-ConnectionGUID: mgXBLGz/SL6bp0pIQRIvKg==
-X-CSE-MsgGUID: J8xoZdDESuK6cAna9CxuwQ==
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5rTaqC26aI6wSJF/+cWaMWP95+stJL5KOnV1Y+y3Iio=;
+  b=F73yxb8XGe6H2wFmHkuZ+K9IhtewOauhNZfgaeGpqkouj0RjPquatJBs
+   +APW6FNJ9K81rw0e2IKwdIKB7QdI1/sZqUT6Ex2zVIGCv9XuL1ESAKK6i
+   LFUuNZGT5t/rdEUlq4/qgrsRlkaEdxIBIaDDRUzXKKBTTrUjGY0wKrt1L
+   hQFkboLbTlpjmOsCZ0S/4GOg5Twlq7FSfHjoCicdHulkbqGzGdfTW+qIH
+   qUZZ6PSiN3oPC6ILu/nM50Zh+Bb+1hsVUCv+hVHIpaijDSJUwTVx/MV86
+   2IhVXKye82TJ2IptrxxTW4rRIkbCvHkXoFMWO/Ydi81F7JXjnjyoDbwx4
+   A==;
+X-CSE-ConnectionGUID: 8Ch8EULcR7KZHLTLnektzw==
+X-CSE-MsgGUID: iU0I1h35RfCovNmWfq2BSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="57292567"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="57292567"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 02:41:55 -0800
+X-CSE-ConnectionGUID: AfcpU+k8Q9CZE4TNKDJZgg==
+X-CSE-MsgGUID: 5we3FFoVSZCnarUHr+V71A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117091077"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="112989076"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Feb 2025 02:41:53 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 11 Feb 2025 02:41:53 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thniA-00142Z-2s;
+	id 1thniA-00142V-2m;
 	Tue, 11 Feb 2025 10:41:50 +0000
-Date: Tue, 11 Feb 2025 18:41:02 +0800
+Date: Tue, 11 Feb 2025 18:41:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1423/1423] net/netfilter/nft_tunnel.o:
- warning: objtool: missing symbol for section .init.text
-Message-ID: <202502111842.FBwS9pbo-lkp@intel.com>
+To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com,
+	Saeed Mahameed <saeed@kernel.org>
+Subject: Re: [PATCH net-next 09/11] net: dummy: add dummy shaper API
+Message-ID: <202502111855.5U4I6OK5-lkp@intel.com>
+References: <20250210192043.439074-10-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +64,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210192043.439074-10-sdf@fomichev.me>
 
-Hi Pablo,
+Hi Stanislav,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   6a6cc2b6b95dc80ae01221670e21a8059229a023
-commit: af308b94a2a4a5a27bec9028354c4df444a7c8ba [1423/1423] netfilter: nf_tables: add tunnel support
-config: x86_64-buildonly-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111842.FBwS9pbo-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111842.FBwS9pbo-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-hold-netdev-instance-lock-during-ndo_open-ndo_stop/20250211-032336
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250210192043.439074-10-sdf%40fomichev.me
+patch subject: [PATCH net-next 09/11] net: dummy: add dummy shaper API
+config: i386-randconfig-013-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111855.5U4I6OK5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111855.5U4I6OK5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502111842.FBwS9pbo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502111855.5U4I6OK5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/netfilter/nft_tunnel.o: warning: objtool: missing symbol for section .init.text
+>> drivers/net/dummy.c:129:10: error: 'const struct net_device_ops' has no member named 'net_shaper_ops'
+     129 |         .net_shaper_ops         = &dummy_shaper_ops,
+         |          ^~~~~~~~~~~~~~
+>> drivers/net/dummy.c:129:35: error: initialization of 'int (*)(struct net_device *, struct netdev_phys_item_id *)' from incompatible pointer type 'const struct net_shaper_ops *' [-Werror=incompatible-pointer-types]
+     129 |         .net_shaper_ops         = &dummy_shaper_ops,
+         |                                   ^
+   drivers/net/dummy.c:129:35: note: (near initialization for 'dummy_netdev_ops.ndo_get_phys_port_id')
+   cc1: some warnings being treated as errors
+
+
+vim +129 drivers/net/dummy.c
+
+   120	
+   121	static const struct net_device_ops dummy_netdev_ops = {
+   122		.ndo_init		= dummy_dev_init,
+   123		.ndo_start_xmit		= dummy_xmit,
+   124		.ndo_validate_addr	= eth_validate_addr,
+   125		.ndo_set_rx_mode	= set_multicast_list,
+   126		.ndo_set_mac_address	= eth_mac_addr,
+   127		.ndo_get_stats64	= dummy_get_stats64,
+   128		.ndo_change_carrier	= dummy_change_carrier,
+ > 129		.net_shaper_ops		= &dummy_shaper_ops,
+   130	};
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
