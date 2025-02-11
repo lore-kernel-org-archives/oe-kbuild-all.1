@@ -1,78 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E118214815
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 12:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097681FCFF3;
+	Tue, 11 Feb 2025 13:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739278663; cv=none; b=MmMNTa8n9TRu1uhS6jXtvcXfjFNyQWaS/jRNbzy8JAC87q2mEhTnO+Vz+X5455qo/9q4MxqNjNwhzHUH9sYHKEg1AYMbQlV1UvKpbZtiPpbPfoQnNJiHnU1ykQcvF8IEu+3p8jSaVPf0WWTJtKTEBKd/3YjZHFfJsZLnyuASiK4=
+	t=1739279354; cv=none; b=dDYx8gtkMBJoRb90JKT+3JZGQOCeWjYQ+8he/gGS708CYqnC3frRgxn/wtE8ep5T6Bur4Glf8O7NEDhycKZks6sIFQjXkaAL2InaD51GVNHr7tZXIw7CUVLApqcyr1en+7IZi1/WBGfkZDww5PHma2ZOAP8wm4VSpoRDkyPuAnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739278663; c=relaxed/simple;
-	bh=X4fB1Ellq5GKEOukrFF7YPbWRktsIcuO66L67hsODoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nwB77/g9ezeZFD4mgOasRYCzxxQI5bJiGsgh6sVDA/DY1SWq/ALKpjAWL/LuI9G/p2gR7EOFYVb7iNTFv0gq8v0A599qlINJv5u4T+KP5SJhDwWWxlryQHDwQcMgDcaJVpED4ncoJOBLFOxTwZVqfYKNzwVcfYinKPfVAbUBIQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SsCcIb8W; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1739279354; c=relaxed/simple;
+	bh=yYvyx+uj/iQrOzVip21IACc+wuwLDKyExXU4FXOTqNU=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=smRiVXuN87xOuGar1JsjxLirE0WyV6RJW5ASEm7foddXvvX9lKn7+U9kxQEb17iep3pkjNzot3Q3Q03ybxS9zHODrCb96/6SACu8E4B1CxTr7+dS/x1tjoJBPFP532F6exB9pwDO2AcL35Cjtihx1eVK91hsLyCPWbjvSrQw8uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbWd3KZ+; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SsCcIb8W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbWd3KZ+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739278662; x=1770814662;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X4fB1Ellq5GKEOukrFF7YPbWRktsIcuO66L67hsODoo=;
-  b=SsCcIb8WojibYanEr7gMS9H9D8VxzJI+wS2A0mYVfLhUtX3bqcqrsVHG
-   3plM9BaGhcY9JwV/F2vTlL9gmlF9q+2o4J/5f7QYtX+xnfLKvjFb+hNQw
-   l9eTsFHYYMpXIcObw6n7ZoahVJktvxtqME/M7q/QgXDC84/uHU6LbKW6L
-   l/bBsLr46Xs8CC7t4x6q6NVkrj/jP0rN+7zWuOo+n+SLRCWC+B/gM1N5V
-   G2rkJRyN+eDFL/HPLO1H5Z4bnOuZ0HEOHHAy/4cVMBu4EL3LcANdTdeKU
-   Je3G/B0p33CCBpWqs51jkmGS5Pn+ZBZMgtqOWUWw/6co/03ZnF6Mkf62/
-   A==;
-X-CSE-ConnectionGUID: yeyEIkMyQpe0/F6eAv5dDg==
-X-CSE-MsgGUID: r8l1WOjnT2mUCggKh/SpmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="40019709"
+  t=1739279353; x=1770815353;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=yYvyx+uj/iQrOzVip21IACc+wuwLDKyExXU4FXOTqNU=;
+  b=TbWd3KZ+Gyp+fDFEXNTNnxtAlVNaprTJA/FlmtvlF8DUHgTK5Uf0k0mo
+   5+P3dihd1QOw4efQR4u63ABRCbVxl9SYNBxfeQj05q+pGnF57bYQqMdgr
+   Bct77/gSKV1b66KFqkARnAKGT6nI+9pD6libtqKouk2YeYpJgJ2yFxJcu
+   jAsDNgAVZudILxflpP3WkvjRzSXI7xcD9mPqtDJCQoQaj8N9nRYyIOdo2
+   tcf1Lv4UiLNDY8y63g7FVn+AfGUKy5gFNWt87LBjmEygg5uQsWBH/mS+R
+   IBsUj8k+36RkJanVlY0b8V/zDQX0CatvGjhAx7PDFi4dpgrOpvRBIoFmr
+   g==;
+X-CSE-ConnectionGUID: 6HrVk41yQoSjJvul8cyFGw==
+X-CSE-MsgGUID: 8qNWaDbQRVCBH0nc8CAKkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39812660"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="40019709"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:57:41 -0800
-X-CSE-ConnectionGUID: t0LgvSdkSSy5isLBEeXO8A==
-X-CSE-MsgGUID: B0jUdtFpT+aBUeHNlcg5UA==
+   d="scan'208";a="39812660"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 05:09:12 -0800
+X-CSE-ConnectionGUID: mxIwqcaYR62hvRZsW3xPGQ==
+X-CSE-MsgGUID: ONeAdHbcQPirjM8rvDTUTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="113023165"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:57:36 -0800
-Date: Tue, 11 Feb 2025 14:57:33 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6tJPc-coP1Iw3qt@black.fi.intel.com>
-References: <202502102201.zLWaJC6V-lkp@intel.com>
- <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
- <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
- <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
- <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
- <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
- <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
- <Z6s2cGMM9R6SZ9Le@smile.fi.intel.com>
- <49396042-31f0-4d8e-aa54-d89093ab5709@app.fastmail.com>
- <Z6s-S67MdpVrXRji@smile.fi.intel.com>
+   d="scan'208";a="112462512"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2025 05:09:11 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thq0i-0014Bz-0B;
+	Tue, 11 Feb 2025 13:09:08 +0000
+Date: Tue, 11 Feb 2025 21:08:36 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: net/devlink/dev.c:248:20: warning: arithmetic between different
+ enumeration types ('enum devlink_reload_limit' and 'enum
+ devlink_reload_action')
+Message-ID: <202502112101.dMerg8Vq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,31 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6s-S67MdpVrXRji@smile.fi.intel.com>
 
-On Tue, Feb 11, 2025 at 02:10:51PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2025 at 12:56:11PM +0100, Arnd Bergmann wrote:
-> > On Tue, Feb 11, 2025, at 12:37, Andy Shevchenko wrote:
-> > >
-> > > The problem this series solves at the beginning is that not all the consumers
-> > > of device.h needs it, in many cases the device/devres.h (or subset of
-> > > device/*.h) is enough to include. While solving this, it appears that
-> > > the current code uses ERR_PTR() instead of IOMEM_ERR_PTR() in devm_*io*() APIs
-> > > and kernel test robot found this and complained about. While solving
-> > > this new issue, LKP found another issue that is circular dependency.
-> > > But the original code only wants to have an access to IOMEM_ERR_PTR() which
-> > > is in io.h and can be moved to err.h AFAICS. Does this sound reasonable?
-> > 
-> > Yes, that sounds fine to me. I agree that not including linux/io.h
-> > from device/devres.h is a good idea, same as no longer including
-> > linux/device.h from asm/io.h. Moving IOMEM_ERR_PTR() as you
-> > describe is the right idea.
-> 
-> Thank you for confirming the idea. Raag, please follow as suggested:
-> 
-> Move IOMEM_ERR_PTR() to err.h (perhaps in a separate patch),
-> and drop io.h from devres.h as it will be not needed.
+CC: linux-kernel@vger.kernel.org
+TO: Moshe Shemesh <moshe@nvidia.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Jiri Pirko <jiri@nvidia.com>
 
-Sure, and perhaps drop a few patches to reduce spam while we sort this out.
+Hi Moshe,
 
-Raag
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   febbc555cf0fff895546ddb8ba2c9a523692fb55
+commit: c6ed7d6ef929a4502cc89c90a3c57e8814f4fcc9 devlink: Move devlink dev reload code to dev
+date:   2 years ago
+config: arm-randconfig-004-20250120 (https://download.01.org/0day-ci/archive/20250211/202502112101.dMerg8Vq-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502112101.dMerg8Vq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502112101.dMerg8Vq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from net/devlink/dev.c:7:
+   In file included from include/net/genetlink.h:5:
+   In file included from include/linux/genetlink.h:5:
+   In file included from include/uapi/linux/genetlink.h:6:
+   In file included from include/linux/netlink.h:7:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:1856:
+   include/linux/vmstat.h:516:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     516 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from net/devlink/dev.c:9:
+   net/devlink/devl_internal.h:21:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+      21 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:22:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+      22 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/devlink/dev.c:248:20: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+     248 |                 stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
+         |                            ~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/dev.c:349:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
+     349 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/devlink/devl_internal.h:18:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
+      18 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
+
+
+vim +248 net/devlink/dev.c
+
+   238	
+   239	static void
+   240	__devlink_reload_stats_update(struct devlink *devlink, u32 *reload_stats,
+   241				      enum devlink_reload_limit limit, u32 actions_performed)
+   242	{
+   243		unsigned long actions = actions_performed;
+   244		int stat_idx;
+   245		int action;
+   246	
+   247		for_each_set_bit(action, &actions, __DEVLINK_RELOAD_ACTION_MAX) {
+ > 248			stat_idx = limit * __DEVLINK_RELOAD_ACTION_MAX + action;
+   249			reload_stats[stat_idx]++;
+   250		}
+   251		devlink_notify(devlink, DEVLINK_CMD_NEW);
+   252	}
+   253	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
