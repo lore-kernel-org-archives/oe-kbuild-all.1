@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C6226BDA6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB7B1E3DF8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739264866; cv=none; b=oM2P+OTkI8PH++4HfE5gF1XhEX8R0H5SVKaQabfTViNSKm+88AxaTqu9NV4iq265FRLeCmZG2cS4KB6tHFaOrQ3LoiHcB5x8rDi7YwYnFwnvoDrpBkwAbtzihKOQiLum9xJ6OXFhS/wfwLi/lIg1fp0rIMtkxFpx8kLekbweqSs=
+	t=1739264867; cv=none; b=VwCcxqVOR5+zfaGB4Hsb18GPOYuYe4f+MxjPQHgo2XLUcDA2Wz+Kf/6kB7xGn3v8fp426g9ln6qoGHF7GvpgfULaCm09EOK2+acBbcBTNQLdB86uyk/cqnRGPouC5/I2Zdi20q+PFVA3askvBchf+/zj7stMSgUvFc/jsyrQC2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739264866; c=relaxed/simple;
-	bh=88f6GmoBZMkow5lYBisijwt9Wq/Vy4uXcePlHTnPGGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WcILcZR3qF6ijukXKvbYqHVKOurHXRzPAkovSSNqt7jqs+GIPgVbsvwZgEzqZZvQED45okM8CW2jX31R7g88tJemrgbUz6mCbSOA1U4gaCB3PJj0WZ5bivve9iLXGgl0lBsWoFdRMK+FdWkzfT6GNiV+ZuFLBl47uVrYtDYzqcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2pY5XWC; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1739264867; c=relaxed/simple;
+	bh=hFx79QumT2efvDIu9SQG+KhJyUcuw+IZ0OY2d/uT+og=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K8KLf8G0DcSbkJ8kxhlabyRaRpX/43uIvTlnybzTN7xJeeC4dDRYdbZLRHjoVEeIyipdtoiz217oS1MomEcl11l1UKJum5XktG1SEOxuFXUVt9ycltXIzhjz6z49vtkJDDyt1HuaPHTzpi+LHolrh+MIQrR2MriWBqVoVeF2x3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5xgcR2j; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2pY5XWC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5xgcR2j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739264865; x=1770800865;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=88f6GmoBZMkow5lYBisijwt9Wq/Vy4uXcePlHTnPGGA=;
-  b=I2pY5XWCnY9IUzWzVjrKnD4d903Y9pNSdtiaPOoZwCHqzBEt52t5pcxA
-   fDLeBlSqyoUusXI48EVe8sHdHJ1anbDeXpx2H+ry0G9H9aImUrUygNUW2
-   dKNawy+IAdPj4g1FiFrl7Av31rBkjJlga6gTeS4kbv+Hy755FwIsoUytX
-   ZMUOH46PwsFzKQGkZNUJrpIDi48p0ZY7QS5zWtbGXhJrI89ODCcvw3Yfw
-   rxZqqZ5gA7TTxr61KY2Qv7alz5BiXHJVwumGLkuqfgkamil4XiKiRONu5
-   4dMPEFNMGPZVUBx7PHZTaZrluBCsfdNKPxpbW9B+ElM+5JcTHdmOW39/2
+  t=1739264866; x=1770800866;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hFx79QumT2efvDIu9SQG+KhJyUcuw+IZ0OY2d/uT+og=;
+  b=X5xgcR2jSLNt89s/67ieR8yzJN1T+7/bPWJsXx7aT4thNw9Fkgs2nVaI
+   f0hdP9qApM+UReHx07eahi+LNSLiBLG9h65aZyBciNU4I8McMXhTbZ1jC
+   cSkq479Gp4tE+GDcnnI/qEgT5tQUZUCt1/9GVkE7nK0BIJzespdvRTcPq
+   nmkoSv7glLVxBOz4dFhwCnblxXstMYSXdY+MF52dE69sueEVyF2N7J+ms
+   IRooQLEpjnXK01Q9u5YXSEOU00vL41invI6ZNRUDgaSYPCMmBcArowMUg
+   DVVq4MAcRikY+VTimfbaNUBjydXBTDujjobn/fQi3hnEKnahqEoEZeKBF
    g==;
-X-CSE-ConnectionGUID: ea66mwtVSS6khDO9JW80sg==
-X-CSE-MsgGUID: GEBik8DpR06vw1OUAdfMLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39894203"
+X-CSE-ConnectionGUID: 6l6VSWClQByvS5OuqaiRfw==
+X-CSE-MsgGUID: qY+6Tu9bQMS9V1yUmnMsHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39758892"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="39894203"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:07:44 -0800
-X-CSE-ConnectionGUID: f/GxGsMMTvKRXKA4fkE8kQ==
-X-CSE-MsgGUID: d6RgE883SBO3rNItmLXSLA==
+   d="scan'208";a="39758892"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:07:45 -0800
+X-CSE-ConnectionGUID: Wlse3+4DSkGTXxDkvf01tQ==
+X-CSE-MsgGUID: nbHe+6jIRwa8BdCdBKGWcg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="112218193"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135702696"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2025 01:07:43 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 11 Feb 2025 01:07:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thmF2-0013wm-0e;
+	id 1thmF2-0013wj-0a;
 	Tue, 11 Feb 2025 09:07:40 +0000
-Date: Tue, 11 Feb 2025 17:07:14 +0800
+Date: Tue, 11 Feb 2025 17:07:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1919/1919] include/linux/psp-hygon.h:219:5:
- warning: no previous prototype for function 'psp_register_cmd_notifier'
-Message-ID: <202502111647.IzBuHE1M-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Linux Trace Kernel <linux-trace-kernel@vger.kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH] arm64: scripts/sorttable: Implement sorting mcount_loc
+ at boot for arm64
+Message-ID: <202502111626.K7CTghCR-lkp@intel.com>
+References: <20250210142647.083ff456@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,95 +72,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210142647.083ff456@gandalf.local.home>
 
-Hi niuyongwen,
+Hi Steven,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   002103c03aba84e0990a605bc463dcd80bff4235
-commit: 518c81d56c055affc71650b1ad1ba7f86e5ee867 [1919/1919] arch/x86/kvm: Support tkm virtualization
-config: x86_64-buildonly-randconfig-003-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111647.IzBuHE1M-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111647.IzBuHE1M-lkp@intel.com/reproduce)
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.14-rc2 next-20250210]
+[cannot apply to arm64/for-next/core arm-perf/for-next/perf kvmarm/next soc/for-next arm/for-next arm/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/arm64-scripts-sorttable-Implement-sorting-mcount_loc-at-boot-for-arm64/20250211-032956
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250210142647.083ff456%40gandalf.local.home
+patch subject: [PATCH] arm64: scripts/sorttable: Implement sorting mcount_loc at boot for arm64
+config: riscv-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111626.K7CTghCR-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111626.K7CTghCR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502111647.IzBuHE1M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502111626.K7CTghCR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/psp.c:12:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2242:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kvm/psp.c:15:
->> include/linux/psp-hygon.h:219:5: warning: no previous prototype for function 'psp_register_cmd_notifier' [-Wmissing-prototypes]
-     219 | int psp_register_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-         |     ^
-   include/linux/psp-hygon.h:219:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     219 | int psp_register_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-         | ^
-         | static 
->> include/linux/psp-hygon.h:220:5: warning: no previous prototype for function 'psp_unregister_cmd_notifier' [-Wmissing-prototypes]
-     220 | int psp_unregister_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-         |     ^
-   include/linux/psp-hygon.h:220:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     220 | int psp_unregister_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-         | ^
-         | static 
-   arch/x86/kvm/psp.c:105:21: warning: no previous prototype for function 'map_tbl_dump' [-Wmissing-prototypes]
-     105 | void __maybe_unused map_tbl_dump(const char *title, struct addr_map_tbls *tbls)
-         |                     ^
-   arch/x86/kvm/psp.c:105:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     105 | void __maybe_unused map_tbl_dump(const char *title, struct addr_map_tbls *tbls)
-         | ^
-         | static 
-   arch/x86/kvm/psp.c:118:21: warning: no previous prototype for function 'g2h_tbl_dump' [-Wmissing-prototypes]
-     118 | void __maybe_unused g2h_tbl_dump(const char *title, struct gpa2hva_tbls *tbls)
-         |                     ^
-   arch/x86/kvm/psp.c:118:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     118 | void __maybe_unused g2h_tbl_dump(const char *title, struct gpa2hva_tbls *tbls)
-         | ^
-         | static 
-   9 warnings generated.
+>> scripts/sorttable.c:306:13: warning: 'rela_write_addend' defined but not used [-Wunused-function]
+     306 | static void rela_write_addend(Elf_Rela *rela, uint64_t val)
+         |             ^~~~~~~~~~~~~~~~~
+>> scripts/sorttable.c:287:17: warning: 'rela_addend' defined but not used [-Wunused-function]
+     287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
+         |                 ^~~~~
+   scripts/sorttable.c:294:1: note: in expansion of macro 'RELA_ADDR'
+     294 | RELA_ADDR(addend)
+         | ^~~~~~~~~
+>> scripts/sorttable.c:287:17: warning: 'rela_info' defined but not used [-Wunused-function]
+     287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
+         |                 ^~~~~
+   scripts/sorttable.c:293:1: note: in expansion of macro 'RELA_ADDR'
+     293 | RELA_ADDR(info)
+         | ^~~~~~~~~
+>> scripts/sorttable.c:287:17: warning: 'rela_offset' defined but not used [-Wunused-function]
+     287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
+         |                 ^~~~~
+   scripts/sorttable.c:292:1: note: in expansion of macro 'RELA_ADDR'
+     292 | RELA_ADDR(offset)
+         | ^~~~~~~~~
+   In file included from arch/riscv/kernel/asm-offsets.c:10:
+   include/linux/ftrace.h: In function 'ftrace_get_regs':
+   include/linux/ftrace.h:190:16: error: implicit declaration of function 'arch_ftrace_get_regs'; did you mean 'arch_ftrace_regs'? [-Wimplicit-function-declaration]
+     190 |         return arch_ftrace_get_regs(fregs);
+         |                ^~~~~~~~~~~~~~~~~~~~
+         |                arch_ftrace_regs
+   include/linux/ftrace.h:190:16: error: returning 'int' from a function with return type 'struct pt_regs *' makes pointer from integer without a cast [-Wint-conversion]
+     190 |         return arch_ftrace_get_regs(fregs);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:102: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=1925395641
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=1925395641
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1925395641
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1925395641
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/psp_register_cmd_notifier +219 include/linux/psp-hygon.h
+vim +/rela_write_addend +306 scripts/sorttable.c
 
-d0b3a770d8e20d chench00 2024-08-01  218  
-d0b3a770d8e20d chench00 2024-08-01 @219  int psp_register_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-d0b3a770d8e20d chench00 2024-08-01 @220  int psp_unregister_cmd_notifier(uint32_t cmd_id, p2c_notifier_t notifier) { return -ENODEV; }
-d0b3a770d8e20d chench00 2024-08-01  221  
-
-:::::: The code at line 219 was first introduced by commit
-:::::: d0b3a770d8e20d953fe2a74ea8c4b5f4767c4add crypto: command co-processor: Add another mailbox interrupt support for PSP sending command to X86
-
-:::::: TO: chench00 <chench@hygon.cn>
-:::::: CC: chench00 <chench@hygon.cn>
+   275	
+   276	#define RELA_ADDR(fn_name)				\
+   277	static uint64_t rela64_##fn_name(Elf_Rela *rela)	\
+   278	{							\
+   279		return r8((uint64_t *)&rela->e64.r_##fn_name);	\
+   280	}							\
+   281								\
+   282	static uint64_t rela32_##fn_name(Elf_Rela *rela)	\
+   283	{							\
+   284		return r((uint32_t *)&rela->e32.r_##fn_name);	\
+   285	}							\
+   286								\
+ > 287	static uint64_t rela_##fn_name(Elf_Rela *rela)		\
+   288	{							\
+   289		return e.rela_##fn_name(rela);			\
+   290	}
+   291	
+   292	RELA_ADDR(offset)
+   293	RELA_ADDR(info)
+   294	RELA_ADDR(addend)
+   295	
+   296	static void rela64_write_addend(Elf_Rela *rela, uint64_t val)
+   297	{
+   298		w8(val, (uint64_t *)&rela->e64.r_addend);
+   299	}
+   300	
+   301	static void rela32_write_addend(Elf_Rela *rela, uint64_t val)
+   302	{
+   303		w(val, (uint32_t *)&rela->e32.r_addend);
+   304	}
+   305	
+ > 306	static void rela_write_addend(Elf_Rela *rela, uint64_t val)
+   307	{
+   308		e.rela_write_addend(rela, val);
+   309	}
+   310	
 
 -- 
 0-DAY CI Kernel Test Service
