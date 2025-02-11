@@ -1,163 +1,160 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820B41F1313
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C791D90CD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739266780; cv=none; b=Rcbpz1aGHIV0NBZD5mRpGJ0GxfCPJZtFeaHpYku9blTu7DTw4Cp3YWwTkoEON7rGbjNQ1aXofQkJjbpPbnWZ6SidciSDpvtq/JNfOA/+aytw8ua0yCh45OHGCNHxSRIjTicwGlm5DMFZ6bppf1ppzkgq5RZNh4NorsRXsOKe5OQ=
+	t=1739267392; cv=none; b=Xr1SukvC4hrNv4+51Ljnzufp/rUdjHLSorY28dvm4NHNJa5MVg8kQHFicb/o439VwBlDXZlb9x9GZfUkL/DAZr4g0B+SYSFwMF8yQYc14uyUv6M6ZdwlP52kriMQJU+jTffMqk0gxI3fLstwMhHCEm2JUWt8+LMoJtnJ6Ulj8Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739266780; c=relaxed/simple;
-	bh=D7zD+p56S2uJb050elc6uqiirJAnWzqABI0Tvvzm1PA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=oTesMPf0cWHK+obo3MABEZRKuV6hDRuLS2fBffG9LaRnIwcUYzbjukOyhHgeNCvu4tSEyw8sO2h2c3K0rGS85zVU4CJA5SKXazSf1OS9TAm9b9d3asVZsNqKz5lxlvCody/aq5OVFjI2SI/RKeIzXoLj1oEfr5d6/i7WfShsJaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=lsj6qQ2q; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=O1ytzOyC; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1739267392; c=relaxed/simple;
+	bh=d78rbI4OX29dISjdJ2ltkDyB1W3JQz9rUhsGACNV2Fo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l3Ez/5mdWBsu1gSPhC9EId7IUa2ZacDkNH0a7TR1ZN5ZdJA0V+6p7zcCy2wmm30+4FgNyXlogUTpjULvYwidAcApoLPcZGi6heNvj0glHywpSaOgN0zppT0vsNQ+tztKWAaeOYSPj/S4moU3R9HaKhmja56y9yT5n+G6fi5YLXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1o4rgD1; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="lsj6qQ2q";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="O1ytzOyC"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 9EB3C11401C8;
-	Tue, 11 Feb 2025 04:39:37 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Tue, 11 Feb 2025 04:39:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1739266777;
-	 x=1739353177; bh=MRQlTKoPQh1fnUMrZpxRpmFtfnl/gO3GS5ESXGTQf9U=; b=
-	lsj6qQ2qXspoZnGD8qrPMhDUL/HUPuBpDp4TCziuY7Y5F87+Lwm3k4R9LRuKFTkj
-	7R+hw7HxwG0/fBtr6Pbf1Ro4Cx/h6vRCwc7RU/yM4Dqwn30CJBwnf8G6hopQa7kV
-	NbLR3Ysi5mqtwM3x8b9ZwJL3aWu8xQ8xBLKmf5f25fSOGEHuvi8Q8UcSYjSy7amI
-	2qoWJ/j1jm8O/WFq/eP614xiNQpav50zcEM4t22xnwylN9YJ8WnUlZ1CkWCk/Gg1
-	Cz8NdkCw7uft+UrbHZCTWsTQOXmQ2tC5alroV/OSuv/OdgguJINN/LhNdVfVuVZa
-	bx6qFKfx/Zyi6ygnzc80gw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739266777; x=
-	1739353177; bh=MRQlTKoPQh1fnUMrZpxRpmFtfnl/gO3GS5ESXGTQf9U=; b=O
-	1ytzOyCDn20E6j7konLb1nk6LSPBYbqzOwh9s6Q/7yTh8fkTLsmbq1dKTRMSLTMF
-	bmcFT0CY/Bz0SBtFFLmjYFxb7bPXyCTwEJiX0ogs+o5OPNFYsr9Nrn0DgXhsfxkX
-	m7YK0Df8uG6upe5Dr+6o5usDu4lAyBwc13Y+tmi/Us006zFljxES+gAx3gTuX5uO
-	j8lfVYvjDQlduG+RTXEGxSueejGUUt1/9qHtoU6ETlmT/BnPKv3rr28fW55Ta+9K
-	bR08jsuuaNh8mdNhGBtu1KbJnqkUurD8OzkBKcyHuTfljGfNRdZzPmkBFlFUEQSy
-	fgd+bi871QbpOaNNmBmRg==
-X-ME-Sender: <xms:2RqrZ5ri0pdyHuTglNDXJaIrJ6PjjOH7ZycWO8L_Q9ifnE6wXzOfEw>
-    <xme:2RqrZ7rzTtZ_p2NN4MMxlPmdwbftiJ0gfsU1DTIQcUzY6avFmWuI-c0EM6wAo6Otn
-    NZ_RpOcye_Pb7XFMZY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegtdeiiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
-    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedv
-    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhh
-    hovhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhl
-    rdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehprh
-    iivghmhihslhgrfidrkhhithhsiigvlhesihhnthgvlhdrtghomhdprhgtphhtthhopehr
-    rggrghdrjhgruggrvhesihhnthgvlhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihgtvdefsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhrvg
-    eskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:2RqrZ2M6byFl_gSVcMJ1iAp4gInXGYPnbasVHiO1gMSRM7PQGGg9bw>
-    <xmx:2RqrZ046-ByUStylR_CWHsyeELFY0fsOFwqdAlEsI69cndmDLFsapw>
-    <xmx:2RqrZ46rPvrMkzd8y0lewlZLxwsdWGjBQ6VOrHe_RiNpzhP7GUvn3A>
-    <xmx:2RqrZ8g7n6Y20_Pg4nstPsse4Zu24VzSG3TUTcPNjO6VjizmQpCCag>
-    <xmx:2RqrZ-sqGxff7huGPCRZoM_ZWT-reuMfETwhqqkj1M_2GbLBP77xVnoh>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id F0E152220072; Tue, 11 Feb 2025 04:39:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1o4rgD1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739267390; x=1770803390;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d78rbI4OX29dISjdJ2ltkDyB1W3JQz9rUhsGACNV2Fo=;
+  b=R1o4rgD1wO6qk0FCaLuZS1Ggq6FgftCV1uwdMJfTFv9NjQGRak/84RGR
+   EE4PoaOqHpsEzl6VTqwbxtIlX3ZmffDdW4jrY1quITyR2lcqx95nvbG4y
+   fOuXLA0se5BOxd03kFCT+ATF6oYOPjalKp1s4ocwPtn8+OtG6N/xGb2LH
+   Yc78Xgt2YYQW/Yb+5XMd+781ojOjQUvhgqhWA4eTxhC/bH7sDlEtxcPfU
+   AucAqPddPPhlImNbtB1IITMnP8i1L5IVl7LX6twjLBs5E806xCaGLi/K4
+   mh0GPCQ6Szp7vJMlxWhp0OhoXFKJvZrTIedDfHbzYF64vFkccji5lz9Ex
+   A==;
+X-CSE-ConnectionGUID: YnEUGktaQSqHKHfu4rZWkQ==
+X-CSE-MsgGUID: 2A2ghcYvR9CZceQKBwrVoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="42715224"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="42715224"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:49:49 -0800
+X-CSE-ConnectionGUID: r8qcHbv1RP+SrB81H4aQmg==
+X-CSE-MsgGUID: YzP88OqpSmapBGdzmg0RQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149638639"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Feb 2025 01:49:48 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thmtl-0013zP-0W;
+	Tue, 11 Feb 2025 09:49:45 +0000
+Date: Tue, 11 Feb 2025 17:49:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:cpusetisolation 5/5] include/linux/sched/isolation.h:63:52:
+ warning: omitting the parameter name in a function definition is a C23
+ extension
+Message-ID: <202502111706.jA5f0XxY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 11 Feb 2025 10:39:16 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: "kernel test robot" <lkp@intel.com>, "Raag Jadav" <raag.jadav@intel.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Mika Westerberg" <mika.westerberg@linux.intel.com>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
- "Mark Brown" <broonie@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
- "Jonathan Cameron" <jic23@kernel.org>,
- "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
- oe-kbuild-all@lists.linux.dev,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-iio@vger.kernel.org
-Message-Id: <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
-In-Reply-To: <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
- <202502102201.zLWaJC6V-lkp@intel.com> <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
- <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
- <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Feb 11, 2025, at 10:27, Andy Shevchenko wrote:
-> On Tue, Feb 11, 2025 at 08:36:47AM +0100, Arnd Bergmann wrote:
->> On Mon, Feb 10, 2025, at 16:23, Andy Shevchenko wrote:
->> >
->> > TBH I have no quick idea how to address this. It seems that io.h 
->> > includes device.h
->> > for no reason (but I haven't checked that carefully). OTOH, we need only
->> > IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h 
->> > as the
->> > former includes the latter and the definition depends only on 
->> > compiler_types.h.
->> >
->> > Arnd?
->> 
->> Removing linux/device.h from asm/io.h is probably the right step,
->> it really has no business in there and no other architecture
->> includes it. I don't see an IOMEM_IS_ERR() definition, do you 
->> mean EEH_POSSIBLE_ERROR?
->
-> The definition is in the generic header and patch here relies on
-> that definition to fix the sparse warning. The simplest solution
-> is to add another patch that simply moves the macro from
-> linux/io.h to linux/err.h.
+tree:   https://github.com/alexshi/linux.git cpusetisolation
+head:   9861605548c2952b76f12b4ff62edaa42e6cb61e
+commit: 9861605548c2952b76f12b4ff62edaa42e6cb61e [5/5] sched/isolation: no housekeeping work for cpuset isolated_cpus
+config: i386-buildonly-randconfig-006-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111706.jA5f0XxY-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111706.jA5f0XxY-lkp@intel.com/reproduce)
 
-Ah, IOMEM_ERR_PTR(), not IOMEM_IS_ERR().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502111706.jA5f0XxY-lkp@intel.com/
 
-I don't mind moving that if it helps you, but don't see what
-the problem is here. Is this missing because of a circular
-#include list with linux/device.h including asm/io.h and vice
-versa? If that is the root cause, then I assume there will be
-additional problems either way until the loop can be broken.
+All warnings (new ones prefixed by >>):
 
->> Most of asm/eeh.h probably shouldn't be included by asm/io.h
->> either, my guess is that we can get away with the
->> eeh_{s,}{b,w,l,q}{_be} helpers, eeh_memcpy_fromio() and
->> eeh_check_failure(), which have no dependency on 'struct
->> device' in the header.
->> 
->> Removing a giant header inclusion from another one likely causes
->> build regressions in drivers that should have included the
->> header (linux/device.h or something included by that) themselves,
->> so ideally there should be some separate build testing of
->> powerpc kernels.
->
-> I believe this might be far out of scope for this series due to potential
-> fallouts here and there. But would be good to have it separately.
+   In file included from kernel/watchdog.c:31:
+>> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+      63 | static inline void reset_housekeeping(cpumask_var_t){ }
+         |                                                    ^
+   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
+         |                 ^
+   1 warning and 1 error generated.
+--
+   In file included from kernel/workqueue.c:52:
+>> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+      63 | static inline void reset_housekeeping(cpumask_var_t){ }
+         |                                                    ^
+   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
+         |                 ^
+   kernel/workqueue.c:2519:8: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2519 |                 if (!housekeeping_cpu(cpu, HK_TYPE_TIMER))
+         |                      ^
+   1 warning and 2 errors generated.
+--
+   In file included from kernel/time/hrtimer.c:41:
+>> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+      63 | static inline void reset_housekeeping(cpumask_var_t){ }
+         |                                                    ^
+   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
+         |                 ^
+   kernel/time/hrtimer.c:124:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     124 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:27: note: previous initialization is here
+     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:125:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     125 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:27: note: previous initialization is here
+     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:126:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     126 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:27: note: previous initialization is here
+     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:127:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     127 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
+         |                                   ^~~~~~~~~~~~~~~~
+   kernel/time/hrtimer.c:122:27: note: previous initialization is here
+     122 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings and 1 error generated.
+--
+   In file included from kernel/sched/core.c:34:
+>> include/linux/sched/isolation.h:63:52: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+      63 | static inline void reset_housekeeping(cpumask_var_t){ }
+         |                                                    ^
+   include/linux/sched/isolation.h:68:10: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      68 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
+         |                 ^
+   kernel/sched/core.c:5643:6: error: call to undeclared function 'housekeeping_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    5643 |         if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
+         |             ^
+   1 warning and 2 errors generated.
 
-It certainly gets towards yak-shaving, but it does look like
-the best solution. It really depends on how much breaks -- if there
-are only a couple of missing #include statements, I can see those
-get merged early as a bugfix or as part of another series. If there
-are a lot of them, it is probably not worth it.
 
-     Arnd
+vim +63 include/linux/sched/isolation.h
+
+    58	
+    59	static inline void housekeeping_affine(struct task_struct *t,
+    60					       enum hk_type type) { }
+    61	
+    62	static inline void housekeeping_init(void) { }
+  > 63	static inline void reset_housekeeping(cpumask_var_t){ }
+    64	#endif /* CONFIG_CPU_ISOLATION */
+    65	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
