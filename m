@@ -1,76 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F811F12F7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B991BD9D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 09:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739266061; cv=none; b=gQgzmDIG86Cb628GmzLmu76oFhsVwY74gQ60ISshDFj6VS12hV/2DlXUYS4zLXdhuXy+4xC2q5PniEwR2vA12UkKtAKcjdZX6/k8xOMtZZHPz651sxakhD0xluTV0pAv45igH0oLZycDw4d0wJGfziEJ0Rp0vfvpWrpv4sagTe4=
+	t=1739266669; cv=none; b=QAc5UekQm2xl+6lPiYRx49/jmsbDGKXNZXPpv8n0OkLFVil2o0MEdbOE8WgnlrS+xn3c7qExaEqhaT7qJlEGjQMh9fjzlL4BK44kO+69MpgKxhw5XzQfQ3j4Z2ORLoEvN4Z/HdHBghvXXdxTd9gMVWVRRmVu8Z8ztmnXIEmmVcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739266061; c=relaxed/simple;
-	bh=2RCq9ghRVTkmfN4A7dFDaEQ2QNjkz/H5tvfKNfB13eU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=haoh4n0nOn7dCCnjTASVZ6E1MbVuJa0fPnBSAKXl+GAss/uS5gfzhb4+2cujkPA6gHcbBuL/T1nHaWXZdJUqexjDNI5BvKb/G9ITjfgdZ2YxDD3W2e8K4turxAteqOR5s2voI2pObNV9MKi6oXzkBn4JpjYB20qRwTgUq+/gcyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDDmRhXh; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1739266669; c=relaxed/simple;
+	bh=Yl6wjdgXG5IEpWDbNPG0WUAovYqfgR8vLDuRHAeGawM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=EmtDt1BA3AdV1tMUvDFwXEE7FEgJyyIqIGZqQiQLSACby0+AmKJY8uhELNIiPWmS/df6WVdJg3PEGmRNVq4eNA6Nh5DII8I1IlNEo8XF9W5MbIQ9Xvh1gw1HTtHzAuefWI/a796C1PO3XmN2LsliDneegs6bs8IPkOABsos+NsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pr39fyiw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDDmRhXh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pr39fyiw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739266059; x=1770802059;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2RCq9ghRVTkmfN4A7dFDaEQ2QNjkz/H5tvfKNfB13eU=;
-  b=fDDmRhXhRg9FVICNTUiHLphk4e2HKFLsvGBYTLIIe2iYHrMEtkzHMWrx
-   33DZgnWNApLOg1m2saPulm2JfKDvOYRfUmU6FoQdOM4fNb0Y3unNsgb94
-   S1tXbGluVqPieAHLTtxeCcVB3L/DuygReu0SZJNlp8y8wylIn/86ez1n7
-   HXDaAvhB8EyUmFaY8NATWLLQU/ZZRh69G1rL+ls09LW4uXZ37wMDDt2yX
-   FyAS0ccaZW4MbjyqN7NdHrhjiaQq1CVdNxzEwUhSW3mBVX6dDeb320JJr
-   y3LpzAcgxSnekBEBTEqOMvEeABZL+0elOXe39ouMgsPzWl8T8OMg/7dqO
-   A==;
-X-CSE-ConnectionGUID: SwLIn4METfKXx5MlCELnEA==
-X-CSE-MsgGUID: 79Gfiia4RjmAFN218EKx/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39793019"
+  t=1739266667; x=1770802667;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Yl6wjdgXG5IEpWDbNPG0WUAovYqfgR8vLDuRHAeGawM=;
+  b=Pr39fyiwf+sdtsepihOaR+5UfABun1kil7ynW6GcirOSRoedzU4I2xMY
+   U4LCmID83QNTvyfuMnvqn7sqj3iafbn9EvKhBOR2EOZ7vqJ3JbwqBEzdY
+   xT/WhMeIHQ42rBw+6ixixeZ30MRDmJZirIxSrt3Gevgx6HLcF6o+NnWcr
+   PkDFOItiEjgdXLOgy66Dp6IYbjy+mN30kxsQ0smOVIUB4wpUnBgrXxheY
+   etKG79Ahkw0fryFFedP6MOU/2l7uhabYrNNtvLSVYZ0gQk/3LTHZUi7wv
+   FutiQ0f+epdMqvnAU/WFQHhlln5xwKbuJwthX6aKerDHqDUef1/t7oixV
+   w==;
+X-CSE-ConnectionGUID: 5oqTEriITWuVsDDyOyaTfQ==
+X-CSE-MsgGUID: 7vSsVUCnQ121/4KZxPIRZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="42714365"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="39793019"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:27:39 -0800
-X-CSE-ConnectionGUID: Pr/8aBGuQweEYzaNj0jMlw==
-X-CSE-MsgGUID: y0A1/oeOSyyoww7IQv5H7A==
+   d="scan'208";a="42714365"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:37:46 -0800
+X-CSE-ConnectionGUID: JFSnM2UvTMOBFlkt2BFsjA==
+X-CSE-MsgGUID: xOrhcNm7Ryil1ggAEIEZsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143360490"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 01:27:34 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1thmYF-0000000ASOG-1dII;
-	Tue, 11 Feb 2025 11:27:31 +0200
-Date: Tue, 11 Feb 2025 11:27:31 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, Raag Jadav <raag.jadav@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
-	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
- device/devres.h
-Message-ID: <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
-References: <20250210064906.2181867-2-raag.jadav@intel.com>
- <202502102201.zLWaJC6V-lkp@intel.com>
- <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
- <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+   d="scan'208";a="116546052"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Feb 2025 01:37:45 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1thmi7-0013yZ-2S;
+	Tue, 11 Feb 2025 09:37:43 +0000
+Date: Tue, 11 Feb 2025 17:36:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Max Kellermann <max.kellermann@ionos.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6.13] fs/netfs/read_collect: fix crash due to
+ uninitialized `prev` variable
+Message-ID: <Z6saM2SXMRbj3iOQ@a4552a453fea>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,53 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250211093432.3524035-1-max.kellermann@ionos.com>
 
-On Tue, Feb 11, 2025 at 08:36:47AM +0100, Arnd Bergmann wrote:
-> On Mon, Feb 10, 2025, at 16:23, Andy Shevchenko wrote:
-> >
-> > TBH I have no quick idea how to address this. It seems that io.h 
-> > includes device.h
-> > for no reason (but I haven't checked that carefully). OTOH, we need only
-> > IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h 
-> > as the
-> > former includes the latter and the definition depends only on 
-> > compiler_types.h.
-> >
-> > Arnd?
-> 
-> Removing linux/device.h from asm/io.h is probably the right step,
-> it really has no business in there and no other architecture
-> includes it. I don't see an IOMEM_IS_ERR() definition, do you 
-> mean EEH_POSSIBLE_ERROR?
+Hi,
 
-The definition is in the generic header and patch here relies on
-that definition to fix the sparse warning. The simplest solution
-is to add another patch that simply moves the macro from
-linux/io.h to linux/err.h.
+Thanks for your patch.
 
-> Most of asm/eeh.h probably shouldn't be included by asm/io.h
-> either, my guess is that we can get away with the
-> eeh_{s,}{b,w,l,q}{_be} helpers, eeh_memcpy_fromio() and
-> eeh_check_failure(), which have no dependency on 'struct
-> device' in the header.
-> 
-> Removing a giant header inclusion from another one likely causes
-> build regressions in drivers that should have included the
-> header (linux/device.h or something included by that) themselves,
-> so ideally there should be some separate build testing of
-> powerpc kernels.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-I believe this might be far out of scope for this series due to potential
-fallouts here and there. But would be good to have it separately.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
-Raag, I think if you have time and motivation you can create that patch,
-but send it separately. And this series can be fixed with the move of the
-macro.
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH v6.13] fs/netfs/read_collect: fix crash due to uninitialized `prev` variable
+Link: https://lore.kernel.org/stable/20250211093432.3524035-1-max.kellermann%40ionos.com
+
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
 
