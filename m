@@ -1,59 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3556FB9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 12:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E118214815
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 12:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739277548; cv=none; b=JKJSHJ+mtD7dOB0R+dKqKhuy8AuP/guOesogVFjvmzHfwkI8lhNCnVZFwp8gWoPy1hY33tX2qnxPaM+633z5c32wrV5knvL08n0VEvusIVmE3vYG/FhSxqL9lNBhtBIgXXzvkpl0OaWybp3OGBT4/4yISFrZWWEzgJs4Tgrg09c=
+	t=1739278663; cv=none; b=MmMNTa8n9TRu1uhS6jXtvcXfjFNyQWaS/jRNbzy8JAC87q2mEhTnO+Vz+X5455qo/9q4MxqNjNwhzHUH9sYHKEg1AYMbQlV1UvKpbZtiPpbPfoQnNJiHnU1ykQcvF8IEu+3p8jSaVPf0WWTJtKTEBKd/3YjZHFfJsZLnyuASiK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739277548; c=relaxed/simple;
-	bh=I3J6efnR0PjvI0I/FjS01Lo8ztCyGXHUdF+cwbVzSxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=obI9u6Fppf1tz3nN3uYYUqSWarkqHnfmI4yVWRSrZmPk0SKGDk+SjJufD4f6eqYFLaKU1sqP6jrJ0MFmX4Me6oyjr1miRiTPR+Qxr7qBPWKuKCm3seoLKjVmEzQU7BSqPkpH57sUDQnCG6HL5vZZMNBklK0UtmEmlZG+ozdbTXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+l6vk3/; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1739278663; c=relaxed/simple;
+	bh=X4fB1Ellq5GKEOukrFF7YPbWRktsIcuO66L67hsODoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nwB77/g9ezeZFD4mgOasRYCzxxQI5bJiGsgh6sVDA/DY1SWq/ALKpjAWL/LuI9G/p2gR7EOFYVb7iNTFv0gq8v0A599qlINJv5u4T+KP5SJhDwWWxlryQHDwQcMgDcaJVpED4ncoJOBLFOxTwZVqfYKNzwVcfYinKPfVAbUBIQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SsCcIb8W; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+l6vk3/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SsCcIb8W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739277548; x=1770813548;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=I3J6efnR0PjvI0I/FjS01Lo8ztCyGXHUdF+cwbVzSxE=;
-  b=F+l6vk3/XZKyqKaUwapGUrkzVLy3fFAeQhnUuLYg8wdfn5db7UaDDz6c
-   S7xTWtuaHHsE4Cno4q/EIs7pjkC6N9EfCgXp+IqGv8DsxLdk0mxXkmRTW
-   8yiWvDpbsFkYfraI7t8GxaH8WR7R2N+edKD9WE2nuRh8I432nHlGq3a2z
-   /CECOrMwQg1WEI0TMKMCJuYl2sZxDevpIKDIcsz/PEFvRcX9dIRGsU8ny
-   pd784q/nAv9w+JVvkOTJzP+ay2f5aesfIFpZE+t6DY9ZHjpuPEPqtkh5W
-   oV1cH7i9Kq177zo0PsIkhf7Se5eMLy5/ESPmOTc3XQos+kTxT+Pz2M1ab
-   w==;
-X-CSE-ConnectionGUID: OBbXwpfmTD2aGGtru5OiIA==
-X-CSE-MsgGUID: f31oe8UST1OdsDPH+6jLbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="43654461"
+  t=1739278662; x=1770814662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X4fB1Ellq5GKEOukrFF7YPbWRktsIcuO66L67hsODoo=;
+  b=SsCcIb8WojibYanEr7gMS9H9D8VxzJI+wS2A0mYVfLhUtX3bqcqrsVHG
+   3plM9BaGhcY9JwV/F2vTlL9gmlF9q+2o4J/5f7QYtX+xnfLKvjFb+hNQw
+   l9eTsFHYYMpXIcObw6n7ZoahVJktvxtqME/M7q/QgXDC84/uHU6LbKW6L
+   l/bBsLr46Xs8CC7t4x6q6NVkrj/jP0rN+7zWuOo+n+SLRCWC+B/gM1N5V
+   G2rkJRyN+eDFL/HPLO1H5Z4bnOuZ0HEOHHAy/4cVMBu4EL3LcANdTdeKU
+   Je3G/B0p33CCBpWqs51jkmGS5Pn+ZBZMgtqOWUWw/6co/03ZnF6Mkf62/
+   A==;
+X-CSE-ConnectionGUID: yeyEIkMyQpe0/F6eAv5dDg==
+X-CSE-MsgGUID: r8l1WOjnT2mUCggKh/SpmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="40019709"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="43654461"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:39:07 -0800
-X-CSE-ConnectionGUID: iBSdd4hTSWG2I/WPqMSRag==
-X-CSE-MsgGUID: dhOJaEZjSGWT/2NbF+iHKg==
+   d="scan'208";a="40019709"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:57:41 -0800
+X-CSE-ConnectionGUID: t0LgvSdkSSy5isLBEeXO8A==
+X-CSE-MsgGUID: B0jUdtFpT+aBUeHNlcg5UA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="112455841"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2025 04:39:06 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thpXb-0014A7-2r;
-	Tue, 11 Feb 2025 12:39:03 +0000
-Date: Tue, 11 Feb 2025 20:38:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] usb: xhci: Handle quirky SuperSpeed isoc error reporting
- by Etron HCs
-Message-ID: <Z6tE3r7f-r-vYGo6@a4552a453fea>
+   d="scan'208";a="113023165"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 04:57:36 -0800
+Date: Tue, 11 Feb 2025 14:57:33 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
+	Mark Brown <broonie@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	oe-kbuild-all@lists.linux.dev,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to
+ device/devres.h
+Message-ID: <Z6tJPc-coP1Iw3qt@black.fi.intel.com>
+References: <202502102201.zLWaJC6V-lkp@intel.com>
+ <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+ <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+ <Z6sYAxRIeCzw12nY@smile.fi.intel.com>
+ <c1184a91-e216-423d-b956-d4b22116a171@app.fastmail.com>
+ <Z6siYlWfvfUvNLpX@smile.fi.intel.com>
+ <279d9f32-a1c9-41aa-b15a-e1485877b2d5@app.fastmail.com>
+ <Z6s2cGMM9R6SZ9Le@smile.fi.intel.com>
+ <49396042-31f0-4d8e-aa54-d89093ab5709@app.fastmail.com>
+ <Z6s-S67MdpVrXRji@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +81,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250211133614.5d64301f@foxbook>
+In-Reply-To: <Z6s-S67MdpVrXRji@smile.fi.intel.com>
 
-Hi,
+On Tue, Feb 11, 2025 at 02:10:51PM +0200, Andy Shevchenko wrote:
+> On Tue, Feb 11, 2025 at 12:56:11PM +0100, Arnd Bergmann wrote:
+> > On Tue, Feb 11, 2025, at 12:37, Andy Shevchenko wrote:
+> > >
+> > > The problem this series solves at the beginning is that not all the consumers
+> > > of device.h needs it, in many cases the device/devres.h (or subset of
+> > > device/*.h) is enough to include. While solving this, it appears that
+> > > the current code uses ERR_PTR() instead of IOMEM_ERR_PTR() in devm_*io*() APIs
+> > > and kernel test robot found this and complained about. While solving
+> > > this new issue, LKP found another issue that is circular dependency.
+> > > But the original code only wants to have an access to IOMEM_ERR_PTR() which
+> > > is in io.h and can be moved to err.h AFAICS. Does this sound reasonable?
+> > 
+> > Yes, that sounds fine to me. I agree that not including linux/io.h
+> > from device/devres.h is a good idea, same as no longer including
+> > linux/device.h from asm/io.h. Moving IOMEM_ERR_PTR() as you
+> > describe is the right idea.
+> 
+> Thank you for confirming the idea. Raag, please follow as suggested:
+> 
+> Move IOMEM_ERR_PTR() to err.h (perhaps in a separate patch),
+> and drop io.h from devres.h as it will be not needed.
 
-Thanks for your patch.
+Sure, and perhaps drop a few patches to reduce spam while we sort this out.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] usb: xhci: Handle quirky SuperSpeed isoc error reporting by Etron HCs
-Link: https://lore.kernel.org/stable/20250211133614.5d64301f%40foxbook
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+Raag
