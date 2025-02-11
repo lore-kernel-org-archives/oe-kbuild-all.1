@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1A7266EE1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 21:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3944268FE5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 22:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739308749; cv=none; b=CK/1hkQweCHkUAaxxNWn9QBQ9WqWuJDYwsDfaXwF5/q953FTXy9Ngnr3YAd+Y2ADCHPCDHxGqw8SGvllX0Rbw+LE35sImKoF/EBkb5nA+RufB1XwLq6E4gBwKeAVzsXaPGYA8dxd6ScXlJxnO/nVhT2LvZdMFBIWapy5bdtDErg=
+	t=1739312481; cv=none; b=nFcJTZlWxb/JTTMbaNRVMy586/a+LoLLyRMffrX5/lFFiwpWPqtKv3pDbw+Bp8Ose0lQZvg414GrrCNPkbnP8XCKfbeG1JrCnz9Jkws/QJ4vS7clo2CC1GePGRMv/J9aehSUq8rnqQ0gMD3xTCC6JTLcOCLnp09uADpUIGa3diU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739308749; c=relaxed/simple;
-	bh=hH11Ekx7qLbAovvBYKICnN+sYYDDd5UOIiQ5OrreElA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bh88khRiT8aBjYJb4a+07JUxBWd/c5NJglZ6rIzF3kxjh4qi1kWDslDgYZXQV67xNu5AOEvHy+noqnjjrvWsO329IY3ALqoHXx8f5HsoAyeUW528+eklsVsvx7t6r/4LjGRU2r+uchWibQYyRKkjyPEGxMVB7uf4rR7jqRs0dKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwdsVhdm; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1739312481; c=relaxed/simple;
+	bh=KmQ+tXg/m4ZK8Xhj8IZwShtRHzkqTHlubFqibbJilzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Aac9Vdj1NtPNZ6dvsF99evMxNGqDEcjY10Zmv2FvBxCLmQoU8Dr+AJe0EMQ0VOeLSU8oMFDcCp5xqfCo1nL8hLuiu6Hfm0hJMRTJAoJ+vHedNJzTKU1jPg+3Yvv8N6K2PlxWbUDMsC2IatKBtFVEV0DTxbabeBwfpshPN4+VY7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VmXuRd7M; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwdsVhdm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmXuRd7M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739308747; x=1770844747;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hH11Ekx7qLbAovvBYKICnN+sYYDDd5UOIiQ5OrreElA=;
-  b=jwdsVhdmctUhS69mcRYrodxkQLZQ3gMQXDU2nMjJRdclriv9bC/apfuK
-   vJqmijvsoy7xHRek0sSFFWMt4Fu4dSJYLa9WYsbCiv5W693sQ+4edLsd3
-   Nfs6E/Jcm8mC6MpPu3wdDJNPEMIsNoMh+FOr9u5YI+6h/bnjgHRC4iWzk
-   BkrsaTLPi4xa+lrMHtPdS1o4NL6vZCnr2ycZ4rqp4hPIqassYqIzHIpUa
-   mCHdYtghOIty2yiCYgAIxWwgyPR+EpxAKw36cyPEkjojQQ6zvPUaoDQNn
-   KlZ98mcbwJWxoxu6us8KFCswDQTILb/T2QHQzsOTvNbI2wX0kwEAMe98S
-   g==;
-X-CSE-ConnectionGUID: FX7HKiyATk6p9l7vnQ0L6w==
-X-CSE-MsgGUID: wYSJ5nwHQXm2TA+dgZUBvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="51340522"
+  t=1739312480; x=1770848480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KmQ+tXg/m4ZK8Xhj8IZwShtRHzkqTHlubFqibbJilzM=;
+  b=VmXuRd7M+lRQwSnB/3n2J0WqOpiKZqOOi0EFt+uUMC7nDJ0ZVx+LH6uH
+   NcPZ0t0AyNQ/Av0z1m3gcLWvVPNELxzc3FY0Z1oLP+5EahDRtm7Lbq6tU
+   pNK4s4lRiu+n4rWLoF2JraRB8IR0BhJPpO7RVaCVjFE2ZD/IsIUVgZ7G9
+   XF217Q4mPXezhPHd8KZTQof5TA7kmkBnnYLWUpyffCvvDnp/vH8f9fZBS
+   VUtou+U1Wlv7eyrH22/pY9WMMZ85cROfIkHGxnrirhfWKkLRZni1vy2OM
+   SM3+TkxVNJCPOfdoTU2X+Pc6pcCB/jH/jIU1iKO5W4DeXM9kh8byojBdt
+   w==;
+X-CSE-ConnectionGUID: aTPT9aWbSKSnyvEgPziklg==
+X-CSE-MsgGUID: C17w1xBEQM6l0yT7f/5wdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50938307"
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="51340522"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 13:19:07 -0800
-X-CSE-ConnectionGUID: uP8kxcVaQNSsMA70eVFQEw==
-X-CSE-MsgGUID: W0cN8m9nTUml1oimGphYVw==
+   d="scan'208";a="50938307"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 14:21:19 -0800
+X-CSE-ConnectionGUID: Mnc4Nd50QAuuH5O4SxIE9A==
+X-CSE-MsgGUID: 2ZhjGQPqQMavXeVcEpA1iQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="117566594"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113529562"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Feb 2025 13:19:06 -0800
+  by orviesa008.jf.intel.com with ESMTP; 11 Feb 2025 14:21:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thxep-0014ih-0w;
-	Tue, 11 Feb 2025 21:19:03 +0000
-Date: Wed, 12 Feb 2025 05:18:41 +0800
+	id 1thycv-0014lb-2H;
+	Tue, 11 Feb 2025 22:21:09 +0000
+Date: Wed, 12 Feb 2025 06:20:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
- drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202502120521.erdwl1NY-lkp@intel.com>
+To: Meghana Malladi <m-malladi@ti.com>, rogerq@kernel.org,
+	danishanwar@ti.com, pabeni@redhat.com, kuba@kernel.org,
+	edumazet@google.com, davem@davemloft.net, andrew+netdev@lunn.ch
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, u.kleine-koenig@baylibre.com,
+	krzysztof.kozlowski@linaro.org, dan.carpenter@linaro.org,
+	m-malladi@ti.com, schnelle@linux.ibm.com, glaroque@baylibre.com,
+	rdunlap@infradead.org, diogo.ivo@siemens.com,
+	jan.kiszka@siemens.com, john.fastabend@gmail.com, hawk@kernel.org,
+	daniel@iogearbox.net, ast@kernel.org, srk@ti.com,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Subject: Re: [PATCH net-next v2 3/3] net: ti: icssg-prueth: Add XDP support
+Message-ID: <202502120546.Y6ri4qi6-lkp@intel.com>
+References: <20250210103352.541052-4-m-malladi@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +72,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210103352.541052-4-m-malladi@ti.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   6a6cc2b6b95dc80ae01221670e21a8059229a023
-commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
-config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250212/202502120521.erdwl1NY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Meghana,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on acdefab0dcbc3833b5a734ab80d792bb778517a0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Meghana-Malladi/net-ti-icssg-prueth-Use-page_pool-API-for-RX-buffer-allocation/20250210-183805
+base:   acdefab0dcbc3833b5a734ab80d792bb778517a0
+patch link:    https://lore.kernel.org/r/20250210103352.541052-4-m-malladi%40ti.com
+patch subject: [PATCH net-next v2 3/3] net: ti: icssg-prueth: Add XDP support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250212/202502120546.Y6ri4qi6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120546.Y6ri4qi6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120521.erdwl1NY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120546.Y6ri4qi6-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
+All errors (new ones prefixed by >>):
 
-vim +614 drivers/acpi/cppc_acpi.c
+   drivers/net/ethernet/ti/icssg/icssg_prueth.c: In function 'prueth_create_xdp_rxqs':
+>> drivers/net/ethernet/ti/icssg/icssg_prueth.c:568:55: error: 'struct xdp_rxq_info' has no member named 'napi_id'
+     568 |         ret = xdp_rxq_info_reg(rxq, emac->ndev, 0, rxq->napi_id);
+         |                                                       ^~
 
-   576	
-   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
-   578	{
-   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
-   580		int parsed_core_num = 0;
-   581		int i, ret;
-   582	
-   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
-   584		if (!cpc_pptr)
-   585			return -ENOMEM;
-   586		for_each_possible_cpu(i) {
-   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-   588			if (!cpc_pptr[i]) {
-   589				ret = -ENOMEM;
-   590				goto out;
-   591			}
-   592		}
-   593	
-   594		/*
-   595		 * We can not use acpi_get_devices() to walk the processor devices
-   596		 * because some processor device is not present.
-   597		 */
-   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
-   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
-   600					  cpc_pptr, (void **)&parsed_core_num);
-   601		if (ret)
-   602			goto out;
-   603		if (parsed_core_num != num_possible_cpus()) {
-   604			ret = -EINVAL;
-   605			goto out;
-   606		}
-   607	
-   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
-   609	
-   610	out:
-   611		for_each_possible_cpu(i) {
-   612			cpc_ptr = cpc_pptr[i];
-   613			if (cpc_ptr)
- > 614				kfree(cpc_ptr);
-   615		}
-   616		kfree(cpc_pptr);
-   617	
-   618		return ret;
-   619	}
-   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
-   621	
+
+vim +568 drivers/net/ethernet/ti/icssg/icssg_prueth.c
+
+   561	
+   562	static int prueth_create_xdp_rxqs(struct prueth_emac *emac)
+   563	{
+   564		struct xdp_rxq_info *rxq = &emac->rx_chns.xdp_rxq;
+   565		struct page_pool *pool = emac->rx_chns.pg_pool;
+   566		int ret;
+   567	
+ > 568		ret = xdp_rxq_info_reg(rxq, emac->ndev, 0, rxq->napi_id);
+   569		if (ret)
+   570			return ret;
+   571	
+   572		ret = xdp_rxq_info_reg_mem_model(rxq, MEM_TYPE_PAGE_POOL, pool);
+   573		if (ret)
+   574			xdp_rxq_info_unreg(rxq);
+   575	
+   576		return ret;
+   577	}
+   578	
 
 -- 
 0-DAY CI Kernel Test Service
