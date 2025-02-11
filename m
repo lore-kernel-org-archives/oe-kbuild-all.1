@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D841F3FD0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 15:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FDA1FA856
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 15:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739286448; cv=none; b=fBzumosyDO6LrpwLGCh52m1aTLn+FX2cuZiAnxzn7ORCA/5mtRWwNtLUxPyizjUtxSA5JHY29UUxZuA+Iz3Vdy+AyAW3PCLOgXqLqrIy7ddVR5Zp76RYQncuvPSc/1tn8IUpYtIQL3qcstLUDlXihfGRHNhVy0gPkYqt89rEOSY=
+	t=1739287108; cv=none; b=AL3lFkPKRUk0h5ewFB/OZGW5Sjq4gvhf17fuPW+0avObd/3+cY5h58ElFXzgtcIjhROV8b6HD5hrhdqbzV0jPbxeSvZ7040Fe16xPC1ptIu+n80z/XCs3pWxNiyOxNPNKm7DbdxpT0/7bvX0c9B2ObkU4y5CVsJ7fotth4QnhsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739286448; c=relaxed/simple;
-	bh=63VFTzhlfsv+FsZFWjumFpyRmumdLMBYpTENKjOczHc=;
+	s=arc-20240116; t=1739287108; c=relaxed/simple;
+	bh=d5vV211aS60eF6NNwbhxf77ujBr7dUOTnsKyj6aaYmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RtajRQzxY4BXBXKT+ic0gB5GJhiSF1isTqDCRF7N8N1Wa1yV3BG59AVysDnL7/I9BY6CDnXLdyiDxg0DCKHjsrfJsq+QueV3K3v+NY20WgNtjiQaEceZrqLtH9WZnnGSiFPU5TVfTpfhGkJb58SpYTs/LoASDhgaQVERwKFWRJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRBoTkIK; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZGDFGqskr7vSBN73tKnhsVkMEA4LcXomJ6vkD6UXy2PFVGSxrWb3nledj8Ksmz4tKNPP1rVdCuig6X+sIKILmlb48VFd55Xk07LlS4qOziz/VPwIEBc4DMw2NElKPyBRyWZG3c5MLujVDl0M/nlLXJpF27PDs/urxbVFBjd3KKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kSfbdRV9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRBoTkIK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kSfbdRV9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739286447; x=1770822447;
+  t=1739287106; x=1770823106;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=63VFTzhlfsv+FsZFWjumFpyRmumdLMBYpTENKjOczHc=;
-  b=HRBoTkIKPK8tvvGbipPB2Vlr2tkxNVKf7TWi4uiRh+yEz5BpDJPd4Eiy
-   hWCfJE+N6iTj1DpGpCUzH8crHzsKoc4x7bFzjd1oM54U0VYzR5BwJnktS
-   0Bjh5dZkLG2b4hFg1RFZNTz99NQEN8+rN1oht5RAn3AK8gR4J7LVLf211
-   xHVMqB9Q9rxWSz1KpGlJX/O9mEEgWzVQvAWorixRLPcQuIT0HUUZLoF5Y
-   Zvrhi59Lv6IiLj5OGD4IbONb1Dup9n9MaXyjlKp3bdPtg+AHHr7Nq1TTE
-   aziwae+GjAFiCQ4eWIG6T9pcWMEHduVMBPJAtrfASg55c+6OcazUUyXVV
-   w==;
-X-CSE-ConnectionGUID: vNPCzgRMQAebwwlaz9N0Kw==
-X-CSE-MsgGUID: eLpuU6vcQhGXUpz97eFmfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="65265099"
+  bh=d5vV211aS60eF6NNwbhxf77ujBr7dUOTnsKyj6aaYmY=;
+  b=kSfbdRV97cLm4FxCpstoQ3CVGb/LE5nBgaMPB93aICdv8we0wcmFmMI2
+   tQxl8ijuQ3sM36cJQ0L54OyL36eHpKDG1NzrCWT35san0MwQTwEFBGGp6
+   +pVma/1tU7ObMyDcjJWo+1LyeEVdoet3vtm0w8eLSYg5qpmlXAgWzoZxw
+   ETLaC0LThInpYJOA4dYDhYJY7lCasyvHr6FteW8r27Y//LaNmRE+S15kw
+   FDBuqQuNrSZ5hDdqDYCbouFtsVEO2PYVAlLdq0VbOaa/bWERkcPJD3uf+
+   HMEmvLNHqo5+J/6THVeCaG7pb3bnJtgmHFXDDeTS60VZwz/pcJ86rdyyn
+   Q==;
+X-CSE-ConnectionGUID: PRBysdypS+uT9wfC0Vbd0Q==
+X-CSE-MsgGUID: TufVdEzoTwypxS2AO1Ziew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="43568821"
 X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="65265099"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 07:07:26 -0800
-X-CSE-ConnectionGUID: NNsH8mroR9G95lu4V/QFpA==
-X-CSE-MsgGUID: PMIuv5/aQt6Jwd2faijUjw==
+   d="scan'208";a="43568821"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 07:18:26 -0800
+X-CSE-ConnectionGUID: RHse6ImsTWCUcrN2lF3w4w==
+X-CSE-MsgGUID: LxIJqDy8TrWqv85/EZxSPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149723779"
+X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
+   d="scan'208";a="112753233"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Feb 2025 07:07:23 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 11 Feb 2025 07:18:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thrr7-0014Kt-1S;
-	Tue, 11 Feb 2025 15:07:21 +0000
-Date: Tue, 11 Feb 2025 23:06:52 +0800
+	id 1ths1m-0014LT-1N;
+	Tue, 11 Feb 2025 15:18:22 +0000
+Date: Tue, 11 Feb 2025 23:17:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com,
-	Saeed Mahameed <saeed@kernel.org>
-Subject: Re: [PATCH net-next 04/11] net: hold netdev instance lock during
- rtnetlink operations
-Message-ID: <202502112254.DdkYlmMx-lkp@intel.com>
-References: <20250210192043.439074-5-sdf@fomichev.me>
+To: Keith Busch <kbusch@meta.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCHv2 6/6] io_uring: cache nodes and mapped buffers
+Message-ID: <202502112335.EuJfv4N7-lkp@intel.com>
+References: <20250211005646.222452-7-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,58 +62,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210192043.439074-5-sdf@fomichev.me>
+In-Reply-To: <20250211005646.222452-7-kbusch@meta.com>
 
-Hi Stanislav,
+Hi Keith,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.14-rc2 next-20250210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-hold-netdev-instance-lock-during-ndo_open-ndo_stop/20250211-032336
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250210192043.439074-5-sdf%40fomichev.me
-patch subject: [PATCH net-next 04/11] net: hold netdev instance lock during rtnetlink operations
-config: arc-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502112254.DdkYlmMx-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502112254.DdkYlmMx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/io_uring-use-node-for-import/20250211-091231
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20250211005646.222452-7-kbusch%40meta.com
+patch subject: [PATCHv2 6/6] io_uring: cache nodes and mapped buffers
+config: i386-buildonly-randconfig-004-20250211 (https://download.01.org/0day-ci/archive/20250211/202502112335.EuJfv4N7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502112335.EuJfv4N7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502112254.DdkYlmMx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502112335.EuJfv4N7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/core/dev.c: In function 'dev_set_mtu':
-   net/core/dev.c:9320:15: error: implicit declaration of function 'netdev_set_mtu_ext_locked'; did you mean 'netdev_ops_assert_locked'? [-Werror=implicit-function-declaration]
-    9320 |         err = netdev_set_mtu_ext_locked(dev, new_mtu, &extack);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |               netdev_ops_assert_locked
-   net/core/dev.c: At top level:
->> net/core/dev.c:11390:12: warning: 'netdev_lock_cmp_fn' defined but not used [-Wunused-function]
-   11390 | static int netdev_lock_cmp_fn(const struct lockdep_map *a, const struct lockdep_map *b)
-         |            ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
->> net/core/dev_api.c:109: warning: Excess function parameter 'new_ifindex' description in 'dev_change_net_namespace'
+   In file included from <command-line>:
+   In function 'io_rsrc_buffer_alloc',
+       inlined from 'io_clone_buffers' at io_uring/rsrc.c:1119:8:
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_432' declared with attribute error: BUILD_BUG_ON failed: imu_cache_size != 512
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   io_uring/rsrc.c:180:9: note: in expansion of macro 'BUILD_BUG_ON'
+     180 |         BUILD_BUG_ON(imu_cache_size != 512);
+         |         ^~~~~~~~~~~~
+   In function 'io_rsrc_buffer_alloc',
+       inlined from 'io_sqe_buffers_register' at io_uring/rsrc.c:881:8:
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_432' declared with attribute error: BUILD_BUG_ON failed: imu_cache_size != 512
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   io_uring/rsrc.c:180:9: note: in expansion of macro 'BUILD_BUG_ON'
+     180 |         BUILD_BUG_ON(imu_cache_size != 512);
+         |         ^~~~~~~~~~~~
 
 
-vim +/netdev_lock_cmp_fn +11390 net/core/dev.c
+vim +/__compiletime_assert_432 +542 include/linux/compiler_types.h
 
- 11389	
- 11390	static int netdev_lock_cmp_fn(const struct lockdep_map *a, const struct lockdep_map *b)
- 11391	{
- 11392		/* Only lower devices currently grab the instance lock, so no
- 11393		 * real ordering issues can occur. In the near future, only
- 11394		 * hardware devices will grab instance lock which also does not
- 11395		 * involve any ordering. Suppress lockdep ordering warnings
- 11396		 * until (if) we start grabbing instance lock on pure SW
- 11397		 * devices (bond/team/etc).
- 11398		 */
- 11399		return -1;
- 11400	}
- 11401	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
 
 -- 
 0-DAY CI Kernel Test Service
