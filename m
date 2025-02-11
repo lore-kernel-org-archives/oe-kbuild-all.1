@@ -1,113 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C63253328;
-	Tue, 11 Feb 2025 15:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229282505C8;
+	Tue, 11 Feb 2025 15:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739287770; cv=none; b=sVzjZPSc3G4R5KCQKoIYKVO0vGXBJqiuRml7YCyWAHGKXpyo4o+1Xr8aDyhjC0WdHkU5A1XYXnrggy5t+Asdq31gA1wnWw5WLIiqoq3YEJWilEwtTVp++US5ysJheDI+fitXVlnl/KJfuOm4l/w+tdTh59Hd5s41EaMOWTLuE5Q=
+	t=1739288796; cv=none; b=EuCG1o3l3xoc5cPp25NR9q/gTUCidBYHXjRXgfr0uTv0i2Ot3oH6IFWmgk25R8TcF8dAHaxyygUb0vTdfAZOdSh/+4HNRdwtIa59emkCqOL76K1qXKYqIWPbb6q3rP/AQsT0mX1lK/ahhBICKO3mBFMXDcqEVTytbtSLWs59VGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739287770; c=relaxed/simple;
-	bh=PNWNqJTookf2zJdQY5NjQf0sRFZT3J703U3R1x7akG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVqgwDE9XjyMiMGgQlwpLmoOdWeXKZ0/YGObtwXSf3aLTqoyPMUeqxxjnB57LI2brhSxfMlxlF+CzrF1oUs8DQe229HewOugq9C8Sd0VpVQ52K8Ddr84uwHTkZ5ze0HnAEtejHo7iSdwmaPVHnaI46rih7UIMKmpvwSOrIyFT6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpgseeJc; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpgseeJc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739287769; x=1770823769;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PNWNqJTookf2zJdQY5NjQf0sRFZT3J703U3R1x7akG8=;
-  b=LpgseeJcmF8DV+uUN3+X/QQDKOfic+OOYTfBgUlWHqwTtzCk+JOVDWQA
-   +x7gfMpq+aQ7BdPyT35kKVs1IdIXatz+ZrJe6Qt8ofLGDiW3RGbYVR+Iv
-   8Qzbni2JxZ1A3JG7z4aKbQxUPN0o2lhU+Pts3LIrG+rKlCTnY+h2++kcR
-   IPPud043hGGTjPQd7HSRQGa0p6uAic9fDkZxyz8NqqF3ZduXRj8OAx9/H
-   QUMa5D75aZtu+yXpMHAUtqGPTplYAN5nj01mj8yiPQVStHcaVAnGEGGeW
-   3LHNDfR6/BCYZRvu5aVErxeNJ+couaERfdbNgNdYHxpiY01JA6hNLz4o9
-   g==;
-X-CSE-ConnectionGUID: j7KfjFnBTsGkdblNjkIKVA==
-X-CSE-MsgGUID: 9gBlXOWiQIqyW1u7eH5BoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39774228"
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="39774228"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 07:29:28 -0800
-X-CSE-ConnectionGUID: XBQET5EgS8i8G2g4EeJYiw==
-X-CSE-MsgGUID: 3UwGCSJoRsGqlX2ylzGogQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; 
-   d="scan'208";a="143398363"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Feb 2025 07:29:26 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thsCR-0014MF-2z;
-	Tue, 11 Feb 2025 15:29:23 +0000
-Date: Tue, 11 Feb 2025 23:29:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, Saeed Mahameed <saeed@kernel.org>
-Subject: Re: [PATCH net-next 09/11] net: dummy: add dummy shaper API
-Message-ID: <202502112354.4t60yYpw-lkp@intel.com>
-References: <20250210192043.439074-10-sdf@fomichev.me>
+	s=arc-20240116; t=1739288796; c=relaxed/simple;
+	bh=6fu3wYfrbxpX9ThH36XIH7LpZ6BrCQc/5hqS5lNA56E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lHUP7eGvtHb0ztFMf8gPx8usCCvA422yftBmCKxGHjFcwMAlVTP2tncMELNNpA4w5julLYswTo3/EkhPODRGFKplqao0Dp0wQwy7CT9eBg480039XXibmqeB8uUw3jAidRag2fYbDeXaiWblXO1Sdu55CMzrOntmDkBjYHLiXIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40B98C4CEDD;
+	Tue, 11 Feb 2025 15:46:34 +0000 (UTC)
+Date: Tue, 11 Feb 2025 10:46:38 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+ <will@kernel.org>, oe-kbuild-all@lists.linux.dev, LKML
+ <linux-kernel@vger.kernel.org>, linux-arm-kernel@lists.infradead.org, Mark
+ Rutland <mark.rutland@arm.com>, Linux Trace Kernel
+ <linux-trace-kernel@vger.kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org
+Subject: Re: [PATCH] arm64: scripts/sorttable: Implement sorting mcount_loc
+ at boot for arm64
+Message-ID: <20250211104638.0cdc51e1@gandalf.local.home>
+In-Reply-To: <202502111626.K7CTghCR-lkp@intel.com>
+References: <20250210142647.083ff456@gandalf.local.home>
+	<202502111626.K7CTghCR-lkp@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250210192043.439074-10-sdf@fomichev.me>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Stanislav,
+On Tue, 11 Feb 2025 17:07:13 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> All warnings (new ones prefixed by >>):
+> 
+> >> scripts/sorttable.c:306:13: warning: 'rela_write_addend' defined but not used [-Wunused-function]  
+>      306 | static void rela_write_addend(Elf_Rela *rela, uint64_t val)
+>          |             ^~~~~~~~~~~~~~~~~
+> >> scripts/sorttable.c:287:17: warning: 'rela_addend' defined but not used [-Wunused-function]  
+>      287 | static uint64_t rela_##fn_name(Elf_Rela *rela)          \
+>          |                 ^~~~~
+>    scripts/sorttable.c:294:1: note: in expansion of macro 'RELA_ADDR'
+>      294 | RELA_ADDR(addend)
+>          | ^~~~~~~~~
 
-[auto build test ERROR on net-next/main]
+The above isn't used if sorting isn't enabled.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-hold-netdev-instance-lock-during-ndo_open-ndo_stop/20250211-032336
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250210192043.439074-10-sdf%40fomichev.me
-patch subject: [PATCH net-next 09/11] net: dummy: add dummy shaper API
-config: i386-randconfig-001-20250211 (https://download.01.org/0day-ci/archive/20250211/202502112354.4t60yYpw-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502112354.4t60yYpw-lkp@intel.com/reproduce)
+Looks like I'll have to add some "__maybe_unused" attributes.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502112354.4t60yYpw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/net/dummy.c:129:3: error: field designator 'net_shaper_ops' does not refer to any field in type 'const struct net_device_ops'
-     129 |         .net_shaper_ops         = &dummy_shaper_ops,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +129 drivers/net/dummy.c
-
-   120	
-   121	static const struct net_device_ops dummy_netdev_ops = {
-   122		.ndo_init		= dummy_dev_init,
-   123		.ndo_start_xmit		= dummy_xmit,
-   124		.ndo_validate_addr	= eth_validate_addr,
-   125		.ndo_set_rx_mode	= set_multicast_list,
-   126		.ndo_set_mac_address	= eth_mac_addr,
-   127		.ndo_get_stats64	= dummy_get_stats64,
-   128		.ndo_change_carrier	= dummy_change_carrier,
- > 129		.net_shaper_ops		= &dummy_shaper_ops,
-   130	};
-   131	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
