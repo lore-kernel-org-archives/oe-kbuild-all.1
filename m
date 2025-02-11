@@ -1,119 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C9026BDB6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 07:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794FD1EB186
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 07:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739257766; cv=none; b=dn3RCgg9KXfYLg5/XglMwFd5BFZuISyGYAwKv6go+/18fDJi+IbtN/8S+1HwBZ7uJ26XuVgfk7qbs++qSG3kxYrDO2vXoNvNDQih1tadnW0BWCU1fvKLJo8G+mUT5kMX35kc+30vYvQp527aK+XUpMLvq7bDyZEatb47KopUW2o=
+	t=1739259431; cv=none; b=tFu7n5snpImcH7OCZX4mMK7gRTwQhEPgVDKYcOb5Z7SW5tBrMFNts8+lOBR0WKGnWbSbWwvj66Ze+niJd8LAjOdJv/Bw8szP4fpftFBJXq3d+bmBGFkM+kcAX5BlpWBLTIVjUidF6LNnO3hDGSKnd27bIFHS6fBLfqQU5YtFNjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739257766; c=relaxed/simple;
-	bh=MsGEqMN4CYtm2oHqmsYIkHT/tMmVvD6TG/evO6l1miI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f7Kf6iMxjgnFMudC2kCuySuDEwgFEPidAvwNOIDyecO/h08Q+W8i71Alu3B8Ax2YFo/bM7nDINO/IJ8BiqrFuutlleVUgun4KjiShQPUsgqKnlypSJj0vkfulTvqBz9Hlze04NYzLm/6RcG1y32uC4sZa3J0wyGWc3pkGACxCfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6aHH0+d; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739259431; c=relaxed/simple;
+	bh=DrE5VvGmUMugsbU7+khXZE2WAcu+eIw10jA8iDZj2j4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=g2PMHitjZJscmn4YsokyIkkFhljfJegcjYlDRK2/3ibbNBN+ea4xGZUPF92NcKKhDdtqVIqvfjSja8cm2YsjocQRBS92MuhuDB9HJ8K7bcJP/GkoSYm818z0zLFvxIIxZgJiHS2RgzKR6VxaQ75/Yw1QNkHuvE8E2t/xYGO6Ags=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=sMNLxJoO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=L3PrASUn; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6aHH0+d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739257764; x=1770793764;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MsGEqMN4CYtm2oHqmsYIkHT/tMmVvD6TG/evO6l1miI=;
-  b=U6aHH0+dqsQaZvA5dpVxQmPlPIoCFf5iGeFJ3jSH4DP/XWLH/1wx2L27
-   T6jsPcuv47HBoPIQavDk9Cm2FcsmE2MHSteXupj+gh4kz/TMZfhT4EERt
-   Cc1ZrXpw1Fz5LJD3e27Ap+l8xaQIL2VFts14qVv879n/XqiukypXXWmU8
-   rQHUqDkrtPpfBmscq5u0cqa0tSNk+oWZxqsoA6J8dXE5EKAookAExn8Io
-   t/z4hm9rBqVApM5zLWk4CrmAxXAAtnUvGwZLyb+QucW1igaYneHOzFwWU
-   Y7REwguuCo+fBfFt7JfegaQJ4Ennpdxdsgb2ZRPOn4S8ChG3zmQ2wRmsS
-   g==;
-X-CSE-ConnectionGUID: 4wxRLmkpQr+oQtg00mxpqA==
-X-CSE-MsgGUID: S4/uqof3S26nqqffLIFgGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="43523367"
-X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; 
-   d="scan'208";a="43523367"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 23:09:23 -0800
-X-CSE-ConnectionGUID: bTcf0tLrQC2FjCaSjs9m2g==
-X-CSE-MsgGUID: MggbYkHiQ1WhFh0KmEf2sQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112284386"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Feb 2025 23:09:22 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thkOW-0013rb-28;
-	Tue, 11 Feb 2025 07:09:20 +0000
-Date: Tue, 11 Feb 2025 15:08:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:cpusetisolation 2/5] include/linux/sched/isolation.h:61:17:
- error: implicit declaration of function 'housekeeping_cpu'; did you mean
- 'housekeeping_init'?
-Message-ID: <202502111552.6Em6nvOB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="sMNLxJoO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="L3PrASUn"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 621D511401C3;
+	Tue, 11 Feb 2025 02:37:08 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Tue, 11 Feb 2025 02:37:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1739259428;
+	 x=1739345828; bh=znUeiowfjiS4zFeHT0A4IPaer583HuycpFbIPbnWhFA=; b=
+	sMNLxJoOJjcDGL/GDNPyovxAgmRYGCXW8dGfAOMtDLAHhd1NeuzW+l6TcRZJUjrQ
+	NSbpUy5x9hP1CsErAYlzmZABNoBrDsehM8vzfc6ItXP1Hu7qKlQ3Zo/9esGAU3hN
+	/3lh2vOJTZg93rr6QeRquRnDIBwW9ixt+E/wp5k65xggJUNMU05fuXdNuPU3/+LE
+	y8C7khe3BYqvlZjsNM8RYfcFUg/57SojkgHtTKbFzSINt1kugiPRCUCHVjOJ5p5Y
+	1+9wbu9AWScusqY42mdvfvzaVIMRaop6bNnOZZhWcs3wf92N7SSG9nrE0dJ/47YJ
+	fBQv9+O4unGcN9gXJXqrsQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739259428; x=
+	1739345828; bh=znUeiowfjiS4zFeHT0A4IPaer583HuycpFbIPbnWhFA=; b=L
+	3PrASUnzdNzVdRTF+MnhOhxI7OQfjHae8oaQWTWtWmC5edizDoQz1hcAUIrNqWZq
+	NwmqgrZ68IzrLzqxrBBMRgHKV0RreyZbJUyYQLuDqU1DKod4WkcZa+lMoL0L/e+J
+	iafmwXGp6VEz3jK0bMqS+PGla65Gc0q/R20HdFyirOOzCID0oJ6Sg7ZEmUG0OWpk
+	ToPQt1Fws0JmaG/Wjb1EpaO5AFiM/DDztsRUVL5RDXuctZITURcdp/MtHSJFm4lL
+	pdMyJlXAQTF0S016lpJ2Vs+AUagfWXpPT3LT4MAfjoyAEPTZRG39SpuYHgvLw+D5
+	sgjleOrKV53g5WakvVp4g==
+X-ME-Sender: <xms:I_6qZ1ckZjtXKPSWwiJV1FG59uv3zLq1r0lARt_v0MXgvoCO2jpbCg>
+    <xme:I_6qZzO_TUn_gQsg9FTPGneuD26Ry3S13EGFzP-ljYJqt1TOzilSP4LHF-cGZah9m
+    uGim2WDq8pJVGReq6k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegtdegudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedv
+    tddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepughmihhtrhihrdhtohhrohhkhh
+    hovhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhl
+    rdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehprh
+    iivghmhihslhgrfidrkhhithhsiigvlhesihhnthgvlhdrtghomhdprhgtphhtthhopehr
+    rggrghdrjhgruggrvhesihhnthgvlhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehjihgtvdefsehkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhrvg
+    eskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:I_6qZ-iSRoTxQV9ltzT1BmYpzHsQEtk6iHzU5JGmyY1GBUD15BOylA>
+    <xmx:I_6qZ-9ozJz_b77BRmlfLS9JSnzBYv9n71HtSOLdpD9YY-Q51dNVcA>
+    <xmx:I_6qZxss56NY0uXH7OXQLzb5cAK9Ns4N2MqnIP1EZEUiJJbcGvhzWA>
+    <xmx:I_6qZ9Gl2A4ou3EQcFiN-j8eN79o4SclFO4X7gqQpd5xuDYQv-ij7Q>
+    <xmx:JP6qZ1RJkzZG1PZINfYwT1hkKW4hklM4hcrIJRp0NFpDX_z-glquoKjp>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id AA8C02220072; Tue, 11 Feb 2025 02:37:07 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Tue, 11 Feb 2025 08:36:47 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+ "kernel test robot" <lkp@intel.com>
+Cc: "Raag Jadav" <raag.jadav@intel.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Mika Westerberg" <mika.westerberg@linux.intel.com>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, lgirdwood@gmail.com,
+ "Mark Brown" <broonie@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Przemek Kitszel" <przemyslaw.kitszel@intel.com>,
+ oe-kbuild-all@lists.linux.dev,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org
+Message-Id: <7c42e438-22f9-40d9-bb8e-24feb7d58e64@app.fastmail.com>
+In-Reply-To: <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+References: <20250210064906.2181867-2-raag.jadav@intel.com>
+ <202502102201.zLWaJC6V-lkp@intel.com> <Z6oZ9dnYrlp5djiQ@smile.fi.intel.com>
+Subject: Re: [PATCH v4 01/20] driver core: Split devres APIs to device/devres.h
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/alexshi/linux.git cpusetisolation
-head:   9861605548c2952b76f12b4ff62edaa42e6cb61e
-commit: 74b420e55b3d622b3e1c580efada25dedfc9c2d3 [2/5] sched/isolation: merge housekeeping_cpu() and housekeeping_test_cpu()
-config: i386-buildonly-randconfig-003-20250211 (https://download.01.org/0day-ci/archive/20250211/202502111552.6Em6nvOB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250211/202502111552.6Em6nvOB-lkp@intel.com/reproduce)
+On Mon, Feb 10, 2025, at 16:23, Andy Shevchenko wrote:
+> +Cc: Arnd
+>
+>
+> TBH I have no quick idea how to address this. It seems that io.h 
+> includes device.h
+> for no reason (but I haven't checked that carefully). OTOH, we need only
+> IOMEM_IS_ERR() definition which can simply be moved from io.h to err.h 
+> as the
+> former includes the latter and the definition depends only on 
+> compiler_types.h.
+>
+> Arnd?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502111552.6Em6nvOB-lkp@intel.com/
+Removing linux/device.h from asm/io.h is probably the right step,
+it really has no business in there and no other architecture
+includes it. I don't see an IOMEM_IS_ERR() definition, do you 
+mean EEH_POSSIBLE_ERROR?
 
-All errors (new ones prefixed by >>):
+Most of asm/eeh.h probably shouldn't be included by asm/io.h
+either, my guess is that we can get away with the
+eeh_{s,}{b,w,l,q}{_be} helpers, eeh_memcpy_fromio() and
+eeh_check_failure(), which have no dependency on 'struct
+device' in the header.
 
-   In file included from kernel/time/hrtimer.c:41:
-   include/linux/sched/isolation.h: In function 'cpu_is_isolated':
->> include/linux/sched/isolation.h:61:17: error: implicit declaration of function 'housekeeping_cpu'; did you mean 'housekeeping_init'? [-Werror=implicit-function-declaration]
-      61 |         return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
-         |                 ^~~~~~~~~~~~~~~~
-         |                 housekeeping_init
-   kernel/time/hrtimer.c: At top level:
-   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
-     124 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:125:35: warning: initialized field overwritten [-Woverride-init]
-     125 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:125:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:126:35: warning: initialized field overwritten [-Woverride-init]
-     126 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:126:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:127:35: warning: initialized field overwritten [-Woverride-init]
-     127 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:127:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   cc1: some warnings being treated as errors
+Removing a giant header inclusion from another one likely causes
+build regressions in drivers that should have included the
+header (linux/device.h or something included by that) themselves,
+so ideally there should be some separate build testing of
+powerpc kernels.
 
-
-vim +61 include/linux/sched/isolation.h
-
-    58	
-    59	static inline bool cpu_is_isolated(int cpu)
-    60	{
-  > 61		return !housekeeping_cpu(cpu, HK_TYPE_DOMAIN) ||
-    62		       !housekeeping_cpu(cpu, HK_TYPE_TICK) ||
-    63		       cpuset_cpu_is_isolated(cpu);
-    64	}
-    65	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
