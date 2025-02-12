@@ -1,206 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DC8207DEE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 10:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9462A1E47CC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 10:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739355041; cv=none; b=pfewcaupKZdTKcdh3acbJ7q0WNaa/KXaLwouH7nURPnp4CBGXiY4wYndfepnGynk0BrIwXuUXr9GBcJCAwhuj94BbHjMiVXw3lCfYbFS6pZySmslTOYFiWzBP0VZsF0XNVqRI7D+UMGQHomhVDAhQVZaSB4tYcqciSds5Rb9gtc=
+	t=1739355421; cv=none; b=PzYYVlTLSS6YO7si6hSvrUUGKIp4098OLKl5jZcm9C1WjZetSosqsSEOozL2nfnAaXHX7Pqpt4J+ee5rAFi7oUDcDXmGKJUimSSsN0WMmHq1E5LakY0vxVZwX+lvZjkzBVOUUgaU+zof0CcgqQQ5HGFGKlZ0fyIR6FV0dRNAj/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739355041; c=relaxed/simple;
-	bh=zoGojL469+vPw8WceKniyvAXGWRSjVx/tx9MRSSHiCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jdqpSe1ulKg6pS7xHiDD4pYsVL+o8qFU/W5GnGJCtDsV4JsITqEr45lOSpcfYwIMffqunq7UvRN2aKhN1rOs1/45h8Wp2U8DmJ8JpWN4OOjNRm3t6UksCzEo8goTNeDtoffz4jdj+PDNBLNiDrXcs7CuWwDVoRQyq2R+VwbD2RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDjCctPY; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739355421; c=relaxed/simple;
+	bh=aDiJ7MzcZuOp59joBAKOXPnxH/9tlAB04GJhUTcCYwI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IczKvCSr3rcG6xQcEGjbpKjqdGjWSNQ/KPirtrbKjL2f/Wa0yFgxC5mPewyR9RbTKr6Quthe4laAC6enjVXn9meyLPtCiyZecNu2EKKzulCL8umxrWfpueOb0fX0u60SlQszL3ngQ/350ZwoyCeXVsVtQf5EQ7kS7JhBFENvbss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Emf/1qZy; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDjCctPY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739355041; x=1770891041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zoGojL469+vPw8WceKniyvAXGWRSjVx/tx9MRSSHiCM=;
-  b=aDjCctPYIn6Lq5ZsQtCJO9et+PeKx9n/7mgJJ6hDpbFt1KEQDx4rp1pn
-   YQVrSGnodHu7g+1g2hqIlYiDpOhUvrD8ipzCUKdJY+Y/eqBjidDfBd+3l
-   jhQ/Y2T3zGIk0DD1Ry8TqcnMtNWNsoGuTiQuNY4h4MiOofcN6CHUH232X
-   7MRxr7TpaIkS1i1It1pEUbubQDySGbtA2ISvPjlE2lu+ojIbLLLlwcPhu
-   oczgImf5iqfYoyJnwuHeko65ARY6CciquLNE5nkRAluMNNBMDWSe1K3Yu
-   Hrth0/OPkf/a7WMJyeALVCbLGFCuyk2uFMvnyx4fJuCCgiZ0DSbUn69D7
-   A==;
-X-CSE-ConnectionGUID: EazUct79RQ6jir7nGwXQdw==
-X-CSE-MsgGUID: GQBd4zcCQNKbQkfDQJnalA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="40124621"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="40124621"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 02:10:40 -0800
-X-CSE-ConnectionGUID: aUcBvVW8S/uC+cxzptPycg==
-X-CSE-MsgGUID: yj2tFXxSTxu+2OzHrrGwEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="112728054"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Feb 2025 02:10:37 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ti9hS-0015TX-0v;
-	Wed, 12 Feb 2025 10:10:34 +0000
-Date: Wed, 12 Feb 2025 18:09:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Arcari <darcari@redhat.com>, linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, David Arcari <darcari@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jacob Pan <jacob.jun.pan@linux.intel.com>,
-	Len Brown <lenb@kernel.org>, Artem Bityutskiy <dedekind1@gmail.com>,
-	Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-Message-ID: <202502121732.P7lZkbhm-lkp@intel.com>
-References: <20250211132741.99944-1-darcari@redhat.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Emf/1qZy"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-439585a067eso6500215e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 02:16:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739355418; x=1739960218; darn=lists.linux.dev;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hCOjIl9TK1N5GOFcZIiD312EURItMH5pxsfAsuejYZk=;
+        b=Emf/1qZyfAiKQzEKOls0u+sTduqgaVFDBxicmiAiCh8jlmEO6mGk1AqUoEcvpmDe2I
+         Nxdq6l43+yH2wkC4KJmPcXivM4ydHpIqaP5gPIFXgw5OxJAsmE32Xxiq8ivtHJ+WTgUW
+         O5Spa8vLWIowZiY+HP02qJ4H3WLZJq7sHeRCBzbYVcIz0f+ooX6tjmq06eIq9nsvw06w
+         NAaBIto1nK8QcWuTk5vmDGVlDFlUrgt5k/T7QOor4w+Z6vgwir+LajlCfzguALdr+fCb
+         oh/K014SR6ek/9LV0Q1EzbF/D0FULPSF1Mq32U9fQm43lwawwS1FbKi5wmeAKRpWav2c
+         sbqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739355418; x=1739960218;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hCOjIl9TK1N5GOFcZIiD312EURItMH5pxsfAsuejYZk=;
+        b=Ki0Y8iw2Z9H1VAw5e01Bv2tAEAMIqmQvKBImd638JX5QRSlt+T3EkmQtDqzuOUVYkf
+         4NooOaPEJNipsdIf396ty1HFtkbAnBqo9rTAPOavvKil4FPRY//h1MQfjV8o7brE0UeW
+         lDpDRyQzVkzdQzSHx6A4if/OXOopYz1d5Cn2fvP662Aul/wa1GnNCndIqM7ojG47/o7f
+         U2H+taUPErje/IhlOYeGA7swiZDNTRqIM+9zqMB18iZjgXTIM6ppDOuikBCYYsI1a9P0
+         qjntKQjVI1BT33gRT+epjGCt+FqQRzN3hpYHs9HXCJ164V0eTgYX/HCGLbgG46dlZMrB
+         Tw2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXLoRevrqQfC3riuX/BcC1A0V2YHXv4zFxkCHW8qNkSUL6ZofbaRERHSv7sVOIH27mOyvdSL7ZVnvidXliI@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuXu5E0i+hcpooLrtdAiBIaHD0tS3PlkmwH9tGCJcMDiQkKblV
+	Si7zxNt0ToKtoROm9Q9LV5IlcO4A2kxw1X/phUhIRqoIaBl/qDXJMTkog3rk5rc=
+X-Gm-Gg: ASbGncvARqekWKivFrLLG/ZFDvEIgqArieeLJcEMe5atS8ymruYR1npu/DHDGIeUcp2
+	5bjJFV9ISPmdUVuW2j6sGJWgs3CTbB3db2Te4AYM7ROQ8GF8mAELl7DeifIBVE8nkeywKKE2bcT
+	3jqApKF26qBoutGmscl/w6RAeQi8Z9/cSqYOvCXIVg8zzfDZa9WHgnzn2/iVKJq5etSKIkwJ97j
+	oxDheUkyoabsd55S08UCLRR6lFnHWs0sEq3Rf0XD+y3ow8rfziI059gPtsgyW2FbaiV3jalzgT/
+	yxG52dJuRO055w==
+X-Google-Smtp-Source: AGHT+IHbLFUK64oZDaRhyUljmKTni82bcsfQUnjFGMVlOka7cHXg7qh7zuixm+Pnf373SApmvVszgQ==
+X-Received: by 2002:a05:600c:35ce:b0:436:ed38:5c7f with SMTP id 5b1f17b1804b1-43958176904mr27619615e9.12.1739355417891;
+        Wed, 12 Feb 2025 02:16:57 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:65bb:e6ee:3141:374])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a053fb3sm15318055e9.16.2025.02.12.02.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 02:16:57 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,  Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Dave Ertman <david.m.ertman@intel.com>,
+  Ira Weiny <ira.weiny@intel.com>,  "Rafael J. Wysocki"
+ <rafael@kernel.org>,  Stephen Boyd <sboyd@kernel.org>,  Arnd Bergmann
+ <arnd@arndb.de>,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary
+ device creation helper
+In-Reply-To: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain> (Dan
+	Carpenter's message of "Wed, 12 Feb 2025 10:26:50 +0300")
+References: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain>
+User-Agent: mu4e 1.12.8; emacs 29.4
+Date: Wed, 12 Feb 2025 11:16:56 +0100
+Message-ID: <1jldub1n8n.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211132741.99944-1-darcari@redhat.com>
+Content-Type: text/plain
 
-Hi David,
+On Wed 12 Feb 2025 at 10:26, Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-kernel test robot noticed the following build errors:
+> Hi Jerome,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/driver-core-auxiliary-bus-add-device-creation-helper/20250207-023433
+> base:   2014c95afecee3e76ca4a56956a936e23283f05b
+> patch link:    https://lore.kernel.org/r/20250206-aux-device-create-helper-v2-6-fa6a0f326527%40baylibre.com
+> patch subject: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary device creation helper
+> config: xtensa-randconfig-r071-20250208
+> (https://download.01.org/0day-ci/archive/20250208/202502081655.FlCrxpYN-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 14.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202502081655.FlCrxpYN-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/clk/imx/clk-imx8mp-audiomix.c:241
+> clk_imx8mp_audiomix_reset_controller_register() warn: passing zero to
+> 'PTR_ERR'
+>
+> vim +/PTR_ERR +241 drivers/clk/imx/clk-imx8mp-audiomix.c
+>
+> c350f4c434316c Jerome Brunet 2025-02-06 231 static int
+> clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  232  {
+> c350f4c434316c Jerome Brunet 2025-02-06  233  	struct auxiliary_device *adev;
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  234  
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  235  	if (!of_property_present(dev->of_node, "#reset-cells"))
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  236  		return 0;
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  237  
+> c350f4c434316c Jerome Brunet 2025-02-06  238  	adev = devm_auxiliary_device_create(dev, KBUILD_MODNAME,
+> c350f4c434316c Jerome Brunet 2025-02-06  239  					    "reset", NULL, 0);
+> c350f4c434316c Jerome Brunet 2025-02-06  240  	if (IS_ERR_OR_NULL(adev))
+> c350f4c434316c Jerome Brunet 2025-02-06 @241  		return PTR_ERR(adev);
+>
+> If devm_auxiliary_device_create() could return NULL then that would count
+> as success.  But devm_auxiliary_device_create() can't return NULL.  It
+> only makes sense to return NULL if the auxiliary device is optional.
 
-[auto build test ERROR on acpi/next]
-[also build test ERROR on amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.14-rc2 next-20250212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hi Dan,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Arcari/intel_idle-introduce-no_native-module-parameter/20250211-213031
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git next
-patch link:    https://lore.kernel.org/r/20250211132741.99944-1-darcari%40redhat.com
-patch subject: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-config: i386-buildonly-randconfig-006-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121732.P7lZkbhm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121732.P7lZkbhm-lkp@intel.com/reproduce)
+It should have been IS_ERR() there. It is something I've noticed and
+fixed in the other changes before submitting the v2 but, somehow, this
+one slipped through. Thanks for catching this. This is obviously still
+present in the v3 I've sent yesterday but will be fixed on the next
+version. I'm waiting for feedback on the core part before making another
+one.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121732.P7lZkbhm-lkp@intel.com/
+Cheers
 
-All errors (new ones prefixed by >>):
-
-   drivers/idle/intel_idle.c: In function 'intel_idle_init':
->> drivers/idle/intel_idle.c:2289:27: error: 'no_acpi' undeclared (first use in this function); did you mean 'no_action'?
-    2289 |         if (no_native && !no_acpi) {
-         |                           ^~~~~~~
-         |                           no_action
-   drivers/idle/intel_idle.c:2289:27: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +2289 drivers/idle/intel_idle.c
-
-  2248	
-  2249	static int __init intel_idle_init(void)
-  2250	{
-  2251		const struct x86_cpu_id *id;
-  2252		unsigned int eax, ebx, ecx;
-  2253		int retval;
-  2254	
-  2255		/* Do not load intel_idle at all for now if idle= is passed */
-  2256		if (boot_option_idle_override != IDLE_NO_OVERRIDE)
-  2257			return -ENODEV;
-  2258	
-  2259		if (max_cstate == 0) {
-  2260			pr_debug("disabled\n");
-  2261			return -EPERM;
-  2262		}
-  2263	
-  2264		id = x86_match_cpu(intel_idle_ids);
-  2265		if (id) {
-  2266			if (!boot_cpu_has(X86_FEATURE_MWAIT)) {
-  2267				pr_debug("Please enable MWAIT in BIOS SETUP\n");
-  2268				return -ENODEV;
-  2269			}
-  2270		} else {
-  2271			id = x86_match_cpu(intel_mwait_ids);
-  2272			if (!id)
-  2273				return -ENODEV;
-  2274		}
-  2275	
-  2276		if (boot_cpu_data.cpuid_level < CPUID_MWAIT_LEAF)
-  2277			return -ENODEV;
-  2278	
-  2279		cpuid(CPUID_MWAIT_LEAF, &eax, &ebx, &ecx, &mwait_substates);
-  2280	
-  2281		if (!(ecx & CPUID5_ECX_EXTENSIONS_SUPPORTED) ||
-  2282		    !(ecx & CPUID5_ECX_INTERRUPT_BREAK) ||
-  2283		    !mwait_substates)
-  2284				return -ENODEV;
-  2285	
-  2286		pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
-  2287	
-  2288		icpu = (const struct idle_cpu *)id->driver_data;
-> 2289		if (no_native && !no_acpi) {
-  2290			if (icpu) {
-  2291				pr_debug("ignoring native cpu idle states\n");
-  2292				icpu = NULL;
-  2293			}
-  2294		}
-  2295		if (icpu) {
-  2296			if (icpu->state_table)
-  2297				cpuidle_state_table = icpu->state_table;
-  2298			else if (!intel_idle_acpi_cst_extract())
-  2299				return -ENODEV;
-  2300	
-  2301			auto_demotion_disable_flags = icpu->auto_demotion_disable_flags;
-  2302			if (icpu->disable_promotion_to_c1e)
-  2303				c1e_promotion = C1E_PROMOTION_DISABLE;
-  2304			if (icpu->use_acpi || force_use_acpi)
-  2305				intel_idle_acpi_cst_extract();
-  2306		} else if (!intel_idle_acpi_cst_extract()) {
-  2307			return -ENODEV;
-  2308		}
-  2309	
-  2310		pr_debug("v" INTEL_IDLE_VERSION " model 0x%X\n",
-  2311			 boot_cpu_data.x86_model);
-  2312	
-  2313		intel_idle_cpuidle_devices = alloc_percpu(struct cpuidle_device);
-  2314		if (!intel_idle_cpuidle_devices)
-  2315			return -ENOMEM;
-  2316	
-  2317		intel_idle_cpuidle_driver_init(&intel_idle_driver);
-  2318	
-  2319		retval = cpuidle_register_driver(&intel_idle_driver);
-  2320		if (retval) {
-  2321			struct cpuidle_driver *drv = cpuidle_get_driver();
-  2322			printk(KERN_DEBUG pr_fmt("intel_idle yielding to %s\n"),
-  2323			       drv ? drv->name : "none");
-  2324			goto init_driver_fail;
-  2325		}
-  2326	
-  2327		retval = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "idle/intel:online",
-  2328					   intel_idle_cpu_online, NULL);
-  2329		if (retval < 0)
-  2330			goto hp_setup_fail;
-  2331	
-  2332		pr_debug("Local APIC timer is reliable in %s\n",
-  2333			 boot_cpu_has(X86_FEATURE_ARAT) ? "all C-states" : "C1");
-  2334	
-  2335		return 0;
-  2336	
-  2337	hp_setup_fail:
-  2338		intel_idle_cpuidle_devices_uninit();
-  2339		cpuidle_unregister_driver(&intel_idle_driver);
-  2340	init_driver_fail:
-  2341		free_percpu(intel_idle_cpuidle_devices);
-  2342		return retval;
-  2343	
+>
+> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+>
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  242  
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  243  	return 0;
+> 6f0e817175c5b2 Shengjiu Wang 2024-06-14  244  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jerome
