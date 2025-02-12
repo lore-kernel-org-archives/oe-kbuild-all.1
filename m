@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83BC1FF7A9;
-	Wed, 12 Feb 2025 19:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6492201018
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 20:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739390380; cv=none; b=ihOvK832Wkpemd2E+Jdh8+KBPElmb1ceNtNOFhVjlVuuABh3WBNUp1ZteaF8d7XPKFBATKZuPpbYzbud2ZAqvjrPWClj2PNyagiZ4LKHKc5VTExl40TWp1SFFhRL8gyFmLH3cjADRaJC0DGf1bBJ3kqsbdgmPmKAOymDl9AiEuM=
+	t=1739393505; cv=none; b=WmJH6V5Fjb8cVlBio2WEgJmQPxG7UEU8shsopxVL18qOgbgjLF/qs4phB6Y5HWaYaSBmFSmrCMyN5yysV6uXrOwJF/khouLbVOXn546Vmttyb04DfnwBgU03zjCscXkQngMGg/jp7ghjAIhml/cxgBdoCfKkWSPHMuZDU/jfoTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739390380; c=relaxed/simple;
-	bh=pZa3d3SVnecxnEdCui6amvreTRyfWVXoif+gndf8L3M=;
+	s=arc-20240116; t=1739393505; c=relaxed/simple;
+	bh=HghsDSxJqIdfZTjn8waXADE2Owp0YVraVawzHRAdXDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Er4WeqZlz/WdELw+Uie616WklyR3mv8FyUNK3Wg8jcX3hW2SYEZdUVo9nUropYUY0DXaHvdO6zEcH3O1oPIX10jtV55JirLMes4fscJNI0HwPXu1W2XZrM57vbGckk38e3RjuoZxuTP21acXqZBklYeXTrt4OKyh9YPbDd8KegE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQr9bwCv; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=D/OHl2YfPunFm3I3qa/xqNJ0GNesMJQZ5kd87jcJfgNjvtauKKPsFGCU52akiNNncXq8aNo57aV+SW3mHWHA3PLE8nlgfDk6SveqPkC6PsB3/ZscXxQh/FGB31NhD6GMuCE2yRW33qrLG3D6q5wnl6XhKVKfVP/kAecpxwP/Kk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ez6rO81d; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQr9bwCv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ez6rO81d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739390378; x=1770926378;
+  t=1739393504; x=1770929504;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pZa3d3SVnecxnEdCui6amvreTRyfWVXoif+gndf8L3M=;
-  b=bQr9bwCvE14er3ZSTDDZyYMzZBQV8qlkWYUUUm5xQ0NRokF/XERpTB2T
-   gG6weiKP+XN3kufDxdR3fVjlvhYfaBrOYE/hgQXHcPCscKS3JwSe47aKg
-   N8p4ZcSKedWi0PEAR5rN4Kt2o8TzP8rnzDa4C9kVcgB4xoWQGD4h9Jgj/
-   yx7xogjrCQLMoisd87oACKvZL+9LXdA/bcBfQuXv7l69N0OsgYKJpwVLN
-   ug9l65AyK5iTYiVUQWIW31L5cflrwnHUuzG8pEvbYV+CI/5C0JGE9kxyB
-   Pv7bMAt+7+o3Z5hMF/B6dzWalB2m553Vf5mMUyU8zUM7g/iAmFn6grbhi
-   g==;
-X-CSE-ConnectionGUID: R+YWkQGwRCCzkuBfDHGFaQ==
-X-CSE-MsgGUID: DSP5PSjvQe+o+MOVbfxBWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57599273"
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="57599273"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 11:59:37 -0800
-X-CSE-ConnectionGUID: UiJpzqt0TcGIsLbqDrNwBw==
-X-CSE-MsgGUID: KE1QHbPiSYSTS2UhfqhIBA==
+  bh=HghsDSxJqIdfZTjn8waXADE2Owp0YVraVawzHRAdXDs=;
+  b=ez6rO81d2jtE0ni++65cEhx//r+L1GSYZI0KRYRR+9hr3kL4UaIFJ8Q1
+   8R+ehOTEvdwekLQzv22wpfTiZzd4ZFEvdHIlt2UAxvT6NCS9C1A7MbtFo
+   r+ZHqaH/zxKQ7jn+fR1tMxydfC7Dp9/Q0C1WuXCIrNy36/gBwpEsC2Qfa
+   NxIFK02B+ok0HSroBZkIMKSj0VMdz8/43NqXyqbcIWVdA9Ve2zkoEbok/
+   k1uyp+OVVBBtU6cYM7QzoeZu8cXizBYvtorFx0CpzBxOAihPOpkBc+AhD
+   hjSEcMNAtTa1poufPImSKVZKUP/y4JpgwEt2EMGWKWNJB/7Ju0njFIOMg
+   w==;
+X-CSE-ConnectionGUID: TtYXS/PtT6+AOr8Psf6dpg==
+X-CSE-MsgGUID: xOfoLI5fRjmaNBy4NkgzwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57476831"
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
+   d="scan'208";a="57476831"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 12:51:43 -0800
+X-CSE-ConnectionGUID: 7D9jCzJQRzqhDtv6ufiXhg==
+X-CSE-MsgGUID: YHzG1jeiQRe4xxvGmWVVqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="112783325"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112787921"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Feb 2025 11:59:36 -0800
+  by orviesa010.jf.intel.com with ESMTP; 12 Feb 2025 12:51:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiItS-00164d-0n;
-	Wed, 12 Feb 2025 19:59:34 +0000
-Date: Thu, 13 Feb 2025 03:59:20 +0800
+	id 1tiJhr-00167r-2Y;
+	Wed, 12 Feb 2025 20:51:39 +0000
+Date: Thu, 13 Feb 2025 04:50:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:afs-testing 27/35] /usr/bin/ld:
- net/rxrpc/rxgk_common.h:84: undefined reference to `crypto_krb5_decrypt'
-Message-ID: <202502130314.0gqxuaPN-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c:590:13: warning: '%s'
+ directive argument is null
+Message-ID: <202502130406.iWQ0eBug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-testing
-head:   1df5ee14458290f1dc72aeba8770ba56a94e5c15
-commit: 850d0b821f2d57cac5f0dc86826eb866936a7aff [27/35] rxrpc: rxgk: Implement connection rekeying
-config: um-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250213/202502130314.0gqxuaPN-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130314.0gqxuaPN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   09fbf3d502050282bf47ab3babe1d4ed54dd1fd8
+commit: 020620424b27bababf7f53d00692ab919c357a3f drm/amd: Use a constant format string for amdgpu_ucode_request
+date:   6 months ago
+config: x86_64-buildonly-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502130406.iWQ0eBug-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130406.iWQ0eBug-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502130314.0gqxuaPN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502130406.iWQ0eBug-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_respond_to_challenge':
-   net/rxrpc/rxgk.c:921: undefined reference to `crypto_krb5_how_much_buffer'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_encrypt_authenticator':
-   net/rxrpc/rxgk.c:892: undefined reference to `crypto_krb5_encrypt'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_preparse_server_key':
-   net/rxrpc/rxgk.c:36: undefined reference to `crypto_krb5_find_enctype'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_alloc_txbuf':
-   net/rxrpc/rxgk.c:310: undefined reference to `crypto_krb5_how_much_data'
-   /usr/bin/ld: net/rxrpc/rxgk.c:314: undefined reference to `crypto_krb5_how_much_buffer'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_secure_packet':
-   net/rxrpc/rxgk.c:411: undefined reference to `crypto_krb5_encrypt'
-   /usr/bin/ld: net/rxrpc/rxgk.c:370: undefined reference to `crypto_krb5_get_mic'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_verify_packet':
-   net/rxrpc/rxgk.c:480: undefined reference to `crypto_krb5_where_is_the_data'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_verify_mic_skb':
-   net/rxrpc/rxgk_common.h:123: undefined reference to `crypto_krb5_verify_mic'
-   /usr/bin/ld: net/rxrpc/rxgk.o: in function `rxgk_decrypt_skb':
-   net/rxrpc/rxgk_common.h:84: undefined reference to `crypto_krb5_decrypt'
->> /usr/bin/ld: net/rxrpc/rxgk_common.h:84: undefined reference to `crypto_krb5_decrypt'
-   /usr/bin/ld: net/rxrpc/rxgk_app.o: in function `rxgk_decrypt_skb':
-   net/rxrpc/rxgk_common.h:84: undefined reference to `crypto_krb5_decrypt'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.o: in function `rxgk_generate_transport_key':
-   net/rxrpc/rxgk_kdf.c:222: undefined reference to `crypto_krb5_find_enctype'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:86: undefined reference to `crypto_krb5_calc_PRFplus'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:119: undefined reference to `crypto_krb5_prepare_encryption'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:162: undefined reference to `crypto_krb5_prepare_checksum'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:135: undefined reference to `crypto_krb5_prepare_checksum'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:(.text+0x81b): undefined reference to `crypto_krb5_prepare_checksum'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.o: in function `rxgk_set_up_token_cipher':
-   net/rxrpc/rxgk_kdf.c:276: undefined reference to `crypto_krb5_find_enctype'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:280: undefined reference to `crypto_krb5_prepare_encryption'
-   clang-16: error: linker command failed with exit code 1 (use -v to see invocation)
+   drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c: In function 'amdgpu_umsch_mm_init_microcode':
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c:590:13: warning: '%s' directive argument is null [-Wformat-overflow=]
+     590 |         r = amdgpu_ucode_request(adev, &adev->umsch_mm.fw, "%s", fw_name);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +590 drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c
+
+   573	
+   574	int amdgpu_umsch_mm_init_microcode(struct amdgpu_umsch_mm *umsch)
+   575	{
+   576		const struct umsch_mm_firmware_header_v1_0 *umsch_mm_hdr;
+   577		struct amdgpu_device *adev = umsch->ring.adev;
+   578		const char *fw_name = NULL;
+   579		int r;
+   580	
+   581		switch (amdgpu_ip_version(adev, VCN_HWIP, 0)) {
+   582		case IP_VERSION(4, 0, 5):
+   583		case IP_VERSION(4, 0, 6):
+   584			fw_name = "amdgpu/umsch_mm_4_0_0.bin";
+   585			break;
+   586		default:
+   587			break;
+   588		}
+   589	
+ > 590		r = amdgpu_ucode_request(adev, &adev->umsch_mm.fw, "%s", fw_name);
+   591		if (r) {
+   592			release_firmware(adev->umsch_mm.fw);
+   593			adev->umsch_mm.fw = NULL;
+   594			return r;
+   595		}
+   596	
+   597		umsch_mm_hdr = (const struct umsch_mm_firmware_header_v1_0 *)adev->umsch_mm.fw->data;
+   598	
+   599		adev->umsch_mm.ucode_size = le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_size_bytes);
+   600		adev->umsch_mm.data_size = le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_data_size_bytes);
+   601	
+   602		adev->umsch_mm.irq_start_addr =
+   603			le32_to_cpu(umsch_mm_hdr->umsch_mm_irq_start_addr_lo) |
+   604			((uint64_t)(le32_to_cpu(umsch_mm_hdr->umsch_mm_irq_start_addr_hi)) << 32);
+   605		adev->umsch_mm.uc_start_addr =
+   606			le32_to_cpu(umsch_mm_hdr->umsch_mm_uc_start_addr_lo) |
+   607			((uint64_t)(le32_to_cpu(umsch_mm_hdr->umsch_mm_uc_start_addr_hi)) << 32);
+   608		adev->umsch_mm.data_start_addr =
+   609			le32_to_cpu(umsch_mm_hdr->umsch_mm_data_start_addr_lo) |
+   610			((uint64_t)(le32_to_cpu(umsch_mm_hdr->umsch_mm_data_start_addr_hi)) << 32);
+   611	
+   612		if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
+   613			struct amdgpu_firmware_info *info;
+   614	
+   615			info = &adev->firmware.ucode[AMDGPU_UCODE_ID_UMSCH_MM_UCODE];
+   616			info->ucode_id = AMDGPU_UCODE_ID_UMSCH_MM_UCODE;
+   617			info->fw = adev->umsch_mm.fw;
+   618			adev->firmware.fw_size +=
+   619				ALIGN(le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_size_bytes), PAGE_SIZE);
+   620	
+   621			info = &adev->firmware.ucode[AMDGPU_UCODE_ID_UMSCH_MM_DATA];
+   622			info->ucode_id = AMDGPU_UCODE_ID_UMSCH_MM_DATA;
+   623			info->fw = adev->umsch_mm.fw;
+   624			adev->firmware.fw_size +=
+   625				ALIGN(le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_data_size_bytes), PAGE_SIZE);
+   626		}
+   627	
+   628		return 0;
+   629	}
+   630	
 
 -- 
 0-DAY CI Kernel Test Service
