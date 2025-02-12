@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B90E27180D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 00:17:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAC017C2;
+	Wed, 12 Feb 2025 00:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739319448; cv=none; b=VFKHkKqB2Qwexwo+YCuqpPTbmH27nfxHpApxFfj3Lp9cTukWjoPZDJEREUVdBYtnnJjw1eil3POredeSNlO5Ix0Ezf9rBPb9Syg1QdW7gdBAZUOQiJiBwFmaTb8e5voBccdM1WQ60to9b53xZCSk70kC/SDkdYbPQ52m0V8Cwhs=
+	t=1739319450; cv=none; b=RRbxooeJDsqvqi0vL6rAc7ok6X9zt9dKX12uS0h69dssBysmNDliPU0JO6dsieD5hC2MnXDJqIMUD/hUHnRI+f/jDAab+H1NVNZ4yMJhUeuvdmXPwuTYN3VtwjNgaK95AlSIMlptTjxurqAgND7x8RZHSjNgKHc0zox92dLcfsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739319448; c=relaxed/simple;
-	bh=w3xwCXMisiFZ1tRW/RXJy7qILfpPp4iwXsGrHAEJJy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uZH7dy+FNHJx+3gVxNpLAnIA/PIx67ysrmxCdee4++23bfdiTesvYWw2a3+ZLSlzTz7uCbb/C5Gy83VYeITK8NX2VXnpPfsLBmF4SCOu0VPcp6kfHfeIMFf0sZkY6B1c/MiNhlLi6Ynq9+pa57U1/PxZIfYAnRwItGXqXR3oBwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBRexAgS; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1739319450; c=relaxed/simple;
+	bh=+sQk7LLDeTVogvnQZtwP/Ug9OrxfaSM61JxX4BvQoLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mtZJk/9mdCxncVmuQ7eWc2Drn/PnHLYXGC+DNmeAK9FEl5YJJbyHHsL3hQsZWyfbsUfQgYtKitMq1hc4E5y/D+h5+3crlZLtNEeaM4u2GSLevJlwEJFuod7d9i4B2syX/Wbsn1RKFOzcQNnsg/HnEUvIegrM7n62+JFsHkaKkZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKx3I02z; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBRexAgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKx3I02z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739319446; x=1770855446;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w3xwCXMisiFZ1tRW/RXJy7qILfpPp4iwXsGrHAEJJy8=;
-  b=kBRexAgScjmfRVbONHfbDcGMkw78Rp+nej5qnt+RMYWXE+2HolkUheXk
-   SFtTkGgS+SoqHLh4eANiYRt5ugnfvvrgAmRq8a2EIadgC5+djD9C8SlrE
-   3ZBV5Ig3k6bYqiDEfv7bLiRbHDD/KneFJy2NgSs6dOVGUqeep0tdk1D9L
-   HK1hW07sDm19Mg7TqWlE0ZSDr2vEcFnnNI0J2qLaWYXYcjk6+VegyTQIZ
-   2LOrG4NQbKxwijoKSjmp0QKXqLy5sGfAgmHVIcQ+U4lMNnxQxifDDcZqf
-   tiJIdv+F7urgLUThp12WO6vxgYwSYE5T/l/TdzNYKB9th14jMTUTA2gx9
-   Q==;
-X-CSE-ConnectionGUID: RPLDUGfKQnqAOVgqbi6k9g==
-X-CSE-MsgGUID: LEt7TleASrumf4UoFFhdBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="57495846"
+  t=1739319449; x=1770855449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+sQk7LLDeTVogvnQZtwP/Ug9OrxfaSM61JxX4BvQoLU=;
+  b=EKx3I02zYryzviNCfFYEsliOMpmP2rsdYKO/PYFokirtvSidBHG80OwA
+   d17K2DL/J1S+QKx9ep9T4XICRuLCVUQyyltwUNAsvfJToM5aYtWq9FdGa
+   TLuobYcfRvcsombtJRUcD2CQJSZ4jYFJYSr1PZku11k6uvQd6jIaujn4F
+   7DCLiLZG8nxd0r/hA3DoOTxv2FufeT5MghWvzNyXIrzfVSgYTOMbZiUs+
+   w4Fr0dMTKi6VwUZgjd9KLUp2n5Hk4xjSCm1Q39Ip19iNcV51INJL/yvGc
+   OcToqxKgGA+iB6dterNyKhkpHvPSeHda5Q7QfnLytpPmyd+doT3Kl1ma/
+   A==;
+X-CSE-ConnectionGUID: xV2CyD0xT5iTKoVztSvLwQ==
+X-CSE-MsgGUID: fEalFn8YS+qHm8mSBd0TEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="57495851"
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="57495846"
+   d="scan'208";a="57495851"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 16:17:24 -0800
-X-CSE-ConnectionGUID: f73b3yD3T0WwoXhPcwqZlQ==
-X-CSE-MsgGUID: BOKSn6adQbyuiNX9CewzTw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 16:17:26 -0800
+X-CSE-ConnectionGUID: 8n8wMHpDS9i3wtZsKRVugQ==
+X-CSE-MsgGUID: 3C2ggCtZSv2hbek/1hOE3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="112488937"
+   d="scan'208";a="112488938"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 11 Feb 2025 16:17:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti0RN-0014s1-1D;
+	id 1ti0RN-0014rz-18;
 	Wed, 12 Feb 2025 00:17:21 +0000
-Date: Wed, 12 Feb 2025 08:16:26 +0800
+Date: Wed, 12 Feb 2025 08:16:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 11/11]
- drivers/dma/ste_dma40.c:3682:29: sparse: sparse: incorrect type in argument
- 1 (different address spaces)
-Message-ID: <202502120848.1NFUggo1-lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Yael Chemla <ychemla@nvidia.com>
+Subject: Re: [PATCH v3 net 1/2] net: Fix dev_net(dev) race in
+ unregister_netdevice_notifier_dev_net().
+Message-ID: <202502120733.xsF3H4iE-lkp@intel.com>
+References: <20250211051217.12613-2-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,245 +69,272 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250211051217.12613-2-kuniyu@amazon.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   39762b7a60e9a0f1e5cd736d30163ca936a1ede2
-commit: 2a3f74ca167e3645258e36cfac809b8c41102513 [11/11] dmaengine: stedma40: add missing iounmap() on error in d40_probe()
-config: arm-randconfig-r131-20250211 (https://download.01.org/0day-ci/archive/20250212/202502120848.1NFUggo1-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250212/202502120848.1NFUggo1-lkp@intel.com/reproduce)
+Hi Kuniyuki,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/net-Fix-dev_net-dev-race-in-unregister_netdevice_notifier_dev_net/20250211-131633
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250211051217.12613-2-kuniyu%40amazon.com
+patch subject: [PATCH v3 net 1/2] net: Fix dev_net(dev) race in unregister_netdevice_notifier_dev_net().
+config: s390-randconfig-002-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120733.xsF3H4iE-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120733.xsF3H4iE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120848.1NFUggo1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120733.xsF3H4iE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/dma/ste_dma40.c:1389:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
-   drivers/dma/ste_dma40.c:1389:28: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/dma/ste_dma40.c:1389:28: sparse:     got unsigned int *
-   drivers/dma/ste_dma40.c:1405:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
-   drivers/dma/ste_dma40.c:1405:27: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/dma/ste_dma40.c:1405:27: sparse:     got unsigned int *
-   drivers/dma/ste_dma40.c:3566:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *lcpa_base @@     got void [noderef] __iomem * @@
-   drivers/dma/ste_dma40.c:3566:25: sparse:     expected void *lcpa_base
-   drivers/dma/ste_dma40.c:3566:25: sparse:     got void [noderef] __iomem *
-   drivers/dma/ste_dma40.c:3582:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
-   drivers/dma/ste_dma40.c:3582:38: sparse:     expected void *base
-   drivers/dma/ste_dma40.c:3582:38: sparse:     got void [noderef] __iomem *
-   drivers/dma/ste_dma40.c:3666:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *iomem_cookie @@     got void *base @@
-   drivers/dma/ste_dma40.c:3666:40: sparse:     expected void volatile [noderef] __iomem *iomem_cookie
-   drivers/dma/ste_dma40.c:3666:40: sparse:     got void *base
->> drivers/dma/ste_dma40.c:3682:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *iomem_cookie @@     got void *lcpa_base @@
-   drivers/dma/ste_dma40.c:3682:29: sparse:     expected void volatile [noderef] __iomem *iomem_cookie
-   drivers/dma/ste_dma40.c:3682:29: sparse:     got void *lcpa_base
+All errors (new ones prefixed by >>):
 
-vim +3682 drivers/dma/ste_dma40.c
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:10: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                 ^
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:31: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                      ^
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:49:33: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |                                        ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
+     522 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                  ^
+   include/linux/compiler_types.h:498:13: note: expanded from macro '__unqual_scalar_typeof'
+     498 |                 _Generic((x),                                           \
+         |                           ^
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:65: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                  ^
+   include/linux/compiler_types.h:505:15: note: expanded from macro '__unqual_scalar_typeof'
+     505 |                          default: (x)))
+         |                                    ^
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:531:53: note: expanded from macro '__rcu_access_pointer'
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                            ^
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+>> net/core/dev.c:2087:50: error: no member named 'net' in 'possible_net_t'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                                             ~~~~~~~~~~~ ^
+   include/linux/rcupdate.h:650:53: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                                                     ^
+   include/linux/rcupdate.h:533:12: note: expanded from macro '__rcu_access_pointer'
+     533 |         ((typeof(*p) __force __kernel *)(local)); \
+         |                   ^
+>> net/core/dev.c:2087:19: error: passing 'void' to parameter of incompatible type 'const struct net *'
+    2087 |         if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:650:31: note: expanded from macro 'rcu_access_pointer'
+     650 | #define rcu_access_pointer(p) __rcu_access_pointer((p), __UNIQUE_ID(rcu), __rcu)
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:529:47: note: expanded from macro '__rcu_access_pointer'
+     529 | #define __rcu_access_pointer(p, local, space) \
+         |                                               ^
+     530 | ({ \
+         | ~~~~
+     531 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     532 |         rcu_check_sparse(p, space); \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     533 |         ((typeof(*p) __force __kernel *)(local)); \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     534 | })
+         | ~~
+   include/net/net_namespace.h:318:54: note: passing argument to parameter 'net2' here
+     318 | int net_eq(const struct net *net1, const struct net *net2)
+         |                                                      ^
+>> net/core/dev.c:2089:14: error: called object type 'void *' is not a function or function pointer
+    2089 |                 net_drop_ns(net);
+         |                 ~~~~~~~~~~~^
+   net/core/dev.c:2099:13: error: called object type 'void *' is not a function or function pointer
+    2099 |         net_drop_ns(net);
+         |         ~~~~~~~~~~~^
+   14 errors generated.
 
-  3506	
-  3507	static int __init d40_probe(struct platform_device *pdev)
-  3508	{
-  3509		struct stedma40_platform_data *plat_data = dev_get_platdata(&pdev->dev);
-  3510		struct device_node *np = pdev->dev.of_node;
-  3511		int ret = -ENOENT;
-  3512		struct d40_base *base;
-  3513		struct resource *res;
-  3514		int num_reserved_chans;
-  3515		u32 val;
-  3516	
-  3517		if (!plat_data) {
-  3518			if (np) {
-  3519				if (d40_of_probe(pdev, np)) {
-  3520					ret = -ENOMEM;
-  3521					goto report_failure;
-  3522				}
-  3523			} else {
-  3524				d40_err(&pdev->dev, "No pdata or Device Tree provided\n");
-  3525				goto report_failure;
-  3526			}
-  3527		}
-  3528	
-  3529		base = d40_hw_detect_init(pdev);
-  3530		if (!base)
-  3531			goto report_failure;
-  3532	
-  3533		num_reserved_chans = d40_phy_res_init(base);
-  3534	
-  3535		platform_set_drvdata(pdev, base);
-  3536	
-  3537		spin_lock_init(&base->interrupt_lock);
-  3538		spin_lock_init(&base->execmd_lock);
-  3539	
-  3540		/* Get IO for logical channel parameter address */
-  3541		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "lcpa");
-  3542		if (!res) {
-  3543			ret = -ENOENT;
-  3544			d40_err(&pdev->dev, "No \"lcpa\" memory resource\n");
-  3545			goto destroy_cache;
-  3546		}
-  3547		base->lcpa_size = resource_size(res);
-  3548		base->phy_lcpa = res->start;
-  3549	
-  3550		if (request_mem_region(res->start, resource_size(res),
-  3551				       D40_NAME " I/O lcpa") == NULL) {
-  3552			ret = -EBUSY;
-  3553			d40_err(&pdev->dev, "Failed to request LCPA region %pR\n", res);
-  3554			goto destroy_cache;
-  3555		}
-  3556	
-  3557		/* We make use of ESRAM memory for this. */
-  3558		val = readl(base->virtbase + D40_DREG_LCPA);
-  3559		if (res->start != val && val != 0) {
-  3560			dev_warn(&pdev->dev,
-  3561				 "[%s] Mismatch LCPA dma 0x%x, def %pa\n",
-  3562				 __func__, val, &res->start);
-  3563		} else
-  3564			writel(res->start, base->virtbase + D40_DREG_LCPA);
-  3565	
-  3566		base->lcpa_base = ioremap(res->start, resource_size(res));
-  3567		if (!base->lcpa_base) {
-  3568			ret = -ENOMEM;
-  3569			d40_err(&pdev->dev, "Failed to ioremap LCPA region\n");
-  3570			goto destroy_cache;
-  3571		}
-  3572		/* If lcla has to be located in ESRAM we don't need to allocate */
-  3573		if (base->plat_data->use_esram_lcla) {
-  3574			res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-  3575								"lcla_esram");
-  3576			if (!res) {
-  3577				ret = -ENOENT;
-  3578				d40_err(&pdev->dev,
-  3579					"No \"lcla_esram\" memory resource\n");
-  3580				goto destroy_cache;
-  3581			}
-  3582			base->lcla_pool.base = ioremap(res->start,
-  3583							resource_size(res));
-  3584			if (!base->lcla_pool.base) {
-  3585				ret = -ENOMEM;
-  3586				d40_err(&pdev->dev, "Failed to ioremap LCLA region\n");
-  3587				goto destroy_cache;
-  3588			}
-  3589			writel(res->start, base->virtbase + D40_DREG_LCLA);
-  3590	
-  3591		} else {
-  3592			ret = d40_lcla_allocate(base);
-  3593			if (ret) {
-  3594				d40_err(&pdev->dev, "Failed to allocate LCLA area\n");
-  3595				goto destroy_cache;
-  3596			}
-  3597		}
-  3598	
-  3599		spin_lock_init(&base->lcla_pool.lock);
-  3600	
-  3601		base->irq = platform_get_irq(pdev, 0);
-  3602	
-  3603		ret = request_irq(base->irq, d40_handle_interrupt, 0, D40_NAME, base);
-  3604		if (ret) {
-  3605			d40_err(&pdev->dev, "No IRQ defined\n");
-  3606			goto destroy_cache;
-  3607		}
-  3608	
-  3609		if (base->plat_data->use_esram_lcla) {
-  3610	
-  3611			base->lcpa_regulator = regulator_get(base->dev, "lcla_esram");
-  3612			if (IS_ERR(base->lcpa_regulator)) {
-  3613				d40_err(&pdev->dev, "Failed to get lcpa_regulator\n");
-  3614				ret = PTR_ERR(base->lcpa_regulator);
-  3615				base->lcpa_regulator = NULL;
-  3616				goto destroy_cache;
-  3617			}
-  3618	
-  3619			ret = regulator_enable(base->lcpa_regulator);
-  3620			if (ret) {
-  3621				d40_err(&pdev->dev,
-  3622					"Failed to enable lcpa_regulator\n");
-  3623				regulator_put(base->lcpa_regulator);
-  3624				base->lcpa_regulator = NULL;
-  3625				goto destroy_cache;
-  3626			}
-  3627		}
-  3628	
-  3629		writel_relaxed(D40_DREG_GCC_ENABLE_ALL, base->virtbase + D40_DREG_GCC);
-  3630	
-  3631		pm_runtime_irq_safe(base->dev);
-  3632		pm_runtime_set_autosuspend_delay(base->dev, DMA40_AUTOSUSPEND_DELAY);
-  3633		pm_runtime_use_autosuspend(base->dev);
-  3634		pm_runtime_mark_last_busy(base->dev);
-  3635		pm_runtime_set_active(base->dev);
-  3636		pm_runtime_enable(base->dev);
-  3637	
-  3638		ret = d40_dmaengine_init(base, num_reserved_chans);
-  3639		if (ret)
-  3640			goto destroy_cache;
-  3641	
-  3642		base->dev->dma_parms = &base->dma_parms;
-  3643		ret = dma_set_max_seg_size(base->dev, STEDMA40_MAX_SEG_SIZE);
-  3644		if (ret) {
-  3645			d40_err(&pdev->dev, "Failed to set dma max seg size\n");
-  3646			goto destroy_cache;
-  3647		}
-  3648	
-  3649		d40_hw_init(base);
-  3650	
-  3651		if (np) {
-  3652			ret = of_dma_controller_register(np, d40_xlate, NULL);
-  3653			if (ret)
-  3654				dev_err(&pdev->dev,
-  3655					"could not register of_dma_controller\n");
-  3656		}
-  3657	
-  3658		dev_info(base->dev, "initialized\n");
-  3659		return 0;
-  3660	 destroy_cache:
-  3661		kmem_cache_destroy(base->desc_slab);
-  3662		if (base->virtbase)
-  3663			iounmap(base->virtbase);
-  3664	
-  3665		if (base->lcla_pool.base && base->plat_data->use_esram_lcla) {
-  3666			iounmap(base->lcla_pool.base);
-  3667			base->lcla_pool.base = NULL;
-  3668		}
-  3669	
-  3670		if (base->lcla_pool.dma_addr)
-  3671			dma_unmap_single(base->dev, base->lcla_pool.dma_addr,
-  3672					 SZ_1K * base->num_phy_chans,
-  3673					 DMA_TO_DEVICE);
-  3674	
-  3675		if (!base->lcla_pool.base_unaligned && base->lcla_pool.base)
-  3676			free_pages((unsigned long)base->lcla_pool.base,
-  3677				   base->lcla_pool.pages);
-  3678	
-  3679		kfree(base->lcla_pool.base_unaligned);
-  3680	
-  3681		if (base->lcpa_base)
-> 3682			iounmap(base->lcpa_base);
-  3683	
-  3684		if (base->phy_lcpa)
-  3685			release_mem_region(base->phy_lcpa,
-  3686					   base->lcpa_size);
-  3687		if (base->phy_start)
-  3688			release_mem_region(base->phy_start,
-  3689					   base->phy_size);
-  3690		if (base->clk) {
-  3691			clk_disable_unprepare(base->clk);
-  3692			clk_put(base->clk);
-  3693		}
-  3694	
-  3695		if (base->lcpa_regulator) {
-  3696			regulator_disable(base->lcpa_regulator);
-  3697			regulator_put(base->lcpa_regulator);
-  3698		}
-  3699	
-  3700		kfree(base->lcla_pool.alloc_map);
-  3701		kfree(base->lookup_log_chans);
-  3702		kfree(base->lookup_phy_chans);
-  3703		kfree(base->phy_res);
-  3704		kfree(base);
-  3705	 report_failure:
-  3706		d40_err(&pdev->dev, "probe failed\n");
-  3707		return ret;
-  3708	}
-  3709	
+
+vim +2087 net/core/dev.c
+
+  2072	
+  2073	static void rtnl_net_dev_lock(struct net_device *dev)
+  2074	{
+  2075		struct net *net;
+  2076	
+  2077	again:
+  2078		/* netns might be being dismantled. */
+  2079		rcu_read_lock();
+  2080		net = dev_net_rcu(dev);
+  2081		refcount_inc(&net->passive);
+  2082		rcu_read_unlock();
+  2083	
+  2084		rtnl_net_lock(net);
+  2085	
+  2086		/* dev might have been moved to another netns. */
+> 2087		if (!net_eq(net, rcu_access_pointer(dev->nd_net.net))) {
+  2088			rtnl_net_unlock(net);
+> 2089			net_drop_ns(net);
+  2090			goto again;
+  2091		}
+  2092	}
+  2093	
 
 -- 
 0-DAY CI Kernel Test Service
