@@ -1,58 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCFE1DE8B3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 05:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CE6271837;
+	Wed, 12 Feb 2025 05:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739338505; cv=none; b=ZUrI3mQSaxmykxaGwFs4Awz1R9CrCmD47RF1cTuNZMO7EwsmWUui+1cAMblQpakFJOnoSbITaD1vuUARWPXUTBaNnVjGpmhyQwvC4SYMihhhZoCzDnxBkL4eP7ItWd3e7Z1n1sN5yG3OMdJqi6mnpptdbldeOMUzh62N3Ir321c=
+	t=1739339070; cv=none; b=PaZLollD4/IQ8NZXLeJKMWX8bfnrlivYVYH+ulYdlk3fzQu12BYU2o9Ofluc/iZs2LnvyZLpLTqTA3NFBRSsFc7WmutmaQdJ7EH2YC/YkRRDOimEgHi9sHxdiA0BjKtwT1OsneLlTCLj3HpZoLmXrrTbNYOXPyHhsqj8LdKL2LY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739338505; c=relaxed/simple;
-	bh=WBEf8tU0eCx2Hh7Jxl0zJmivphS0XekLs2d30+hD9lw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WmkZ1V/E+2qw93dLoh5iEC9uPX1LvosuQqoFwyx7/1WRd9siPSaZvMlZDrufJt8QYgU9ziWi6pYb2gk+RRAM+hPjc+bpsTwf21gIkQ2q0Xfxv98msZB3XC3kCJ/FogDrICkF+zy/ragz2ebBhPNiqjRKo/3NneKGt9EI4QURpYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gln4ylrw; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739339070; c=relaxed/simple;
+	bh=eqBw8wnJvr1qe7mS2XMAnJCiuly1iAV8vkca9jfee6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sceDWuYKD73/vhE0n/2uEQMRY9TVvmLkrmdoXNaOBV70173W1HKgUPxhNAeeZgrhC3D8f7LX+LJi7R1hkTSugCWJVgzlMrXyZIOgXf7VE9STeNAcBeBPThdEHI2w0Mq+uKnrFyev+vULHRol5qcAQcN0PmqbV2XnNBoj8wp29Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxteaO9Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gln4ylrw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739338504; x=1770874504;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WBEf8tU0eCx2Hh7Jxl0zJmivphS0XekLs2d30+hD9lw=;
-  b=Gln4ylrwXp4TQWUVk6yRCuylazSan06m1MTbcU5xdGfVWzgW6cuMKPyu
-   JoMe8FtR/6AmPc0mWgpSkXKWF43vJFstpShpndUKuXYzFVG6W2zg48a1X
-   SOodbbJ0Y29VyKiwGfJMCbs+8/O8ueScZx/Z6Pq8PkFmqCv4e8N+JpD7o
-   M5k9ublWPmfcClL7bfm8tHQgj/WmM8FgZMZ0Ifp8g6QEg8CSr/8J8mEfI
-   TVmFMVGO8TDNowh6iBmRLCVaLGjqFSpBE7ZXGI4Z5vdQ26DnxyCEKrgf8
-   Yu4SnuyHnwhkf7OMlBXxyEP++GJoMO2dTEX1ry11K6+Mrpht36vq+40xU
-   A==;
-X-CSE-ConnectionGUID: 0EjPj/30R9a2ps2HWz4BeQ==
-X-CSE-MsgGUID: jdBWP4OJTYqo9qmtExpWbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50964568"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="50964568"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 21:35:03 -0800
-X-CSE-ConnectionGUID: cWXFbrOeTaupJK5pQOBENA==
-X-CSE-MsgGUID: 7XAkIgiNQDiwtjETont7jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113205703"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Feb 2025 21:35:02 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ti5Ok-0015AT-2Z;
-	Wed, 12 Feb 2025 05:34:58 +0000
-Date: Wed, 12 Feb 2025 13:34:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1423/1423] kernel/bpf/verifier.o:
- warning: objtool: do_check()+0x2bd2: can't find switch jump table
-Message-ID: <202502121329.j5PZcydK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxteaO9Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF12C4CEDF;
+	Wed, 12 Feb 2025 05:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739339070;
+	bh=eqBw8wnJvr1qe7mS2XMAnJCiuly1iAV8vkca9jfee6w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nxteaO9QvWWmCguu8A1LMbWouNS7PmhzOFCfdvDIM1b0ZVqaIMFLaYunwLky1n30o
+	 i9NKxtAZ8pb0gyVeLLHyW35KbRUF8HVq6I5KaExS+yqmajzBhxWAOZ7HMJAlm8+yBA
+	 Vh78Xx5O6ihc5oEr1YV7DFILgwX7JMJcCi4nqOTAZYO5uhU9UX7r6ene8lz6LdnZ8U
+	 6xMLVnlq8xHgulCZ9USR1FeAbe24Ff9UMpr9s8D51xiH7EUtV56vMy9K/MxO2J7+3V
+	 3qfXUKgmgqSgG2fji4LBGYmkyLsaa2ED2To5r7P+xidQw/Ml++1LNwslC1J763l8g9
+	 K5dVsf5xFtn2g==
+Date: Wed, 12 Feb 2025 05:44:28 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: kernel test robot <lkp@intel.com>, Danny Tsen <dtsen@linux.ibm.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Subject: Re: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch
+ is modular
+Message-ID: <20250212054428.GC2010357@google.com>
+References: <202501230223.ikroNDr1-lkp@intel.com>
+ <Z6woN4vgdaywOZxm@gondor.apana.org.au>
+ <20250212050936.GB2010357@google.com>
+ <Z6wxp7UE9MAht4pc@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +48,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z6wxp7UE9MAht4pc@gondor.apana.org.au>
 
-Hi Daniel,
+On Wed, Feb 12, 2025 at 01:29:11PM +0800, Herbert Xu wrote:
+> On Wed, Feb 12, 2025 at 05:09:36AM +0000, Eric Biggers wrote:
+> >
+> > Please name these like ARCH_HAS_CURVE25519 and CRYPTO_LIB_CURVE25519_ARCH to be
+> > consistent with the CRC library, the many other ARCH_HAS_* options, and
+> > CRYPTO_LIB_CURVE25519_GENERIC.  Nothing uses names that contain "MAY_HAVE",
+> > which is ambiguous.
+> > 
+> > FWIW, at some point the arch optimized crypto algorithms also need to just be
+> > enabled by default.  The fact that they're not is a longstanding bug that is
+> > really harmful to users and needs to be fixed.
+> 
+> I'm simply responding to an lkp report.  While your suggestions
+> may have merit, I don't have the time to pursue them.
 
-FYI, the error/warning still remains.
+The way that the arch options are selected is very much related to this issue,
+but even disregarding that the first paragraph of my response is a review
+comment directly on this patch about the naming it uses.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   6a6cc2b6b95dc80ae01221670e21a8059229a023
-commit: b2fdc6d8c190bbe579cbc19c520f3d7c25e9fb44 [1423/1423] bpf: Do not mark insn as seen under speculative path verification
-config: x86_64-randconfig-103-20250211 (https://download.01.org/0day-ci/archive/20250212/202502121329.j5PZcydK-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121329.j5PZcydK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121329.j5PZcydK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   kernel/bpf/verifier.c:6228:16: warning: cast from 'unsigned int (*)(const void *, const struct bpf_insn *)' to 'u64 (*)(u64, u64, u64, u64, u64)' (aka 'unsigned long long (*)(unsigned long long, unsigned long long, unsigned long long, unsigned long long, unsigned long long)') converts to incompatible function type [-Wcast-function-type-strict]
-    6228 |                         insn->imm = (u64 (*)(u64, u64, u64, u64, u64))
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6229 |                                 func[subprog]->bpf_func -
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:6569:17: warning: cast from 'void *(*)(struct bpf_map *, void *)' to 'u64 (*)(u64, u64, u64, u64, u64)' (aka 'unsigned long long (*)(unsigned long long, unsigned long long, unsigned long long, unsigned long long, unsigned long long)') converts to incompatible function type [-Wcast-function-type-strict]
-    6569 |                                 insn->imm = BPF_CAST_CALL(ops->map_lookup_elem) -
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/filter.h:323:4: note: expanded from macro 'BPF_CAST_CALL'
-     323 |                 ((u64 (*)(u64, u64, u64, u64, u64))(x))
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:6573:17: warning: cast from 'int (*)(struct bpf_map *, void *, void *, u64)' (aka 'int (*)(struct bpf_map *, void *, void *, unsigned long long)') to 'u64 (*)(u64, u64, u64, u64, u64)' (aka 'unsigned long long (*)(unsigned long long, unsigned long long, unsigned long long, unsigned long long, unsigned long long)') converts to incompatible function type [-Wcast-function-type-strict]
-    6573 |                                 insn->imm = BPF_CAST_CALL(ops->map_update_elem) -
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/filter.h:323:4: note: expanded from macro 'BPF_CAST_CALL'
-     323 |                 ((u64 (*)(u64, u64, u64, u64, u64))(x))
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:6577:17: warning: cast from 'int (*)(struct bpf_map *, void *)' to 'u64 (*)(u64, u64, u64, u64, u64)' (aka 'unsigned long long (*)(unsigned long long, unsigned long long, unsigned long long, unsigned long long, unsigned long long)') converts to incompatible function type [-Wcast-function-type-strict]
-    6577 |                                 insn->imm = BPF_CAST_CALL(ops->map_delete_elem) -
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/filter.h:323:4: note: expanded from macro 'BPF_CAST_CALL'
-     323 |                 ((u64 (*)(u64, u64, u64, u64, u64))(x))
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
->> kernel/bpf/verifier.o: warning: objtool: do_check()+0x2bd2: can't find switch jump table
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Eric
