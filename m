@@ -1,68 +1,74 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61BC201246
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 07:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BAC20126A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 07:26:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739344467; cv=none; b=SDIT3onLi6MBS9yub+iVJqg+X+0D3Lo9ztI5WtKJPqVhPWs9Ka2QNzA+tyTAAcExKODQhZkFliXuVgi3hkdGUhrobfjq70wgtQ5xwcVYed36K+ujo/enTneqg4BKq4f6yyqrG/mxJfGDzD7Q/sjTvmB1bvx03XaUeZZwFyXehXY=
+	t=1739345217; cv=none; b=C+So4DOWo/DtuZcLUmQGPoRtU8eyjpRV+WD+TzQ9tnWlJ4rKbEJMrQdSURZkLIe0BSH+ncZj5yV9MbuqOehb1Crf0258PqdhojBYEsGHp3Dr4ys/bzoEWeuH7yWBXWH+HWz/mgAgi83l19R7kxGGyLbTNwkCngTBaeDSRrfhqgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739344467; c=relaxed/simple;
-	bh=j6JE8Hgt2otoP2Cd3JRv9WRbmo4jJe/LmBWvsADKfoQ=;
+	s=arc-20240116; t=1739345217; c=relaxed/simple;
+	bh=Stf0Jb6AOQt3UW45VdcZWRKlmtA1GKvuSfA1nYZiAmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X5XNwmsgzOzcmmjSrNKan9soqQLCK0d85mUs3fbW/gXWyBWMnbV+iRn5ygZ6JBnHNDbtIrB+hkB4BCpcZ2Qxo0h334KaeRwo24qfxtVAFNLWywzT3ovFWIqsSTaEdkkH/x584wkjnmjF7bck5PnsTafVC3FuIP93p+ffWVc6+BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=heZRERaS; arc=none smtp.client-ip=209.85.218.53
+	 Content-Disposition:In-Reply-To; b=rV/qu8BleT0GUBMLY4eetysr78tP8JXH/cwqFIWLgmaTfmgjmOzJ1kGWV22i1y1sobqBWAqQLVJ1angnQD2NZNQi3Oky33uO63p3noKpI4An+0ndkJE7/2QK41knCrwCtI/SNx1Nj0+UFI9QzZwpViA9fZLniefdRnAbiHshHqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Je2oQQnR; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="heZRERaS"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab7f838b92eso29144466b.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 23:14:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Je2oQQnR"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5de6e26d4e4so6911010a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 23:26:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739344464; x=1739949264; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IcRo2mLuLppF89p7qalQVVIl9otgMGV6R/tX138Yi2k=;
-        b=heZRERaSSssIgoiL7UnBW9pA3LIytpX31veyYVx2rbul77o2sJU3Qf5k5c7bo4Oa2K
-         8KgyEWPN3b6uJEp1nLKiIMRUQXZk8998ncu1+flRGST8aaQBLsuzDEW81oD4VfVZekW5
-         hO7rOTry+6reM0Euu1d8IUaoeKuMiWL8Qh4zTwMj55aKdtq43xeL43rZzg6xGG8SEHDw
-         ersti1sFOtOx9h2bXdfzQehQraaXe5fQyfkUNSg7lrsFmzjcQEkKA/wetWXgKktfHBUW
-         tgTsHMq+V59vxivkZrq0OE2buIHqtFkPo83I1lPqR1RusXqQKUOpO5duSWL6Ik2MrH55
-         v6Fg==
+        d=linaro.org; s=google; t=1739345214; x=1739950014; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AJTh/3LX42S4U+/p3ueXWIJVVkrm4MNl6nXiRtJNaS8=;
+        b=Je2oQQnROiJgoi/TkDLIOz33GvoTTHB6zorTliimdm1FLaAzGLbxvVq5p8LZvpf8QS
+         nmX+xK72bxyoA2C7qioB9P6/DnIxZNW27ySMZCIqj8CHy77wDdAaRDhdFeKqGUeSAmrE
+         RePSHdXPeY4DHG6keanOF7Xj4HBR2WXvmbXvqyqlpEmV5K0zLWVc96h3vu2gJShG+Dpi
+         k1ZT5mm8gteF6YzFkeF8/sQeGtMkfFLrSKx8TyKp06n8I5PzJpwb+ZBYwqs09VlRCA9G
+         4a3hBR66533zPDf0L6s45Zqvh4ddKmEdUaKCXdgwPchb19/vj4IUGmsD7IfHxQ9ycI2E
+         UImw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739344464; x=1739949264;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IcRo2mLuLppF89p7qalQVVIl9otgMGV6R/tX138Yi2k=;
-        b=iUsdX7JbBV9DW1B9BD9IW489gdjw2se8yIKLp+GFAgcl/CO6b7Uolv6+U0QV58hVxh
-         +zYJpsuQphEfjAS+ROzoQjfZuh2NmA7ykvYFQrotxxfSS24Ur/uo4/qX+/ukGAm93gLU
-         3FV84L8jsg13PUCUzLUmm9w1E4S96LnacAZDwFzHSap+j67sZ6Tvne5ArmY1h03vqV1F
-         kkJ3n/A3HgjdW8dc+BOmHBvleMRaBYsUDp8zHNziW2lAIk+001iJEq7ivARPk03m4GBS
-         7FPHDCpSjMOBD8IYVsdQHlXu0/ynn/9b3h/gaEJkJwk23HeMQMOFtDtZs18OR19MSf9T
-         ja9w==
-X-Forwarded-Encrypted: i=1; AJvYcCV8kDl+yuxwXIGp/rohtk+bzgWsY26UANbhBgjmJnRsrS6WU4156lSHra2kkTeY5XnDs55DQ+lqPWrR4bYX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1kz+c8MwAtnkLUnbX2Uygu6L3HdHJ53VamHqHKGjiH8lPSVtS
-	DW8KvyQAbj3xa8mppSAgpPgqbelRF4yz78v5sK/Q8WijQkXYXWzVVYHWclA1MQU=
-X-Gm-Gg: ASbGncsIWZreqXXrEWE1E8vtVSHmNoVZoOvlUf4kGcT5YqVdY6PqdJuyqtup8Vz8EMP
-	gLXQKeKr+5rtaB+H4HYrKCACzi37TzmZszBCv9rZnGMMbQ+nq8Qnpo25Co0ZUjwBG0HwpaN836a
-	jp3OgEG8J4YxTLBLqqitmRXayvyEjK8WmaXVDZ6oKJ/QK00Am/CWqzTFjEq7Vygj772V0t4ms7I
-	QKweM8qa1hYS14Mw5HRq0TiIBdIAKq6ucf49kAxcitOAikvEqfg26wcixXHBM/bbzKCTN78ji5s
-	8B1tolk86FB91aaadR2U
-X-Google-Smtp-Source: AGHT+IFA337F5rcZ/SLySUMlmBUKximSXXcbYVdDK1Uyw/tZpabgTbOrGJJPwcThu1lPZa67vpeW3g==
-X-Received: by 2002:a17:907:3da5:b0:ab7:d179:2496 with SMTP id a640c23a62f3a-ab7f3365a09mr186804866b.6.1739344463790;
-        Tue, 11 Feb 2025 23:14:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739345214; x=1739950014;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AJTh/3LX42S4U+/p3ueXWIJVVkrm4MNl6nXiRtJNaS8=;
+        b=AyC2RADbhAE3ZNhTqqOL0+n6FNK/0mrAsPUAcoKp1fnUY+CEwD4jnlU674cNLLZyA5
+         Cgpu6Jm4Saa4ZFfuv4jGEm86+y1KOqUYe/JQiqLy2invoqNrFlNIegZAY5hiC6Mv4yNY
+         14S78XlMI0/HwQiGEcDAcDRzGl5BDV72tRtmOzJ0qHUkbVUiS3C/vW1//SH9bFsEtHDF
+         OdJRCFNQ3AF0WV7CsSFTVNlNAANemkUwBp67GKqzmjzFMmN50zFG37yNBroSuwo4eR+s
+         MFCIb5dibfOPVnsL/Payi+8hL921qE49K2Hs5BlJstkdDUwcrrs22Y8/dDWe8z0qg6iv
+         +lAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJp40Cd+LdLHaBzycoLSmtabIWt2N9flalcj536Kq2MRmjMEp/EMDtU1eSrfENlsRZbNrasf05CIOzl09t@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywc3Wdjo2nWlAD2s/8efSvbVKpBrzhUm6LffnWyDTKS3oglOdkc
+	LRoiiwv7miSapZYTVDtGABSeeHO5Asetutdin5WV4g8zdxObW5/Aql8DsoegTOk=
+X-Gm-Gg: ASbGncuw6P9QTD+O8Q+t0EVkAuY9Ls/5tk1Fmj1OrCJyo445iq1ufRFHJ/Galibtsfi
+	6Zq47Fsc6siqA7OVkc8n4VkQ//C9Nc2YM558hoWrkSlZ/AWmxWodHIOmIPLLbRdYkXDdmjk4VFX
+	MCYRFD8opDT7ABQAuof8dXMiOIy4N1b+M+9+UYp3FgKd+VnRAz34tkJUCfIOmHc3QcS7G8FJkLr
+	luLCvoMsivjhhvWISZN8U5OEGv3twrHUkZJQ7+a6qb3IFc6LbOGeK6q6kPX7t7oAFnMDuerTZjY
+	THlBWzd3nqzViNQ5vWaI
+X-Google-Smtp-Source: AGHT+IFEIukrsfK6bZlW7MrqvUc4H7nNhVSu1KFPTEnyStLzMs/D5F7VfW3cbMd6Iv6A4IGV/jSXWQ==
+X-Received: by 2002:a05:6402:3553:b0:5d1:1f1:a283 with SMTP id 4fb4d7f45d1cf-5deadd7bc87mr1609569a12.4.1739345213733;
+        Tue, 11 Feb 2025 23:26:53 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab7d5f84968sm352465166b.164.2025.02.11.23.14.22
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5de5a2fc79esm7995187a12.10.2025.02.11.23.26.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 23:14:23 -0800 (PST)
-Date: Wed, 12 Feb 2025 10:14:20 +0300
+        Tue, 11 Feb 2025 23:26:53 -0800 (PST)
+Date: Wed, 12 Feb 2025 10:26:50 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Roman Gushchin <roman.gushchin@linux.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:sframe_unwinder.rfc 6/8]
- arch/arm64/kernel/stacktrace.c:317 kunwind_next() error: uninitialized
- symbol 'err'.
-Message-ID: <efcccbb2-460d-403b-bd7e-820c91ffde1e@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Jerome Brunet <jbrunet@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary
+ device creation helper
+Message-ID: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,67 +77,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250206-aux-device-create-helper-v2-6-fa6a0f326527@baylibre.com>
 
-tree:   https://github.com/rgushchin/linux.git sframe_unwinder.rfc
-head:   0cc3157743fd72033cfa5de243943249f9d67cea
-commit: 15aeab1a240cbf8183562d48028d84121e945308 [6/8] unwind: arm64: add reliable stacktrace support for arm64
-config: arm64-randconfig-r072-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081057.X3H859Hx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+Hi Jerome,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/driver-core-auxiliary-bus-add-device-creation-helper/20250207-023433
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250206-aux-device-create-helper-v2-6-fa6a0f326527%40baylibre.com
+patch subject: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary device creation helper
+config: xtensa-randconfig-r071-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081655.FlCrxpYN-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502081057.X3H859Hx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502081655.FlCrxpYN-lkp@intel.com/
 
 smatch warnings:
-arch/arm64/kernel/stacktrace.c:317 kunwind_next() error: uninitialized symbol 'err'.
+drivers/clk/imx/clk-imx8mp-audiomix.c:241 clk_imx8mp_audiomix_reset_controller_register() warn: passing zero to 'PTR_ERR'
 
-vim +/err +317 arch/arm64/kernel/stacktrace.c
+vim +/PTR_ERR +241 drivers/clk/imx/clk-imx8mp-audiomix.c
 
-b5ecc19e684eee Mark Rutland 2023-04-11  300  static __always_inline int
-1beef60e7d6b90 Mark Rutland 2023-11-24  301  kunwind_next(struct kunwind_state *state)
-4e00532f373659 Marc Zyngier 2022-07-27  302  {
-4e00532f373659 Marc Zyngier 2022-07-27  303  	int err;
-4e00532f373659 Marc Zyngier 2022-07-27  304  
-8094df1cf09248 Mark Rutland 2024-10-17  305  	state->flags.all = 0;
-8094df1cf09248 Mark Rutland 2024-10-17  306  
-bdf8eafbf7f56f Mark Rutland 2024-10-17  307  	switch (state->source) {
-bdf8eafbf7f56f Mark Rutland 2024-10-17  308  	case KUNWIND_SOURCE_FRAME:
-bdf8eafbf7f56f Mark Rutland 2024-10-17  309  	case KUNWIND_SOURCE_CALLER:
-bdf8eafbf7f56f Mark Rutland 2024-10-17  310  	case KUNWIND_SOURCE_TASK:
-bdf8eafbf7f56f Mark Rutland 2024-10-17  311  	case KUNWIND_SOURCE_REGS_PC:
-2abe944a4cb43d Weinan Liu   2025-01-25  312  #ifdef CONFIG_SFRAME_UNWINDER
-15aeab1a240cbf Weinan Liu   2025-01-25  313  	if (!state->common.unreliable)
-2abe944a4cb43d Weinan Liu   2025-01-25  314  		err = unwind_next_frame_sframe(&state->common);
+c350f4c434316c Jerome Brunet 2025-02-06  231  static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  232  {
+c350f4c434316c Jerome Brunet 2025-02-06  233  	struct auxiliary_device *adev;
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  234  
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  235  	if (!of_property_present(dev->of_node, "#reset-cells"))
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  236  		return 0;
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  237  
+c350f4c434316c Jerome Brunet 2025-02-06  238  	adev = devm_auxiliary_device_create(dev, KBUILD_MODNAME,
+c350f4c434316c Jerome Brunet 2025-02-06  239  					    "reset", NULL, 0);
+c350f4c434316c Jerome Brunet 2025-02-06  240  	if (IS_ERR_OR_NULL(adev))
+c350f4c434316c Jerome Brunet 2025-02-06 @241  		return PTR_ERR(adev);
 
-uninitialized on else path
+If devm_auxiliary_device_create() could return NULL then that would count
+as success.  But devm_auxiliary_device_create() can't return NULL.  It
+only makes sense to return NULL if the auxiliary device is optional.
 
-2abe944a4cb43d Weinan Liu   2025-01-25  315  
-2abe944a4cb43d Weinan Liu   2025-01-25  316  	/* Fallback to FP based unwinder */
-15aeab1a240cbf Weinan Liu   2025-01-25 @317  	if (err || state->common.unreliable) {
-                                                    ^^^
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-32ed1205682ec4 Mark Rutland 2024-12-11  318  		err = kunwind_next_frame_record(state);
-15aeab1a240cbf Weinan Liu   2025-01-25  319  		/* Mark its stacktrace result as unreliable if it is unwindable via FP */
-15aeab1a240cbf Weinan Liu   2025-01-25  320  		if (!err)
-15aeab1a240cbf Weinan Liu   2025-01-25  321  			state->common.unreliable = true;
-15aeab1a240cbf Weinan Liu   2025-01-25  322  	}
-2abe944a4cb43d Weinan Liu   2025-01-25  323  #else
-2abe944a4cb43d Weinan Liu   2025-01-25  324  	err = kunwind_next_frame_record(state);
-2abe944a4cb43d Weinan Liu   2025-01-25  325  #endif
-bdf8eafbf7f56f Mark Rutland 2024-10-17  326  		break;
-bdf8eafbf7f56f Mark Rutland 2024-10-17  327  	default:
-c2c6b27b5aa14f Mark Rutland 2024-10-17  328  		err = -EINVAL;
-bdf8eafbf7f56f Mark Rutland 2024-10-17  329  	}
-4e00532f373659 Marc Zyngier 2022-07-27  330  
-c2c6b27b5aa14f Mark Rutland 2024-10-17  331  	if (err)
-c2c6b27b5aa14f Mark Rutland 2024-10-17  332  		return err;
-c2c6b27b5aa14f Mark Rutland 2024-10-17  333  
-1beef60e7d6b90 Mark Rutland 2023-11-24  334  	state->common.pc = ptrauth_strip_kernel_insn_pac(state->common.pc);
-4e00532f373659 Marc Zyngier 2022-07-27  335  
-1beef60e7d6b90 Mark Rutland 2023-11-24  336  	return kunwind_recover_return_address(state);
-4e00532f373659 Marc Zyngier 2022-07-27  337  }
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  242  
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  243  	return 0;
+6f0e817175c5b2 Shengjiu Wang 2024-06-14  244  }
 
 -- 
 0-DAY CI Kernel Test Service
