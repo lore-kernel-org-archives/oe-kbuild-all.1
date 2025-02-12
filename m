@@ -1,59 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E101E7C07
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 04:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67010208A7;
+	Wed, 12 Feb 2025 04:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739335379; cv=none; b=ZtiXmAqX6++Qyd8SD4Yonoc+bHKbUzgxJP7QLu/T8nT8ozSdJeob/y0CCMt9NuseedokJkEJE/JCV59ZdjCH8g28dGrz/dN8YkzWJeoZGUK0bW6NzrVFY37KFrF5YzOjSmjlzTUvzpp2BxmwERhvw42zkqXYmH/A1DSS2mK1GNU=
+	t=1739335751; cv=none; b=bPq67FqzHtJkE50NCBFsS+OH3Vthff4JGcFbGfzEwmfm/6DXAPcG3jPJLJWXpx645D4HzIVHvU4nINg2dm6NyYlVSvUOFCHtI0nvcIsVP0t+SSZ30qblVENKO0SJjMdGsLKHbLIcNqfZ/VJKNnTikjAUzGcpkgOByWC6aR78kRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739335379; c=relaxed/simple;
-	bh=GDeaeZH8t1+gAb6VATABMMpqtAd9Qc/3ExpSoq+Sxjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TxsioDJ2TgEpAmMaSfBe1pAtjroyZOsibk7ln+7wYSgUFWUHhgGAr7StNT3lhMbDKnfPlX4CRx71acv+axs9ghbXECvAVjFVfAa4mQCBq0TFeqrdyEaT1JmfXHLWf2k7ZSH3RVQGWG9i1i0nSrsQVpO1H1xUep3AA50gUSae+00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HP79/2+R; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739335751; c=relaxed/simple;
+	bh=SZHbFT5hPcDSmpSzZXIPq92JgekFc7wyIuw+QzgaAJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a5aY15b/csWpEsumEMTzeHaOuv0Zdnedq5Sa1C88sXQ7a8+hK8l+a1mkvM56bGAO5ik8f/7NuSIV209gXr1FndaU5GK50NZ3dZc9nlXnOYjjWyurFTRhOpLv1Le3UH6hhIaxuLy0gTcrjPIwBWWwZy77sqTBcebtOIPjYVeNJuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=jesQSFU5; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HP79/2+R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739335378; x=1770871378;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GDeaeZH8t1+gAb6VATABMMpqtAd9Qc/3ExpSoq+Sxjg=;
-  b=HP79/2+Rr9kTIGR/+tlUqDtk2dSod1pd5aisuS+y8Jm6jgRBmYvIm1yi
-   awY16TTlXaPkHuGQlyLq98ONb6gnx1/gshnRX53Vdhhd/928dmSuBFiRI
-   qojxZcblrSqe9AVf49yG5eHFBOyTXTv+EUghkiU4wYZz6ZAQAniehK7W7
-   Fxbkv+8o9kjNtvLxFuhhrhULTg3ZoFGZNzZyM9zCCROG1J7RF6wVgSATU
-   btshOjtBhkPDY9XjczT1OW7+SWOkg/E/pgaun0I5oL10jsp4RAjwlThyn
-   pbsJ0OQ6VuD2Z/WBmzGFEmv1UOEETw14B/8sa3JWdWkLnWG1ElkrVmeEB
-   Q==;
-X-CSE-ConnectionGUID: erONTcWZR3y6Rs2dGNDfog==
-X-CSE-MsgGUID: a76gQCDrQjmKEB2WfI12Xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39839675"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="39839675"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 20:42:57 -0800
-X-CSE-ConnectionGUID: dVf7tGExRnOCLoDSzXIIaQ==
-X-CSE-MsgGUID: uu+oYehYR5SsWIhcyuV4oQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="117792148"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2025 20:42:55 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ti4aL-00157n-0U;
-	Wed, 12 Feb 2025 04:42:53 +0000
-Date: Wed, 12 Feb 2025 12:41:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: drivers/most/most_snd.c:58: warning: Excess struct member 'opened'
- description in 'channel'
-Message-ID: <202502121231.jdgxuPA7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="jesQSFU5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=q5G5BQZ/AdEoSNHs040ekLzH6kmkOaqYgMRUB269QUg=; b=jesQSFU5EzbhRAfZ5zYF7YSu6J
+	QvsxSvRBdX8rjqU6mWBN3O8kQ8o/ExqO11DXK79XfntUUrV0COcMZJ5m5IwH6I3lMLytckw9pDhsy
+	2gWRFdoZHTRYPpRhDPufZvSiDRv/+bkgSZB2WAAWs0ssBTNwCxEKjd92JdyFv5TwbpLEvQ4A78M40
+	DK5UvKTRarZOQjmoa8zRipwrxyWrOWGY2FoBQaFeNIrbyP/TboQ/uMPQb0C96dqMNwTr7MjHDJ2Ko
+	vLVOJJ+yVX9W2i+4JHBQO0K9jwtis8o+rJ+xoGaFTJX9e1hv6wr1eehvNblDmvIs3J7H/aUnVjzPQ
+	XRZ/2jfw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1ti4TG-00HDt4-35;
+	Wed, 12 Feb 2025 12:48:56 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 12 Feb 2025 12:48:55 +0800
+Date: Wed, 12 Feb 2025 12:48:55 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: kernel test robot <lkp@intel.com>
+Cc: Danny Tsen <dtsen@linux.ibm.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Subject: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch is
+ modular
+Message-ID: <Z6woN4vgdaywOZxm@gondor.apana.org.au>
+References: <202501230223.ikroNDr1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +51,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202501230223.ikroNDr1-lkp@intel.com>
 
-Hi Mark,
+On Thu, Jan 23, 2025 at 02:18:27AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   c4b9570cfb63501638db720f3bee9f6dfd044b82
+> commit: b42519dbba838c928e82b55f32712fbe3eed2c45 crypto: ppc/curve25519 - Update Kconfig and Makefile for ppc64le
+> date:   8 months ago
+> config: powerpc64-randconfig-r111-20250122 (https://download.01.org/0day-ci/archive/20250123/202501230223.ikroNDr1-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce: (https://download.01.org/0day-ci/archive/20250123/202501230223.ikroNDr1-lkp@intel.com/reproduce)
 
-FYI, the error/warning still remains.
+Thanks for the report.  This is the old built-in vs. modular Kconfig
+problem.  This patch should fix it:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   09fbf3d502050282bf47ab3babe1d4ed54dd1fd8
-commit: 512d092d78823f9813f4af38090b33c454137a4c ALSA: Enable build with UML
-date:   1 year, 7 months ago
-config: um-randconfig-001-20240624 (https://download.01.org/0day-ci/archive/20250212/202502121231.jdgxuPA7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121231.jdgxuPA7-lkp@intel.com/reproduce)
+---8<---
+The HAVE_ARCH Kconfig options in lib/crypto try to solve the
+modular versus built-in problem, but it still fails when the
+the LIB option (e.g., CRYPTO_LIB_CURVE25519) is selected externally.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121231.jdgxuPA7-lkp@intel.com/
+Fix this by introducing a level of indirection with ARCH_MAY_HAVE
+Kconfig options, these then go on to select the ARCH_HAVE options
+if the ARCH Kconfig options matches that of the LIB option.
 
-All warnings (new ones prefixed by >>):
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202501230223.ikroNDr1-lkp@intel.com/
+Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
 
->> drivers/most/most_snd.c:58: warning: Excess struct member 'opened' description in 'channel'
-
-
-vim +58 drivers/most/most_snd.c
-
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  26  
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  27  /**
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  28   * struct channel - private structure to keep channel specific data
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  29   * @substream: stores the substream structure
-fba3993e86cc44 drivers/most/most_snd.c                Randy Dunlap    2023-01-12  30   * @pcm_hardware: low-level hardware description
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  31   * @iface: interface for which the channel belongs to
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  32   * @cfg: channel configuration
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  33   * @card: registered sound card
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  34   * @list: list for private use
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  35   * @id: channel index
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  36   * @period_pos: current period position (ring buffer)
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  37   * @buffer_pos: current buffer position (ring buffer)
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  38   * @is_stream_running: identifies whether a stream is running or not
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  39   * @opened: set when the stream is opened
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  40   * @playback_task: playback thread
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  41   * @playback_waitq: waitq used by playback thread
-fba3993e86cc44 drivers/most/most_snd.c                Randy Dunlap    2023-01-12  42   * @copy_fn: copy function for PCM-specific format and width
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  43   */
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  44  struct channel {
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  45  	struct snd_pcm_substream *substream;
-d801887248312f drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-09-28  46  	struct snd_pcm_hardware pcm_hardware;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  47  	struct most_interface *iface;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  48  	struct most_channel_config *cfg;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  49  	struct snd_card *card;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  50  	struct list_head list;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  51  	int id;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  52  	unsigned int period_pos;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  53  	unsigned int buffer_pos;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  54  	bool is_stream_running;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  55  	struct task_struct *playback_task;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  56  	wait_queue_head_t playback_waitq;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  57  	void (*copy_fn)(void *alsa, void *most, unsigned int bytes);
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24 @58  };
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  59  
-
-:::::: The code at line 58 was first introduced by commit
-:::::: 54b4856fb3624609dd5d9ed013bfec7d67083622 Staging: most: add MOST driver's aim-sound module
-
-:::::: TO: Christian Gromm <christian.gromm@microchip.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+diff --git a/arch/arm/crypto/Kconfig b/arch/arm/crypto/Kconfig
+index 32650c8431d9..47d9cc59f254 100644
+--- a/arch/arm/crypto/Kconfig
++++ b/arch/arm/crypto/Kconfig
+@@ -6,7 +6,7 @@ config CRYPTO_CURVE25519_NEON
+ 	tristate "Public key crypto: Curve25519 (NEON)"
+ 	depends on KERNEL_MODE_NEON
+ 	select CRYPTO_LIB_CURVE25519_GENERIC
+-	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
++	select CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519
+ 	help
+ 	  Curve25519 algorithm
+ 
+@@ -47,7 +47,7 @@ config CRYPTO_NHPOLY1305_NEON
+ config CRYPTO_POLY1305_ARM
+ 	tristate "Hash functions: Poly1305 (NEON)"
+ 	select CRYPTO_HASH
+-	select CRYPTO_ARCH_HAVE_LIB_POLY1305
++	select CRYPTO_ARCH_MAY_HAVE_LIB_POLY1305
+ 	help
+ 	  Poly1305 authenticator algorithm (RFC7539)
+ 
+@@ -214,7 +214,7 @@ config CRYPTO_AES_ARM_CE
+ config CRYPTO_CHACHA20_NEON
+ 	tristate "Ciphers: ChaCha20, XChaCha20, XChaCha12 (NEON)"
+ 	select CRYPTO_SKCIPHER
+-	select CRYPTO_ARCH_HAVE_LIB_CHACHA
++	select CRYPTO_ARCH_MAY_HAVE_LIB_CHACHA
+ 	help
+ 	  Length-preserving ciphers: ChaCha20, XChaCha20, and XChaCha12
+ 	  stream cipher algorithms
+diff --git a/arch/powerpc/crypto/Kconfig b/arch/powerpc/crypto/Kconfig
+index 5b315e9756b3..e453cb0c82d2 100644
+--- a/arch/powerpc/crypto/Kconfig
++++ b/arch/powerpc/crypto/Kconfig
+@@ -6,7 +6,7 @@ config CRYPTO_CURVE25519_PPC64
+ 	tristate "Public key crypto: Curve25519 (PowerPC64)"
+ 	depends on PPC64 && CPU_LITTLE_ENDIAN
+ 	select CRYPTO_LIB_CURVE25519_GENERIC
+-	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
++	select CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519
+ 	help
+ 	  Curve25519 algorithm
+ 
+@@ -95,7 +95,7 @@ config CRYPTO_CHACHA20_P10
+ 	depends on PPC64 && CPU_LITTLE_ENDIAN && VSX
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_LIB_CHACHA_GENERIC
+-	select CRYPTO_ARCH_HAVE_LIB_CHACHA
++	select CRYPTO_ARCH_MAY_HAVE_LIB_CHACHA
+ 	help
+ 	  Length-preserving ciphers: ChaCha20, XChaCha20, and XChaCha12
+ 	  stream cipher algorithms
+diff --git a/arch/x86/crypto/Kconfig b/arch/x86/crypto/Kconfig
+index 4757bf922075..c189dad0969b 100644
+--- a/arch/x86/crypto/Kconfig
++++ b/arch/x86/crypto/Kconfig
+@@ -6,7 +6,7 @@ config CRYPTO_CURVE25519_X86
+ 	tristate "Public key crypto: Curve25519 (ADX)"
+ 	depends on X86 && 64BIT
+ 	select CRYPTO_LIB_CURVE25519_GENERIC
+-	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
++	select CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519
+ 	help
+ 	  Curve25519 algorithm
+ 
+@@ -352,7 +352,7 @@ config CRYPTO_CHACHA20_X86_64
+ 	depends on X86 && 64BIT
+ 	select CRYPTO_SKCIPHER
+ 	select CRYPTO_LIB_CHACHA_GENERIC
+-	select CRYPTO_ARCH_HAVE_LIB_CHACHA
++	select CRYPTO_ARCH_MAY_HAVE_LIB_CHACHA
+ 	help
+ 	  Length-preserving ciphers: ChaCha20, XChaCha20, and XChaCha12
+ 	  stream cipher algorithms
+@@ -420,7 +420,7 @@ config CRYPTO_POLY1305_X86_64
+ 	tristate "Hash functions: Poly1305 (SSE2/AVX2)"
+ 	depends on X86 && 64BIT
+ 	select CRYPTO_LIB_POLY1305_GENERIC
+-	select CRYPTO_ARCH_HAVE_LIB_POLY1305
++	select CRYPTO_ARCH_MAY_HAVE_LIB_POLY1305
+ 	help
+ 	  Poly1305 authenticator algorithm (RFC7539)
+ 
+diff --git a/lib/crypto/Kconfig b/lib/crypto/Kconfig
+index b01253cac70a..c542ef1d64d0 100644
+--- a/lib/crypto/Kconfig
++++ b/lib/crypto/Kconfig
+@@ -42,12 +42,17 @@ config CRYPTO_LIB_BLAKE2S_GENERIC
+ 	  of CRYPTO_LIB_BLAKE2S.
+ 
+ config CRYPTO_ARCH_HAVE_LIB_CHACHA
+-	tristate
++	bool
+ 	help
+ 	  Declares whether the architecture provides an arch-specific
+ 	  accelerated implementation of the ChaCha library interface,
+ 	  either builtin or as a module.
+ 
++config CRYPTO_ARCH_MAY_HAVE_LIB_CHACHA
++	tristate
++	select CRYPTO_ARCH_HAVE_LIB_CHACHA if CRYPTO_LIB_CHACHA=m
++	select CRYPTO_ARCH_HAVE_LIB_CHACHA if CRYPTO_ARCH_MAY_HAVE_LIB_CHACHA=y
++
+ config CRYPTO_LIB_CHACHA_GENERIC
+ 	tristate
+ 	select CRYPTO_LIB_UTILS
+@@ -60,7 +65,6 @@ config CRYPTO_LIB_CHACHA_GENERIC
+ 
+ config CRYPTO_LIB_CHACHA
+ 	tristate "ChaCha library interface"
+-	depends on CRYPTO_ARCH_HAVE_LIB_CHACHA || !CRYPTO_ARCH_HAVE_LIB_CHACHA
+ 	select CRYPTO_LIB_CHACHA_GENERIC if CRYPTO_ARCH_HAVE_LIB_CHACHA=n
+ 	help
+ 	  Enable the ChaCha library interface. This interface may be fulfilled
+@@ -68,12 +72,17 @@ config CRYPTO_LIB_CHACHA
+ 	  is available and enabled.
+ 
+ config CRYPTO_ARCH_HAVE_LIB_CURVE25519
+-	tristate
++	bool
+ 	help
+ 	  Declares whether the architecture provides an arch-specific
+ 	  accelerated implementation of the Curve25519 library interface,
+ 	  either builtin or as a module.
+ 
++config CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519
++	tristate
++	select CRYPTO_ARCH_HAVE_LIB_CURVE25519 if CRYPTO_LIB_CURVE25519=m
++	select CRYPTO_ARCH_HAVE_LIB_CURVE25519 if CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519=y
++
+ config CRYPTO_LIB_CURVE25519_GENERIC
+ 	tristate
+ 	help
+@@ -85,7 +94,6 @@ config CRYPTO_LIB_CURVE25519_GENERIC
+ 
+ config CRYPTO_LIB_CURVE25519
+ 	tristate "Curve25519 scalar multiplication library"
+-	depends on CRYPTO_ARCH_HAVE_LIB_CURVE25519 || !CRYPTO_ARCH_HAVE_LIB_CURVE25519
+ 	select CRYPTO_LIB_CURVE25519_GENERIC if CRYPTO_ARCH_HAVE_LIB_CURVE25519=n
+ 	select CRYPTO_LIB_UTILS
+ 	help
+@@ -104,12 +112,17 @@ config CRYPTO_LIB_POLY1305_RSIZE
+ 	default 1
+ 
+ config CRYPTO_ARCH_HAVE_LIB_POLY1305
+-	tristate
++	bool
+ 	help
+ 	  Declares whether the architecture provides an arch-specific
+ 	  accelerated implementation of the Poly1305 library interface,
+ 	  either builtin or as a module.
+ 
++config CRYPTO_ARCH_MAY_HAVE_LIB_POLY1305
++	tristate
++	select CRYPTO_ARCH_HAVE_LIB_POLY1305 if CRYPTO_LIB_POLY1305=m
++	select CRYPTO_ARCH_HAVE_LIB_POLY1305 if CRYPTO_ARCH_MAY_HAVE_LIB_POLY1305=y
++
+ config CRYPTO_LIB_POLY1305_GENERIC
+ 	tristate
+ 	help
+@@ -121,7 +134,6 @@ config CRYPTO_LIB_POLY1305_GENERIC
+ 
+ config CRYPTO_LIB_POLY1305
+ 	tristate "Poly1305 library interface"
+-	depends on CRYPTO_ARCH_HAVE_LIB_POLY1305 || !CRYPTO_ARCH_HAVE_LIB_POLY1305
+ 	select CRYPTO_LIB_POLY1305_GENERIC if CRYPTO_ARCH_HAVE_LIB_POLY1305=n
+ 	help
+ 	  Enable the Poly1305 library interface. This interface may be fulfilled
+@@ -130,8 +142,6 @@ config CRYPTO_LIB_POLY1305
+ 
+ config CRYPTO_LIB_CHACHA20POLY1305
+ 	tristate "ChaCha20-Poly1305 AEAD support (8-byte nonce library version)"
+-	depends on CRYPTO_ARCH_HAVE_LIB_CHACHA || !CRYPTO_ARCH_HAVE_LIB_CHACHA
+-	depends on CRYPTO_ARCH_HAVE_LIB_POLY1305 || !CRYPTO_ARCH_HAVE_LIB_POLY1305
+ 	depends on CRYPTO
+ 	select CRYPTO_LIB_CHACHA
+ 	select CRYPTO_LIB_POLY1305
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
