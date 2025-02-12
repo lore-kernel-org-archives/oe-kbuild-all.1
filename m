@@ -1,60 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E98F1DB377
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 04:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5972D600;
+	Wed, 12 Feb 2025 05:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739335981; cv=none; b=B83O+CXEk/Gl1XRqihPYrdgmAtT+2HF0z+8w/Kf/89XQQMYZ7lXWmj6AuTaCekRCBJgrfHA/xisNAog8xHR+FSrspAxdAvWwLd6o6f2cUqzRlvWiTaqnIMVDI1mcDEVQrmE8Dh0rwIvE0IbGFMEEMmIkmXDpPkftbEMzWhBFxeM=
+	t=1739336978; cv=none; b=X0uT45wjZiNAG8n+GFv2Elq3Q7Ct7s/IomQ1NEuxEe1YfG9+Np0Gs1liGp9fuoqbyWmmWSOfAGawSFAjHtIWbBSMXQCqJUn9NXgVWmIEYUIjp8m89MfR9DT4y/AbdDTFIAUlEF7wh1yydISFRaaoSEptKMA6hWgJdOW/AZdjL+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739335981; c=relaxed/simple;
-	bh=wIrLq9LBkp3gDltsoDyAENzujaD3bK+4+HaitDCOaf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rzViT8Kz0sH/eY5K/S6V7NTJ51BsOnaVG9+/Q389wVswml/04oTVTeA/LSIFXvpenBCvtrKtGrSGqQQKx5bZ6/vWD6scDSsac1EooTFnLkfSw9XGd3EPBl+rUk9N3aCppc8geh3M+LL/B/zqGwGtjuAHuo66HSXaFFw6fA1GWP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQUp8o2e; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739336978; c=relaxed/simple;
+	bh=rTwWzK2R5eDHPwNZlzEPgv/sFPzyIQ5iAEXmdHJPvLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YpDVndHBDmiIcUqEvZZHe1Ct/cNLheXsnZDq/GDnFzih8weMpal/pqRDc1fP1ys5KxKjY5jucDXFL54BX4iOvHbbzbzwEdr8qosU03/b2xplsByj7MpubHHB0hMDhMxGwQmggFLvssdPj9+5C0nmfWHM3cmysjqfzz2YLbcWvb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pn5tCHJr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQUp8o2e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739335979; x=1770871979;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wIrLq9LBkp3gDltsoDyAENzujaD3bK+4+HaitDCOaf0=;
-  b=nQUp8o2eAcMia3Oe6Mdt18WG0DO3osWWV+FayEORlx0CSyYyvt8suy1N
-   90MWMltqrna5Du9r4C70+3ZMfNlpjY7wYB/WVaYbEVoEiJONSNmxx/Uxh
-   uV0o3XV8O2eS+nOjpKLuu3otDdgR0/+HSyMwtkI96UjzP5mexuPRVxTDP
-   mD88H01yQGaV2y1874Ph9lX59iwsNdm9K12B99RA7mep59zNT59KgHC8w
-   cXUsftwy44rsPGFHow3mHL5+wGyo06qPxQDXFptB2MP2auuhNZX4rt538
-   1mG0Cw5XHcTnSm0h56YsIREkysxiwfRDSSNGKrrdTN2oUHTEEGAYumtnK
-   A==;
-X-CSE-ConnectionGUID: fcNRUVrsQA2ae1eFqSSUsg==
-X-CSE-MsgGUID: N47vHQbZTb6drObt18CHww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39211231"
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="39211231"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 20:52:58 -0800
-X-CSE-ConnectionGUID: bTyhRcYARvCOX7hKwjKKuA==
-X-CSE-MsgGUID: zOL8wUXaTaWsHtny0CiM0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="112461835"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2025 20:52:57 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ti4k2-00158H-0I;
-	Wed, 12 Feb 2025 04:52:54 +0000
-Date: Wed, 12 Feb 2025 12:52:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Deven Bowers <deven.desai@linux.microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Paul Moore <paul@paul-moore.com>,
-	Fan Wu <wufan@linux.microsoft.com>
-Subject: security/ipe/hooks.c:52: warning: Function parameter or struct
- member '__always_unused' not described in 'ipe_mmap_file'
-Message-ID: <202502121207.AtcCkAj0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pn5tCHJr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BF04C4CEDF;
+	Wed, 12 Feb 2025 05:09:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739336978;
+	bh=rTwWzK2R5eDHPwNZlzEPgv/sFPzyIQ5iAEXmdHJPvLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pn5tCHJrzTM3ToHa89t1YtbsX3sakR38xaIZQmVhye3ZeCDtfB/OM2NIPy+p6YsvX
+	 w27WDsufZQbzUwe08sthFVmMjPZjbtAecz45Tw4IG1nV38qsQqRCmpggxsZEaOZUmv
+	 tyO+CFqxNtohfD7gd3hMovkjbsyNZj9/xjMdmEjsHHiIbbOBcoAw/gndw6rJL/l1YE
+	 xHuYGY5CRpPiNmT5D514pwHCNHhlko4NnIdxmYrtww9jaP090NRZBXOt2AlcQ93UCy
+	 gxBQO6UdJP86APaf8wU748uYhGO5rPFHGraLkckcl6wbxHPp7qx8S+2gv6JZ6/ap6m
+	 gySGaiE04PWXg==
+Date: Wed, 12 Feb 2025 05:09:36 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: kernel test robot <lkp@intel.com>, Danny Tsen <dtsen@linux.ibm.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Subject: Re: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch
+ is modular
+Message-ID: <20250212050936.GB2010357@google.com>
+References: <202501230223.ikroNDr1-lkp@intel.com>
+ <Z6woN4vgdaywOZxm@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +46,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z6woN4vgdaywOZxm@gondor.apana.org.au>
 
-Hi Deven,
+On Wed, Feb 12, 2025 at 12:48:55PM +0800, Herbert Xu wrote:
+> On Thu, Jan 23, 2025 at 02:18:27AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   c4b9570cfb63501638db720f3bee9f6dfd044b82
+> > commit: b42519dbba838c928e82b55f32712fbe3eed2c45 crypto: ppc/curve25519 - Update Kconfig and Makefile for ppc64le
+> > date:   8 months ago
+> > config: powerpc64-randconfig-r111-20250122 (https://download.01.org/0day-ci/archive/20250123/202501230223.ikroNDr1-lkp@intel.com/config)
+> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> > reproduce: (https://download.01.org/0day-ci/archive/20250123/202501230223.ikroNDr1-lkp@intel.com/reproduce)
+> 
+> Thanks for the report.  This is the old built-in vs. modular Kconfig
+> problem.  This patch should fix it:
+> 
+> ---8<---
+> The HAVE_ARCH Kconfig options in lib/crypto try to solve the
+> modular versus built-in problem, but it still fails when the
+> the LIB option (e.g., CRYPTO_LIB_CURVE25519) is selected externally.
+> 
+> Fix this by introducing a level of indirection with ARCH_MAY_HAVE
+> Kconfig options, these then go on to select the ARCH_HAVE options
+> if the ARCH Kconfig options matches that of the LIB option.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202501230223.ikroNDr1-lkp@intel.com/
+> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+> 
+> diff --git a/arch/arm/crypto/Kconfig b/arch/arm/crypto/Kconfig
+> index 32650c8431d9..47d9cc59f254 100644
+> --- a/arch/arm/crypto/Kconfig
+> +++ b/arch/arm/crypto/Kconfig
+> @@ -6,7 +6,7 @@ config CRYPTO_CURVE25519_NEON
+>  	tristate "Public key crypto: Curve25519 (NEON)"
+>  	depends on KERNEL_MODE_NEON
+>  	select CRYPTO_LIB_CURVE25519_GENERIC
+> -	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
+> +	select CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519
+>  	help
+>  	  Curve25519 algorithm
 
-FYI, the error/warning still remains.
+Please name these like ARCH_HAS_CURVE25519 and CRYPTO_LIB_CURVE25519_ARCH to be
+consistent with the CRC library, the many other ARCH_HAS_* options, and
+CRYPTO_LIB_CURVE25519_GENERIC.  Nothing uses names that contain "MAY_HAVE",
+which is ambiguous.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   09fbf3d502050282bf47ab3babe1d4ed54dd1fd8
-commit: 52443cb60c356707df494910fa134bbb0a8b1a66 ipe: add LSM hooks on execution and kernel read
-date:   6 months ago
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250212/202502121207.AtcCkAj0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121207.AtcCkAj0-lkp@intel.com/reproduce)
+FWIW, at some point the arch optimized crypto algorithms also need to just be
+enabled by default.  The fact that they're not is a longstanding bug that is
+really harmful to users and needs to be fixed.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121207.AtcCkAj0-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> security/ipe/hooks.c:52: warning: Function parameter or struct member '__always_unused' not described in 'ipe_mmap_file'
->> security/ipe/hooks.c:52: warning: Excess function parameter 'reqprot' description in 'ipe_mmap_file'
->> security/ipe/hooks.c:80: warning: Function parameter or struct member '__always_unused' not described in 'ipe_file_mprotect'
->> security/ipe/hooks.c:80: warning: Excess function parameter 'reqprot' description in 'ipe_file_mprotect'
-
-
-vim +52 security/ipe/hooks.c
-
-    34	
-    35	/**
-    36	 * ipe_mmap_file() - ipe security hook function for mmap check.
-    37	 * @f: File being mmap'd. Can be NULL in the case of anonymous memory.
-    38	 * @reqprot: The requested protection on the mmap, passed from usermode.
-    39	 * @prot: The effective protection on the mmap, resolved from reqprot and
-    40	 *	  system configuration.
-    41	 * @flags: Unused.
-    42	 *
-    43	 * This hook is called when a file is loaded through the mmap
-    44	 * family of system calls.
-    45	 *
-    46	 * Return:
-    47	 * * %0		- Success
-    48	 * * %-EACCES	- Did not pass IPE policy
-    49	 */
-    50	int ipe_mmap_file(struct file *f, unsigned long reqprot __always_unused,
-    51			  unsigned long prot, unsigned long flags)
-  > 52	{
-    53		struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
-    54	
-    55		if (prot & PROT_EXEC) {
-    56			ipe_build_eval_ctx(&ctx, f, IPE_OP_EXEC);
-    57			return ipe_evaluate_event(&ctx);
-    58		}
-    59	
-    60		return 0;
-    61	}
-    62	
-    63	/**
-    64	 * ipe_file_mprotect() - ipe security hook function for mprotect check.
-    65	 * @vma: Existing virtual memory area created by mmap or similar.
-    66	 * @reqprot: The requested protection on the mmap, passed from usermode.
-    67	 * @prot: The effective protection on the mmap, resolved from reqprot and
-    68	 *	  system configuration.
-    69	 *
-    70	 * This LSM hook is called when a mmap'd region of memory is changing
-    71	 * its protections via mprotect.
-    72	 *
-    73	 * Return:
-    74	 * * %0		- Success
-    75	 * * %-EACCES	- Did not pass IPE policy
-    76	 */
-    77	int ipe_file_mprotect(struct vm_area_struct *vma,
-    78			      unsigned long reqprot __always_unused,
-    79			      unsigned long prot)
-  > 80	{
-    81		struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
-    82	
-    83		/* Already Executable */
-    84		if (vma->vm_flags & VM_EXEC)
-    85			return 0;
-    86	
-    87		if (prot & PROT_EXEC) {
-    88			ipe_build_eval_ctx(&ctx, vma->vm_file, IPE_OP_EXEC);
-    89			return ipe_evaluate_event(&ctx);
-    90		}
-    91	
-    92		return 0;
-    93	}
-    94	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Eric
