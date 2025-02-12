@@ -1,53 +1,58 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7027E271834;
-	Wed, 12 Feb 2025 05:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F26D1F4289
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 05:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739339304; cv=none; b=fgvSXwhblodBvkViud+YD+XBGC6guuWidV+6uCzWSwjT9OEr/h6qKhFW1vkxzXHkrXgBIuVwuynb39b0L/7PFGnPO4hPX9H5hZtjGTUZgkLJ0N9H96IDqnyjooP62NRlao1Z/7Bpltkfbr52+p9L0QSZv4ow3NLDV2R+4I7PDCA=
+	t=1739339826; cv=none; b=JDh6foDjJ0oT2V3kMD8BPu795RepiUo4njV46VfRa7WnytdjsXY8vvVnoWnOVd1ivJZxx2SsNiL3mALaw+b/PIEXD69dptZSelXjzqRQ11Uuu+rx6SlpbU+NTEnYsRpHYdngisgJcXLY6mEa0ixJwXFrUvcIRuU67MBjMSKhH1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739339304; c=relaxed/simple;
-	bh=ScOg7aiAPTeXbBcpVo1c4sXN5pW27p2xE46n2njDNLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nceUxqlknjyHRfEuuYollBFKRT/zGevhlly7jlRdp0sy6ELawYNghM4EqERYP5xXmU7vC/+Fir+VAheiRYVIQc0A7jVrNDzdc+M1/mc3xPYEkveTCIUCnBxLI03Blr4PQ6VgQzxG+cet28n1wQujbx3wLITpSBDXv3OuTNA9ySo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=GGrDtlIq; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1739339826; c=relaxed/simple;
+	bh=cDt1pKck2rHbaHRxyPDRtTMNr3IcLt1XUe9A6vOtKmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P7WZvqYo34On/4aqSgf3ZEScMm1GJ1nzFvjOASQA7WzjPHGWtwur+hkjinY0XcMYb3EL8EUvofjGuP47PbtpVamzcvrk85fYSJOZoJZoelbDFZ6ZS40IDcXYJPlPw0rYIr0t4XZWu7eUmXa0WC/ZDtFf7yby0O85eifWOYDQPrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H49hUo9u; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="GGrDtlIq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=ycHONxMQPF80DIruc10D2MrsS8Rh/RkcLxDH6/yynuo=; b=GGrDtlIqnDlQK2yOFShmfnPcnm
-	/2VVBNLE5LVEd4SqWhWtwNSOv5YjV6nw2+UAlhgUhWfNReFAGuEYPPCvOscQuTItV2k4Tw4SCwMWs
-	zmGlY5WTtV6RhPbCSIkUmmK62Iro6KZGhuzA4PmnhvkG15ohuPuwCUgiddQW/KSxHDaZSi6jz23+W
-	WkS8WoaE0mBAOqaUjmQekfJanfT60KYICI5i08EFTGo8dHundZun0fruo0ts88j9BMc7nxBokEyFC
-	xMn1tLAJRLxChqx+xeIPyiAxoLkEqxSb9q7vLaH/xgwgDgusHxbvTvKdlnilhMBx3ktFrpGfJN4O+
-	kQg5fwAg==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1ti5Od-00HEQB-1D;
-	Wed, 12 Feb 2025 13:48:13 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Wed, 12 Feb 2025 13:48:12 +0800
-Date: Wed, 12 Feb 2025 13:48:12 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Danny Tsen <dtsen@linux.ibm.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch
- is modular
-Message-ID: <Z6w2HNjkFo4jvP3s@gondor.apana.org.au>
-References: <202501230223.ikroNDr1-lkp@intel.com>
- <Z6woN4vgdaywOZxm@gondor.apana.org.au>
- <20250212050936.GB2010357@google.com>
- <Z6wxp7UE9MAht4pc@gondor.apana.org.au>
- <20250212054428.GC2010357@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H49hUo9u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739339824; x=1770875824;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cDt1pKck2rHbaHRxyPDRtTMNr3IcLt1XUe9A6vOtKmE=;
+  b=H49hUo9uIWAR5P4VlL588PciIlN12G+5SI+fQXa+CYia8rTo+qVBeyCT
+   Y5LVsc7KGP2VOJ/7OL7ju5Ef+ls3Y034SAHJU6F6mWUu6DtVemv5GcvOP
+   51DWhj6FbJAvu9TC+nwdN0f4TN3gB5bauWzqtOcQ5SA6XjnsMEgRgoPYN
+   uefc/YHYPEsWvcV31SIPw7c6GNPymEVZgLqE8TlVrQHVQLwEcJhsBvO1J
+   fqYi8IaqrFGDgBEwIZT0wvwLM9DAN/A/TqFb5cFyYiqFJ68gmPFwIyq6K
+   a63qvoy/LHLQlI20/PRTf6tmNp+j9IAeGzb+n78vJoxbq0smCLLTP2/EU
+   Q==;
+X-CSE-ConnectionGUID: iT+H94R9QDqlYvnAcB0zsw==
+X-CSE-MsgGUID: leKaszuoSa2iA14YT6xVCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50624405"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="50624405"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 21:57:04 -0800
+X-CSE-ConnectionGUID: tjo/ShCqQ4WsWjqmKQG/Cg==
+X-CSE-MsgGUID: mUYWPczdRFW7RTfZ+PglZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="117804682"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2025 21:57:03 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ti5k4-0015Bn-3D;
+	Wed, 12 Feb 2025 05:57:00 +0000
+Date: Wed, 12 Feb 2025 13:56:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 0/1] kernel/dma/swiotlb.o: warning:
+ objtool: swiotlb_late_init_with_tbl()+0x2e8: unreachable instruction
+Message-ID: <202502121305.Eb40IgMe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,31 +61,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212054428.GC2010357@google.com>
 
-On Wed, Feb 12, 2025 at 05:44:28AM +0000, Eric Biggers wrote:
->
-> The way that the arch options are selected is very much related to this issue,
-> but even disregarding that the first paragraph of my response is a review
-> comment directly on this patch about the naming it uses.
+Hi Christoph,
 
-The CRC situation is not the same unfortunately.  For better or
-worse, the crypto API glue code is currently entangled with the
-lib/crypto arch code.  Meaning that a single Kconfig option ends
-up selecting both.
+FYI, the error/warning still remains.
 
-So I don't see how the MAY_HAVE options can map onto the ones that
-you've used for CRC.
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   37e047edf17927e9af7749ee5babff25a01b16bc
+commit: 2f2f753c199491c64863b901a23e50b953c1aa3c [0/1] UPSTREAM: swiotlb: dynamically allocate io_tlb_default_mem
+config: x86_64-buildonly-randconfig-004-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121305.Eb40IgMe-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121305.Eb40IgMe-lkp@intel.com/reproduce)
 
-Sure you can clean this up and perhaps make the lib/crypto arch
-code always built-in.  But that is not something I wish to spend
-time on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121305.Eb40IgMe-lkp@intel.com/
 
-In any case, none of these new options are publicly exposed so
-you can rename them down the line with very little effort.
+All warnings (new ones prefixed by >>):
 
-Cheers,
+>> kernel/dma/swiotlb.o: warning: objtool: swiotlb_late_init_with_tbl()+0x2e8: unreachable instruction
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
