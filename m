@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2656088F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 02:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAC91D618C;
+	Wed, 12 Feb 2025 02:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739327982; cv=none; b=RQTeaNgYRf18T+0V+4T1dy3Uxmtkktg1hMF1EaL++4JeUYVhKrL6SMfU31vCspMU61S61/FAJVrNelpp2nA49A4sfppVrDwJsQ8G0UYTBJEBWTFuTICQzdbvEgaThdth39dSJuAbK11MJ3LvakQe/UGqct94cB9ZrzuZur4d1Tw=
+	t=1739328464; cv=none; b=rfAOca8QxW08/0qbDE5fhb0mFclwWdaBL8XMgDYDoLAiltX97Cp1QwX9QxYCFVlVjpCvNM2ooxr1U2J9u5gNhfBhmmsFv5S/EatYGDTmzWf/kGM1YLlMwWRMbbOqCvAXexAnmuC8BfCjJT5pZi9ofK2Plrh/yqPwFgLvUPWR3Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739327982; c=relaxed/simple;
-	bh=nI4XRlN0jStqj6Yw6TdD/0/5Po7zTnCktid4Zs3kiI8=;
+	s=arc-20240116; t=1739328464; c=relaxed/simple;
+	bh=xLEQuFwS+B5l13xuPWAlVmmJybLtLGODIvyniOzcDMU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=V663ESHMggJTMTn9DumxjEfiqoHmmrziZragwZYe11rkpIDh1cqMQyY8ZSGsWWU4+tByjTnnD8NVzIRtisMaBFo1bjpCD/WYtTbG6eNnraZPkNCTeFC/nkjPkHqGpWsyp0ozaSHfT0IpV7xjDSjLFkydHTTi83S2Hvm8v29yI8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DdRc6U2p; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=sXTTAUWKijq7txwYPQIYFbKsSNaydSyLIkPLPpxuitmcxEHf8A4kPtGD9rPE+w1NWTqSSOpe3IeqLBh2EMIVA9rxz7xfX/vQUdj31X7XGA0qKV3UJWDDjhlUr+1FfNyxHvmWzFR7WMA9IsKD+kZK3mYVdopG4dNomCFrX0ZukME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPNG3pCB; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DdRc6U2p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPNG3pCB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739327981; x=1770863981;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=nI4XRlN0jStqj6Yw6TdD/0/5Po7zTnCktid4Zs3kiI8=;
-  b=DdRc6U2pXYSRFMhgp64aoQfLR74E2S2/roL86upzzB9t4KEuRapb4pkx
-   8mWpihfUdfRXg1FD0jSyWaweVPw3kmg7E4gkNJb0j6jsYKf0iNFImC1Oy
-   7GnLlR1sfTZdpgZXpRE5lGJZhGp92JTQqVFJQ33JPWn5zT3ZInYjZlfPp
-   Bi5dlevJxhPp9MP9nz3qBQaOT3ARUaGnABd/eKPWvB8tBldRiiAtpskVL
-   KKgyByRbVKmGQoqaMMhRUcdNGWVxHPxdqd/eZVUbDLUew5r1S86xVRscp
-   KuDi5JSQPwOjuA0yZKBGEU6xJ5bvuYiAKXpjde/hD8NduCzG9Kenmhwwm
-   Q==;
-X-CSE-ConnectionGUID: lUHyD9k9TtqaNc7RI4pcVQ==
-X-CSE-MsgGUID: trl5U2NXT8mOrojQHdr7uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39990508"
+  t=1739328463; x=1770864463;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xLEQuFwS+B5l13xuPWAlVmmJybLtLGODIvyniOzcDMU=;
+  b=dPNG3pCBLmx8eRvMSuYy70XWBLqvAbM3iJ/fLxW4UqlbZLs0d8eqGSTK
+   OJBJHxPSVZc07GJEmAv7KQzqeiYta58+O825gGhbXHgt8M2+Vv3Hh3G5d
+   eiidbTGFYOwQ1XBclvoek1oBy9F4gMo8GBH7RF4PnTOcNC5uL2I6UjTl2
+   yh9N9n7nw2QGzpCYIx1AKBiWSboP6L626D/OXK54XSUJBhZgpHhiwMBGC
+   bsf/gmXm03iPtPw3f8QN2PXAEU4YyxyIbLTLxQ1aJN9Ccw3u2VV+PtLB9
+   S/IvsmnqQVOlSUYrgqwp8/Ca09sOJJqOB76eALJkfGy/VtThngdaHDFyd
+   A==;
+X-CSE-ConnectionGUID: D8j3tWirQ9S8QXWHyQhp6Q==
+X-CSE-MsgGUID: acRxoga+Qaq73rY2AuIVrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39990898"
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="39990508"
+   d="scan'208";a="39990898"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 18:39:41 -0800
-X-CSE-ConnectionGUID: PEz7lSoRRnaml7Xzx51Hgg==
-X-CSE-MsgGUID: UoEtSmg4QQiov4comxMCXA==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 18:47:43 -0800
+X-CSE-ConnectionGUID: vtuJPVFASNO43qsx3WX5ag==
+X-CSE-MsgGUID: REb5PIHbQVio/bRe6nH/5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="117771805"
+   d="scan'208";a="117773185"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2025 18:39:39 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 11 Feb 2025 18:47:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti2f3-00150t-1S;
-	Wed, 12 Feb 2025 02:39:37 +0000
-Date: Wed, 12 Feb 2025 10:39:09 +0800
+	id 1ti2mo-00151c-1E;
+	Wed, 12 Feb 2025 02:47:38 +0000
+Date: Wed, 12 Feb 2025 10:47:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qunqin Zhao <zhaoqunqin@loongson.cn>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH V2] net: stmmac: dwmac-loongson: Add fix_soc_reset()
- callback
-Message-ID: <Z6wJzfiep3Y6gBjH@a4552a453fea>
+To: Huang Ying <ying.huang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: kernel/resource.c:1838:43: warning: implicit conversion from
+ 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value
+ from 68719476735 to 4294967295
+Message-ID: <202502121040.ncM3OOjx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212023622.14512-1-zhaoqunqin@loongson.cn>
 
-Hi,
+Hi Huang,
 
-Thanks for your patch.
+FYI, the error/warning still remains.
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   09fbf3d502050282bf47ab3babe1d4ed54dd1fd8
+commit: 99185c10d5d9214d0d0c8b7866660203e344ee3b resource, kunit: add test case for region_intersects()
+date:   5 months ago
+config: arm-randconfig-001-20241228 (https://download.01.org/0day-ci/archive/20250212/202502121040.ncM3OOjx-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121040.ncM3OOjx-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121040.ncM3OOjx-lkp@intel.com/
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH V2] net: stmmac: dwmac-loongson: Add fix_soc_reset() callback
-Link: https://lore.kernel.org/stable/20250212023622.14512-1-zhaoqunqin%40loongson.cn
+All warnings (new ones prefixed by >>):
+
+>> kernel/resource.c:1838:43: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
+                   end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
+   #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
+                                                               ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+   #define min_t(type, x, y) __cmp_once(min, type, x, y)
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+           __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+           ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+                                  ~~    ^
+   kernel/resource.c:1855:45: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
+                   addr <= min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
+   #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
+                                                               ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+   #define min_t(type, x, y) __cmp_once(min, type, x, y)
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+           __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+           ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+                                  ~~    ^
+   2 warnings generated.
+
+
+vim +1838 kernel/resource.c
+
+  1831	
+  1832	static resource_size_t gfr_start(struct resource *base, resource_size_t size,
+  1833					 resource_size_t align, unsigned long flags)
+  1834	{
+  1835		if (flags & GFR_DESCENDING) {
+  1836			resource_size_t end;
+  1837	
+> 1838			end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
+  1839			return end - size + 1;
+  1840		}
+  1841	
+  1842		return ALIGN(max(base->start, align), align);
+  1843	}
+  1844	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
