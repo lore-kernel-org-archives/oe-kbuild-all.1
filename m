@@ -1,71 +1,58 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C841B21AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 16:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142993398A;
+	Wed, 12 Feb 2025 16:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739376607; cv=none; b=bkQR6QgCd/GkZsL4FfkyHjAcpDhUbYuhcdx7Ojo4OCm5JXStWAlRIDU+/VgZUvc1NegbFjIVjcOpqDS00xEI312gbzSb7tRCoaLKkNXY3wNgl5PU643PtbT1UWrBSiLoEV6gEAGCySC6dV0Ei9RzL6Z0dZz0klF4ROSHN8tUODg=
+	t=1739377938; cv=none; b=NR+q2XLGzT3MQbU/C9UQfv2PPV1U1UZRL3BHvZOgylv5dreLm88cPMD0dHlYpw2cBgYWAhiiK99oQH1w0HArCzQjWJnWEe5T9b0aWCBQY29SYbTd+WqAptmhgsToazyqCqWWRUPwjRF+3TkTYj+0d/CnctkmbHo4qI5Azui5yyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739376607; c=relaxed/simple;
-	bh=f8vtER1ac7COAZDAIpiKHEoNgiPTVW+94JGYtK2UU2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A6F2vo5SlXwEo9bshEPa/cHiVJGrgf+/Y9LFV8F0G/qwIb6Yj0KVJ35VW5xy0FG8nysHmP3b+fl1bz30HscAMFDs1m2dkI1s27RS959tBB84p9sPGQaGdyh5MCgR2+BTTqk07J4q9iCu9vivfxmyZyArPcEC/AzndbWQDeJ+30k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pklauf3K; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739377938; c=relaxed/simple;
+	bh=Bvn1mMn+6CR+DYTc5GkR3Nu2PQxawcgRs4qKN47wDTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CGoh7iQxc50iZgPXcQJckvJaBb4iYtxd1WoMTohdA2k98YO5mLXKSCLQHL30gzfS3db0K5JlVaup5+afQMMmoiOrDivdr5xMCh27mNMjv/ghZRroC3qPVdDG7OQNSmJZm8dj6TApZ1CDc57KxGe5OGhE81QOd9/hdcNL6AYHMUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhgfxM5p; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pklauf3K"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c07351d2feso105155285a.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 08:10:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739376605; x=1739981405; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ois65fJkvAitigmv/dEu6kVW/mF29Nh3BerNgEJ3pkY=;
-        b=Pklauf3KUwj80UUsQJcSuJ8EuxecNTEtoKll8hnIMuG6o5CLqeuZ65mP5wx5POJOxl
-         kWCmmcGikWBFplfqMM8J7Nw+CZvuxiIBc6fd6rlCmTiC4RzNoGAw8AsKTma05XR3nmWS
-         53pdgqk80MXtdPbGRho5LKuOzSp9UCLPThQLoVfG4sGYz3/uuCX1vRVlstc8YnRCsnYj
-         FXnbnH+3q9YqHV7akN5ZEP3hUd+w/Gxmh7v14Fi+vrMefraR7XenQ4Ljft7CWO6vkjMl
-         eY4uR0vRIBnIhnEdXy6qPv3wtgH12NRn90ZnOMaMygh1cnZMOnBcwMYBawfojgEGCs3I
-         SFTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739376605; x=1739981405;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ois65fJkvAitigmv/dEu6kVW/mF29Nh3BerNgEJ3pkY=;
-        b=s8ntgh9VK/hNURf+6rRkg9cXC0McX014z7OHcAVpM3h11wcNJP0+E5U7Mw/juNqKET
-         5aQ6AeDYyLpRikV0U+1C9L1eapQYC/SW6msPydFqqTzo/C0CyDvYeqGvDnUgs6bQCydW
-         Zfxnzq3CQCprjtQ4YQA4OKMnS4i63V/PkArHeOvIKn9rTKpClHReUBPfXdsc0hjgpjzl
-         hpA4S3OYuR/6z5rKp2f0wNXE5idUQVEDOAIm7FUtnDbaKwvdhGni+RlkTZYzKdSdcljM
-         TmPhFQtDJp8CDX3mlI7UpBdfCl4UlEGtd6EBdDgsrtXUUTpqkYJqy9tg9hsOsFsForSS
-         NbPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPjxdagYqo74Nludbm1iXi0Eg6TUWze9n4pCaXG3mwaskxZ9dnpx+ETr2CcfD7WZPHWuQyK/crP91FYSng@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8XAGd3406NLil68m/F+1z7LzkWriG7N6PDyGfaenVnH+vOagk
-	ZVDHqebYr0guW++21QEmGnfm4XtRe/bHCK6qY7u2iWw0Pl2RtuTANA1gJA==
-X-Gm-Gg: ASbGncuFbmeXq4lN5tQrGOQD3+jQaUTmEf4QlAukLyc0zyY8AFo6XmbSyimzg9kqCAn
-	vfevIHRWNkM1rA+0O6LMf9ax1HxEnJ/npAfMfEjj+JfwuZbT7hzkSP2SeFkEzbv/hJG/OszOwbr
-	FoQo8Cx+XsZEZOOCgQSA3PNQTcwu3Uetg6BeKlZTO8/3FHMp6PTI5ldiA2z9m4IBG/lVfPXBlQe
-	PdC38zz/XT8PUYz79tB+Zc6/tyI/pHQ2T60hrYk3Vaibeym5rCdLWIZ+vEG9q5I1TYdhSb8XWao
-	IhVsL1DGE+vU0DI+a+UM8KrkHAdH79qN6PoVUMIftjYn71lMyQ==
-X-Google-Smtp-Source: AGHT+IHLcRc02wCGZAuwW/8iNuXPJuvEzTa6245xE8ZIxwm/zuozLlMIhtW8Oj7MUKO0RHdnO4YIfQ==
-X-Received: by 2002:a05:620a:6189:b0:7b7:2de:7075 with SMTP id af79cd13be357-7c06fc76921mr553903685a.28.1739376603486;
-        Wed, 12 Feb 2025 08:10:03 -0800 (PST)
-Received: from glsmbp.wifi.local.cmu.edu (cmu-device.nat.cmu.net. [128.2.149.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0589a7d94sm541434485a.30.2025.02.12.08.10.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 08:10:01 -0800 (PST)
-Date: Wed, 12 Feb 2025 11:09:59 -0500
-From: "Gabriel L. Somlo" <gsomlo@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [litex-hub:litex-rebase 15/15] drivers/block/litesata.c:236:15:
- sparse: sparse: cast removes address space '__iomem' of expression
-Message-ID: <Z6zH108QZmdLsz-l@glsmbp.wifi.local.cmu.edu>
-References: <202502120833.dMbQRzZi-lkp@intel.com>
- <Z6zDaw33CbeXFgyJ@glsmbp.wifi.local.cmu.edu>
- <CAMuHMdVE-E=hYg=QN_-3s8MabcqGVjpe9fPina8Uqo_iFUhS2g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhgfxM5p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739377937; x=1770913937;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bvn1mMn+6CR+DYTc5GkR3Nu2PQxawcgRs4qKN47wDTE=;
+  b=NhgfxM5pV7z57kLSY53ik8HT/4uNgbmvwYbXb2/1kscPvWmOt8+tjg8S
+   ip7XH0oZMc5fbry3ghYt6CL+iZ4NP98udKKFTPkyf39DRSHmc+/gpiOxC
+   HNPhaBJhth251dQR+/8OQ+dX/quAHcrxM1v1s2poiWYtu/qXai0BTL2Xo
+   39yfvUolvTpdb3uLWClYYG/sFMHuDZZPT8gC3MQ7Kmjp4kgP12yy8ryja
+   sZluxvB6kI9fm0O0Aswh4cjS7Hm5YfQTLY9WKdITpzbxQelucOxq3wnkC
+   p3cjHYNVw7XVvoO78+8Xod0IW88GwoGp8n1cW1jRHGybs3E/NbqnAZ2JJ
+   Q==;
+X-CSE-ConnectionGUID: BK16kY3SSsqxiArtZYHfgg==
+X-CSE-MsgGUID: 0x3ZqDE9RaWmMOa0GhgfiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="39968931"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="39968931"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 08:32:16 -0800
+X-CSE-ConnectionGUID: akbWJTUbT6abxNt3pQrlnQ==
+X-CSE-MsgGUID: bb/5u6+xRnW6u5bxCY8mMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="112726578"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 12 Feb 2025 08:32:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tiFem-0015qd-2H;
+	Wed, 12 Feb 2025 16:32:12 +0000
+Date: Thu, 13 Feb 2025 00:32:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:afs-testing 25/35] net/rxrpc/rxgk_kdf.c:222: undefined
+ reference to `crypto_krb5_find_enctype'
+Message-ID: <202502130005.Gejidzvc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,88 +61,253 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVE-E=hYg=QN_-3s8MabcqGVjpe9fPina8Uqo_iFUhS2g@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
 
-On Wed, Feb 12, 2025 at 05:01:53PM +0100, Geert Uytterhoeven wrote:
-> Hi Gabriel,
-> 
-> On Wed, 12 Feb 2025 at 16:51, Gabriel L. Somlo <gsomlo@gmail.com> wrote:
-> > On Wed, Feb 12, 2025 at 08:06:01AM +0800, kernel test robot wrote:
-> > > tree:   https://github.com/litex-hub/linux litex-rebase
-> > > head:   222d6093d18e20b52f2a81a4d162a17af3760fff
-> > > commit: 222d6093d18e20b52f2a81a4d162a17af3760fff [15/15] LiteX: LiteSATA block driver
-> > > config: csky-randconfig-r111-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120833.dMbQRzZi-lkp@intel.com/config)
-> > > compiler: csky-linux-gcc (GCC) 14.2.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20250212/202502120833.dMbQRzZi-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502120833.dMbQRzZi-lkp@intel.com/
-> > >
-> > > sparse warnings: (new ones prefixed by >>)
-> > > >> drivers/block/litesata.c:236:15: sparse: sparse: cast removes address space '__iomem' of expression
-> > >
-> > > vim +/__iomem +236 drivers/block/litesata.c
-> > >
-> > >    208
-> > >    209        static int litesata_irq_init(struct platform_device *pdev,
-> > >    210                                     struct litesata_dev *lbd)
-> > >    211        {
-> > >    212                struct device *dev = &pdev->dev;
-> > >    213                int ret;
-> > >    214
-> > >    215                ret = platform_get_irq_optional(pdev, 0);
-> > >    216                if (ret < 0 && ret != -ENXIO)
-> > >    217                        return ret;
-> > >    218                if (ret > 0)
-> > >    219                        lbd->irq = ret;
-> > >    220                else {
-> > >    221                        dev_warn(dev, "Failed to get IRQ, using polling\n");
-> > >    222                        goto use_polling;
-> > >    223                }
-> > >    224
-> > >    225                lbd->lsirq = devm_platform_ioremap_resource_byname(pdev, "irq");
-> > >    226                if (IS_ERR(lbd->lsirq))
-> > >    227                        return PTR_ERR(lbd->lsirq);
-> > >    228
-> > >    229                ret = devm_request_irq(dev, lbd->irq, litesata_interrupt, 0,
-> > >    230                                       "litesata", lbd);
-> > >    231                if (ret < 0) {
-> > >    232                        dev_warn(dev, "IRQ request error %d, using polling\n", ret);
-> > >    233                        goto use_polling;
-> > >    234                }
-> > >    235
-> > >  > 236                ret = devm_add_action_or_reset(dev, litesata_devm_irq_off,
-> > >    237                                                                (void *)lbd->lsirq);
-> >
-> > This is supposed to work in conjunction with the following (right
-> > before litesata_irq_init() in the source:
-> >
-> >     204 static void litesata_devm_irq_off(void *lsirq)
-> >     205 {
-> >     206        litex_write32((void __iomem *)lsirq + LITESATA_IRQ_ENA, 0);
-> >     207 }
-> >
-> > ... which re-applies `__iomem` to the pointer. Since I'm trying to
-> > pass a `void __iomem *` pointer as "data" through devm_add_action_or_reset(),
-> > I have to cast it to `void *` and back to `void __iomem *` before use.
-> >
-> > Not sure how to do that *and* satisfy sparse at the same time-- perhaps
-> > using a (__force void *) cast is needed/warranted here?
-> 
-> Just pass lbd instead?
-> 
->     static void litesata_devm_irq_off(void *data)
->     {
->             struct litesata_dev *lbd = data;
-> 
->             litex_write32(lbd->lsirq + LITESATA_IRQ_ENA, 0);
->     }
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-testing
+head:   1df5ee14458290f1dc72aeba8770ba56a94e5c15
+commit: 8b667ac5d90083111d3579d5b53e4d6a0cc0a7af [25/35] rxrpc: rxgk: Provide infrastructure and key derivation
+config: um-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250213/202502130005.Gejidzvc-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130005.Gejidzvc-lkp@intel.com/reproduce)
 
-Makes perfect sense, thanks!
-Wish I had thought of that myself, looks like I'm having a slow week... :D
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502130005.Gejidzvc-lkp@intel.com/
 
-Cheers,
---Gabriel
+All errors (new ones prefixed by >>):
+
+   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   /usr/bin/ld: net/rxrpc/rxgk_kdf.o: in function `rxgk_generate_transport_key':
+>> net/rxrpc/rxgk_kdf.c:222: undefined reference to `crypto_krb5_find_enctype'
+>> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:86: undefined reference to `crypto_krb5_calc_PRFplus'
+>> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:119: undefined reference to `crypto_krb5_prepare_encryption'
+>> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:162: undefined reference to `crypto_krb5_prepare_checksum'
+   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:135: undefined reference to `crypto_krb5_prepare_checksum'
+>> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:(.text+0x81b): undefined reference to `crypto_krb5_prepare_checksum'
+   /usr/bin/ld: net/rxrpc/rxgk_kdf.o: in function `rxgk_set_up_token_cipher':
+   net/rxrpc/rxgk_kdf.c:276: undefined reference to `crypto_krb5_find_enctype'
+   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:280: undefined reference to `crypto_krb5_prepare_encryption'
+   clang-16: error: linker command failed with exit code 1 (use -v to see invocation)
+
+
+vim +222 net/rxrpc/rxgk_kdf.c
+
+    48	
+    49	/*
+    50	 * Transport key derivation function.
+    51	 *
+    52	 *      TK = random-to-key(PRF+(K0, L,
+    53	 *                         epoch || cid || start_time || key_number))
+    54	 *      [tools.ietf.org/html/draft-wilkinson-afs3-rxgk-11 sec 8.3]
+    55	 */
+    56	static int rxgk_derive_transport_key(struct rxrpc_connection *conn,
+    57					     struct rxgk_context *gk,
+    58					     const struct rxgk_key *rxgk,
+    59					     struct krb5_buffer *TK,
+    60					     gfp_t gfp)
+    61	{
+    62		const struct krb5_enctype *krb5 = gk->krb5;
+    63		struct krb5_buffer conn_info;
+    64		unsigned int L = krb5->key_bytes;
+    65		__be32 *info;
+    66		u8 *buffer;
+    67		int ret;
+    68	
+    69		_enter("");
+    70	
+    71		conn_info.len = sizeof(__be32) * 5;
+    72	
+    73		buffer = kzalloc(round16(conn_info.len), gfp);
+    74		if (!buffer)
+    75			return -ENOMEM;
+    76	
+    77		conn_info.data = buffer;
+    78	
+    79		info = (__be32 *)conn_info.data;
+    80		info[0] = htonl(conn->proto.epoch);
+    81		info[1] = htonl(conn->proto.cid);
+    82		info[2] = htonl(conn->rxgk.start_time >> 32);
+    83		info[3] = htonl(conn->rxgk.start_time >>  0);
+    84		info[4] = htonl(gk->key_number);
+    85	
+  > 86		ret = crypto_krb5_calc_PRFplus(krb5, &rxgk->key, L, &conn_info, TK, gfp);
+    87		kfree_sensitive(buffer);
+    88		_leave(" = %d", ret);
+    89		return ret;
+    90	}
+    91	
+    92	/*
+    93	 * Set up the ciphers for the usage keys.
+    94	 */
+    95	static int rxgk_set_up_ciphers(struct rxrpc_connection *conn,
+    96				       struct rxgk_context *gk,
+    97				       const struct rxgk_key *rxgk,
+    98				       gfp_t gfp)
+    99	{
+   100		const struct krb5_enctype *krb5 = gk->krb5;
+   101		struct crypto_shash *shash;
+   102		struct crypto_aead *aead;
+   103		struct krb5_buffer TK;
+   104		bool service = rxrpc_conn_is_service(conn);
+   105		int ret;
+   106		u8 *buffer;
+   107	
+   108		buffer = kzalloc(krb5->key_bytes, gfp);
+   109		if (!buffer)
+   110			return -ENOMEM;
+   111	
+   112		TK.len = krb5->key_bytes;
+   113		TK.data = buffer;
+   114	
+   115		ret = rxgk_derive_transport_key(conn, gk, rxgk, &TK, gfp);
+   116		if (ret < 0)
+   117			goto out;
+   118	
+ > 119		aead = crypto_krb5_prepare_encryption(krb5, &TK, RXGK_CLIENT_ENC_RESPONSE, gfp);
+   120		if (IS_ERR(aead))
+   121			goto aead_error;
+   122		gk->resp_enc = aead;
+   123	
+   124		if (crypto_aead_blocksize(gk->resp_enc) != krb5->block_len ||
+   125		    crypto_aead_authsize(gk->resp_enc) != krb5->cksum_len) {
+   126			pr_notice("algo inconsistent with krb5 table %u!=%u or %u!=%u\n",
+   127				  crypto_aead_blocksize(gk->resp_enc), krb5->block_len,
+   128				  crypto_aead_authsize(gk->resp_enc), krb5->cksum_len);
+   129			return -EINVAL;
+   130		}
+   131	
+   132		if (service) {
+   133			switch (conn->security_level) {
+   134			case RXRPC_SECURITY_AUTH:
+   135				shash = crypto_krb5_prepare_checksum(
+   136					krb5, &TK, RXGK_SERVER_MIC_PACKET, gfp);
+   137				if (IS_ERR(shash))
+   138					goto hash_error;
+   139				gk->tx_Kc = shash;
+   140				shash = crypto_krb5_prepare_checksum(
+   141					krb5, &TK, RXGK_CLIENT_MIC_PACKET, gfp);
+   142				if (IS_ERR(shash))
+   143					goto hash_error;
+   144				gk->rx_Kc = shash;
+   145				break;
+   146			case RXRPC_SECURITY_ENCRYPT:
+   147				aead = crypto_krb5_prepare_encryption(
+   148					krb5, &TK, RXGK_SERVER_ENC_PACKET, gfp);
+   149				if (IS_ERR(aead))
+   150					goto aead_error;
+   151				gk->tx_enc = aead;
+   152				aead = crypto_krb5_prepare_encryption(
+   153					krb5, &TK, RXGK_CLIENT_ENC_PACKET, gfp);
+   154				if (IS_ERR(aead))
+   155					goto aead_error;
+   156				gk->rx_enc = aead;
+   157				break;
+   158			}
+   159		} else {
+   160			switch (conn->security_level) {
+   161			case RXRPC_SECURITY_AUTH:
+ > 162				shash = crypto_krb5_prepare_checksum(
+   163					krb5, &TK, RXGK_CLIENT_MIC_PACKET, gfp);
+   164				if (IS_ERR(shash))
+   165					goto hash_error;
+   166				gk->tx_Kc = shash;
+   167				shash = crypto_krb5_prepare_checksum(
+   168					krb5, &TK, RXGK_SERVER_MIC_PACKET, gfp);
+   169				if (IS_ERR(shash))
+   170					goto hash_error;
+   171				gk->rx_Kc = shash;
+   172				break;
+   173			case RXRPC_SECURITY_ENCRYPT:
+   174				aead = crypto_krb5_prepare_encryption(
+   175					krb5, &TK, RXGK_CLIENT_ENC_PACKET, gfp);
+   176				if (IS_ERR(aead))
+   177					goto aead_error;
+   178				gk->tx_enc = aead;
+   179				aead = crypto_krb5_prepare_encryption(
+   180					krb5, &TK, RXGK_SERVER_ENC_PACKET, gfp);
+   181				if (IS_ERR(aead))
+   182					goto aead_error;
+   183				gk->rx_enc = aead;
+   184				break;
+   185			}
+   186		}
+   187	
+   188		ret = 0;
+   189	out:
+   190		kfree_sensitive(buffer);
+   191		return ret;
+   192	aead_error:
+   193		ret = PTR_ERR(aead);
+   194		goto out;
+   195	hash_error:
+   196		ret = PTR_ERR(shash);
+   197		goto out;
+   198	}
+   199	
+   200	/*
+   201	 * Derive a transport key for a connection and then derive a bunch of usage
+   202	 * keys from it and set up ciphers using them.
+   203	 */
+   204	struct rxgk_context *rxgk_generate_transport_key(struct rxrpc_connection *conn,
+   205							 const struct rxgk_key *key,
+   206							 unsigned int key_number,
+   207							 gfp_t gfp)
+   208	{
+   209		struct rxgk_context *gk;
+   210		unsigned long lifetime;
+   211		int ret = -ENOPKG;
+   212	
+   213		_enter("");
+   214	
+   215		gk = kzalloc(sizeof(*gk), GFP_KERNEL);
+   216		if (!gk)
+   217			return ERR_PTR(-ENOMEM);
+   218		refcount_set(&gk->usage, 1);
+   219		gk->key		= key;
+   220		gk->key_number	= key_number;
+   221	
+ > 222		gk->krb5 = crypto_krb5_find_enctype(key->enctype);
+   223		if (!gk->krb5)
+   224			goto err_tk;
+   225	
+   226		ret = rxgk_set_up_ciphers(conn, gk, key, gfp);
+   227		if (ret)
+   228			goto err_tk;
+   229	
+   230		/* Set the remaining number of bytes encrypted with this key that may
+   231		 * be transmitted before rekeying.  Note that the spec has been
+   232		 * interpreted differently on this point...
+   233		 */
+   234		switch (key->bytelife) {
+   235		case 0:
+   236		case 63:
+   237			gk->bytes_remaining = LLONG_MAX;
+   238			break;
+   239		case 1 ... 62:
+   240			gk->bytes_remaining = 1LL << key->bytelife;
+   241			break;
+   242		default:
+   243			gk->bytes_remaining = key->bytelife;
+   244			break;
+   245		}
+   246	
+   247		/* Set the time after which rekeying must occur */
+   248		if (key->lifetime) {
+   249			lifetime = min_t(u64, key->lifetime, INT_MAX / HZ);
+   250			lifetime *= HZ;
+   251		} else {
+   252			lifetime = MAX_JIFFY_OFFSET;
+   253		}
+   254		gk->expiry = jiffies + lifetime;
+   255		return gk;
+   256	
+   257	err_tk:
+   258		rxgk_put(gk);
+   259		_leave(" = %d", ret);
+   260		return ERR_PTR(ret);
+   261	}
+   262	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
