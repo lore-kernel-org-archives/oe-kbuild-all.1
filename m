@@ -1,68 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CCE204C0C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 08:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8C32046A1;
+	Wed, 12 Feb 2025 09:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739350655; cv=none; b=u7ECiWofnIsG6gomta2GRHNH37O1dx+QpWIikZEaIi94xpufZtskYJ9K/QmQ4xHxx6813y0R/8wxqv+dV7AULHGJkkdvqwk7RBBeNu9Y7HJr+fM36XsJILxYJPXJc/82KT+/1Vqd1M3/JB7R5ZU7Yfab18kNHJ2OtgpTLt3OybQ=
+	t=1739352519; cv=none; b=YjEv1pl7JqUZcQzjpcGbJi8Q13JrRnQKb9Xnk0EVEZuxELSZ8eoFep0lqkSBXMTjrDrhPvKUlDTZv20xgT5DU8mRH30udxGBT33aBZwOjPbwrX6Z42RTIdQHoDDJy7o/BVFDNIcyVR8opzPJ4o12PYvO7NdROKiyrX1UCC0g4+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739350655; c=relaxed/simple;
-	bh=vX6/CDrLsi+PiLy4kwaL8vsmQecJaGwqitg7vNz+psg=;
+	s=arc-20240116; t=1739352519; c=relaxed/simple;
+	bh=gJpIK2N1oWtH5ADm/MDAKA+A5d3VUR0XUHUg0+3+Iq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rM7edg4+K5s6dSRr3WcNdq0mANTRBoh8B/LBd/GRJ5udWuuGISGbKrNSbx0l/cfI76WWxfAks4fi1Ing1XghxbcDAp0Yf/cm/MNgPacwv5X/0jnW76ENcvgxjhtjHP8Xn2Z+F0Zn0ucubnlTktlJWFYDFhvWBk1IaepesEvkBVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8cF2tHw; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cm/maOLWhiUrT8Z5G8EESgTAu4bv5fU78zSE95LiURn7AJ2uwnBncBIHoGcXjn1fuujpDDlXREWzR2LDDqgdD3vb7z+AgzmQQPM1sBSF6Qbn5C0q1jiVADBhMm4b6zQFx0vuzKNeZYR1SnYf+ZznYQkMtbQcZ0ZN+qQfd9YfGF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1XYIkYk; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8cF2tHw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1XYIkYk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739350653; x=1770886653;
+  t=1739352516; x=1770888516;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vX6/CDrLsi+PiLy4kwaL8vsmQecJaGwqitg7vNz+psg=;
-  b=D8cF2tHwJGZajXbFXQkcguepto+c+ePiCGW4+cyTTUb4F3TjzuPzhVUq
-   Jqs/QLJRJrVHQVfoArv9cobCXRfA3I4++/RA5/X8gTX7xGxzAydCBR0JE
-   8Q4i3iRhgrWPV19OOsHD56ueRpShcRCDRFGvjXKv6IhewvulWMZHRcHx7
-   6sKIrJS+e+xgezCuw8zIcYVpCI4oEbWiD84omZrwe6GVxJBf7TCORUqMl
-   wx7Giv+HGjqWWvNr9FiqkYmYu4uFHypvfhv0TTrD2ulIqMiCFnfIx+Xv7
-   VpaqVG0L0baRxEmIHzDYN3tczs3aQkADBIli9R+UuFlmUeRf2iW8cwWBl
-   g==;
-X-CSE-ConnectionGUID: EwVEeP6oTvOZfph7A9eCFQ==
-X-CSE-MsgGUID: 2BWt83K/RKeuiJYElaG+TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50630739"
+  bh=gJpIK2N1oWtH5ADm/MDAKA+A5d3VUR0XUHUg0+3+Iq8=;
+  b=W1XYIkYkfxMdyfDtmZQGJWgC3j7NFNh1NCQGZ8fUYNlwteZa5Ep4hu2v
+   2dM9Gr9rlPecVsFVDDrBlRiwjHX/TJot48djgiD82/+ahjjmUuEHEtRbk
+   8vCNaxzoCvr82a87gQpgbJ90sVcO/XpmEbb21f+JfgA6eRElHDahI7sdE
+   aKMQadgaFn7Uz73J7I6xqVnbTAfG2g95LGqawsftwx66aPMzUYWdOuHyw
+   XVsAo4hPTVR1sASdTePyDFSetkiJkXWsnaCIOW4E6AJqzrBruc5R57uHk
+   HzO/Tb6n2toWd/ltxjCTpMq69utZkL0fpj80ORsyWn0x1VKx1RnX9ouQI
+   A==;
+X-CSE-ConnectionGUID: heRrhIy+S0SPPQqJoJpHzw==
+X-CSE-MsgGUID: pxWCeev2SUm2vXSYSi7J+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="43925756"
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="50630739"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 00:57:32 -0800
-X-CSE-ConnectionGUID: dLQFfP+/S8+lS5adRI8UFQ==
-X-CSE-MsgGUID: gpKNy4SXS6Kp2XEwreVocg==
+   d="scan'208";a="43925756"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 01:28:36 -0800
+X-CSE-ConnectionGUID: uoFlp30lSuaGrdQz3fpcsg==
+X-CSE-MsgGUID: XLCudRqwS5uKdTV8jnwDsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="117778390"
+   d="scan'208";a="112526808"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Feb 2025 00:57:29 -0800
+  by orviesa009.jf.intel.com with ESMTP; 12 Feb 2025 01:28:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti8Yg-0015P7-1H;
-	Wed, 12 Feb 2025 08:57:26 +0000
-Date: Wed, 12 Feb 2025 16:57:10 +0800
+	id 1ti92j-0015R1-2F;
+	Wed, 12 Feb 2025 09:28:29 +0000
+Date: Wed, 12 Feb 2025 17:27:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-	linux-clk@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 3/3] clk: aspeed: add AST2700 clock driver
-Message-ID: <202502121624.f9xpltGE-lkp@intel.com>
-References: <20250210085004.1898895-4-ryan_chen@aspeedtech.com>
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+	viresh.kumar@linaro.org, lenb@kernel.org, robert.moore@intel.com,
+	corbet@lwn.net, linux-pm@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-tegra@vger.kernel.org, treding@nvidia.com,
+	jonathanh@nvidia.com, sashal@nvidia.com, vsethi@nvidia.com,
+	ksitaraman@nvidia.com, sanjayc@nvidia.com, bbasu@nvidia.com,
+	sumitg@nvidia.com
+Subject: Re: [Patch 5/5] cpufreq: CPPC: Add cppc_cpufreq_epp instance for
+ Autonomous mode
+Message-ID: <202502121734.xMnvqs6o-lkp@intel.com>
+References: <20250211103737.447704-6-sumitg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,101 +71,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210085004.1898895-4-ryan_chen@aspeedtech.com>
+In-Reply-To: <20250211103737.447704-6-sumitg@nvidia.com>
 
-Hi Ryan,
+Hi Sumit,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on pza/reset/next linus/master v6.14-rc2]
-[cannot apply to pza/imx-drm/next]
+[auto build test WARNING on next-20250210]
+[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge v6.14-rc2 v6.14-rc1 v6.13 linus/master v6.14-rc2]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-binding-clock-ast2700-modify-soc0-1-clock-define/20250210-165421
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250210085004.1898895-4-ryan_chen%40aspeedtech.com
-patch subject: [PATCH v8 3/3] clk: aspeed: add AST2700 clock driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250212/202502121624.f9xpltGE-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121624.f9xpltGE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumit-Gupta/ACPI-CPPC-add-read-perf-ctrls-api-and-rename-few-existing/20250211-184154
+base:   next-20250210
+patch link:    https://lore.kernel.org/r/20250211103737.447704-6-sumitg%40nvidia.com
+patch subject: [Patch 5/5] cpufreq: CPPC: Add cppc_cpufreq_epp instance for Autonomous mode
+config: riscv-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121734.xMnvqs6o-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 6807164500e9920638e2ab0cdb4bf8321d24f8eb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121734.xMnvqs6o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121624.f9xpltGE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121734.xMnvqs6o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/big_endian.h:14,
-                    from include/linux/byteorder/big_endian.h:5,
-                    from arch/m68k/include/uapi/asm/byteorder.h:5,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/m68k/include/asm/bitops.h:566,
-                    from include/linux/bitops.h:68,
-                    from include/linux/of.h:15,
-                    from include/linux/clk-provider.h:9,
-                    from drivers/clk/clk-ast2700.c:7:
-   drivers/clk/clk-ast2700.c: In function 'ast2700_soc1_configure_i3c_clk':
->> drivers/clk/clk-ast2700.c:981:32: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     981 |                                FIELD_PREP(SCU1_CLK_I3C_DIV_MASK,
-         |                                ^~~~~~~~~~
-   include/uapi/linux/swab.h:118:38: note: in definition of macro '__swab32'
-     118 |         (__u32)(__builtin_constant_p(x) ?       \
-         |                                      ^
-   include/linux/byteorder/generic.h:88:21: note: in expansion of macro '__cpu_to_le32'
-      88 | #define cpu_to_le32 __cpu_to_le32
-         |                     ^~~~~~~~~~~~~
-   arch/m68k/include/asm/io_mm.h:373:26: note: in expansion of macro 'out_le32'
-     373 | #define writel(val,addr) out_le32((addr),(val))
-         |                          ^~~~~~~~
-   drivers/clk/clk-ast2700.c:979:17: note: in expansion of macro 'writel'
-     979 |                 writel((readl(clk_ctrl->base + SCU1_CLK_SEL2) &
-         |                 ^~~~~~
-   drivers/clk/clk-ast2700.c: At top level:
-   drivers/clk/clk-ast2700.c:369:37: warning: 'd_clk_sels' defined but not used [-Wunused-const-variable=]
-     369 | static const struct clk_parent_data d_clk_sels[] = {
-         |                                     ^~~~~~~~~~
-   drivers/clk/clk-ast2700.c:353:37: warning: 'soc1_ahb' defined but not used [-Wunused-const-variable=]
-     353 | static const struct clk_parent_data soc1_ahb[] = {
-         |                                     ^~~~~~~~
-   drivers/clk/clk-ast2700.c:349:37: warning: 'uart16clk' defined but not used [-Wunused-const-variable=]
-     349 | static const struct clk_parent_data uart16clk[] = {
-         |                                     ^~~~~~~~~
-   drivers/clk/clk-ast2700.c:345:37: warning: 'uart15clk' defined but not used [-Wunused-const-variable=]
-     345 | static const struct clk_parent_data uart15clk[] = {
-         |                                     ^~~~~~~~~
-   drivers/clk/clk-ast2700.c:341:37: warning: 'uart14clk' defined but not used [-Wunused-const-variable=]
-     341 | static const struct clk_parent_data uart14clk[] = {
-         |                                     ^~~~~~~~~
-   drivers/clk/clk-ast2700.c:337:37: warning: 'uart13clk' defined but not used [-Wunused-const-variable=]
-     337 | static const struct clk_parent_data uart13clk[] = {
-         |                                     ^~~~~~~~~
-   drivers/clk/clk-ast2700.c:237:37: warning: 'soc0_ahb' defined but not used [-Wunused-const-variable=]
-     237 | static const struct clk_parent_data soc0_ahb[] = {
-         |                                     ^~~~~~~~
-   drivers/clk/clk-ast2700.c:209:37: warning: 'soc0_mpll_div8' defined but not used [-Wunused-const-variable=]
-     209 | static const struct clk_parent_data soc0_mpll_div8[] = {
-         |                                     ^~~~~~~~~~~~~~
+>> drivers/cpufreq/cppc_cpufreq.c:780:68: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     780 |         pr_debug("cpu%d, curr epp:%u, new epp:%u, curr mode:%u, new mode:%u\n",
+         |                                                                          ~^
+   include/linux/printk.h:631:30: note: expanded from macro 'pr_debug'
+     631 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+         |                                     ^~~
+   drivers/cpufreq/cppc_cpufreq.c:11:37: note: expanded from macro 'pr_fmt'
+      11 | #define pr_fmt(fmt)     "CPPC Cpufreq:" fmt
+         |                                         ^~~
+   include/linux/printk.h:135:11: note: expanded from macro 'no_printk'
+     135 |                 _printk(fmt, ##__VA_ARGS__);            \
+         |                         ^~~
+>> drivers/cpufreq/cppc_cpufreq.c:799:23: warning: unused variable 'cpu_data' [-Wunused-variable]
+     799 |         struct cppc_cpudata *cpu_data = policy->driver_data;
+         |                              ^~~~~~~~
+   drivers/cpufreq/cppc_cpufreq.c:1018:23: warning: unused variable 'cpu_data' [-Wunused-variable]
+    1018 |         struct cppc_cpudata *cpu_data;
+         |                              ^~~~~~~~
+>> drivers/cpufreq/cppc_cpufreq.c:1019:11: warning: unused variable 'pref' [-Wunused-variable]
+    1019 |         int cpu, pref, ret = 0;
+         |                  ^~~~
+   4 warnings generated.
 
 
-vim +/FIELD_PREP +981 drivers/clk/clk-ast2700.c
+vim +780 drivers/cpufreq/cppc_cpufreq.c
 
-   974	
-   975	static void ast2700_soc1_configure_i3c_clk(struct ast2700_clk_ctrl *clk_ctrl)
-   976	{
-   977		if (readl(clk_ctrl->base + SCU1_REVISION_ID) & REVISION_ID)
-   978			/* I3C 250MHz = HPLL/4 */
-   979			writel((readl(clk_ctrl->base + SCU1_CLK_SEL2) &
-   980				~SCU1_CLK_I3C_DIV_MASK) |
- > 981				       FIELD_PREP(SCU1_CLK_I3C_DIV_MASK,
-   982						  SCU1_CLK_I3C_DIV(4)),
-   983			       clk_ctrl->base + SCU1_CLK_SEL2);
-   984	}
-   985	
+   773	
+   774	static int cppc_cpufreq_epp_update_auto_mode(struct cpufreq_policy *policy, int auto_sel, u32 epp)
+   775	{
+   776		struct cppc_cpudata *cpu_data = policy->driver_data;
+   777		int ret, curr_epp;
+   778	
+   779		curr_epp = cpu_data->perf_ctrls.energy_perf;
+ > 780		pr_debug("cpu%d, curr epp:%u, new epp:%u, curr mode:%u, new mode:%u\n",
+   781			 curr_epp, epp, cpu_data->perf_caps.auto_sel, auto_sel);
+   782	
+   783		/* set Performance preference as default */
+   784		cpu_data->perf_ctrls.energy_perf = epp;
+   785		ret = cppc_set_epp_perf(policy->cpu, &cpu_data->perf_ctrls, auto_sel);
+   786		if (ret < 0) {
+   787			pr_err("failed to set energy perf value (%d)\n", ret);
+   788			cpu_data->perf_ctrls.energy_perf = curr_epp;
+   789			return ret;
+   790		}
+   791		cpu_data->perf_caps.auto_sel = auto_sel;
+   792	
+   793		return ret;
+   794	}
+   795	
+   796	static int cppc_cpufreq_epp_update_perf(struct cpufreq_policy *policy, int auto_sel, u32 epp,
+   797						u32 highest_perf, u32 lowest_perf)
+   798	{
+ > 799		struct cppc_cpudata *cpu_data = policy->driver_data;
+   800		int ret;
+   801	
+   802		ret = cppc_cpufreq_epp_update_perf_ctrls(policy, highest_perf, lowest_perf);
+   803		if (ret)
+   804			return ret;
+   805	
+   806		ret = cppc_cpufreq_epp_update_auto_mode(policy, auto_sel, epp);
+   807		if (ret)
+   808			return ret;
+   809	
+   810		return ret;
+   811	}
+   812	
 
 -- 
 0-DAY CI Kernel Test Service
