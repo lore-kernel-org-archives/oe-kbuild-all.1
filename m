@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6492201018
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 20:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797141F8ADB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 21:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739393505; cv=none; b=WmJH6V5Fjb8cVlBio2WEgJmQPxG7UEU8shsopxVL18qOgbgjLF/qs4phB6Y5HWaYaSBmFSmrCMyN5yysV6uXrOwJF/khouLbVOXn546Vmttyb04DfnwBgU03zjCscXkQngMGg/jp7ghjAIhml/cxgBdoCfKkWSPHMuZDU/jfoTs=
+	t=1739395969; cv=none; b=eSYD45eOuLVdm6ogVk1HoT2lQ5IcEd8lMwqo2CfB8nIvWXlkMSsoym99UFbkrGfcy2EQAJ0BW9OqRZt0VIqSY9havNMjWg6XWONjhD3o52R9Hk8j9VDigCNFcc11RboqjfILSG5cnGACFDAYJTkbcJRRMekJrZktwJ3hT06M8/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739393505; c=relaxed/simple;
-	bh=HghsDSxJqIdfZTjn8waXADE2Owp0YVraVawzHRAdXDs=;
+	s=arc-20240116; t=1739395969; c=relaxed/simple;
+	bh=in7YmYhWMQwW7YP8lhKmPIg5AuglgrXQoTHAnLDIbG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D/OHl2YfPunFm3I3qa/xqNJ0GNesMJQZ5kd87jcJfgNjvtauKKPsFGCU52akiNNncXq8aNo57aV+SW3mHWHA3PLE8nlgfDk6SveqPkC6PsB3/ZscXxQh/FGB31NhD6GMuCE2yRW33qrLG3D6q5wnl6XhKVKfVP/kAecpxwP/Kk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ez6rO81d; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=SB/cD4M6nF71AcNDQUVXLALEJclvnuMeNCWinP9GumiId3rnn8Vgn+nSZtfjF+3PpkUd83J53y2j/P4EtK3f8q4zzuvusk8at2YAZs6G0nqQcdmY0MrjTbKza+IGaniQ7vobMbhWukAI8EaTKEsKOgVDvg4fBqmYU2aBvfowkQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NANNFTWO; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ez6rO81d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NANNFTWO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739393504; x=1770929504;
+  t=1739395966; x=1770931966;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HghsDSxJqIdfZTjn8waXADE2Owp0YVraVawzHRAdXDs=;
-  b=ez6rO81d2jtE0ni++65cEhx//r+L1GSYZI0KRYRR+9hr3kL4UaIFJ8Q1
-   8R+ehOTEvdwekLQzv22wpfTiZzd4ZFEvdHIlt2UAxvT6NCS9C1A7MbtFo
-   r+ZHqaH/zxKQ7jn+fR1tMxydfC7Dp9/Q0C1WuXCIrNy36/gBwpEsC2Qfa
-   NxIFK02B+ok0HSroBZkIMKSj0VMdz8/43NqXyqbcIWVdA9Ve2zkoEbok/
-   k1uyp+OVVBBtU6cYM7QzoeZu8cXizBYvtorFx0CpzBxOAihPOpkBc+AhD
-   hjSEcMNAtTa1poufPImSKVZKUP/y4JpgwEt2EMGWKWNJB/7Ju0njFIOMg
+  bh=in7YmYhWMQwW7YP8lhKmPIg5AuglgrXQoTHAnLDIbG8=;
+  b=NANNFTWO0MmnCvDmbCa5P4AtDqh10HPvtzTXW0N7pstRBIDqCB0XeP4D
+   5U6N/HHEwK5mm+Dq0gYfmqkgDH7NkgdrfQfCKqXUfyJbwgxpAB7xFS5+B
+   FgjwDRnp7fM9O0LOAqLFDPcBZjUnpt3d5cv3rRhuWJy2zX5hTF77n46Tx
+   rTvuyV7rqQugOSTwCfAwYdRqxgroDMFPgBUamT76kPn7gKX2frOhuSLxN
+   Y3gJRUGWW6zVBDdD476B0p2IiM+JDg341U7/KqLgIS4WMjvxPKUIoh3bu
+   CP/XIv0+jFpu/YlJj8NPpov3YelWlYjL8hDw97+DCg6WYnRfGhNv+OEo3
    w==;
-X-CSE-ConnectionGUID: TtYXS/PtT6+AOr8Psf6dpg==
-X-CSE-MsgGUID: xOfoLI5fRjmaNBy4NkgzwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57476831"
+X-CSE-ConnectionGUID: /KVMkzXVRMuhC6qTWFZbWw==
+X-CSE-MsgGUID: TuBuIWbqSUyicpC8xn6OjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="44010183"
 X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
-   d="scan'208";a="57476831"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 12:51:43 -0800
-X-CSE-ConnectionGUID: 7D9jCzJQRzqhDtv6ufiXhg==
-X-CSE-MsgGUID: YHzG1jeiQRe4xxvGmWVVqg==
+   d="scan'208";a="44010183"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 13:32:45 -0800
+X-CSE-ConnectionGUID: lzkyDqSjSjyL+Pdj+NTyxg==
+X-CSE-MsgGUID: LlcojbEpTZOz/8D/073MDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112787921"
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
+   d="scan'208";a="112936781"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Feb 2025 12:51:42 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 12 Feb 2025 13:32:46 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiJhr-00167r-2Y;
-	Wed, 12 Feb 2025 20:51:39 +0000
-Date: Thu, 13 Feb 2025 04:50:42 +0800
+	id 1tiKLb-00169t-3D;
+	Wed, 12 Feb 2025 21:32:44 +0000
+Date: Thu, 13 Feb 2025 05:32:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c:590:13: warning: '%s'
- directive argument is null
-Message-ID: <202502130406.iWQ0eBug-lkp@intel.com>
+To: Alexander Wetzel <Alexander@wetzel-home.de>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
+Subject: [linux-next:master 2628/3226] net/mac80211/driver-ops.c:124:19:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202502130534.bVrZZBK0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +63,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   09fbf3d502050282bf47ab3babe1d4ed54dd1fd8
-commit: 020620424b27bababf7f53d00692ab919c357a3f drm/amd: Use a constant format string for amdgpu_ucode_request
-date:   6 months ago
-config: x86_64-buildonly-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502130406.iWQ0eBug-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130406.iWQ0eBug-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c674aa7c289e51659e40dda0f954886ef7f80042
+commit: 646262c71aca87bb66945933abe4e620796d6c5a [2628/3226] wifi: mac80211: remove debugfs dir for virtual monitor
+config: m68k-randconfig-r133-20250212 (https://download.01.org/0day-ci/archive/20250213/202502130534.bVrZZBK0-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250213/202502130534.bVrZZBK0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502130406.iWQ0eBug-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502130534.bVrZZBK0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/mac80211/driver-ops.c:124:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/mac80211/driver-ops.c:124:19: sparse:    struct ieee80211_sub_if_data *
+   net/mac80211/driver-ops.c:124:19: sparse:    struct ieee80211_sub_if_data [noderef] __rcu *
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c: In function 'amdgpu_umsch_mm_init_microcode':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c:590:13: warning: '%s' directive argument is null [-Wformat-overflow=]
-     590 |         r = amdgpu_ucode_request(adev, &adev->umsch_mm.fw, "%s", fw_name);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +124 net/mac80211/driver-ops.c
 
-
-vim +590 drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c
-
-   573	
-   574	int amdgpu_umsch_mm_init_microcode(struct amdgpu_umsch_mm *umsch)
-   575	{
-   576		const struct umsch_mm_firmware_header_v1_0 *umsch_mm_hdr;
-   577		struct amdgpu_device *adev = umsch->ring.adev;
-   578		const char *fw_name = NULL;
-   579		int r;
-   580	
-   581		switch (amdgpu_ip_version(adev, VCN_HWIP, 0)) {
-   582		case IP_VERSION(4, 0, 5):
-   583		case IP_VERSION(4, 0, 6):
-   584			fw_name = "amdgpu/umsch_mm_4_0_0.bin";
-   585			break;
-   586		default:
-   587			break;
-   588		}
-   589	
- > 590		r = amdgpu_ucode_request(adev, &adev->umsch_mm.fw, "%s", fw_name);
-   591		if (r) {
-   592			release_firmware(adev->umsch_mm.fw);
-   593			adev->umsch_mm.fw = NULL;
-   594			return r;
-   595		}
-   596	
-   597		umsch_mm_hdr = (const struct umsch_mm_firmware_header_v1_0 *)adev->umsch_mm.fw->data;
-   598	
-   599		adev->umsch_mm.ucode_size = le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_size_bytes);
-   600		adev->umsch_mm.data_size = le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_data_size_bytes);
-   601	
-   602		adev->umsch_mm.irq_start_addr =
-   603			le32_to_cpu(umsch_mm_hdr->umsch_mm_irq_start_addr_lo) |
-   604			((uint64_t)(le32_to_cpu(umsch_mm_hdr->umsch_mm_irq_start_addr_hi)) << 32);
-   605		adev->umsch_mm.uc_start_addr =
-   606			le32_to_cpu(umsch_mm_hdr->umsch_mm_uc_start_addr_lo) |
-   607			((uint64_t)(le32_to_cpu(umsch_mm_hdr->umsch_mm_uc_start_addr_hi)) << 32);
-   608		adev->umsch_mm.data_start_addr =
-   609			le32_to_cpu(umsch_mm_hdr->umsch_mm_data_start_addr_lo) |
-   610			((uint64_t)(le32_to_cpu(umsch_mm_hdr->umsch_mm_data_start_addr_hi)) << 32);
-   611	
-   612		if (adev->firmware.load_type == AMDGPU_FW_LOAD_PSP) {
-   613			struct amdgpu_firmware_info *info;
-   614	
-   615			info = &adev->firmware.ucode[AMDGPU_UCODE_ID_UMSCH_MM_UCODE];
-   616			info->ucode_id = AMDGPU_UCODE_ID_UMSCH_MM_UCODE;
-   617			info->fw = adev->umsch_mm.fw;
-   618			adev->firmware.fw_size +=
-   619				ALIGN(le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_size_bytes), PAGE_SIZE);
-   620	
-   621			info = &adev->firmware.ucode[AMDGPU_UCODE_ID_UMSCH_MM_DATA];
-   622			info->ucode_id = AMDGPU_UCODE_ID_UMSCH_MM_DATA;
-   623			info->fw = adev->umsch_mm.fw;
-   624			adev->firmware.fw_size +=
-   625				ALIGN(le32_to_cpu(umsch_mm_hdr->umsch_mm_ucode_data_size_bytes), PAGE_SIZE);
-   626		}
-   627	
-   628		return 0;
-   629	}
-   630	
+   107	
+   108	void drv_remove_interface(struct ieee80211_local *local,
+   109				  struct ieee80211_sub_if_data *sdata)
+   110	{
+   111		might_sleep();
+   112		lockdep_assert_wiphy(local->hw.wiphy);
+   113	
+   114		if (!check_sdata_in_driver(sdata))
+   115			return;
+   116	
+   117		sdata->flags &= ~IEEE80211_SDATA_IN_DRIVER;
+   118	
+   119		/*
+   120		 * Remove driver debugfs entries.
+   121		 * The virtual monitor interface doesn't get a debugfs
+   122		 * entry, so it's exempt here.
+   123		 */
+ > 124		if (sdata != local->monitor_sdata)
+   125			ieee80211_debugfs_recreate_netdev(sdata,
+   126							  sdata->vif.valid_links);
+   127	
+   128		trace_drv_remove_interface(local, sdata);
+   129		local->ops->remove_interface(&local->hw, &sdata->vif);
+   130		trace_drv_return_void(local);
+   131	}
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
