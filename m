@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE2F27181B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 01:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF4B17993;
+	Wed, 12 Feb 2025 01:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739322574; cv=none; b=je1ZHpTIjMQeFOeRZ7DVSCQ29rnr368zdO/65zAqAI60DAIA5avLCuIqrwZbOyr3203fAes92/mLWCB+3kyoFSfXUgwgHE7zxgIg8te19sAzxbWLeVQStk5GaeZwyMELQb5MK+IaQVxOnBu4+mt1HFmcYAdCtFWszrD4V8t74uc=
+	t=1739323234; cv=none; b=uuiyPrJLpNgIdP+X83tn6oZJ89wWgiz6752KpYIgnkrrKFYtOxvgTodpr79B3olXA7Wc4b1PVuCIQDMLDcGmjhX6CkyCyeW8W/Wyp/84DXZ8B2K4pw4sE8quDqwIt3OYEIUZSKhU0K2XxR+lrvicqBhJ2eEIjF20aKTNDCbHS+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739322574; c=relaxed/simple;
-	bh=pQpEfmnAxj2yvzxvHhRhXtZMA/9/pAb4iul1eDmMxzU=;
+	s=arc-20240116; t=1739323234; c=relaxed/simple;
+	bh=Z98xk3C2YQwVk4dPClx8w0Sy0PLlv9Q8GUi9gv61H3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hj4ES3OYEKGTdDsScUAab1riRsXveozf0YF4OuCKbZoRND0PhVWxEdPvk+YX59tDQ5eFSSC6jYDBiVPaXETeMKqVolp8C7viVBRv9iaRwzY/UIJ6aRMqCL7qHuPG2Qej7VnE23BPMoPy8WiaV5XI7tyVli2JCzpy+7wHUSa0+ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZzwTjfeO; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=bSxe1kAiJCPKZwgDDA0CI406q8R/y8ZKPs5LBSh5iZbOt5wJweXo7+77lufIUosM4UydwB5vB+9WCQjHWYMlUZ5yWtYg6pVJshEGAZp485KCHVn4GRC8jLZOtdR874PcifYzHpW263tnf8XpYClpHnEugQvbW6sWTDiazG39qsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arQIwJZi; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZzwTjfeO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arQIwJZi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739322572; x=1770858572;
+  t=1739323233; x=1770859233;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pQpEfmnAxj2yvzxvHhRhXtZMA/9/pAb4iul1eDmMxzU=;
-  b=ZzwTjfeO69aBSWUeyp2cFMe0eJP8dSv8kaAtnVQ9EvG+pn2BhjWbXSMH
-   2OMEEHAvwYf9bjCprEdKKp3wYL3504WZM+8MaH2ZDSjeopFgITvzkk7HO
-   ubJM5/bQW+6rj1ulUhDEQGsijsePvM0G1iFs+/TmNOspWzD+Ykt7rNJnq
-   ownbBTXgN29GmxBepWeSLXUdQvq6FRSju7GGU3v2kFrVw2Zyb9Wcy+oSx
-   EPQFHc8B2vlFF73cL6WYhJuaBYfhDZG8ajvMt/JvwgnhGt8udcPlkIX0a
-   E/5ZnADoPzxKJwzReLnZ18fDCNjpoVdLBByYO0dK+7xszf97ddU/HSdGa
+  bh=Z98xk3C2YQwVk4dPClx8w0Sy0PLlv9Q8GUi9gv61H3A=;
+  b=arQIwJZiLIQ3YHICXgkkp8YaaqaBVP/rHtpBv6/MUau6vbo5e650je9H
+   g5Z4TXYqrGgWXpwm0tButHcJ5Dq3cPz0UltHDgaW9+w62myV7shcsXdZl
+   PnbyCiteHX3L9bz84fl3UiDm5g799Y3M9QIOdgH0z5cHcgPhiWWuWe1yR
+   m31zhsFLUgLeLmSOJpLuVnx/LwcVcnmZ2Zf83Idb5nuBiBeiM630EE/VY
+   pN5toHNHdrULXE04VnU38cS2shcd/h+EjgcnuJra0YidjDZoxMfCk9WMI
+   valOPyb4flNuGa7z9YnVUaqDCvt7Rt1Zv/cHOXIbz0M4Inj8VAOgD/E7c
    g==;
-X-CSE-ConnectionGUID: mhot/1Y8R1+ehYsqekpneA==
-X-CSE-MsgGUID: t/We9rZIT/q+ueZCnYzmrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39199752"
+X-CSE-ConnectionGUID: 5U/YOYERQgiBtNWSnQuVEQ==
+X-CSE-MsgGUID: JxrLtE9YTfC8523GHxshMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="57372377"
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="39199752"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 17:09:30 -0800
-X-CSE-ConnectionGUID: dT35Pf+URHuhF3lx97ZF8g==
-X-CSE-MsgGUID: pGj7+kfcSseem9QPMGkGpw==
+   d="scan'208";a="57372377"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 17:20:32 -0800
+X-CSE-ConnectionGUID: TbR4B7l9TXibYOCWvAcjXA==
+X-CSE-MsgGUID: Th3Rct0mQSWReV53OJzTdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112536051"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="112428541"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Feb 2025 17:09:29 -0800
+  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2025 17:20:30 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti1Fn-0014v3-0v;
-	Wed, 12 Feb 2025 01:09:27 +0000
-Date: Wed, 12 Feb 2025 09:09:20 +0800
+	id 1ti1QS-0014w2-1D;
+	Wed, 12 Feb 2025 01:20:28 +0000
+Date: Wed, 12 Feb 2025 09:19:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Emil Renner Berthing <kernel@esmil.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [esmil:visionfive 23/33]
- drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant
- because platform_get_irq() already prints an error
-Message-ID: <202502120936.Z8YSEFaD-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rostedt-trace:pmem-on-reserve-mem-fail 6/10]
+ kernel/trace/trace.c:6027:38: error: incomplete definition of type 'struct
+ module'
+Message-ID: <202502120954.IwPOQJzd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/esmil/linux visionfive
-head:   dcb5a245dbe2203ae35f6b1b5cb28929f758008c
-commit: f5f738835d14a2da372e2d393b08993dcd567bf9 [23/33] hwrng: Add StarFive JH7100 Random Number Generator driver
-config: powerpc-randconfig-r053-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120936.Z8YSEFaD-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git pmem-on-reserve-mem-fail
+head:   d877ee1b587be39c141df16a6f92efb0e90b30fd
+commit: 2619aa2c2e2767ba8b87e26deac031e4f44d49cc [6/10] tracing: Have persistent trace instances save module addresses
+config: x86_64-buildonly-randconfig-003-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120954.IwPOQJzd-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120954.IwPOQJzd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120936.Z8YSEFaD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120954.IwPOQJzd-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant because platform_get_irq() already prints an error
+All errors (new ones prefixed by >>):
 
-vim +209 drivers/char/hw_random/starfive-vic-rng.c
+>> kernel/trace/trace.c:6027:38: error: incomplete definition of type 'struct module'
+    6027 |         entry->mod_addr = (unsigned long)mod->mem[MOD_TEXT].base;
+         |                                          ~~~^
+   include/linux/printk.h:394:8: note: forward declaration of 'struct module'
+     394 | struct module;
+         |        ^
+>> kernel/trace/trace.c:6027:44: error: use of undeclared identifier 'MOD_TEXT'
+    6027 |         entry->mod_addr = (unsigned long)mod->mem[MOD_TEXT].base;
+         |                                                   ^
+   kernel/trace/trace.c:6028:30: error: incomplete definition of type 'struct module'
+    6028 |         strscpy(entry->mod_name, mod->name);
+         |                                  ~~~^
+   include/linux/string.h:114:55: note: expanded from macro 'strscpy'
+     114 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |                                                              ^~~
+   include/linux/string.h:80:21: note: expanded from macro '__strscpy0'
+      80 |         sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) +    \
+         |                            ^~~
+   include/linux/printk.h:394:8: note: forward declaration of 'struct module'
+     394 | struct module;
+         |        ^
+   3 errors generated.
 
-   186	
-   187	static int vic_rng_probe(struct platform_device *pdev)
-   188	{
-   189		int ret;
-   190		int irq;
-   191		struct vic_rng *rng;
-   192		struct resource *res;
-   193	
-   194		rng = devm_kzalloc(&pdev->dev, sizeof(*rng), GFP_KERNEL);
-   195		if (!rng){
-   196			return -ENOMEM;
-   197		}
-   198	
-   199		platform_set_drvdata(pdev, rng);
-   200	
-   201		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   202		rng->base = devm_ioremap_resource(&pdev->dev, res);
-   203		if (IS_ERR(rng->base)){
-   204			return PTR_ERR(rng->base);
-   205		}
-   206	
-   207		irq = platform_get_irq(pdev, 0);
-   208		if (irq <= 0) {
- > 209			dev_err(&pdev->dev, "Couldn't get irq %d\n", irq);
-   210			return irq;
-   211		}
-   212	
-   213		ret = devm_request_irq(&pdev->dev, irq, vic_rng_irq, 0, pdev->name,
-   214					(void *)rng);
-   215		if (ret) {
-   216			dev_err(&pdev->dev, "Can't get interrupt working.\n");
-   217			return ret;
-   218		}
-   219	
-   220		rng->rng.name = pdev->name;
-   221		rng->rng.init = vic_rng_init;
-   222		rng->rng.cleanup = vic_rng_cleanup;
-   223		rng->rng.read = vic_rng_read;
-   224	
-   225		rng->dev = &pdev->dev;
-   226	
-   227		ret = devm_hwrng_register(&pdev->dev, &rng->rng);
-   228		if (ret) {
-   229			dev_err(&pdev->dev, "failed to register hwrng\n");
-   230			return ret;
-   231		}
-   232	
-   233		dev_info(&pdev->dev, "Initialized\n");
-   234	
-   235		return 0;
-   236	}
-   237	
+
+vim +6027 kernel/trace/trace.c
+
+  6007	
+  6008	static int save_mod(struct module *mod, void *data)
+  6009	{
+  6010		struct trace_array *tr = data;
+  6011		struct trace_scratch *tscratch;
+  6012		struct trace_mod_entry *entry;
+  6013		unsigned int size;
+  6014	
+  6015		tscratch = tr->scratch;
+  6016		if (!tscratch)
+  6017			return -1;
+  6018		size = tr->scratch_size;
+  6019	
+  6020		if (struct_size(tscratch, entries, tscratch->nr_entries + 1) > size)
+  6021			return -1;
+  6022	
+  6023		entry = &tscratch->entries[tscratch->nr_entries];
+  6024	
+  6025		tscratch->nr_entries++;
+  6026	
+> 6027		entry->mod_addr = (unsigned long)mod->mem[MOD_TEXT].base;
+  6028		strscpy(entry->mod_name, mod->name);
+  6029	
+  6030		return 0;
+  6031	}
+  6032	
 
 -- 
 0-DAY CI Kernel Test Service
