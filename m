@@ -1,60 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E533D1D86DC;
-	Wed, 12 Feb 2025 08:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CCE204C0C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 08:57:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739350654; cv=none; b=taFpurGOOs6k7grg+lSoQTF221exZ2uKY1ZeaEakvVJOIDOPTAjrVYl6IRkswQ9aIIqPCSJozSZ+J5ULaiV0qBvWYf7rEWg2lLRnzl6OQwyt6lEQ1lwd7IxlwrT78gE/smVsiwmhwFaezKcIH+bdjQPlSwiGV0GJ8iPKQIzPKkM=
+	t=1739350655; cv=none; b=u7ECiWofnIsG6gomta2GRHNH37O1dx+QpWIikZEaIi94xpufZtskYJ9K/QmQ4xHxx6813y0R/8wxqv+dV7AULHGJkkdvqwk7RBBeNu9Y7HJr+fM36XsJILxYJPXJc/82KT+/1Vqd1M3/JB7R5ZU7Yfab18kNHJ2OtgpTLt3OybQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739350654; c=relaxed/simple;
-	bh=60Ds3mmtincLmSyqyim7hfOXOE7jVraM/KBnfNf8KAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F/Dvsf05o4ase2MUiiX7VyWX18UkhYkqmXxdV/tlcVejcTDgbOp7DU1k4ez8fUPudkK7Dg5+bt5yQPZG+o/E4TZjbd5B8P0KPT4UFnJlIs5saU+uYJR+/AqXfVURkL8vSKqCuymKB9FnVtTiFjp8PUeG3JsZF06Nxc06IIo6bF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QsDBI4Ma; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1739350655; c=relaxed/simple;
+	bh=vX6/CDrLsi+PiLy4kwaL8vsmQecJaGwqitg7vNz+psg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rM7edg4+K5s6dSRr3WcNdq0mANTRBoh8B/LBd/GRJ5udWuuGISGbKrNSbx0l/cfI76WWxfAks4fi1Ing1XghxbcDAp0Yf/cm/MNgPacwv5X/0jnW76ENcvgxjhtjHP8Xn2Z+F0Zn0ucubnlTktlJWFYDFhvWBk1IaepesEvkBVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8cF2tHw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsDBI4Ma"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8cF2tHw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1739350653; x=1770886653;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=60Ds3mmtincLmSyqyim7hfOXOE7jVraM/KBnfNf8KAk=;
-  b=QsDBI4MaNapP3QNGTfEIlUReYCXDQEWbOKLzN/x0i6+GHtjeVA/O59Z+
-   7c6Yl6GnTpJfpUBu7jgUZF0kX0qt7A1L+BwazyIcbqZVfSgQxxiGrfJ+J
-   AUhza+cbi5qnKVR6z9kKkAO6YuwFZnrFuDeF+3sVMgD3iZpRVcl5RV6jz
-   MXDhQRsEcBiUNgdKAVts3itu502HAisDplg8aH+9yJoIBWH2lRQ/Ft81o
-   Umii3LhJnVEBNw2ppCwi1HMnkfZhi+xLZuvm4/WmzdyTiQ5tE+fmP7srE
-   MvkJXF3O+IQRizOpxNFmsX+4rMepKkWxpilY8Kz+mIMF5siI3NKkYvfxv
-   A==;
-X-CSE-ConnectionGUID: eVm05U1TT6Oy49fw9vlpqw==
-X-CSE-MsgGUID: xaN3IdNKQQqEt55RA3S50w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50630737"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vX6/CDrLsi+PiLy4kwaL8vsmQecJaGwqitg7vNz+psg=;
+  b=D8cF2tHwJGZajXbFXQkcguepto+c+ePiCGW4+cyTTUb4F3TjzuPzhVUq
+   Jqs/QLJRJrVHQVfoArv9cobCXRfA3I4++/RA5/X8gTX7xGxzAydCBR0JE
+   8Q4i3iRhgrWPV19OOsHD56ueRpShcRCDRFGvjXKv6IhewvulWMZHRcHx7
+   6sKIrJS+e+xgezCuw8zIcYVpCI4oEbWiD84omZrwe6GVxJBf7TCORUqMl
+   wx7Giv+HGjqWWvNr9FiqkYmYu4uFHypvfhv0TTrD2ulIqMiCFnfIx+Xv7
+   VpaqVG0L0baRxEmIHzDYN3tczs3aQkADBIli9R+UuFlmUeRf2iW8cwWBl
+   g==;
+X-CSE-ConnectionGUID: EwVEeP6oTvOZfph7A9eCFQ==
+X-CSE-MsgGUID: 2BWt83K/RKeuiJYElaG+TA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50630739"
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="50630737"
+   d="scan'208";a="50630739"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 00:57:30 -0800
-X-CSE-ConnectionGUID: JrrdrIfZS12qDAqjuTHYcw==
-X-CSE-MsgGUID: CQtEw75oTCW8qStzpgfTww==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 00:57:32 -0800
+X-CSE-ConnectionGUID: dLQFfP+/S8+lS5adRI8UFQ==
+X-CSE-MsgGUID: gpKNy4SXS6Kp2XEwreVocg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="117778389"
+   d="scan'208";a="117778390"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 12 Feb 2025 00:57:29 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti8Yg-0015PA-1K;
+	id 1ti8Yg-0015P7-1H;
 	Wed, 12 Feb 2025 08:57:26 +0000
-Date: Wed, 12 Feb 2025 16:57:25 +0800
+Date: Wed, 12 Feb 2025 16:57:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alistair Popple <apopple@nvidia.com>
-Subject: [davidhildenbrand:device_exclusive 3/18]
- drivers/gpu/drm/nouveau/nouveau_svm.c:612:54: error: use of undeclared
- identifier 'folio'
-Message-ID: <202502121601.MBYPtaP8-lkp@intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+	linux-clk@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 3/3] clk: aspeed: add AST2700 clock driver
+Message-ID: <202502121624.f9xpltGE-lkp@intel.com>
+References: <20250210085004.1898895-4-ryan_chen@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,114 +71,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210085004.1898895-4-ryan_chen@aspeedtech.com>
 
-tree:   https://github.com/davidhildenbrand/linux device_exclusive
-head:   d9a18663f22814d78aeace0bbe852e4f13923d83
-commit: 9910bc073e528fac18832a3046b6666ddc06859e [3/18] mm/rmap: convert make_device_exclusive_range() to make_device_exclusive()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250212/202502121601.MBYPtaP8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121601.MBYPtaP8-lkp@intel.com/reproduce)
+Hi Ryan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on pza/reset/next linus/master v6.14-rc2]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-binding-clock-ast2700-modify-soc0-1-clock-define/20250210-165421
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20250210085004.1898895-4-ryan_chen%40aspeedtech.com
+patch subject: [PATCH v8 3/3] clk: aspeed: add AST2700 clock driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250212/202502121624.f9xpltGE-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121624.f9xpltGE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121601.MBYPtaP8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121624.f9xpltGE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/nouveau/nouveau_svm.c:22:
-   In file included from drivers/gpu/drm/nouveau/nouveau_svm.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:1660:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/nouveau/nouveau_svm.c:612:54: error: use of undeclared identifier 'folio'
-     612 |                 page = make_device_exclusive(mm, start, drm->dev, &folio);
-         |                                                                    ^
-   3 warnings and 1 error generated.
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:14,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/m68k/include/uapi/asm/byteorder.h:5,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/m68k/include/asm/bitops.h:566,
+                    from include/linux/bitops.h:68,
+                    from include/linux/of.h:15,
+                    from include/linux/clk-provider.h:9,
+                    from drivers/clk/clk-ast2700.c:7:
+   drivers/clk/clk-ast2700.c: In function 'ast2700_soc1_configure_i3c_clk':
+>> drivers/clk/clk-ast2700.c:981:32: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     981 |                                FIELD_PREP(SCU1_CLK_I3C_DIV_MASK,
+         |                                ^~~~~~~~~~
+   include/uapi/linux/swab.h:118:38: note: in definition of macro '__swab32'
+     118 |         (__u32)(__builtin_constant_p(x) ?       \
+         |                                      ^
+   include/linux/byteorder/generic.h:88:21: note: in expansion of macro '__cpu_to_le32'
+      88 | #define cpu_to_le32 __cpu_to_le32
+         |                     ^~~~~~~~~~~~~
+   arch/m68k/include/asm/io_mm.h:373:26: note: in expansion of macro 'out_le32'
+     373 | #define writel(val,addr) out_le32((addr),(val))
+         |                          ^~~~~~~~
+   drivers/clk/clk-ast2700.c:979:17: note: in expansion of macro 'writel'
+     979 |                 writel((readl(clk_ctrl->base + SCU1_CLK_SEL2) &
+         |                 ^~~~~~
+   drivers/clk/clk-ast2700.c: At top level:
+   drivers/clk/clk-ast2700.c:369:37: warning: 'd_clk_sels' defined but not used [-Wunused-const-variable=]
+     369 | static const struct clk_parent_data d_clk_sels[] = {
+         |                                     ^~~~~~~~~~
+   drivers/clk/clk-ast2700.c:353:37: warning: 'soc1_ahb' defined but not used [-Wunused-const-variable=]
+     353 | static const struct clk_parent_data soc1_ahb[] = {
+         |                                     ^~~~~~~~
+   drivers/clk/clk-ast2700.c:349:37: warning: 'uart16clk' defined but not used [-Wunused-const-variable=]
+     349 | static const struct clk_parent_data uart16clk[] = {
+         |                                     ^~~~~~~~~
+   drivers/clk/clk-ast2700.c:345:37: warning: 'uart15clk' defined but not used [-Wunused-const-variable=]
+     345 | static const struct clk_parent_data uart15clk[] = {
+         |                                     ^~~~~~~~~
+   drivers/clk/clk-ast2700.c:341:37: warning: 'uart14clk' defined but not used [-Wunused-const-variable=]
+     341 | static const struct clk_parent_data uart14clk[] = {
+         |                                     ^~~~~~~~~
+   drivers/clk/clk-ast2700.c:337:37: warning: 'uart13clk' defined but not used [-Wunused-const-variable=]
+     337 | static const struct clk_parent_data uart13clk[] = {
+         |                                     ^~~~~~~~~
+   drivers/clk/clk-ast2700.c:237:37: warning: 'soc0_ahb' defined but not used [-Wunused-const-variable=]
+     237 | static const struct clk_parent_data soc0_ahb[] = {
+         |                                     ^~~~~~~~
+   drivers/clk/clk-ast2700.c:209:37: warning: 'soc0_mpll_div8' defined but not used [-Wunused-const-variable=]
+     209 | static const struct clk_parent_data soc0_mpll_div8[] = {
+         |                                     ^~~~~~~~~~~~~~
 
 
-vim +/folio +612 drivers/gpu/drm/nouveau/nouveau_svm.c
+vim +/FIELD_PREP +981 drivers/clk/clk-ast2700.c
 
-   584	
-   585	static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
-   586				       struct nouveau_drm *drm,
-   587				       struct nouveau_pfnmap_args *args, u32 size,
-   588				       struct svm_notifier *notifier)
-   589	{
-   590		unsigned long timeout =
-   591			jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-   592		struct mm_struct *mm = svmm->notifier.mm;
-   593		struct page *page;
-   594		unsigned long start = args->p.addr;
-   595		unsigned long notifier_seq;
-   596		int ret = 0;
-   597	
-   598		ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
-   599						args->p.addr, args->p.size,
-   600						&nouveau_svm_mni_ops);
-   601		if (ret)
-   602			return ret;
-   603	
-   604		while (true) {
-   605			if (time_after(jiffies, timeout)) {
-   606				ret = -EBUSY;
-   607				goto out;
-   608			}
-   609	
-   610			notifier_seq = mmu_interval_read_begin(&notifier->notifier);
-   611			mmap_read_lock(mm);
- > 612			page = make_device_exclusive(mm, start, drm->dev, &folio);
-   613			mmap_read_unlock(mm);
-   614			if (IS_ERR(page)) {
-   615				ret = -EINVAL;
-   616				goto out;
-   617			}
-   618	
-   619			mutex_lock(&svmm->mutex);
-   620			if (!mmu_interval_read_retry(&notifier->notifier,
-   621						     notifier_seq))
-   622				break;
-   623			mutex_unlock(&svmm->mutex);
-   624		}
-   625	
-   626		/* Map the page on the GPU. */
-   627		args->p.page = 12;
-   628		args->p.size = PAGE_SIZE;
-   629		args->p.addr = start;
-   630		args->p.phys[0] = page_to_phys(page) |
-   631			NVIF_VMM_PFNMAP_V0_V |
-   632			NVIF_VMM_PFNMAP_V0_W |
-   633			NVIF_VMM_PFNMAP_V0_A |
-   634			NVIF_VMM_PFNMAP_V0_HOST;
-   635	
-   636		ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
-   637		mutex_unlock(&svmm->mutex);
-   638	
-   639		unlock_page(page);
-   640		put_page(page);
-   641	
-   642	out:
-   643		mmu_interval_notifier_remove(&notifier->notifier);
-   644		return ret;
-   645	}
-   646	
+   974	
+   975	static void ast2700_soc1_configure_i3c_clk(struct ast2700_clk_ctrl *clk_ctrl)
+   976	{
+   977		if (readl(clk_ctrl->base + SCU1_REVISION_ID) & REVISION_ID)
+   978			/* I3C 250MHz = HPLL/4 */
+   979			writel((readl(clk_ctrl->base + SCU1_CLK_SEL2) &
+   980				~SCU1_CLK_I3C_DIV_MASK) |
+ > 981				       FIELD_PREP(SCU1_CLK_I3C_DIV_MASK,
+   982						  SCU1_CLK_I3C_DIV(4)),
+   983			       clk_ctrl->base + SCU1_CLK_SEL2);
+   984	}
+   985	
 
 -- 
 0-DAY CI Kernel Test Service
