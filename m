@@ -1,43 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5972D600;
-	Wed, 12 Feb 2025 05:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C0F2D600
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 05:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739336978; cv=none; b=X0uT45wjZiNAG8n+GFv2Elq3Q7Ct7s/IomQ1NEuxEe1YfG9+Np0Gs1liGp9fuoqbyWmmWSOfAGawSFAjHtIWbBSMXQCqJUn9NXgVWmIEYUIjp8m89MfR9DT4y/AbdDTFIAUlEF7wh1yydISFRaaoSEptKMA6hWgJdOW/AZdjL+E=
+	t=1739337183; cv=none; b=PpuOg++Mo3YDCL01rSFuiiGw6WvkdhTz8JABAYzUjOOwI4e/VWCVWj/S0sKLf07hL7rAYLRoGpUfBz2kA3JUxoVZRHuk8H/DeJQsFkLLsINOD3P118HymxJG6+CJrJmanK+aYLuVEgjgNby9W4ycnXf2rlPmJJ/CST6MF4uBN3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739336978; c=relaxed/simple;
-	bh=rTwWzK2R5eDHPwNZlzEPgv/sFPzyIQ5iAEXmdHJPvLU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YpDVndHBDmiIcUqEvZZHe1Ct/cNLheXsnZDq/GDnFzih8weMpal/pqRDc1fP1ys5KxKjY5jucDXFL54BX4iOvHbbzbzwEdr8qosU03/b2xplsByj7MpubHHB0hMDhMxGwQmggFLvssdPj9+5C0nmfWHM3cmysjqfzz2YLbcWvb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pn5tCHJr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1739337183; c=relaxed/simple;
+	bh=oe0fTsNo8bMqAheJ3gGJq1II43oIue87Q/ngNEh4mR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ji4dObfldQrAnwaeDpY6J8OaEz52XHfTfnV8P/cmu3ug3Z6suSRCCw/Bzf71Q+pNndDG4iBBM7tx9yzDi/paAHy3HVL2ni9IMJ2OL1HWUn2oBC/gU18hE17Dh98pxM/LHzYfyujrij6MU44SkVMBBbsOIGLmPtEX2LhoshoEK4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OPvqfAfk; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pn5tCHJr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BF04C4CEDF;
-	Wed, 12 Feb 2025 05:09:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739336978;
-	bh=rTwWzK2R5eDHPwNZlzEPgv/sFPzyIQ5iAEXmdHJPvLU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pn5tCHJrzTM3ToHa89t1YtbsX3sakR38xaIZQmVhye3ZeCDtfB/OM2NIPy+p6YsvX
-	 w27WDsufZQbzUwe08sthFVmMjPZjbtAecz45Tw4IG1nV38qsQqRCmpggxsZEaOZUmv
-	 tyO+CFqxNtohfD7gd3hMovkjbsyNZj9/xjMdmEjsHHiIbbOBcoAw/gndw6rJL/l1YE
-	 xHuYGY5CRpPiNmT5D514pwHCNHhlko4NnIdxmYrtww9jaP090NRZBXOt2AlcQ93UCy
-	 gxBQO6UdJP86APaf8wU748uYhGO5rPFHGraLkckcl6wbxHPp7qx8S+2gv6JZ6/ap6m
-	 gySGaiE04PWXg==
-Date: Wed, 12 Feb 2025 05:09:36 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: kernel test robot <lkp@intel.com>, Danny Tsen <dtsen@linux.ibm.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch
- is modular
-Message-ID: <20250212050936.GB2010357@google.com>
-References: <202501230223.ikroNDr1-lkp@intel.com>
- <Z6woN4vgdaywOZxm@gondor.apana.org.au>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OPvqfAfk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739337181; x=1770873181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oe0fTsNo8bMqAheJ3gGJq1II43oIue87Q/ngNEh4mR4=;
+  b=OPvqfAfkIMjISR+de8WiE+XhYxwdYZ4CzpzH1Serp+NXephRrcnpxcfi
+   WVE6jyPJaQP3VBR4GJYqGeGcUYXzz7TaDJffB+9TSdd6xaVMWFNXQSCVA
+   hm0Lo7QtiG+ItfFEXsfPTLSE8pnFWEdG6YQ9fEmVWIhxT1P5gUjfJJPYg
+   vki4BwbpEWlk6r6kKlTedxeUo+znuDYVPVzKXTG81yJN43pP6W0aO832v
+   JZwDWNR/frHp4PfmdKYypvGSFsdA1NaDXDvA8zCCxSRR2zURG9LYCPTZi
+   9tw0ZFSG0LGUEQDUHNMtGvLF2fLJ2nZuXcDeA2R2fjlkvs14YTa3PMJyn
+   Q==;
+X-CSE-ConnectionGUID: 7LZxvl6ETy+lyrJmbQzBMQ==
+X-CSE-MsgGUID: Hfbqf9fwTh2mnVezlNbAuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39866102"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="39866102"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 21:13:01 -0800
+X-CSE-ConnectionGUID: 9+8kwOnhTK23iKDdJdGKAg==
+X-CSE-MsgGUID: gd7idGn3QTGJWW2YvEqNSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="112672215"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2025 21:12:59 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ti53Q-001599-1s;
+	Wed, 12 Feb 2025 05:12:56 +0000
+Date: Wed, 12 Feb 2025 13:12:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Greg Ungerer <gerg@uclinux.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:armnommu 3/3] arch/arm/mm/alignment.c:775:25:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202502121313.XQkyuSmD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,54 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6woN4vgdaywOZxm@gondor.apana.org.au>
 
-On Wed, Feb 12, 2025 at 12:48:55PM +0800, Herbert Xu wrote:
-> On Thu, Jan 23, 2025 at 02:18:27AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   c4b9570cfb63501638db720f3bee9f6dfd044b82
-> > commit: b42519dbba838c928e82b55f32712fbe3eed2c45 crypto: ppc/curve25519 - Update Kconfig and Makefile for ppc64le
-> > date:   8 months ago
-> > config: powerpc64-randconfig-r111-20250122 (https://download.01.org/0day-ci/archive/20250123/202501230223.ikroNDr1-lkp@intel.com/config)
-> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> > reproduce: (https://download.01.org/0day-ci/archive/20250123/202501230223.ikroNDr1-lkp@intel.com/reproduce)
-> 
-> Thanks for the report.  This is the old built-in vs. modular Kconfig
-> problem.  This patch should fix it:
-> 
-> ---8<---
-> The HAVE_ARCH Kconfig options in lib/crypto try to solve the
-> modular versus built-in problem, but it still fails when the
-> the LIB option (e.g., CRYPTO_LIB_CURVE25519) is selected externally.
-> 
-> Fix this by introducing a level of indirection with ARCH_MAY_HAVE
-> Kconfig options, these then go on to select the ARCH_HAVE options
-> if the ARCH Kconfig options matches that of the LIB option.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202501230223.ikroNDr1-lkp@intel.com/
-> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
-> 
-> diff --git a/arch/arm/crypto/Kconfig b/arch/arm/crypto/Kconfig
-> index 32650c8431d9..47d9cc59f254 100644
-> --- a/arch/arm/crypto/Kconfig
-> +++ b/arch/arm/crypto/Kconfig
-> @@ -6,7 +6,7 @@ config CRYPTO_CURVE25519_NEON
->  	tristate "Public key crypto: Curve25519 (NEON)"
->  	depends on KERNEL_MODE_NEON
->  	select CRYPTO_LIB_CURVE25519_GENERIC
-> -	select CRYPTO_ARCH_HAVE_LIB_CURVE25519
-> +	select CRYPTO_ARCH_MAY_HAVE_LIB_CURVE25519
->  	help
->  	  Curve25519 algorithm
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
+head:   282a7ed48056574071566c6f9a3f4edea6601cf1
+commit: 282a7ed48056574071566c6f9a3f4edea6601cf1 [3/3] ARM: versatile: support configuring versatile machine for no-MMU
+config: arm-randconfig-r122-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121313.XQkyuSmD-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce: (https://download.01.org/0day-ci/archive/20250212/202502121313.XQkyuSmD-lkp@intel.com/reproduce)
 
-Please name these like ARCH_HAS_CURVE25519 and CRYPTO_LIB_CURVE25519_ARCH to be
-consistent with the CRC library, the many other ARCH_HAS_* options, and
-CRYPTO_LIB_CURVE25519_GENERIC.  Nothing uses names that contain "MAY_HAVE",
-which is ambiguous.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121313.XQkyuSmD-lkp@intel.com/
 
-FWIW, at some point the arch optimized crypto algorithms also need to just be
-enabled by default.  The fact that they're not is a longstanding bug that is
-really harmful to users and needs to be fixed.
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm/mm/alignment.c:775:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *ip @@
+   arch/arm/mm/alignment.c:775:25: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/mm/alignment.c:775:25: sparse:     got unsigned int [usertype] *ip
+>> arch/arm/mm/alignment.c:790:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] *ip @@
+   arch/arm/mm/alignment.c:790:25: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/mm/alignment.c:790:25: sparse:     got unsigned short [usertype] *ip
 
-- Eric
+vim +775 arch/arm/mm/alignment.c
+
+c2860d43f5dfab George G. Davis   2009-06-04  768  
+1bb9fb0a147f9d Russell King      2019-09-06  769  static int alignment_get_arm(struct pt_regs *regs, u32 *ip, u32 *inst)
+67e15fa5b487ad Russell King      2019-08-31  770  {
+67e15fa5b487ad Russell King      2019-08-31  771  	u32 instr = 0;
+67e15fa5b487ad Russell King      2019-08-31  772  	int fault;
+67e15fa5b487ad Russell King      2019-08-31  773  
+67e15fa5b487ad Russell King      2019-08-31  774  	if (user_mode(regs))
+67e15fa5b487ad Russell King      2019-08-31 @775  		fault = get_user(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  776  	else
+25f12ae45fc193 Christoph Hellwig 2020-06-17  777  		fault = get_kernel_nofault(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  778  
+67e15fa5b487ad Russell King      2019-08-31  779  	*inst = __mem_to_opcode_arm(instr);
+67e15fa5b487ad Russell King      2019-08-31  780  
+67e15fa5b487ad Russell King      2019-08-31  781  	return fault;
+67e15fa5b487ad Russell King      2019-08-31  782  }
+67e15fa5b487ad Russell King      2019-08-31  783  
+67e15fa5b487ad Russell King      2019-08-31  784  static int alignment_get_thumb(struct pt_regs *regs, u16 *ip, u16 *inst)
+67e15fa5b487ad Russell King      2019-08-31  785  {
+67e15fa5b487ad Russell King      2019-08-31  786  	u16 instr = 0;
+67e15fa5b487ad Russell King      2019-08-31  787  	int fault;
+67e15fa5b487ad Russell King      2019-08-31  788  
+67e15fa5b487ad Russell King      2019-08-31  789  	if (user_mode(regs))
+67e15fa5b487ad Russell King      2019-08-31 @790  		fault = get_user(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  791  	else
+25f12ae45fc193 Christoph Hellwig 2020-06-17  792  		fault = get_kernel_nofault(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  793  
+67e15fa5b487ad Russell King      2019-08-31  794  	*inst = __mem_to_opcode_thumb16(instr);
+67e15fa5b487ad Russell King      2019-08-31  795  
+67e15fa5b487ad Russell King      2019-08-31  796  	return fault;
+67e15fa5b487ad Russell King      2019-08-31  797  }
+67e15fa5b487ad Russell King      2019-08-31  798  
+
+:::::: The code at line 775 was first introduced by commit
+:::::: 67e15fa5b487adb9b78a92789eeff2d6ec8f5cee ARM: mm: fix alignment handler faults under memory pressure
+
+:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
