@@ -1,95 +1,158 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CE7207667
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 11:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7077220AF8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 11:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739359941; cv=none; b=cfIOOPB8wk7y1ABhG7fHInz2xT8zlHhfLoF4FihJQRXjtxO+ySVzZ+UWqDAOJH+9qRguFItbj/bVaM9wv5W8F7K2W4OObFNHvfoeMW5CdWf9bVqzLg3HrICFNINusBlrwBwZeA02po59qiqPwkQNhCGDVJtdzTK16KY8vKu6RPo=
+	t=1739361217; cv=none; b=VCFupqGHCRDNLUeFNEjZWNbx4gHMChY9iDoIqHfw6C6YiAeOVAKdTFLgUo6JH3032QbHK6xPreuXx2aQoZ9VYOe9VinFhzVeEkvrjC6kcqaTvr5ptjJRwY/biD299vZ3KnrhI9TAff1uEGb60fbz4gntmRAPBuqfLb4iLVukfcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739359941; c=relaxed/simple;
-	bh=s7hHeLHxalaGcIL8rwFO9IhAesCKLsnoNKCUDby/PEc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CHs7rJcbTQyzc21NXWwYvPw1lWU+2WJbE6+aN6AsqglLN+ToJ+X6rxg8CF2Hk1F7/NoEVyPJSfPRSGQux4AcnCSDX4seargVosZpO5y7auCfCXpZTgJZncODp4hIdnCC/gShYMRjITc2k1FacDdTHuODohEtYETHT7WzZic8yJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MNqZEXSH; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739361217; c=relaxed/simple;
+	bh=F/Y6oZFsQtTxUrr9YYdhPnGY9CZOnlMoNkfED6ENZxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=GSlOtTasiGVBayPJXdtB12TXx1L3xLisIwkUp6RRJGPFL1q2RpQVsk5rDZu1jIinO8cwemvhK1fP9U38mzVQrWrbOSnntkUWLc2Y0lbafW/aG2j+X62nDVq/yYvli1TTXuP6KElfGwsslJm10DKaTN722gGcgojoaXHmvw11s1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K9m4IyV3; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MNqZEXSH"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ab7b80326cdso615358066b.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 03:32:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K9m4IyV3"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5de6ff9643fso6669731a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 03:53:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739359938; x=1739964738; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s7hHeLHxalaGcIL8rwFO9IhAesCKLsnoNKCUDby/PEc=;
-        b=MNqZEXSHpev18iUpma7zfXSMH+v/9q8TsfT4ZK34XOumUm1x7kKepszciTsHa/csg+
-         yI/BWF+AVfuiJb07Ja3N1qMTV4XOTb1198LwTgfWQVhW5wXlPh/35Z10Mu6Uedcy3mkK
-         VSLGH+9ncgE7H5zizxmRHvtkhlj6sR06+K/+c11Mhh/5q+Fr/bOTedgjt/V9T78H7+YG
-         zrv9BL5UWjYOJ8HcyXXDDF0BOspE0a/peL+U5FTHorXbBMSIbqMFTbKVe3PdXfKZYQb8
-         7Jh7TnNldX77iNPyC/L6hZFRco/WT812KYZWV9zJ/ISzEXkvaa3iLlpCEthIQodSIReN
-         v5KQ==
+        d=linaro.org; s=google; t=1739361214; x=1739966014; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ve4GUfiMGd+JubWtGmw2gMxfkFox9RovPabXzAhTLMg=;
+        b=K9m4IyV3NWHOF1hdeu4JR1YC1Ic87C3fmgTj7ty+kRysmN98R0ql4f2sCKCo3ovfqN
+         b6O8Pe4qQcspBw/6OkGBzmwqehImUSbeJ2WC3Ll4o/3zwur9zPB/qjXnMk6VLcnYeMxB
+         He+6YGMLPncyvxBivVm4AZB5q9lrRgCj2N8yOKzAi2zKm/1ZWJEz6cnFSFFOpiyzS69A
+         GRDI5uBa7QvrrtiJvemt3BmTGTw3vFs9clM2HNR7JF2CgOBs6uxoYKw7/rbsV8dpFLH1
+         0XRnH4Fb59Qlp3Q+yuJQXyRqRWHJdpuyxRNpghbRut7nPc1Ok9q9pNkAU/utVxaXv4r7
+         FJxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739359938; x=1739964738;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s7hHeLHxalaGcIL8rwFO9IhAesCKLsnoNKCUDby/PEc=;
-        b=PI+SfGYXZ7s8ESmgVtHJRvQt3v67ZpvReXz/FE6CvSFhFVF1nXa3G2Z38DBiy02p47
-         wbS7aDAZCpVH+G19gA7FYYyfplzvbI69xYFdMWKaBLoc4axAGETGGmnoTPE9RKBc0fzY
-         CDZ3l2249zIiZAjr/46glY0yjZXwVWfizxOXG53lK3zTdq07zulH78yBHrWzwPtPAJ7l
-         Rw2RUymRF6kiJ6VZLK7e2NzAVP5naa3bk0E5u1Z31eNUEjwSvzaegr/9aH7RFKN9J/k9
-         OWsHzJSDqv31Y2QkRBOvBZxB6eD59UWox0GguJbzpTAo1TWJKEQMeSiFZIiOXKjOKpel
-         HucA==
-X-Gm-Message-State: AOJu0YzDvfIGjKvfd/x6o0ZGaGjn8jK/pNyQjCGcsibUGi2o8HSinrfu
-	IFEmIEFjJUeUofo9WtgjLXGEPxA3h+0UYhbWCijnoKyj5JvZq7TM
-X-Gm-Gg: ASbGncu1AEzSm+ipkHcTEt13bpunBJSXXL3RSDbkKTf1aToGCW4EvQtiaSe+/NBkW5c
-	6zh1rN+IQNJVuyR7VlOCHGFSbrOVR2azX3BwlqSnqv7mHNyts7jXmoygVFVkIkujqGeRrVTf2zM
-	GY1q/JQF7sAXGgQCwNFi33CQO7ClNEA9JNBvw4xLCZU0tYi0++/fSPIAt19yqn2TRdDKTRFlc6k
-	qIKwZcK7dhq0IrH5lVF/dEAcJ8cMyGrHAkiul5FdaZtmCccmYbwVn56LtIKqht3/4tiAw1K1E3v
-	dCG0RXqpnYvbEs195Pi52ajUPFm+xlxZv7am/gRBRq1vAA==
-X-Google-Smtp-Source: AGHT+IGJJXndp5jBgYdH0F5LQVt/q3VMN6qyAAnLNn0OT4b42ec2KYia/IvE9C8PTwq0Y5hlfFGx6w==
-X-Received: by 2002:a17:907:d8b:b0:aa6:a87e:f2e1 with SMTP id a640c23a62f3a-ab7f34da843mr200509566b.56.1739359938215;
-        Wed, 12 Feb 2025 03:32:18 -0800 (PST)
-Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7bcd53bf5sm629950366b.87.2025.02.12.03.32.16
+        d=1e100.net; s=20230601; t=1739361214; x=1739966014;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ve4GUfiMGd+JubWtGmw2gMxfkFox9RovPabXzAhTLMg=;
+        b=dVhOx+ovrASztvcLgspSMjtRA2jvREYqxuQ+vDmGrwFyz0UEFBddOuXqmMzPv8f/pv
+         Po5U9dEryXBwM72BZAqT3xkGx2AQ7zgNMqafWdiCZs7wVcFq9sv2lP2+7bP4Fltg3tXt
+         06yo/qZf9v4kmwWf6IouDagnJD8ECtbdB90FonzALAl+FlBumR6/Ftm+PCaq4TQAQcHg
+         4W+RlHnLhwBTMXyEUMUg6Rb2ydweW0lIk9c9n5/NAglpqfaUpHk/e9ktU1zzj9JI2pSJ
+         MZk+abWSGWQTbMz7Cc2mGhpQnte1bYV2PHUckx23DULZwINHNDijUlCKUiz+s2tpZc+P
+         z06g==
+X-Forwarded-Encrypted: i=1; AJvYcCXnl9scyW+RasLtnvzMz/3ZpwZTk5UrLoJNlLG0Yz7UgQCQVRw/yEWEkVinLsphT0xpZSlkiEEduEuDa7Vv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4KjCE1ZLQpCO5o+Qebw2uKriNETZRqA8GodefNZNAq5H/RXgq
+	fpp0fMh0730nFPJ1qH7Yl1JiyZIhlS/X9/HrAXBR1Cr7fp6qwSqBhzyhIGLf3bg=
+X-Gm-Gg: ASbGncuIqaxbTTMko4Ud7LRT85TAxa99ml7sECy6w6p9yTI2c1H/j5h6N6/+1LCVgLt
+	OIBiKJyUQwPcI0cvW25Sb2ddAgKBUMdQyKFwfRHfLcawD2NINDunBYtCZ4C/WHO2XufaNlGwbNU
+	4qR/dm68ezM+asiQvfScjTrsVcKh3g4lxY4PBNTi2VK6ju+/Y5HK+VQzFuQxZwNSgMMpi5FrTks
+	MD+a/1gU82wa1BwqNvDjCnqsZBbWhVp22HJntzVK5ZPJ9qBlTwepEg6xb9Z6PX5nR5vnSGcBKHM
+	5cfvgH5hL0U2soEiR1ar
+X-Google-Smtp-Source: AGHT+IEW37Ln8Rw9wZCx5hEW7SwbEBmh4Q/tDMUHGy/4+ny+FLprR4PjEwKabrQy3taBn4EwI9h/ug==
+X-Received: by 2002:a05:6402:4605:b0:5dc:8f03:bb5c with SMTP id 4fb4d7f45d1cf-5deadd9217bmr2454917a12.11.1739361213657;
+        Wed, 12 Feb 2025 03:53:33 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5de46b7b480sm10008537a12.36.2025.02.12.03.53.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 03:32:17 -0800 (PST)
-Message-ID: <21e66060c13c6a3cc33592f71cb08975711a6adb.camel@gmail.com>
-Subject: Re: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-From: Artem Bityutskiy <dedekind1@gmail.com>
-Reply-To: dedekind1@gmail.com
-To: kernel test robot <lkp@intel.com>, David Arcari <darcari@redhat.com>, 
-	linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, Jacob
- Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>, Prarit
- Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 12 Feb 2025 13:32:14 +0200
-In-Reply-To: <202502121732.P7lZkbhm-lkp@intel.com>
-References: <20250211132741.99944-1-darcari@redhat.com>
-	 <202502121732.P7lZkbhm-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+        Wed, 12 Feb 2025 03:53:33 -0800 (PST)
+Date: Wed, 12 Feb 2025 14:53:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>,
+	David Gow <davidgow@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	llvm@lists.linux.dev, Tamir Duberstein <tamird@gmail.com>
+Subject: Re: [PATCH] ww_mutex: convert self-test to KUnit
+Message-ID: <3dabe058-2308-4990-8e5d-0af1efd27431@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e@gmail.com>
 
-T24gV2VkLCAyMDI1LTAyLTEyIGF0IDE4OjA5ICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToKPiDCoMKgIGRyaXZlcnMvaWRsZS9pbnRlbF9pZGxlLmM6IEluIGZ1bmN0aW9uICdpbnRlbF9p
-ZGxlX2luaXQnOgo+ID4gPiBkcml2ZXJzL2lkbGUvaW50ZWxfaWRsZS5jOjIyODk6Mjc6IGVycm9y
-OiAnbm9fYWNwaScgdW5kZWNsYXJlZCAoZmlyc3QgdXNlCj4gPiA+IGluIHRoaXMgZnVuY3Rpb24p
-OyBkaWQgeW91IG1lYW4gJ25vX2FjdGlvbic/Cj4gwqDCoMKgIDIyODkgfMKgwqDCoMKgwqDCoMKg
-wqAgaWYgKG5vX25hdGl2ZSAmJiAhbm9fYWNwaSkgewo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXn5+fn5+fgo+
-IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgbm9fYWN0aW9uCj4gwqDCoCBkcml2ZXJzL2lkbGUvaW50ZWxfaWRsZS5j
-OjIyODk6Mjc6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVudGlmaWVyIGlzCj4gcmVwb3J0ZWQg
-b25seSBvbmNlIGZvciBlYWNoIGZ1bmN0aW9uIGl0IGFwcGVhcnMgaW4KCkRhdmlkLCB0aGlzIG11
-c3QgYmUgdGhlICFDT05GSUdfQUNQSV9QUk9DRVNTT1JfQ1NUQVRFIGNhc2UuCgpUaGFua3MhCg==
+Hi Tamir,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/ww_mutex-convert-self-test-to-KUnit/20250211-000245
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250210-ww_mutex-kunit-convert-v1-1-972f0201f71e%40gmail.com
+patch subject: [PATCH] ww_mutex: convert self-test to KUnit
+config: i386-randconfig-141-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121806.CS6r741y-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502121806.CS6r741y-lkp@intel.com/
+
+smatch warnings:
+kernel/locking/ww_mutex_kunit.c:238 test_abba_gen_params() warn: shift has higher precedence than mask
+kernel/locking/ww_mutex_kunit.c:249 test_abba() warn: shift has higher precedence than mask
+
+vim +238 kernel/locking/ww_mutex_kunit.c
+
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  231  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  232  static const void *test_abba_gen_params(const void *prev, char *desc)
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  233  {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  234  	static unsigned int storage;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  235  	const unsigned int *next = gen_range(&storage, 0b00, 0b11, prev);
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  236  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  237  	if (next != NULL) {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10 @238  		const bool trylock = *next & 0b01 >> 0;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  239  		const bool resolve = *next & 0b10 >> 1;
+
+The shifts here are weird...  A zero shift is strange but even the 1 shift
+is odd.  The current code is equivalent to:
+
+	const bool resolve = *next & (0b10 >> 1);
+
+But changing it to:
+
+	const bool resolve = (*next & 0b10) >> 1;
+
+Doesn't make sense either...  Probably that makes less sense actually.
+What are you trying to communicate with this code?
+
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  240  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  241  		snprintf(desc, KUNIT_PARAM_DESC_SIZE, "trylock=%d,resolve=%d", trylock, resolve);
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  242  	}
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  243  	return next;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  244  }
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  245  
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  246  static void test_abba(struct kunit *test)
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  247  {
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  248  	const unsigned int *param = test->param_value;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10 @249  	const bool trylock = *param & 0b01 >> 0;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  250  	const bool resolve = *param & 0b10 >> 1;
+
+Same.
+
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  251  	struct test_abba abba;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  252  	struct ww_acquire_ctx ctx;
+daf92a37bd1117 kernel/locking/ww_mutex_kunit.c Tamir Duberstein  2025-02-10  253  	int err;
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  254  
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  255  	ww_mutex_init(&abba.a_mutex, &ww_class);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  256  	ww_mutex_init(&abba.b_mutex, &ww_class);
+70207686e492fb kernel/locking/test-ww_mutex.c  Chris Wilson      2016-12-01  257  	INIT_WORK_ONSTACK(&abba.work, test_abba_work);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
