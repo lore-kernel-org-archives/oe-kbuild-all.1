@@ -1,59 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934271B21AD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 07:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D2D1E98EC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 08:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739346141; cv=none; b=Wpq/Jd/w0CkobUZSNKIyZ+Hv0/yeis9maW4xwFctt/IPLyUsV9Wn9yqC1N38H1/vdOGmFWlp2lgMngxbZw0sxD5c1AZjTC0NpfRHLAKkSRnh7k6Tk0nStB/axXAOTby4Qj/pnJKt82GkwNDroduAIh2YBm3lMNBP/rtSQEAIMfE=
+	t=1739347407; cv=none; b=G+RQIwQiNM0MZjNHUP3H5LtiuylsGaK8WIniqu5OI9SayXKZF30IiAoJkzksOEaki93v06OEGmnySCyyhOyD8MCPTqXisAmrlh3Iczb+tD/CIms5Kbve+L9O2w8R70ii9ME1r8+anYRNBgW78/bHheY1YkqCKvaZQD1gXev9QrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739346141; c=relaxed/simple;
-	bh=D6M7ven3MNvSeg4NOaujyzJRq9WTKblu/ZTnaEBA18g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aPC5ex4aUq7JejEPfHWoo2T0W56XQWOqDhkIfE+hXvF/ZhXiL/NcHmM9106iw0cVWVaqJwDtdSqx/AxsSovQMfXclkL5nkMRj0T/uIL9e56zpdjGsjZVbhFMwEjb9hnSSmHljCT11siD16+eqUn1np7AoMvLhwiorNXd88wQKuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGGlW5iD; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1739347407; c=relaxed/simple;
+	bh=pO031soeAN2xTZUcwq6yyzqPBbAKgf77wG9z2Co6OAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uE8PIVzURGR6/2ZQfiupkOwLwtNwE85DOomzDvVlZddyqKI0IxOBVHtG1PdgVsriJgPKBDvQiGEQFiG3j72N8V2jvWXAf9///Hsf6jeLQPfmYr9FnrsF8iQPsc3YBplJrf49P7ICcOaq1SiLFq60Lb3KhcG6TilzjqGkhr5COWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XbYso5MR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGGlW5iD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XbYso5MR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739346140; x=1770882140;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D6M7ven3MNvSeg4NOaujyzJRq9WTKblu/ZTnaEBA18g=;
-  b=HGGlW5iDaUTsoNohwPsEa8/wp4xu9Q3XfTqKS+cpUo4N/B2KYi7ZPqSx
-   vXh6yw4fjMohLa0OW+t/vxvI/FoNO2L8tYrxXCo1dc+oA5rZiFeWfffIS
-   vshKH7N/aXfApoNwdtiECO9Qn+qcFkxGVXW/OgXZ9fOcyOvrBaiotBkMq
-   So8GnEiZXS1zz0t50DLNANPcsqt3j7xYEflkwTryIfkk6F6Q2g8dhbRsA
-   ZkFIHqyTBWTThgzvU8o8LzOaNyx/dORV61ThEYqfBLfVxDNxrzXyIKuiO
-   UIjId80y+a6Fi987FeMN7hBjM3wXXnoTCaq8YTl06wWWKJe/z19vhIAsW
+  t=1739347405; x=1770883405;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pO031soeAN2xTZUcwq6yyzqPBbAKgf77wG9z2Co6OAQ=;
+  b=XbYso5MRmNLCb1dQeLGQ9DmwQ72bgjp4OGpl6q5yNkpb9BX4WPj9V1a2
+   HZF4esuZKWbdfG8TURw4H44bpqFmET2UQit+U0FCP0DR5akf4SNAiIACj
+   q9amjsG8BY6bax/gT5jlajmuACrfmrgUYnhH5+a59q6yuHt4HW8Cgr5v3
+   ZV8EmjKDaIBcC/KoD4+I2RaE2WGODi20xAurZ4AHhns0mYvILQ0T4Gzf7
+   F+3OfmJcy7ub9acjntmGoV9B/KrlieoYpPfpzekQ+Giti6Wqknf4fdA/4
+   DHlKHUQXmL/pLsHaa0YXoGcsmQvDO3YMUdkTOz4+YRi7eB4yLfAEcz08B
    w==;
-X-CSE-ConnectionGUID: vPVBNCq1SeCuntNFaZSQNg==
-X-CSE-MsgGUID: 3UII9TFJQiaHzz93KkcsUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="51382152"
+X-CSE-ConnectionGUID: Ot1GbbSXRQysLBvK/DnfSQ==
+X-CSE-MsgGUID: GbP2YNE9QYuaTV7NIH6IZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="51384808"
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="51382152"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 23:42:19 -0800
-X-CSE-ConnectionGUID: ca578VDYRmKWf/B3dxrGgg==
-X-CSE-MsgGUID: wkCtWLZtSUyroPhzaeAZjQ==
+   d="scan'208";a="51384808"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 00:03:24 -0800
+X-CSE-ConnectionGUID: FFGiGoEsRq+bQBfIANicbw==
+X-CSE-MsgGUID: RXhg/U3zReqi686kTX0hrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="136012937"
+   d="scan'208";a="117929688"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Feb 2025 23:42:18 -0800
+  by orviesa005.jf.intel.com with ESMTP; 12 Feb 2025 00:03:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti7Nv-0015J9-37;
-	Wed, 12 Feb 2025 07:42:15 +0000
-Date: Wed, 12 Feb 2025 15:41:39 +0800
+	id 1ti7iJ-0015L9-1O;
+	Wed, 12 Feb 2025 08:03:19 +0000
+Date: Wed, 12 Feb 2025 16:03:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 1/1]
- drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:803:23: warning:
- 'cmdqv_debugfs_dir' defined but not used
-Message-ID: <202502121515.yRQYEFZe-lkp@intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Bamvor Jian Zhang <bamv2005@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Keerthy <j-keerthy@ti.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 01/14] gpiolib: make value setters have return values
+Message-ID: <202502121512.CmoMg9Q7-lkp@intel.com>
+References: <20250211-gpio-set-retval-v1-1-52d3d613d7d3@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +69,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250211-gpio-set-retval-v1-1-52d3d613d7d3@linaro.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   dfeefc6749ea734dab1cc361c0daf8df524f1383
-commit: 3d9b1d58c95c36a77e4a8c80f59afe796352fb1b [1/1] iommu/tegra241-cmdqv: Staticize cmdqv_debugfs_dir
-config: arm64-randconfig-004-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121515.yRQYEFZe-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121515.yRQYEFZe-lkp@intel.com/reproduce)
+Hi Bartosz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on df5d6180169ae06a2eac57e33b077ad6f6252440]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpiolib-make-value-setters-have-return-values/20250211-201426
+base:   df5d6180169ae06a2eac57e33b077ad6f6252440
+patch link:    https://lore.kernel.org/r/20250211-gpio-set-retval-v1-1-52d3d613d7d3%40linaro.org
+patch subject: [PATCH 01/14] gpiolib: make value setters have return values
+config: i386-buildonly-randconfig-002-20250212 (https://download.01.org/0day-ci/archive/20250212/202502121512.CmoMg9Q7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502121512.CmoMg9Q7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502121515.yRQYEFZe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121512.CmoMg9Q7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:803:23: warning: 'cmdqv_debugfs_dir' defined but not used [-Wunused-variable]
-     803 | static struct dentry *cmdqv_debugfs_dir;
-         |                       ^~~~~~~~~~~~~~~~~
+   drivers/leds/leds-aw200xx.c: In function 'aw200xx_disable':
+>> drivers/leds/leds-aw200xx.c:382:16: warning: 'return' with a value, in function returning void [-Wreturn-type]
+     382 |         return gpiod_set_value_cansleep(chip->hwen, 0);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-aw200xx.c:380:13: note: declared here
+     380 | static void aw200xx_disable(const struct aw200xx *const chip)
+         |             ^~~~~~~~~~~~~~~
 
 
-vim +/cmdqv_debugfs_dir +803 drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+vim +/return +382 drivers/leds/leds-aw200xx.c
 
-   802	
- > 803	static struct dentry *cmdqv_debugfs_dir;
-   804	
+d882762f7950c3 Dmitry Rokosov 2023-11-25  379  
+d882762f7950c3 Dmitry Rokosov 2023-11-25  380  static void aw200xx_disable(const struct aw200xx *const chip)
+d882762f7950c3 Dmitry Rokosov 2023-11-25  381  {
+d882762f7950c3 Dmitry Rokosov 2023-11-25 @382  	return gpiod_set_value_cansleep(chip->hwen, 0);
+d882762f7950c3 Dmitry Rokosov 2023-11-25  383  }
+d882762f7950c3 Dmitry Rokosov 2023-11-25  384  
 
 -- 
 0-DAY CI Kernel Test Service
