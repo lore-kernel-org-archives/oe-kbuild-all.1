@@ -1,96 +1,83 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C3620B803
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 12:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A3920E009
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 12:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739364575; cv=none; b=esnymP7yOP7MH7ZwzjJnRGB1bAMxiN8y3J5eDXqV+AzY8Z+x/QaMi8OeHYGXKEh2I/ZdIEAA6nY7G42fNvxmV/Qfo6yLMUp8juduXkuu87iflRvcIlHrC7Be8gbkrYUxLPkAedvRWRnR6PtwhEXCUXCsnYo/b8H+EJOn9nMIBgU=
+	t=1739364655; cv=none; b=fZ9wLY+jQmcrf+gpuYayBnUZeKyrMHScru1Z0Sv/Gd7AlEOd/HPndyETX1mDDCG82V49tkOBRpbyPNPKef3bcs7upFah3aOMo67Y6sO0713FHMDzls3Vwn0YMNLmPPdDlxgKEmBoAVNoQGuzaEeHk4bSpamxcGUedkMMhKcMMKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739364575; c=relaxed/simple;
-	bh=VW6/4SSPyMS8p+Z4LCMrj3Xot8dO86al4y2tfmsilwE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aEINLaV0jB/ek3ABkZVu/SeTR2pW/6noVHWtHnaoSqOQYGNlyjHDc3Fakbgj4U4f58Nah+jQBZ/K5J9/c980WLVnciryZXxoDual1zaC3yZJk4pky9HCTeM7u4RhpTr2qQx5J1q59rAFhjQgz30iNW0tU7Ea03xwlItHBsrBJBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nb9L2qAj; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739364655; c=relaxed/simple;
+	bh=Pgk//nDMo7FMZG8BzPQaJt0b4UJPww+RrERA2MiMrsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=o8utOjGfI0CcyQRo6GpRXPic0E1HRpOfwCuvJHryDAW02qmsfnX8Qd4S4b7zr++6I6U1MLGEtM/fu4/AJwWsg0FLB8tl/pLeCZFoYkJTGVw1IHty8h+GaVHnB/tNMl2xmI8YGtDBVAw7OjIhNabBbIkgXFk8Rzw0SGG9yFcBz9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzTVj9I5; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nb9L2qAj"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab7430e27b2so1282843366b.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 04:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739364572; x=1739969372; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VW6/4SSPyMS8p+Z4LCMrj3Xot8dO86al4y2tfmsilwE=;
-        b=nb9L2qAj0Llv0Ogv15wciLmbqt7c+SfhYmoKDBnT2UjSfu4PtPlULKGIacw8FAwgUI
-         a7qyN98arhiQT65tCANUDA0sqeojaNybbc/OTQTEOWx/tcszxLn/6xBjViqqO1MgrNVg
-         dYeTPPw/tU4BTA3iWz3ZZ2hMmmyUinRCBCFtedSBDHxSIAgblxBUevmPifZoIzm288d4
-         RWU+BUwxvnZe40l0e7C6HzleFxHMHYlQlHUBpYKpjIS+x5QiLPEV2WxLPuVqhfyioa6U
-         kBOgVq8sLZZ0XBDEaQYRZYjgPyrUeI4sVavqMTUSoMnuBF2KR7r+VIZ2toS/V75bHDP1
-         0hww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739364572; x=1739969372;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VW6/4SSPyMS8p+Z4LCMrj3Xot8dO86al4y2tfmsilwE=;
-        b=XrpcwVhNZzxgWCHuEWRxy6dVhswWtE/E90SOvC59TAnZSXCTrF0XfCnkQfc9gP/xK5
-         9FZBTIKqxYQBp7b6YqxYTjTwG4ZWv9hFf3eNlUGI/Rjcykx7kxJX/0CJOTwFa9WovrQb
-         R7SR68+nxAlO7keu+S7rwxway928bE9+s0l2oAYaLffFuA6ZeP46VxSmAzynQfgzxTHq
-         mvJw5FZXi2qwgErV/tGovmHCb7P7WjRJJlXTr4WP3SWrvUh4l3lKhTZd2ss/wuCljAPb
-         fjgcR1fjZ4nmfSxa82F8UA7pAIES6wG5idrhwlQ9Dvm8VPmfvjjgbiOvVmpfAeFgsq98
-         o0sw==
-X-Gm-Message-State: AOJu0YwdhCcZGRt3pnrTN1n+zCokHn8QrtACKMe7UMFqdMvnSHlid9wv
-	tUBxGbps8t5M8Zd1kpkUbSd2Kwe7FZQpgeLFA4Q14u23v7rQLTdD
-X-Gm-Gg: ASbGncsLWkTpcuSSAkiyQx2b2SrE3NBkWa8BjcAVJG26kC1VLiRyGduWkevnjI3fKv5
-	Po2Sm9qtUo66EcEfTZa0p0DRdJ5UFzqeXcTN6YY2EP8bKtcrznSP7x8hbQZCSVcoia8FrZcxfCj
-	ZsoHGNGjrgPwmT/aXMU4m2Xj/U05vBg+KTZIsudRbE+I8gkwwaf63vJx5NzKpR06Y657tLCdBX+
-	BuHuPDpflWqN8jvHGM5Cuoog2+wdpw8CgPwGxivRemQDx7RfV3gdXDgtlFQyp/AU0CmDAWvMy3F
-	7REw0pkhxzsJpUlSZV9YyATOHQlcRvJS3SKjIqqOeg1ZKg==
-X-Google-Smtp-Source: AGHT+IGciLXRAMb8IklxQt1qty8/NJhkxRO9Bik+gJhazg+83ZCzyCcKAnHH+OicOMzD4U/tmZgrIg==
-X-Received: by 2002:a17:907:6d29:b0:aae:c3c1:1361 with SMTP id a640c23a62f3a-ab7f34a0d1fmr302302366b.44.1739364570890;
-        Wed, 12 Feb 2025 04:49:30 -0800 (PST)
-Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7cd7ffaa8sm499724566b.132.2025.02.12.04.49.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 04:49:30 -0800 (PST)
-Message-ID: <e1877881efdf56490650f564e9d218abd0673893.camel@gmail.com>
-Subject: Re: [PATCH v3] intel_idle: introduce 'no_native' module parameter
-From: Artem Bityutskiy <dedekind1@gmail.com>
-Reply-To: dedekind1@gmail.com
-To: David Arcari <darcari@redhat.com>, kernel test robot <lkp@intel.com>, 
-	linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, Jacob
- Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>, Prarit
- Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 12 Feb 2025 14:49:27 +0200
-In-Reply-To: <9416ee48-a68a-465e-85be-89d5a53afcd8@redhat.com>
-References: <20250211132741.99944-1-darcari@redhat.com>
-	 <202502121732.P7lZkbhm-lkp@intel.com>
-	 <21e66060c13c6a3cc33592f71cb08975711a6adb.camel@gmail.com>
-	 <9416ee48-a68a-465e-85be-89d5a53afcd8@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzTVj9I5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739364654; x=1770900654;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Pgk//nDMo7FMZG8BzPQaJt0b4UJPww+RrERA2MiMrsM=;
+  b=bzTVj9I5A3o11N3rj8koZ/Yl8wqB/3Ucwh4ijJIf/oDaWjE/9HjuRhSV
+   7lBXuegEWlnbiOhf8W/DaTffM12rBWf+bTR04fUcJPZreAQzGQ1Ub5uPr
+   1LmVAdtY30QrfcxjqL3NDQckOHzRmFnAGvVHgKhC8U6GQoIHBKdaRXije
+   VT46bd4Yrw986UeprO6ilHHu9Yh7xE0wRA4M6RTJMIjO7XFITeDwX5tNQ
+   PQxzGroz+gGeMXI72kUeUv6AuXk1ec3Ac2QeWif33aWwcanuU2qFM7U+L
+   gVqQe6x8yQAKY+sIek2V9gj9bXRYhK3AS/JosFIi5z/FQFQoWOhhtlShO
+   g==;
+X-CSE-ConnectionGUID: FeyGjOkNQtiiDax1P/Ak3Q==
+X-CSE-MsgGUID: nUI5oSwMT26eGmrj/6f5vQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="65374369"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
+   d="scan'208";a="65374369"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 04:50:52 -0800
+X-CSE-ConnectionGUID: 4Lj7gAQgT12VxqUPUZ/EpA==
+X-CSE-MsgGUID: y7uq42PqSyq/v9SNFBu+6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113720153"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Feb 2025 04:50:51 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tiCCW-0015cF-1g;
+	Wed, 12 Feb 2025 12:50:48 +0000
+Date: Wed, 12 Feb 2025 20:49:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gavrilov Ilia <Ilia.Gavrilov@infotecs.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net] drop_monitor: fix incorrect initialization order
+Message-ID: <Z6yY8LAeUa8s2H4G@daa8e4f1ba6f>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250212124653.297647-1-Ilia.Gavrilov@infotecs.ru>
 
-On Wed, 2025-02-12 at 07:41 -0500, David Arcari wrote:
-> - #ifdef the code that doesn't compile
-> - default no_acpi=3Dtrue in the !CONFIG_ACPI_PROCESSOR_CSTATE case
->=20
-> I sort of like the second option better, but I worry about the=20
-> documentation.=C2=A0 Specifically:
+Hi,
 
-The most important part is build !CONFIG_ACPI_PROCESSOR_CSTATE, run and tes=
-t
-that it works.
+Thanks for your patch.
 
-Thanks!
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net] drop_monitor: fix incorrect initialization order
+Link: https://lore.kernel.org/stable/20250212124653.297647-1-Ilia.Gavrilov%40infotecs.ru
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
