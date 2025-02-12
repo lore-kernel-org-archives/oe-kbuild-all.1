@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142993398A;
-	Wed, 12 Feb 2025 16:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CE5256C70
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 17:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739377938; cv=none; b=NR+q2XLGzT3MQbU/C9UQfv2PPV1U1UZRL3BHvZOgylv5dreLm88cPMD0dHlYpw2cBgYWAhiiK99oQH1w0HArCzQjWJnWEe5T9b0aWCBQY29SYbTd+WqAptmhgsToazyqCqWWRUPwjRF+3TkTYj+0d/CnctkmbHo4qI5Azui5yyE=
+	t=1739382868; cv=none; b=azgZVI5vOGfswUa8WQnzjZojBFfLiOnmO0xUXrAvBHeAYXg359T80+han9KWqNR7tBHsINOLfo4aYF9kTG7T0/Tpn/qMXdsfrePdzzqe/cUpMOXcroc2ZAbcwyOCtj8rWwbD/mVKQ7uTXXfMIAD2zR3gaj/f1uhjqsd4uRrNkFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739377938; c=relaxed/simple;
-	bh=Bvn1mMn+6CR+DYTc5GkR3Nu2PQxawcgRs4qKN47wDTE=;
+	s=arc-20240116; t=1739382868; c=relaxed/simple;
+	bh=4Ob1w/dqEoiLEIDiyjMH5jQeXp8LwFwTlwIWwXnjF5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CGoh7iQxc50iZgPXcQJckvJaBb4iYtxd1WoMTohdA2k98YO5mLXKSCLQHL30gzfS3db0K5JlVaup5+afQMMmoiOrDivdr5xMCh27mNMjv/ghZRroC3qPVdDG7OQNSmJZm8dj6TApZ1CDc57KxGe5OGhE81QOd9/hdcNL6AYHMUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhgfxM5p; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=nu/ymvyVQYVVoyXqMinnB3VIw3oZn/ff9jhR5SIJr76RqMaryiRy8lqqH9Tq34DlLkn+UcJFB/+LIU2uYl5SpTsgsSVlGWx8y5vatMXzWuiiROQvxPfqfh41n05ZpNH6ran6IC2mvSLS+GJN5NvgUDEZehSIUHC+78cNOXoL8kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IV3iiB/d; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhgfxM5p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IV3iiB/d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739377937; x=1770913937;
+  t=1739382866; x=1770918866;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bvn1mMn+6CR+DYTc5GkR3Nu2PQxawcgRs4qKN47wDTE=;
-  b=NhgfxM5pV7z57kLSY53ik8HT/4uNgbmvwYbXb2/1kscPvWmOt8+tjg8S
-   ip7XH0oZMc5fbry3ghYt6CL+iZ4NP98udKKFTPkyf39DRSHmc+/gpiOxC
-   HNPhaBJhth251dQR+/8OQ+dX/quAHcrxM1v1s2poiWYtu/qXai0BTL2Xo
-   39yfvUolvTpdb3uLWClYYG/sFMHuDZZPT8gC3MQ7Kmjp4kgP12yy8ryja
-   sZluxvB6kI9fm0O0Aswh4cjS7Hm5YfQTLY9WKdITpzbxQelucOxq3wnkC
-   p3cjHYNVw7XVvoO78+8Xod0IW88GwoGp8n1cW1jRHGybs3E/NbqnAZ2JJ
-   Q==;
-X-CSE-ConnectionGUID: BK16kY3SSsqxiArtZYHfgg==
-X-CSE-MsgGUID: 0x3ZqDE9RaWmMOa0GhgfiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="39968931"
+  bh=4Ob1w/dqEoiLEIDiyjMH5jQeXp8LwFwTlwIWwXnjF5o=;
+  b=IV3iiB/deQBHupIImNl5SiVVcnLIfyTZ6y+I6FcymSS7zuaHQuGLV8iD
+   4sE9hLkjCUjv7CtgWn830APcnVwvHpcoVpc6Zq26mgCopxEL5b5HSnPtb
+   JhPRRKmEE8BqdS76VQOUsZIdsGPknNeP5IMuRsHsJJ6CuHxRVl/mS8BAv
+   GdhTinaxdZw3QypjHVxam47V4uieqKYh6mpc0+jZjKqIdatVvj8rEPv57
+   rIjstSje/Uwtryd5WcVC4q+HFm57caOAASpyBJuxD1S7Wrg0TjttzG3p/
+   5/ikl9qyCdG3o2Mh4V6HcwKkiJFFoEceaP7gE3zyKK0oZZdfF+EdvxYP+
+   A==;
+X-CSE-ConnectionGUID: xS8V7zyoRo2rJYWgAElQ/A==
+X-CSE-MsgGUID: k1UDYrWhSBinL85SCehQJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40181405"
 X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="39968931"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 08:32:16 -0800
-X-CSE-ConnectionGUID: akbWJTUbT6abxNt3pQrlnQ==
-X-CSE-MsgGUID: bb/5u6+xRnW6u5bxCY8mMQ==
+   d="scan'208";a="40181405"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 09:54:26 -0800
+X-CSE-ConnectionGUID: 8yKgBfGkSXS6ndPcYu/AeQ==
+X-CSE-MsgGUID: AJMnej+oRkiBBzIpppSm2w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; 
-   d="scan'208";a="112726578"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="136160295"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Feb 2025 08:32:15 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 12 Feb 2025 09:54:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiFem-0015qd-2H;
-	Wed, 12 Feb 2025 16:32:12 +0000
-Date: Thu, 13 Feb 2025 00:32:09 +0800
+	id 1tiGwH-0015xH-2w;
+	Wed, 12 Feb 2025 17:54:21 +0000
+Date: Thu, 13 Feb 2025 01:54:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:afs-testing 25/35] net/rxrpc/rxgk_kdf.c:222: undefined
- reference to `crypto_krb5_find_enctype'
-Message-ID: <202502130005.Gejidzvc-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 253/253]
+ arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:90.25-137.4: Warning
+ (avoid_unnecessary_addr_size): /soc/i2c@13a30000/anx7625@58: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202502130155.gk2nngGN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,251 +64,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git afs-testing
-head:   1df5ee14458290f1dc72aeba8770ba56a94e5c15
-commit: 8b667ac5d90083111d3579d5b53e4d6a0cc0a7af [25/35] rxrpc: rxgk: Provide infrastructure and key derivation
-config: um-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250213/202502130005.Gejidzvc-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130005.Gejidzvc-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   93b41cad381ad306bf523ee7dbdc82329ae221db
+commit: 94046e2227f4f6d6d32e97628202958d82e7f544 [253/253] CHROMIUM: arm64: dts: mediatek: mt8196: navi: correct tas2563 output channel
+config: arm64-randconfig-001-20250212 (https://download.01.org/0day-ci/archive/20250213/202502130155.gk2nngGN-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130155.gk2nngGN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502130005.Gejidzvc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502130155.gk2nngGN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4715.16-4741.5: Warning (simple_bus_reg): /soc/jpeg-encoder: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4743.38-4750.5: Warning (simple_bus_reg): /soc/mtk-apu-mem-code: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4752.38-4759.5: Warning (simple_bus_reg): /soc/mtk-apu-mem-data: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4761.8-4766.5: Warning (simple_bus_reg): /soc/mvpu: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4768.16-4776.5: Warning (simple_bus_reg): /soc/sound: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4778.14-4786.5: Warning (simple_bus_reg): /soc/vdisp-ctrl: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4788.12-4796.5: Warning (simple_bus_reg): /soc/vmm: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:4798.32-5202.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:1151.37-1176.5: Warning (avoid_unnecessary_addr_size): /soc/interrupt-controller@c400000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:90.25-137.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@13a30000/anx7625@58: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:1276.25-1306.5: Warning (unique_unit_address_if_enabled): /soc/nsmpu@1046f000: duplicate unit-address (also used in node /soc/nkp@1046f000)
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:1308.24-1335.5: Warning (unique_unit_address_if_enabled): /soc/ssmpu@1056f000: duplicate unit-address (also used in node /soc/skp@1056f000)
+   arch/arm64/boot/dts/mediatek/mt8196.dtsi:2698.28-2703.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a110000: duplicate unit-address (also used in node /soc/mt8196-afe-pcm@1a110000)
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:105.9-115.5: Warning (graph_child_address): /soc/i2c@13a30000/anx7625@58/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi:125.11-134.7: Warning (graph_child_address): /soc/i2c@13a30000/anx7625@58/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8196-rauru.dtsi:249.8-259.4: Warning (graph_child_address): /soc/dp-intf@32430000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8196-rauru.dtsi:265.8-275.4: Warning (graph_child_address): /soc/dp-intf@32440000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.o: in function `rxgk_generate_transport_key':
->> net/rxrpc/rxgk_kdf.c:222: undefined reference to `crypto_krb5_find_enctype'
->> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:86: undefined reference to `crypto_krb5_calc_PRFplus'
->> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:119: undefined reference to `crypto_krb5_prepare_encryption'
->> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:162: undefined reference to `crypto_krb5_prepare_checksum'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:135: undefined reference to `crypto_krb5_prepare_checksum'
->> /usr/bin/ld: net/rxrpc/rxgk_kdf.c:(.text+0x81b): undefined reference to `crypto_krb5_prepare_checksum'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.o: in function `rxgk_set_up_token_cipher':
-   net/rxrpc/rxgk_kdf.c:276: undefined reference to `crypto_krb5_find_enctype'
-   /usr/bin/ld: net/rxrpc/rxgk_kdf.c:280: undefined reference to `crypto_krb5_prepare_encryption'
-   clang-16: error: linker command failed with exit code 1 (use -v to see invocation)
+vim +90 arch/arm64/boot/dts/mediatek/mt8196-rauru-navi.dtsi
 
+94046e2227f4f6 Alvin1 Chen  2024-09-12   88  
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   89  &i2c4 {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  @90  	anx_bridge: anx7625@58 {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   91  		compatible = "analogix,anx7625";
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   92  		reg = <0x58>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   93  		pinctrl-names = "default";
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   94  		pinctrl-0 = <&anx7625_pins>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   95  		enable-gpios = <&pio 81 GPIO_ACTIVE_HIGH>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   96  		reset-gpios = <&pio 86 GPIO_ACTIVE_HIGH>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   97  		interrupts-extended = <&pio 14 IRQ_TYPE_LEVEL_LOW>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   98  		vdd10-supply = <&pp1000_dpbrdg>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22   99  		vdd18-supply = <&pp1800_dpbrdg>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  100  		vdd33-supply = <&pp3300_dpbrdg>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  101  		analogix,audio-enable;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  102  		#address-cells = <1>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  103  		#size-cells = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  104  
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22 @105  		ports {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  106  			#address-cells = <1>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  107  			#size-cells = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  108  
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  109  			port@0 {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  110  				reg = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  111  				anx7625_dp_in: endpoint {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  112  					remote-endpoint = <&dsi_out>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  113  				};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  114  			};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  115  		};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  116  
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  117  		switches {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  118  			#address-cells = <1>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  119  			#size-cells = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  120  			switch@0 {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  121  				compatible = "typec-switch";
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  122  				reg = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  123  				mode-switch;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  124  
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22 @125  				ports {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  126  					#address-cells = <1>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  127  					#size-cells = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  128  					port@0 {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  129  						reg = <0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  130  						anx_typec0: endpoint {
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  131  							remote-endpoint = <&typec_port0>;
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  132  						};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  133  					};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  134  				};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  135  			};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  136  		};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  137  	};
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  138  };
+b0a94e3b1706cc Hsin-Yi Wang 2024-07-22  139  
 
-vim +222 net/rxrpc/rxgk_kdf.c
+:::::: The code at line 90 was first introduced by commit
+:::::: b0a94e3b1706cce499847ed199b6d8ada459babd CHROMIUM: arm64: dts: mediatek: mt8196: navi: Add anx7625 node
 
-    48	
-    49	/*
-    50	 * Transport key derivation function.
-    51	 *
-    52	 *      TK = random-to-key(PRF+(K0, L,
-    53	 *                         epoch || cid || start_time || key_number))
-    54	 *      [tools.ietf.org/html/draft-wilkinson-afs3-rxgk-11 sec 8.3]
-    55	 */
-    56	static int rxgk_derive_transport_key(struct rxrpc_connection *conn,
-    57					     struct rxgk_context *gk,
-    58					     const struct rxgk_key *rxgk,
-    59					     struct krb5_buffer *TK,
-    60					     gfp_t gfp)
-    61	{
-    62		const struct krb5_enctype *krb5 = gk->krb5;
-    63		struct krb5_buffer conn_info;
-    64		unsigned int L = krb5->key_bytes;
-    65		__be32 *info;
-    66		u8 *buffer;
-    67		int ret;
-    68	
-    69		_enter("");
-    70	
-    71		conn_info.len = sizeof(__be32) * 5;
-    72	
-    73		buffer = kzalloc(round16(conn_info.len), gfp);
-    74		if (!buffer)
-    75			return -ENOMEM;
-    76	
-    77		conn_info.data = buffer;
-    78	
-    79		info = (__be32 *)conn_info.data;
-    80		info[0] = htonl(conn->proto.epoch);
-    81		info[1] = htonl(conn->proto.cid);
-    82		info[2] = htonl(conn->rxgk.start_time >> 32);
-    83		info[3] = htonl(conn->rxgk.start_time >>  0);
-    84		info[4] = htonl(gk->key_number);
-    85	
-  > 86		ret = crypto_krb5_calc_PRFplus(krb5, &rxgk->key, L, &conn_info, TK, gfp);
-    87		kfree_sensitive(buffer);
-    88		_leave(" = %d", ret);
-    89		return ret;
-    90	}
-    91	
-    92	/*
-    93	 * Set up the ciphers for the usage keys.
-    94	 */
-    95	static int rxgk_set_up_ciphers(struct rxrpc_connection *conn,
-    96				       struct rxgk_context *gk,
-    97				       const struct rxgk_key *rxgk,
-    98				       gfp_t gfp)
-    99	{
-   100		const struct krb5_enctype *krb5 = gk->krb5;
-   101		struct crypto_shash *shash;
-   102		struct crypto_aead *aead;
-   103		struct krb5_buffer TK;
-   104		bool service = rxrpc_conn_is_service(conn);
-   105		int ret;
-   106		u8 *buffer;
-   107	
-   108		buffer = kzalloc(krb5->key_bytes, gfp);
-   109		if (!buffer)
-   110			return -ENOMEM;
-   111	
-   112		TK.len = krb5->key_bytes;
-   113		TK.data = buffer;
-   114	
-   115		ret = rxgk_derive_transport_key(conn, gk, rxgk, &TK, gfp);
-   116		if (ret < 0)
-   117			goto out;
-   118	
- > 119		aead = crypto_krb5_prepare_encryption(krb5, &TK, RXGK_CLIENT_ENC_RESPONSE, gfp);
-   120		if (IS_ERR(aead))
-   121			goto aead_error;
-   122		gk->resp_enc = aead;
-   123	
-   124		if (crypto_aead_blocksize(gk->resp_enc) != krb5->block_len ||
-   125		    crypto_aead_authsize(gk->resp_enc) != krb5->cksum_len) {
-   126			pr_notice("algo inconsistent with krb5 table %u!=%u or %u!=%u\n",
-   127				  crypto_aead_blocksize(gk->resp_enc), krb5->block_len,
-   128				  crypto_aead_authsize(gk->resp_enc), krb5->cksum_len);
-   129			return -EINVAL;
-   130		}
-   131	
-   132		if (service) {
-   133			switch (conn->security_level) {
-   134			case RXRPC_SECURITY_AUTH:
-   135				shash = crypto_krb5_prepare_checksum(
-   136					krb5, &TK, RXGK_SERVER_MIC_PACKET, gfp);
-   137				if (IS_ERR(shash))
-   138					goto hash_error;
-   139				gk->tx_Kc = shash;
-   140				shash = crypto_krb5_prepare_checksum(
-   141					krb5, &TK, RXGK_CLIENT_MIC_PACKET, gfp);
-   142				if (IS_ERR(shash))
-   143					goto hash_error;
-   144				gk->rx_Kc = shash;
-   145				break;
-   146			case RXRPC_SECURITY_ENCRYPT:
-   147				aead = crypto_krb5_prepare_encryption(
-   148					krb5, &TK, RXGK_SERVER_ENC_PACKET, gfp);
-   149				if (IS_ERR(aead))
-   150					goto aead_error;
-   151				gk->tx_enc = aead;
-   152				aead = crypto_krb5_prepare_encryption(
-   153					krb5, &TK, RXGK_CLIENT_ENC_PACKET, gfp);
-   154				if (IS_ERR(aead))
-   155					goto aead_error;
-   156				gk->rx_enc = aead;
-   157				break;
-   158			}
-   159		} else {
-   160			switch (conn->security_level) {
-   161			case RXRPC_SECURITY_AUTH:
- > 162				shash = crypto_krb5_prepare_checksum(
-   163					krb5, &TK, RXGK_CLIENT_MIC_PACKET, gfp);
-   164				if (IS_ERR(shash))
-   165					goto hash_error;
-   166				gk->tx_Kc = shash;
-   167				shash = crypto_krb5_prepare_checksum(
-   168					krb5, &TK, RXGK_SERVER_MIC_PACKET, gfp);
-   169				if (IS_ERR(shash))
-   170					goto hash_error;
-   171				gk->rx_Kc = shash;
-   172				break;
-   173			case RXRPC_SECURITY_ENCRYPT:
-   174				aead = crypto_krb5_prepare_encryption(
-   175					krb5, &TK, RXGK_CLIENT_ENC_PACKET, gfp);
-   176				if (IS_ERR(aead))
-   177					goto aead_error;
-   178				gk->tx_enc = aead;
-   179				aead = crypto_krb5_prepare_encryption(
-   180					krb5, &TK, RXGK_SERVER_ENC_PACKET, gfp);
-   181				if (IS_ERR(aead))
-   182					goto aead_error;
-   183				gk->rx_enc = aead;
-   184				break;
-   185			}
-   186		}
-   187	
-   188		ret = 0;
-   189	out:
-   190		kfree_sensitive(buffer);
-   191		return ret;
-   192	aead_error:
-   193		ret = PTR_ERR(aead);
-   194		goto out;
-   195	hash_error:
-   196		ret = PTR_ERR(shash);
-   197		goto out;
-   198	}
-   199	
-   200	/*
-   201	 * Derive a transport key for a connection and then derive a bunch of usage
-   202	 * keys from it and set up ciphers using them.
-   203	 */
-   204	struct rxgk_context *rxgk_generate_transport_key(struct rxrpc_connection *conn,
-   205							 const struct rxgk_key *key,
-   206							 unsigned int key_number,
-   207							 gfp_t gfp)
-   208	{
-   209		struct rxgk_context *gk;
-   210		unsigned long lifetime;
-   211		int ret = -ENOPKG;
-   212	
-   213		_enter("");
-   214	
-   215		gk = kzalloc(sizeof(*gk), GFP_KERNEL);
-   216		if (!gk)
-   217			return ERR_PTR(-ENOMEM);
-   218		refcount_set(&gk->usage, 1);
-   219		gk->key		= key;
-   220		gk->key_number	= key_number;
-   221	
- > 222		gk->krb5 = crypto_krb5_find_enctype(key->enctype);
-   223		if (!gk->krb5)
-   224			goto err_tk;
-   225	
-   226		ret = rxgk_set_up_ciphers(conn, gk, key, gfp);
-   227		if (ret)
-   228			goto err_tk;
-   229	
-   230		/* Set the remaining number of bytes encrypted with this key that may
-   231		 * be transmitted before rekeying.  Note that the spec has been
-   232		 * interpreted differently on this point...
-   233		 */
-   234		switch (key->bytelife) {
-   235		case 0:
-   236		case 63:
-   237			gk->bytes_remaining = LLONG_MAX;
-   238			break;
-   239		case 1 ... 62:
-   240			gk->bytes_remaining = 1LL << key->bytelife;
-   241			break;
-   242		default:
-   243			gk->bytes_remaining = key->bytelife;
-   244			break;
-   245		}
-   246	
-   247		/* Set the time after which rekeying must occur */
-   248		if (key->lifetime) {
-   249			lifetime = min_t(u64, key->lifetime, INT_MAX / HZ);
-   250			lifetime *= HZ;
-   251		} else {
-   252			lifetime = MAX_JIFFY_OFFSET;
-   253		}
-   254		gk->expiry = jiffies + lifetime;
-   255		return gk;
-   256	
-   257	err_tk:
-   258		rxgk_put(gk);
-   259		_leave(" = %d", ret);
-   260		return ERR_PTR(ret);
-   261	}
-   262	
+:::::: TO: Hsin-Yi Wang <hsinyi@chromium.org>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
