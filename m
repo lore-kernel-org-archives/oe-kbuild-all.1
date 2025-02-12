@@ -1,74 +1,58 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BAC20126A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 07:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052B65CB8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 07:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739345217; cv=none; b=C+So4DOWo/DtuZcLUmQGPoRtU8eyjpRV+WD+TzQ9tnWlJ4rKbEJMrQdSURZkLIe0BSH+ncZj5yV9MbuqOehb1Crf0258PqdhojBYEsGHp3Dr4ys/bzoEWeuH7yWBXWH+HWz/mgAgi83l19R7kxGGyLbTNwkCngTBaeDSRrfhqgk=
+	t=1739345480; cv=none; b=oiPGJ/imrz/Rd9OSfu8y6pPY1oW+A1MHvDWUb6p5fReqyng0lfA/HgYakjIyWPanCt2cmv5NjJbwQxCsDPQ9Fk9rCvGLw4kmvfuQCxVI3AezFYgoP+B8ijTF5W3uWam/J1ztK7Fsst8g0dTaUm3y/Uvh2DSHekNmPWUYQosWSyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739345217; c=relaxed/simple;
-	bh=Stf0Jb6AOQt3UW45VdcZWRKlmtA1GKvuSfA1nYZiAmo=;
+	s=arc-20240116; t=1739345480; c=relaxed/simple;
+	bh=v2sh84ZloreXRX/vB5ZLpqOFxYAO03abN36m0mav+A8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rV/qu8BleT0GUBMLY4eetysr78tP8JXH/cwqFIWLgmaTfmgjmOzJ1kGWV22i1y1sobqBWAqQLVJ1angnQD2NZNQi3Oky33uO63p3noKpI4An+0ndkJE7/2QK41knCrwCtI/SNx1Nj0+UFI9QzZwpViA9fZLniefdRnAbiHshHqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Je2oQQnR; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=MBlFcHkeYCiG58zCuzkXhjIR81+Evmd8XMD0NtZT7+zHfGX6H4ZXQn9vVoEY8/H4vxjaB7SYvJTT9C45cKfVMlYXnGmWbh9IbL+nzZRAOqIBVyOHUIJGqD5FuhOi1OMI3HbM+LBK4BVgpmz8hcfNJARxjTbFZXuYn09spE9+FAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWqFL4/R; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Je2oQQnR"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5de6e26d4e4so6911010a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Feb 2025 23:26:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739345214; x=1739950014; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AJTh/3LX42S4U+/p3ueXWIJVVkrm4MNl6nXiRtJNaS8=;
-        b=Je2oQQnROiJgoi/TkDLIOz33GvoTTHB6zorTliimdm1FLaAzGLbxvVq5p8LZvpf8QS
-         nmX+xK72bxyoA2C7qioB9P6/DnIxZNW27ySMZCIqj8CHy77wDdAaRDhdFeKqGUeSAmrE
-         RePSHdXPeY4DHG6keanOF7Xj4HBR2WXvmbXvqyqlpEmV5K0zLWVc96h3vu2gJShG+Dpi
-         k1ZT5mm8gteF6YzFkeF8/sQeGtMkfFLrSKx8TyKp06n8I5PzJpwb+ZBYwqs09VlRCA9G
-         4a3hBR66533zPDf0L6s45Zqvh4ddKmEdUaKCXdgwPchb19/vj4IUGmsD7IfHxQ9ycI2E
-         UImw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739345214; x=1739950014;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AJTh/3LX42S4U+/p3ueXWIJVVkrm4MNl6nXiRtJNaS8=;
-        b=AyC2RADbhAE3ZNhTqqOL0+n6FNK/0mrAsPUAcoKp1fnUY+CEwD4jnlU674cNLLZyA5
-         Cgpu6Jm4Saa4ZFfuv4jGEm86+y1KOqUYe/JQiqLy2invoqNrFlNIegZAY5hiC6Mv4yNY
-         14S78XlMI0/HwQiGEcDAcDRzGl5BDV72tRtmOzJ0qHUkbVUiS3C/vW1//SH9bFsEtHDF
-         OdJRCFNQ3AF0WV7CsSFTVNlNAANemkUwBp67GKqzmjzFMmN50zFG37yNBroSuwo4eR+s
-         MFCIb5dibfOPVnsL/Payi+8hL921qE49K2Hs5BlJstkdDUwcrrs22Y8/dDWe8z0qg6iv
-         +lAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJp40Cd+LdLHaBzycoLSmtabIWt2N9flalcj536Kq2MRmjMEp/EMDtU1eSrfENlsRZbNrasf05CIOzl09t@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywc3Wdjo2nWlAD2s/8efSvbVKpBrzhUm6LffnWyDTKS3oglOdkc
-	LRoiiwv7miSapZYTVDtGABSeeHO5Asetutdin5WV4g8zdxObW5/Aql8DsoegTOk=
-X-Gm-Gg: ASbGncuw6P9QTD+O8Q+t0EVkAuY9Ls/5tk1Fmj1OrCJyo445iq1ufRFHJ/Galibtsfi
-	6Zq47Fsc6siqA7OVkc8n4VkQ//C9Nc2YM558hoWrkSlZ/AWmxWodHIOmIPLLbRdYkXDdmjk4VFX
-	MCYRFD8opDT7ABQAuof8dXMiOIy4N1b+M+9+UYp3FgKd+VnRAz34tkJUCfIOmHc3QcS7G8FJkLr
-	luLCvoMsivjhhvWISZN8U5OEGv3twrHUkZJQ7+a6qb3IFc6LbOGeK6q6kPX7t7oAFnMDuerTZjY
-	THlBWzd3nqzViNQ5vWaI
-X-Google-Smtp-Source: AGHT+IFEIukrsfK6bZlW7MrqvUc4H7nNhVSu1KFPTEnyStLzMs/D5F7VfW3cbMd6Iv6A4IGV/jSXWQ==
-X-Received: by 2002:a05:6402:3553:b0:5d1:1f1:a283 with SMTP id 4fb4d7f45d1cf-5deadd7bc87mr1609569a12.4.1739345213733;
-        Tue, 11 Feb 2025 23:26:53 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5de5a2fc79esm7995187a12.10.2025.02.11.23.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 23:26:53 -0800 (PST)
-Date: Wed, 12 Feb 2025 10:26:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jerome Brunet <jbrunet@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary
- device creation helper
-Message-ID: <7bb0b7ea-8ca4-4ea1-a7ec-d56646240e59@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWqFL4/R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739345478; x=1770881478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=v2sh84ZloreXRX/vB5ZLpqOFxYAO03abN36m0mav+A8=;
+  b=BWqFL4/R4A7+ExwAnSlBIkR1hxeCEYu9hSOYPqAtQOt2BCC4t2hcVFC6
+   RSh+NoiYE71rVRLKMwW5wFL0hOm9pknuGao+CVgX3aN2s3lfVn6qxsyuE
+   GxTUdfmkoqEXlrTYgYbms8L1vlV451j8PxSaX9htetpDGl19BQtpc404V
+   xAlT3n8kEqoPQ7cvPAgOqYFQoAZ337fHe/2Xf8wxRloUFXs1/GrewDg7V
+   HsQdtm1daYey/H21uBsszQKIptPezQ7OfF1DvEkpZPhbhGyWqB98DcQCY
+   k/4g6G41wAQCSY1YdbLcXfgSmD8gZPiD5T1PgBiQvuDOWri878/YkFDGy
+   g==;
+X-CSE-ConnectionGUID: Q8DQgpbcSous7Q4RPEKg6Q==
+X-CSE-MsgGUID: N4aUzGVcRUCs9L9wKF/m/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="62454988"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
+   d="scan'208";a="62454988"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 23:31:16 -0800
+X-CSE-ConnectionGUID: MBurt3dAQ+idpz28aKc9RA==
+X-CSE-MsgGUID: S2+ezCLiTnmkzmGxIvU0mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117922626"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 11 Feb 2025 23:31:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ti7DF-0015I1-0r;
+	Wed, 12 Feb 2025 07:31:13 +0000
+Date: Wed, 12 Feb 2025 15:30:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [isilence:zcrx/v13-wip 4/13] io_uring/zcrx.c: net/netdev_rx_queue.h
+ is included more than once.
+Message-ID: <202502121530.SxppYogI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,53 +61,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206-aux-device-create-helper-v2-6-fa6a0f326527@baylibre.com>
 
-Hi Jerome,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/driver-core-auxiliary-bus-add-device-creation-helper/20250207-023433
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250206-aux-device-create-helper-v2-6-fa6a0f326527%40baylibre.com
-patch subject: [PATCH v2 6/7] clk: clk-imx8mp-audiomix: use the auxiliary device creation helper
-config: xtensa-randconfig-r071-20250208 (https://download.01.org/0day-ci/archive/20250208/202502081655.FlCrxpYN-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/isilence/linux zcrx/v13-wip
+head:   9fb9b8b296950bc1a7d2559bbb4b568f31ef5a50
+commit: 1a3ac1edc5acdd65507a75888d0c743399073cde [4/13] io_uring/zcrx: set pp memory provider for an rx queue
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502081655.FlCrxpYN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502121530.SxppYogI-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/imx/clk-imx8mp-audiomix.c:241 clk_imx8mp_audiomix_reset_controller_register() warn: passing zero to 'PTR_ERR'
+includecheck warnings: (new ones prefixed by >>)
+>> io_uring/zcrx.c: net/netdev_rx_queue.h is included more than once.
 
-vim +/PTR_ERR +241 drivers/clk/imx/clk-imx8mp-audiomix.c
+vim +13 io_uring/zcrx.c
 
-c350f4c434316c Jerome Brunet 2025-02-06  231  static int clk_imx8mp_audiomix_reset_controller_register(struct device *dev)
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  232  {
-c350f4c434316c Jerome Brunet 2025-02-06  233  	struct auxiliary_device *adev;
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  234  
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  235  	if (!of_property_present(dev->of_node, "#reset-cells"))
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  236  		return 0;
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  237  
-c350f4c434316c Jerome Brunet 2025-02-06  238  	adev = devm_auxiliary_device_create(dev, KBUILD_MODNAME,
-c350f4c434316c Jerome Brunet 2025-02-06  239  					    "reset", NULL, 0);
-c350f4c434316c Jerome Brunet 2025-02-06  240  	if (IS_ERR_OR_NULL(adev))
-c350f4c434316c Jerome Brunet 2025-02-06 @241  		return PTR_ERR(adev);
-
-If devm_auxiliary_device_create() could return NULL then that would count
-as success.  But devm_auxiliary_device_create() can't return NULL.  It
-only makes sense to return NULL if the auxiliary device is optional.
-
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  242  
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  243  	return 0;
-6f0e817175c5b2 Shengjiu Wang 2024-06-14  244  }
+    10	
+    11	#include <net/page_pool/helpers.h>
+    12	#include <net/page_pool/memory_provider.h>
+  > 13	#include <net/netdev_rx_queue.h>
+    14	#include <net/netlink.h>
+  > 15	#include <net/netdev_rx_queue.h>
+    16	#include <net/tcp.h>
+    17	#include <net/rps.h>
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
