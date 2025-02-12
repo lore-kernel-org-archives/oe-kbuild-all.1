@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D101367;
-	Wed, 12 Feb 2025 00:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EC23C2F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 00:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739319450; cv=none; b=rKdl2y10soKIrYSpzvqHyRG8NZ7oQ6YIvw3W1CB9+GWomQXLzGelFcxoeKxSND3ScWFKx0sQ6irkjIo1o7hiGKFwU+CekApjhwhcN4vzFO+Yb5thjvchdxvTy1BuXouCiB5DI/UBrpAZGHTvgkV5af5m5IkjXxHnJUm0FfmShhY=
+	t=1739320108; cv=none; b=nVzSvsa+dzUaKpHmfQuhh+BljOwc+RS/2QJXmaiuyMfmyHHMKPC1QIvaD9JZPD6TLSLpuJRdrF5ZTw9yIIdWQUyTiQAeaC+xVzdqB4OgeHfYtJWjhxBX1WJGVb8ribIJjGgrMj1B2CwW+zyJu9JQZ3PBIn1xed9hHsN+lsRQ318=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739319450; c=relaxed/simple;
-	bh=hUqmZTGnYgD1NoGU3VOagwR8MHJD7bgO3mfv/sg7IaU=;
+	s=arc-20240116; t=1739320108; c=relaxed/simple;
+	bh=QgScht0fVgp4U2AGEvcVln1UC9ov3Er97sSVfmi2qrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HrSoEFqWJzpG9yPLkuB8FKSID+Y5wv5umpzH1HwF5G4KBwrkQTEV7fm3TNo6iE3HY0RtoCPkTSGzcGEsYwWE2WT3jW32hS3XqvvhWQz5MTWjDBC8F7KnMyBR+Z/+MYN2jZOimOxIa4C5QW2txPwCR5hWAw5SnsPS0llTL1ET44k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnTyJW/P; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=slFbndt7vYYfAVwuSbd987ujSCAftK5bxg+BI/BhPx0vcO/3jZTlwV40pAU5a98kLF2QciwE/QJEHBIQPcuDPb9ZTgCY3A4kZT5i6RJ6wBYGFebhteU7k4SDINJABWIqkItKmBsH44M+byrNkOPEgp+6PZsS1B/V8Swir58dXCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/Aaq/s0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnTyJW/P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/Aaq/s0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739319448; x=1770855448;
+  t=1739320106; x=1770856106;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hUqmZTGnYgD1NoGU3VOagwR8MHJD7bgO3mfv/sg7IaU=;
-  b=AnTyJW/PNCgphzu0PrUYbFR4xp+DbsacWEX2Hsb1K/afY9XfoIFWTJ0o
-   TkkuHs4i7zaqqdaaBSCPf06QXSKySDwqSFfEmWlaXGlJrmsWJUwpbk31d
-   NFyEEAkXmQIA5qVCfwlKkXuxAPCQJ9hdOyOkDrWjgGzoKmWXzBJfPw3tS
-   JSCDxowz8xSLv158mjj9I1xPic8rpQw5tZ7KPo7u7L94wDDcUY0le3t2E
-   aBMHnPgVtd/urjlkilYlP+9k41wZyWnkWRhUv0wS4xOgO1vNI8EmA1KDk
-   8a8fAIGmVL42v3idkTovCvmTAL3mGaqa4h6AC1xju2lnQmbNUyVzhpSye
-   A==;
-X-CSE-ConnectionGUID: XNekkSlHSOOSfc9altLBvA==
-X-CSE-MsgGUID: pHO+Qz+XQfCqCLwR3QLf5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="57495850"
+  bh=QgScht0fVgp4U2AGEvcVln1UC9ov3Er97sSVfmi2qrg=;
+  b=e/Aaq/s0WBYLSOeIY5r6URY7wnLe7XGgvWbOnhSuV+dPFouaG7PCYkIw
+   Rk1oGEO+yZMTtvF8Hxz1bGOSKKjemxBwi1Eg09e7S/VGpSuDXRmJZVgeG
+   xy9tJTr3+eFcDamPZZy+2gkBrwCJZHB4qtQgu/a4h3zhkmV8w8B7ZygEl
+   qtLA8BRKl9d7LNqlJhoRDGyPODZLRWMetI1osaip/wV+IG4gJXzsAaxcl
+   GENxq0txvDabvBcfBZYMd3nmn8QzsLkapzoq32H6OljN7zZGJtnSfrcD5
+   p5O2bZRsJXKsKWGKm3QOnaEgq0tNQ2yaAogP6eKyEY9f1LdTMTZ/gFoR9
+   w==;
+X-CSE-ConnectionGUID: Wf8Ifg+7TWuFpPCpxG4Q7w==
+X-CSE-MsgGUID: KW8xAVmCSqqnqsblAXi8Fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39660056"
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="57495850"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 16:17:25 -0800
-X-CSE-ConnectionGUID: 5K3SO2g7SnabmqNPB+UQAQ==
-X-CSE-MsgGUID: SYsFrxmwQRmTyhYzsnlrVA==
+   d="scan'208";a="39660056"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 16:28:25 -0800
+X-CSE-ConnectionGUID: qOsczjmOQCmsXz0du8E6pw==
+X-CSE-MsgGUID: a8oQGl9vQqOYQyfG2r8RRQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="112488952"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112527940"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Feb 2025 16:17:23 -0800
+  by orviesa010.jf.intel.com with ESMTP; 11 Feb 2025 16:28:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ti0RN-0014s7-1L;
-	Wed, 12 Feb 2025 00:17:21 +0000
-Date: Wed, 12 Feb 2025 08:16:28 +0800
+	id 1ti0c2-0014sh-1c;
+	Wed, 12 Feb 2025 00:28:22 +0000
+Date: Wed, 12 Feb 2025 08:27:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gustavo Sousa <gustavo.sousa@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: [linux-next:master 529/2407]
- drivers/gpu/drm/i915/display/intel_cmtg.c:96:17: error: arithmetic between
- different enumeration types ('enum transcoder' and 'enum
- intel_display_power_domain')
-Message-ID: <202502120809.XfmcqkBD-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 229/229]
+ drivers/gpu/drm/mediatek/mtk_dp_v2.c:3909:6: warning: no previous prototype
+ for function 'mtk_dp_hdcp_enable'
+Message-ID: <202502120836.fGw8EZZL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,77 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   df5d6180169ae06a2eac57e33b077ad6f6252440
-commit: f14d81b7102bdbf062f90b3910e986850f5f86c2 [529/2407] drm/i915/cmtg: Disable the CMTG
-config: x86_64-randconfig-005-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120809.XfmcqkBD-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120809.XfmcqkBD-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   69fc64873274f4b1c5a6c4617cc39b8d59fafbdf
+commit: 218314d73d3257a1468ad9c3f9355adffca0445a [229/229] CHROMIUM: drm/mediatek: Add dp HDCP support for SST mode
+config: arm64-randconfig-003-20250212 (https://download.01.org/0day-ci/archive/20250212/202502120836.fGw8EZZL-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120836.fGw8EZZL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120809.XfmcqkBD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120836.fGw8EZZL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/display/intel_cmtg.c:12:
-   In file included from ./gpu/drm/xe/compat-i915-headers/i915_drv.h:16:
-   In file included from ./gpu/drm/xe/compat-i915-headers/intel_runtime_pm.h:10:
-   In file included from gpu/drm/xe/xe_device_types.h:9:
-   In file included from include/linux/pci.h:1644:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_cmtg.c:96:17: error: arithmetic between different enumeration types ('enum transcoder' and 'enum intel_display_power_domain') [-Werror,-Wenum-enum-conversion]
-      96 |         power_domain = POWER_DOMAIN_TRANSCODER(trans);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_power.h:126:10: note: expanded from macro 'POWER_DOMAIN_TRANSCODER'
-     126 |          (tran) + POWER_DOMAIN_TRANSCODER_A)
-         |          ~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 errors generated.
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3374:5: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+           u8 data;
+              ^
+>> drivers/gpu/drm/mediatek/mtk_dp_v2.c:3909:6: warning: no previous prototype for function 'mtk_dp_hdcp_enable' [-Wmissing-prototypes]
+   void mtk_dp_hdcp_enable(struct mtk_dp *mtk_dp)
+        ^
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3909:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mtk_dp_hdcp_enable(struct mtk_dp *mtk_dp)
+   ^
+   static 
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:5665:3: error: call to undeclared function 'mtk_dp_suspend_v2'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   mtk_dp_suspend_v2(dev);
+                   ^
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:5668:3: error: call to undeclared function 'mtk_dp_resume_v2'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   mtk_dp_resume_v2(dev);
+                   ^
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:5668:3: note: did you mean 'mtk_dp_read_v2'?
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:319:5: note: 'mtk_dp_read_v2' declared here
+   u32 mtk_dp_read_v2(struct mtk_dp *mtk_dp, u32 offset)
+       ^
+   2 warnings and 2 errors generated.
 
 
-vim +96 drivers/gpu/drm/i915/display/intel_cmtg.c
+vim +/mtk_dp_hdcp_enable +3909 drivers/gpu/drm/mediatek/mtk_dp_v2.c
 
-    84	
-    85	static bool intel_cmtg_transcoder_is_secondary(struct intel_display *display,
-    86						       enum transcoder trans)
-    87	{
-    88		struct drm_i915_private *i915 = to_i915(display->drm);
-    89		enum intel_display_power_domain power_domain;
-    90		intel_wakeref_t wakeref;
-    91		u32 val = 0;
-    92	
-    93		if (!HAS_TRANSCODER(display, trans))
-    94			return false;
-    95	
-  > 96		power_domain = POWER_DOMAIN_TRANSCODER(trans);
-    97	
-    98		with_intel_display_power_if_enabled(i915, power_domain, wakeref)
-    99			val = intel_de_read(display, TRANS_DDI_FUNC_CTL2(display, trans));
-   100	
-   101		return val & CMTG_SECONDARY_MODE;
-   102	}
-   103	
+  3908	
+> 3909	void mtk_dp_hdcp_enable(struct mtk_dp *mtk_dp)
+  3910	{
+  3911		if (!mtk_dp->training_info.cable_plug_in || !mtk_dp->dp_ready) {
+  3912			dev_dbg(mtk_dp->dev, "cable_plug_in:%d, dp_ready:%d",
+  3913			       mtk_dp->training_info.cable_plug_in, mtk_dp->dp_ready);
+  3914			return;
+  3915		}
+  3916	
+  3917		dev_dbg(mtk_dp->dev, "[HDCP] dp start HDCP work\n");
+  3918		queue_work(mtk_dp->hdcp_workqueue, &mtk_dp->hdcp_work);
+  3919	}
+  3920	
 
 -- 
 0-DAY CI Kernel Test Service
