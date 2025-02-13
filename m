@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800C8207A32
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 06:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E43207DFE;
+	Thu, 13 Feb 2025 06:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739428013; cv=none; b=akqPrwnixUSTL2BW16bDdws/m/sxFxA8Iz1hbk0rXr0udtWuMKHSUcj1AyNJ8h/yiHvCIVV9faIKhN2B9NWBQrlA3cQvv0ckLu+0BGMsSpDYhAcm/jN6XhhxJYJtMd7LMYrNUFCx7t6slFCnseOa8rpa6y8M2E5983OAMUnvF00=
+	t=1739429692; cv=none; b=AaQeiOWzxrFTtWSnhX3OYIGOQsPEy4tiOppYaRag0VCzrzeFlucQJ/z3GRxtsiLyksYgJHMXl7Hm/AxBH3Ga25r3nLaGnELQOcefJl+fvJkcBbgDulyk1Q6uJNPtyhmKLu4z1aozgYUnP12HjDfmqIcTNDb9+TGgqmyu9QccFig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739428013; c=relaxed/simple;
-	bh=mQm/3JCmAFSW/VKjAt7raIjpfolCLORdQ9Y3kbWdC00=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fUcwiN2h7L3GiyYrISeAmof4WkVmqPow0XIsIH5xe9Oci7MaA6bSJ8ID2oiUzV8MiR4OE2hMzBlWUPflM71pVPCtMNcFWsgMBoGCt1sPVZAqTntRgrY7X/23blOQni8aZKqCBu+Ew3cIyclGnslNzkPuUmU8rwPxrwatYqNQxPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gKnmBs4W; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1739429692; c=relaxed/simple;
+	bh=OJTRaNgj7r9Nss/7kY215kokk6bEklt1IM9Y6Gc2HUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ESOLmmn/cxUs7o9DXdVOz+Xt/lorh9kFf9PMoWYYPmUpVMmS36qpRWdFDIOmMEMHk4PPGVyzZljKLyq3jSMYZbQvTC1jDayERaQCMagvOxBJ5xxq3+zNePrIj/dXGwGXxx0NPNPb5yQrgsLZy9rwghnxuhIHsXdx28givIIB2u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0qk/8ro; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gKnmBs4W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0qk/8ro"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739428012; x=1770964012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mQm/3JCmAFSW/VKjAt7raIjpfolCLORdQ9Y3kbWdC00=;
-  b=gKnmBs4Wnhq5j1h23bfkRNynwQnIdaT30LZUbS3xYTZIY4Y7CWcK6Ffb
-   Q4DFEzS5MgrJDB1oGJQFz7VeX1V5x2+9tWHx3rGFHv3IvL0mVZu1kpjdc
-   GCk5L4fXYTogGgTzZ6ObP8EwxYVAKBJDKMgHcISTIi7TyKoy9nfJ/s8Iv
-   zg+aOEsObYmgok78AXr3knKFE8hYj85En4FbBmqh1E/zVxyOsKE/ylGet
-   f0Blu+xtxdvFXR5vmV+xZlU+iA8q5To1zR2yUF6B3BVhybvNkfa4C3QaB
-   q0iXp4AUgWapCSVA2vOAY0IDOCmICHXgjB8I6WeTG60wrbVeA7ar///P7
-   Q==;
-X-CSE-ConnectionGUID: 69FbFaCOTOKmZXA09ROySQ==
-X-CSE-MsgGUID: kGKhNM3bSG6jV+J8hfpUvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="62581482"
+  t=1739429690; x=1770965690;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OJTRaNgj7r9Nss/7kY215kokk6bEklt1IM9Y6Gc2HUY=;
+  b=P0qk/8roAtiOZ0U+ZSPuqB4BM8uQ6B4EakYFt6ZzpngikZ5a/E7hWm+s
+   vvMGaeLX3VfTbQfUleg0uDUsE9BZXQdhJs2MNnSqGiytLaXjcBbsCMTeo
+   nefyacOGlPb0/cgG1E0YoAoniDTekNhZ4oRj1AYyFCmeo3PcruoyWnG0/
+   U883ptsw+3UTwO0bGluXaU5lXwjsGuEsW2U5Xy3eF6aLXtP+wjh3prIuS
+   6RWEuiYLSTJ0MK9QZWkATgiV8mg2VRbfWTC4s8PBlHNlR7IKioTsjROxF
+   83A+r93HawBqt3xyGPog8WjV8eMSY1krp4gt/FBk0GlZGJmoqlDDPe0n8
+   A==;
+X-CSE-ConnectionGUID: 1Cls3ztYSi+0StMOsAb9dQ==
+X-CSE-MsgGUID: PrvI9iDnQAW6MvP9wcUotw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65471432"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="62581482"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:26:51 -0800
-X-CSE-ConnectionGUID: K+jPRXdLSNGIt2MHy6vbiQ==
-X-CSE-MsgGUID: 2TpqkmqkQaetEU8VWMJi0w==
+   d="scan'208";a="65471432"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:54:49 -0800
+X-CSE-ConnectionGUID: W6MoEgFsSgmy7o1sYUsFCQ==
+X-CSE-MsgGUID: /t6Nj6WHREmamEfw3sJNdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="143992863"
+   d="scan'208";a="117164058"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Feb 2025 22:26:45 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 12 Feb 2025 22:54:48 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiSgN-0016dj-0c;
-	Thu, 13 Feb 2025 06:26:43 +0000
-Date: Thu, 13 Feb 2025 14:26:11 +0800
+	id 1tiT7W-0016gP-1V;
+	Thu, 13 Feb 2025 06:54:46 +0000
+Date: Thu, 13 Feb 2025 14:54:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Stanner <phasta@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Yinggang Gu <guyinggang@loongson.cn>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Philipp Stanner <pstanner@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] stmmac: Replace deprecated PCI functions
-Message-ID: <202502131415.1kfrLXGp-lkp@intel.com>
-References: <20250212145831.101719-2-phasta@kernel.org>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 62/69] drivers/tty/serial/amba-pl011.c:2492:35:
+ error: incompatible pointer types passing 'unsigned char *' to parameter of
+ type 'enum uart_iotype *'
+Message-ID: <202502131406.jhirwJcu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,128 +62,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212145831.101719-2-phasta@kernel.org>
 
-Hi Philipp,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.14-rc2 next-20250212]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/stmmac-Replace-deprecated-PCI-functions/20250212-230254
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250212145831.101719-2-phasta%40kernel.org
-patch subject: [PATCH] stmmac: Replace deprecated PCI functions
-config: sparc64-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131415.1kfrLXGp-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131415.1kfrLXGp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   18719ba870f2b5aac6c4ea327aacc3bec6bc98cc
+commit: 8daf2c28783ce8f643495c80b08b18862350552a [62/69] +enum uart_iotype
+config: riscv-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131406.jhirwJcu-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131406.jhirwJcu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131415.1kfrLXGp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131406.jhirwJcu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c: In function 'stmmac_pci_probe':
->> drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c:197:49: error: expected ';' before 'break'
-     197 |                         return PTR_ERR(res.addr)
-         |                                                 ^
-         |                                                 ;
-     198 |                 break;
-         |                 ~~~~~                            
+>> drivers/tty/serial/amba-pl011.c:2492:35: error: incompatible pointer types passing 'unsigned char *' to parameter of type 'enum uart_iotype *' [-Werror,-Wincompatible-pointer-types]
+    2492 |         if (uart_parse_earlycon(options, &iotype, &addr, &options))
+         |                                          ^~~~~~~
+   include/linux/serial_core.h:1106:52: note: passing argument to parameter 'iotype' here
+    1106 | int uart_parse_earlycon(char *p, enum uart_iotype *iotype,
+         |                                                    ^
+   1 error generated.
 
 
-vim +197 drivers/net/ethernet/stmicro/stmmac/stmmac_pci.c
+vim +2492 drivers/tty/serial/amba-pl011.c
 
-   140	
-   141	/**
-   142	 * stmmac_pci_probe
-   143	 *
-   144	 * @pdev: pci device pointer
-   145	 * @id: pointer to table of device id/id's.
-   146	 *
-   147	 * Description: This probing function gets called for all PCI devices which
-   148	 * match the ID table and are not "owned" by other driver yet. This function
-   149	 * gets passed a "struct pci_dev *" for each device whose entry in the ID table
-   150	 * matches the device. The probe functions returns zero when the driver choose
-   151	 * to take "ownership" of the device or an error code(-ve no) otherwise.
-   152	 */
-   153	static int stmmac_pci_probe(struct pci_dev *pdev,
-   154				    const struct pci_device_id *id)
-   155	{
-   156		struct stmmac_pci_info *info = (struct stmmac_pci_info *)id->driver_data;
-   157		struct plat_stmmacenet_data *plat;
-   158		struct stmmac_resources res = {};
-   159		int i;
-   160		int ret;
-   161	
-   162		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
-   163		if (!plat)
-   164			return -ENOMEM;
-   165	
-   166		plat->mdio_bus_data = devm_kzalloc(&pdev->dev,
-   167						   sizeof(*plat->mdio_bus_data),
-   168						   GFP_KERNEL);
-   169		if (!plat->mdio_bus_data)
-   170			return -ENOMEM;
-   171	
-   172		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
-   173					     GFP_KERNEL);
-   174		if (!plat->dma_cfg)
-   175			return -ENOMEM;
-   176	
-   177		plat->safety_feat_cfg = devm_kzalloc(&pdev->dev,
-   178						     sizeof(*plat->safety_feat_cfg),
-   179						     GFP_KERNEL);
-   180		if (!plat->safety_feat_cfg)
-   181			return -ENOMEM;
-   182	
-   183		/* Enable pci device */
-   184		ret = pcim_enable_device(pdev);
-   185		if (ret) {
-   186			dev_err(&pdev->dev, "%s: ERROR: failed to enable device\n",
-   187				__func__);
-   188			return ret;
-   189		}
-   190	
-   191		/* The first BAR > 0 is the base IO addr of our device. */
-   192		for (i = 0; i < PCI_STD_NUM_BARS; i++) {
-   193			if (pci_resource_len(pdev, i) == 0)
-   194				continue;
-   195			res.addr = pcim_iomap_region(pdev, i, STMMAC_RESOURCE_NAME);
-   196			if (IS_ERR(res.addr))
- > 197				return PTR_ERR(res.addr)
-   198			break;
-   199		}
-   200	
-   201		pci_set_master(pdev);
-   202	
-   203		ret = info->setup(pdev, plat);
-   204		if (ret)
-   205			return ret;
-   206	
-   207		res.wol_irq = pdev->irq;
-   208		res.irq = pdev->irq;
-   209	
-   210		plat->safety_feat_cfg->tsoee = 1;
-   211		plat->safety_feat_cfg->mrxpee = 1;
-   212		plat->safety_feat_cfg->mestee = 1;
-   213		plat->safety_feat_cfg->mrxee = 1;
-   214		plat->safety_feat_cfg->mtxee = 1;
-   215		plat->safety_feat_cfg->epsi = 1;
-   216		plat->safety_feat_cfg->edpp = 1;
-   217		plat->safety_feat_cfg->prtyen = 1;
-   218		plat->safety_feat_cfg->tmouten = 1;
-   219	
-   220		return stmmac_dvr_probe(&pdev->dev, plat, &res);
-   221	}
-   222	
+^1da177e4c3f41 drivers/serial/amba-pl011.c     Linus Torvalds  2005-04-16  2457  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2458  /**
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2459   *	pl011_console_match - non-standard console matching
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2460   *	@co:	  registering console
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2461   *	@name:	  name from console command line
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2462   *	@idx:	  index from console command line
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2463   *	@options: ptr to option string from console command line
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2464   *
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2465   *	Only attempts to match console command lines of the form:
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2466   *	    console=pl011,mmio|mmio32,<addr>[,<options>]
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2467   *	    console=pl011,0x<addr>[,<options>]
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2468   *	This form is used to register an initial earlycon boot console and
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2469   *	replace it with the amba_console at pl011 driver init.
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2470   *
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2471   *	Performs console setup for a match (as required by interface)
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2472   *	If no <options> are specified, then assume the h/w is already setup.
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2473   *
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2474   *	Returns 0 if console matches; otherwise non-zero to use default matching
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2475   */
+27afac93e3bd7f drivers/tty/serial/amba-pl011.c Lukas Wunner    2020-08-13  2476  static int pl011_console_match(struct console *co, char *name, int idx,
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2477  			       char *options)
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2478  {
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2479  	unsigned char iotype;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2480  	resource_size_t addr;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2481  	int i;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2482  
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2483  	/*
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2484  	 * Systems affected by the Qualcomm Technologies QDF2400 E44 erratum
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2485  	 * have a distinct console name, so make sure we check for that.
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2486  	 * The actual implementation of the erratum occurs in the probe
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2487  	 * function.
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2488  	 */
+37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2489  	if ((strcmp(name, "qdf2400_e44") != 0) && (strcmp(name, "pl011") != 0))
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2490  		return -ENODEV;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2491  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04 @2492  	if (uart_parse_earlycon(options, &iotype, &addr, &options))
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2493  		return -ENODEV;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2494  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2495  	if (iotype != UPIO_MEM && iotype != UPIO_MEM32)
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2496  		return -ENODEV;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2497  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2498  	/* try to match the port specified on the command line */
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2499  	for (i = 0; i < ARRAY_SIZE(amba_ports); i++) {
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2500  		struct uart_port *port;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2501  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2502  		if (!amba_ports[i])
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2503  			continue;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2504  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2505  		port = &amba_ports[i]->port;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2506  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2507  		if (port->mapbase != addr)
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2508  			continue;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2509  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2510  		co->index = i;
+eabd4600dafacf drivers/tty/serial/amba-pl011.c John Ogness     2024-08-20  2511  		uart_port_set_cons(port, co);
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2512  		return pl011_console_setup(co, options);
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2513  	}
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2514  
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2515  	return -ENODEV;
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2516  }
+10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2517  
+
+:::::: The code at line 2492 was first introduced by commit
+:::::: 10879ae5f12e9cab3c4e8e9504c1aaa8a033bde7 serial: pl011: add console matching function
+
+:::::: TO: Aleksey Makarov <aleksey.makarov@linaro.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
