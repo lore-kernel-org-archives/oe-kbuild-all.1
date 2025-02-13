@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C45227EBE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 12:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC124227EB4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 12:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739448690; cv=none; b=G7ORHDjzYY4zXH+ig7fzDLvftQzrUq5QQRoyBKz2w36GX+qNUJbOwaO66hHTwhMlelZzzqZm7E9nYdC22lFq4sHmE7WHEpCo0gjrKOSIKslorogmuIDPbBWDXan677kvuWnLzWhco4OsHNP81AC4TL7lJmuLHZINEKoXziFBo44=
+	t=1739449351; cv=none; b=mP2w4q0YQaNkR5vTpn1EGFgdG7JlOtMOMcU2PJGg8T4H5pM86b/9WAF12wjedAJn/V/D5HdIPWD38+A+98TSy2SGTwpgKU+S+QeQOKkbkiOMTVXMmD8e0y3QYGvct55W0t7/E0Wt7xGWnkJmikOPkE6ockcTnGBoMFo6yvrQvAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739448690; c=relaxed/simple;
-	bh=tcARAwqkZDBAhU6cmdyNfSPdcXoB4V5O7YOWRqe7uR0=;
+	s=arc-20240116; t=1739449351; c=relaxed/simple;
+	bh=lUhxwF4L1i4ZvAiMDnEbfuX312eaIg0xAzSMoYXFVYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pMwVXrtFzG4/txpXMZVYwk5OL2r3TR4RUi1L/gUQeYQBXiPJf58kYQRkvxrBbJc5s8erFNxt0fu2qDUbq4hZK1+oqxXk70cBWhs9zVhkq9IjIKM3gyMNHD4fjsduJMYQAb7bY9hLMHNca1oQ9+Hp+vI0FD6RQMpvAg0cYGwLvx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ujw1EF4h; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=tQSRclkeGRwunZR+HZCIZK3inz+HZcbU/bhWwGeiLFr2Dobfk2uXYJNI/GvPBeb805uVdbvYmd913dA9LmfKbEzFLcaFro5p+4Rlu/yzT0zrZjmyb2WFuDV5EMx9D4hv5GBgK4Nj5RV34gcXUd9hqVMuGcA0lPBshzpRnBDfgMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1g2Gdiu; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ujw1EF4h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1g2Gdiu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739448688; x=1770984688;
+  t=1739449349; x=1770985349;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tcARAwqkZDBAhU6cmdyNfSPdcXoB4V5O7YOWRqe7uR0=;
-  b=Ujw1EF4h+rRel/KFmLEpXUCuUcgwGXFQVfEat7sZb3zV4xK+BeeYQycF
-   EdNNSjuv/B4mP1q5uIg2VEGMweCTpukRz5N/LIr60n315nRJAH1LcjEfE
-   pvcxrKYPy3Ky0mGFoAJCnrckUDxUHm34RmFuidkFoHTAFLjhzvspn2y2m
-   mwT+FV7W7DmgwmFRoqd4lMTOu56yvW0ouhbl/oKboW1JTKxf6ACZC+Oe5
-   DMpho0KZTLiOY20xue8kWRid/xzNBI3IJgu3SDKB5wOj3vaNuswk+bFyu
-   2Ew/TdnZm9tDW/skHMH37sOTZO4EWHI9hJ9uMUiXN8GcWhsfejn+odj7+
-   g==;
-X-CSE-ConnectionGUID: Jtpfi+GGRWGaHmEB2eGG8A==
-X-CSE-MsgGUID: TTMCscAjSzyg43ulk9Ku+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="57549588"
+  bh=lUhxwF4L1i4ZvAiMDnEbfuX312eaIg0xAzSMoYXFVYM=;
+  b=R1g2GdiuvVdJQOc4Eh3mH0XSpL9Tk/S1PofoU7ETyCd59TS2U1+ktD4+
+   gWkdrpkZrs5dFALprhpxvuk21tPtA8yFH5ifF/p9LMtslDG6X5mr4s6le
+   grX8goL6TuSSCBdxYt2KSJ0sKXagQkvftU9fwmYH8amL6OyGNFji6O16L
+   XNP+w2hm9+XWyFeUfblVsDvlXtRUxWO60Vn8fGdGP0fI9GEbqqN7hFJPj
+   7coV/I2Lzjl2w2WKERyuWLi5KfOZL9hx24QXBkEF9D9O+xgVXuIXghbPZ
+   6CVXWcdRWYYXg7gWxsndTSiMN8nOS5hbd83yHuE0E+qX3wsYBZjgSteqs
+   Q==;
+X-CSE-ConnectionGUID: zi0zijgNRriFaZuPAgTPvw==
+X-CSE-MsgGUID: sImNZQXdRcmilnyR/HMdtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="43916189"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="57549588"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 04:11:28 -0800
-X-CSE-ConnectionGUID: 67fzG+PHSBWZwBSoIrdYiQ==
-X-CSE-MsgGUID: opa0QoV4SSOyR+wbweMxjw==
+   d="scan'208";a="43916189"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 04:22:28 -0800
+X-CSE-ConnectionGUID: 55+KXmyhRTm7hdrXBMQflg==
+X-CSE-MsgGUID: +/2VaWhTQhOk7TnQhwY8nQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="143971391"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112965160"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Feb 2025 04:11:27 -0800
+  by orviesa010.jf.intel.com with ESMTP; 13 Feb 2025 04:22:26 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiY3w-001717-0E;
-	Thu, 13 Feb 2025 12:11:24 +0000
-Date: Thu, 13 Feb 2025 20:11:15 +0800
+	id 1tiYEa-00171T-35;
+	Thu, 13 Feb 2025 12:22:24 +0000
+Date: Thu, 13 Feb 2025 20:21:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 13/13]
- include/linux/ceph/ceph_debug.h:24:22: warning: '%s' directive output may be
- truncated writing up to 255 bytes into a region of size 219
-Message-ID: <202502132038.TPFGWJku-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:time_stats_sched 62/63]
+ include/uapi/linux/bits.h:9:19: warning: right shift count >= width of type
+Message-ID: <202502132010.skykaB4f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,111 +62,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   cd1e899feeb6a7da55cbb74b9245c8bbb77f82ba
-commit: cd1e899feeb6a7da55cbb74b9245c8bbb77f82ba [13/13] cephsun: using a dynamic buffer allocation
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250213/202502132038.TPFGWJku-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502132038.TPFGWJku-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs time_stats_sched
+head:   d9b1e57f3b38d16fdd7177f3b9636dcbb4c749ed
+commit: d88e92952e4e9a1f2a3c82712dec611043885ab1 [62/63] trace_sched_wakeup_backtrace
+config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250213/202502132010.skykaB4f-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502132010.skykaB4f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502132038.TPFGWJku-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502132010.skykaB4f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/ceph/ceph_debug.h:9,
-                    from net/ceph/mon_client.c:2:
-   net/ceph/mon_client.c: In function '__send_subscribe':
->> include/linux/ceph/ceph_debug.h:24:22: warning: '%s' directive output may be truncated writing up to 255 bytes into a region of size 219 [-Wformat-truncation=]
-      24 |         CEPH_SAN_LOG("%12.12s:%-4d : " fmt,                             \
-         |                      ^~~~~~~~~~~~~~~~~
-   include/linux/ceph/ceph_san.h:83:33: note: in definition of macro 'CEPH_SAN_LOG'
-      83 |     snprintf(buf, LOG_BUF_SIZE, fmt, ##__VA_ARGS__); \
-         |                                 ^~~
-   net/ceph/mon_client.c:367:17: note: in expansion of macro 'dout'
-     367 |                 dout("%s %s start %llu flags 0x%x\n", __func__, buf,
-         |                 ^~~~
-   include/linux/ceph/ceph_debug.h:24:22: note: directive argument in the range [0, 255]
-      24 |         CEPH_SAN_LOG("%12.12s:%-4d : " fmt,                             \
-         |                      ^~~~~~~~~~~~~~~~~
-   include/linux/ceph/ceph_san.h:83:33: note: in definition of macro 'CEPH_SAN_LOG'
-      83 |     snprintf(buf, LOG_BUF_SIZE, fmt, ##__VA_ARGS__); \
-         |                                 ^~~
-   net/ceph/mon_client.c:367:17: note: in expansion of macro 'dout'
-     367 |                 dout("%s %s start %llu flags 0x%x\n", __func__, buf,
-         |                 ^~~~
-   include/linux/ceph/ceph_san.h:83:5: note: 'snprintf' output between 57 and 332 bytes into a destination of size 256
-      83 |     snprintf(buf, LOG_BUF_SIZE, fmt, ##__VA_ARGS__); \
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ceph/ceph_debug.h:24:9: note: in expansion of macro 'CEPH_SAN_LOG'
-      24 |         CEPH_SAN_LOG("%12.12s:%-4d : " fmt,                             \
-         |         ^~~~~~~~~~~~
-   net/ceph/mon_client.c:367:17: note: in expansion of macro 'dout'
-     367 |                 dout("%s %s start %llu flags 0x%x\n", __func__, buf,
-         |                 ^~~~
-   include/linux/ceph/ceph_san.h:83:5: warning: 'snprintf' argument 7 overlaps destination object 'buf' [-Wrestrict]
-      83 |     snprintf(buf, LOG_BUF_SIZE, fmt, ##__VA_ARGS__); \
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ceph/ceph_debug.h:24:9: note: in expansion of macro 'CEPH_SAN_LOG'
-      24 |         CEPH_SAN_LOG("%12.12s:%-4d : " fmt,                             \
-         |         ^~~~~~~~~~~~
-   net/ceph/mon_client.c:367:17: note: in expansion of macro 'dout'
-     367 |                 dout("%s %s start %llu flags 0x%x\n", __func__, buf,
-         |                 ^~~~
-   include/linux/ceph/ceph_san.h:82:10: note: destination object referenced by 'restrict'-qualified argument 1 was declared here
-      82 |     char buf[LOG_BUF_SIZE]; \
-         |          ^~~
-   include/linux/ceph/ceph_debug.h:24:9: note: in expansion of macro 'CEPH_SAN_LOG'
-      24 |         CEPH_SAN_LOG("%12.12s:%-4d : " fmt,                             \
-         |         ^~~~~~~~~~~~
-   net/ceph/mon_client.c:367:17: note: in expansion of macro 'dout'
-     367 |                 dout("%s %s start %llu flags 0x%x\n", __func__, buf,
-         |                 ^~~~
+   In file included from include/linux/bits.h:7,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/riscv/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from arch/riscv/include/asm/cmpxchg.h:9,
+                    from arch/riscv/include/asm/barrier.h:14,
+                    from include/linux/list.h:11,
+                    from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from kernel/sched/core.c:10:
+   kernel/sched/core.c: In function 'try_to_wake_up':
+>> include/uapi/linux/bits.h:9:19: warning: right shift count >= width of type [-Wshift-count-overflow]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:34:38: note: in expansion of macro '__GENMASK'
+      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:32:32: note: in expansion of macro 'GENMASK'
+      32 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:74:17: note: in expansion of macro '__arch_xchg_masked'
+      74 |                 __arch_xchg_masked(sc_sfx, ".b" swap_sfx,               \
+         |                 ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:108:9: note: in expansion of macro '_arch_xchg'
+     108 |         _arch_xchg(ptr, x, ".rl", ".aqrl", "", RISCV_FULL_BARRIER, "")
+         |         ^~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/sched/core.c:4226:28: note: in expansion of macro 'xchg'
+    4226 |             (sleep_start = xchg(&p->sleep_timestamp, 0)))
+         |                            ^~~~
+>> include/uapi/linux/bits.h:9:19: warning: right shift count >= width of type [-Wshift-count-overflow]
+       9 |          (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                   ^~
+   include/linux/bits.h:34:38: note: in expansion of macro '__GENMASK'
+      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:32:32: note: in expansion of macro 'GENMASK'
+      32 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:79:17: note: in expansion of macro '__arch_xchg_masked'
+      79 |                 __arch_xchg_masked(sc_sfx, ".h" swap_sfx,               \
+         |                 ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:108:9: note: in expansion of macro '_arch_xchg'
+     108 |         _arch_xchg(ptr, x, ".rl", ".aqrl", "", RISCV_FULL_BARRIER, "")
+         |         ^~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/sched/core.c:4226:28: note: in expansion of macro 'xchg'
+    4226 |             (sleep_start = xchg(&p->sleep_timestamp, 0)))
+         |                            ^~~~
+   kernel/sched/core.c: Assembler messages:
+   kernel/sched/core.c:4226: Error: unrecognized opcode `amoswap.d.aqrl a4,a4,0(a3)'
 
 
-vim +24 include/linux/ceph/ceph_debug.h
+vim +9 include/uapi/linux/bits.h
 
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  12  
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  13  /*
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  14   * wrap pr_debug to include a filename:lineno prefix on each line.
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  15   * this incurs some overhead (kernel size and execution time) due to
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  16   * the extra function call at each call site.
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  17   */
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  18  
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  19  # if defined(DEBUG) || defined(CONFIG_DYNAMIC_DEBUG)
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  20  #  define dout(fmt, ...)						\
-3d14c5d2b6e15c include/linux/ceph/ceph_debug.h Yehuda Sadeh       2010-04-06  21  	pr_debug("%.*s %12.12s:%-4d:" fmt,				\
-04fa82972277cd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-11  22  		 8 - (int)sizeof(KBUILD_MODNAME), "    ",		\
-04fa82972277cd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-11  23  		 kbasename(__FILE__), __LINE__, ##__VA_ARGS__); 	\
-866762b26eb7fd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-12 @24  	CEPH_SAN_LOG("%12.12s:%-4d : " fmt,				\
-6f4dbd149d2a15 include/linux/ceph/ceph_debug.h Ilya Dryomov       2017-05-19  25  		 kbasename(__FILE__), __LINE__, ##__VA_ARGS__)
-5c5f0d2b5f92c4 include/linux/ceph/ceph_debug.h Xiubo Li           2023-06-09  26  #  define doutc(client, fmt, ...)					\
-5c5f0d2b5f92c4 include/linux/ceph/ceph_debug.h Xiubo Li           2023-06-09  27  	pr_debug("%.*s %12.12s:%-4d : [%pU %llu] " fmt,			\
-04fa82972277cd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-11  28  		 8 - (int)sizeof(KBUILD_MODNAME), "    ",		\
-04fa82972277cd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-11  29  		 kbasename(__FILE__), __LINE__,				\
-04fa82972277cd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-11  30  		 &client->fsid, client->monc.auth->global_id,		\
-04fa82972277cd include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-11  31  		 ##__VA_ARGS__); 					\
-ab4d8f9713554f include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-12  32  	CEPH_SAN_LOG("%12.12s:%-4d:" fmt,				\
-ab4d8f9713554f include/linux/ceph/ceph_debug.h Alex Markuze       2025-02-12  33  		 kbasename(__FILE__), __LINE__, ##__VA_ARGS__)
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  34  # else
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  35  /* faux printk call just to see any compiler warnings. */
-b37cafacbf98ea include/linux/ceph/ceph_debug.h Geert Uytterhoeven 2024-02-28  36  #  define dout(fmt, ...)					\
-b37cafacbf98ea include/linux/ceph/ceph_debug.h Geert Uytterhoeven 2024-02-28  37  		no_printk(KERN_DEBUG fmt, ##__VA_ARGS__)
-b37cafacbf98ea include/linux/ceph/ceph_debug.h Geert Uytterhoeven 2024-02-28  38  #  define doutc(client, fmt, ...)				\
-b37cafacbf98ea include/linux/ceph/ceph_debug.h Geert Uytterhoeven 2024-02-28  39  		no_printk(KERN_DEBUG "[%pU %llu] " fmt,		\
-5c5f0d2b5f92c4 include/linux/ceph/ceph_debug.h Xiubo Li           2023-06-09  40  			  &client->fsid,			\
-5c5f0d2b5f92c4 include/linux/ceph/ceph_debug.h Xiubo Li           2023-06-09  41  			  client->monc.auth->global_id,		\
-b37cafacbf98ea include/linux/ceph/ceph_debug.h Geert Uytterhoeven 2024-02-28  42  			  ##__VA_ARGS__)
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  43  # endif
-de57606c23afde fs/ceph/ceph_debug.h            Sage Weil          2009-10-06  44  
+3c7a8e190bc580 Paolo Bonzini 2023-12-12   6  
+3c7a8e190bc580 Paolo Bonzini 2023-12-12   7  #define __GENMASK(h, l) \
+3c7a8e190bc580 Paolo Bonzini 2023-12-12   8          (((~_UL(0)) - (_UL(1) << (l)) + 1) & \
+3c7a8e190bc580 Paolo Bonzini 2023-12-12  @9           (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+3c7a8e190bc580 Paolo Bonzini 2023-12-12  10  
 
-:::::: The code at line 24 was first introduced by commit
-:::::: 866762b26eb7fd11c6fcbb9aaaad9a4a232968c9 minor cosmetics
+:::::: The code at line 9 was first introduced by commit
+:::::: 3c7a8e190bc580813ddd9259f62971c8d2a6b5ad uapi: introduce uapi-friendly macros for GENMASK
 
-:::::: TO: Alex Markuze <amarkuze@redhat.com>
-:::::: CC: Alex Markuze <amarkuze@redhat.com>
+:::::: TO: Paolo Bonzini <pbonzini@redhat.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
