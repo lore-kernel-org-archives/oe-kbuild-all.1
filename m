@@ -1,72 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F0A20B815
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 11:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F3A227EB6;
+	Thu, 13 Feb 2025 11:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739446769; cv=none; b=thGQi6mI6rDGc7C48OmJ2cXqDjlT0Z8iAYXc75mpOpmcs1FU1wy59yHnqYKgrsGBkoppp4EGGzIDA3gjBy+hXDRHEoxplBiBeXl2E6gwtqmZAPjmzTQg9D+NnS89XgKpgZ0dFnEMTiG6b6SRyMD18iHLllEm36m25H8pKgELMxM=
+	t=1739447428; cv=none; b=GtvL+ChNvfI5cCp7wAF2dnF4pSOZwTsELt7eISqRyRV/PxGzDnHkbZywIcP2thStnHGWVY3UPgQ/Wk9Jki/KbFwjzLTWR92pWuR11N/ntC31wlAcG968prQl5WS9V4B4pSJFs9IStQgciPLYidU/Qa9+mHimKyLyfkMeH4eXFDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739446769; c=relaxed/simple;
-	bh=x26+TIGrOJ0KNbq5bnCKvaiY72o7bCtil5dql0WTZB8=;
+	s=arc-20240116; t=1739447428; c=relaxed/simple;
+	bh=Y6v7Cbp+Xf4wQubXKdSMUI+Vl4c6tYrKjSLTH9HgeYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qtVqCoYVGEu20E4nn0YDoQgJW8gX8aZ54JFlRy73Kqi4Zw2NReFBHRScySIGPJOGUFKTvVYZuaE6YtedOwaO8sqvetb1NqzRSlNwK96gXlRMrpnfl11rSH60z2yCI+XP+pOI5XIq2osHZs6/ZxG5YnCCJxP9xQQ5fhjKGFWZlL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=neFzmEa8; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=DVnEFXhcSCHZv8QJaCdNZ0ZRrIO/995JoRY0GxzNtLdE3HvoePAyVR8df1xGOE83W9SWDommQhp9qzoq6dClvQGqHsyeX9w1SbOnkMJE9GD6LApKD/rrQHgoajwsQ9Q8sqqXSEjjeowXjlsNqJsxGM0IHlzRlrImG2qdwNKmkVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZiIdOqi; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="neFzmEa8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZiIdOqi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739446767; x=1770982767;
+  t=1739447427; x=1770983427;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=x26+TIGrOJ0KNbq5bnCKvaiY72o7bCtil5dql0WTZB8=;
-  b=neFzmEa8lsgBiCPnj6IhuC9Lq2cIunZGoIuZ0m1WtrxZuBx1SHl/Q2jT
-   y09v8W4xCdDDj/P2/3qv2lfIUIxEqalG3hajL8kOiXvO44mH0eY2NPxKc
-   t44Qb9jU/3xMylGreX5HEiR+CDE8QXK0y6V2VF3S4kNtQeJ95MW73RDPD
-   CKt6DNNnVELIitTf3MGcFF3QpDMjOmkBZWwciYBpi11kKePwHRFGJg2sP
-   dUS4rxziXIIqQgsXP3Nh6Hc0lRLxjxqau89DP9NoR7GXbI9ePQ8dqGSK+
-   tZOp2FSkzdTUaCNEIAFO9AOeQk9wohzknnh0zDvwIhloN0wqRBJTwVDnr
+  bh=Y6v7Cbp+Xf4wQubXKdSMUI+Vl4c6tYrKjSLTH9HgeYc=;
+  b=IZiIdOqiVBAx+HDaHOxDsN2Yl9LkMDf3mbjoyNfI3tlKrTHRij3Xtvjr
+   JiTerH3DKrFydUDnFOCWl2uf5SOeaH5I7SSPhxFklgmcw5VoXv7g6MQP1
+   pYtv/4geW5mGttgzUpy9uGILAX606DrJqP6Riz3/snzFoGylENcv33R1o
+   WBJsJW6b+p8LJBCIv9GGhREubbh38WitgZ8dbpFiUFv5+bUC4FobJbILP
+   kpUuefZer90QOf1fvf29xjbFC8Oa175gQoKqcBWo7WKxOzogw85emQcSS
+   dlWK5bHj525L/sZvPcZL923reozc+csK5O69SEVWvH8d3jtNsFZ78wdrX
    A==;
-X-CSE-ConnectionGUID: WMRmQIlmTZStrODO9SYQPA==
-X-CSE-MsgGUID: HbhqyaExTg2IotO6e5vFnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40008153"
+X-CSE-ConnectionGUID: BQT9xc7aTuuaWq9+Kn637A==
+X-CSE-MsgGUID: j9aSUeRaS1uDVWsB7P3j/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65497231"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="40008153"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 03:39:27 -0800
-X-CSE-ConnectionGUID: V46oJ0FCR9maNBzHURCDUg==
-X-CSE-MsgGUID: w7kaAZwJSxGZvwrqs0ebwA==
+   d="scan'208";a="65497231"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 03:50:26 -0800
+X-CSE-ConnectionGUID: syf8Snt2TKa3BUIKH1lLEQ==
+X-CSE-MsgGUID: cKdFBmusQS+ECOdshtp8ZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113648995"
+   d="scan'208";a="113299312"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Feb 2025 03:39:22 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 13 Feb 2025 03:50:24 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiXYu-0016yx-1f;
-	Thu, 13 Feb 2025 11:39:20 +0000
-Date: Thu, 13 Feb 2025 19:39:08 +0800
+	id 1tiXja-0016zp-09;
+	Thu, 13 Feb 2025 11:50:22 +0000
+Date: Thu, 13 Feb 2025 19:49:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Stanner <phasta@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Yinggang Gu <guyinggang@loongson.cn>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Philipp Stanner <pstanner@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] stmmac: Replace deprecated PCI functions
-Message-ID: <202502131939.DdTP5mv1-lkp@intel.com>
-References: <20250212145831.101719-2-phasta@kernel.org>
+To: David Arcari <darcari@redhat.com>, linux-pm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Arcari <darcari@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Jacob Pan <jacob.jun.pan@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, Artem Bityutskiy <dedekind1@gmail.com>,
+	Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] intel_idle: introduce 'no_native' module parameter
+Message-ID: <202502131953.d3fHaDCE-lkp@intel.com>
+References: <20250211132741.99944-1-darcari@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,125 +67,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212145831.101719-2-phasta@kernel.org>
+In-Reply-To: <20250211132741.99944-1-darcari@redhat.com>
 
-Hi Philipp,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.14-rc2 next-20250213]
-[cannot apply to horms-ipvs/master]
+[auto build test ERROR on acpi/next]
+[also build test ERROR on amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.14-rc2 next-20250213]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/stmmac-Replace-deprecated-PCI-functions/20250212-230254
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250212145831.101719-2-phasta%40kernel.org
-patch subject: [PATCH] stmmac: Replace deprecated PCI functions
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250213/202502131939.DdTP5mv1-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131939.DdTP5mv1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Arcari/intel_idle-introduce-no_native-module-parameter/20250211-213031
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lenb/linux.git next
+patch link:    https://lore.kernel.org/r/20250211132741.99944-1-darcari%40redhat.com
+patch subject: [PATCH v3] intel_idle: introduce 'no_native' module parameter
+config: i386-buildonly-randconfig-002-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131953.d3fHaDCE-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131953.d3fHaDCE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131939.DdTP5mv1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131953.d3fHaDCE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c: In function 'loongson_dwmac_probe':
->> drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:527:18: warning: unused variable 'i' [-Wunused-variable]
-     527 |         int ret, i;
-         |                  ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c: In function 'loongson_dwmac_remove':
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:604:13: warning: unused variable 'i' [-Wunused-variable]
-     604 |         int i;
-         |             ^
+   In file included from drivers/idle/intel_idle.c:48:
+   In file included from include/trace/events/power.h:12:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/idle/intel_idle.c:2289:20: error: use of undeclared identifier 'no_acpi'; did you mean 'no_action'?
+    2289 |         if (no_native && !no_acpi) {
+         |                           ^~~~~~~
+         |                           no_action
+   include/linux/interrupt.h:138:20: note: 'no_action' declared here
+     138 | extern irqreturn_t no_action(int cpl, void *dev_id);
+         |                    ^
+>> drivers/idle/intel_idle.c:2289:20: warning: address of function 'no_action' will always evaluate to 'true' [-Wpointer-bool-conversion]
+    2289 |         if (no_native && !no_acpi) {
+         |                          ~^~~~~~~
+   drivers/idle/intel_idle.c:2289:20: note: prefix with the address-of operator to silence this warning
+    2289 |         if (no_native && !no_acpi) {
+         |                           ^
+         |                           &
+   2 warnings and 1 error generated.
 
 
-vim +/i +527 drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+vim +2289 drivers/idle/intel_idle.c
 
-126f4f96c41d2e Yanteng Si      2024-08-07  520  
-30bba69d7db40e Qing Zhang      2021-06-18  521  static int loongson_dwmac_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-30bba69d7db40e Qing Zhang      2021-06-18  522  {
-30bba69d7db40e Qing Zhang      2021-06-18  523  	struct plat_stmmacenet_data *plat;
-0ec04d32b5e7f0 Yanteng Si      2024-08-07  524  	struct stmmac_pci_info *info;
-bd83fd598ba34f Philipp Stanner 2025-02-12  525  	struct stmmac_resources res = {};
-803fc61df261de Yanteng Si      2024-08-07  526  	struct loongson_data *ld;
-126f4f96c41d2e Yanteng Si      2024-08-07 @527  	int ret, i;
-30bba69d7db40e Qing Zhang      2021-06-18  528  
-30bba69d7db40e Qing Zhang      2021-06-18  529  	plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
-30bba69d7db40e Qing Zhang      2021-06-18  530  	if (!plat)
-30bba69d7db40e Qing Zhang      2021-06-18  531  		return -ENOMEM;
-30bba69d7db40e Qing Zhang      2021-06-18  532  
-30bba69d7db40e Qing Zhang      2021-06-18  533  	plat->mdio_bus_data = devm_kzalloc(&pdev->dev,
-30bba69d7db40e Qing Zhang      2021-06-18  534  					   sizeof(*plat->mdio_bus_data),
-30bba69d7db40e Qing Zhang      2021-06-18  535  					   GFP_KERNEL);
-e87d3a1370ce9f Yanteng Si      2023-12-11  536  	if (!plat->mdio_bus_data)
-e87d3a1370ce9f Yanteng Si      2023-12-11  537  		return -ENOMEM;
-e87d3a1370ce9f Yanteng Si      2023-12-11  538  
-30bba69d7db40e Qing Zhang      2021-06-18  539  	plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg), GFP_KERNEL);
-126f4f96c41d2e Yanteng Si      2024-08-07  540  	if (!plat->dma_cfg)
-126f4f96c41d2e Yanteng Si      2024-08-07  541  		return -ENOMEM;
-30bba69d7db40e Qing Zhang      2021-06-18  542  
-803fc61df261de Yanteng Si      2024-08-07  543  	ld = devm_kzalloc(&pdev->dev, sizeof(*ld), GFP_KERNEL);
-803fc61df261de Yanteng Si      2024-08-07  544  	if (!ld)
-803fc61df261de Yanteng Si      2024-08-07  545  		return -ENOMEM;
-803fc61df261de Yanteng Si      2024-08-07  546  
-30bba69d7db40e Qing Zhang      2021-06-18  547  	/* Enable pci device */
-30bba69d7db40e Qing Zhang      2021-06-18  548  	ret = pci_enable_device(pdev);
-30bba69d7db40e Qing Zhang      2021-06-18  549  	if (ret) {
-30bba69d7db40e Qing Zhang      2021-06-18  550  		dev_err(&pdev->dev, "%s: ERROR: failed to enable device\n", __func__);
-126f4f96c41d2e Yanteng Si      2024-08-07  551  		return ret;
-30bba69d7db40e Qing Zhang      2021-06-18  552  	}
-30bba69d7db40e Qing Zhang      2021-06-18  553  
-126f4f96c41d2e Yanteng Si      2024-08-07  554  	pci_set_master(pdev);
-126f4f96c41d2e Yanteng Si      2024-08-07  555  
-30bba69d7db40e Qing Zhang      2021-06-18  556  	/* Get the base address of device */
-bd83fd598ba34f Philipp Stanner 2025-02-12  557  	res.addr = pcim_iomap_region(pdev, 0, DRIVER_NAME);
-bd83fd598ba34f Philipp Stanner 2025-02-12  558  	ret = PTR_ERR_OR_ZERO(res.addr);
-30bba69d7db40e Qing Zhang      2021-06-18  559  	if (ret)
-fe5b3ce8b4377e Yang Yingliang  2022-11-08  560  		goto err_disable_device;
-30bba69d7db40e Qing Zhang      2021-06-18  561  
-803fc61df261de Yanteng Si      2024-08-07  562  	plat->bsp_priv = ld;
-803fc61df261de Yanteng Si      2024-08-07  563  	plat->setup = loongson_dwmac_setup;
-56dbe2c290bc58 Yanteng Si      2024-08-07  564  	ld->dev = &pdev->dev;
-803fc61df261de Yanteng Si      2024-08-07  565  	ld->loongson_id = readl(res.addr + GMAC_VERSION) & 0xff;
-803fc61df261de Yanteng Si      2024-08-07  566  
-0ec04d32b5e7f0 Yanteng Si      2024-08-07  567  	info = (struct stmmac_pci_info *)id->driver_data;
-126f4f96c41d2e Yanteng Si      2024-08-07  568  	ret = info->setup(pdev, plat);
-0ec04d32b5e7f0 Yanteng Si      2024-08-07  569  	if (ret)
-0ec04d32b5e7f0 Yanteng Si      2024-08-07  570  		goto err_disable_device;
-0ec04d32b5e7f0 Yanteng Si      2024-08-07  571  
-126f4f96c41d2e Yanteng Si      2024-08-07  572  	if (dev_of_node(&pdev->dev))
-126f4f96c41d2e Yanteng Si      2024-08-07  573  		ret = loongson_dwmac_dt_config(pdev, plat, &res);
-126f4f96c41d2e Yanteng Si      2024-08-07  574  	else
-126f4f96c41d2e Yanteng Si      2024-08-07  575  		ret = loongson_dwmac_acpi_config(pdev, plat, &res);
-126f4f96c41d2e Yanteng Si      2024-08-07  576  	if (ret)
-0c979e6b55f99f Yanteng Si      2024-08-07  577  		goto err_disable_device;
-30bba69d7db40e Qing Zhang      2021-06-18  578  
-803fc61df261de Yanteng Si      2024-08-07  579  	/* Use the common MAC IRQ if per-channel MSIs allocation failed */
-803fc61df261de Yanteng Si      2024-08-07  580  	if (ld->loongson_id == DWMAC_CORE_LS_MULTICHAN)
-803fc61df261de Yanteng Si      2024-08-07  581  		loongson_dwmac_msi_config(pdev, plat, &res);
-803fc61df261de Yanteng Si      2024-08-07  582  
-f2d45fdf9a0ed2 Yang Yingliang  2022-11-08  583  	ret = stmmac_dvr_probe(&pdev->dev, plat, &res);
-f2d45fdf9a0ed2 Yang Yingliang  2022-11-08  584  	if (ret)
-126f4f96c41d2e Yanteng Si      2024-08-07  585  		goto err_plat_clear;
-f2d45fdf9a0ed2 Yang Yingliang  2022-11-08  586  
-126f4f96c41d2e Yanteng Si      2024-08-07  587  	return 0;
-f2d45fdf9a0ed2 Yang Yingliang  2022-11-08  588  
-126f4f96c41d2e Yanteng Si      2024-08-07  589  err_plat_clear:
-126f4f96c41d2e Yanteng Si      2024-08-07  590  	if (dev_of_node(&pdev->dev))
-126f4f96c41d2e Yanteng Si      2024-08-07  591  		loongson_dwmac_dt_clear(pdev, plat);
-803fc61df261de Yanteng Si      2024-08-07  592  	if (ld->loongson_id == DWMAC_CORE_LS_MULTICHAN)
-803fc61df261de Yanteng Si      2024-08-07  593  		loongson_dwmac_msi_clear(pdev);
-fe5b3ce8b4377e Yang Yingliang  2022-11-08  594  err_disable_device:
-fe5b3ce8b4377e Yang Yingliang  2022-11-08  595  	pci_disable_device(pdev);
-f2d45fdf9a0ed2 Yang Yingliang  2022-11-08  596  	return ret;
-30bba69d7db40e Qing Zhang      2021-06-18  597  }
-30bba69d7db40e Qing Zhang      2021-06-18  598  
+  2248	
+  2249	static int __init intel_idle_init(void)
+  2250	{
+  2251		const struct x86_cpu_id *id;
+  2252		unsigned int eax, ebx, ecx;
+  2253		int retval;
+  2254	
+  2255		/* Do not load intel_idle at all for now if idle= is passed */
+  2256		if (boot_option_idle_override != IDLE_NO_OVERRIDE)
+  2257			return -ENODEV;
+  2258	
+  2259		if (max_cstate == 0) {
+  2260			pr_debug("disabled\n");
+  2261			return -EPERM;
+  2262		}
+  2263	
+  2264		id = x86_match_cpu(intel_idle_ids);
+  2265		if (id) {
+  2266			if (!boot_cpu_has(X86_FEATURE_MWAIT)) {
+  2267				pr_debug("Please enable MWAIT in BIOS SETUP\n");
+  2268				return -ENODEV;
+  2269			}
+  2270		} else {
+  2271			id = x86_match_cpu(intel_mwait_ids);
+  2272			if (!id)
+  2273				return -ENODEV;
+  2274		}
+  2275	
+  2276		if (boot_cpu_data.cpuid_level < CPUID_MWAIT_LEAF)
+  2277			return -ENODEV;
+  2278	
+  2279		cpuid(CPUID_MWAIT_LEAF, &eax, &ebx, &ecx, &mwait_substates);
+  2280	
+  2281		if (!(ecx & CPUID5_ECX_EXTENSIONS_SUPPORTED) ||
+  2282		    !(ecx & CPUID5_ECX_INTERRUPT_BREAK) ||
+  2283		    !mwait_substates)
+  2284				return -ENODEV;
+  2285	
+  2286		pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
+  2287	
+  2288		icpu = (const struct idle_cpu *)id->driver_data;
+> 2289		if (no_native && !no_acpi) {
+  2290			if (icpu) {
+  2291				pr_debug("ignoring native cpu idle states\n");
+  2292				icpu = NULL;
+  2293			}
+  2294		}
+  2295		if (icpu) {
+  2296			if (icpu->state_table)
+  2297				cpuidle_state_table = icpu->state_table;
+  2298			else if (!intel_idle_acpi_cst_extract())
+  2299				return -ENODEV;
+  2300	
+  2301			auto_demotion_disable_flags = icpu->auto_demotion_disable_flags;
+  2302			if (icpu->disable_promotion_to_c1e)
+  2303				c1e_promotion = C1E_PROMOTION_DISABLE;
+  2304			if (icpu->use_acpi || force_use_acpi)
+  2305				intel_idle_acpi_cst_extract();
+  2306		} else if (!intel_idle_acpi_cst_extract()) {
+  2307			return -ENODEV;
+  2308		}
+  2309	
+  2310		pr_debug("v" INTEL_IDLE_VERSION " model 0x%X\n",
+  2311			 boot_cpu_data.x86_model);
+  2312	
+  2313		intel_idle_cpuidle_devices = alloc_percpu(struct cpuidle_device);
+  2314		if (!intel_idle_cpuidle_devices)
+  2315			return -ENOMEM;
+  2316	
+  2317		intel_idle_cpuidle_driver_init(&intel_idle_driver);
+  2318	
+  2319		retval = cpuidle_register_driver(&intel_idle_driver);
+  2320		if (retval) {
+  2321			struct cpuidle_driver *drv = cpuidle_get_driver();
+  2322			printk(KERN_DEBUG pr_fmt("intel_idle yielding to %s\n"),
+  2323			       drv ? drv->name : "none");
+  2324			goto init_driver_fail;
+  2325		}
+  2326	
+  2327		retval = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "idle/intel:online",
+  2328					   intel_idle_cpu_online, NULL);
+  2329		if (retval < 0)
+  2330			goto hp_setup_fail;
+  2331	
+  2332		pr_debug("Local APIC timer is reliable in %s\n",
+  2333			 boot_cpu_has(X86_FEATURE_ARAT) ? "all C-states" : "C1");
+  2334	
+  2335		return 0;
+  2336	
+  2337	hp_setup_fail:
+  2338		intel_idle_cpuidle_devices_uninit();
+  2339		cpuidle_unregister_driver(&intel_idle_driver);
+  2340	init_driver_fail:
+  2341		free_percpu(intel_idle_cpuidle_devices);
+  2342		return retval;
+  2343	
 
 -- 
 0-DAY CI Kernel Test Service
