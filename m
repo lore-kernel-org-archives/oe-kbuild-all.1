@@ -1,201 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984DE1E376E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 06:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB6C18C0C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 06:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739426505; cv=none; b=DrlKokE3hR89uL+qBneeUiTlPO8WxWxSDAVjWqPkT/WSfpLdzy8EMlrBp/oIjEpVs6yQFk3xtB+zrM0O1WZukI1+cbcPN5hwB5LjbXqEq1lnhLlqo7jDkdbp9RVR4Udj+MDx+dNPV98Slu05XYQ3+iULPhhkxXpfRiV/3QIsdc4=
+	t=1739427346; cv=none; b=EhNFOFtb5UEmy/7dHBNdwLEG6/6N8ZHi3RsmJLSMIkapg1j2b7frBCvWWabYeZv3I3rKXj5F7lFPCksiOiV12Yp1PPvOnSezSx152AojLGFBStHCCTOPRUWVLOI1ZyF2ndjWsxTzKGFBqZsAbMIBfpAiWF7/j1PyQucJFEdGWJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739426505; c=relaxed/simple;
-	bh=vy/WM0PgLN2vOzkeVXyf6vgZS/EPy+STEgM4Rn6mEIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=htf4j2jd4GAGET3mznT+DlN2gf2o7y4QTTtjBQDd9boDr+jE6Nwp+nGyKmfVGFx5HaIt5ajFSvXyB/unbyWup+jSu2vzDw9fAO2K8NUFtVLmTZmpOWCHZXcr88KIXgX8LM5FXSXcpG2VI0v4349plNmwAtpgaQ+tFBt5lhJUiyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5cmfqTc; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1739427346; c=relaxed/simple;
+	bh=l0ZHarXwr86T215QAMDqiAMhYEnAW2FEcXIRkYMUhC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZFE2E8hwsBLEdmEXAaJhUK1bg3A3HUxI/ww4fICMrn34DXZCInTZe/786PnmdQTK9noCUZBw68bTp4iHoLdvcU0+M0W++ggrzO8L/ZnHha8qNSO3TwU9Pn6Kl4Yu8tGTLhR1OE4ZorRdOGNFkN7qV0gwGrg/fjA5EyzfgVsVWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bJe4zJYX; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5cmfqTc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bJe4zJYX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739426503; x=1770962503;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vy/WM0PgLN2vOzkeVXyf6vgZS/EPy+STEgM4Rn6mEIU=;
-  b=F5cmfqTc1Hs2s4+vBp45O9wrq65FktRth23zkD/AffrXSAwkp4923XAL
-   j/umKa0XXnAIeJdVIsCv1t0T5xfcEzxu+0kNmFultQrIge8J90ZfEzbCX
-   zPGf3JSyA71zJ5PcM5mn19VJRAMsyS6yVkNYNPKuyRzd1juGjlXLsNISU
-   M4NdmZqR9z0yAGcSNAmyq28aYTIfEUansyUYnEfEkcwDdeyNHjPV9e74Z
-   8yHAG3EY/SFL2W6902AnXpSpoRXcNtMwr3ps4Ydobtcl8tV8OFFkl0i4i
-   PV5m2qT0DnJ5XHk47OkrGz1wGF9QZdZVwt6K33MuxZ7QDM8d/WEmZCgal
-   A==;
-X-CSE-ConnectionGUID: +Q+G8D1ET+q4mrCH1RJl4Q==
-X-CSE-MsgGUID: lTjxrwiZRnmI2xoi24a4UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57644218"
+  t=1739427345; x=1770963345;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l0ZHarXwr86T215QAMDqiAMhYEnAW2FEcXIRkYMUhC8=;
+  b=bJe4zJYXLvSQXDW7ly799Effpg9NjoXdKpnhOP/TfrHSEKhrJ2WEffUA
+   wiw3LwrI7lDq7VClaMmvSwEeilZfvkA+RO7M79745LohFRr0oaOFZQvVQ
+   ++S6BypU0SFJQJ3VeOlWVvpA5gc6BnFIxdRluxUf71K+pdgUQ6JdLaLpg
+   by9QuUCyHe8xX5TEZYmZfoVpPiMaZuMIAEGXZjoaPF8/Y7Ta/5lfjDEVc
+   z9nS2jzfE5q4hazjlcOfiNtqNb6cXneZ9xhsS31YWvrWs9OKxUF4StqKt
+   Kz4UZ5ebdfI3ep9QBB/FOUos6z02WtuVX6P7a31+8Bqkde9TsztI+UgDz
+   Q==;
+X-CSE-ConnectionGUID: oR3XoKDjQaCMpbae9cQfjQ==
+X-CSE-MsgGUID: HI+IInRoR0GBvgDVRG78Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="42952217"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="57644218"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:01:43 -0800
-X-CSE-ConnectionGUID: 3xmkUZfiRzm/BVDboOHmiA==
-X-CSE-MsgGUID: X6bxkBHfT3iw5sjp745N5w==
+   d="scan'208";a="42952217"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:15:45 -0800
+X-CSE-ConnectionGUID: sjibTcmQQv2Yu38J74C9SQ==
+X-CSE-MsgGUID: vuWXo8s4QlGYH1pWolwf8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="112900117"
+   d="scan'208";a="113234183"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Feb 2025 22:01:42 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 12 Feb 2025 22:15:43 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiSI7-0016ba-33;
-	Thu, 13 Feb 2025 06:01:39 +0000
-Date: Thu, 13 Feb 2025 14:01:10 +0800
+	id 1tiSVh-0016cp-1O;
+	Thu, 13 Feb 2025 06:15:41 +0000
+Date: Thu, 13 Feb 2025 14:15:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: Kundan Kumar <kundan.kumar@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 67/69]
- drivers/tty/serial/8250/8250_bcm2835aux.c:104:11: error: 'struct
- uart_8250_port' has no member named 'rs485_start_tx'
-Message-ID: <202502131337.9UVBcPGw-lkp@intel.com>
+Subject: Re: [RFC 2/3] fs: modify writeback infra to work with wb_ctx
+Message-ID: <202502131351.uG7U2prq-lkp@intel.com>
+References: <20250212103634.448437-3-kundan.kumar@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250212103634.448437-3-kundan.kumar@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   18719ba870f2b5aac6c4ea327aacc3bec6bc98cc
-commit: 7acd98b09e03f688e3a7f750f362c8b978bb9710 [67/69] 8250 ops
-config: sh-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131337.9UVBcPGw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131337.9UVBcPGw-lkp@intel.com/reproduce)
+Hi Kundan,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 57d357a7663c4025c68ae07974b679d84e2d5d1a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kundan-Kumar/writeback-add-parallel-writeback-infrastructure/20250212-211021
+base:   57d357a7663c4025c68ae07974b679d84e2d5d1a
+patch link:    https://lore.kernel.org/r/20250212103634.448437-3-kundan.kumar%40samsung.com
+patch subject: [RFC 2/3] fs: modify writeback infra to work with wb_ctx
+config: arc-randconfig-002-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131351.uG7U2prq-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131351.uG7U2prq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131337.9UVBcPGw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131351.uG7U2prq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_bcm2835aux.c: In function 'bcm2835aux_serial_probe':
->> drivers/tty/serial/8250/8250_bcm2835aux.c:104:11: error: 'struct uart_8250_port' has no member named 'rs485_start_tx'
-     104 |         up.rs485_start_tx = bcm2835aux_rs485_start_tx;
-         |           ^
->> drivers/tty/serial/8250/8250_bcm2835aux.c:105:11: error: 'struct uart_8250_port' has no member named 'rs485_stop_tx'
-     105 |         up.rs485_stop_tx = bcm2835aux_rs485_stop_tx;
-         |           ^
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_DEFERRED_IO
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=y] && MMU [=n]
-   Selected by [y]:
-   - FB_SYSMEM_HELPERS_DEFERRED [=y] && HAS_IOMEM [=y] && FB_CORE [=y]
+>> fs/fs-writeback.c:130: warning: Function parameter or struct member 'p_wb_ctx' not described in 'inode_io_list_move_locked_ctx'
+>> fs/fs-writeback.c:334: warning: Function parameter or struct member 'p_wb_ctx' not described in 'inode_cgwb_move_to_attached_ctx'
+>> fs/fs-writeback.c:334: warning: expecting prototype for inode_cgwb_move_to_attached(). Prototype was for inode_cgwb_move_to_attached_ctx() instead
 
 
-vim +104 drivers/tty/serial/8250/8250_bcm2835aux.c
+vim +130 fs/fs-writeback.c
 
-f93bf758911476 Lukas Wunner        2020-02-28   82  
-bdc5f300958062 Martin Sperl        2016-01-17   83  static int bcm2835aux_serial_probe(struct platform_device *pdev)
-bdc5f300958062 Martin Sperl        2016-01-17   84  {
-eb687309136b9f Andy Shevchenko     2024-03-04   85  	const struct software_node *bcm2835_swnode;
-8c3cde5dd639af Lukas Wunner        2020-01-16   86  	struct uart_8250_port up = { };
-bdc5f300958062 Martin Sperl        2016-01-17   87  	struct bcm2835aux_data *data;
-bdc5f300958062 Martin Sperl        2016-01-17   88  	struct resource *res;
-fcc446c8aa6303 Adrien Thierry      2022-02-07   89  	unsigned int uartclk;
-bdc5f300958062 Martin Sperl        2016-01-17   90  	int ret;
-bdc5f300958062 Martin Sperl        2016-01-17   91  
-bdc5f300958062 Martin Sperl        2016-01-17   92  	/* allocate the custom structure */
-bdc5f300958062 Martin Sperl        2016-01-17   93  	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-bdc5f300958062 Martin Sperl        2016-01-17   94  	if (!data)
-bdc5f300958062 Martin Sperl        2016-01-17   95  		return -ENOMEM;
-bdc5f300958062 Martin Sperl        2016-01-17   96  
-bdc5f300958062 Martin Sperl        2016-01-17   97  	/* initialize data */
-8c3cde5dd639af Lukas Wunner        2020-01-16   98  	up.capabilities = UART_CAP_FIFO | UART_CAP_MINI;
-8c3cde5dd639af Lukas Wunner        2020-01-16   99  	up.port.dev = &pdev->dev;
-8c3cde5dd639af Lukas Wunner        2020-01-16  100  	up.port.type = PORT_16550;
-eb687309136b9f Andy Shevchenko     2024-03-04  101  	up.port.flags = UPF_FIXED_PORT | UPF_FIXED_TYPE | UPF_SKIP_TEST | UPF_IOREMAP;
-f93bf758911476 Lukas Wunner        2020-02-28  102  	up.port.rs485_config = serial8250_em485_config;
-0139da50dc53f0 Ilpo Järvinen       2022-07-04  103  	up.port.rs485_supported = serial8250_em485_supported;
-f93bf758911476 Lukas Wunner        2020-02-28 @104  	up.rs485_start_tx = bcm2835aux_rs485_start_tx;
-f93bf758911476 Lukas Wunner        2020-02-28 @105  	up.rs485_stop_tx = bcm2835aux_rs485_stop_tx;
-f93bf758911476 Lukas Wunner        2020-02-28  106  
-f93bf758911476 Lukas Wunner        2020-02-28  107  	/* initialize cached copy with power-on reset value */
-f93bf758911476 Lukas Wunner        2020-02-28  108  	data->cntl = BCM2835_AUX_UART_CNTL_RXEN | BCM2835_AUX_UART_CNTL_TXEN;
-f93bf758911476 Lukas Wunner        2020-02-28  109  
-f93bf758911476 Lukas Wunner        2020-02-28  110  	platform_set_drvdata(pdev, data);
-bdc5f300958062 Martin Sperl        2016-01-17  111  
-bdc5f300958062 Martin Sperl        2016-01-17  112  	/* get the clock - this also enables the HW */
-fcc446c8aa6303 Adrien Thierry      2022-02-07  113  	data->clk = devm_clk_get_optional(&pdev->dev, NULL);
-83e571f054cd74 Stefan Wahren       2023-12-20  114  	if (IS_ERR(data->clk))
-83e571f054cd74 Stefan Wahren       2023-12-20  115  		return dev_err_probe(&pdev->dev, PTR_ERR(data->clk), "could not get clk\n");
-bdc5f300958062 Martin Sperl        2016-01-17  116  
-bdc5f300958062 Martin Sperl        2016-01-17  117  	/* map the main registers */
-bdc5f300958062 Martin Sperl        2016-01-17  118  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-bdc5f300958062 Martin Sperl        2016-01-17  119  	if (!res) {
-bdc5f300958062 Martin Sperl        2016-01-17  120  		dev_err(&pdev->dev, "memory resource not found");
-bdc5f300958062 Martin Sperl        2016-01-17  121  		return -EINVAL;
-bdc5f300958062 Martin Sperl        2016-01-17  122  	}
-fcc446c8aa6303 Adrien Thierry      2022-02-07  123  
-eb687309136b9f Andy Shevchenko     2024-03-04  124  	up.port.mapbase = res->start;
-eb687309136b9f Andy Shevchenko     2024-03-04  125  	up.port.mapsize = resource_size(res);
-fcc446c8aa6303 Adrien Thierry      2022-02-07  126  
-eb687309136b9f Andy Shevchenko     2024-03-04  127  	bcm2835_swnode = device_get_match_data(&pdev->dev);
-eb687309136b9f Andy Shevchenko     2024-03-04  128  	if (bcm2835_swnode) {
-eb687309136b9f Andy Shevchenko     2024-03-04  129  		ret = device_add_software_node(&pdev->dev, bcm2835_swnode);
-eb687309136b9f Andy Shevchenko     2024-03-04  130  		if (ret)
-eb687309136b9f Andy Shevchenko     2024-03-04  131  			return ret;
-eb687309136b9f Andy Shevchenko     2024-03-04  132  	}
-fcc446c8aa6303 Adrien Thierry      2022-02-07  133  
-eb687309136b9f Andy Shevchenko     2024-03-04  134  	ret = uart_read_port_properties(&up.port);
-eb687309136b9f Andy Shevchenko     2024-03-04  135  	if (ret)
-eb687309136b9f Andy Shevchenko     2024-03-04  136  		goto rm_swnode;
-bdc5f300958062 Martin Sperl        2016-01-17  137  
-eb687309136b9f Andy Shevchenko     2024-03-04  138  	up.port.regshift = 2;
-eb687309136b9f Andy Shevchenko     2024-03-04  139  	up.port.fifosize = 8;
-bdc5f300958062 Martin Sperl        2016-01-17  140  
-bdc5f300958062 Martin Sperl        2016-01-17  141  	/* enable the clock as a last step */
-bdc5f300958062 Martin Sperl        2016-01-17  142  	ret = clk_prepare_enable(data->clk);
-bdc5f300958062 Martin Sperl        2016-01-17  143  	if (ret) {
-eb687309136b9f Andy Shevchenko     2024-03-04  144  		dev_err_probe(&pdev->dev, ret, "unable to enable uart clock\n");
-eb687309136b9f Andy Shevchenko     2024-03-04  145  		goto rm_swnode;
-bdc5f300958062 Martin Sperl        2016-01-17  146  	}
-bdc5f300958062 Martin Sperl        2016-01-17  147  
-fcc446c8aa6303 Adrien Thierry      2022-02-07  148  	uartclk = clk_get_rate(data->clk);
-eb687309136b9f Andy Shevchenko     2024-03-04  149  	if (uartclk)
-eb687309136b9f Andy Shevchenko     2024-03-04  150  		up.port.uartclk = uartclk;
-fcc446c8aa6303 Adrien Thierry      2022-02-07  151  
-bdc5f300958062 Martin Sperl        2016-01-17  152  	/* the HW-clock divider for bcm2835aux is 8,
-bdc5f300958062 Martin Sperl        2016-01-17  153  	 * but 8250 expects a divider of 16,
-bdc5f300958062 Martin Sperl        2016-01-17  154  	 * so we have to multiply the actual clock by 2
-bdc5f300958062 Martin Sperl        2016-01-17  155  	 * to get identical baudrates.
-bdc5f300958062 Martin Sperl        2016-01-17  156  	 */
-eb687309136b9f Andy Shevchenko     2024-03-04  157  	up.port.uartclk *= 2;
-bdc5f300958062 Martin Sperl        2016-01-17  158  
-bdc5f300958062 Martin Sperl        2016-01-17  159  	/* register the port */
-8c3cde5dd639af Lukas Wunner        2020-01-16  160  	ret = serial8250_register_8250_port(&up);
-bdc5f300958062 Martin Sperl        2016-01-17  161  	if (ret < 0) {
-ea43a60b15486b Krzysztof Kozlowski 2020-09-01  162  		dev_err_probe(&pdev->dev, ret, "unable to register 8250 port\n");
-bdc5f300958062 Martin Sperl        2016-01-17  163  		goto dis_clk;
-bdc5f300958062 Martin Sperl        2016-01-17  164  	}
-bdc5f300958062 Martin Sperl        2016-01-17  165  	data->line = ret;
-bdc5f300958062 Martin Sperl        2016-01-17  166  
-bdc5f300958062 Martin Sperl        2016-01-17  167  	return 0;
-bdc5f300958062 Martin Sperl        2016-01-17  168  
-bdc5f300958062 Martin Sperl        2016-01-17  169  dis_clk:
-bdc5f300958062 Martin Sperl        2016-01-17  170  	clk_disable_unprepare(data->clk);
-eb687309136b9f Andy Shevchenko     2024-03-04  171  rm_swnode:
-eb687309136b9f Andy Shevchenko     2024-03-04  172  	device_remove_software_node(&pdev->dev);
-bdc5f300958062 Martin Sperl        2016-01-17  173  	return ret;
-bdc5f300958062 Martin Sperl        2016-01-17  174  }
-bdc5f300958062 Martin Sperl        2016-01-17  175  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: f93bf75891147602d55b90937628157cc13dbdb8 serial: 8250_bcm2835aux: Support rs485 software emulation
-
-:::::: TO: Lukas Wunner <lukas@wunner.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+d6c10f1fc8626d Tejun Heo    2015-05-22  115  
+d6c10f1fc8626d Tejun Heo    2015-05-22  116  /**
+4f84ead3d4293c Kundan Kumar 2025-02-12  117   * inode_io_list_move_locked_ctx - move an inode onto a wb_ctx IO list
+d6c10f1fc8626d Tejun Heo    2015-05-22  118   * @inode: inode to be moved
+d6c10f1fc8626d Tejun Heo    2015-05-22  119   * @wb: target bdi_writeback
+bbbc3c1cfaf690 Wang Long    2017-12-05  120   * @head: one of @wb->b_{dirty|io|more_io|dirty_time}
+d6c10f1fc8626d Tejun Heo    2015-05-22  121   *
+c7f5408493aeb0 Dave Chinner 2015-03-04  122   * Move @inode->i_io_list to @list of @wb and set %WB_has_dirty_io.
+d6c10f1fc8626d Tejun Heo    2015-05-22  123   * Returns %true if @inode is the first occupant of the !dirty_time IO
+d6c10f1fc8626d Tejun Heo    2015-05-22  124   * lists; otherwise, %false.
+d6c10f1fc8626d Tejun Heo    2015-05-22  125   */
+4f84ead3d4293c Kundan Kumar 2025-02-12  126  static bool inode_io_list_move_locked_ctx(struct inode *inode,
+d6c10f1fc8626d Tejun Heo    2015-05-22  127  					  struct bdi_writeback *wb,
+4f84ead3d4293c Kundan Kumar 2025-02-12  128  					  struct list_head *head,
+4f84ead3d4293c Kundan Kumar 2025-02-12  129  					  struct wb_ctx *p_wb_ctx)
+d6c10f1fc8626d Tejun Heo    2015-05-22 @130  {
+4f84ead3d4293c Kundan Kumar 2025-02-12  131  	struct list_head *pctx_b_dirty_time = &p_wb_ctx->pctx_b_dirty_time;
+4f84ead3d4293c Kundan Kumar 2025-02-12  132  
+4f84ead3d4293c Kundan Kumar 2025-02-12  133  
+d6c10f1fc8626d Tejun Heo    2015-05-22  134  	assert_spin_locked(&wb->list_lock);
+10e14073107dd0 Jchao Sun    2022-05-24  135  	assert_spin_locked(&inode->i_lock);
+a9438b44bc7015 Jan Kara     2022-12-12  136  	WARN_ON_ONCE(inode->i_state & I_FREEING);
+d6c10f1fc8626d Tejun Heo    2015-05-22  137  
+c7f5408493aeb0 Dave Chinner 2015-03-04  138  	list_move(&inode->i_io_list, head);
+d6c10f1fc8626d Tejun Heo    2015-05-22  139  
+d6c10f1fc8626d Tejun Heo    2015-05-22  140  	/* dirty_time doesn't count as dirty_io until expiration */
+4f84ead3d4293c Kundan Kumar 2025-02-12  141  	if (head != pctx_b_dirty_time)
+4f84ead3d4293c Kundan Kumar 2025-02-12  142  		return wb_ctx_io_lists_populated(wb, p_wb_ctx);
+d6c10f1fc8626d Tejun Heo    2015-05-22  143  
+4f84ead3d4293c Kundan Kumar 2025-02-12  144  	wb_ctx_io_lists_depopulated(wb, p_wb_ctx);
+d6c10f1fc8626d Tejun Heo    2015-05-22  145  	return false;
+d6c10f1fc8626d Tejun Heo    2015-05-22  146  }
+d6c10f1fc8626d Tejun Heo    2015-05-22  147  
 
 -- 
 0-DAY CI Kernel Test Service
