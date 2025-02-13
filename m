@@ -1,211 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD2A269810
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 16:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729A3200115
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 16:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739464383; cv=none; b=MZi4erInP4n18nwOdghfVfd1naqSr9wGb0YY0fbraTZKpGUPIzjj2nuwbkBEiscmRdReUQ8Hfc5ZZAq0Iswt6QxJ51cK2RU6y3+pZgKwqmjXUi+rqd6H5EpBP29PncVdn857qMQkLNC0Abv7iDzcI0ke5QJyXFaO1g9egB8s0k4=
+	t=1739464942; cv=none; b=O6DVnZO9S9W8lsbV/BNrq4eRJf/CM5u0hwRBQj0pU2Lw3AZD/ThqTbpuURDvPD28GlLJqFXGiEtbCKCsRnETFf4I+a/XihdIZ6Ngg1cPP8sKaVdv4+89D/Cn/t5LtmkcDSbnI/zIMrjWZjRIiT1KmliQvFkbH01YoE6L8rpwXBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739464383; c=relaxed/simple;
-	bh=CpGwgU7DLZM6Q0gfJ3kuP6lTKPEZqRvxkfJ5HJZ2JwI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NNvL8G+7QCWyRzIeQV0nsEy0GAetzWQdB+llg/8VDfbCIsloFgHV3uqGgYq/yW/m2fojZwhS/eX7AjhFTXzjku+VkJ8S3GqO3Ac5SeBQWWVFXIvubGRU6cssFHRnnr2BDFO4ENSzpZ2hBCVmHulA7mvHhlkhWDFI+wwjE7Fw4ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVvDknNc; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVvDknNc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739464382; x=1771000382;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CpGwgU7DLZM6Q0gfJ3kuP6lTKPEZqRvxkfJ5HJZ2JwI=;
-  b=NVvDknNc+5/CIeuQ8Hi27ou+qtyUo11mQ7iXRt4cgwRyrle8xfBab1rd
-   02QPbhn1kbTQzi2z/ao4XpreMJ0aWk2A9XQyGCs7sopIu5+YnghD1oXoT
-   anb4tPHqsSORZCbqpxvqj3LjYoQCbCbuC257RnvuGVTaSNs51eUucNwbE
-   HNvCBJONAeShDXQMsyOSu8yqSp2DPw58UFdK795dCabzCYGSzQvwzbyWb
-   ooAQ1S3+yejuCpIE83wDHVNp3ntOHdldUMq21LNhdL7NYzJ5r9T5vk0p1
-   lBQYX4EfuvEBF1M8sGpsXqQMIM0GGLawDl/hXPQEXH+SUbaoL1MRW6iDc
-   g==;
-X-CSE-ConnectionGUID: x2SQ1gUNThmN0Q31+V9MDw==
-X-CSE-MsgGUID: 46U747yYSaGpC5Df8wWniw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="43942940"
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="43942940"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 08:32:59 -0800
-X-CSE-ConnectionGUID: Mq4py3gjSmWV4xf3GDSH+A==
-X-CSE-MsgGUID: X1H49WHcSrKN6PmH7PVaxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113160403"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2025 08:32:58 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tic92-0018Ql-0F;
-	Thu, 13 Feb 2025 16:32:56 +0000
-Date: Fri, 14 Feb 2025 00:32:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 6/13] net/ceph/ceph_san.c:17:39: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202502140048.RiHSMZiW-lkp@intel.com>
+	s=arc-20240116; t=1739464942; c=relaxed/simple;
+	bh=ecHvX3XZxyQNg7V0FzjSv5/uqnpnJ+UaZa5Y/NrCsEM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cnzZoRBsv2fgnuzMxZlfz562iltSEPBMQJo9Jv6ZfR8HbwiqzFO5dZHuvfJ/Z1dotQc+mBma0+ZSBGXgnmk4yWbM/lPuK0m6BnjBW1PQ7O9JTsZfZmOIHokrUPP6/W8TToDPwCj+NUavhBoEIkaSkenyhk06PsMMQCItv69HNhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE83C4CEE5;
+	Thu, 13 Feb 2025 16:42:21 +0000 (UTC)
+Date: Thu, 13 Feb 2025 11:42:31 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [rostedt-trace:pmem-on-reserve-mem-fail 2/10]
+ kernel/trace/ring_buffer.c:1943:34: warning: variable 'bmeta' set but not
+ used
+Message-ID: <20250213114231.256e9845@gandalf.local.home>
+In-Reply-To: <Z61hYOLmsekGHJfk@rli9-mobl>
+References: <202502120851.VulVvSyg-lkp@intel.com>
+	<20250211195421.69854975@gandalf.local.home>
+	<Z61hYOLmsekGHJfk@rli9-mobl>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   cd1e899feeb6a7da55cbb74b9245c8bbb77f82ba
-commit: 485747e7711ebb9bcda819027564d587d215874a [6/13] ceph_san: moving to per_cpu
-config: alpha-randconfig-r133-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140048.RiHSMZiW-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250214/202502140048.RiHSMZiW-lkp@intel.com/reproduce)
+On Thu, 13 Feb 2025 11:05:04 +0800
+Philip Li <philip.li@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140048.RiHSMZiW-lkp@intel.com/
+> Thanks Steve, by default, if the branch is named like below, it will be
+> ignored.
+> 
+> 	.*experimental.*
+> 	.*dont-build
+> 
+> If you prefer any customized branch name or pattern, you can also share
+> with us, e.g. ".*-wip". We can configure the bot per your needs.
 
-sparse warnings: (new ones prefixed by >>)
-   net/ceph/ceph_san.c:129:39: sparse: sparse: no newline at end of file
->> net/ceph/ceph_san.c:17:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_logger * @@
-   net/ceph/ceph_san.c:17:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:17:39: sparse:     got struct ceph_san_tls_logger *
+No need. If I knew about that, I would have used it.
 
-vim +17 net/ceph/ceph_san.c
+Actually, you can just remove my personal tree altogether. All my real
+tracing code goes to:
 
-     7	
-     8	/* Use per-core TLS logger; no global list or lock needed */
-     9	DEFINE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-    10	EXPORT_SYMBOL(ceph_san_tls);
-    11	/* The definitions for struct ceph_san_log_entry and struct ceph_san_tls_logger
-    12	 * have been moved to cephsan.h (under CONFIG_DEBUG_FS) to avoid duplication.
-    13	 */
-    14	
-    15	char *get_log_cephsan(void) {
-    16	    /* Use the per-core TLS logger */
-  > 17	    struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
-    18	    int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-    19	    tls->logs[head_idx].pid = current->pid;
-    20	    tls->logs[head_idx].ts = jiffies;
-    21	    memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-    22	
-    23	    return tls->logs[head_idx].buf;
-    24	}
-    25	EXPORT_SYMBOL(get_log_cephsan);
-    26	
-    27	/* Cleanup function to free all TLS logger objects.
-    28	 * Call this at module exit to free allocated TLS loggers.
-    29	 */
-    30	void cephsan_cleanup(void)
-    31	{
-    32	}
-    33	EXPORT_SYMBOL(cephsan_cleanup);
-    34	/* Initialize the Ceph SAN logging infrastructure.
-    35	 * Call this at module init to set up the global list and lock.
-    36	 */
-    37	int cephsan_init(void)
-    38	{
-    39	
-    40		return 0;
-    41	}
-    42	EXPORT_SYMBOL(cephsan_init);
-    43	
-    44	/**
-    45	 * cephsan_pagefrag_init - Initialize the pagefrag allocator.
-    46	 *
-    47	 * Allocates a 16KB contiguous buffer and resets head and tail pointers.
-    48	 *
-    49	 * Return: 0 on success, negative error code on failure.
-    50	 */
-    51	int cephsan_pagefrag_init(struct cephsan_pagefrag *pf)
-    52	{
-    53		pf->buffer = kmalloc(CEPHSAN_PAGEFRAG_SIZE, GFP_KERNEL);
-    54		if (!pf->buffer)
-    55			return -ENOMEM;
-    56	
-    57		pf->head = 0;
-    58		pf->tail = 0;
-    59		return 0;
-    60	}
-    61	EXPORT_SYMBOL(cephsan_pagefrag_init);
-    62	
-    63	/**
-    64	 * cephsan_pagefrag_alloc - Allocate bytes from the pagefrag buffer.
-    65	 * @n: number of bytes to allocate.
-    66	 *
-    67	 * Allocates @n bytes if there is sufficient free space in the buffer.
-    68	 * Advances the head pointer by @n bytes (wrapping around if needed).
-    69	 *
-    70	 * Return: pointer to the allocated memory, or NULL if not enough space.
-    71	 */
-    72	u64 cephsan_pagefrag_alloc(struct cephsan_pagefrag *pf, unsigned int n)
-    73	{
-    74		unsigned int used, free_space, remaining;
-    75		void *ptr;
-    76	
-    77		/* Compute usage in the circular buffer */
-    78		if (pf->head >= pf->tail)
-    79			used = pf->head - pf->tail;
-    80		else
-    81			used = CEPHSAN_PAGEFRAG_SIZE - pf->tail + pf->head;
-    82	
-    83		free_space = CEPHSAN_PAGEFRAG_SIZE - used;
-    84		if (n > free_space)
-    85			return 0;
-    86	
-    87		/* Check if allocation would wrap around buffer end */
-    88		if (pf->head + n > CEPHSAN_PAGEFRAG_SIZE) {
-    89			/* Calculate bytes remaining until buffer end */
-    90			remaining = CEPHSAN_PAGEFRAG_SIZE - pf->head;
-    91			/* Move tail to start if needed */
-    92			if (pf->tail < n - remaining)
-    93				pf->tail = 0;
-    94	
-    95			/* Return pointer to new head at buffer start */
-    96			ptr = pf->buffer;
-    97			pf->head = n - remaining;
-    98		} else {
-    99			/* No wrap around needed */
-   100			ptr = (char *)pf->buffer + pf->head;
-   101			pf->head += n;
-   102		}
-   103		/* Return combined u64 with buffer index in lower 32 bits and size in upper 32 bits */
-   104		return ((u64)(n) << 32) | (ptr - pf->buffer);
-   105	}
-   106	EXPORT_SYMBOL(cephsan_pagefrag_alloc);
-   107	/**
-   108	 * cephsan_pagefrag_free - Free bytes in the pagefrag allocator.
-   109	 * @n: number of bytes to free.
-   110	 *
-   111	 * Advances the tail pointer by @n bytes (wrapping around if needed).
-   112	 */
-   113	void cephsan_pagefrag_free(struct cephsan_pagefrag *pf, unsigned int n)
-   114	{
-   115		pf->tail = (pf->tail + n) % CEPHSAN_PAGEFRAG_SIZE;
-   116	}
-   117	EXPORT_SYMBOL(cephsan_pagefrag_free);
-   118	/**
-   119	 * cephsan_pagefrag_deinit - Deinitialize the pagefrag allocator.
-   120	 *
-   121	 * Frees the allocated buffer and resets the head and tail pointers.
-   122	 */
-   123	void cephsan_pagefrag_deinit(struct cephsan_pagefrag *pf)
-   124	{
-   125		kfree(pf->buffer);
-   126		pf->buffer = NULL;
-   127		pf->head = pf->tail = 0;
-   128	}
- > 129	EXPORT_SYMBOL(cephsan_pagefrag_deinit);
+  git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+But I only push stuff to:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git/
+
+That I want to share with someone and not something heading toward mainline
+(at least not in that state).
+
+So, you can just remove the rostedt/linux-trace.git tree from being tested.
+
+Thanks,
+
+-- Steve
