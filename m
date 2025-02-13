@@ -1,43 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C77E206F17
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 18:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FC828A2D4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 19:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739471841; cv=none; b=olzJMyCGBvHaztOzwMjt/yLW5xltKIv78IRDNrq3ix2+QSi9YtaNxpCMZGZJy+UHIKWGsj9AC8Aa4AwENCMd7HFNVwethFjHMpYv/lSIC+ToBjs33FL1ctzszxBL2p4MKFXm0MH/47vhXQ34PtJNAunX5l/M2OD4fphcN/F6kGE=
+	t=1739473300; cv=none; b=J58ZagQqtoUopO7Puir+xOPOn7zZKRxIeFDUVvUeIH8p/uXu2ds292RHtggAC/520Sh85cMiPK80nI8kLQ5SXL50OwTUh6tBvo5jwamB1/8DXgzCx5p38HquRkWKwas/yGNwwbmWGHcoHmx+DNe875tW+Jxli7ZS0yQ/wwq6z0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739471841; c=relaxed/simple;
-	bh=ccOeCS+SDXPVgNMH9y9XIDdzolfnwWQrm6W9xgUBq/8=;
+	s=arc-20240116; t=1739473300; c=relaxed/simple;
+	bh=Q+9A+XPhqjom/iRBeDIijWx64bo72hPGQfck4ws9+vI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GJworkqg2vhXG61NY0K3IOInWA6pDM+7Va4V+TxkSUECTFEbOlhmB1QOxFCOA+v1Ha2UVxFI1FGCfGWx2if8XieMrX4Mw3RKjbflWKbbO4qi7kwnkuVDI2Zf6Y9VsU+gvaLqkIa8shna+/8mBvUGqHaOpbX/i0OriXiMaTiQg8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Px4WY6zx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=UiJpnMe9LkGBHvWLOJdvhHK8K0IG/tYnOIeFbG1MXtXN34EG6JIl+eaq9ETiNOZaxbIkOZs4eqWhg8+k+QH7ym9M6TG9/sRQZsN+H2Axh+DnjPFgRCkWLNgtcZk0O55Dtp5YSigkxLRYugsgps9dYON4CA6Qhv3ua09C+K/AsVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DRtoWhRN; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Px4WY6zx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D9E5C4CEE4;
-	Thu, 13 Feb 2025 18:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739471840;
-	bh=ccOeCS+SDXPVgNMH9y9XIDdzolfnwWQrm6W9xgUBq/8=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Px4WY6zx5HOJNFy0xgCG13vBn0vLQOjaMHQychLDmCxSbjSYJKbfunzHgEqD6hBY8
-	 Zl5hbMh4IRbTctj3KdZxPq3od46b0xyfIKTumNTnfvVUlnVNuntaQO28ZANe0xaN9G
-	 iQ8AssvlvYEE7HsbmwNRSyT5vLAMlM9y5mSn2h4q0/m1a42KEOppESHLIUOHNf1lj9
-	 vSijo+UJIZAbsaofdYKQZ8ITiCYZe59XwmJ750v4DObtfxe+JvA9nOoKpnVh1hsZSt
-	 h45XgMHk42/gvIOVx4tiAWDCwAHlaSXh2XHhnnKeQMuRKWOVjy7cSeoJU762k49DjG
-	 vHMIzQd/BC41g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id AA8B9CE059C; Thu, 13 Feb 2025 10:37:15 -0800 (PST)
-Date: Thu, 13 Feb 2025 10:37:15 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2025.02.12a 73/77]
- kernel/rcu/rcutorture.c:2440:42: sparse: sparse: symbol 'updownreaders' was
- not declared. Should it be static?
-Message-ID: <224988ce-ed04-487b-bc3e-88f4c06fd979@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202502140113.iZOFajfB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DRtoWhRN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739473298; x=1771009298;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q+9A+XPhqjom/iRBeDIijWx64bo72hPGQfck4ws9+vI=;
+  b=DRtoWhRNFHUxFczFYfCam/DS7CzeJKUJYXqqQAC9pqv7fNpRzwEULaXv
+   orodGSNWzl7rdxYbfiMpFAebdB0tbbs36phri7snAXwOXNAhMuLzH3vf0
+   EAOOCu7TF8rCMuAG/tFld5ijirBWdUzLlHlOdiJoHFG0HVfe2gxpQJPgE
+   MRMwTA3BtETmQCBKahxlZM6jW0pGhJVC9XYPj24/bZuflyn3p8izP/OrB
+   2nIHnUeII7UXvA+nNDPnLBKhG+fOSq3nOXv0OPYica2t/9hgbhhA1mGgD
+   6LVyKBG08f9ISgqQRzyaZ+YMvJ9QbNiC9OtBcB0plnEcELmR/O8GGOG61
+   w==;
+X-CSE-ConnectionGUID: JmsyIQQkR6uLsFImjLXCLA==
+X-CSE-MsgGUID: taF1OLIxQWacGpldOvBKEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="39904420"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="39904420"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 11:01:38 -0800
+X-CSE-ConnectionGUID: 5CWKBrssRMGyGx6vOVkWSA==
+X-CSE-MsgGUID: 6oLgLwqdRvqCFTMmNE6hwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="113208216"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2025 11:01:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tieSX-0018bj-14;
+	Thu, 13 Feb 2025 19:01:13 +0000
+Date: Fri, 14 Feb 2025 03:00:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Denzeel Oliva <wachiturroxd150@gmail.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, alim.akhtar@samsung.com,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Denzeel Oliva <wachiturroxd150@gmail.com>
+Subject: Re: [PATCH v1] arm64: dts: exynos: r8s: enable UART interfaces and
+ aliases
+Message-ID: <202502140220.nEdgzjof-lkp@intel.com>
+References: <20250213000226.277-1-wachiturroxd150@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,39 +67,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502140113.iZOFajfB-lkp@intel.com>
+In-Reply-To: <20250213000226.277-1-wachiturroxd150@gmail.com>
 
-On Fri, Feb 14, 2025 at 01:45:58AM +0800, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2025.02.12a
-> head:   9909b31f911e4cb67bb84cd07c5172c0823ac549
-> commit: bc33cbe9ab89abc9ae3d33843c3d84e383ac8677 [73/77] rcutorture: Add tests for SRCU up/down reader primitives
-> config: nios2-randconfig-r112-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140113.iZOFajfB-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 14.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250214/202502140113.iZOFajfB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502140113.iZOFajfB-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/rcu/rcutorture.c:2440:42: sparse: sparse: symbol 'updownreaders' was not declared. Should it be static?
->    kernel/rcu/rcutorture.c:444:12: sparse: sparse: context imbalance in 'rcu_torture_read_lock' - wrong count at exit
->    kernel/rcu/rcutorture.c:484:13: sparse: sparse: context imbalance in 'rcu_torture_read_unlock' - unexpected unlock
->    kernel/rcu/rcutorture.c:763:38: sparse: sparse: context imbalance in 'srcu_torture_read_unlock' - unexpected unlock
->    kernel/rcu/rcutorture.c:813:34: sparse: sparse: context imbalance in 'srcu_torture_up_read' - unexpected unlock
->    kernel/rcu/rcutorture.c:2118:9: sparse: sparse: context imbalance in 'rcutorture_one_extend' - different lock contexts for basic block
->    kernel/rcu/rcutorture.c:4165:41: sparse: sparse: context imbalance in 'rcu_torture_init_srcu_lockdep' - unexpected unlock
-> 
-> vim +/updownreaders +2440 kernel/rcu/rcutorture.c
-> 
->   2439	
-> > 2440	struct rcu_torture_one_read_state_updown *updownreaders;
->   2441	static DEFINE_TORTURE_RANDOM(rcu_torture_updown_rand);
->   2442	static int rcu_torture_updown(void *arg);
->   2443	
+Hi Denzeel,
 
-Good catch, and yes it should be static.  Will fix with attribution,
-thank you!
+kernel test robot noticed the following build errors:
 
-							Thanx, Paul
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on linus/master v6.14-rc2 next-20250213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Denzeel-Oliva/arm64-dts-exynos-r8s-enable-UART-interfaces-and-aliases/20250213-080512
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250213000226.277-1-wachiturroxd150%40gmail.com
+patch subject: [PATCH v1] arm64: dts: exynos: r8s: enable UART interfaces and aliases
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250214/202502140220.nEdgzjof-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140220.nEdgzjof-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140220.nEdgzjof-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:122.1-10 Label or path usi_uart not found
+>> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:127.1-10 Label or path serial_0 not found
+>> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:131.1-13 Label or path usi_bt_uart not found
+>> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:136.1-10 Label or path serial_1 not found
+   FATAL ERROR: Syntax error parsing input tree
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
