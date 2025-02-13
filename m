@@ -1,232 +1,232 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF5B20D4FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 09:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295361E2847
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 09:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739440379; cv=none; b=X0OcL4rX5V2krfWobmaSeRnQjjrjPCSI0Zwbw0oUUGGkLEFT39I2GSmPa2m/WRAtbF5OUPNkWiYjbYmpHjrKcK0aagjMjoZmF//WzyjKsGyZKKJffHHLpj0M1VOgprjpZEnnFs+JPZPNIceMmjQJoaXe4rfwTka2ZQk4Uqmu0EM=
+	t=1739440515; cv=none; b=nsc4gP2XL9y52zfy2f2cn0trgYYQmfehJDFam17j0Zv+E+a3X7z3TzfLDQ+Ob8uoLh2mps5JLPs6N/IyEH5EZ7KpDUsUlm4PojK58yiZggdoElVkaWEnG4PORZ3vcS+A0EKF/O47RuTmztaL86+sJBek0hiqrwPWs78MwC1TU4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739440379; c=relaxed/simple;
-	bh=EB0jAtjtTKSGP1dxPtLfW8HwQMIKdgZ2FxlSHpVJcKE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c2i+iF9JqTmMaBs5DX+MLblogmtHj5Gm6ezu80YxlqnzmWy6ortHd56EWeXCT9DIbHUEx2IXp751u+xw0Sic3Re56EiE8FCkBiVwobYZyeIyR2x+C2yw/anzZOotzoxcv0SL3ZrdrJRPO2PudSlYIyrQ4yY9RQLZCJg3IXJnTOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C8EVUtbW; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739440515; c=relaxed/simple;
+	bh=JhEOWOFHULA6zNUPoMuchY3+CfBm5zZJ/VLh7cAaGGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YEgPb1uzUNhdj0IeToBmr6pVHwZyMqtQTtUS0Dv7CbikH617gCPhWilZ8FvDH+xd8xKKQ8+brg9fM5MKYn9aFiUsoPlPqdaRuV17CYlQRRLSOaZXeILnEryAuT3ctctem9yc0FudigzapaTqr0bty2yhL86t1xhXFcesA4lKIbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjrQZ/Oj; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C8EVUtbW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739440376;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EB0jAtjtTKSGP1dxPtLfW8HwQMIKdgZ2FxlSHpVJcKE=;
-	b=C8EVUtbWQprG0q7qE1I0dM9Flm46l1RFx8vgwS1iLG5xRvq61dg+ucvClx+KkZnPM9Vuua
-	Mf17Y8lei6g/3gOhkJzJXnejLgZnHPwCy+MrFrnPe4T1XYcE04NbEKM2qQ2e/v0SHurLeY
-	XniDdllrP9x5uQU4+A7109/UD96x3/I=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-ibyUUXjjMua3PsYohlGC3g-1; Thu, 13 Feb 2025 04:52:54 -0500
-X-MC-Unique: ibyUUXjjMua3PsYohlGC3g-1
-X-Mimecast-MFC-AGG-ID: ibyUUXjjMua3PsYohlGC3g
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-220d8aa893dso6645675ad.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 01:52:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739440374; x=1740045174;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EB0jAtjtTKSGP1dxPtLfW8HwQMIKdgZ2FxlSHpVJcKE=;
-        b=pB8SJAyRLWN6ejKyM6TGqOyK69tgGox9IGsh3ZEEDRXQH2t130vKgGvRKvhCkC7o9l
-         Jt3KXBoWjdOWbw5cMu4iTCcfZvml8YntHcdBBAl8okpvq/uZoJbvQ52FpvMGG1LAoq4+
-         qjJRSsUNdfpeTQJI1sT3ew5Aq6v5U7z3r2EFFswoCbB4vlOGVpzqeIRRxOJh6HiAjNiF
-         EwlR0zBNLZ6r7CD+0LQbsigR38LYklQkNRjsA4i7LV0eTrtg8E0N3R7u4gmqvJTo8FXO
-         T/Z4tI/8lN6q/jj5/3L22/ZHEZDNxhodiNy3VEpckYrD5oX/8zcaboH0OAm1dx7b4MDp
-         GAGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUz39mxHfzX8k+xJAUHA8LpuS26VaYNvL+ln4i+faREc1kITELDiW6uK/7hRH1py5lrlbxm9vgs7gnhLSb2@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxf58X5IBhTQgCrmhV2xsWGpbxFB3AM1fQHftIrENM9njuS+8KQ
-	IWtxgS//JY7zYH4JJ0+Ao8dmeEnnUceMFcM73YOA2CxbdPLD1mxOBlHaJgH7aZKWY1y75DBCWdR
-	iU9/1B1GO/WLaYRVintUjuH3dpcd0y2gN8HYCOaYTlNNe79kbVcno80fAWU9Dg24=
-X-Gm-Gg: ASbGncun0rtTpRZYli/bqVovjFP4dUwXkXJ/Mkg1dYV0NVZEWV3Gosl102eV4GJyvqJ
-	nCyEBO9z7goyzeYeecH4ztRIgWl1UC/4W4AmnLN4Et/6BI+c5EEfmCaeM7OpXT/Yuq8KscTvVTM
-	Wpxv55TrYSwLUSG2D+5F5YK3PXJUfu6xstFOTtwviOXKWVmB8D5cVu1L68x1Ds5UBHgTecHwoAg
-	vc+5ikW+BqYMTM7+SMvZSkGb7KJhTiJyhDzOC9Xx4SUeLvjMkaBXGYXg4z19wheNoitUud13pIm
-	imJjNMrCuMlWnhcF74b5Ld5thpYQh/o=
-X-Received: by 2002:a17:902:d48b:b0:215:9d58:6f35 with SMTP id d9443c01a7336-220d1ea0973mr36343285ad.1.1739440373595;
-        Thu, 13 Feb 2025 01:52:53 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEi/IDewyOcpssGdU7U/9gIDqRizC8PymF7ZJkZjfnrS5iOL7MhpHzhI0ViK410R2Gs9w3J7g==
-X-Received: by 2002:a17:902:d48b:b0:215:9d58:6f35 with SMTP id d9443c01a7336-220d1ea0973mr36342925ad.1.1739440373174;
-        Thu, 13 Feb 2025 01:52:53 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5366834sm8956225ad.56.2025.02.13.01.52.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 01:52:52 -0800 (PST)
-Message-ID: <a42fc18430ae0def70376093a9f163b40c19bf18.camel@redhat.com>
-Subject: Re: [PATCH] stmmac: Replace deprecated PCI functions
-From: Philipp Stanner <pstanner@redhat.com>
-To: kernel test robot <lkp@intel.com>, Philipp Stanner <phasta@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Serge Semin <fancer.lancer@gmail.com>,
- Huacai Chen <chenhuacai@kernel.org>, Yinggang Gu <guyinggang@loongson.cn>,
- Yanteng Si <si.yanteng@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- netdev@vger.kernel.org,  linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
-Date: Thu, 13 Feb 2025 10:52:36 +0100
-In-Reply-To: <202502131623.bMnlG9wy-lkp@intel.com>
-References: <20250212145831.101719-2-phasta@kernel.org>
-	 <202502131623.bMnlG9wy-lkp@intel.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjrQZ/Oj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739440513; x=1770976513;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JhEOWOFHULA6zNUPoMuchY3+CfBm5zZJ/VLh7cAaGGU=;
+  b=MjrQZ/OjDbTWPn7P2MqPT+G8liXVNuBPcAnh+hmuV9vxoeO0qFmkjDd4
+   aHDVy8wkFLGuNR+GIYqGm2ZTsxgkbR/hACCqvRBwEa7jO3ccY5qvUNfxE
+   T7jVBVSAx+9HtbzgL+ABGAIAAYXf3CGj2LVQKdCpFe5ozRDq6YhH2jTHZ
+   amGRqDQqAmQSqRkFoC1TXnNAe5qXVJxNFO0Fo6S8r9uTgwl2BlojPcSM1
+   WDLEwFGnJcDMeMyyHsmqQ9MOQvowDA+CrHHvNUSKVC4iqjVQKfOVTDaJH
+   8wHNks9JOm1IHVP9TAuPcVQ3c8Jr3Kiyd0uqQRJL5RpUv8qSAIf9TryPS
+   Q==;
+X-CSE-ConnectionGUID: jqYQhVdSRIiQ7cf0IoMFVA==
+X-CSE-MsgGUID: BcDMXb1FR9O7xxiwD81vFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40166484"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="40166484"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 01:55:13 -0800
+X-CSE-ConnectionGUID: jp9RVbgIQ8WnKqGbuiWDgw==
+X-CSE-MsgGUID: T71H3jPlTx6HUHpCdVuodw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113586345"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Feb 2025 01:55:11 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tiVw5-0016sj-0p;
+	Thu, 13 Feb 2025 09:55:09 +0000
+Date: Thu, 13 Feb 2025 17:54:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/kvm/hyp/nvhe/ftrace.c:91:15: warning: no previous prototype for
+ function '__hyp_ftrace_trace'
+Message-ID: <202502131733.tQOsVGUZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: y3PpoggtrJk2FTnJOMZF8ATaE8oI0AK4VbR32QnvPmY_1739440374
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-T24gVGh1LCAyMDI1LTAyLTEzIGF0IDE3OjAyICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToKPiBIaSBQaGlsaXBwLAo+IAo+IGtlcm5lbCB0ZXN0IHJvYm90IG5vdGljZWQgdGhlIGZvbGxv
-d2luZyBidWlsZCBlcnJvcnM6Cgpzb3JyeSBhYm91dCB0aG9zZSBleHBsb3Npb25zLiBOb3JtYWxs
-eSBJIGFsd2F5cyB0ZXN0IGJ1aWxkLiBJIHRoaW5rIEkKYWNjaWRlbnRhbGx5IHVzZWQgYW4gb2xk
-IGJyYW5jaC4gVG9vIG1hbnkgYnJhbmNoZXPigKYKCldpbGwgZml4IGFsbCB0aGF0IGluIHYyLgoK
-UC4KCj4gCj4gW2F1dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiBsaW51cy9tYXN0ZXJdCj4gW2Fsc28g
-YnVpbGQgdGVzdCBFUlJPUiBvbiB2Ni4xNC1yYzIgbmV4dC0yMDI1MDIxM10KPiBbY2Fubm90IGFw
-cGx5IHRvIGhvcm1zLWlwdnMvbWFzdGVyXQo+IFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8g
-dGhlIHdyb25nIGdpdCB0cmVlLCBraW5kbHkgZHJvcCB1cyBhCj4gbm90ZS4KPiBBbmQgd2hlbiBz
-dWJtaXR0aW5nIHBhdGNoLCB3ZSBzdWdnZXN0IHRvIHVzZSAnLS1iYXNlJyBhcyBkb2N1bWVudGVk
-Cj4gaW4KPiBodHRwczovL2dpdC1zY20uY29tL2RvY3MvZ2l0LWZvcm1hdC1wYXRjaCNfYmFzZV90
-cmVlX2luZm9ybWF0aW9uXQo+IAo+IHVybDrCoMKgwqAKPiBodHRwczovL2dpdGh1Yi5jb20vaW50
-ZWwtbGFiLWxrcC9saW51eC9jb21taXRzL1BoaWxpcHAtU3Rhbm5lci9zdG1tYWMtUmVwbGFjZS1k
-ZXByZWNhdGVkLVBDSS1mdW5jdGlvbnMvMjAyNTAyMTItMjMwMjU0Cj4gYmFzZTrCoMKgIGxpbnVz
-L21hc3Rlcgo+IHBhdGNoIGxpbms6wqDCoMKgCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8y
-MDI1MDIxMjE0NTgzMS4xMDE3MTktMi1waGFzdGElNDBrZXJuZWwub3JnCj4gcGF0Y2ggc3ViamVj
-dDogW1BBVENIXSBzdG1tYWM6IFJlcGxhY2UgZGVwcmVjYXRlZCBQQ0kgZnVuY3Rpb25zCj4gY29u
-ZmlnOiBzMzkwLWFsbG1vZGNvbmZpZwo+IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNp
-L2FyY2hpdmUvMjAyNTAyMTMvMjAyNTAyMTMxNjIzLmJNbmxHOQo+IHd5LWxrcEBpbnRlbC5jb20v
-Y29uZmlnKQo+IGNvbXBpbGVyOiBjbGFuZyB2ZXJzaW9uIDE5LjEuMwo+IChodHRwczovL2dpdGh1
-Yi5jb20vbGx2bS9sbHZtLXByb2plY3TCoGFiNTFlY2NmODhmNTMyMWU3YzYwNTkxYzU1NDZiMjUK
-PiA0YjZhZmFiOTkpCj4gcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKToKPiAoaHR0cHM6
-Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjUwMjEzLzIwMjUwMjEzMTYyMy5i
-TW5sRzkKPiB3eS1sa3BAaW50ZWwuY29tL3JlcHJvZHVjZSkKPiAKPiBJZiB5b3UgZml4IHRoZSBp
-c3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5ldwo+IHZl
-cnNpb24gb2YKPiB0aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0
-YWdzCj4gPiBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4g
-PiBDbG9zZXM6Cj4gPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjUw
-MjEzMTYyMy5iTW5sRzl3eS1sa3BAaW50ZWwuY29tLwo+IAo+IEFsbCBlcnJvcnMgKG5ldyBvbmVz
-IHByZWZpeGVkIGJ5ID4+KToKPiAKPiDCoMKgIEluIGZpbGUgaW5jbHVkZWQgZnJvbQo+IGRyaXZl
-cnMvbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL3N0bW1hY19wY2kuYzoxMzoKPiDCoMKgIElu
-IGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L3BjaS5oOjM3Ogo+IMKgwqAgSW4gZmls
-ZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvZGV2aWNlLmg6MzI6Cj4gwqDCoCBJbiBmaWxl
-IGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9kZXZpY2UvZHJpdmVyLmg6MjE6Cj4gwqDCoCBJ
-biBmaWxlIGluY2x1ZGVkIGZyb20gaW5jbHVkZS9saW51eC9tb2R1bGUuaDoxOToKPiDCoMKgIElu
-IGZpbGUgaW5jbHVkZWQgZnJvbSBpbmNsdWRlL2xpbnV4L2VsZi5oOjY6Cj4gwqDCoCBJbiBmaWxl
-IGluY2x1ZGVkIGZyb20gYXJjaC9zMzkwL2luY2x1ZGUvYXNtL2VsZi5oOjE4MToKPiDCoMKgIElu
-IGZpbGUgaW5jbHVkZWQgZnJvbSBhcmNoL3MzOTAvaW5jbHVkZS9hc20vbW11X2NvbnRleHQuaDox
-MToKPiDCoMKgIEluIGZpbGUgaW5jbHVkZWQgZnJvbSBhcmNoL3MzOTAvaW5jbHVkZS9hc20vcGdh
-bGxvYy5oOjE4Ogo+IMKgwqAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvbGludXgvbW0u
-aDoyMjI0Ogo+IMKgwqAgaW5jbHVkZS9saW51eC92bXN0YXQuaDo1MDQ6NDM6IHdhcm5pbmc6IGFy
-aXRobWV0aWMgYmV0d2Vlbgo+IGRpZmZlcmVudCBlbnVtZXJhdGlvbiB0eXBlcyAoJ2VudW0gem9u
-ZV9zdGF0X2l0ZW0nIGFuZCAnZW51bQo+IG51bWFfc3RhdF9pdGVtJykgWy1XZW51bS1lbnVtLWNv
-bnZlcnNpb25dCj4gwqDCoMKgwqAgNTA0IHzCoMKgwqDCoMKgwqDCoMKgIHJldHVybiB2bXN0YXRf
-dGV4dFtOUl9WTV9aT05FX1NUQVRfSVRFTVMgKwo+IMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB+fn5+fn5+fn5+
-fn5+fn5+fn5+fn4gXgo+IMKgwqDCoMKgIDUwNSB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGl0ZW1dOwo+IMKgwqDCoMKgwqDCoMKgwqAgfMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB+fn5+
-Cj4gwqDCoCBpbmNsdWRlL2xpbnV4L3Ztc3RhdC5oOjUxMTo0Mzogd2FybmluZzogYXJpdGhtZXRp
-YyBiZXR3ZWVuCj4gZGlmZmVyZW50IGVudW1lcmF0aW9uIHR5cGVzICgnZW51bSB6b25lX3N0YXRf
-aXRlbScgYW5kICdlbnVtCj4gbnVtYV9zdGF0X2l0ZW0nKSBbLVdlbnVtLWVudW0tY29udmVyc2lv
-bl0KPiDCoMKgwqDCoCA1MTEgfMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHZtc3RhdF90ZXh0W05S
-X1ZNX1pPTkVfU1RBVF9JVEVNUyArCj4gwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH5+fn5+fn5+fn5+fn5+fn5+
-fn5+fiBeCj4gwqDCoMKgwqAgNTEyIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgTlJfVk1fTlVNQV9FVkVOVF9JVEVNUyArCj4gwqDCoMKgwqDC
-oMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIH5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KPiDCoMKgIGluY2x1ZGUvbGludXgvdm1zdGF0
-Lmg6NTI0OjQzOiB3YXJuaW5nOiBhcml0aG1ldGljIGJldHdlZW4KPiBkaWZmZXJlbnQgZW51bWVy
-YXRpb24gdHlwZXMgKCdlbnVtIHpvbmVfc3RhdF9pdGVtJyBhbmQgJ2VudW0KPiBudW1hX3N0YXRf
-aXRlbScpIFstV2VudW0tZW51bS1jb252ZXJzaW9uXQo+IMKgwqDCoMKgIDUyNCB8wqDCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gdm1zdGF0X3RleHRbTlJfVk1fWk9ORV9TVEFUX0lURU1TICsKPiDCoMKg
-wqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+IF4KPiDCoMKgwqDCoCA1MjUgfMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBOUl9WTV9O
-VU1BX0VWRU5UX0lURU1TICsKPiDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fgo+ID4gPiBkcml2ZXJzL25ldC9ldGhlcm5ldC9zdG1pY3JvL3N0bW1hYy9zdG1tYWNfcGNpLmM6
-MTk3OjI4OiBlcnJvcjoKPiA+ID4gZXhwZWN0ZWQgJzsnIGFmdGVyIHJldHVybiBzdGF0ZW1lbnQK
-PiDCoMKgwqDCoCAxOTcgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gUFRSX0VSUihyZXMuYWRkcikKPiDCoMKgwqDCoMKgwqDCoMKgIHzCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXgo+IMKgwqDCoMKgwqDCoMKgwqAg
-fMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA7Cj4gwqDCoCAzIHdhcm5p
-bmdzIGFuZCAxIGVycm9yIGdlbmVyYXRlZC4KPiAKPiAKPiB2aW0gKzE5NyBkcml2ZXJzL25ldC9l
-dGhlcm5ldC9zdG1pY3JvL3N0bW1hYy9zdG1tYWNfcGNpLmMKPiAKPiDCoMKgIDE0MAkKPiDCoMKg
-IDE0MQkvKioKPiDCoMKgIDE0MgkgKiBzdG1tYWNfcGNpX3Byb2JlCj4gwqDCoCAxNDMJICoKPiDC
-oMKgIDE0NAkgKiBAcGRldjogcGNpIGRldmljZSBwb2ludGVyCj4gwqDCoCAxNDUJICogQGlkOiBw
-b2ludGVyIHRvIHRhYmxlIG9mIGRldmljZSBpZC9pZCdzLgo+IMKgwqAgMTQ2CSAqCj4gwqDCoCAx
-NDcJICogRGVzY3JpcHRpb246IFRoaXMgcHJvYmluZyBmdW5jdGlvbiBnZXRzIGNhbGxlZCBmb3Ig
-YWxsCj4gUENJIGRldmljZXMgd2hpY2gKPiDCoMKgIDE0OAkgKiBtYXRjaCB0aGUgSUQgdGFibGUg
-YW5kIGFyZSBub3QgIm93bmVkIiBieSBvdGhlciBkcml2ZXIKPiB5ZXQuIFRoaXMgZnVuY3Rpb24K
-PiDCoMKgIDE0OQkgKiBnZXRzIHBhc3NlZCBhICJzdHJ1Y3QgcGNpX2RldiAqIiBmb3IgZWFjaCBk
-ZXZpY2Ugd2hvc2UKPiBlbnRyeSBpbiB0aGUgSUQgdGFibGUKPiDCoMKgIDE1MAkgKiBtYXRjaGVz
-IHRoZSBkZXZpY2UuIFRoZSBwcm9iZSBmdW5jdGlvbnMgcmV0dXJucyB6ZXJvIHdoZW4KPiB0aGUg
-ZHJpdmVyIGNob29zZQo+IMKgwqAgMTUxCSAqIHRvIHRha2UgIm93bmVyc2hpcCIgb2YgdGhlIGRl
-dmljZSBvciBhbiBlcnJvciBjb2RlKC12ZQo+IG5vKSBvdGhlcndpc2UuCj4gwqDCoCAxNTIJICov
-Cj4gwqDCoCAxNTMJc3RhdGljIGludCBzdG1tYWNfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpw
-ZGV2LAo+IMKgwqAgMTU0CQkJCcKgwqDCoCBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqaWQp
-Cj4gwqDCoCAxNTUJewo+IMKgwqAgMTU2CQlzdHJ1Y3Qgc3RtbWFjX3BjaV9pbmZvICppbmZvID0g
-KHN0cnVjdAo+IHN0bW1hY19wY2lfaW5mbyAqKWlkLT5kcml2ZXJfZGF0YTsKPiDCoMKgIDE1NwkJ
-c3RydWN0IHBsYXRfc3RtbWFjZW5ldF9kYXRhICpwbGF0Owo+IMKgwqAgMTU4CQlzdHJ1Y3Qgc3Rt
-bWFjX3Jlc291cmNlcyByZXMgPSB7fTsKPiDCoMKgIDE1OQkJaW50IGk7Cj4gwqDCoCAxNjAJCWlu
-dCByZXQ7Cj4gwqDCoCAxNjEJCj4gwqDCoCAxNjIJCXBsYXQgPSBkZXZtX2t6YWxsb2MoJnBkZXYt
-PmRldiwgc2l6ZW9mKCpwbGF0KSwKPiBHRlBfS0VSTkVMKTsKPiDCoMKgIDE2MwkJaWYgKCFwbGF0
-KQo+IMKgwqAgMTY0CQkJcmV0dXJuIC1FTk9NRU07Cj4gwqDCoCAxNjUJCj4gwqDCoCAxNjYJCXBs
-YXQtPm1kaW9fYnVzX2RhdGEgPSBkZXZtX2t6YWxsb2MoJnBkZXYtPmRldiwKPiDCoMKgIDE2NwkJ
-CQkJCcKgwqAgc2l6ZW9mKCpwbGF0LQo+ID5tZGlvX2J1c19kYXRhKSwKPiDCoMKgIDE2OAkJCQkJ
-CcKgwqAgR0ZQX0tFUk5FTCk7Cj4gwqDCoCAxNjkJCWlmICghcGxhdC0+bWRpb19idXNfZGF0YSkK
-PiDCoMKgIDE3MAkJCXJldHVybiAtRU5PTUVNOwo+IMKgwqAgMTcxCQo+IMKgwqAgMTcyCQlwbGF0
-LT5kbWFfY2ZnID0gZGV2bV9remFsbG9jKCZwZGV2LT5kZXYsCj4gc2l6ZW9mKCpwbGF0LT5kbWFf
-Y2ZnKSwKPiDCoMKgIDE3MwkJCQkJwqDCoMKgwqAgR0ZQX0tFUk5FTCk7Cj4gwqDCoCAxNzQJCWlm
-ICghcGxhdC0+ZG1hX2NmZykKPiDCoMKgIDE3NQkJCXJldHVybiAtRU5PTUVNOwo+IMKgwqAgMTc2
-CQo+IMKgwqAgMTc3CQlwbGF0LT5zYWZldHlfZmVhdF9jZmcgPSBkZXZtX2t6YWxsb2MoJnBkZXYt
-PmRldiwKPiDCoMKgIDE3OAkJCQkJCcKgwqDCoMKgIHNpemVvZigqcGxhdC0KPiA+c2FmZXR5X2Zl
-YXRfY2ZnKSwKPiDCoMKgIDE3OQkJCQkJCcKgwqDCoMKgIEdGUF9LRVJORUwpOwo+IMKgwqAgMTgw
-CQlpZiAoIXBsYXQtPnNhZmV0eV9mZWF0X2NmZykKPiDCoMKgIDE4MQkJCXJldHVybiAtRU5PTUVN
-Owo+IMKgwqAgMTgyCQo+IMKgwqAgMTgzCQkvKiBFbmFibGUgcGNpIGRldmljZSAqLwo+IMKgwqAg
-MTg0CQlyZXQgPSBwY2ltX2VuYWJsZV9kZXZpY2UocGRldik7Cj4gwqDCoCAxODUJCWlmIChyZXQp
-IHsKPiDCoMKgIDE4NgkJCWRldl9lcnIoJnBkZXYtPmRldiwgIiVzOiBFUlJPUjogZmFpbGVkIHRv
-Cj4gZW5hYmxlIGRldmljZVxuIiwKPiDCoMKgIDE4NwkJCQlfX2Z1bmNfXyk7Cj4gwqDCoCAxODgJ
-CQlyZXR1cm4gcmV0Owo+IMKgwqAgMTg5CQl9Cj4gwqDCoCAxOTAJCj4gwqDCoCAxOTEJCS8qIFRo
-ZSBmaXJzdCBCQVIgPiAwIGlzIHRoZSBiYXNlIElPIGFkZHIgb2Ygb3VyCj4gZGV2aWNlLiAqLwo+
-IMKgwqAgMTkyCQlmb3IgKGkgPSAwOyBpIDwgUENJX1NURF9OVU1fQkFSUzsgaSsrKSB7Cj4gwqDC
-oCAxOTMJCQlpZiAocGNpX3Jlc291cmNlX2xlbihwZGV2LCBpKSA9PSAwKQo+IMKgwqAgMTk0CQkJ
-CWNvbnRpbnVlOwo+IMKgwqAgMTk1CQkJcmVzLmFkZHIgPSBwY2ltX2lvbWFwX3JlZ2lvbihwZGV2
-LCBpLAo+IFNUTU1BQ19SRVNPVVJDRV9OQU1FKTsKPiDCoMKgIDE5NgkJCWlmIChJU19FUlIocmVz
-LmFkZHIpKQo+IMKgPiAxOTcJCQkJcmV0dXJuIFBUUl9FUlIocmVzLmFkZHIpCj4gwqDCoCAxOTgJ
-CQlicmVhazsKPiDCoMKgIDE5OQkJfQo+IMKgwqAgMjAwCQo+IMKgwqAgMjAxCQlwY2lfc2V0X21h
-c3RlcihwZGV2KTsKPiDCoMKgIDIwMgkKPiDCoMKgIDIwMwkJcmV0ID0gaW5mby0+c2V0dXAocGRl
-diwgcGxhdCk7Cj4gwqDCoCAyMDQJCWlmIChyZXQpCj4gwqDCoCAyMDUJCQlyZXR1cm4gcmV0Owo+
-IMKgwqAgMjA2CQo+IMKgwqAgMjA3CQlyZXMud29sX2lycSA9IHBkZXYtPmlycTsKPiDCoMKgIDIw
-OAkJcmVzLmlycSA9IHBkZXYtPmlycTsKPiDCoMKgIDIwOQkKPiDCoMKgIDIxMAkJcGxhdC0+c2Fm
-ZXR5X2ZlYXRfY2ZnLT50c29lZSA9IDE7Cj4gwqDCoCAyMTEJCXBsYXQtPnNhZmV0eV9mZWF0X2Nm
-Zy0+bXJ4cGVlID0gMTsKPiDCoMKgIDIxMgkJcGxhdC0+c2FmZXR5X2ZlYXRfY2ZnLT5tZXN0ZWUg
-PSAxOwo+IMKgwqAgMjEzCQlwbGF0LT5zYWZldHlfZmVhdF9jZmctPm1yeGVlID0gMTsKPiDCoMKg
-IDIxNAkJcGxhdC0+c2FmZXR5X2ZlYXRfY2ZnLT5tdHhlZSA9IDE7Cj4gwqDCoCAyMTUJCXBsYXQt
-PnNhZmV0eV9mZWF0X2NmZy0+ZXBzaSA9IDE7Cj4gwqDCoCAyMTYJCXBsYXQtPnNhZmV0eV9mZWF0
-X2NmZy0+ZWRwcCA9IDE7Cj4gwqDCoCAyMTcJCXBsYXQtPnNhZmV0eV9mZWF0X2NmZy0+cHJ0eWVu
-ID0gMTsKPiDCoMKgIDIxOAkJcGxhdC0+c2FmZXR5X2ZlYXRfY2ZnLT50bW91dGVuID0gMTsKPiDC
-oMKgIDIxOQkKPiDCoMKgIDIyMAkJcmV0dXJuIHN0bW1hY19kdnJfcHJvYmUoJnBkZXYtPmRldiwg
-cGxhdCwgJnJlcyk7Cj4gwqDCoCAyMjEJfQo+IMKgwqAgMjIyCQo+IAoK
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   33e939b20d8d2c6859960baa6b8bdfe83d5fd36d
+commit: 600ba9bc4d4627300236fa1ff4ad133ee9d51149 [1/1] ANDROID: KVM: arm64: Add func/func_ret pKVM hyp events
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250213/202502131733.tQOsVGUZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131733.tQOsVGUZ-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131733.tQOsVGUZ-lkp@intel.com/
+
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
+All warnings (new ones prefixed by >>):
+
+>> arch/arm64/kvm/hyp/nvhe/ftrace.c:91:15: warning: no previous prototype for function '__hyp_ftrace_trace' [-Wmissing-prototypes]
+      91 | unsigned long __hyp_ftrace_trace(unsigned long ip, unsigned long parent,
+         |               ^
+   arch/arm64/kvm/hyp/nvhe/ftrace.c:91:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      91 | unsigned long __hyp_ftrace_trace(unsigned long ip, unsigned long parent,
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/ftrace.c:109:15: warning: no previous prototype for function '__hyp_ftrace_ret_trace' [-Wmissing-prototypes]
+     109 | unsigned long __hyp_ftrace_ret_trace(void)
+         |               ^
+   arch/arm64/kvm/hyp/nvhe/ftrace.c:109:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     109 | unsigned long __hyp_ftrace_ret_trace(void)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/ftrace.c:191:13: warning: no previous prototype for function '__get_phys' [-Wmissing-prototypes]
+     191 | phys_addr_t __get_phys(unsigned long addr)
+         |             ^
+   arch/arm64/kvm/hyp/nvhe/ftrace.c:191:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     191 | phys_addr_t __get_phys(unsigned long addr)
+         | ^
+         | static 
+   3 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+
+
+vim +/__hyp_ftrace_trace +91 arch/arm64/kvm/hyp/nvhe/ftrace.c
+
+e5a5778f97569e Vincent Donnefort 2024-10-01   90  
+e5a5778f97569e Vincent Donnefort 2024-10-01  @91  unsigned long __hyp_ftrace_trace(unsigned long ip, unsigned long parent,
+e5a5778f97569e Vincent Donnefort 2024-10-01   92  				 unsigned long offset_idx)
+e5a5778f97569e Vincent Donnefort 2024-10-01   93  {
+e5a5778f97569e Vincent Donnefort 2024-10-01   94  	unsigned long func = __kern_addr(offset_idx, ip);
+e5a5778f97569e Vincent Donnefort 2024-10-01   95  	unsigned long parent_offset_idx;
+e5a5778f97569e Vincent Donnefort 2024-10-01   96  
+e5a5778f97569e Vincent Donnefort 2024-10-01   97  	/* When modules are called from core */
+e5a5778f97569e Vincent Donnefort 2024-10-01   98  	parent_offset_idx = parent > (unsigned long)__hyp_text_start ? 0 : offset_idx;
+e5a5778f97569e Vincent Donnefort 2024-10-01   99  
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  100  	trace_func(func, __kern_addr(parent_offset_idx, parent));
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  101  
+e5a5778f97569e Vincent Donnefort 2024-10-01  102  	/* Only install the trampoline if we can revert to the original parent */
+e5a5778f97569e Vincent Donnefort 2024-10-01  103  	if (hyp_ftrace_func_push(func, parent))
+e5a5778f97569e Vincent Donnefort 2024-10-01  104  		return (unsigned long)__hyp_ftrace_ret_tramp;
+e5a5778f97569e Vincent Donnefort 2024-10-01  105  
+e5a5778f97569e Vincent Donnefort 2024-10-01  106  	return parent;
+e5a5778f97569e Vincent Donnefort 2024-10-01  107  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  108  
+e5a5778f97569e Vincent Donnefort 2024-10-01 @109  unsigned long __hyp_ftrace_ret_trace(void)
+e5a5778f97569e Vincent Donnefort 2024-10-01  110  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  111  	struct hyp_ftrace_stack_frame *frame = hyp_ftrace_func_pop();
+e5a5778f97569e Vincent Donnefort 2024-10-01  112  
+e5a5778f97569e Vincent Donnefort 2024-10-01  113  	BUG_ON(!frame);
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  114  	trace_func_ret(frame->func);
+e5a5778f97569e Vincent Donnefort 2024-10-01  115  
+e5a5778f97569e Vincent Donnefort 2024-10-01  116  	return frame->ret;
+e5a5778f97569e Vincent Donnefort 2024-10-01  117  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  118  
+e5a5778f97569e Vincent Donnefort 2024-10-01  119  void hyp_ftrace_ret_flush(void)
+e5a5778f97569e Vincent Donnefort 2024-10-01  120  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  121  	struct hyp_ftrace_stack_frame *frame = hyp_ftrace_func_pop();
+e5a5778f97569e Vincent Donnefort 2024-10-01  122  
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  123  	while (frame) {
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  124  		trace_func_ret(frame->func);
+e5a5778f97569e Vincent Donnefort 2024-10-01  125  		frame = hyp_ftrace_func_pop();
+e5a5778f97569e Vincent Donnefort 2024-10-01  126  	}
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  127  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  128  
+e5a5778f97569e Vincent Donnefort 2024-10-01  129  static int __get_offset_idx_ins(unsigned long *func, unsigned long ip, u32 *insn,
+e5a5778f97569e Vincent Donnefort 2024-10-01  130  				void *args)
+e5a5778f97569e Vincent Donnefort 2024-10-01  131  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  132  	unsigned long idx = (unsigned long)args;
+e5a5778f97569e Vincent Donnefort 2024-10-01  133  	u32 imm, mask = (BIT(16) - 1) << 5;
+e5a5778f97569e Vincent Donnefort 2024-10-01  134  
+e5a5778f97569e Vincent Donnefort 2024-10-01  135  	imm = (idx << 5) & mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  136  
+e5a5778f97569e Vincent Donnefort 2024-10-01  137  	*insn = aarch64_insn_get_movz_value();
+e5a5778f97569e Vincent Donnefort 2024-10-01  138  	*insn |= BIT(31);			/* 64-bits variant */
+e5a5778f97569e Vincent Donnefort 2024-10-01  139  	*insn |= 10;				/* x10 */
+e5a5778f97569e Vincent Donnefort 2024-10-01  140  	*insn &= ~mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  141  	*insn |= imm;
+e5a5778f97569e Vincent Donnefort 2024-10-01  142  	*insn = cpu_to_le32(*insn);
+e5a5778f97569e Vincent Donnefort 2024-10-01  143  
+e5a5778f97569e Vincent Donnefort 2024-10-01  144  	return 0;
+e5a5778f97569e Vincent Donnefort 2024-10-01  145  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  146  
+e5a5778f97569e Vincent Donnefort 2024-10-01  147  static int __get_enable_ins(unsigned long ip, u32 *insn, void *tramp)
+e5a5778f97569e Vincent Donnefort 2024-10-01  148  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  149  	u32 imm, mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  150  	long delta;
+e5a5778f97569e Vincent Donnefort 2024-10-01  151  
+e5a5778f97569e Vincent Donnefort 2024-10-01  152  	delta = (long)tramp - (long)ip;
+e5a5778f97569e Vincent Donnefort 2024-10-01  153  
+e5a5778f97569e Vincent Donnefort 2024-10-01  154  	if (delta > SZ_128M || delta <= -SZ_128M)
+e5a5778f97569e Vincent Donnefort 2024-10-01  155  		return -ERANGE;
+e5a5778f97569e Vincent Donnefort 2024-10-01  156  
+e5a5778f97569e Vincent Donnefort 2024-10-01  157  	mask = BIT(26) - 1;
+e5a5778f97569e Vincent Donnefort 2024-10-01  158  	imm = (delta >> 2) & mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  159  
+e5a5778f97569e Vincent Donnefort 2024-10-01  160  	*insn = aarch64_insn_get_bl_value() & ~(mask);
+e5a5778f97569e Vincent Donnefort 2024-10-01  161  	*insn |= imm;
+e5a5778f97569e Vincent Donnefort 2024-10-01  162  	*insn = cpu_to_le32(*insn);
+e5a5778f97569e Vincent Donnefort 2024-10-01  163  
+e5a5778f97569e Vincent Donnefort 2024-10-01  164  	return 0;
+e5a5778f97569e Vincent Donnefort 2024-10-01  165  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  166  
+e5a5778f97569e Vincent Donnefort 2024-10-01  167  #define funcs_pg_enabled(func)	((func) & 0x1)
+e5a5778f97569e Vincent Donnefort 2024-10-01  168  #define funcs_pg_func(func)	((func) & ~BIT(0))
+e5a5778f97569e Vincent Donnefort 2024-10-01  169  #define funcs_pg_is_end(func)						      \
+e5a5778f97569e Vincent Donnefort 2024-10-01  170  ({									      \
+e5a5778f97569e Vincent Donnefort 2024-10-01  171  	(!(*(func)) ||							      \
+e5a5778f97569e Vincent Donnefort 2024-10-01  172  	 ((PAGE_ALIGN((unsigned long)(func) + 1) - (unsigned long)(func)) <= 8)); \
+e5a5778f97569e Vincent Donnefort 2024-10-01  173  })
+e5a5778f97569e Vincent Donnefort 2024-10-01  174  
+e5a5778f97569e Vincent Donnefort 2024-10-01  175  /*
+e5a5778f97569e Vincent Donnefort 2024-10-01  176   * During init the kernel can notify a function needs to be enabled. This is
+e5a5778f97569e Vincent Donnefort 2024-10-01  177   * relying on the same encoding as the func_pg.
+e5a5778f97569e Vincent Donnefort 2024-10-01  178   */
+e5a5778f97569e Vincent Donnefort 2024-10-01  179  #define get_func(func)		funcs_pg_func(func)
+e5a5778f97569e Vincent Donnefort 2024-10-01  180  
+e5a5778f97569e Vincent Donnefort 2024-10-01  181  static int __get_enable_disable_ins_early(unsigned long *func, unsigned long ip,
+e5a5778f97569e Vincent Donnefort 2024-10-01  182  					  u32 *insn, void *tramp)
+e5a5778f97569e Vincent Donnefort 2024-10-01  183  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  184  	if (funcs_pg_enabled(*func))
+e5a5778f97569e Vincent Donnefort 2024-10-01  185  		return __get_enable_ins(ip, insn, tramp);
+e5a5778f97569e Vincent Donnefort 2024-10-01  186  
+e5a5778f97569e Vincent Donnefort 2024-10-01  187  	/* Nothing else to do */
+e5a5778f97569e Vincent Donnefort 2024-10-01  188  	return 1;
+e5a5778f97569e Vincent Donnefort 2024-10-01  189  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  190  
+e5a5778f97569e Vincent Donnefort 2024-10-01 @191  phys_addr_t __get_phys(unsigned long addr)
+e5a5778f97569e Vincent Donnefort 2024-10-01  192  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  193  	if (addr >= (unsigned long)__hyp_text_start)
+e5a5778f97569e Vincent Donnefort 2024-10-01  194  		return __hyp_pa(addr);
+e5a5778f97569e Vincent Donnefort 2024-10-01  195  
+e5a5778f97569e Vincent Donnefort 2024-10-01  196  	return __pkvm_private_range_pa((void *)addr);
+e5a5778f97569e Vincent Donnefort 2024-10-01  197  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  198  
+
+:::::: The code at line 91 was first introduced by commit
+:::::: e5a5778f97569eaad67f9b89f20e19eb2adf76c9 ANDROID: KVM: arm64: Add Ftrace patching for pKVM hyp
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Vincent Donnefort <vdonnefort@google.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
