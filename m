@@ -1,159 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E43207DFE;
-	Thu, 13 Feb 2025 06:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FE0207E05
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 06:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739429692; cv=none; b=AaQeiOWzxrFTtWSnhX3OYIGOQsPEy4tiOppYaRag0VCzrzeFlucQJ/z3GRxtsiLyksYgJHMXl7Hm/AxBH3Ga25r3nLaGnELQOcefJl+fvJkcBbgDulyk1Q6uJNPtyhmKLu4z1aozgYUnP12HjDfmqIcTNDb9+TGgqmyu9QccFig=
+	t=1739429693; cv=none; b=DoJZQabEyVojsi5aistyiE6Pki8f6icNZeC7n9/7MJWUECQJDqX25eT3+vup4JM1jqMnzGfWeUOyA7p8/KbQdY2HIcBV14w4HA+7nl6vGb2UAURr2VweHI0UX8y4DrE31xfckOE3akjGgGdZyAy/Ka16iLWv7UQIo68QhXJhnBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739429692; c=relaxed/simple;
-	bh=OJTRaNgj7r9Nss/7kY215kokk6bEklt1IM9Y6Gc2HUY=;
+	s=arc-20240116; t=1739429693; c=relaxed/simple;
+	bh=Wti6Y1WIIGTBtzh07DE8vG5dvmW7u8BniqwBJAzbdcA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ESOLmmn/cxUs7o9DXdVOz+Xt/lorh9kFf9PMoWYYPmUpVMmS36qpRWdFDIOmMEMHk4PPGVyzZljKLyq3jSMYZbQvTC1jDayERaQCMagvOxBJ5xxq3+zNePrIj/dXGwGXxx0NPNPb5yQrgsLZy9rwghnxuhIHsXdx28givIIB2u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0qk/8ro; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=fTY7aK2rGPYBMhHlE4Cf2t5vdOEJJFQ7+XLVKbgrviZFUE8pOnaM532IjoLXCO1b1KQ4v+ky8C67QqYvEkInielNOkrv4StGR5rhpR1gWMm3k79T7uEF7lpuVTgqIJtiqQ7yg2pKIYgjFZxIRhXz6EVKlOwZ8Gsc7iAyZPODDSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqKQF9JV; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0qk/8ro"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqKQF9JV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1739429690; x=1770965690;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OJTRaNgj7r9Nss/7kY215kokk6bEklt1IM9Y6Gc2HUY=;
-  b=P0qk/8roAtiOZ0U+ZSPuqB4BM8uQ6B4EakYFt6ZzpngikZ5a/E7hWm+s
-   vvMGaeLX3VfTbQfUleg0uDUsE9BZXQdhJs2MNnSqGiytLaXjcBbsCMTeo
-   nefyacOGlPb0/cgG1E0YoAoniDTekNhZ4oRj1AYyFCmeo3PcruoyWnG0/
-   U883ptsw+3UTwO0bGluXaU5lXwjsGuEsW2U5Xy3eF6aLXtP+wjh3prIuS
-   6RWEuiYLSTJ0MK9QZWkATgiV8mg2VRbfWTC4s8PBlHNlR7IKioTsjROxF
-   83A+r93HawBqt3xyGPog8WjV8eMSY1krp4gt/FBk0GlZGJmoqlDDPe0n8
-   A==;
-X-CSE-ConnectionGUID: 1Cls3ztYSi+0StMOsAb9dQ==
-X-CSE-MsgGUID: PrvI9iDnQAW6MvP9wcUotw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65471432"
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Wti6Y1WIIGTBtzh07DE8vG5dvmW7u8BniqwBJAzbdcA=;
+  b=aqKQF9JV6foyOHOyHTKRLl0ymIAllmIyO6rVHjYPDjNn+9D9oZXRzjr6
+   mfLZmR11Os8oErTEfuuWW1spMnnhbJ3T7BVCBSZO6C7k/ljnQR3esl9kp
+   09NPoJfrP3u25oRExJ0gGLWRGjG45Z8mSBx64u8XNUrQr1+r+Bzo03DGP
+   f4nBxDVGas98LCDuQS6yHei3ZYEW1FPO51vir+6mvLcbfaMvs2qfzaqv1
+   2Tcrq5TtDrT0yxeuIXmmeAISEZQJDLYKXCc7TB8xYauH6sBU9r4P0AWfY
+   OZXLx8mJBlcYyD/7d66LtrbE4KOddrJ8nda+TFfhI/34nxN6vKVEsM8a4
+   Q==;
+X-CSE-ConnectionGUID: LDkm4qxHRieZapi92VGWPQ==
+X-CSE-MsgGUID: vjAvBI5VRQW+jKGb920Emw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="50764682"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="65471432"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:54:49 -0800
-X-CSE-ConnectionGUID: W6MoEgFsSgmy7o1sYUsFCQ==
-X-CSE-MsgGUID: /t6Nj6WHREmamEfw3sJNdQ==
+   d="scan'208";a="50764682"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:54:49 -0800
+X-CSE-ConnectionGUID: xLy617NiSxKgjGQZrcbO2A==
+X-CSE-MsgGUID: uurJz+4tRpyKEpiMJedVtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117164058"
+   d="scan'208";a="118238630"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Feb 2025 22:54:48 -0800
+  by orviesa005.jf.intel.com with ESMTP; 12 Feb 2025 22:54:49 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiT7W-0016gP-1V;
+	id 1tiT7W-0016gS-1Y;
 	Thu, 13 Feb 2025 06:54:46 +0000
 Date: Thu, 13 Feb 2025 14:54:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 62/69] drivers/tty/serial/amba-pl011.c:2492:35:
- error: incompatible pointer types passing 'unsigned char *' to parameter of
- type 'enum uart_iotype *'
-Message-ID: <202502131406.jhirwJcu-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 68/69]
+ drivers/tty/serial/8250/8250_bcm2835aux.c:102:16: error: 'struct uart_port'
+ has no member named 'rs485_config'
+Message-ID: <202502131414.xlHkysPr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
 head:   18719ba870f2b5aac6c4ea327aacc3bec6bc98cc
-commit: 8daf2c28783ce8f643495c80b08b18862350552a [62/69] +enum uart_iotype
-config: riscv-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131406.jhirwJcu-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131406.jhirwJcu-lkp@intel.com/reproduce)
+commit: a7e1e5ceadbf1e443ad44ccfc046afa234b09f77 [68/69] ops2
+config: sh-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131414.xlHkysPr-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131414.xlHkysPr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131406.jhirwJcu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131414.xlHkysPr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/serial/amba-pl011.c:2492:35: error: incompatible pointer types passing 'unsigned char *' to parameter of type 'enum uart_iotype *' [-Werror,-Wincompatible-pointer-types]
-    2492 |         if (uart_parse_earlycon(options, &iotype, &addr, &options))
-         |                                          ^~~~~~~
-   include/linux/serial_core.h:1106:52: note: passing argument to parameter 'iotype' here
-    1106 | int uart_parse_earlycon(char *p, enum uart_iotype *iotype,
-         |                                                    ^
-   1 error generated.
+   drivers/tty/serial/8250/8250_bcm2835aux.c: In function 'bcm2835aux_serial_probe':
+>> drivers/tty/serial/8250/8250_bcm2835aux.c:102:16: error: 'struct uart_port' has no member named 'rs485_config'
+     102 |         up.port.rs485_config = serial8250_em485_config;
+         |                ^
+   drivers/tty/serial/8250/8250_bcm2835aux.c:104:11: error: 'struct uart_8250_port' has no member named 'rs485_start_tx'
+     104 |         up.rs485_start_tx = bcm2835aux_rs485_start_tx;
+         |           ^
+   drivers/tty/serial/8250/8250_bcm2835aux.c:105:11: error: 'struct uart_8250_port' has no member named 'rs485_stop_tx'
+     105 |         up.rs485_stop_tx = bcm2835aux_rs485_stop_tx;
+         |           ^
+--
+   drivers/tty/serial/8250/8250_ioc3.c: In function 'serial8250_ioc3_probe':
+>> drivers/tty/serial/8250/8250_ioc3.c:68:16: error: 'struct uart_port' has no member named 'serial_in'
+      68 |         up.port.serial_in = ioc3_serial_in;
+         |                ^
+>> drivers/tty/serial/8250/8250_ioc3.c:69:16: error: 'struct uart_port' has no member named 'serial_out'
+      69 |         up.port.serial_out = ioc3_serial_out;
+         |                ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FB_DEFERRED_IO
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=y] && MMU [=n]
+   Selected by [y]:
+   - FB_SYSMEM_HELPERS_DEFERRED [=y] && HAS_IOMEM [=y] && FB_CORE [=y]
 
 
-vim +2492 drivers/tty/serial/amba-pl011.c
+vim +102 drivers/tty/serial/8250/8250_bcm2835aux.c
 
-^1da177e4c3f41 drivers/serial/amba-pl011.c     Linus Torvalds  2005-04-16  2457  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2458  /**
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2459   *	pl011_console_match - non-standard console matching
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2460   *	@co:	  registering console
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2461   *	@name:	  name from console command line
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2462   *	@idx:	  index from console command line
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2463   *	@options: ptr to option string from console command line
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2464   *
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2465   *	Only attempts to match console command lines of the form:
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2466   *	    console=pl011,mmio|mmio32,<addr>[,<options>]
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2467   *	    console=pl011,0x<addr>[,<options>]
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2468   *	This form is used to register an initial earlycon boot console and
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2469   *	replace it with the amba_console at pl011 driver init.
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2470   *
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2471   *	Performs console setup for a match (as required by interface)
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2472   *	If no <options> are specified, then assume the h/w is already setup.
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2473   *
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2474   *	Returns 0 if console matches; otherwise non-zero to use default matching
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2475   */
-27afac93e3bd7f drivers/tty/serial/amba-pl011.c Lukas Wunner    2020-08-13  2476  static int pl011_console_match(struct console *co, char *name, int idx,
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2477  			       char *options)
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2478  {
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2479  	unsigned char iotype;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2480  	resource_size_t addr;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2481  	int i;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2482  
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2483  	/*
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2484  	 * Systems affected by the Qualcomm Technologies QDF2400 E44 erratum
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2485  	 * have a distinct console name, so make sure we check for that.
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2486  	 * The actual implementation of the erratum occurs in the probe
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2487  	 * function.
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2488  	 */
-37ef38f3f83891 drivers/tty/serial/amba-pl011.c Timur Tabi      2017-07-27  2489  	if ((strcmp(name, "qdf2400_e44") != 0) && (strcmp(name, "pl011") != 0))
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2490  		return -ENODEV;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2491  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04 @2492  	if (uart_parse_earlycon(options, &iotype, &addr, &options))
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2493  		return -ENODEV;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2494  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2495  	if (iotype != UPIO_MEM && iotype != UPIO_MEM32)
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2496  		return -ENODEV;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2497  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2498  	/* try to match the port specified on the command line */
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2499  	for (i = 0; i < ARRAY_SIZE(amba_ports); i++) {
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2500  		struct uart_port *port;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2501  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2502  		if (!amba_ports[i])
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2503  			continue;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2504  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2505  		port = &amba_ports[i]->port;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2506  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2507  		if (port->mapbase != addr)
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2508  			continue;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2509  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2510  		co->index = i;
-eabd4600dafacf drivers/tty/serial/amba-pl011.c John Ogness     2024-08-20  2511  		uart_port_set_cons(port, co);
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2512  		return pl011_console_setup(co, options);
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2513  	}
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2514  
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2515  	return -ENODEV;
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2516  }
-10879ae5f12e9c drivers/tty/serial/amba-pl011.c Aleksey Makarov 2016-10-04  2517  
+f93bf758911476 Lukas Wunner        2020-02-28   82  
+bdc5f300958062 Martin Sperl        2016-01-17   83  static int bcm2835aux_serial_probe(struct platform_device *pdev)
+bdc5f300958062 Martin Sperl        2016-01-17   84  {
+eb687309136b9f Andy Shevchenko     2024-03-04   85  	const struct software_node *bcm2835_swnode;
+8c3cde5dd639af Lukas Wunner        2020-01-16   86  	struct uart_8250_port up = { };
+bdc5f300958062 Martin Sperl        2016-01-17   87  	struct bcm2835aux_data *data;
+bdc5f300958062 Martin Sperl        2016-01-17   88  	struct resource *res;
+fcc446c8aa6303 Adrien Thierry      2022-02-07   89  	unsigned int uartclk;
+bdc5f300958062 Martin Sperl        2016-01-17   90  	int ret;
+bdc5f300958062 Martin Sperl        2016-01-17   91  
+bdc5f300958062 Martin Sperl        2016-01-17   92  	/* allocate the custom structure */
+bdc5f300958062 Martin Sperl        2016-01-17   93  	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+bdc5f300958062 Martin Sperl        2016-01-17   94  	if (!data)
+bdc5f300958062 Martin Sperl        2016-01-17   95  		return -ENOMEM;
+bdc5f300958062 Martin Sperl        2016-01-17   96  
+bdc5f300958062 Martin Sperl        2016-01-17   97  	/* initialize data */
+8c3cde5dd639af Lukas Wunner        2020-01-16   98  	up.capabilities = UART_CAP_FIFO | UART_CAP_MINI;
+8c3cde5dd639af Lukas Wunner        2020-01-16   99  	up.port.dev = &pdev->dev;
+8c3cde5dd639af Lukas Wunner        2020-01-16  100  	up.port.type = PORT_16550;
+eb687309136b9f Andy Shevchenko     2024-03-04  101  	up.port.flags = UPF_FIXED_PORT | UPF_FIXED_TYPE | UPF_SKIP_TEST | UPF_IOREMAP;
+f93bf758911476 Lukas Wunner        2020-02-28 @102  	up.port.rs485_config = serial8250_em485_config;
+0139da50dc53f0 Ilpo Järvinen       2022-07-04  103  	up.port.rs485_supported = serial8250_em485_supported;
+f93bf758911476 Lukas Wunner        2020-02-28  104  	up.rs485_start_tx = bcm2835aux_rs485_start_tx;
+f93bf758911476 Lukas Wunner        2020-02-28  105  	up.rs485_stop_tx = bcm2835aux_rs485_stop_tx;
+f93bf758911476 Lukas Wunner        2020-02-28  106  
+f93bf758911476 Lukas Wunner        2020-02-28  107  	/* initialize cached copy with power-on reset value */
+f93bf758911476 Lukas Wunner        2020-02-28  108  	data->cntl = BCM2835_AUX_UART_CNTL_RXEN | BCM2835_AUX_UART_CNTL_TXEN;
+f93bf758911476 Lukas Wunner        2020-02-28  109  
+f93bf758911476 Lukas Wunner        2020-02-28  110  	platform_set_drvdata(pdev, data);
+bdc5f300958062 Martin Sperl        2016-01-17  111  
+bdc5f300958062 Martin Sperl        2016-01-17  112  	/* get the clock - this also enables the HW */
+fcc446c8aa6303 Adrien Thierry      2022-02-07  113  	data->clk = devm_clk_get_optional(&pdev->dev, NULL);
+83e571f054cd74 Stefan Wahren       2023-12-20  114  	if (IS_ERR(data->clk))
+83e571f054cd74 Stefan Wahren       2023-12-20  115  		return dev_err_probe(&pdev->dev, PTR_ERR(data->clk), "could not get clk\n");
+bdc5f300958062 Martin Sperl        2016-01-17  116  
+bdc5f300958062 Martin Sperl        2016-01-17  117  	/* map the main registers */
+bdc5f300958062 Martin Sperl        2016-01-17  118  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+bdc5f300958062 Martin Sperl        2016-01-17  119  	if (!res) {
+bdc5f300958062 Martin Sperl        2016-01-17  120  		dev_err(&pdev->dev, "memory resource not found");
+bdc5f300958062 Martin Sperl        2016-01-17  121  		return -EINVAL;
+bdc5f300958062 Martin Sperl        2016-01-17  122  	}
+fcc446c8aa6303 Adrien Thierry      2022-02-07  123  
+eb687309136b9f Andy Shevchenko     2024-03-04  124  	up.port.mapbase = res->start;
+eb687309136b9f Andy Shevchenko     2024-03-04  125  	up.port.mapsize = resource_size(res);
+fcc446c8aa6303 Adrien Thierry      2022-02-07  126  
+eb687309136b9f Andy Shevchenko     2024-03-04  127  	bcm2835_swnode = device_get_match_data(&pdev->dev);
+eb687309136b9f Andy Shevchenko     2024-03-04  128  	if (bcm2835_swnode) {
+eb687309136b9f Andy Shevchenko     2024-03-04  129  		ret = device_add_software_node(&pdev->dev, bcm2835_swnode);
+eb687309136b9f Andy Shevchenko     2024-03-04  130  		if (ret)
+eb687309136b9f Andy Shevchenko     2024-03-04  131  			return ret;
+eb687309136b9f Andy Shevchenko     2024-03-04  132  	}
+fcc446c8aa6303 Adrien Thierry      2022-02-07  133  
+eb687309136b9f Andy Shevchenko     2024-03-04  134  	ret = uart_read_port_properties(&up.port);
+eb687309136b9f Andy Shevchenko     2024-03-04  135  	if (ret)
+eb687309136b9f Andy Shevchenko     2024-03-04  136  		goto rm_swnode;
+bdc5f300958062 Martin Sperl        2016-01-17  137  
+eb687309136b9f Andy Shevchenko     2024-03-04  138  	up.port.regshift = 2;
+eb687309136b9f Andy Shevchenko     2024-03-04  139  	up.port.fifosize = 8;
+bdc5f300958062 Martin Sperl        2016-01-17  140  
+bdc5f300958062 Martin Sperl        2016-01-17  141  	/* enable the clock as a last step */
+bdc5f300958062 Martin Sperl        2016-01-17  142  	ret = clk_prepare_enable(data->clk);
+bdc5f300958062 Martin Sperl        2016-01-17  143  	if (ret) {
+eb687309136b9f Andy Shevchenko     2024-03-04  144  		dev_err_probe(&pdev->dev, ret, "unable to enable uart clock\n");
+eb687309136b9f Andy Shevchenko     2024-03-04  145  		goto rm_swnode;
+bdc5f300958062 Martin Sperl        2016-01-17  146  	}
+bdc5f300958062 Martin Sperl        2016-01-17  147  
+fcc446c8aa6303 Adrien Thierry      2022-02-07  148  	uartclk = clk_get_rate(data->clk);
+eb687309136b9f Andy Shevchenko     2024-03-04  149  	if (uartclk)
+eb687309136b9f Andy Shevchenko     2024-03-04  150  		up.port.uartclk = uartclk;
+fcc446c8aa6303 Adrien Thierry      2022-02-07  151  
+bdc5f300958062 Martin Sperl        2016-01-17  152  	/* the HW-clock divider for bcm2835aux is 8,
+bdc5f300958062 Martin Sperl        2016-01-17  153  	 * but 8250 expects a divider of 16,
+bdc5f300958062 Martin Sperl        2016-01-17  154  	 * so we have to multiply the actual clock by 2
+bdc5f300958062 Martin Sperl        2016-01-17  155  	 * to get identical baudrates.
+bdc5f300958062 Martin Sperl        2016-01-17  156  	 */
+eb687309136b9f Andy Shevchenko     2024-03-04  157  	up.port.uartclk *= 2;
+bdc5f300958062 Martin Sperl        2016-01-17  158  
+bdc5f300958062 Martin Sperl        2016-01-17  159  	/* register the port */
+8c3cde5dd639af Lukas Wunner        2020-01-16  160  	ret = serial8250_register_8250_port(&up);
+bdc5f300958062 Martin Sperl        2016-01-17  161  	if (ret < 0) {
+ea43a60b15486b Krzysztof Kozlowski 2020-09-01  162  		dev_err_probe(&pdev->dev, ret, "unable to register 8250 port\n");
+bdc5f300958062 Martin Sperl        2016-01-17  163  		goto dis_clk;
+bdc5f300958062 Martin Sperl        2016-01-17  164  	}
+bdc5f300958062 Martin Sperl        2016-01-17  165  	data->line = ret;
+bdc5f300958062 Martin Sperl        2016-01-17  166  
+bdc5f300958062 Martin Sperl        2016-01-17  167  	return 0;
+bdc5f300958062 Martin Sperl        2016-01-17  168  
+bdc5f300958062 Martin Sperl        2016-01-17  169  dis_clk:
+bdc5f300958062 Martin Sperl        2016-01-17  170  	clk_disable_unprepare(data->clk);
+eb687309136b9f Andy Shevchenko     2024-03-04  171  rm_swnode:
+eb687309136b9f Andy Shevchenko     2024-03-04  172  	device_remove_software_node(&pdev->dev);
+bdc5f300958062 Martin Sperl        2016-01-17  173  	return ret;
+bdc5f300958062 Martin Sperl        2016-01-17  174  }
+bdc5f300958062 Martin Sperl        2016-01-17  175  
 
-:::::: The code at line 2492 was first introduced by commit
-:::::: 10879ae5f12e9cab3c4e8e9504c1aaa8a033bde7 serial: pl011: add console matching function
+:::::: The code at line 102 was first introduced by commit
+:::::: f93bf75891147602d55b90937628157cc13dbdb8 serial: 8250_bcm2835aux: Support rs485 software emulation
 
-:::::: TO: Aleksey Makarov <aleksey.makarov@linaro.org>
+:::::: TO: Lukas Wunner <lukas@wunner.de>
 :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
