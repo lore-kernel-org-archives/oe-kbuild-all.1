@@ -1,72 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFED2135CD;
-	Thu, 13 Feb 2025 10:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C20F20125B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 11:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739444305; cv=none; b=EFEUY33T4wUVeLPof5Ve9tMdCpj977RNlCOQcdxx16NL0dLaISfhQosu/4H/KshKzZn/5pGHOHw6eGJY6rFdKwtJ6dcJ8LivgzGoPrdXu6NY6lsZjz/DkI4y7193j9E7T9QUvWV0htFiDfNR2tuIZIj2tnMJ0zeVJIMA54dannQ=
+	t=1739446766; cv=none; b=smM+5/yYPg3tVJJjlo0wHR7b/Be2Vv4Prxd9QJf75ftTLD6E3iJfsh+Iic42i7nzPhede84SniQVP9etSRwPyBT3Z2+aiOtE2xxwA4yGisr3hkqdwpZYkAXDywy4Z8Mx74IWcQRZx/S806gxOtteiKUTuOc3WHiB+XIeK5AtQGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739444305; c=relaxed/simple;
-	bh=pTt4Dk/mWDy0iReP/udyoCzdyuN4y/N0LeolOL9CKSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmIBGfWKNy8t60ECkwCNvzBGJDEas2cqXg4bAKZFMPG2kZ1ULUzI4JACwJJWVNtNFg1RWBbNFoN1u+FYLT2YbVvDRlbWPWpXd6vPBbOaxgc+qCtS7wEQ/tqRqFClSPtg1lx4LhyxgT1E7f2tD9ULv2ktJx8zRTjwc+S5Eq7Nx54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j30VancN; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1739446766; c=relaxed/simple;
+	bh=E6s0mUYn6BnYrYtT+npFtyhZf3Vn1HQfGNHe5OKU5G0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JFjqQDZWGOMGAV7Q61p+y41Q8i1KwBrVDEg39J5GoXCD0H/Ate/ypahWHKDHLmhxM/7IDTZZq3PPuADWX8lCX6pZyhqeAeSozcHjglDUB33xKisdQJJbBWKYcgwkK/xyUhXaZ980PEDT3knGRVbHTcVsR9SX/U79fvPmnPQZ1jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhJ7CpfH; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j30VancN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhJ7CpfH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739444304; x=1770980304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pTt4Dk/mWDy0iReP/udyoCzdyuN4y/N0LeolOL9CKSo=;
-  b=j30VancNgMMQOMCDRfluWbQhe2NYbPUNnpY4Nu2Ibx+yQCAdLUFKxvWM
-   ygbpivIf+VxOl63qysB1Kocz4LPsnJK93yZsj5X3F3ej7OSV8bprhHPXj
-   QV2o1/4a1K5qIxHkiwlqGqrNTTuNfkpzt+HTfl/JhafAfa8JUOPY61uOm
-   Z7L9wALx2CzBNLIXfEyjTYqXsb4m4tJTMuIliVXhXmuyy5rK60ukZu+iG
-   HnyIr0w8L0qP5J0HLyT4xISUes7JXD8AjuK3kH4P6HyAOkZqXaN94r6mf
-   Pr7bOgYMOOnN4wIhKjdFurFPCHBBudPFrieyMl30dTzKnosupFBwh1fEn
-   A==;
-X-CSE-ConnectionGUID: U0FsK74CS+Gua8lKPf2wXQ==
-X-CSE-MsgGUID: qh8Qt6auRKeyABo20Hkr5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57542065"
+  t=1739446764; x=1770982764;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E6s0mUYn6BnYrYtT+npFtyhZf3Vn1HQfGNHe5OKU5G0=;
+  b=JhJ7CpfHg4QMH6J6RhJsejt8kwg5spjfeoxU0uwNmqZAq66M2jHusT+B
+   xXyJayRyT7rJXpFamaRHHUqqvr/3uxWOYO9OgfcxQyQhQt6I6eH9285MJ
+   YcZhhjJswR5lMnVZ4LNHnnDvzIUd7mVxkdZ+e+KsdhCgwsLSs475y5//U
+   MrFptwt+D/CnPjUtJTpBaQud7i4sjoB2ynDE9Tjp8hIiO8b2HZnwDDTdc
+   uLPCBskP6/QbPoE6Zs4732533OsfHDyUNamoXzrCMzOnW5LfD/kCDlVVa
+   PEPAKW4WKcWbW86XVcM7M6g311D8d8YeQ9VbIU6COS8LfUwTaNJJkt4MC
+   g==;
+X-CSE-ConnectionGUID: Hb8L6BLRRUictmumEtUuAQ==
+X-CSE-MsgGUID: JyZly6mvSci8qMWIGJKElQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40008146"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="57542065"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 02:58:23 -0800
-X-CSE-ConnectionGUID: zI83mEhvQIKfX2/42nUXVg==
-X-CSE-MsgGUID: ubMBOrkqR02OfjXgd6sv2A==
+   d="scan'208";a="40008146"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 03:39:24 -0800
+X-CSE-ConnectionGUID: yHl2ry7tQMOq1eUezaekNw==
+X-CSE-MsgGUID: pn3v4fXyTEO6+mXbl01JIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112942474"
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="113648994"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Feb 2025 02:58:18 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 13 Feb 2025 03:39:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiWvA-0016wl-0J;
-	Thu, 13 Feb 2025 10:58:16 +0000
-Date: Thu, 13 Feb 2025 18:57:25 +0800
+	id 1tiXYu-0016yz-1j;
+	Thu, 13 Feb 2025 11:39:20 +0000
+Date: Thu, 13 Feb 2025 19:39:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea Righi <arighi@nvidia.com>, Tejun Heo <tj@kernel.org>,
-	David Vernet <void@manifault.com>,
-	Changwoo Min <changwoo@igalia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Joel Fernandes <joel@joelfernandes.org>, Ian May <ianm@nvidia.com>,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yury Norov <yury.norov@gmail.com>
-Subject: Re: [PATCH 6/7] sched_ext: idle: Per-node idle cpumasks
-Message-ID: <202502131834.ni8ojoRO-lkp@intel.com>
-References: <20250212165006.490130-7-arighi@nvidia.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Boyuan Zhang <Boyuan.Zhang@amd.com>
+Subject: [agd5f:amd-staging-drm-next 2306/2320]
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c:781: warning: expecting prototype for
+ vcn_v2_5_enable_clock_gating_inst(). Prototype was for
+ vcn_v2_5_enable_clock_gating() instead
+Message-ID: <202502131948.uPfL1v3A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,158 +63,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212165006.490130-7-arighi@nvidia.com>
 
-Hi Andrea,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250212]
-[cannot apply to tip/sched/core akpm-mm/mm-everything tip/master linus/master tip/auto-latest v6.14-rc2 v6.14-rc1 v6.13 v6.14-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Righi/mm-numa-Introduce-nearest_node_nodemask/20250213-014857
-base:   next-20250212
-patch link:    https://lore.kernel.org/r/20250212165006.490130-7-arighi%40nvidia.com
-patch subject: [PATCH 6/7] sched_ext: idle: Per-node idle cpumasks
-config: i386-buildonly-randconfig-005-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131834.ni8ojoRO-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131834.ni8ojoRO-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   f73e8ad616bce0bb1dfdedee4b871346a739b9c7
+commit: 86d5e11eb3cfce62564272a8f0fb1c547cc0f8fe [2306/2320] drm/amdgpu/vcn2.5: split code along instances
+config: x86_64-buildonly-randconfig-004-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131948.uPfL1v3A-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131948.uPfL1v3A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131834.ni8ojoRO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131948.uPfL1v3A-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:63:
-   kernel/sched/ext.c:6014:31: warning: bitwise operation between different enumeration types ('enum scx_enq_flags' and 'enum scx_deq_flags') [-Wenum-enum-conversion]
-    6014 |         WRITE_ONCE(v, SCX_ENQ_WAKEUP | SCX_DEQ_SLEEP | SCX_KICK_PREEMPT |
-         |                       ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |                         ^~~
-   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   In file included from kernel/sched/build_policy.c:64:
->> kernel/sched/ext_idle.c:136:9: error: '__section__' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
-     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
-         |                ^
-   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^
-   include/linux/percpu-defs.h:93:2: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
-      93 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
-         |         ^
-   include/linux/percpu-defs.h:54:2: note: expanded from macro '__PCPU_DUMMY_ATTRS'
-      54 |         __section(".discard") __attribute__((unused))
-         |         ^
-   include/linux/compiler_attributes.h:321:56: note: expanded from macro '__section'
-     321 | #define __section(section)              __attribute__((__section__(section)))
-         |                                                        ^
-   In file included from kernel/sched/build_policy.c:64:
->> kernel/sched/ext_idle.c:136:9: error: non-extern declaration of '__pcpu_unique_per_cpu_unvisited' follows extern declaration
-   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^
-   include/linux/percpu-defs.h:93:26: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
-      93 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
-         |                                 ^
-   <scratch space>:82:1: note: expanded from here
-      82 | __pcpu_unique_per_cpu_unvisited
-         | ^
-   kernel/sched/ext_idle.c:136:9: note: previous declaration is here
-   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^
-   include/linux/percpu-defs.h:92:33: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
-      92 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
-         |                                        ^
-   <scratch space>:81:1: note: expanded from here
-      81 | __pcpu_unique_per_cpu_unvisited
-         | ^
-   In file included from kernel/sched/build_policy.c:64:
->> kernel/sched/ext_idle.c:136:9: error: 'section' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
-     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
-         |                ^
-   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^
-   include/linux/percpu-defs.h:95:2: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
-      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |         ^
-   include/linux/percpu-defs.h:50:26: note: expanded from macro '__PCPU_ATTRS'
-      50 |         __percpu __attribute__((section(PER_CPU_BASE_SECTION sec)))     \
-         |                                 ^
-   In file included from kernel/sched/build_policy.c:64:
->> kernel/sched/ext_idle.c:136:36: error: non-extern declaration of 'per_cpu_unvisited' follows extern declaration
-     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
-         |                                           ^
-   kernel/sched/ext_idle.c:136:36: note: previous declaration is here
->> kernel/sched/ext_idle.c:136:9: error: weak declaration cannot have internal linkage
-     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
-         |                ^
-   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
-     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
-         |         ^
-   include/linux/percpu-defs.h:95:20: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
-      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
-         |                           ^
-   include/linux/compiler_attributes.h:403:56: note: expanded from macro '__weak'
-     403 | #define __weak                          __attribute__((__weak__))
-         |                                                        ^
-   1 warning and 5 errors generated.
+>> drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c:781: warning: expecting prototype for vcn_v2_5_enable_clock_gating_inst(). Prototype was for vcn_v2_5_enable_clock_gating() instead
 
 
-vim +/__section__ +136 kernel/sched/ext_idle.c
+vim +781 drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
 
-   133	
-   134	static s32 pick_idle_cpu_from_other_nodes(const struct cpumask *cpus_allowed, int node, u64 flags)
-   135	{
- > 136		static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
-   137		nodemask_t *unvisited = this_cpu_ptr(&per_cpu_unvisited);
-   138		s32 cpu = -EBUSY;
-   139	
-   140		preempt_disable();
-   141		unvisited = this_cpu_ptr(&per_cpu_unvisited);
-   142	
-   143		/*
-   144		 * Restrict the search to the online nodes, excluding the current
-   145		 * one.
-   146		 */
-   147		nodes_clear(*unvisited);
-   148		nodes_or(*unvisited, *unvisited, node_states[N_ONLINE]);
-   149		node_clear(node, *unvisited);
-   150	
-   151		/*
-   152		 * Traverse all nodes in order of increasing distance, starting
-   153		 * from @node.
-   154		 *
-   155		 * This loop is O(N^2), with N being the amount of NUMA nodes,
-   156		 * which might be quite expensive in large NUMA systems. However,
-   157		 * this complexity comes into play only when a scheduler enables
-   158		 * SCX_OPS_BUILTIN_IDLE_PER_NODE and it's requesting an idle CPU
-   159		 * without specifying a target NUMA node, so it shouldn't be a
-   160		 * bottleneck is most cases.
-   161		 *
-   162		 * As a future optimization we may want to cache the list of nodes
-   163		 * in a per-node array, instead of actually traversing them every
-   164		 * time.
-   165		 */
-   166		for_each_node_numadist(node, *unvisited) {
-   167			cpu = pick_idle_cpu_in_node(cpus_allowed, node, flags);
-   168			if (cpu >= 0)
-   169				break;
-   170		}
-   171		preempt_enable();
-   172	
-   173		return cpu;
-   174	}
-   175	
+d2a2c64f53718a James Zhu    2019-12-18  771  
+cbead2bdfcf1dd Leo Liu      2019-04-15  772  /**
+86d5e11eb3cfce Alex Deucher 2024-11-13  773   * vcn_v2_5_enable_clock_gating_inst - enable VCN clock gating
+cbead2bdfcf1dd Leo Liu      2019-04-15  774   *
+cbead2bdfcf1dd Leo Liu      2019-04-15  775   * @adev: amdgpu_device pointer
+86d5e11eb3cfce Alex Deucher 2024-11-13  776   * @i: instance to enable clockgating on
+cbead2bdfcf1dd Leo Liu      2019-04-15  777   *
+cbead2bdfcf1dd Leo Liu      2019-04-15  778   * Enable clock gating for VCN block
+cbead2bdfcf1dd Leo Liu      2019-04-15  779   */
+86d5e11eb3cfce Alex Deucher 2024-11-13  780  static void vcn_v2_5_enable_clock_gating(struct amdgpu_device *adev, int i)
+cbead2bdfcf1dd Leo Liu      2019-04-15 @781  {
+cbead2bdfcf1dd Leo Liu      2019-04-15  782  	uint32_t data = 0;
+cbead2bdfcf1dd Leo Liu      2019-04-15  783  
+fba4761ca00f9e Alex Deucher 2024-11-20  784  	if (adev->vcn.harvest_config & (1 << i))
+86d5e11eb3cfce Alex Deucher 2024-11-13  785  		return;
+cbead2bdfcf1dd Leo Liu      2019-04-15  786  	/* enable UVD CGC */
+fba4761ca00f9e Alex Deucher 2024-11-20  787  	data = RREG32_SOC15(VCN, i, mmUVD_CGC_CTRL);
+cbead2bdfcf1dd Leo Liu      2019-04-15  788  	if (adev->cg_flags & AMD_CG_SUPPORT_VCN_MGCG)
+cbead2bdfcf1dd Leo Liu      2019-04-15  789  		data |= 1 << UVD_CGC_CTRL__DYN_CLOCK_MODE__SHIFT;
+cbead2bdfcf1dd Leo Liu      2019-04-15  790  	else
+cbead2bdfcf1dd Leo Liu      2019-04-15  791  		data |= 0 << UVD_CGC_CTRL__DYN_CLOCK_MODE__SHIFT;
+cbead2bdfcf1dd Leo Liu      2019-04-15  792  	data |= 1 << UVD_CGC_CTRL__CLK_GATE_DLY_TIMER__SHIFT;
+cbead2bdfcf1dd Leo Liu      2019-04-15  793  	data |= 4 << UVD_CGC_CTRL__CLK_OFF_DELAY__SHIFT;
+fba4761ca00f9e Alex Deucher 2024-11-20  794  	WREG32_SOC15(VCN, i, mmUVD_CGC_CTRL, data);
+cbead2bdfcf1dd Leo Liu      2019-04-15  795  
+fba4761ca00f9e Alex Deucher 2024-11-20  796  	data = RREG32_SOC15(VCN, i, mmUVD_CGC_CTRL);
+cbead2bdfcf1dd Leo Liu      2019-04-15  797  	data |= (UVD_CGC_CTRL__UDEC_RE_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  798  		 | UVD_CGC_CTRL__UDEC_CM_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  799  		 | UVD_CGC_CTRL__UDEC_IT_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  800  		 | UVD_CGC_CTRL__UDEC_DB_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  801  		 | UVD_CGC_CTRL__UDEC_MP_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  802  		 | UVD_CGC_CTRL__SYS_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  803  		 | UVD_CGC_CTRL__UDEC_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  804  		 | UVD_CGC_CTRL__MPEG2_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  805  		 | UVD_CGC_CTRL__REGS_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  806  		 | UVD_CGC_CTRL__RBC_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  807  		 | UVD_CGC_CTRL__LMI_MC_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  808  		 | UVD_CGC_CTRL__LMI_UMC_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  809  		 | UVD_CGC_CTRL__IDCT_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  810  		 | UVD_CGC_CTRL__MPRD_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  811  		 | UVD_CGC_CTRL__MPC_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  812  		 | UVD_CGC_CTRL__LBSI_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  813  		 | UVD_CGC_CTRL__LRBBM_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  814  		 | UVD_CGC_CTRL__WCB_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  815  		 | UVD_CGC_CTRL__VCPU_MODE_MASK);
+fba4761ca00f9e Alex Deucher 2024-11-20  816  	WREG32_SOC15(VCN, i, mmUVD_CGC_CTRL, data);
+cbead2bdfcf1dd Leo Liu      2019-04-15  817  
+fba4761ca00f9e Alex Deucher 2024-11-20  818  	data = RREG32_SOC15(VCN, i, mmUVD_SUVD_CGC_CTRL);
+cbead2bdfcf1dd Leo Liu      2019-04-15  819  	data |= (UVD_SUVD_CGC_CTRL__SRE_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  820  		 | UVD_SUVD_CGC_CTRL__SIT_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  821  		 | UVD_SUVD_CGC_CTRL__SMP_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  822  		 | UVD_SUVD_CGC_CTRL__SCM_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  823  		 | UVD_SUVD_CGC_CTRL__SDB_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  824  		 | UVD_SUVD_CGC_CTRL__SCLR_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  825  		 | UVD_SUVD_CGC_CTRL__UVD_SC_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  826  		 | UVD_SUVD_CGC_CTRL__ENT_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  827  		 | UVD_SUVD_CGC_CTRL__IME_MODE_MASK
+cbead2bdfcf1dd Leo Liu      2019-04-15  828  		 | UVD_SUVD_CGC_CTRL__SITE_MODE_MASK);
+fba4761ca00f9e Alex Deucher 2024-11-20  829  	WREG32_SOC15(VCN, i, mmUVD_SUVD_CGC_CTRL, data);
+fba4761ca00f9e Alex Deucher 2024-11-20  830  }
+cbead2bdfcf1dd Leo Liu      2019-04-15  831  
+
+:::::: The code at line 781 was first introduced by commit
+:::::: cbead2bdfcf1ddaa3e65de22a3f88034736a71fd drm/amdgpu: add VCN2.5 VCPU start and stop
+
+:::::: TO: Leo Liu <leo.liu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
