@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F832222A5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 17:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909B4221720
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 17:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739468772; cv=none; b=A3J0t/owWDSe5c+AUbrEo1piwByrHm21/Ox/fQYjzu1oC4xOP29D9wND+Y4zzie1pztndvWSQWn36Q7T/P8bmo4NKNnYeY10Fhc41N4dUbqvbBSV3luRsfcTYyYMhm/NWVBua4PF1Bo88VEQBhGRd5wUyFcixpXYCqe+0NK3X3s=
+	t=1739468774; cv=none; b=rwaSNsbziTFACzLN5ppOkjxoo8qtLPRwnlvnsxYICuMd1MyhfqgR7Q7YJI5gsrHw23RmIERXfLJEkeUAYhOAbc8dvAgS3a+hCk4aKjyLRnSsUtnpolRacdqoB1w92WzfVo0dkG8JFmLoMwOpNpY10urcW+Tnq8Go4TSmswsgzS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739468772; c=relaxed/simple;
-	bh=4Qi4aFvSW5Z/Wvoeq9b06HzJ56rZuchfxdbZiQZMv0Y=;
+	s=arc-20240116; t=1739468774; c=relaxed/simple;
+	bh=nLDf+sUIuk02ownpAEexZUrsUhDqI1wK13rhOEMBosI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e3aAq7ebQNnC/rPqebqMhlnlBb1IMc3+yTMzlGgviP1Kx6wVEEKelCm+OGY5WjG2blM1+ZJCuEspKHCsb4WwP3zPZQv03KzuuDokDYSsmV4HV9EG8OgtSNlSrkxO3JJ7DefAnpmdSrUu/eiVkYqym+PozMyWVAoPp0vVx6Q6Kzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z0NE47cU; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=BY4Jjay3i5eDerTZiOkMp0qJregwkAYm46cDPdpl2RZ/gnHMsIYxCjJfKyZljQAWbs5+A6gh19ahGDJNFSJJx45cLQm2lFUDfO1uN1OuBVYfkqjnPsRGYtqFsuHSZnv2YGwTMeHicWXvqVEekrnkoRC+w9frPAuCRrSJ76rn4TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJmhxBZ/; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z0NE47cU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJmhxBZ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739468769; x=1771004769;
+  t=1739468771; x=1771004771;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Qi4aFvSW5Z/Wvoeq9b06HzJ56rZuchfxdbZiQZMv0Y=;
-  b=Z0NE47cUy6ms6OliNJw8OKrrNR8/nXZER70jHfAl9Os5WOel/yvRGQdE
-   JBbArwyPSiSsVXGJP0ikBFjugc4ClHRarXojneCtEeAYNPpknzbM5V5vf
-   El8iQXw+FRw6226dkmOLkLK1w0ueCt5r0JHim33y0oZK99kPyOnCDPxps
-   TLyesLgtOvHPSJhW0uN5rvl9VkaMnRxUb6+mItV9q7A4trdGnxbEwLKMy
-   E3c2rDpMKAAofclGSNPbqgrwB33qZJImo+r0mxLIC3ZGRgEfcjqQA4pN/
-   V5U9R3Ohab2gd3C9VYFCe1FjaUjQ494NsmIVvPSTquWhowB5LTuYO9oLs
-   w==;
-X-CSE-ConnectionGUID: 3Mx5f0nNQeClw/u3yKaIgg==
-X-CSE-MsgGUID: 12xhESCGRu6k/bRLbv3Oow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="39417928"
+  bh=nLDf+sUIuk02ownpAEexZUrsUhDqI1wK13rhOEMBosI=;
+  b=UJmhxBZ/PterN/aCvOyCRWLuM04fyJIR5w6aYBggldZ/DIa3RiFHx8qe
+   71hKwzHwMRMintubilPDmoU8GmWtZ7+3gSOQ+F0yrpR9ltR98U24TM3zV
+   fUYnF7JCa/hMfwbJWXB6rpJN9P7SKc4UckAjetAyQbJ/HBk9nRLatauru
+   hLMsDbWAq/ln8Ar/M1nkYgdH2OJEexnDMGtD2EiFYu3kcmduiUUldQ5nT
+   OpFI9o+mcpoIQGpsClqYLxYAM5kquaZa1sgLwMignXjZKpAT/jhUWAUqX
+   sNECyKNBt7sqXmUCYg85wfSVY3pPkOVI9kVEdBQCxIi20pcV/Io01l2Pc
+   g==;
+X-CSE-ConnectionGUID: Gv9t1ahUQSi5TgASd+aqyQ==
+X-CSE-MsgGUID: gYW5U7p0QMiHpebAywV+Cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="44120528"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="39417928"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 09:46:08 -0800
-X-CSE-ConnectionGUID: Me2jYdVuRe+Rj7iK/9F/6Q==
-X-CSE-MsgGUID: BNRDYOI+Ty6LYxXW95dffw==
+   d="scan'208";a="44120528"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 09:46:06 -0800
+X-CSE-ConnectionGUID: vgc5rbZpSpaRw/TN4c5iIw==
+X-CSE-MsgGUID: K299GsO6TCKtBI3fXrgXww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117847849"
+   d="scan'208";a="117342994"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Feb 2025 09:46:07 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Feb 2025 09:46:07 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tidHo-0018WJ-2d;
+	id 1tidHo-0018WL-2g;
 	Thu, 13 Feb 2025 17:46:04 +0000
-Date: Fri, 14 Feb 2025 01:45:59 +0800
+Date: Fri, 14 Feb 2025 01:45:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 13/13] net/ceph/ceph_san.c:25:39: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202502140148.QryPfsF2-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [paulmckrcu:dev.2025.02.12a 73/77] kernel/rcu/rcutorture.c:2440:42:
+ sparse: sparse: symbol 'updownreaders' was not declared. Should it be
+ static?
+Message-ID: <202502140113.iZOFajfB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   cd1e899feeb6a7da55cbb74b9245c8bbb77f82ba
-commit: cd1e899feeb6a7da55cbb74b9245c8bbb77f82ba [13/13] cephsun: using a dynamic buffer allocation
-config: alpha-randconfig-r133-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140148.QryPfsF2-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250214/202502140148.QryPfsF2-lkp@intel.com/reproduce)
+tree:   https://github.com/paulmckrcu/linux dev.2025.02.12a
+head:   9909b31f911e4cb67bb84cd07c5172c0823ac549
+commit: bc33cbe9ab89abc9ae3d33843c3d84e383ac8677 [73/77] rcutorture: Add tests for SRCU up/down reader primitives
+config: nios2-randconfig-r112-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140113.iZOFajfB-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250214/202502140113.iZOFajfB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140148.QryPfsF2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140113.iZOFajfB-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   net/ceph/ceph_san.c:188:39: sparse: sparse: no newline at end of file
-   net/ceph/ceph_san.c:24:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_logger * @@
-   net/ceph/ceph_san.c:24:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:24:39: sparse:     got struct ceph_san_tls_logger *
->> net/ceph/ceph_san.c:25:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct cephsan_pagefrag * @@
-   net/ceph/ceph_san.c:25:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:25:39: sparse:     got struct cephsan_pagefrag *
-   net/ceph/ceph_san.c:54:23: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_logger * @@
-   net/ceph/ceph_san.c:54:23: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:54:23: sparse:     got struct ceph_san_tls_logger *
-   net/ceph/ceph_san.c:72:23: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_logger * @@
-   net/ceph/ceph_san.c:72:23: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:72:23: sparse:     got struct ceph_san_tls_logger *
-   net/ceph/ceph_san.c:82:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct cephsan_pagefrag * @@
-   net/ceph/ceph_san.c:82:22: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:82:22: sparse:     got struct cephsan_pagefrag *
+>> kernel/rcu/rcutorture.c:2440:42: sparse: sparse: symbol 'updownreaders' was not declared. Should it be static?
+   kernel/rcu/rcutorture.c:444:12: sparse: sparse: context imbalance in 'rcu_torture_read_lock' - wrong count at exit
+   kernel/rcu/rcutorture.c:484:13: sparse: sparse: context imbalance in 'rcu_torture_read_unlock' - unexpected unlock
+   kernel/rcu/rcutorture.c:763:38: sparse: sparse: context imbalance in 'srcu_torture_read_unlock' - unexpected unlock
+   kernel/rcu/rcutorture.c:813:34: sparse: sparse: context imbalance in 'srcu_torture_up_read' - unexpected unlock
+   kernel/rcu/rcutorture.c:2118:9: sparse: sparse: context imbalance in 'rcutorture_one_extend' - different lock contexts for basic block
+   kernel/rcu/rcutorture.c:4165:41: sparse: sparse: context imbalance in 'rcu_torture_init_srcu_lockdep' - unexpected unlock
 
-vim +25 net/ceph/ceph_san.c
+vim +/updownreaders +2440 kernel/rcu/rcutorture.c
 
-    15	
-    16	
-    17	static inline void *cephsan_pagefrag_get_ptr(struct cephsan_pagefrag *pf, u64 val);
-    18	/* The definitions for struct ceph_san_log_entry and struct ceph_san_tls_logger
-    19	 * have been moved to cephsan.h (under CONFIG_DEBUG_FS) to avoid duplication.
-    20	 */
-    21	
-    22	void log_cephsan(char *buf) {
-    23	    /* Use the per-core TLS logger */
-    24	    struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
-  > 25		struct cephsan_pagefrag *pf = this_cpu_ptr(&ceph_san_pagefrag);
-    26	
-    27	    int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-    28		int pre_len = tls->logs[head_idx].len;
-    29	    tls->logs[head_idx].pid = current->pid;
-    30	    tls->logs[head_idx].ts = jiffies;
-    31	    memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-    32	
-    33		cephsan_pagefrag_free(pf, pre_len);
-    34	
-    35		int len = strlen(buf);
-    36	    u64 buf_idx = cephsan_pagefrag_alloc(pf, len);
-    37	    if (buf_idx) {
-    38			tls->logs[head_idx].len = len;
-    39	        tls->logs[head_idx].buf = cephsan_pagefrag_get_ptr(pf, buf_idx);
-    40			memcpy(tls->logs[head_idx].buf, buf, len);
-    41	    }
-    42	}
-    43	EXPORT_SYMBOL(log_cephsan);
-    44	
+  2439	
+> 2440	struct rcu_torture_one_read_state_updown *updownreaders;
+  2441	static DEFINE_TORTURE_RANDOM(rcu_torture_updown_rand);
+  2442	static int rcu_torture_updown(void *arg);
+  2443	
 
 -- 
 0-DAY CI Kernel Test Service
