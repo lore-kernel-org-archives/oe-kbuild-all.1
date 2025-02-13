@@ -1,64 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FC828A2D4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 19:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A4E24A06D;
+	Thu, 13 Feb 2025 19:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739473300; cv=none; b=J58ZagQqtoUopO7Puir+xOPOn7zZKRxIeFDUVvUeIH8p/uXu2ds292RHtggAC/520Sh85cMiPK80nI8kLQ5SXL50OwTUh6tBvo5jwamB1/8DXgzCx5p38HquRkWKwas/yGNwwbmWGHcoHmx+DNe875tW+Jxli7ZS0yQ/wwq6z0I=
+	t=1739475144; cv=none; b=lMDkJYN2lGivvT8s+TPgQ/s3p0H7Mi36kd499lFlxTzQMy3+3Rdes85Jtpg/VHdPJoWoALgM/k2xWhGM6RebDWoUJxK/3GHLSD5bAmYP8tG9pJQaKA5HbnCxGqrojQT3DKMv6W+BdhH1S3y4oqhKR8BMZd7Ds3KifQH9tDNzAq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739473300; c=relaxed/simple;
-	bh=Q+9A+XPhqjom/iRBeDIijWx64bo72hPGQfck4ws9+vI=;
+	s=arc-20240116; t=1739475144; c=relaxed/simple;
+	bh=Qj+F86dsqXkmAV7Wp0h+E2C2QouUJZ9pZ8c3ZCoW/Lo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UiJpnMe9LkGBHvWLOJdvhHK8K0IG/tYnOIeFbG1MXtXN34EG6JIl+eaq9ETiNOZaxbIkOZs4eqWhg8+k+QH7ym9M6TG9/sRQZsN+H2Axh+DnjPFgRCkWLNgtcZk0O55Dtp5YSigkxLRYugsgps9dYON4CA6Qhv3ua09C+K/AsVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DRtoWhRN; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=pqe5QW/5/9OcVwZrgnvf2zFQcjuUL3TjQtpHdMGFFLw7G0h4btBifgG2AHao0BzdBpqfkkGOcsXhsEv2RyNzR74tRsmD5vaKFvrLTBTrHutrNhVF0PJ80a8kdIJbu2JxchlrJJhPNQ1fr4/aLKafp7vpEtIUYyh0yoyC68fALNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTgtnaQA; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DRtoWhRN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTgtnaQA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739473298; x=1771009298;
+  t=1739475142; x=1771011142;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q+9A+XPhqjom/iRBeDIijWx64bo72hPGQfck4ws9+vI=;
-  b=DRtoWhRNFHUxFczFYfCam/DS7CzeJKUJYXqqQAC9pqv7fNpRzwEULaXv
-   orodGSNWzl7rdxYbfiMpFAebdB0tbbs36phri7snAXwOXNAhMuLzH3vf0
-   EAOOCu7TF8rCMuAG/tFld5ijirBWdUzLlHlOdiJoHFG0HVfe2gxpQJPgE
-   MRMwTA3BtETmQCBKahxlZM6jW0pGhJVC9XYPj24/bZuflyn3p8izP/OrB
-   2nIHnUeII7UXvA+nNDPnLBKhG+fOSq3nOXv0OPYica2t/9hgbhhA1mGgD
-   6LVyKBG08f9ISgqQRzyaZ+YMvJ9QbNiC9OtBcB0plnEcELmR/O8GGOG61
-   w==;
-X-CSE-ConnectionGUID: JmsyIQQkR6uLsFImjLXCLA==
-X-CSE-MsgGUID: taF1OLIxQWacGpldOvBKEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="39904420"
+  bh=Qj+F86dsqXkmAV7Wp0h+E2C2QouUJZ9pZ8c3ZCoW/Lo=;
+  b=fTgtnaQA3wW5KwrQFWZ+3YlPgSqWMp6bYRVq87avJOoTMHTIz+iPzHr4
+   N8i+h5/osJD/TFTJ7b7nL5lecznn1z1S1M0HpYY+zeq7fcsG7WfMDFjJt
+   wldDuDLmOGTkyI9XYLD9d6UPNQtWDiBF2ptIUgKQlE3W7UDiomoGbsbQ+
+   9PqMWC8UkHAUE3gC5uNUbRIhGQBXyFsulPGcC00TUbGObvrdlQ4Mk5p5V
+   W3JVByypqAlZxzgXNV3If6FHUvF7cg+N/Khxyr6TbmHJXsxNeny3K9KzJ
+   P9a9OnQNFQrwpDiylDfEyuXsf6pz3jck9JrBc9LC1OPcHLNTsjBj2+HoD
+   A==;
+X-CSE-ConnectionGUID: 9307QLVYSZWx5WIa0zjdyA==
+X-CSE-MsgGUID: 1jGxiCbpRNygGxA3uO1xvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="44132344"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="39904420"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 11:01:38 -0800
-X-CSE-ConnectionGUID: 5CWKBrssRMGyGx6vOVkWSA==
-X-CSE-MsgGUID: 6oLgLwqdRvqCFTMmNE6hwQ==
+   d="scan'208";a="44132344"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 11:32:22 -0800
+X-CSE-ConnectionGUID: Cm3tK4RqQkm+dkgYGdCBBw==
+X-CSE-MsgGUID: U7H7sMZsTgey4v5itG7VNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113208216"
+   d="scan'208";a="113194614"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2025 11:01:15 -0800
+  by orviesa006.jf.intel.com with ESMTP; 13 Feb 2025 11:32:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tieSX-0018bj-14;
-	Thu, 13 Feb 2025 19:01:13 +0000
-Date: Fri, 14 Feb 2025 03:00:33 +0800
+	id 1tiewa-0018d9-0v;
+	Thu, 13 Feb 2025 19:32:16 +0000
+Date: Fri, 14 Feb 2025 03:32:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Denzeel Oliva <wachiturroxd150@gmail.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, alim.akhtar@samsung.com,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Denzeel Oliva <wachiturroxd150@gmail.com>
-Subject: Re: [PATCH v1] arm64: dts: exynos: r8s: enable UART interfaces and
- aliases
-Message-ID: <202502140220.nEdgzjof-lkp@intel.com>
-References: <20250213000226.277-1-wachiturroxd150@gmail.com>
+To: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Cryolitia PukNgae <Cryolitia@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Celeste Liu <CoelacanthusHex@gmail.com>,
+	Yao Zi <ziyao@disroot.org>,
+	Derek John Clark <derekjohn.clark@gmail.com>,
+	Marcin =?utf-8?Q?Str=C4=85gowski?= <marcin@stragowski.com>,
+	someone5678 <someone5678.dev@gmail.com>,
+	Justin Weiss <justin@justinweiss.com>
+Subject: Re: [PATCH v5 1/2] hwmon: add GPD devices sensor driver
+Message-ID: <202502140302.IkW9UALU-lkp@intel.com>
+References: <20250211-gpd_fan-v5-1-608f4255f0e1@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +73,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213000226.277-1-wachiturroxd150@gmail.com>
+In-Reply-To: <20250211-gpd_fan-v5-1-608f4255f0e1@gmail.com>
 
-Hi Denzeel,
+Hi Cryolitia,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on krzk/for-next]
-[also build test ERROR on linus/master v6.14-rc2 next-20250213]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Denzeel-Oliva/arm64-dts-exynos-r8s-enable-UART-interfaces-and-aliases/20250213-080512
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250213000226.277-1-wachiturroxd150%40gmail.com
-patch subject: [PATCH v1] arm64: dts: exynos: r8s: enable UART interfaces and aliases
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250214/202502140220.nEdgzjof-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140220.nEdgzjof-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cryolitia-PukNgae-via-B4-Relay/hwmon-add-GPD-devices-sensor-driver/20250211-150418
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250211-gpd_fan-v5-1-608f4255f0e1%40gmail.com
+patch subject: [PATCH v5 1/2] hwmon: add GPD devices sensor driver
+config: i386-randconfig-002-20250214 (https://download.01.org/0day-ci/archive/20250214/202502140302.IkW9UALU-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140302.IkW9UALU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140220.nEdgzjof-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140302.IkW9UALU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:122.1-10 Label or path usi_uart not found
->> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:127.1-10 Label or path serial_0 not found
->> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:131.1-13 Label or path usi_bt_uart not found
->> Error: arch/arm64/boot/dts/exynos/exynos990-r8s.dts:136.1-10 Label or path serial_1 not found
-   FATAL ERROR: Syntax error parsing input tree
+>> drivers/hwmon/gpd-fan.c:361:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     361 |                 const struct gpd_board_drvdata *drvdata = gpd_driver_priv.drvdata;
+         |                 ^
+   drivers/hwmon/gpd-fan.c:452:4: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     452 |                         int ret = gpd_read_pwm();
+         |                         ^
+   drivers/hwmon/gpd-fan.c:478:4: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     478 |                         u8 var = clamp_val(val, 0, 255);
+         |                         ^
+   3 warnings generated.
+
+
+vim +361 drivers/hwmon/gpd-fan.c
+
+   352	
+   353	static int gpd_win_mini_set_pwm_enable(enum FAN_PWM_ENABLE pwm_enable)
+   354	{
+   355		switch (pwm_enable) {
+   356		case DISABLE:
+   357			return gpd_generic_write_pwm(255);
+   358		case MANUAL:
+   359			return gpd_generic_write_pwm(gpd_driver_priv.pwm_value);
+   360		case AUTOMATIC:
+ > 361			const struct gpd_board_drvdata *drvdata = gpd_driver_priv.drvdata;
+   362	
+   363			return gpd_ecram_write(drvdata, drvdata->pwm_write, 0);
+   364		}
+   365		return 0;
+   366	}
+   367	
 
 -- 
 0-DAY CI Kernel Test Service
