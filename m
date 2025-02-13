@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50F01DEFDD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Feb 2025 23:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC156282F1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 00:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739402160; cv=none; b=ZrJmUe2PMKGoR1iigb6xwYOHuMC5HpyNR0lVAUjfwJgU+kcPRDVcf5/zflL2vMh1Qr8QWL7ePCeBkxXWOYCaD1sSIq4nKkHYu5Es2MwNGoAd1rwFgD52BQI4+YU6Xa1WdpS80omeF5Zj0dover2jYnD+/KEgkHpg+7lfKQbfVlY=
+	t=1739407030; cv=none; b=DA+GCyjWwbirvwxHvIFblomhwox8b7DQ4ybGdWe0TlN496RHHDh3xNRZBBAc80dhHroIYEA0BNVezq4cpfZ7bOFuRVgUEvUfp0X3sT5PWspik8V5M3o4jgpaCEMOV/S3cxS+F7S8sY3DlD5hUB60xo22JRtad7pqtlgxrKVBqWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739402160; c=relaxed/simple;
-	bh=izRYm4uwZus1EYIMUch5gllmCOHKEB0XSAPXmwN9VQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WiO0dbR2vZPZveCPBUtn7GqjQcbdHG8gjJnZmklw1/NkIidNK541G1Ev6wLepnX4EOtKLOD63+/JoqXxlX1Per3nY7vN+Uz00QLmXcMl00KTbVqUIQDs14vXufqXBQTp2eeSz4xbsdwT/BAL2D90wDxWfdWAa6AGWPU4gz/6Q1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kB2IkPLX; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1739407030; c=relaxed/simple;
+	bh=E2fjXwpvBdCKqSYATA8n3S9IoDEl8bBan/TcWeppdmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7eLu1KiumGwj8ytEaOT60jcddukLC6z2vM54TAAbOcrvibwYWxV9s6hgfEGpmZU9OCzWjMDvQDV+gB/Gyo7/Y0zZ5pSgTBIfceSELeVWjN4LIO5CrAwnvvkrS2j1GkWc5RqN6z/DBoL/GdXVoZhSnpX3le5bGIDr/urxgfwzHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mn0UlOHS; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kB2IkPLX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mn0UlOHS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739402159; x=1770938159;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=izRYm4uwZus1EYIMUch5gllmCOHKEB0XSAPXmwN9VQk=;
-  b=kB2IkPLXcYBmtGToDKzQulchZb90euM1Sd66CepBpwGGcdND5eIzr0wD
-   6OcwHS+C2TkLw6i7yCbE+7XS7yC+GCnntM9wAU4ZwGLHlpGPdKSGzV2zz
-   WYcvt4oLLsjm9XUZbH2HsvqjjoU6iSJKUP5ZJvGW7nKOAZgEnTyEHfayQ
-   z1RbpRf4be274Ldf7hyo91uElsdpD936ZL38+4c+/ocf5xVSO62QPBpUz
-   5Wp3nqcfFbwlX5rBQwufC43TjPIwg+xJEJb9aGMyJKmJ2WW+WvfsDYE06
-   JT7vGA8sKEycs5uRgAIcVmYFcb1wR6Hn6thAZk7IDMrJ7DkAgsNVUq8WF
+  t=1739407029; x=1770943029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E2fjXwpvBdCKqSYATA8n3S9IoDEl8bBan/TcWeppdmA=;
+  b=mn0UlOHSr3shjwZq8ceWLl1SB1pcpsUj6fhr18JM9aQTqu8Uxts2nnlV
+   ZmKHdoS3FekU9HmGb19BQLAyTGozq76UJvFF8Z09Sbr655Fkb2Elz9cuh
+   9EbrPIJeuIC/0lxkvdkvl0Z5RuKoeztDBEGlWvt8n0/UE7qPpb52LbKzc
+   BkdXAuVh449BkRoC75ZU0nNA1w6zrd2snoAEe8AEg9fMg6pduCuagsOpe
+   LzvTuT/Yu6Q4uKMvHLmZiSlf3y2wHQx1xAUPJo7iYr4GOy8JJDtcb3Wct
+   MrUN0qw20L52s7jK2X3zppmGv+naqS7uVFhNjWHuoUtOa55ZiSn5Mcgu1
    g==;
-X-CSE-ConnectionGUID: RnwUk60xTLyKrbVdoF+BUw==
-X-CSE-MsgGUID: JvFznOP8T32qWxkR7fex9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40231720"
+X-CSE-ConnectionGUID: fk9bD1n9TvCn106rLrAmNQ==
+X-CSE-MsgGUID: URujdY5oSWao31HNf55jyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="42929357"
 X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
-   d="scan'208";a="40231720"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 15:15:58 -0800
-X-CSE-ConnectionGUID: E7J6gnmiQtyiAKHsObnPSw==
-X-CSE-MsgGUID: mal+fvEJQ7SQSFtzHiABQA==
+   d="scan'208";a="42929357"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 16:37:08 -0800
+X-CSE-ConnectionGUID: chKLIZkaTEyZs2B2cAI9HQ==
+X-CSE-MsgGUID: FDXpyJCoRkq1ieHRMQXSGw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; 
-   d="scan'208";a="113165085"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117606348"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Feb 2025 15:15:57 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 12 Feb 2025 16:37:04 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiLxT-0016Fr-0u;
-	Wed, 12 Feb 2025 23:15:55 +0000
-Date: Thu, 13 Feb 2025 07:14:58 +0800
+	id 1tiNDy-0016Jn-2g;
+	Thu, 13 Feb 2025 00:37:02 +0000
+Date: Thu, 13 Feb 2025 08:36:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] fs/binfmt_elf.c:2162:19: error:
- 'struct linux_binfmt' has no member named 'min_coredump'
-Message-ID: <202502130753.12gF9JLV-lkp@intel.com>
+To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, sd@queasysnail.net,
+	ryazanov.s.a@gmail.com, Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Xiao Liang <shaw.leon@gmail.com>
+Subject: Re: [PATCH net-next v19 25/26] testing/selftests: add test tool and
+ scripts for ovpn module
+Message-ID: <202502130811.Rjp0u75v-lkp@intel.com>
+References: <20250211-b4-ovpn-v19-25-86d5daf2a47a@openvpn.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,47 +70,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250211-b4-ovpn-v19-25-86d5daf2a47a@openvpn.net>
 
-Hi Kalesh,
+Hi Antonio,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   33f3d212e8d80da8f8fb647de5199976d1fc93dd
-commit: f4f03e72ea6da725b2c00ac08216872566dbff49 [1/1] ANDROID: 16K: Remove build time dependencies on ELF_EXEC_PAGESIZE
-config: x86_64-buildonly-randconfig-002-20250213 (https://download.01.org/0day-ci/archive/20250213/202502130753.12gF9JLV-lkp@intel.com/config)
+[auto build test ERROR on 39f54262ba499d862420a97719d2f0eea0cbd394]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/net-introduce-OpenVPN-Data-Channel-Offload-ovpn/20250211-091029
+base:   39f54262ba499d862420a97719d2f0eea0cbd394
+patch link:    https://lore.kernel.org/r/20250211-b4-ovpn-v19-25-86d5daf2a47a%40openvpn.net
+patch subject: [PATCH net-next v19 25/26] testing/selftests: add test tool and scripts for ovpn module
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130753.12gF9JLV-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502130811.Rjp0u75v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502130753.12gF9JLV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502130811.Rjp0u75v-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/binfmt_elf.c: In function 'init_elf_binfmt':
->> fs/binfmt_elf.c:2162:19: error: 'struct linux_binfmt' has no member named 'min_coredump'
-    2162 |         elf_format.min_coredump = ELF_EXEC_PAGESIZE;
-         |                   ^
---
-   In file included from fs/compat_binfmt_elf.c:144:
-   fs/binfmt_elf.c: In function 'init_compat_elf_binfmt':
->> fs/binfmt_elf.c:2162:19: error: 'struct linux_binfmt' has no member named 'min_coredump'
-    2162 |         elf_format.min_coredump = ELF_EXEC_PAGESIZE;
-         |                   ^
-
-
-vim +2162 fs/binfmt_elf.c
-
-  2159	
-  2160	static int __init init_elf_binfmt(void)
-  2161	{
-> 2162		elf_format.min_coredump = ELF_EXEC_PAGESIZE;
-  2163		register_binfmt(&elf_format);
-  2164		return 0;
-  2165	}
-  2166	
+>> ovpn-cli.c:30:10: fatal error: mbedtls/base64.h: No such file or directory
+      30 | #include <mbedtls/base64.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
