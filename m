@@ -1,58 +1,72 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE0F2135CD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 10:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFED2135CD;
+	Thu, 13 Feb 2025 10:58:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739444303; cv=none; b=mit/qOHTzC2POpcR4W3Umb79Wo1iPgKDVMaDQrFdQER+MqyPsSGTvYtOasmhvsZnhRWhFskzN7FTB7xtG/rTR46Z090+KSpfVG/gfG9KaVej3YL7Q9i1srHmgWQXEqGUjIrBLwBknmoqedALKPNqhIZWMa9xmRMBu6ixHK7L6sA=
+	t=1739444305; cv=none; b=EFEUY33T4wUVeLPof5Ve9tMdCpj977RNlCOQcdxx16NL0dLaISfhQosu/4H/KshKzZn/5pGHOHw6eGJY6rFdKwtJ6dcJ8LivgzGoPrdXu6NY6lsZjz/DkI4y7193j9E7T9QUvWV0htFiDfNR2tuIZIj2tnMJ0zeVJIMA54dannQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739444303; c=relaxed/simple;
-	bh=tj+Hgy7VyfAwJg4jAzW0I5c3mGBtr/B6lo6DVFjLF6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XYg5s7lN2Hzf+alfiqmmy06ZuRz5IUcq+VgWhdJ4PxTvh9ATcxxcbpQ7XfQpAfV+8LoUEcZSke786P51StXoOfCKJShgDwPvuUItI4uW/EhyiE5n1KZcmUHxzLWCSzd0ujtpVyAfrMkOqqE6Ulv53/RSJ0BBEC3gqMKnGqNqARI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fgvyitxn; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1739444305; c=relaxed/simple;
+	bh=pTt4Dk/mWDy0iReP/udyoCzdyuN4y/N0LeolOL9CKSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QmIBGfWKNy8t60ECkwCNvzBGJDEas2cqXg4bAKZFMPG2kZ1ULUzI4JACwJJWVNtNFg1RWBbNFoN1u+FYLT2YbVvDRlbWPWpXd6vPBbOaxgc+qCtS7wEQ/tqRqFClSPtg1lx4LhyxgT1E7f2tD9ULv2ktJx8zRTjwc+S5Eq7Nx54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j30VancN; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fgvyitxn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j30VancN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739444300; x=1770980300;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tj+Hgy7VyfAwJg4jAzW0I5c3mGBtr/B6lo6DVFjLF6U=;
-  b=FgvyitxnqK+/QGPtHB6RS1ot0qlNlqdtQ2RzYZIOl1qkYjwQ8JiII5JD
-   LY5TtBbHW5K5GGb4gLXciD2hjBVWVOrielmOiYubA4zpr4PwjCB8w3Ozk
-   cW07ZyvN7E9U4s8pCWus3lOevhF9c0PpZvjXrRDkHgSnZ/qb8sby8TiVw
-   uQaeKWhyxrFuo8HYeVfTMsYcydszenWxbwQBPs0kOK9szNExoO3dPrG1K
-   p1SlgoHx1qQkix9lB+k6Gy6cEykQ4fIFKK4OhBjvodz/WGZpB607COA9W
-   1gzB2XhnNdn2sEExTY/ktyWiWVQaq+JfaaFQnjYoLD+3RZm4kWnfx+9gU
-   Q==;
-X-CSE-ConnectionGUID: vpBr1GSbSc6Er5YJZDKJaA==
-X-CSE-MsgGUID: qLLADTmHQaSlcb4+dSw8tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57542059"
+  t=1739444304; x=1770980304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pTt4Dk/mWDy0iReP/udyoCzdyuN4y/N0LeolOL9CKSo=;
+  b=j30VancNgMMQOMCDRfluWbQhe2NYbPUNnpY4Nu2Ibx+yQCAdLUFKxvWM
+   ygbpivIf+VxOl63qysB1Kocz4LPsnJK93yZsj5X3F3ej7OSV8bprhHPXj
+   QV2o1/4a1K5qIxHkiwlqGqrNTTuNfkpzt+HTfl/JhafAfa8JUOPY61uOm
+   Z7L9wALx2CzBNLIXfEyjTYqXsb4m4tJTMuIliVXhXmuyy5rK60ukZu+iG
+   HnyIr0w8L0qP5J0HLyT4xISUes7JXD8AjuK3kH4P6HyAOkZqXaN94r6mf
+   Pr7bOgYMOOnN4wIhKjdFurFPCHBBudPFrieyMl30dTzKnosupFBwh1fEn
+   A==;
+X-CSE-ConnectionGUID: U0FsK74CS+Gua8lKPf2wXQ==
+X-CSE-MsgGUID: qh8Qt6auRKeyABo20Hkr5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57542065"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="57542059"
+   d="scan'208";a="57542065"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 02:58:20 -0800
-X-CSE-ConnectionGUID: lrtY8sMvRsWuJJHsqiw31w==
-X-CSE-MsgGUID: 3LR3jwkmRR6RRZXWa309iA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 02:58:23 -0800
+X-CSE-ConnectionGUID: zI83mEhvQIKfX2/42nUXVg==
+X-CSE-MsgGUID: ubMBOrkqR02OfjXgd6sv2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112942475"
+   d="scan'208";a="112942474"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 13 Feb 2025 02:58:18 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiWvA-0016wn-0N;
+	id 1tiWvA-0016wl-0J;
 	Thu, 13 Feb 2025 10:58:16 +0000
-Date: Thu, 13 Feb 2025 18:57:26 +0800
+Date: Thu, 13 Feb 2025 18:57:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 6/13] include/linux/percpu-defs.h:219:59:
- error: invalid use of undefined type 'struct ceph_san_tls_logger'
-Message-ID: <202502131856.1wNMq5pb-lkp@intel.com>
+To: Andrea Righi <arighi@nvidia.com>, Tejun Heo <tj@kernel.org>,
+	David Vernet <void@manifault.com>,
+	Changwoo Min <changwoo@igalia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Joel Fernandes <joel@joelfernandes.org>, Ian May <ianm@nvidia.com>,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yury Norov <yury.norov@gmail.com>
+Subject: Re: [PATCH 6/7] sched_ext: idle: Per-node idle cpumasks
+Message-ID: <202502131834.ni8ojoRO-lkp@intel.com>
+References: <20250212165006.490130-7-arighi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,154 +75,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250212165006.490130-7-arighi@nvidia.com>
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   cd1e899feeb6a7da55cbb74b9245c8bbb77f82ba
-commit: 485747e7711ebb9bcda819027564d587d215874a [6/13] ceph_san: moving to per_cpu
-config: sh-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131856.1wNMq5pb-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131856.1wNMq5pb-lkp@intel.com/reproduce)
+Hi Andrea,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20250212]
+[cannot apply to tip/sched/core akpm-mm/mm-everything tip/master linus/master tip/auto-latest v6.14-rc2 v6.14-rc1 v6.13 v6.14-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrea-Righi/mm-numa-Introduce-nearest_node_nodemask/20250213-014857
+base:   next-20250212
+patch link:    https://lore.kernel.org/r/20250212165006.490130-7-arighi%40nvidia.com
+patch subject: [PATCH 6/7] sched_ext: idle: Per-node idle cpumasks
+config: i386-buildonly-randconfig-005-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131834.ni8ojoRO-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131834.ni8ojoRO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131856.1wNMq5pb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502131834.ni8ojoRO-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/ceph/ceph_san.c:15:7: warning: no previous prototype for 'get_log_cephsan' [-Wmissing-prototypes]
-      15 | char *get_log_cephsan(void) {
-         |       ^~~~~~~~~~~~~~~
-   In file included from include/asm-generic/percpu.h:7,
-                    from ./arch/sh/include/generated/asm/percpu.h:1,
-                    from include/linux/irqflags.h:19,
-                    from arch/sh/include/asm/cmpxchg-irq.h:5,
-                    from arch/sh/include/asm/cmpxchg.h:21,
-                    from arch/sh/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/sh/include/asm/bitops.h:23,
-                    from include/linux/bitops.h:68,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from net/ceph/ceph_san.c:1:
-   net/ceph/ceph_san.c: In function 'get_log_cephsan':
->> include/linux/percpu-defs.h:219:59: error: invalid use of undefined type 'struct ceph_san_tls_logger'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                           ^
-   include/linux/percpu-defs.h:262:9: note: in expansion of macro '__verify_pcpu_ptr'
-     262 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:266:33: note: in expansion of macro 'per_cpu_ptr'
-     266 | #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
-         |                                 ^~~~~~~~~~~
-   include/linux/percpu-defs.h:267:33: note: in expansion of macro 'raw_cpu_ptr'
-     267 | #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
-         |                                 ^~~~~~~~~~~
-   net/ceph/ceph_san.c:17:39: note: in expansion of macro 'this_cpu_ptr'
-      17 |     struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
-         |                                       ^~~~~~~~~~~~
->> net/ceph/ceph_san.c:18:23: error: invalid use of undefined type 'struct ceph_san_tls_logger'
-      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-         |                       ^~
->> net/ceph/ceph_san.c:18:39: error: 'CEPH_SAN_MAX_LOGS' undeclared (first use in this function); did you mean 'CEPH_SAN_LOG'?
-      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-         |                                       ^~~~~~~~~~~~~~~~~
-         |                                       CEPH_SAN_LOG
-   net/ceph/ceph_san.c:18:39: note: each undeclared identifier is reported only once for each function it appears in
-   net/ceph/ceph_san.c:19:8: error: invalid use of undefined type 'struct ceph_san_tls_logger'
-      19 |     tls->logs[head_idx].pid = current->pid;
-         |        ^~
-   net/ceph/ceph_san.c:20:8: error: invalid use of undefined type 'struct ceph_san_tls_logger'
-      20 |     tls->logs[head_idx].ts = jiffies;
-         |        ^~
-   net/ceph/ceph_san.c:21:15: error: invalid use of undefined type 'struct ceph_san_tls_logger'
-      21 |     memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-         |               ^~
-   net/ceph/ceph_san.c:23:15: error: invalid use of undefined type 'struct ceph_san_tls_logger'
-      23 |     return tls->logs[head_idx].buf;
-         |               ^~
->> net/ceph/ceph_san.c:18:9: warning: variable 'head_idx' set but not used [-Wunused-but-set-variable]
-      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-         |         ^~~~~~~~
-   net/ceph/ceph_san.c: At top level:
->> net/ceph/ceph_san.c:30:6: error: redefinition of 'cephsan_cleanup'
-      30 | void cephsan_cleanup(void)
-         |      ^~~~~~~~~~~~~~~
-   In file included from net/ceph/ceph_san.c:6:
-   include/linux/ceph/ceph_san.h:104:20: note: previous definition of 'cephsan_cleanup' with type 'void(void)'
-     104 | static inline void cephsan_cleanup(void) {}
-         |                    ^~~~~~~~~~~~~~~
->> net/ceph/ceph_san.c:37:5: error: redefinition of 'cephsan_init'
-      37 | int cephsan_init(void)
-         |     ^~~~~~~~~~~~
-   include/linux/ceph/ceph_san.h:105:26: note: previous definition of 'cephsan_init' with type 'int(void)'
-     105 | static inline int __init cephsan_init(void) { return 0; }
-         |                          ^~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/preempt.h:10:
->> net/ceph/ceph_san.c:10:15: error: storage size of 'ceph_san_tls' isn't known
-      10 | EXPORT_SYMBOL(ceph_san_tls);
-         |               ^~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   net/ceph/ceph_san.c:10:1: note: in expansion of macro 'EXPORT_SYMBOL'
-      10 | EXPORT_SYMBOL(ceph_san_tls);
-         | ^~~~~~~~~~~~~
->> net/ceph/ceph_san.c:10:15: error: storage size of 'ceph_san_tls' isn't known
-      10 | EXPORT_SYMBOL(ceph_san_tls);
-         |               ^~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:68:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   net/ceph/ceph_san.c:10:1: note: in expansion of macro 'EXPORT_SYMBOL'
-      10 | EXPORT_SYMBOL(ceph_san_tls);
-         | ^~~~~~~~~~~~~
-   net/ceph/ceph_san.c: In function 'get_log_cephsan':
-   net/ceph/ceph_san.c:24:1: warning: control reaches end of non-void function [-Wreturn-type]
-      24 | }
+   In file included from kernel/sched/build_policy.c:63:
+   kernel/sched/ext.c:6014:31: warning: bitwise operation between different enumeration types ('enum scx_enq_flags' and 'enum scx_deq_flags') [-Wenum-enum-conversion]
+    6014 |         WRITE_ONCE(v, SCX_ENQ_WAKEUP | SCX_DEQ_SLEEP | SCX_KICK_PREEMPT |
+         |                       ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
+      61 |         __WRITE_ONCE(x, val);                                           \
+         |                         ^~~
+   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                        ^~~
+   In file included from kernel/sched/build_policy.c:64:
+>> kernel/sched/ext_idle.c:136:9: error: '__section__' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
+     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
+         |                ^
+   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
+     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^
+   include/linux/percpu-defs.h:93:2: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
+      93 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
+         |         ^
+   include/linux/percpu-defs.h:54:2: note: expanded from macro '__PCPU_DUMMY_ATTRS'
+      54 |         __section(".discard") __attribute__((unused))
+         |         ^
+   include/linux/compiler_attributes.h:321:56: note: expanded from macro '__section'
+     321 | #define __section(section)              __attribute__((__section__(section)))
+         |                                                        ^
+   In file included from kernel/sched/build_policy.c:64:
+>> kernel/sched/ext_idle.c:136:9: error: non-extern declaration of '__pcpu_unique_per_cpu_unvisited' follows extern declaration
+   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
+     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^
+   include/linux/percpu-defs.h:93:26: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
+      93 |         __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;                   \
+         |                                 ^
+   <scratch space>:82:1: note: expanded from here
+      82 | __pcpu_unique_per_cpu_unvisited
          | ^
+   kernel/sched/ext_idle.c:136:9: note: previous declaration is here
+   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
+     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^
+   include/linux/percpu-defs.h:92:33: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
+      92 |         extern __PCPU_DUMMY_ATTRS char __pcpu_unique_##name;            \
+         |                                        ^
+   <scratch space>:81:1: note: expanded from here
+      81 | __pcpu_unique_per_cpu_unvisited
+         | ^
+   In file included from kernel/sched/build_policy.c:64:
+>> kernel/sched/ext_idle.c:136:9: error: 'section' attribute only applies to functions, global variables, Objective-C methods, and Objective-C properties
+     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
+         |                ^
+   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
+     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^
+   include/linux/percpu-defs.h:95:2: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
+      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
+         |         ^
+   include/linux/percpu-defs.h:50:26: note: expanded from macro '__PCPU_ATTRS'
+      50 |         __percpu __attribute__((section(PER_CPU_BASE_SECTION sec)))     \
+         |                                 ^
+   In file included from kernel/sched/build_policy.c:64:
+>> kernel/sched/ext_idle.c:136:36: error: non-extern declaration of 'per_cpu_unvisited' follows extern declaration
+     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
+         |                                           ^
+   kernel/sched/ext_idle.c:136:36: note: previous declaration is here
+>> kernel/sched/ext_idle.c:136:9: error: weak declaration cannot have internal linkage
+     136 |         static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
+         |                ^
+   include/linux/percpu-defs.h:115:2: note: expanded from macro 'DEFINE_PER_CPU'
+     115 |         DEFINE_PER_CPU_SECTION(type, name, "")
+         |         ^
+   include/linux/percpu-defs.h:95:20: note: expanded from macro 'DEFINE_PER_CPU_SECTION'
+      95 |         __PCPU_ATTRS(sec) __weak __typeof__(type) name
+         |                           ^
+   include/linux/compiler_attributes.h:403:56: note: expanded from macro '__weak'
+     403 | #define __weak                          __attribute__((__weak__))
+         |                                                        ^
+   1 warning and 5 errors generated.
 
 
-vim +219 include/linux/percpu-defs.h
+vim +/__section__ +136 kernel/sched/ext_idle.c
 
-62fde54123fb64 Tejun Heo 2014-06-17  205  
-9c28278a24c01c Tejun Heo 2014-06-17  206  /*
-6fbc07bbe2b5a8 Tejun Heo 2014-06-17  207   * __verify_pcpu_ptr() verifies @ptr is a percpu pointer without evaluating
-6fbc07bbe2b5a8 Tejun Heo 2014-06-17  208   * @ptr and is invoked once before a percpu area is accessed by all
-6fbc07bbe2b5a8 Tejun Heo 2014-06-17  209   * accessors and operations.  This is performed in the generic part of
-6fbc07bbe2b5a8 Tejun Heo 2014-06-17  210   * percpu and arch overrides don't need to worry about it; however, if an
-6fbc07bbe2b5a8 Tejun Heo 2014-06-17  211   * arch wants to implement an arch-specific percpu accessor or operation,
-6fbc07bbe2b5a8 Tejun Heo 2014-06-17  212   * it may use __verify_pcpu_ptr() to verify the parameters.
-9c28278a24c01c Tejun Heo 2014-06-17  213   *
-9c28278a24c01c Tejun Heo 2014-06-17  214   * + 0 is required in order to convert the pointer type from a
-9c28278a24c01c Tejun Heo 2014-06-17  215   * potential array type to a pointer to a single item of the array.
-9c28278a24c01c Tejun Heo 2014-06-17  216   */
-eba117889ac444 Tejun Heo 2014-06-17  217  #define __verify_pcpu_ptr(ptr)						\
-eba117889ac444 Tejun Heo 2014-06-17  218  do {									\
-9c28278a24c01c Tejun Heo 2014-06-17 @219  	const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;	\
-9c28278a24c01c Tejun Heo 2014-06-17  220  	(void)__vpp_verify;						\
-9c28278a24c01c Tejun Heo 2014-06-17  221  } while (0)
-9c28278a24c01c Tejun Heo 2014-06-17  222  
-
-:::::: The code at line 219 was first introduced by commit
-:::::: 9c28278a24c01c0073fb89e53c1d2a605ab9587d percpu: reorder macros in percpu header files
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
+   133	
+   134	static s32 pick_idle_cpu_from_other_nodes(const struct cpumask *cpus_allowed, int node, u64 flags)
+   135	{
+ > 136		static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
+   137		nodemask_t *unvisited = this_cpu_ptr(&per_cpu_unvisited);
+   138		s32 cpu = -EBUSY;
+   139	
+   140		preempt_disable();
+   141		unvisited = this_cpu_ptr(&per_cpu_unvisited);
+   142	
+   143		/*
+   144		 * Restrict the search to the online nodes, excluding the current
+   145		 * one.
+   146		 */
+   147		nodes_clear(*unvisited);
+   148		nodes_or(*unvisited, *unvisited, node_states[N_ONLINE]);
+   149		node_clear(node, *unvisited);
+   150	
+   151		/*
+   152		 * Traverse all nodes in order of increasing distance, starting
+   153		 * from @node.
+   154		 *
+   155		 * This loop is O(N^2), with N being the amount of NUMA nodes,
+   156		 * which might be quite expensive in large NUMA systems. However,
+   157		 * this complexity comes into play only when a scheduler enables
+   158		 * SCX_OPS_BUILTIN_IDLE_PER_NODE and it's requesting an idle CPU
+   159		 * without specifying a target NUMA node, so it shouldn't be a
+   160		 * bottleneck is most cases.
+   161		 *
+   162		 * As a future optimization we may want to cache the list of nodes
+   163		 * in a per-node array, instead of actually traversing them every
+   164		 * time.
+   165		 */
+   166		for_each_node_numadist(node, *unvisited) {
+   167			cpu = pick_idle_cpu_in_node(cpus_allowed, node, flags);
+   168			if (cpu >= 0)
+   169				break;
+   170		}
+   171		preempt_enable();
+   172	
+   173		return cpu;
+   174	}
+   175	
 
 -- 
 0-DAY CI Kernel Test Service
