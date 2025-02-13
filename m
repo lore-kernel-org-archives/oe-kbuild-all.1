@@ -1,213 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FE0207E05
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 06:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739429693; cv=none; b=DoJZQabEyVojsi5aistyiE6Pki8f6icNZeC7n9/7MJWUECQJDqX25eT3+vup4JM1jqMnzGfWeUOyA7p8/KbQdY2HIcBV14w4HA+7nl6vGb2UAURr2VweHI0UX8y4DrE31xfckOE3akjGgGdZyAy/Ka16iLWv7UQIo68QhXJhnBw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739429693; c=relaxed/simple;
-	bh=Wti6Y1WIIGTBtzh07DE8vG5dvmW7u8BniqwBJAzbdcA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fTY7aK2rGPYBMhHlE4Cf2t5vdOEJJFQ7+XLVKbgrviZFUE8pOnaM532IjoLXCO1b1KQ4v+ky8C67QqYvEkInielNOkrv4StGR5rhpR1gWMm3k79T7uEF7lpuVTgqIJtiqQ7yg2pKIYgjFZxIRhXz6EVKlOwZ8Gsc7iAyZPODDSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqKQF9JV; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8552AD21;
+	Thu, 13 Feb 2025 07:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739431541; cv=fail; b=bTgHmeR1yUqkwIC/J7ljTZ0PLg4MzhYwj/0TibuH/gBQCNJjJ1/jSmAQk2+tXcPFA5qz0lV+Qobn7bE+8d+f6LAFz0ZZmqH0cFiUc8VK1o7QdB2GjHpEFQtRDAPkMSFu51uuIELpCz3LKuHc1FeEaGOtDJnyL9wZMEGWAgt+Oo0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739431541; c=relaxed/simple;
+	bh=p6G1GWuiZabsVvEVeAeLFNSr80S374kIW8YKve2TeR8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dpKBT8XRWHGsHSXbGll8umrPpzs3h4nSQizXVqmhFcVfnSCuHpuYA+aZaVD7moBtpxN9KMI9Co3GtGsh+WYd/IrUTbn4GjywC2JsvJbhAOM1F5fMY4tmjvXBlBOdW1+RT8Xp+JLZIDkoZhMzG6n1bfY3OkoaagcI2hs6LQTrNJM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jrCC3BEv; arc=fail smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqKQF9JV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jrCC3BEv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739429690; x=1770965690;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Wti6Y1WIIGTBtzh07DE8vG5dvmW7u8BniqwBJAzbdcA=;
-  b=aqKQF9JV6foyOHOyHTKRLl0ymIAllmIyO6rVHjYPDjNn+9D9oZXRzjr6
-   mfLZmR11Os8oErTEfuuWW1spMnnhbJ3T7BVCBSZO6C7k/ljnQR3esl9kp
-   09NPoJfrP3u25oRExJ0gGLWRGjG45Z8mSBx64u8XNUrQr1+r+Bzo03DGP
-   f4nBxDVGas98LCDuQS6yHei3ZYEW1FPO51vir+6mvLcbfaMvs2qfzaqv1
-   2Tcrq5TtDrT0yxeuIXmmeAISEZQJDLYKXCc7TB8xYauH6sBU9r4P0AWfY
-   OZXLx8mJBlcYyD/7d66LtrbE4KOddrJ8nda+TFfhI/34nxN6vKVEsM8a4
+  t=1739431539; x=1770967539;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=p6G1GWuiZabsVvEVeAeLFNSr80S374kIW8YKve2TeR8=;
+  b=jrCC3BEvUKOmv4mUM9QDsH/oJkVeIMOoCA7yO54JKXAcz6xp5V+fSxcq
+   z3gcibM96XYzbFrtBDKTox3QZ89BfG0CSoFe0hhya8gqBK073SOsCvBv7
+   bZMKy4zFVoh+IsPQoM5notvGDZzxsJxzfZ8Rt6aToGcYOvTm+H1soDLDS
+   A2G4B6mdm9rHrvTofNv3Kdusjya/F510Vkzn1ac3VWQLtKprOt/KgDQ+L
+   Rj+BDu5LHgY5eyF2SaRaHsc4iFgB3v06PMpnaAaAvXDP2sr0jlasFLBsN
+   WJUioDCEtGPZpOcesCIXqt2if9NaGRwdFVo5hVN2XW6p3BlCiOCNJagk+
    Q==;
-X-CSE-ConnectionGUID: LDkm4qxHRieZapi92VGWPQ==
-X-CSE-MsgGUID: vjAvBI5VRQW+jKGb920Emw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="50764682"
+X-CSE-ConnectionGUID: avtXSGfZTm+d44/YjQWieA==
+X-CSE-MsgGUID: ImeuNRJyThCCZhlXght/rw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="40382075"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="50764682"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 22:54:49 -0800
-X-CSE-ConnectionGUID: xLy617NiSxKgjGQZrcbO2A==
-X-CSE-MsgGUID: uurJz+4tRpyKEpiMJedVtw==
+   d="scan'208";a="40382075"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 23:25:38 -0800
+X-CSE-ConnectionGUID: a3HdPm1YQienI7+pPHWPIg==
+X-CSE-MsgGUID: 73vpiFqUTt2FVNZEacBcHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118238630"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Feb 2025 22:54:49 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tiT7W-0016gS-1Y;
-	Thu, 13 Feb 2025 06:54:46 +0000
-Date: Thu, 13 Feb 2025 14:54:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 68/69]
- drivers/tty/serial/8250/8250_bcm2835aux.c:102:16: error: 'struct uart_port'
- has no member named 'rs485_config'
-Message-ID: <202502131414.xlHkysPr-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="113588529"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2025 23:25:38 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.14; Wed, 12 Feb 2025 23:25:30 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 12 Feb 2025 23:25:30 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 12 Feb 2025 23:25:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QXziv2xwLLtqY9cVQRSrWAmkO0HphBwcpsgkwlsHUpLBFqMpBuTCQJd6UOyPsOzHXz821STh9hcBwfGRMTdRE/PVCHtNb7Y/C7x9xTvcfdK6HWoH/08SiYwOMv3+UlLP5ZSVTDrhY1Gbm8nqi4VqIhhBSEO9R8TeeFpHzTN/uEDP3nzjjdh2HDvHOqHDDkLdgXVBdDY/rRhvmdoZ2wRTu4zr9aE0HrXkAE7/3stSo0UbOEvXKb8X8U70T9Kr4dPHBuqyaX3VQ7R6ho0DejC4GvM+SpU8KnDGp1g3OUcTFFonsgrH7oZt7stZ7m88RKqytQTCcrWv4fp633LeZMRcbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HmyBNKJBQurbNJPX/JWzRj+GeIBmTxZ8GFD25wyZlBs=;
+ b=XAd0ixFmE4uXf0mkhDLzaxAmJvKINmk5+u+Nzhf8KLwsWa4jp0l72ObzUUb0AVmBXx8upCCQmceviAFSAoszFeac8UyIxBFYNAFQ+HSSWD21KA8tYpiGR1o5p2lIWKmOCO5A/DYiWkMcMRrfHXXlPIIGgC3c0/jhTfstqRMqmgarCEl21Ry41P/hHzmfeh75KntLvP/j/6Cw4dh4n25STl2RWtZMLD3IpnRU3+GW4d7SUmOcAGUsvQ5ky7WXjANtjrRFqXm6s+3xaQTcN5CbJ8AxtOYH3bo1zVfD2M43u+IqkViA/qQiFWxxQ4YhzRdW6pwLGk4AXctCNpRPfaka6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by DS7PR11MB7950.namprd11.prod.outlook.com (2603:10b6:8:e0::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.11; Thu, 13 Feb
+ 2025 07:25:25 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8445.013; Thu, 13 Feb 2025
+ 07:25:25 +0000
+Date: Thu, 13 Feb 2025 15:25:15 +0800
+From: Philip Li <philip.li@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+CC: Quentin Perret <qperret@google.com>, kernel test robot <lkp@intel.com>,
+	<llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, kvmarm <kvmarm@lists.linux.dev>,
+	Oliver Upton <oliver.upton@linux.dev>
+Subject: Re: [kvmarm:fixes 18/18]
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c:1086:9: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <Z62eW4gRfqmg8pzi@rli9-mobl>
+References: <202502100911.8c9DbtKD-lkp@intel.com>
+ <868qqetasm.wl-maz@kernel.org>
+ <Z6nKYtyJO2bNycJw@google.com>
+ <867c5yt7ao.wl-maz@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <867c5yt7ao.wl-maz@kernel.org>
+X-ClientProxiedBy: SG2PR04CA0158.apcprd04.prod.outlook.com (2603:1096:4::20)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DS7PR11MB7950:EE_
+X-MS-Office365-Filtering-Correlation-Id: f364c2ba-3365-4fc8-3d7b-08dd4bff9527
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?WYAvcU4NEfOE0R1Xt3EpKgjOqQ5wr4GbaFCarEiSBQGKs153RqAd3yLiZal6?=
+ =?us-ascii?Q?QT5KUASfjEb4MBTz/b5amO09oKgtiGhBDDV05aA91jbcdKEik19LXedJ/e2e?=
+ =?us-ascii?Q?JJ28vrW9XddwIr9J2WhrxVUl3qZR5r9lR3fTKZA8wayrxLZE8i/a5ntzvC4N?=
+ =?us-ascii?Q?6fXHf97lNSZ6tvDXbrbxoiWJzrlrCVVK1gCoTgvuraUZU7WyU8pv8WNFzvua?=
+ =?us-ascii?Q?0JVNhVdFpzK/7EcGypPH17Ja9EKWk87XgO1Z74SuH6E164Z1xkUaJb9i5bun?=
+ =?us-ascii?Q?WPvlyPLISKmaOk4QDSNUKkJINIQmKp7UX4Ylk66e0dOwFkvSnXEzW/3r71Vy?=
+ =?us-ascii?Q?TGv9xuXgwx//z/NGgsF7HiNvuLwHn99HFiCK0Cw3LVY0w8Zu1EGTeE8HseBl?=
+ =?us-ascii?Q?folcqsGEwPpno1qIFUlByPFquUzTbkEjYhPOgHZXiKDu2jLWzH76uwNZrUNP?=
+ =?us-ascii?Q?F9xR3NtdyJzflZbi2p2O5BFM8Z5hMpENxewYoURxb4peyNzg1pqGtJl5vfuJ?=
+ =?us-ascii?Q?+Jx7C8Mx1C4G/nWIDyGXO0kfA47BhOtEQIRIYR0dEq4RAukq5Iac4asPwyz5?=
+ =?us-ascii?Q?k8SFBsU3E/A3MSoSiIfhJ6fXwG9rS1oRuArBQSZ4BpcAW/v21BPQE2Jlk9a+?=
+ =?us-ascii?Q?mBV94wDESUrRsW3Jt4yPEfgwcHaGTM/qMx1Mp7Yy/j3PI+muKj8CwahhXBd8?=
+ =?us-ascii?Q?8gxyFXR9Tc7rx3Be/Pg9858T4Y50aJyoDr0CezPbiyEhE458dTpXq2xB8LXz?=
+ =?us-ascii?Q?WhAQft5zcSZiMNkJanEYR9FCyAiwAl+tYCKCaf/9do54Sed8K76dJRngTqs3?=
+ =?us-ascii?Q?oqInG+xl14OgMgav+FCzIxyXPdZRPhnRiZ6UUEB91y0OR+q9ySZmslhNQhTc?=
+ =?us-ascii?Q?I8g08wavFGWcAHw+OMFyTzhgqDuBAnON1J6xqoCWPaFDHSuZ6h9uJ6OBOyf9?=
+ =?us-ascii?Q?a2l2BN60goJZU3xEOdnQVTgzWTQl/VIqLJONfDyGv9J3P8xM8IcYasci+Uaw?=
+ =?us-ascii?Q?z4Ty1DrqjFIvLoYIY7CDMXXASPVeWvcALwAb1YDAG7Cjt6cx/bnw6gmGP/BK?=
+ =?us-ascii?Q?io1OyiAvuqMXnGXM0IDFo1s2Leh/VVfJ0QCUfT7Vjv9uuHrJkuV0KPaLbba5?=
+ =?us-ascii?Q?y2zMMaS+8AGB1dHi1SvDnw3POuzHAkZ02FBMJkZDKi7dESmzD9ON1mR2zJ4/?=
+ =?us-ascii?Q?F3YeAQkcYlBr/plw1vuqj3Nenp9dZRqhF5dY7RxUmVgfEAv55P6ggWsAIwbP?=
+ =?us-ascii?Q?OqIDQsd09P+xDstkXxPOBKGY90MKECCUvBlAVlHXsym9/tyerkJxFjpBvm0+?=
+ =?us-ascii?Q?xXlHOSkVkjSD8iDrecoM/kKT0JP89ZBoiHB3xZmyNEPf1U36aeRqP9j+zC89?=
+ =?us-ascii?Q?U/PjeiQK4Nzm3gcMcw/hPchYoJSp?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oNysO/GrgnsKQSY69EWKmg/CxiOqXN6/L2c8jCt3I/MnHcJldawWaxCwYKQu?=
+ =?us-ascii?Q?iLbAc4xVSiQ2YrRXC7ns6rMjpgvYjnBlIwlQUjKpzHuf7EpTiMd2S5XhY1AY?=
+ =?us-ascii?Q?7LPdGrvWu2M55Tm20I0Sv4xSezkz2k5XdU8gVjGi2JigMUODyx594EF0kpSn?=
+ =?us-ascii?Q?nq6wS+B6+2nVDD/xdhuQrWSBd2+k4gZulc5tQia/9VG4U5hennylblYFILk/?=
+ =?us-ascii?Q?he6xFQlGT+jt8h0fDPhF7QVYAtyuayodVfJjd6/WvPrn2qu2VaSkbJ3e1ZAd?=
+ =?us-ascii?Q?3QKpMudowpllLl4HDQXOSWe3LeeWz+9jvMp1WqfCHN6BLECQxFgo8NMk+yZH?=
+ =?us-ascii?Q?MSwue7Q/IoUq57OTVt0r2Mbu/g3bgzLHkXlF7EI/N6Dtx6q3W+mk2kRwQYjk?=
+ =?us-ascii?Q?T1w73NJ0RLUKUdLbnfZ8pNFhr1ToWpd6ApgxQaHCFeqWem86mrpV6MAlfVX/?=
+ =?us-ascii?Q?jUydEfnAbU8ohltMbG9flIDnU8eX5bvrW1hzKmIonJG7/NX9S8jcFJvAGX9I?=
+ =?us-ascii?Q?eYe8sNNPUUXvpNe2sR/lUVF/UvOBurbSl6rTP7imLK2OXbIV8onpytIfBJ+k?=
+ =?us-ascii?Q?uvJUJP2+rRD0FcMJo3jwsf86zZBv8VKQnrcs3hjIz7/Cgxizys7hlkDTqCW0?=
+ =?us-ascii?Q?X2QuDihFXG2VYboJmmGTruMLauPNUT07PMXpOfKxPBUkX7wdXJiipNBZYIT5?=
+ =?us-ascii?Q?bLeiP/A2pnJKJj9uFJy1CZm+IgxsbNMN917+Lx/i0NMM0md3sjVTDqHtU72l?=
+ =?us-ascii?Q?/3AVxiBuX9mngBHhoqy72XK2TuOnqlCLr0GttefJ37s/PxrJGxzZ4D6NDDGp?=
+ =?us-ascii?Q?kZ1qslorLxCupie04NgwCiQXHt3yJiMb9OYWNOCmUhJG7fPeyDxezLjkkBzA?=
+ =?us-ascii?Q?ZCQ5m7C99iJ/3VzX1/FhfqOGCHrm6wLWbsAWd3q8pPzoRg26A/AT1U/KO0DO?=
+ =?us-ascii?Q?HYNbYZ1DenPCEVO7TUFJaN9P1K/7hthycic4F3s+pkGla8Ge2VuS35/HoYh/?=
+ =?us-ascii?Q?QjRV6Z6Kni0x2Cz9cAXKC4rvm2AwPTbaiqDYbk7X3FHvQQ/hKb98S74M/Lu4?=
+ =?us-ascii?Q?WIXO67aTPd+7S8vG9+RPsrrjutpX4FMqlwesiV9vuhzzZ5Tyo3qLJ9lTkrBd?=
+ =?us-ascii?Q?Vagokq17UDgVRVAQK7x141wWh//v/3N5rINQR4wVZR9VLsi19S9Z28lwzqLp?=
+ =?us-ascii?Q?tiwmoXHO274Qo+4kqn4CtD5saNjD1yM890//dXIq5iITQteidLPi+fF9Qkmb?=
+ =?us-ascii?Q?MoBgw+dZN1E0NvBhim6SeJxtUnptl7YPb1TXGjODaJvEu9v9kOAmZf1R7fPe?=
+ =?us-ascii?Q?kVgZW4dXwlQ0Gj3ltR5+zojIN6/3Ep+LT8yQsNPDc82nr0OY78YF6tCUQs6u?=
+ =?us-ascii?Q?Ai9pc3J4CL+DGc6uM3YXDaXI6DihNPWlaGlpH365AQSE/lk7W0pEvPsCxpZs?=
+ =?us-ascii?Q?92cq/AAdCt7H8M8yG6CwIhsrClsJWe/TpD3R9HybnVc3dArTsb9S2Fwh8Q1T?=
+ =?us-ascii?Q?TUFEkJDkpfusLfpGQViJXuzu55DQ/ODKFqFCzsh2ZGJbgg/ZX9dwZGrfZj3p?=
+ =?us-ascii?Q?rEDljAkyhqv9EL5qJRFEg+IuHTnLYfDB2dxZRXa6?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f364c2ba-3365-4fc8-3d7b-08dd4bff9527
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2025 07:25:24.9345
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GP5FNfA0dKPEEG5Vb41PYiLir/A27ypdXbhwqeuXJIFl4x82WtTwNwe6yNoTEIUp16qLfpJU+BhT86lthhW8rw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7950
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   18719ba870f2b5aac6c4ea327aacc3bec6bc98cc
-commit: a7e1e5ceadbf1e443ad44ccfc046afa234b09f77 [68/69] ops2
-config: sh-randconfig-001-20250213 (https://download.01.org/0day-ci/archive/20250213/202502131414.xlHkysPr-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250213/202502131414.xlHkysPr-lkp@intel.com/reproduce)
+On Mon, Feb 10, 2025 at 10:37:03AM +0000, Marc Zyngier wrote:
+> On Mon, 10 Feb 2025 09:44:02 +0000,
+> Quentin Perret <qperret@google.com> wrote:
+> > 
+> > On Monday 10 Feb 2025 at 09:21:29 (+0000), Marc Zyngier wrote:
+> > > On Mon, 10 Feb 2025 01:39:04 +0000,
+> > > kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502131414.xlHkysPr-lkp@intel.com/
+[...]
 
-All errors (new ones prefixed by >>):
+> 
+> Now queued and pushed out.
+> 
+> LKP people: please fix the mailing address you are using, as it
+> changed over two years ago, and you're still using the old one.
 
-   drivers/tty/serial/8250/8250_bcm2835aux.c: In function 'bcm2835aux_serial_probe':
->> drivers/tty/serial/8250/8250_bcm2835aux.c:102:16: error: 'struct uart_port' has no member named 'rs485_config'
-     102 |         up.port.rs485_config = serial8250_em485_config;
-         |                ^
-   drivers/tty/serial/8250/8250_bcm2835aux.c:104:11: error: 'struct uart_8250_port' has no member named 'rs485_start_tx'
-     104 |         up.rs485_start_tx = bcm2835aux_rs485_start_tx;
-         |           ^
-   drivers/tty/serial/8250/8250_bcm2835aux.c:105:11: error: 'struct uart_8250_port' has no member named 'rs485_stop_tx'
-     105 |         up.rs485_stop_tx = bcm2835aux_rs485_stop_tx;
-         |           ^
---
-   drivers/tty/serial/8250/8250_ioc3.c: In function 'serial8250_ioc3_probe':
->> drivers/tty/serial/8250/8250_ioc3.c:68:16: error: 'struct uart_port' has no member named 'serial_in'
-      68 |         up.port.serial_in = ioc3_serial_in;
-         |                ^
->> drivers/tty/serial/8250/8250_ioc3.c:69:16: error: 'struct uart_port' has no member named 'serial_out'
-      69 |         up.port.serial_out = ioc3_serial_out;
-         |                ^
+Got it, thanks for reminding this, we will update to use kvmarm@lists.linux.dev.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_DEFERRED_IO
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=y] && MMU [=n]
-   Selected by [y]:
-   - FB_SYSMEM_HELPERS_DEFERRED [=y] && HAS_IOMEM [=y] && FB_CORE [=y]
-
-
-vim +102 drivers/tty/serial/8250/8250_bcm2835aux.c
-
-f93bf758911476 Lukas Wunner        2020-02-28   82  
-bdc5f300958062 Martin Sperl        2016-01-17   83  static int bcm2835aux_serial_probe(struct platform_device *pdev)
-bdc5f300958062 Martin Sperl        2016-01-17   84  {
-eb687309136b9f Andy Shevchenko     2024-03-04   85  	const struct software_node *bcm2835_swnode;
-8c3cde5dd639af Lukas Wunner        2020-01-16   86  	struct uart_8250_port up = { };
-bdc5f300958062 Martin Sperl        2016-01-17   87  	struct bcm2835aux_data *data;
-bdc5f300958062 Martin Sperl        2016-01-17   88  	struct resource *res;
-fcc446c8aa6303 Adrien Thierry      2022-02-07   89  	unsigned int uartclk;
-bdc5f300958062 Martin Sperl        2016-01-17   90  	int ret;
-bdc5f300958062 Martin Sperl        2016-01-17   91  
-bdc5f300958062 Martin Sperl        2016-01-17   92  	/* allocate the custom structure */
-bdc5f300958062 Martin Sperl        2016-01-17   93  	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-bdc5f300958062 Martin Sperl        2016-01-17   94  	if (!data)
-bdc5f300958062 Martin Sperl        2016-01-17   95  		return -ENOMEM;
-bdc5f300958062 Martin Sperl        2016-01-17   96  
-bdc5f300958062 Martin Sperl        2016-01-17   97  	/* initialize data */
-8c3cde5dd639af Lukas Wunner        2020-01-16   98  	up.capabilities = UART_CAP_FIFO | UART_CAP_MINI;
-8c3cde5dd639af Lukas Wunner        2020-01-16   99  	up.port.dev = &pdev->dev;
-8c3cde5dd639af Lukas Wunner        2020-01-16  100  	up.port.type = PORT_16550;
-eb687309136b9f Andy Shevchenko     2024-03-04  101  	up.port.flags = UPF_FIXED_PORT | UPF_FIXED_TYPE | UPF_SKIP_TEST | UPF_IOREMAP;
-f93bf758911476 Lukas Wunner        2020-02-28 @102  	up.port.rs485_config = serial8250_em485_config;
-0139da50dc53f0 Ilpo Järvinen       2022-07-04  103  	up.port.rs485_supported = serial8250_em485_supported;
-f93bf758911476 Lukas Wunner        2020-02-28  104  	up.rs485_start_tx = bcm2835aux_rs485_start_tx;
-f93bf758911476 Lukas Wunner        2020-02-28  105  	up.rs485_stop_tx = bcm2835aux_rs485_stop_tx;
-f93bf758911476 Lukas Wunner        2020-02-28  106  
-f93bf758911476 Lukas Wunner        2020-02-28  107  	/* initialize cached copy with power-on reset value */
-f93bf758911476 Lukas Wunner        2020-02-28  108  	data->cntl = BCM2835_AUX_UART_CNTL_RXEN | BCM2835_AUX_UART_CNTL_TXEN;
-f93bf758911476 Lukas Wunner        2020-02-28  109  
-f93bf758911476 Lukas Wunner        2020-02-28  110  	platform_set_drvdata(pdev, data);
-bdc5f300958062 Martin Sperl        2016-01-17  111  
-bdc5f300958062 Martin Sperl        2016-01-17  112  	/* get the clock - this also enables the HW */
-fcc446c8aa6303 Adrien Thierry      2022-02-07  113  	data->clk = devm_clk_get_optional(&pdev->dev, NULL);
-83e571f054cd74 Stefan Wahren       2023-12-20  114  	if (IS_ERR(data->clk))
-83e571f054cd74 Stefan Wahren       2023-12-20  115  		return dev_err_probe(&pdev->dev, PTR_ERR(data->clk), "could not get clk\n");
-bdc5f300958062 Martin Sperl        2016-01-17  116  
-bdc5f300958062 Martin Sperl        2016-01-17  117  	/* map the main registers */
-bdc5f300958062 Martin Sperl        2016-01-17  118  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-bdc5f300958062 Martin Sperl        2016-01-17  119  	if (!res) {
-bdc5f300958062 Martin Sperl        2016-01-17  120  		dev_err(&pdev->dev, "memory resource not found");
-bdc5f300958062 Martin Sperl        2016-01-17  121  		return -EINVAL;
-bdc5f300958062 Martin Sperl        2016-01-17  122  	}
-fcc446c8aa6303 Adrien Thierry      2022-02-07  123  
-eb687309136b9f Andy Shevchenko     2024-03-04  124  	up.port.mapbase = res->start;
-eb687309136b9f Andy Shevchenko     2024-03-04  125  	up.port.mapsize = resource_size(res);
-fcc446c8aa6303 Adrien Thierry      2022-02-07  126  
-eb687309136b9f Andy Shevchenko     2024-03-04  127  	bcm2835_swnode = device_get_match_data(&pdev->dev);
-eb687309136b9f Andy Shevchenko     2024-03-04  128  	if (bcm2835_swnode) {
-eb687309136b9f Andy Shevchenko     2024-03-04  129  		ret = device_add_software_node(&pdev->dev, bcm2835_swnode);
-eb687309136b9f Andy Shevchenko     2024-03-04  130  		if (ret)
-eb687309136b9f Andy Shevchenko     2024-03-04  131  			return ret;
-eb687309136b9f Andy Shevchenko     2024-03-04  132  	}
-fcc446c8aa6303 Adrien Thierry      2022-02-07  133  
-eb687309136b9f Andy Shevchenko     2024-03-04  134  	ret = uart_read_port_properties(&up.port);
-eb687309136b9f Andy Shevchenko     2024-03-04  135  	if (ret)
-eb687309136b9f Andy Shevchenko     2024-03-04  136  		goto rm_swnode;
-bdc5f300958062 Martin Sperl        2016-01-17  137  
-eb687309136b9f Andy Shevchenko     2024-03-04  138  	up.port.regshift = 2;
-eb687309136b9f Andy Shevchenko     2024-03-04  139  	up.port.fifosize = 8;
-bdc5f300958062 Martin Sperl        2016-01-17  140  
-bdc5f300958062 Martin Sperl        2016-01-17  141  	/* enable the clock as a last step */
-bdc5f300958062 Martin Sperl        2016-01-17  142  	ret = clk_prepare_enable(data->clk);
-bdc5f300958062 Martin Sperl        2016-01-17  143  	if (ret) {
-eb687309136b9f Andy Shevchenko     2024-03-04  144  		dev_err_probe(&pdev->dev, ret, "unable to enable uart clock\n");
-eb687309136b9f Andy Shevchenko     2024-03-04  145  		goto rm_swnode;
-bdc5f300958062 Martin Sperl        2016-01-17  146  	}
-bdc5f300958062 Martin Sperl        2016-01-17  147  
-fcc446c8aa6303 Adrien Thierry      2022-02-07  148  	uartclk = clk_get_rate(data->clk);
-eb687309136b9f Andy Shevchenko     2024-03-04  149  	if (uartclk)
-eb687309136b9f Andy Shevchenko     2024-03-04  150  		up.port.uartclk = uartclk;
-fcc446c8aa6303 Adrien Thierry      2022-02-07  151  
-bdc5f300958062 Martin Sperl        2016-01-17  152  	/* the HW-clock divider for bcm2835aux is 8,
-bdc5f300958062 Martin Sperl        2016-01-17  153  	 * but 8250 expects a divider of 16,
-bdc5f300958062 Martin Sperl        2016-01-17  154  	 * so we have to multiply the actual clock by 2
-bdc5f300958062 Martin Sperl        2016-01-17  155  	 * to get identical baudrates.
-bdc5f300958062 Martin Sperl        2016-01-17  156  	 */
-eb687309136b9f Andy Shevchenko     2024-03-04  157  	up.port.uartclk *= 2;
-bdc5f300958062 Martin Sperl        2016-01-17  158  
-bdc5f300958062 Martin Sperl        2016-01-17  159  	/* register the port */
-8c3cde5dd639af Lukas Wunner        2020-01-16  160  	ret = serial8250_register_8250_port(&up);
-bdc5f300958062 Martin Sperl        2016-01-17  161  	if (ret < 0) {
-ea43a60b15486b Krzysztof Kozlowski 2020-09-01  162  		dev_err_probe(&pdev->dev, ret, "unable to register 8250 port\n");
-bdc5f300958062 Martin Sperl        2016-01-17  163  		goto dis_clk;
-bdc5f300958062 Martin Sperl        2016-01-17  164  	}
-bdc5f300958062 Martin Sperl        2016-01-17  165  	data->line = ret;
-bdc5f300958062 Martin Sperl        2016-01-17  166  
-bdc5f300958062 Martin Sperl        2016-01-17  167  	return 0;
-bdc5f300958062 Martin Sperl        2016-01-17  168  
-bdc5f300958062 Martin Sperl        2016-01-17  169  dis_clk:
-bdc5f300958062 Martin Sperl        2016-01-17  170  	clk_disable_unprepare(data->clk);
-eb687309136b9f Andy Shevchenko     2024-03-04  171  rm_swnode:
-eb687309136b9f Andy Shevchenko     2024-03-04  172  	device_remove_software_node(&pdev->dev);
-bdc5f300958062 Martin Sperl        2016-01-17  173  	return ret;
-bdc5f300958062 Martin Sperl        2016-01-17  174  }
-bdc5f300958062 Martin Sperl        2016-01-17  175  
-
-:::::: The code at line 102 was first introduced by commit
-:::::: f93bf75891147602d55b90937628157cc13dbdb8 serial: 8250_bcm2835aux: Support rs485 software emulation
-
-:::::: TO: Lukas Wunner <lukas@wunner.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Thanks,
+> 
+> 	M.
+> 
+> -- 
+> Without deviation from the norm, progress is not possible.
+> 
