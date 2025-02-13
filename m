@@ -1,62 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE50224A043;
-	Thu, 13 Feb 2025 16:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957D32010F5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 16:32:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739463784; cv=none; b=tOow74XnwoOaQrP/4FWdx+xnYSahK2g8gQciAZbt4TvrtRAbv9LtZGBmemZKPMmsVTYzDNstYIwOZLch21Up96dlSD60OF8hUO9qTxTurlXApwXUjJDxtmMOPHJGbKPvVhFhRpnFjJ7oMLFwrqLrYGSgdBOUX4MiTsxvO1/eaT8=
+	t=1739464381; cv=none; b=FKldCDTtOkKuhwmVYlAjdzr5BVo7EGtJ7gyZis9FMxkPKHPpJyiQAQUYtbwXIRor0t9JFldEBU1L5pS8/avMlHxEHdBe3sZgOH1OEzFkw4B6iyymywO1Pzfej0Y1PuSSLPFBXf8nUi23VmMj9JznGsfUbNCI/uzNuo7BUmf5dM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739463784; c=relaxed/simple;
-	bh=Bnyl5LtFtQR9/EzIuPGJzG2d59pl6dtmSlp6/rOZn3k=;
+	s=arc-20240116; t=1739464381; c=relaxed/simple;
+	bh=j0mfwVoS+AyGTSop8YAdRrnpw3s7F4Yc3xQPXmjqNs0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZCiGjyAtAiPpCMQvglj0DbxFYL3sZetPyOWBcsi12T4E/KXHjzvKlksbeVZPevkOPzuwpqPc5LQ7/4i1QpLWCPOkBVtIf4fGAh14hHjWm1gfx4InedC1oaK5m8gGY4Bso/YSRkKz97yhEJBwyPK/5VjlgnGPKw94QQvg3SzZivo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wh56/45F; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=NlKx69PFBSwuyUtY0ebDwOJyzMy+Ur9WrkdDckD13IP83EyYjMMPB1Ek4dHF+jKbm/GHx253xzHyBz6AYCZNp/3IvUZZtT8OGefh2fB2R3p0aqbdMifa7yuzY29418XMd/YYu15SS6zBqWO1mYyxhp1BudyN9DidpCKx7slCRQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f4SGjsKW; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wh56/45F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f4SGjsKW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739463780; x=1770999780;
+  t=1739464380; x=1771000380;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=Bnyl5LtFtQR9/EzIuPGJzG2d59pl6dtmSlp6/rOZn3k=;
-  b=Wh56/45FwBdqMVTHsjgyMNTnOWIWFL8aWduZc2KxQ60h9H5I7Vs3MQuN
-   wUvdBQ6buVaL5Qj2xV5ecXyhlAi+Z56BkT7hhQ5xgnP0j5didfvo0Gksy
-   2BF4TMMMsJW3UUjYgqpJvwBvtSX6yReYMZ/i3Pejf/6zRNye2t7610Eti
-   +EiRezrRekRZc91D1zfGuERLZ7BCV93g6hC9LnXFblgQTK7xovuoTOOO8
-   xoUUvxqS8RGlxQ4G97P+waFi+8rAPOnkGku+GRiyBK4m812irPQHuqh0X
-   N2DFLmVUUegE9I10DvELvTekgndxWX39Y9sq6+pxNQf8ZraGRQXyt3Yc3
-   g==;
-X-CSE-ConnectionGUID: 4y+PdyJYQr6rY6HiZvEIUA==
-X-CSE-MsgGUID: fcR+ycwFSUGjmGjI8w1CRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="43941186"
+  bh=j0mfwVoS+AyGTSop8YAdRrnpw3s7F4Yc3xQPXmjqNs0=;
+  b=f4SGjsKWMFapddLoFottYzE6ZLNiphc3lWI9jUG/HhAsyeBQHoiF5nNz
+   87s12jFgMVEUnsi1ruIuZ2HLhWDxWoSHCQqpwujXFA1ABlqWs+uOQx2il
+   606QjPZJHbAlgqijTPbDFRZKw5ei4zt3FsfLPw3wRVXthyR3IF/KeQFlx
+   H7pPckGImWQ5M/lIg/SGbL8xQhTSB/WNNMCluNsQVyyM/S7l+zMnGJ1wv
+   RAIS11j/DPAZZvdiI4otkAKH6dOwnPi+d/ncNXBP/apKE4mGPQRelm6Ih
+   NBEBVZ0s/sQRz/uX+iY8QpCb+lrWsKmwqFBn8qnQN9VB5kcfgMu3m/6vX
+   w==;
+X-CSE-ConnectionGUID: kyT+Oi1oQ8iJ0xDA1cByIA==
+X-CSE-MsgGUID: b+GVThsQTRqLL7jSaYOpOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="43942939"
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="43941186"
+   d="scan'208";a="43942939"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 08:22:59 -0800
-X-CSE-ConnectionGUID: VwyDn76jQn6/xtpVvyKDqg==
-X-CSE-MsgGUID: z4mrvoy1TIShsijOOWLlkA==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 08:32:59 -0800
+X-CSE-ConnectionGUID: +AIYGZlYSzqAmuLw24yi9Q==
+X-CSE-MsgGUID: AGwIF5Z9Rym9KU0dZWRnGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
-   d="scan'208";a="113157050"
+   d="scan'208";a="113160404"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2025 08:22:57 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2025 08:32:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tibzL-0018Q1-0V;
-	Thu, 13 Feb 2025 16:22:55 +0000
-Date: Fri, 14 Feb 2025 00:22:17 +0800
+	id 1tic92-0018Qn-0J;
+	Thu, 13 Feb 2025 16:32:56 +0000
+Date: Fri, 14 Feb 2025 00:32:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20250212 12/12]
- drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:5237:21: error: no
- member named 'levels' in 'struct SISLANDS_SMC_SWSTATE_HDR'
-Message-ID: <202502140000.KIQUxLr5-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis/dev 14/26]
+ drivers/dma-buf/dma-fence-chain.c:65:21: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202502140014.CYel5X8d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,149 +65,80 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20250212
-head:   513cdf5e772efc6cb8a92344b0f436e77c2b42f7
-commit: 513cdf5e772efc6cb8a92344b0f436e77c2b42f7 [12/12] drm/amd/pm: Avoid multiple -Wflex-array-member-not-at-end warnings
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250214/202502140000.KIQUxLr5-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140000.KIQUxLr5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
+head:   9c8d14ce8aff2d38bf494f5d5436a302e3236842
+commit: f7039fb7b3a9459a6c5ed166c267bdf294492c1b [14/26] rcu: Support Clang's capability analysis
+config: arc-randconfig-r112-20250213 (https://download.01.org/0day-ci/archive/20250214/202502140014.CYel5X8d-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250214/202502140014.CYel5X8d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140000.KIQUxLr5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140014.CYel5X8d-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/dma-fence-chain.c:65:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected struct dma_fence *tmp @@     got void @@
+   drivers/dma-buf/dma-fence-chain.c:65:21: sparse:     expected struct dma_fence *tmp
+   drivers/dma-buf/dma-fence-chain.c:65:21: sparse:     got void
 
-   In file included from drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:24:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2193:
-   include/linux/vmstat.h:493:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     493 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     494 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     501 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:513:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     513 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     514 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:5237:21: error: no member named 'levels' in 'struct SISLANDS_SMC_SWSTATE_HDR'
-    5237 |         table->driverState.levels[0] = table->initialState.level;
-         |         ~~~~~~~~~~~~~~~~~~ ^
->> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:5758:24: error: incompatible pointer types initializing 'SISLANDS_SMC_SWSTATE *' (aka 'struct SISLANDS_SMC_SWSTATE *') with an expression of type 'struct SISLANDS_SMC_SWSTATE_HDR *' [-Werror,-Wincompatible-pointer-types]
-    5758 |         SISLANDS_SMC_SWSTATE *smc_state = &si_pi->smc_statetable.driverState;
-         |                               ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings and 2 errors generated.
+vim +65 drivers/dma-buf/dma-fence-chain.c
 
+7bf60c52e093d9 Christian König 2019-04-01  30  
+7bf60c52e093d9 Christian König 2019-04-01  31  /**
+7bf60c52e093d9 Christian König 2019-04-01  32   * dma_fence_chain_walk - chain walking function
+7bf60c52e093d9 Christian König 2019-04-01  33   * @fence: current chain node
+7bf60c52e093d9 Christian König 2019-04-01  34   *
+7bf60c52e093d9 Christian König 2019-04-01  35   * Walk the chain to the next node. Returns the next fence or NULL if we are at
+7bf60c52e093d9 Christian König 2019-04-01  36   * the end of the chain. Garbage collects chain nodes which are already
+7bf60c52e093d9 Christian König 2019-04-01  37   * signaled.
+7bf60c52e093d9 Christian König 2019-04-01  38   */
+7bf60c52e093d9 Christian König 2019-04-01  39  struct dma_fence *dma_fence_chain_walk(struct dma_fence *fence)
+7bf60c52e093d9 Christian König 2019-04-01  40  {
+7bf60c52e093d9 Christian König 2019-04-01  41  	struct dma_fence_chain *chain, *prev_chain;
+7bf60c52e093d9 Christian König 2019-04-01  42  	struct dma_fence *prev, *replacement, *tmp;
+7bf60c52e093d9 Christian König 2019-04-01  43  
+7bf60c52e093d9 Christian König 2019-04-01  44  	chain = to_dma_fence_chain(fence);
+7bf60c52e093d9 Christian König 2019-04-01  45  	if (!chain) {
+7bf60c52e093d9 Christian König 2019-04-01  46  		dma_fence_put(fence);
+7bf60c52e093d9 Christian König 2019-04-01  47  		return NULL;
+7bf60c52e093d9 Christian König 2019-04-01  48  	}
+7bf60c52e093d9 Christian König 2019-04-01  49  
+7bf60c52e093d9 Christian König 2019-04-01  50  	while ((prev = dma_fence_chain_get_prev(chain))) {
+7bf60c52e093d9 Christian König 2019-04-01  51  
+7bf60c52e093d9 Christian König 2019-04-01  52  		prev_chain = to_dma_fence_chain(prev);
+7bf60c52e093d9 Christian König 2019-04-01  53  		if (prev_chain) {
+7bf60c52e093d9 Christian König 2019-04-01  54  			if (!dma_fence_is_signaled(prev_chain->fence))
+7bf60c52e093d9 Christian König 2019-04-01  55  				break;
+7bf60c52e093d9 Christian König 2019-04-01  56  
+7bf60c52e093d9 Christian König 2019-04-01  57  			replacement = dma_fence_chain_get_prev(prev_chain);
+7bf60c52e093d9 Christian König 2019-04-01  58  		} else {
+7bf60c52e093d9 Christian König 2019-04-01  59  			if (!dma_fence_is_signaled(prev))
+7bf60c52e093d9 Christian König 2019-04-01  60  				break;
+7bf60c52e093d9 Christian König 2019-04-01  61  
+7bf60c52e093d9 Christian König 2019-04-01  62  			replacement = NULL;
+7bf60c52e093d9 Christian König 2019-04-01  63  		}
+7bf60c52e093d9 Christian König 2019-04-01  64  
+14374e3eee1b02 Christian König 2022-05-11 @65  		tmp = unrcu_pointer(cmpxchg(&chain->prev, RCU_INITIALIZER(prev),
+14374e3eee1b02 Christian König 2022-05-11  66  					     RCU_INITIALIZER(replacement)));
+7bf60c52e093d9 Christian König 2019-04-01  67  		if (tmp == prev)
+7bf60c52e093d9 Christian König 2019-04-01  68  			dma_fence_put(tmp);
+7bf60c52e093d9 Christian König 2019-04-01  69  		else
+7bf60c52e093d9 Christian König 2019-04-01  70  			dma_fence_put(replacement);
+7bf60c52e093d9 Christian König 2019-04-01  71  		dma_fence_put(prev);
+7bf60c52e093d9 Christian König 2019-04-01  72  	}
+7bf60c52e093d9 Christian König 2019-04-01  73  
+7bf60c52e093d9 Christian König 2019-04-01  74  	dma_fence_put(fence);
+7bf60c52e093d9 Christian König 2019-04-01  75  	return prev;
+7bf60c52e093d9 Christian König 2019-04-01  76  }
+7bf60c52e093d9 Christian König 2019-04-01  77  EXPORT_SYMBOL(dma_fence_chain_walk);
+7bf60c52e093d9 Christian König 2019-04-01  78  
 
-vim +5237 drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c
+:::::: The code at line 65 was first introduced by commit
+:::::: 14374e3eee1b02dbf162e1dd75b789373f07ef43 dma-buf: cleanup dma_fence_chain_walk
 
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5177  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5178  static int si_init_smc_table(struct amdgpu_device *adev)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5179  {
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5180  	struct si_power_info *si_pi = si_get_pi(adev);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5181  	struct amdgpu_ps *amdgpu_boot_state = adev->pm.dpm.boot_ps;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5182  	const struct si_ulv_param *ulv = &si_pi->ulv;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5183  	SISLANDS_SMC_STATETABLE  *table = &si_pi->smc_statetable;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5184  	int ret;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5185  	u32 lane_width;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5186  	u32 vr_hot_gpio;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5187  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5188  	si_populate_smc_voltage_tables(adev, table);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5189  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5190  	switch (adev->pm.int_thermal_type) {
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5191  	case THERMAL_TYPE_SI:
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5192  	case THERMAL_TYPE_EMC2103_WITH_INTERNAL:
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5193  		table->thermalProtectType = PPSMC_THERMAL_PROTECT_TYPE_INTERNAL;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5194  		break;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5195  	case THERMAL_TYPE_NONE:
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5196  		table->thermalProtectType = PPSMC_THERMAL_PROTECT_TYPE_NONE;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5197  		break;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5198  	default:
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5199  		table->thermalProtectType = PPSMC_THERMAL_PROTECT_TYPE_EXTERNAL;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5200  		break;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5201  	}
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5202  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5203  	if (adev->pm.dpm.platform_caps & ATOM_PP_PLATFORM_CAP_HARDWAREDC)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5204  		table->systemFlags |= PPSMC_SYSTEMFLAG_GPIO_DC;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5205  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5206  	if (adev->pm.dpm.platform_caps & ATOM_PP_PLATFORM_CAP_REGULATOR_HOT) {
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5207  		if ((adev->pdev->device != 0x6818) && (adev->pdev->device != 0x6819))
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5208  			table->systemFlags |= PPSMC_SYSTEMFLAG_REGULATOR_HOT;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5209  	}
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5210  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5211  	if (adev->pm.dpm.platform_caps & ATOM_PP_PLATFORM_CAP_STEPVDDC)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5212  		table->systemFlags |= PPSMC_SYSTEMFLAG_STEPVDDC;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5213  
-770d13b19fdf36 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Christian König     2018-01-12  5214  	if (adev->gmc.vram_type == AMDGPU_VRAM_TYPE_GDDR5)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5215  		table->systemFlags |= PPSMC_SYSTEMFLAG_GDDR5;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5216  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5217  	if (adev->pm.dpm.platform_caps & ATOM_PP_PLATFORM_CAP_REVERT_GPIO5_POLARITY)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5218  		table->extraFlags |= PPSMC_EXTRAFLAGS_AC2DC_GPIO5_POLARITY_HIGH;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5219  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5220  	if (adev->pm.dpm.platform_caps & ATOM_PP_PLATFORM_CAP_VRHOT_GPIO_CONFIGURABLE) {
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5221  		table->systemFlags |= PPSMC_SYSTEMFLAG_REGULATOR_HOT_PROG_GPIO;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5222  		vr_hot_gpio = adev->pm.dpm.backbias_response_time;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5223  		si_write_smc_soft_register(adev, SI_SMC_SOFT_REGISTER_vr_hot_gpio,
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5224  					   vr_hot_gpio);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5225  	}
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5226  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5227  	ret = si_populate_smc_initial_state(adev, amdgpu_boot_state, table);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5228  	if (ret)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5229  		return ret;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5230  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5231  	ret = si_populate_smc_acpi_state(adev, table);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5232  	if (ret)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5233  		return ret;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5234  
-939baec9e895e7 drivers/gpu/drm/amd/pm/powerplay/si_dpm.c Gustavo A. R. Silva 2021-05-10  5235  	table->driverState.flags = table->initialState.flags;
-939baec9e895e7 drivers/gpu/drm/amd/pm/powerplay/si_dpm.c Gustavo A. R. Silva 2021-05-10  5236  	table->driverState.levelCount = table->initialState.levelCount;
-939baec9e895e7 drivers/gpu/drm/amd/pm/powerplay/si_dpm.c Gustavo A. R. Silva 2021-05-10 @5237  	table->driverState.levels[0] = table->initialState.level;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5238  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5239  	ret = si_do_program_memory_timing_parameters(adev, amdgpu_boot_state,
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5240  						     SISLANDS_INITIAL_STATE_ARB_INDEX);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5241  	if (ret)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5242  		return ret;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5243  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5244  	if (ulv->supported && ulv->pl.vddc) {
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5245  		ret = si_populate_ulv_state(adev, &table->ULVState);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5246  		if (ret)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5247  			return ret;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5248  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5249  		ret = si_program_ulv_memory_timing_parameters(adev);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5250  		if (ret)
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5251  			return ret;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5252  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5253  		WREG32(CG_ULV_CONTROL, ulv->cg_ulv_control);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5254  		WREG32(CG_ULV_PARAMETER, ulv->cg_ulv_parameter);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5255  
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5256  		lane_width = amdgpu_get_pcie_lanes(adev);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5257  		si_write_smc_soft_register(adev, SI_SMC_SOFT_REGISTER_non_ulv_pcie_link_width, lane_width);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5258  	} else {
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5259  		table->ULVState = table->initialState;
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5260  	}
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5261  
-6861c837e28e1b drivers/gpu/drm/amd/amdgpu/si_dpm.c       Alex Deucher        2016-09-13  5262  	return amdgpu_si_copy_bytes_to_smc(adev, si_pi->state_table_start,
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5263  					   (u8 *)table, sizeof(SISLANDS_SMC_STATETABLE),
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5264  					   si_pi->sram_end);
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5265  }
-841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c       Maruthi Bayyavarapu 2016-08-01  5266  
-
-:::::: The code at line 5237 was first introduced by commit
-:::::: 939baec9e895e75149327c01b775f46c21e12be5 drm/amd/pm: Fix out-of-bounds bug
-
-:::::: TO: Gustavo A. R. Silva <gustavoars@kernel.org>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Christian König <christian.koenig@amd.com>
+:::::: CC: Christian König <christian.koenig@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
