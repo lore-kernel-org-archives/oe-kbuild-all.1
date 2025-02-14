@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7869114D28C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 18:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDA0134AB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 18:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739557622; cv=none; b=dzYEP+WUupsnXowZ6EtzZ1V2zFv/dwwcuYWxwLYc39m/admOzq6BEpsJMXGtykq9PWMzxuAvLIofou4LGjKhy02Jlm9ZyQFigRWc0fFEJ9wqCKjwqN/KFxE/2X9C/CFJVTXzfpuTOi1hY6+cMfT/jv7MzgoRpiT4RECQS6HjsYw=
+	t=1739558941; cv=none; b=nzP07tS9tl6dATNJVGU3c/3OWSplzh0lUOEdy9oq1TZXoKBaYt1Lb0QY+d1PuDWnxYOLM9giElbFIZpqfIf6dva9ZLlc9BttzJlykrKw9ZqgaCD1LBFNnWLv97mVEyfLbKjxphT5XaMt65epj+StTlNSRZdzE3hzlw9ozp/XqeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739557622; c=relaxed/simple;
-	bh=vvI9f2wnGROlDx2+4CRitGehZVYm48hCZNFvMOxBjz4=;
+	s=arc-20240116; t=1739558941; c=relaxed/simple;
+	bh=EL5bD/9kZqj06zJPIgpeSOzMwq64bINp3MPKOr8UDcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i6kDP/cx1Yx/Y7SzpGgaRlrTPQSggqC2WrNgTZOS+JeSc43X55stQR1nfyBotNPP9KUF5B+prbueFjQuOsHjtcyBZz3DqRJwDqPiPpNAA3UWfjrwZ3sWD0ijXiQw2uVoOJuHhM/2O9nvOwPhOJKWjrEDkxHjM3EDk9sIW3TFOY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QX2ye59p; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=HZ0E4whV79ZD3D8+AiCjk1HMLecw74wpT1xp6Jd81SPWwLNpzr3AfSGmxNzJXJowHBDSllSbp8iOlDO4YETlkvxROV83Eu5UY0W+XEo2KiHoaBGhKECN+N8ZRRLmDwvV31ijRdXuLfEqNK9M73uzI+RK5HpI7n7vH3Yq+w9GORc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BW1JfNFF; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QX2ye59p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BW1JfNFF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739557617; x=1771093617;
+  t=1739558940; x=1771094940;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vvI9f2wnGROlDx2+4CRitGehZVYm48hCZNFvMOxBjz4=;
-  b=QX2ye59pdVzRjiRbWEwv3munWJOwlYbBL+AFfuIBBISzp2uTxPm5rVFY
-   N+MPdezctXsOJCZdaB7rSB7H2GTAJwQCLGUGkyZeomEG6wBu2KghJj1zl
-   jmdbxZt7iKVhT91mS7helPx5FaWgNMALKbLNo07Cnwv8zr3/hiI47MwcJ
-   ANpiGL8j7EgHNriL7FQZkroskFK6in7NFnibGsEzqUKuzwAhys6p9d8n7
-   EelLtJ/hojAgjAbXSsbwDyWjZM3Fau67k1XFQbpXIiSdFNvhe/mkEa6jq
-   mI0sEy/sR71ogmDIAYAlLYKKI/yKyukXGCGWNKQkGR92YRyBwVq7lC0RV
+  bh=EL5bD/9kZqj06zJPIgpeSOzMwq64bINp3MPKOr8UDcc=;
+  b=BW1JfNFFkp4vsWJfipfvKyvpt3fljq+tn5mlwNFzTWho+UND/JlVjd4i
+   7qJtTgi47yf9lHLhgGCkdn9i60T7c7o7ELLZQJ+U4AqRdC5DSagD7WkAK
+   nA/pyL/ucT/DF8oQvRoszfVY4LGOKxyxHg8nQQKx18TPJ4VEVo0ARIUe7
+   yWbjIpLURn7VAOWxWPTw78NE81aXC+4wgEEKy9VGuOapKErHB0yxneFuE
+   zNNm4k2zhjr5HnrJuyF1XMPd+E4WxLp3MtjkiPgwo+Zxt85qTzjzWqdmx
+   cn27ByMK1Yi3K4zyQ5kEmBMqKhI5sQZs4FpV9DFNbJJj6JzzEnpZUnWet
    w==;
-X-CSE-ConnectionGUID: ZF0hNtk2Tu29AL7nY8jS4Q==
-X-CSE-MsgGUID: umvh1CsIT8KAxRWyAevlKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="50959954"
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="50959954"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 10:26:57 -0800
-X-CSE-ConnectionGUID: lCQfZDvwRdGYbXVgEcOQDw==
-X-CSE-MsgGUID: bSEwfDpCR0GA+PQL6eMrrQ==
+X-CSE-ConnectionGUID: zsyGcL9CQPyBbGhM5Jp1ZA==
+X-CSE-MsgGUID: Jq41ztCPS+ubbS/3gkNxeQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51748756"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51748756"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 10:48:59 -0800
+X-CSE-ConnectionGUID: KuPhAjyASteAnYchU7aIQA==
+X-CSE-MsgGUID: ZcM0qESfSw6rMuGyCGCsPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="144381369"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118156478"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Feb 2025 10:26:55 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 14 Feb 2025 10:48:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tj0Or-001A1r-1c;
-	Fri, 14 Feb 2025 18:26:53 +0000
-Date: Sat, 15 Feb 2025 02:26:48 +0800
+	id 1tj0kC-001A35-0t;
+	Fri, 14 Feb 2025 18:48:56 +0000
+Date: Sat, 15 Feb 2025 02:48:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 249/249] mm/vmscan.c:997:15:
- warning: no previous prototype for function 'shrink_slab'
-Message-ID: <202502150201.sVuPcR8l-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 1/1]
+ drivers/gpu/mediatek/arm/mali/Kbuild:252:
+ drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild:
+ No such file or directory
+Message-ID: <202502150236.VvyMhha5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,139 +64,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d2ae202da688a9a795c238142e01da921b3e4b81
-commit: 09ab235661116880b7ea9b4deb705802f2c19ab4 [249/249] ANDROID: vendor_hooks: export shrink_slab
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250215/202502150201.sVuPcR8l-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150201.sVuPcR8l-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   6737b000ef8c138d01872003fa3b7fd0a39021f3
+commit: 20c6549501f674937409aba5411ee8c5c0ab133a [1/1] CHROMIUM: gpu/mediatek: Enable Kconfig and build target
+config: arm64-randconfig-002-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150236.VvyMhha5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150236.VvyMhha5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150201.sVuPcR8l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502150236.VvyMhha5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/vmscan.c:15:
-   In file included from include/linux/mm.h:2030:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/vmscan.c:30:
-   include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:633:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     633 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/vmscan.c:997:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
-     997 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^
-   mm/vmscan.c:997:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     997 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         | ^
-         | static 
-   mm/vmscan.c:2334:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2334 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:2853:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2853 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
-         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
-   mm/vmscan.c:2854:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2854 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
-         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
-   mm/vmscan.c:6899:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    6899 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   9 warnings generated.
+>> drivers/gpu/mediatek/arm/mali/Kbuild:252: drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild: No such file or directory
+>> make[8]: *** No rule to make target 'drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild'.
+   drivers/gpu/mediatek/arm/mali/Kbuild:252: Failed to remake makefile 'drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild'.
+--
+>> drivers/gpu/mediatek/arm/mali/Kbuild:252: drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild: No such file or directory
+   make[3]: *** No rule to make target 'drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild'.
+   drivers/gpu/mediatek/arm/mali/Kbuild:252: Failed to remake makefile 'drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common/Kbuild'.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DEVFREQ_THERMAL
+   Depends on [n]: THERMAL [=n] && PM_DEVFREQ [=y] && PM_OPP [=y]
+   Selected by [m]:
+   - MALI_MTK [=m] && HAS_IOMEM [=y] && ARM64 [=y] && !MALI [=n] && MALI [=n]!=m [=m] && MTK_GPU_SUPPORT [=y]
 
 
-vim +/shrink_slab +997 mm/vmscan.c
+vim +252 drivers/gpu/mediatek/arm/mali/Kbuild
 
-   976	
-   977	/**
-   978	 * shrink_slab - shrink slab caches
-   979	 * @gfp_mask: allocation context
-   980	 * @nid: node whose slab caches to target
-   981	 * @memcg: memory cgroup whose slab caches to target
-   982	 * @priority: the reclaim priority
-   983	 *
-   984	 * Call the shrink functions to age shrinkable caches.
-   985	 *
-   986	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
-   987	 * unaware shrinkers will receive a node id of 0 instead.
-   988	 *
-   989	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
-   990	 * are called only if it is the root cgroup.
-   991	 *
-   992	 * @priority is sc->priority, we take the number of objects and >> by priority
-   993	 * in order to get the scan target.
-   994	 *
-   995	 * Returns the number of reclaimed slab objects.
-   996	 */
- > 997	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-   998					 struct mem_cgroup *memcg,
-   999					 int priority)
-  1000	{
-  1001		unsigned long ret, freed = 0;
-  1002		struct shrinker *shrinker;
-  1003		bool bypass = false;
-  1004	
-  1005		trace_android_vh_shrink_slab_bypass(gfp_mask, nid, memcg, priority, &bypass);
-  1006		if (bypass)
-  1007			return 0;
-  1008	
-  1009		/*
-  1010		 * The root memcg might be allocated even though memcg is disabled
-  1011		 * via "cgroup_disable=memory" boot parameter.  This could make
-  1012		 * mem_cgroup_is_root() return false, then just run memcg slab
-  1013		 * shrink, but skip global shrink.  This may result in premature
-  1014		 * oom.
-  1015		 */
-  1016		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
-  1017			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
-  1018	
-  1019		if (!down_read_trylock(&shrinker_rwsem))
-  1020			goto out;
-  1021	
-  1022		list_for_each_entry(shrinker, &shrinker_list, list) {
-  1023			struct shrink_control sc = {
-  1024				.gfp_mask = gfp_mask,
-  1025				.nid = nid,
-  1026				.memcg = memcg,
-  1027			};
-  1028	
-  1029			ret = do_shrink_slab(&sc, shrinker, priority);
-  1030			if (ret == SHRINK_EMPTY)
-  1031				ret = 0;
-  1032			freed += ret;
-  1033			/*
-  1034			 * Bail out if someone want to register a new shrinker to
-  1035			 * prevent the registration from being stalled for long periods
-  1036			 * by parallel ongoing shrinking.
-  1037			 */
-  1038			if (rwsem_is_contended(&shrinker_rwsem)) {
-  1039				freed = freed ? : 1;
-  1040				break;
-  1041			}
-  1042		}
-  1043	
-  1044		up_read(&shrinker_rwsem);
-  1045	out:
-  1046		cond_resched();
-  1047		return freed;
-  1048	}
-  1049	
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15  249  
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15  250  # *** MTK Proprietary ***
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15  251  export MALI_PLATFORM_DIR
+2b0918badca3b0 drivers/gpu/mediatek/arm/midgard/Kbuild Alvin Liu 2025-01-15 @252  include $(src)/platform/$(MALI_PLATFORM_DIR)/mtk_platform_common/Kbuild
+
+:::::: The code at line 252 was first introduced by commit
+:::::: 2b0918badca3b06a0371cf4cb21785d202033004 CHROMIUM: gpu/mediatek: update gpu kernel driver(r51p0) with mtk modification
+
+:::::: TO: Alvin Liu <alvin.liu@mediatek.corp-partner.google.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
