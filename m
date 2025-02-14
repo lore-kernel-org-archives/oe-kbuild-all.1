@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC4B42A9E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 01:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D2F3211
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 01:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739496482; cv=none; b=orIh3KEjuiPnj1WNT37B77u05zG7xLnFyWPe6tk5yB+0EzSIjhqW38pXgOFicGnRCZX0qo/K9TwR+ZtGl0ng5vzKcJ869z6qQJkUwC6ivupZjhCU4c4++yg8oacPqVXSp6Se6K2FEXjm8zVIL7JElrjCcjW76RJD2tgOfPUzJj0=
+	t=1739497801; cv=none; b=rQJ6G7viwMelHA69J0lqjFP2mPPG6aAI45sSG7heryWRANgy7CNlG87mvdzrN+5O4P5UnYzGvU3rYNdegVGfJ4Cx8Dd995nLbde82KPUG7vetkGQ0pirgRCW9fCG6ZZplCuNSeOKYdH5e3MWnzOWEPqJRi4ZA7ZXrjygzHzsdhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739496482; c=relaxed/simple;
-	bh=cYLZCWklGExqnb4XYd4m4Dohj9r1gsVO6r752NlH7A0=;
+	s=arc-20240116; t=1739497801; c=relaxed/simple;
+	bh=uZIqZBgSw6MHMa59JE3fs0UQGhaLRFCXQDuYAWbtbcE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fUa9dRuGd46EBG3WMvo5nPx7gm9z0rYwFyTv6LP5dy5AM5AHYtYkryR2bYQe4Oh/4apqlXlIhBPFvIhTqA+XTzIgfGt3oFA/bdXiGYkAWzZtTA8EeemlNqV5v1kWIAxtEjMhGI7Z0cz04hYYVtegcvo7srJ/h3TtJJjPMW2Ro/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFIYFQyl; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=VHj8RmkcDbxVnrGzrO01sfQoF3RHhF+CspYbMsK64QT2drxUFDkIj3KBLYEQlmlk8g6NBsDEvjEeGGHZrrRRDJoPr5O+jrsGXWU4ypF3v3cC5yJCt4ZBsVbgLyuBS1q26KG9ijchX/rhHTjv2aP8T71KrP1eLSyhdBDgQWgtBr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZrMu6Ht; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFIYFQyl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZrMu6Ht"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739496477; x=1771032477;
+  t=1739497799; x=1771033799;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cYLZCWklGExqnb4XYd4m4Dohj9r1gsVO6r752NlH7A0=;
-  b=TFIYFQylWcRLwL3YSlOjZgXMSKB+4uABiMIkjBgQgB7J4bfwq8zoWdLm
-   6HiXNOQpWDKuzIm4OG99wqzH19cV5vow9hmbRicx2uH1jeEV4ByowCtqH
-   tlui6dSQjWKLL1cViKZqeo8Om+PCZqxOqVZnfvcBi9rT4+oxWS1sZg0MU
-   p57hQNGN1PRsufi/BJojkas69wGe+0meWi/UEzLacdHBv/WcBtsAcT0+G
-   W+GtZFnB7+2pPUWIm726uNMkCmVN1PjZ3lbs5RkJqSEE4KHETEI43gvxD
-   I4hY39w309WEI7ymZHF+iVogzPR7ae+Nw6PrOlV3u/dO0cSh2Oesq6+mm
-   A==;
-X-CSE-ConnectionGUID: mPl/V1yHQ2St87XdbXN3Kg==
-X-CSE-MsgGUID: hqk77N6WTk2U6Ef2l7DpHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="39936821"
+  bh=uZIqZBgSw6MHMa59JE3fs0UQGhaLRFCXQDuYAWbtbcE=;
+  b=TZrMu6HtfpFX6EeXPlSEQXV9m7rS55prf7HgaGNr1yzzEDVYZFtAd2My
+   A7fdIe+zpAmHQ8ZAt8GjGGXfFrT6VKygiw8dWL5sUX4hUtvP1SERaORAz
+   /k1wx6Aq2zcl5SC9kaogj4Yu3oABO3wtKVGNpcDgZkOe1R+SLf9/hmUlf
+   XE3cH3wMaXfREKoWuF1MNq4F6JUaHNW/54IID2Etr4mwvQVeUYn4Nl0XL
+   6BGQpxjm3aIG8qav9ZL7Rq6ewaeKLOvkkcp2AGNLxECxkQN4k3XiKps5+
+   qcsXchqJ5BCkRyyyBpbSh+uE5CQehfEz+XsNSbEecY9q2b/8GpiRIYGxr
+   w==;
+X-CSE-ConnectionGUID: jpzA7i6pTX+i+nSs1vYkTA==
+X-CSE-MsgGUID: GqaXF/hoQTuFBHiE1sOC9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40093904"
 X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
-   d="scan'208";a="39936821"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 17:27:56 -0800
-X-CSE-ConnectionGUID: sD5kU1gXQVKXEDd/aSteAw==
-X-CSE-MsgGUID: rq/tCPqSR8qLNv9L6x6/zg==
+   d="scan'208";a="40093904"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 17:49:59 -0800
+X-CSE-ConnectionGUID: PaJLY80jRaWZbOBiEL37qQ==
+X-CSE-MsgGUID: AC/aIoHuTgqRezpnWCv0Fg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117447076"
+X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
+   d="scan'208";a="144184554"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Feb 2025 17:27:55 -0800
+  by orviesa002.jf.intel.com with ESMTP; 13 Feb 2025 17:49:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tikUj-0018ut-0U;
-	Fri, 14 Feb 2025 01:27:53 +0000
-Date: Fri, 14 Feb 2025 09:27:15 +0800
+	id 1tikq3-0018wP-2F;
+	Fri, 14 Feb 2025 01:49:55 +0000
+Date: Fri, 14 Feb 2025 09:49:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/mach-omap2/sdrc.c:129: warning: Function parameter or
- struct member 'sdrc_cs0' not described in 'omap2_sdrc_init'
-Message-ID: <202502140909.al1w1xsR-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis/dev 3/26] lib/test_capability-analysis.c:15:9:
+ sparse: sparse: incompatible types for operation (!=):
+Message-ID: <202502140943.uVg4P69O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,112 +62,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   68763b29e0a6441f57f9ee652bbf8e7bc59183e5
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
-date:   2 years, 10 months ago
-config: arm-randconfig-r016-20221216 (https://download.01.org/0day-ci/archive/20250214/202502140909.al1w1xsR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140909.al1w1xsR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
+head:   9c8d14ce8aff2d38bf494f5d5436a302e3236842
+commit: 253098e71de0ef676e7abfab510da9e73500db47 [3/26] compiler-capability-analysis: Add test stub
+config: i386-randconfig-r111-20250214 (https://download.01.org/0day-ci/archive/20250214/202502140943.uVg4P69O-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140943.uVg4P69O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140909.al1w1xsR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140943.uVg4P69O-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/test_capability-analysis.c:15:9: sparse: sparse: incompatible types for operation (!=):
+   lib/test_capability-analysis.c:15:9: sparse:    void
+   lib/test_capability-analysis.c:15:9: sparse:    int
 
->> arch/arm/mach-omap2/sdrc.c:129: warning: Function parameter or struct member 'sdrc_cs0' not described in 'omap2_sdrc_init'
->> arch/arm/mach-omap2/sdrc.c:129: warning: Function parameter or struct member 'sdrc_cs1' not described in 'omap2_sdrc_init'
---
->> arch/arm/mach-omap2/omap2-restart.c:32: warning: Function parameter or struct member 'mode' not described in 'omap2xxx_restart'
->> arch/arm/mach-omap2/omap2-restart.c:32: warning: Function parameter or struct member 'cmd' not described in 'omap2xxx_restart'
---
->> arch/arm/mach-omap2/omap-secure.c:61: warning: Function parameter or struct member 'arg1' not described in 'omap_secure_dispatcher'
->> arch/arm/mach-omap2/omap-secure.c:61: warning: Function parameter or struct member 'arg2' not described in 'omap_secure_dispatcher'
->> arch/arm/mach-omap2/omap-secure.c:61: warning: Function parameter or struct member 'arg3' not described in 'omap_secure_dispatcher'
->> arch/arm/mach-omap2/omap-secure.c:61: warning: Function parameter or struct member 'arg4' not described in 'omap_secure_dispatcher'
-   arch/arm/mach-omap2/omap-secure.c:61: warning: expecting prototype for omap_sec_dispatcher(). Prototype was for omap_secure_dispatcher() instead
->> arch/arm/mach-omap2/omap-secure.c:162: warning: Function parameter or struct member 'arg1' not described in 'rx51_secure_dispatcher'
->> arch/arm/mach-omap2/omap-secure.c:162: warning: Function parameter or struct member 'arg2' not described in 'rx51_secure_dispatcher'
->> arch/arm/mach-omap2/omap-secure.c:162: warning: Function parameter or struct member 'arg3' not described in 'rx51_secure_dispatcher'
->> arch/arm/mach-omap2/omap-secure.c:162: warning: Function parameter or struct member 'arg4' not described in 'rx51_secure_dispatcher'
-   arch/arm/mach-omap2/omap-secure.c:196: warning: Function parameter or struct member 'clear_bits' not described in 'rx51_secure_update_aux_cr'
-   arch/arm/mach-omap2/omap-secure.c:196: warning: Excess function parameter 'clr_bits' description in 'rx51_secure_update_aux_cr'
->> arch/arm/mach-omap2/omap-secure.c:214: warning: Function parameter or struct member 'ptr' not described in 'rx51_secure_rng_call'
->> arch/arm/mach-omap2/omap-secure.c:214: warning: Function parameter or struct member 'count' not described in 'rx51_secure_rng_call'
->> arch/arm/mach-omap2/omap-secure.c:214: warning: Function parameter or struct member 'flag' not described in 'rx51_secure_rng_call'
---
->> arch/arm/mach-omap2/prm33xx.c:95: warning: Function parameter or struct member 'rstctrl_offs' not described in 'am33xx_prm_assert_hardreset'
->> arch/arm/mach-omap2/prm33xx.c:95: warning: Excess function parameter 'rstctrl_reg' description in 'am33xx_prm_assert_hardreset'
->> arch/arm/mach-omap2/prm33xx.c:125: warning: Function parameter or struct member 'rstctrl_offs' not described in 'am33xx_prm_deassert_hardreset'
->> arch/arm/mach-omap2/prm33xx.c:125: warning: Function parameter or struct member 'rstst_offs' not described in 'am33xx_prm_deassert_hardreset'
->> arch/arm/mach-omap2/prm33xx.c:125: warning: Excess function parameter 'rstctrl_reg' description in 'am33xx_prm_deassert_hardreset'
->> arch/arm/mach-omap2/prm33xx.c:125: warning: Excess function parameter 'rstst_reg' description in 'am33xx_prm_deassert_hardreset'
---
->> arch/arm/mach-omap2/prminst44xx.c:101: warning: Function parameter or struct member 'part' not described in 'omap4_prminst_is_hardreset_asserted'
->> arch/arm/mach-omap2/prminst44xx.c:101: warning: Function parameter or struct member 'inst' not described in 'omap4_prminst_is_hardreset_asserted'
->> arch/arm/mach-omap2/prminst44xx.c:101: warning: Function parameter or struct member 'rstctrl_offs' not described in 'omap4_prminst_is_hardreset_asserted'
->> arch/arm/mach-omap2/prminst44xx.c:101: warning: Excess function parameter 'rstctrl_reg' description in 'omap4_prminst_is_hardreset_asserted'
->> arch/arm/mach-omap2/prminst44xx.c:125: warning: Function parameter or struct member 'part' not described in 'omap4_prminst_assert_hardreset'
->> arch/arm/mach-omap2/prminst44xx.c:125: warning: Function parameter or struct member 'inst' not described in 'omap4_prminst_assert_hardreset'
->> arch/arm/mach-omap2/prminst44xx.c:125: warning: Function parameter or struct member 'rstctrl_offs' not described in 'omap4_prminst_assert_hardreset'
->> arch/arm/mach-omap2/prminst44xx.c:125: warning: Excess function parameter 'rstctrl_reg' description in 'omap4_prminst_assert_hardreset'
---
->> arch/arm/mach-omap2/vc.c:404: warning: Excess function parameter 'off_mode' description in 'omap3_set_i2c_timings'
---
->> arch/arm/mach-omap2/voltage.c:332: warning: Function parameter or struct member 'voltdms' not described in 'voltdm_init'
->> arch/arm/mach-omap2/voltage.c:332: warning: Excess function parameter 'voltdm_list' description in 'voltdm_init'
---
->> arch/arm/mach-omap2/clockdomain.c:546: warning: Function parameter or struct member 'user' not described in 'clkdm_for_each'
-   arch/arm/mach-omap2/clockdomain.c:1003: warning: expecting prototype for clkdm_deny_idle(). Prototype was for clkdm_deny_idle_nolock() instead
-   arch/arm/mach-omap2/clockdomain.c:1165: warning: Function parameter or struct member 'unused' not described in 'clkdm_clk_enable'
-   arch/arm/mach-omap2/clockdomain.c:1165: warning: Excess function parameter 'clk' description in 'clkdm_clk_enable'
->> arch/arm/mach-omap2/clockdomain.c:1303: warning: Function parameter or struct member 'clkdm' not described in '_clkdm_save_context'
->> arch/arm/mach-omap2/clockdomain.c:1303: warning: Function parameter or struct member 'unused' not described in '_clkdm_save_context'
->> arch/arm/mach-omap2/clockdomain.c:1316: warning: Function parameter or struct member 'clkdm' not described in '_clkdm_restore_context'
->> arch/arm/mach-omap2/clockdomain.c:1316: warning: Function parameter or struct member 'unused' not described in '_clkdm_restore_context'
---
->> arch/arm/mach-omap2/powerdomain.c:439: warning: Function parameter or struct member 'user' not described in 'pwrdm_for_each'
->> arch/arm/mach-omap2/powerdomain.c:1234: warning: Function parameter or struct member 'pwrdm' not described in 'pwrdm_save_context'
->> arch/arm/mach-omap2/powerdomain.c:1234: warning: Function parameter or struct member 'unused' not described in 'pwrdm_save_context'
->> arch/arm/mach-omap2/powerdomain.c:1247: warning: Function parameter or struct member 'pwrdm' not described in 'pwrdm_restore_context'
->> arch/arm/mach-omap2/powerdomain.c:1247: warning: Function parameter or struct member 'unused' not described in 'pwrdm_restore_context'
-   arch/arm/mach-omap2/powerdomain.c:1247: warning: expecting prototype for pwrdm_save_context(). Prototype was for pwrdm_restore_context() instead
---
->> arch/arm/mach-omap2/clkt2xxx_dpllcore.c:190: warning: Function parameter or struct member 'hw' not described in 'omap2xxx_clkt_dpllcore_init'
->> arch/arm/mach-omap2/clkt2xxx_dpllcore.c:190: warning: Excess function parameter 'clk' description in 'omap2xxx_clkt_dpllcore_init'
---
->> arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c:60: warning: Function parameter or struct member 'parent_rate' not described in 'omap2_table_mpu_recalc'
-   arch/arm/mach-omap2/clkt2xxx_virt_prcm_set.c:171: warning: expecting prototype for omap2xxx_clkt_vps_check_bootloader_rate(). Prototype was for omap2xxx_clkt_vps_check_bootloader_rates() instead
-..
+vim +15 lib/test_capability-analysis.c
 
-
-vim +129 arch/arm/mach-omap2/sdrc.c
-
-f2ab99778a1a04 Paul Walmsley 2009-01-28  117  
-98cfe5abf24c6d Paul Walmsley 2009-05-12  118  /**
-98cfe5abf24c6d Paul Walmsley 2009-05-12  119   * omap2_sdrc_init - initialize SMS, SDRC devices on boot
-58cda884ecc87d Jean Pihet    2009-07-24  120   * @sdrc_cs[01]: pointers to a null-terminated list of struct omap_sdrc_params
-58cda884ecc87d Jean Pihet    2009-07-24  121   *  Support for 2 chip selects timings
-98cfe5abf24c6d Paul Walmsley 2009-05-12  122   *
-98cfe5abf24c6d Paul Walmsley 2009-05-12  123   * Turn on smart idle modes for SDRAM scheduler and controller.
-98cfe5abf24c6d Paul Walmsley 2009-05-12  124   * Program a known-good configuration for the SDRC to deal with buggy
-98cfe5abf24c6d Paul Walmsley 2009-05-12  125   * bootloaders.
-98cfe5abf24c6d Paul Walmsley 2009-05-12  126   */
-58cda884ecc87d Jean Pihet    2009-07-24  127  void __init omap2_sdrc_init(struct omap_sdrc_params *sdrc_cs0,
-58cda884ecc87d Jean Pihet    2009-07-24  128  			    struct omap_sdrc_params *sdrc_cs1)
-f2ab99778a1a04 Paul Walmsley 2009-01-28 @129  {
-
-:::::: The code at line 129 was first introduced by commit
-:::::: f2ab99778a1a04ddbae38f4de4ef40f2edb92080 [ARM] OMAP2 SDRC: separate common OMAP2/3 code from OMAP2xxx code
-
-:::::: TO: Paul Walmsley <paul@pwsan.com>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+     8	
+     9	/*
+    10	 * Test that helper macros work as expected.
+    11	 */
+    12	static void __used test_common_helpers(void)
+    13	{
+    14		BUILD_BUG_ON(capability_unsafe(3) != 3); /* plain expression */
+  > 15		BUILD_BUG_ON(capability_unsafe((void)2; 3;) != 3); /* does not swallow semi-colon */
 
 -- 
 0-DAY CI Kernel Test Service
