@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB91266B7D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 15:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4507326618E;
+	Fri, 14 Feb 2025 15:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739547098; cv=none; b=rCeNpgcgOE1FWUfvV6OpZzNrxc5FgFj/1RDZuLLuF1Em47tcg25ptTgjfsBi60JYSrzGj4EonFEp+8b99RC7RzQP8xdxFk3m0i+NjUYL1S1UEOt1vH/OTsMC7Hglc14CkvwIgltI8dkMep2bKQER0S2B1/sYd+aWUy0bNWT4Woo=
+	t=1739547098; cv=none; b=gcUW7jKu2o+Tzy+c+vsZdAHLS9HgQWi5BR81DnAKJn/XKppXnvtG5B1yZDBkpIJmaV1aCcq9K0PjiOk/8UwhtTFOvwMbygEnv5D/zFc00jEJ7DE5J6kMmj+p9FVVZst5sBCA0AjrXbrECLCvwlkYn3JPrmOXIoJtr8DGoEUGvRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739547098; c=relaxed/simple;
-	bh=hKIyQsU9BC0kOOY748dac2p9zvW1sGmHSFbbW/R/zLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XPeprHGko89XSqHumTBrSm7+ID4MTpEZGksu4J3jWZ3SQ+zd5X63ibA1Ngs8GRXL36k6DSMOxUXTxaJICDqylVlH3kX8kf/3RLNMn6uJ5CZJECJGIN5uGa9cEnmUAhgZWIdCg9ldmmSFYMzYGu8DJqjzoIc/Z+BspR5n/f5Cxlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j9I1bwSN; arc=none smtp.client-ip=198.175.65.20
+	bh=7P5KfUUs2ZOeZWd7glFomIFleZsfHmdy42H1Kar+cJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jdBkjrU6W/4QRzVFXZ8uDmEIKo/nhv4d4L+uDuzjTdKZ9yq22DuQC5lWM8zae8NRx71+8aKgET5qyDUQ8TGdgyLZF9Eq/dJsmDPRpE9qGtz3i02WYZ+nlcVGXhjWKXN+oddzw0Y+AilS1YliLghqPpsvZwzZtv498IiAFHFXVS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOPWJHR7; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j9I1bwSN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOPWJHR7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1739547096; x=1771083096;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hKIyQsU9BC0kOOY748dac2p9zvW1sGmHSFbbW/R/zLY=;
-  b=j9I1bwSN7eRKLmXhMNbAf+HwlcVDVMtf/Pg+T9rTYe7HusW1FjfaKPde
-   oQouRTrguk47qVdUQtpp3WyxAH4S501oTvIAQV1cSyDIQFe8M8eu3zvTE
-   w3c/JFIPiO/7Lin6lIWOvIxQXCfp+lZ0fJkvIS23aFBHrVZHMDeoSICnC
-   dF78vuz5bctWFElxbyZZJU3H0Kt6jjyqm4ExqwWZKMGHJTu47ziqAc0kT
-   DofF2um/Z7rQPVRl3Xv+Iif5dbrEp5n1w50T7M8X9x7Mev+5WM1m/zE0q
-   Cn3/A/mrLhJlDGuw7H2FBWVgs6WHk5gCXQtfimGFMwDkFPKI4txHeAcwq
-   A==;
-X-CSE-ConnectionGUID: ZivkiOBEQvqo2S77O9kAmw==
-X-CSE-MsgGUID: zJsPqRSMQh23Avg6gVra4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40006840"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7P5KfUUs2ZOeZWd7glFomIFleZsfHmdy42H1Kar+cJk=;
+  b=FOPWJHR7N4bvNJb28j4xSoATD1UCNAU024LGUoV1a4BPkBnb3K1HXUkE
+   FLnBkjUnHIj9tc3LElXDvgZmoHdYAYWrpU4F0ghDt8LAOq+1iFtD3MWxA
+   K3AHuwdbTN6M52gFVVJ2AuOsF+uu4gWSdrCYT0oWEx3OZicho3kjuQTwM
+   h66TZyJXEme757VlV/E2aHn/16ZG21/wDtHehxJowNFMS54KWdhTPSdRc
+   i8alEA7WweCqCac2BFwQNkPEoL90C+mLrZAvGfk3GM7fzTDIXB+pdUYWr
+   813jT4g0NIjhkJ/n4jYhOzch8og59mP1BkKvry2/a9GaLNlibA3W0n06n
+   g==;
+X-CSE-ConnectionGUID: HRCSVw/DTDq/oIqQk8vkgA==
+X-CSE-MsgGUID: GtzDlSvAThmb7oVqdGYtXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="50512359"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="40006840"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:31:33 -0800
-X-CSE-ConnectionGUID: VkwZM6jgQhuXkEM+kVJYiQ==
-X-CSE-MsgGUID: 0ccb+xTOQkeBaD9wGbOFFw==
+   d="scan'208";a="50512359"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:31:36 -0800
+X-CSE-ConnectionGUID: CR1ia8JuS++UWH5gInrNzg==
+X-CSE-MsgGUID: VFwFGR/cS1q9lN4KptVY/Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118107803"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="118416806"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Feb 2025 07:31:32 -0800
+  by orviesa003.jf.intel.com with ESMTP; 14 Feb 2025 07:31:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tixf8-0019mB-1H;
+	id 1tixf8-0019m7-19;
 	Fri, 14 Feb 2025 15:31:30 +0000
-Date: Fri, 14 Feb 2025 23:31:16 +0800
+Date: Fri, 14 Feb 2025 23:31:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 249/249] mm/oom_kill.c:423:6:
- warning: no previous prototype for function 'dump_tasks'
-Message-ID: <202502142342.scMfEyor-lkp@intel.com>
+To: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>,
+	amitk@kernel.org, thara.gopinath@gmail.com, rafael@kernel.org,
+	daniel.lezcano@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	rui.zhang@intel.com, lukasz.luba@arm.com,
+	david.collins@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] thermal: qcom-spmi-temp-alarm: add support for LITE
+ PMIC peripherals
+Message-ID: <202502142339.NmW9FTBM-lkp@intel.com>
+References: <20250213210403.3396392-5-anjelique.melendez@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,68 +68,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250213210403.3396392-5-anjelique.melendez@oss.qualcomm.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d2ae202da688a9a795c238142e01da921b3e4b81
-commit: 0801d8a89de16b3371ac091b123081565d58f53a [249/249] ANDROID: mm: export dump_tasks symbol.
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250214/202502142342.scMfEyor-lkp@intel.com/config)
+Hi Anjelique,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/thermal]
+[also build test ERROR on linus/master v6.14-rc2 next-20250214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/thermal-qcom-spmi-temp-alarm-enable-stage-2-shutdown-when-required/20250214-050700
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
+patch link:    https://lore.kernel.org/r/20250213210403.3396392-5-anjelique.melendez%40oss.qualcomm.com
+patch subject: [PATCH 4/4] thermal: qcom-spmi-temp-alarm: add support for LITE PMIC peripherals
+config: i386-buildonly-randconfig-003-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142339.NmW9FTBM-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142342.scMfEyor-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142339.NmW9FTBM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142342.scMfEyor-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142339.NmW9FTBM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/oom_kill.c:21:
-   In file included from include/linux/oom.h:11:
-   In file included from include/linux/mm.h:2025:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> mm/oom_kill.c:423:6: warning: no previous prototype for function 'dump_tasks' [-Wmissing-prototypes]
-     423 | void dump_tasks(struct oom_control *oc)
-         |      ^
-   mm/oom_kill.c:423:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     423 | void dump_tasks(struct oom_control *oc)
-         | ^
-         | static 
-   2 warnings generated.
+   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:196:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     196 |         return FIELD_GET(STATUS_GEN1_STAGE_MASK, reg);
+         |                ^
+   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:217:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     217 |         ret = FIELD_GET(STATUS_GEN2_STATE_MASK, reg);
+         |               ^
+>> drivers/thermal/qcom/qcom-spmi-temp-alarm.c:477:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     477 |         reg |= FIELD_PREP(LITE_TEMP_CFG_THRESHOLD_MASK, thresh);
+         |                ^
+   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:634:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     634 |         thresh = FIELD_GET(LITE_TEMP_CFG_THRESHOLD_MASK, reg);
+         |                  ^
+   4 errors generated.
 
 
-vim +/dump_tasks +423 mm/oom_kill.c
+vim +/FIELD_PREP +477 drivers/thermal/qcom/qcom-spmi-temp-alarm.c
 
-   412	
-   413	/**
-   414	 * dump_tasks - dump current memory state of all system tasks
-   415	 * @oc: pointer to struct oom_control
-   416	 *
-   417	 * Dumps the current memory state of all eligible tasks.  Tasks not in the same
-   418	 * memcg, not in the same cpuset, or bound to a disjoint set of mempolicy nodes
-   419	 * are not shown.
-   420	 * State information includes task's pid, uid, tgid, vm size, rss,
-   421	 * pgtables_bytes, swapents, oom_score_adj value, and name.
-   422	 */
- > 423	void dump_tasks(struct oom_control *oc)
-   424	{
-   425		pr_info("Tasks state (memory values in pages):\n");
-   426		pr_info("[  pid  ]   uid  tgid total_vm      rss pgtables_bytes swapents oom_score_adj name\n");
-   427	
-   428		if (is_memcg_oom(oc))
-   429			mem_cgroup_scan_tasks(oc->memcg, dump_task, oc);
-   430		else {
-   431			struct task_struct *p;
-   432	
-   433			rcu_read_lock();
-   434			for_each_process(p)
-   435				dump_task(p, oc);
-   436			rcu_read_unlock();
-   437		}
-   438	}
-   439	EXPORT_SYMBOL_GPL(dump_tasks);
-   440	
+   418	
+   419	static int qpnp_tm_lite_set_temp_thresh(struct qpnp_tm_chip *chip, int trip, int temp)
+   420	{
+   421		int ret, temp_cfg, i;
+   422		const long *temp_map;
+   423		u16 addr;
+   424		u8 reg, thresh;
+   425	
+   426		if (trip < 0 || trip >= STAGE_COUNT) {
+   427			dev_err(chip->dev, "invalid TEMP_LITE trip = %d\n", trip);
+   428			return -EINVAL;
+   429		}
+   430	
+   431		switch (trip) {
+   432		case 0:
+   433			temp_map = temp_lite_warning_map;
+   434			addr = QPNP_TM_REG_LITE_TEMP_CFG1;
+   435			break;
+   436		case 1:
+   437			/*
+   438			 * The second trip point is purely in software to facilitate
+   439			 * a controlled shutdown after the warning threshold is crossed
+   440			 * but before the automatic hardware shutdown threshold is
+   441			 * crossed.
+   442			 */
+   443			return 0;
+   444		case 2:
+   445			temp_map = temp_lite_shutdown_map;
+   446			addr = QPNP_TM_REG_LITE_TEMP_CFG2;
+   447			break;
+   448		default:
+   449			return 0;
+   450		}
+   451	
+   452		if (temp < temp_map[THRESH_MIN] || temp > temp_map[THRESH_MAX]) {
+   453			dev_err(chip->dev, "invalid TEMP_LITE temp = %d\n", temp);
+   454			return -EINVAL;
+   455		}
+   456	
+   457		thresh = 0;
+   458		temp_cfg = temp_map[thresh];
+   459		for (i = THRESH_MAX; i >= THRESH_MIN; i--) {
+   460			if (temp >= temp_map[i]) {
+   461				thresh = i;
+   462				temp_cfg = temp_map[i];
+   463				break;
+   464			}
+   465		}
+   466	
+   467		if (temp_cfg == chip->temp_thresh_map[trip])
+   468			return 0;
+   469	
+   470		ret = qpnp_tm_read(chip, addr, &reg);
+   471		if (ret < 0) {
+   472			dev_err(chip->dev, "LITE_TEMP_CFG read failed, ret=%d\n", ret);
+   473			return ret;
+   474		}
+   475	
+   476		reg &= ~LITE_TEMP_CFG_THRESHOLD_MASK;
+ > 477		reg |= FIELD_PREP(LITE_TEMP_CFG_THRESHOLD_MASK, thresh);
+   478	
+   479		ret = qpnp_tm_write(chip, addr, reg);
+   480		if (ret < 0) {
+   481			dev_err(chip->dev, "LITE_TEMP_CFG write failed, ret=%d\n", ret);
+   482			return ret;
+   483		}
+   484	
+   485		chip->temp_thresh_map[trip] = temp_cfg;
+   486	
+   487		return 0;
+   488	}
+   489	
 
 -- 
 0-DAY CI Kernel Test Service
