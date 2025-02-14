@@ -1,58 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA68A156C76
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 04:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A10126C1E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 04:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739505615; cv=none; b=A7QXZZ9pUQmwEKl5re2Ws4nakaRoEfTXHVOBsO42YJ5lQqAc++lzpgNGPKy2fuYsR9qorEzsNO9NJuUM0mCFlbriZ2sCFTwhw98dzhGXNiBGH04P3ePmgI64wqjrk4xzv72zbfao1QzvS/m7qvQ/JBuhJXJFGpdZcME06DJ99sk=
+	t=1739506939; cv=none; b=rQlPsjOfJ1bV//POds/DO/ZSU+AKDOSRWXPdYnr4x51YKLs1s/Ei/iNdYbd0iATnb2bEF32hmAteWRWuQ3/cH/JjtscKjziS4H/rReBkcKBaDPhnFIfNaWLGlaLtungk6xuXj2yEYp98y4Mrr4Za038niV3f8TAqUlpe1zptRDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739505615; c=relaxed/simple;
-	bh=/kTh+tkG6Lj9pKitLE9kFXg4onOYZz9MZMfSuGATC7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rmVcnOHGDq9RchrqTJEWErld5xCLLzNdZG1xk2CwWeS61NIblktbcKEL+bOivK8rjpVOxaXC+3Xt74RfEmGgM/pt6Sq7g+SCzJOr8KIyMNVlkS39nUuKM0Z7mW+iuyfb5CelLFd1aStLo3aqSH89mr5uSqb2QxWzpGDmaTr/UvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGaamboA; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1739506939; c=relaxed/simple;
+	bh=E6U7r9+XPf5C9PFEIXPbnBypfFSXsnpSwDiuegOJVuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFDjj3eaZciESM1A9trnA+KXIOvFuRBGksq6iqNV85wZXt1sRrJ4qlUZ467G3g3ncSMsBlg6xW16ZYxMtiwHDUz8qvBC6TvndjAIljwrvB6/R/Wldeej4UklIEmfyU8/y7LU3L3GkU99AHs0lKDEfL7myiA379ucsZ7fOWZDulY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVB+xSbE; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGaamboA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVB+xSbE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739505613; x=1771041613;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/kTh+tkG6Lj9pKitLE9kFXg4onOYZz9MZMfSuGATC7c=;
-  b=ZGaamboApY4j/onCz04dySsjseEW09zKDMb2PYumhRvdKjQT2IaT15G8
-   TbzDHo0kp5RHDmKkyvfjPswbwewpiD//hpB6xpJjIVOCXPGfq27A7sbmg
-   eOQP+vwMeRix5JsR8TvXl+HuPCGa9HWFw705PmtZIBvlkd6lpYquJEinm
-   2wmYA1Hven7+CE+uISUstzFATZYZaiANIrXoOTgqpPAmMM3hsUQMKMsUz
-   FAaFhjuBVLftIsgs2VAcRKWVH0twsE5C6sGN4ZSrP9VF56EeXYdVsYBXK
-   9Stng6ncP1aCnK98C1ZDMGGc38hc0K12bAA7px/4ipPw65LKiEDQtbBRk
-   A==;
-X-CSE-ConnectionGUID: tZzm2xp+QQqy/qKV3cCSTw==
-X-CSE-MsgGUID: lMNVN4vMQm6nP1RSRQ9sWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40391318"
+  t=1739506936; x=1771042936;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E6U7r9+XPf5C9PFEIXPbnBypfFSXsnpSwDiuegOJVuw=;
+  b=mVB+xSbERg4bxXHmHGjHQXhKEZO/cWaonRP1K3CUKmR1hE3dpCQdtKAU
+   XErkD7TdMoSblL4i/Nv7DcPTOc8R1Qe/ChQODUNdSXar9dCYOESlsldpj
+   i8NiVV7Ty8N40PkK1aue+LFTNkhPa9GtsI1XnJ/w+FljAnKTTlaAun1rb
+   ydH2tJImeOLtwHbyMWojHFM40mC8MyGY/uJG/1cJegzd98IK6YTYlQuAD
+   Q1mdLBuYOidLXlsfxZKy9ui9UYfqtkyvldGH2Lm6Nr+jnaTnw3lx+gPFh
+   c9TIcBxhAeMSC/rfa+zK7UH0lUOxf5uO+U9I7qi+3tmSnYu1DEEFCHYY6
+   Q==;
+X-CSE-ConnectionGUID: hwBgI+LqSoiouch7T3wsxQ==
+X-CSE-MsgGUID: c5J53mveTvCjpUhbgdihzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40393033"
 X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
-   d="scan'208";a="40391318"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 20:00:12 -0800
-X-CSE-ConnectionGUID: hH70ix+lRqOq0KjXLuz3uA==
-X-CSE-MsgGUID: zCJabamJQ9Gu0IHd/6vKVw==
+   d="scan'208";a="40393033"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 20:22:15 -0800
+X-CSE-ConnectionGUID: t+79vm8PSYKAAhX+bpJ3NQ==
+X-CSE-MsgGUID: gq8QhoN5RA+HIfSRQvNY+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
-   d="scan'208";a="113302459"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="144281882"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Feb 2025 20:00:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 13 Feb 2025 20:22:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tims4-00192h-28;
-	Fri, 14 Feb 2025 04:00:08 +0000
-Date: Fri, 14 Feb 2025 11:59:33 +0800
+	id 1tinDO-00193T-1j;
+	Fri, 14 Feb 2025 04:22:10 +0000
+Date: Fri, 14 Feb 2025 12:21:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:cap-analysis/dev 23/26] lib/stackdepot.c:251:9: sparse:
- sparse: incorrect type in argument 1 (different base types)
-Message-ID: <202502141107.HcycKNCX-lkp@intel.com>
+To: Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
+	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
+	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
+	Frank.Li@nxp.com, Aman Kumar Pandey <aman.kumarpandey@nxp.com>
+Subject: Re: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub
+ device
+Message-ID: <202502141155.osJiWAHL-lkp@intel.com>
+References: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,196 +68,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
-head:   9c8d14ce8aff2d38bf494f5d5436a302e3236842
-commit: d6d88d3748905102f5fd6d0a360fb96ddc1c71a3 [23/26] stackdepot: Enable capability analysis
-config: i386-randconfig-r123-20250214 (https://download.01.org/0day-ci/archive/20250214/202502141107.HcycKNCX-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502141107.HcycKNCX-lkp@intel.com/reproduce)
+Hi Aman,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.14-rc2 next-20250213]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/drivers-i3c-Add-driver-for-NXP-P3H2x4x-i3c-hub-device/20250212-213659
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250212132227.1348374-2-aman.kumarpandey%40nxp.com
+patch subject: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub device
+config: i386-randconfig-r111-20250214 (https://download.01.org/0day-ci/archive/20250214/202502141155.osJiWAHL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502141155.osJiWAHL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502141107.HcycKNCX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502141155.osJiWAHL-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse: sparse: multiple definitions for function '__assert_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/seqlock.h, include/linux/dcache.h, include/linux/fs.h, ...):
-   include/linux/seqlock_types.h:84:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__try_acquire_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__try_acquire_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assert_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse: sparse: multiple definitions for function '__assert_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rwsem.h:48:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__try_acquire_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__try_acquire_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__assert_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse: sparse: multiple definitions for function '__assert_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/notifier.h, arch/x86/include/asm/uprobes.h, include/linux/uprobes.h, ...):
-   include/linux/srcu.h:24:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__acquire_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__acquire_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__try_acquire_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__try_acquire_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__release_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__release_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__assert_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
-   lib/stackdepot.c: note: in included file:
-   include/linux/debugfs.h:243:1: sparse: sparse: multiple definitions for function '__assert_shared_cap'
-   lib/stackdepot.c: note: in included file (through include/linux/local_lock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/local_lock_internal.h:11:1: sparse:  the previous one is here
->> lib/stackdepot.c:251:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct debugfs_cancellation const *var @@     got struct raw_spinlock * @@
-   lib/stackdepot.c:251:9: sparse:     expected struct debugfs_cancellation const *var
-   lib/stackdepot.c:251:9: sparse:     got struct raw_spinlock *
-   lib/stackdepot.c:299:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct debugfs_cancellation const *var @@     got struct raw_spinlock * @@
-   lib/stackdepot.c:299:9: sparse:     expected struct debugfs_cancellation const *var
-   lib/stackdepot.c:299:9: sparse:     got struct raw_spinlock *
-   lib/stackdepot.c:323:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct debugfs_cancellation const *var @@     got struct raw_spinlock * @@
-   lib/stackdepot.c:323:9: sparse:     expected struct debugfs_cancellation const *var
-   lib/stackdepot.c:323:9: sparse:     got struct raw_spinlock *
-   lib/stackdepot.c:356:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct debugfs_cancellation const *var @@     got struct raw_spinlock * @@
-   lib/stackdepot.c:356:9: sparse:     expected struct debugfs_cancellation const *var
-   lib/stackdepot.c:356:9: sparse:     got struct raw_spinlock *
-   lib/stackdepot.c:395:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected struct debugfs_cancellation const *var @@     got struct raw_spinlock * @@
-   lib/stackdepot.c:395:9: sparse:     expected struct debugfs_cancellation const *var
-   lib/stackdepot.c:395:9: sparse:     got struct raw_spinlock *
-   lib/stackdepot.c:684:9: sparse: sparse: context imbalance in 'stack_depot_save_flags' - different lock contexts for basic block
+>> drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:9:22: sparse: sparse: symbol 'p3h2x4x_ibireq' was not declared. Should it be static?
+>> drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:15:22: sparse: sparse: symbol 'p3h2x4x_regmap_config' was not declared. Should it be static?
+>> drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:37:26: sparse: sparse: Using plain integer as NULL pointer
+   drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c: note: in included file (through include/linux/module.h, drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-vim +251 lib/stackdepot.c
+vim +/p3h2x4x_ibireq +9 drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c
 
-cd11016e5f5212 Alexander Potapenko 2016-03-25  244  
-4434a56ec20925 Marco Elver         2024-01-18  245  /*
-31639fd6cebd4f Marco Elver         2024-01-29  246   * Initializes new stack pool, and updates the list of pools.
-4434a56ec20925 Marco Elver         2024-01-18  247   */
-31639fd6cebd4f Marco Elver         2024-01-29  248  static bool depot_init_pool(void **prealloc)
-d6d88d37489051 Marco Elver         2025-02-04  249  	__must_hold(&pool_lock)
-b29d3188581400 Andrey Konovalov    2023-11-20  250  {
-4434a56ec20925 Marco Elver         2024-01-18 @251  	lockdep_assert_held(&pool_lock);
-4805180bc16523 Andrey Konovalov    2023-11-20  252  
-31639fd6cebd4f Marco Elver         2024-01-29  253  	if (unlikely(pools_num >= DEPOT_MAX_POOLS)) {
-31639fd6cebd4f Marco Elver         2024-01-29  254  		/* Bail out if we reached the pool limit. */
-31639fd6cebd4f Marco Elver         2024-01-29  255  		WARN_ON_ONCE(pools_num > DEPOT_MAX_POOLS); /* should never happen */
-31639fd6cebd4f Marco Elver         2024-01-29  256  		WARN_ON_ONCE(!new_pool); /* to avoid unnecessary pre-allocation */
-31639fd6cebd4f Marco Elver         2024-01-29  257  		WARN_ONCE(1, "Stack depot reached limit capacity");
-31639fd6cebd4f Marco Elver         2024-01-29  258  		return false;
-31639fd6cebd4f Marco Elver         2024-01-29  259  	}
-b29d3188581400 Andrey Konovalov    2023-11-20  260  
-31639fd6cebd4f Marco Elver         2024-01-29  261  	if (!new_pool && *prealloc) {
-31639fd6cebd4f Marco Elver         2024-01-29  262  		/* We have preallocated memory, use it. */
-31639fd6cebd4f Marco Elver         2024-01-29  263  		WRITE_ONCE(new_pool, *prealloc);
-31639fd6cebd4f Marco Elver         2024-01-29  264  		*prealloc = NULL;
-31639fd6cebd4f Marco Elver         2024-01-29  265  	}
-b29d3188581400 Andrey Konovalov    2023-11-20  266  
-31639fd6cebd4f Marco Elver         2024-01-29  267  	if (!new_pool)
-31639fd6cebd4f Marco Elver         2024-01-29  268  		return false; /* new_pool and *prealloc are NULL */
-31639fd6cebd4f Marco Elver         2024-01-29  269  
-31639fd6cebd4f Marco Elver         2024-01-29  270  	/* Save reference to the pool to be used by depot_fetch_stack(). */
-31639fd6cebd4f Marco Elver         2024-01-29  271  	stack_pools[pools_num] = new_pool;
-4434a56ec20925 Marco Elver         2024-01-18  272  
-4434a56ec20925 Marco Elver         2024-01-18  273  	/*
-31639fd6cebd4f Marco Elver         2024-01-29  274  	 * Stack depot tries to keep an extra pool allocated even before it runs
-31639fd6cebd4f Marco Elver         2024-01-29  275  	 * out of space in the currently used pool.
-31639fd6cebd4f Marco Elver         2024-01-29  276  	 *
-31639fd6cebd4f Marco Elver         2024-01-29  277  	 * To indicate that a new preallocation is needed new_pool is reset to
-31639fd6cebd4f Marco Elver         2024-01-29  278  	 * NULL; do not reset to NULL if we have reached the maximum number of
-31639fd6cebd4f Marco Elver         2024-01-29  279  	 * pools.
-4434a56ec20925 Marco Elver         2024-01-18  280  	 */
-31639fd6cebd4f Marco Elver         2024-01-29  281  	if (pools_num < DEPOT_MAX_POOLS)
-31639fd6cebd4f Marco Elver         2024-01-29  282  		WRITE_ONCE(new_pool, NULL);
-31639fd6cebd4f Marco Elver         2024-01-29  283  	else
-31639fd6cebd4f Marco Elver         2024-01-29  284  		WRITE_ONCE(new_pool, STACK_DEPOT_POISON);
-4434a56ec20925 Marco Elver         2024-01-18  285  
-4434a56ec20925 Marco Elver         2024-01-18  286  	/* Pairs with concurrent READ_ONCE() in depot_fetch_stack(). */
-4434a56ec20925 Marco Elver         2024-01-18  287  	WRITE_ONCE(pools_num, pools_num + 1);
-4434a56ec20925 Marco Elver         2024-01-18  288  	ASSERT_EXCLUSIVE_WRITER(pools_num);
-31639fd6cebd4f Marco Elver         2024-01-29  289  
-31639fd6cebd4f Marco Elver         2024-01-29  290  	pool_offset = 0;
-31639fd6cebd4f Marco Elver         2024-01-29  291  
-31639fd6cebd4f Marco Elver         2024-01-29  292  	return true;
-b29d3188581400 Andrey Konovalov    2023-11-20  293  }
-b29d3188581400 Andrey Konovalov    2023-11-20  294  
-
-:::::: The code at line 251 was first introduced by commit
-:::::: 4434a56ec20925333d6cf4d4093641d063abd35b stackdepot: make fast paths lock-less again
-
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+     8	
+   > 9	struct i3c_ibi_setup p3h2x4x_ibireq = {
+    10			.handler = p3h2x4x_ibi_handler,
+    11			.max_payload_len = P3H2x4x_MAX_PAYLOAD_LEN,
+    12			.num_slots = P3H2x4x_NUM_SLOTS,
+    13	};
+    14	
+  > 15	struct regmap_config p3h2x4x_regmap_config = {
+    16			.reg_bits = P3H2x4x_REG_BITS,
+    17			.val_bits = P3H2x4x_VAL_BITS,
+    18		};
+    19	
+    20	/* p3h2x4x ids (i3c) */
+    21	static const struct i3c_device_id p3h2x4x_i3c_ids[] = {
+    22		I3C_CLASS(I3C_DCR_HUB, NULL),
+    23		{ /* sentinel */ },
+    24	};
+    25	MODULE_DEVICE_TABLE(i3c, p3h2x4x_i3c_ids);
+    26	
+    27	/* p3h2x4x ids (i2c) */
+    28	static const struct i2c_device_id p3h2x4x_i2c_id_table[] = {
+    29		{ "nxp-i3c-hub", P3H2x4x_HUB_ID },
+    30		{ /* sentinel */ },
+    31	};
+    32	MODULE_DEVICE_TABLE(i2c, p3h2x4x_i2c_id_table);
+    33	
+    34	static const struct of_device_id  p3h2x4x_i2c_of_match[] = {
+    35		{
+    36			.compatible = "nxp,p3h2x4x",
+  > 37			.data =  P3H2x4x_HUB_ID,
+    38		},
+    39		{ /* sentinel */ },
+    40	};
+    41	MODULE_DEVICE_TABLE(of, p3h2x4x_i2c_of_match);
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
