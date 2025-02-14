@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D0714830C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 03:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B4215198F;
+	Fri, 14 Feb 2025 03:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739503690; cv=none; b=DpyzzQRUoKfhLNGqu9WwGct+wJjFDyK7MQOEjKyYOcYjXyCzSPs9KlKUIn8aufBTt1M5IkwcAXUqyvR6Gq/UygKaxI5DUhmzygtnoebavT6yWLUZAqCUjTNQoBlNZYj0+r9zjT6vrjfhtThpRh24mPOES5drca6rqPP9nK9gLRQ=
+	t=1739503693; cv=none; b=msN8KG8A8Cv42BkKUTxVJ7uzfpx4BAlSpT3IspcDD+fwQlBRs2hXDnhakfnnXYU5xGtmOuBIHv+Qjp3wxu60/2X9FFbddHXghlGZej6W5dAY905MRLM39Np8JlV8NtJVJcRpAN3QTi88vpMP3lo6iPN1uJaLzsy5eiqRMvamRE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739503690; c=relaxed/simple;
-	bh=0IJ7KIhDAjiOf0rLwL66f8OgWgu3WbVQCNDZCltJ53M=;
+	s=arc-20240116; t=1739503693; c=relaxed/simple;
+	bh=Yz4m/qudMiqmVYQs1oLijmO5U1jCX3cIDtf4priUKbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zum1CL9cbVuV+zxDMZ3KNriEG3jzKDUatLkgtF8NXwuxakTf4Ixp2mbaQPlmhnqkNNUApkFVJC30B+za3geItW1tto9scCsvLZdP9CBEPMUnek8ok21N+OqWmkxzAM6WqEebuvpwwg/CDbQ2E97eKQlYgwrxwZhoymXti/V6nq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=naQjzf5+; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=f7sXGIVWDpRCrDaqhF8+Oc9s8uqpclaW+mZk6g5aM7T+FHPZVF9yAf0uRl1znW/quNnb/xAv4EPNorz6oxTM8i0DAaZ0KnknUZcy4CyTPPr4hiWdYhu+3IGTZ1+Kcd+k34pCuA5AmEZDAlxgYN3U0LTzBEYmBe8J6ZoIW0+v4G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb5HfP0C; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="naQjzf5+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb5HfP0C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739503689; x=1771039689;
+  t=1739503690; x=1771039690;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0IJ7KIhDAjiOf0rLwL66f8OgWgu3WbVQCNDZCltJ53M=;
-  b=naQjzf5+Q2rn1qa93/ajK38jB1GmhiNNmHt0vl8g4c0UDVLHo+0V42IT
-   jD5KajwGeDNsnVwgNr9K5ZyEjIZiOBgzSPp3ppq3h3SWCElacfz6qjh/y
-   qYi0m0mthPBB87ExWX5DVM5i6AHCsReyGFVFABMFRN4Cw2tAlYkFQEImC
-   /G3JvBxxTdS7emkRdaCnGLcWenQXch3myZB/2sWB+d9ljwGIQagntfkbs
-   mSYGk93tMfOiYiKc3+EykBmDxosTFwZe2qONcMdThVRazI8Uvpk7Wf6fg
-   e3H0FxLsbZwCXxYz9KMYVWYQu8jSphwJyq39MwMMO+VYymecNNCkfJ2pE
-   Q==;
-X-CSE-ConnectionGUID: IqvJ8t5WTnmfMCY08QFPmA==
-X-CSE-MsgGUID: UfagjoNQTWiEQ1oHfhxCIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="50885361"
+  bh=Yz4m/qudMiqmVYQs1oLijmO5U1jCX3cIDtf4priUKbk=;
+  b=Hb5HfP0CdrvR4MnSA/Lvcqxjf0zsN0T/Kg6XGQpWqB3hFMUAHZQ5YkLM
+   IW3JZ8AGCxJHgo30jFx4lTpy6fOu+nfKhvR2cU1EAAf49+g7ED3bIayzk
+   eP/hC46aAk6cZpM0eTVEkRiFSvA+00dN/iyqh61C6ZCkeOgbIBu9rR2wz
+   3XPfaTrhE+OoWEEfDgyuf6OWUEQM4we5Ddtqf89Fm9+zcPYY6YNU6CeI0
+   SNnxyziMlYIjJiRilRMWe15LQtMHrJbKbf2HlFxGwHPfOcnVpB3GfzZbX
+   gYVOmzmOzBWx7mktuXKohrxdUj3Uimu/RGp/ZIH/LyuD0VThFt3aEWus5
+   w==;
+X-CSE-ConnectionGUID: 3RSl5QeTTMCanDGLT9mP0w==
+X-CSE-MsgGUID: k5CW6kTHRzi+NqjBs+ai/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="50885364"
 X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
-   d="scan'208";a="50885361"
+   d="scan'208";a="50885364"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 19:28:08 -0800
-X-CSE-ConnectionGUID: OYyroNu7RcetJ9le40Ch9w==
-X-CSE-MsgGUID: pSrenbBkRZSNahTBUFvpNw==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 19:28:09 -0800
+X-CSE-ConnectionGUID: U1MDDcVSRN63/dPwVRyXrw==
+X-CSE-MsgGUID: cbz9X3sARZ++n4kMSf/UoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118549332"
+   d="scan'208";a="118549330"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Feb 2025 19:28:07 -0800
+  by orviesa005.jf.intel.com with ESMTP; 13 Feb 2025 19:28:08 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1timN2-001919-1n;
-	Fri, 14 Feb 2025 03:28:04 +0000
-Date: Fri, 14 Feb 2025 11:27:22 +0800
+	id 1timN3-00191F-0L;
+	Fri, 14 Feb 2025 03:28:05 +0000
+Date: Fri, 14 Feb 2025 11:27:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dan Williams <dan.j.williams@intel.com>
-Subject: [djiang:cxl/fwctl 19/25] ./usr/include/cxl/features.h:104:17: error:
- unknown type name 'u8'
-Message-ID: <202502141101.hVFxNq8Z-lkp@intel.com>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>
+Subject: [pci:aer 1/1] drivers/pci/hotplug/shpchp.h:256:3: error: call to
+ undeclared function 'pci_printk'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202502141105.6eIoURaG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +64,400 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
-head:   368060188b78ad57197303bbffb78081837a7481
-commit: 7cba274115899fa86fbaa2d90b2ed46274906fd0 [19/25] cxl: Move cxl feature command structs to user header
-config: i386-buildonly-randconfig-002-20250214 (https://download.01.org/0day-ci/archive/20250214/202502141101.hVFxNq8Z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502141101.hVFxNq8Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git aer
+head:   c928d117f57c9ca1801c0e37019a357f86eb96f1
+commit: c928d117f57c9ca1801c0e37019a357f86eb96f1 [1/1] PCI: Descope pci_printk() to aer_printk()
+config: x86_64-buildonly-randconfig-001-20250214 (https://download.01.org/0day-ci/archive/20250214/202502141105.6eIoURaG-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502141105.6eIoURaG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502141101.hVFxNq8Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502141105.6eIoURaG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from usr/include/linux/posix_types.h:5,
-                    from usr/include/linux/types.h:9,
-                    from ./usr/include/cxl/features.h:10,
-                    from <command-line>:
->> ./usr/include/cxl/features.h:104:17: error: unknown type name 'u8'
-     104 |                 u8 version;
-         |                 ^~
-   usr/include/linux/stddef.h:35:26: note: in definition of macro '__struct_group'
-      35 |                 struct { MEMBERS } ATTRS; \
-         |                          ^~~~~~~
-   ./usr/include/cxl/features.h:105:17: error: unknown type name 'u8'
-     105 |                 u8 rsvd[9];
-         |                 ^~
-   usr/include/linux/stddef.h:35:26: note: in definition of macro '__struct_group'
-      35 |                 struct { MEMBERS } ATTRS; \
-         |                          ^~~~~~~
->> ./usr/include/cxl/features.h:104:17: error: unknown type name 'u8'
-     104 |                 u8 version;
-         |                 ^~
-   usr/include/linux/stddef.h:36:50: note: in definition of macro '__struct_group'
-      36 |                 struct __struct_group_tag(TAG) { MEMBERS } ATTRS NAME; \
-         |                                                  ^~~~~~~
-   ./usr/include/cxl/features.h:105:17: error: unknown type name 'u8'
-     105 |                 u8 rsvd[9];
-         |                 ^~
-   usr/include/linux/stddef.h:36:50: note: in definition of macro '__struct_group'
-      36 |                 struct __struct_group_tag(TAG) { MEMBERS } ATTRS NAME; \
-         |                                                  ^~~~~~~
+   In file included from drivers/pci/hotplug/shpchp_ctrl.c:22:
+>> drivers/pci/hotplug/shpchp.h:256:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |                 ctrl_dbg(p_slot->ctrl,
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp.h:267:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     267 |                 ctrl_dbg(p_slot->ctrl, "Memory_Base_Limit[ RSE ] (W1C)\n");
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+>> drivers/pci/hotplug/shpchp_ctrl.c:51:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      51 |         ctrl_dbg(ctrl, "Attention button interrupt received\n");
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:75:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      75 |         ctrl_dbg(ctrl, "Switch interrupt received\n");
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:80:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      80 |         ctrl_dbg(ctrl, "Card present %x Power status %x\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:112:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     112 |         ctrl_dbg(ctrl, "Presence/Notify input change\n");
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:147:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     147 |         ctrl_dbg(ctrl, "Power fault interrupt received\n");
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:183:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     183 |         ctrl_dbg(ctrl, "Change speed to %d\n", speed);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:240:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     240 |         ctrl_dbg(ctrl, "%s: p_slot->device, slot_offset, hp_slot = %d, %d ,%d\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:279:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     279 |         ctrl_dbg(ctrl, "%s: slots_not_empty %d, adapter_speed %d, bus_speed %d, max_bus_speed %d\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:297:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     297 |         ctrl_dbg(ctrl, "%s: slot status = %x\n", __func__, p_slot->status);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:301:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     301 |                 ctrl_dbg(ctrl, "%s: Power fault\n", __func__);
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:348:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     348 |         ctrl_dbg(ctrl, "%s: hp_slot = %d\n", __func__, hp_slot);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:528:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     528 |                 ctrl_dbg(p_slot->ctrl, "%s: Power fault\n", __func__);
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_ctrl.c:572:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     572 |         ctrl_dbg(ctrl, "%s: p_slot->pwr_save %x\n", __func__, p_slot->pwr_save);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   15 errors generated.
+--
+   In file included from drivers/pci/hotplug/shpchp_sysfs.c:19:
+>> drivers/pci/hotplug/shpchp.h:256:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |                 ctrl_dbg(p_slot->ctrl,
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp.h:267:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     267 |                 ctrl_dbg(p_slot->ctrl, "Memory_Base_Limit[ RSE ] (W1C)\n");
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   2 errors generated.
+--
+   In file included from drivers/pci/hotplug/shpchp_hpc.c:22:
+>> drivers/pci/hotplug/shpchp.h:256:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |                 ctrl_dbg(p_slot->ctrl,
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp.h:267:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     267 |                 ctrl_dbg(p_slot->ctrl, "Memory_Base_Limit[ RSE ] (W1C)\n");
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+>> drivers/pci/hotplug/shpchp_hpc.c:305:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     305 |         ctrl_dbg(ctrl, "%s: t_slot %x cmd %x\n", __func__, t_slot, cmd);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:461:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     461 |         ctrl_dbg(ctrl, "%s: slot_reg = %x, pcix_cap = %x, m66_cap = %x\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:487:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     487 |         ctrl_dbg(ctrl, "Adapter speed = %d\n", *value);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:760:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     760 |         ctrl_dbg(ctrl, "%s: intr_loc = %x\n", __func__, intr_loc);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:773:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     773 |                 ctrl_dbg(ctrl, "%s: intr_loc2 = %x\n", __func__, intr_loc2);
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:798:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     798 |                 ctrl_dbg(ctrl, "Slot %x with intr, slot register = %x\n",
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:868:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     868 |         ctrl_dbg(ctrl, "Max bus speed = %d\n", bus_speed);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:882:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     882 |         ctrl_dbg(ctrl, "Hotplug Controller:\n");
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:895:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     895 |                 ctrl_dbg(ctrl, " cap_offset = %x\n", ctrl->cap_offset);
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:909:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     909 |                 ctrl_dbg(ctrl, " num_slots (indirect) %x\n", num_slots);
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:918:4: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     918 |                         ctrl_dbg(ctrl, " offset %d: value %x\n", i, tempdword);
+         |                         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:950:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     950 |         ctrl_dbg(ctrl, "ctrl->creg %p\n", ctrl->creg);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:967:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     967 |         ctrl_dbg(ctrl, "SERR_INTR_ENABLE = %x\n", tempdword);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:973:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     973 |         ctrl_dbg(ctrl, "SERR_INTR_ENABLE = %x\n", tempdword);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:980:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     980 |                 ctrl_dbg(ctrl, "Default Logical Slot Register %d value %x\n",
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:1006:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1006 |                 ctrl_dbg(ctrl, "request_irq %d (returns %d)\n",
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_hpc.c:1014:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1014 |         ctrl_dbg(ctrl, "HPC at %s irq=%x\n", pci_name(pdev), pdev->irq);
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+--
+   In file included from drivers/pci/hotplug/shpchp_pci.c:21:
+>> drivers/pci/hotplug/shpchp.h:256:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |                 ctrl_dbg(p_slot->ctrl,
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp.h:267:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     267 |                 ctrl_dbg(p_slot->ctrl, "Memory_Base_Limit[ RSE ] (W1C)\n");
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+>> drivers/pci/hotplug/shpchp_pci.c:70:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      70 |         ctrl_dbg(ctrl, "%s: domain:bus:dev = %04x:%02x:%02x\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   3 errors generated.
+--
+   In file included from drivers/pci/hotplug/shpchp_core.c:22:
+>> drivers/pci/hotplug/shpchp.h:256:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     256 |                 ctrl_dbg(p_slot->ctrl,
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp.h:267:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     267 |                 ctrl_dbg(p_slot->ctrl, "Memory_Base_Limit[ RSE ] (W1C)\n");
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+>> drivers/pci/hotplug/shpchp_core.c:99:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      99 |                 ctrl_dbg(ctrl, "Registering domain:bus:dev=%04x:%02x:%02x hp_slot=%x sun=%x slot_device_offset=%x\n",
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:148:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     148 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:161:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     161 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:171:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     171 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:182:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     182 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:197:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     197 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:212:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     212 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:227:2: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     227 |         ctrl_dbg(slot->ctrl, "%s: physical_slot = %s\n",
+         |         ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   drivers/pci/hotplug/shpchp_core.c:272:3: error: call to undeclared function 'pci_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     272 |                 ctrl_dbg(ctrl, "Controller initialization failed\n");
+         |                 ^
+   drivers/pci/hotplug/shpchp.h:51:4: note: expanded from macro 'ctrl_dbg'
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^
+   11 errors generated.
+
+
+vim +/pci_printk +256 drivers/pci/hotplug/shpchp.h
+
+53044f357448693 Keck, David 2006-01-16  243  
+53044f357448693 Keck, David 2006-01-16  244  static inline void amd_pogo_errata_restore_misc_reg(struct slot *p_slot)
+53044f357448693 Keck, David 2006-01-16  245  {
+53044f357448693 Keck, David 2006-01-16  246  	u32 pcix_misc2_temp;
+53044f357448693 Keck, David 2006-01-16  247  	u32 pcix_bridge_errors_reg;
+53044f357448693 Keck, David 2006-01-16  248  	u32 pcix_mem_base_reg;
+53044f357448693 Keck, David 2006-01-16  249  	u8  perr_set;
+53044f357448693 Keck, David 2006-01-16  250  	u8  rse_set;
+53044f357448693 Keck, David 2006-01-16  251  
+53044f357448693 Keck, David 2006-01-16  252  	/* write-one-to-clear Bridge_Errors[ PERR_OBSERVED ] */
+53044f357448693 Keck, David 2006-01-16  253  	pci_read_config_dword(p_slot->ctrl->pci_dev, PCIX_MISC_BRIDGE_ERRORS_OFFSET, &pcix_bridge_errors_reg);
+53044f357448693 Keck, David 2006-01-16  254  	perr_set = pcix_bridge_errors_reg & PERR_OBSERVED_MASK;
+53044f357448693 Keck, David 2006-01-16  255  	if (perr_set) {
+f98ca311f3a32e2 Taku Izumi  2008-10-23 @256  		ctrl_dbg(p_slot->ctrl,
+be7bce250a88fbb Taku Izumi  2008-10-23  257  			 "Bridge_Errors[ PERR_OBSERVED = %08X] (W1C)\n",
+be7bce250a88fbb Taku Izumi  2008-10-23  258  			 perr_set);
+53044f357448693 Keck, David 2006-01-16  259  
+53044f357448693 Keck, David 2006-01-16  260  		pci_write_config_dword(p_slot->ctrl->pci_dev, PCIX_MISC_BRIDGE_ERRORS_OFFSET, perr_set);
+53044f357448693 Keck, David 2006-01-16  261  	}
+53044f357448693 Keck, David 2006-01-16  262  
+53044f357448693 Keck, David 2006-01-16  263  	/* write-one-to-clear Memory_Base_Limit[ RSE ] */
+53044f357448693 Keck, David 2006-01-16  264  	pci_read_config_dword(p_slot->ctrl->pci_dev, PCIX_MEM_BASE_LIMIT_OFFSET, &pcix_mem_base_reg);
+53044f357448693 Keck, David 2006-01-16  265  	rse_set = pcix_mem_base_reg & RSE_MASK;
+53044f357448693 Keck, David 2006-01-16  266  	if (rse_set) {
+be7bce250a88fbb Taku Izumi  2008-10-23  267  		ctrl_dbg(p_slot->ctrl, "Memory_Base_Limit[ RSE ] (W1C)\n");
+53044f357448693 Keck, David 2006-01-16  268  
+53044f357448693 Keck, David 2006-01-16  269  		pci_write_config_dword(p_slot->ctrl->pci_dev, PCIX_MEM_BASE_LIMIT_OFFSET, rse_set);
+53044f357448693 Keck, David 2006-01-16  270  	}
+53044f357448693 Keck, David 2006-01-16  271  	/* restore MiscII register */
+53044f357448693 Keck, David 2006-01-16  272  	pci_read_config_dword(p_slot->ctrl->pci_dev, PCIX_MISCII_OFFSET, &pcix_misc2_temp);
+53044f357448693 Keck, David 2006-01-16  273  
+53044f357448693 Keck, David 2006-01-16  274  	if (p_slot->ctrl->pcix_misc2_reg & SERRFATALENABLE_MASK)
+53044f357448693 Keck, David 2006-01-16  275  		pcix_misc2_temp |= SERRFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  276  	else
+53044f357448693 Keck, David 2006-01-16  277  		pcix_misc2_temp &= ~SERRFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  278  
+53044f357448693 Keck, David 2006-01-16  279  	if (p_slot->ctrl->pcix_misc2_reg & SERRNONFATALENABLE_MASK)
+53044f357448693 Keck, David 2006-01-16  280  		pcix_misc2_temp |= SERRNONFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  281  	else
+53044f357448693 Keck, David 2006-01-16  282  		pcix_misc2_temp &= ~SERRNONFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  283  
+53044f357448693 Keck, David 2006-01-16  284  	if (p_slot->ctrl->pcix_misc2_reg & PERRFLOODENABLE_MASK)
+53044f357448693 Keck, David 2006-01-16  285  		pcix_misc2_temp |= PERRFLOODENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  286  	else
+53044f357448693 Keck, David 2006-01-16  287  		pcix_misc2_temp &= ~PERRFLOODENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  288  
+53044f357448693 Keck, David 2006-01-16  289  	if (p_slot->ctrl->pcix_misc2_reg & PERRFATALENABLE_MASK)
+53044f357448693 Keck, David 2006-01-16  290  		pcix_misc2_temp |= PERRFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  291  	else
+53044f357448693 Keck, David 2006-01-16  292  		pcix_misc2_temp &= ~PERRFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  293  
+53044f357448693 Keck, David 2006-01-16  294  	if (p_slot->ctrl->pcix_misc2_reg & PERRNONFATALENABLE_MASK)
+53044f357448693 Keck, David 2006-01-16  295  		pcix_misc2_temp |= PERRNONFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  296  	else
+53044f357448693 Keck, David 2006-01-16  297  		pcix_misc2_temp &= ~PERRNONFATALENABLE_MASK;
+53044f357448693 Keck, David 2006-01-16  298  	pci_write_config_dword(p_slot->ctrl->pci_dev, PCIX_MISCII_OFFSET, pcix_misc2_temp);
+53044f357448693 Keck, David 2006-01-16  299  }
+53044f357448693 Keck, David 2006-01-16  300  
+
+:::::: The code at line 256 was first introduced by commit
+:::::: f98ca311f3a32e2adc229fecd6bf732db07fcca3 PCI hotplug: shpchp: replace printk with dev_printk
+
+:::::: TO: Taku Izumi <izumi.taku@jp.fujitsu.com>
+:::::: CC: Jesse Barnes <jbarnes@virtuousgeek.org>
 
 -- 
 0-DAY CI Kernel Test Service
