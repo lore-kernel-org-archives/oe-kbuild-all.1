@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5D426771B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 17:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFA526869A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 17:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739554435; cv=none; b=jtFVBZMCVTjzcWL5mVLK045FWQi13zAqY+sAFPhjK3JCQra2xwcGyxj+dhuQOuz4zEnhVpaAw25Rj9XbtJNugcaeoCsKVrif8gbUAB4NfVftUiFXw6nA4M+9rKnrJPR1AjQYNuoHQqXsCwPrnM8dXLo3bb6bAJ6tmoyt/4kwsYE=
+	t=1739555097; cv=none; b=kn58SxeWEixVv9Mi6f3ZoHsMwFOw0v8j1cqqnQA5Kc/lR8bdAbzAcT2lN/tAQAEem3STUiPtLwwKWluPB5WXzRmRzcDniVrFEGYVpvHW1vhfipU7l9rIaZZU6fIasa/h1nUSicy9o5wTGHICTSIFhrtkHJDT3ksNrui1lSX+sC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739554435; c=relaxed/simple;
-	bh=XuBERATq4koO/myUPyeFbtnAkwVl9fmpc81tcDyXjtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kybRApjpw4o8t2bv+x9G9+B1GvmVuyLIpRmPasUV/iaBt6gaRd6ewL6A25ODebiMKdRhclo7wtBxo0P5BLzdE3rnnUiwctY++qmj32Np1u+x3u48nQX+gsTJkFCSuLlllZMbzumxXCLnpCCWhT58rPyCGZuvNFqNxvlseh9KOQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBhgFbeS; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1739555097; c=relaxed/simple;
+	bh=6Eca5RyitApw05FUFqqK/KWjakVHSZsOTM1AmVXS3d8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7i7jEQVidbXF3CmGZa1liYuJr3w48c/2CPch914qsMi+aHIlonwGOQoMkVk8Vus4kwVbBNuZyVW8I83NHpRQK+Ex9P0oVx0LbZ4pFK7NHo71X/l10gdHFoISsJRG6t5nGNQCU6iJYbvzkgwJfHaT4r45tzGwwE++9Q2xTAsDYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCbjqSMu; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBhgFbeS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCbjqSMu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739554433; x=1771090433;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XuBERATq4koO/myUPyeFbtnAkwVl9fmpc81tcDyXjtk=;
-  b=OBhgFbeS/JRELdaK/jqhDYX7CJx56uJzI1PtEcxZJdd0CmJxRICR6nsf
-   SeTDTtYgM3zpMXU/8lgIEB1UtpE9jqNNtzekNi+bSXBJgzfnGSakLagWY
-   bEy+b17nTc2LtaU+zJm+yQ8NAbVhkw2lwf1U/rlv5apLQjinK7q9AGlbI
-   jWfN9YgyrmhNC7yCqRLg0SeZkV+dnGlL3vv2slX+Xm7sHPET0+lpkJ/5P
-   7YuxbwcA+QPqjB8DuhOkgX9M7RvZs4cyFLIVZOipfaJbNTlXGO8lLLVow
-   jyEh1jso9SHuyBHzz9K/DC5oIVrBfXzl7NQDvpzChSTpoLXT4ciCyMnez
+  t=1739555097; x=1771091097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6Eca5RyitApw05FUFqqK/KWjakVHSZsOTM1AmVXS3d8=;
+  b=bCbjqSMuTl6fjnQVXUFGMT8iUZ0AvUZkAezzksQtenlH8IyvvCheOBNV
+   tpR8b2ekXtQV88vin5gjn+ngC8rlqmwEE5Tl5TjHJgRCeltiVDAP5ahG9
+   m/9F+RhyWKIY8QNXde1L/se63Td7TWs9rbihqXfuvF3ofTj69+btdAMnr
+   TSHEzLxB7MqXOIoMYRJ4YbBpbuIvHm1bYA00hJC7Yb6soALvFNqjpc7y7
+   vdvb8hKb/rqEdq3L3LmM6+cIWiTRnx3lMNHsmy2fZ1Tmk+6/Co1InhNBm
+   bsOVf+8QvYxSSn4fVQNPg5ZEeoyWjcs15DkBnh8/7rCLAOkHve6Fu+Hqz
    Q==;
-X-CSE-ConnectionGUID: Rasa2cWoSs2w2ZLswsXLIw==
-X-CSE-MsgGUID: vLkVU4hvRguE95A9yUZn6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="50522108"
+X-CSE-ConnectionGUID: Xf6KVm7ZRMykW+Zznix9Zg==
+X-CSE-MsgGUID: X+R5Q0uTQtiBV4XunH7ycg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40436457"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="50522108"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 09:33:51 -0800
-X-CSE-ConnectionGUID: l+8gxMzdTF+HZ5/Dxw0+6Q==
-X-CSE-MsgGUID: WEXLWInbQv2dfPnYNUVkOQ==
+   d="scan'208";a="40436457"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 09:44:56 -0800
+X-CSE-ConnectionGUID: KbW0p+xJQIqTIKcUKoDtlA==
+X-CSE-MsgGUID: ErbVLeP0RVi7Qm1a7RvF9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="144443165"
+   d="scan'208";a="118720615"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Feb 2025 09:33:49 -0800
+  by orviesa005.jf.intel.com with ESMTP; 14 Feb 2025 09:44:51 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tizZS-0019wZ-23;
-	Fri, 14 Feb 2025 17:33:46 +0000
-Date: Sat, 15 Feb 2025 01:33:39 +0800
+	id 1tizk8-0019yJ-1X;
+	Fri, 14 Feb 2025 17:44:48 +0000
+Date: Sat, 15 Feb 2025 01:44:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gang Li <gang.li@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Muchun Song <muchun.song@linux.dev>
-Subject: mm/hugetlb.c:3424 gather_bootmem_prealloc_node() warn: unsigned '_x'
- is never less than zero.
-Message-ID: <202502150114.XM31HL0I-lkp@intel.com>
+To: zhangmingyi <zhangmingyi5@huawei.com>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+	jolsa@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yanan@huawei.com,
+	wuchangye@huawei.com, xiesongyang@huawei.com, liuxin350@huawei.com,
+	liwei883@huawei.com, tianmuyang@huawei.com, zhangmingyi5@huawei.com
+Subject: Re: [PATCH v2 2/2] bpf-next: selftest for TCP_ULP in bpf_setsockopt
+Message-ID: <202502150104.1LKDPqiq-lkp@intel.com>
+References: <20250210134550.3189616-3-zhangmingyi5@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,78 +69,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250210134550.3189616-3-zhangmingyi5@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   128c8f96eb8638c060cd3532dc394d046ce64fe1
-commit: b78b27d02930f6f0262353080d0f784ce7aa377e hugetlb: parallelize 1G hugetlb initialization
-date:   12 months ago
-config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250215/202502150114.XM31HL0I-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
+Hi zhangmingyi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master mptcp/export mptcp/export-net linus/master v6.14-rc2 next-20250214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhangmingyi/bpf-next-Introduced-to-support-the-ULP-to-get-or-set-sockets/20250210-215203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250210134550.3189616-3-zhangmingyi5%40huawei.com
+patch subject: [PATCH v2 2/2] bpf-next: selftest for TCP_ULP in bpf_setsockopt
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150104.1LKDPqiq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150114.XM31HL0I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502150104.1LKDPqiq-lkp@intel.com/
 
-New smatch warnings:
-mm/hugetlb.c:3424 gather_bootmem_prealloc_node() warn: unsigned '_x' is never less than zero.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-include/asm-generic/io.h:1005 virt_to_phys() warn: unsigned '_x' is never less than zero.
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-
-vim +/_x +3424 mm/hugetlb.c
-
-79359d6d24df2f Mike Kravetz       2023-10-18  3412  
-48b8d744ea841b Mike Kravetz       2021-06-30  3413  /*
-48b8d744ea841b Mike Kravetz       2021-06-30  3414   * Put bootmem huge pages into the standard lists after mem_map is up.
-5e0a760b44417f Kirill A. Shutemov 2023-12-28  3415   * Note: This only applies to gigantic (order > MAX_PAGE_ORDER) pages.
-48b8d744ea841b Mike Kravetz       2021-06-30  3416   */
-b78b27d02930f6 Gang Li            2024-02-22  3417  static void __init gather_bootmem_prealloc_node(unsigned long nid)
-aa888a74977a8f Andi Kleen         2008-07-23  3418  {
-d67e32f26713c3 Mike Kravetz       2023-10-18  3419  	LIST_HEAD(folio_list);
-aa888a74977a8f Andi Kleen         2008-07-23  3420  	struct huge_bootmem_page *m;
-d67e32f26713c3 Mike Kravetz       2023-10-18  3421  	struct hstate *h = NULL, *prev_h = NULL;
-aa888a74977a8f Andi Kleen         2008-07-23  3422  
-b78b27d02930f6 Gang Li            2024-02-22  3423  	list_for_each_entry(m, &huge_boot_pages[nid], list) {
-40d18ebffb3974 Mike Kravetz       2018-08-17 @3424  		struct page *page = virt_to_page(m);
-fde1c4ecf91640 Usama Arif         2023-09-13  3425  		struct folio *folio = (void *)page;
-d67e32f26713c3 Mike Kravetz       2023-10-18  3426  
-d67e32f26713c3 Mike Kravetz       2023-10-18  3427  		h = m->hstate;
-d67e32f26713c3 Mike Kravetz       2023-10-18  3428  		/*
-d67e32f26713c3 Mike Kravetz       2023-10-18  3429  		 * It is possible to have multiple huge page sizes (hstates)
-d67e32f26713c3 Mike Kravetz       2023-10-18  3430  		 * in this list.  If so, process each size separately.
-d67e32f26713c3 Mike Kravetz       2023-10-18  3431  		 */
-d67e32f26713c3 Mike Kravetz       2023-10-18  3432  		if (h != prev_h && prev_h != NULL)
-79359d6d24df2f Mike Kravetz       2023-10-18  3433  			prep_and_add_bootmem_folios(prev_h, &folio_list);
-d67e32f26713c3 Mike Kravetz       2023-10-18  3434  		prev_h = h;
-ee8f248d266ec6 Becky Bruce        2011-07-25  3435  
-48b8d744ea841b Mike Kravetz       2021-06-30  3436  		VM_BUG_ON(!hstate_is_gigantic(h));
-d1c6095572d0cf Sidhartha Kumar    2022-11-29  3437  		WARN_ON(folio_ref_count(folio) != 1);
-fde1c4ecf91640 Usama Arif         2023-09-13  3438  
-fde1c4ecf91640 Usama Arif         2023-09-13  3439  		hugetlb_folio_init_vmemmap(folio, h,
-fde1c4ecf91640 Usama Arif         2023-09-13  3440  					   HUGETLB_VMEMMAP_RESERVE_PAGES);
-79359d6d24df2f Mike Kravetz       2023-10-18  3441  		init_new_hugetlb_folio(h, folio);
-d67e32f26713c3 Mike Kravetz       2023-10-18  3442  		list_add(&folio->lru, &folio_list);
-af0fb9df784174 Michal Hocko       2018-01-31  3443  
-b0320c7b7d1ac1 Rafael Aquini      2011-06-15  3444  		/*
-48b8d744ea841b Mike Kravetz       2021-06-30  3445  		 * We need to restore the 'stolen' pages to totalram_pages
-48b8d744ea841b Mike Kravetz       2021-06-30  3446  		 * in order to fix confusing memory reports from free(1) and
-48b8d744ea841b Mike Kravetz       2021-06-30  3447  		 * other side-effects, like CommitLimit going negative.
-b0320c7b7d1ac1 Rafael Aquini      2011-06-15  3448  		 */
-c78a7f3639932c Miaohe Lin         2021-02-24  3449  		adjust_managed_page_count(page, pages_per_huge_page(h));
-520495fe96d74e Cannon Matthews    2018-07-03  3450  		cond_resched();
-aa888a74977a8f Andi Kleen         2008-07-23  3451  	}
-d67e32f26713c3 Mike Kravetz       2023-10-18  3452  
-79359d6d24df2f Mike Kravetz       2023-10-18  3453  	prep_and_add_bootmem_folios(h, &folio_list);
-aa888a74977a8f Andi Kleen         2008-07-23  3454  }
-fde1c4ecf91640 Usama Arif         2023-09-13  3455  
-
-:::::: The code at line 3424 was first introduced by commit
-:::::: 40d18ebffb3974272a920c41f2d74431152cae98 mm/hugetlb: remove gigantic page support for HIGHMEM
-
-:::::: TO: Mike Kravetz <mike.kravetz@oracle.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> progs/setget_sockopt_tcp_ulp.c:18:42: error: use of undeclared identifier 'TCP_ULP'; did you mean 'MCP_UC'?
+      18 |                 if (bpf_setsockopt(skops, IPPROTO_TCP, TCP_ULP, (void *)target_ulp,
+         |                                                        ^~~~~~~
+         |                                                        MCP_UC
+   tools/testing/selftests/bpf/tools/include/vmlinux.h:18434:2: note: 'MCP_UC' declared here
+    18434 |         MCP_UC = 2,
+          |         ^
+   progs/setget_sockopt_tcp_ulp.c:22:42: error: use of undeclared identifier 'TCP_ULP'; did you mean 'MCP_UC'?
+      22 |                 if (bpf_getsockopt(skops, IPPROTO_TCP, TCP_ULP, verify_ulp,
+         |                                                        ^~~~~~~
+         |                                                        MCP_UC
+   tools/testing/selftests/bpf/tools/include/vmlinux.h:18434:2: note: 'MCP_UC' declared here
+    18434 |         MCP_UC = 2,
+          |         ^
+   2 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
