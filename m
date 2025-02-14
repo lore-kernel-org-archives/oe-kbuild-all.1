@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4DE62753E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Feb 2025 22:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA16CB640
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 00:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739487525; cv=none; b=BAmbrXCT9htpCbDC2LdL880dwmC9P5jCpvmDo+ipGyq4BTdPdBTsqRQCgOE60pUo57ZJcU2CBlnLJuQ1NV7UvpCO3HUwRQoAhvkNqt+rkeOU365eh4Nr55ke6SoN7kXWkDrwZWD0GfcgDcqY8AXYwxfTX21xGf+xNk1UYwDce2k=
+	t=1739491971; cv=none; b=gssJUHqCtIkoWuInISfF17fhDP6iqVoN+ZocO2XEvLPVmOXhIc+50MGPPo6/9XnCI4pFwSfNWhkaXPFQ5A6yNUuWusZb8i3cfUMGRIiHIFkGo0TI84XdMBrWmJ4KpttoPQCneODtc7pthUboGo4bs6vyUQvoMv7AiMJ2zWyxUdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739487525; c=relaxed/simple;
-	bh=JVrIfR2b7Zw5tphgm7dmRrPq3bFn2dAIdtlGx9/51vk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S34cffam5fP5tYhCo9M7kMnljzC2LIWaU/aEwFuah1p2xeBNleRhAyJPW6NTx8iq0Oz8i97FJOZArXLP/ORI+p8yOxF9tfj3PhDMyQXt1xDUTgbQesCEbGlWsIIYW5R702JPkafMsPKR9rFqguLkGEjlo2qAVuIHyM4PBbF59rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mw+QsdMs; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1739491971; c=relaxed/simple;
+	bh=WczRE9PDcWNUA2PnrD6OSdFBxyxWEOnm6f3GSc7xWKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nKNdEIcqdBAi793czfTXzc05l6kwXpLJv/rLbLaqKiJJ8B0mmAe69JF/U+ct5DJZJ9Xqmvg6lxZEWDkNhU0uIocVr26HRnrXpNVROAtmd6TwidtXhmJoIIeYRWo50R83YTgxz0FveIjtSthI4F1h3XqKhhVfIoigIe+AlKfJgEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNVi0aYN; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mw+QsdMs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNVi0aYN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739487524; x=1771023524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JVrIfR2b7Zw5tphgm7dmRrPq3bFn2dAIdtlGx9/51vk=;
-  b=Mw+QsdMshJosyrmllhx7VeZt0nppm/FBiQfBL9BLL/sV+EMPSdtTuJPF
-   i7+7QHwwKmqQOHKjEHDlVQZuyjJKuIqSwz/lu8EjKYxgPR1DojySv5Lta
-   UCUzVrW6zn6LgSKQFFv37kimIbLNVKecvxIOlZQ2lyyvzbcAjnyFgU+0J
-   PdfpI8fqlILOopvZb9rTRB+fWO10JBjaO4KIK9km5MOJjEokXxO0FO2cV
-   GVCmzjl89qrJw6KJXy1yHNgxVVwfOsFoXGd5Conn6VEBH4gPPX8Z3mgw6
-   B4jrTVfnlD824nOvGLrhMNuvjEn+OCiQ+hk0BNYLIhYEUQ8/oPJ4qlSdU
-   A==;
-X-CSE-ConnectionGUID: hoZxW2/XTzeI2EKi96jpjA==
-X-CSE-MsgGUID: cugC/+aKQYuP/OODCigEEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40340107"
+  t=1739491969; x=1771027969;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WczRE9PDcWNUA2PnrD6OSdFBxyxWEOnm6f3GSc7xWKg=;
+  b=ZNVi0aYNXIme27KBkuz2ntWi8QQq9IIbXM2pw3mQakt/aPguvBeNfY98
+   LlJJknchfFyf8CZoAwHiXFebo90d6Q3cA2RqfX2zy43OqSmEPSYgGXcfO
+   7Dyg003J6KTGODBbANmOpeVgxcBWGo35/Ufsbp45aA8nqg2aA9Rp0yF3Q
+   ivugclW3OQspAuny3QV8Gb54wMyZ4ow6TtN57gU0NQVTP/nV9DR6RRLGj
+   966GxKAYD4/MyCXonyGuDVjtU/uyddDX+uhifbCGJuqIo42+/S2w80E6p
+   9YUeAE2akeS5pCAIhmrvjgeMXObg+Whi5wEDTK1JoXDepEpdrCpLazm38
+   g==;
+X-CSE-ConnectionGUID: tshen9mDQnGCQxbP1lsuOA==
+X-CSE-MsgGUID: HnISipS9S2KpEn3ExDDwAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="51625590"
 X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
-   d="scan'208";a="40340107"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 14:58:43 -0800
-X-CSE-ConnectionGUID: Vo36sgjRSCusd9Bp7qRkhA==
-X-CSE-MsgGUID: KBz5hXtISISEmI5lrNKflA==
+   d="scan'208";a="51625590"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 16:12:48 -0800
+X-CSE-ConnectionGUID: mvD82RnhRpWLxg/gdDZcjA==
+X-CSE-MsgGUID: r6p3hr3kT56Rt31IeS7+Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113774073"
+   d="scan'208";a="117430631"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Feb 2025 14:58:40 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Feb 2025 16:12:47 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiiAH-0018nP-25;
-	Thu, 13 Feb 2025 22:58:37 +0000
-Date: Fri, 14 Feb 2025 06:57:52 +0800
+	id 1tijK1-0018r9-0Z;
+	Fri, 14 Feb 2025 00:12:45 +0000
+Date: Fri, 14 Feb 2025 08:11:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Santos <Jonathan.Santos@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Santos <Jonathan.Santos@analog.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, marcelo.schmitt@analog.com,
-	jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, jonath4nns@gmail.com,
-	marcelo.schmitt1@gmail.com, dlechner@baylibre.com
-Subject: Re: [PATCH RESEND v3 11/17] iio: adc: ad7768-1: add regulator to
- control VCM output
-Message-ID: <202502140626.PzhgxFMq-lkp@intel.com>
-References: <3552833157f252f3b6813f0042059e858c90d53a.1739368121.git.Jonathan.Santos@analog.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 1/1]
+ drivers/iommu/iommu-pages.h:32:47: error: 'NR_IOMMU_PAGES' undeclared
+Message-ID: <202502140842.Lw9qQEWc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,32 +61,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3552833157f252f3b6813f0042059e858c90d53a.1739368121.git.Jonathan.Santos@analog.com>
 
-Hi Jonathan,
+Hi Will,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 5de07b8a24cf44cdb78adeab790704bf577c2c1d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Santos/iio-adc-ad7768-1-Fix-conversion-result-sign/20250213-022329
-base:   5de07b8a24cf44cdb78adeab790704bf577c2c1d
-patch link:    https://lore.kernel.org/r/3552833157f252f3b6813f0042059e858c90d53a.1739368121.git.Jonathan.Santos%40analog.com
-patch subject: [PATCH RESEND v3 11/17] iio: adc: ad7768-1: add regulator to control VCM output
-config: loongarch-randconfig-002-20250214 (https://download.01.org/0day-ci/archive/20250214/202502140626.PzhgxFMq-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140626.PzhgxFMq-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   d1e655e4e5742c4dedc4d270d9bb6d5f0266cc1b
+commit: 4cf63363a7649b5def11b6d6e40c08650981ae53 [1/1] Merge tag 'v6.10-rc1' into android-mainline
+config: arm64-randconfig-004-20250214 (https://download.01.org/0day-ci/archive/20250214/202502140842.Lw9qQEWc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140842.Lw9qQEWc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140626.PzhgxFMq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502140842.Lw9qQEWc-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "rdev_get_drvdata" [drivers/iio/adc/ad7768-1.ko] undefined!
->> ERROR: modpost: "devm_regulator_register" [drivers/iio/adc/ad7768-1.ko] undefined!
->> ERROR: modpost: "regulator_list_voltage_table" [drivers/iio/adc/ad7768-1.ko] undefined!
+   In file included from drivers/iommu/io-pgtable-arm.c:24:
+   drivers/iommu/iommu-pages.h: In function '__iommu_alloc_account':
+>> drivers/iommu/iommu-pages.h:32:47: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
+      32 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
+         |                                               ^~~~~~~~~~~~~~
+   drivers/iommu/iommu-pages.h:32:47: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/iommu/iommu-pages.h: In function '__iommu_free_account':
+   drivers/iommu/iommu-pages.h:45:47: error: 'NR_IOMMU_PAGES' undeclared (first use in this function)
+      45 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
+         |                                               ^~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+
+
+vim +/NR_IOMMU_PAGES +32 drivers/iommu/iommu-pages.h
+
+06c375053cefc3 Pasha Tatashin 2024-04-13  13  
+06c375053cefc3 Pasha Tatashin 2024-04-13  14  /*
+06c375053cefc3 Pasha Tatashin 2024-04-13  15   * All page allocations that should be reported to as "iommu-pagetables" to
+06c375053cefc3 Pasha Tatashin 2024-04-13  16   * userspace must use one of the functions below.  This includes allocations of
+06c375053cefc3 Pasha Tatashin 2024-04-13  17   * page-tables and other per-iommu_domain configuration structures.
+06c375053cefc3 Pasha Tatashin 2024-04-13  18   *
+06c375053cefc3 Pasha Tatashin 2024-04-13  19   * This is necessary for the proper accounting as IOMMU state can be rather
+06c375053cefc3 Pasha Tatashin 2024-04-13  20   * large, i.e. multiple gigabytes in size.
+06c375053cefc3 Pasha Tatashin 2024-04-13  21   */
+06c375053cefc3 Pasha Tatashin 2024-04-13  22  
+bd3520a93a84cd Pasha Tatashin 2024-04-13  23  /**
+bd3520a93a84cd Pasha Tatashin 2024-04-13  24   * __iommu_alloc_account - account for newly allocated page.
+bd3520a93a84cd Pasha Tatashin 2024-04-13  25   * @page: head struct page of the page.
+bd3520a93a84cd Pasha Tatashin 2024-04-13  26   * @order: order of the page
+bd3520a93a84cd Pasha Tatashin 2024-04-13  27   */
+bd3520a93a84cd Pasha Tatashin 2024-04-13  28  static inline void __iommu_alloc_account(struct page *page, int order)
+bd3520a93a84cd Pasha Tatashin 2024-04-13  29  {
+bd3520a93a84cd Pasha Tatashin 2024-04-13  30  	const long pgcnt = 1l << order;
+bd3520a93a84cd Pasha Tatashin 2024-04-13  31  
+bd3520a93a84cd Pasha Tatashin 2024-04-13 @32  	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
+212c5c078d83d7 Pasha Tatashin 2024-04-13  33  	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
+bd3520a93a84cd Pasha Tatashin 2024-04-13  34  }
+bd3520a93a84cd Pasha Tatashin 2024-04-13  35  
+
+:::::: The code at line 32 was first introduced by commit
+:::::: bd3520a93a84cd8c3897283e5891a9106fcf5acc iommu: observability of the IOMMU allocations
+
+:::::: TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
