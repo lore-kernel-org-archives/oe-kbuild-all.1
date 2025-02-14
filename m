@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F314E3211
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 01:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3CE13C67E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 02:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739497803; cv=none; b=N97nvYQXL2jxQ2o2vUR5aoUiOTvcTqdq4utTQlYdVSBp1NbA5/gCda0HH6GvvJoCYdyCTw0KecqVBvThn+YerE4MFTTQHPPqYimlIo7I7c9yqKMbEhqk/3Q5kqQVIPKBwZVX5ax8iM+og4BgdoQKRs1p19NmScTA/wCx3Qhuu/M=
+	t=1739501106; cv=none; b=LKjHmbo7LRSeTyCk5a0nJJ25PBYXMtehhzV9Yxq2NbGhzXE9JdJGZ3qrLo+wEl5nMTvcwFZkE1L5DTes6faUa0Pszgs0fCKBl3g/T2MOInmY80YyV1scEBiDToeoHZGGq+n+g647srpmXPmRb+rigfklVUq6HMOMVrssvSBepC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739497803; c=relaxed/simple;
-	bh=tAKNyOlQTMBreUsREPJPiap5PtOjHv98jrz/BHLWjLU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCNVfCM6vwVIGt2m3RluShLwK9rryDjll0EeeZ0XH72ncVSEsd77SY4VuvbuyMc86cct1+1a+scT5738BsChVKRWvRKzI/IECdqh5GG+ymnD6pUpyjbpCQLIgz1AX4fJfW5l8n6O0mRTy1m6pLNPb2Vk84Sqt/VLTGNam3Ef3aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3iFwDLO; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1739501106; c=relaxed/simple;
+	bh=2Rgeq30P6ALUOW6FJB7zmyoT6XFSOzd4ZmRdKmfi+oU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JKRY6qQ7y1v9UOZSzDyIXX4RtZPMbvUgrdubKjNHtuUmydaMyKDlKIMoCbqPaEUvAq5rZH+1McEwybLQRRfc/Z1rEB2xdZWdLe+skK7CeGeldqefetTsNTAA1yk2qzkmrmLzM9aCW6/8yl9e1TZJ/5OeiuwW8aqT5KhPzBPFixc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNDOPFaF; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3iFwDLO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aNDOPFaF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739497802; x=1771033802;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tAKNyOlQTMBreUsREPJPiap5PtOjHv98jrz/BHLWjLU=;
-  b=Q3iFwDLO87q0fQx0LHhAmaIqT0+NJCRjYoFmEB2euhK37S4orag0o/lx
-   rT/wMxyELtuCyixOrcMD0tLiqzgR3Bv5JCf0GBGrjfTUgZ8g47mLiaRja
-   RGijbR2UsoyS168dB9elghkgOuUexgZvTRCa3qgaAW+G1FspdVcmKoUEV
-   pK3J2ZpBh58qwnWPSYat0RjDuI8dfCKNcWrlE5DctOiBDpP9wpR9jkuu5
-   Q1nQ9xkWE2ciZihuT56YvLRdjEWOBSGxLBTgsCHv2/hGtU/G4uDAVJjKC
-   EEsXJZ6qSBf74P+tWR7xZ7LjnzLiNxm9fhrP1f27gxqdx7wpvL317vIAj
+  t=1739501106; x=1771037106;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2Rgeq30P6ALUOW6FJB7zmyoT6XFSOzd4ZmRdKmfi+oU=;
+  b=aNDOPFaF6+6MlKLqtO5WrmMi2pZpDmDjISDNl8oogsWvMHvGs3EiVeD0
+   21FRxP8OtbqQ/rh4kIXzuYYRpcoqr7iOgZiVUFke3aEmE6k+0UGrfIA3z
+   LkK3cWvkCpt7rY+J3P7MxYZaRSG3JZ4bWhv5jFta2FaAGlJYoHggYl8nm
+   rJ57QomZ0pCj5Z2JpfJ/USSVmXt9ARwMwRW3nYaZGUMA5PRb9NpSdYicM
+   TS5ahS/MQ+Z8oq0TXNmYygwXSZY/LSvxdTshExtKOxa1BQGRYoUZNYXWn
+   DO4rzcZe132cheq291yhk6i9QtIxoeL4uOX5cEv9lDsWXz1eG6Wr9BWqf
    Q==;
-X-CSE-ConnectionGUID: ZG1QQVvHQO6XWVtXjAKLgA==
-X-CSE-MsgGUID: GtHDrLn7RCSF0WNlyrh/nA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="39938718"
+X-CSE-ConnectionGUID: 7EzRjWXzTk2/e77Fx/6r2w==
+X-CSE-MsgGUID: IkXrG+uuSBamOaX2Nsh/tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="44003366"
 X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
-   d="scan'208";a="39938718"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 17:50:01 -0800
-X-CSE-ConnectionGUID: djmLcVFBReeKH6zbq8jLjA==
-X-CSE-MsgGUID: 4VRIRRE4QDSDD/MBc0+2bw==
+   d="scan'208";a="44003366"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 18:45:05 -0800
+X-CSE-ConnectionGUID: GK9yJDK3TYW9pPGAMMbN0w==
+X-CSE-MsgGUID: 1vL+HWHURdy29jV3flRRbw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113807948"
+X-IronPort-AV: E=Sophos;i="6.13,284,1732608000"; 
+   d="scan'208";a="113287258"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Feb 2025 17:49:58 -0800
+  by orviesa006.jf.intel.com with ESMTP; 13 Feb 2025 18:45:03 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tikq3-0018wN-2B;
-	Fri, 14 Feb 2025 01:49:55 +0000
-Date: Fri, 14 Feb 2025 09:49:51 +0800
+	id 1tilhN-0018zH-09;
+	Fri, 14 Feb 2025 02:45:01 +0000
+Date: Fri, 14 Feb 2025 10:44:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antonio Quartulli <antonio@openvpn.net>, netdev@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, sd@queasysnail.net,
-	ryazanov.s.a@gmail.com, Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Simon Horman <horms@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Xiao Liang <shaw.leon@gmail.com>
-Subject: Re: [PATCH net-next v19 25/26] testing/selftests: add test tool and
- scripts for ovpn module
-Message-ID: <202502140935.xgPsoRr6-lkp@intel.com>
-References: <20250211-b4-ovpn-v19-25-86d5daf2a47a@openvpn.net>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: [pci:aer 1/1] drivers/pci/hotplug/shpchp.h:51:25: error: implicit
+ declaration of function 'pci_printk'; did you mean 'pci_intx'?
+Message-ID: <202502141005.inOeb0pP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,32 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250211-b4-ovpn-v19-25-86d5daf2a47a@openvpn.net>
 
-Hi Antonio,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 39f54262ba499d862420a97719d2f0eea0cbd394]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Quartulli/net-introduce-OpenVPN-Data-Channel-Offload-ovpn/20250211-091029
-base:   39f54262ba499d862420a97719d2f0eea0cbd394
-patch link:    https://lore.kernel.org/r/20250211-b4-ovpn-v19-25-86d5daf2a47a%40openvpn.net
-patch subject: [PATCH net-next v19 25/26] testing/selftests: add test tool and scripts for ovpn module
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502140935.xgPsoRr6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git aer
+head:   c928d117f57c9ca1801c0e37019a357f86eb96f1
+commit: c928d117f57c9ca1801c0e37019a357f86eb96f1 [1/1] PCI: Descope pci_printk() to aer_printk()
+config: i386-buildonly-randconfig-004-20250214 (https://download.01.org/0day-ci/archive/20250214/202502141005.inOeb0pP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502141005.inOeb0pP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502140935.xgPsoRr6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502141005.inOeb0pP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ovpn-cli.c:30:10: fatal error: 'mbedtls/base64.h' file not found
-      30 | #include <mbedtls/base64.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from drivers/pci/hotplug/shpchp_ctrl.c:22:
+   drivers/pci/hotplug/shpchp.h: In function 'amd_pogo_errata_restore_misc_reg':
+>> drivers/pci/hotplug/shpchp.h:51:25: error: implicit declaration of function 'pci_printk'; did you mean 'pci_intx'? [-Werror=implicit-function-declaration]
+      51 |                         pci_printk(KERN_DEBUG, ctrl->pci_dev,           \
+         |                         ^~~~~~~~~~
+   drivers/pci/hotplug/shpchp.h:256:17: note: in expansion of macro 'ctrl_dbg'
+     256 |                 ctrl_dbg(p_slot->ctrl,
+         |                 ^~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +51 drivers/pci/hotplug/shpchp.h
+
+^1da177e4c3f415 Linus Torvalds   2005-04-16  35  
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  36  #define dbg(format, arg...)						\
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  37  do {									\
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  38  	if (shpchp_debug)						\
+1c35b8e538cb625 Frank Seidel     2009-02-06  39  		printk(KERN_DEBUG "%s: " format, MY_NAME, ## arg);	\
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  40  } while (0)
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  41  #define err(format, arg...)						\
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  42  	printk(KERN_ERR "%s: " format, MY_NAME, ## arg)
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  43  #define info(format, arg...)						\
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  44  	printk(KERN_INFO "%s: " format, MY_NAME, ## arg)
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  45  #define warn(format, arg...)						\
+8352e04eb427db0 Kenji Kaneshige  2006-12-16  46  	printk(KERN_WARNING "%s: " format, MY_NAME, ## arg)
+^1da177e4c3f415 Linus Torvalds   2005-04-16  47  
+f98ca311f3a32e2 Taku Izumi       2008-10-23  48  #define ctrl_dbg(ctrl, format, arg...)					\
+f98ca311f3a32e2 Taku Izumi       2008-10-23  49  	do {								\
+f98ca311f3a32e2 Taku Izumi       2008-10-23  50  		if (shpchp_debug)					\
+7506dc798993323 Frederick Lawler 2018-01-18 @51  			pci_printk(KERN_DEBUG, ctrl->pci_dev,		\
+f98ca311f3a32e2 Taku Izumi       2008-10-23  52  					format, ## arg);		\
+f98ca311f3a32e2 Taku Izumi       2008-10-23  53  	} while (0)
+f98ca311f3a32e2 Taku Izumi       2008-10-23  54  #define ctrl_err(ctrl, format, arg...)					\
+7506dc798993323 Frederick Lawler 2018-01-18  55  	pci_err(ctrl->pci_dev, format, ## arg)
+f98ca311f3a32e2 Taku Izumi       2008-10-23  56  #define ctrl_info(ctrl, format, arg...)					\
+7506dc798993323 Frederick Lawler 2018-01-18  57  	pci_info(ctrl->pci_dev, format, ## arg)
+f98ca311f3a32e2 Taku Izumi       2008-10-23  58  #define ctrl_warn(ctrl, format, arg...)					\
+7506dc798993323 Frederick Lawler 2018-01-18  59  	pci_warn(ctrl->pci_dev, format, ## arg)
+f98ca311f3a32e2 Taku Izumi       2008-10-23  60  
+f98ca311f3a32e2 Taku Izumi       2008-10-23  61  
+
+:::::: The code at line 51 was first introduced by commit
+:::::: 7506dc7989933235e6fc23f3d0516bdbf0f7d1a8 PCI: Add wrappers for dev_printk()
+
+:::::: TO: Frederick Lawler <fred@fredlawl.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
