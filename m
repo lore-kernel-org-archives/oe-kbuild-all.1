@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF6E230985;
-	Fri, 14 Feb 2025 13:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A0143AB7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 14:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739541084; cv=none; b=dHJhzzwUhdcZ+5UQOEAB2njYJ4SfGFYizPKqabiACzgy8guNhJdhhrcT9ifOZKkRWZ1dyDE8Bxe6XX/Z6iBaxBkkcoMsB9BSbgNlIQp03TxjuukecKJxKIlRET5ycyO8hHtzJ5pM3uH3hbw7gC7uL225ammGbJzCf/vqPrxn6Jc=
+	t=1739541986; cv=none; b=BxPEhi5Ms2uI5VVzXp+WVniaX05WmLZ+e7bOmDwW74xHxeqS+Tu7scz221S/HkU91p2HZEozhxKXcHFoeN6ne/Ioq71rpKutc53EnD+AFzTtc/wBnejjMYKc3kkAtKIL2uSAEPEpSUWiJYbXzY6Br01i+HSPH1yfdad4Pk+m0XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739541084; c=relaxed/simple;
-	bh=4RYb0V938Hvh8XfpOfW2FPzt2ThKIlaPfePtmuDjHvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eO86cNIZzl2AW5Cx7wmSoIq4/aVViT/oKTnZ1V30YTh2YKWDWtlm01B5Toqpg0EDQkuT7ljuUsiImV549ppS5yGe9RrJwnEn8qJNlxq2CIWooViNnCGkXLyIH4o8Ep0tOAg0MYtTO2ernnc0KE/kS0S1WNBaI4ShbiKU6tC3I04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvZ4/QjT; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1739541986; c=relaxed/simple;
+	bh=JfJ/weh2trsLPujvkWU1vNIyXPNr+N50ml4RpS+74hs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LnFXDUhuq4a+PgDjWpiPCdLAi0kSEcNRaFrkbgQ87tPeOkN8VBP7nmHOQT0w/jBSahmhqAQwd6QkYZM9AKHsiA19Gs7I06Y/aOzo8gpuOmBsLepwBhNAjpAn3THxTiK4/HZvF3TUClQ35Apsqfu5eoMx9thDpICRNQu/F28TGWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j2UqgQ2v; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvZ4/QjT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j2UqgQ2v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739541083; x=1771077083;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4RYb0V938Hvh8XfpOfW2FPzt2ThKIlaPfePtmuDjHvc=;
-  b=DvZ4/QjT84ocToFUbGDrIORM689Re4NDTLn1YBgNjX3/BkbZQxMyl7Ok
-   CsX+EJXjHCr4a9hv/iaW5yEUpU9p+3+2NtgZPNFVJ2O4gJzS97XPtCc8S
-   Sk2hIZ1zqEiTq9jv8Az3uMtBtUzuXf+oSkH20+62lxNwhufjJDsFOS/FF
-   oNwp8n1k8RiET60JioZ/Vk2NUBzUw0kBdElRJZkuPjVBHtdXeOXDX/gZb
-   +DEJFjfIISEy4bc7shSvCi0uevl/ncXqLrTJQ4PcPa7r4NjBVJ058H+mP
-   IFo2GqvHPqXgaRH38v++obZZ8MEmvRJBm4UezOJjmS6Em9B+h6RhAxnxH
-   g==;
-X-CSE-ConnectionGUID: dUsX6i7/ReSNS/Z5BnQ8Mg==
-X-CSE-MsgGUID: gFY0HzNoTCO7t71rtagN1w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40323764"
+  t=1739541983; x=1771077983;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JfJ/weh2trsLPujvkWU1vNIyXPNr+N50ml4RpS+74hs=;
+  b=j2UqgQ2vl0YfnAuRKfxfC2wsuw+Lxom7OyBN0ReXOZ1qV2ztdf6BsP8Q
+   cNHnTzoYINsugbMqWnVFZZ910FefSqmw2X9ecQvEc6+9NBlyaTsKMJZIN
+   74f0BAzi9QY/4OuhHdUQbY9OO4GVDOP7Hl4wc/8qskcV90mAFi15pxSVS
+   YDbvIEbEByhwAvkdbwbkaNKUf8eXCSGQp7wVYNk2VxVve+wZPFH+korcX
+   ieAErH5wEFFprUpg8Eh9SFNEioNi7t42cl2N7PrDtBfUirFos7QLmm2eO
+   IjB6VDuAgCDlc61ltelluq/cnIDw7HPC8StbDiJsqq5tePVtBUqVw0XRC
+   w==;
+X-CSE-ConnectionGUID: 3JqO3NW5TJGBCf/cWx3KFQ==
+X-CSE-MsgGUID: pgx/b3vLQiyZ46lToTwqvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="43129006"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="40323764"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 05:51:23 -0800
-X-CSE-ConnectionGUID: PSBcuQ5sRpC62aaIV9z4VQ==
-X-CSE-MsgGUID: jEzRNxGUQIiWWnjKYiY9Qw==
+   d="scan'208";a="43129006"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 06:06:22 -0800
+X-CSE-ConnectionGUID: llbsGhgzTCSbpcaHkoWEsA==
+X-CSE-MsgGUID: TBli63YqRLKL70SpP8naKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="113650248"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118091044"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2025 05:51:19 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 14 Feb 2025 06:06:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiw69-0019c7-0D;
-	Fri, 14 Feb 2025 13:51:17 +0000
-Date: Fri, 14 Feb 2025 21:50:23 +0800
+	id 1tiwKg-0019dh-37;
+	Fri, 14 Feb 2025 14:06:18 +0000
+Date: Fri, 14 Feb 2025 22:06:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>,
-	amitk@kernel.org, thara.gopinath@gmail.com, rafael@kernel.org,
-	daniel.lezcano@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rui.zhang@intel.com, lukasz.luba@arm.com,
-	david.collins@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] thermal: qcom-spmi-temp-alarm: Add temp alarm data
- struct based on HW subtype
-Message-ID: <202502142135.ez2QBdYV-lkp@intel.com>
-References: <20250213210403.3396392-3-anjelique.melendez@oss.qualcomm.com>
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1924/1924] mm/page_cache_limit.c:94:5: warning:
+ no previous prototype for function 'cache_limit_mbytes_sysctl_handler'
+Message-ID: <202502142151.sl3QmAFi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,63 +61,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213210403.3396392-3-anjelique.melendez@oss.qualcomm.com>
 
-Hi Anjelique,
+Hi Ze,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v6.14-rc2 next-20250214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/thermal-qcom-spmi-temp-alarm-enable-stage-2-shutdown-when-required/20250214-050700
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20250213210403.3396392-3-anjelique.melendez%40oss.qualcomm.com
-patch subject: [PATCH 2/4] thermal: qcom-spmi-temp-alarm: Add temp alarm data struct based on HW subtype
-config: i386-buildonly-randconfig-003-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142135.ez2QBdYV-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   56197cf035ddc0d25f6d27169455448133fd75dd
+commit: 7d1031b36ebd6c273d9aad316fd9e3e2daa01a85 [1924/1924] mm: support pagecache limit
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250214/202502142151.sl3QmAFi-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142135.ez2QBdYV-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142151.sl3QmAFi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142135.ez2QBdYV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142151.sl3QmAFi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/thermal/qcom/qcom-spmi-temp-alarm.c:148:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     148 |         return FIELD_GET(STATUS_GEN1_STAGE_MASK, reg);
-         |                ^
-   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:169:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     169 |         ret = FIELD_GET(STATUS_GEN2_STATE_MASK, reg);
-         |               ^
-   2 errors generated.
+   In file included from mm/page_cache_limit.c:6:
+   In file included from include/linux/mm.h:2181:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_cache_limit.c:61:5: warning: no previous prototype for function 'cache_reclaim_enable_handler' [-Wmissing-prototypes]
+      61 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
+         |     ^
+   mm/page_cache_limit.c:61:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      61 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+   mm/page_cache_limit.c:77:5: warning: no previous prototype for function 'cache_reclaim_sysctl_handler' [-Wmissing-prototypes]
+      77 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
+         |     ^
+   mm/page_cache_limit.c:77:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      77 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+>> mm/page_cache_limit.c:94:5: warning: no previous prototype for function 'cache_limit_mbytes_sysctl_handler' [-Wmissing-prototypes]
+      94 | int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
+         |     ^
+   mm/page_cache_limit.c:94:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      94 | int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+   8 warnings generated.
 
 
-vim +/FIELD_GET +148 drivers/thermal/qcom/qcom-spmi-temp-alarm.c
+vim +/cache_limit_mbytes_sysctl_handler +94 mm/page_cache_limit.c
 
-   132	
-   133	/**
-   134	 * qpnp_tm_get_temp_stage() - return over-temperature stage
-   135	 * @chip:		Pointer to the qpnp_tm chip
-   136	 *
-   137	 * Return: stage on success, or errno on failure.
-   138	 */
-   139	static int qpnp_tm_get_temp_stage(struct qpnp_tm_chip *chip)
-   140	{
-   141		u8 reg = 0;
-   142		int ret;
-   143	
-   144		ret = qpnp_tm_read(chip, QPNP_TM_REG_STATUS, &reg);
-   145		if (ret < 0)
-   146			return ret;
-   147	
- > 148		return FIELD_GET(STATUS_GEN1_STAGE_MASK, reg);
-   149	}
-   150	
+    93	
+  > 94	int cache_limit_mbytes_sysctl_handler(struct ctl_table *table, int write,
+    95			void __user *buffer, size_t *length, loff_t *ppos)
+    96	{
+    97		int ret;
+    98		unsigned long vm_cache_limit_mbytes_max;
+    99		unsigned long origin_mbytes = vm_cache_limit_mbytes;
+   100		int nr_retries = MAX_RECLAIM_RETRIES;
+   101	
+   102		vm_cache_limit_mbytes_max = totalram_pages() >> (20 - PAGE_SHIFT);
+   103		ret = proc_doulongvec_minmax(table, write, buffer, length, ppos);
+   104		if (ret || !write)
+   105			return ret;
+   106	
+   107		if (vm_cache_limit_mbytes > vm_cache_limit_mbytes_max) {
+   108			vm_cache_limit_mbytes = origin_mbytes;
+   109			return -EINVAL;
+   110		}
+   111	
+   112		if (write) {
+   113			while (should_reclaim_page_cache() && page_cache_over_limit() &&
+   114					nr_retries--) {
+   115				if (signal_pending(current))
+   116					return -EINTR;
+   117	
+   118				shrink_memory(node_reclaim_num(), false);
+   119			}
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
