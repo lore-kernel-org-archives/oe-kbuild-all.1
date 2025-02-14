@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9B11946DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 20:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FFD19F495
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 20:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739564110; cv=none; b=N7RtM3qQP+1fU/7sGstEpVTzeAH6oCifdBcHlcdk4KEdpJ8fPrEtUPkEZJO0zzizrormM9hK/Y0xquYB3jUeuYR5uoO23eD/sZmbJhq8IUHqGIF3oPyT3BXC5j2Y38XhDDgT0ABnkbGGdRmq5v6iCXWR4oBF2fMedWR+qMIprEw=
+	t=1739565373; cv=none; b=H12jpyuyLO3p3y8rjxvK+2WKsr3ubt7rN5PID9+zz5ksKVKXfvPsj5l7KOln6eZxedIZhWB8j567ObT8ouh+myaRHt9vX/vlsUN0uylfrdquHswDvnrQZ/zh7icNzl73fzDfpLURUa9lYZXoqi/02Q9wEZsWrZC1dPcRSSUiD7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739564110; c=relaxed/simple;
-	bh=WsOktwPwKA4MEFWqRYk7toqHsh4lvhFiocGv2fbEeUw=;
+	s=arc-20240116; t=1739565373; c=relaxed/simple;
+	bh=DizIjoxthV0KUUE5Teg8/3yFxtbH8Kg7BiWu7eGAXNs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X61iuRIuwuIjwnxSZAM8fuX9GJpAoA/kiqcb4/SWEmP/cgfNvp9DLCfNF7XP2gjLAeo+j95LqiIBghHZjXQ+8y730FYbJNafn4Bj3U0FAig9oWqRwHuxmJqNawmy4zzVZHLkpyfURa9FizHQfJfmOTMWMP8je1+kICtVCGZl5G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Br5b2Tio; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=hx/X0pDvxfhecpORhUCHKbskTSocE5wE0gzXKtuu6QDfbDUXJBDey3Q1cHlym5HB+tdQPUU73t/9Wuz6Y96+odrjcsy+u0zkqteOoqUmkXnSRXQtojCwfjXawX28oggkJ0BV4nmHirITw46WphlcuNecRaOSNP94oOTLjYLicrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zcb7a+0u; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Br5b2Tio"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zcb7a+0u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739564109; x=1771100109;
+  t=1739565370; x=1771101370;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WsOktwPwKA4MEFWqRYk7toqHsh4lvhFiocGv2fbEeUw=;
-  b=Br5b2Tio1itHGwBw0ETkseuj5x2UL3uF+umkaSJZpm8O0+kaFVYngLm6
-   zy8Mqsn3mp4+TIij0ryL3sfJOzj58D2T26rFSar1LLKOd+ZiS45xcydQl
-   XtJPXJoaAoQ68w/Z1Mod0KYJnMkJ85NotdhLOJ60sGVfz+uRqVdhjbKzG
-   PSNGAZeywJC6Xg7DpvcVOeSld3sLVgpgdFgyheAbLecqAgvWwDDMyOsWs
-   nJqBbqvO068j4ZcQRbYcl6gJRoliXy9Ss660J1q8zMqfxmbFV8dFLXa30
-   MeaCzTzEoYWGHKMe+viGG/WgY7UezEVoT30D5cdFW/Z7meeETbCdqkxv0
-   g==;
-X-CSE-ConnectionGUID: 7BZSd3aJRfKdNoA79G6/mA==
-X-CSE-MsgGUID: dgc+5q+cTaq2oNJoRFG82w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40443032"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="40443032"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 12:15:09 -0800
-X-CSE-ConnectionGUID: X1dq1rtRS3C0edEb2iZFfg==
-X-CSE-MsgGUID: 0bNtfyprTAyNYBT2kn1vow==
+  bh=DizIjoxthV0KUUE5Teg8/3yFxtbH8Kg7BiWu7eGAXNs=;
+  b=Zcb7a+0uzXfftM9bjMOEKo0aaBmM0fcTTdz5pNMscvZ3nPtPvNrERMv+
+   h00XSp3AxAmNdDEbA1vjCadJb4kVLkNSMe0M7rrM0H6ULFoVD38IdVdu3
+   8HquAVBA08sItnaWlfwOFqhe89CMQ9vGh0KckbKCH0o3jHgSWVZg80aab
+   2j3mdHzyubckEQGpHV39aCsuawaobw5emvYq6rJrbWrn0Q3jnmyK42SW4
+   rz4QLQnZQG6V2VOdRCcXdCenAzV0xYClpA3FRPmZN6t+OD0/e8ma2bjUY
+   agikZkUXph+gyiiZHn1atvoMlxkyg0zvUrq2Dv4LdB4HUaCjnsKOzj3lm
+   Q==;
+X-CSE-ConnectionGUID: vG1lqVR+RLaltIWZ8OK00g==
+X-CSE-MsgGUID: XS6MXMlESFGLZCD2dSUJmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="44255137"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="44255137"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 12:36:10 -0800
+X-CSE-ConnectionGUID: yuf1/U8nTM+UOYv3ZSRueA==
+X-CSE-MsgGUID: tD8SjonXQUi8ZHY57UGcow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114037706"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="113412563"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Feb 2025 12:15:07 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 14 Feb 2025 12:36:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tj25Z-001A71-09;
-	Fri, 14 Feb 2025 20:15:05 +0000
-Date: Sat, 15 Feb 2025 04:14:40 +0800
+	id 1tj2Pv-001A8V-31;
+	Fri, 14 Feb 2025 20:36:07 +0000
+Date: Sat, 15 Feb 2025 04:35:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 1/1] mm/swap.c:778: warning: Function
- parameter or member 'tail' not described in 'mark_page_lazyfree_movetail'
-Message-ID: <202502150431.p6pIpGvt-lkp@intel.com>
+To: Mel Gorman <mgorman@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <kees@kernel.org>
+Subject: [linux-next:master 3025/4011] arch/m68k/include/asm/cmpxchg.h:17:9:
+ error: implicit declaration of function 'local_irq_save'
+Message-ID: <202502150415.R3H7UcKa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +62,117 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   6b7c856caf89f4b82af7af2bb7d09b8c1112730b
-commit: 8011eb22150e5bb6eb1834ce9913f36081d48ab5 [1/1] ANDROID: mm: provision to add shmem pages to inactive file lru head
-config: arm-randconfig-002-20250214 (https://download.01.org/0day-ci/archive/20250215/202502150431.p6pIpGvt-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150431.p6pIpGvt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0ae0fa3bf0b44c8611d114a9f69985bf451010c3
+commit: fe348e05890776897acb931eb39987fcef0f6f65 [3025/4011] mm: security: Check early if HARDENED_USERCOPY is enabled
+config: m68k-randconfig-r133-20250214 (https://download.01.org/0day-ci/archive/20250215/202502150415.R3H7UcKa-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250215/202502150415.R3H7UcKa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150431.p6pIpGvt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502150415.R3H7UcKa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/swap.c:502: warning: Function parameter or member 'vma_flags' not described in '__lru_cache_add_inactive_or_unevictable'
-   mm/swap.c:502: warning: Excess function parameter 'vma' description in '__lru_cache_add_inactive_or_unevictable'
->> mm/swap.c:778: warning: Function parameter or member 'tail' not described in 'mark_page_lazyfree_movetail'
+   In file included from arch/m68k/include/asm/atomic.h:7,
+                    from include/linux/atomic.h:7,
+                    from include/linux/jump_label.h:257,
+                    from include/linux/thread_info.h:221,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:18,
+                    from kernel/locking/irqflag-debug.c:5:
+   arch/m68k/include/asm/cmpxchg.h: In function '__arch_xchg':
+>> arch/m68k/include/asm/cmpxchg.h:17:9: error: implicit declaration of function 'local_irq_save' [-Wimplicit-function-declaration]
+      17 |         local_irq_save(flags);
+         |         ^~~~~~~~~~~~~~
+>> arch/m68k/include/asm/cmpxchg.h:34:9: error: implicit declaration of function 'local_irq_restore' [-Wimplicit-function-declaration]
+      34 |         local_irq_restore(flags);
+         |         ^~~~~~~~~~~~~~~~~
+   In file included from arch/m68k/include/asm/cmpxchg.h:75:
+   include/asm-generic/cmpxchg-local.h: In function '__generic_cmpxchg_local':
+   include/asm-generic/cmpxchg-local.h:26:9: error: implicit declaration of function 'raw_local_irq_save' [-Wimplicit-function-declaration]
+      26 |         raw_local_irq_save(flags);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/cmpxchg-local.h:47:9: error: implicit declaration of function 'raw_local_irq_restore' [-Wimplicit-function-declaration]
+      47 |         raw_local_irq_restore(flags);
+         |         ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +778 mm/swap.c
+vim +/local_irq_save +17 arch/m68k/include/asm/cmpxchg.h
 
-10853a039208c4 Minchan Kim       2016-01-15  769  
-9975da5f43bb72 Vinayak Menon     2021-03-18  770  /**
-9975da5f43bb72 Vinayak Menon     2021-03-18  771   * mark_page_lazyfree_movetail - make a swapbacked page lazyfree
-9975da5f43bb72 Vinayak Menon     2021-03-18  772   * @page: page to deactivate
-9975da5f43bb72 Vinayak Menon     2021-03-18  773   *
-9975da5f43bb72 Vinayak Menon     2021-03-18  774   * mark_page_lazyfree_movetail() moves @page to the tail of inactive file list.
-9975da5f43bb72 Vinayak Menon     2021-03-18  775   * This is done to accelerate the reclaim of @page.
-9975da5f43bb72 Vinayak Menon     2021-03-18  776   */
-8011eb22150e5b Charan Teja Reddy 2021-06-25  777  void mark_page_lazyfree_movetail(struct page *page, bool tail)
-9975da5f43bb72 Vinayak Menon     2021-03-18 @778  {
-9975da5f43bb72 Vinayak Menon     2021-03-18  779  	if (PageLRU(page) && !PageUnevictable(page) && PageSwapBacked(page) &&
-9975da5f43bb72 Vinayak Menon     2021-03-18  780  		!PageSwapCache(page)) {
-9975da5f43bb72 Vinayak Menon     2021-03-18  781  		struct pagevec *pvec;
-9975da5f43bb72 Vinayak Menon     2021-03-18  782  
-9975da5f43bb72 Vinayak Menon     2021-03-18  783  		local_lock(&lru_pvecs.lock);
-9975da5f43bb72 Vinayak Menon     2021-03-18  784  		pvec = this_cpu_ptr(&lru_pvecs.lru_lazyfree_movetail);
-9975da5f43bb72 Vinayak Menon     2021-03-18  785  		get_page(page);
-9975da5f43bb72 Vinayak Menon     2021-03-18  786  		if (pagevec_add_and_need_flush(pvec, page))
-9975da5f43bb72 Vinayak Menon     2021-03-18  787  			pagevec_lru_move_fn(pvec,
-8011eb22150e5b Charan Teja Reddy 2021-06-25  788  					lru_lazyfree_movetail_fn, &tail);
-9975da5f43bb72 Vinayak Menon     2021-03-18  789  		local_unlock(&lru_pvecs.lock);
-9975da5f43bb72 Vinayak Menon     2021-03-18  790  	}
-9975da5f43bb72 Vinayak Menon     2021-03-18  791  }
-9975da5f43bb72 Vinayak Menon     2021-03-18  792  
+803f69144f0d48 David Howells 2012-03-28  11  
+803f69144f0d48 David Howells 2012-03-28  12  #ifndef CONFIG_RMW_INSNS
+068550631fbe0b Andrzej Hajda 2023-01-18  13  static inline unsigned long __arch_xchg(unsigned long x, volatile void * ptr, int size)
+803f69144f0d48 David Howells 2012-03-28  14  {
+61eb040228ba9a Thorsten Blum 2024-07-31  15  	unsigned long flags;
+803f69144f0d48 David Howells 2012-03-28  16  
+803f69144f0d48 David Howells 2012-03-28 @17  	local_irq_save(flags);
+803f69144f0d48 David Howells 2012-03-28  18  
+803f69144f0d48 David Howells 2012-03-28  19  	switch (size) {
+803f69144f0d48 David Howells 2012-03-28  20  	case 1:
+61eb040228ba9a Thorsten Blum 2024-07-31  21  		swap(*(u8 *)ptr, x);
+803f69144f0d48 David Howells 2012-03-28  22  		break;
+803f69144f0d48 David Howells 2012-03-28  23  	case 2:
+61eb040228ba9a Thorsten Blum 2024-07-31  24  		swap(*(u16 *)ptr, x);
+803f69144f0d48 David Howells 2012-03-28  25  		break;
+803f69144f0d48 David Howells 2012-03-28  26  	case 4:
+61eb040228ba9a Thorsten Blum 2024-07-31  27  		swap(*(u32 *)ptr, x);
+803f69144f0d48 David Howells 2012-03-28  28  		break;
+803f69144f0d48 David Howells 2012-03-28  29  	default:
+21b9e722ad28c1 Thorsten Blum 2024-07-02  30  		x = __invalid_xchg_size(x, ptr, size);
+803f69144f0d48 David Howells 2012-03-28  31  		break;
+803f69144f0d48 David Howells 2012-03-28  32  	}
+803f69144f0d48 David Howells 2012-03-28  33  
+803f69144f0d48 David Howells 2012-03-28 @34  	local_irq_restore(flags);
+803f69144f0d48 David Howells 2012-03-28  35  	return x;
+803f69144f0d48 David Howells 2012-03-28  36  }
+803f69144f0d48 David Howells 2012-03-28  37  #else
+068550631fbe0b Andrzej Hajda 2023-01-18  38  static inline unsigned long __arch_xchg(unsigned long x, volatile void * ptr, int size)
+803f69144f0d48 David Howells 2012-03-28  39  {
+803f69144f0d48 David Howells 2012-03-28  40  	switch (size) {
+803f69144f0d48 David Howells 2012-03-28  41  	case 1:
+803f69144f0d48 David Howells 2012-03-28  42  		__asm__ __volatile__
+803f69144f0d48 David Howells 2012-03-28  43  			("moveb %2,%0\n\t"
+803f69144f0d48 David Howells 2012-03-28  44  			 "1:\n\t"
+803f69144f0d48 David Howells 2012-03-28  45  			 "casb %0,%1,%2\n\t"
+803f69144f0d48 David Howells 2012-03-28  46  			 "jne 1b"
+2a55550fbba643 Kees Cook     2022-02-02  47  			 : "=&d" (x) : "d" (x), "m" (*__xg(u8, ptr)) : "memory");
+803f69144f0d48 David Howells 2012-03-28  48  		break;
+803f69144f0d48 David Howells 2012-03-28  49  	case 2:
+803f69144f0d48 David Howells 2012-03-28  50  		__asm__ __volatile__
+803f69144f0d48 David Howells 2012-03-28  51  			("movew %2,%0\n\t"
+803f69144f0d48 David Howells 2012-03-28  52  			 "1:\n\t"
+803f69144f0d48 David Howells 2012-03-28  53  			 "casw %0,%1,%2\n\t"
+803f69144f0d48 David Howells 2012-03-28  54  			 "jne 1b"
+2a55550fbba643 Kees Cook     2022-02-02  55  			 : "=&d" (x) : "d" (x), "m" (*__xg(u16, ptr)) : "memory");
+803f69144f0d48 David Howells 2012-03-28  56  		break;
+803f69144f0d48 David Howells 2012-03-28  57  	case 4:
+803f69144f0d48 David Howells 2012-03-28  58  		__asm__ __volatile__
+803f69144f0d48 David Howells 2012-03-28  59  			("movel %2,%0\n\t"
+803f69144f0d48 David Howells 2012-03-28  60  			 "1:\n\t"
+803f69144f0d48 David Howells 2012-03-28  61  			 "casl %0,%1,%2\n\t"
+803f69144f0d48 David Howells 2012-03-28  62  			 "jne 1b"
+2a55550fbba643 Kees Cook     2022-02-02  63  			 : "=&d" (x) : "d" (x), "m" (*__xg(u32, ptr)) : "memory");
+803f69144f0d48 David Howells 2012-03-28  64  		break;
+803f69144f0d48 David Howells 2012-03-28  65  	default:
+803f69144f0d48 David Howells 2012-03-28  66  		x = __invalid_xchg_size(x, ptr, size);
+803f69144f0d48 David Howells 2012-03-28  67  		break;
+803f69144f0d48 David Howells 2012-03-28  68  	}
+803f69144f0d48 David Howells 2012-03-28  69  	return x;
+803f69144f0d48 David Howells 2012-03-28  70  }
+803f69144f0d48 David Howells 2012-03-28  71  #endif
+803f69144f0d48 David Howells 2012-03-28  72  
 
-:::::: The code at line 778 was first introduced by commit
-:::::: 9975da5f43bb72a37faf3981709fff766ab4ca15 ANDROID: mm: allow fast reclaim of shmem pages
+:::::: The code at line 17 was first introduced by commit
+:::::: 803f69144f0d48863c68f9d111b56849c7cef5bb Disintegrate asm/system.h for M68K
 
-:::::: TO: Vinayak Menon <vinmenon@codeaurora.org>
-:::::: CC: Suren Baghdasaryan <surenb@google.com>
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
