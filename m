@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB8E5BAF0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 14:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5458B266582
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 14:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739543308; cv=none; b=CbVr2c4ew5lhWVRlBEmigEBdAPWJxDlRoVgajlfw8amhS8/83Nmou1ViucRotkeSyHcQXQIu2ndN7/RbTbcMcNzEb5f5kHb0fK57HtjxXfkgogg6QrKRdJvHI/C41buM4n+fTDDC2hUU6cDbEDfPq3eiYZlWrzgP2gY7TeCNABU=
+	t=1739544153; cv=none; b=qmo9oOinuYCjvWdhcsey3qvY1YeN8nsqkFf7hmnqJttR/s7Vx2bZqDrX86A+20rmgqYTP9+ZgjFTrBAUXRtp2T1sMjfoOMdGFb/hBY7PIyYFK4VqlmYMrElIJZPfZ3ukuGmUV+CLLLntT0+do05VoAEFWg9wjMmZU9V3yZAihrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739543308; c=relaxed/simple;
-	bh=11kbSCWoVcsI99W35LviXEVuTFBMl/jnDkSkvUrKWcI=;
+	s=arc-20240116; t=1739544153; c=relaxed/simple;
+	bh=/hFRqo78Ekm9g5FTrhvJLClp80bSRuKsAEF9GDz0Hts=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uQph4mWa+zJ5NIBA9KHNuVADqZIIXidB5cf6jsPtXHvmmo6N+Xpg94+78O6okbNoxr462Ez/0k5mJYnhgMDP9BQCTkjg8MM36hXcYK9l8RGkdRFwVP+Y/KlPcgtQhj8VMcdJxlWgvEHwY5Orn6uFhe+KpEtwdKWAxYpR9ccwkNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrixyxZp; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=cfQGsQ7gf/GLR5ovFWu2V9XZrI7JxmZdZmQj6KsR/Ff+2cpPQjOqI/L7ZvVlfLSLMF02OUzzSnviv14i6HhmaU6ILIrTZxMYWHFwECJT0DNly0rLcuBm+STqP8dC2o4qgh5Zlb6RS1Z10dQ52VSTHtw5K7WQYO8VP11dhtKqyvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eptbSoli; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrixyxZp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739543306; x=1771079306;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=11kbSCWoVcsI99W35LviXEVuTFBMl/jnDkSkvUrKWcI=;
-  b=LrixyxZpcFagQpcyk+pv0zV9zNDrllpQpA4+FLnWwckDxTXdrArb0WTN
-   OerxjUEHobsaIzJja9eF2GJQJScIA00Pc2d5kYFuoWYFhMJhdzkK2hm4I
-   wvgpQgGaPtURVQ1/0RdGogTh5uhFFwIHW3Q9hrI1fR4TJ7i6vf+iecF14
-   CDP5+FJ40d3OAPMRHWPM1XNeteTsraOdfIlb87pB6qyx16QJ5VtfxTBAq
-   Eq4uYEmlP7JifPwJrsAPRuI8Vnp3Xtxb3yrzeiNzgsAjV4Wdj6bhiQhzS
-   DMYinqX/kdLBs0CIv4xL8hS5w/X/c+nCEsWUKeOcR0sXWHCGSGwASmSUS
-   Q==;
-X-CSE-ConnectionGUID: YxYvu0MyT3Onb2MSaEo1KA==
-X-CSE-MsgGUID: NaWszZvuTDOkTQJ4kXdTjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40412720"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="40412720"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 06:28:25 -0800
-X-CSE-ConnectionGUID: SNsNvLlqSTyxJUGm7VRc+w==
-X-CSE-MsgGUID: fKpfgZgAQV+leZameH52KA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="144324786"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Feb 2025 06:28:24 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tiwg2-0019f5-0S;
-	Fri, 14 Feb 2025 14:28:22 +0000
-Date: Fri, 14 Feb 2025 22:28:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 262/262]
- drivers/media/i2c/saa6752hs.c:598:17: error: invalid type argument of unary
- '*' (have 'int')
-Message-ID: <202502142201.r9OKcrcQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eptbSoli"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e02eba02e8so235405a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 06:42:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739544149; x=1740148949; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5A8Gla8Q///5jr1e+UVgogTbKkTus0cG6K56L7NjpIo=;
+        b=eptbSoliOSln2VoPPd+qUi9R3YTr+1TcRMbAh8U/si8zC9NzhsOtyKIYY1OIDM2haq
+         DzD8h4FJOSKcy1aig8jOXQUVwGojpl54+EEdEYeDcj+HjY0KSKGd7O/GKdIdLwIiiLTS
+         RmC8qd7dnElM9cmgN7Di3s2JSKz1ZobpcVelEuWrC0LVETlv1hQdk3bdf1k1AXbCPVfl
+         FrlAfwfsE5dndKSz/w+oC0cSSJkp9A081AMl/EynJsduraoriKF+Pzf1yAxHDZ/BHy2e
+         e6++WFjx24SbXtrIhif68vmsgThJHQMwpUhfvZpGMmVJtkx6iJ5rlT6Y/BGyXtHhHrv+
+         kThQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739544149; x=1740148949;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5A8Gla8Q///5jr1e+UVgogTbKkTus0cG6K56L7NjpIo=;
+        b=aQA0PV2U7wqDG6qqYPwhlsM5ZRLfbDon/39TkEU7ciWCS69eRKC4naFMhWr9ZZ1DNU
+         edxWsFVzrn0y+xgrfdX/0+L9axx44P6QMANZepmhNJ+XxKM9ld+SA3dLGwucl5/12SjB
+         C3wt37tXv14D66XcXJcm2LHzpkqDmMP67a9N6SiHHX5kLyKuAQ0XRxDFbKFzuOKUtwSi
+         zc3zxo3IWyXKdEFiEKtoC1CrobZVB8Rd01sC0p4UkNDRq1e1hMPCZ+Ea4hHPLcZR6le4
+         8bFQ74kZPKyILyj4hPs/khksyGQ1q8ZGdlRWjN43H7MkSjmYvcoFCX1xwxKnfmAmqxov
+         3ybg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbqgxEJyP8grWE8bdGOh061goayNxQb1ip8Sx0PeXYMTlYJX/36/yRl8+JORTI06u9QiKgRgMEfDH2f+ij@lists.linux.dev
+X-Gm-Message-State: AOJu0YyHS5FDyzSS/SvIyAhn3JIln3KQ6oNLcMRb5K8qjyOGBrmo/R3D
+	+sOGwrrnoqrF8Qi6dPEjMi1H6wHkVfyRA5EYJasrLmPLhWDY7fxQdDGZQNxarUs=
+X-Gm-Gg: ASbGncvID0ffTAtBbYDfsp0X1yshS/oviofIcGLgT8yZaD1JK11yzTS+DFR2ThErX7X
+	VTkkFmwkHeU+l32HAqUQAUce/rC2WDRvh8Vg0w87HoIw1Tim9ABy0XXT9emCZnlpU1z4RKC8aq1
+	J92DbeWTlXeWnC19ErCGkDUKl5x4Z56pcK7d2Yep3SY7XKmSCnGGkYkkHG2CuFO2u8bDoMfwS/B
+	puU0qMrNTraxXzmYLbKSHmvYCfrKQNew2RuuyXtDF5ap0gOY72cY1brXz+s4f8oERrMBt+zqtEA
+	7pB1EFX830eQan32tnff
+X-Google-Smtp-Source: AGHT+IHTsnNF3Z8oPb7KOJ0Szwe2eAivT4doFj5mcvOerXR4qOqV2S8aY3wuae3qVBS6+tsVgOsgtg==
+X-Received: by 2002:a17:906:7807:b0:ab7:6369:83fc with SMTP id a640c23a62f3a-ab7f34af3d5mr1042895666b.38.1739544149543;
+        Fri, 14 Feb 2025 06:42:29 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-aba533bdd39sm349560366b.167.2025.02.14.06.42.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Feb 2025 06:42:29 -0800 (PST)
+Date: Fri, 14 Feb 2025 17:42:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Karan Tilak Kumar <kartilak@cisco.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	Gian Carlo Boffa <gcboffa@cisco.com>,
+	Arulprabhu Ponnusamy <arulponn@cisco.com>,
+	Arun Easi <aeasi@cisco.com>
+Subject: drivers/scsi/fnic/fdls_disc.c:263
+ fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
+Message-ID: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,98 +77,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   3bc425c306458b9d5af1effdd97e7efcf09e407a
-commit: 4340964d78dab0ce92b63a18c2f475c0118f3cef [262/262] UPSTREAM: media: i2c: Use accessors for pad config 'try_*' fields
-config: x86_64-buildonly-randconfig-005-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142201.r9OKcrcQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142201.r9OKcrcQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   128c8f96eb8638c060cd3532dc394d046ce64fe1
+commit: a63e78eb2b0f654b138abfc323f6bd7573e26145 scsi: fnic: Add support for fabric based solicited requests and responses
+config: i386-randconfig-141-20250214 (https://download.01.org/0day-ci/archive/20250214/202502141403.1PcpwyJp-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142201.r9OKcrcQ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502141403.1PcpwyJp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/scsi/fnic/fdls_disc.c:263 fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
+drivers/scsi/fnic/fdls_disc.c:989 fdls_send_fabric_logo() warn: inconsistent indenting
+drivers/scsi/fnic/fdls_disc.c:1953 fnic_fdls_validate_and_get_frame_type() warn: inconsistent indenting
 
-   drivers/media/i2c/saa6752hs.c: In function 'saa6752hs_set_fmt':
-   drivers/media/i2c/saa6752hs.c:598:18: error: implicit declaration of function 'v4l2_subdev_get_pad_format'; did you mean 'v4l2_subdev_has_pad_interdep'? [-Werror=implicit-function-declaration]
-     598 |                 *v4l2_subdev_get_pad_format(sd, sd_state, 0) = *f;
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  v4l2_subdev_has_pad_interdep
->> drivers/media/i2c/saa6752hs.c:598:17: error: invalid type argument of unary '*' (have 'int')
-     598 |                 *v4l2_subdev_get_pad_format(sd, sd_state, 0) = *f;
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/cur_jiffies +166 drivers/scsi/fnic/fdls_disc.c
+
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  244  void fdls_schedule_oxid_free_retry_work(struct work_struct *work)
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  245  {
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  246  	struct fnic_oxid_pool_s *oxid_pool = container_of(work,
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  247  		struct fnic_oxid_pool_s, schedule_oxid_free_retry.work);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  248  	struct fnic_iport_s *iport = container_of(oxid_pool,
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  249  		struct fnic_iport_s, oxid_pool);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  250  	struct fnic *fnic = iport->fnic;
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  251  	struct reclaim_entry_s *reclaim_entry;
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  252  	unsigned long delay_j = msecs_to_jiffies(OXID_RECLAIM_TOV(iport));
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  253  	int idx;
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  254  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  255  	spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
+
+Passing fnic->lock_flags is wrong.  spin_lock_irqsave() is not nestable
+in the sense that the "flags" variable can't hold two values at once:
+
+	orig_irq = save_original irq states and disable()
+	orig_irq = save_original irq states and disable()
+	restore(orig_irq)
+	restore(orig_irq)
+
+The second restore(orig_irq) is not going to restore the original states
+it's going to leave them as disabled.
+
+If fnic->lock_flags is holding anything useful when this is called, then it
+is a bug or if anything uses it before we exit that will break us.  Just
+declare "unsigned long flags;" locally.
+
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  256  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  257  	for_each_set_bit(idx, oxid_pool->pending_schedule_free, FNIC_OXID_POOL_SZ) {
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  258  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  259  		FNIC_FCS_DBG(KERN_INFO, fnic->lport->host, fnic->fnic_num,
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  260  			"Schedule oxid free. oxid idx: %d\n", idx);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  261  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  262  		spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11 @263  	reclaim_entry = (struct reclaim_entry_s *)
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  264  	kzalloc(sizeof(struct reclaim_entry_s), GFP_KERNEL);
 
 
-vim +598 drivers/media/i2c/saa6752hs.c
+The indenting is off.  The normal way to write this is:
 
-   564	
-   565	static int saa6752hs_set_fmt(struct v4l2_subdev *sd,
-   566			struct v4l2_subdev_state *sd_state,
-   567			struct v4l2_subdev_format *format)
-   568	{
-   569		struct v4l2_mbus_framefmt *f = &format->format;
-   570		struct saa6752hs_state *h = to_state(sd);
-   571		int dist_352, dist_480, dist_720;
-   572	
-   573		if (format->pad)
-   574			return -EINVAL;
-   575	
-   576		f->code = MEDIA_BUS_FMT_FIXED;
-   577	
-   578		dist_352 = abs(f->width - 352);
-   579		dist_480 = abs(f->width - 480);
-   580		dist_720 = abs(f->width - 720);
-   581		if (dist_720 < dist_480) {
-   582			f->width = 720;
-   583			f->height = 576;
-   584		} else if (dist_480 < dist_352) {
-   585			f->width = 480;
-   586			f->height = 576;
-   587		} else {
-   588			f->width = 352;
-   589			if (abs(f->height - 576) < abs(f->height - 288))
-   590				f->height = 576;
-   591			else
-   592				f->height = 288;
-   593		}
-   594		f->field = V4L2_FIELD_INTERLACED;
-   595		f->colorspace = V4L2_COLORSPACE_SMPTE170M;
-   596	
-   597		if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- > 598			*v4l2_subdev_get_pad_format(sd, sd_state, 0) = *f;
-   599			return 0;
-   600		}
-   601	
-   602		/*
-   603		  FIXME: translate and round width/height into EMPRESS
-   604		  subsample type:
-   605	
-   606		  type   |   PAL   |  NTSC
-   607		  ---------------------------
-   608		  SIF    | 352x288 | 352x240
-   609		  1/2 D1 | 352x576 | 352x480
-   610		  2/3 D1 | 480x576 | 480x480
-   611		  D1     | 720x576 | 720x480
-   612		*/
-   613	
-   614		if (f->code != MEDIA_BUS_FMT_FIXED)
-   615			return -EINVAL;
-   616	
-   617		if (f->width == 720)
-   618			h->video_format = SAA6752HS_VF_D1;
-   619		else if (f->width == 480)
-   620			h->video_format = SAA6752HS_VF_2_3_D1;
-   621		else if (f->height == 576)
-   622			h->video_format = SAA6752HS_VF_1_2_D1;
-   623		else
-   624			h->video_format = SAA6752HS_VF_SIF;
-   625		return 0;
-   626	}
-   627	
+		reclaim_entry = kzalloc(sizeof(*reclaim_entry), GFP_KERNEL);
+
+Remove the cast and change the sizeof().
+
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  265  		spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  266  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  267  		if (!reclaim_entry) {
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  268  			FNIC_FCS_DBG(KERN_WARNING, fnic->lport->host, fnic->fnic_num,
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  269  				"Failed to allocate memory for reclaim struct for oxid idx: 0x%x\n",
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  270  				idx);
+
+Remove this DBG.  The truth is that for as long as anyone can remember
+the kmalloc() allocator won't fail for tiny allocations.  We're more
+likely to formalize this rule than we are to change it at this point.
+Still, we check for errors until that day arrives.
+
+But allocations are not supposed to print an error message on error.
+It's just messy and it doesn't add any information that isn't already
+in the stack traces that kmalloc() prints.
+
+I guess we can't call schedule_delayed_work() without holding the
+spin_lock?  It's a strange thing.
+
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  271  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  272  			schedule_delayed_work(&oxid_pool->schedule_oxid_free_retry,
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  273  				msecs_to_jiffies(SCHEDULE_OXID_FREE_RETRY_TIME));
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  274  			spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  275  			return;
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  276  		}
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  277  
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  278  		if (test_and_clear_bit(idx, oxid_pool->pending_schedule_free)) {
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  279  			reclaim_entry->oxid_idx = idx;
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  280  			reclaim_entry->expires = round_jiffies(jiffies + delay_j);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  281  			list_add_tail(&reclaim_entry->links, &oxid_pool->oxid_reclaim_list);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  282  			schedule_delayed_work(&oxid_pool->oxid_reclaim_work, delay_j);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  283  		} else {
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  284  			/* unlikely scenario, free the allocated memory and continue */
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  285  			kfree(reclaim_entry);
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  286  		}
+a63e78eb2b0f65 Karan Tilak Kumar 2024-12-11  287  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
