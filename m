@@ -1,111 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C058525EFAA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 11:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5743E263C8A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 11:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739531823; cv=none; b=kaa28En2VreROnODd0i83kpZjpFDlaiSo9mGQ+rIhbfXNiu9O4/RNslsMoe2FVXNysj8ffS8mFK9IJyRZJWnp4YOTVOd4Ry+R/LlSBe9hwSdy4bdpsa7Txkr0yGjErukVVv7LgxZqGH3lG0pQdsoHjhIz8GVZzhjIPN2maF3aAY=
+	t=1739532178; cv=none; b=rcdNDCLeWqqPUl24MFfVYnNP960NyqTEIB8smoNb7fWE2CKl53ykItytJ1QXMYzCCRpaUNWZ4Xb/MRRIhZPdn2EoqDNoxANUNMKfd1T9+GGT5q3s37TtEmTHiZYmWf/xVScwEz+VERYrq7BeHflDkdiJ0RGcSkf7lG7NUXy0+To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739531823; c=relaxed/simple;
-	bh=GLrQ9qJxhpOAfQEoER9G/qv8+xDNG3F/8Ej69Gp732E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TZ8ZU9VdWxia4kiK7yzDhDXsT0VKGLAcyphB6KuW7mAFNimbtCTDpY5t9FxDhYg1GLH7nkKTrtBdaPvVsrJk7OydZEtJViM5et+tMNQCl+AY9Wwwu4MJ8vp36eLqwTThFVte+fUGpW8zca++dNvy8jOJUxKxp/rqqA7nu6ATuQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ncUj4X7x; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739532178; c=relaxed/simple;
+	bh=OsjCXXBxfPDSc8sdW5re9j2JZVVhVPF2q8SKbktNvH4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=IGjiIxAPMXn6XOaiXyJZQt3EXA1L4+bI60+5PK89wU6VPOTuoiB5HEcpZe5bLK5fCRixU7d0VVXl4gqTBBrzHK3DRBy8BihWqyMV+aLXlpUxI/413TRtnhfKGHQZ63XmFKzRlxYYYvN/kYSJs6C6vMUU+nKkW4eWS+sRkb+c7ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=WX9oLO9B; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UdjLwZQ6; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ncUj4X7x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739531821; x=1771067821;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GLrQ9qJxhpOAfQEoER9G/qv8+xDNG3F/8Ej69Gp732E=;
-  b=ncUj4X7xUpzoIOoBY7R121iZCCS1EB4y4bRkFTytACwBcRVyMgIpFZiX
-   roiBeR256jcOVnxhdift9CJVI4+ZRSmEnodlwBuGISOZbmcuUqG0EBnHv
-   RUiIjr8fTWSA3vp7h7HFG9KcdVpsL8Zpx3Bue6bLVeVV+2QbBBYwt31lb
-   YH0k/4sZ9xCqsJIMi3Qyy+dXG/RDxtCeoCXMmiqPjwfYXL/9+eweg37GF
-   qoNk71cyXZueWHnGNXyCfwajFrDWoqhAIbJURqUFpdi2Rglj6C0LiIg2t
-   RhdsmCgCZR1vTWxHSMyFa/0D9IXYcgPkJ+xS3nFT2LGdydk+3EMxZR4YR
-   Q==;
-X-CSE-ConnectionGUID: mhjw8Et8RoOFPh9uPQr8Vw==
-X-CSE-MsgGUID: fb/KmXFARimWXbLQBZHrvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11344"; a="40200021"
-X-IronPort-AV: E=Sophos;i="6.13,285,1732608000"; 
-   d="scan'208";a="40200021"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 03:17:01 -0800
-X-CSE-ConnectionGUID: WarLhZHMTs65GKeLiNHSvQ==
-X-CSE-MsgGUID: Jg4FCowPTsaNIWt+K7o0TA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118054702"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Feb 2025 03:17:00 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1titgo-0019R9-14;
-	Fri, 14 Feb 2025 11:16:58 +0000
-Date: Fri, 14 Feb 2025 19:16:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 249/249] mm/workingset.c:198:6:
- warning: no previous prototype for 'unpack_shadow'
-Message-ID: <202502141906.Kog5uC0M-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="WX9oLO9B";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UdjLwZQ6"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id 3903D11400CA;
+	Fri, 14 Feb 2025 06:22:54 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-11.internal (MEProxy); Fri, 14 Feb 2025 06:22:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1739532174;
+	 x=1739618574; bh=m8U691ACWe3t+/nGQjZe7Q9pb8ejSpFRnvHei6aA9lY=; b=
+	WX9oLO9BItsoCWpFjU5ka7WeQxKfRNU2NsbyiJkJ/t27zIxl3Xf6TCdawtxzMfs7
+	bDBgkoOdTFyLtPcujFwMMbnyrzSW5bj9qlHBv00tgidSEICTv4xq1zDzbayH4OHg
+	EPC3lN4BwEKTdVTdB0/Ptw863YfTwWC2erWR0v6dJ2hABKFvYgYY9CwyWWXDsdAc
+	v3nYsqf1157tnx/PGrUBWoVO2ENTh4FxasyM5FJcx45vWLhzAmp6fQOLFpPpT3Rt
+	M3jn+QN/MfxyCboAfvCvPK2Cv/1rb6zbvOz+P2PvcVexIY5mKjyNgnOuO+QeX7Hn
+	46hr1lgF36iUl6+Aj6y49w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739532174; x=
+	1739618574; bh=m8U691ACWe3t+/nGQjZe7Q9pb8ejSpFRnvHei6aA9lY=; b=U
+	djLwZQ6ShCtiJAawB7AzPGa+JAra/rOVmVF1ug0j4JK9MGZOIPlT0DCtKW3JbrX+
+	8loYUWkhMMmOOANozBadKwINAoWcdilpZ/26ispBuNh47V70n4RmPeydgMyq1VG5
+	gftaZwp73s/ZoVXRal0dH8/hSwvnqVJ6wSpA4l0ITf2pBQACRyhWlaQbGBnXAN3z
+	J1wOQ3bRjtXKh05j9FMr/mEbU7WDP2w7yIG52QdGAEYimuUvFg9yGCyprrYpVofv
+	/V0KokcxY1Nn2XMxvXjVY3TOiHSyJXbATgAmieiMLpfC9CNuDy4JrO/RzpQu0+K6
+	6JeopPh1/3LN3k3yOyAgA==
+X-ME-Sender: <xms:jSevZ9wWSEalcILpi6zuxb5AR7jP04Es-44OzJDMAA2amXSpJkQS3w>
+    <xme:jSevZ9R_AdQDxaEQrMCyuL_AoebJCLir6VVk7dkiIn-XdC0T3G02PyMTEYYgXSuVP
+    jfYmabYwJl8AvWL95o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdegleehvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeh
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeiifhhighhurhgrsegtohguvgifvg
+    grvhgvrhhsrdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphht
+    thhopehphhhilhhiphdrlhhisehinhhtvghlrdgtohhmpdhrtghpthhtohepohgvqdhksg
+    huihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhn
+    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:jSevZ3U9TEQisKj2XMLJWwzUCoCFM3Rzlef_feZ-NE0CvjTFTMocFw>
+    <xmx:jSevZ_i0bPbUkxLm27Q8EKgPzBTRlY25u0VgtPr6kFflHB7At45BJw>
+    <xmx:jSevZ_Chw7fL5vqspY-EohXVhSOpPK2_eKwL5iYC9aVzMomEfZAclg>
+    <xmx:jSevZ4Iv8OubEi5AIYMvJnWkinIi-DC8RqaLNvTzcrw5ZcNlsM8FQw>
+    <xmx:jievZ69CIeaLTARA2VOWhf3ZHut1nnthAY9870HNbQtS4FKjdw_PgGyc>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B198A2220072; Fri, 14 Feb 2025 06:22:53 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d2ae202da688a9a795c238142e01da921b3e4b81
-commit: 1a3bbc191000a8382db034c86dd4eef905327197 [249/249] ANDROID: mm: export unpack_shadow
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250214/202502141906.Kog5uC0M-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502141906.Kog5uC0M-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502141906.Kog5uC0M-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/workingset.c:198:6: warning: no previous prototype for 'unpack_shadow' [-Wmissing-prototypes]
-     198 | void unpack_shadow(void *shadow, int *memcgidp, pg_data_t **pgdat,
-         |      ^~~~~~~~~~~~~
+Date: Fri, 14 Feb 2025 12:22:33 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Philip Li" <philip.li@intel.com>,
+ "Elizabeth Figura" <zfigura@codeweavers.com>
+Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Message-Id: <9791da8a-fb5f-46d0-a86f-66738293d155@app.fastmail.com>
+In-Reply-To: <Z68CX3HMEUW00WYi@rli9-mobl>
+References: <202502072019.LYoCR9bF-lkp@intel.com>
+ <2421077.NG923GbCHz@camazotz> <Z68CX3HMEUW00WYi@rli9-mobl>
+Subject: Re: include/linux/thread_info.h:259:25: error: call to '__bad_copy_to'
+ declared with attribute error: copy destination size is too small
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-vim +/unpack_shadow +198 mm/workingset.c
 
-   197	
- > 198	void unpack_shadow(void *shadow, int *memcgidp, pg_data_t **pgdat,
-   199				  unsigned long *evictionp, bool *workingsetp)
-   200	{
-   201		unsigned long entry = xa_to_value(shadow);
-   202		int memcgid, nid;
-   203		bool workingset;
-   204	
-   205		workingset = entry & ((1UL << WORKINGSET_SHIFT) - 1);
-   206		entry >>= WORKINGSET_SHIFT;
-   207		nid = entry & ((1UL << NODES_SHIFT) - 1);
-   208		entry >>= NODES_SHIFT;
-   209		memcgid = entry & ((1UL << MEM_CGROUP_ID_SHIFT) - 1);
-   210		entry >>= MEM_CGROUP_ID_SHIFT;
-   211	
-   212		*memcgidp = memcgid;
-   213		*pgdat = NODE_DATA(nid);
-   214		*evictionp = entry;
-   215		*workingsetp = workingset;
-   216	}
-   217	EXPORT_SYMBOL_GPL(unpack_shadow);
-   218	
+On Fri, Feb 14, 2025, at 09:44, Philip Li wrote:
+> On Mon, Feb 10, 2025 at 02:39:46PM -0600, Elizabeth Figura wrote:
+>> On Friday, 7 February 2025 06:11:47 CST kernel test robot wrote:
+>> >    In file included from include/linux/spinlock.h:60,
+>> >                     from include/linux/wait.h:9,
+>> >                     from include/linux/wait_bit.h:8,
+>> >                     from include/linux/fs.h:6,
+>> >                     from drivers/misc/ntsync.c:11:
+>> >    In function 'check_copy_size',
+>> >        inlined from 'copy_from_user' at include/linux/uaccess.h:207:7,
+>> >        inlined from 'setup_wait' at drivers/misc/ntsync.c:888:6:
+>> > >> include/linux/thread_info.h:259:25: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
+>> >      259 |                         __bad_copy_to();
+>> >          |                         ^~~~~~~~~~~~~~~
+>> 
+>> This was caught before and mentioned in [1]. The suggestion there of changing "args->count" to "count" doesn't help.
+>> 
+>> Somehow gcc 12 thinks that the array_size(count, sizeof(*fds)) parameter is constant, although it's finnicky and depends on exactly where __builtin_constant_p() is evaluated.
+>> 
+>> The bug goes away with gcc 13. Is this worth trying to work around? I don't have any ideas for how to do so.
+>
+> Thanks for the info, at bot side, we will ignore this error to
+> avoid further reporting on old gcc.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+gcc-12 isn't really "old", we support gcc-5 through gcc-14 at the moment.
+
+Maybe the change below would address it? (Not sure I handled the
+"+1" right here, but something like that should make it obvious
+to the compiler what the check is).
+
+      Arnd
+
+diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+index 055395cde42b..ae13aae9194b 100644
+--- a/drivers/misc/ntsync.c
++++ b/drivers/misc/ntsync.c
+@@ -873,6 +873,7 @@ static int setup_wait(struct ntsync_device *dev,
+ {
+ 	int fds[NTSYNC_MAX_WAIT_COUNT + 1];
+ 	const __u32 count = args->count;
++	size_t size = count * sizeof(fds[0]);
+ 	struct ntsync_q *q;
+ 	__u32 total_count;
+ 	__u32 i, j;
+@@ -880,15 +881,14 @@ static int setup_wait(struct ntsync_device *dev,
+ 	if (args->pad || (args->flags & ~NTSYNC_WAIT_REALTIME))
+ 		return -EINVAL;
+ 
+-	if (args->count > NTSYNC_MAX_WAIT_COUNT)
++	if (size >= sizeof(fds))
+ 		return -EINVAL;
+ 
+ 	total_count = count;
+ 	if (args->alert)
+ 		total_count++;
+ 
+-	if (copy_from_user(fds, u64_to_user_ptr(args->objs),
+-			   array_size(count, sizeof(*fds))))
++	if (copy_from_user(fds, u64_to_user_ptr(args->objs), size))
+ 		return -EFAULT;
+ 	if (args->alert)
+ 		fds[count] = args->alert;
