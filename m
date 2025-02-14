@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A99B2153FA;
-	Fri, 14 Feb 2025 12:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DC825A627
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 12:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739536635; cv=none; b=SnKKFKSy5IyZqs3SiZ94e0HECWFRD0XLJrNwSNzKP81vu6uBCcX0JBmN0ioCpsgpgblbzOReLR6kvdYdS9DICzwkPCJTUd5tDo3jLeWx67XxRpseNVO/kdCoCwFSEVdPPG5IbEZpw1pjybgDkSc9TjBP4f/qLqgsaQJjPDDsLqE=
+	t=1739536639; cv=none; b=H2g38UYluqHoC4nlSJhNqKx8bHadeTJGCI9KRYLca0L9hnu15Jnl9Dyd3agrjrIMdVmAOC0BbRDovCcT9flREFfpjE18Eao3jHkFC+Ifm12rdhoVU7gZY8h3HSaCatEwWtGpEjR4WEP3MdkpBajWM3B8+j90cfrOe1c+wARSQ+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739536635; c=relaxed/simple;
-	bh=esM/OM2yPJYWFtfXXux1i1bWKLQTAJzMDIjxpI4kp5A=;
+	s=arc-20240116; t=1739536639; c=relaxed/simple;
+	bh=dgZSa9sENfnuGY8FEBF12KAZ1TW/qhYveDfgrivlUT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OnY/wLm99p502W2J7cBDE7pEUH6/qZMCvYasPF6q1m8ylmCGOXB9/MhC9vU3VD5v/ZDNTPA1pXGlV+9hfcSQp4FgjRzHimR28kzTSkGJp6FbwgNb1+gL6zcYeQZtr5kph2agyE/90z/7eXNqHzOCsOcSNnDG6scHq5ob7RXhzzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7XUAVsJ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ABzwgJCN6D3Ts/74htuz0MlPa0a8pi9u9tdszzoIUvVc1wj4ZLXJ78wQtvINkfw/3FeH9VYZ1A/54AEvu/+KscZQb8odu2GBFBoc7CL5HPJJjeWwC9MxDUAp1fX6IH5M/PnfewZ5jB2xk4Vtz49YOb1HbZKJUC78JZ5MwXX7/nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNFCL9xm; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7XUAVsJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNFCL9xm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739536633; x=1771072633;
+  t=1739536637; x=1771072637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=esM/OM2yPJYWFtfXXux1i1bWKLQTAJzMDIjxpI4kp5A=;
-  b=j7XUAVsJir/Fok1cb05QsBixkttu1KlHLvBCYcpyjxmud7lnuM9tVNFl
-   dDn9rUOVDn5AXYPAuNP7QIJyWC1YKKnmhWsd215YnYS/XG/W8iK8D9Nhu
-   XXiXgNzNCQXMjbI/bua2plSzlSoEzSG6VUuLD+xJxq1bwFEikFpgBAQpu
-   t76lJAHdli4d1s6/Ftyp7fsLNOMAKJIqFu72Na7rnTHlT8zW6zJJLXH1b
-   u/EVQnvU8sfGv3Dt6eoJ240YUDroAg7CdcwLCMAoLlwvkJFuLBVUnULTy
-   ojd/8WAfTxK50NAWBZ/0y7wP3Zd9S9ap9ZsMO9n3yVCz4pgvfezCdhlqH
+  bh=dgZSa9sENfnuGY8FEBF12KAZ1TW/qhYveDfgrivlUT8=;
+  b=PNFCL9xmQ0cI1xln0z+ChT2fJ4K/i6vII+xXosj8h7KxarwDpKEn5PIE
+   FZyuFdysJsa4lGePize66iRoCTfEqo6I6I5ZEIjhBLZMfpC+Bp0mrmImq
+   D1BqginhqI4oSWfuBF4oB54N4WVCgbz0UFYxffemtwKSUN2tWy10K4eSL
+   IE89/Q5dno5yFd/VU9KdWEavp0kZG0yUwL9I4uhYYcz2/ZvQvS8vd6iDM
+   rEE3scj3BbApgdrNE7awOJPXU6by8d2IUP282F/zNYCfbyE/UDuSYUHWL
+   2wxcTnDNDFqBNCDFAx0TilW5rlJMyRbyEFDiAVYg5/04xXWeqO27zhXW2
    w==;
-X-CSE-ConnectionGUID: WGxa7YNgQp+p0ml92+SnJw==
-X-CSE-MsgGUID: oa/DUThQQNGgCcRS/0g/Fw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="62748473"
+X-CSE-ConnectionGUID: sJTxxS4lSGyd2gyZungLqA==
+X-CSE-MsgGUID: 3XFA51PfSxOStlF3tCIZWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="39991249"
 X-IronPort-AV: E=Sophos;i="6.13,285,1732608000"; 
-   d="scan'208";a="62748473"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 04:37:13 -0800
-X-CSE-ConnectionGUID: LB759n1cSfW+pJZyviUEog==
-X-CSE-MsgGUID: efJttU9MRleC2G7XA/iF7g==
+   d="scan'208";a="39991249"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 04:37:17 -0800
+X-CSE-ConnectionGUID: VzZ685RdSe60HU6ke8y7SA==
+X-CSE-MsgGUID: tEJdoo14QkGVJYfPvBgKyg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150624150"
+X-IronPort-AV: E=Sophos;i="6.13,285,1732608000"; 
+   d="scan'208";a="118555316"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Feb 2025 04:37:11 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 14 Feb 2025 04:37:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiuwP-0019Xf-06;
+	id 1tiuwP-0019Xl-0Q;
 	Fri, 14 Feb 2025 12:37:09 +0000
-Date: Fri, 14 Feb 2025 20:36:24 +0800
+Date: Fri, 14 Feb 2025 20:36:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Gospodarek <gospo@broadcom.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dave Jiang <dave.jiang@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [djiang:cxl/fwctl 10/25] drivers/fwctl/bnxt/bnxt.c:163:18: error:
- expected ';' after top level declarator
-Message-ID: <202502142014.N6TWWchD-lkp@intel.com>
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1924/1924] mm/page_cache_limit.c:35:5: warning:
+ no previous prototype for function 'cache_reclaim_enable_handler'
+Message-ID: <202502142012.QOB8Lff2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,193 +62,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
-head:   368060188b78ad57197303bbffb78081837a7481
-commit: 7b83e1a83f6e78333aa6f558fcd84cbc3d7cbe47 [10/25] fwctl/bnxt: Support communicating with bnxt fw
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20250214/202502142014.N6TWWchD-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142014.N6TWWchD-lkp@intel.com/reproduce)
+Hi Ze,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   254b433462607f511039b75693d9314822538f20
+commit: 621647ce254f1d347ae9bc3d328c09cbb2732487 [1924/1924] mm: support periodical memory reclaim
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250214/202502142012.QOB8Lff2-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142012.QOB8Lff2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142014.N6TWWchD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142012.QOB8Lff2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/fwctl/bnxt/bnxt.c:8:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   In file included from mm/page_cache_limit.c:6:
+   In file included from include/linux/mm.h:2181:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
+     509 |                            item];
          |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/fwctl/bnxt/bnxt.c:12:
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:1689:35: error: field has incomplete type 'struct hwrm_port_phy_qcfg_output'
-    1689 |         struct hwrm_port_phy_qcfg_output phy_qcfg_resp;
-         |                                          ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:1689:9: note: forward declaration of 'struct hwrm_port_phy_qcfg_output'
-    1689 |         struct hwrm_port_phy_qcfg_output phy_qcfg_resp;
-         |                ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:1970:35: error: use of undeclared identifier 'FUNC_BACKING_STORE_QCAPS_V2_REQ_TYPE_RIGP1_TRACE'
-    1970 |         struct bnxt_ctx_mem_type        ctx_arr[BNXT_CTX_V2_MAX];
-         |                                                 ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:1962:26: note: expanded from macro 'BNXT_CTX_V2_MAX'
-    1962 | #define BNXT_CTX_V2_MAX (BNXT_CTX_RIGP1 + 1)
-         |                          ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:1958:24: note: expanded from macro 'BNXT_CTX_RIGP1'
-    1958 | #define BNXT_CTX_RIGP1  FUNC_BACKING_STORE_QCAPS_V2_REQ_TYPE_RIGP1_TRACE
-         |                         ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:2399:20: error: use of undeclared identifier 'HW_HASH_KEY_SIZE'
-    2399 |         u8                      rss_hash_key[HW_HASH_KEY_SIZE];
-         |                                              ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:2540:29: error: field has incomplete type 'struct hwrm_ver_get_output'
-    2540 |         struct hwrm_ver_get_output      ver_resp;
-         |                                         ^
-   arch/riscv/include/../../../drivers/net/ethernet/broadcom/bnxt/bnxt.h:2540:9: note: forward declaration of 'struct hwrm_ver_get_output'
-    2540 |         struct hwrm_ver_get_output      ver_resp;
-         |                ^
-   drivers/fwctl/bnxt/bnxt.c:74:13: error: incomplete definition of type 'struct input'
-      74 |         switch (req->req_type) {
-         |                 ~~~^
-   drivers/fwctl/bnxt/bnxt.c:72:9: note: forward declaration of 'struct input'
-      72 |         struct input *req = (struct input *)hwrm_in->msg;
-         |                ^
-   drivers/fwctl/bnxt/bnxt.c:75:7: error: use of undeclared identifier 'HWRM_VER_GET'
-      75 |         case HWRM_VER_GET:
-         |              ^
->> drivers/fwctl/bnxt/bnxt.c:163:18: error: expected ';' after top level declarator
-     163 | MODULE_IMPORT_NS(BNXT);
-         |                  ^
-   drivers/fwctl/bnxt/bnxt.c:164:18: error: expected ';' after top level declarator
-     164 | MODULE_IMPORT_NS(FWCTL);
-         |                  ^
-   3 warnings and 8 errors generated.
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> mm/page_cache_limit.c:35:5: warning: no previous prototype for function 'cache_reclaim_enable_handler' [-Wmissing-prototypes]
+      35 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
+         |     ^
+   mm/page_cache_limit.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      35 | int cache_reclaim_enable_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+>> mm/page_cache_limit.c:51:5: warning: no previous prototype for function 'cache_reclaim_sysctl_handler' [-Wmissing-prototypes]
+      51 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
+         |     ^
+   mm/page_cache_limit.c:51:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      51 | int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
+         | ^
+         | static 
+   7 warnings generated.
 
 
-vim +163 drivers/fwctl/bnxt/bnxt.c
+vim +/cache_reclaim_enable_handler +35 mm/page_cache_limit.c
 
-    56	
-    57	/*
-    58	 * bnxt_fw_msg->msg has the whole command
-    59	 * the start of message is of type struct input
-    60	 * struct input {
-    61	 *         __le16  req_type;
-    62	 *         __le16  cmpl_ring;
-    63	 *         __le16  seq_id;
-    64	 *         __le16  target_id;
-    65	 *         __le64  resp_addr;
-    66	 * };
-    67	 * so the hwrm op should be (struct input *)(hwrm_in->msg)->req_type
-    68	 */
-    69	static bool bnxtctl_validate_rpc(struct fwctl_uctx *uctx,
-    70					 struct bnxt_fw_msg *hwrm_in)
-    71	{
-    72		struct input *req = (struct input *)hwrm_in->msg;
-    73	
-  > 74		switch (req->req_type) {
-    75		case HWRM_VER_GET:
-    76			return true;
-    77		default:
-    78			return false;
-    79		}
-    80	}
-    81	
-    82	static void *bnxtctl_fw_rpc(struct fwctl_uctx *uctx, enum fwctl_rpc_scope scope,
-    83				    void *in, size_t in_len, size_t *out_len)
-    84	{
-    85		struct bnxtctl_dev *bnxtctl =
-    86			container_of(uctx->fwctl, struct bnxtctl_dev, fwctl);
-    87		struct bnxt_aux_priv *bnxt_aux_priv = bnxtctl->aux_priv;
-    88		/* FIXME: Check me */
-    89		struct bnxt_fw_msg rpc_in = {
-    90			// FIXME: does bnxt_send_msg() copy?
-    91			.msg = in,
-    92			.msg_len = in_len,
-    93			.resp = in,
-    94			// FIXME: Dynamic memory for out_len
-    95			.resp_max_len = in_len,
-    96		};
-    97		int rc;
-    98	
-    99		if (!bnxtctl_validate_rpc(uctx, &rpc_in))
-   100			return ERR_PTR(-EPERM);
-   101	
-   102		rc = bnxt_send_msg(bnxt_aux_priv->edev, &rpc_in);
-   103		if (!rc)
-   104			return ERR_PTR(-EOPNOTSUPP);
-   105		return in;
-   106	}
-   107	
-   108	static const struct fwctl_ops bnxtctl_ops = {
-   109		.device_type = FWCTL_DEVICE_TYPE_BNXT,
-   110		.uctx_size = sizeof(struct bnxtctl_uctx),
-   111		.open_uctx = bnxtctl_open_uctx,
-   112		.close_uctx = bnxtctl_close_uctx,
-   113		.info = bnxtctl_info,
-   114		.fw_rpc = bnxtctl_fw_rpc,
-   115	};
-   116	
-   117	static int bnxtctl_probe(struct auxiliary_device *adev,
-   118				 const struct auxiliary_device_id *id)
-   119	{
-   120		struct bnxt_aux_priv *aux_priv =
-   121			container_of(adev, struct bnxt_aux_priv, aux_dev);
-   122		struct bnxtctl_dev *bnxtctl __free(bnxtctl) =
-   123			fwctl_alloc_device(&aux_priv->edev->pdev->dev, &bnxtctl_ops,
-   124					   struct bnxtctl_dev, fwctl);
-   125		int rc;
-   126	
-   127		if (!bnxtctl)
-   128			return -ENOMEM;
-   129	
-   130		bnxtctl->aux_priv = aux_priv;
-   131	
-   132		rc = fwctl_register(&bnxtctl->fwctl);
-   133		if (rc)
-   134			return rc;
-   135	
-   136		auxiliary_set_drvdata(adev, no_free_ptr(bnxtctl));
-   137		return 0;
-   138	}
-   139	
-   140	static void bnxtctl_remove(struct auxiliary_device *adev)
-   141	{
-   142		struct bnxtctl_dev *ctldev = auxiliary_get_drvdata(adev);
-   143	
-   144		fwctl_unregister(&ctldev->fwctl);
-   145		fwctl_put(&ctldev->fwctl);
-   146	}
-   147	
-   148	static const struct auxiliary_device_id bnxtctl_id_table[] = {
-   149		{ .name = "bnxt_en.fwctl", },
-   150		{},
-   151	};
-   152	MODULE_DEVICE_TABLE(auxiliary, bnxtctl_id_table);
-   153	
-   154	static struct auxiliary_driver bnxtctl_driver = {
-   155		.name = "bnxt_fwctl",
-   156		.probe = bnxtctl_probe,
-   157		.remove = bnxtctl_remove,
-   158		.id_table = bnxtctl_id_table,
-   159	};
-   160	
-   161	module_auxiliary_driver(bnxtctl_driver);
-   162	
- > 163	MODULE_IMPORT_NS(BNXT);
+    34	
+  > 35	int cache_reclaim_enable_handler(struct ctl_table *table, int write,
+    36				void *buffer, size_t *length, loff_t *ppos)
+    37	{
+    38		int ret;
+    39	
+    40		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
+    41		if (ret || !write)
+    42			return ret;
+    43	
+    44		if (should_periodical_reclaim())
+    45			schedule_delayed_work(&shepherd, round_jiffies_relative(
+    46				(unsigned long)vm_cache_reclaim_s * HZ));
+    47	
+    48		return 0;
+    49	}
+    50	
+  > 51	int cache_reclaim_sysctl_handler(struct ctl_table *table, int write,
+    52			void *buffer, size_t *length, loff_t *ppos)
+    53	{
+    54		int ret;
+    55	
+    56		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
+    57		if (ret || !write)
+    58			return ret;
+    59	
+    60		if (should_periodical_reclaim())
+    61			mod_delayed_work(system_unbound_wq, &shepherd,
+    62					round_jiffies_relative(
+    63					(unsigned long)vm_cache_reclaim_s * HZ));
+    64	
+    65		return ret;
+    66	}
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
