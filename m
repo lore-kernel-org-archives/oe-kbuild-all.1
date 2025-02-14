@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F37625D548
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 12:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D419263C9F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 12:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739535925; cv=none; b=DVPBeWBcmG8LaHavYTP2eg3ySX9KYvOX8I4Z0Pz0QtowmZodxyXClnSxQ3yJfrY19lEp9EX89ipHqsm36GfNtmGgo8AJHnavird/XIgHk7WTSD9iadOsDbJkBtEUpqFB5VArfW2F/BalffsyFIxzpoxxjbJIzzpKI+k+yoYI3SE=
+	t=1739535927; cv=none; b=CojNFQQUQRoa6WjfV2FX9UE8BU5mzs7wGbGSWE8UuA7OdGCPEvEGUD0ZRrZpVZN1YTAusJEXiMts5Weda0UcjVOYQyEVjhjJQXEb8d5zCq/i9sNHk5ZrqbtSrvQWCrW1IB/Kn/4Bwy4pxxs+QmlYWzTI402cOLUBXmIT5LwCTl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739535925; c=relaxed/simple;
-	bh=gJ2f75TYkfWCn89Wfjliu35MKSOjKiT5h4bWv84/WmU=;
+	s=arc-20240116; t=1739535927; c=relaxed/simple;
+	bh=Uw2qgI7EBwp98+on6iMTcHmBI564tkvcj6mfNFuhcVg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DfkAvJYswdLpZIdpgUPqNHCWMx0xiDoyytugF6JWbZPpg9wevpxa6vHOSMNMfWLmQnGSI0WHVgcQvipkggX9zlRCY+wZyMEHV4YyJs6hWoYJijwMIv5ynArjDb2+9qyhvNGXaDyDUrRyLyKLBfjS7W0oJ1uIG7vuSTTtXn1B6Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AmEYlY/5; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ubXslrGi7omrAewzczXTz3U6LbjIQSF+Wp0XoV+tbvz74xcF1tF0uO+1GEGirJHCQZ0fo8kBsY76yKbY4JdCvmAFYdJOr7GXEZ26yMXH2nCujRDB3m2ORK/JT3P4PvI0JuITQ/FVM2GtGucNM+avHdYHm2Kqd1f7t9vPzoleIJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Glj69R0l; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AmEYlY/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Glj69R0l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739535923; x=1771071923;
+  t=1739535925; x=1771071925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gJ2f75TYkfWCn89Wfjliu35MKSOjKiT5h4bWv84/WmU=;
-  b=AmEYlY/5sADdA/nqDMuZ8UMl3eMPABtBxhHtt4QKaktcKX9R2qpXC7ND
-   IJ9Ea8ozfMCaQe1v/upAhyHtuFmQ7OdBC2H65RqoetawTQFZO5BRR/RMp
-   VsOLMGj0CZsbEs6LbZdc1lNqoIF0mchvuHq6AqaiEhVF3Iznf/1jacOMr
-   Ib2Q3WwhJjpMVyIfihoxa99lN+dslbkYlhJWXBTr1YJPfMnO8thGUcxgz
-   AHU9wZrt4Syt5PjaLTX7VwDjV+3Bw5RPKBQRj8Mye3O2HKocggWeTQhXt
-   PjlFcHEiuFek1WhXf9oH0p9WL1IJ3N7KKeOEaST/zuJYMXOnsronShwD0
-   w==;
-X-CSE-ConnectionGUID: IYk3LFm+Tfm0kULVmP1vPg==
-X-CSE-MsgGUID: PXhs4IwvTQmvLGI5neKwWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40316931"
+  bh=Uw2qgI7EBwp98+on6iMTcHmBI564tkvcj6mfNFuhcVg=;
+  b=Glj69R0lspZYhncei652+Kym8Bq3M0/NxlUoGNPzG6kfgdcHCfuNEIfL
+   jCx7NKnXlm4gA6ofFmA8PopXAPFivGaqmhk1F/DYLutSBz7A2+jwrv0SU
+   dcTowAEQYUbx5E5OpiJEye9juLlJ73NgAL11EkLkO+roai2otQdXb4ZBO
+   zCgfk+zMyUrJN9y8Fma2GYphehhr258xv9kUxSBNgpuhzTxLXX64y9L7e
+   QJMU8K2eJrWm9c5/TzU/s1OEQNgRGqdf2f+htJvG9HtjRzyCqU2vggtO3
+   4ukkRObjiC+SYp/2StkM49Hf3xctyQp0GnkkXSti1Fqlq2iTDGTZiFtgs
+   Q==;
+X-CSE-ConnectionGUID: 0KPO2glsTHmSOWNfvMiEYA==
+X-CSE-MsgGUID: cR3Brk+tSFeljDzc7ydYxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40316933"
 X-IronPort-AV: E=Sophos;i="6.13,285,1732608000"; 
-   d="scan'208";a="40316931"
+   d="scan'208";a="40316933"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 04:25:10 -0800
-X-CSE-ConnectionGUID: v0XhS4IORzSqwCiLhIsVyA==
-X-CSE-MsgGUID: qzFWgN+vTkueIY46XGJY7g==
+X-CSE-ConnectionGUID: JkN3lXo3QweEFcwV68Ne1Q==
+X-CSE-MsgGUID: 9fHUcBvdQ8G7eGo3D5kPlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,285,1732608000"; 
-   d="scan'208";a="113181399"
+   d="scan'208";a="113181402"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Feb 2025 04:25:09 -0800
+  by orviesa009.jf.intel.com with ESMTP; 14 Feb 2025 04:25:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiukl-0019XD-1C;
+	id 1tiukl-0019XG-1Q;
 	Fri, 14 Feb 2025 12:25:07 +0000
-Date: Fri, 14 Feb 2025 20:24:51 +0800
+Date: Fri, 14 Feb 2025 20:24:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:folio-mk-pte 10/10] include/linux/mm.h:1938:16:
- error: implicit declaration of function 'pfn_pte'
-Message-ID: <202502142011.16ePxdej-lkp@intel.com>
+Subject: [willy-pagecache:folio-mk-pte 10/10] include/linux/mm.h:1938:9:
+ error: call to undeclared function 'pfn_pte'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202502142049.EqSuSt3B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,29 +66,29 @@ Content-Disposition: inline
 tree:   git://git.infradead.org/users/willy/pagecache folio-mk-pte
 head:   67fcb49ae3b2d66d35862b2be955f193b8f204c0
 commit: 67fcb49ae3b2d66d35862b2be955f193b8f204c0 [10/10] mm: Add folio_mk_pte()
-config: arm-randconfig-002-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142011.16ePxdej-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142011.16ePxdej-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142049.EqSuSt3B-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142049.EqSuSt3B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142011.16ePxdej-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142049.EqSuSt3B-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    In file included from arch/arm/kernel/asm-offsets.c:12:
-   include/linux/mm.h: In function 'folio_mk_pte':
->> include/linux/mm.h:1938:16: error: implicit declaration of function 'pfn_pte' [-Wimplicit-function-declaration]
-    1938 |         return pfn_pte(folio_pfn(folio), pgprot);
-         |                ^~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=2018612442
+>> include/linux/mm.h:1938:9: error: call to undeclared function 'pfn_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           return pfn_pte(folio_pfn(folio), pgprot);
+                  ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:102: arch/arm/kernel/asm-offsets.s] Error 1 shuffle=1883943376
    make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=2018612442
+   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=1883943376
    make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=2018612442
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=1883943376
    make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=2018612442
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=1883943376
    make: Target 'prepare' not remade because of errors.
 
 
