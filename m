@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D92826772F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 16:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E792F5A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 16:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739550044; cv=none; b=WQc5xzj86+w8Mz6YWPc63F2Jqol9k8y1qON+fiOT4BwjNg6V+F7fJmarnzsA0QzPOGMD0ExneiCwNwbbjZbNxdWZVpVXZy5AZOx1OCi2k2X8AVQLwz21a6pL4db0i6TgZhp702rGbcopIN6nJ4aPlCzDfJKI+9U7ubt2+ngBiKk=
+	t=1739551907; cv=none; b=Zovrs+pa30zu6PJIuu8Upnb7dISJhJAEQnWl1s+RymTjy5carFuCggiJjnc1jfEJx3l4mAPp6cDxauXguqwrZ0N2nRg5j3NT9zYC0fuMKN/vlEyd6MPSdc6qD0d3VX2Znqmc9yYIY4ljIzMDIWSTvALK4oeb9llZsFXB1kmkcdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739550044; c=relaxed/simple;
-	bh=kNGUNc1MKVoBIXrh+HaIaylzin+VDhGEHfwFXojLAWw=;
+	s=arc-20240116; t=1739551907; c=relaxed/simple;
+	bh=wAH4+FFY/kSf+2GgBy4TFxUf6E3f1elQSzM5RnrtTmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pljgJrX+5RJz7FxWVtQtFp4mUUF1jG5luoGHUwcwLuOLpsfRExQ5yB5frImrj+rlRTZfF0PdBFEVY2qqzvklUeC0DZjjFDRp/houxQJqamvEEhRfBNgqci4JRMyHUhPnsJOWT/1we+b0QbOj5WeI8XC8Zz2SDpOu2YwZ2Fwvjj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIUezjSJ; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=h3VA8xEgsXd83Ou7oANotX2nJYlLMcfm1SHHHO0OqaQsNfudpnkzp01fyNamkRDknaTXheMjnZQm926St2BYC9Or6yYFSlRwXBqVZBecYeyVejFqcXMgQn8X/WvlB6ymfzt0dq95jDDk60xk+CsjpyLxv0n+kAI0XESBv3t84AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DO++JQSZ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIUezjSJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DO++JQSZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739550043; x=1771086043;
+  t=1739551905; x=1771087905;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kNGUNc1MKVoBIXrh+HaIaylzin+VDhGEHfwFXojLAWw=;
-  b=FIUezjSJsMs4VBTb95TZngU0UyaMAH2M32nFlU5MnlutMS1AutC0g1dp
-   QGxMXf7MvwI98ImP5oAgG1V/3FUBWOj3BJKG7z/AVL6QuM6hYEvMzg4Ud
-   o5/zjl5Midfv5t+WIflEETf9ACw2D8dIzNToQbrVJTPLsMB6oZK74SvbB
-   e2JKvlke8gWs84Q6FTEWGnsT0TaOMRMyYEGf2HF86gEd+yjqB5e8cGMjt
-   1F4pBTYIKQSDKXbGu1yhgSXXAznORbdPXYgpZjlXgj8RqLvmYVylpoqnx
-   WrHkkJocmKq+QYiv0m4oqyp5UwE8kzV1h+p/jTFWQxPLmxGZgY5qN2Da2
+  bh=wAH4+FFY/kSf+2GgBy4TFxUf6E3f1elQSzM5RnrtTmI=;
+  b=DO++JQSZ1wm/SQHn501KeqR4wLjezuxbPMSBH3O5dWHGU9Lxw+kKuMBU
+   1YUmBRhcPnXh+fmVWM64sl8gzanQSkn1ivw9ftIJ48OjxpaVb3gTd++XM
+   Eh2YGzd9mQS6cSlVqMXPJOqXpHKP+QXSJk9ZGkMUV6KQnudAEvSebJa3V
+   q0FXSt3QlIjA0VUYfhzyTWDWWpMaIk3NEuagRj72+tu7twBIeLVXjFqOo
+   hWDFxhdkYKWMc4+MtvNC34vR5j8BnJOu7ykIr8I+XwwEgJyKqi4KCzPg3
+   S0ddJx2InBsXMZnMZieqt06a2J7tf0+bN2k3/gVBfT6o0BjrV6jMnQdVN
    w==;
-X-CSE-ConnectionGUID: BR7feOm6QFm7CpMXb4s/Fw==
-X-CSE-MsgGUID: 1nTHRIbdRQiAuc4otGdJYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40571725"
+X-CSE-ConnectionGUID: 2yAIwnvzS2ulJryD0+bgeQ==
+X-CSE-MsgGUID: pS2bi29CTMG2NH0jJoJ4zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="57713405"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="40571725"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 08:20:42 -0800
-X-CSE-ConnectionGUID: M0Hgq+EeRoeLpgtHXUzViA==
-X-CSE-MsgGUID: 9TGy4J4cRPyNCpXx/CFJ6A==
+   d="scan'208";a="57713405"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 08:51:45 -0800
+X-CSE-ConnectionGUID: VShLoACfTy++7Vx0oo/htQ==
+X-CSE-MsgGUID: mlbKGPZqRQ+TmkkWaTV2MQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="118608573"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114410442"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Feb 2025 08:20:40 -0800
+  by orviesa008.jf.intel.com with ESMTP; 14 Feb 2025 08:51:44 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tiyQf-0019r5-1k;
-	Fri, 14 Feb 2025 16:20:37 +0000
-Date: Sat, 15 Feb 2025 00:19:41 +0800
+	id 1tiyuj-0019tt-2t;
+	Fri, 14 Feb 2025 16:51:41 +0000
+Date: Sat, 15 Feb 2025 00:51:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [usb:usb-testing 35/52] sound/soc/soc-usb.c:105: warning: bad line:
-Message-ID: <202502150046.UFOZ4CQw-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 249/249]
+ mm/pgsize_migration.c:98: warning: expecting prototype for What(). Prototype
+ was for init_pgsize_migration() instead
+Message-ID: <202502150058.n8f1F2An-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   c26f6731b8da887f1fb92d4654da57a19a266466
-commit: 2ba03621a1f54cdd67274ee6e79f4b8b7559ee61 [35/52] ASoC: Add SoC USB APIs for adding an USB backend
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250215/202502150046.UFOZ4CQw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150046.UFOZ4CQw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d2ae202da688a9a795c238142e01da921b3e4b81
+commit: e79c1d45908063d1d7bc247e0e9bde6d9283a09e [249/249] ANDROID: 16K: Introduce /sys/kernel/mm/pgsize_miration/enabled
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250215/202502150058.n8f1F2An-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150058.n8f1F2An-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150046.UFOZ4CQw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502150058.n8f1F2An-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/soc-usb.c:105: warning: bad line: 
+>> mm/pgsize_migration.c:98: warning: expecting prototype for What(). Prototype was for init_pgsize_migration() instead
 
 
-vim +105 sound/soc/soc-usb.c
+vim +98 mm/pgsize_migration.c
 
-   101	
-   102	/**
-   103	 * snd_soc_usb_free_port() - free a SoC USB port used for offloading support
-   104	 * @usb: allocated SoC USB port
- > 105	
-   106	 * Free and remove the SoC USB port from the available list of ports.  This will
-   107	 * ensure that the communication between USB SND and ASoC is halted.
-   108	 *
-   109	 */
-   110	void snd_soc_usb_free_port(struct snd_soc_usb *usb)
-   111	{
-   112		snd_soc_usb_remove_port(usb);
-   113		kfree(usb);
-   114	}
-   115	EXPORT_SYMBOL_GPL(snd_soc_usb_free_port);
-   116	
+    81	
+    82	/**
+    83	 * What:          /sys/kernel/mm/pgsize_migration/enabled
+    84	 * Date:          April 2024
+    85	 * KernelVersion: v5.4+ (GKI kernels)
+    86	 * Contact:       Kalesh Singh <kaleshsingh@google.com>
+    87	 * Description:   /sys/kernel/mm/pgsize_migration/enabled
+    88	 *                allows for userspace to turn on or off page size
+    89	 *                migration mitigations necessary for app compatibility
+    90	 *                during Android's transition from 4kB to 16kB page size.
+    91	 *                Such mitigations include preserving /proc/<pid>/[s]maps
+    92	 *                output as if there was no segment extension by the
+    93	 *                dynamic loader; and preventing fault around in the padding
+    94	 *                sections of ELF LOAD segment mappings.
+    95	 * Users:         Bionic's dynamic linker
+    96	 */
+    97	static int __init init_pgsize_migration(void)
+  > 98	{
 
 -- 
 0-DAY CI Kernel Test Service
