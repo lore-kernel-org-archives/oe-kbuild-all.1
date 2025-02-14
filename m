@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4507326618E;
-	Fri, 14 Feb 2025 15:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC25266F19
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 15:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739547098; cv=none; b=gcUW7jKu2o+Tzy+c+vsZdAHLS9HgQWi5BR81DnAKJn/XKppXnvtG5B1yZDBkpIJmaV1aCcq9K0PjiOk/8UwhtTFOvwMbygEnv5D/zFc00jEJ7DE5J6kMmj+p9FVVZst5sBCA0AjrXbrECLCvwlkYn3JPrmOXIoJtr8DGoEUGvRs=
+	t=1739547818; cv=none; b=azgE5KCUh07KKpwq2h5vyEjN9aEA3s2hh+1TkIfH405hn7M5l3tAIrK6X5v31GRgIucfM5JvW6UN4XAjTJqyXLIlOYpwllu1hwbV5DCJaJRlX1WSm4rEdnvSi5cDLAGZdZhfprHjKyOhaVkUn43Mb6JWoo+7ty2xJVo+Iq26pfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739547098; c=relaxed/simple;
-	bh=7P5KfUUs2ZOeZWd7glFomIFleZsfHmdy42H1Kar+cJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jdBkjrU6W/4QRzVFXZ8uDmEIKo/nhv4d4L+uDuzjTdKZ9yq22DuQC5lWM8zae8NRx71+8aKgET5qyDUQ8TGdgyLZF9Eq/dJsmDPRpE9qGtz3i02WYZ+nlcVGXhjWKXN+oddzw0Y+AilS1YliLghqPpsvZwzZtv498IiAFHFXVS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOPWJHR7; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1739547818; c=relaxed/simple;
+	bh=KltGkB9TtXKE2r+Bq9fxzoh/zTYv2xuo++SpBz3qOXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QSnQgBnZUS4AJYCVLsUoljEbq7V2sIO/7WtM4pA/9hBwRz8Nm4QSG9gSFWiaCDoCnmtlkVnTkhkabHr9fMViF6EnZXTejSRkFZkE3vRjUoRqf6l2JNM5nYYXDgM5O0cl5hKtIHcf+7JV1OGVcnUaoPgePMwQAL6U+lD5spoLEiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jx8Avfrq; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOPWJHR7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jx8Avfrq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739547096; x=1771083096;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7P5KfUUs2ZOeZWd7glFomIFleZsfHmdy42H1Kar+cJk=;
-  b=FOPWJHR7N4bvNJb28j4xSoATD1UCNAU024LGUoV1a4BPkBnb3K1HXUkE
-   FLnBkjUnHIj9tc3LElXDvgZmoHdYAYWrpU4F0ghDt8LAOq+1iFtD3MWxA
-   K3AHuwdbTN6M52gFVVJ2AuOsF+uu4gWSdrCYT0oWEx3OZicho3kjuQTwM
-   h66TZyJXEme757VlV/E2aHn/16ZG21/wDtHehxJowNFMS54KWdhTPSdRc
-   i8alEA7WweCqCac2BFwQNkPEoL90C+mLrZAvGfk3GM7fzTDIXB+pdUYWr
-   813jT4g0NIjhkJ/n4jYhOzch8og59mP1BkKvry2/a9GaLNlibA3W0n06n
-   g==;
-X-CSE-ConnectionGUID: HRCSVw/DTDq/oIqQk8vkgA==
-X-CSE-MsgGUID: GtzDlSvAThmb7oVqdGYtXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="50512359"
+  t=1739547817; x=1771083817;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KltGkB9TtXKE2r+Bq9fxzoh/zTYv2xuo++SpBz3qOXA=;
+  b=jx8AvfrqCDuPR9YbGqKHgjW7NSNo9SZJ6MqbIVRe2Gdbe8DTJNbG5cGr
+   CiwVDOnVMw43X278OVLXs2+JrWsiFCadRHI3decII3C0164lR9CmpDXjO
+   KQydEhbHRc4fqVyblsy/XeBWPlpAsXs8bkbeSvKU1oslRFEBiECpnW8sR
+   ftBgZtgCa6iHtiPSIKHLj7MWFhnzF28uPmWs6T2KP5+iObhTvPlro+XKr
+   +9U2QFX90Ne7klsRkARonLZ88jBNwqlPjANSRs8SrX+2tq4cA88Eo/fYN
+   0jwia45OKPP6YXg41aVISJjJfMyn1PSYf4AqVLXRTNobY88iGQshBH9hK
+   Q==;
+X-CSE-ConnectionGUID: Yod12WDFTH+Ly9A97HIgnQ==
+X-CSE-MsgGUID: aEM9zcylSyWbG3bk5sg+GQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40225766"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="50512359"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:31:36 -0800
-X-CSE-ConnectionGUID: CR1ia8JuS++UWH5gInrNzg==
-X-CSE-MsgGUID: VFwFGR/cS1q9lN4KptVY/Q==
+   d="scan'208";a="40225766"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:43:36 -0800
+X-CSE-ConnectionGUID: nnttX+/bT6aC46YeHmVboA==
+X-CSE-MsgGUID: 4ndhhaFiQN+KYDGkzAXXcw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="118416806"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="113685186"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Feb 2025 07:31:32 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2025 07:43:35 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tixf8-0019m7-19;
-	Fri, 14 Feb 2025 15:31:30 +0000
-Date: Fri, 14 Feb 2025 23:31:18 +0800
+	id 1tixqn-0019nc-02;
+	Fri, 14 Feb 2025 15:43:33 +0000
+Date: Fri, 14 Feb 2025 23:42:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anjelique Melendez <anjelique.melendez@oss.qualcomm.com>,
-	amitk@kernel.org, thara.gopinath@gmail.com, rafael@kernel.org,
-	daniel.lezcano@linaro.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rui.zhang@intel.com, lukasz.luba@arm.com,
-	david.collins@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] thermal: qcom-spmi-temp-alarm: add support for LITE
- PMIC peripherals
-Message-ID: <202502142339.NmW9FTBM-lkp@intel.com>
-References: <20250213210403.3396392-5-anjelique.melendez@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1] mm/swap.c:488: warning: Function
+ parameter or member 'vma_flags' not described in
+ '__lru_cache_add_inactive_or_unevictable'
+Message-ID: <202502142334.yjABZDws-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,122 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250213210403.3396392-5-anjelique.melendez@oss.qualcomm.com>
 
-Hi Anjelique,
+Hi Laurent,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v6.14-rc2 next-20250214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anjelique-Melendez/thermal-qcom-spmi-temp-alarm-enable-stage-2-shutdown-when-required/20250214-050700
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20250213210403.3396392-5-anjelique.melendez%40oss.qualcomm.com
-patch subject: [PATCH 4/4] thermal: qcom-spmi-temp-alarm: add support for LITE PMIC peripherals
-config: i386-buildonly-randconfig-003-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142339.NmW9FTBM-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142339.NmW9FTBM-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   6b7c856caf89f4b82af7af2bb7d09b8c1112730b
+commit: cbff8f39079ffd607e894aede8590d69cb6ba803 [1/1] FROMLIST: mm: introduce __lru_cache_add_active_or_unevictable
+config: arm-randconfig-002-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142334.yjABZDws-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142334.yjABZDws-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142339.NmW9FTBM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142334.yjABZDws-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:196:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     196 |         return FIELD_GET(STATUS_GEN1_STAGE_MASK, reg);
-         |                ^
-   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:217:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     217 |         ret = FIELD_GET(STATUS_GEN2_STATE_MASK, reg);
-         |               ^
->> drivers/thermal/qcom/qcom-spmi-temp-alarm.c:477:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     477 |         reg |= FIELD_PREP(LITE_TEMP_CFG_THRESHOLD_MASK, thresh);
-         |                ^
-   drivers/thermal/qcom/qcom-spmi-temp-alarm.c:634:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     634 |         thresh = FIELD_GET(LITE_TEMP_CFG_THRESHOLD_MASK, reg);
-         |                  ^
-   4 errors generated.
+>> mm/swap.c:488: warning: Function parameter or member 'vma_flags' not described in '__lru_cache_add_inactive_or_unevictable'
+>> mm/swap.c:488: warning: Excess function parameter 'vma' description in '__lru_cache_add_inactive_or_unevictable'
 
 
-vim +/FIELD_PREP +477 drivers/thermal/qcom/qcom-spmi-temp-alarm.c
+vim +488 mm/swap.c
 
-   418	
-   419	static int qpnp_tm_lite_set_temp_thresh(struct qpnp_tm_chip *chip, int trip, int temp)
-   420	{
-   421		int ret, temp_cfg, i;
-   422		const long *temp_map;
-   423		u16 addr;
-   424		u8 reg, thresh;
-   425	
-   426		if (trip < 0 || trip >= STAGE_COUNT) {
-   427			dev_err(chip->dev, "invalid TEMP_LITE trip = %d\n", trip);
-   428			return -EINVAL;
-   429		}
-   430	
-   431		switch (trip) {
-   432		case 0:
-   433			temp_map = temp_lite_warning_map;
-   434			addr = QPNP_TM_REG_LITE_TEMP_CFG1;
-   435			break;
-   436		case 1:
-   437			/*
-   438			 * The second trip point is purely in software to facilitate
-   439			 * a controlled shutdown after the warning threshold is crossed
-   440			 * but before the automatic hardware shutdown threshold is
-   441			 * crossed.
-   442			 */
-   443			return 0;
-   444		case 2:
-   445			temp_map = temp_lite_shutdown_map;
-   446			addr = QPNP_TM_REG_LITE_TEMP_CFG2;
-   447			break;
-   448		default:
-   449			return 0;
-   450		}
-   451	
-   452		if (temp < temp_map[THRESH_MIN] || temp > temp_map[THRESH_MAX]) {
-   453			dev_err(chip->dev, "invalid TEMP_LITE temp = %d\n", temp);
-   454			return -EINVAL;
-   455		}
-   456	
-   457		thresh = 0;
-   458		temp_cfg = temp_map[thresh];
-   459		for (i = THRESH_MAX; i >= THRESH_MIN; i--) {
-   460			if (temp >= temp_map[i]) {
-   461				thresh = i;
-   462				temp_cfg = temp_map[i];
-   463				break;
-   464			}
-   465		}
-   466	
-   467		if (temp_cfg == chip->temp_thresh_map[trip])
-   468			return 0;
-   469	
-   470		ret = qpnp_tm_read(chip, addr, &reg);
-   471		if (ret < 0) {
-   472			dev_err(chip->dev, "LITE_TEMP_CFG read failed, ret=%d\n", ret);
-   473			return ret;
-   474		}
-   475	
-   476		reg &= ~LITE_TEMP_CFG_THRESHOLD_MASK;
- > 477		reg |= FIELD_PREP(LITE_TEMP_CFG_THRESHOLD_MASK, thresh);
-   478	
-   479		ret = qpnp_tm_write(chip, addr, reg);
-   480		if (ret < 0) {
-   481			dev_err(chip->dev, "LITE_TEMP_CFG write failed, ret=%d\n", ret);
-   482			return ret;
-   483		}
-   484	
-   485		chip->temp_thresh_map[trip] = temp_cfg;
-   486	
-   487		return 0;
-   488	}
-   489	
+^1da177e4c3f41 Linus Torvalds  2005-04-16  477  
+00501b531c4723 Johannes Weiner 2014-08-08  478  /**
+b518154e59aab3 Joonsoo Kim     2020-08-11  479   * lru_cache_add_inactive_or_unevictable
+00501b531c4723 Johannes Weiner 2014-08-08  480   * @page:  the page to be added to LRU
+00501b531c4723 Johannes Weiner 2014-08-08  481   * @vma:   vma in which page is mapped for determining reclaimability
+00501b531c4723 Johannes Weiner 2014-08-08  482   *
+b518154e59aab3 Joonsoo Kim     2020-08-11  483   * Place @page on the inactive or unevictable LRU list, depending on its
+12eab4289d3203 Miaohe Lin      2020-10-13  484   * evictability.
+00501b531c4723 Johannes Weiner 2014-08-08  485   */
+cbff8f39079ffd Laurent Dufour  2018-04-17  486  void __lru_cache_add_inactive_or_unevictable(struct page *page,
+cbff8f39079ffd Laurent Dufour  2018-04-17  487  					 unsigned long vma_flags)
+00501b531c4723 Johannes Weiner 2014-08-08 @488  {
+b518154e59aab3 Joonsoo Kim     2020-08-11  489  	bool unevictable;
+b518154e59aab3 Joonsoo Kim     2020-08-11  490  
+00501b531c4723 Johannes Weiner 2014-08-08  491  	VM_BUG_ON_PAGE(PageLRU(page), page);
+00501b531c4723 Johannes Weiner 2014-08-08  492  
+cbff8f39079ffd Laurent Dufour  2018-04-17  493  	unevictable = (vma_flags & (VM_LOCKED | VM_SPECIAL)) == VM_LOCKED;
+b518154e59aab3 Joonsoo Kim     2020-08-11  494  	if (unlikely(unevictable) && !TestSetPageMlocked(page)) {
+0964730bf46b4e Hugh Dickins    2020-09-18  495  		int nr_pages = thp_nr_pages(page);
+00501b531c4723 Johannes Weiner 2014-08-08  496  		/*
+00501b531c4723 Johannes Weiner 2014-08-08  497  		 * We use the irq-unsafe __mod_zone_page_stat because this
+00501b531c4723 Johannes Weiner 2014-08-08  498  		 * counter is not modified from interrupt context, and the pte
+00501b531c4723 Johannes Weiner 2014-08-08  499  		 * lock is held(spinlock), which implies preemption disabled.
+00501b531c4723 Johannes Weiner 2014-08-08  500  		 */
+0964730bf46b4e Hugh Dickins    2020-09-18  501  		__mod_zone_page_state(page_zone(page), NR_MLOCK, nr_pages);
+0964730bf46b4e Hugh Dickins    2020-09-18  502  		count_vm_events(UNEVICTABLE_PGMLOCKED, nr_pages);
+00501b531c4723 Johannes Weiner 2014-08-08  503  	}
+9c4e6b1a7027f1 Shakeel Butt    2018-02-21  504  	lru_cache_add(page);
+00501b531c4723 Johannes Weiner 2014-08-08  505  }
+00501b531c4723 Johannes Weiner 2014-08-08  506  
+
+:::::: The code at line 488 was first introduced by commit
+:::::: 00501b531c4723972aa11d6d4ebcf8d6552007c8 mm: memcontrol: rewrite charge API
+
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
