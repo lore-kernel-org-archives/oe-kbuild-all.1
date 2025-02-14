@@ -1,75 +1,59 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3792E2566D9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 15:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4CD1F92A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 15:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739545365; cv=none; b=gab9kymvM+KOe3oDII7qPqjpY3/EedlhzfIKjQKu6u6sWPqH1vctbLESG9tvzVOZrzrABc4ZURyjoVsR/bEvne3I86NrchE7T2GFF50ur3SE93aqx53RiZcPCAtntb5Fb508foESqrIJjAdYdrAty3zyVCjsxElPNB4aU0b5NSE=
+	t=1739547096; cv=none; b=gtsqwhIZw5xoMwfrEIBo/un+iUND1bJCsqYeTZXVgjwSkDOt1T8myzRrc5JzT2ktC0Gub6enBNJvdYJZYVSOC3mXZNgCJHuKk7ukhX7CDsdQkY0bOcfGrHbdouv07SNBQprhuVLzRzKERYT64pU1KIhK1hsMObfhd8Sw9NrYqkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739545365; c=relaxed/simple;
-	bh=M2AdWFZSowZKSxyzGjq/UoprlB43WGCl7x/qQuT+Z/w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fxEr2pTNtyNyKanpBOAK3CP3qwR92YBO40geK+nckbk+SVnCn4HZrEQ8mTFGX6JGojlBuLtwKeOhUi1tqqHaS4seTcvy/EcohfDBeDERUgAVSlwpBejhC7dwdW1ydQW9yTUReEK7me+w0Vi53ciEnfN0jLSKSoDTvboQdARw1M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XGTZIOO7; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739547096; c=relaxed/simple;
+	bh=lTnn1xYk02DETAjdi82AsXqIBiUX4JF6TvaXqBqDp7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r9uaXY7loMkY+hHb/DAL8qwRQBHeVxMS4XT9lksSDkU0jjJd7+aUvta0s69+miVnzWC5p9C+98RLJBC8jIyRIGMB2Z9TzcRo/yCkBlAk5/p6dRxQS3hO3QmieDbGraY5K1S/ds9nADue7mW2TQy9kU07owv0IZ0NmL7NtKPaC9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7qIzCQJ; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XGTZIOO7"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5ded51d31f1so3016214a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 07:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739545361; x=1740150161; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rN1gBf/mWgaHncz25lS93Sf5l5HPFOQDfhm85WlICA4=;
-        b=XGTZIOO7rt491BbeSa9b0vXjKVU9QqbBXaS0ZL6B36leNfYST9JpT2vN26+Jk1zW2o
-         sNf4nUTAUOcSEFGn1XGxTLK6vuZtsAMirQBXSRzQ5Hi7MR3y/f4nVUJ0VIQUWMuiRL/x
-         9i0mNuauBjZK4hSHHV9muqNRRI0ij0OhYSWU5HmpFUNMEGE3U1hnE13XnFw8RBcohnjL
-         qzqfckjxVsrE1TAUkaaSxZGlo2SKlCtg1YbKCfzMa9fG67sEFfYT/woLB5HpnHq1l2of
-         4Rv768BEQBvsR9vNIy25ZWt0WM3IaQscFKd+n88ZzUBW8m9egCQrqPfPduKrsH6QtIVM
-         bJsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739545361; x=1740150161;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rN1gBf/mWgaHncz25lS93Sf5l5HPFOQDfhm85WlICA4=;
-        b=A2XruRYR4pPWkwf8pLdjB/qKAzsFI1n7Mqmfydw4Xm/beQ3NPaAdFy6qBK7C90FyA3
-         n/SRYBs+kpJ0EaTAtYaHlsL5WJ1fyhJMtopvy89c63Tl0jNbe8sDT1sdfYgDWk88pZV5
-         +QH8yOW90dnGpfEN/mgf5TXlL0Djyf6F0atlE0DvBhQTfyIAXdDIGwx1x8AEl1uvuYsw
-         7hCp+qsuL4vj1i8FyidmFbYR5IqC4ruO0CEGSGAGnJ+zRmcziLAqPNLE17fF8waHTYPf
-         LUECuclpVvqEle9QBITEYPwGWFt2zHpcq4Z//IOxZDlKjO4Oo5AtNHzi4n30G9Nr8OtA
-         Qv7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVAebImordxYliFv7BJ6kcTza7xC5En9+KNCkWUAiNhjtXDLyH+BK/tncz5+P9/LdWpz0sZ/ZLUEax9Whrm@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxh3Jdim+cnJjrBZGLb7U3GkPs/rrz5pNR2QB6lv+nUIYSB7wNE
-	RGyU0NDlBi+o+ipM3nB1bX7/wy422EqYIQwlzZBoC7M0HwTDhNDDz3/K9kYZSiM=
-X-Gm-Gg: ASbGnctAMQZLnbRfAlkrm3NLahH9r24czi3gMOPWbcQ+lJlDwICBsGfpmDz0+zOYbcV
-	2dOj/XLiOfkUCy1UQWKm6cyoPrKKOthOeN652ayrt3XCQjwTz5TVD0kPTNB6gSMoYGoJeEa9v8A
-	+6BXcVG09fMJqtZGmyMCCDPMxBOYrizrYlC5byjqysNgO+6bYddJJ4EiWpK89TLhlJKwOHv8H4L
-	D/hzSGJrRnPeuTGeGQGI6la66j+LnDC44kLxV3gboJlKlGfHJl7bUauMKxDkh+rsyX+ey4YErZQ
-	EaWLow0NLPwee/4vToLY
-X-Google-Smtp-Source: AGHT+IFTRPVJe8Uo/fbtBUM/QHP6adG+ehpZXzG1dBG0m3OYN+ePtIDh3yC1U9YhL4jzIL0DQt25Gw==
-X-Received: by 2002:a17:907:940b:b0:ab6:5210:7c8b with SMTP id a640c23a62f3a-ab7f347c1c0mr1333438866b.37.1739545360497;
-        Fri, 14 Feb 2025 07:02:40 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-aba533bdd96sm352439666b.165.2025.02.14.07.02.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 07:02:40 -0800 (PST)
-Date: Fri, 14 Feb 2025 18:02:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Karan Tilak Kumar <kartilak@cisco.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	Gian Carlo Boffa <gcboffa@cisco.com>,
-	Arulprabhu Ponnusamy <arulponn@cisco.com>,
-	Arun Easi <aeasi@cisco.com>
-Subject: Re: drivers/scsi/fnic/fdls_disc.c:263
- fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
-Message-ID: <fd4d8516-5eaa-43b0-9100-2984312930f8@stanley.mountain>
-References: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7qIzCQJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739547094; x=1771083094;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lTnn1xYk02DETAjdi82AsXqIBiUX4JF6TvaXqBqDp7s=;
+  b=V7qIzCQJC47WmdySgH9U02OaWBOmEr6TrIIPWeugDZXZwVSPlBqdJlMY
+   vQr1qgmrW/kH71UXKGm1kt28e4dz+b7NZzR61fO6E3vGpFzqxvAe+yckA
+   tRTEeQCq6zOeA3Zriiwn3eQ+kE1dfZCl41d+0/csefQS6cyn2ziJyHZpC
+   hrVIbwGC0WHI9h5Fmsi/UvtKopVpIwB3IMqba5KQsESWHp3E7AtgqZQkg
+   heohLB8FG1T2Sx3vvyk/oWXeZ0GSmVWVw8GKTSu2ngvoUhadGM6tH87el
+   QAInYKAsqtU3YuNaL/9RKtDR+KRonQF3nXvA8tajw8uWlm3P1NczhBzS4
+   Q==;
+X-CSE-ConnectionGUID: 59DZ9OsOQ9WwS7wf6/yB/g==
+X-CSE-MsgGUID: wzFrBjmLSmilFhD3yK9pVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40006838"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="40006838"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:31:33 -0800
+X-CSE-ConnectionGUID: m7zMVMQqTZm5no+TFaY5sQ==
+X-CSE-MsgGUID: CjkSpfFBQGOuFn3000YWPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118107802"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 14 Feb 2025 07:31:32 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tixf8-0019mE-1K;
+	Fri, 14 Feb 2025 15:31:30 +0000
+Date: Fri, 14 Feb 2025 23:31:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 262/262]
+ drivers/media/i2c/saa6752hs.c:598:18: error: implicit declaration of
+ function 'v4l2_subdev_state_get_format'
+Message-ID: <202502142351.z8R3LHET-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,70 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
 
-On Fri, Feb 14, 2025 at 05:42:25PM +0300, Dan Carpenter wrote:
-> 
-> I guess we can't call schedule_delayed_work() without holding the
-> spin_lock?  It's a strange thing.
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   3bc425c306458b9d5af1effdd97e7efcf09e407a
+commit: 716334a0312be131d1c69186eaa4f6527220d83c [262/262] BACKPORT: media: v4l: subdev: Switch to stream-aware state functions
+config: x86_64-buildonly-randconfig-005-20250214 (https://download.01.org/0day-ci/archive/20250214/202502142351.z8R3LHET-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142351.z8R3LHET-lkp@intel.com/reproduce)
 
-Actually, I see now that we're just dropping the lock to avoid a sleeping
-in atomic warning with the GFP_ATOMIC allocation...  I bet you could make
-the code under the lock much smaller.  Just the test_and_clear_bit() stuff
-basically.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142351.z8R3LHET-lkp@intel.com/
 
-regards,
-dan carpenter
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/scsi/fnic/fdls_disc.c b/drivers/scsi/fnic/fdls_disc.c
-index 11211c469583..ed141236a4aa 100644
---- a/drivers/scsi/fnic/fdls_disc.c
-+++ b/drivers/scsi/fnic/fdls_disc.c
-@@ -308,31 +308,22 @@ void fdls_schedule_oxid_free_retry_work(struct work_struct *work)
- 	struct fnic *fnic = iport->fnic;
- 	struct reclaim_entry_s *reclaim_entry;
- 	unsigned long delay_j = msecs_to_jiffies(OXID_RECLAIM_TOV(iport));
-+	unsigned long flags;
- 	int idx;
- 
--	spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
--
- 	for_each_set_bit(idx, oxid_pool->pending_schedule_free, FNIC_OXID_POOL_SZ) {
- 
- 		FNIC_FCS_DBG(KERN_INFO, fnic->host, fnic->fnic_num,
- 			"Schedule oxid free. oxid idx: %d\n", idx);
- 
--		spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
--	reclaim_entry = (struct reclaim_entry_s *)
--	kzalloc(sizeof(struct reclaim_entry_s), GFP_KERNEL);
--		spin_lock_irqsave(&fnic->fnic_lock, fnic->lock_flags);
--
-+		reclaim_entry = kzalloc(sizeof(*reclaim_entry), GFP_KERNEL);
- 		if (!reclaim_entry) {
--			FNIC_FCS_DBG(KERN_WARNING, fnic->host, fnic->fnic_num,
--				"Failed to allocate memory for reclaim struct for oxid idx: 0x%x\n",
--				idx);
--
- 			schedule_delayed_work(&oxid_pool->schedule_oxid_free_retry,
- 				msecs_to_jiffies(SCHEDULE_OXID_FREE_RETRY_TIME));
--			spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
- 			return;
- 		}
- 
-+		spin_lock_irqsave(&fnic->fnic_lock, flags);
- 		if (test_and_clear_bit(idx, oxid_pool->pending_schedule_free)) {
- 			reclaim_entry->oxid_idx = idx;
- 			reclaim_entry->expires = round_jiffies(jiffies + delay_j);
-@@ -342,9 +333,8 @@ void fdls_schedule_oxid_free_retry_work(struct work_struct *work)
- 			/* unlikely scenario, free the allocated memory and continue */
- 			kfree(reclaim_entry);
- 		}
--}
--
--	spin_unlock_irqrestore(&fnic->fnic_lock, fnic->lock_flags);
-+		spin_unlock_irqrestore(&fnic->fnic_lock, flags);
-+	}
- }
- 
- static bool fdls_is_oxid_fabric_req(uint16_t oxid)
+   drivers/media/i2c/saa6752hs.c: In function 'saa6752hs_set_fmt':
+>> drivers/media/i2c/saa6752hs.c:598:18: error: implicit declaration of function 'v4l2_subdev_state_get_format' [-Werror=implicit-function-declaration]
+     598 |                 *v4l2_subdev_state_get_format(sd_state, 0) = *f;
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/saa6752hs.c:598:17: error: invalid type argument of unary '*' (have 'int')
+     598 |                 *v4l2_subdev_state_get_format(sd_state, 0) = *f;
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
+
+vim +/v4l2_subdev_state_get_format +598 drivers/media/i2c/saa6752hs.c
+
+   564	
+   565	static int saa6752hs_set_fmt(struct v4l2_subdev *sd,
+   566			struct v4l2_subdev_state *sd_state,
+   567			struct v4l2_subdev_format *format)
+   568	{
+   569		struct v4l2_mbus_framefmt *f = &format->format;
+   570		struct saa6752hs_state *h = to_state(sd);
+   571		int dist_352, dist_480, dist_720;
+   572	
+   573		if (format->pad)
+   574			return -EINVAL;
+   575	
+   576		f->code = MEDIA_BUS_FMT_FIXED;
+   577	
+   578		dist_352 = abs(f->width - 352);
+   579		dist_480 = abs(f->width - 480);
+   580		dist_720 = abs(f->width - 720);
+   581		if (dist_720 < dist_480) {
+   582			f->width = 720;
+   583			f->height = 576;
+   584		} else if (dist_480 < dist_352) {
+   585			f->width = 480;
+   586			f->height = 576;
+   587		} else {
+   588			f->width = 352;
+   589			if (abs(f->height - 576) < abs(f->height - 288))
+   590				f->height = 576;
+   591			else
+   592				f->height = 288;
+   593		}
+   594		f->field = V4L2_FIELD_INTERLACED;
+   595		f->colorspace = V4L2_COLORSPACE_SMPTE170M;
+   596	
+   597		if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+ > 598			*v4l2_subdev_state_get_format(sd_state, 0) = *f;
+   599			return 0;
+   600		}
+   601	
+   602		/*
+   603		  FIXME: translate and round width/height into EMPRESS
+   604		  subsample type:
+   605	
+   606		  type   |   PAL   |  NTSC
+   607		  ---------------------------
+   608		  SIF    | 352x288 | 352x240
+   609		  1/2 D1 | 352x576 | 352x480
+   610		  2/3 D1 | 480x576 | 480x480
+   611		  D1     | 720x576 | 720x480
+   612		*/
+   613	
+   614		if (f->code != MEDIA_BUS_FMT_FIXED)
+   615			return -EINVAL;
+   616	
+   617		if (f->width == 720)
+   618			h->video_format = SAA6752HS_VF_D1;
+   619		else if (f->width == 480)
+   620			h->video_format = SAA6752HS_VF_2_3_D1;
+   621		else if (f->height == 576)
+   622			h->video_format = SAA6752HS_VF_1_2_D1;
+   623		else
+   624			h->video_format = SAA6752HS_VF_SIF;
+   625		return 0;
+   626	}
+   627	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
