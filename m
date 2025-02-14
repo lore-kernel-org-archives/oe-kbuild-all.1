@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AC12673AA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 15:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B24245002
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 15:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739547822; cv=none; b=Ehu42Ng2nl1hRXBLhs2mgXnaSqwzan2Krqq/9R6ZLDjZdtEWuK/3NhhH+NwzH4Wp6oD4mM41nY+gCfybFYC83gJu/TqVYIQ09TMQIeKEJi0kZ75WXcrmZnF18Hd8BBViKC7o5BQVqmcJPydi06dTKmNAw2Kczs2lY861V5vpj5o=
+	t=1739548481; cv=none; b=NQOw3CEZQm/27zi1+AC1ZB9jj594Jocer29asM48Ur1bjDfM/GHHLq4J+5TlTSC+rAOjm8ySX7sKieF1a8LIW6nhd+4ZV4dLElUIkRvSVNvDJC8x9qZ3vx3IYvaH++/YzL23EdS/iTnE4lKCCq6JeFFwXvS8BwG3msNR9Kea/WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739547822; c=relaxed/simple;
-	bh=eyeqT9bAiWphbubS3AQn/VYc0wKOesENvM0ZbTIaFNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dKsshq72xsfCKMOQke8gEwnPp19h42c5FniJpLuckD3vVSmjcZNI+0O54GS/7kZHsQnApmVdlygSQpiMuBDk11YbHgAGjGizh7pssJWth/H8gJ3/EfJP/SpPD2RgIC7YHzzHIGwSPCpu23T3tR01SElVMxKm7pxQtxjNqkUjrqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huF1O3yP; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1739548481; c=relaxed/simple;
+	bh=D7BUq1W64bg7fk5DTnUp5Q47NWeZX2l+s2B5ADRDdq0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TpmsupETSE38JynY8n+HOobYJdB1sJMWJT1fMQb8urBtxaEodCmFrKkTvrvhQVH+fqxfzVDgwPyIgXpTLbk38bEsN5sduViQX+4WyDHugcnB9TuFXaEDvzz4ytAb6zbnM+2k82L8OSTiz37eyeV7OfemWLrhtInfXsLIT55JFN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGMxNAV7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huF1O3yP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGMxNAV7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739547820; x=1771083820;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eyeqT9bAiWphbubS3AQn/VYc0wKOesENvM0ZbTIaFNI=;
-  b=huF1O3yPZveYezeKWgRsnmxTks4RUz+qOUjJI/D7i1cWKfMKOi10v889
-   sPG3suuF396ExBvF2ZWvU4tUiUsUrX5pynOeVD8pLAUeshxssKdOqm0u3
-   3Og7PVOhpPOSNhA75RkyxftCb53m8DRAme2LTuWBoqDZXbU3ufRWtDH+B
-   O2EcTRZU1Zx+i8NZmxcLdNxHmpLU+lvoK9IaF+ZEE+jDIT00rF8KK7A38
-   Oi0AHyORFwhhFNskXwcCDtjCvEoc2v64qxRrWTXsb5jH3CHJTPVTd00em
-   wBpaou+9dbgCABEvazvUTSBJ29hegW1X32d6B+1BXyL+JBIXHG6atwaiW
+  t=1739548480; x=1771084480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D7BUq1W64bg7fk5DTnUp5Q47NWeZX2l+s2B5ADRDdq0=;
+  b=bGMxNAV7MJSvGipi2f7Jx8HjOv9I+xa2slkFrtFLvouIuz1cU1AFoYLr
+   oV7B/FQ15KiHGi3HrgJW8U39C9aDKXFA9x648Ykhk1/Mm0UeY7Pu1eoJV
+   4brs7NWR0XEG5xh1NZj/+VdNLHTIt+eywEti7YEnij2ss5MKnyCn0Y+/1
+   uOnqCz42rnEIZQF9x3EpeA2tNHDPnERZeza8aLFUmHjeU66GO6N2b8O16
+   +CVB3kTFYisN7Xep4T9C1ASGg5Vvj6Ete3/YBSyDAHRdAZzix0/vXnHg3
+   PksPQJ4+JQki8ucry0eNcKMX/q16d24gzNOSicD/So5LD2NpfU0FJn8Rr
    g==;
-X-CSE-ConnectionGUID: gakd9aZ/TbiKLN9u77mg5w==
-X-CSE-MsgGUID: WC1OEfyOQTSF/VqL8+/4cg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40225772"
+X-CSE-ConnectionGUID: zM9DfjIwSYKMbD6jfAY7XQ==
+X-CSE-MsgGUID: hq/keCzfSbquFtU80iLNMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="43139590"
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="40225772"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:43:37 -0800
-X-CSE-ConnectionGUID: CEVNlNB7Ts+IY+LZhFj2ug==
-X-CSE-MsgGUID: bQPqVNujRUaVieTvSIDlgA==
+   d="scan'208";a="43139590"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 07:54:39 -0800
+X-CSE-ConnectionGUID: DsxNw1+kTkmNVTVesm7Ocw==
+X-CSE-MsgGUID: fUvLz0MPQa+L4F1DE+UP3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
-   d="scan'208";a="113685192"
+   d="scan'208";a="144344402"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Feb 2025 07:43:35 -0800
+  by orviesa002.jf.intel.com with ESMTP; 14 Feb 2025 07:54:37 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tixqn-0019ng-0B;
-	Fri, 14 Feb 2025 15:43:33 +0000
-Date: Fri, 14 Feb 2025 23:42:49 +0800
+	id 1tiy1S-0019oR-0L;
+	Fri, 14 Feb 2025 15:54:34 +0000
+Date: Fri, 14 Feb 2025 23:54:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petlozu Pravareshwar <petlozup@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thierry Reding <treding@nvidia.com>,
-	Stefan Kristiansson <stefank@nvidia.com>
-Subject: drivers/soc/tegra/pmc.c:467: warning: Function parameter or struct
- member 'syscore' not described in 'tegra_pmc'
-Message-ID: <202502142305.JI9507hZ-lkp@intel.com>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>,
+	Kees Cook <kees@kernel.org>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org, "Ricardo B. Marliere" <rbm@suse.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH 2/2] LoadPin: Make sysctl table const
+Message-ID: <202502142320.sf6WGiJs-lkp@intel.com>
+References: <20250123-sysctl-kees-v1-2-533359e74d66@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,123 +67,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250123-sysctl-kees-v1-2-533359e74d66@suse.com>
 
-Hi Petlozu,
+Hi Ricardo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   128c8f96eb8638c060cd3532dc394d046ce64fe1
-commit: 1ddb8f6d44ff482c9953a06f800453bc372cfead soc/tegra: pmc: Fix dual edge triggered wakes
-date:   2 years, 3 months ago
-config: arm-randconfig-004-20250102 (https://download.01.org/0day-ci/archive/20250214/202502142305.JI9507hZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142305.JI9507hZ-lkp@intel.com/reproduce)
+[auto build test ERROR on a9a5e0bdc5a77a7c662ad4be0ad661f0b0d5e99d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ricardo-B-Marliere/yama-Make-sysctl-table-const/20250124-033808
+base:   a9a5e0bdc5a77a7c662ad4be0ad661f0b0d5e99d
+patch link:    https://lore.kernel.org/r/20250123-sysctl-kees-v1-2-533359e74d66%40suse.com
+patch subject: [PATCH 2/2] LoadPin: Make sysctl table const
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20250214/202502142320.sf6WGiJs-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250214/202502142320.sf6WGiJs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502142305.JI9507hZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502142320.sf6WGiJs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/soc/tegra/pmc.c:467: warning: Function parameter or struct member 'syscore' not described in 'tegra_pmc'
+   security/loadpin/loadpin.c: In function 'set_sysctl':
+>> security/loadpin/loadpin.c:75:48: error: assignment of member 'extra1' in read-only object
+      75 |                 loadpin_sysctl_table[0].extra1 = SYSCTL_ZERO;
+         |                                                ^
+   security/loadpin/loadpin.c:77:48: error: assignment of member 'extra1' in read-only object
+      77 |                 loadpin_sysctl_table[0].extra1 = SYSCTL_ONE;
+         |                                                ^
 
 
-vim +467 drivers/soc/tegra/pmc.c
+vim +/extra1 +75 security/loadpin/loadpin.c
 
-5f84bb1a4099e2 Sandipan Patra       2018-10-24  383  
-7232398abc6a71 Thierry Reding       2014-07-11  384  /**
-7232398abc6a71 Thierry Reding       2014-07-11  385   * struct tegra_pmc - NVIDIA Tegra PMC
-35b67291b4a85d Jon Hunter           2015-12-04  386   * @dev: pointer to PMC device structure
-7232398abc6a71 Thierry Reding       2014-07-11  387   * @base: pointer to I/O remapped register region
-bbe5af60041cae Thierry Reding       2019-01-25  388   * @wake: pointer to I/O remapped region for WAKE registers
-bbe5af60041cae Thierry Reding       2019-01-25  389   * @aotag: pointer to I/O remapped region for AOTAG registers
-bbe5af60041cae Thierry Reding       2019-01-25  390   * @scratch: pointer to I/O remapped region for scratch registers
-7232398abc6a71 Thierry Reding       2014-07-11  391   * @clk: pointer to pclk clock
-35b67291b4a85d Jon Hunter           2015-12-04  392   * @soc: pointer to SoC data structure
-e247deae1a5508 Mikko Perttunen      2019-01-25  393   * @tz_only: flag specifying if the PMC can only be accessed via TrustZone
-3195ac6d9cbeef Jon Hunter           2015-12-04  394   * @debugfs: pointer to debugfs entry
-7232398abc6a71 Thierry Reding       2014-07-11  395   * @rate: currently configured rate of pclk
-7232398abc6a71 Thierry Reding       2014-07-11  396   * @suspend_mode: lowest suspend mode available
-7232398abc6a71 Thierry Reding       2014-07-11  397   * @cpu_good_time: CPU power good time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  398   * @cpu_off_time: CPU power off time (in microsecends)
-7232398abc6a71 Thierry Reding       2014-07-11  399   * @core_osc_time: core power good OSC time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  400   * @core_pmu_time: core power good PMU time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  401   * @core_off_time: core power off time (in microseconds)
-7232398abc6a71 Thierry Reding       2014-07-11  402   * @corereq_high: core power request is active-high
-7232398abc6a71 Thierry Reding       2014-07-11  403   * @sysclkreq_high: system clock request is active-high
-7232398abc6a71 Thierry Reding       2014-07-11  404   * @combined_req: combined power request for CPU & core
-7232398abc6a71 Thierry Reding       2014-07-11  405   * @cpu_pwr_good_en: CPU power good signal is enabled
-7232398abc6a71 Thierry Reding       2014-07-11  406   * @lp0_vec_phys: physical base address of the LP0 warm boot code
-7232398abc6a71 Thierry Reding       2014-07-11  407   * @lp0_vec_size: size of the LP0 warm boot code
-a38045121bf421 Jon Hunter           2016-03-30  408   * @powergates_available: Bitmap of available power gates
-7232398abc6a71 Thierry Reding       2014-07-11  409   * @powergates_lock: mutex for power gate register access
-bbe5af60041cae Thierry Reding       2019-01-25  410   * @pctl_dev: pin controller exposed by the PMC
-bbe5af60041cae Thierry Reding       2019-01-25  411   * @domain: IRQ domain provided by the PMC
-bbe5af60041cae Thierry Reding       2019-01-25  412   * @irq: chip implementation for the IRQ domain
-e57a243f5d896f Dmitry Osipenko      2019-09-26  413   * @clk_nb: pclk clock changes handler
-d3a20dcbca4880 Thierry Reding       2022-05-06  414   * @core_domain_state_synced: flag marking the core domain's state as synced
-d3a20dcbca4880 Thierry Reding       2022-05-06  415   * @core_domain_registered: flag marking the core domain as registered
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  416   * @wake_type_level_map: Bitmap indicating level type for non-dual edge wakes
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  417   * @wake_type_dual_edge_map: Bitmap indicating if a wake is dual-edge or not
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  418   * @wake_sw_status_map: Bitmap to hold raw status of wakes without mask
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  419   * @wake_cntrl_level_map: Bitmap to hold wake levels to be programmed in
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  420   *     cntrl register associated with each wake during system suspend.
-7232398abc6a71 Thierry Reding       2014-07-11  421   */
-7232398abc6a71 Thierry Reding       2014-07-11  422  struct tegra_pmc {
-3568df3d31d62b Mikko Perttunen      2015-01-06  423  	struct device *dev;
-7232398abc6a71 Thierry Reding       2014-07-11  424  	void __iomem *base;
-c641ec6eab8587 Thierry Reding       2017-08-30  425  	void __iomem *wake;
-c641ec6eab8587 Thierry Reding       2017-08-30  426  	void __iomem *aotag;
-5be2255676bf2b Thierry Reding       2017-08-30  427  	void __iomem *scratch;
-7232398abc6a71 Thierry Reding       2014-07-11  428  	struct clk *clk;
-3195ac6d9cbeef Jon Hunter           2015-12-04  429  	struct dentry *debugfs;
-7232398abc6a71 Thierry Reding       2014-07-11  430  
-7232398abc6a71 Thierry Reding       2014-07-11  431  	const struct tegra_pmc_soc *soc;
-e247deae1a5508 Mikko Perttunen      2019-01-25  432  	bool tz_only;
-7232398abc6a71 Thierry Reding       2014-07-11  433  
-7232398abc6a71 Thierry Reding       2014-07-11  434  	unsigned long rate;
-7232398abc6a71 Thierry Reding       2014-07-11  435  
-7232398abc6a71 Thierry Reding       2014-07-11  436  	enum tegra_suspend_mode suspend_mode;
-7232398abc6a71 Thierry Reding       2014-07-11  437  	u32 cpu_good_time;
-7232398abc6a71 Thierry Reding       2014-07-11  438  	u32 cpu_off_time;
-7232398abc6a71 Thierry Reding       2014-07-11  439  	u32 core_osc_time;
-7232398abc6a71 Thierry Reding       2014-07-11  440  	u32 core_pmu_time;
-7232398abc6a71 Thierry Reding       2014-07-11  441  	u32 core_off_time;
-7232398abc6a71 Thierry Reding       2014-07-11  442  	bool corereq_high;
-7232398abc6a71 Thierry Reding       2014-07-11  443  	bool sysclkreq_high;
-7232398abc6a71 Thierry Reding       2014-07-11  444  	bool combined_req;
-7232398abc6a71 Thierry Reding       2014-07-11  445  	bool cpu_pwr_good_en;
-7232398abc6a71 Thierry Reding       2014-07-11  446  	u32 lp0_vec_phys;
-7232398abc6a71 Thierry Reding       2014-07-11  447  	u32 lp0_vec_size;
-a38045121bf421 Jon Hunter           2016-03-30  448  	DECLARE_BITMAP(powergates_available, TEGRA_POWERGATE_MAX);
-7232398abc6a71 Thierry Reding       2014-07-11  449  
-7232398abc6a71 Thierry Reding       2014-07-11  450  	struct mutex powergates_lock;
-4a37f11c8f57ff Aapo Vienamo         2018-08-10  451  
-4a37f11c8f57ff Aapo Vienamo         2018-08-10  452  	struct pinctrl_dev *pctl_dev;
-19906e6b166721 Thierry Reding       2018-09-17  453  
-19906e6b166721 Thierry Reding       2018-09-17  454  	struct irq_domain *domain;
-19906e6b166721 Thierry Reding       2018-09-17  455  	struct irq_chip irq;
-e57a243f5d896f Dmitry Osipenko      2019-09-26  456  
-e57a243f5d896f Dmitry Osipenko      2019-09-26  457  	struct notifier_block clk_nb;
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  458  
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  459  	bool core_domain_state_synced;
-41bafa698ddd07 Dmitry Osipenko      2021-06-01  460  	bool core_domain_registered;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  461  
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  462  	unsigned long *wake_type_level_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  463  	unsigned long *wake_type_dual_edge_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  464  	unsigned long *wake_sw_status_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  465  	unsigned long *wake_cntrl_level_map;
-1ddb8f6d44ff48 Petlozu Pravareshwar 2022-09-30  466  	struct syscore_ops syscore;
-7232398abc6a71 Thierry Reding       2014-07-11 @467  };
-7232398abc6a71 Thierry Reding       2014-07-11  468  
-
-:::::: The code at line 467 was first introduced by commit
-:::::: 7232398abc6a7186e315425638c367d50c674718 ARM: tegra: Convert PMC to a driver
-
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+9b091556a073a9 Kees Cook 2016-04-20  67  
+60ba1028fc7b73 Kees Cook 2022-12-09  68  static void set_sysctl(bool is_writable)
+9b091556a073a9 Kees Cook 2016-04-20  69  {
+9b091556a073a9 Kees Cook 2016-04-20  70  	/*
+9b091556a073a9 Kees Cook 2016-04-20  71  	 * If load pinning is not enforced via a read-only block
+9b091556a073a9 Kees Cook 2016-04-20  72  	 * device, allow sysctl to change modes for testing.
+9b091556a073a9 Kees Cook 2016-04-20  73  	 */
+60ba1028fc7b73 Kees Cook 2022-12-09  74  	if (is_writable)
+60ba1028fc7b73 Kees Cook 2022-12-09 @75  		loadpin_sysctl_table[0].extra1 = SYSCTL_ZERO;
+60ba1028fc7b73 Kees Cook 2022-12-09  76  	else
+60ba1028fc7b73 Kees Cook 2022-12-09  77  		loadpin_sysctl_table[0].extra1 = SYSCTL_ONE;
+60ba1028fc7b73 Kees Cook 2022-12-09  78  }
+60ba1028fc7b73 Kees Cook 2022-12-09  79  #else
+60ba1028fc7b73 Kees Cook 2022-12-09  80  static inline void set_sysctl(bool is_writable) { }
+60ba1028fc7b73 Kees Cook 2022-12-09  81  #endif
+60ba1028fc7b73 Kees Cook 2022-12-09  82  
 
 -- 
 0-DAY CI Kernel Test Service
