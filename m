@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791BE19CCF4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 21:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12539E56C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 21:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739656361; cv=none; b=t8kuGD3Z0aoFIPjGciOYgZT3s+GiwsuhS6gMRgkjE4wH8Sq7rjPA2mGFLAarDKoF8wmxJzWGennNCyyQXrrbYhQpkX0iAyvcAXypAwiTLbOdfRkieYq5wsU7UYxzBK9mwpbjEfIdG6FhFryvKqr/hJw/xYsdgek+PVHegj081cw=
+	t=1739656362; cv=none; b=IfMRpLENH+H27YLGk1DKjFHn5Aen4S/J1CsMrktWcedxhk1ksOAbvmP0nRj//ZFzZpK1CGLRWo3kiKns9zELuY+9/vnPxzBzj+q1rBd64n222toFHOWyqhErbTEJbMtsp/IAHKxrMuo9kHxBHgI43rwEAB7kKlCAxpPjtbqMvp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739656361; c=relaxed/simple;
-	bh=qzyrCY3OUkomRJawiCZTkrfJ59Jep8iHPYi9js+tWkY=;
+	s=arc-20240116; t=1739656362; c=relaxed/simple;
+	bh=aiw2l0FbtwMNjdwUGXwSwCbh7NQ+9vgnblYHEgakDb8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hsHhJjm79GxE+hpgzXkGnXNbHahzilPfGXxZ6sPAxnpwpn932k2WAtpykAmBPAdTHRzOinMM9T/glhJ8q2mTD81E53NBi7zGaYQwDEfb5602E9hXYgZ6dJzB7rARZTcQq+MnXm90GXqHAig/+c9quTcHIvcpdrixE5bKIHaF/90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJG5NmQ5; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=K38K5Qtulr6eZDxM0Yu8bOHpNALQVnZHv8uHJey84OkQI8iUJDXG8vo97dN7/qepkh2KfngJN//lzgobGjU/8ROf+o5Iug5QR3m9J6+JfZI4BrHeooAvPh54XpaOQ8JkSc41N6ghOQj2nq8ZJOWzZqCKE77xgiqnQa+4dQmRjgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTjhiQot; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJG5NmQ5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTjhiQot"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739656359; x=1771192359;
+  t=1739656358; x=1771192358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qzyrCY3OUkomRJawiCZTkrfJ59Jep8iHPYi9js+tWkY=;
-  b=UJG5NmQ5vEHKae1mqZ4CmTBMXaF98prD+GZqY2PVJCUXHxPfLJOaE7Mv
-   fxUPv+zR3oe6F39V352BEaOd/rCGE5DRpQBt4jALJAL7ab0/KvuLDOkOM
-   dVn7/gc94xGYAoszpgwEYugLkJrS+7QlhyJUkRkOafCVzUW2JIVUxBj+o
-   JzkuLhdb3MaDMfAslQY25BHHQIZNGBBzMaC0KnMPlnMgysHqBKjnSHL7L
-   lGXyX4mi9HxipA0X1Ry7Lj/EfdaaumKT5j+wtO58TBDNbIqxBAz4sL/ND
-   q/LbYDUeiP6EUaQJ9cNoKDiXuXm5h3wQ3BaNoG9P5/W/1rjDt3su4Tl8k
+  bh=aiw2l0FbtwMNjdwUGXwSwCbh7NQ+9vgnblYHEgakDb8=;
+  b=VTjhiQots3lXu5TFLRNg3bjnJx5HHw6Xrd5nifFQJ1P18k8AUdOEwZSb
+   ENVFcShH1CemLMRkOBJ+5FlDv/cfFOz2jspTrcPt3eKFdbu6C3O4SuByj
+   82sfsPklA1xke6iIhF0yhlnz/TLiyeQcxqeKFY49gexAXsHH0+5U2KEH8
+   sBxaWPew2kFJqgbKJ7O7THXDS5T1vHyXIlUwKtdi1LYv0l7R9pe6SptEj
+   IBqZXrdcYTvGQXM/PTBRJQiO5diWtc8oV/GCV9ZM3d0dZ38VLEOa1X8T4
+   FIhkmTqc296fljdNUp8GpQZL32tVgxm8MA8BUDXekuBjJQr69mh/+avoG
    w==;
-X-CSE-ConnectionGUID: m4iTPnEMQ1q0EjYsHT0MSw==
-X-CSE-MsgGUID: cLZMsAlsREexr4VWhqA27Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="50596005"
+X-CSE-ConnectionGUID: oJPHJIFDTFK2+yRV3DckxA==
+X-CSE-MsgGUID: uX2x2Ts2SbSgf2UqF9JQsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="40649507"
 X-IronPort-AV: E=Sophos;i="6.13,289,1732608000"; 
-   d="scan'208";a="50596005"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 13:52:38 -0800
-X-CSE-ConnectionGUID: CM1865y5SLKBrz8w8qbnPg==
-X-CSE-MsgGUID: 6TvNGWYlTxKou5f75mgKRw==
+   d="scan'208";a="40649507"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 13:52:37 -0800
+X-CSE-ConnectionGUID: Y+0kgtekQBOcbHAlSlhU3g==
+X-CSE-MsgGUID: u8jT3Cn6Sv6QBoq7YqU1lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150933505"
+   d="scan'208";a="136990978"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Feb 2025 13:52:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Feb 2025 13:52:36 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjQ5S-001BDQ-02;
-	Sat, 15 Feb 2025 21:52:34 +0000
-Date: Sun, 16 Feb 2025 05:52:09 +0800
+	id 1tjQ5R-001BDN-3C;
+	Sat, 15 Feb 2025 21:52:33 +0000
+Date: Sun, 16 Feb 2025 05:52:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1928/1928] kernel/sched/psi.c:1763:12: error:
- invalid storage class for function 'psi_io_show'
-Message-ID: <202502160550.E90uGy3T-lkp@intel.com>
+Subject: [morimoto:sound-cleanup-2025-02-12 35/37] sound/soc/soc-pcm.c:322:1:
+ error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+Message-ID: <202502160519.piTk0zj5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,639 +62,723 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   01e57e5fa297f937102f9b58ee7905f638b8450f
-commit: 654944510822988390470cbc5b6f914c19dd9b88 [1928/1928] sched/psi: add cpu fine grained stall tracking in pressure.stat
-config: loongarch-randconfig-r064-20250216 (https://download.01.org/0day-ci/archive/20250216/202502160550.E90uGy3T-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160550.E90uGy3T-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2025-02-12
+head:   f285c73d410451a679fa6e71b155e2cda3a7102f
+commit: d7fdbbd2af104c76fa8b3a087b25b963c32f3fe6 [35/37] ASoC: soc-pcm: reuse dpcm_state_string()
+config: sparc-randconfig-001-20250216 (https://download.01.org/0day-ci/archive/20250216/202502160519.piTk0zj5-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160519.piTk0zj5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502160550.E90uGy3T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502160519.piTk0zj5-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
-   kernel/sched/psi.c:447:13: error: invalid storage class for function 'psi_stat_flags_change'
-     447 | static void psi_stat_flags_change(struct task_struct *task, int *stat_set,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:469:13: error: invalid storage class for function 'get_recent_stat_times'
-     469 | static void get_recent_stat_times(struct psi_group *group, int cpu,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:516:20: error: invalid storage class for function 'update_throttle_type'
-     516 | static inline void update_throttle_type(struct task_struct *task, int cpu,
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:520:13: error: invalid storage class for function 'collect_percpu_times'
-     520 | static void collect_percpu_times(struct psi_group *group,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:588:13: error: invalid storage class for function 'window_reset'
-     588 | static void window_reset(struct psi_window *win, u64 now, u64 value,
-         |             ^~~~~~~~~~~~
-   kernel/sched/psi.c:607:12: error: invalid storage class for function 'window_update'
-     607 | static u64 window_update(struct psi_window *win, u64 now, u64 value)
-         |            ^~~~~~~~~~~~~
-   kernel/sched/psi.c:633:12: error: invalid storage class for function 'update_triggers'
-     633 | static u64 update_triggers(struct psi_group *group, u64 now, bool *update_total,
-         |            ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:706:12: error: invalid storage class for function 'update_averages'
-     706 | static u64 update_averages(struct psi_group *group, u64 now)
-         |            ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:771:13: error: invalid storage class for function 'psi_avgs_work'
-     771 | static void psi_avgs_work(struct work_struct *work)
-         |             ^~~~~~~~~~~~~
-   kernel/sched/psi.c:807:13: error: invalid storage class for function 'init_rtpoll_triggers'
-     807 | static void init_rtpoll_triggers(struct psi_group *group, u64 now)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:820:13: error: invalid storage class for function 'psi_schedule_rtpoll_work'
-     820 | static void psi_schedule_rtpoll_work(struct psi_group *group, unsigned long delay,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:847:13: error: invalid storage class for function 'psi_rtpoll_work'
-     847 | static void psi_rtpoll_work(struct psi_group *group)
-         |             ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:931:12: error: invalid storage class for function 'psi_rtpoll_worker'
-     931 | static int psi_rtpoll_worker(void *data)
-         |            ^~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:949:13: error: invalid storage class for function 'poll_timer_fn'
-     949 | static void poll_timer_fn(struct timer_list *t)
-         |             ^~~~~~~~~~~~~
-   kernel/sched/psi.c:957:13: error: invalid storage class for function 'record_times'
-     957 | static void record_times(struct psi_group_cpu *groupc, u64 now)
-         |             ^~~~~~~~~~~~
-   kernel/sched/psi.c:990:13: error: invalid storage class for function 'psi_group_change'
-     990 | static void psi_group_change(struct psi_group *group, int cpu,
-         |             ^~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1106:13: error: invalid storage class for function 'task_is_in_psi_v1'
-    1106 | static bool task_is_in_psi_v1(void)
-         |             ^~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1112:33: error: invalid storage class for function 'task_psi_group'
-    1112 | static inline struct psi_group *task_psi_group(struct task_struct *task)
-         |                                 ^~~~~~~~~~~~~~
-   kernel/sched/psi.c: In function 'task_psi_group':
-   kernel/sched/psi.c:1120:52: error: 'cpuacct_cgrp_id' undeclared (first use in this function); did you mean 'cpuset_cgrp_id'?
-    1120 |                         cgroup = task_cgroup(task, cpuacct_cgrp_id);
-         |                                                    ^~~~~~~~~~~~~~~
-         |                                                    cpuset_cgrp_id
-   kernel/sched/psi.c:1120:52: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/sched/psi.c: In function 'record_stat_times':
-   kernel/sched/psi.c:1130:13: error: invalid storage class for function 'psi_flags_change'
-    1130 | static void psi_flags_change(struct task_struct *task, int clear, int set)
-         |             ^~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c: In function 'dpcm_state_string':
+>> sound/soc/soc-pcm.c:322:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     322 | {
+         | ^
+   sound/soc/soc-pcm.c:326:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     326 | {
+         | ^
+>> sound/soc/soc-pcm.c:335:12: error: storage class specified for parameter 'dpcm_fe_dai_do_trigger'
+     335 | static int dpcm_fe_dai_do_trigger(struct snd_pcm_substream *substream, int cmd);
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:338:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     338 | {
+         | ^
+   sound/soc/soc-pcm.c:354:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     354 | {
+         | ^
+   sound/soc/soc-pcm.c:373:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     373 | {
+         | ^
    In file included from include/linux/linkage.h:7,
-                    from include/linux/kernel.h:17,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/sched/clock.h:5,
-                    from kernel/sched/build_utility.c:12:
-   kernel/sched/psi.c:1338:19: error: non-static declaration of 'psi_memstall_enter' follows static declaration
-    1338 | EXPORT_SYMBOL_GPL(psi_memstall_enter);
-         |                   ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
+                    from include/linux/kernel.h:18,
+                    from sound/soc/soc-pcm.c:13:
+>> sound/soc/soc-pcm.c:390:19: error: storage class specified for parameter 'snd_soc_runtime_action'
+     390 | EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:70:28: note: in definition of macro '__EXPORT_SYMBOL'
+      70 |         extern typeof(sym) sym;                                 \
          |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
          |                                         ^~~~~~~~~~~~~~
-   kernel/sched/psi.c:1338:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-    1338 | EXPORT_SYMBOL_GPL(psi_memstall_enter);
+   sound/soc/soc-pcm.c:390:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     390 | EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
          | ^~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1306:6: note: previous definition of 'psi_memstall_enter' with type 'void(long unsigned int *)'
-    1306 | void psi_memstall_enter(unsigned long *flags)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1370:19: error: non-static declaration of 'psi_memstall_leave' follows static declaration
-    1370 | EXPORT_SYMBOL_GPL(psi_memstall_leave);
-         |                   ^~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   kernel/sched/psi.c:1370:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-    1370 | EXPORT_SYMBOL_GPL(psi_memstall_leave);
-         | ^~~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1346:6: note: previous definition of 'psi_memstall_leave' with type 'void(long unsigned int *)'
-    1346 | void psi_memstall_leave(unsigned long *flags)
-         |      ^~~~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1763:12: error: invalid storage class for function 'psi_io_show'
-    1763 | static int psi_io_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~
->> kernel/sched/psi.c:1768:12: error: invalid storage class for function 'psi_memory_show'
-    1768 | static int psi_memory_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1773:12: error: invalid storage class for function 'psi_cpu_show'
-    1773 | static int psi_cpu_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~
->> kernel/sched/psi.c:1778:12: error: invalid storage class for function 'psi_io_open'
-    1778 | static int psi_io_open(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~
->> kernel/sched/psi.c:1783:12: error: invalid storage class for function 'psi_memory_open'
-    1783 | static int psi_memory_open(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1788:12: error: invalid storage class for function 'psi_cpu_open'
-    1788 | static int psi_cpu_open(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~~
->> kernel/sched/psi.c:1793:16: error: invalid storage class for function 'psi_write'
-    1793 | static ssize_t psi_write(struct file *file, const char __user *user_buf,
-         |                ^~~~~~~~~
->> kernel/sched/psi.c:1836:16: error: invalid storage class for function 'psi_io_write'
-    1836 | static ssize_t psi_io_write(struct file *file, const char __user *user_buf,
-         |                ^~~~~~~~~~~~
->> kernel/sched/psi.c:1842:16: error: invalid storage class for function 'psi_memory_write'
-    1842 | static ssize_t psi_memory_write(struct file *file, const char __user *user_buf,
-         |                ^~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1848:16: error: invalid storage class for function 'psi_cpu_write'
-    1848 | static ssize_t psi_cpu_write(struct file *file, const char __user *user_buf,
-         |                ^~~~~~~~~~~~~
->> kernel/sched/psi.c:1854:17: error: invalid storage class for function 'psi_fop_poll'
-    1854 | static __poll_t psi_fop_poll(struct file *file, poll_table *wait)
-         |                 ^~~~~~~~~~~~
->> kernel/sched/psi.c:1861:12: error: invalid storage class for function 'psi_fop_release'
-    1861 | static int psi_fop_release(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1870:27: error: initializer element is not constant
-    1870 |         .proc_open      = psi_io_open,
-         |                           ^~~~~~~~~~~
-   kernel/sched/psi.c:1870:27: note: (near initialization for 'psi_io_proc_ops.proc_open')
-   kernel/sched/psi.c:1873:27: error: initializer element is not constant
-    1873 |         .proc_write     = psi_io_write,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1873:27: note: (near initialization for 'psi_io_proc_ops.proc_write')
-   kernel/sched/psi.c:1874:27: error: initializer element is not constant
-    1874 |         .proc_poll      = psi_fop_poll,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1874:27: note: (near initialization for 'psi_io_proc_ops.proc_poll')
-   kernel/sched/psi.c:1875:27: error: initializer element is not constant
-    1875 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1875:27: note: (near initialization for 'psi_io_proc_ops.proc_release')
-   kernel/sched/psi.c:1879:27: error: initializer element is not constant
-    1879 |         .proc_open      = psi_memory_open,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1879:27: note: (near initialization for 'psi_memory_proc_ops.proc_open')
-   kernel/sched/psi.c:1882:27: error: initializer element is not constant
-    1882 |         .proc_write     = psi_memory_write,
-         |                           ^~~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1882:27: note: (near initialization for 'psi_memory_proc_ops.proc_write')
-   kernel/sched/psi.c:1883:27: error: initializer element is not constant
-    1883 |         .proc_poll      = psi_fop_poll,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1883:27: note: (near initialization for 'psi_memory_proc_ops.proc_poll')
-   kernel/sched/psi.c:1884:27: error: initializer element is not constant
-    1884 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1884:27: note: (near initialization for 'psi_memory_proc_ops.proc_release')
-   kernel/sched/psi.c:1888:27: error: initializer element is not constant
-    1888 |         .proc_open      = psi_cpu_open,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1888:27: note: (near initialization for 'psi_cpu_proc_ops.proc_open')
-   kernel/sched/psi.c:1891:27: error: initializer element is not constant
-    1891 |         .proc_write     = psi_cpu_write,
-         |                           ^~~~~~~~~~~~~
-   kernel/sched/psi.c:1891:27: note: (near initialization for 'psi_cpu_proc_ops.proc_write')
-   kernel/sched/psi.c:1892:27: error: initializer element is not constant
-    1892 |         .proc_poll      = psi_fop_poll,
-         |                           ^~~~~~~~~~~~
-   kernel/sched/psi.c:1892:27: note: (near initialization for 'psi_cpu_proc_ops.proc_poll')
-   kernel/sched/psi.c:1893:27: error: initializer element is not constant
-    1893 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1893:27: note: (near initialization for 'psi_cpu_proc_ops.proc_release')
->> kernel/sched/psi.c:1907:13: error: invalid storage class for function 'get_stat_names'
-    1907 | static void get_stat_names(struct seq_file *m, int i, bool is_full)
-         |             ^~~~~~~~~~~~~~
->> kernel/sched/psi.c:1953:12: error: invalid storage class for function 'system_psi_stat_show'
-    1953 | static int system_psi_stat_show(struct seq_file *m, void *v)
-         |            ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/psi.c:1958:12: error: invalid storage class for function 'psi_stat_open'
-    1958 | static int psi_stat_open(struct inode *inode, struct file *file)
-         |            ^~~~~~~~~~~~~
-   kernel/sched/psi.c:1964:27: error: initializer element is not constant
-    1964 |         .proc_open      = psi_stat_open,
-         |                           ^~~~~~~~~~~~~
-   kernel/sched/psi.c:1964:27: note: (near initialization for 'psi_stat_proc_ops.proc_open')
-   kernel/sched/psi.c:1967:27: error: initializer element is not constant
-    1967 |         .proc_release   = psi_fop_release,
-         |                           ^~~~~~~~~~~~~~~
-   kernel/sched/psi.c:1967:27: note: (near initialization for 'psi_stat_proc_ops.proc_release')
->> kernel/sched/psi.c:1998:19: error: invalid storage class for function 'psi_proc_init'
-    1998 | static int __init psi_proc_init(void)
-         |                   ^~~~~~~~~~~~~
-   In file included from include/linux/printk.h:6,
-                    from include/linux/kernel.h:30:
-   kernel/sched/psi.c:2014:13: error: initializer element is not constant
-    2014 | module_init(psi_proc_init);
-         |             ^~~~~~~~~~~~~
-   include/linux/init.h:270:55: note: in definition of macro '____define_initcall'
-     270 |                 __attribute__((__section__(__sec))) = fn;
-         |                                                       ^~
-   include/linux/init.h:280:9: note: in expansion of macro '__unique_initcall'
-     280 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:282:35: note: in expansion of macro '___define_initcall'
-     282 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:311:41: note: in expansion of macro '__define_initcall'
-     311 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:316:24: note: in expansion of macro 'device_initcall'
-     316 | #define __initcall(fn) device_initcall(fn)
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/module.h:88:25: note: in expansion of macro '__initcall'
-      88 | #define module_init(x)  __initcall(x);
-         |                         ^~~~~~~~~~
-   kernel/sched/psi.c:2014:1: note: in expansion of macro 'module_init'
-    2014 | module_init(psi_proc_init);
-         | ^~~~~~~~~~~
-   In file included from kernel/sched/build_utility.c:101:
-   kernel/sched/membarrier.c:165:13: error: invalid storage class for function 'ipi_mb'
-     165 | static void ipi_mb(void *info)
-         |             ^~~~~~
-   kernel/sched/membarrier.c:170:13: error: invalid storage class for function 'ipi_sync_core'
-     170 | static void ipi_sync_core(void *info)
-         |             ^~~~~~~~~~~~~
-   kernel/sched/membarrier.c:187:13: error: invalid storage class for function 'ipi_rseq'
-     187 | static void ipi_rseq(void *info)
-         |             ^~~~~~~~
-   kernel/sched/membarrier.c:200:13: error: invalid storage class for function 'ipi_sync_rq_state'
-     200 | static void ipi_sync_rq_state(void *info)
-         |             ^~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:245:12: error: invalid storage class for function 'membarrier_global_expedited'
-     245 | static int membarrier_global_expedited(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:310:12: error: invalid storage class for function 'membarrier_private_expedited'
-     310 | static int membarrier_private_expedited(int flags, int cpu_id)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:426:12: error: invalid storage class for function 'sync_runqueues_membarrier_state'
-     426 | static int sync_runqueues_membarrier_state(struct mm_struct *mm)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:483:12: error: invalid storage class for function 'membarrier_register_global_expedited'
-     483 | static int membarrier_register_global_expedited(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:502:12: error: invalid storage class for function 'membarrier_register_private_expedited'
-     502 | static int membarrier_register_private_expedited(int flags)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:544:12: error: invalid storage class for function 'membarrier_get_registrations'
-     544 | static int membarrier_get_registrations(void)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler_types.h:153,
-                    from <command-line>:
->> include/linux/compiler-gcc.h:132:33: warning: 'alias' attribute ignored [-Wattributes]
-     132 | #define __diag(s)               _Pragma(__diag_str(GCC diagnostic s))
-         |                                 ^~~~~~~
-   include/linux/compiler-gcc.h:135:33: note: in expansion of macro '__diag'
-     135 | #define __diag_GCC_8(s)         __diag(s)
-         |                                 ^~~~~~
-   include/linux/compiler-gcc.h:123:9: note: in expansion of macro '__diag_GCC_8'
-     123 |         __diag_GCC_ ## version(__diag_GCC_ ## severity s)
+   In file included from <command-line>:
+>> include/linux/compiler.h:166:45: error: storage class specified for parameter '__UNIQUE_ID___addressable_snd_soc_runtime_action279'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:221:9: note: in expansion of macro '__UNIQUE_ID'
+     221 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
          |         ^~~~~~~~~~~
-   include/linux/compiler_types.h:444:9: note: in expansion of macro '__diag_GCC'
-     444 |         __diag_ ## compiler(version, ignore, option)
-         |         ^~~~~~~
-   include/linux/syscalls.h:242:9: note: in expansion of macro '__diag_ignore'
-     242 |         __diag_ignore(GCC, 8, "-Wattribute-alias",                      \
+   include/linux/compiler.h:224:9: note: in expansion of macro '___ADDRESSABLE'
+     224 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:71:9: note: in expansion of macro '__ADDRESSABLE'
+      71 |         __ADDRESSABLE(sym)                                      \
          |         ^~~~~~~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   In file included from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/build_utility.c:53:
->> include/linux/syscalls.h:247:28: error: invalid storage class for function '__do_sys_membarrier'
-     247 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__));\
-         |                            ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
->> include/linux/syscalls.h:249:25: error: static declaration of '__se_sys_membarrier' follows non-static declaration
-     249 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__))  \
-         |                         ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   include/linux/syscalls.h:248:25: note: previous declaration of '__se_sys_membarrier' with type 'long int(long int,  long int,  long int)'
-     248 |         asmlinkage long __se_sys##name(__MAP(x,__SC_LONG,__VA_ARGS__)); \
-         |                         ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c: In function '__se_sys_membarrier':
-   include/linux/syscalls.h:251:28: error: implicit declaration of function '__do_sys_membarrier'; did you mean '__se_sys_membarrier'? [-Wimplicit-function-declaration]
-     251 |                 long ret = __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS__));\
-         |                            ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c: In function 'record_stat_times':
-   include/linux/syscalls.h:257:28: error: invalid storage class for function '__do_sys_membarrier'
-     257 |         static inline long __do_sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))
-         |                            ^~~~~~~~
-   include/linux/syscalls.h:230:9: note: in expansion of macro '__SYSCALL_DEFINEx'
-     230 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:221:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-     221 | #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-         |                                    ^~~~~~~~~~~~~~~
-   kernel/sched/membarrier.c:614:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-     614 | SYSCALL_DEFINE3(membarrier, int, cmd, unsigned int, flags, int, cpu_id)
-         | ^~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:24:19: error: extern declaration of 'housekeeping_overridden' follows declaration with no linkage
-      24 | EXPORT_SYMBOL_GPL(housekeeping_overridden);
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:390:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     390 | EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
+         | ^~~~~~~~~~~~~~~~~
+>> sound/soc/soc-pcm.c:390:1: error: parameter '__UNIQUE_ID___addressable_snd_soc_runtime_action279' is initialized
+>> sound/soc/soc-pcm.c:390:1: warning: 'used' attribute ignored [-Wattributes]
+>> include/linux/compiler.h:166:45: error: section attribute not allowed for '__UNIQUE_ID___addressable_snd_soc_runtime_action279'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:221:9: note: in expansion of macro '__UNIQUE_ID'
+     221 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |         ^~~~~~~~~~~
+   include/linux/compiler.h:224:9: note: in expansion of macro '___ADDRESSABLE'
+     224 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:71:9: note: in expansion of macro '__ADDRESSABLE'
+      71 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:390:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     390 | EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
+         | ^~~~~~~~~~~~~~~~~
+>> include/linux/export.h:73:9: error: expected declaration specifiers before 'asm'
+      73 |         asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
+         |         ^~~
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:390:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     390 | EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
+         | ^~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:402:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     402 | {
+         | ^
+   sound/soc/soc-pcm.c:419:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     419 | {
+         | ^
+   sound/soc/soc-pcm.c:443:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     443 | {
+         | ^
+   sound/soc/soc-pcm.c:457:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     457 | {
+         | ^
+   sound/soc/soc-pcm.c:487:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     487 | {
+         | ^
+   sound/soc/soc-pcm.c:521:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     521 | {
+         | ^
+   sound/soc/soc-pcm.c:542:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     542 | {
+         | ^
+   sound/soc/soc-pcm.c:556:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     556 | {
+         | ^
+   sound/soc/soc-pcm.c:589:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     589 | {
+         | ^
+   sound/soc/soc-pcm.c:600:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     600 | {
+         | ^
+   sound/soc/soc-pcm.c:613:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     613 | {
+         | ^
+   sound/soc/soc-pcm.c:620:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     620 | {
+         | ^
+   sound/soc/soc-pcm.c:636:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     636 | {
+         | ^
+>> sound/soc/soc-pcm.c:702:19: error: storage class specified for parameter 'snd_soc_runtime_calc_hw'
+     702 | EXPORT_SYMBOL_GPL(snd_soc_runtime_calc_hw);
          |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
+   include/linux/export.h:70:28: note: in definition of macro '__EXPORT_SYMBOL'
+      70 |         extern typeof(sym) sym;                                 \
          |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
          |                                         ^~~~~~~~~~~~~~
-   kernel/sched/isolation.c:24:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-      24 | EXPORT_SYMBOL_GPL(housekeeping_overridden);
+   sound/soc/soc-pcm.c:702:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     702 | EXPORT_SYMBOL_GPL(snd_soc_runtime_calc_hw);
          | ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/once.h:6,
-                    from include/linux/prandom.h:12,
-                    from include/linux/random.h:153,
-                    from include/linux/nodemask.h:97,
-                    from include/linux/sched.h:23,
-                    from include/linux/sched/signal.h:7,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/build_utility.c:13:
-   kernel/sched/isolation.c:23:25: note: previous definition of 'housekeeping_overridden' with type 'struct static_key_false'
-      23 | DEFINE_STATIC_KEY_FALSE(housekeeping_overridden);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jump_label.h:390:33: note: in definition of macro 'DEFINE_STATIC_KEY_FALSE'
-     390 |         struct static_key_false name = STATIC_KEY_FALSE_INIT
-         |                                 ^~~~
-   kernel/sched/isolation.c:37:19: error: non-static declaration of 'housekeeping_enabled' follows static declaration
-      37 | EXPORT_SYMBOL_GPL(housekeeping_enabled);
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+>> include/linux/compiler.h:166:45: error: storage class specified for parameter '__UNIQUE_ID___addressable_snd_soc_runtime_calc_hw298'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:221:9: note: in expansion of macro '__UNIQUE_ID'
+     221 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |         ^~~~~~~~~~~
+   include/linux/compiler.h:224:9: note: in expansion of macro '___ADDRESSABLE'
+     224 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:71:9: note: in expansion of macro '__ADDRESSABLE'
+      71 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
          |                                         ^~~~~~~~~~~~~~
-   kernel/sched/isolation.c:37:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-      37 | EXPORT_SYMBOL_GPL(housekeeping_enabled);
+   sound/soc/soc-pcm.c:702:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     702 | EXPORT_SYMBOL_GPL(snd_soc_runtime_calc_hw);
          | ^~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/build_utility.c:105:
-   kernel/sched/isolation.c:33:6: note: previous definition of 'housekeeping_enabled' with type 'bool(enum hk_type)' {aka '_Bool(enum hk_type)'}
-      33 | bool housekeeping_enabled(enum hk_type type)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/isolation.c:54:19: error: non-static declaration of 'housekeeping_any_cpu' follows static declaration
-      54 | EXPORT_SYMBOL_GPL(housekeeping_any_cpu);
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
-      74 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+>> sound/soc/soc-pcm.c:702:1: error: parameter '__UNIQUE_ID___addressable_snd_soc_runtime_calc_hw298' is initialized
+   sound/soc/soc-pcm.c:702:1: warning: 'used' attribute ignored [-Wattributes]
+>> include/linux/compiler.h:166:45: error: section attribute not allowed for '__UNIQUE_ID___addressable_snd_soc_runtime_calc_hw298'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:221:9: note: in expansion of macro '__UNIQUE_ID'
+     221 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |         ^~~~~~~~~~~
+   include/linux/compiler.h:224:9: note: in expansion of macro '___ADDRESSABLE'
+     224 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:71:9: note: in expansion of macro '__ADDRESSABLE'
+      71 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
          |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:702:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     702 | EXPORT_SYMBOL_GPL(snd_soc_runtime_calc_hw);
+         | ^~~~~~~~~~~~~~~~~
+>> include/linux/export.h:73:9: error: expected declaration specifiers before 'asm'
+      73 |         asm(__stringify(___EXPORT_SYMBOL(sym, license, ns)))
+         |         ^~~
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:702:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     702 | EXPORT_SYMBOL_GPL(snd_soc_runtime_calc_hw);
+         | ^~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:705:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     705 | {
+         | ^
+   sound/soc/soc-pcm.c:722:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     722 | {
+         | ^
+   sound/soc/soc-pcm.c:742:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     742 | {
+         | ^
+   sound/soc/soc-pcm.c:760:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     760 | {
+         | ^
+   sound/soc/soc-pcm.c:800:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     800 | {
+         | ^
+   sound/soc/soc-pcm.c:806:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     806 | {
+         | ^
+   sound/soc/soc-pcm.c:816:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     816 | {
+         | ^
+   sound/soc/soc-pcm.c:859:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     859 | {
+         | ^
+   sound/soc/soc-pcm.c:921:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     921 | {
+         | ^
+   sound/soc/soc-pcm.c:938:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     938 | {
+         | ^
+   sound/soc/soc-pcm.c:983:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     983 | {
+         | ^
+   sound/soc/soc-pcm.c:1002:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1002 | {
+         | ^
+   sound/soc/soc-pcm.c:1013:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1013 | {
+         | ^
+   sound/soc/soc-pcm.c:1052:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1052 | {
+         | ^
+   sound/soc/soc-pcm.c:1058:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1058 | {
+         | ^
+   sound/soc/soc-pcm.c:1075:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1075 | {
+         | ^
+   sound/soc/soc-pcm.c:1177:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1177 | {
+         | ^
+>> sound/soc/soc-pcm.c:1188:21: error: storage class specified for parameter 'trigger'
+    1188 | static int (* const trigger[][TRIGGER_MAX])(struct snd_pcm_substream *substream, int cmd, int rollback) = {
+         |                     ^~~~~~~
+>> sound/soc/soc-pcm.c:1188:52: error: parameter 'trigger' is initialized
+    1188 | static int (* const trigger[][TRIGGER_MAX])(struct snd_pcm_substream *substream, int cmd, int rollback) = {
+         |                                                    ^~~~~~~~~~~~~~~~~
+>> sound/soc/soc-pcm.c:1188:107: error: variable-sized object may not be initialized except with an empty initializer
+    1188 | static int (* const trigger[][TRIGGER_MAX])(struct snd_pcm_substream *substream, int cmd, int rollback) = {
+         |                                                                                                           ^
+>> sound/soc/soc-pcm.c:1189:10: error: array index in non-array initializer
+    1189 |         [SND_SOC_TRIGGER_ORDER_DEFAULT] = {
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1189:10: note: (near initialization for 'trigger')
+>> sound/soc/soc-pcm.c:1189:9: warning: braces around scalar initializer
+    1189 |         [SND_SOC_TRIGGER_ORDER_DEFAULT] = {
+         |         ^
+   sound/soc/soc-pcm.c:1189:9: note: (near initialization for 'trigger')
+>> sound/soc/soc-pcm.c:1190:17: error: initialization of 'int (* const (*)[3])(struct snd_pcm_substream *, int,  int)' from incompatible pointer type 'int (*)(struct snd_pcm_substream *, int,  int)' [-Wincompatible-pointer-types]
+    1190 |                 snd_soc_link_trigger,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1190:17: note: (near initialization for 'trigger')
+>> sound/soc/soc-pcm.c:1191:17: warning: excess elements in scalar initializer
+    1191 |                 snd_soc_pcm_component_trigger,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1191:17: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1192:17: warning: excess elements in scalar initializer
+    1192 |                 snd_soc_pcm_dai_trigger,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1192:17: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1194:10: error: array index in non-array initializer
+    1194 |         [SND_SOC_TRIGGER_ORDER_LDC] = {
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1194:10: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1194:9: warning: braces around scalar initializer
+    1194 |         [SND_SOC_TRIGGER_ORDER_LDC] = {
+         |         ^
+   sound/soc/soc-pcm.c:1194:9: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1195:17: error: initialization of 'int (* const (*)[3])(struct snd_pcm_substream *, int,  int)' from incompatible pointer type 'int (*)(struct snd_pcm_substream *, int,  int)' [-Wincompatible-pointer-types]
+    1195 |                 snd_soc_link_trigger,
+         |                 ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1195:17: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1196:17: warning: excess elements in scalar initializer
+    1196 |                 snd_soc_pcm_dai_trigger,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1196:17: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1197:17: warning: excess elements in scalar initializer
+    1197 |                 snd_soc_pcm_component_trigger,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1197:17: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1194:39: warning: excess elements in scalar initializer
+    1194 |         [SND_SOC_TRIGGER_ORDER_LDC] = {
+         |                                       ^
+   sound/soc/soc-pcm.c:1194:39: note: (near initialization for 'trigger')
+   sound/soc/soc-pcm.c:1202:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1202 | {
+         | ^
+   sound/soc/soc-pcm.c:1284:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1284 | {
+         | ^
+   sound/soc/soc-pcm.c:1304:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1304 | {
+         | ^
+   sound/soc/soc-pcm.c:1353:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1353 | {
+         | ^
+   sound/soc/soc-pcm.c:1382:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1382 | {
+         | ^
+   sound/soc/soc-pcm.c:1422:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1422 | {
+         | ^
+   sound/soc/soc-pcm.c:1455:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1455 | {
+         | ^
+   sound/soc/soc-pcm.c:1465:19: error: storage class specified for parameter 'widget_in_list'
+    1465 | EXPORT_SYMBOL_GPL(widget_in_list);
+         |                   ^~~~~~~~~~~~~~
+   include/linux/export.h:70:28: note: in definition of macro '__EXPORT_SYMBOL'
+      70 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1465:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1465 | EXPORT_SYMBOL_GPL(widget_in_list);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:166:45: error: storage class specified for parameter '__UNIQUE_ID___addressable_widget_in_list299'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:83:23: note: in definition of macro '___PASTE'
+      83 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/compiler.h:221:9: note: in expansion of macro '__UNIQUE_ID'
+     221 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
+         |         ^~~~~~~~~~~
+   include/linux/compiler.h:224:9: note: in expansion of macro '___ADDRESSABLE'
+     224 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^~~~~~~~~~~~~~
+   include/linux/export.h:71:9: note: in expansion of macro '__ADDRESSABLE'
+      71 |         __ADDRESSABLE(sym)                                      \
+         |         ^~~~~~~~~~~~~
+   include/linux/export.h:80:41: note: in expansion of macro '__EXPORT_SYMBOL'
+      80 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^~~~~~~~~~~~~~~
+   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1465:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+    1465 | EXPORT_SYMBOL_GPL(widget_in_list);
+         | ^~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1465:1: error: parameter '__UNIQUE_ID___addressable_widget_in_list299' is initialized
+   sound/soc/soc-pcm.c:1465:1: warning: 'used' attribute ignored [-Wattributes]
+   include/linux/compiler.h:166:45: error: section attribute not allowed for '__UNIQUE_ID___addressable_widget_in_list299'
+..
 
 
-vim +/psi_io_show +1763 kernel/sched/psi.c
+vim +322 sound/soc/soc-pcm.c
 
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1761  
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1762  #ifdef CONFIG_PROC_FS
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19 @1763  static int psi_io_show(struct seq_file *m, void *v)
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1764  {
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1765  	return psi_show(m, &psi_system, PSI_IO);
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1766  }
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1767  
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19 @1768  static int psi_memory_show(struct seq_file *m, void *v)
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1769  {
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1770  	return psi_show(m, &psi_system, PSI_MEM);
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1771  }
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1772  
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19 @1773  static int psi_cpu_show(struct seq_file *m, void *v)
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1774  {
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1775  	return psi_show(m, &psi_system, PSI_CPU);
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1776  }
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1777  
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19 @1778  static int psi_io_open(struct inode *inode, struct file *file)
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1779  {
-d82caa273565b4 Domenico Cerasuolo 2023-03-30  1780  	return single_open(file, psi_io_show, NULL);
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1781  }
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1782  
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19 @1783  static int psi_memory_open(struct inode *inode, struct file *file)
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1784  {
-d82caa273565b4 Domenico Cerasuolo 2023-03-30  1785  	return single_open(file, psi_memory_show, NULL);
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1786  }
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1787  
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19 @1788  static int psi_cpu_open(struct inode *inode, struct file *file)
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1789  {
-d82caa273565b4 Domenico Cerasuolo 2023-03-30  1790  	return single_open(file, psi_cpu_show, NULL);
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1791  }
-5102bb1c9f8285 Suren Baghdasaryan 2022-01-19  1792  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1793  static ssize_t psi_write(struct file *file, const char __user *user_buf,
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1794  			 size_t nbytes, enum psi_res res)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1795  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1796  	char buf[32];
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1797  	size_t buf_size;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1798  	struct seq_file *seq;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1799  	struct psi_trigger *new;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1800  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1801  	if (static_branch_likely(&psi_disabled))
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1802  		return -EOPNOTSUPP;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1803  
-6fcca0fa48118e Suren Baghdasaryan 2020-02-03  1804  	if (!nbytes)
-6fcca0fa48118e Suren Baghdasaryan 2020-02-03  1805  		return -EINVAL;
-6fcca0fa48118e Suren Baghdasaryan 2020-02-03  1806  
-4adcdcea717cb2 Miles Chen         2019-09-12  1807  	buf_size = min(nbytes, sizeof(buf));
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1808  	if (copy_from_user(buf, user_buf, buf_size))
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1809  		return -EFAULT;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1810  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1811  	buf[buf_size - 1] = '\0';
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1812  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1813  	seq = file->private_data;
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1814  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1815  	/* Take seq->lock to protect seq->private from concurrent writes */
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1816  	mutex_lock(&seq->lock);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1817  
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1818  	/* Allow only one trigger per file descriptor */
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1819  	if (seq->private) {
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1820  		mutex_unlock(&seq->lock);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1821  		return -EBUSY;
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1822  	}
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1823  
-aff037078ecaec Suren Baghdasaryan 2023-06-29  1824  	new = psi_trigger_create(&psi_system, buf, res, file, NULL);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1825  	if (IS_ERR(new)) {
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1826  		mutex_unlock(&seq->lock);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1827  		return PTR_ERR(new);
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1828  	}
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1829  
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1830  	smp_store_release(&seq->private, new);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1831  	mutex_unlock(&seq->lock);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1832  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1833  	return nbytes;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1834  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1835  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1836  static ssize_t psi_io_write(struct file *file, const char __user *user_buf,
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1837  			    size_t nbytes, loff_t *ppos)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1838  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1839  	return psi_write(file, user_buf, nbytes, PSI_IO);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1840  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1841  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1842  static ssize_t psi_memory_write(struct file *file, const char __user *user_buf,
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1843  				size_t nbytes, loff_t *ppos)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1844  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1845  	return psi_write(file, user_buf, nbytes, PSI_MEM);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1846  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1847  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1848  static ssize_t psi_cpu_write(struct file *file, const char __user *user_buf,
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1849  			     size_t nbytes, loff_t *ppos)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1850  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1851  	return psi_write(file, user_buf, nbytes, PSI_CPU);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1852  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1853  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1854  static __poll_t psi_fop_poll(struct file *file, poll_table *wait)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1855  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1856  	struct seq_file *seq = file->private_data;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1857  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1858  	return psi_trigger_poll(&seq->private, file, wait);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1859  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1860  
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14 @1861  static int psi_fop_release(struct inode *inode, struct file *file)
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1862  {
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1863  	struct seq_file *seq = file->private_data;
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1864  
-a06247c6804f1a Suren Baghdasaryan 2022-01-11  1865  	psi_trigger_destroy(seq->private);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1866  	return single_release(inode, file);
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1867  }
-0e94682b73bfa6 Suren Baghdasaryan 2019-05-14  1868  
-97a32539b9568b Alexey Dobriyan    2020-02-03  1869  static const struct proc_ops psi_io_proc_ops = {
-97a32539b9568b Alexey Dobriyan    2020-02-03 @1870  	.proc_open	= psi_io_open,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1871  	.proc_read	= seq_read,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1872  	.proc_lseek	= seq_lseek,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1873  	.proc_write	= psi_io_write,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1874  	.proc_poll	= psi_fop_poll,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1875  	.proc_release	= psi_fop_release,
-eb414681d5a07d Johannes Weiner    2018-10-26  1876  };
-eb414681d5a07d Johannes Weiner    2018-10-26  1877  
-97a32539b9568b Alexey Dobriyan    2020-02-03  1878  static const struct proc_ops psi_memory_proc_ops = {
-97a32539b9568b Alexey Dobriyan    2020-02-03  1879  	.proc_open	= psi_memory_open,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1880  	.proc_read	= seq_read,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1881  	.proc_lseek	= seq_lseek,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1882  	.proc_write	= psi_memory_write,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1883  	.proc_poll	= psi_fop_poll,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1884  	.proc_release	= psi_fop_release,
-eb414681d5a07d Johannes Weiner    2018-10-26  1885  };
-eb414681d5a07d Johannes Weiner    2018-10-26  1886  
-97a32539b9568b Alexey Dobriyan    2020-02-03  1887  static const struct proc_ops psi_cpu_proc_ops = {
-97a32539b9568b Alexey Dobriyan    2020-02-03  1888  	.proc_open	= psi_cpu_open,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1889  	.proc_read	= seq_read,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1890  	.proc_lseek	= seq_lseek,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1891  	.proc_write	= psi_cpu_write,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1892  	.proc_poll	= psi_fop_poll,
-97a32539b9568b Alexey Dobriyan    2020-02-03  1893  	.proc_release	= psi_fop_release,
-eb414681d5a07d Johannes Weiner    2018-10-26  1894  };
-eb414681d5a07d Johannes Weiner    2018-10-26  1895  
-4a69b56540f405 Lu Jialin          2024-01-04  1896  #ifdef CONFIG_PSI_FINE_GRAINED
-4a69b56540f405 Lu Jialin          2024-01-04  1897  static const char *const psi_stat_names[] = {
-4a69b56540f405 Lu Jialin          2024-01-04  1898  	"cgroup_memory_reclaim",
-25d00f6853c3c6 Lu Jialin          2024-01-04  1899  	"global_memory_reclaim",
-25d00f6853c3c6 Lu Jialin          2024-01-04  1900  	"compact",
-25d00f6853c3c6 Lu Jialin          2024-01-04  1901  	"cgroup_async_memory_reclaim",
-25d00f6853c3c6 Lu Jialin          2024-01-04  1902  	"swap",
-65494451082298 Lu Jialin          2024-01-04  1903  	"cpu_cfs_bandwidth",
-65494451082298 Lu Jialin          2024-01-04  1904  	"cpu_qos",
-4a69b56540f405 Lu Jialin          2024-01-04  1905  };
-4a69b56540f405 Lu Jialin          2024-01-04  1906  
-65494451082298 Lu Jialin          2024-01-04 @1907  static void get_stat_names(struct seq_file *m, int i, bool is_full)
-65494451082298 Lu Jialin          2024-01-04  1908  {
-65494451082298 Lu Jialin          2024-01-04  1909  	if (i <= PSI_SWAP_FULL && !is_full)
-65494451082298 Lu Jialin          2024-01-04  1910  		return seq_printf(m, "%s\n", psi_stat_names[i / 2]);
-65494451082298 Lu Jialin          2024-01-04  1911  	else if (i == PSI_CPU_CFS_BANDWIDTH_FULL)
-65494451082298 Lu Jialin          2024-01-04  1912  		return seq_printf(m, "%s\n", "cpu_cfs_bandwidth");
-65494451082298 Lu Jialin          2024-01-04  1913  #ifdef CONFIG_QOS_SCHED
-65494451082298 Lu Jialin          2024-01-04  1914  	else if (i == PSI_CPU_QOS_FULL)
-65494451082298 Lu Jialin          2024-01-04  1915  		return seq_printf(m, "%s\n", "cpu_qos");
-65494451082298 Lu Jialin          2024-01-04  1916  #endif
-65494451082298 Lu Jialin          2024-01-04  1917  }
-65494451082298 Lu Jialin          2024-01-04  1918  
-4a69b56540f405 Lu Jialin          2024-01-04  1919  int psi_stat_show(struct seq_file *m, struct psi_group *group)
-4a69b56540f405 Lu Jialin          2024-01-04  1920  {
-4a69b56540f405 Lu Jialin          2024-01-04  1921  	int i;
-4a69b56540f405 Lu Jialin          2024-01-04  1922  	u64 now;
-4a69b56540f405 Lu Jialin          2024-01-04  1923  
-4a69b56540f405 Lu Jialin          2024-01-04  1924  	if (static_branch_likely(&psi_disabled))
-4a69b56540f405 Lu Jialin          2024-01-04  1925  		return -EOPNOTSUPP;
-4a69b56540f405 Lu Jialin          2024-01-04  1926  
-4a69b56540f405 Lu Jialin          2024-01-04  1927  	mutex_lock(&group->avgs_lock);
-4a69b56540f405 Lu Jialin          2024-01-04  1928  	now = sched_clock();
-4a69b56540f405 Lu Jialin          2024-01-04  1929  	collect_percpu_times(group, PSI_AVGS, NULL);
-4a69b56540f405 Lu Jialin          2024-01-04  1930  	if (now >= group->avg_next_update)
-4a69b56540f405 Lu Jialin          2024-01-04  1931  		group->avg_next_update = update_averages(group, now);
-4a69b56540f405 Lu Jialin          2024-01-04  1932  	mutex_unlock(&group->avgs_lock);
-4a69b56540f405 Lu Jialin          2024-01-04  1933  
-4a69b56540f405 Lu Jialin          2024-01-04  1934  	for (i = 0; i < NR_PSI_STAT_STATES; i++) {
-4a69b56540f405 Lu Jialin          2024-01-04  1935  		unsigned long avg[3] = {0, };
-4a69b56540f405 Lu Jialin          2024-01-04  1936  		int w;
-4a69b56540f405 Lu Jialin          2024-01-04  1937  		u64 total;
-65494451082298 Lu Jialin          2024-01-04  1938  		bool is_full = i % 2 || i > PSI_SWAP_FULL;
-4a69b56540f405 Lu Jialin          2024-01-04  1939  
-4a69b56540f405 Lu Jialin          2024-01-04  1940  		for (w = 0; w < 3; w++)
-4a69b56540f405 Lu Jialin          2024-01-04  1941  			avg[w] = group->fine_grained_avg[i][w];
-4a69b56540f405 Lu Jialin          2024-01-04  1942  		total = div_u64(group->fine_grained_total[PSI_AVGS][i], NSEC_PER_USEC);
-65494451082298 Lu Jialin          2024-01-04  1943  		get_stat_names(m, i, is_full);
-4a69b56540f405 Lu Jialin          2024-01-04  1944  		seq_printf(m, "%s avg10=%lu.%02lu avg60=%lu.%02lu avg300=%lu.%02lu total=%llu\n",
-4a69b56540f405 Lu Jialin          2024-01-04  1945  			   is_full ? "full" : "some",
-4a69b56540f405 Lu Jialin          2024-01-04  1946  			   LOAD_INT(avg[0]), LOAD_FRAC(avg[0]),
-4a69b56540f405 Lu Jialin          2024-01-04  1947  			   LOAD_INT(avg[1]), LOAD_FRAC(avg[1]),
-4a69b56540f405 Lu Jialin          2024-01-04  1948  			   LOAD_INT(avg[2]), LOAD_FRAC(avg[2]),
-4a69b56540f405 Lu Jialin          2024-01-04  1949  			   total);
-4a69b56540f405 Lu Jialin          2024-01-04  1950  	}
-4a69b56540f405 Lu Jialin          2024-01-04  1951  	return 0;
-4a69b56540f405 Lu Jialin          2024-01-04  1952  }
-4a69b56540f405 Lu Jialin          2024-01-04 @1953  static int system_psi_stat_show(struct seq_file *m, void *v)
-4a69b56540f405 Lu Jialin          2024-01-04  1954  {
-4a69b56540f405 Lu Jialin          2024-01-04  1955  	return psi_stat_show(m, &psi_system);
-4a69b56540f405 Lu Jialin          2024-01-04  1956  }
-4a69b56540f405 Lu Jialin          2024-01-04  1957  
-4a69b56540f405 Lu Jialin          2024-01-04 @1958  static int psi_stat_open(struct inode *inode, struct file *file)
-4a69b56540f405 Lu Jialin          2024-01-04  1959  {
-4a69b56540f405 Lu Jialin          2024-01-04  1960  	return single_open(file, system_psi_stat_show, NULL);
-4a69b56540f405 Lu Jialin          2024-01-04  1961  }
-4a69b56540f405 Lu Jialin          2024-01-04  1962  
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  119  
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  120  /*
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  121   * We can only change hw params a BE DAI if any of it's FE are not prepared,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  122   * running, paused or suspended for the specified stream direction.
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  123   */
+46acbab406b069 Kuninori Morimoto  2025-02-05 @124  static int snd_soc_dpcm_be_can_params(struct snd_soc_pcm_runtime *fe,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  125  				      struct snd_soc_pcm_runtime *be, int stream)
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  126  {
+41ce6fdaab0085 Kuninori Morimoto  2025-02-05  127  	return !dpcm_fe_state_is(fe, be, stream,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  128  				SND_SOC_DPCM_STATE_START,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  129  				SND_SOC_DPCM_STATE_PAUSED,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  130  				SND_SOC_DPCM_STATE_SUSPEND,
+41ce6fdaab0085 Kuninori Morimoto  2025-02-05  131  				SND_SOC_DPCM_STATE_PREPARE);
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  132  }
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  133  
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  134  /*
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  135   * We can only prepare a BE DAI if any of it's FE are not prepared,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  136   * running or paused for the specified stream direction.
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  137   */
+46acbab406b069 Kuninori Morimoto  2025-02-05 @138  static int snd_soc_dpcm_be_can_prepared(struct snd_soc_pcm_runtime *fe,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  139  					struct snd_soc_pcm_runtime *be, int stream)
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  140  {
+41ce6fdaab0085 Kuninori Morimoto  2025-02-05  141  	return !dpcm_fe_state_is(fe, be, stream,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  142  				SND_SOC_DPCM_STATE_START,
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  143  				SND_SOC_DPCM_STATE_PAUSED,
+41ce6fdaab0085 Kuninori Morimoto  2025-02-05  144  				SND_SOC_DPCM_STATE_PREPARE);
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  145  }
+4dd4baa4408a15 Kuninori Morimoto  2024-08-26  146  
+01d7584cd2e5a9 Liam Girdwood      2012-04-25  147  #define DPCM_MAX_BE_USERS	8
+01d7584cd2e5a9 Liam Girdwood      2012-04-25  148  
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  149  static inline const char *soc_cpu_dai_name(struct snd_soc_pcm_runtime *rtd)
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  150  {
+2679a5b2f7d99e Kuninori Morimoto  2023-09-11  151  	return (rtd)->dai_link->num_cpus == 1 ? snd_soc_rtd_to_cpu(rtd, 0)->name : "multicpu";
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  152  }
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  153  static inline const char *soc_codec_dai_name(struct snd_soc_pcm_runtime *rtd)
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  154  {
+2679a5b2f7d99e Kuninori Morimoto  2023-09-11  155  	return (rtd)->dai_link->num_codecs == 1 ? snd_soc_rtd_to_codec(rtd, 0)->name : "multicodec";
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  156  }
+6fb8944cd2892e Kuninori Morimoto  2021-03-09  157  
+d7fdbbd2af104c Kuninori Morimoto  2025-02-05 @158  static const char *dpcm_state_string(struct snd_soc_pcm_runtime *rtd, int stream)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  159  #ifdef CONFIG_DEBUG_FS
+c3212829f812a4 Kuninori Morimoto  2020-02-19  160  {
+d7fdbbd2af104c Kuninori Morimoto  2025-02-05  161  	switch (rtd->dpcm[stream].state) {
+c3212829f812a4 Kuninori Morimoto  2020-02-19  162  	case SND_SOC_DPCM_STATE_NEW:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  163  		return "new";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  164  	case SND_SOC_DPCM_STATE_OPEN:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  165  		return "open";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  166  	case SND_SOC_DPCM_STATE_HW_PARAMS:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  167  		return "hw_params";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  168  	case SND_SOC_DPCM_STATE_PREPARE:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  169  		return "prepare";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  170  	case SND_SOC_DPCM_STATE_START:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  171  		return "start";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  172  	case SND_SOC_DPCM_STATE_STOP:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  173  		return "stop";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  174  	case SND_SOC_DPCM_STATE_SUSPEND:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  175  		return "suspend";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  176  	case SND_SOC_DPCM_STATE_PAUSED:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  177  		return "paused";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  178  	case SND_SOC_DPCM_STATE_HW_FREE:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  179  		return "hw_free";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  180  	case SND_SOC_DPCM_STATE_CLOSE:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  181  		return "close";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  182  	}
+c3212829f812a4 Kuninori Morimoto  2020-02-19  183  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  184  	return "unknown";
+c3212829f812a4 Kuninori Morimoto  2020-02-19  185  }
+c3212829f812a4 Kuninori Morimoto  2020-02-19  186  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  187  static ssize_t dpcm_show_state(struct snd_soc_pcm_runtime *fe,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  188  			       int stream, char *buf, size_t size)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  189  {
+c3212829f812a4 Kuninori Morimoto  2020-02-19  190  	struct snd_pcm_hw_params *params = &fe->dpcm[stream].hw_params;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  191  	struct snd_soc_dpcm *dpcm;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  192  	ssize_t offset = 0;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  193  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  194  	/* FE state */
+d0c9abb8339dfd Takashi Iwai       2020-03-10  195  	offset += scnprintf(buf + offset, size - offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  196  			   "[%s - %s]\n", fe->dai_link->name,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  197  			   stream ? "Capture" : "Playback");
+c3212829f812a4 Kuninori Morimoto  2020-02-19  198  
+d0c9abb8339dfd Takashi Iwai       2020-03-10  199  	offset += scnprintf(buf + offset, size - offset, "State: %s\n",
+d7fdbbd2af104c Kuninori Morimoto  2025-02-05  200  			   dpcm_state_string(fe, stream));
+c3212829f812a4 Kuninori Morimoto  2020-02-19  201  
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  202  	if (dpcm_state_is(fe, stream,	SND_SOC_DPCM_STATE_HW_PARAMS,
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  203  					SND_SOC_DPCM_STATE_PREPARE,
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  204  					SND_SOC_DPCM_STATE_START,
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  205  					SND_SOC_DPCM_STATE_STOP))
+d0c9abb8339dfd Takashi Iwai       2020-03-10  206  		offset += scnprintf(buf + offset, size - offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  207  				   "Hardware Params: "
+c3212829f812a4 Kuninori Morimoto  2020-02-19  208  				   "Format = %s, Channels = %d, Rate = %d\n",
+c3212829f812a4 Kuninori Morimoto  2020-02-19  209  				   snd_pcm_format_name(params_format(params)),
+c3212829f812a4 Kuninori Morimoto  2020-02-19  210  				   params_channels(params),
+c3212829f812a4 Kuninori Morimoto  2020-02-19  211  				   params_rate(params));
+c3212829f812a4 Kuninori Morimoto  2020-02-19  212  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  213  	/* BEs state */
+d0c9abb8339dfd Takashi Iwai       2020-03-10  214  	offset += scnprintf(buf + offset, size - offset, "Backends:\n");
+c3212829f812a4 Kuninori Morimoto  2020-02-19  215  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  216  	if (list_empty(&fe->dpcm[stream].be_clients)) {
+d0c9abb8339dfd Takashi Iwai       2020-03-10  217  		offset += scnprintf(buf + offset, size - offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  218  				   " No active DSP links\n");
+c3212829f812a4 Kuninori Morimoto  2020-02-19  219  		goto out;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  220  	}
+c3212829f812a4 Kuninori Morimoto  2020-02-19  221  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  222  	for_each_dpcm_be(fe, stream, dpcm) {
+c3212829f812a4 Kuninori Morimoto  2020-02-19  223  		struct snd_soc_pcm_runtime *be = dpcm->be;
+25106550f1366b Kuninori Morimoto  2022-10-19  224  		params = &be->dpcm[stream].hw_params;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  225  
+d0c9abb8339dfd Takashi Iwai       2020-03-10  226  		offset += scnprintf(buf + offset, size - offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  227  				   "- %s\n", be->dai_link->name);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  228  
+d0c9abb8339dfd Takashi Iwai       2020-03-10  229  		offset += scnprintf(buf + offset, size - offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  230  				   "   State: %s\n",
+d7fdbbd2af104c Kuninori Morimoto  2025-02-05  231  				   dpcm_state_string(be, stream));
+c3212829f812a4 Kuninori Morimoto  2020-02-19  232  
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  233  		if (dpcm_state_is(be, stream,	SND_SOC_DPCM_STATE_HW_PARAMS,
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  234  						SND_SOC_DPCM_STATE_PREPARE,
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  235  						SND_SOC_DPCM_STATE_START,
+0ae2bf14ca5680 Kuninori Morimoto  2025-02-05  236  						SND_SOC_DPCM_STATE_STOP))
+d0c9abb8339dfd Takashi Iwai       2020-03-10  237  			offset += scnprintf(buf + offset, size - offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  238  					   "   Hardware Params: "
+c3212829f812a4 Kuninori Morimoto  2020-02-19  239  					   "Format = %s, Channels = %d, Rate = %d\n",
+c3212829f812a4 Kuninori Morimoto  2020-02-19  240  					   snd_pcm_format_name(params_format(params)),
+c3212829f812a4 Kuninori Morimoto  2020-02-19  241  					   params_channels(params),
+c3212829f812a4 Kuninori Morimoto  2020-02-19  242  					   params_rate(params));
+c3212829f812a4 Kuninori Morimoto  2020-02-19  243  	}
+c3212829f812a4 Kuninori Morimoto  2020-02-19  244  out:
+c3212829f812a4 Kuninori Morimoto  2020-02-19  245  	return offset;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  246  }
+c3212829f812a4 Kuninori Morimoto  2020-02-19  247  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  248  static ssize_t dpcm_state_read_file(struct file *file, char __user *user_buf,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  249  				    size_t count, loff_t *ppos)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  250  {
+c3212829f812a4 Kuninori Morimoto  2020-02-19  251  	struct snd_soc_pcm_runtime *fe = file->private_data;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  252  	ssize_t out_count = PAGE_SIZE, offset = 0, ret = 0;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  253  	int stream;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  254  	char *buf;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  255  
+be61cd4242e4a5 Kuninori Morimoto  2025-02-05  256  	if (fe->dai_link->num_cpus > 1)
+be61cd4242e4a5 Kuninori Morimoto  2025-02-05  257  		return snd_soc_ret(fe->dev, -EINVAL,
+6e1276a5e613d2 Bard Liao          2020-02-25  258  			"%s doesn't support Multi CPU yet\n", __func__);
+6e1276a5e613d2 Bard Liao          2020-02-25  259  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  260  	buf = kmalloc(out_count, GFP_KERNEL);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  261  	if (!buf)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  262  		return -ENOMEM;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  263  
+b7898396f4bbe1 Takashi Iwai       2021-12-07  264  	snd_soc_dpcm_mutex_lock(fe);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  265  	for_each_pcm_streams(stream)
+2679a5b2f7d99e Kuninori Morimoto  2023-09-11  266  		if (snd_soc_dai_stream_valid(snd_soc_rtd_to_cpu(fe, 0), stream))
+c3212829f812a4 Kuninori Morimoto  2020-02-19  267  			offset += dpcm_show_state(fe, stream,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  268  						  buf + offset,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  269  						  out_count - offset);
+b7898396f4bbe1 Takashi Iwai       2021-12-07  270  	snd_soc_dpcm_mutex_unlock(fe);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  271  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  272  	ret = simple_read_from_buffer(user_buf, count, ppos, buf, offset);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  273  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  274  	kfree(buf);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  275  	return ret;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  276  }
+c3212829f812a4 Kuninori Morimoto  2020-02-19  277  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  278  static const struct file_operations dpcm_state_fops = {
+c3212829f812a4 Kuninori Morimoto  2020-02-19  279  	.open = simple_open,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  280  	.read = dpcm_state_read_file,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  281  	.llseek = default_llseek,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  282  };
+c3212829f812a4 Kuninori Morimoto  2020-02-19  283  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  284  void soc_dpcm_debugfs_add(struct snd_soc_pcm_runtime *rtd)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  285  {
+c3212829f812a4 Kuninori Morimoto  2020-02-19  286  	if (!rtd->dai_link->dynamic)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  287  		return;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  288  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  289  	if (!rtd->card->debugfs_card_root)
+c3212829f812a4 Kuninori Morimoto  2020-02-19  290  		return;
+c3212829f812a4 Kuninori Morimoto  2020-02-19  291  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  292  	rtd->debugfs_dpcm_root = debugfs_create_dir(rtd->dai_link->name,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  293  						    rtd->card->debugfs_card_root);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  294  
+c3212829f812a4 Kuninori Morimoto  2020-02-19  295  	debugfs_create_file("state", 0444, rtd->debugfs_dpcm_root,
+c3212829f812a4 Kuninori Morimoto  2020-02-19  296  			    rtd, &dpcm_state_fops);
+c3212829f812a4 Kuninori Morimoto  2020-02-19  297  }
+154dae87e73faa Kuninori Morimoto  2020-02-19  298  
+154dae87e73faa Kuninori Morimoto  2020-02-19  299  static void dpcm_create_debugfs_state(struct snd_soc_dpcm *dpcm, int stream)
+154dae87e73faa Kuninori Morimoto  2020-02-19  300  {
+154dae87e73faa Kuninori Morimoto  2020-02-19  301  	char *name;
+154dae87e73faa Kuninori Morimoto  2020-02-19  302  
+154dae87e73faa Kuninori Morimoto  2020-02-19  303  	name = kasprintf(GFP_KERNEL, "%s:%s", dpcm->be->dai_link->name,
+ebbd6703d4635d Kuninori Morimoto  2024-07-30  304  			 snd_pcm_direction_name(stream));
+154dae87e73faa Kuninori Morimoto  2020-02-19  305  	if (name) {
+154dae87e73faa Kuninori Morimoto  2020-02-19  306  		dpcm->debugfs_state = debugfs_create_dir(
+154dae87e73faa Kuninori Morimoto  2020-02-19  307  			name, dpcm->fe->debugfs_dpcm_root);
+154dae87e73faa Kuninori Morimoto  2020-02-19  308  		debugfs_create_u32("state", 0644, dpcm->debugfs_state,
+154dae87e73faa Kuninori Morimoto  2020-02-19  309  				   &dpcm->state);
+154dae87e73faa Kuninori Morimoto  2020-02-19  310  		kfree(name);
+154dae87e73faa Kuninori Morimoto  2020-02-19  311  	}
+154dae87e73faa Kuninori Morimoto  2020-02-19  312  }
+154dae87e73faa Kuninori Morimoto  2020-02-19  313  
+154dae87e73faa Kuninori Morimoto  2020-02-19  314  static void dpcm_remove_debugfs_state(struct snd_soc_dpcm *dpcm)
+154dae87e73faa Kuninori Morimoto  2020-02-19  315  {
+154dae87e73faa Kuninori Morimoto  2020-02-19  316  	debugfs_remove_recursive(dpcm->debugfs_state);
+154dae87e73faa Kuninori Morimoto  2020-02-19  317  }
+154dae87e73faa Kuninori Morimoto  2020-02-19  318  
+154dae87e73faa Kuninori Morimoto  2020-02-19  319  #else
+154dae87e73faa Kuninori Morimoto  2020-02-19  320  static inline void dpcm_create_debugfs_state(struct snd_soc_dpcm *dpcm,
+154dae87e73faa Kuninori Morimoto  2020-02-19  321  					     int stream)
+154dae87e73faa Kuninori Morimoto  2020-02-19 @322  {
+154dae87e73faa Kuninori Morimoto  2020-02-19  323  }
+154dae87e73faa Kuninori Morimoto  2020-02-19  324  
+154dae87e73faa Kuninori Morimoto  2020-02-19  325  static inline void dpcm_remove_debugfs_state(struct snd_soc_dpcm *dpcm)
+154dae87e73faa Kuninori Morimoto  2020-02-19  326  {
+154dae87e73faa Kuninori Morimoto  2020-02-19  327  }
+c3212829f812a4 Kuninori Morimoto  2020-02-19  328  #endif
+c3212829f812a4 Kuninori Morimoto  2020-02-19  329  
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  330  /* Set FE's runtime_update state; the state is protected via PCM stream lock
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  331   * for avoiding the race with trigger callback.
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  332   * If the state is unset and a trigger is pending while the previous operation,
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  333   * process the pending trigger action here.
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  334   */
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11 @335  static int dpcm_fe_dai_do_trigger(struct snd_pcm_substream *substream, int cmd);
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  336  static void dpcm_set_fe_update_state(struct snd_soc_pcm_runtime *fe,
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  337  				     int stream, enum snd_soc_dpcm_update state)
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  338  {
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  339  	struct snd_pcm_substream *substream =
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  340  		snd_soc_dpcm_get_substream(fe, stream);
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  341  
+c8c3d9f8e3ffc3 Kuninori Morimoto  2024-07-30  342  	snd_pcm_stream_lock_irq(substream);
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  343  	if (state == SND_SOC_DPCM_UPDATE_NO && fe->dpcm[stream].trigger_pending) {
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  344  		dpcm_fe_dai_do_trigger(substream,
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  345  				       fe->dpcm[stream].trigger_pending - 1);
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  346  		fe->dpcm[stream].trigger_pending = 0;
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  347  	}
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  348  	fe->dpcm[stream].runtime_update = state;
+c8c3d9f8e3ffc3 Kuninori Morimoto  2024-07-30  349  	snd_pcm_stream_unlock_irq(substream);
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  350  }
+9c6d7f9346b152 Kuninori Morimoto  2020-12-11  351  
+a7e20444ef5e7a Kuninori Morimoto  2020-12-11  352  static void dpcm_set_be_update_state(struct snd_soc_pcm_runtime *be,
+a7e20444ef5e7a Kuninori Morimoto  2020-12-11  353  				     int stream, enum snd_soc_dpcm_update state)
+a7e20444ef5e7a Kuninori Morimoto  2020-12-11  354  {
+a7e20444ef5e7a Kuninori Morimoto  2020-12-11  355  	be->dpcm[stream].runtime_update = state;
+a7e20444ef5e7a Kuninori Morimoto  2020-12-11  356  }
+a7e20444ef5e7a Kuninori Morimoto  2020-12-11  357  
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  358  /**
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  359   * snd_soc_runtime_action() - Increment/Decrement active count for
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  360   * PCM runtime components
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  361   * @rtd: ASoC PCM runtime that is activated
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  362   * @stream: Direction of the PCM stream
+b6d6e9ea8fb9d4 Colton Lewis       2020-06-26  363   * @action: Activate stream if 1. Deactivate if -1.
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  364   *
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  365   * Increments/Decrements the active count for all the DAIs and components
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  366   * attached to a PCM runtime.
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  367   * Should typically be called when a stream is opened.
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  368   *
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  369   * Must be called with the rtd->card->pcm_mutex being held
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  370   */
+d9051d86ad30ca Kuninori Morimoto  2020-05-15  371  void snd_soc_runtime_action(struct snd_soc_pcm_runtime *rtd,
+7a5aaba4a4f45a Kuninori Morimoto  2020-02-10  372  			    int stream, int action)
+24894b76468ed2 Lars-Peter Clausen 2014-03-05  373  {
+8f039360897bdd Chancel Liu        2023-12-04  374  	struct snd_soc_component *component;
+c840f7698d26b0 Kuninori Morimoto  2020-03-16  375  	struct snd_soc_dai *dai;
+2e5894d73789ee Benoit Cousson     2014-07-08  376  	int i;
+24894b76468ed2 Lars-Peter Clausen 2014-03-05  377  
+b7898396f4bbe1 Takashi Iwai       2021-12-07  378  	snd_soc_dpcm_mutex_assert_held(rtd);
+24894b76468ed2 Lars-Peter Clausen 2014-03-05  379  
+dc82910682ef06 Kuninori Morimoto  2020-05-15  380  	for_each_rtd_dais(rtd, i, dai)
+dc82910682ef06 Kuninori Morimoto  2020-05-15  381  		snd_soc_dai_action(dai, stream, action);
+8f039360897bdd Chancel Liu        2023-12-04  382  
+8f039360897bdd Chancel Liu        2023-12-04  383  	/* Increments/Decrements the active count for components without DAIs */
+8f039360897bdd Chancel Liu        2023-12-04  384  	for_each_rtd_components(rtd, i, component) {
+8f039360897bdd Chancel Liu        2023-12-04  385  		if (component->num_dai)
+8f039360897bdd Chancel Liu        2023-12-04  386  			continue;
+8f039360897bdd Chancel Liu        2023-12-04  387  		component->active += action;
+8f039360897bdd Chancel Liu        2023-12-04  388  	}
+24894b76468ed2 Lars-Peter Clausen 2014-03-05  389  }
+d9051d86ad30ca Kuninori Morimoto  2020-05-15 @390  EXPORT_SYMBOL_GPL(snd_soc_runtime_action);
+24894b76468ed2 Lars-Peter Clausen 2014-03-05  391  
 
-:::::: The code at line 1763 was first introduced by commit
-:::::: 5102bb1c9f82857a3164af9d7ab7ad628cb783ed psi: Fix "defined but not used" warnings when CONFIG_PROC_FS=n
+:::::: The code at line 322 was first introduced by commit
+:::::: 154dae87e73faa6d56265f22cae16dcdcea3dbb0 ASoC: soc-pcm: add dpcm_create/remove_debugfs_state()
 
-:::::: TO: Suren Baghdasaryan <surenb@google.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
