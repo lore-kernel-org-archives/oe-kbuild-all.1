@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9E91DE8A5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 19:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7534378F4B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 19:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739646085; cv=none; b=ZCzsGJnHl68RNV1MAfPefI0RjRS2DXgxtfunkDBesRBnS+KgHY9FtAMpi3Hqozp+xKsWqNKhP9bb2GyKzDe0AAYOr3OAyloL/mbPfZPKFlPk5St9C8gTXQd7ucIgRPialcjpzNddGRSCPL5rELEMcpkRpEZPfk5BiW4fBveFBZk=
+	t=1739648126; cv=none; b=NhSfhdqmiKonsCIEWqACmyOPXV2qfGZ4YCM0RrySfSJf+cGmj5M0Qg3haFx1cx06mq772S+w4ad7yuuxYs9HnM5ksw8l5NcIadpV+huBFUb84fCeAobxi78zWSfIGSOOeOKV+xLprKb5MoBASenNVEvHAj8DpHnn4gqvgUZgAfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739646085; c=relaxed/simple;
-	bh=n2T5ALAvOjzcLfMUoAUQzDS5Pil5vEK2a1j8TFhdPwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRNzfxoTcarnNmPTzDw70573JHRbLLliFwyWPvT5NUDNt7iOcrHRnLWw1aJ400X38sIXnnAQ53Kcumb6rTCps0eYKgvvaIB2L8ndSF1dVR7TWqtRn+f7jr27FAeCs0eJQkPmwpKpQnB9LXhKU8jIQVIFV9fGZpqKp9mIZN4e8HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SYxAA92b; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1739648126; c=relaxed/simple;
+	bh=F9VMLiQ564yzVsa+Ft3LSvb77FfGpb3BnUEuN/G8g2I=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cFcKuiKbvAn9XL+e10ZfRu/6bEkShEwshtyNOu5P1H99ir25QUeezglqiu7l1OZywPXNGFDwB+JWpRiGT+7NWzskAg5rXxItYHz8XGHZnmfxjOajL8k9+5WVDengbowx/TJGQAoDtKVGgLn7Q/SX/unFBmyhDCcZc88m9uB6LYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6yy8daC; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SYxAA92b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6yy8daC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739646084; x=1771182084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=n2T5ALAvOjzcLfMUoAUQzDS5Pil5vEK2a1j8TFhdPwc=;
-  b=SYxAA92bwBAKd7ikL8uHL0XMGdrM936Zunf+dsIp/uRu93KEZHyAaPtu
-   UcVsxSzrL6qt9ojlByJm/ptaiSEQ0MAyc/JQsVB19Y3f+hd6YQCxkdf63
-   sElI0Z9itucEsWK/ZJj+Tn2VFL3c2lkREeRI4a1mQqg2mwTYFxiF6a7F4
-   X0LeykQf4CcOKIZaalMNVoJzLIPEWnxB7uNyBOzveneCO9Wan0Kq0+t9g
-   ut9dQAVL/OOAaK/kG//gLBn+0DRHztHLGchfiEk7LwrahefJ86XYQ8saW
-   QQr36DBGVtof+UxZMmcxL97KvqvsIl8TuG9yblMewAn9OREMjvmOEu+CZ
+  t=1739648125; x=1771184125;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=F9VMLiQ564yzVsa+Ft3LSvb77FfGpb3BnUEuN/G8g2I=;
+  b=b6yy8daCquLc/Y4AbQHJxzEy/UIM0zwOwjsPWs44imU+lUHmEH4rxsze
+   pY1r0axPO4dE68c77VnUcksHtDofBgZXTjcDUDM1yPwLVRPspK1LenGAn
+   izR4cdIK85O3RsxXKo2+0a4jNCa7D26ZqjctMuOjMTLHbjVcgalVZ4Est
+   poNEMzFDhAsbXZODg7S9VHmrU9O+cyCVAN8OmtZ7nlNv9cXBEKJMN2gfA
+   oPD2S5uXvbNFNhsNM3VkqmsTjQH7OyX17F3FoyuWz6eO/M49rS9v6ZoKQ
+   6LeBvdYtVT5TqnlaUL26ZDTfu+lolUw5xVIu2OpdQJrIubfpWUJ2vlOsO
    w==;
-X-CSE-ConnectionGUID: FjfCdtz7Ro29Tmygwu6WOw==
-X-CSE-MsgGUID: eMvX13/9TziXvNau1hFkAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="44306128"
+X-CSE-ConnectionGUID: +722IqM8TLqaARu2CTndug==
+X-CSE-MsgGUID: rkwWDyNESPyVeJATEdRSHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="51356931"
 X-IronPort-AV: E=Sophos;i="6.13,289,1732608000"; 
-   d="scan'208";a="44306128"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 11:01:23 -0800
-X-CSE-ConnectionGUID: fJ40fCTkSL6yxIi6UPX3jw==
-X-CSE-MsgGUID: E8f7gK+JSIG+E9h2IMF7vQ==
+   d="scan'208";a="51356931"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 11:35:24 -0800
+X-CSE-ConnectionGUID: /x1RNKlXR3q9V2vRdMPJtQ==
+X-CSE-MsgGUID: 1CZ2/tAQSIusdp0hEKJ69A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,289,1732608000"; 
-   d="scan'208";a="113618487"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="136972269"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Feb 2025 11:01:19 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Feb 2025 11:35:23 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjNPh-001B63-1m;
-	Sat, 15 Feb 2025 19:01:17 +0000
-Date: Sun, 16 Feb 2025 03:00:59 +0800
+	id 1tjNwe-001B7P-2j
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 15 Feb 2025 19:35:20 +0000
+Date: Sun, 16 Feb 2025 03:34:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Esteban Blanc <eblanc@baylibre.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
-Subject: Re: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
-Message-ID: <202502160240.IoVS8Klu-lkp@intel.com>
-References: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:6.6/preempt-rt 3/3] ld.lld: error: undefined symbol:
+ screen_info
+Message-ID: <202502160340.i5hQwphd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,59 +61,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
 
-Hi Esteban,
+Hi Arnd,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on a64dcfb451e254085a7daee5fe51bf22959d52d3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250214-202727
-base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-patch link:    https://lore.kernel.org/r/20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a%40baylibre.com
-patch subject: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250216/202502160240.IoVS8Klu-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160240.IoVS8Klu-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
+head:   da3aec3fdaa3fcb8c9f9760d4edef06741ccfc6e
+commit: d9a5d5c4930656b913b6473cc16a2d28a260c530 [3/3] vgacon: rework screen_info #ifdef checks
+config: riscv-randconfig-001-20250215 (https://download.01.org/0day-ci/archive/20250216/202502160340.i5hQwphd-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160340.i5hQwphd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502160240.IoVS8Klu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502160340.i5hQwphd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ad4030.c: In function 'ad4030_get_chan_scale':
->> drivers/iio/adc/ad4030.c:375:27: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     375 |                 scan_type = iio_get_current_scan_type(indio_dev,
-         |                           ^
-
-
-vim +/const +375 drivers/iio/adc/ad4030.c
-
-   365	
-   366	static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
-   367					 struct iio_chan_spec const *chan,
-   368					 int *val,
-   369					 int *val2)
-   370	{
-   371		struct ad4030_state *st = iio_priv(indio_dev);
-   372		struct iio_scan_type *scan_type;
-   373	
-   374		if (chan->differential) {
- > 375			scan_type = iio_get_current_scan_type(indio_dev,
-   376							      st->chip->channels);
-   377			*val = (st->vref_uv * 2) / MILLI;
-   378			*val2 = scan_type->realbits;
-   379			return IIO_VAL_FRACTIONAL_LOG2;
-   380		}
-   381	
-   382		*val = st->vref_uv / MILLI;
-   383		*val2 = chan->scan_type.realbits;
-   384		return IIO_VAL_FRACTIONAL_LOG2;
-   385	}
-   386	
+>> ld.lld: error: undefined symbol: screen_info
+   >>> referenced by vgacon.c:0 (drivers/video/console/vgacon.c:0)
+   >>>               drivers/video/console/vgacon.o:(vgacon_startup) in archive vmlinux.a
+   >>> referenced by vgacon.c:0 (drivers/video/console/vgacon.c:0)
+   >>>               drivers/video/console/vgacon.o:(vgacon_startup) in archive vmlinux.a
+   >>> referenced by vgacon.c:156 (drivers/video/console/vgacon.c:156)
+   >>>               drivers/video/console/vgacon.o:(vgacon_startup) in archive vmlinux.a
+   >>> referenced 22 more times
 
 -- 
 0-DAY CI Kernel Test Service
