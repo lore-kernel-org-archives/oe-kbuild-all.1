@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397AD748D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 12:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3584F23BB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 12:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739623244; cv=none; b=b+xyuCNNcUQVtMTtyEHDS2Jaoa/q8qaezrqbZ6PqHhTJ5OruRAV8N53rxvwsi1DA05SfF8u8ogjrHu8EP3SUw6+0j4ZeCm7WK1zIWDejtk2goyYiNRasm5KdP4YJhQVf/15hZLe1444sgW5aoypiu7XozKJa6e+rorbyLbonJnQ=
+	t=1739623905; cv=none; b=R2Uj01DXBoUY8Bz6tgSWLN63jqYLqaCKvYLW+lL0vSXq5xRlEHj0F6HPsyNexb2sniceoId+3D+DoUHkxi2xzXbOfAFJOATXJqiO40K4gJB4Pv/qgy7X6YZGFt2DX9bZrlZkA15WfwNaIEmQIldgNABwoAqH2T3+vn1vZ/7/t/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739623244; c=relaxed/simple;
-	bh=DGDGFkFGD4AOYXv8EtRhvBJyGq3OHhY12itqunLRyV4=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GBiLL/oVkYcsUmHKFRH8xR39JZCgNvRxUs/Sg0W5yekQcm0s+AUHGz3i7vCugjwr0qE3ap7HYVR08cq3GTw6nwYgYZr8M2ptipheOriF5zlhbqssZ9AuU+voCqvmzXwHOEh/cEM/bbXc48AMCQQnkpROmrS1fwlAlIhLs7TDTLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRUpTVQt; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1739623905; c=relaxed/simple;
+	bh=Vl0liPTJAnSY7SnbzpF3opPYkJuO7MSGXiFPcVWO0hc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sbM1mu6SnguDHZL/V3ggBro2Pm3BAHOpS3OPwPU0Rj05hwTjF1O8iXfluLnqB2kWr/HEFrRlxVFXe0xOAT0qc6sUQ7NtqVhimhCVYt74oMAXVj4Kk5QdrjsJ9dpYcZooefWI/3aCHK+YAYdJ8eQytdYOd+ZR8I4zRIGnwwcvJG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QBoUu1/x; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRUpTVQt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QBoUu1/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739623242; x=1771159242;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=DGDGFkFGD4AOYXv8EtRhvBJyGq3OHhY12itqunLRyV4=;
-  b=TRUpTVQtq9Y8IwXUFxDaux1vD768j4BfhV4SmtPJRLF++cQFlBlEMCnP
-   fvjA4Umah6bgzUTgNM1bfiwaOfjtMEV5CEcA8A8fsX1Cf5rXe4ZzKnXBP
-   z7WsrPEk5FIFfPPpIl8hRNp+b9/kbi5awwrIlzquralWwEthtP5cbCtNd
-   4FIup3uK81b+2UOgWOzBu6RIF2QPy8zGuIQAPoGhj+LZFdXukg1eWJpx8
-   8Jq6UZJWz2HXSSV+//q75QWtO5K5Ea2evHa6MAFds8L5DXQXDT/auAwfG
-   BOcM6IFAzcEgp9ZlKfLRjy7enDolH+2hx2b7stP1SO+8YLXp/dtUR6EuZ
-   A==;
-X-CSE-ConnectionGUID: K1Qnjh8XSNaBCxo2wLK2hQ==
-X-CSE-MsgGUID: IH1AkjjGTxyJxwKl8p4fuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="50579179"
+  t=1739623903; x=1771159903;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Vl0liPTJAnSY7SnbzpF3opPYkJuO7MSGXiFPcVWO0hc=;
+  b=QBoUu1/x23ELF2XKIUBaJ3lYxZqZfAshZPkCwhKVctE7H4k/ScNANURw
+   9eocvArHTqBmg9cujln5rsm11zulepFY6dm2EvowgE5HFk8Im7fEd44mZ
+   VT1iRb+LgihDTVfypVu+SLA3/G3FK1IKkDVITBzzWEthHsb7EHgCLZM6f
+   es2zv5UR6MsKfsHWcwW+90+8Te9Bw4AMpklt9zTS0d9bDtSXoqYB2S6Qn
+   IyQ7hB0weMxeC4ZoEoMxV/9LAucHA/5NrDd3B/XCnkRFjgfCjmERQapPx
+   7DRkS+aLwPWnMMVHqIJxDBAiSUo+ecGvR2iEZYldZ7Rr3KWTreTMzygP5
+   w==;
+X-CSE-ConnectionGUID: LTrcndLrSrqfZTtpP9toyw==
+X-CSE-MsgGUID: cXN7Bd4VRKuoS15U+t3KDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="44294609"
 X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="50579179"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 04:40:42 -0800
-X-CSE-ConnectionGUID: j3nCLZwxQYiyBDa2yq/Mnw==
-X-CSE-MsgGUID: p8mFwkMGScS+novEGY//PQ==
+   d="scan'208";a="44294609"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 04:51:42 -0800
+X-CSE-ConnectionGUID: 6AP7v2DdTXCLCVxWqXJijg==
+X-CSE-MsgGUID: d5E4whwjQBujasPLl46qrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="113560524"
+   d="scan'208";a="114324867"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Feb 2025 04:40:41 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 15 Feb 2025 04:51:42 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjHTK-001Anj-2K
-	for oe-kbuild-all@lists.linux.dev;
-	Sat, 15 Feb 2025 12:40:38 +0000
-Date: Sat, 15 Feb 2025 20:40:02 +0800
+	id 1tjHdz-001Ao7-1E;
+	Sat, 15 Feb 2025 12:51:39 +0000
+Date: Sat, 15 Feb 2025 20:51:12 +0800
 From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/preempt-rt 3/3] fs/hostfs/hostfs_kern.c:972:2: error:
- call to undeclared function 'fsparam_string_empty'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202502152228.3vK2sQgG-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
+ drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202502152003.YgfLX405-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
-head:   da3aec3fdaa3fcb8c9f9760d4edef06741ccfc6e
-commit: be80de30b347dc2eae35dd5f7905ad9c9167dc08 [3/3] hostfs: fix the host directory parse when mounting.
-config: um-randconfig-001-20250215 (https://download.01.org/0day-ci/archive/20250215/202502152228.3vK2sQgG-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502152228.3vK2sQgG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   6a6cc2b6b95dc80ae01221670e21a8059229a023
+commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
+config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250215/202502152003.YgfLX405-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502152228.3vK2sQgG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502152003.YgfLX405-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
 
-   In file included from fs/hostfs/hostfs_kern.c:13:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from fs/hostfs/hostfs_kern.c:13:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from fs/hostfs/hostfs_kern.c:13:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> fs/hostfs/hostfs_kern.c:972:2: error: call to undeclared function 'fsparam_string_empty'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     972 |         fsparam_string_empty("hostfs",          Opt_hostfs),
-         |         ^
->> fs/hostfs/hostfs_kern.c:972:2: error: incompatible integer to pointer conversion initializing 'const char *' with an expression of type 'int' [-Wint-conversion]
-     972 |         fsparam_string_empty("hostfs",          Opt_hostfs),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/hostfs/hostfs_kern.c:972:2: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-     972 |         fsparam_string_empty("hostfs",          Opt_hostfs),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         {
-     973 |         {}
-         |         ~~
-         |           }
->> fs/hostfs/hostfs_kern.c:972:2: error: initializer element is not a compile-time constant
-     972 |         fsparam_string_empty("hostfs",          Opt_hostfs),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   13 warnings and 3 errors generated.
+vim +614 drivers/acpi/cppc_acpi.c
 
-
-vim +/fsparam_string_empty +972 fs/hostfs/hostfs_kern.c
-
-   970	
-   971	static const struct fs_parameter_spec hostfs_param_specs[] = {
- > 972		fsparam_string_empty("hostfs",		Opt_hostfs),
-   973		{}
-   974	};
-   975	
+   576	
+   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
+   578	{
+   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
+   580		int parsed_core_num = 0;
+   581		int i, ret;
+   582	
+   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
+   584		if (!cpc_pptr)
+   585			return -ENOMEM;
+   586		for_each_possible_cpu(i) {
+   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
+   588			if (!cpc_pptr[i]) {
+   589				ret = -ENOMEM;
+   590				goto out;
+   591			}
+   592		}
+   593	
+   594		/*
+   595		 * We can not use acpi_get_devices() to walk the processor devices
+   596		 * because some processor device is not present.
+   597		 */
+   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
+   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
+   600					  cpc_pptr, (void **)&parsed_core_num);
+   601		if (ret)
+   602			goto out;
+   603		if (parsed_core_num != num_possible_cpus()) {
+   604			ret = -EINVAL;
+   605			goto out;
+   606		}
+   607	
+   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
+   609	
+   610	out:
+   611		for_each_possible_cpu(i) {
+   612			cpc_ptr = cpc_pptr[i];
+   613			if (cpc_ptr)
+ > 614				kfree(cpc_ptr);
+   615		}
+   616		kfree(cpc_pptr);
+   617	
+   618		return ret;
+   619	}
+   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
+   621	
 
 -- 
 0-DAY CI Kernel Test Service
