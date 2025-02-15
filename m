@@ -1,111 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12163C2ED
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 10:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A7E155CB3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 10:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739613930; cv=none; b=jv1YPKpq8vdted7RfjmoHlLY4l9meZyyAHw1nnZLZrwHshlq3a7AVbFrrN4dkcPWNg2UgzVVK3AGWM5QYGn+gx2JA+/GWYX8b29nU2rZu+28o89jfROovZ0O++NCN744RbI32/bMzdKuxX3TUfz5FR9iiJc2WNU09bYJI+XTL0c=
+	t=1739615104; cv=none; b=ZiWgZJNUdsfqo/BJRnTEEKvBWzHisQaiU8Aa7j0ReGkjhH+xTmp30Ykz778KCdoJ+hyD+yy1CBtfHYXvv+JkFNE7h0LyKAqlPp4JgLXN9CjMMKjGnoV+WHWlgrdzy63ttuENvHzNTphWcXwWYwBPx22MSjzmV67fncxjfsQni6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739613930; c=relaxed/simple;
-	bh=/AZiInjA7wahnGpZ+fSJzG0YwjRvzjIOvweZkWgyaRc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AsJNdy8sBM6/7aUXtSCg+xL62AJSXkt0ZEtihEmr+NTGxvxSGNJulZC14w1tXNpUnQ8ZtzkUciz88kg5p52lQOdA6salkPO+epMNmvkFr6HBX1zPPgM+cbVsnbgUCfyfJd1OYSfKcIBBb4J1zZZTD9v0/0vZYZYGWyKnlt9HwE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCl6eMQu; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739615104; c=relaxed/simple;
+	bh=9xNLXOo2q2bVrWlk34RqPRRCzEbJY4gHbShAdtSVDjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iZs4vuufTztjBUfr2qK5a5We3jmZSDDVUVU+Z9zfmz85tJrUJpZ7u4X7pkTxgi5a3ExfLEYpF1kYDml7x6uz4THNx5t9W/KhfdQRmhwTMFLaWwb+xRCsZF4TXevFOrUsnTTpdzSF/CJQA3vs4wVF3lkCO6RuvUvIxP6vXzbnGrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JCH3uPb9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCl6eMQu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739613928; x=1771149928;
-  h=date:from:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/AZiInjA7wahnGpZ+fSJzG0YwjRvzjIOvweZkWgyaRc=;
-  b=kCl6eMQuuYwc2/jjX8Rcy7y1ZRfwwZmgz97ppJl+2q/2sHVogdKXMqy1
-   8aYoTV9p19IKwIk3b7nknOO++h0kzl7HYuzybeF21uwe0MKv/8Aq7vplx
-   kGeh+zTtYXg5OVbxYN0PkyXXiKoJ8GeWG88NTA80qPvJ9eY81DeElie0R
-   3d0IAHCmC5JYC8j0wGIh9z9y/Uv421BX8zhhtgqY0ty9iddduUm038Yrc
-   fmm/UYZX2cKq5U1q0xPfKr3Z1CHRcosnWS1ySFZ4wOWpymsBmIm/uC+rG
-   YjLSdRLmV1kt6L/+lFWUgCQtXoC/hkoZ01tt4HINEfk17V8QuEym1HNwV
-   Q==;
-X-CSE-ConnectionGUID: O/3M7Xp5RCyCLCQ8n7SjDQ==
-X-CSE-MsgGUID: yliY64bXSieGShWU46dSCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="51338103"
-X-IronPort-AV: E=Sophos;i="6.13,288,1732608000"; 
-   d="scan'208";a="51338103"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 02:05:27 -0800
-X-CSE-ConnectionGUID: qihVjsziR9aca8X7AuiV8A==
-X-CSE-MsgGUID: BqDjkTfqQIKOsV2mx/eVlQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="144591328"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Feb 2025 02:05:26 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tjF36-001Ahf-2O
-	for oe-kbuild-all@lists.linux.dev;
-	Sat, 15 Feb 2025 10:05:24 +0000
-Date: Sat, 15 Feb 2025 18:05:06 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/preempt-rt 0/3] sound/soc/sunxi/sun4i-spdif.c:181:
- warning: Function parameter or member 'mclk_multiplier' not described in
- 'sun4i_spdif_quirks'
-Message-ID: <202502151741.u5vi5Kx7-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JCH3uPb9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739615101;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ywkakhDb6C9zHP7TcT3WogD7vHQ564M3tb1gpNfgvE4=;
+	b=JCH3uPb98ROgMw2TVGyCICpu9EBkYkfIvkvkGaFpRyWmojAWy1HqC5W6LvynPP2Rehow9J
+	l5PX9ZyZKDSfzrZFPG/FJ/HH8X8oIpPvUEcHt0HKp2RKq34c2OqgsTydyIPygRCVCC/7ZT
+	JLwmhJgI9Ro1p9KB6zLVKMcJpmXFZAA=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-672-HpNZMEPpPxWx_9DC5rBgYQ-1; Sat,
+ 15 Feb 2025 05:24:59 -0500
+X-MC-Unique: HpNZMEPpPxWx_9DC5rBgYQ-1
+X-Mimecast-MFC-AGG-ID: HpNZMEPpPxWx_9DC5rBgYQ_1739615097
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5DDBE180034E;
+	Sat, 15 Feb 2025 10:24:57 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.76])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7F105180087D;
+	Sat, 15 Feb 2025 10:24:55 +0000 (UTC)
+Date: Sat, 15 Feb 2025 18:24:50 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Yang Li <yang.lee@linux.alibaba.com>
+Subject: Re: kernel/vmcore_info.c:117 paddr_vmcoreinfo_note() warn: unsigned
+ '_x' is never less than zero.
+Message-ID: <Z7Brcjzuh+SG/io1@MiWiFi-R3L-srv>
+References: <202502141843.5QoKdQ7g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202502141843.5QoKdQ7g-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
-head:   da3aec3fdaa3fcb8c9f9760d4edef06741ccfc6e
-commit: 557065f0a493aeab7ecbe1e818229d628bcad201 [0/3] ASoC: sun4i-spdif: Add clock multiplier settings
-config: x86_64-buildonly-randconfig-002-20250215 (https://download.01.org/0day-ci/archive/20250215/202502151741.u5vi5Kx7-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502151741.u5vi5Kx7-lkp@intel.com/reproduce)
+On 02/14/25 at 06:44pm, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   128c8f96eb8638c060cd3532dc394d046ce64fe1
+> commit: 443cbaf9e2fdbef7d7cae457434a6cb8a679441b crash: split vmcoreinfo exporting code out from crash_core.c
+> date:   12 months ago
+> config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250214/202502141843.5QoKdQ7g-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 14.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502141843.5QoKdQ7g-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/vmcore_info.c:117 paddr_vmcoreinfo_note() warn: unsigned '_x' is never less than zero.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502151741.u5vi5Kx7-lkp@intel.com/
+Thanks for reporting this.
 
-All warnings (new ones prefixed by >>):
+I am preparing to reproduce this issue, while I may not know what are
+the steps to reproduce.  Just run smatch or just build with the provided
+riscv-randconfig-r073-20250213?
 
->> sound/soc/sunxi/sun4i-spdif.c:181: warning: Function parameter or member 'mclk_multiplier' not described in 'sun4i_spdif_quirks'
+> 
+> vim +/_x +117 kernel/vmcore_info.c
+> 
+>    114	
+>    115	phys_addr_t __weak paddr_vmcoreinfo_note(void)
+>    116	{
+>  > 117		return __pa(vmcoreinfo_note);
+>    118	}
+>    119	EXPORT_SYMBOL(paddr_vmcoreinfo_note);
+>    120	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
-
-vim +181 sound/soc/sunxi/sun4i-spdif.c
-
-f8260afa444b67 Marcus Cooper 2016-02-08  168  
-ae9cccc30f6c08 Clément Péron 2019-05-27  169  /**
-ae9cccc30f6c08 Clément Péron 2019-05-27  170   * struct sun4i_spdif_quirks - Differences between SoC variants.
-ae9cccc30f6c08 Clément Péron 2019-05-27  171   *
-c7202a19cf838d Lee Jones     2020-07-09  172   * @reg_dac_txdata: TX FIFO offset for DMA config.
-ae9cccc30f6c08 Clément Péron 2019-05-27  173   * @has_reset: SoC needs reset deasserted.
-f6a86b436b2658 Clément Péron 2019-05-27  174   * @val_fctl_ftx: TX FIFO flush bitmask.
-ae9cccc30f6c08 Clément Péron 2019-05-27  175   */
-ae9cccc30f6c08 Clément Péron 2019-05-27  176  struct sun4i_spdif_quirks {
-ae9cccc30f6c08 Clément Péron 2019-05-27  177  	unsigned int reg_dac_txdata;
-ae9cccc30f6c08 Clément Péron 2019-05-27  178  	bool has_reset;
-f6a86b436b2658 Clément Péron 2019-05-27  179  	unsigned int val_fctl_ftx;
-557065f0a493ae George Lander 2024-11-11  180  	unsigned int mclk_multiplier;
-ae9cccc30f6c08 Clément Péron 2019-05-27 @181  };
-ae9cccc30f6c08 Clément Péron 2019-05-27  182  
-
-:::::: The code at line 181 was first introduced by commit
-:::::: ae9cccc30f6c088dd6ead63e990407e37cd9437b ASoC: sun4i-spdif: Move quirks to the top
-
-:::::: TO: Clément Péron <peron.clem@gmail.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
