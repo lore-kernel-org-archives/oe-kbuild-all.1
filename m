@@ -1,238 +1,379 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676D91FCCF4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Feb 2025 22:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7C227541E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Feb 2025 00:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739573672; cv=none; b=ai+1xNrOm1YAHGanF/3DzNbN1MVK8EbjcOipqzlL33zM+mkpB4+lxLw8o7N3qPL/klDSGGQxGS9IgJlqr86gjNKC0EKjput/zrC4GEVKGJvEihAUxuL4UxB268vMnH99xnXKmRkAcqb4P6OHDSuhaOMTmcENUo3Mneh9LfokeJY=
+	t=1739577636; cv=none; b=TSQvG8RAlIYG61a6BYEWJ1o5LJvaKucP5gECqipVklo1WCcWRCx0rQK4iafPGpGkq2d/QPVABFnacbGusIIcyXrJdMJxxDghKZBBTRNUuUbYnz8s4LrFt0SfYHwp0NlTNRj80KOZrmPczgznAT8BWjT7DN7LHXHE9+Nh75q7mpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739573672; c=relaxed/simple;
-	bh=XpD8kjdxn8zgb0bQboXyZiu7FPrXYInowNVupp5wr/8=;
+	s=arc-20240116; t=1739577636; c=relaxed/simple;
+	bh=AJDqPkPSrSHHTmoH/o66ZFH3ChybS86xhKtz4XvzB3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RhbJ40GiWBkMJuMcduCBxUym7q1jUMmT6H/4mUIkZfo951TVLifwqrdgnI/oA/6zcayjaVwu1t+5DKp+emLiTaSgVMip3Rh9x4HgpA9Z1W8yCN2svoM2ZnfYUHDOp0F9xsxinBHimiFLW2Cs3Wk8909872KBrYjLmu8rZP1NUaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7O3jWRw; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=oJoHM5DBPhKF8vs5TVx/A38LFu1DTtTc9AQXAiHbjj/d6T4DLf3kzeqVvoEMXGKTuEs7pxvjqBbSXlJuv8sUad7t2E9xB/7BS4f4oGeYXUOzJ9iD6kAsAtEK87++c8/X3zSgjdOd99IQuLI63INtHDCUseVFIfCiPNNQmK17fVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLAKAU+v; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7O3jWRw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLAKAU+v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739573670; x=1771109670;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XpD8kjdxn8zgb0bQboXyZiu7FPrXYInowNVupp5wr/8=;
-  b=Z7O3jWRwrRXS5pNdbUbq/NnvZEBGBsqzyyj559+1Xfuyz8f3+Ga+qTfE
-   1shUlZdGdFnI/skL/sPc8iI4T7l9sp0O3c7lJJI7TlZ2H7E2CIyVaPrYn
-   ifk4+o2ABkOQ6hn379nh42SSpyPdcWPMGujOKOhb5sjySKs7AxuEJQELi
-   3FVFg7utYG4x0JuX3J/fIm/SujMmJ0izjXIQaBE00Ny/rSy79wun/izWq
-   /rs55e0niO0Xkfg/7UKkTbmQPHIwCKGLoSRRjQzkPrFVx75K2aZ9b1RqT
-   QUxsPHYJalMmmMil7CPwiY4D7gnUHdjRLY8obQRKvzKEhK4mBWQIql1T0
-   g==;
-X-CSE-ConnectionGUID: RiXdmZhuQfa7LwgXSJ8pvg==
-X-CSE-MsgGUID: IO0++3r0TuicObOmuHy0LQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="39521621"
+  t=1739577635; x=1771113635;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AJDqPkPSrSHHTmoH/o66ZFH3ChybS86xhKtz4XvzB3o=;
+  b=VLAKAU+vlWGYF836P2rjL69K50gVB0jtRx0ffdso2/yl5wZ/5EypTfvJ
+   91oe9JdZ6n5bncFXZGt3jOkN1liFDl6H8cfJtPGUiK6G8aJ7kqr4+qo8N
+   sWkupXy28s3a8bNNnpoo1OBI1yrAd/6HTixvDT8T7WbUZNNy1oWLR+6ig
+   KdC4Emx3hUF+aR/xh9UE9CZmllB5lk2rIBQDk2bzSTIvWWwsvImgfiTEa
+   eyE9iZjECGOGT1fZxnCHc1eyWYJVp06rU6wsNQPKEYzUpTecURRQ6bUH8
+   oczGnhOY6rFo+lPXleFKJ7UUsINQ3qUDNEOIrWcxgOF5GEmEo6A+5Jn5N
+   Q==;
+X-CSE-ConnectionGUID: kc1/jupkRWqaqdEmno8sfw==
+X-CSE-MsgGUID: NA6mfAfTQaa5Y/9vZv8gSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40047285"
 X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; 
-   d="scan'208";a="39521621"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 14:54:28 -0800
-X-CSE-ConnectionGUID: tfVvwZWZToOdp9lOZfPVYg==
-X-CSE-MsgGUID: FI+IZpVtSTW+kMQ8UbPyag==
+   d="scan'208";a="40047285"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 16:00:34 -0800
+X-CSE-ConnectionGUID: lqWNlYU8RDSVBKQDstAbeA==
+X-CSE-MsgGUID: 4iFvAooOQR2hrNpJmTPlIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,287,1732608000"; 
-   d="scan'208";a="118605625"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="118511808"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 14 Feb 2025 14:54:26 -0800
+  by orviesa003.jf.intel.com with ESMTP; 14 Feb 2025 16:00:33 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tj4Zk-001AGF-04;
-	Fri, 14 Feb 2025 22:54:24 +0000
-Date: Sat, 15 Feb 2025 06:54:15 +0800
+	id 1tj5bi-001AIt-17;
+	Sat, 15 Feb 2025 00:00:30 +0000
+Date: Sat, 15 Feb 2025 08:00:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Steven Price <steven.price@arm.com>
-Subject: drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct
- member 'slots' description in 'panthor_queue'
-Message-ID: <202502150602.v5B5FYkm-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 1/1]
+ drivers/misc/mediatek/slbc/slbc_ipi.c:773:6: error: redefinition of
+ 'slbc_register_ipi_ops'
+Message-ID: <202502150712.mMU8uAK4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   04f41cbf03ec7221ab0b179e336f4c805ee55520
-commit: f8ff51a4708451763e6cfa36cc83dea8513d3318 drm/panthor: introduce job cycle and timestamp accounting
-date:   5 months ago
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250215/202502150602.v5B5FYkm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150602.v5B5FYkm-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   0879c1ab94ac470303ea991cd23a1cec7190d27f
+commit: 506f6613f2e6836fd59eeab2456dcfb0a000954d [1/1] CHROMIUM: misc: mediatek: slc: Porting SLBC driver
+config: arm64-randconfig-002-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150712.mMU8uAK4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250215/202502150712.mMU8uAK4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502150602.v5B5FYkm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502150712.mMU8uAK4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'idle' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:320: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'mem' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'input' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'output' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'ref' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'gt' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'sync64' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'bo' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'offset' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'kmap' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'lock' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'id' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'last_fence' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'slots' description in 'panthor_queue'
->> drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'slot_count' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:492: warning: Excess struct member 'seqno' description in 'panthor_queue'
-   drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'size' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'latest_flush' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'start' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'end' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'mask' description in 'panthor_job'
->> drivers/gpu/drm/panthor/panthor_sched.c:811: warning: Excess struct member 'slot' description in 'panthor_job'
-   drivers/gpu/drm/panthor/panthor_sched.c:1732: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:1732: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
-   drivers/gpu/drm/panthor/panthor_sched.c:2624: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
+   cc1: warning: drivers/misc/mediatek/include: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: drivers/misc/mediatek/include/mt-plat: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: drivers/misc/mediatek/sspm: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: drivers/misc/mediatek/sspm/v3: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/misc/mediatek/slbc/slbc_mt8196.c:24:
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:141:12: warning: no previous prototype for 'slbc_get_sspm_ver' [-Wmissing-prototypes]
+     141 | __weak int slbc_get_sspm_ver(u32 *major_ver, u32 *minor_ver, u32 *patch_ver) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:142:12: warning: no previous prototype for 'slbc_suspend_resume_notify' [-Wmissing-prototypes]
+     142 | __weak int slbc_suspend_resume_notify(int suspend) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:143:12: warning: no previous prototype for 'slbc_scmi_init' [-Wmissing-prototypes]
+     143 | __weak int slbc_scmi_init(void) { return 0; }
+         |            ^~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:144:12: warning: no previous prototype for 'slbc_sspm_slb_disable' [-Wmissing-prototypes]
+     144 | __weak int slbc_sspm_slb_disable(int disable) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:145:12: warning: no previous prototype for 'slbc_sspm_slc_disable' [-Wmissing-prototypes]
+     145 | __weak int slbc_sspm_slc_disable(int disable) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:146:12: warning: no previous prototype for 'slbc_sspm_enable' [-Wmissing-prototypes]
+     146 | __weak int slbc_sspm_enable(int enable) { return 0; }
+         |            ^~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:147:12: warning: no previous prototype for 'slbc_force_scmi_cmd' [-Wmissing-prototypes]
+     147 | __weak int slbc_force_scmi_cmd(unsigned int force) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:148:12: warning: no previous prototype for 'slbc_mic_num_cmd' [-Wmissing-prototypes]
+     148 | __weak int slbc_mic_num_cmd(unsigned int num) { return 0; }
+         |            ^~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:149:12: warning: no previous prototype for 'slbc_inner_cmd' [-Wmissing-prototypes]
+     149 | __weak int slbc_inner_cmd(unsigned int inner) { return 0; }
+         |            ^~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:150:12: warning: no previous prototype for 'slbc_outer_cmd' [-Wmissing-prototypes]
+     150 | __weak int slbc_outer_cmd(unsigned int outer) { return 0; }
+         |            ^~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:151:12: warning: no previous prototype for 'slbc_ctrl_scmi_info' [-Wmissing-prototypes]
+     151 | __weak int slbc_ctrl_scmi_info(unsigned int cmd, unsigned int arg1,
+         |            ^~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:156:12: warning: no previous prototype for 'slbc_get_cache_user_pmu' [-Wmissing-prototypes]
+     156 | __weak int slbc_get_cache_user_pmu(int uid, void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:157:12: warning: no previous prototype for 'slbc_get_cache_user_status' [-Wmissing-prototypes]
+     157 | __weak int slbc_get_cache_user_status(int uid, void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:158:12: warning: no previous prototype for '_slbc_request_cache_scmi' [-Wmissing-prototypes]
+     158 | __weak int _slbc_request_cache_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:159:12: warning: no previous prototype for '_slbc_release_cache_scmi' [-Wmissing-prototypes]
+     159 | __weak int _slbc_release_cache_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:160:12: warning: no previous prototype for '_slbc_buffer_status_scmi' [-Wmissing-prototypes]
+     160 | __weak int _slbc_buffer_status_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:161:12: warning: no previous prototype for '_slbc_request_buffer_scmi' [-Wmissing-prototypes]
+     161 | __weak int _slbc_request_buffer_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:162:12: warning: no previous prototype for '_slbc_release_buffer_scmi' [-Wmissing-prototypes]
+     162 | __weak int _slbc_release_buffer_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:163:13: warning: no previous prototype for 'slbc_register_ipi_ops' [-Wmissing-prototypes]
+     163 | __weak void slbc_register_ipi_ops(struct slbc_ipi_ops *ops) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:164:13: warning: no previous prototype for 'slbc_unregister_ipi_ops' [-Wmissing-prototypes]
+     164 | __weak void slbc_unregister_ipi_ops(struct slbc_ipi_ops *ops) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:165:12: warning: no previous prototype for 'slbc_sspm_sram_update' [-Wmissing-prototypes]
+     165 | __weak int slbc_sspm_sram_update(void) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:166:12: warning: no previous prototype for 'slbc_table_gid_set' [-Wmissing-prototypes]
+     166 | __weak int slbc_table_gid_set(int gid, int quota, int pri) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:167:12: warning: no previous prototype for 'slbc_table_gid_release' [-Wmissing-prototypes]
+     167 | __weak int slbc_table_gid_release(int gid) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:168:12: warning: no previous prototype for 'slbc_table_gid_get' [-Wmissing-prototypes]
+     168 | __weak int slbc_table_gid_get(int gid) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:169:12: warning: no previous prototype for 'slbc_table_idt_set' [-Wmissing-prototypes]
+     169 | __weak int slbc_table_idt_set(int index, int arid, int idt) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:170:12: warning: no previous prototype for 'slbc_table_idt_release' [-Wmissing-prototypes]
+     170 | __weak int slbc_table_idt_release(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:171:12: warning: no previous prototype for 'slbc_table_idt_get' [-Wmissing-prototypes]
+     171 | __weak int slbc_table_idt_get(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:172:12: warning: no previous prototype for 'slbc_table_gid_axi_set' [-Wmissing-prototypes]
+     172 | __weak int slbc_table_gid_axi_set(int index, int axiid, int pg) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:173:12: warning: no previous prototype for 'slbc_table_gid_axi_release' [-Wmissing-prototypes]
+     173 | __weak int slbc_table_gid_axi_release(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:174:12: warning: no previous prototype for 'slbc_table_gid_axi_get' [-Wmissing-prototypes]
+     174 | __weak int slbc_table_gid_axi_get(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:175:12: warning: no previous prototype for 'emi_slb_select' [-Wmissing-prototypes]
+     175 | __weak int emi_slb_select(int argv1, int argv2, int argv3) { return 0; }
+         |            ^~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:176:12: warning: no previous prototype for 'emi_pmu_counter' [-Wmissing-prototypes]
+     176 | __weak int emi_pmu_counter(int argv1, int argv2, int argv3) { return 0; }
+         |            ^~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:177:12: warning: no previous prototype for 'emi_pmu_set_ctrl' [-Wmissing-prototypes]
+     177 | __weak int emi_pmu_set_ctrl(int argv1, int argv2, int argv3) { return 0; }
+         |            ^~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:178:12: warning: no previous prototype for 'emi_gid_pmu_counter' [-Wmissing-prototypes]
+     178 | __weak int emi_gid_pmu_counter(int argv1, int argv2) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:179:12: warning: no previous prototype for 'emi_pmu_read_counter' [-Wmissing-prototypes]
+     179 | __weak int emi_pmu_read_counter(int idx) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:180:12: warning: no previous prototype for 'emi_gid_pmu_read_counter' [-Wmissing-prototypes]
+     180 | __weak int emi_gid_pmu_read_counter(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:181:12: warning: no previous prototype for 'emi_slc_test_result' [-Wmissing-prototypes]
+     181 | __weak int emi_slc_test_result(void) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:182:12: warning: no previous prototype for '_slbc_ach_scmi' [-Wmissing-prototypes]
+     182 | __weak int _slbc_ach_scmi(unsigned int cmd, enum slc_ach_uid uid, int gid,
+         |            ^~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:186:6: warning: no previous prototype for 'slbc_sram_init' [-Wmissing-prototypes]
+     186 | void slbc_sram_init(struct mtk_slbc *slbc)
+         |      ^~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:251:6: warning: no previous prototype for '_slbc_force_cmd' [-Wmissing-prototypes]
+     251 | void _slbc_force_cmd(unsigned int force)
+         |      ^~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:377:6: warning: no previous prototype for 'slbc_buffer_cb_notify' [-Wmissing-prototypes]
+     377 | void slbc_buffer_cb_notify(u32 res, u32 sid, u32 sid_list)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c: In function 'slbc_suspend_cb':
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:1610:40: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
+    1610 |                         } else if (sid == UID_AOV |
+         |                                    ~~~~^~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:1612:45: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
+    1612 |                                         sid == UID_AOV_APU) {
+         |                                         ~~~~^~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c: In function 'slbc_resume_cb':
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:1637:40: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
+    1637 |                         } else if (sid == UID_AOV |
+         |                                    ~~~~^~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_mt8196.c:1639:45: warning: suggest parentheses around comparison in operand of '|' [-Wparentheses]
+    1639 |                                         sid == UID_AOV_APU) {
+         |                                         ~~~~^~~~~~~~~~~~~~
+--
+   cc1: warning: drivers/misc/mediatek/include: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: drivers/misc/mediatek/include/mt-plat: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: drivers/misc/mediatek/sspm: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: drivers/misc/mediatek/sspm/v3: No such file or directory [-Wmissing-include-dirs]
+   In file included from drivers/misc/mediatek/slbc/slbc_ipi.c:18:
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:141:12: warning: no previous prototype for 'slbc_get_sspm_ver' [-Wmissing-prototypes]
+     141 | __weak int slbc_get_sspm_ver(u32 *major_ver, u32 *minor_ver, u32 *patch_ver) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:142:12: warning: no previous prototype for 'slbc_suspend_resume_notify' [-Wmissing-prototypes]
+     142 | __weak int slbc_suspend_resume_notify(int suspend) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:143:12: warning: no previous prototype for 'slbc_scmi_init' [-Wmissing-prototypes]
+     143 | __weak int slbc_scmi_init(void) { return 0; }
+         |            ^~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:144:12: warning: no previous prototype for 'slbc_sspm_slb_disable' [-Wmissing-prototypes]
+     144 | __weak int slbc_sspm_slb_disable(int disable) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:145:12: warning: no previous prototype for 'slbc_sspm_slc_disable' [-Wmissing-prototypes]
+     145 | __weak int slbc_sspm_slc_disable(int disable) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:146:12: warning: no previous prototype for 'slbc_sspm_enable' [-Wmissing-prototypes]
+     146 | __weak int slbc_sspm_enable(int enable) { return 0; }
+         |            ^~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:147:12: warning: no previous prototype for 'slbc_force_scmi_cmd' [-Wmissing-prototypes]
+     147 | __weak int slbc_force_scmi_cmd(unsigned int force) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:148:12: warning: no previous prototype for 'slbc_mic_num_cmd' [-Wmissing-prototypes]
+     148 | __weak int slbc_mic_num_cmd(unsigned int num) { return 0; }
+         |            ^~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:149:12: warning: no previous prototype for 'slbc_inner_cmd' [-Wmissing-prototypes]
+     149 | __weak int slbc_inner_cmd(unsigned int inner) { return 0; }
+         |            ^~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:150:12: warning: no previous prototype for 'slbc_outer_cmd' [-Wmissing-prototypes]
+     150 | __weak int slbc_outer_cmd(unsigned int outer) { return 0; }
+         |            ^~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:151:12: warning: no previous prototype for 'slbc_ctrl_scmi_info' [-Wmissing-prototypes]
+     151 | __weak int slbc_ctrl_scmi_info(unsigned int cmd, unsigned int arg1,
+         |            ^~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:156:12: warning: no previous prototype for 'slbc_get_cache_user_pmu' [-Wmissing-prototypes]
+     156 | __weak int slbc_get_cache_user_pmu(int uid, void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:157:12: warning: no previous prototype for 'slbc_get_cache_user_status' [-Wmissing-prototypes]
+     157 | __weak int slbc_get_cache_user_status(int uid, void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:158:12: warning: no previous prototype for '_slbc_request_cache_scmi' [-Wmissing-prototypes]
+     158 | __weak int _slbc_request_cache_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:159:12: warning: no previous prototype for '_slbc_release_cache_scmi' [-Wmissing-prototypes]
+     159 | __weak int _slbc_release_cache_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:160:12: warning: no previous prototype for '_slbc_buffer_status_scmi' [-Wmissing-prototypes]
+     160 | __weak int _slbc_buffer_status_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:161:12: warning: no previous prototype for '_slbc_request_buffer_scmi' [-Wmissing-prototypes]
+     161 | __weak int _slbc_request_buffer_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:162:12: warning: no previous prototype for '_slbc_release_buffer_scmi' [-Wmissing-prototypes]
+     162 | __weak int _slbc_release_buffer_scmi(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:163:13: warning: no previous prototype for 'slbc_register_ipi_ops' [-Wmissing-prototypes]
+     163 | __weak void slbc_register_ipi_ops(struct slbc_ipi_ops *ops) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/misc/mediatek/slbc/slbc_ipi.h:164:13: warning: no previous prototype for 'slbc_unregister_ipi_ops' [-Wmissing-prototypes]
+     164 | __weak void slbc_unregister_ipi_ops(struct slbc_ipi_ops *ops) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:165:12: warning: no previous prototype for 'slbc_sspm_sram_update' [-Wmissing-prototypes]
+     165 | __weak int slbc_sspm_sram_update(void) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:166:12: warning: no previous prototype for 'slbc_table_gid_set' [-Wmissing-prototypes]
+     166 | __weak int slbc_table_gid_set(int gid, int quota, int pri) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:167:12: warning: no previous prototype for 'slbc_table_gid_release' [-Wmissing-prototypes]
+     167 | __weak int slbc_table_gid_release(int gid) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:168:12: warning: no previous prototype for 'slbc_table_gid_get' [-Wmissing-prototypes]
+     168 | __weak int slbc_table_gid_get(int gid) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:169:12: warning: no previous prototype for 'slbc_table_idt_set' [-Wmissing-prototypes]
+     169 | __weak int slbc_table_idt_set(int index, int arid, int idt) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:170:12: warning: no previous prototype for 'slbc_table_idt_release' [-Wmissing-prototypes]
+     170 | __weak int slbc_table_idt_release(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:171:12: warning: no previous prototype for 'slbc_table_idt_get' [-Wmissing-prototypes]
+     171 | __weak int slbc_table_idt_get(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:172:12: warning: no previous prototype for 'slbc_table_gid_axi_set' [-Wmissing-prototypes]
+     172 | __weak int slbc_table_gid_axi_set(int index, int axiid, int pg) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:173:12: warning: no previous prototype for 'slbc_table_gid_axi_release' [-Wmissing-prototypes]
+     173 | __weak int slbc_table_gid_axi_release(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:174:12: warning: no previous prototype for 'slbc_table_gid_axi_get' [-Wmissing-prototypes]
+     174 | __weak int slbc_table_gid_axi_get(int index) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:175:12: warning: no previous prototype for 'emi_slb_select' [-Wmissing-prototypes]
+     175 | __weak int emi_slb_select(int argv1, int argv2, int argv3) { return 0; }
+         |            ^~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:176:12: warning: no previous prototype for 'emi_pmu_counter' [-Wmissing-prototypes]
+     176 | __weak int emi_pmu_counter(int argv1, int argv2, int argv3) { return 0; }
+         |            ^~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:177:12: warning: no previous prototype for 'emi_pmu_set_ctrl' [-Wmissing-prototypes]
+     177 | __weak int emi_pmu_set_ctrl(int argv1, int argv2, int argv3) { return 0; }
+         |            ^~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:178:12: warning: no previous prototype for 'emi_gid_pmu_counter' [-Wmissing-prototypes]
+     178 | __weak int emi_gid_pmu_counter(int argv1, int argv2) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:179:12: warning: no previous prototype for 'emi_pmu_read_counter' [-Wmissing-prototypes]
+     179 | __weak int emi_pmu_read_counter(int idx) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:180:12: warning: no previous prototype for 'emi_gid_pmu_read_counter' [-Wmissing-prototypes]
+     180 | __weak int emi_gid_pmu_read_counter(void *ptr) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:181:12: warning: no previous prototype for 'emi_slc_test_result' [-Wmissing-prototypes]
+     181 | __weak int emi_slc_test_result(void) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:182:12: warning: no previous prototype for '_slbc_ach_scmi' [-Wmissing-prototypes]
+     182 | __weak int _slbc_ach_scmi(unsigned int cmd, enum slc_ach_uid uid, int gid,
+         |            ^~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.c:773:6: error: redefinition of 'slbc_register_ipi_ops'
+     773 | void slbc_register_ipi_ops(struct slbc_ipi_ops *ops)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:163:13: note: previous definition of 'slbc_register_ipi_ops' with type 'void(struct slbc_ipi_ops *)'
+     163 | __weak void slbc_register_ipi_ops(struct slbc_ipi_ops *ops) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.c:779:6: error: redefinition of 'slbc_unregister_ipi_ops'
+     779 | void slbc_unregister_ipi_ops(struct slbc_ipi_ops *ops)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/mediatek/slbc/slbc_ipi.h:164:13: note: previous definition of 'slbc_unregister_ipi_ops' with type 'void(struct slbc_ipi_ops *)'
+     164 | __weak void slbc_unregister_ipi_ops(struct slbc_ipi_ops *ops) {}
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
+   WARNING: unmet direct dependencies detected for DEVFREQ_THERMAL
+   Depends on [n]: THERMAL [=n] && PM_DEVFREQ [=y] && PM_OPP [=y]
    Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   - MALI_MTK [=m] && HAS_IOMEM [=y] && ARM64 [=y] && !MALI [=n] && MALI [=n]!=m [=m] && MTK_GPU_SUPPORT [=y]
 
 
-vim +492 drivers/gpu/drm/panthor/panthor_sched.c
+vim +/slbc_register_ipi_ops +773 drivers/misc/mediatek/slbc/slbc_ipi.c
 
-de85488138247d Boris Brezillon 2024-02-29  395  
-de85488138247d Boris Brezillon 2024-02-29  396  	/** @ringbuf: Command stream ring-buffer. */
-de85488138247d Boris Brezillon 2024-02-29  397  	struct panthor_kernel_bo *ringbuf;
-de85488138247d Boris Brezillon 2024-02-29  398  
-de85488138247d Boris Brezillon 2024-02-29  399  	/** @iface: Firmware interface. */
-de85488138247d Boris Brezillon 2024-02-29  400  	struct {
-de85488138247d Boris Brezillon 2024-02-29  401  		/** @mem: FW memory allocated for this interface. */
-de85488138247d Boris Brezillon 2024-02-29  402  		struct panthor_kernel_bo *mem;
-de85488138247d Boris Brezillon 2024-02-29  403  
-de85488138247d Boris Brezillon 2024-02-29  404  		/** @input: Input interface. */
-de85488138247d Boris Brezillon 2024-02-29  405  		struct panthor_fw_ringbuf_input_iface *input;
-de85488138247d Boris Brezillon 2024-02-29  406  
-de85488138247d Boris Brezillon 2024-02-29  407  		/** @output: Output interface. */
-de85488138247d Boris Brezillon 2024-02-29  408  		const struct panthor_fw_ringbuf_output_iface *output;
-de85488138247d Boris Brezillon 2024-02-29  409  
-de85488138247d Boris Brezillon 2024-02-29  410  		/** @input_fw_va: FW virtual address of the input interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  411  		u32 input_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  412  
-de85488138247d Boris Brezillon 2024-02-29  413  		/** @output_fw_va: FW virtual address of the output interface buffer. */
-de85488138247d Boris Brezillon 2024-02-29  414  		u32 output_fw_va;
-de85488138247d Boris Brezillon 2024-02-29  415  	} iface;
-de85488138247d Boris Brezillon 2024-02-29  416  
-de85488138247d Boris Brezillon 2024-02-29  417  	/**
-de85488138247d Boris Brezillon 2024-02-29  418  	 * @syncwait: Stores information about the synchronization object this
-de85488138247d Boris Brezillon 2024-02-29  419  	 * queue is waiting on.
-de85488138247d Boris Brezillon 2024-02-29  420  	 */
-de85488138247d Boris Brezillon 2024-02-29  421  	struct {
-de85488138247d Boris Brezillon 2024-02-29  422  		/** @gpu_va: GPU address of the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  423  		u64 gpu_va;
-de85488138247d Boris Brezillon 2024-02-29  424  
-de85488138247d Boris Brezillon 2024-02-29  425  		/** @ref: Reference value to compare against. */
-de85488138247d Boris Brezillon 2024-02-29  426  		u64 ref;
-de85488138247d Boris Brezillon 2024-02-29  427  
-de85488138247d Boris Brezillon 2024-02-29  428  		/** @gt: True if this is a greater-than test. */
-de85488138247d Boris Brezillon 2024-02-29  429  		bool gt;
-de85488138247d Boris Brezillon 2024-02-29  430  
-de85488138247d Boris Brezillon 2024-02-29  431  		/** @sync64: True if this is a 64-bit sync object. */
-de85488138247d Boris Brezillon 2024-02-29  432  		bool sync64;
-de85488138247d Boris Brezillon 2024-02-29  433  
-de85488138247d Boris Brezillon 2024-02-29  434  		/** @bo: Buffer object holding the synchronization object. */
-de85488138247d Boris Brezillon 2024-02-29  435  		struct drm_gem_object *obj;
-de85488138247d Boris Brezillon 2024-02-29  436  
-de85488138247d Boris Brezillon 2024-02-29  437  		/** @offset: Offset of the synchronization object inside @bo. */
-de85488138247d Boris Brezillon 2024-02-29  438  		u64 offset;
-de85488138247d Boris Brezillon 2024-02-29  439  
-de85488138247d Boris Brezillon 2024-02-29  440  		/**
-de85488138247d Boris Brezillon 2024-02-29  441  		 * @kmap: Kernel mapping of the buffer object holding the
-de85488138247d Boris Brezillon 2024-02-29  442  		 * synchronization object.
-de85488138247d Boris Brezillon 2024-02-29  443  		 */
-de85488138247d Boris Brezillon 2024-02-29  444  		void *kmap;
-de85488138247d Boris Brezillon 2024-02-29  445  	} syncwait;
-de85488138247d Boris Brezillon 2024-02-29  446  
-de85488138247d Boris Brezillon 2024-02-29  447  	/** @fence_ctx: Fence context fields. */
-de85488138247d Boris Brezillon 2024-02-29  448  	struct {
-de85488138247d Boris Brezillon 2024-02-29  449  		/** @lock: Used to protect access to all fences allocated by this context. */
-de85488138247d Boris Brezillon 2024-02-29  450  		spinlock_t lock;
-de85488138247d Boris Brezillon 2024-02-29  451  
-de85488138247d Boris Brezillon 2024-02-29  452  		/**
-de85488138247d Boris Brezillon 2024-02-29  453  		 * @id: Fence context ID.
-de85488138247d Boris Brezillon 2024-02-29  454  		 *
-de85488138247d Boris Brezillon 2024-02-29  455  		 * Allocated with dma_fence_context_alloc().
-de85488138247d Boris Brezillon 2024-02-29  456  		 */
-de85488138247d Boris Brezillon 2024-02-29  457  		u64 id;
-de85488138247d Boris Brezillon 2024-02-29  458  
-de85488138247d Boris Brezillon 2024-02-29  459  		/** @seqno: Sequence number of the last initialized fence. */
-de85488138247d Boris Brezillon 2024-02-29  460  		atomic64_t seqno;
-de85488138247d Boris Brezillon 2024-02-29  461  
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  462  		/**
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  463  		 * @last_fence: Fence of the last submitted job.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  464  		 *
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  465  		 * We return this fence when we get an empty command stream.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  466  		 * This way, we are guaranteed that all earlier jobs have completed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  467  		 * when drm_sched_job::s_fence::finished without having to feed
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  468  		 * the CS ring buffer with a dummy job that only signals the fence.
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  469  		 */
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  470  		struct dma_fence *last_fence;
-7b6f9ec6ad5112 Boris Brezillon 2024-07-03  471  
-de85488138247d Boris Brezillon 2024-02-29  472  		/**
-de85488138247d Boris Brezillon 2024-02-29  473  		 * @in_flight_jobs: List containing all in-flight jobs.
-de85488138247d Boris Brezillon 2024-02-29  474  		 *
-de85488138247d Boris Brezillon 2024-02-29  475  		 * Used to keep track and signal panthor_job::done_fence when the
-de85488138247d Boris Brezillon 2024-02-29  476  		 * synchronization object attached to the queue is signaled.
-de85488138247d Boris Brezillon 2024-02-29  477  		 */
-de85488138247d Boris Brezillon 2024-02-29  478  		struct list_head in_flight_jobs;
-de85488138247d Boris Brezillon 2024-02-29  479  	} fence_ctx;
-f8ff51a4708451 Adrián Larumbe  2024-09-24  480  
-f8ff51a4708451 Adrián Larumbe  2024-09-24  481  	/** @profiling: Job profiling data slots and access information. */
-f8ff51a4708451 Adrián Larumbe  2024-09-24  482  	struct {
-f8ff51a4708451 Adrián Larumbe  2024-09-24  483  		/** @slots: Kernel BO holding the slots. */
-f8ff51a4708451 Adrián Larumbe  2024-09-24  484  		struct panthor_kernel_bo *slots;
-f8ff51a4708451 Adrián Larumbe  2024-09-24  485  
-f8ff51a4708451 Adrián Larumbe  2024-09-24  486  		/** @slot_count: Number of jobs ringbuffer can hold at once. */
-f8ff51a4708451 Adrián Larumbe  2024-09-24  487  		u32 slot_count;
-f8ff51a4708451 Adrián Larumbe  2024-09-24  488  
-f8ff51a4708451 Adrián Larumbe  2024-09-24  489  		/** @seqno: Index of the next available profiling information slot. */
-f8ff51a4708451 Adrián Larumbe  2024-09-24  490  		u32 seqno;
-f8ff51a4708451 Adrián Larumbe  2024-09-24  491  	} profiling;
-de85488138247d Boris Brezillon 2024-02-29 @492  };
-de85488138247d Boris Brezillon 2024-02-29  493  
-
-:::::: The code at line 492 was first introduced by commit
-:::::: de85488138247d034eb3241840424a54d660926b drm/panthor: Add the scheduler logical block
-
-:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
-:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
+   772	
+ > 773	void slbc_register_ipi_ops(struct slbc_ipi_ops *ops)
+   774	{
+   775		ipi_ops = ops;
+   776	}
+   777	EXPORT_SYMBOL_GPL(slbc_register_ipi_ops);
+   778	
+ > 779	void slbc_unregister_ipi_ops(struct slbc_ipi_ops *ops)
+   780	{
+   781		ipi_ops = NULL;
+   782	}
+   783	EXPORT_SYMBOL_GPL(slbc_unregister_ipi_ops);
+   784	
 
 -- 
 0-DAY CI Kernel Test Service
