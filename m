@@ -1,113 +1,232 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E03186344
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 06:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E414B374F1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 06:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739686952; cv=none; b=L9uqpyugTe7C15Dn8Uv42y/UAbiKhsrjZ+baufYzPJFisUt49s6EShW74mkifYQEPUDIOuOjGi1MqFd8BqaH90vUfr+BzyjoWaNxQrYDlyt79Ce3ooSVoRxml9haR3XI3OhxNXsNwjzcBP5y1/4fReuXFx6A+RP5JmXBhqSpqFA=
+	t=1739688818; cv=none; b=btVrTvGrH6xXWi/NXx8eVACW3EymFxuU/R/jLALOX95QwbAc9kBz/ZRj3aYV+PLLlL54OuTMZmow6kOjWeNae8LAkANocaQlDB3rlnwlDMO62B/uRGW1xu48288/YPQM2aOy2WoYBFE+IiG0OWzNxsh4V5alFX9X3AUQGRDlXxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739686952; c=relaxed/simple;
-	bh=E7NCYhYeIeQngSK9f+44vS+vWj1ewPeCbwmDGA+nok4=;
+	s=arc-20240116; t=1739688818; c=relaxed/simple;
+	bh=LENlmr986Wx0bj1yEY+Qx9RDZ2hBsMazpe3toYd7sG8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U3V/fEdRvRrV/7ZLqAP5y1nhmXxoGFAuhGEy5uQ1xIoaHE/uzHYFq/OdV+cyIpglFjw5Kyq0W/LPnaVIjMAAS/dClyFmV94pxBIxNhler5mrOmNlJf2oYXysOLgdeQi+hgK5h9ldrw9AdbcgSp8mMtfWUURnMWKlLpY3zZfHzOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mq6/G+hz; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=X3UWN/jzwUkvFubjbaDzxcFstZCeRFE1eT75/+abIIwE5nU+tpUzr0JcuugVbLvPJkzybC/TzmIl6Hy2GAi60PqwNv3kSaOMRqXtWvenAAa2I67LsJoc4h46E6OHzaVFOjHev0q/uBXc10DTo60TImdTvT0oBi+rS/VeSTXF4Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+0eNzL6; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mq6/G+hz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+0eNzL6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739686950; x=1771222950;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E7NCYhYeIeQngSK9f+44vS+vWj1ewPeCbwmDGA+nok4=;
-  b=Mq6/G+hzNAkuSCUNUDmzUoIjoMppRCVpKtlGM/S65LnrEGs/Ln63+MAc
-   rK7pKofaLJOIQJ+PQMuGf6zKBAJWHNAgwFDs5IY0ATe9ifx53egFWdJl2
-   dmdvVPb6ny7eVaMndFdFWjI+x27rwyab1SdfW/7NdWBdhxONYJIkHBUxq
-   oQLX/6MBgsm2+2OwWqm5K0HuyjiJ910SwQIOL4YeNazb0zI5m9cJd2blC
-   9/iIEzZx2EflfNzAM6Q7kZPWKizBvQffXDyfoakO1QWxQExYKU4q2xkgf
-   k3Rvss11Y6o5Lkn7ScxIcXFQdKg+QY4o7789EYFRO7B0Y43AtmVhmzZne
-   A==;
-X-CSE-ConnectionGUID: hGKRA2LyQOyfHMBejONurg==
-X-CSE-MsgGUID: /0BamySzReOT1dKiGD1BLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="51041141"
+  t=1739688815; x=1771224815;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LENlmr986Wx0bj1yEY+Qx9RDZ2hBsMazpe3toYd7sG8=;
+  b=X+0eNzL6ucyuQtbLE8ZCUI/f9F0fJKz+mhGM2zvG2sXC6wZjMUtA6awd
+   e2SIqBQeW13sA8FFLJEL5IzEmemaiOpevR61WxzSKQXZ+kkuEoPlAlTZ5
+   6O4BnTuLC45wIZodMxL+kei8upTeFjL424BVkguVLmXQmyCQ0XkwMvIn0
+   n/IXAXh7Nr9vsNlt5vzGCGfCpGElNbpSgxYtAXGPplqgzY444TN/A7/Py
+   qDmZJwRGNJ2jKWnu43pXMvrX+Kp9OkriZwtzDn6O4pC1FF0McwY5sUp2o
+   mp99AlsOXkNB+RhVai4+XaPdbdCM/GlmkaGJmpIqL92DbHJ0fa6xDJL3Q
+   w==;
+X-CSE-ConnectionGUID: U4VrZO6jRJWN86pOchuc4g==
+X-CSE-MsgGUID: IJIj/vavSGqg9/e4gDFMaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="39577159"
 X-IronPort-AV: E=Sophos;i="6.13,290,1732608000"; 
-   d="scan'208";a="51041141"
+   d="scan'208";a="39577159"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 22:22:29 -0800
-X-CSE-ConnectionGUID: coXMUPdZQQeSdqM0zAjqmw==
-X-CSE-MsgGUID: QXWo1jXXQoKOFzEfh8GQaA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 22:53:34 -0800
+X-CSE-ConnectionGUID: ErvEbm7FRUK6wLKZS+2qmg==
+X-CSE-MsgGUID: cRke5PtPTwub+B9BbM/hTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150994574"
+   d="scan'208";a="150997317"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Feb 2025 22:22:28 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Feb 2025 22:53:32 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjY2r-001Bdz-2f;
-	Sun, 16 Feb 2025 06:22:25 +0000
-Date: Sun, 16 Feb 2025 14:22:11 +0800
+	id 1tjYWv-001Bf5-2z;
+	Sun, 16 Feb 2025 06:53:29 +0000
+Date: Sun, 16 Feb 2025 14:52:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joshua Ashton <joshua@froggi.es>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [koverstreet-bcachefs:bcachefs-testing 103/104]
- fs/bcachefs/dirent.c:290:46: sparse: sparse: incorrect type in assignment
- (different base types)
-Message-ID: <202502161437.UH8VP3QK-lkp@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Subject: drivers/gpu/drm/imx/dcss/dcss-scaler.c:174: warning: Function
+ parameter or struct member 'phase0_identity' not described in
+ 'dcss_scaler_gaussian_filter'
+Message-ID: <202502161410.rHLP485d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   cfaf22143ffba87f99d663472805ac45852a37e4
-commit: dd28528df1d507348a493e46001249c9fba22a9e [103/104] bcachefs: bcachefs_metadata_version_casefolding
-config: mips-randconfig-r112-20250216 (https://download.01.org/0day-ci/archive/20250216/202502161437.UH8VP3QK-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20250216/202502161437.UH8VP3QK-lkp@intel.com/reproduce)
+Hi Ville,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ad1b832bf1cf2df9304f8eb72943111625c7e5a7
+commit: 004555a18d57fbad42553c2e98e00a054bbe618c drm/imx/dcss: Allow build with COMPILE_TEST=y
+date:   4 months ago
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250216/202502161410.rHLP485d-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502161410.rHLP485d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502161437.UH8VP3QK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502161410.rHLP485d-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/dirent.c: note: in included file:
-   fs/bcachefs/bcachefs.h:1006:9: sparse: sparse: array of flexible structures
->> fs/bcachefs/dirent.c:290:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] d_name_len @@     got unsigned int const [usertype] len @@
-   fs/bcachefs/dirent.c:290:46: sparse:     expected restricted __le16 [usertype] d_name_len
-   fs/bcachefs/dirent.c:290:46: sparse:     got unsigned int const [usertype] len
->> fs/bcachefs/dirent.c:291:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] d_cf_name_len @@     got unsigned int const [usertype] len @@
-   fs/bcachefs/dirent.c:291:49: sparse:     expected restricted __le16 [usertype] d_cf_name_len
-   fs/bcachefs/dirent.c:291:49: sparse:     got unsigned int const [usertype] len
+All warnings (new ones prefixed by >>):
 
-vim +290 fs/bcachefs/dirent.c
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:174: warning: Function parameter or struct member 'phase0_identity' not described in 'dcss_scaler_gaussian_filter'
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:271: warning: Function parameter or struct member 'phase0_identity' not described in 'dcss_scaler_filter_design'
+>> drivers/gpu/drm/imx/dcss/dcss-scaler.c:271: warning: Function parameter or struct member 'nn_interpolation' not described in 'dcss_scaler_filter_design'
 
-   282	
-   283	static void dirent_init_casefolded_name(struct bkey_i_dirent *dirent,
-   284						const struct qstr *name,
-   285						const struct qstr *cf_name)
-   286	{
-   287		EBUG_ON(!dirent->v.d_casefold);
-   288		EBUG_ON(!cf_name->len);
-   289	
- > 290		dirent->v.d_cf_name_block.d_name_len = name->len;
- > 291		dirent->v.d_cf_name_block.d_cf_name_len = cf_name->len;
-   292		memcpy(&dirent->v.d_cf_name_block.d_names[0], name->name, name->len);
-   293		memcpy(&dirent->v.d_cf_name_block.d_names[name->len], cf_name->name, cf_name->len);
-   294		memset(&dirent->v.d_cf_name_block.d_names[name->len + cf_name->len], 0,
-   295			bkey_val_bytes(&dirent->k) -
-   296			offsetof(struct bch_dirent, d_cf_name_block.d_names) -
-   297			name->len + cf_name->len);
-   298	
-   299		EBUG_ON(bch2_dirent_get_casefold_name(dirent_i_to_s_c(dirent)).len != cf_name->len);
-   300	}
-   301	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +174 drivers/gpu/drm/imx/dcss/dcss-scaler.c
+
+9021c317b77024 Laurentiu Palcu 2020-07-31  164  
+9021c317b77024 Laurentiu Palcu 2020-07-31  165  /**
+9021c317b77024 Laurentiu Palcu 2020-07-31  166   * dcss_scaler_gaussian_filter() - Generate gaussian prototype filter.
+9021c317b77024 Laurentiu Palcu 2020-07-31  167   * @fc_q: fixed-point cutoff frequency normalized to range [0, 1]
+9021c317b77024 Laurentiu Palcu 2020-07-31  168   * @use_5_taps: indicates whether to use 5 taps or 7 taps
+9021c317b77024 Laurentiu Palcu 2020-07-31  169   * @coef: output filter coefficients
+9021c317b77024 Laurentiu Palcu 2020-07-31  170   */
+9021c317b77024 Laurentiu Palcu 2020-07-31  171  static void dcss_scaler_gaussian_filter(int fc_q, bool use_5_taps,
+9021c317b77024 Laurentiu Palcu 2020-07-31  172  					bool phase0_identity,
+9021c317b77024 Laurentiu Palcu 2020-07-31  173  					int coef[][PSC_NUM_TAPS])
+9021c317b77024 Laurentiu Palcu 2020-07-31 @174  {
+9021c317b77024 Laurentiu Palcu 2020-07-31  175  	int sigma_q, g0_q, g1_q, g2_q;
+9021c317b77024 Laurentiu Palcu 2020-07-31  176  	int tap_cnt1, tap_cnt2, tap_idx, phase_cnt;
+9021c317b77024 Laurentiu Palcu 2020-07-31  177  	int mid;
+9021c317b77024 Laurentiu Palcu 2020-07-31  178  	int phase;
+9021c317b77024 Laurentiu Palcu 2020-07-31  179  	int i;
+9021c317b77024 Laurentiu Palcu 2020-07-31  180  	int taps;
+9021c317b77024 Laurentiu Palcu 2020-07-31  181  
+9021c317b77024 Laurentiu Palcu 2020-07-31  182  	if (use_5_taps)
+9021c317b77024 Laurentiu Palcu 2020-07-31  183  		for (phase = 0; phase < PSC_STORED_PHASES; phase++) {
+9021c317b77024 Laurentiu Palcu 2020-07-31  184  			coef[phase][0] = 0;
+9021c317b77024 Laurentiu Palcu 2020-07-31  185  			coef[phase][PSC_NUM_TAPS - 1] = 0;
+9021c317b77024 Laurentiu Palcu 2020-07-31  186  		}
+9021c317b77024 Laurentiu Palcu 2020-07-31  187  
+9021c317b77024 Laurentiu Palcu 2020-07-31  188  	/* seed coefficient scanner */
+9021c317b77024 Laurentiu Palcu 2020-07-31  189  	taps = use_5_taps ? PSC_NUM_TAPS_RGBA : PSC_NUM_TAPS;
+9021c317b77024 Laurentiu Palcu 2020-07-31  190  	mid = (PSC_NUM_PHASES * taps) / 2 - 1;
+9021c317b77024 Laurentiu Palcu 2020-07-31  191  	phase_cnt = (PSC_NUM_PHASES * (PSC_NUM_TAPS + 1)) / 2;
+9021c317b77024 Laurentiu Palcu 2020-07-31  192  	tap_cnt1 = (PSC_NUM_PHASES * PSC_NUM_TAPS) / 2;
+9021c317b77024 Laurentiu Palcu 2020-07-31  193  	tap_cnt2 = (PSC_NUM_PHASES * PSC_NUM_TAPS) / 2;
+9021c317b77024 Laurentiu Palcu 2020-07-31  194  
+9021c317b77024 Laurentiu Palcu 2020-07-31  195  	/* seed gaussian filter generator */
+9021c317b77024 Laurentiu Palcu 2020-07-31  196  	sigma_q = div_q(PSC_Q_ROUND_OFFSET, fc_q);
+9021c317b77024 Laurentiu Palcu 2020-07-31  197  	g0_q = 1 << PSC_Q_FRACTION;
+9021c317b77024 Laurentiu Palcu 2020-07-31  198  	g1_q = exp_approx_q(div_q(-PSC_Q_ROUND_OFFSET,
+9021c317b77024 Laurentiu Palcu 2020-07-31  199  				  mult_q(sigma_q, sigma_q)));
+9021c317b77024 Laurentiu Palcu 2020-07-31  200  	g2_q = mult_q(g1_q, g1_q);
+9021c317b77024 Laurentiu Palcu 2020-07-31  201  	coef[phase_cnt & PSC_PHASE_MASK][tap_cnt1 >> PSC_BITS_FOR_PHASE] = g0_q;
+9021c317b77024 Laurentiu Palcu 2020-07-31  202  
+9021c317b77024 Laurentiu Palcu 2020-07-31  203  	for (i = 0; i < mid; i++) {
+9021c317b77024 Laurentiu Palcu 2020-07-31  204  		phase_cnt++;
+9021c317b77024 Laurentiu Palcu 2020-07-31  205  		tap_cnt1--;
+9021c317b77024 Laurentiu Palcu 2020-07-31  206  		tap_cnt2++;
+9021c317b77024 Laurentiu Palcu 2020-07-31  207  
+9021c317b77024 Laurentiu Palcu 2020-07-31  208  		g0_q = mult_q(g0_q, g1_q);
+9021c317b77024 Laurentiu Palcu 2020-07-31  209  		g1_q = mult_q(g1_q, g2_q);
+9021c317b77024 Laurentiu Palcu 2020-07-31  210  
+9021c317b77024 Laurentiu Palcu 2020-07-31  211  		if ((phase_cnt & PSC_PHASE_MASK) <= 8) {
+9021c317b77024 Laurentiu Palcu 2020-07-31  212  			tap_idx = tap_cnt1 >> PSC_BITS_FOR_PHASE;
+9021c317b77024 Laurentiu Palcu 2020-07-31  213  			coef[phase_cnt & PSC_PHASE_MASK][tap_idx] = g0_q;
+9021c317b77024 Laurentiu Palcu 2020-07-31  214  		}
+9021c317b77024 Laurentiu Palcu 2020-07-31  215  		if (((-phase_cnt) & PSC_PHASE_MASK) <= 8) {
+9021c317b77024 Laurentiu Palcu 2020-07-31  216  			tap_idx = tap_cnt2 >> PSC_BITS_FOR_PHASE;
+9021c317b77024 Laurentiu Palcu 2020-07-31  217  			coef[(-phase_cnt) & PSC_PHASE_MASK][tap_idx] = g0_q;
+9021c317b77024 Laurentiu Palcu 2020-07-31  218  		}
+9021c317b77024 Laurentiu Palcu 2020-07-31  219  	}
+9021c317b77024 Laurentiu Palcu 2020-07-31  220  
+9021c317b77024 Laurentiu Palcu 2020-07-31  221  	phase_cnt++;
+9021c317b77024 Laurentiu Palcu 2020-07-31  222  	tap_cnt1--;
+9021c317b77024 Laurentiu Palcu 2020-07-31  223  	coef[phase_cnt & PSC_PHASE_MASK][tap_cnt1 >> PSC_BITS_FOR_PHASE] = 0;
+9021c317b77024 Laurentiu Palcu 2020-07-31  224  
+9021c317b77024 Laurentiu Palcu 2020-07-31  225  	/* override phase 0 with identity filter if specified */
+9021c317b77024 Laurentiu Palcu 2020-07-31  226  	if (phase0_identity)
+9021c317b77024 Laurentiu Palcu 2020-07-31  227  		for (i = 0; i < PSC_NUM_TAPS; i++)
+9021c317b77024 Laurentiu Palcu 2020-07-31  228  			coef[0][i] = i == (PSC_NUM_TAPS >> 1) ?
+9021c317b77024 Laurentiu Palcu 2020-07-31  229  						(1 << PSC_COEFF_PRECISION) : 0;
+9021c317b77024 Laurentiu Palcu 2020-07-31  230  
+9021c317b77024 Laurentiu Palcu 2020-07-31  231  	/* normalize coef */
+9021c317b77024 Laurentiu Palcu 2020-07-31  232  	for (phase = 0; phase < PSC_STORED_PHASES; phase++) {
+9021c317b77024 Laurentiu Palcu 2020-07-31  233  		int sum = 0;
+9021c317b77024 Laurentiu Palcu 2020-07-31  234  		s64 ll_temp;
+9021c317b77024 Laurentiu Palcu 2020-07-31  235  
+9021c317b77024 Laurentiu Palcu 2020-07-31  236  		for (i = 0; i < PSC_NUM_TAPS; i++)
+9021c317b77024 Laurentiu Palcu 2020-07-31  237  			sum += coef[phase][i];
+9021c317b77024 Laurentiu Palcu 2020-07-31  238  		for (i = 0; i < PSC_NUM_TAPS; i++) {
+9021c317b77024 Laurentiu Palcu 2020-07-31  239  			ll_temp = coef[phase][i];
+9021c317b77024 Laurentiu Palcu 2020-07-31  240  			ll_temp <<= PSC_COEFF_PRECISION;
+9021c317b77024 Laurentiu Palcu 2020-07-31  241  			ll_temp += sum >> 1;
+f2cab5a0e8c3a4 Ville Syrjälä   2024-10-03  242  			ll_temp = div_s64(ll_temp, sum);
+9021c317b77024 Laurentiu Palcu 2020-07-31  243  			coef[phase][i] = (int)ll_temp;
+9021c317b77024 Laurentiu Palcu 2020-07-31  244  		}
+9021c317b77024 Laurentiu Palcu 2020-07-31  245  	}
+9021c317b77024 Laurentiu Palcu 2020-07-31  246  }
+9021c317b77024 Laurentiu Palcu 2020-07-31  247  
+05faf1559de524 Laurentiu Palcu 2020-11-05  248  static void dcss_scaler_nearest_neighbor_filter(bool use_5_taps,
+05faf1559de524 Laurentiu Palcu 2020-11-05  249  						int coef[][PSC_NUM_TAPS])
+05faf1559de524 Laurentiu Palcu 2020-11-05  250  {
+05faf1559de524 Laurentiu Palcu 2020-11-05  251  	int i, j;
+05faf1559de524 Laurentiu Palcu 2020-11-05  252  
+05faf1559de524 Laurentiu Palcu 2020-11-05  253  	for (i = 0; i < PSC_STORED_PHASES; i++)
+05faf1559de524 Laurentiu Palcu 2020-11-05  254  		for (j = 0; j < PSC_NUM_TAPS; j++)
+05faf1559de524 Laurentiu Palcu 2020-11-05  255  			coef[i][j] = j == PSC_NUM_TAPS >> 1 ?
+05faf1559de524 Laurentiu Palcu 2020-11-05  256  						(1 << PSC_COEFF_PRECISION) : 0;
+05faf1559de524 Laurentiu Palcu 2020-11-05  257  }
+05faf1559de524 Laurentiu Palcu 2020-11-05  258  
+9021c317b77024 Laurentiu Palcu 2020-07-31  259  /**
+9021c317b77024 Laurentiu Palcu 2020-07-31  260   * dcss_scaler_filter_design() - Compute filter coefficients using
+9021c317b77024 Laurentiu Palcu 2020-07-31  261   *				 Gaussian filter.
+9021c317b77024 Laurentiu Palcu 2020-07-31  262   * @src_length: length of input
+9021c317b77024 Laurentiu Palcu 2020-07-31  263   * @dst_length: length of output
+9021c317b77024 Laurentiu Palcu 2020-07-31  264   * @use_5_taps: 0 for 7 taps per phase, 1 for 5 taps
+9021c317b77024 Laurentiu Palcu 2020-07-31  265   * @coef: output coefficients
+9021c317b77024 Laurentiu Palcu 2020-07-31  266   */
+9021c317b77024 Laurentiu Palcu 2020-07-31  267  static void dcss_scaler_filter_design(int src_length, int dst_length,
+9021c317b77024 Laurentiu Palcu 2020-07-31  268  				      bool use_5_taps, bool phase0_identity,
+05faf1559de524 Laurentiu Palcu 2020-11-05  269  				      int coef[][PSC_NUM_TAPS],
+05faf1559de524 Laurentiu Palcu 2020-11-05  270  				      bool nn_interpolation)
+9021c317b77024 Laurentiu Palcu 2020-07-31 @271  {
+9021c317b77024 Laurentiu Palcu 2020-07-31  272  	int fc_q;
+9021c317b77024 Laurentiu Palcu 2020-07-31  273  
+9021c317b77024 Laurentiu Palcu 2020-07-31  274  	/* compute cutoff frequency */
+9021c317b77024 Laurentiu Palcu 2020-07-31  275  	if (dst_length >= src_length)
+9021c317b77024 Laurentiu Palcu 2020-07-31  276  		fc_q = div_q(1, PSC_NUM_PHASES);
+9021c317b77024 Laurentiu Palcu 2020-07-31  277  	else
+9021c317b77024 Laurentiu Palcu 2020-07-31  278  		fc_q = div_q(dst_length, src_length * PSC_NUM_PHASES);
+9021c317b77024 Laurentiu Palcu 2020-07-31  279  
+05faf1559de524 Laurentiu Palcu 2020-11-05  280  	if (nn_interpolation)
+05faf1559de524 Laurentiu Palcu 2020-11-05  281  		dcss_scaler_nearest_neighbor_filter(use_5_taps, coef);
+05faf1559de524 Laurentiu Palcu 2020-11-05  282  	else
+9021c317b77024 Laurentiu Palcu 2020-07-31  283  		/* compute gaussian filter coefficients */
+9021c317b77024 Laurentiu Palcu 2020-07-31  284  		dcss_scaler_gaussian_filter(fc_q, use_5_taps, phase0_identity, coef);
+9021c317b77024 Laurentiu Palcu 2020-07-31  285  }
+9021c317b77024 Laurentiu Palcu 2020-07-31  286  
+
+:::::: The code at line 174 was first introduced by commit
+:::::: 9021c317b77024fb2642af7e84ad944769ae0949 drm/imx: Add initial support for DCSS on iMX8MQ
+
+:::::: TO: Laurentiu Palcu <laurentiu.palcu@nxp.com>
+:::::: CC: Lucas Stach <l.stach@pengutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
