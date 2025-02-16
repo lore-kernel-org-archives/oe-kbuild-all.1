@@ -1,58 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379C34C8E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A86156F57;
+	Sun, 16 Feb 2025 15:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739719403; cv=none; b=aUW2Vh7ZfdSNiBddx1cTvNzhlS8W3FLPlbo4r4Fax9tcbG6u/8ViFl0yh87jmqbwe3gKRphc29JNQZkpdzm1YcLybuU5TQR5kHrVUWMZUMEBS7K96Uk1zRj8Q8yUxaB+htk5m9M2pd3xmUxMSE7E6LEvIBZol2F1ByMU3PLgSkE=
+	t=1739719405; cv=none; b=FWnmWMZRPaKM82QVFWwm/WaTVQ3LR92Nw/ATTYK1ix22RU64GnyDLD3W4cDmsMEzQC/AuUOndZhMSo6F3eekLBSluEGdLaISfnxG2To23anCYUzVbAhvoyIkHvPzryhiOTJRqRe3BLKQkKXZEhnVh+kgEUwafGv0vm0OZFVsR7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739719403; c=relaxed/simple;
-	bh=LvzVkNx4ljaWCFAbMmL0KHq9ndWfn+s2WJGVw5c+R2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p5txTmcdoY2uqPuEKwnC48TSf7bAA0cqb6OeH/jljIQj1T8/87Pqa9h0f/8L1WRob/WKdpBZI+MUlO1Fd1UFfbVVXjUxifyQD/o4UzzyDBUyG/04QuV0t+YZ1vKchqhS+CzPMwzqYbsaKSUcNW5Tagp/qXQns1ek/GWAd5KaAGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aj1LdL2K; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1739719405; c=relaxed/simple;
+	bh=po62Jc1XMG8GWgLcWzL9t2XBsDzkbQQSYDMWB4lIbB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gn6R4/PqrF4lY6d7PogkJgfKcnRGJ/hScJVZF9uaqSfIxbzqBbpYHC1k44geDzWdTghsaif3IQumnQ7JJnn0A8IPd2KwzDprrLhQil8KGzQdRe2Z9/k491FyPAWBdP9OyFA6uPaG5uA7xY55bDS8mrpskMFIU83k4BGKZzglCCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xa09SWnL; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aj1LdL2K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xa09SWnL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739719402; x=1771255402;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LvzVkNx4ljaWCFAbMmL0KHq9ndWfn+s2WJGVw5c+R2g=;
-  b=aj1LdL2KbfoO4jiaw66JrJ86BecmEbbKfnO14cIswjGOaZxuQlbNJSs6
-   iF/eCy8VGjpZYt9r7GtyWX+MTVKKlH3gjCIXalOIMiwGqmwPFuhby15PG
-   RuIXQRjkb+TlBaLd7g2llFh2AmSiFc+ZoEMsdLI0gzLg1WMyknmP4frdl
-   qO54s07QirISZgarQxW313IfefRaYMUp0G7mnpLUdXeEmfCy71IYoSHy2
-   8bEsmCy+6Hi/1JkdsCW2lkbrh31CoGSAxGnrtYWqk/RoeJhwddidy2CCI
-   1kiKGwMQNGx5YttWPn9k9HN5NnTsr9U3Mh9EivGZuxfqMHZGhVm9VJgDe
-   g==;
-X-CSE-ConnectionGUID: r+gY7TwGQ62jjUqbbuQH6A==
-X-CSE-MsgGUID: DQNxK14tRluqYBgd4aYsTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51035116"
+  t=1739719403; x=1771255403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=po62Jc1XMG8GWgLcWzL9t2XBsDzkbQQSYDMWB4lIbB8=;
+  b=Xa09SWnLS6OiwktNQoUeH48TXsesBGUF6CyNCneGXylgcB04N5awq+1C
+   KUhAnPakZfaeMnNrVs6h0pP2fNMFifb102wm2pQbKS2fOQgNcFF/6Jon3
+   fi+zW0C/32TLtVtgsE3QLm+bpcAqIDg8zcaiL4v9ZDO8Pk/J/DVEugS5p
+   UQVd4wUXbP/ewlygzKw2Zg0w/j0t5+SBS/Elvpx/O0vbe6oJYAApEnWG1
+   R6evenr7jiQf1UTSc7pyY2q7EInttG+IqQkMZDnT7Bon5ZqE+2AwP9Ed2
+   AxoKJH/Aaxm/YZaXH3GX6DnGJyWuL82bd11a0qUIBlauttsnE6XHq+q9w
+   A==;
+X-CSE-ConnectionGUID: P39RnYMuTJqN5nDfpSy9CQ==
+X-CSE-MsgGUID: GBmJD8IlSySBFVhZjKggqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51035119"
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="51035116"
+   d="scan'208";a="51035119"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:23:21 -0800
-X-CSE-ConnectionGUID: 5bz1m3mlThePHE7fZYj/Lw==
-X-CSE-MsgGUID: nTiTilxTS36vaMWlMsFIkA==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:23:23 -0800
+X-CSE-ConnectionGUID: yiOXorRESNWuSBgtzbggww==
+X-CSE-MsgGUID: wHTmw9t8TzGZAMTX7DcqPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="113783010"
+   d="scan'208";a="113783009"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2025 07:23:21 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjgUI-001C1F-2r;
+	id 1tjgUI-001C1D-2n;
 	Sun, 16 Feb 2025 15:23:18 +0000
-Date: Sun, 16 Feb 2025 23:22:23 +0800
+Date: Sun, 16 Feb 2025 23:22:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/phy-exynos-usbdrd-fix 2/2]
- phy-exynos5-usbdrd.c:undefined reference to `typec_switch_unregister'
-Message-ID: <202502162341.LCymbuqF-lkp@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-rt-devel@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH net-next 2/3] netfilter: Split the xt_counters type
+ between kernel and user.
+Message-ID: <202502162342.iQ248XrR-lkp@intel.com>
+References: <20250216125135.3037967-3-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,28 +68,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250216125135.3037967-3-bigeasy@linutronix.de>
 
-tree:   https://github.com/krzk/linux n/phy-exynos-usbdrd-fix
-head:   c2c4065e701bb4eb3d2790fb163d39fe858fff2e
-commit: c2c4065e701bb4eb3d2790fb163d39fe858fff2e [2/2] sq v3
-config: loongarch-randconfig-001-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162341.LCymbuqF-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502162341.LCymbuqF-lkp@intel.com/reproduce)
+Hi Sebastian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/netfilter-Make-xt_table-private-RCU-protected/20250216-210418
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250216125135.3037967-3-bigeasy%40linutronix.de
+patch subject: [PATCH net-next 2/3] netfilter: Split the xt_counters type between kernel and user.
+config: i386-buildonly-randconfig-001-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162342.iQ248XrR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502162342.iQ248XrR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502162341.LCymbuqF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502162342.iQ248XrR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/phy/samsung/phy-exynos5-usbdrd.o: in function `exynos5_usbdrd_orien_switch_unregister':
->> phy-exynos5-usbdrd.c:(.text+0xb8c): undefined reference to `typec_switch_unregister'
-   loongarch64-linux-ld: drivers/phy/samsung/phy-exynos5-usbdrd.o: in function `exynos5_usbdrd_phy_probe':
->> phy-exynos5-usbdrd.c:(.text+0x15f4): undefined reference to `typec_switch_register'
->> loongarch64-linux-ld: phy-exynos5-usbdrd.c:(.text+0x1634): undefined reference to `typec_switch_unregister'
-   loongarch64-linux-ld: drivers/phy/samsung/phy-exynos5-usbdrd.o: in function `exynos5_usbdrd_orien_sw_set':
->> phy-exynos5-usbdrd.c:(.text+0x2138): undefined reference to `typec_switch_get_drvdata'
+>> net/netfilter/x_tables.c:1912: warning: Function parameter or struct member 'xt_pad' not described in 'xt_percpu_counter_alloc'
+>> net/netfilter/x_tables.c:1912: warning: Excess function parameter 'counter' description in 'xt_percpu_counter_alloc'
+
+
+vim +1912 net/netfilter/x_tables.c
+
+2e4e6a17af35be Harald Welte              2006-01-12  1887  
+f28e15bacedd44 Florian Westphal          2016-11-22  1888  /**
+f28e15bacedd44 Florian Westphal          2016-11-22  1889   * xt_percpu_counter_alloc - allocate x_tables rule counter
+f28e15bacedd44 Florian Westphal          2016-11-22  1890   *
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1891   * @state: pointer to xt_percpu allocation state
+f28e15bacedd44 Florian Westphal          2016-11-22  1892   * @counter: pointer to counter struct inside the ip(6)/arpt_entry struct
+f28e15bacedd44 Florian Westphal          2016-11-22  1893   *
+f28e15bacedd44 Florian Westphal          2016-11-22  1894   * On SMP, the packet counter [ ip(6)t_entry->counters.pcnt ] will then
+f28e15bacedd44 Florian Westphal          2016-11-22  1895   * contain the address of the real (percpu) counter.
+f28e15bacedd44 Florian Westphal          2016-11-22  1896   *
+f28e15bacedd44 Florian Westphal          2016-11-22  1897   * Rule evaluation needs to use xt_get_this_cpu_counter() helper
+f28e15bacedd44 Florian Westphal          2016-11-22  1898   * to fetch the real percpu counter.
+f28e15bacedd44 Florian Westphal          2016-11-22  1899   *
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1900   * To speed up allocation and improve data locality, a 4kb block is
+9ba5c404bf1d62 Ben Hutchings             2018-03-29  1901   * allocated.  Freeing any counter may free an entire block, so all
+9ba5c404bf1d62 Ben Hutchings             2018-03-29  1902   * counters allocated using the same state must be freed at the same
+9ba5c404bf1d62 Ben Hutchings             2018-03-29  1903   * time.
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1904   *
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1905   * xt_percpu_counter_alloc_state contains the base address of the
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1906   * allocated page and the current sub-offset.
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1907   *
+f28e15bacedd44 Florian Westphal          2016-11-22  1908   * returns false on error.
+f28e15bacedd44 Florian Westphal          2016-11-22  1909   */
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1910  bool xt_percpu_counter_alloc(struct xt_percpu_counter_alloc_state *state,
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1911  			     struct xt_counter_pad *xt_pad)
+f28e15bacedd44 Florian Westphal          2016-11-22 @1912  {
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1913  	union xt_counter_k *xt_cnt = (union xt_counter_k *)xt_pad;
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1914  
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1915  	BUILD_BUG_ON(XT_PCPU_BLOCK_SIZE < (sizeof(struct xt_counters_k) * 2));
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1916  	BUILD_BUG_ON(sizeof(struct xt_counters_k) != sizeof(struct xt_counters));
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1917  	BUILD_BUG_ON(sizeof(struct xt_counters_k) != sizeof(struct xt_counter_pad));
+f28e15bacedd44 Florian Westphal          2016-11-22  1918  
+f28e15bacedd44 Florian Westphal          2016-11-22  1919  	if (nr_cpu_ids <= 1)
+f28e15bacedd44 Florian Westphal          2016-11-22  1920  		return true;
+f28e15bacedd44 Florian Westphal          2016-11-22  1921  
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1922  	if (!state->mem) {
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1923  		state->mem = __alloc_percpu(XT_PCPU_BLOCK_SIZE,
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1924  					    XT_PCPU_BLOCK_SIZE);
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1925  		if (!state->mem)
+f28e15bacedd44 Florian Westphal          2016-11-22  1926  			return false;
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1927  	}
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1928  	xt_cnt->pcpu = state->mem + state->off;
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1929  	state->off += sizeof(struct xt_counters_k);
+e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1930  	if (state->off > (XT_PCPU_BLOCK_SIZE - sizeof(struct xt_counters_k))) {
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1931  		state->mem = NULL;
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1932  		state->off = 0;
+ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1933  	}
+f28e15bacedd44 Florian Westphal          2016-11-22  1934  	return true;
+f28e15bacedd44 Florian Westphal          2016-11-22  1935  }
+f28e15bacedd44 Florian Westphal          2016-11-22  1936  EXPORT_SYMBOL_GPL(xt_percpu_counter_alloc);
+f28e15bacedd44 Florian Westphal          2016-11-22  1937  
 
 -- 
 0-DAY CI Kernel Test Service
