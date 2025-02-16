@@ -1,58 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401B01B808
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 16:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9568778F45;
+	Sun, 16 Feb 2025 16:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739723191; cv=none; b=CDCHZaz1H2cLNBplCFYQGwyufSxHwqrcQKXrRiSSfKAF4LgXiTo2HuQDKgpBxO9w+pAX3a1Y8C0M2AaDn3vCjPFAgFMqTO2tFjvAUDWeJfEquk21QT6QgzQtL93FoqZZdy00J8U3lQqtUj7tuNhbrg+tb5dCbhgltnAxG0eNsQY=
+	t=1739723192; cv=none; b=lm968MhnMnEnzBkLLcASt5AX6p4HJnznsUiW1f8JafjCX7sRacoZJ/rSNTlVzsv35v8N+D8xXeJp6pwzxHTn/9CZhYUrRPfvrFZfvlNzQnxZLhKy2nnj3+Y3ztNEcK7trP1gvqpI0WmMw3uAaHj8etpAfpmVKti5HOpFxnXtwQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739723191; c=relaxed/simple;
-	bh=SA7JTsExijwU0fxpvPPTOjTNSbQwjUoGLm0eyxYlAgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=liPtaIX4I7pMYvykN3czCOcsweQmyt8skK8fYaz+OKVMutPTKnw1WEOs13LgWMGgjQCKzuv3frp/SE3vQH+VA76+OwwTnNYvg1mCXF68/JkGEndy5nJWuX2Ro1BGJWRC3AhceJayedo09khCmkesqLbEWMZvYLucN+hqRaDVzLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nD7cE+qF; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1739723192; c=relaxed/simple;
+	bh=pdXqxA4mn1LXn6gauTPZ9l945Lc3FsmLdchU+slJBRE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SGO46M7bX9gV1vNiCw4GFqS32YEJQdvVqNbCbDoSYZlBhhDQquH8SIolbdZ4wUQlc/faQBpyMByftMwuBNjceZn6261lXM1FlM9NTFa88WdlODqvpVN93A7dTLajE/ZCThyOR+OUUbb2Fi7sLB36SJ3gdp4MWATvi6qbvINT00o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1C49KRH; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nD7cE+qF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1C49KRH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739723189; x=1771259189;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SA7JTsExijwU0fxpvPPTOjTNSbQwjUoGLm0eyxYlAgg=;
-  b=nD7cE+qFrDkOcqdkEtv3pA06CWniYHQk4xHyoZTJUgoN9ktJbtN2XgUp
-   BVBeDW+hmmCd68aebG6r+N6P3V6PXocSqGazzr5NvY0uWlprqPMzlSgpS
-   S9u++u1HzslEW76FoCpEy1PXMcLwt7NRTNNeASO0jwRm6nTieQWDS78Ce
-   gwM5b85yGq6ORA0vqcfEUigUhNfrWPRq8vdaaTfP8MuMOKPkWrmo9iKxL
-   L9opy0GN/HjW/cjJa4uLjTfib8SwxAheU2oE0o0MO+6GDkReucHKnVrXK
-   qQzSxmyoJVdqLP5DslxLYOcOENq6U3TLaiVmZM8vJ8ImDdlwHDdV2dd7W
-   w==;
-X-CSE-ConnectionGUID: HMeTHAIeQRqK/3d/gM3Dxg==
-X-CSE-MsgGUID: 9R/Tzq6lTHu/w8Sqoj31vQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="44066204"
+  t=1739723191; x=1771259191;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pdXqxA4mn1LXn6gauTPZ9l945Lc3FsmLdchU+slJBRE=;
+  b=T1C49KRH79MV+4IJNZWBGxDXq+oiVzgPnbiNBGDbj5Q3d7cIuC42Q8ZL
+   xKaw9ShnRTKaN14rlpIF4k+BGNg890JzQiQAmoZTITMjmZSvFSuh96ec4
+   INMoU70sj1GvGLFheOek7e6uagqLoDhVoVyjQdwZsS5C6/2nOkHHADPGd
+   jCMM66rKR2bOKCHaDGK/q41R/HIEoo98QRReah7YfMASz4j3mRBfPTk8w
+   eNFoj6O8DV3qk0CB5WeFZjY2VjfwAROjhKfA3ChM/33VvTtunYjPJ3tU1
+   UEVptjLULUJXZkZUXIICtpdaGvD2egIR+Wd0UV4UwtBH9eSGH41wvGZYe
+   g==;
+X-CSE-ConnectionGUID: vvMh5mg6S76G19BkaumM4Q==
+X-CSE-MsgGUID: Z/RCGSg0QXSwlEdUuQ4FmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="44066206"
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="44066204"
+   d="scan'208";a="44066206"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 08:26:29 -0800
-X-CSE-ConnectionGUID: liv0WU+3QhyMqw6s8opb2g==
-X-CSE-MsgGUID: N+CVyJ/PRbWXKB63UylHJw==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 08:26:30 -0800
+X-CSE-ConnectionGUID: j2rYBsrySEGjBWBSY7L+pA==
+X-CSE-MsgGUID: WsMvpPg4QAeFT7xmrFOKBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114398677"
+   d="scan'208";a="114398676"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 16 Feb 2025 08:26:28 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjhTN-001C4P-1G;
+	id 1tjhTN-001C4N-1B;
 	Sun, 16 Feb 2025 16:26:25 +0000
-Date: Mon, 17 Feb 2025 00:25:45 +0800
+Date: Mon, 17 Feb 2025 00:25:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:rcu/next 4/4] kernel/rcu/rcutorture.c:2389:39: error:
- implicit declaration of function 'get_gp_wrap_count'
-Message-ID: <202502170006.FbuyaYgD-lkp@intel.com>
+To: Koichiro Den <koichiro.den@canonical.com>, linux-gpio@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, brgl@bgdev.pl,
+	geert+renesas@glider.be, linus.walleij@linaro.org,
+	maciej.borzecki@canonical.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 05/13] gpio: virtuser: convert to use gpio-pseudo
+ utilities
+Message-ID: <202502170056.DR6nbxpY-lkp@intel.com>
+References: <20250216125816.14430-6-koichiro.den@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,164 +65,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250216125816.14430-6-koichiro.den@canonical.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/next
-head:   984c47eeb7728829901b33462baae2771af80ea0
-commit: 984c47eeb7728829901b33462baae2771af80ea0 [4/4] TEST: force gpwraps
-config: nios2-randconfig-002-20250216 (https://download.01.org/0day-ci/archive/20250217/202502170006.FbuyaYgD-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502170006.FbuyaYgD-lkp@intel.com/reproduce)
+Hi Koichiro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.14-rc2 next-20250214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/gpio-aggregator-reorder-functions-to-prepare-for-configfs-introduction/20250216-210413
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20250216125816.14430-6-koichiro.den%40canonical.com
+patch subject: [PATCH v3 05/13] gpio: virtuser: convert to use gpio-pseudo utilities
+config: i386-buildonly-randconfig-003-20250216 (https://download.01.org/0day-ci/archive/20250217/202502170056.DR6nbxpY-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502170056.DR6nbxpY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502170006.FbuyaYgD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502170056.DR6nbxpY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/rcu/rcutorture.c: In function 'rcu_read_delay':
-   kernel/rcu/rcutorture.c:450:28: warning: variable 'ts' set but not used [-Wunused-but-set-variable]
-     450 |         unsigned long long ts;
-         |                            ^~
-   kernel/rcu/rcutorture.c:447:23: warning: variable 'completed' set but not used [-Wunused-but-set-variable]
-     447 |         unsigned long completed;
-         |                       ^~~~~~~~~
-   kernel/rcu/rcutorture.c:446:23: warning: variable 'started' set but not used [-Wunused-but-set-variable]
-     446 |         unsigned long started;
-         |                       ^~~~~~~
-   kernel/rcu/rcutorture.c: In function 'rcu_torture_one_read':
-   kernel/rcu/rcutorture.c:2169:28: warning: variable 'ts' set but not used [-Wunused-but-set-variable]
-    2169 |         unsigned long long ts;
-         |                            ^~
-   kernel/rcu/rcutorture.c: In function 'rcu_torture_stats_print':
->> kernel/rcu/rcutorture.c:2389:39: error: implicit declaration of function 'get_gp_wrap_count' [-Wimplicit-function-declaration]
-    2389 |                 total_gpwrap_count += get_gp_wrap_count(cpu);
-         |                                       ^~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpio-pseudo.c:62:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      62 |                 kfree(common->name);
+         |                 ^
+   drivers/gpio/gpio-pseudo.c:71:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      71 |                 kfree(common->name);
+         |                 ^
+   drivers/gpio/gpio-pseudo.c:83:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      83 |         kfree(common->name);
+         |         ^
+   3 errors generated.
 
 
-vim +/get_gp_wrap_count +2389 kernel/rcu/rcutorture.c
+vim +/kfree +62 drivers/gpio/gpio-pseudo.c
 
-  2362	
-  2363	/*
-  2364	 * Print torture statistics.  Caller must ensure that there is only
-  2365	 * one call to this function at a given time!!!  This is normally
-  2366	 * accomplished by relying on the module system to only have one copy
-  2367	 * of the module loaded, and then by giving the rcu_torture_stats
-  2368	 * kthread full control (or the init/cleanup functions when rcu_torture_stats
-  2369	 * thread is not running).
-  2370	 */
-  2371	static void
-  2372	rcu_torture_stats_print(void)
-  2373	{
-  2374		int cpu;
-  2375		int i;
-  2376		long pipesummary[RCU_TORTURE_PIPE_LEN + 1] = { 0 };
-  2377		long batchsummary[RCU_TORTURE_PIPE_LEN + 1] = { 0 };
-  2378		long total_gpwrap_count = 0;
-  2379		struct rcu_torture *rtcp;
-  2380		static unsigned long rtcv_snap = ULONG_MAX;
-  2381		static bool splatted;
-  2382		struct task_struct *wtp;
-  2383	
-  2384		for_each_possible_cpu(cpu) {
-  2385			for (i = 0; i < RCU_TORTURE_PIPE_LEN + 1; i++) {
-  2386				pipesummary[i] += READ_ONCE(per_cpu(rcu_torture_count, cpu)[i]);
-  2387				batchsummary[i] += READ_ONCE(per_cpu(rcu_torture_batch, cpu)[i]);
-  2388			}
-> 2389			total_gpwrap_count += get_gp_wrap_count(cpu);
-  2390		}
-  2391		for (i = RCU_TORTURE_PIPE_LEN; i >= 0; i--) {
-  2392			if (pipesummary[i] != 0)
-  2393				break;
-  2394		}
-  2395	
-  2396		pr_alert("%s%s total_gpwrap_count: %ld", torture_type, TORTURE_FLAG, total_gpwrap_count);
-  2397		rtcp = rcu_access_pointer(rcu_torture_current);
-  2398		pr_cont("rtc: %p %s: %lu tfle: %d rta: %d rtaf: %d rtf: %d ",
-  2399			rtcp,
-  2400			rtcp && !rcu_stall_is_suppressed_at_boot() ? "ver" : "VER",
-  2401			rcu_torture_current_version,
-  2402			list_empty(&rcu_torture_freelist),
-  2403			atomic_read(&n_rcu_torture_alloc),
-  2404			atomic_read(&n_rcu_torture_alloc_fail),
-  2405			atomic_read(&n_rcu_torture_free));
-  2406		pr_cont("rtmbe: %d rtmbkf: %d/%d rtbe: %ld rtbke: %ld ",
-  2407			atomic_read(&n_rcu_torture_mberror),
-  2408			atomic_read(&n_rcu_torture_mbchk_fail), atomic_read(&n_rcu_torture_mbchk_tries),
-  2409			n_rcu_torture_barrier_error,
-  2410			n_rcu_torture_boost_ktrerror);
-  2411		pr_cont("rtbf: %ld rtb: %ld nt: %ld ",
-  2412			n_rcu_torture_boost_failure,
-  2413			n_rcu_torture_boosts,
-  2414			atomic_long_read(&n_rcu_torture_timers));
-  2415		torture_onoff_stats();
-  2416		pr_cont("barrier: %ld/%ld:%ld ",
-  2417			data_race(n_barrier_successes),
-  2418			data_race(n_barrier_attempts),
-  2419			data_race(n_rcu_torture_barrier_error));
-  2420		pr_cont("read-exits: %ld ", data_race(n_read_exits)); // Statistic.
-  2421		pr_cont("nocb-toggles: %ld:%ld\n",
-  2422			atomic_long_read(&n_nocb_offload), atomic_long_read(&n_nocb_deoffload));
-  2423	
-  2424		pr_alert("%s%s ", torture_type, TORTURE_FLAG);
-  2425		if (atomic_read(&n_rcu_torture_mberror) ||
-  2426		    atomic_read(&n_rcu_torture_mbchk_fail) ||
-  2427		    n_rcu_torture_barrier_error || n_rcu_torture_boost_ktrerror ||
-  2428		    n_rcu_torture_boost_failure || i > 1) {
-  2429			pr_cont("%s", "!!! ");
-  2430			atomic_inc(&n_rcu_torture_error);
-  2431			WARN_ON_ONCE(atomic_read(&n_rcu_torture_mberror));
-  2432			WARN_ON_ONCE(atomic_read(&n_rcu_torture_mbchk_fail));
-  2433			WARN_ON_ONCE(n_rcu_torture_barrier_error);  // rcu_barrier()
-  2434			WARN_ON_ONCE(n_rcu_torture_boost_ktrerror); // no boost kthread
-  2435			WARN_ON_ONCE(n_rcu_torture_boost_failure); // boost failed (TIMER_SOFTIRQ RT prio?)
-  2436			WARN_ON_ONCE(i > 1); // Too-short grace period
-  2437		}
-  2438		pr_cont("Reader Pipe: ");
-  2439		for (i = 0; i < RCU_TORTURE_PIPE_LEN + 1; i++)
-  2440			pr_cont(" %ld", pipesummary[i]);
-  2441		pr_cont("\n");
-  2442	
-  2443		pr_alert("%s%s ", torture_type, TORTURE_FLAG);
-  2444		pr_cont("Reader Batch: ");
-  2445		for (i = 0; i < RCU_TORTURE_PIPE_LEN + 1; i++)
-  2446			pr_cont(" %ld", batchsummary[i]);
-  2447		pr_cont("\n");
-  2448	
-  2449		pr_alert("%s%s ", torture_type, TORTURE_FLAG);
-  2450		pr_cont("Free-Block Circulation: ");
-  2451		for (i = 0; i < RCU_TORTURE_PIPE_LEN + 1; i++) {
-  2452			pr_cont(" %d", atomic_read(&rcu_torture_wcount[i]));
-  2453		}
-  2454		pr_cont("\n");
-  2455	
-  2456		if (cur_ops->stats)
-  2457			cur_ops->stats();
-  2458		if (rtcv_snap == rcu_torture_current_version &&
-  2459		    rcu_access_pointer(rcu_torture_current) &&
-  2460		    !rcu_stall_is_suppressed()) {
-  2461			int __maybe_unused flags = 0;
-  2462			unsigned long __maybe_unused gp_seq = 0;
-  2463	
-  2464			if (cur_ops->get_gp_data)
-  2465				cur_ops->get_gp_data(&flags, &gp_seq);
-  2466			wtp = READ_ONCE(writer_task);
-  2467			pr_alert("??? Writer stall state %s(%d) g%lu f%#x ->state %#x cpu %d\n",
-  2468				 rcu_torture_writer_state_getname(),
-  2469				 rcu_torture_writer_state, gp_seq, flags,
-  2470				 wtp == NULL ? ~0U : wtp->__state,
-  2471				 wtp == NULL ? -1 : (int)task_cpu(wtp));
-  2472			if (!splatted && wtp) {
-  2473				sched_show_task(wtp);
-  2474				splatted = true;
-  2475			}
-  2476			if (cur_ops->gp_kthread_dbg)
-  2477				cur_ops->gp_kthread_dbg();
-  2478			rcu_ftrace_dump(DUMP_ALL);
-  2479		}
-  2480		rtcv_snap = rcu_torture_current_version;
-  2481	}
-  2482	
+ef524a2229b717 Koichiro Den 2025-02-16  43  
+ef524a2229b717 Koichiro Den 2025-02-16  44  int pseudo_gpio_register(struct pseudo_gpio_common *common,
+ef524a2229b717 Koichiro Den 2025-02-16  45  			 struct platform_device_info *pdevinfo)
+ef524a2229b717 Koichiro Den 2025-02-16  46  {
+ef524a2229b717 Koichiro Den 2025-02-16  47  	struct platform_device *pdev;
+ef524a2229b717 Koichiro Den 2025-02-16  48  	char *name;
+ef524a2229b717 Koichiro Den 2025-02-16  49  
+ef524a2229b717 Koichiro Den 2025-02-16  50  	name = kasprintf(GFP_KERNEL, "%s.%u", pdevinfo->name, pdevinfo->id);
+ef524a2229b717 Koichiro Den 2025-02-16  51  	if (!name)
+ef524a2229b717 Koichiro Den 2025-02-16  52  		return -ENOMEM;
+ef524a2229b717 Koichiro Den 2025-02-16  53  
+ef524a2229b717 Koichiro Den 2025-02-16  54  	common->driver_bound = false;
+ef524a2229b717 Koichiro Den 2025-02-16  55  	common->name = name;
+ef524a2229b717 Koichiro Den 2025-02-16  56  	reinit_completion(&common->probe_completion);
+ef524a2229b717 Koichiro Den 2025-02-16  57  	bus_register_notifier(&platform_bus_type, &common->bus_notifier);
+ef524a2229b717 Koichiro Den 2025-02-16  58  
+ef524a2229b717 Koichiro Den 2025-02-16  59  	pdev = platform_device_register_full(pdevinfo);
+ef524a2229b717 Koichiro Den 2025-02-16  60  	if (IS_ERR(pdev)) {
+ef524a2229b717 Koichiro Den 2025-02-16  61  		bus_unregister_notifier(&platform_bus_type, &common->bus_notifier);
+ef524a2229b717 Koichiro Den 2025-02-16 @62  		kfree(common->name);
+ef524a2229b717 Koichiro Den 2025-02-16  63  		return PTR_ERR(pdev);
+ef524a2229b717 Koichiro Den 2025-02-16  64  	}
+ef524a2229b717 Koichiro Den 2025-02-16  65  
+ef524a2229b717 Koichiro Den 2025-02-16  66  	wait_for_completion(&common->probe_completion);
+ef524a2229b717 Koichiro Den 2025-02-16  67  	bus_unregister_notifier(&platform_bus_type, &common->bus_notifier);
+ef524a2229b717 Koichiro Den 2025-02-16  68  
+ef524a2229b717 Koichiro Den 2025-02-16  69  	if (!common->driver_bound) {
+ef524a2229b717 Koichiro Den 2025-02-16  70  		platform_device_unregister(pdev);
+ef524a2229b717 Koichiro Den 2025-02-16  71  		kfree(common->name);
+ef524a2229b717 Koichiro Den 2025-02-16  72  		return -ENXIO;
+ef524a2229b717 Koichiro Den 2025-02-16  73  	}
+ef524a2229b717 Koichiro Den 2025-02-16  74  
+ef524a2229b717 Koichiro Den 2025-02-16  75  	common->pdev = pdev;
+ef524a2229b717 Koichiro Den 2025-02-16  76  	return 0;
+ef524a2229b717 Koichiro Den 2025-02-16  77  }
+ef524a2229b717 Koichiro Den 2025-02-16  78  EXPORT_SYMBOL_GPL(pseudo_gpio_register);
+ef524a2229b717 Koichiro Den 2025-02-16  79  
 
 -- 
 0-DAY CI Kernel Test Service
