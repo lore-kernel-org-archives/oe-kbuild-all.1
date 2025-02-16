@@ -1,172 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FD418FDC2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 12:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223C218F2C3;
+	Sun, 16 Feb 2025 12:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739708770; cv=none; b=MjrZe4yUuUMbVOUv9OMlB6XzWUrB56QJ9cbPisnL6pEybh5tILZgoLqDNJoq7vj9rUIieBdRqpvwixdvc9m6EaIRKiM9eeN3zEi5Oe/R9D1E21WlBmnj9wFudgv/k2f04xFNTHWGRKIwnxkssBIKhQZ3d3okaL2LXVOS6ZfxHXI=
+	t=1739708780; cv=none; b=tOPchrRBwOd1GSdTi78oTOxE2/dXR2KHuWx5fqxgReQv2KT4Udb6RzBujH93nmT2DCHBauSiTfWWyG65lpoklKBkVts2Cfmi9c04fBJRLsd8FnnrnRPshFMAHqwQ0Lo0JbI39sxKCXX5XbHPpbOCDIeRhcDtivcXJff7lQq50Jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739708770; c=relaxed/simple;
-	bh=kg2l830iBr3o0HKwbEkZs0vaAs20WKJDDL101l8Axic=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tc21tfE7UNIrlKpFocntxdarsYrgGgjw4bG5tbQs13iMfnlH6dRlAn8Tte8u6DgjuduHFYm1JMz7F83J31s6IC/5dNU2ri0rqo3rG0PwDXq6RCotD5tKqZToL1kNsLfg7YJM5blD7D/zoDphrdxObLvOjd03kEjAHTfGaOBBBgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNeV/kp0; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739708780; c=relaxed/simple;
+	bh=a3CJYuvGwxaWxHj3kLfKsCfB3J9gYgLLPyJTIR6fEPE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=beKlLr1ukjuOjFVgAQ5ZToA9fasl47PJfV5bYBmrJX0LlC7sPh6c3hYwiPaHs+1C1WrDmMFRNvRGNyo5in3gaTTiEyfYZ5habQZNR2MH50mg4Z+sEZeACt1NQOy7FZKZtZvxCHH9hjdwuz7OGKhx5dpP9i/gRVym67ZO7C8KrZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFgfzJ3K; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNeV/kp0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFgfzJ3K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739708767; x=1771244767;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kg2l830iBr3o0HKwbEkZs0vaAs20WKJDDL101l8Axic=;
-  b=SNeV/kp0FRRbWmeI9eQdLJ6sYK362Kco/7a/Osq62VEUJNQghlPilnZn
-   uOcJV1GCsS9eY1aMhFIRR3Osd7McxbiZdqayhiumO2Jt80DW1riiMdf4Q
-   CaT+TVlZ5PW37hFRxrs3Td83g/Z/lRfxM0FsnT0E/KpfjGl981p7dlC+R
-   hyD6Cg+pVdJz/NinqGjua2nr/+3DZtzlMjnif9OkqRNYz3Y2L+0Qr/9Rw
-   272GZZz0d/QYxe6/Cu4O5t3axvKVNrNNDo9tgVrW+SWhXHjXgtXEBEtd0
-   Xlb6Rd10eqCOlBEJsXoyyoyXuKxrcDPJg+USZCSGWu1DC8r/xwlq6zZxj
-   Q==;
-X-CSE-ConnectionGUID: PKVDXXklRNWW8EjjInmHnw==
-X-CSE-MsgGUID: mEH5gEO4Sf+Oihn6yfKlAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="44335088"
+  t=1739708778; x=1771244778;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=a3CJYuvGwxaWxHj3kLfKsCfB3J9gYgLLPyJTIR6fEPE=;
+  b=kFgfzJ3KmeF2wmZRohmObimsR/RdCTjovyddcPKb/LsDEBxAViLoTBFS
+   r7t4J+SZuDe6lyLaF2hdWAZDIDtff1HmNUygzs5cE404LHfF/rc1BCHAE
+   w5NqMRA3BdOARkzBV3tTKe6v8KQWndon4mAzjMrYI8M5N+sdrUsHEc/V/
+   ZRxo5Fbbit+AyjF45VQN0r7RGTJQ9eVXpw1l3orlK0zSVFMvsIyT7+VqL
+   WJ0+T18vTgP7NMJNyZXjMw41pC5tzcAlD/LMLmdx3EsVuqM5NIvefa7iA
+   8RySxShMRkFKlWZcMlsLIHqHsZemruVYoZ4oa6e1MCkPPCjsyeardD6I+
+   g==;
+X-CSE-ConnectionGUID: E1yCmdd8TOSzcrCt193fOg==
+X-CSE-MsgGUID: kOai4oCcRqCTXrggV1NMyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="51028893"
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="44335088"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 04:26:06 -0800
-X-CSE-ConnectionGUID: N5SSBFKMR7qqUsVlJXC1aA==
-X-CSE-MsgGUID: 6/UrsIslTUq2E686mEKbWg==
+   d="scan'208";a="51028893"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 04:26:17 -0800
+X-CSE-ConnectionGUID: WEKAKqXXQg6tTKJWKU+iOQ==
+X-CSE-MsgGUID: /BbAP6oIRYm7p7WX/ePNgQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="144733778"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 16 Feb 2025 04:26:05 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tjdik-001BuB-2h;
-	Sun, 16 Feb 2025 12:26:02 +0000
-Date: Sun, 16 Feb 2025 20:25:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_unaligned_test_skip_v1 44/77]
- drivers/iommu/riscv/iommu.c:153:29: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202502162026.VcCLIIf5-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="144796361"
+Received: from linux.intel.com ([10.54.29.200])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 04:26:17 -0800
+Received: from abityuts-desk1.ger.corp.intel.com (abityuts-desk1.fi.intel.com [10.237.68.150])
+	by linux.intel.com (Postfix) with ESMTP id 6958F20B5713;
+	Sun, 16 Feb 2025 04:26:15 -0800 (PST)
+Message-ID: <de5bf4f116779efde315782a15146fdc77a4a044.camel@linux.intel.com>
+Subject: Re: [tip:x86/cpu 3/5] ERROR: modpost:
+ "acpi_processor_ffh_play_dead" [drivers/acpi/processor.ko] undefined!
+From: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+To: kernel test robot <lkp@intel.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Date: Sun, 16 Feb 2025 14:26:14 +0200
+In-Reply-To: <202502151207.FA9UO1iX-lkp@intel.com>
+References: <202502151207.FA9UO1iX-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_unaligned_test_skip_v1
-head:   a810219b42d39c2a9055150c3d3fc0677bc73e28
-commit: 6ffcb04a541ee3af634b33aea0ed2fcee1ed1ab9 [44/77] iommu/riscv: Probe all icvec bits
-config: riscv-randconfig-r111-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162026.VcCLIIf5-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce: (https://download.01.org/0day-ci/archive/20250216/202502162026.VcCLIIf5-lkp@intel.com/reproduce)
+On Sat, 2025-02-15 at 12:51 +0800, kernel test robot wrote:
+> tree:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip=
+.git=C2=A0x86/cpu
+> head:=C2=A0=C2=A0 96040f7273e2bc0be1871ad9ed4da7b504da9410
+> commit: 541ddf31e30022b8e6f44b3a943964e8f0989d15 [3/5] ACPI/processor_idl=
+e: Add FFH state handling
+> config: x86_64-randconfig-077-20250214 (https://download.01.org/0day-ci/a=
+rchive/20250215/202502151207.FA9UO1iX-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project=C2=
+=A0ab51eccf88f5321e7c60591c5546b254b6afab99)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250215/202502151207.FA9UO1iX-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202502151207.FA9UO1iX-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>=20
+> > > ERROR: modpost: "acpi_processor_ffh_play_dead" [drivers/acpi/processo=
+r.ko] undefined!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502162026.VcCLIIf5-lkp@intel.com/
+Oh, this is the 'CONFIG_ACPI_PROCESSOR=3Dm' case. The function export is mi=
+ssing. Sorry for this.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/riscv/iommu.c:153:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
-   drivers/iommu/riscv/iommu.c:153:29: sparse:     expected void *base
-   drivers/iommu/riscv/iommu.c:153:29: sparse:     got void [noderef] __iomem *
->> drivers/iommu/riscv/iommu.c:687:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long [usertype] *ddt_root @@     got void [noderef] __iomem * @@
-   drivers/iommu/riscv/iommu.c:687:41: sparse:     expected unsigned long long [usertype] *ddt_root
-   drivers/iommu/riscv/iommu.c:687:41: sparse:     got void [noderef] __iomem *
+The below patch fixes the issue. Could you please fold it into the followin=
+g commit?
 
-vim +153 drivers/iommu/riscv/iommu.c
+	541ddf31e300 ACPI/processor_idle: Add FFH state handling
 
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  112  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  113  /*
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  114   * Discover queue ring buffer hardware configuration, allocate in-memory
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  115   * ring buffer or use fixed I/O memory location, configure queue base register.
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  116   * Must be called before hardware queue is enabled.
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  117   *
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  118   * @queue - data structure, configured with RISCV_IOMMU_QUEUE_INIT()
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  119   * @entry_size - queue single element size in bytes.
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  120   */
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  121  static int riscv_iommu_queue_alloc(struct riscv_iommu_device *iommu,
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  122  				   struct riscv_iommu_queue *queue,
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  123  				   size_t entry_size)
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  124  {
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  125  	unsigned int logsz;
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  126  	u64 qb, rb;
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  127  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  128  	/*
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  129  	 * Use WARL base register property to discover maximum allowed
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  130  	 * number of entries and optional fixed IO address for queue location.
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  131  	 */
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  132  	riscv_iommu_writeq(iommu, queue->qbr, RISCV_IOMMU_QUEUE_LOG2SZ_FIELD);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  133  	qb = riscv_iommu_readq(iommu, queue->qbr);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  134  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  135  	/*
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  136  	 * Calculate and verify hardware supported queue length, as reported
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  137  	 * by the field LOG2SZ, where max queue length is equal to 2^(LOG2SZ + 1).
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  138  	 * Update queue size based on hardware supported value.
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  139  	 */
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  140  	logsz = ilog2(queue->mask);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  141  	if (logsz > FIELD_GET(RISCV_IOMMU_QUEUE_LOG2SZ_FIELD, qb))
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  142  		logsz = FIELD_GET(RISCV_IOMMU_QUEUE_LOG2SZ_FIELD, qb);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  143  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  144  	/*
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  145  	 * Use WARL base register property to discover an optional fixed IO
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  146  	 * address for queue ring buffer location. Otherwise allocate contiguous
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  147  	 * system memory.
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  148  	 */
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  149  	if (FIELD_GET(RISCV_IOMMU_PPN_FIELD, qb)) {
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  150  		const size_t queue_size = entry_size << (logsz + 1);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  151  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  152  		queue->phys = pfn_to_phys(FIELD_GET(RISCV_IOMMU_PPN_FIELD, qb));
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15 @153  		queue->base = devm_ioremap(iommu->dev, queue->phys, queue_size);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  154  	} else {
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  155  		do {
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  156  			const size_t queue_size = entry_size << (logsz + 1);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  157  			const int order = get_order(queue_size);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  158  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  159  			queue->base = riscv_iommu_get_pages(iommu, order);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  160  			queue->phys = __pa(queue->base);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  161  		} while (!queue->base && logsz-- > 0);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  162  	}
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  163  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  164  	if (!queue->base)
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  165  		return -ENOMEM;
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  166  
-1200f83d66c906 Andrew Jones   2024-11-14  167  	qb = riscv_iommu_phys_to_ppn(queue->phys) |
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  168  	     FIELD_PREP(RISCV_IOMMU_QUEUE_LOG2SZ_FIELD, logsz);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  169  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  170  	/* Update base register and read back to verify hw accepted our write */
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  171  	riscv_iommu_writeq(iommu, queue->qbr, qb);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  172  	rb = riscv_iommu_readq(iommu, queue->qbr);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  173  	if (rb != qb) {
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  174  		dev_err(iommu->dev, "queue #%u allocation failed\n", queue->qid);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  175  		return -ENODEV;
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  176  	}
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  177  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  178  	/* Update actual queue mask */
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  179  	queue->mask = (2U << logsz) - 1;
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  180  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  181  	dev_dbg(iommu->dev, "queue #%u allocated 2^%u entries",
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  182  		queue->qid, logsz + 1);
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  183  
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  184  	return 0;
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  185  }
-856c0cfe5c5f6a Tomasz Jeznach 2024-10-15  186  
+I am not sure about the rules of the tip tree in cases like this, please di=
+rect me on
+how to handle the delivery of the fix.
 
-:::::: The code at line 153 was first introduced by commit
-:::::: 856c0cfe5c5f6a2cc8d995872eb67bff9c68c57c iommu/riscv: Command and fault queue support
+Thanks!
 
-:::::: TO: Tomasz Jeznach <tjeznach@rivosinc.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+index 5bdb65516969..86c87c01d23d 100644
+--- a/arch/x86/kernel/acpi/cstate.c
++++ b/arch/x86/kernel/acpi/cstate.c
+@@ -214,6 +214,7 @@ void acpi_processor_ffh_play_dead(struct acpi_processor=
+_cx *cx)
+        percpu_entry =3D per_cpu_ptr(cpu_cstate_entry, cpu);
+        mwait_play_dead(percpu_entry->states[cx->index].eax);
+ }
++EXPORT_SYMBOL_GPL(acpi_processor_ffh_play_dead);
+=20
+ void __cpuidle acpi_processor_ffh_cstate_enter(struct acpi_processor_cx *c=
+x)
+ {
+
+
+
