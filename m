@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A86156F57;
-	Sun, 16 Feb 2025 15:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE14D517
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739719405; cv=none; b=FWnmWMZRPaKM82QVFWwm/WaTVQ3LR92Nw/ATTYK1ix22RU64GnyDLD3W4cDmsMEzQC/AuUOndZhMSo6F3eekLBSluEGdLaISfnxG2To23anCYUzVbAhvoyIkHvPzryhiOTJRqRe3BLKQkKXZEhnVh+kgEUwafGv0vm0OZFVsR7U=
+	t=1739720007; cv=none; b=nGn/x94Jp51lnQMR/GRwCeZ17e8CT+D36xVN6E6Dt9PlnYwB/WwIX+bbeVoyo6rm1Lwnw+J/jaih6wj5khP5i6mZTT9EYL8HMLLLxOs2INEKLE7wt72f+eMxv1V+ckEpdRPIvhUCLBMHt2cg2TYDrAAE3tuBgXXjjWAGRTUgcpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739719405; c=relaxed/simple;
-	bh=po62Jc1XMG8GWgLcWzL9t2XBsDzkbQQSYDMWB4lIbB8=;
+	s=arc-20240116; t=1739720007; c=relaxed/simple;
+	bh=zpGAUL2A6gkU3zldFOJ6dcxKJ8KW2u6T2qeA9Zh6zyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gn6R4/PqrF4lY6d7PogkJgfKcnRGJ/hScJVZF9uaqSfIxbzqBbpYHC1k44geDzWdTghsaif3IQumnQ7JJnn0A8IPd2KwzDprrLhQil8KGzQdRe2Z9/k491FyPAWBdP9OyFA6uPaG5uA7xY55bDS8mrpskMFIU83k4BGKZzglCCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xa09SWnL; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lfctu8SLyqiHVCR/YJWAghlcsJM5Scv/9JWBERTAiCvA3wBM5ATIX16Yo03dlfbklkLtww8Xdm/G/2Z5P1O5z0WLlu+vb+USBAhE7YsiNw3O+lzzfL2jCaayZy5YXO5rpjCYFvPVdcZtoan4QPRoYVBXoSRCIUKENSfk9yQaYz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMCejJGs; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xa09SWnL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMCejJGs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739719403; x=1771255403;
+  t=1739720005; x=1771256005;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=po62Jc1XMG8GWgLcWzL9t2XBsDzkbQQSYDMWB4lIbB8=;
-  b=Xa09SWnLS6OiwktNQoUeH48TXsesBGUF6CyNCneGXylgcB04N5awq+1C
-   KUhAnPakZfaeMnNrVs6h0pP2fNMFifb102wm2pQbKS2fOQgNcFF/6Jon3
-   fi+zW0C/32TLtVtgsE3QLm+bpcAqIDg8zcaiL4v9ZDO8Pk/J/DVEugS5p
-   UQVd4wUXbP/ewlygzKw2Zg0w/j0t5+SBS/Elvpx/O0vbe6oJYAApEnWG1
-   R6evenr7jiQf1UTSc7pyY2q7EInttG+IqQkMZDnT7Bon5ZqE+2AwP9Ed2
-   AxoKJH/Aaxm/YZaXH3GX6DnGJyWuL82bd11a0qUIBlauttsnE6XHq+q9w
-   A==;
-X-CSE-ConnectionGUID: P39RnYMuTJqN5nDfpSy9CQ==
-X-CSE-MsgGUID: GBmJD8IlSySBFVhZjKggqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51035119"
-X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="51035119"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:23:23 -0800
-X-CSE-ConnectionGUID: yiOXorRESNWuSBgtzbggww==
-X-CSE-MsgGUID: wHTmw9t8TzGZAMTX7DcqPQ==
+  bh=zpGAUL2A6gkU3zldFOJ6dcxKJ8KW2u6T2qeA9Zh6zyA=;
+  b=HMCejJGsg5N41Op9N63kYz2f/Zz71wB8egfHxkIl/pBIw6CkXno+4DRW
+   696diqYsbetUU8536fKK2XhkFCGBRH94mif6dCwgYCZnzx8u1gWwoDRKG
+   KBPxChys0+1XT8yV8dQEu3uAq98znh8VhMnWrToXqClTfDgiYKgYZh/eS
+   /4LGWzMHduw8GhCiuKFtbttxkz3r1oc9S8UQGxxL+q9cBl0LknhxWstAh
+   +/pLIaq4qnF2z2F4VOOau/ai8Mh1RbVZ1BWlXZByBgzNZp02cAOVkOwTj
+   tSzJdpU3gw7S88faYg5my+WySm4RYqz5774KKQkXey5xAP1F0UneAAVjU
+   w==;
+X-CSE-ConnectionGUID: fP9fi09vThKb14nltsG2Bw==
+X-CSE-MsgGUID: jxYXC8yLQryz+6Pj+9erCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51836688"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51836688"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:33:24 -0800
+X-CSE-ConnectionGUID: livIVoLVSXmbyGoEui878g==
+X-CSE-MsgGUID: CKzRqbeLQpS/MAeYtiuhfw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="113783009"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113768074"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2025 07:23:21 -0800
+  by orviesa010.jf.intel.com with ESMTP; 16 Feb 2025 07:33:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjgUI-001C1D-2n;
-	Sun, 16 Feb 2025 15:23:18 +0000
-Date: Sun, 16 Feb 2025 23:22:32 +0800
+	id 1tjgdz-001C1b-1z;
+	Sun, 16 Feb 2025 15:33:19 +0000
+Date: Sun, 16 Feb 2025 23:32:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: [PATCH net-next 2/3] netfilter: Split the xt_counters type
- between kernel and user.
-Message-ID: <202502162342.iQ248XrR-lkp@intel.com>
-References: <20250216125135.3037967-3-bigeasy@linutronix.de>
+To: Koichiro Den <koichiro.den@canonical.com>, linux-gpio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, brgl@bgdev.pl, geert+renesas@glider.be,
+	linus.walleij@linaro.org, maciej.borzecki@canonical.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 05/13] gpio: virtuser: convert to use gpio-pseudo
+ utilities
+Message-ID: <202502162345.FT5z7kr9-lkp@intel.com>
+References: <20250216125816.14430-6-koichiro.den@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,86 +65,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250216125135.3037967-3-bigeasy@linutronix.de>
+In-Reply-To: <20250216125816.14430-6-koichiro.den@canonical.com>
 
-Hi Sebastian,
+Hi Koichiro,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.14-rc2 next-20250214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/netfilter-Make-xt_table-private-RCU-protected/20250216-210418
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250216125135.3037967-3-bigeasy%40linutronix.de
-patch subject: [PATCH net-next 2/3] netfilter: Split the xt_counters type between kernel and user.
-config: i386-buildonly-randconfig-001-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162342.iQ248XrR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502162342.iQ248XrR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/gpio-aggregator-reorder-functions-to-prepare-for-configfs-introduction/20250216-210413
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20250216125816.14430-6-koichiro.den%40canonical.com
+patch subject: [PATCH v3 05/13] gpio: virtuser: convert to use gpio-pseudo utilities
+config: csky-randconfig-002-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162345.FT5z7kr9-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502162345.FT5z7kr9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502162342.iQ248XrR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502162345.FT5z7kr9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/netfilter/x_tables.c:1912: warning: Function parameter or struct member 'xt_pad' not described in 'xt_percpu_counter_alloc'
->> net/netfilter/x_tables.c:1912: warning: Excess function parameter 'counter' description in 'xt_percpu_counter_alloc'
+   drivers/gpio/gpio-pseudo.c: In function 'pseudo_gpio_register':
+>> drivers/gpio/gpio-pseudo.c:62:17: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Wimplicit-function-declaration]
+      62 |                 kfree(common->name);
+         |                 ^~~~~
+         |                 kvfree
 
 
-vim +1912 net/netfilter/x_tables.c
+vim +62 drivers/gpio/gpio-pseudo.c
 
-2e4e6a17af35be Harald Welte              2006-01-12  1887  
-f28e15bacedd44 Florian Westphal          2016-11-22  1888  /**
-f28e15bacedd44 Florian Westphal          2016-11-22  1889   * xt_percpu_counter_alloc - allocate x_tables rule counter
-f28e15bacedd44 Florian Westphal          2016-11-22  1890   *
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1891   * @state: pointer to xt_percpu allocation state
-f28e15bacedd44 Florian Westphal          2016-11-22  1892   * @counter: pointer to counter struct inside the ip(6)/arpt_entry struct
-f28e15bacedd44 Florian Westphal          2016-11-22  1893   *
-f28e15bacedd44 Florian Westphal          2016-11-22  1894   * On SMP, the packet counter [ ip(6)t_entry->counters.pcnt ] will then
-f28e15bacedd44 Florian Westphal          2016-11-22  1895   * contain the address of the real (percpu) counter.
-f28e15bacedd44 Florian Westphal          2016-11-22  1896   *
-f28e15bacedd44 Florian Westphal          2016-11-22  1897   * Rule evaluation needs to use xt_get_this_cpu_counter() helper
-f28e15bacedd44 Florian Westphal          2016-11-22  1898   * to fetch the real percpu counter.
-f28e15bacedd44 Florian Westphal          2016-11-22  1899   *
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1900   * To speed up allocation and improve data locality, a 4kb block is
-9ba5c404bf1d62 Ben Hutchings             2018-03-29  1901   * allocated.  Freeing any counter may free an entire block, so all
-9ba5c404bf1d62 Ben Hutchings             2018-03-29  1902   * counters allocated using the same state must be freed at the same
-9ba5c404bf1d62 Ben Hutchings             2018-03-29  1903   * time.
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1904   *
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1905   * xt_percpu_counter_alloc_state contains the base address of the
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1906   * allocated page and the current sub-offset.
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1907   *
-f28e15bacedd44 Florian Westphal          2016-11-22  1908   * returns false on error.
-f28e15bacedd44 Florian Westphal          2016-11-22  1909   */
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1910  bool xt_percpu_counter_alloc(struct xt_percpu_counter_alloc_state *state,
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1911  			     struct xt_counter_pad *xt_pad)
-f28e15bacedd44 Florian Westphal          2016-11-22 @1912  {
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1913  	union xt_counter_k *xt_cnt = (union xt_counter_k *)xt_pad;
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1914  
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1915  	BUILD_BUG_ON(XT_PCPU_BLOCK_SIZE < (sizeof(struct xt_counters_k) * 2));
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1916  	BUILD_BUG_ON(sizeof(struct xt_counters_k) != sizeof(struct xt_counters));
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1917  	BUILD_BUG_ON(sizeof(struct xt_counters_k) != sizeof(struct xt_counter_pad));
-f28e15bacedd44 Florian Westphal          2016-11-22  1918  
-f28e15bacedd44 Florian Westphal          2016-11-22  1919  	if (nr_cpu_ids <= 1)
-f28e15bacedd44 Florian Westphal          2016-11-22  1920  		return true;
-f28e15bacedd44 Florian Westphal          2016-11-22  1921  
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1922  	if (!state->mem) {
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1923  		state->mem = __alloc_percpu(XT_PCPU_BLOCK_SIZE,
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1924  					    XT_PCPU_BLOCK_SIZE);
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1925  		if (!state->mem)
-f28e15bacedd44 Florian Westphal          2016-11-22  1926  			return false;
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1927  	}
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1928  	xt_cnt->pcpu = state->mem + state->off;
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1929  	state->off += sizeof(struct xt_counters_k);
-e99ca3c3e3ed04 Sebastian Andrzej Siewior 2025-02-16  1930  	if (state->off > (XT_PCPU_BLOCK_SIZE - sizeof(struct xt_counters_k))) {
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1931  		state->mem = NULL;
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1932  		state->off = 0;
-ae0ac0ed6fcf5a Florian Westphal          2016-11-22  1933  	}
-f28e15bacedd44 Florian Westphal          2016-11-22  1934  	return true;
-f28e15bacedd44 Florian Westphal          2016-11-22  1935  }
-f28e15bacedd44 Florian Westphal          2016-11-22  1936  EXPORT_SYMBOL_GPL(xt_percpu_counter_alloc);
-f28e15bacedd44 Florian Westphal          2016-11-22  1937  
+ef524a2229b717 Koichiro Den 2025-02-16  43  
+ef524a2229b717 Koichiro Den 2025-02-16  44  int pseudo_gpio_register(struct pseudo_gpio_common *common,
+ef524a2229b717 Koichiro Den 2025-02-16  45  			 struct platform_device_info *pdevinfo)
+ef524a2229b717 Koichiro Den 2025-02-16  46  {
+ef524a2229b717 Koichiro Den 2025-02-16  47  	struct platform_device *pdev;
+ef524a2229b717 Koichiro Den 2025-02-16  48  	char *name;
+ef524a2229b717 Koichiro Den 2025-02-16  49  
+ef524a2229b717 Koichiro Den 2025-02-16  50  	name = kasprintf(GFP_KERNEL, "%s.%u", pdevinfo->name, pdevinfo->id);
+ef524a2229b717 Koichiro Den 2025-02-16  51  	if (!name)
+ef524a2229b717 Koichiro Den 2025-02-16  52  		return -ENOMEM;
+ef524a2229b717 Koichiro Den 2025-02-16  53  
+ef524a2229b717 Koichiro Den 2025-02-16  54  	common->driver_bound = false;
+ef524a2229b717 Koichiro Den 2025-02-16  55  	common->name = name;
+ef524a2229b717 Koichiro Den 2025-02-16  56  	reinit_completion(&common->probe_completion);
+ef524a2229b717 Koichiro Den 2025-02-16  57  	bus_register_notifier(&platform_bus_type, &common->bus_notifier);
+ef524a2229b717 Koichiro Den 2025-02-16  58  
+ef524a2229b717 Koichiro Den 2025-02-16  59  	pdev = platform_device_register_full(pdevinfo);
+ef524a2229b717 Koichiro Den 2025-02-16  60  	if (IS_ERR(pdev)) {
+ef524a2229b717 Koichiro Den 2025-02-16  61  		bus_unregister_notifier(&platform_bus_type, &common->bus_notifier);
+ef524a2229b717 Koichiro Den 2025-02-16 @62  		kfree(common->name);
+ef524a2229b717 Koichiro Den 2025-02-16  63  		return PTR_ERR(pdev);
+ef524a2229b717 Koichiro Den 2025-02-16  64  	}
+ef524a2229b717 Koichiro Den 2025-02-16  65  
+ef524a2229b717 Koichiro Den 2025-02-16  66  	wait_for_completion(&common->probe_completion);
+ef524a2229b717 Koichiro Den 2025-02-16  67  	bus_unregister_notifier(&platform_bus_type, &common->bus_notifier);
+ef524a2229b717 Koichiro Den 2025-02-16  68  
+ef524a2229b717 Koichiro Den 2025-02-16  69  	if (!common->driver_bound) {
+ef524a2229b717 Koichiro Den 2025-02-16  70  		platform_device_unregister(pdev);
+ef524a2229b717 Koichiro Den 2025-02-16  71  		kfree(common->name);
+ef524a2229b717 Koichiro Den 2025-02-16  72  		return -ENXIO;
+ef524a2229b717 Koichiro Den 2025-02-16  73  	}
+ef524a2229b717 Koichiro Den 2025-02-16  74  
+ef524a2229b717 Koichiro Den 2025-02-16  75  	common->pdev = pdev;
+ef524a2229b717 Koichiro Den 2025-02-16  76  	return 0;
+ef524a2229b717 Koichiro Den 2025-02-16  77  }
+ef524a2229b717 Koichiro Den 2025-02-16  78  EXPORT_SYMBOL_GPL(pseudo_gpio_register);
+ef524a2229b717 Koichiro Den 2025-02-16  79  
 
 -- 
 0-DAY CI Kernel Test Service
