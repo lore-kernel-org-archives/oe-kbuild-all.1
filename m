@@ -1,144 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE14D517
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC4415F3FF;
+	Sun, 16 Feb 2025 15:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739720007; cv=none; b=nGn/x94Jp51lnQMR/GRwCeZ17e8CT+D36xVN6E6Dt9PlnYwB/WwIX+bbeVoyo6rm1Lwnw+J/jaih6wj5khP5i6mZTT9EYL8HMLLLxOs2INEKLE7wt72f+eMxv1V+ckEpdRPIvhUCLBMHt2cg2TYDrAAE3tuBgXXjjWAGRTUgcpQ=
+	t=1739720358; cv=none; b=q9tsbxapKmU7xP4Iuv8X3KFwpcDa7nVZQ9qQbQghzZcwA15u1RjayHkh+zE7V2zRS7MCZKU4R2HdUxXQvEKjargRbz5c35G8aAVifzwGB3SU89CZGgs5aDFUC/g55ZaxsDmdC6GqqiEjW65L5r6EzbUXQjGOz5/1nxRrlIvLXbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739720007; c=relaxed/simple;
-	bh=zpGAUL2A6gkU3zldFOJ6dcxKJ8KW2u6T2qeA9Zh6zyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lfctu8SLyqiHVCR/YJWAghlcsJM5Scv/9JWBERTAiCvA3wBM5ATIX16Yo03dlfbklkLtww8Xdm/G/2Z5P1O5z0WLlu+vb+USBAhE7YsiNw3O+lzzfL2jCaayZy5YXO5rpjCYFvPVdcZtoan4QPRoYVBXoSRCIUKENSfk9yQaYz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMCejJGs; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739720358; c=relaxed/simple;
+	bh=oYWfdMk4zc/CP1Qi+zyDHu/NZtY0zPRAGOxMUVd418c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Daoh/2MkivmeSeWXmsCPnJ3afxkGz65K6D+TMXfvr3fVq7TVhEExGa3kd7Gb93bho3McXI4mAfUbW6UPnl8JnAAKUe22jMJMprUwRCRXq5EjdcOEVqoAntepJZJnDOMXy+VKFmmIloiyzx+47q48NG4Sq2XQlqfg/65EAlTrhyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWaibguL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMCejJGs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739720005; x=1771256005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zpGAUL2A6gkU3zldFOJ6dcxKJ8KW2u6T2qeA9Zh6zyA=;
-  b=HMCejJGsg5N41Op9N63kYz2f/Zz71wB8egfHxkIl/pBIw6CkXno+4DRW
-   696diqYsbetUU8536fKK2XhkFCGBRH94mif6dCwgYCZnzx8u1gWwoDRKG
-   KBPxChys0+1XT8yV8dQEu3uAq98znh8VhMnWrToXqClTfDgiYKgYZh/eS
-   /4LGWzMHduw8GhCiuKFtbttxkz3r1oc9S8UQGxxL+q9cBl0LknhxWstAh
-   +/pLIaq4qnF2z2F4VOOau/ai8Mh1RbVZ1BWlXZByBgzNZp02cAOVkOwTj
-   tSzJdpU3gw7S88faYg5my+WySm4RYqz5774KKQkXey5xAP1F0UneAAVjU
-   w==;
-X-CSE-ConnectionGUID: fP9fi09vThKb14nltsG2Bw==
-X-CSE-MsgGUID: jxYXC8yLQryz+6Pj+9erCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51836688"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="51836688"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:33:24 -0800
-X-CSE-ConnectionGUID: livIVoLVSXmbyGoEui878g==
-X-CSE-MsgGUID: CKzRqbeLQpS/MAeYtiuhfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113768074"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Feb 2025 07:33:22 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tjgdz-001C1b-1z;
-	Sun, 16 Feb 2025 15:33:19 +0000
-Date: Sun, 16 Feb 2025 23:32:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Koichiro Den <koichiro.den@canonical.com>, linux-gpio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, brgl@bgdev.pl, geert+renesas@glider.be,
-	linus.walleij@linaro.org, maciej.borzecki@canonical.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 05/13] gpio: virtuser: convert to use gpio-pseudo
- utilities
-Message-ID: <202502162345.FT5z7kr9-lkp@intel.com>
-References: <20250216125816.14430-6-koichiro.den@canonical.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWaibguL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0821C4CEE9;
+	Sun, 16 Feb 2025 15:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739720357;
+	bh=oYWfdMk4zc/CP1Qi+zyDHu/NZtY0zPRAGOxMUVd418c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZWaibguLuSz3ed5OSK5rwAPfxQRmErSipouP04ETiTth3UyJrfOmB1WGpom3mBqg+
+	 S/cB3XIjLE42YaD/02QbK6tWk13rl1ZTF/GViJa6zNuevw88fTRwST3u814HSQfgwa
+	 EfdARTs0MAlKYzzGUpfnGP3L7/gE263GwWPb8UX/Ko9ONwL6N88v/TOfqN8Bjy0SYQ
+	 VAX7HTNRQZ+7cYN6jeu9XhubKyLg5CZxW6i8o3Njl5ciEHXaCbjHz/j6+1ESJTir/5
+	 AOFkg6EIwNwjr2PeriEQhi1/h62hL6ZEAvbYwlaSoSsLW5LvoyTKO9UslGyupriokL
+	 zekguPDFs6VVg==
+Date: Sun, 16 Feb 2025 15:39:06 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Esteban Blanc <eblanc@baylibre.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, oe-kbuild-all@lists.linux.dev,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
+Message-ID: <20250216153906.6191fded@jic23-huawei>
+In-Reply-To: <202502160240.IoVS8Klu-lkp@intel.com>
+References: <20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a@baylibre.com>
+	<202502160240.IoVS8Klu-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250216125816.14430-6-koichiro.den@canonical.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Koichiro,
+On Sun, 16 Feb 2025 03:00:59 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> Hi Esteban,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250214-202727
+> base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+> patch link:    https://lore.kernel.org/r/20250214-eblanc-ad4630_v1-v4-3-135dd66cab6a%40baylibre.com
+> patch subject: [PATCH v4 3/6] iio: adc: ad4030: add averaging support
+> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250216/202502160240.IoVS8Klu-lkp@intel.com/config)
+> compiler: alpha-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502160240.IoVS8Klu-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502160240.IoVS8Klu-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/iio/adc/ad4030.c: In function 'ad4030_get_chan_scale':
+> >> drivers/iio/adc/ad4030.c:375:27: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]  
+>      375 |                 scan_type = iio_get_current_scan_type(indio_dev,
+>          |                           ^
+> 
+> 
+I applied
+diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+index ed31a3d1d13b..d026535e5d9b 100644
+--- a/drivers/iio/adc/ad4030.c
++++ b/drivers/iio/adc/ad4030.c
+@@ -369,7 +369,7 @@ static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+                                 int *val2)
+ {
+        struct ad4030_state *st = iio_priv(indio_dev);
+-       struct iio_scan_type *scan_type;
++       const struct iio_scan_type *scan_type;
+ 
+        if (chan->differential) {
+                scan_type = iio_get_current_scan_type(indio_dev,
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.14-rc2 next-20250214]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Whilst picking this up.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Koichiro-Den/gpio-aggregator-reorder-functions-to-prepare-for-configfs-introduction/20250216-210413
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20250216125816.14430-6-koichiro.den%40canonical.com
-patch subject: [PATCH v3 05/13] gpio: virtuser: convert to use gpio-pseudo utilities
-config: csky-randconfig-002-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162345.FT5z7kr9-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502162345.FT5z7kr9-lkp@intel.com/reproduce)
+> vim +/const +375 drivers/iio/adc/ad4030.c
+> 
+>    365	
+>    366	static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+>    367					 struct iio_chan_spec const *chan,
+>    368					 int *val,
+>    369					 int *val2)
+>    370	{
+>    371		struct ad4030_state *st = iio_priv(indio_dev);
+>    372		struct iio_scan_type *scan_type;
+>    373	
+>    374		if (chan->differential) {
+>  > 375			scan_type = iio_get_current_scan_type(indio_dev,  
+>    376							      st->chip->channels);
+>    377			*val = (st->vref_uv * 2) / MILLI;
+>    378			*val2 = scan_type->realbits;
+>    379			return IIO_VAL_FRACTIONAL_LOG2;
+>    380		}
+>    381	
+>    382		*val = st->vref_uv / MILLI;
+>    383		*val2 = chan->scan_type.realbits;
+>    384		return IIO_VAL_FRACTIONAL_LOG2;
+>    385	}
+>    386	
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502162345.FT5z7kr9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpio/gpio-pseudo.c: In function 'pseudo_gpio_register':
->> drivers/gpio/gpio-pseudo.c:62:17: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Wimplicit-function-declaration]
-      62 |                 kfree(common->name);
-         |                 ^~~~~
-         |                 kvfree
-
-
-vim +62 drivers/gpio/gpio-pseudo.c
-
-ef524a2229b717 Koichiro Den 2025-02-16  43  
-ef524a2229b717 Koichiro Den 2025-02-16  44  int pseudo_gpio_register(struct pseudo_gpio_common *common,
-ef524a2229b717 Koichiro Den 2025-02-16  45  			 struct platform_device_info *pdevinfo)
-ef524a2229b717 Koichiro Den 2025-02-16  46  {
-ef524a2229b717 Koichiro Den 2025-02-16  47  	struct platform_device *pdev;
-ef524a2229b717 Koichiro Den 2025-02-16  48  	char *name;
-ef524a2229b717 Koichiro Den 2025-02-16  49  
-ef524a2229b717 Koichiro Den 2025-02-16  50  	name = kasprintf(GFP_KERNEL, "%s.%u", pdevinfo->name, pdevinfo->id);
-ef524a2229b717 Koichiro Den 2025-02-16  51  	if (!name)
-ef524a2229b717 Koichiro Den 2025-02-16  52  		return -ENOMEM;
-ef524a2229b717 Koichiro Den 2025-02-16  53  
-ef524a2229b717 Koichiro Den 2025-02-16  54  	common->driver_bound = false;
-ef524a2229b717 Koichiro Den 2025-02-16  55  	common->name = name;
-ef524a2229b717 Koichiro Den 2025-02-16  56  	reinit_completion(&common->probe_completion);
-ef524a2229b717 Koichiro Den 2025-02-16  57  	bus_register_notifier(&platform_bus_type, &common->bus_notifier);
-ef524a2229b717 Koichiro Den 2025-02-16  58  
-ef524a2229b717 Koichiro Den 2025-02-16  59  	pdev = platform_device_register_full(pdevinfo);
-ef524a2229b717 Koichiro Den 2025-02-16  60  	if (IS_ERR(pdev)) {
-ef524a2229b717 Koichiro Den 2025-02-16  61  		bus_unregister_notifier(&platform_bus_type, &common->bus_notifier);
-ef524a2229b717 Koichiro Den 2025-02-16 @62  		kfree(common->name);
-ef524a2229b717 Koichiro Den 2025-02-16  63  		return PTR_ERR(pdev);
-ef524a2229b717 Koichiro Den 2025-02-16  64  	}
-ef524a2229b717 Koichiro Den 2025-02-16  65  
-ef524a2229b717 Koichiro Den 2025-02-16  66  	wait_for_completion(&common->probe_completion);
-ef524a2229b717 Koichiro Den 2025-02-16  67  	bus_unregister_notifier(&platform_bus_type, &common->bus_notifier);
-ef524a2229b717 Koichiro Den 2025-02-16  68  
-ef524a2229b717 Koichiro Den 2025-02-16  69  	if (!common->driver_bound) {
-ef524a2229b717 Koichiro Den 2025-02-16  70  		platform_device_unregister(pdev);
-ef524a2229b717 Koichiro Den 2025-02-16  71  		kfree(common->name);
-ef524a2229b717 Koichiro Den 2025-02-16  72  		return -ENXIO;
-ef524a2229b717 Koichiro Den 2025-02-16  73  	}
-ef524a2229b717 Koichiro Den 2025-02-16  74  
-ef524a2229b717 Koichiro Den 2025-02-16  75  	common->pdev = pdev;
-ef524a2229b717 Koichiro Den 2025-02-16  76  	return 0;
-ef524a2229b717 Koichiro Den 2025-02-16  77  }
-ef524a2229b717 Koichiro Den 2025-02-16  78  EXPORT_SYMBOL_GPL(pseudo_gpio_register);
-ef524a2229b717 Koichiro Den 2025-02-16  79  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
