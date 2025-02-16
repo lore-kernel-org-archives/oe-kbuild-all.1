@@ -1,60 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0EE154C05;
-	Sun, 16 Feb 2025 18:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0A519D886
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 19:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739730523; cv=none; b=jhtz2HrmJHxRBLLuDR0wplRos/pFI/qeh4qWRZmFHlJnsd5W9uXqYIL4nIEkzjaEoALwv8op8PWgewaYfWvdPW/6Si3BYLR7+ZDu1g4anIFwmAa9OJ7CD8nxbPdetfuwHGA7p/LJXPADcqtZNBkYXKCS2XbyNfJCAgBbuDiBt/M=
+	t=1739732990; cv=none; b=qbY7BQls/QW6ku1ojtyq5Vr1oAU0VuYD6ifDTMk+khyTObLUxs7XPg1nx21p23CanOkyVBNTz3h9pfQ4SRLrgYKd6GFF9L5L3vGUswe3qn/B2hhms710cPUpqKvs4ycogjlPWHsykNUSCcUdFPFPOw4KqnbrHsG1MZrLOtjBaog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739730523; c=relaxed/simple;
-	bh=4p+sWXc1UlFEaOook4oWRBRcyJ9go0qw78k7rMhjcXc=;
+	s=arc-20240116; t=1739732990; c=relaxed/simple;
+	bh=43PE+ybG5ai0fUI2JHrGDr+HV775T2akdlm+svW1kak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VdC+9vj5dUY0ZUOkxalwQ1L/GY7TgS4q/VBAxoPKenYu7OszTChzlkFc06bi/pNBCe56hfLoO1WEkzAvpa3sewg+SR4l4vGhEOK7045164KPLT7+rn3SBTYtd403usn+YQp0W8tFW8yr98KKodUdxwk5uZNsXawIxzAzkxQu+gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IndYVk/K; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=IoLshK6352PacgfLIGZyeaxpCiENCYTWE78Hh0XnUKl1k7MlTt6YXjrZzguY3dHIdE0rTStmK+q98ZKnehg+6eD4eAeEy6rVrIuUNQkdViWNx9G00iljQ0qzoRJWzs1ejIbbM6eChj2cnpFcoNFnXxvp1BfBU10+kpHB2yEDxUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJD3u7wd; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IndYVk/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJD3u7wd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739730521; x=1771266521;
+  t=1739732988; x=1771268988;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4p+sWXc1UlFEaOook4oWRBRcyJ9go0qw78k7rMhjcXc=;
-  b=IndYVk/KfWORryuAn73Iy2UpIiX31/pRimXxsczlHguEYLj2GT3N6uhj
-   sUU5r1aEMMf3VjI3j3IwAGR3JDRuaOEOQCQP3WENnsJl4Isp6s1Tf1MOn
-   CGWDzJzH7tV8lY2/3SDA/Zxnv5tJkTNgj6N89IEP4L+/YKzGheX8aIOgJ
-   UQwcKBlVXx13ExKrugVP3vG7hlWWf4MFvoYV53iCsoVfsdteBLdD8lM65
-   pyU4hGclzufP6PP6sos9qzKAtwprf1EyGvIZlTE7rX8lpCKVZnsSMEU6X
-   NYo99PmoAvJrvaWW5ywgRNrdT8rXSL+6tn93zWrOcaOnkosjvWDJFcpLQ
+  bh=43PE+ybG5ai0fUI2JHrGDr+HV775T2akdlm+svW1kak=;
+  b=FJD3u7wdG44YhL25J+b2M7NOtCgm+LFukYPvIVs9tlkQFlU/vX9/khR3
+   l3s+1kB4d2SKKFs0fUh6VDJP9cyWpcuDaH3ZS+TP46tvz6Aqldbok25i4
+   rxoR9QOew0UhGvTGXcMBOJkK4XXmtQ1BYkqWoW059HoPeoXlu5gqvKVfz
+   NCLFj13dKrpFLruBBBcJKFaoD84LqG4c46/0qnbatX8eUKh6IyYV52gBQ
+   23qbGWs4UApo05heRx8Nm7xzAmVLizerFfCRp76MECUMpBeciheoS24/X
+   ZcQb19WBI8EomWxaW7W8pb+VMTFP2XIwLbEEbllrVOSeTYskOLSqNAlR/
    w==;
-X-CSE-ConnectionGUID: tuqi/wb2S8i8XjFdEz1Ubw==
-X-CSE-MsgGUID: A2PBQZl1R26juzb0jgja3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="44070428"
+X-CSE-ConnectionGUID: 1Ao9M4/gRLiyqL62fpKF5A==
+X-CSE-MsgGUID: shnmTcwISaS3s5O8vlzYqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="65773636"
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="44070428"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 10:28:40 -0800
-X-CSE-ConnectionGUID: M3X9w+AcQ8O+hoCINir4kg==
-X-CSE-MsgGUID: ygSpUKPCReWXkzRMB64dsA==
+   d="scan'208";a="65773636"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 11:09:48 -0800
+X-CSE-ConnectionGUID: njlfmQXoREanvy8Syb5NEQ==
+X-CSE-MsgGUID: 1GY4+8dWSIqT3AFVwTJAUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="118945071"
+   d="scan'208";a="113811061"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Feb 2025 10:28:37 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2025 11:09:43 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjjNc-001C8p-1z;
-	Sun, 16 Feb 2025 18:28:36 +0000
-Date: Mon, 17 Feb 2025 02:28:16 +0800
+	id 1tjk1M-001CAl-2r;
+	Sun, 16 Feb 2025 19:09:40 +0000
+Date: Mon, 17 Feb 2025 03:09:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [v2 PATCH 11/11] fsverity: improve performance by using
- multibuffer hashing
-Message-ID: <202502170225.YjYWM8fo-lkp@intel.com>
-References: <dd11ea3e7231fb46f68d902ba38a5b688e378bfe.1739674648.1.git.herbert@gondor.apana.org.au>
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Emil Gedenryd <emil.gedenryd@axis.com>,
+	Arthur Becker <arthur.becker@sentec.com>,
+	Mudit Sharma <muditsharma.info@gmail.com>,
+	Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+	Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>,
+	David Heidelberg <david@ixit.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] iio: light: Add support for AL3000a illuminance
+ sensor
+Message-ID: <202502170243.eNwe0AL0-lkp@intel.com>
+References: <20250216162721.124834-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,97 +82,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dd11ea3e7231fb46f68d902ba38a5b688e378bfe.1739674648.1.git.herbert@gondor.apana.org.au>
+In-Reply-To: <20250216162721.124834-3-clamor95@gmail.com>
 
-Hi Herbert,
+Hi Svyatoslav,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on next-20250214]
-[cannot apply to herbert-crypto-2.6/master brauner-vfs/vfs.all linus/master v6.14-rc2]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.14-rc2 next-20250214]
+[cannot apply to jic23-iio/togreg]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-ahash-Only-save-callback-and-data-in-ahash_save_req/20250216-150941
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/dd11ea3e7231fb46f68d902ba38a5b688e378bfe.1739674648.1.git.herbert%40gondor.apana.org.au
-patch subject: [v2 PATCH 11/11] fsverity: improve performance by using multibuffer hashing
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250217/202502170225.YjYWM8fo-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502170225.YjYWM8fo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-iio-light-al3010-add-al3000a-support/20250217-002927
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250216162721.124834-3-clamor95%40gmail.com
+patch subject: [PATCH v3 2/3] iio: light: Add support for AL3000a illuminance sensor
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250217/202502170243.eNwe0AL0-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502170243.eNwe0AL0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502170225.YjYWM8fo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502170243.eNwe0AL0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/verity/verify.c:295:1: warning: stack frame size (1312) exceeds limit (1024) in 'fsverity_verify_pending_blocks' [-Wframe-larger-than]
-     295 | fsverity_verify_pending_blocks(struct fsverity_verification_context *ctx)
-         | ^
-   1 warning generated.
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from drivers/iio/light/al3000a.c:4:
+>> drivers/iio/light/al3000a.c:202:26: error: 'al3010_id' undeclared here (not in a function); did you mean 'al3000a_id'?
+     202 | MODULE_DEVICE_TABLE(i2c, al3010_id);
+         |                          ^~~~~~~~~
+   include/linux/module.h:250:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     250 | extern typeof(name) __mod_device_table__##type##__##name                \
+         |               ^~~~
+>> include/linux/module.h:250:21: error: '__mod_device_table__i2c__al3010_id' aliased to undefined symbol 'al3010_id'
+     250 | extern typeof(name) __mod_device_table__##type##__##name                \
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/iio/light/al3000a.c:202:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     202 | MODULE_DEVICE_TABLE(i2c, al3010_id);
+         | ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from al3000a.c:4:
+   al3000a.c:202:26: error: 'al3010_id' undeclared here (not in a function); did you mean 'al3000a_id'?
+     202 | MODULE_DEVICE_TABLE(i2c, al3010_id);
+         |                          ^~~~~~~~~
+   include/linux/module.h:250:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     250 | extern typeof(name) __mod_device_table__##type##__##name                \
+         |               ^~~~
+>> include/linux/module.h:250:21: error: '__mod_device_table__i2c__al3010_id' aliased to undefined symbol 'al3010_id'
+     250 | extern typeof(name) __mod_device_table__##type##__##name                \
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   al3000a.c:202:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     202 | MODULE_DEVICE_TABLE(i2c, al3010_id);
+         | ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/fsverity_verify_pending_blocks +295 fs/verity/verify.c
+vim +202 drivers/iio/light/al3000a.c
 
-   293	
-   294	static bool
- > 295	fsverity_verify_pending_blocks(struct fsverity_verification_context *ctx)
-   296	{
-   297		struct inode *inode = ctx->inode;
-   298		struct fsverity_info *vi = ctx->vi;
-   299		const struct merkle_tree_params *params = &vi->tree_params;
-   300		SYNC_HASH_REQUESTS_ON_STACK(reqs, FS_VERITY_MAX_PENDING_DATA_BLOCKS, params->hash_alg->tfm);
-   301		struct ahash_request *req;
-   302		int i;
-   303		int err;
-   304	
-   305		if (ctx->num_pending == 0)
-   306			return true;
-   307	
-   308		req = sync_hash_requests(reqs, 0);
-   309		for (i = 0; i < ctx->num_pending; i++) {
-   310			struct ahash_request *reqi = sync_hash_requests(reqs, i);
-   311	
-   312			ahash_request_set_callback(reqi, CRYPTO_TFM_REQ_MAY_SLEEP,
-   313						   NULL, NULL);
-   314			ahash_request_set_virt(reqi, ctx->pending_blocks[i].data,
-   315					       ctx->pending_blocks[i].real_hash,
-   316					       params->block_size);
-   317			if (i)
-   318				ahash_request_chain(reqi, req);
-   319			if (!params->hashstate)
-   320				continue;
-   321	
-   322			err = crypto_ahash_import(reqi, params->hashstate);
-   323			if (err) {
-   324				fsverity_err(inode, "Error %d importing hash state", err);
-   325				return false;
-   326			}
-   327		}
-   328	
-   329		if (params->hashstate)
-   330			err = crypto_ahash_finup(req);
-   331		else
-   332			err = crypto_ahash_digest(req);
-   333		if (err) {
-   334			fsverity_err(inode, "Error %d computing block hashes", err);
-   335			return false;
-   336		}
-   337	
-   338		for (i = 0; i < ctx->num_pending; i++) {
-   339			if (!verify_data_block(inode, vi, &ctx->pending_blocks[i],
-   340					       ctx->max_ra_pages))
-   341				return false;
-   342		}
-   343	
-   344		fsverity_clear_pending_blocks(ctx);
-   345		return true;
-   346	}
-   347	
+   197	
+   198	static const struct i2c_device_id al3000a_id[] = {
+   199		{"al3000a", },
+   200		{}
+   201	};
+ > 202	MODULE_DEVICE_TABLE(i2c, al3010_id);
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
