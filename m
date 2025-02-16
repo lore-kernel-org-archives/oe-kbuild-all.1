@@ -1,73 +1,58 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B01198831
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379C34C8E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739719071; cv=none; b=ri+vDOh7m7PbDkknWGn8lw3x23VQRwpLDU6kqRLLVEoJExYmb6wTis3KbE7lZvo0sFLgbvAg/heQWQwU7K6+j/N5E9RtqMVDNLy4l24qlnpcvb9x73GxpB7juADUIcQ3LbGCtXFJVLfw4aLlJ28Q4gWTETyy2/cDTDo02v1eKt8=
+	t=1739719403; cv=none; b=aUW2Vh7ZfdSNiBddx1cTvNzhlS8W3FLPlbo4r4Fax9tcbG6u/8ViFl0yh87jmqbwe3gKRphc29JNQZkpdzm1YcLybuU5TQR5kHrVUWMZUMEBS7K96Uk1zRj8Q8yUxaB+htk5m9M2pd3xmUxMSE7E6LEvIBZol2F1ByMU3PLgSkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739719071; c=relaxed/simple;
-	bh=Zdob8ddTsN9dvZBb5r4ez+zlxA1f8q/EhwrphO21gjg=;
+	s=arc-20240116; t=1739719403; c=relaxed/simple;
+	bh=LvzVkNx4ljaWCFAbMmL0KHq9ndWfn+s2WJGVw5c+R2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=REuna5L4Cp7bAZ9lGKnPWy460jR98+gXfAZ/IDcxhTAL5FB2NkiyEQrKbEj+VOVUSwkTQkOcpNItfm1T8n5wVXe28qC6dYJO63DQ65Pabuo6mJHdGnYWbqBzEtlFFtePopleo/C9qiiqWE/y+kCu0ZFTot7x4bFB2e6Y+zYP7pY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHjYeYzZ; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=p5txTmcdoY2uqPuEKwnC48TSf7bAA0cqb6OeH/jljIQj1T8/87Pqa9h0f/8L1WRob/WKdpBZI+MUlO1Fd1UFfbVVXjUxifyQD/o4UzzyDBUyG/04QuV0t+YZ1vKchqhS+CzPMwzqYbsaKSUcNW5Tagp/qXQns1ek/GWAd5KaAGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aj1LdL2K; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHjYeYzZ"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-439846bc7eeso648145e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 07:17:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739719067; x=1740323867; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YbQwwhKUHLPVXLI0Vv9AzeMpozb4oJ2Fj9hVMvs5SG8=;
-        b=wHjYeYzZO/Pset2i2O21g83Jf7nZBKzo/EmG97TfZh/OHqqeeiPzmv7mOcHq7KFx5x
-         V3VP72dXxFIk7sG4FxB+M7O70b3bRKSN4VasRYwCDV4sCPuXHM4b7yH027uMpBMZJI+Y
-         4+MahQiKQ43IfRzQy/j7CyKN73fqcUiyPg47TdgIC6i1O4H1Imz6IP5mvW2Yr2C04fH7
-         V+n3gVI68wmHU87XMHW8BAzCMp9y0n4aqvX8ok0LAJbibimO/cdDSN4ZnaDPEUx+UkKC
-         vnQJ91SDjcbf13M4So4hiRXtg9BfqZagdefRxwrzc5Z7EeWJ+KZBAr06LF/O1XjbKG9E
-         iNyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739719067; x=1740323867;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YbQwwhKUHLPVXLI0Vv9AzeMpozb4oJ2Fj9hVMvs5SG8=;
-        b=ig+vsI1WwXVTSOr5h9LeFt0b1TFgWQYpjk4pM09dCZVgAAWgVIk9P7vQ/MDqrLpKfS
-         8MEN1XyFjj3TvdJGAAAl/R9TOS4iGebClceYY4i/qt13AhzkijGDPpsxdNLIu50zjmrn
-         +aBMjvoBzTulS9gVLqS3m6ogyBZ/xiWvkRzjkaEROAYfTZptzr7xa1in17apWibhlC8t
-         y/4Yk3MtVK8Ns2D4hglArPmkLjbmZ4VYXTIMjl2s8iCxBKD3ZpW9UYO+1YS6L47DJoCI
-         VYZWtYQcrzf2UNIeSoDS/vaJ/JGcP661Yj93C/4uAw8BHCPWTS3O4zkaMCLf8e9GXkyE
-         0hVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzteOzuoFjJrY+UF1idD+dD9yPMdOZRI9/iWufdF7MagKYOxcsQLokVdtXwifKA+g1fT/9dmY/btIaQt+p@lists.linux.dev
-X-Gm-Message-State: AOJu0YxP59YI+fdZ2Yb6o9+PiJInYpmevl6j+fL5duW5oWKTO6edELYd
-	PC+ZTJqNi+K5V7zkATlZTcigAeDW8DTJEMzTyN4F3wZpYSue2KgYc0/z998DBeo=
-X-Gm-Gg: ASbGncsrYuypWc1JN6fLyRlBpN6sM3ckrxbbJ6X9BYtLUUeX0WHT2IIfeiHX9gfT94P
-	DUd0o4cvAjlxJoMQcLROoEFx4pg9+mjKSZRgJSof5YWjnBbOKviu8oeS7kLt4EPcDYpdlSI474z
-	7BHyvS01OmlRkpaO852tOSJyGiCAoD57GLfJIQQBAfx3yWBDhJpBx5sbwxLr8WZVSm+eeuGuhl6
-	2d64Z5ea2X/CSL5ypstLZghvgs7d9n5qW9E3hIZwqzjNJYWTcEMIUW3w70ummu0OROkkUxt/wTs
-	fQJOTpc8fuG1pb+FjauT
-X-Google-Smtp-Source: AGHT+IHba5OsEKpH0SAKoQguascZ4LCu5c9cct1nGkEcKfLXS7OVh2ZSdoz/EJAhMNTP6xp8PUBB/A==
-X-Received: by 2002:a05:600c:3b92:b0:439:31e0:d9a5 with SMTP id 5b1f17b1804b1-4396e733555mr58754135e9.22.1739719067151;
-        Sun, 16 Feb 2025 07:17:47 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4395a1aa7e8sm128915535e9.26.2025.02.16.07.17.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 07:17:46 -0800 (PST)
-Date: Sun, 16 Feb 2025 18:17:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
-	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
-	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
-	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
-	Frank.Li@nxp.com, Aman Kumar Pandey <aman.kumarpandey@nxp.com>
-Subject: Re: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub
- device
-Message-ID: <c4f99322-ed21-4fdc-a55f-b02bcafd5e5f@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aj1LdL2K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739719402; x=1771255402;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LvzVkNx4ljaWCFAbMmL0KHq9ndWfn+s2WJGVw5c+R2g=;
+  b=aj1LdL2KbfoO4jiaw66JrJ86BecmEbbKfnO14cIswjGOaZxuQlbNJSs6
+   iF/eCy8VGjpZYt9r7GtyWX+MTVKKlH3gjCIXalOIMiwGqmwPFuhby15PG
+   RuIXQRjkb+TlBaLd7g2llFh2AmSiFc+ZoEMsdLI0gzLg1WMyknmP4frdl
+   qO54s07QirISZgarQxW313IfefRaYMUp0G7mnpLUdXeEmfCy71IYoSHy2
+   8bEsmCy+6Hi/1JkdsCW2lkbrh31CoGSAxGnrtYWqk/RoeJhwddidy2CCI
+   1kiKGwMQNGx5YttWPn9k9HN5NnTsr9U3Mh9EivGZuxfqMHZGhVm9VJgDe
+   g==;
+X-CSE-ConnectionGUID: r+gY7TwGQ62jjUqbbuQH6A==
+X-CSE-MsgGUID: DQNxK14tRluqYBgd4aYsTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51035116"
+X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
+   d="scan'208";a="51035116"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:23:21 -0800
+X-CSE-ConnectionGUID: 5bz1m3mlThePHE7fZYj/Lw==
+X-CSE-MsgGUID: nTiTilxTS36vaMWlMsFIkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
+   d="scan'208";a="113783010"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 16 Feb 2025 07:23:21 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjgUI-001C1F-2r;
+	Sun, 16 Feb 2025 15:23:18 +0000
+Date: Sun, 16 Feb 2025 23:22:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/phy-exynos-usbdrd-fix 2/2]
+ phy-exynos5-usbdrd.c:undefined reference to `typec_switch_unregister'
+Message-ID: <202502162341.LCymbuqF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,94 +61,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
 
-Hi Aman,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/drivers-i3c-Add-driver-for-NXP-P3H2x4x-i3c-hub-device/20250212-213659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250212132227.1348374-2-aman.kumarpandey%40nxp.com
-patch subject: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub device
-config: i386-randconfig-r073-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150815.xfIJk1kS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/krzk/linux n/phy-exynos-usbdrd-fix
+head:   c2c4065e701bb4eb3d2790fb163d39fe858fff2e
+commit: c2c4065e701bb4eb3d2790fb163d39fe858fff2e [2/2] sq v3
+config: loongarch-randconfig-001-20250216 (https://download.01.org/0day-ci/archive/20250216/202502162341.LCymbuqF-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502162341.LCymbuqF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502150815.xfIJk1kS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502162341.LCymbuqF-lkp@intel.com/
 
-smatch warnings:
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:412 p3h2x4x_read_backend_from_p3h2x4x_dts() error: buffer overflow 'priv->settings.tp' 8 <= 8 user_rl='0-8'
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:572 p3h2x4x_of_get_p3h2x4x_conf() warn: inconsistent indenting
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:771 p3h2x4x_device_remove_i3c() error: dereferencing freed memory 'backend' (line 775)
-drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:902 p3h2x4x_device_remove_i2c() error: dereferencing freed memory 'backend' (line 904)
+All errors (new ones prefixed by >>):
 
-vim +370 drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c
-
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  392  static int p3h2x4x_read_backend_from_p3h2x4x_dts(struct device_node *i3c_node_target,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  393  					struct p3h2x4x *priv)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  394  {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  395  	struct device_node *i3c_node_tp;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  396  	const char *compatible;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  397  	int tp_port, ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  398  	u32 addr_dts;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  399  	struct smbus_device *backend;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  400  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  401  	if (sscanf(i3c_node_target->full_name, "target-port@%d", &tp_port) == 0)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  402  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  403  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  404  	if (tp_port > P3H2x4x_TP_MAX_COUNT)
-
-Change > to >=.
-
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  405  		return -ERANGE;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  406  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  407  	if (tp_port < 0)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  408  		return -EINVAL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  409  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @410  	INIT_LIST_HEAD(&priv->tp_bus[tp_port].tp_device_entry);
-                                                                                     ^^^^^^^
-Off by one.
-
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  411  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @412  	if (priv->settings.tp[tp_port].mode == P3H2x4x_TP_MODE_I3C)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  413  		return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  414  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  415  	for_each_available_child_of_node(i3c_node_target, i3c_node_tp) {
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  416  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  417  		ret = of_property_read_u32(i3c_node_tp, "reg", &addr_dts);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  418  		if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  419  			return ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  420  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  421  		if (p3h2x4x_is_backend_node_exist(tp_port, priv, addr_dts))
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  422  			continue;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  423  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  424  		ret = of_property_read_string(i3c_node_tp, "compatible", &compatible);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  425  		if (ret)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  426  			return ret;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  427  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  428  		backend = kzalloc(sizeof(*backend), GFP_KERNEL);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  429  		if (!backend)
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  430  			return -ENOMEM;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  431  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  432  		backend->addr = addr_dts;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  433  		backend->compatible = compatible;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  434  		backend->tp_device_dt_node = i3c_node_tp;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  435  		backend->client = NULL;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  436  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  437  		list_add(&backend->list,
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  438  			&priv->tp_bus[tp_port].tp_device_entry);
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  439  	}
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  440  
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  441  	return 0;
-5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  442  }
+   loongarch64-linux-ld: drivers/phy/samsung/phy-exynos5-usbdrd.o: in function `exynos5_usbdrd_orien_switch_unregister':
+>> phy-exynos5-usbdrd.c:(.text+0xb8c): undefined reference to `typec_switch_unregister'
+   loongarch64-linux-ld: drivers/phy/samsung/phy-exynos5-usbdrd.o: in function `exynos5_usbdrd_phy_probe':
+>> phy-exynos5-usbdrd.c:(.text+0x15f4): undefined reference to `typec_switch_register'
+>> loongarch64-linux-ld: phy-exynos5-usbdrd.c:(.text+0x1634): undefined reference to `typec_switch_unregister'
+   loongarch64-linux-ld: drivers/phy/samsung/phy-exynos5-usbdrd.o: in function `exynos5_usbdrd_orien_sw_set':
+>> phy-exynos5-usbdrd.c:(.text+0x2138): undefined reference to `typec_switch_get_drvdata'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
