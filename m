@@ -1,68 +1,73 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F8753A7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B01198831
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 15:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739718599; cv=none; b=VoIfpsiEfTwr2rr078yICTEXzdm/wKwfZ0Go4qrkn0w6xpetfp303Epp7dig/Bpu3N/R+lxOntE4Y/KOb4BOHwfNE2cC/JgtGg3Aq+/1RH9te5JArkmlwmjaYT3+2uAcmjx3YrIglhMahVatdOk4gMHC7s6aMNRIpm1y/rtHIP0=
+	t=1739719071; cv=none; b=ri+vDOh7m7PbDkknWGn8lw3x23VQRwpLDU6kqRLLVEoJExYmb6wTis3KbE7lZvo0sFLgbvAg/heQWQwU7K6+j/N5E9RtqMVDNLy4l24qlnpcvb9x73GxpB7juADUIcQ3LbGCtXFJVLfw4aLlJ28Q4gWTETyy2/cDTDo02v1eKt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739718599; c=relaxed/simple;
-	bh=G0IMnyZNIDzqMQ4MqYC/aYKgoomP/07W49faUJnAW+g=;
+	s=arc-20240116; t=1739719071; c=relaxed/simple;
+	bh=Zdob8ddTsN9dvZBb5r4ez+zlxA1f8q/EhwrphO21gjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GTNeyxxzJ1pMnXZCp6PwtLC9ut/AYDZ6tSll0qV2sxDefmvkiTlNAK0nWRgeNUicsqw/AeSHzUhPXII8lhbMPBLLUs4zCalwtss4AL8vD6aXUfWpXrW1xF6F3wCfo9eNSmAU3i5hONZiqE0ib+tWSIKE99idWMluGXU6Mt3Jq0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qmnj2WVu; arc=none smtp.client-ip=209.85.208.53
+	 Content-Disposition:In-Reply-To; b=REuna5L4Cp7bAZ9lGKnPWy460jR98+gXfAZ/IDcxhTAL5FB2NkiyEQrKbEj+VOVUSwkTQkOcpNItfm1T8n5wVXe28qC6dYJO63DQ65Pabuo6mJHdGnYWbqBzEtlFFtePopleo/C9qiiqWE/y+kCu0ZFTot7x4bFB2e6Y+zYP7pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHjYeYzZ; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qmnj2WVu"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5dccaaca646so6489697a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 07:09:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHjYeYzZ"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-439846bc7eeso648145e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 07:17:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739718595; x=1740323395; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CQltKA0tNVcBcPuHr/XRsc5WCe3ZWlNN7/rKHdzriuA=;
-        b=qmnj2WVuSpQV2f/ibZYvOxDJJe2+HpNK5ozixf6QhDHdO3IWXRI6M7Z3WN9oN+5wbQ
-         hGgy1o1ETKB+KFK6Vf3Pdp4Ro5MAZQIAeJdwSX1XrAhdYPEhnunN4Zi5083s61CD5fPi
-         yfqn3/o+fIHtG1J/s3lYQxfuM25Y8VkQEsA0f3PnllpMax7b+0RjWEhzvmsLVZId37Pb
-         NPpZ5dPi1VE6qHjJKemeupDlJGiRBHgmNKlmECMRpKEXB6zMR2Zf0gQj6m2rxPOeSvO4
-         dUpJTnAgSJtL/4IkquxWQx454Ry3tECnG84vH1hVjlFKOFXiZ0m7wGrJVL4JPRbHq3MY
-         RJmw==
+        d=linaro.org; s=google; t=1739719067; x=1740323867; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YbQwwhKUHLPVXLI0Vv9AzeMpozb4oJ2Fj9hVMvs5SG8=;
+        b=wHjYeYzZO/Pset2i2O21g83Jf7nZBKzo/EmG97TfZh/OHqqeeiPzmv7mOcHq7KFx5x
+         V3VP72dXxFIk7sG4FxB+M7O70b3bRKSN4VasRYwCDV4sCPuXHM4b7yH027uMpBMZJI+Y
+         4+MahQiKQ43IfRzQy/j7CyKN73fqcUiyPg47TdgIC6i1O4H1Imz6IP5mvW2Yr2C04fH7
+         V+n3gVI68wmHU87XMHW8BAzCMp9y0n4aqvX8ok0LAJbibimO/cdDSN4ZnaDPEUx+UkKC
+         vnQJ91SDjcbf13M4So4hiRXtg9BfqZagdefRxwrzc5Z7EeWJ+KZBAr06LF/O1XjbKG9E
+         iNyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739718595; x=1740323395;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CQltKA0tNVcBcPuHr/XRsc5WCe3ZWlNN7/rKHdzriuA=;
-        b=ijdTvtZz76QuLWwjHRe9j4zXqePtWe/meo99NP01zuwBYWthXlQYo7PsMjONNzbxcE
-         qGqQwwHpn4mDzeB6kaM3Nul+/Qd6AdoN/MGDuQIbtkf8xh6yYO1Zfr/KJ7iZKBsdhxsg
-         /6tD4fAyh1/7tIqDXwrDcHCtkjGj51xb4lEr05fZhlXYx9iV89Erli11a5q5F+DWSaiL
-         0ts1HfMictx5CtvDKIEVAjql1YZ7GN3NBKXzKPBj9Nn9eQMNP7MGLlUkYtm+Zu0FgzVH
-         7RYqvxK+oPKzN9XA0hBHj7+xIYWt09MYG5X4S2xYlRqyT1aDm96hsdxkgLqMJFGkHHQ4
-         rBeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZNeRlv1d0pNjaNg4K26nIF6Xtufn7BnQrZQqZ/CC1/gRlMYcT3JH2i3XS3HY6Z9dW19KBPZS8FBOJILG1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3SYfw53RK6UGYghdoq4YvDD8Hjs+ybX7bKSReyeKfDzXR6hTj
-	ugYMhwBa2f+3SbJrVI7izolNp2k6+TN3IUg7X4lvkoVKV1nF9AM/eYCPB5GVzQmsjTGtsTusefJ
-	7bjk=
-X-Gm-Gg: ASbGnctdSO9CoPYJ71QNyn7r7njpvo+R0hI+ep22UzC5orN6u3jN2yeToVlUr9mM7G4
-	CfvjIGhM1GWaZhogFUsph4hViaZNHVwfMwyEk2nN0XY/a5sXHVJbCWDEFjk1lN0OL9i1gYdew8W
-	ohMBKX9RdAbZXgjeRqq41S6mJNsn3AFOyWy3h2HnWMBSnhgH+zMmo4IzhnJmNax17+C3zgGzWjO
-	L1EAlLasvRF5vyStbSxxoBSH44y9sAMyUMLaEl7H49NiD4VmDkDrSreoTQzirPTwjChkggt2JHF
-	ejqyfMpUQq9qyR+1Tz23
-X-Google-Smtp-Source: AGHT+IHJsE0ROhU+5EFjTvPeBNev3OoGUekrWln3QcnWsKCPZN/QF8d+zZieLX4Gp757mtOgvo6VVA==
-X-Received: by 2002:a05:6402:1d50:b0:5de:a928:e3fa with SMTP id 4fb4d7f45d1cf-5decb48c6e1mr12239541a12.1.1739718595323;
-        Sun, 16 Feb 2025 07:09:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739719067; x=1740323867;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YbQwwhKUHLPVXLI0Vv9AzeMpozb4oJ2Fj9hVMvs5SG8=;
+        b=ig+vsI1WwXVTSOr5h9LeFt0b1TFgWQYpjk4pM09dCZVgAAWgVIk9P7vQ/MDqrLpKfS
+         8MEN1XyFjj3TvdJGAAAl/R9TOS4iGebClceYY4i/qt13AhzkijGDPpsxdNLIu50zjmrn
+         +aBMjvoBzTulS9gVLqS3m6ogyBZ/xiWvkRzjkaEROAYfTZptzr7xa1in17apWibhlC8t
+         y/4Yk3MtVK8Ns2D4hglArPmkLjbmZ4VYXTIMjl2s8iCxBKD3ZpW9UYO+1YS6L47DJoCI
+         VYZWtYQcrzf2UNIeSoDS/vaJ/JGcP661Yj93C/4uAw8BHCPWTS3O4zkaMCLf8e9GXkyE
+         0hVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVzteOzuoFjJrY+UF1idD+dD9yPMdOZRI9/iWufdF7MagKYOxcsQLokVdtXwifKA+g1fT/9dmY/btIaQt+p@lists.linux.dev
+X-Gm-Message-State: AOJu0YxP59YI+fdZ2Yb6o9+PiJInYpmevl6j+fL5duW5oWKTO6edELYd
+	PC+ZTJqNi+K5V7zkATlZTcigAeDW8DTJEMzTyN4F3wZpYSue2KgYc0/z998DBeo=
+X-Gm-Gg: ASbGncsrYuypWc1JN6fLyRlBpN6sM3ckrxbbJ6X9BYtLUUeX0WHT2IIfeiHX9gfT94P
+	DUd0o4cvAjlxJoMQcLROoEFx4pg9+mjKSZRgJSof5YWjnBbOKviu8oeS7kLt4EPcDYpdlSI474z
+	7BHyvS01OmlRkpaO852tOSJyGiCAoD57GLfJIQQBAfx3yWBDhJpBx5sbwxLr8WZVSm+eeuGuhl6
+	2d64Z5ea2X/CSL5ypstLZghvgs7d9n5qW9E3hIZwqzjNJYWTcEMIUW3w70ummu0OROkkUxt/wTs
+	fQJOTpc8fuG1pb+FjauT
+X-Google-Smtp-Source: AGHT+IHba5OsEKpH0SAKoQguascZ4LCu5c9cct1nGkEcKfLXS7OVh2ZSdoz/EJAhMNTP6xp8PUBB/A==
+X-Received: by 2002:a05:600c:3b92:b0:439:31e0:d9a5 with SMTP id 5b1f17b1804b1-4396e733555mr58754135e9.22.1739719067151;
+        Sun, 16 Feb 2025 07:17:47 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5dece1c4646sm5997458a12.27.2025.02.16.07.09.54
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4395a1aa7e8sm128915535e9.26.2025.02.16.07.17.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 07:09:54 -0800 (PST)
-Date: Sun, 16 Feb 2025 18:09:51 +0300
+        Sun, 16 Feb 2025 07:17:46 -0800 (PST)
+Date: Sun, 16 Feb 2025 18:17:42 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Emil Renner Berthing <kernel@esmil.dk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [esmil:visionfive 27/33] sound/soc/starfive/pwmdac.c:151
- pwmdac_duty_cycle_put() error: buffer overflow 'pwmdac_ct_duty_cycle' 3 <= 3
-Message-ID: <9208464f-0b24-4fe8-b210-a82b7817a926@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
+	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
+	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
+	Frank.Li@nxp.com, Aman Kumar Pandey <aman.kumarpandey@nxp.com>
+Subject: Re: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub
+ device
+Message-ID: <c4f99322-ed21-4fdc-a55f-b02bcafd5e5f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,101 +76,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250212132227.1348374-2-aman.kumarpandey@nxp.com>
 
-tree:   https://github.com/esmil/linux visionfive
-head:   dcb5a245dbe2203ae35f6b1b5cb28929f758008c
-commit: e8916d018c5219f3e996f1a11f11ed767dd727ff [27/33] ASoC: starfive: Add StarFive JH7100 audio drivers
-config: um-randconfig-r073-20250214 (https://download.01.org/0day-ci/archive/20250215/202502150325.e0HHs9Rb-lkp@intel.com/config)
+Hi Aman,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/drivers-i3c-Add-driver-for-NXP-P3H2x4x-i3c-hub-device/20250212-213659
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250212132227.1348374-2-aman.kumarpandey%40nxp.com
+patch subject: [PATCH 2/2] drivers: i3c: Add driver for NXP P3H2x4x i3c-hub device
+config: i386-randconfig-r073-20250215 (https://download.01.org/0day-ci/archive/20250215/202502150815.xfIJk1kS-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502150325.e0HHs9Rb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202502150815.xfIJk1kS-lkp@intel.com/
 
 smatch warnings:
-sound/soc/starfive/pwmdac.c:151 pwmdac_duty_cycle_put() error: buffer overflow 'pwmdac_ct_duty_cycle' 3 <= 3
-sound/soc/starfive/pwmdac.c:231 pwmdac_data_mode_put() error: buffer overflow 'pwmdac_ct_data_mode' 2 <= 2
-sound/soc/starfive/pwmdac.c:273 pwmdac_shift_put() error: buffer overflow 'pwmdac_ct_shift' 7 <= 7
-sound/soc/starfive/pwmdac.c:314 pwmdac_lr_change_put() error: buffer overflow 'pwmdac_ct_lr_change' 2 <= 2
+drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:412 p3h2x4x_read_backend_from_p3h2x4x_dts() error: buffer overflow 'priv->settings.tp' 8 <= 8 user_rl='0-8'
+drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:572 p3h2x4x_of_get_p3h2x4x_conf() warn: inconsistent indenting
+drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:771 p3h2x4x_device_remove_i3c() error: dereferencing freed memory 'backend' (line 775)
+drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c:902 p3h2x4x_device_remove_i2c() error: dereferencing freed memory 'backend' (line 904)
 
-vim +/pwmdac_ct_duty_cycle +151 sound/soc/starfive/pwmdac.c
+vim +370 drivers/i3c/p3h2x4x/p3h2x4x_i3c_hub_common.c
 
-e8916d018c5219 Walker Chen 2021-11-17  140  static int pwmdac_duty_cycle_put(struct snd_kcontrol *kcontrol,
-e8916d018c5219 Walker Chen 2021-11-17  141  				struct snd_ctl_elem_value *ucontrol)
-e8916d018c5219 Walker Chen 2021-11-17  142  {
-e8916d018c5219 Walker Chen 2021-11-17  143  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-e8916d018c5219 Walker Chen 2021-11-17  144  	struct sf_pwmdac_dev *dev = snd_soc_component_get_drvdata(component);
-e8916d018c5219 Walker Chen 2021-11-17  145  	int sel = ucontrol->value.enumerated.item[0];
-e8916d018c5219 Walker Chen 2021-11-17  146  	unsigned int items = ARRAY_SIZE(pwmdac_ct_duty_cycle);
-e8916d018c5219 Walker Chen 2021-11-17  147  
-e8916d018c5219 Walker Chen 2021-11-17  148  	if (sel > items)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  392  static int p3h2x4x_read_backend_from_p3h2x4x_dts(struct device_node *i3c_node_target,
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  393  					struct p3h2x4x *priv)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  394  {
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  395  	struct device_node *i3c_node_tp;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  396  	const char *compatible;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  397  	int tp_port, ret;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  398  	u32 addr_dts;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  399  	struct smbus_device *backend;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  400  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  401  	if (sscanf(i3c_node_target->full_name, "target-port@%d", &tp_port) == 0)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  402  		return -EINVAL;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  403  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  404  	if (tp_port > P3H2x4x_TP_MAX_COUNT)
 
-These should be >= items
+Change > to >=.
 
-e8916d018c5219 Walker Chen 2021-11-17  149  		return 0;
-e8916d018c5219 Walker Chen 2021-11-17  150  
-e8916d018c5219 Walker Chen 2021-11-17 @151  	dev->duty_cycle = pwmdac_ct_duty_cycle[sel].vals;
-                                                                                       ^^^
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  405  		return -ERANGE;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  406  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  407  	if (tp_port < 0)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  408  		return -EINVAL;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  409  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @410  	INIT_LIST_HEAD(&priv->tp_bus[tp_port].tp_device_entry);
+                                                                                     ^^^^^^^
 Off by one.
 
-e8916d018c5219 Walker Chen 2021-11-17  152  	return 0;
-e8916d018c5219 Walker Chen 2021-11-17  153  }
-
-e8916d018c5219 Walker Chen 2021-11-17  220  static int pwmdac_data_mode_put(struct snd_kcontrol *kcontrol,
-e8916d018c5219 Walker Chen 2021-11-17  221  				struct snd_ctl_elem_value *ucontrol)
-e8916d018c5219 Walker Chen 2021-11-17  222  {
-e8916d018c5219 Walker Chen 2021-11-17  223  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-e8916d018c5219 Walker Chen 2021-11-17  224  	struct sf_pwmdac_dev *dev = snd_soc_component_get_drvdata(component);
-e8916d018c5219 Walker Chen 2021-11-17  225  	int sel = ucontrol->value.enumerated.item[0];
-e8916d018c5219 Walker Chen 2021-11-17  226  	unsigned int items = ARRAY_SIZE(pwmdac_ct_data_mode);
-e8916d018c5219 Walker Chen 2021-11-17  227  
-e8916d018c5219 Walker Chen 2021-11-17  228  	if (sel > items)
-
-Same.
-
-e8916d018c5219 Walker Chen 2021-11-17  229  		return 0;
-e8916d018c5219 Walker Chen 2021-11-17  230  
-e8916d018c5219 Walker Chen 2021-11-17 @231  	dev->data_mode = pwmdac_ct_data_mode[sel].vals;
-e8916d018c5219 Walker Chen 2021-11-17  232  	return 0;
-e8916d018c5219 Walker Chen 2021-11-17  233  }
-
-e8916d018c5219 Walker Chen 2021-11-17  262  static int pwmdac_shift_put(struct snd_kcontrol *kcontrol,
-e8916d018c5219 Walker Chen 2021-11-17  263  				struct snd_ctl_elem_value *ucontrol)
-e8916d018c5219 Walker Chen 2021-11-17  264  {
-e8916d018c5219 Walker Chen 2021-11-17  265  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-e8916d018c5219 Walker Chen 2021-11-17  266  	struct sf_pwmdac_dev *dev = snd_soc_component_get_drvdata(component);
-e8916d018c5219 Walker Chen 2021-11-17  267  	int sel = ucontrol->value.enumerated.item[0];
-e8916d018c5219 Walker Chen 2021-11-17  268  	unsigned int items = ARRAY_SIZE(pwmdac_ct_shift);
-e8916d018c5219 Walker Chen 2021-11-17  269  
-e8916d018c5219 Walker Chen 2021-11-17  270  	if (sel > items)
-
-Same
-
-e8916d018c5219 Walker Chen 2021-11-17  271  		return 0;
-e8916d018c5219 Walker Chen 2021-11-17  272  
-e8916d018c5219 Walker Chen 2021-11-17 @273  	dev->shift = pwmdac_ct_shift[sel].vals;
-e8916d018c5219 Walker Chen 2021-11-17  274  	return 0;
-e8916d018c5219 Walker Chen 2021-11-17  275  }
-
-e8916d018c5219 Walker Chen 2021-11-17  303  static int pwmdac_lr_change_put(struct snd_kcontrol *kcontrol,
-e8916d018c5219 Walker Chen 2021-11-17  304  				struct snd_ctl_elem_value *ucontrol)
-e8916d018c5219 Walker Chen 2021-11-17  305  {
-e8916d018c5219 Walker Chen 2021-11-17  306  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-e8916d018c5219 Walker Chen 2021-11-17  307  	struct sf_pwmdac_dev *dev = snd_soc_component_get_drvdata(component);
-e8916d018c5219 Walker Chen 2021-11-17  308  	int sel = ucontrol->value.enumerated.item[0];
-e8916d018c5219 Walker Chen 2021-11-17  309  	unsigned int items = ARRAY_SIZE(pwmdac_ct_lr_change);
-e8916d018c5219 Walker Chen 2021-11-17  310  
-e8916d018c5219 Walker Chen 2021-11-17  311  	if (sel > items)
-
-Same
-
-e8916d018c5219 Walker Chen 2021-11-17  312  		return 0;
-e8916d018c5219 Walker Chen 2021-11-17  313  
-e8916d018c5219 Walker Chen 2021-11-17 @314  	dev->lr_change = pwmdac_ct_lr_change[sel].vals;
-e8916d018c5219 Walker Chen 2021-11-17  315  	return 0;
-e8916d018c5219 Walker Chen 2021-11-17  316  }
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  411  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12 @412  	if (priv->settings.tp[tp_port].mode == P3H2x4x_TP_MODE_I3C)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  413  		return 0;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  414  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  415  	for_each_available_child_of_node(i3c_node_target, i3c_node_tp) {
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  416  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  417  		ret = of_property_read_u32(i3c_node_tp, "reg", &addr_dts);
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  418  		if (ret)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  419  			return ret;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  420  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  421  		if (p3h2x4x_is_backend_node_exist(tp_port, priv, addr_dts))
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  422  			continue;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  423  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  424  		ret = of_property_read_string(i3c_node_tp, "compatible", &compatible);
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  425  		if (ret)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  426  			return ret;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  427  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  428  		backend = kzalloc(sizeof(*backend), GFP_KERNEL);
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  429  		if (!backend)
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  430  			return -ENOMEM;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  431  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  432  		backend->addr = addr_dts;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  433  		backend->compatible = compatible;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  434  		backend->tp_device_dt_node = i3c_node_tp;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  435  		backend->client = NULL;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  436  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  437  		list_add(&backend->list,
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  438  			&priv->tp_bus[tp_port].tp_device_entry);
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  439  	}
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  440  
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  441  	return 0;
+5185c1dfec77e7 Aman Kumar Pandey 2025-02-12  442  }
 
 -- 
 0-DAY CI Kernel Test Service
