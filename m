@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDD3DDA9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 02:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63E522094
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 03:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739673732; cv=none; b=lcWOX1WO91KPn495Ig5I+ITy1rSMjgM9wmt08CAn/1YYroY/1tCLCOjOKwkzEoGJb7rKtZn3yfSmIBm6+sxlt6pFzjm6vhSP4Kd7/Kqde2lhsNkQbQamp/3qQEiIIjsxnZfJMlTgtAwgCjHYinGUgEgWzyXF5kQMmAg5o/a8QLk=
+	t=1739675655; cv=none; b=RZ7j2LCF7ihH1Nk9VKaKdb/AKE/Bp53gcTulp4SO7E2g/2UXwI+bW5C4LYG47HMwLseo2rSoZvnrnkKQWgrfg6qXWQPwuI/PqpNOacw/2GmuzjmHLTGfGcQ5+GFIYP7TmvchgvnQGgqKbjoFitOoevZs8XWUoA+xJNNTanHuG7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739673732; c=relaxed/simple;
-	bh=CzQraw8Ir474j+N758RyciyZBU8oN2HlDf/pvoVOmYc=;
+	s=arc-20240116; t=1739675655; c=relaxed/simple;
+	bh=Wl9Y65/82dQkpfABODvPurytI56l3tXy0oi5NkNAmac=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=okn9iO8Ua0/9uKn/bM9/i+8FQSAQaLhcy4a1rUL9GclkQmEXG675U/Wd7LXf7KgXLOi0vdknTraXEYRQt7MemoPvuBeTpoPgBqqEm9t2vcWEjBfKRPLpaSisZIPHBu91mHPHjZOFWp2HjQneIuk7h86q0cuvpB44jTrHKvHB9lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VoTT2eIF; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=rCYf69922NU0dz3tHoIu0YsT/ahVlRSfnoGmtiIdITGuVu2/6f2cB+zlqGCrpG33kvPbM3R9S+pyCCNCy3hDWwB/rZ1f3/iCg5F0e/KcA86LAEB9jEPM37Kr2y0oo1YxyXRdPGuZy2J/vPfICzMU5r/zcgMC/UW+SYHIXc0NSJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G7LMolMO; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VoTT2eIF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7LMolMO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739673730; x=1771209730;
+  t=1739675654; x=1771211654;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CzQraw8Ir474j+N758RyciyZBU8oN2HlDf/pvoVOmYc=;
-  b=VoTT2eIFIgrCdh3/IFj0naj87gOU7RcFkeK5/nqTT4L2X878TozAdHyz
-   pv9nW5kYFnK7/m6XIo4pS6YixPycZnHelRHL0E+SkMdSWEV0Edm8/+q5W
-   REDd53Vc/R+6KS0Govc+M6b+IFw5vcGo6EFZJmTB6sBYFQh9MkIc8+aeg
-   hndpy0XbQncNtKQ+hT/pqHTYrVAu7UrzIHSuuER9NQuK5ZW5UgoabQ/kq
-   aJyktDg+2B4EolRgVvkcp+id1dYY6KomOUZ29Xj7YKGZhDfGQxei5JIy6
-   fP2N+/jRUpRmB8aqi0wGKebhxRhvZpWhgx5vcZFLdhjZHwUpamJs+ubV4
-   w==;
-X-CSE-ConnectionGUID: bLyVEHraQhiUgLRZyci0aA==
-X-CSE-MsgGUID: VwBlj+YDSSiDNDs7gg+NzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="51801460"
+  bh=Wl9Y65/82dQkpfABODvPurytI56l3tXy0oi5NkNAmac=;
+  b=G7LMolMO+kRsyP3QOZikLgzPv5Nxbt3v6xq8Xu4O3+w2+d+iOo2lqKi2
+   Sjh58ihqjZdHq0HEsrsrZuYF7/8IdggLo7mHQjwsQfRKU55CU1QThy18M
+   KCzVCjI0kvhxUx1XdMgYeljCGYHlFwFI1H5VH5+POFmWdWoWSbSKkIeeK
+   ajDLFoFMSGeE7sUTvx/MW1vLiHwbFydpv+fYQiwWz3drfWmRVWMqUQbG/
+   4PixRj5H45VCxtixCUbmP8bwm3rZHYRnILb7IydxTcBOXZp4F3fNrp8yO
+   W9/rl6KUevraEFJp9OL2N2tw+n2FkOzNyuR/WTi5MNKGLWKX61dYzBHM9
+   g==;
+X-CSE-ConnectionGUID: oXCkbw2gROCQgG8CrNEUeQ==
+X-CSE-MsgGUID: Sq2896AfSJ6NJmOzA3OU2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11346"; a="39572601"
 X-IronPort-AV: E=Sophos;i="6.13,290,1732608000"; 
-   d="scan'208";a="51801460"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 18:42:10 -0800
-X-CSE-ConnectionGUID: BHx6b7ORTGuUH/jEoAuJWg==
-X-CSE-MsgGUID: A2NzAf+mQFeM5OoFHT+eBg==
+   d="scan'208";a="39572601"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2025 19:14:13 -0800
+X-CSE-ConnectionGUID: vkJmcjDdRBOfxtKeQeG6pQ==
+X-CSE-MsgGUID: mURxjP3lTF2dJ3K0O06G8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="137028397"
+X-IronPort-AV: E=Sophos;i="6.13,290,1732608000"; 
+   d="scan'208";a="113685003"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Feb 2025 18:42:08 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 15 Feb 2025 19:14:11 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjUbe-001BWZ-0h;
-	Sun, 16 Feb 2025 02:42:06 +0000
-Date: Sun, 16 Feb 2025 10:41:47 +0800
+	id 1tjV6f-001BXX-1V;
+	Sun, 16 Feb 2025 03:14:09 +0000
+Date: Sun, 16 Feb 2025 11:13:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 0/90] mm/kasan/shadow.o:
- warning: objtool: kasan_mem_notifier()+0x22a: unreachable instruction
-Message-ID: <202502161018.zfN1Y91q-lkp@intel.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: drivers/net/virtio_net.c:1227 xsk_append_merge_buffer() warn:
+ unsigned '_x' is never less than zero.
+Message-ID: <202502161158.KmluxANz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +63,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Andrey,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   d54a4869d416b5e3beebfa0e94bc0e2cd7568737
-commit: 0d7071f479ff7d50f2029b882c461301ca41ece6 [0/90] UPSTREAM: kasan: split out shadow.c from common.c
-config: x86_64-buildonly-randconfig-004-20250212 (https://download.01.org/0day-ci/archive/20250216/202502161018.zfN1Y91q-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250216/202502161018.zfN1Y91q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   496659003dac5d08ea292c44fce9dfb36fa34691
+commit: 99c861b44eb1fb9dfe8776854116a6a9064c19bb virtio_net: xsk: rx: support recv merge mode
+date:   7 months ago
+config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250216/202502161158.KmluxANz-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502161018.zfN1Y91q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502161158.KmluxANz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/virtio_net.c:1227 xsk_append_merge_buffer() warn: unsigned '_x' is never less than zero.
 
->> mm/kasan/shadow.o: warning: objtool: kasan_mem_notifier()+0x22a: unreachable instruction
+Old smatch warnings:
+include/linux/mm.h:1311 virt_to_head_page() warn: unsigned '_x' is never less than zero.
+include/linux/scatterlist.h:189 sg_set_buf() warn: unsigned '_x' is never less than zero.
+drivers/net/virtio_net.c:1934 build_skb_from_xdp_buff() error: uninitialized symbol 'nr_frags'.
+drivers/net/virtio_net.c:2016 virtnet_build_xdp_buff_mrg() error: uninitialized symbol 'shinfo'.
+drivers/net/virtio_net.c:5096 virtnet_update_settings() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:5804 virtnet_config_changed_work() error: uninitialized symbol 'virtio_cread_v'.
+drivers/net/virtio_net.c:5808 virtnet_config_changed_work() error: uninitialized symbol 'v'.
+
+vim +/_x +1227 drivers/net/virtio_net.c
+
+  1184	
+  1185	static int xsk_append_merge_buffer(struct virtnet_info *vi,
+  1186					   struct receive_queue *rq,
+  1187					   struct sk_buff *head_skb,
+  1188					   u32 num_buf,
+  1189					   struct virtio_net_hdr_mrg_rxbuf *hdr,
+  1190					   struct virtnet_rq_stats *stats)
+  1191	{
+  1192		struct sk_buff *curr_skb;
+  1193		struct xdp_buff *xdp;
+  1194		u32 len, truesize;
+  1195		struct page *page;
+  1196		void *buf;
+  1197	
+  1198		curr_skb = head_skb;
+  1199	
+  1200		while (--num_buf) {
+  1201			buf = virtqueue_get_buf(rq->vq, &len);
+  1202			if (unlikely(!buf)) {
+  1203				pr_debug("%s: rx error: %d buffers out of %d missing\n",
+  1204					 vi->dev->name, num_buf,
+  1205					 virtio16_to_cpu(vi->vdev,
+  1206							 hdr->num_buffers));
+  1207				DEV_STATS_INC(vi->dev, rx_length_errors);
+  1208				return -EINVAL;
+  1209			}
+  1210	
+  1211			u64_stats_add(&stats->bytes, len);
+  1212	
+  1213			xdp = buf_to_xdp(vi, rq, buf, len);
+  1214			if (!xdp)
+  1215				goto err;
+  1216	
+  1217			buf = napi_alloc_frag(len);
+  1218			if (!buf) {
+  1219				xsk_buff_free(xdp);
+  1220				goto err;
+  1221			}
+  1222	
+  1223			memcpy(buf, xdp->data - vi->hdr_len, len);
+  1224	
+  1225			xsk_buff_free(xdp);
+  1226	
+> 1227			page = virt_to_page(buf);
+  1228	
+  1229			truesize = len;
+  1230	
+  1231			curr_skb  = virtnet_skb_append_frag(head_skb, curr_skb, page,
+  1232							    buf, len, truesize);
+  1233			if (!curr_skb) {
+  1234				put_page(page);
+  1235				goto err;
+  1236			}
+  1237		}
+  1238	
+  1239		return 0;
+  1240	
+  1241	err:
+  1242		xsk_drop_follow_bufs(vi->dev, rq, num_buf, stats);
+  1243		return -EINVAL;
+  1244	}
+  1245	
 
 -- 
 0-DAY CI Kernel Test Service
