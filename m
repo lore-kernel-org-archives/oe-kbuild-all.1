@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCA91A4F21;
-	Mon, 17 Feb 2025 22:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9532614D444
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 23:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739831682; cv=none; b=CE1F+YlEFSi5H8ta8zhQhzITkUlR3z6N8jlAg9h4VsAC+FrTps1LrxuKGUHD0oWAWMQ5IW5NoiCFIoY3c25bHr/nt4y7fQ2/W8NFmi6hCEOcEDy0ackM2bmxLDXwc3sERqxqz92sAgfLO4zC5XR+hfvIZwWX/IkE1qDdgQ806Qs=
+	t=1739834145; cv=none; b=txgzV4GhqPyPDLzWDciPa8c4ndB9BXIrolrl0EPJUW71LOhOGikQnbfq4vF7nzZMYep5nd+XJI7DzVln/pls5nYU+qSUToobT387FJLFBy5hBY1TOoW7a/CpK2Ewp+o8IwGtMRzZRp2FmW9cFmH4hxdwybS+l2iV436Zkmx2lV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739831682; c=relaxed/simple;
-	bh=V55d7Soaz7wVA9gFfrWsS0z9hYsXDi79Lx/oTQA1EUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jZkUjOm6fHKvaU89749wW+5hET2wq0PKTmpbo/PYK6Avd/CBswAsm/humz1yLP3EmJwyPj4Lv4zWuE8DhLA72XZ0u5oH56bkSmPZBivFVWPj3DbgcQ2JMK7AmbNEmJayD5pbxsIDHMfRsyKYAs4uWM515VRhvw39F43Bwfa+/gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2i37QBN; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1739834145; c=relaxed/simple;
+	bh=IncK4zWNukW6v8Jz9Av1Txset5cjZcjvUqnT9/F89u4=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GBUD1YU+7Zb5X1nFpCATw+IwfLEulEDHfBbrTYSz1g1qKkwv2R6j2SlLsn8b137wH0lj69PPxACGVhJ2qQ/Gqqrne5ZCRKek/VJP7hgsih9+1UbXLGUQmYqgwKrEkGoVJLAr5Z8ttenCfWkC4X4gasAElL1VwKq1pt81TTE0v1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtfYRY/P; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2i37QBN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtfYRY/P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739831679; x=1771367679;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V55d7Soaz7wVA9gFfrWsS0z9hYsXDi79Lx/oTQA1EUo=;
-  b=R2i37QBN9sPKsWA3EN5u92S9mZoqeNbwNyW+hefiQ/A5cN3KU79UhOnw
-   r/gMnCtIQ/EQYdZXFBSctPDzhcgs8NHZ9+lFFGqEdZ37VhdpKzRjbGY7r
-   Eu8F1AkHRIETVit8fq0uopriy5cRTZkBcYTafHE21r6zJphc2nMexmGJl
-   Vv5HSgyqV+s/ukdVZAZy4wpGsldGKdcdb3YEFxJcLA2ynZLy16JJq1r45
-   jzOK6vVxyIW/0J7jzsjh2PGjGqN1DYIu/tkBvaMQOx6849jy5h1aB9VYY
-   WIH4tzMHozHacmrMqhNXMjpji55MI4M5DmQkmRZ+c7ss1Um3yZEiKQAi3
-   Q==;
-X-CSE-ConnectionGUID: J2VoBJ7zTSqtih+EGAsNUw==
-X-CSE-MsgGUID: Ia2ubtQkQJiXvXTrNbV1VA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="28116136"
+  t=1739834144; x=1771370144;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=IncK4zWNukW6v8Jz9Av1Txset5cjZcjvUqnT9/F89u4=;
+  b=OtfYRY/PhyLF4mKCmTKiKBQ/Cqogj69dS7sjJlAWtSNF+0qr+ayYhXwN
+   02+O2M2rHHUk36ROviCq1vT+vzDs3CbUuSF3Xwp+6k2DvABmSv1nUrIv7
+   y8UOBE0+QcAFxyqr+Le4xzrWeH36a2SUHbQjqN0fD4EzehKU4bZU/2wam
+   6vyHghabA7CkL0IMv/34EuVMGsR3kSouqAQXW1J0W5orYLGujkDUbAN2C
+   wkLhWdiUElF7dr7gcMmW66R8ozuuZPVEohatD5bbTSib93v7wGflnrxV2
+   RusIjRTwM5T4ijviaA8m6WilvKcx2kvJrBAtftZD5tIGy4uuP2T9hc3bJ
+   g==;
+X-CSE-ConnectionGUID: B2JdPpdATOWgvGiFYD/Qhw==
+X-CSE-MsgGUID: K6LAC1/2ReOAmOLRUlisxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="43350873"
 X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="28116136"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 14:34:38 -0800
-X-CSE-ConnectionGUID: 2F81YKVjQLqTaiSq4rmsiA==
-X-CSE-MsgGUID: XFPj9ecaSKWINdsn38/JEA==
+   d="scan'208";a="43350873"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 15:15:42 -0800
+X-CSE-ConnectionGUID: pfJphXbMSk2/fz7YmMOMrQ==
+X-CSE-MsgGUID: vDt4bD9EQr6H/GYyMzGyWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="119151365"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="151422933"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Feb 2025 14:34:36 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Feb 2025 15:15:40 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tk9hB-001DeR-3D;
-	Mon, 17 Feb 2025 22:34:33 +0000
-Date: Tue, 18 Feb 2025 06:33:59 +0800
+	id 1tkAKw-001Dfn-1e
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 17 Feb 2025 23:15:38 +0000
+Date: Tue, 18 Feb 2025 07:15:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Wetzel <Alexander@wetzel-home.de>,
-	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Alexander Wetzel <alexander@wetzel-home.de>
-Subject: Re: [PATCH v2 05/10] wifi: mac80211: Stop using legacy TX path
-Message-ID: <202502180650.CWCCOFGJ-lkp@intel.com>
-References: <20250217081721.45110-6-Alexander@wetzel-home.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] drivers/phy/ti/phy-am654-serdes.c:249:13:
+ warning: no previous prototype for 'serdes_am654_xlate'
+Message-ID: <202502180705.i5BaiMtP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,107 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217081721.45110-6-Alexander@wetzel-home.de>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main ath/ath-next linus/master v6.14-rc3 next-20250217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-move-rate-control-setup/20250217-162046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20250217081721.45110-6-Alexander%40wetzel-home.de
-patch subject: [PATCH v2 05/10] wifi: mac80211: Stop using legacy TX path
-config: x86_64-buildonly-randconfig-003-20250218 (https://download.01.org/0day-ci/archive/20250218/202502180650.CWCCOFGJ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502180650.CWCCOFGJ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 71e2f5c5c2249db05dd26b787b56c45f2a890740 [1/1] phy: ti: Add a new SERDES driver for TI's AM654x SoC
+config: x86_64-buildonly-randconfig-005-20250217 (https://download.01.org/0day-ci/archive/20250218/202502180705.i5BaiMtP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502180705.i5BaiMtP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502180650.CWCCOFGJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502180705.i5BaiMtP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/mac80211/tx.c:15:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> net/mac80211/tx.c:4607:29: warning: variable 'hdr' is uninitialized when used here [-Wuninitialized]
-    4607 |                 sta = sta_info_get(sdata, hdr->addr1);
-         |                                           ^~~
-   net/mac80211/tx.c:4579:27: note: initialize the variable 'hdr' to silence this warning
-    4579 |         struct ieee80211_hdr *hdr;
-         |                                  ^
-         |                                   = NULL
-   4 warnings generated.
+>> drivers/phy/ti/phy-am654-serdes.c:249:13: warning: no previous prototype for 'serdes_am654_xlate' [-Wmissing-prototypes]
+     249 | struct phy *serdes_am654_xlate(struct device *dev, struct of_phandle_args
+         |             ^~~~~~~~~~~~~~~~~~
 
 
-vim +/hdr +4607 net/mac80211/tx.c
+vim +/serdes_am654_xlate +249 drivers/phy/ti/phy-am654-serdes.c
 
-e2ebc74d7e3d716 Johannes Berg    2007-07-27  4572  
-e8f495b5a04f5a6 Alexander Wetzel 2025-02-17  4573  static void ieee80211_tx_pending_skb(struct ieee80211_local *local,
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4574  				     struct sk_buff *skb)
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4575  {
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4576  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4577  	struct ieee80211_sub_if_data *sdata;
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4578  	struct sta_info *sta;
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4579  	struct ieee80211_hdr *hdr;
-55de908ab292c03 Johannes Berg    2012-07-26  4580  	struct ieee80211_chanctx_conf *chanctx_conf;
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4581  
-5061b0c2b9066de Johannes Berg    2009-07-14  4582  	sdata = vif_to_sdata(info->control.vif);
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4583  
-cc20ff2c6b5d3e2 Felix Fietkau    2020-09-08  4584  	if (info->control.flags & IEEE80211_TX_INTCFL_NEED_TXPROCESSING) {
-eef25a6679adb3c Johannes Berg    2022-06-01  4585  		/* update band only for non-MLD */
-f1871abd27641c0 Ilan Peer        2023-06-08  4586  		if (!ieee80211_vif_is_mld(&sdata->vif)) {
-eef25a6679adb3c Johannes Berg    2022-06-01  4587  			chanctx_conf =
-eef25a6679adb3c Johannes Berg    2022-06-01  4588  				rcu_dereference(sdata->vif.bss_conf.chanctx_conf);
-55de908ab292c03 Johannes Berg    2012-07-26  4589  			if (unlikely(!chanctx_conf)) {
-55de908ab292c03 Johannes Berg    2012-07-26  4590  				dev_kfree_skb(skb);
-e8f495b5a04f5a6 Alexander Wetzel 2025-02-17  4591  				return;
-55de908ab292c03 Johannes Berg    2012-07-26  4592  			}
-73c4e195e6396ee Johannes Berg    2014-11-09  4593  			info->band = chanctx_conf->def.chan->band;
-eef25a6679adb3c Johannes Berg    2022-06-01  4594  		}
-e8f495b5a04f5a6 Alexander Wetzel 2025-02-17  4595  		ieee80211_tx(sdata, NULL, skb);
-cc20ff2c6b5d3e2 Felix Fietkau    2020-09-08  4596  	} else if (info->flags & IEEE80211_TX_CTL_HW_80211_ENCAP) {
-50ff477a8639fa1 John Crispin     2019-11-25  4597  		if (ieee80211_lookup_ra_sta(sdata, skb, &sta)) {
-50ff477a8639fa1 John Crispin     2019-11-25  4598  			dev_kfree_skb(skb);
-e8f495b5a04f5a6 Alexander Wetzel 2025-02-17  4599  			return;
-50ff477a8639fa1 John Crispin     2019-11-25  4600  		}
-50ff477a8639fa1 John Crispin     2019-11-25  4601  
-50ff477a8639fa1 John Crispin     2019-11-25  4602  		if (IS_ERR(sta) || (sta && !sta->uploaded))
-50ff477a8639fa1 John Crispin     2019-11-25  4603  			sta = NULL;
-50ff477a8639fa1 John Crispin     2019-11-25  4604  
-e8f495b5a04f5a6 Alexander Wetzel 2025-02-17  4605  		ieee80211_queue_skb(local, sdata, sta, skb);
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4606  	} else {
-abe60632f311d51 Johannes Berg    2009-11-25 @4607  		sta = sta_info_get(sdata, hdr->addr1);
-e8f495b5a04f5a6 Alexander Wetzel 2025-02-17  4608  		ieee80211_tx(sdata, sta, skb);
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4609  	}
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4610  }
-cd8ffc800ce18e5 Johannes Berg    2009-03-23  4611  
+   248	
+ > 249	struct phy *serdes_am654_xlate(struct device *dev, struct of_phandle_args
+   250					 *args)
+   251	{
+   252		struct serdes_am654 *am654_phy;
+   253		struct phy *phy;
+   254		int ret;
+   255	
+   256		phy = of_phy_simple_xlate(dev, args);
+   257		if (IS_ERR(phy))
+   258			return phy;
+   259	
+   260		am654_phy = phy_get_drvdata(phy);
+   261		if (am654_phy->busy)
+   262			return ERR_PTR(-EBUSY);
+   263	
+   264		ret = mux_control_select(am654_phy->control, args->args[1]);
+   265		if (ret) {
+   266			dev_err(dev, "Failed to select SERDES Lane Function\n");
+   267			return ERR_PTR(ret);
+   268		}
+   269	
+   270		am654_phy->busy = true;
+   271		am654_phy->type = args->args[0];
+   272	
+   273		return phy;
+   274	}
+   275	
 
 -- 
 0-DAY CI Kernel Test Service
