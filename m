@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82483611E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 00:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D8EDDAD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 01:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739752040; cv=none; b=lFSzX9WPALU0giN1iEB18vQXC0yhvplEW/T79yaOEwBklm2jC+oUWQk8BRRL/066onX9NWLNmZVt5/cfaSYzMxWn09B1Ku9Zz05oDer24PAXq4/Z66CEQQuOQyPN1snRAaPj+gSCmSDGMB3ZkUb7oh7cN9cmFCLR0PSmQohKnCo=
+	t=1739754561; cv=none; b=n1e+0n74RoZlj2Ny/1b+TlF9sdBg8aFjfNl84m+YnTAVTeXClxcbsQWKVm+xwpCR/QgHue6Cs1Ch02er4aKgOEOJ2EpWoAJPkUgA35U80i+VPEmZ5wbtMvXtRmi2fej89a821RUFaoLcLszGYq2OlGR0NvS+Eczn4xJHv18wc1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739752040; c=relaxed/simple;
-	bh=PGe0/+PNWJ1PObZWNG66B6aLh0UxDKrwU1OGdcX/K+s=;
+	s=arc-20240116; t=1739754561; c=relaxed/simple;
+	bh=IyP9K/2xv4Wu5JcOU6n0ubuJzXLjZvryxyFocxIL09c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J9f9XmtCdpvPfgbYLja4cVdmxFR1I8PflLfM1LYlOHKQEL+SJyHNQOBEEIfdptsnvXklkD7O0cGqAcEXOJNFrq8kXwoCioWi4zp5KVM8LVDMRMuOW5d0QJtJK+dA320HZaTvYOiPZJWMT2UweEh/i05HZsSlYefUzjCHPWrDQsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atBBf4+3; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=NV+9DXz3YsqLRS3rBUO/rqNSXwZ/3OW1SVXT16QaKTcNS6qgdXvasTUsxr3w1ieywqeXklxKXpFVotS5ADmZoN5Y/BlPjMNhsSUU/PTvWnH4QwYA16r5FWHrEAgL3j+2vGRYLhnQl7HU309boomDKd2fwhynkGbTkwvoz7KECmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIqYNGFm; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atBBf4+3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIqYNGFm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739752039; x=1771288039;
+  t=1739754559; x=1771290559;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PGe0/+PNWJ1PObZWNG66B6aLh0UxDKrwU1OGdcX/K+s=;
-  b=atBBf4+3WAYZvmJiidsbVArR1n70EPC6ptREgF/tT+b2paku4E6hiN8X
-   y36JgSAcmCVYHjvBW4IsSlihSZTeP4MxXGkSPqLqPzxk4P+U3K5M3Z2X7
-   2KI+wbNrlIC7FAYzV3Nr7GWkdVomd7jkW9B2zIcolhOIyWeXmujfbwA7S
-   xmmntt2WzVvxyEe5/fF2sp5FtoNbOsdiXmqmMTYa4lUQMp0cKZvEmQUuC
-   9MhrG20jqz0mtDKajGrwnwo77WXZBBq7x0deOw9nCnyFnxn2GNBFF0yYF
-   xzYGyX1NJMdOFnIrgj/UeT0Q9tdjW6A6YDmSZADJ2EVdRiawmzbC39Yk7
-   A==;
-X-CSE-ConnectionGUID: La7D4rmzTX2qcD2TQy9FXg==
-X-CSE-MsgGUID: Fczl89n2S6WH1fyItWYOZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="57957381"
+  bh=IyP9K/2xv4Wu5JcOU6n0ubuJzXLjZvryxyFocxIL09c=;
+  b=ZIqYNGFmrlho9HAVWEX4yuJvm8T7wsWShezP04YKzg2dS9IkJpyyfr8w
+   K30BH5s9FNLwyY3FXZ1C2NcLofRh26UF5iqOFfEujLBMWl3Kj8feBckR7
+   u/rr0VmgIylOVAxc62yVMqamRlTXoTw4XSz946ZZKXo8pGYkol7j+xKx6
+   zi64mw+K29QTPL6/gvIDh+DjWz+VZ1PD36jhwEW6XoftKaqKmzXXHFDgN
+   mUk88lnX9AED7UywjhT7dA8NXfSELcv+mTs6qoZVDOkxEwOuXRZZa/DRt
+   E5YRgJ9/3lKoP/cYvougqPm2M1r/KXTmdZwD5COvbdinbPeHQRQ2b7pcz
+   Q==;
+X-CSE-ConnectionGUID: upWdYUUhQ8mDcDQVSkjDVw==
+X-CSE-MsgGUID: qZHJvbUYTziVLNMf7JRxNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51410565"
 X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="57957381"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 16:27:15 -0800
-X-CSE-ConnectionGUID: KinnFi/aRuCug72mMmbzdA==
-X-CSE-MsgGUID: Dew4Rm2dTou3QORDvGjxUA==
+   d="scan'208";a="51410565"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 17:09:19 -0800
+X-CSE-ConnectionGUID: HhaaUKYyReacNHhiBpzScg==
+X-CSE-MsgGUID: iUPkY01LQ3yGCEIvsPrunQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
-   d="scan'208";a="114603320"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118133064"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Feb 2025 16:27:14 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 16 Feb 2025 17:09:17 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjoye-001CPL-0T;
-	Mon, 17 Feb 2025 00:27:12 +0000
-Date: Mon, 17 Feb 2025 08:27:08 +0800
+	id 1tjpdL-001CQv-14;
+	Mon, 17 Feb 2025 01:09:15 +0000
+Date: Mon, 17 Feb 2025 09:08:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:dt 8/13] arch/m68k/kernel/embedded_dtb.S:15:7:
- warning: "CONFIG_M547x" is not defined, evaluates to 0
-Message-ID: <202502170841.nS3ts5sF-lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Alexander Duyck <alexanderduyck@fb.com>
+Subject: mm/page_frag_cache.c:46 encoded_page_decode_page() warn: unsigned
+ '_x' is never less than zero.
+Message-ID: <202502170903.Daw5Q7fC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +64,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
-head:   6e903c856c98dabb890acf18c07497d375765cec
-commit: 014d73779642b676ae285ed44a159b1a2c20bde2 [8/13] m68k: implement an embedded devicetree for nonmmu
-config: m68k-randconfig-r122-20250215 (https://download.01.org/0day-ci/archive/20250217/202502170841.nS3ts5sF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250217/202502170841.nS3ts5sF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0ad2507d5d93f39619fc42372c347d6006b64319
+commit: 0c3ce2f50261cd2f654d931eeb933c370a3a7d7a mm: page_frag: reuse existing space for 'size' and 'pfmemalloc'
+date:   3 months ago
+config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250217/202502170903.Daw5Q7fC-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502170841.nS3ts5sF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502170903.Daw5Q7fC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+mm/page_frag_cache.c:46 encoded_page_decode_page() warn: unsigned '_x' is never less than zero.
 
->> arch/m68k/kernel/embedded_dtb.S:15:7: warning: "CONFIG_M547x" is not defined, evaluates to 0 [-Wundef]
-      15 | #elif CONFIG_M547x
-         |       ^~~~~~~~~~~~
+Old smatch warnings:
+include/linux/mm.h:1275 virt_to_head_page() warn: unsigned '_x' is never less than zero.
 
+vim +/_x +46 mm/page_frag_cache.c
 
-vim +/CONFIG_M547x +15 arch/m68k/kernel/embedded_dtb.S
-
-    12	
-    13	#ifdef CONFIG_M520x
-    14	.incbin "arch/m68k/boot/dts/mcf5208evb.dtb"
-  > 15	#elif CONFIG_M547x
+    43	
+    44	static struct page *encoded_page_decode_page(unsigned long encoded_page)
+    45	{
+  > 46		return virt_to_page((void *)encoded_page);
+    47	}
+    48	
 
 -- 
 0-DAY CI Kernel Test Service
