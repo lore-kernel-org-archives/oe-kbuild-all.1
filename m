@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06F6282E1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 16:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1FE1A2645
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 16:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739809201; cv=none; b=jDwHfRqtWYXTJblRaTSwklVI4r4seYjPv6b8saMilSX2aMQ9RHPWiDtqIPdU1VRjwNLwNUTI1EnuiAnQEgR6nnrEou5nfQGr0R36jQtqNfRDgleSj74Va644Mw4x67LsVhFcDf4/ARnzlsAT1ch9aYWtmppDgvVl+fWh8e3yiIo=
+	t=1739809862; cv=none; b=i5sqIm2H84B70XRUEARxqJzYKGw0LsukajeXWAFi1Rr3OZK5xDAW9S009DQVKLSwFm5UPzgWK50rp2b/GF/v6+F/jQnzXTvlb9o04Ry0RPyZ6pH0RY1Z/g+yoBMMg0utpGnrwEF/Pygnlu3YyS4NK0adwrtCixYXYT5FBWWQS8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739809201; c=relaxed/simple;
-	bh=l9GGzaeFCCNWFk7XpwMAwbqxPzawuyPL3HXoH7g1w1E=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JFDtlEhksIRI8s5gCNpmH0hR5eSC6hLdbRXmJ34PcBQHdW9P34zZWBHNOwe1V8qIJYgA6YyIQJYgty/sDIutUQZUwHtj57+vlv8kZEx4Y3G/a44B6+tEYzfhiYpHrm/+rUfgUjNIMtLA0Ei24Rcn2+9xkNlx6eGND6XDIO8YmHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YGo7jOcu; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1739809862; c=relaxed/simple;
+	bh=DlHyTM2wIfgM/OxQ/A9ZgPiaeOgS3PnW8/ppZcTRwck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kV85pxf69laQr6+xAK+GSwieYLZ65E+Gu46CN+NpswLUfFWu0iIepIX0jF6OxR77bTEWUSvvXkWiv9MbsVCM+RqlNb8hyOVFQFGxYqQCCGz7vJZAEDvMND8FhMT0fK1NkUZU+yxkzdykNsCwkzYlGPjLkYAbDCbs8gHmqiFalxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gC5iJJdd; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YGo7jOcu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gC5iJJdd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739809199; x=1771345199;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=l9GGzaeFCCNWFk7XpwMAwbqxPzawuyPL3HXoH7g1w1E=;
-  b=YGo7jOcuIW5moM91u/lgt6KcqscaKjvBLqrhZu2lVhtZYfYTmW1PQWX4
-   8HVRnZvOogYkyiHnDKW0inCSUaU0AiRjbpiNOR56Tuxh4rzQmy01hmQrj
-   ddBSFCLnqNaMSVVvuIbjEagC4JTJ44u/wjn9sbjWli1MRe+SQswZFvehW
-   MhNrXoZE0YZZSZaJSBhsjSEwFu8KbFhwUhjX1t7wNstmQpi9UZU0yi5I8
-   TvM3g3GS0M0LElYDhSVKBXXfrKubm5ZRCji86Rih1nrRujv2E5NH9FotB
-   yKBzPSt2/vdLv0pTjNptg1UeTaYrX324cxLhyzs692p+6mP0RNm3CUawv
+  t=1739809861; x=1771345861;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DlHyTM2wIfgM/OxQ/A9ZgPiaeOgS3PnW8/ppZcTRwck=;
+  b=gC5iJJddymUlW+GAr5SmTbv3Cu5HCh10B4T802ju04Hs1UvFRVc+p5Mf
+   S/VwemctuZcc9ge9lh7jn45Yyz2jvjb4UbvrSpU3zve+sOeuN80eqplg9
+   h2L2EdVxvqXtYZ3InktZugLtajFkQMPwxVVZvhRoDCcw/CW6aITZmTbXw
+   +ENGFeOQSEasynbEz9O6nw7XTEAp2y5CjOgTKqWtHzMOeqSboKTmn8LaN
+   zVLZ4TfhhYBezNhScTavORcdZ7NmejHJYt1DMksxkuqVpngWU7HneXWHk
+   mCHNlYB+2eM3W8zFv3SdMB4wucMvmvJuQQxlphHpJsy8xgs6vDaxwMxi6
    A==;
-X-CSE-ConnectionGUID: JeqBWOE8Sv6c5O+y5Y7myw==
-X-CSE-MsgGUID: IkdhjKcoSDi4hVZu8hqfqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="65850096"
+X-CSE-ConnectionGUID: dY0bjvg/SsuDGeEWA4Adwg==
+X-CSE-MsgGUID: s7VH43tJStCvsQjmR1x6NA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51477959"
 X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
-   d="scan'208";a="65850096"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 08:19:58 -0800
-X-CSE-ConnectionGUID: /x/xm/+rQte3dNLUlSoJoQ==
-X-CSE-MsgGUID: d0uwwJaYR92yrjLKhyDaCA==
+   d="scan'208";a="51477959"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 08:31:00 -0800
+X-CSE-ConnectionGUID: rngo6N8WRYCMLSHIHbRZOg==
+X-CSE-MsgGUID: bwDG5knoTmCGB3aUPKOjJw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
-   d="scan'208";a="113901708"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118789814"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Feb 2025 08:19:57 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 17 Feb 2025 08:30:58 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tk3qd-001DKZ-0a
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 17 Feb 2025 16:19:55 +0000
-Date: Tue, 18 Feb 2025 00:19:43 +0800
+	id 1tk41I-001DLP-0e;
+	Mon, 17 Feb 2025 16:30:56 +0000
+Date: Tue, 18 Feb 2025 00:30:00 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/57 1/1]
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:255:15: warning: array
- subscript idx is outside array bounds of 'struct etnaviv_gem_submit_bo[0]'
-Message-ID: <202502180032.M2H2fGjh-lkp@intel.com>
+To: Alexander Wetzel <Alexander@wetzel-home.de>,
+	linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Alexander Wetzel <alexander@wetzel-home.de>
+Subject: Re: [PATCH v2 08/10] wifi: mac80211: Simplify AMPDU handling
+Message-ID: <202502180007.MFwMk2L7-lkp@intel.com>
+References: <20250217081721.45110-9-Alexander@wetzel-home.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,257 +65,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250217081721.45110-9-Alexander@wetzel-home.de>
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/57
-head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
-commit: a20ca6744ba7e683a772bb5f1715e4662342be58 [1/1] Build etnaviv on non-ARM architectures
-config: sparc64-randconfig-002-20250217 (https://download.01.org/0day-ci/archive/20250218/202502180032.M2H2fGjh-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502180032.M2H2fGjh-lkp@intel.com/reproduce)
+Hi Alexander,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main ath/ath-next linus/master v6.14-rc3 next-20250217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wetzel/wifi-mac80211-move-rate-control-setup/20250217-162046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250217081721.45110-9-Alexander%40wetzel-home.de
+patch subject: [PATCH v2 08/10] wifi: mac80211: Simplify AMPDU handling
+config: i386-buildonly-randconfig-004-20250217 (https://download.01.org/0day-ci/archive/20250218/202502180007.MFwMk2L7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502180007.MFwMk2L7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502180032.M2H2fGjh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502180007.MFwMk2L7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("\"_ftrace_annotated_branch\"")' because it conflicts with previous 'section ("\"_ftrace_branch\"")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:274:17: note: in expansion of macro 'if'
-     274 |                 if (unlikely(r->flags)) {
-         |                 ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:274:21: note: in expansion of macro 'unlikely'
-     274 |                 if (unlikely(r->flags)) {
-         |                     ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:274:17: note: in expansion of macro 'if'
-     274 |                 if (unlikely(r->flags)) {
-         |                 ^~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c: In function 'submit_unlock_object':
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:110:24: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     110 |         if (submit->bos[i].flags & BO_LOCKED) {
-         |             ~~~~~~~~~~~^~~
-   include/linux/compiler.h:58:37: note: in definition of macro '__trace_if'
-      58 |         if (__builtin_constant_p(!!(cond)) ? !!(cond) :                 \
-         |                                     ^~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:110:9: note: in expansion of macro 'if'
-     110 |         if (submit->bos[i].flags & BO_LOCKED) {
-         |         ^~
-   In file included from drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:23:
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:111:69: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     111 |                 struct etnaviv_gem_object *etnaviv_obj = submit->bos[i].obj;
-         |                                                          ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:114:28: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     114 |                 submit->bos[i].flags &= ~BO_LOCKED;
-         |                 ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:114:28: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     114 |                 submit->bos[i].flags &= ~BO_LOCKED;
-         |                 ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c: In function 'submit_cleanup':
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:370:69: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     370 |                 struct etnaviv_gem_object *etnaviv_obj = submit->bos[i].obj;
-         |                                                          ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:373:32: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     373 |                 if (submit->bos[i].flags & BO_PINNED) {
-         |                     ~~~~~~~~~~~^~~
-   include/linux/compiler.h:58:37: note: in definition of macro '__trace_if'
-      58 |         if (__builtin_constant_p(!!(cond)) ? !!(cond) :                 \
-         |                                     ^~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:373:17: note: in expansion of macro 'if'
-     373 |                 if (submit->bos[i].flags & BO_PINNED) {
-         |                 ^~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:374:68: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     374 |                         etnaviv_gem_mapping_unreference(submit->bos[i].mapping);
-         |                                                         ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:376:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     376 |                         submit->bos[i].mapping = NULL;
-         |                         ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:377:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     377 |                         submit->bos[i].flags &= ~BO_PINNED;
-         |                         ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:377:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     377 |                         submit->bos[i].flags &= ~BO_PINNED;
-         |                         ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c: In function 'submit_bo':
->> drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:255:15: warning: array subscript idx is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     255 |         *bo = &submit->bos[idx];
-         |               ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c: In function 'submit_lock_objects':
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:125:69: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     125 |                 struct etnaviv_gem_object *etnaviv_obj = submit->bos[i].obj;
-         |                                                          ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:132:34: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     132 |                 if (!(submit->bos[i].flags & BO_LOCKED)) {
-         |                       ~~~~~~~~~~~^~~
-   include/linux/compiler.h:58:37: note: in definition of macro '__trace_if'
-      58 |         if (__builtin_constant_p(!!(cond)) ? !!(cond) :                 \
-         |                                     ^~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:132:17: note: in expansion of macro 'if'
-     132 |                 if (!(submit->bos[i].flags & BO_LOCKED)) {
-         |                 ^~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:140:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     140 |                         submit->bos[i].flags |= BO_LOCKED;
-         |                         ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:140:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     140 |                         submit->bos[i].flags |= BO_LOCKED;
-         |                         ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:158:42: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     158 |                 etnaviv_obj = submit->bos[contended].obj;
-         |                               ~~~~~~~~~~~^~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:164:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     164 |                         submit->bos[contended].flags |= BO_LOCKED;
-         |                         ~~~~~~~~~~~^~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:164:36: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     164 |                         submit->bos[contended].flags |= BO_LOCKED;
-         |                         ~~~~~~~~~~~^~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c: In function 'submit_fence_sync':
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:178:64: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     178 |                 struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
-         |                                                     ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:178:64: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     178 |                 struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
-         |                                                     ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:178:64: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     178 |                 struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
-         |                                                     ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:178:64: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     178 |                 struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
-         |                                                     ~~~~~~~~~~~^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:191:31: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     191 |                         ret = reservation_object_get_fences_rcu(robj, &bo->excl,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     192 |                                                                 &bo->nr_shared,
-         |                                                                 ~~~~~~~~~~~~~~~
-     193 |                                                                 &bo->shared);
-         |                                                                 ~~~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:191:31: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-     191 |                         ret = reservation_object_get_fences_rcu(robj, &bo->excl,
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     192 |                                                                 &bo->nr_shared,
-         |                                                                 ~~~~~~~~~~~~~~~
-     193 |                                                                 &bo->shared);
-         |                                                                 ~~~~~~~~~~~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem.h:110:38: note: while referencing 'bos'
-     110 |         struct etnaviv_gem_submit_bo bos[0];
-         |                                      ^~~
-   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c:191:31: warning: array subscript i is outside array bounds of 'struct etnaviv_gem_submit_bo[0]' [-Warray-bounds=]
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for COMPAT_BINFMT_ELF
-   Depends on [n]: COMPAT [=y] && BINFMT_ELF [=n]
-   Selected by [y]:
-   - COMPAT [=y] && SPARC64 [=y]
-   WARNING: unmet direct dependencies detected for COMPAT_BINFMT_ELF
-   Depends on [n]: COMPAT [=y] && BINFMT_ELF [=n]
-   Selected by [y]:
-   - COMPAT [=y] && SPARC64 [=y]
+   net/mac80211/tx.c: In function 'ieee80211_tx_prepare':
+>> net/mac80211/tx.c:1140:14: warning: variable 'aggr_check' set but not used [-Wunused-but-set-variable]
+    1140 |         bool aggr_check = false;
+         |              ^~~~~~~~~~
+--
+   net/mac80211/rx.c: In function 'ieee80211_rx_mesh_fast_forward':
+>> net/mac80211/rx.c:2778:30: warning: variable 'tid_tx' set but not used [-Wunused-but-set-variable]
+    2778 |         struct tid_ampdu_tx *tid_tx;
+         |                              ^~~~~~
 
 
-vim +255 drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+vim +/aggr_check +1140 net/mac80211/tx.c
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  245  
-a8c21a5451d831 The etnaviv authors 2015-12-03  246  static int submit_bo(struct etnaviv_gem_submit *submit, u32 idx,
-8779aa8f8b7fa3 Russell King        2016-01-21  247  	struct etnaviv_gem_submit_bo **bo)
-a8c21a5451d831 The etnaviv authors 2015-12-03  248  {
-a8c21a5451d831 The etnaviv authors 2015-12-03  249  	if (idx >= submit->nr_bos) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  250  		DRM_ERROR("invalid buffer index: %u (out of %u)\n",
-a8c21a5451d831 The etnaviv authors 2015-12-03  251  				idx, submit->nr_bos);
-a8c21a5451d831 The etnaviv authors 2015-12-03  252  		return -EINVAL;
-a8c21a5451d831 The etnaviv authors 2015-12-03  253  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  254  
-8779aa8f8b7fa3 Russell King        2016-01-21 @255  	*bo = &submit->bos[idx];
-a8c21a5451d831 The etnaviv authors 2015-12-03  256  
-a8c21a5451d831 The etnaviv authors 2015-12-03  257  	return 0;
-a8c21a5451d831 The etnaviv authors 2015-12-03  258  }
-a8c21a5451d831 The etnaviv authors 2015-12-03  259  
-
-:::::: The code at line 255 was first introduced by commit
-:::::: 8779aa8f8b7fa397a0abe9e6af3334ea41e15836 drm: etnaviv: clean up submit_bo()
-
-:::::: TO: Russell King <rmk+kernel@arm.linux.org.uk>
-:::::: CC: Lucas Stach <l.stach@pengutronix.de>
+1a7915501ca94a Felix Fietkau    2021-06-29  1126  
+58d4185e36913d Johannes Berg    2007-09-26  1127  /*
+58d4185e36913d Johannes Berg    2007-09-26  1128   * initialises @tx
+7c10770f995820 Johannes Berg    2015-03-20  1129   * pass %NULL for the station if unknown, a valid pointer if known
+7c10770f995820 Johannes Berg    2015-03-20  1130   * or an ERR_PTR() if the station is known not to exist
+58d4185e36913d Johannes Berg    2007-09-26  1131   */
+9ae54c8463691b Johannes Berg    2008-01-31  1132  static ieee80211_tx_result
+3b8d81e020f77c Johannes Berg    2009-06-17  1133  ieee80211_tx_prepare(struct ieee80211_sub_if_data *sdata,
+3b8d81e020f77c Johannes Berg    2009-06-17  1134  		     struct ieee80211_tx_data *tx,
+7c10770f995820 Johannes Berg    2015-03-20  1135  		     struct sta_info *sta, struct sk_buff *skb)
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1136  {
+3b8d81e020f77c Johannes Berg    2009-06-17  1137  	struct ieee80211_local *local = sdata->local;
+58d4185e36913d Johannes Berg    2007-09-26  1138  	struct ieee80211_hdr *hdr;
+e039fa4a4195ac Johannes Berg    2008-05-15  1139  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
+1a7915501ca94a Felix Fietkau    2021-06-29 @1140  	bool aggr_check = false;
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1141  
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1142  	memset(tx, 0, sizeof(*tx));
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1143  	tx->skb = skb;
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1144  	tx->local = local;
+3b8d81e020f77c Johannes Berg    2009-06-17  1145  	tx->sdata = sdata;
+252b86c43225d0 Johannes Berg    2011-11-16  1146  	__skb_queue_head_init(&tx->skbs);
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1147  
+cd8ffc800ce18e Johannes Berg    2009-03-23  1148  	/*
+cd8ffc800ce18e Johannes Berg    2009-03-23  1149  	 * If this flag is set to true anywhere, and we get here,
+cd8ffc800ce18e Johannes Berg    2009-03-23  1150  	 * we are doing the needed processing, so remove the flag
+cd8ffc800ce18e Johannes Berg    2009-03-23  1151  	 * now.
+cd8ffc800ce18e Johannes Berg    2009-03-23  1152  	 */
+cc20ff2c6b5d3e Felix Fietkau    2020-09-08  1153  	info->control.flags &= ~IEEE80211_TX_INTCFL_NEED_TXPROCESSING;
+cd8ffc800ce18e Johannes Berg    2009-03-23  1154  
+58d4185e36913d Johannes Berg    2007-09-26  1155  	hdr = (struct ieee80211_hdr *) skb->data;
+58d4185e36913d Johannes Berg    2007-09-26  1156  
+7c10770f995820 Johannes Berg    2015-03-20  1157  	if (likely(sta)) {
+7c10770f995820 Johannes Berg    2015-03-20  1158  		if (!IS_ERR(sta))
+7c10770f995820 Johannes Berg    2015-03-20  1159  			tx->sta = sta;
+7c10770f995820 Johannes Berg    2015-03-20  1160  	} else {
+3f0e0b220f8007 Felix Fietkau    2010-01-08  1161  		if (sdata->vif.type == NL80211_IFTYPE_AP_VLAN) {
+f14543ee4d0681 Felix Fietkau    2009-11-10  1162  			tx->sta = rcu_dereference(sdata->u.vlan.sta);
+7c10770f995820 Johannes Berg    2015-03-20  1163  			if (!tx->sta && sdata->wdev.use_4addr)
+3f0e0b220f8007 Felix Fietkau    2010-01-08  1164  				return TX_DROP;
+10cb8e617560fc Markus Theil     2021-02-06  1165  		} else if (tx->sdata->control_port_protocol == tx->skb->protocol) {
+b4d57adb727ec7 Felix Fietkau    2010-01-31  1166  			tx->sta = sta_info_get_bss(sdata, hdr->addr1);
+3f0e0b220f8007 Felix Fietkau    2010-01-08  1167  		}
+1a7915501ca94a Felix Fietkau    2021-06-29  1168  		if (!tx->sta && !is_multicast_ether_addr(hdr->addr1)) {
+abe60632f311d5 Johannes Berg    2009-11-25  1169  			tx->sta = sta_info_get(sdata, hdr->addr1);
+1a7915501ca94a Felix Fietkau    2021-06-29  1170  			aggr_check = true;
+1a7915501ca94a Felix Fietkau    2021-06-29  1171  		}
+7c10770f995820 Johannes Berg    2015-03-20  1172  	}
+58d4185e36913d Johannes Berg    2007-09-26  1173  
+badffb725c86cc Jiri Slaby       2007-08-28  1174  	if (is_multicast_ether_addr(hdr->addr1)) {
+5cf121c3cdb955 Johannes Berg    2008-02-25  1175  		tx->flags &= ~IEEE80211_TX_UNICAST;
+e039fa4a4195ac Johannes Berg    2008-05-15  1176  		info->flags |= IEEE80211_TX_CTL_NO_ACK;
+6fd67e937ece53 Simon Wunderlich 2011-11-18  1177  	} else
+5cf121c3cdb955 Johannes Berg    2008-02-25  1178  		tx->flags |= IEEE80211_TX_UNICAST;
+58d4185e36913d Johannes Berg    2007-09-26  1179  
+a26eb27ab43014 Johannes Berg    2011-10-07  1180  	if (!(info->flags & IEEE80211_TX_CTL_DONTFRAG)) {
+a26eb27ab43014 Johannes Berg    2011-10-07  1181  		if (!(tx->flags & IEEE80211_TX_UNICAST) ||
+a26eb27ab43014 Johannes Berg    2011-10-07  1182  		    skb->len + FCS_LEN <= local->hw.wiphy->frag_threshold ||
+a26eb27ab43014 Johannes Berg    2011-10-07  1183  		    info->flags & IEEE80211_TX_CTL_AMPDU)
+a26eb27ab43014 Johannes Berg    2011-10-07  1184  			info->flags |= IEEE80211_TX_CTL_DONTFRAG;
+58d4185e36913d Johannes Berg    2007-09-26  1185  	}
+58d4185e36913d Johannes Berg    2007-09-26  1186  
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1187  	if (!tx->sta)
+e039fa4a4195ac Johannes Berg    2008-05-15  1188  		info->flags |= IEEE80211_TX_CTL_CLEAR_PS_FILT;
+f7418bc10d8402 Felix Fietkau    2015-09-24  1189  	else if (test_and_clear_sta_flag(tx->sta, WLAN_STA_CLEAR_PS_FILT)) {
+e039fa4a4195ac Johannes Berg    2008-05-15  1190  		info->flags |= IEEE80211_TX_CTL_CLEAR_PS_FILT;
+f7418bc10d8402 Felix Fietkau    2015-09-24  1191  		ieee80211_check_fast_xmit(tx->sta);
+f7418bc10d8402 Felix Fietkau    2015-09-24  1192  	}
+58d4185e36913d Johannes Berg    2007-09-26  1193  
+e039fa4a4195ac Johannes Berg    2008-05-15  1194  	info->flags |= IEEE80211_TX_CTL_FIRST_FRAGMENT;
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1195  
+9ae54c8463691b Johannes Berg    2008-01-31  1196  	return TX_CONTINUE;
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1197  }
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1198  
 
 -- 
 0-DAY CI Kernel Test Service
