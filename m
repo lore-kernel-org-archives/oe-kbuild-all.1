@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AB2228C8A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 17:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CF2235359
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 18:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739812388; cv=none; b=DBiYk4dqcGJG1uUETVa8vrMp+wbycQ6BLHzqWcd2CQghQ/U19UcfmsgbsvC+OuFt9le0NaTimJignfGKD1Wl5+xSrQwKDAHBLjcDdrqI5D2kJ2AkwBePMBb5J9VEUfdPXrejUXualid9DLNiefq508WbK+9QBHUCKMWyrZ1C0WM=
+	t=1739816713; cv=none; b=jG/fCvGrDhvyCVUhAvxpC/qV0X4HuOFB1/QITHyubhlp6rQhdj/Qrgej8Vu/SDqDVrdBU7q+gaZeQnXQeTSXQmzAjqMohzqyhUfZyWmwI5Uj9wluT99boBdhPh+8q53s4Auqc/o9ywaFW7Id2zWYYdR8iuKYLbDdXj8PBQYVhNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739812388; c=relaxed/simple;
-	bh=3lWesCkplc+7D1TnzAGo7WBSdfHQJbWlOLbUrY+d2gA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZG5jbJR5LTqRKCxnT61yDkMHmFI+w2QUTjRbWFeAaCdOXX2AEmc6fw3pwdrc8gQhFfqX3AaJC4p5v/azqQp1iBRClkXoQ3460wtvBDQqEPKTbJSw9yTzSDUZqFk/Zr5sNrJzuH5gw5ejxrPyGCrzs7/WORZ1NAXSImq7lZoLy08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIWaS7QY; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1739816713; c=relaxed/simple;
+	bh=xZwEf4TDeJpy4oL6DRXsqwoq8oCcqP/RM2jfnU9dY2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=G+TtiHTk6UcfXyNKd6VdHGT/jKlTngXFeBaP/uwnf6j69nPs3Cg5N1p+2z5YpMMAdJcgsJqvVfwybtseVfPbThgVrIWet6k8qL8vK0he6Uh+7BGM6toN8zsxnB558G/hXO1t9P+CI31cHmUCZUe1WaePk6I7sN6HxO1mMy1PM20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CF1MN7/V; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIWaS7QY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CF1MN7/V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739812387; x=1771348387;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3lWesCkplc+7D1TnzAGo7WBSdfHQJbWlOLbUrY+d2gA=;
-  b=FIWaS7QYbne3+3u0Hczt8OUffqnEgeTns6fGakhg/HH3mUwMPbGdsL5h
-   9ZgZfbmE416xfm/Akv22UKOjaHlNhxXWkF3BQOjYV8E/hhGxXbLCrhyIs
-   gdS6ItghtYWiN7epKi50zgu0hc/hTQKr+2rjH8jLuFL3NElswtCesCLZz
-   392CsgdlOmus5OMvxx0ppFM42oK9q7jNizTRc5kY/WfbRqY4Q7fWRo2NS
-   7RBgBl6Tujt9BMTFuU2NXT0RFdxLi/8Wk9JpMMEwOYkvnc4k+BE3U/j4f
-   sEp3P9zYJRj3x1fyhqdNSHBZdF6t6d0IEweb0RVuRh9ExpQFn+j50I6KB
-   Q==;
-X-CSE-ConnectionGUID: YMIFjDsYSPGseT6HKr/LFg==
-X-CSE-MsgGUID: gwbIDiBjTnyovDu1gTn66Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="39694673"
+  t=1739816712; x=1771352712;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xZwEf4TDeJpy4oL6DRXsqwoq8oCcqP/RM2jfnU9dY2I=;
+  b=CF1MN7/Vz+BIKiA46WlxKdxfrvqvqu0dL0F7Hh51orWXaaHPeHZBT3gx
+   qHybscAPJ09RazqFmFtKZW889PyuXjc2sdbVdchDfBBH538Gjjals61L0
+   26czvJYYBoQMTm/5+mK4j9vTtOOIb2HRrnIVKkl1bMdkPURMM6Kk4575D
+   jqV4EWP8IbqB5pt9Tb1vB8bIDnYiyprHKok7b+/6M6H5B+oN2AtACiLip
+   woAiQwd6uDwY+iZ4C8kyrnpv1e3Ot9QUNCuwxdLVzu609zji2y/+mfqah
+   psT3hpvtWA5ruJDWxlxQ3vqYux9Y/y79qtgpZuIZvCz5f0C+Bqf9mwWxU
+   g==;
+X-CSE-ConnectionGUID: MLAVngVrTkOBPNROHT6MCg==
+X-CSE-MsgGUID: lFrhspaWSwWRri6aMdJymA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="57908012"
 X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
-   d="scan'208";a="39694673"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 09:13:06 -0800
-X-CSE-ConnectionGUID: yYjSLLRgSPywq10YkdoXzA==
-X-CSE-MsgGUID: gYiqN45KQKWy1wwSNas2ew==
+   d="scan'208";a="57908012"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 10:25:12 -0800
+X-CSE-ConnectionGUID: OvmH/daYRDqyE9D+UAvKwg==
+X-CSE-MsgGUID: 4rtMdorrRI23XHcDyn368w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
-   d="scan'208";a="114104777"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114055970"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Feb 2025 09:13:04 -0800
+  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2025 10:25:10 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tk4g0-001DNj-2n;
-	Mon, 17 Feb 2025 17:13:00 +0000
-Date: Tue, 18 Feb 2025 01:12:29 +0800
+	id 1tk5nn-001DQd-2C;
+	Mon, 17 Feb 2025 18:25:07 +0000
+Date: Tue, 18 Feb 2025 02:24:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dhananjay Ugwekar <Dhananjay.Ugwekar@amd.com>,
-	"(open list:X86 ARCHITECTURE (32-BIT AND 64-BIT))" <linux-kernel@vger.kernel.org>,
-	linux-pm@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 11/17] cpufreq/amd-pstate: Replace all AMD_CPPC_*
- macros with masks
-Message-ID: <202502180139.g2a2yoPe-lkp@intel.com>
-References: <20250215005244.1212285-12-superm1@kernel.org>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:res-lock-base 16/26]
+ include/asm-generic/rqspinlock.h:164: undefined reference to
+ `rqspinlock_held_locks'
+Message-ID: <202502180231.si28CWcj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,118 +62,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250215005244.1212285-12-superm1@kernel.org>
 
-Hi Mario,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on amd-pstate/linux-next]
-[also build test ERROR on amd-pstate/bleeding-edge]
-[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge tip/x86/core linus/master v6.14-rc3 next-20250217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/cpufreq-amd-pstate-Show-a-warning-when-a-CPU-fails-to-setup/20250215-085903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20250215005244.1212285-12-superm1%40kernel.org
-patch subject: [PATCH v2 11/17] cpufreq/amd-pstate: Replace all AMD_CPPC_* macros with masks
-config: i386-randconfig-063-20250216 (https://download.01.org/0day-ci/archive/20250218/202502180139.g2a2yoPe-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502180139.g2a2yoPe-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux res-lock-base
+head:   f998e0817b8a89691123f4a4a6e1277c22523695
+commit: 7f0cc0308b8d63b2da18c50836efb14fafd63c57 [16/26] rqspinlock: Add locktorture support
+config: i386-buildonly-randconfig-005-20250217 (https://download.01.org/0day-ci/archive/20250218/202502180231.si28CWcj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502180231.si28CWcj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502180139.g2a2yoPe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502180231.si28CWcj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/cpufreq/amd-pstate-ut.c:145:19: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     145 |                         highest_perf = FIELD_GET(AMD_CPPC_HIGHEST_PERF_MASK, cap1);
-         |                                        ^
-   1 error generated.
+   ld: kernel/locking/locktorture.o: in function `res_spin_unlock':
+>> include/asm-generic/rqspinlock.h:164: undefined reference to `rqspinlock_held_locks'
+>> ld: include/asm-generic/rqspinlock.h:166: undefined reference to `rqspinlock_held_locks'
+>> ld: include/asm-generic/rqspinlock.h:166: undefined reference to `rqspinlock_held_locks'
+   ld: include/asm-generic/rqspinlock.h:168: undefined reference to `rqspinlock_held_locks'
+>> ld: include/asm-generic/rqspinlock.h:164: undefined reference to `rqspinlock_held_locks'
+   ld: kernel/locking/locktorture.o:include/asm-generic/rqspinlock.h:166: more undefined references to `rqspinlock_held_locks' follow
+   ld: kernel/locking/locktorture.o: in function `res_spin_lock':
+>> include/asm-generic/rqspinlock.h:151: undefined reference to `resilient_queued_spin_lock_slowpath'
+   ld: kernel/locking/locktorture.o: in function `grab_held_lock_entry':
+   include/asm-generic/rqspinlock.h:68: undefined reference to `rqspinlock_held_locks'
+   ld: include/asm-generic/rqspinlock.h:81: undefined reference to `rqspinlock_held_locks'
+   ld: kernel/locking/locktorture.o: in function `res_spin_lock':
+>> include/asm-generic/rqspinlock.h:151: undefined reference to `resilient_queued_spin_lock_slowpath'
 
 
-vim +/FIELD_GET +145 drivers/cpufreq/amd-pstate-ut.c
+vim +164 include/asm-generic/rqspinlock.h
 
-   105	
-   106	/*
-   107	 * check if performance values are reasonable.
-   108	 * highest_perf >= nominal_perf > lowest_nonlinear_perf > lowest_perf > 0
-   109	 */
-   110	static int amd_pstate_ut_check_perf(u32 index)
-   111	{
-   112		int cpu = 0, ret = 0;
-   113		u32 highest_perf = 0, nominal_perf = 0, lowest_nonlinear_perf = 0, lowest_perf = 0;
-   114		u64 cap1 = 0;
-   115		struct cppc_perf_caps cppc_perf;
-   116		struct amd_cpudata *cpudata = NULL;
-   117		union perf_cached cur_perf;
-   118	
-   119		for_each_possible_cpu(cpu) {
-   120			struct cpufreq_policy *policy __free(put_cpufreq_policy) = NULL;
-   121	
-   122			policy = cpufreq_cpu_get(cpu);
-   123			if (!policy)
-   124				continue;
-   125			cpudata = policy->driver_data;
-   126	
-   127			if (get_shared_mem()) {
-   128				ret = cppc_get_perf_caps(cpu, &cppc_perf);
-   129				if (ret) {
-   130					pr_err("%s cppc_get_perf_caps ret=%d error!\n", __func__, ret);
-   131					return ret;
-   132				}
-   133	
-   134				highest_perf = cppc_perf.highest_perf;
-   135				nominal_perf = cppc_perf.nominal_perf;
-   136				lowest_nonlinear_perf = cppc_perf.lowest_nonlinear_perf;
-   137				lowest_perf = cppc_perf.lowest_perf;
-   138			} else {
-   139				ret = rdmsrl_safe_on_cpu(cpu, MSR_AMD_CPPC_CAP1, &cap1);
-   140				if (ret) {
-   141					pr_err("%s read CPPC_CAP1 ret=%d error!\n", __func__, ret);
-   142					return ret;
-   143				}
-   144	
- > 145				highest_perf = FIELD_GET(AMD_CPPC_HIGHEST_PERF_MASK, cap1);
-   146				nominal_perf = FIELD_GET(AMD_CPPC_NOMINAL_PERF_MASK, cap1);
-   147				lowest_nonlinear_perf = FIELD_GET(AMD_CPPC_LOWNONLIN_PERF_MASK, cap1);
-   148				lowest_perf = FIELD_GET(AMD_CPPC_LOWEST_PERF_MASK, cap1);
-   149			}
-   150	
-   151			cur_perf = READ_ONCE(cpudata->perf);
-   152			if (highest_perf != cur_perf.highest_perf && !cpudata->hw_prefcore) {
-   153				pr_err("%s cpu%d highest=%d %d highest perf doesn't match\n",
-   154					__func__, cpu, highest_perf, cpudata->perf.highest_perf);
-   155				return -EINVAL;
-   156			}
-   157			if (nominal_perf != cur_perf.nominal_perf ||
-   158			   (lowest_nonlinear_perf != cur_perf.lowest_nonlinear_perf) ||
-   159			   (lowest_perf != cur_perf.lowest_perf)) {
-   160				pr_err("%s cpu%d nominal=%d %d lowest_nonlinear=%d %d lowest=%d %d, they should be equal!\n",
-   161					__func__, cpu, nominal_perf, cpudata->perf.nominal_perf,
-   162					lowest_nonlinear_perf, cpudata->perf.lowest_nonlinear_perf,
-   163					lowest_perf, cpudata->perf.lowest_perf);
-   164				return -EINVAL;
-   165			}
-   166	
-   167			if (!((highest_perf >= nominal_perf) &&
-   168				(nominal_perf > lowest_nonlinear_perf) &&
-   169				(lowest_nonlinear_perf >= lowest_perf) &&
-   170				(lowest_perf > 0))) {
-   171				pr_err("%s cpu%d highest=%d >= nominal=%d > lowest_nonlinear=%d > lowest=%d > 0, the formula is incorrect!\n",
-   172					__func__, cpu, highest_perf, nominal_perf,
-   173					lowest_nonlinear_perf, lowest_perf);
-   174				return -EINVAL;
-   175			}
-   176		}
-   177	
-   178		return 0;
-   179	}
-   180	
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  138  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  139  /**
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  140   * res_spin_lock - acquire a queued spinlock
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  141   * @lock: Pointer to queued spinlock structure
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  142   */
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  143  static __always_inline int res_spin_lock(rqspinlock_t *lock)
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  144  {
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  145  	int val = 0;
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  146  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  147  	if (likely(atomic_try_cmpxchg_acquire(&lock->val, &val, _Q_LOCKED_VAL))) {
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  148  		grab_held_lock_entry(lock);
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  149  		return 0;
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  150  	}
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19 @151  	return resilient_queued_spin_lock_slowpath(lock, val, RES_DEF_TIMEOUT);
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  152  }
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  153  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  154  #else
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  155  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  156  #define res_spin_lock(lock) resilient_tas_spin_lock(lock, RES_DEF_TIMEOUT)
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  157  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  158  #endif /* CONFIG_QUEUED_SPINLOCKS */
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  159  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  160  static __always_inline void res_spin_unlock(rqspinlock_t *lock)
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  161  {
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  162  	struct rqspinlock_held *rqh = this_cpu_ptr(&rqspinlock_held_locks);
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  163  
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19 @164  	if (unlikely(rqh->cnt > RES_NR_HELD))
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  165  		goto unlock;
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19 @166  	WRITE_ONCE(rqh->locks[rqh->cnt - 1], NULL);
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  167  unlock:
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  168  	this_cpu_dec(rqspinlock_held_locks.cnt);
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  169  	/*
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  170  	 * Release barrier, ensures correct ordering. See release_held_lock_entry
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  171  	 * for details.  Perform release store instead of queued_spin_unlock,
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  172  	 * since we use this function for test-and-set fallback as well. When we
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  173  	 * have CONFIG_QUEUED_SPINLOCKS=n, we clear the full 4-byte lockword.
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  174  	 */
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  175  	smp_store_release(&lock->locked, 0);
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  176  }
+bf517b87ef8095 Kumar Kartikeya Dwivedi 2024-11-19  177  
+
+:::::: The code at line 164 was first introduced by commit
+:::::: bf517b87ef809536ea19882c2493ca986161e1a0 rqspinlock: Add macros for rqspinlock usage
+
+:::::: TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+:::::: CC: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
