@@ -1,91 +1,136 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC244223711
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 14:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BE11758B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 14:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739802638; cv=none; b=UQJtLFfSITf9xauIcBsARMqoRxsrNujhkw38CykWBXtzlTJoF9UqT0ryb8SQsSFcTbwFc3+qPMPAb7hJJD5RKWJ8xRXP/RNCX5unv5SzIsdxbhOXSCVkZdrGTMGAxPZLMZfrk1TuPCZ6M9gnZLhNyfMipUcV6gx44wZMfNqGAI4=
+	t=1739802950; cv=none; b=NNRams5xiS4TQUuvKTlkWqL4wC8CWjPPUm7hATMso9L9nn/yUUBEEkA6plXpqE4airHRc+3uG9HZLw4309z8di4i5JnFYa9Exs8ksEKuTsMeaG8zDOjeyLAOQYwyNDUp4bMY6UJlT9SFHEtDXY6YdA1aHEx40Wk0GApC/nTrXcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739802638; c=relaxed/simple;
-	bh=sY+CA8clNRQT+8d3rmvYViciBC154ua4aCipVJOVrQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kO/BJf8ZOoYfXGYuRR1hcsYUDHgIwTok4UvmET8evK3wqvnxrlCgLFN4wSdYBlzadkfkkj6tEiYXTIb0RzPmJdI715C03/LDAYZTQjOpNXLjB5vmP7t6dx6tv8VKvAz4zVeXdfNmEJP93pyXYCdqlu3de1wub0rmvaZ5A2X1sBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZh48VXa; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739802950; c=relaxed/simple;
+	bh=hQGoRgWJptR8bvXJ1UVdmfd1fJVlDS23tv3MglciDLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ala41AG7ZACog5eIza12zd+SkvBq+ZDg8Dycg9a8nPq7g+qJ0vY1L7UNrhPvhy+75MevwmxmQcR6VRlIRN/qO13bgfYBs/t8nQPi8oUmfkgTDDR277YbCt6vISfuyD9ZipBRjFzHssGogJ6ZUMYiWkQv32K5TIWxLsoEFcigcjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKXIznuf; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZh48VXa"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-543e49a10f5so4713727e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 06:30:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739802635; x=1740407435; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sY+CA8clNRQT+8d3rmvYViciBC154ua4aCipVJOVrQ8=;
-        b=QZh48VXabPrFRMnrsqnmGCuKz3HA+pSnY7fVJylQcCuHU7VfG7CsPC05a/qXvQNRuU
-         WAzeCnRGeHZDnvVaE23FNLsN0k+b0+ZzGZVnd9fUsaR0pmkgn+LuXQGTOrF/cQJejt9c
-         g8Zuq8LLSFmlE8zLm3/kZye4I8MudRPmOn2b62X7eUU1j7epP7pQ9VvbK5nGEJVzoTcI
-         JK4xatzvdCPPFKtf28YBS0uJRpLTAJCI+zOvgWbE4ytPXvHm2E/dxdkhQxIt7LDQJCVT
-         5n3NRPICGM00wuCclNxQ2vc1mfl8zowVlZJS7fnr7aau74RROv6PI970tXaD+2bwKKdF
-         63Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739802635; x=1740407435;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sY+CA8clNRQT+8d3rmvYViciBC154ua4aCipVJOVrQ8=;
-        b=KH92oaBt5TtsVUEhSQczxDjA7qn7doQpdtwEbYiL4irNoDaStbApjKLpHlghPTE9Sr
-         4ULvwnnQmQPUEGQBpIdpr6apUvI/1tayYGxT1F9T9kgVdJICPWrTcMvWicmgyGhAnJzs
-         3ix0b8HXCbGEJ2VuNJfP7ZUvVHxmJsex2jt5P+sa4IbS4e2AZYF6EdUSGakeMarQ8gr9
-         H5LcOIAREh9MvLRuL7UouPWhcxJmIMsZQ3AAujKrJxifk3eGCT9hd4BTGaWYWcTyPf0k
-         gbmAoUm0W5ZOcOWaPh5VaUWWicy47/D34Np5/LfBQD/Yt8somFjhhkFUdI0Bde3t9tPu
-         xVUw==
-X-Forwarded-Encrypted: i=1; AJvYcCXoveRFRdksUreBb76j9FBWfJrPWGlxxw5akGwYPPaLukqPPs0cc+I/0yxbYBflDFOg34QEJfawnoysVsQx@lists.linux.dev
-X-Gm-Message-State: AOJu0YyidESiI48L6riOJLvxr5xK+rhvDwRpFLE51lm4uAmbv026/4jY
-	m8UKk5DpjmU6NI2y1FDYZHscQlxcrdqKM2jkN10JyrAS/N1GmXUW5FAWRxM2qcVjUzU27DrZJTQ
-	dwv4XBZ09l6jvOu/I3M446+w2Wc0=
-X-Gm-Gg: ASbGnct24IpNfUReWRzjaNAaJYW4hr0Wop5WqLnePcXd0G81MmmFtY33HwWergzpyCZ
-	yhQwuk1xNqNZY4PMpiJzL0/MJWtRxQX44O7HC0ZicMpG02CcVbK+iQrKbsR2lv5zqef8c4UTMSe
-	suspdK6CLTG1Fb8gDpdVVcVRVD2pCopPw=
-X-Google-Smtp-Source: AGHT+IFO026JFAoJlQESSwcdgxRJMbNRj6JcB1YuS4pFIcRjR6IQAVsiaDlUlmG8KabgDlbneF72bHJSl1+962Y2SQg=
-X-Received: by 2002:a05:6512:10c5:b0:545:576:cbd2 with SMTP id
- 2adb3069b0e04-5452fe27304mr2917774e87.10.1739802634481; Mon, 17 Feb 2025
- 06:30:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKXIznuf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739802948; x=1771338948;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hQGoRgWJptR8bvXJ1UVdmfd1fJVlDS23tv3MglciDLQ=;
+  b=SKXIznufWVdEHBKRYjQCpADU67qzXD/sZMRIhvi8lhr9s6nyqXHzJhHc
+   0N4iw7b8tgqGRkIop4Y2wJjeFG/+CUpKIJKAA3OuttNoNrn0R79vdfeHj
+   d0gYRn7XFWE3bkWK8fxU2MnqNS3eZn7iqHBWFt9iRQBUt/BrO79FH/uNq
+   Gx3zHmd6TmG1lEfOcP2oDALr8QDkUiGwafWnyLDz6UTm7FI4WYZ9Ebgob
+   Dn5lmDzNHoGve0lc1dHIdWzC0Ci20KpTE4aHh7C049/32skIPNrzXWays
+   gmZ8DpxbH7p75EvdFpHwbqfbS4vkvPvTy3xEB7YUUxuHLt0sqWSTZ8XPf
+   g==;
+X-CSE-ConnectionGUID: 0x3/ATc9S6WQsR69Fj4YGA==
+X-CSE-MsgGUID: r57w9a0mSxS+vNqY8r3TLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40344618"
+X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
+   d="scan'208";a="40344618"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 06:35:47 -0800
+X-CSE-ConnectionGUID: P1l9EUXSS8SRTzeQ1bd9hw==
+X-CSE-MsgGUID: XBcslEdZRvKeZpBytZ5OEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
+   d="scan'208";a="114064402"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 17 Feb 2025 06:35:46 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tk2Do-001DE5-1i;
+	Mon, 17 Feb 2025 14:35:44 +0000
+Date: Mon, 17 Feb 2025 22:34:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 11/11]
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:113:5: warning: no previous
+ prototype for function 'mt8196_fe_hw_params'
+Message-ID: <202502172224.my9XEus2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250214-scanf-kunit-convert-v8-3-5ea50f95f83c@gmail.com>
- <202502160245.KUrryBJR-lkp@intel.com> <CAJ-ks9kkigKG=Nf_mZrA5CA=SUV2sSyY51_rLef42T+ZxCmk1Q@mail.gmail.com>
- <Z7JI-YtgZzmOtMDK@smile.fi.intel.com>
-In-Reply-To: <Z7JI-YtgZzmOtMDK@smile.fi.intel.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Mon, 17 Feb 2025 09:29:58 -0500
-X-Gm-Features: AWEUYZkuvaFnvabs_GywBbkuo44d94Kql-DWL2E60D-MWBZySmrPMuLFMaMbzos
-Message-ID: <CAJ-ks9mjWOCjMOK+ktLdN0XJmRgT57CoHf_aCDLMOX6-mnKVwA@mail.gmail.com>
-Subject: Re: [PATCH v8 3/4] scanf: convert self-test to KUnit
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, David Gow <davidgow@google.com>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Feb 16, 2025 at 3:22=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Please, when reply, remove boielrplate stuff!
-> I have just wasted a couple of minutes to understand what's going on in t=
-he
-> message that is 2700 lines of text as the reply to the bot message which =
-was
-> ~700 lines.
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   a31ccc1fb383ea53ab9d8851297112fcda16a524
+commit: 506f0a8aad65ce4aecc6f38c63d90268f6fc12a8 [11/11] CHROMIUM: sound: soc/mediatek: fix ap multi dmic recording issue
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250217/202502172224.my9XEus2-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502172224.my9XEus2-lkp@intel.com/reproduce)
 
-My apologies. I forgot what a mess a mobile email client makes.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502172224.my9XEus2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:89:6: warning: no previous prototype for function 'mt8196_fe_shutdown' [-Wmissing-prototypes]
+      89 | void mt8196_fe_shutdown(struct snd_pcm_substream *substream,
+         |      ^
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:89:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      89 | void mt8196_fe_shutdown(struct snd_pcm_substream *substream,
+         | ^
+         | static 
+>> sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:113:5: warning: no previous prototype for function 'mt8196_fe_hw_params' [-Wmissing-prototypes]
+     113 | int mt8196_fe_hw_params(struct snd_pcm_substream *substream,
+         |     ^
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:113:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     113 | int mt8196_fe_hw_params(struct snd_pcm_substream *substream,
+         | ^
+         | static 
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:126:5: warning: no previous prototype for function 'mt8196_fe_trigger' [-Wmissing-prototypes]
+     126 | int mt8196_fe_trigger(struct snd_pcm_substream *substream, int cmd,
+         |     ^
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:126:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     126 | int mt8196_fe_trigger(struct snd_pcm_substream *substream, int cmd,
+         | ^
+         | static 
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:281:5: warning: no previous prototype for function 'mt8196_get_memif_pbuf_size' [-Wmissing-prototypes]
+     281 | int mt8196_get_memif_pbuf_size(struct snd_pcm_substream *substream)
+         |     ^
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:281:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     281 | int mt8196_get_memif_pbuf_size(struct snd_pcm_substream *substream)
+         | ^
+         | static 
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:4831:23: warning: variable 'afe' set but not used [-Wunused-but-set-variable]
+    4831 |         struct mtk_base_afe *afe = NULL;
+         |                              ^
+   sound/soc/mediatek/mt8196/mt8196-afe-pcm.c:4833:19: warning: variable 'card' set but not used [-Wunused-but-set-variable]
+    4833 |         struct snd_card *card = NULL;
+         |                          ^
+   6 warnings generated.
+
+
+vim +/mt8196_fe_hw_params +113 sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
+
+   112	
+ > 113	int mt8196_fe_hw_params(struct snd_pcm_substream *substream,
+   114				 struct snd_pcm_hw_params *params,
+   115				 struct snd_soc_dai *dai)
+   116	{
+   117		struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+   118		unsigned int channels = params_channels(params);
+   119		struct mt8196_afe_private *afe_priv = afe->platform_priv;
+   120	
+   121		afe_priv->cm_channels = channels;
+   122	
+   123		return mtk_afe_fe_hw_params(substream, params, dai);
+   124	}
+   125	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
