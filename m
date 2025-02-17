@@ -1,69 +1,59 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B6F21D3E5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 14:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F85EEBB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 14:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739801743; cv=none; b=mio7TShVjPcYPgZlj+fJ/+/oAEgJB0KpMtfypX2Zh9OghBIkMFFR9kTn5xLz0dXuurIPGHki3s4e9jya4qA3FZFB9GerarpCsU7YqCNB87ZzzilvYDir0jSuOLX5h8Nu78jO56our/jzxJO5amKEh2F1kddWjvPXL7Kk6N8H2yI=
+	t=1739802229; cv=none; b=qrAMHcYcX/TuM+g1mo7bu0Tt5FiH8XNITdsiaEKkf1xRCjMJ/Jx2bML+/XCOBUcPLYBn8ZQojihqyxxVan1+j0QrOxs8ZD+Klq2jwcKXZnYsy7qK1CsowYeVJbEFSNu9iirsZUDhRZu4HJXdNIj1x+6oue8Oaw7aYDDukXMhGpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739801743; c=relaxed/simple;
-	bh=bwjmDGB8XFI8TGJb4x7hmjlEqNbrIc+NwoqzxEa4G6U=;
+	s=arc-20240116; t=1739802229; c=relaxed/simple;
+	bh=8GUDCgWLMwMVP5NUEIn1oD8dYKpXL9TeVN6dXGu3pyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hamYu0oJMiAB1UL+/HVThrtfKbgDDkYMweetWDWoLiiBxBnajbDcgmzNEosT4aFPLB49yDdanv8vhK0VzCCuVVQX/HJDc67d8zaS6rbKAPPnRRvueYMIHt5E/927quufu0mOV72iF0PClvcqf0vJ4+z3KUeRhzsXuzSwGIeLX0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jUnha83U; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=jIgwX8R7G7+ULn2AVMYs7+zPY/kELR0hCco1gnmT3gF0a6XOp/o+7jm6pejMyjzbJqpj7xpRXXdj+qrCcgT9PLeoFJEyx82Kx8dPcwkFmkubi7tMmOvnAnlQBBLFwClINLN2sJKVEwILBON9dFw8SM67Ce9cIQaFrmS21N0GEwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHjmoQD7; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jUnha83U"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5dca468c5e4so8058106a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 06:15:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739801739; x=1740406539; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OWzBZyNJiJHmGiheSMSl46GL1i2p2h1RXygG7spiX6o=;
-        b=jUnha83UZS6gon1hca1BRYg4OmcjbMW54/PF5n3YOPbyX+F6Wn7Qyq1BBP6RN4V33G
-         kLReOhn7Q+d3exBXW7+hwOzMt1lggqkZU2Q/jskgrZ2FsATdghywO0pLi7Q4DToQhylJ
-         XQXNW5wXEEkDFvOhr935yKquIW/ghRWPSBNUMpgqXYS8FVpyvrMviUd/e8Xf4zNeVnHb
-         Dv1CbcZd8Xtr8Ld+/jyJCqXyDmsDl0hRUz4q6HgODlh1Zzrme/hdPuutf+gnNV+Yic/6
-         WSXF+XMEQ75kcCUcf28ivjHs7gf1R4GMseQGIpQ32GXTh95EtqVdg512nSBxIja/byZR
-         0TKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739801739; x=1740406539;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OWzBZyNJiJHmGiheSMSl46GL1i2p2h1RXygG7spiX6o=;
-        b=TNN+a1TghRByd21pT9090l3L9FBhLhacVTx+3EqApiHv4lqJLxEHEJxkoyeQ8/RJh8
-         ztrmiyop9lMol/mV+281HEfU7JUG8lj9Neb4Juw7Ir4r5bApWMqz8pi7mViMf3pddisB
-         t8M1kXuuhKR/7ism1s3z+QuyvzXY6n3S/cXv/e30fbdYb2cpOuj0m6F1ANQQ5zfqDAHJ
-         9foKV8XbkhqKIGWfhT6OeaVcreAzQe2+IFdf69nI9FBGWSwos1WbsKt0lwJ5traZERvf
-         ambZCR4B7eNGAsGioAj5bi3gSZ7heydFmx51ncuWxBVTuQY9WaLzOeXz3guiXyEpxIaq
-         bbCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRqZNZ76oYmizR7FbmsNswlnR1+xQ8e+SanaY8yzIzuYG+5A6QrNgAnnyTxgooFOH6WahnzGgKTe65hzCf@lists.linux.dev
-X-Gm-Message-State: AOJu0YzccEmRmTO18yT61Eb1gwwmY2BokQyLpEf+wq7S4H7rZIqKUo1i
-	txtb4OsV3QU+NY9DLFSeCFRNSj7h0lQlTkDl7xxPfZpsT7TySa1eSkAgxv4GOMM=
-X-Gm-Gg: ASbGncuGeje2eRSieWq7F/YIXOIpvwf/0IUf3nnUSXETWv2QGDun7J8vSuExfDqw1dc
-	/N9WPx4qTDrk8UBryto2D4oYaXuu/0QrsqwnsMj2nPOhKWIVjE2vmXd/C0mpvrKulkh2vyd/FNF
-	lyr8orucb9WdbneobEEbZd/8KdL/ryXQTTrO6f563VrQiL0rBqIKwTbCtSAoJvMDrXuCehBd5wA
-	MeiuKV6Cd67axWFxkIp/O+le01fDEQhmYbE47jJ4F3BMWeDKfjiYRSBqR6zxk0jzlWBxO7E5mdq
-	cmlhYQjJ9v1EH4RQNb/m
-X-Google-Smtp-Source: AGHT+IFZTvjf9R1KCX6YX9qPyh5ILqbe5k0wWPesNp8yhBMKX6ps+H3SBfKReATGxt9IYirTvBUTZw==
-X-Received: by 2002:a05:6402:26ca:b0:5de:3c29:e834 with SMTP id 4fb4d7f45d1cf-5e0361f5a47mr9765962a12.27.1739801739413;
-        Mon, 17 Feb 2025 06:15:39 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5dece287c54sm7183264a12.69.2025.02.17.06.15.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 06:15:39 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:15:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Himanshu Chauhan <hchauhan@ventanamicro.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_unaligned_test_skip_v1 53/77]
- arch/riscv/kernel/hw_breakpoint.c:53 arch_smp_setup_sbi_shmem() warn:
- unsigned '_x' is never less than zero.
-Message-ID: <d2a329c6-9534-4da7-bdfc-d323a83cab91@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHjmoQD7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739802227; x=1771338227;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8GUDCgWLMwMVP5NUEIn1oD8dYKpXL9TeVN6dXGu3pyw=;
+  b=nHjmoQD7Kbyr91d9egs/Cd7M0O6G0rFOw+wuCPG1vboSg+854VArwIne
+   gmBTbkO1thLRTm0kQfn3OnjAzjFMpQ3XwIDYQ4j7R9yQ57gEXEBRH5SRq
+   w4TCZR0ayUeHYPU9GpqIRWKl8v/+4Q1OFG0jITDndf9iCY1xumPerqF38
+   Pv1RtGCTMN/U+q35rOs7R2+T3yepbVJ3RryxRt0knnZLbbBEca3UjfGwD
+   ZPjuDTEFZEbBDXrk1UEmvPhqBMD0OBuG5lw77qUqosfb0o+eKrUUo4uqg
+   Lvt1b6YEwsatkBHx6aaxDTffu7ZCPRhI6BT46vZnzzHsYJh5scNlR1THh
+   g==;
+X-CSE-ConnectionGUID: QO55l1GOSve2cnw0xrc2Rg==
+X-CSE-MsgGUID: mkO7VfrhSOu1XWPW1/L7Ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40609779"
+X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
+   d="scan'208";a="40609779"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 06:23:47 -0800
+X-CSE-ConnectionGUID: DAz1gu0DQgyofEL5Nz7r0Q==
+X-CSE-MsgGUID: nUMCVhjuSki2Ik0TcwVt0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119347195"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 17 Feb 2025 06:23:47 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tk22B-001DDb-2C;
+	Mon, 17 Feb 2025 14:23:43 +0000
+Date: Mon, 17 Feb 2025 22:23:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:res-lock-base 18/26]
+ include/asm-generic/rqspinlock.h:33:12: error: conflicting types for
+ 'resilient_tas_spin_lock'
+Message-ID: <202502172242.0aQfPntZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,85 +63,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_unaligned_test_skip_v1
-head:   172aa65b307ae6ac3855f77b6f28d48bfd9c36e5
-commit: d3661e2503082cb4cd407a8a4b85287f9bdc2851 [53/77] riscv: Introduce support for hardware break/watchpoints
-config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250217/202502172257.1bTZKubK-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/kkdwivedi/linux res-lock-base
+head:   f998e0817b8a89691123f4a4a6e1277c22523695
+commit: 2a7700316f24b476a25243d28d4e19c517814836 [18/26] rqspinlock: Add entry to Makefile, MAINTAINERS
+config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250217/202502172242.0aQfPntZ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502172242.0aQfPntZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502172257.1bTZKubK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502172242.0aQfPntZ-lkp@intel.com/
 
-smatch warnings:
-arch/riscv/kernel/hw_breakpoint.c:94 arch_smp_setup_sbi_shmem() error: uninitialized symbol 'rc'.
+All errors (new ones prefixed by >>):
 
-vim +/_x +53 arch/riscv/kernel/hw_breakpoint.c
+   In file included from kernel/locking/rqspinlock.c:28:
+   In file included from arch/x86/include/asm/rqspinlock.h:27:
+>> include/asm-generic/rqspinlock.h:33:12: error: conflicting types for 'resilient_tas_spin_lock'
+      33 | extern int resilient_tas_spin_lock(rqspinlock_t *lock, u64 timeout);
+         |            ^
+   arch/x86/include/asm/rqspinlock.h:17:12: note: previous declaration is here
+      17 | extern int resilient_tas_spin_lock(struct qspinlock *lock, u64 timeout);
+         |            ^
+>> kernel/locking/rqspinlock.c:293:16: error: conflicting types for 'resilient_tas_spin_lock'
+     293 | int __lockfunc resilient_tas_spin_lock(rqspinlock_t *lock, u64 timeout)
+         |                ^
+   arch/x86/include/asm/rqspinlock.h:17:12: note: previous declaration is here
+      17 | extern int resilient_tas_spin_lock(struct qspinlock *lock, u64 timeout);
+         |            ^
+   2 errors generated.
 
-d3661e2503082cb Himanshu Chauhan 2024-02-22  40  static int arch_smp_setup_sbi_shmem(unsigned int cpu)
-d3661e2503082cb Himanshu Chauhan 2024-02-22  41  {
-d3661e2503082cb Himanshu Chauhan 2024-02-22  42  	struct sbi_dbtr_shmem_entry *dbtr_shmem;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  43  	unsigned long shmem_pa;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  44  	struct sbiret ret;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  45  	int rc;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  46  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  47  	dbtr_shmem = per_cpu_ptr(sbi_dbtr_shmem, cpu);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  48  	if (!dbtr_shmem) {
-d3661e2503082cb Himanshu Chauhan 2024-02-22  49  		pr_err("Invalid per-cpu shared memory for debug triggers\n");
-d3661e2503082cb Himanshu Chauhan 2024-02-22  50  		return -ENODEV;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  51  	}
-d3661e2503082cb Himanshu Chauhan 2024-02-22  52  
-d3661e2503082cb Himanshu Chauhan 2024-02-22 @53  	shmem_pa = __pa(dbtr_shmem);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  54  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  55  	ret = sbi_ecall(SBI_EXT_DBTR, SBI_EXT_DBTR_SETUP_SHMEM,
-d3661e2503082cb Himanshu Chauhan 2024-02-22  56  			MEM_LO(shmem_pa), MEM_HI(shmem_pa), 0, 0, 0, 0);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  57  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  58  	if (ret.error) {
 
-ret is uninitialized in the case where sbi_ecall() doesn't return an
-error.
+vim +/resilient_tas_spin_lock +33 include/asm-generic/rqspinlock.h
 
-d3661e2503082cb Himanshu Chauhan 2024-02-22  59  		switch(ret.error) {
-d3661e2503082cb Himanshu Chauhan 2024-02-22  60  		case SBI_ERR_DENIED:
-d3661e2503082cb Himanshu Chauhan 2024-02-22  61  			pr_warn("%s: Access denied for shared memory at %lx\n",
-d3661e2503082cb Himanshu Chauhan 2024-02-22  62  				__func__, shmem_pa);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  63  			rc = -EPERM;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  64  			break;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  65  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  66  		case SBI_ERR_INVALID_PARAM:
-d3661e2503082cb Himanshu Chauhan 2024-02-22  67  		case SBI_ERR_INVALID_ADDRESS:
-d3661e2503082cb Himanshu Chauhan 2024-02-22  68  			pr_warn("%s: Invalid address parameter (%lu)\n",
-d3661e2503082cb Himanshu Chauhan 2024-02-22  69  				__func__, ret.error);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  70  			rc = -EINVAL;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  71  			break;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  72  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  73  		case SBI_ERR_ALREADY_AVAILABLE:
-d3661e2503082cb Himanshu Chauhan 2024-02-22  74  			pr_warn("%s: Shared memory is already set\n",
-d3661e2503082cb Himanshu Chauhan 2024-02-22  75  				__func__);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  76  			rc = -EADDRINUSE;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  77  			break;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  78  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  79  		case SBI_ERR_FAILURE:
-d3661e2503082cb Himanshu Chauhan 2024-02-22  80  			pr_err("%s: Internal sdtrig state error\n",
-d3661e2503082cb Himanshu Chauhan 2024-02-22  81  			       __func__);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  82  			rc = -ENXIO;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  83  			break;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  84  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  85  		default:
-d3661e2503082cb Himanshu Chauhan 2024-02-22  86  			pr_warn("%s: Unknown error %lu\n", __func__, ret.error);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  87  			rc = -ENXIO;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  88  			break;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  89  		}
-d3661e2503082cb Himanshu Chauhan 2024-02-22  90  	}
-d3661e2503082cb Himanshu Chauhan 2024-02-22  91  
-d3661e2503082cb Himanshu Chauhan 2024-02-22  92  	pr_warn("CPU %d: HW Breakpoint shared memory registered.\n", cpu);
-d3661e2503082cb Himanshu Chauhan 2024-02-22  93  
-d3661e2503082cb Himanshu Chauhan 2024-02-22 @94  	return rc;
-d3661e2503082cb Himanshu Chauhan 2024-02-22  95  }
+b162e534420623 Kumar Kartikeya Dwivedi 2024-08-27  32  
+5effdf8488423d Kumar Kartikeya Dwivedi 2025-02-04 @33  extern int resilient_tas_spin_lock(rqspinlock_t *lock, u64 timeout);
+5effdf8488423d Kumar Kartikeya Dwivedi 2025-02-04  34  #ifdef CONFIG_QUEUED_SPINLOCKS
+d6a1899b88a315 Kumar Kartikeya Dwivedi 2024-11-18  35  extern int resilient_queued_spin_lock_slowpath(rqspinlock_t *lock, u32 val, u64 timeout);
+5effdf8488423d Kumar Kartikeya Dwivedi 2025-02-04  36  #endif
+d6a1899b88a315 Kumar Kartikeya Dwivedi 2024-11-18  37  
+
+:::::: The code at line 33 was first introduced by commit
+:::::: 5effdf8488423d8a573cffea2958bb0ba3e177d0 rqspinlock: Add a test-and-set fallback
+
+:::::: TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+:::::: CC: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
