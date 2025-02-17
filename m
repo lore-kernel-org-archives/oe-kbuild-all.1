@@ -1,204 +1,251 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0693218DB1F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 06:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0592F19306F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 07:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739775394; cv=none; b=Ii2ahljpNkkQsw5k7EL3e6FqGE3KFLxy2llVbDxhZYSCKVQIf4eYMRulLN3vBPEBko6n3nvQIixta85Z1Yg3wS1JlCg+MOwmxGCzWDawJIQQ9FC4Mbw1E1JyRqj+fhjasPmlspXOtzb8P4lBOj9GaSIB/1FllUMH1AacGy412yw=
+	t=1739776142; cv=none; b=PHMy9aDdVvfaWTzw+lIYVsWIuq0Z9eMC1JdeFTGVKH3u+/QRvnJsKzkpGMqUu0ycyDu3pyoaVjdyjpJNtXkPNyZxc5YIjfTWAwSdt/D5DSbGd0pGGpyNs3MLaVMI+YR57lMf7qD4EY6mF61SuM4WYXHrYacPTZAUlRgiK06KTZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739775394; c=relaxed/simple;
-	bh=UAjwm8ZUmY9NHxBX1wqkn0W4bWD5dQPw7sKcOk9oW2U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BZtmTnTUFc4PPsdLd42kz7uEgLJOFgv6jwxFcx8QoyAh6tjTjotqrVtzLhI2ywVFUm5JkJtwUiEq3YeRnzVr3rxKy4TUOcWbD2ESO9c3Ydc8BQjNYpfzqZMZtMWlj3yWLMCcXmV7zhlWaMJNTSaNBKDk9Q6FFA3WqyuaeOgm5ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FuGrcCNf; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739776142; c=relaxed/simple;
+	bh=J4qh1EkShIZZd5EQ2KnAJqKyCciNxgrFfatNFeNS6t8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=evrS8axOVZ/B4ckHeLHNxvKFNQ7bSoST8aM+HLgsIqp8bLbrbv9bQURFJ2VlHq48rKcbomiQOsicqUhkwV4pYl50QHdDWT2G4KTp80mWq6PhOt+a7YniUa7BUOAZ9KR+nr4R/cf4ToOeWWZFfCymnYh0EuwzXUqu1E3skPWgoUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTmrYulZ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FuGrcCNf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739775391;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=UAjwm8ZUmY9NHxBX1wqkn0W4bWD5dQPw7sKcOk9oW2U=;
-	b=FuGrcCNfPVmJ75YQJf29UkBf0whRXkeWYlNZoyNQ35az2O5cpAJgSLTLuynvC7shb1wTbF
-	kfRhBkroa+qMZiahA43tftpW4CCxvLzuBRjVX+tclEyav8Rw46frNaZXqbM0Ztj6wHK+Ff
-	1XjgGy/UkuRnJubmgnG8ey4dq0jkcAY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-76-9iZCP2IGMc-ifSw2YNLYwQ-1; Mon, 17 Feb 2025 01:56:28 -0500
-X-MC-Unique: 9iZCP2IGMc-ifSw2YNLYwQ-1
-X-Mimecast-MFC-AGG-ID: 9iZCP2IGMc-ifSw2YNLYwQ_1739775387
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-439385b08d1so33446515e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Feb 2025 22:56:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739775387; x=1740380187;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UAjwm8ZUmY9NHxBX1wqkn0W4bWD5dQPw7sKcOk9oW2U=;
-        b=uXh/pFaPy2sHWWa8SCj7vQdtpnGjecNB9VWtoa0vUO1Vk4J0/skRk5lwhmkRPQg1VC
-         MYlFeQjLSgZaZBr6mY9/qCAAjlzDkIINYJ0XkqlOuNw2lL86EY7mIgMQveBJ4gXVqxNu
-         WA6PEl2pwIId4pg1aQI+IR5CMe/aA9+hxBTv0GNnT1Aj3osh/ZAydhdvNnze1vNG+ypN
-         6E1+FMTq/vdHE2gooEbBDm4gYJbxKeXSPA8zlUfGXErFcHhkCd10U78x0Uy5gUfeTlOl
-         ntHtCbpbI87FikwLVSjc4FBCCVAdqnpHQyhFpYkFWje6SUzCv9YL4ZVWn3Nf3DwGw3ZX
-         O50g==
-X-Gm-Message-State: AOJu0Yw9a9qn7GmKzC3sYQFkXJhRyZj7jdLmZ7moG9+qPIdxyH7ulFag
-	NJwh951Rcd++uVkjjbbHncSbLcHqfNrlbjGnKP4pDhC6U2Zp/VZ/8xljrCIMkZlyDZjsfv0mptY
-	LpqbONxXFiJC7y46lol7fd9GKXwwmmN9fZ5o5Ag1puWY3dQFa3XtB4f25yz8ZnA4=
-X-Gm-Gg: ASbGncsdow5HV0x7Bfo5e6hm0fSB5FDo4UrtK4TgVdivigcJJkE+LddepwdXz3bk1xI
-	JChVSZ3wHVKhtgpdnM1zuqENEenMhm8msVsiuEHpcqSeuFLZAeGGVA7BS12+d9ML0OLSk62TW8V
-	X9LCduWpHbr2yMz+jepgFE2PWXN0C99QbzyBEl/cjnC6RWevbkbxliydjrcJd7x6qBs6pGcP86+
-	X1LP7UFNmYGdleJZ8xKLwkl0sDjFql2Mz9Cp2Iu0oD+Q9IVhYeJHqCR2m/WbwHKLjMTPKAqXfc2
-	JxhV7lABwMJ0hQNuxpSmJuid9cYjJtw=
-X-Received: by 2002:a05:600c:4ec9:b0:439:5506:7183 with SMTP id 5b1f17b1804b1-4396e6a6e31mr75901475e9.7.1739775386963;
-        Sun, 16 Feb 2025 22:56:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFk3NBZALdJoBEHy/OW1hnkv7UynhyXmZFDFCyRcaZfKjwzBNYuS2O/oEr1D7pZAVFTavR1tg==
-X-Received: by 2002:a05:600c:4ec9:b0:439:5506:7183 with SMTP id 5b1f17b1804b1-4396e6a6e31mr75901285e9.7.1739775386528;
-        Sun, 16 Feb 2025 22:56:26 -0800 (PST)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.40])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395cf084d5sm98968555e9.1.2025.02.16.22.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Feb 2025 22:56:26 -0800 (PST)
-Message-ID: <c5fe1f637a84087afb94ed3f9255810ef3975724.camel@redhat.com>
-Subject: Re: [PATCH v2 04/11] rv: Add option for nested monitors and include
- sched
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, Steven
- Rostedt <rostedt@goodmis.org>, linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@redhat.com>, Juri
- Lelli	 <juri.lelli@redhat.com>
-Date: Mon, 17 Feb 2025 07:56:23 +0100
-In-Reply-To: <202502170630.xSYE4cUk-lkp@intel.com>
-References: <20250213090819.419470-5-gmonaco@redhat.com>
-	 <202502170630.xSYE4cUk-lkp@intel.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
- xyhmqeUWOzFx5P43S1E1dhsrLWgP
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTmrYulZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739776140; x=1771312140;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J4qh1EkShIZZd5EQ2KnAJqKyCciNxgrFfatNFeNS6t8=;
+  b=BTmrYulZ8+H2/RLO3ZyVF4G+xaPZzHBAdCytaqZU1JzDd7YOowYXTamN
+   Xb9whcgWYREGv00xwg2zxf/ks8JSF23yP5RD+nQgWpIwRsS1x6m5KzIQJ
+   22azLyeAk0x2ad68Ze2BlXGEg46ynJajzxquRWH5pTCe+IapIcWRaz8Ua
+   FdJtKFcnrqAQ16T8ih1O1wAf/R+P2IgtDSlGhxTWlgkxAUN/MmcAenyem
+   0vJ8UOOOiLmCtVR14NixEIcS0x4zFz7LlvPcWlLtMaIW1sm78rmDEq8pr
+   D+J3EG/duEIHJfYRTSjQxd9XUzhQVWnKDyT94LRMMdKFiGtcXEAz0z+lu
+   g==;
+X-CSE-ConnectionGUID: OUhaHH/ZRz6fvrpSKHv9GQ==
+X-CSE-MsgGUID: uOo4WA6+SZOrgrDdnKuuiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="39634129"
+X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
+   d="scan'208";a="39634129"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 23:08:57 -0800
+X-CSE-ConnectionGUID: ElGTJByeRzmMpz5jc8io9w==
+X-CSE-MsgGUID: PUBetyOpSHaAxmn2wh4jww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="151212113"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 16 Feb 2025 23:08:55 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjvFN-001CiT-1n;
+	Mon, 17 Feb 2025 07:08:53 +0000
+Date: Mon, 17 Feb 2025 15:08:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1424/1424] mm/page_alloc.c:1645:3:
+ warning: cast from 'int (*)(unsigned long, unsigned long, struct
+ deferred_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void
+ *)') converts to incompatible function type
+Message-ID: <202502171430.Coc968oj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4nXcqtjmG8Z3CwhaxZXUjzxRt3tw9DXZKzaNjp2eGMw_1739775387
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2025-02-17 at 06:39 +0800, kernel test robot wrote:
-> Hi Gabriele,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on 4dc1d1bec89864d8076e5ab314f86f46442bfb02]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Gabriele-Monaco/tracing-Fi=
-x-DECLARE_TRACE_CONDITION/20250213-171642
-> base:=C2=A0=C2=A0 4dc1d1bec89864d8076e5ab314f86f46442bfb02
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20250213090819.419470-5-gmonaco%40redhat.com
-> patch subject: [PATCH v2 04/11] rv: Add option for nested monitors
-> and include sched
-> config: parisc-randconfig-r112-20250217
-> (https://download.01.org/0day-ci/archive/20250217/202502170630.xSYE4c
-> Uk-lkp@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 14.2.0
-> reproduce:
-> (https://download.01.org/0day-ci/archive/20250217/202502170630.xSYE4c
-> Uk-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202502170630.xSYE4cUk-lkp@intel.c=
-om/
->=20
-> All warnings (new ones prefixed by >>):
->=20
-> =C2=A0=C2=A0 In file included from include/trace/define_trace.h:119,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from kernel/trace/rv/rv_trace.h:=
-130,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from kernel/trace/rv/rv.c:148:
-> > > include/trace/trace_events.h:477:13: warning:
-> > > 'print_fmt_error_da_monitor' defined but not used [-Wunused-
-> > > variable]
-> =C2=A0=C2=A0=C2=A0=C2=A0 477 | static char print_fmt_##call[] =3D
-> print;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~
-> =C2=A0=C2=A0 kernel/trace/rv/./rv_trace.h:39:1: note: in expansion of mac=
-ro
-> 'DECLARE_EVENT_CLASS'
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 39 | DECLARE_EVENT_CLASS(error_da_monitor,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ^~~~~~~~~~~~~~~~~~~
-> > > include/trace/trace_events.h:477:13: warning:
-> > > 'print_fmt_event_da_monitor' defined but not used [-Wunused-
-> > > variable]
-> =C2=A0=C2=A0=C2=A0=C2=A0 477 | static char print_fmt_##call[] =3D
-> print;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~
-> =C2=A0=C2=A0 kernel/trace/rv/./rv_trace.h:12:1: note: in expansion of mac=
-ro
-> 'DECLARE_EVENT_CLASS'
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 12 | DECLARE_EVENT_CLASS(event_da_monitor,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ^~~~~~~~~~~~~~~~~~~
-> > > include/trace/trace_events.h:223:37: warning:
-> > > 'trace_event_type_funcs_error_da_monitor' defined but not used [-
-> > > Wunused-variable]
-> =C2=A0=C2=A0=C2=A0=C2=A0 223 | static struct trace_event_functions
-> trace_event_type_funcs_##call =3D {=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> ^~~~~~~~~~~~~~~~~~~~~~~
-> =C2=A0=C2=A0 kernel/trace/rv/./rv_trace.h:39:1: note: in expansion of mac=
-ro
-> 'DECLARE_EVENT_CLASS'
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 39 | DECLARE_EVENT_CLASS(error_da_monitor,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ^~~~~~~~~~~~~~~~~~~
-> > > include/trace/trace_events.h:223:37: warning:
-> > > 'trace_event_type_funcs_event_da_monitor' defined but not used [-
-> > > Wunused-variable]
-> =C2=A0=C2=A0=C2=A0=C2=A0 223 | static struct trace_event_functions
-> trace_event_type_funcs_##call =3D {=C2=A0=C2=A0 \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> ^~~~~~~~~~~~~~~~~~~~~~~
-> =C2=A0=C2=A0 kernel/trace/rv/./rv_trace.h:12:1: note: in expansion of mac=
-ro
-> 'DECLARE_EVENT_CLASS'
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 12 | DECLARE_EVENT_CLASS(event_da_monitor,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ^~~~~~~~~~~~~~~~~~~
->=20
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   bd6fde5ff5b73d04068bdad2dc7730479d4df355
+commit: eb761d6521c32c006a4987260394a61c6684fb35 [1424/1424] mm: parallelize deferred struct page initialization within each node
+config: x86_64-buildonly-randconfig-003-20250217 (https://download.01.org/0day-ci/archive/20250217/202502171430.Coc968oj-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502171430.Coc968oj-lkp@intel.com/reproduce)
 
-This is something hard to trigger, but I didn't remove the select
-DA_MON_EVENTS_IMPLICIT in RV_MON_SCHED . As a result if the user
-enables the sched monitor without any nested monitor (which is already
-a broken configuration but happens if you apply this commit without the
-following ones) trace event classes would be created with no event
-using them.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502171430.Coc968oj-lkp@intel.com/
 
-I will send a V2 with the fix.
+All warnings (new ones prefixed by >>):
 
+   In file included from mm/page_alloc.c:21:
+   include/linux/pagemap.h:401:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     401 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/page_alloc.c:58:
+   include/linux/mm_inline.h:32:43: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      32 |         __mod_node_page_state(pgdat, NR_LRU_BASE + lru, nr_pages);
+         |                                      ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:34:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      34 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/page_alloc.c:1412:6: warning: no previous prototype for function 'set_zone_contiguous' [-Wmissing-prototypes]
+    1412 | void set_zone_contiguous(struct zone *zone)
+         |      ^
+   mm/page_alloc.c:1412:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1412 | void set_zone_contiguous(struct zone *zone)
+         | ^
+         | static 
+   mm/page_alloc.c:1433:6: warning: no previous prototype for function 'clear_zone_contiguous' [-Wmissing-prototypes]
+    1433 | void clear_zone_contiguous(struct zone *zone)
+         |      ^
+   mm/page_alloc.c:1433:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1433 | void clear_zone_contiguous(struct zone *zone)
+         | ^
+         | static 
+>> mm/page_alloc.c:1645:3: warning: cast from 'int (*)(unsigned long, unsigned long, struct deferred_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+    1645 |                 DEFINE_KTASK_CTL(ctl, deferred_init_chunk, &args,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1646 |                                  KTASK_PTE_MINCHUNK);
+         |                                  ~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:139:3: note: expanded from macro 'DEFINE_KTASK_CTL'
+     139 |                 KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:123:21: note: expanded from macro 'KTASK_CTL_INITIALIZER'
+     123 |                 .kc_thread_func = (ktask_thread_func)(thread_func),          \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:1661:3: warning: cast from 'int (*)(unsigned long, unsigned long, struct deferred_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+    1661 |                 DEFINE_KTASK_CTL(ctl, deferred_free_chunk, &args,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1662 |                                  KTASK_PTE_MINCHUNK);
+         |                                  ~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:139:3: note: expanded from macro 'DEFINE_KTASK_CTL'
+     139 |                 KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:123:21: note: expanded from macro 'KTASK_CTL_INITIALIZER'
+     123 |                 .kc_thread_func = (ktask_thread_func)(thread_func),          \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:3050:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3050 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:126:34: note: expanded from macro '__count_zid_vm_events'
+     126 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:3098:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3098 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:126:34: note: expanded from macro '__count_zid_vm_events'
+     126 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   9 warnings generated.
+
+
+vim +1645 mm/page_alloc.c
+
+  1587	
+  1588	/* Initialise remaining memory on a node */
+  1589	static int __init deferred_init_memmap(void *data)
+  1590	{
+  1591		pg_data_t *pgdat = data;
+  1592		int nid = pgdat->node_id;
+  1593		unsigned long start = jiffies;
+  1594		unsigned long nr_init = 0, nr_free = 0;
+  1595		unsigned long spfn, epfn, first_init_pfn, flags;
+  1596		phys_addr_t spa, epa;
+  1597		int zid;
+  1598		struct zone *zone;
+  1599		const struct cpumask *cpumask = cpumask_of_node(pgdat->node_id);
+  1600		u64 i;
+  1601		unsigned long nr_node_cpus;
+  1602		struct ktask_node kn;
+  1603	
+  1604		/* Bind memory initialisation thread to a local node if possible */
+  1605		if (!cpumask_empty(cpumask))
+  1606			set_cpus_allowed_ptr(current, cpumask);
+  1607	
+  1608		pgdat_resize_lock(pgdat, &flags);
+  1609		first_init_pfn = pgdat->first_deferred_pfn;
+  1610		if (first_init_pfn == ULONG_MAX) {
+  1611			pgdat_resize_unlock(pgdat, &flags);
+  1612			pgdat_init_report_one_done();
+  1613			return 0;
+  1614		}
+  1615	
+  1616		/*
+  1617		 * We'd like to know the memory bandwidth of the chip to calculate the
+  1618		 * most efficient number of threads to start, but we can't.  In
+  1619		 * testing, a good value for a variety of systems was a quarter of the
+  1620		 * CPUs on the node.
+  1621		 */
+  1622		nr_node_cpus = DIV_ROUND_UP(cpumask_weight(cpumask), 4);
+  1623	
+  1624		/* Sanity check boundaries */
+  1625		BUG_ON(pgdat->first_deferred_pfn < pgdat->node_start_pfn);
+  1626		BUG_ON(pgdat->first_deferred_pfn > pgdat_end_pfn(pgdat));
+  1627		pgdat->first_deferred_pfn = ULONG_MAX;
+  1628	
+  1629		/* Only the highest zone is deferred so find it */
+  1630		for (zid = 0; zid < MAX_NR_ZONES; zid++) {
+  1631			zone = pgdat->node_zones + zid;
+  1632			if (first_init_pfn < zone_end_pfn(zone))
+  1633				break;
+  1634		}
+  1635		first_init_pfn = max(zone->zone_start_pfn, first_init_pfn);
+  1636	
+  1637		/*
+  1638		 * Initialize and free pages. We do it in two loops: first we initialize
+  1639		 * struct page, than free to buddy allocator, because while we are
+  1640		 * freeing pages we can access pages that are ahead (computing buddy
+  1641		 * page in __free_one_page()).
+  1642		 */
+  1643		for_each_free_mem_range(i, nid, MEMBLOCK_NONE, &spa, &epa, NULL) {
+  1644			struct deferred_args args = { nid, zid, ATOMIC64_INIT(0) };
+> 1645			DEFINE_KTASK_CTL(ctl, deferred_init_chunk, &args,
+  1646					 KTASK_PTE_MINCHUNK);
+  1647			ktask_ctl_set_max_threads(&ctl, nr_node_cpus);
+  1648	
+  1649			spfn = max_t(unsigned long, first_init_pfn, PFN_UP(spa));
+  1650			epfn = min_t(unsigned long, zone_end_pfn(zone), PFN_DOWN(epa));
+  1651	
+  1652			kn.kn_start	= (void *)spfn;
+  1653			kn.kn_task_size	= (spfn < epfn) ? epfn - spfn : 0;
+  1654			kn.kn_nid	= nid;
+  1655			(void) ktask_run_numa(&kn, 1, &ctl);
+  1656	
+  1657			nr_init += atomic64_read(&args.nr_pages);
+  1658		}
+  1659		for_each_free_mem_range(i, nid, MEMBLOCK_NONE, &spa, &epa, NULL) {
+  1660			struct deferred_args args = { nid, zid, ATOMIC64_INIT(0) };
+  1661			DEFINE_KTASK_CTL(ctl, deferred_free_chunk, &args,
+  1662					 KTASK_PTE_MINCHUNK);
+  1663			ktask_ctl_set_max_threads(&ctl, nr_node_cpus);
+  1664	
+  1665			spfn = max_t(unsigned long, first_init_pfn, PFN_UP(spa));
+  1666			epfn = min_t(unsigned long, zone_end_pfn(zone), PFN_DOWN(epa));
+  1667	
+  1668			kn.kn_start	= (void *)spfn;
+  1669			kn.kn_task_size	= (spfn < epfn) ? epfn - spfn : 0;
+  1670			kn.kn_nid	= nid;
+  1671			(void) ktask_run_numa(&kn, 1, &ctl);
+  1672	
+  1673			nr_free += atomic64_read(&args.nr_pages);
+  1674		}
+  1675		pgdat_resize_unlock(pgdat, &flags);
+  1676	
+  1677		/* Sanity check that the next zone really is unpopulated */
+  1678		WARN_ON(++zid < MAX_NR_ZONES && populated_zone(++zone));
+  1679		VM_BUG_ON(nr_init != nr_free);
+  1680	
+  1681		zone->managed_pages += nr_free;
+  1682	
+  1683		pr_info("node %d initialised, %lu pages in %ums\n", nid, nr_free,
+  1684						jiffies_to_msecs(jiffies - start));
+  1685	
+  1686		pgdat_init_report_one_done();
+  1687		return 0;
+  1688	}
+  1689	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
