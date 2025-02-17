@@ -1,202 +1,338 @@
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010009.outbound.protection.outlook.com [52.103.67.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C27633E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 04:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739767668; cv=fail; b=kASrrBzUXnlCiAPBG8C7CnoA+zwz9s8GrY89zW1qmxdeHYvgbFtspX3+NyuyHCbEtgHeyX1xrY04NrAKjbe5Zbgjw9B+/Z1sVsqs+TPz+ajXCwoHTy4jsq9xCPOSO8ibkS7S2UA1Gvok9e/eflpDWCaFeiF0jHWlbERhpMRyNOo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739767668; c=relaxed/simple;
-	bh=hqOwjdIrFbLZ9y7omqMEnmjQnjr3PKffUzzg8rRxmM0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=THI+WwBUJH2tKX9kgkgCEpLM1I0mYrzqfdlq2n9TznhiBbP00b/2oow8p2FNSVF4tXLuFOREqi/nJLkSoo9HhID4et2KL6tEj1nHwqVEMQULw+NWkg1iogy0/MOXOOc/tZku8uITJ0VF4qp7W3z9eI99MCgUX4N44x1rs/fFQe8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=DbqgH0Zi; arc=fail smtp.client-ip=52.103.67.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E1C33E7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 04:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739767845; cv=none; b=dWOZDS1gZ+GXRdKSlOVUT4flckl0F5Z88x8qKAuYa3qHqMKYh93vOd1h/Y8bs6NkigTEOQ5+gBgp63GVlsmPCzqoQiu2cgpk4W54YbxKxWhJ9qqkeVaCGrl4olgjUn0cUO4YYdAVz8nm4E+3TcTMhQntifxrNaQWXAINIUBFVcw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739767845; c=relaxed/simple;
+	bh=RAFdxL7Nt8av66T2E8QgDDpX3bwdAVWRVN0tS+9F31I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q4pJCVHSFEkK712RLINLrGwqjC9JG8SQwTyfCRqr+2vllWvqxQHBPuh8uzFlxCUcalaJQ8d7eC22MOOgjEFMud9l7QeElSX5SUACW99wW3Cy9dx11LKgQJWvbvlzo8HUgEyQmpDKlZbqgvqBVKkKe95gYdkCa1AGbKXzxARqxOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i79igDPY; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="DbqgH0Zi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BCb2vDYzKJbZx+nPvmUzRYlzkvcWr+MuvBhMZxvhVAdqZEuRjR2zxc56yy/jICkXwZ+1zOr4P6ACd2kZ7grh32ygniyjO705g79y08n0Gx19fK6XhxqzSYflT2LUCmnr8or4LWctzbbpyghkpSiBBa1129BPPCyVhqjmpCxvB4FZf0p5b5VjPsJITSHCVLkrLAzLZ4bJaoZB9riBj8LsrvQ7jUNMoeHTIOh04IPAwPYje8m5lujYEajUMh9lADHYku6GvWoAWExxXcJ5ByoykqTtvQ8vkxG2heKCCl4YcdiIDaSUTTZOw6YH76H3XQwGXThya+qfP8npp+zNO8vqmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hqOwjdIrFbLZ9y7omqMEnmjQnjr3PKffUzzg8rRxmM0=;
- b=vFxPyYEuOoHMEUXmTkWb1JwdzMxbz8PSVfm8azK04Kg5Jge1rstIx2CLacuFzKvPnex3tPMaEIhlpVdJRqC8+p2XY3A550kjIHLCF8/bovZs3Un8E9ezu2TVaImQOyuiX/CNA5rE3oFKGhbJb3LAPkvGuxhNQvMYXdAeY64zWoFJKZonvuHQygsLcIM5p5EELWeaoh5Nr2731Etjh1b1oEoNLY7ua6wsO1PF5JwfeAzjpx7tl5yp4yvLVDdNG1SdTBxTTR8cb6mrIgqLIlenOeHUkAJxqqsDXBzzNN/X71M+0L6B4LLEUP+Qo3uK7MCw5IHWtjgVSgDiJZZ31lV+aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hqOwjdIrFbLZ9y7omqMEnmjQnjr3PKffUzzg8rRxmM0=;
- b=DbqgH0ZiBjuRiVH19Ol+/5tPNBTemoR48Hsll5v9tKwlDz7tkboyzwaMJcAKggR0/XIE+NdFSJQU5ZyvZYnIGXiqHyP26iW1PPfgflhLh/cTXe5rWMw0c40gtugenQEDZGzuV9es56icxWT3SCtUF8SJvOykYkDdRGWPyvkLTKaNHNf8klJqhOB/5ayJcYAteQn3nI8wDZ/yoEPLYYQle02OVDyxdh6jDYQGLIW0pgZHJA7CtZEKFi2MCjwVqX+jAoYTR5fq832PyL8S49HSOUGDK9Zq7NFrloj/uP16ycYI6QBlufnbLR+TUlwnDqACcf788JuYD2vsUjlHU7/ujg==
-Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:110::10)
- by PN3PR01MB7015.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:ab::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Mon, 17 Feb
- 2025 04:47:41 +0000
-Received: from PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::972:abe8:752:bbde]) by PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::972:abe8:752:bbde%6]) with mapi id 15.20.8445.017; Mon, 17 Feb 2025
- 04:47:41 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Jiri
- Kosina <jikos@kernel.org>
-Subject: Re: [linux-next:master 1810/4011] drivers/hid/hid-appletb-kbd.c:405
- appletb_kbd_probe() warn: inconsistent indenting
-Thread-Topic: [linux-next:master 1810/4011] drivers/hid/hid-appletb-kbd.c:405
- appletb_kbd_probe() warn: inconsistent indenting
-Thread-Index: AQHbf6p5k9yFTQA1F0CdI0gOQ/kKYrNIs7SAgAI7D4A=
-Date: Mon, 17 Feb 2025 04:47:41 +0000
-Message-ID: <44A53810-6914-4124-8F44-AE84979BB8DF@live.com>
-References: <202502152006.fBBCdEr3-lkp@intel.com>
- <95066B70-F91B-4A93-B016-DFDD13F4A61D@live.com>
-In-Reply-To: <95066B70-F91B-4A93-B016-DFDD13F4A61D@live.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN0PR01MB9608:EE_|PN3PR01MB7015:EE_
-x-ms-office365-filtering-correlation-id: 7b1e819b-4115-404c-d95f-08dd4f0e3637
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599003|19110799003|7092599003|8060799006|461199028|15080799006|4302099013|440099028|3412199025|10035399004|41001999003|102099032|1602099012;
-x-microsoft-antispam-message-info:
- =?utf-8?B?cCtCYUtJdXB2ekZNTTU4c3hBc08xNWkxOUFUWHlCd1QxdkRjNnJnVVoyVXBq?=
- =?utf-8?B?bmVadEhuQkExNE5PM3hDSGQ3TUJYZVNTWGtwY2xCSElrb05yRTVSczBTSFRj?=
- =?utf-8?B?L3Vrd0VyUjdBVkkrbGZPbzUzNHlNMENkQmFpd3p4NnZnaTR2WGZRRUsrTkZ6?=
- =?utf-8?B?ZEN5M3JrYnZuaHVLZmxUcW9CcklJbENyeUFkM0xzdnk1NWYvNVBIa2plMklY?=
- =?utf-8?B?MW11QUZhVkdPT0pQWm8yQzdJZjlJamlUeFJoeWRXaUV6bGdxTWRqSnM4RWZT?=
- =?utf-8?B?OStYSHBVRFVsTTltaXJLa3BsbGdYN0VCUGJWWDd6VkhVUUQyZW0rWFpoL1NN?=
- =?utf-8?B?WndqRnczRnZodEprbzR3YVM4YytUU0diZ0pzT2dxTXlTK2gweklXMGFBbzY1?=
- =?utf-8?B?MzkvdUNXVWZvYjYyRFhqcElMQjVUSjllclRDVDhiUWt2dHhUVWlYdFA3YUh3?=
- =?utf-8?B?TWRzZFc2elpMaGVuSTNRb0dIT0NJY2ZZUFRBL3UvZmxTMDBYZG9rMXRhU2Rk?=
- =?utf-8?B?U1A1SkpKdHVsWEFBdHo0a3ppamtKZ3R0MHJlY1ZPR3F6d0E1MWdXUFFuRERx?=
- =?utf-8?B?dHoyNFFhQUk1TEtqcit5Y0JMYVRCekdzWWw1TEt4WkIzK0MzVHpDSDB0OTFV?=
- =?utf-8?B?aTJ3VktBUTVsM1BYcGVaUzF4YWpoSVRudkRTWmk2dTdRYm8vUmVLOHRnK1R0?=
- =?utf-8?B?dHN3MGFXU2Y0d09wTXhtZ1NIVEwwTmIzRE1PNzJHVWZheWRmdXBXTlpqMTZu?=
- =?utf-8?B?YUdpZGhVR21uMUM4SXR3Z1dhWUtuQnhMQmVuQXVKL1JodU5xanB5c0JaNzA4?=
- =?utf-8?B?SThNUVVaM1czQklHRjlEUkNIclFrbFBEK2ZWbzV0dkFudm1HZG9JbXVNdklr?=
- =?utf-8?B?S3BQa1h5K0UrY0JQUkdXQkFRQk9hSm1VZll3amhCdy9iSmZTSVVQemk3NVhM?=
- =?utf-8?B?YUhKS0d2TjZnME5Sdm5Yc3pCN29NOU9LRjhrWjdtU3ErWXBybGhOUEpsdW9n?=
- =?utf-8?B?SENGQVRzWFFZcisvTjFXMkcyWW5OUnlGdGxySTNJSDFCRmtubG9aWTVqenMw?=
- =?utf-8?B?UmVRd0tEWGc0NFBxUWkrakdyVWpqMHlDdy9XdTA4ZitybjJndE5tQzM3Y1JQ?=
- =?utf-8?B?Ulk4VE9mWEQvcWcwV2pDcEJVaHNXT25SdW1ZRjAzbWxXM1UzZkZ0NXozeWlj?=
- =?utf-8?B?Ykh3eTJDeG1nVThxSktmU1ZaYlUzOWg1WWsrV1pnYXd4SXVEekNLK3BxcHBC?=
- =?utf-8?B?Q1dDWUE2WkZxMjRtcndZeTJ0R2JoY0dhOWRMa3FOdHlBNGE3UTliN2Nza1FF?=
- =?utf-8?B?YjQycTFtR2RjeWoram1PKzVPQWtyYXhuc1FUdkpXb3hLTHZuUWtXbXVlOGFN?=
- =?utf-8?B?NW1FbkUraDRDR2VGemh5ZmY1WHZES0xnbTNSOW5Jb0Z4ejkyN1g5UkRPa2dj?=
- =?utf-8?B?YkkyR2FwN3ZJczlvNEU5M0Y5dFdvaytXcTh3VEhBYnRCbmpOWFA1N1BubzVs?=
- =?utf-8?B?cW5LOEZIU05wWVhwN2xvSC9odElVd1Avc2xud0ZlamtTN1cybE5tN3lHcThM?=
- =?utf-8?B?a1hSZ1N1MnhXWlhXYmx3NHpaeDYwZ0c0QVE2LzU2eTNRWEtqRlNlRGlORkpI?=
- =?utf-8?Q?oRmZ3fgretgDrFC5hZpqYhnMJDMIZnNuMihcDae+HSLY=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ZkJqaFpyeXNPWENlemJyN3R5SzJzRHQwb0xjTzFXMTY4Ni9GdVRXWWZPbFNJ?=
- =?utf-8?B?MUlyODlrMGpISW5FQmVKUnVwbU9HNDB1TzIySzZmbGl5RUdacDZRYk1teE5x?=
- =?utf-8?B?VHpyc2Z4dFY5b0lKQ0ZOQTIvODVoRzRlQjVKTkFxVTFmUlREbkRkY2VrM0Fi?=
- =?utf-8?B?Ykk1ZFAwNEFVUFhXMWlxa2tOYndLMVZPVUhwZk9ZajNrQmdrd25UejdGc0dU?=
- =?utf-8?B?ME5PNEhhZk1zWDNBWjEvYitMaTl5Wk44YzlJa283SlJNRTRrVVJvTzZzbllR?=
- =?utf-8?B?VThCcXMzMGpJZWcvUytsbW51MWF0UUQxZ0hvYUN4UlVLNXZ6YWRQbE42d2w4?=
- =?utf-8?B?cUo2cEU3WWpDMGRyVXFKMEFTK1JMSnRwT3JsN1Z5c3cyeVAwaDNDek56dGlO?=
- =?utf-8?B?ZnhocHlHUDAzK1cwRi8zNUNIYkdkN0w5VjBFSWxDMlo5eG9pb000SUp3ZHdm?=
- =?utf-8?B?WloxenZDdUFtRXYrQzVONEU2bGNJVWUzNzV6RXg5SzQvVk5aR0hQbHZ2eWRv?=
- =?utf-8?B?Rkd1cjNKSkNlcFFZV1cvVzNBc0syRVBHanhLNnlkSGJmb05sK1RKZzVOQm1y?=
- =?utf-8?B?SXFnREF5K3pBUWtncjFSZkdVZ2Y2UEorUEpBY2FVeUdISXp6cE1SSXJOQnJH?=
- =?utf-8?B?UVRUUFNTTXRZTEZ0dzViM3R0SkI0OFZEWUVHMThqbmpXL2s2V284S0FWWTdQ?=
- =?utf-8?B?T0RoTTVSSksyZThkaVNFVFRXZmUxcm02Rmxndk5vbjhKQjVZMFJqOXpYQndu?=
- =?utf-8?B?V0NGT2dGb0RhSGNBb0MwMDA5bkxtWmVGa1hqSDVmb1kvVG1tQ1VXb2Q0ZkM1?=
- =?utf-8?B?RGMrZG1tMEpaSCs3WWczdzBPa3pHQ2cxYUdmYW5jU1JpV2paRkFCYTJlTWFn?=
- =?utf-8?B?V1NBdlJRUHBteVBRQjhVdGc4VktaUVlNL2hVWTlGNEp4Z2swOEgwZExMdGpT?=
- =?utf-8?B?OUorQ1hPQUU5WlpUMzdUcFZMNkZTNVU1SG5tNWdUV1E3ZWMvbHFuV2hzemhh?=
- =?utf-8?B?Rjc4ZzFaQ2E2OFFMUUhEQzlyUEJYZk1ScWVob3NIaitjQ2lvZUlWc1Vac2R6?=
- =?utf-8?B?ZWVIckx0WDhvREx3ZTd4S2JaNklEUllqcXhFZ1dxaDhJMGl0b3cvZUJ3Um8r?=
- =?utf-8?B?b1lISVZYUGNkRGs4UjQ5enB4Zm9jazRqVmd6UEM3REl1YVRFakE4eWZPVGEz?=
- =?utf-8?B?QktJK21WWUZYYThBeEwzdzA5UjdMRWthVW1HTjFjWFdNcFB1RCtWbjR3VkFz?=
- =?utf-8?B?czRWc2VTWVRyTURmVHBseE93Wm9uTS9tdGY0UituNjBIVmNvSjRtalZaQXQx?=
- =?utf-8?B?RE9KdTVpRGJRZ1pRdkxsU29MZEtlNVlCcnNrekVGRTFVQlpPa1NiL2VlcGlk?=
- =?utf-8?B?VlZmRlNSZHIzdEY3UHJsZVpXWGtrQ2xRM0pSMFY5MEZERDA3eG1YMm0wcE1v?=
- =?utf-8?B?eDZyZWJ3SXZWSFFHOFRWVDJsTm9xUlNIc3pSSW1jaTAyVTF4V3Uyckswb2Zo?=
- =?utf-8?B?MDZrNGYySWJ5a0tXYUg4Sm5qcVdKcHcxSmF6VTFkaGp0OXJ2WWVlOVdWeFI4?=
- =?utf-8?B?L3Q0NDJOU2VTWE5KUXFSdmllMm1nRmZpY3lzeHBMVm9DdjhaclM0MHdXNXl2?=
- =?utf-8?B?Tm9wbnJ4QUphcGxiYmNjc3haSmI4MmFMK29Yb1FzdXMvK1dWSFRaZlhaeHhH?=
- =?utf-8?B?TVJnVmZya3U1NXhNb2JuWm9kWjJ0aTBmc3gvemU1MHd2eDFqbkd6OFJXK1A5?=
- =?utf-8?Q?DCyZmc8pQVdyU6tC3pey3sUCNfYxyhetMh3JjjN?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A0911F5EDA13564F84E0E50E1742AF0A@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i79igDPY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739767844; x=1771303844;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RAFdxL7Nt8av66T2E8QgDDpX3bwdAVWRVN0tS+9F31I=;
+  b=i79igDPYNZw9TWxBTPZ9CjFu2n6kd7+VtpaYl6cxp445PGhZjFVIbnHv
+   8GPgutC3Mx02Bf5Uu1V/Pt51GaoW47yj00a3scTPq2Lla8E2wGP/UnMzn
+   8Aya63YIwi6lOr7VUrc9OYKAMm7KU3d3+6FZv3DHSC75XSiNnSiiUC7xi
+   0V5/IAYfojVLKnMzjpuY29eEEVIJRIoRA7fSkUeC+M9eNqYKxoK9+9pj/
+   wv8dEbcG3H4qehG503JXWuzLKeyRIbXZfun7sXEuf/GuHKD6tN2RBR7Th
+   NmrSRbcU4wGTk2F7Oyc1gQ3qKTPWxVUL1KXLcGn1d0onUgpNJkZsJhgqc
+   Q==;
+X-CSE-ConnectionGUID: P8EtfIn+SKuQv+SaLPDqdA==
+X-CSE-MsgGUID: A3rpbbN6SjCbviR9dzxzpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="40363417"
+X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
+   d="scan'208";a="40363417"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 20:50:42 -0800
+X-CSE-ConnectionGUID: ynA84fItT4KZuctG+Uajlw==
+X-CSE-MsgGUID: 6Yi3071oQ96TytwV2hbZjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118648969"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 16 Feb 2025 20:50:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjt5a-001Cb5-0M;
+	Mon, 17 Feb 2025 04:50:38 +0000
+Date: Mon, 17 Feb 2025 12:49:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qiang Rao <qiang.rao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Junxiao Chang <junxiao.chang@intel.com>
+Subject: [intel-lts:pr/56 0/1] drivers/tcc/tcc_buffer.c:516:71: warning: cast
+ from pointer to integer of different size
+Message-ID: <202502171235.UgGh7Nc2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB9608.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b1e819b-4115-404c-d95f-08dd4f0e3637
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2025 04:47:41.3359
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB7015
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-QSByZXZpc2VkIHZlcnNpb24gc2VudCBoZXJlOg0KDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9s
-aW51eC1pbnB1dC84MzY1QzFCMy0zQTM4LTRGNkUtOTU1Qi1ENkJCQUJBNkIwMEFAbGl2ZS5jb20v
-DQoNCj4gT24gMTYgRmViIDIwMjUsIGF0IDEyOjEz4oCvQU0sIEFkaXR5YSBHYXJnIDxnYXJnYWRp
-dHlhMDhAbGl2ZS5jb20+IHdyb3RlOg0KPiANCj4gRml4ZXMgc2VudCBoZXJlOg0KPiANCj4gaHR0
-cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtaW5wdXQvMjFGOEJEOTYtN0UyMC00NjNBLUE5OTct
-NEZCQ0YwOTM0RDg3QGxpdmUuY29tL1QvI3UNCj4gDQo+PiBzbWF0Y2ggd2FybmluZ3M6DQo+PiBk
-cml2ZXJzL2hpZC9oaWQtYXBwbGV0Yi1rYmQuYzo0MDUgYXBwbGV0Yl9rYmRfcHJvYmUoKSB3YXJu
-OiBpbmNvbnNpc3RlbnQgaW5kZW50aW5nDQo+PiBkcml2ZXJzL2hpZC9oaWQtYXBwbGV0Yi1rYmQu
-Yzo0MDYgYXBwbGV0Yl9rYmRfcHJvYmUoKSB3YXJuOiBwYXNzaW5nIHplcm8gdG8gJ2Rldl9lcnJf
-cHJvYmUnDQo+PiANCj4+IHZpbSArNDA1IGRyaXZlcnMvaGlkL2hpZC1hcHBsZXRiLWtiZC5jDQo+
-PiANCj4+ICAzNzEgDQo+PiAgMzcyIHN0YXRpYyBpbnQgYXBwbGV0Yl9rYmRfcHJvYmUoc3RydWN0
-IGhpZF9kZXZpY2UgKmhkZXYsIGNvbnN0IHN0cnVjdCBoaWRfZGV2aWNlX2lkICppZCkNCj4+ICAz
-NzMgew0KPj4gIDM3NCBzdHJ1Y3QgYXBwbGV0Yl9rYmQgKmtiZDsNCj4+ICAzNzUgc3RydWN0IGRl
-dmljZSAqZGV2ID0gJmhkZXYtPmRldjsNCj4+ICAzNzYgc3RydWN0IGhpZF9maWVsZCAqbW9kZV9m
-aWVsZDsNCj4+ICAzNzcgaW50IHJldDsNCj4+ICAzNzggDQo+PiAgMzc5IHJldCA9IGhpZF9wYXJz
-ZShoZGV2KTsNCj4+ICAzODAgaWYgKHJldCkNCj4+ICAzODEgcmV0dXJuIGRldl9lcnJfcHJvYmUo
-ZGV2LCByZXQsICJISUQgcGFyc2UgZmFpbGVkXG4iKTsNCj4+ICAzODIgDQo+PiAgMzgzIG1vZGVf
-ZmllbGQgPSBoaWRfZmluZF9maWVsZChoZGV2LCBISURfT1VUUFVUX1JFUE9SVCwNCj4+ICAzODQg
-ICAgSElEX0dEX0tFWUJPQVJELCBISURfVVNBR0VfTU9ERSk7DQo+PiAgMzg1IGlmICghbW9kZV9m
-aWVsZCkNCj4+ICAzODYgcmV0dXJuIC1FTk9ERVY7DQo+PiAgMzg3IA0KPj4gIDM4OCBrYmQgPSBk
-ZXZtX2t6YWxsb2MoZGV2LCBzaXplb2YoKmtiZCksIEdGUF9LRVJORUwpOw0KPj4gIDM4OSBpZiAo
-IWtiZCkNCj4+ICAzOTAgcmV0dXJuIC1FTk9NRU07DQo+PiAgMzkxIA0KPj4gIDM5MiBrYmQtPm1v
-ZGVfZmllbGQgPSBtb2RlX2ZpZWxkOw0KPj4gIDM5MyANCj4+ICAzOTQgcmV0ID0gaGlkX2h3X3N0
-YXJ0KGhkZXYsIEhJRF9DT05ORUNUX0hJRElOUFVUKTsNCj4+ICAzOTUgaWYgKHJldCkNCj4+ICAz
-OTYgcmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2LCByZXQsICJISUQgaHcgc3RhcnQgZmFpbGVkXG4i
-KTsNCj4+ICAzOTcgDQo+PiAgMzk4IHJldCA9IGhpZF9od19vcGVuKGhkZXYpOw0KPj4gIDM5OSBp
-ZiAocmV0KSB7DQo+PiAgNDAwIGRldl9lcnJfcHJvYmUoZGV2LCByZXQsICJISUQgaHcgb3BlbiBm
-YWlsZWRcbiIpOw0KPj4gIDQwMSBnb3RvIHN0b3BfaHc7DQo+PiAgNDAyIH0NCj4+ICA0MDMgDQo+
-PiAgNDA0IGtiZC0+YmFja2xpZ2h0X2RldiA9IGJhY2tsaWdodF9kZXZpY2VfZ2V0X2J5X25hbWUo
-ImFwcGxldGJfYmFja2xpZ2h0Iik7DQo+Pj4gNDA1IGlmICgha2JkLT5iYWNrbGlnaHRfZGV2KQ0K
-Pj4+IDQwNiBkZXZfZXJyX3Byb2JlKGRldiwgcmV0LCAiRmFpbGVkIHRvIGdldCBiYWNrbGlnaHQg
-ZGV2aWNlXG4iKTsNCj4+ICA0MDcgZWxzZSB7DQo+PiAgNDA4IGJhY2tsaWdodF9kZXZpY2Vfc2V0
-X2JyaWdodG5lc3Moa2JkLT5iYWNrbGlnaHRfZGV2LCAyKTsNCj4+ICA0MDkgdGltZXJfc2V0dXAo
-JmtiZC0+aW5hY3Rpdml0eV90aW1lciwgYXBwbGV0Yl9pbmFjdGl2aXR5X3RpbWVyLCAwKTsNCj4+
-ICA0MTAgbW9kX3RpbWVyKCZrYmQtPmluYWN0aXZpdHlfdGltZXIsIGppZmZpZXMgKyBtc2Vjc190
-b19qaWZmaWVzKGFwcGxldGJfdGJfZGltX3RpbWVvdXQgKiAxMDAwKSk7DQo+PiAgNDExIH0NCj4+
-ICA0MTIgDQo+PiAgNDEzIGtiZC0+aW5wX2hhbmRsZXIuZXZlbnQgPSBhcHBsZXRiX2tiZF9pbnBf
-ZXZlbnQ7DQo+PiAgNDE0IGtiZC0+aW5wX2hhbmRsZXIuY29ubmVjdCA9IGFwcGxldGJfa2JkX2lu
-cF9jb25uZWN0Ow0KPj4gIDQxNSBrYmQtPmlucF9oYW5kbGVyLmRpc2Nvbm5lY3QgPSBhcHBsZXRi
-X2tiZF9pbnBfZGlzY29ubmVjdDsNCj4+ICA0MTYga2JkLT5pbnBfaGFuZGxlci5uYW1lID0gImFw
-cGxldGIiOw0KPj4gIDQxNyBrYmQtPmlucF9oYW5kbGVyLmlkX3RhYmxlID0gYXBwbGV0Yl9rYmRf
-aW5wdXRfZGV2aWNlczsNCj4+ICA0MTgga2JkLT5pbnBfaGFuZGxlci5tYXRjaCA9IGFwcGxldGJf
-a2JkX21hdGNoX2ludGVybmFsX2RldmljZTsNCj4+ICA0MTkga2JkLT5pbnBfaGFuZGxlci5wcml2
-YXRlID0ga2JkOw0KPj4gIDQyMCANCj4+ICA0MjEgcmV0ID0gaW5wdXRfcmVnaXN0ZXJfaGFuZGxl
-cigma2JkLT5pbnBfaGFuZGxlcik7DQo+PiAgNDIyIGlmIChyZXQpIHsNCj4+ICA0MjMgZGV2X2Vy
-cl9wcm9iZShkZXYsIHJldCwgIlVuYWJsZSB0byByZWdpc3RlciBrZXlib2FyZCBoYW5kbGVyXG4i
-KTsNCj4+ICA0MjQgZ290byBjbG9zZV9odzsNCj4+ICA0MjUgfQ0KPj4gIDQyNiANCj4+ICA0Mjcg
-cmV0ID0gYXBwbGV0Yl9rYmRfc2V0X21vZGUoa2JkLCBhcHBsZXRiX3RiX2RlZl9tb2RlKTsNCj4+
-ICA0MjggaWYgKHJldCkgew0KPj4gIDQyOSBkZXZfZXJyX3Byb2JlKGRldiwgcmV0LCAiRmFpbGVk
-IHRvIHNldCB0b3VjaGJhciBtb2RlXG4iKTsNCj4+ICA0MzAgZ290byBjbG9zZV9odzsNCj4+ICA0
-MzEgfQ0KPj4gIDQzMiANCj4+ICA0MzMgaGlkX3NldF9kcnZkYXRhKGhkZXYsIGtiZCk7DQo+PiAg
-NDM0IA0KPj4gIDQzNSByZXR1cm4gMDsNCj4+ICA0MzYgDQo+PiAgNDM3IGNsb3NlX2h3Og0KPj4g
-IDQzOCBoaWRfaHdfY2xvc2UoaGRldik7DQo+PiAgNDM5IHN0b3BfaHc6DQo+PiAgNDQwIGhpZF9o
-d19zdG9wKGhkZXYpOw0KPj4gIDQ0MSByZXR1cm4gcmV0Ow0KPj4gIDQ0MiB9DQo+PiAgNDQzIA0K
-Pj4gDQo+PiAtLSANCj4+IDAtREFZIENJIEtlcm5lbCBUZXN0IFNlcnZpY2UNCj4+IGh0dHBzOi8v
-Z2l0aHViLmNvbS9pbnRlbC9sa3AtdGVzdHMvd2lraQ0KPiANCg0K
+Hi Qiang,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git pr/56
+head:   bb98b2d2ae2bd66f1a46663bdeed5d1d70afd128
+commit: d5654eaba07eec8b5cc345c651e8f750c7907908 [0/1] Add new IOCTL to read error log buffer.
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250217/202502171235.UgGh7Nc2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502171235.UgGh7Nc2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502171235.UgGh7Nc2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/tcc/tcc_buffer.c:471:5: warning: no previous prototype for 'start_measure' [-Wmissing-prototypes]
+     471 | int start_measure(void)
+         |     ^~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:29,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:40,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/tcc/tcc_buffer.c:58:
+   drivers/tcc/tcc_buffer.c: In function 'set_test_setup':
+>> drivers/tcc/tcc_buffer.c:516:71: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     516 |                         pr_err("cache_info_k_virt_addr  0x%016llx\n", (u64)(cache_info_k_virt_addr));
+         |                                                                       ^
+   include/linux/printk.h:429:33: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:500:9: note: in expansion of macro 'printk'
+     500 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/tcc/tcc_buffer.c:516:25: note: in expansion of macro 'pr_err'
+     516 |                         pr_err("cache_info_k_virt_addr  0x%016llx\n", (u64)(cache_info_k_virt_addr));
+         |                         ^~~~~~
+   drivers/tcc/tcc_buffer.c: At top level:
+   drivers/tcc/tcc_buffer.c:1076:6: warning: no previous prototype for 'clear_mem' [-Wmissing-prototypes]
+    1076 | void clear_mem(void *info)
+         |      ^~~~~~~~~
+   drivers/tcc/tcc_buffer.c: In function 'tcc_perf_fn':
+>> drivers/tcc/tcc_buffer.c:469:1: warning: unsupported size for integer register
+     469 | }
+         | ^
+
+
+vim +516 drivers/tcc/tcc_buffer.c
+
+   323	
+   324	static int tcc_perf_fn(void)
+   325	{
+   326		u64 perf_l1h = 0, perf_l1m = 0, msr_bits_l1h = 0, msr_bits_l1m = 0;
+   327		u64 perf_l2h = 0, perf_l2m = 0, msr_bits_l2h = 0, msr_bits_l2m = 0;
+   328		u64 perf_l3h = 0, perf_l3m = 0, msr_bits_l3h = 0, msr_bits_l3m = 0;
+   329		u64 i;
+   330	
+   331		u32 cacheline_len;
+   332		u32 cacheread_size;
+   333		void *cachemem_k;
+   334	
+   335		u64 start, end;
+   336	
+   337		pr_err("In %s\n", __func__);
+   338	
+   339		switch (boot_cpu_data.x86_model) {
+   340		case INTEL_FAM6_ATOM_GOLDMONT:
+   341		case INTEL_FAM6_ATOM_GOLDMONT_PLUS:
+   342		case INTEL_FAM6_ATOM_TREMONT:
+   343		case INTEL_FAM6_TIGERLAKE:
+   344		case INTEL_FAM6_TIGERLAKE_L:
+   345		case INTEL_FAM6_ALDERLAKE:
+   346		case INTEL_FAM6_ALDERLAKE_L:
+   347		case INTEL_FAM6_ICELAKE:
+   348		case INTEL_FAM6_ICELAKE_L:
+   349		case INTEL_FAM6_ICELAKE_X:
+   350		case INTEL_FAM6_ICELAKE_D:
+   351		{
+   352			if (cache_info_k.cache_level == RGN_L2) {
+   353				msr_bits_l2h = (MISC_MSR_BITS_COMMON) | (0x2  << 8);
+   354				msr_bits_l2m = (MISC_MSR_BITS_COMMON) | (0x10 << 8);
+   355				msr_bits_l1h = (MISC_MSR_BITS_COMMON) | (0x1  << 8);
+   356				msr_bits_l1m = (MISC_MSR_BITS_COMMON) | (0x08 << 8);
+   357			} else if (cache_info_k.cache_level == RGN_L3) {
+   358				msr_bits_l2h = (MISC_MSR_BITS_COMMON) | (0x2  << 8);
+   359				msr_bits_l2m = (MISC_MSR_BITS_COMMON) | (0x10 << 8);
+   360				msr_bits_l3h = (MISC_MSR_BITS_COMMON) | (0x4  << 8);
+   361				msr_bits_l3m = (MISC_MSR_BITS_COMMON) | (0x20 << 8);
+   362			}
+   363		}
+   364		break;
+   365		default:
+   366			pr_err("Didn't catch this CPU Model in perf_fn()!\n");
+   367			goto out;
+   368		}
+   369	
+   370		asm volatile (" cli ");
+   371	
+   372		__wrmsr(MSR_MISC_FEATURE_CONTROL, hardware_prefetcher_disable_bits, 0x0);
+   373	
+   374		cachemem_k     = cache_info_k_virt_addr;
+   375		cacheread_size = cache_info_k.cache_size;
+   376		cacheline_len  = cache_info_k.cacheline_size;
+   377	
+   378		/* Disable events and reset counters. 4 pairs. */
+   379		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0, MISC_MSR_BITS_ALL_CLEAR);
+   380		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 1, MISC_MSR_BITS_ALL_CLEAR);
+   381		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 2, MISC_MSR_BITS_ALL_CLEAR);
+   382		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 3, MISC_MSR_BITS_ALL_CLEAR);
+   383	
+   384		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_PERFCTR0, MISC_MSR_BITS_ALL_CLEAR);
+   385		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_PERFCTR0 + 1, MISC_MSR_BITS_ALL_CLEAR);
+   386		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_PERFCTR0 + 2, MISC_MSR_BITS_ALL_CLEAR);
+   387		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_PERFCTR0 + 3, MISC_MSR_BITS_ALL_CLEAR);
+   388	
+   389		/* Set and enable L3 counters if msr_bits_l3h is prepared */
+   390		if (msr_bits_l3h > 0) {
+   391			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 2, msr_bits_l3h);
+   392			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 3, msr_bits_l3m);
+   393		}
+   394	
+   395		/* Set and enable L1 counters if msr_bits_l1h is prepared */
+   396		if (msr_bits_l1h > 0) {
+   397			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 2, msr_bits_l1h);
+   398			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 3, msr_bits_l1m);
+   399		}
+   400	
+   401		/* Set and enable the L2 counters, which is always preapred */
+   402		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0, msr_bits_l2h);
+   403		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 1, msr_bits_l2m);
+   404	
+   405		/* capture the timestamp at the meantime while hitting buffer */
+   406		start = rdtsc_ordered();
+   407		for (i = 0; i < cacheread_size; i += cacheline_len) {
+   408			asm volatile("mov (%0,%1,1), %%eax\n\t"
+   409					:
+   410					: "r" (cachemem_k), "r" (i)
+   411					: "%eax", "memory");
+   412		}
+   413		end = rdtsc_ordered();
+   414	
+   415		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0, msr_bits_l2h & PERFMON_EVENTSEL_BITMASK);
+   416		tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 1, msr_bits_l2m & PERFMON_EVENTSEL_BITMASK);
+   417	
+   418		if (msr_bits_l3h > 0) {
+   419			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 2, msr_bits_l3h & PERFMON_EVENTSEL_BITMASK);
+   420			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 3, msr_bits_l3m & PERFMON_EVENTSEL_BITMASK);
+   421		}
+   422	
+   423		if (msr_bits_l1h > 0) {
+   424			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 2, msr_bits_l1h & PERFMON_EVENTSEL_BITMASK);
+   425			tcc_perf_wrmsrl(MSR_ARCH_PERFMON_EVENTSEL0 + 3, msr_bits_l1m & PERFMON_EVENTSEL_BITMASK);
+   426		}
+   427	
+   428		perf_l2h = native_read_pmc(0);
+   429		perf_l2m = native_read_pmc(1);
+   430	
+   431		if (msr_bits_l3h > 0) {
+   432			perf_l3h = native_read_pmc(2);
+   433			perf_l3m = native_read_pmc(3);
+   434		}
+   435	
+   436		if (msr_bits_l1h > 0) {
+   437			perf_l1h = native_read_pmc(2);
+   438			perf_l1m = native_read_pmc(3);
+   439		}
+   440	
+   441		wrmsr(MSR_MISC_FEATURE_CONTROL, 0x0, 0x0);
+   442		asm volatile (" sti ");
+   443	
+   444		if (cache_info_k.cache_level == RGN_L2) {
+   445			pr_err("PERFMARK perf_l2h=%llu perf_l2m=%llu", perf_l2h, perf_l2m);
+   446			pr_err("PERFMARK perf_l1h=%llu perf_l1m=%llu", perf_l1h, perf_l1m);
+   447			cache_info_k.l1_hits = perf_l1h;
+   448			cache_info_k.l1_miss = perf_l1m;
+   449			cache_info_k.l2_hits = perf_l2h;
+   450			cache_info_k.l2_miss = perf_l2m;
+   451			cache_info_k.l3_hits = 0;
+   452			cache_info_k.l3_miss = 0;
+   453		} else if (cache_info_k.cache_level == RGN_L3) {
+   454			pr_err("PERFMARK perf_l2h=%llu perf_l2m=%llu", perf_l2h, perf_l2m);
+   455			pr_err("PERFMARK perf_l3h=%llu perf_l3m=%llu", perf_l3h, perf_l3m);
+   456			cache_info_k.l1_hits = 0;
+   457			cache_info_k.l1_miss = 0;
+   458			cache_info_k.l2_hits = perf_l2h;
+   459			cache_info_k.l2_miss = perf_l2m;
+   460			cache_info_k.l3_hits = perf_l3h;
+   461			cache_info_k.l3_miss = perf_l3m;
+   462		}
+   463		pr_err("start: %lld\n", start);
+   464		pr_err("end:   %lld\n", end);
+   465		pr_err("delta: %lld\n", (end-start));
+   466	
+   467	out:
+   468		return 0;
+ > 469	}
+   470	
+   471	int start_measure(void)
+   472	{
+   473		int ret = -1;
+   474	
+   475		hardware_prefetcher_disable_bits = get_hardware_prefetcher_disable_bits();
+   476	
+   477		switch (cache_info_k.testcase) {
+   478		case TEST_CACHE_PERF:
+   479			ret = tcc_perf_fn();
+   480		break;
+   481		default:
+   482			goto out;
+   483		}
+   484	
+   485		if (ret < 0)
+   486			goto out;
+   487		ret = 0;
+   488	out:
+   489		return ret;
+   490	
+   491	}
+   492	
+   493	
+   494	static ssize_t set_test_setup(struct file *file, const char __user *ubuf, size_t count, loff_t *ppos)
+   495	{
+   496		if (count > BUFSIZE)
+   497			return -EFAULT;
+   498	
+   499		if (copy_from_user((char *)(&cache_info_k), ubuf, BUFSIZE))
+   500			return -EFAULT;
+   501	
+   502		switch (cache_info_k.testcase) {
+   503		case TEST_CACHE_PERF:
+   504		{
+   505			pr_err("cache_info_k.phy_addr        0x%016llx\n", cache_info_k.phy_addr);
+   506			pr_err("cache_info_k.cache_level     %d\n", cache_info_k.cache_level);
+   507			pr_err("cache_info_k.cache_size      0x%08x\n", cache_info_k.cache_size);
+   508			pr_err("cache_info_k.cacheline_size  %d\n", cache_info_k.cacheline_size);
+   509			pr_err("cache_info_k.testcase        %d\n", cache_info_k.testcase);
+   510	
+   511			cache_info_k_virt_addr = memremap(cache_info_k.phy_addr, cache_info_k.cache_size, MEMREMAP_WB);
+   512	
+   513			if (cache_info_k_virt_addr == NULL)
+   514				pr_err("cache_info_k_virt_addr == NULL\n");
+   515			else
+ > 516				pr_err("cache_info_k_virt_addr	0x%016llx\n", (u64)(cache_info_k_virt_addr));
+   517	
+   518			if (start_measure() != 0)
+   519				pr_err("Something wrong with the cache performance measurement!");
+   520	
+   521			memunmap(cache_info_k_virt_addr);
+   522			cache_info_k_virt_addr = NULL;
+   523		}
+   524		break;
+   525		default:
+   526			pr_err("This testcase is not handled yet.\n");
+   527		return -EFAULT;
+   528		}
+   529	
+   530		return BUFSIZE;
+   531	}
+   532	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
