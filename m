@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54EE6192B63;
-	Mon, 17 Feb 2025 08:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC0C224F0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 09:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739780409; cv=none; b=Xmqs5n28jsQZzNkHJX1GB3nAQnrzy/oa3BMehV6JVyUdsuCJIcR7fTxvpRH+gAJn5WLVujy/kEjMOAF7DX4X8SJU5xwjOyc7T8iR+/2sAtPZ1iArJ/ChbknzA5OA0Y4srUNaW9kuDCWnRlLy9PfC/obnLrZEnMUzWlsCg6ywO6s=
+	t=1739784135; cv=none; b=nnY5qrSTM9J3jYPdjsyifJ9ATRi53WvQ9dIR5Acpk19P40oYYKj1eFYm2xmAdSR4C13/vYJwOSU2SuqXUc3ZtVRae62hOe8ooPPuXnL8yeeGlJXk0TGvWPZEM9pPxfQzCxw7Gs3FlXzWHGzhmHSSurcRGoYwMxRRgpgL+CpBk6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739780409; c=relaxed/simple;
-	bh=296+RJzSIj7ZM99TK5QAkMFf+imrSJaM4hleXCth3cU=;
+	s=arc-20240116; t=1739784135; c=relaxed/simple;
+	bh=2XX7lx0oSDtKscu+XBW16BW4Ix9aCLHNW5Jxyp3an2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t1MaS8wK381y8j7wN/KWtLbti4b0hzQiGdO1y7FrGqucBFrjmGXYS5Tu/33UCEbCMs2vpqEk/DLODLeX7nGqf1Zcb+2EC4w7uYLM7nwaX4Sx/yxeRj88jVKhQuvwCFVfCEejWHtdAIYZO2Wh+DHiHd3/EHad6SrWG6hhwhH0N1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQJZlp5i; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yfeq+Kq69DXBwOGXIIycXt72yKqgBtEvD91YuwVi7FpHRzoCJ8TeSLNLESBEy2Jt6ttoPSRltw8jKUy+d/1at1UlxR43mpmQnEJS0Oc1RjqQmrJVOAr3TvmcQDthsxuE3LbUUpjnTWwVKYNS9djylDs+6m4t+ScqICwX0llylKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccSBYQo/; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQJZlp5i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccSBYQo/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739780409; x=1771316409;
+  t=1739784134; x=1771320134;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=296+RJzSIj7ZM99TK5QAkMFf+imrSJaM4hleXCth3cU=;
-  b=EQJZlp5id6zZhY223ZoneCGMARKs1gU+d60K7myRJnXRc+HZA0Ak93ZB
-   065hh2sDWyNOkXl3AdSCCzrqbJwz29GvRKaFRBfxEeeGUZaH4XQAiWRHi
-   iR53O/EaPmbjmjQNPfWTx5WxGdGw+5KmLFKS9HeMc1rrZWoRk5zrn3JaD
-   SarrsflNsV0zsDUVAcROqP9FQO1W3x0yIRhLTlcyJqhvxAJdDoP9Ao+WS
-   GXZuT5GaGIm9Sg3C1DccCx6XYAj7yga1m4d0ASiuEWL0ch5YkKXUGIj1Y
-   WGzkjRQxe5okObL8Q4YvmpICbjys2YQ98cAnIKiRW1fKgrQcmqkEGik0S
+  bh=2XX7lx0oSDtKscu+XBW16BW4Ix9aCLHNW5Jxyp3an2c=;
+  b=ccSBYQo/L5MGn9TwLnrMXOFzni2PVCiq+euRlFeadqcnuvOSQ0qh6g5a
+   NmXH0A0izxJybVAkJr7TD6To58JN89JPWT3tnhd3tnAwX3/eIbE3uABmp
+   z1+ohyBb5WbttVcK+nsMxYsAa1FHFlMEBIs2PmW3CJkhjtRO3gBSDt4nG
+   1ip2fUC4yfDLAjDomj437hvAUfpdl0OeEp2HqjbCxANd6kVgezuYiIIqN
+   GgsBOXlEyT8E1YsEzWxiMQ1e3agY6hPyomaLJ7qwZkUeOaRW6g3hEguvp
+   x7sRh0nvY/UBTT3GRPh+B8FVmj0DfKE4Hg+kIUJrOiydl5EvKPDxkpWQN
    Q==;
-X-CSE-ConnectionGUID: ZvIfHC1US4m4H+/hUEwRSA==
-X-CSE-MsgGUID: DvjwRqvxTrSf2ctj58MUKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="40313105"
+X-CSE-ConnectionGUID: 7ZTT/0n9Qz+0pgANXg+4+Q==
+X-CSE-MsgGUID: fUhzrYirTQ20rzK+FePGRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="50674661"
 X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
-   d="scan'208";a="40313105"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 00:20:08 -0800
-X-CSE-ConnectionGUID: CL/3n90kQX6+wKvBXtU0Rg==
-X-CSE-MsgGUID: /kdCjNekRlGWEbfLJ1BbYw==
+   d="scan'208";a="50674661"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 01:22:13 -0800
+X-CSE-ConnectionGUID: 2vYM8z7oQGSPPPKpIm1RLQ==
+X-CSE-MsgGUID: H2wrMt0xRAWoT7LdgCnrGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113915468"
+   d="scan'208";a="137312591"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2025 00:20:04 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Feb 2025 01:22:12 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tjwMD-001Cma-1E;
-	Mon, 17 Feb 2025 08:20:01 +0000
-Date: Mon, 17 Feb 2025 16:19:59 +0800
+	id 1tjxKM-001CtP-0G;
+	Mon, 17 Feb 2025 09:22:10 +0000
+Date: Mon, 17 Feb 2025 17:22:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qingfang Deng <dqfext@gmail.com>, Felix Fietkau <nbd@nbd.name>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v3] net: ethernet: mediatek: add EEE support
-Message-ID: <202502171639.wrPFfdvn-lkp@intel.com>
-References: <20250217033954.3698772-1-dqfext@gmail.com>
+To: Shengyu Qu <wiagn233@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1] mt76: mt7915: wed: add wed tx support
+Message-ID: <202502171751.a72jnssS-lkp@intel.com>
+References: <TYCPR01MB84374459E6D6B7BB602977CD98FB2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,103 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217033954.3698772-1-dqfext@gmail.com>
+In-Reply-To: <TYCPR01MB84374459E6D6B7BB602977CD98FB2@TYCPR01MB8437.jpnprd01.prod.outlook.com>
 
-Hi Qingfang,
+Hi Shengyu,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.14-rc3 next-20250217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qingfang-Deng/net-ethernet-mediatek-add-EEE-support/20250217-114148
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250217033954.3698772-1-dqfext%40gmail.com
-patch subject: [PATCH net-next v3] net: ethernet: mediatek: add EEE support
-config: arm64-randconfig-002-20250217 (https://download.01.org/0day-ci/archive/20250217/202502171639.wrPFfdvn-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502171639.wrPFfdvn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shengyu-Qu/mt76-mt7915-wed-add-wed-tx-support/20250217-133029
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/TYCPR01MB84374459E6D6B7BB602977CD98FB2%40TYCPR01MB8437.jpnprd01.prod.outlook.com
+patch subject: [RFC PATCH v1] mt76: mt7915: wed: add wed tx support
+config: loongarch-randconfig-002-20250217 (https://download.01.org/0day-ci/archive/20250217/202502171751.a72jnssS-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502171751.a72jnssS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502171639.wrPFfdvn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502171751.a72jnssS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:10:
-   In file included from include/linux/of_mdio.h:12:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:860:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
-     860 | }
-         | ^
-   4 warnings generated.
+   drivers/net/wireless/mediatek/mt76/wed.c: In function 'mt76_wed_offload_disable':
+>> drivers/net/wireless/mediatek/mt76/wed.c:174:30: error: 'struct mtk_wed_device' has no member named 'wlan'
+     174 |         dev->token_size = wed->wlan.token_start;
+         |                              ^~
 
 
-vim +860 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+vim +174 drivers/net/wireless/mediatek/mt76/wed.c
 
-   826	
-   827	static int mtk_mac_enable_tx_lpi(struct phylink_config *config, u32 timer,
-   828					 bool tx_clk_stop)
-   829	{
-   830		struct mtk_mac *mac = container_of(config, struct mtk_mac,
-   831						   phylink_config);
-   832		struct mtk_eth *eth = mac->hw;
-   833		u32 val;
-   834	
-   835		/* Tx idle timer in ms */
-   836		timer = DIV_ROUND_UP(timer, 1000);
-   837	
-   838		/* If the timer is zero, then set LPI_MODE, which allows the
-   839		 * system to enter LPI mode immediately rather than waiting for
-   840		 * the LPI threshold.
-   841		 */
-   842		if (!timer)
-   843			val = MAC_EEE_LPI_MODE;
-   844		else if (FIELD_FIT(MAC_EEE_LPI_TXIDLE_THD, timer))
-   845			val = FIELD_PREP(MAC_EEE_LPI_TXIDLE_THD, timer);
-   846		else
-   847			val = MAC_EEE_LPI_TXIDLE_THD;
-   848	
-   849		if (tx_clk_stop)
-   850			val |= MAC_EEE_CKG_TXIDLE;
-   851	
-   852		/* PHY Wake-up time, this field does not have a reset value, so use the
-   853		 * reset value from MT7531 (36us for 100M and 17us for 1000M).
-   854		 */
-   855		val |= FIELD_PREP(MAC_EEE_WAKEUP_TIME_1000, 17) |
-   856		       FIELD_PREP(MAC_EEE_WAKEUP_TIME_100, 36);
-   857	
-   858		mtk_w32(eth, val, MTK_MAC_EEECR(mac->id));
-   859		mtk_m32(eth, 0, MAC_MCR_EEE100M | MAC_MCR_EEE1G, MTK_MAC_MCR(mac->id));
- > 860	}
-   861	
+   168	
+   169	void mt76_wed_offload_disable(struct mtk_wed_device *wed)
+   170	{
+   171		struct mt76_dev *dev = container_of(wed, struct mt76_dev, mmio.wed);
+   172	
+   173		spin_lock_bh(&dev->token_lock);
+ > 174		dev->token_size = wed->wlan.token_start;
+   175		spin_unlock_bh(&dev->token_lock);
+   176	}
+   177	EXPORT_SYMBOL_GPL(mt76_wed_offload_disable);
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
