@@ -1,277 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D860B218E85;
-	Mon, 17 Feb 2025 10:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2191A08DB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 12:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739789793; cv=none; b=suKAmKMay0Xe/sHiJc6SUBCqaRB1XZDjV3jr9eWTJ8ILvUG9RyBUcNJjjXPtjof5E5DrYaOWsG5vZ+a6s7q/zDZWRwZBq8xa/DgU4XIAjkrm11C3IXO+20poc4Q7ynMYYaeb1KiiwY29mHb2n8YSC4BTH1NAoEZW0SaOuX/PxMg=
+	t=1739794021; cv=none; b=e1n9jL5WkXq3lb0R1k1wGI1EjXEbOlpxkHkdtmmFFR8XDIOpQUpiFKmxQgh7sPTAzMo8R480blLo+xWpu26Ugn/SOzxWGxI3mcXoh04VDoqqnA2Acv2IXSH6tyx8UwOWJrTscTRdqMM40GkAIK7ltYUvsV3uw4zMCWCnxULokB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739789793; c=relaxed/simple;
-	bh=hDLOgY+mA75Ymn1iBk9Z4iLCk4JLS5jTuILN+eQ4yqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AnBcdsx4947SEF57nUvPVZHmMBxC3G8IRXzAf10J3XDa2b5GSnA6iSvPu3QhD8xTWpBW+rc/V6hnmBABCwmJss6c5SDh19oCXOA5DIBfjusNQ+JjHlH/JRB/t0Pv28pZfSPGM8ijJXBWGJbSJwSDbKbWKTgWLVLRTL6pG0HIVxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTnPBV0I; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTnPBV0I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739789792; x=1771325792;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hDLOgY+mA75Ymn1iBk9Z4iLCk4JLS5jTuILN+eQ4yqo=;
-  b=lTnPBV0IU4esVwvCGq4KRZo+9bXio1nrGTEUv4NX6IZDNQhT5Py21+RG
-   YNHAKJbkSQzp5e9xDCehLqnw31RCIOBkLsW1u46nO27yj8S1tK+PjOlNC
-   U7qgblQJSDzvL2aOYeZ4A9fbC/nugJGpZ9CsILCBLeceUlFvq3aIc1Bk5
-   R/jeAvgo/zZMZZkYNFK7uwOQCGO/kjht2j+9sKxGUF6rsqvhIRahlJs6b
-   qdZN9bE5kUhTvp//zPh0rDFQWx2oEVX2il+d9aGOWnhecsDVM6fZat/jW
-   nRmM1GDvR/DiW1nbjxA9SIPVQ2vP5qKzC/k3HzDa8nT9AiBrzZhIs6r+9
-   g==;
-X-CSE-ConnectionGUID: yT3sAxwERq2A+HBSDHmphw==
-X-CSE-MsgGUID: 3EIxJ3RSRtSs0+KlDEJ+Zw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="39695322"
-X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
-   d="scan'208";a="39695322"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 02:56:31 -0800
-X-CSE-ConnectionGUID: Y7CuIuy7RWWBpOkgyg8jpA==
-X-CSE-MsgGUID: aFmpx/LzTN6y0ale2QzYlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="119012041"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Feb 2025 02:56:23 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tjynV-001D0p-0I;
-	Mon, 17 Feb 2025 10:56:21 +0000
-Date: Mon, 17 Feb 2025 18:55:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jeff Johnson <jjohnson@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-	quic_jjohnson@quicinc.com, quic_pyarlaga@quicinc.com,
-	quic_vbadigan@quicinc.com, quic_vpernami@quicinc.com,
-	quic_mrana@quicinc.com,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Subject: Re: [PATCH 6/8] bus: mhi: host: Add support for Bandwidth scale
-Message-ID: <202502171823.5VC7a1E6-lkp@intel.com>
-References: <20250217-mhi_bw_up-v1-6-9bad1e42bdb1@oss.qualcomm.com>
+	s=arc-20240116; t=1739794021; c=relaxed/simple;
+	bh=X/KpQNA1qmybhn2eemCkawYW7o05VCaGU6XdYv22Az4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hMZyo1YrCTB37M4Xwt85Vsrqo494oGEIXuG4WjjSxp07fhPCgnBit1QhqtYNj4gexjcIAeL3i9ncuyP8TJsDGeki6SBQyGnAhIh3C8pFkZCpx9xeO7ifhIyu5a/GD23SKAz0nfsSebvRh7nrk7t4WppjtYRK9Jh7ZkuwmcKTqO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C1F3A43181;
+	Mon, 17 Feb 2025 12:06:49 +0000 (UTC)
+Message-ID: <a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
+Date: Mon, 17 Feb 2025 13:06:49 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250217-mhi_bw_up-v1-6-9bad1e42bdb1@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is
+ never less than zero.
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
+ linux-riscv@lists.infradead.org
+References: <202502171326.j4Xd3I0j-lkp@intel.com>
+ <20250217092445.GA29568@lst.de>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250217092445.GA29568@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehkeefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhephfduteegueelkeelgeejfeeigffhkeefhedvffdugeeuvddtudfhuefgkeffgfeunecuffhomhgrihhnpehgihhthhhusgdrtghomhdpihhnfhhrrgguvggrugdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeellegvheemfhgrtdgsmeejiedvugemudgssghfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeellegvheemfhgrtdgsmeejiedvugemudgssghfpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeellegvheemfhgrtdgsmeejiedvugemudgssghfngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeejpdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhil
+ hguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggvmheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-GND-Sasl: alex@ghiti.fr
 
-Hi Krishna,
+Hi Christoph,
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0ad2507d5d93f39619fc42372c347d6006b64319]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-update-current-bus-speed-as-part-of-pci_bus_add_devices/20250217-144050
-base:   0ad2507d5d93f39619fc42372c347d6006b64319
-patch link:    https://lore.kernel.org/r/20250217-mhi_bw_up-v1-6-9bad1e42bdb1%40oss.qualcomm.com
-patch subject: [PATCH 6/8] bus: mhi: host: Add support for Bandwidth scale
-config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250217/202502171823.5VC7a1E6-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502171823.5VC7a1E6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502171823.5VC7a1E6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/bus/mhi/host/init.c:682:6: warning: variable 'doorbell' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     682 |         if (mhi_cntrl->get_misc_doorbell)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/host/init.c:685:6: note: uninitialized use occurs here
-     685 |         if (doorbell > 0) {
-         |             ^~~~~~~~
-   drivers/bus/mhi/host/init.c:682:2: note: remove the 'if' if its condition is always true
-     682 |         if (mhi_cntrl->get_misc_doorbell)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     683 |                 doorbell = mhi_cntrl->get_misc_doorbell(mhi_cntrl, MHI_ER_BW_SCALE);
-   drivers/bus/mhi/host/init.c:548:22: note: initialize the variable 'doorbell' to silence this warning
-     548 |         int i, ret, doorbell;
-         |                             ^
-         |                              = 0
-   1 warning generated.
+On 17/02/2025 10:24, Christoph Hellwig wrote:
+> On Mon, Feb 17, 2025 at 01:53:08PM +0800, kernel test robot wrote:
+>> New smatch warnings:
+>> fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is never less than zero.
+> Looks like this is an issue in the riscv virt_to_page implementation
+> which also shows up in various other places.  Any chance this could get
+> fixed in the riscv code?
 
 
-vim +682 drivers/bus/mhi/host/init.c
+To me, the only test that could give rise to this warning is the last 
+part of:
 
-   544	
-   545	int mhi_init_mmio(struct mhi_controller *mhi_cntrl)
-   546	{
-   547		u32 val;
-   548		int i, ret, doorbell;
-   549		struct mhi_chan *mhi_chan;
-   550		struct mhi_event *mhi_event;
-   551		void __iomem *base = mhi_cntrl->regs;
-   552		struct device *dev = &mhi_cntrl->mhi_dev->dev;
-   553		struct {
-   554			u32 offset;
-   555			u32 val;
-   556		} reg_info[] = {
-   557			{
-   558				CCABAP_HIGHER,
-   559				upper_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
-   560			},
-   561			{
-   562				CCABAP_LOWER,
-   563				lower_32_bits(mhi_cntrl->mhi_ctxt->chan_ctxt_addr),
-   564			},
-   565			{
-   566				ECABAP_HIGHER,
-   567				upper_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
-   568			},
-   569			{
-   570				ECABAP_LOWER,
-   571				lower_32_bits(mhi_cntrl->mhi_ctxt->er_ctxt_addr),
-   572			},
-   573			{
-   574				CRCBAP_HIGHER,
-   575				upper_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
-   576			},
-   577			{
-   578				CRCBAP_LOWER,
-   579				lower_32_bits(mhi_cntrl->mhi_ctxt->cmd_ctxt_addr),
-   580			},
-   581			{
-   582				MHICTRLBASE_HIGHER,
-   583				upper_32_bits(mhi_cntrl->iova_start),
-   584			},
-   585			{
-   586				MHICTRLBASE_LOWER,
-   587				lower_32_bits(mhi_cntrl->iova_start),
-   588			},
-   589			{
-   590				MHIDATABASE_HIGHER,
-   591				upper_32_bits(mhi_cntrl->iova_start),
-   592			},
-   593			{
-   594				MHIDATABASE_LOWER,
-   595				lower_32_bits(mhi_cntrl->iova_start),
-   596			},
-   597			{
-   598				MHICTRLLIMIT_HIGHER,
-   599				upper_32_bits(mhi_cntrl->iova_stop),
-   600			},
-   601			{
-   602				MHICTRLLIMIT_LOWER,
-   603				lower_32_bits(mhi_cntrl->iova_stop),
-   604			},
-   605			{
-   606				MHIDATALIMIT_HIGHER,
-   607				upper_32_bits(mhi_cntrl->iova_stop),
-   608			},
-   609			{
-   610				MHIDATALIMIT_LOWER,
-   611				lower_32_bits(mhi_cntrl->iova_stop),
-   612			},
-   613			{0, 0}
-   614		};
-   615	
-   616		dev_dbg(dev, "Initializing MHI registers\n");
-   617	
-   618		/* Read channel db offset */
-   619		ret = mhi_get_channel_doorbell_offset(mhi_cntrl, &val);
-   620		if (ret)
-   621			return ret;
-   622	
-   623		if (val >= mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB)) {
-   624			dev_err(dev, "CHDB offset: 0x%x is out of range: 0x%zx\n",
-   625				val, mhi_cntrl->reg_len - (8 * MHI_DEV_WAKE_DB));
-   626			return -ERANGE;
-   627		}
-   628	
-   629		/* Setup wake db */
-   630		mhi_cntrl->wake_db = base + val + (8 * MHI_DEV_WAKE_DB);
-   631		mhi_cntrl->wake_set = false;
-   632	
-   633		/* Setup channel db address for each channel in tre_ring */
-   634		mhi_chan = mhi_cntrl->mhi_chan;
-   635		for (i = 0; i < mhi_cntrl->max_chan; i++, val += 8, mhi_chan++)
-   636			mhi_chan->tre_ring.db_addr = base + val;
-   637	
-   638		/* Read event ring db offset */
-   639		ret = mhi_read_reg(mhi_cntrl, base, ERDBOFF, &val);
-   640		if (ret) {
-   641			dev_err(dev, "Unable to read ERDBOFF register\n");
-   642			return -EIO;
-   643		}
-   644	
-   645		if (val >= mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings)) {
-   646			dev_err(dev, "ERDB offset: 0x%x is out of range: 0x%zx\n",
-   647				val, mhi_cntrl->reg_len - (8 * mhi_cntrl->total_ev_rings));
-   648			return -ERANGE;
-   649		}
-   650	
-   651		/* Setup event db address for each ev_ring */
-   652		mhi_event = mhi_cntrl->mhi_event;
-   653		for (i = 0; i < mhi_cntrl->total_ev_rings; i++, val += 8, mhi_event++) {
-   654			if (mhi_event->offload_ev)
-   655				continue;
-   656	
-   657			mhi_event->ring.db_addr = base + val;
-   658		}
-   659	
-   660		/* Setup DB register for primary CMD rings */
-   661		mhi_cntrl->mhi_cmd[PRIMARY_CMD_RING].ring.db_addr = base + CRDB_LOWER;
-   662	
-   663		/* Write to MMIO registers */
-   664		for (i = 0; reg_info[i].offset; i++)
-   665			mhi_write_reg(mhi_cntrl, base, reg_info[i].offset,
-   666				      reg_info[i].val);
-   667	
-   668		ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NER_MASK,
-   669					  mhi_cntrl->total_ev_rings);
-   670		if (ret) {
-   671			dev_err(dev, "Unable to write MHICFG register\n");
-   672			return ret;
-   673		}
-   674	
-   675		ret = mhi_write_reg_field(mhi_cntrl, base, MHICFG, MHICFG_NHWER_MASK,
-   676					  mhi_cntrl->hw_ev_rings);
-   677		if (ret) {
-   678			dev_err(dev, "Unable to write MHICFG register\n");
-   679			return ret;
-   680		}
-   681	
- > 682		if (mhi_cntrl->get_misc_doorbell)
-   683			doorbell = mhi_cntrl->get_misc_doorbell(mhi_cntrl, MHI_ER_BW_SCALE);
-   684	
-   685		if (doorbell > 0) {
-   686			ret = mhi_init_bw_scale(mhi_cntrl, doorbell);
-   687			if (!ret)
-   688				mhi_cntrl->bw_scale_db = base + val + (8 * doorbell);
-   689			else
-   690				dev_warn(dev, "BW scale setup failure\n");
-   691		}
-   692		return 0;
-   693	}
-   694	
+#define is_linear_mapping(x) \
+         ((x) >= PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < 
+PAGE_OFFSET + KERN_VIRT_SIZE))
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+But given that the config is a 32-bit config, it should not be evaluated 
+at all.
+
+Could that be a false-positive and then an issue in smatch?
+
+Thanks,
+
+Alex
+
+
+>
+>> Old smatch warnings:
+>> fs/xfs/xfs_linux.h:283 kmem_to_page() warn: unsigned '_x' is never less than zero.
+>> fs/xfs/xfs_buf.c:761 xfs_buf_get_map() error: we previously assumed 'bp' could be null (see line 743)
+>> arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+>>
+>> vim +/_x +1534 fs/xfs/xfs_buf.c
+>>
+>>    1518	
+>>    1519	static void
+>>    1520	xfs_buf_submit_bio(
+>>    1521		struct xfs_buf		*bp)
+>>    1522	{
+>>    1523		unsigned int		size = BBTOB(bp->b_length);
+>>    1524		unsigned int		map = 0, p;
+>>    1525		struct blk_plug		plug;
+>>    1526		struct bio		*bio;
+>>    1527	
+>>    1528		bio = bio_alloc(bp->b_target->bt_bdev, bp->b_page_count,
+>>    1529				xfs_buf_bio_op(bp), GFP_NOIO);
+>>    1530		bio->bi_private = bp;
+>>    1531		bio->bi_end_io = xfs_buf_bio_end_io;
+>>    1532	
+>>    1533		if (bp->b_flags & _XBF_KMEM) {
+>>> 1534			__bio_add_page(bio, virt_to_page(bp->b_addr), size,
+>>    1535					bp->b_offset);
+>>    1536		} else {
+>>    1537			for (p = 0; p < bp->b_page_count; p++)
+>>    1538				__bio_add_page(bio, bp->b_pages[p], PAGE_SIZE, 0);
+>>    1539			bio->bi_iter.bi_size = size; /* limit to the actual size used */
+>>    1540	
+>>    1541			if (xfs_buf_is_vmapped(bp))
+>>    1542				flush_kernel_vmap_range(bp->b_addr,
+>>    1543						xfs_buf_vmap_len(bp));
+>>    1544		}
+>>    1545	
+>>    1546		/*
+>>    1547		 * If there is more than one map segment, split out a new bio for each
+>>    1548		 * map except of the last one.  The last map is handled by the
+>>    1549		 * remainder of the original bio outside the loop.
+>>    1550		 */
+>>    1551		blk_start_plug(&plug);
+>>    1552		for (map = 0; map < bp->b_map_count - 1; map++) {
+>>    1553			struct bio	*split;
+>>    1554	
+>>    1555			split = bio_split(bio, bp->b_maps[map].bm_len, GFP_NOFS,
+>>    1556					&fs_bio_set);
+>>    1557			split->bi_iter.bi_sector = bp->b_maps[map].bm_bn;
+>>    1558			bio_chain(split, bio);
+>>    1559			submit_bio(split);
+>>    1560		}
+>>    1561		bio->bi_iter.bi_sector = bp->b_maps[map].bm_bn;
+>>    1562		submit_bio(bio);
+>>    1563		blk_finish_plug(&plug);
+>>    1564	}
+>>    1565	
+>>
+>> -- 
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+> ---end quoted text---
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
