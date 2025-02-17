@@ -1,74 +1,64 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888DB42A8B;
-	Mon, 17 Feb 2025 15:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258B5225404
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 15:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739807662; cv=none; b=WdgvhB6xAtMebwgnEkgUBcUrtdmcXwbOdL0mjhQLXybk6qb+2Qcf8tKtNwXpJBCUDHD5MEZogZhnvbQrGqBtpvHAqXZdn8SUUeFUnS7Zs24tBF0HIZeMmKTOOuQFZYUQhW9Hy4A+C0yV3CSQdHh6bjmi2mSTuAgDrk5ebqsqRVU=
+	t=1739807941; cv=none; b=jdwDRXgyMMRhM7FBRS+5N0nWIu/kGJ57wkgOKamW3qipNIOo+674NpSMN6BFMc57zjEWY77ducT2YMnBKRRXbgX3KiN9BW3hKdxeEkWliI2OSAuFGx/LMxwr7D0eA0Wpg++jZlPBUdU+R2t8/vAbJSr64KRekAJWXclDLeUXfho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739807662; c=relaxed/simple;
-	bh=bSBxzJR5oQVEYh+Oi1Iol3dXL0QO1mYzcXgPt7al01U=;
+	s=arc-20240116; t=1739807941; c=relaxed/simple;
+	bh=jDV83z/r74TiljhPheEnQ5RAJnBmf54S+/B/rxRetTA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RDfhDdgHIYVytpHWeHJ7fLXHmYvcCbvuO/3Agf6sSfPaayzmmyx20DHAKc2TtbuUTWP3FR+fCqwVG20iuG4nxEs8reC3ZE3Xd2yQL6DL/EYdBw9flWEpYZlxbCiDbxva2eR002pF+hGZdPxnOSo7w7y2iZzMyEXbFS+9/hSWP3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+goY4Qb; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=c770kJExQ7XZwgtwzCzSOU9yDw0UGApsdnwKBAx51GDnTtS1AlYBJdtU/aS37aWje2WnWZFqYN/5+zsKdshNm8YVA5S5x3C01zAdTAjOD2qFS1QvgUP//jdiHhB70ZRvdq6KsdI5vd1kgxqZfFAriAyF8vOaBSF3kp+zwWb2sFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXYI726Y; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+goY4Qb"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c0a4b030f2so56707285a.0;
-        Mon, 17 Feb 2025 07:54:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739807659; x=1740412459; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDO5YZx4Fy+u/C4ZXeJopGsEViBSAueZJDksbUtV69k=;
-        b=J+goY4Qb/1VDGL8hz8HrcjgR21CLcQWQip76k+hrX4N39JBTAUrnZ53+OY0uAFXZyX
-         6UJFYQtKp0FSDIQEFXhVqmbDWr7prdoO0t8sD+LIG8Fp0Z7djsBTNcYTH6NWzdjo9DfF
-         G+qMLeXk5uPYwAhyThCLvMwJ+HPsi+acKaFKP4HJtQ+E9eFGlITFwqKDw7R1cxJYhmJY
-         gJYUo50z1VATr8kJdaOOYC6wd4qolukIbmCxubFVDelxro+3f8qO5HaE7wypAHoqJmnR
-         sFohW+/48vLUSdYSxXvhK9Ug/Zbikf17/g7YevvM8mOlTE3CLqyf6DhuvE4Ts8D8Izly
-         O33Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739807659; x=1740412459;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WDO5YZx4Fy+u/C4ZXeJopGsEViBSAueZJDksbUtV69k=;
-        b=w7ccBfUkvfan/sVW7rZ9QHtwmql7DpfsFOkV6vHCs82J9DhvYzAbRxz24EJ141Id6p
-         H4Xzj6jjKjAbffMcV7la1mDWSVT8pyxp6OT+jzDwQ4z8dEQ4ylEIKK6YD52nl80NDkQt
-         wH2TBRDEUs4VWjI8LeKhq26ds2ikcdLIokFK3tmwCAm342BBAepoOen8hgkYIVz1NsqO
-         In/zuootS9xZP8yUm4+5ssToerTRrsnS9oFrPKJ1dznZ4q4JMyBIZ78aZ7FFZ/1DJZDh
-         wS9hVHxRbis3vQSE3lfCK4zixrUCub6JIaiDiixNZriq6lej/yflTtuE/DD3ZRxJvcho
-         674Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX0/Lf29Eqfzfm8Ou0I41m7/3J0b4WeFoa3+py7J/c0QZlf3fStW+c5hPxbjaL/Bqntri85XVfMt8BDYy589g==@lists.linux.dev, AJvYcCXxBing2ag1BPB2MwqxaqbcIaSEJbpOcC0FC8sUGXVrhsbJRE5QYFQSIoXUdP3MS6kba4S+@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9y7aPvFJPQDPf40ihhWzif4tCkgYGWpnR2sS1xEUsFQrfnNVL
-	+Jc5WHHjbfMbWHTDTTOuKiRQTCPAS4KGtQmBDYi6Xv7V9MlOMjEf
-X-Gm-Gg: ASbGncv5G+5/3NCRGIouHFj3xHFB2APGNIp9nS2As48E5e9S2inu2YmTGFGmR5u8JWX
-	YLTcFaBAimuQlJktD/Ngf9yfkoQp8lGNkI1oOsH6zNw1Bc7+bwQ5jaxBM4Id/BtC7MxReD6IWkd
-	sjbnQggUCQRMdhPym78YvXnI1hRNBj7xb2d9DyNKBj/M0uzgbKvHcHCyweGzJT6/TbkmSxoMNur
-	wPRa1blefcHpL62+9y43MYEhBYPDNO5NML92viZjCu77OabSq3GrEvcU19dMQNqGBlH9Wzpfryz
-	z9lrnouWzus1R74UkC+7TARcbrxk17o4sY6QWa99rOIy+YQUqXc=
-X-Google-Smtp-Source: AGHT+IHqd28XIIuG5Er3mwFxc82h+BgBiuGtf4OTGFuqH4TGKTz37i6U1sgk+++M+71Yq2YGnIW5aw==
-X-Received: by 2002:a05:620a:a48e:b0:7c0:a3bd:a78a with SMTP id af79cd13be357-7c0a3bda8f8mr207927185a.41.1739807659263;
-        Mon, 17 Feb 2025 07:54:19 -0800 (PST)
-Received: from glsmbp.wifi.local.cmu.edu (cmu-device2.nat.cmu.net. [128.2.149.252])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e65dcf946asm53454326d6.125.2025.02.17.07.54.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 07:54:18 -0800 (PST)
-Date: Mon, 17 Feb 2025 10:54:17 -0500
-From: "Gabriel L. Somlo" <gsomlo@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Daniel Craviee <dcraviee@internships.antmicro.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [litex-hub:litex-rebase 10/15]
- drivers/mtd/spi-nor/litex-spiflash.c:305:15: error: incompatible function
- pointer types initializing 'int (*)(struct spi_nor *, u8, const u8 *,
- size_t)' (aka 'int (*)(struct spi_nor *, unsigned char, const unsigned char
- *, unsigned long)') with an express...
-Message-ID: <Z7NbqdrXvBr6EIyg@glsmbp.wifi.local.cmu.edu>
-References: <202502170711.tNK4CFp1-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXYI726Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739807939; x=1771343939;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jDV83z/r74TiljhPheEnQ5RAJnBmf54S+/B/rxRetTA=;
+  b=hXYI726Y3hRwgkXnYEJ0v8dqcglrNAfGFaBGGbM1mbt/Wx97WUxI9pD2
+   MQa0ArQtlA6l3ZmVZhbVDrDB8P5SYjnpiPqVSJTfLa//aDOIyaABL0Emw
+   688p5XA3Z7GNfk/JeChP/axsZhKg0KFy0bHeSLHqB1qv0U4g7hUdfDGfw
+   1w1vtwsCJLVdwfIjG76ShhdUnO3yduojfg/EhmSzZB+kBO7WWthIJnVG9
+   s1/hQjeZ1+Jo87NoBeaM9JU1OZ8uonREXCj8Y0w39s0q+PYbywweQFbze
+   rXQoxmNMQYC1HY7+xbzo9A8CITX+F4Cw7QBcYPWyudD3mcQOLEVn5tFKX
+   g==;
+X-CSE-ConnectionGUID: UJemISElTHuonjxU1P7eIg==
+X-CSE-MsgGUID: kgbQ/5MCRa6ckVQC6VuBpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51902114"
+X-IronPort-AV: E=Sophos;i="6.13,293,1732608000"; 
+   d="scan'208";a="51902114"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 07:58:57 -0800
+X-CSE-ConnectionGUID: OMcK6skFQFyQN8of5wZ6sw==
+X-CSE-MsgGUID: 7r8HL4v0SAGlPMiaYG6bbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="119078576"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 17 Feb 2025 07:58:55 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tk3WG-001DJ9-1W;
+	Mon, 17 Feb 2025 15:58:52 +0000
+Date: Mon, 17 Feb 2025 23:58:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: NeilBrown <neilb@suse.de>, Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Change inode_operations.mkdir to return struct
+ dentry *
+Message-ID: <202502172326.hdZnGqWS-lkp@intel.com>
+References: <20250214052204.3105610-2-neilb@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,72 +67,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502170711.tNK4CFp1-lkp@intel.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+In-Reply-To: <20250214052204.3105610-2-neilb@suse.de>
 
-Thanks for the heads-up!
+Hi NeilBrown,
 
-On Mon, Feb 17, 2025 at 07:11:56AM +0800, kernel test robot wrote:
-> tree:   https://github.com/litex-hub/linux litex-rebase
-> head:   bfdc7246bec114e599ddb68ba442ce88172537ed
-> commit: 7cbcc8cd508400e5b564e23a122126a13096c2f7 [10/15] LiteX: driver for SPI Flash (mtd) device
-> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250217/202502170711.tNK4CFp1-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502170711.tNK4CFp1-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502170711.tNK4CFp1-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from drivers/mtd/spi-nor/litex-spiflash.c:23:
->    In file included from include/linux/module.h:19:
->    In file included from include/linux/elf.h:6:
->    In file included from arch/s390/include/asm/elf.h:181:
->    In file included from arch/s390/include/asm/mmu_context.h:11:
->    In file included from arch/s390/include/asm/pgalloc.h:18:
->    In file included from include/linux/mm.h:2224:
->    include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->      504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      505 |                            item];
->          |                            ~~~~
->    include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->      511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      512 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->      524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
->      525 |                            NR_VM_NUMA_EVENT_ITEMS +
->          |                            ~~~~~~~~~~~~~~~~~~~~~~
-> >> drivers/mtd/spi-nor/litex-spiflash.c:305:15: error: incompatible function pointer types initializing 'int (*)(struct spi_nor *, u8, const u8 *, size_t)' (aka 'int (*)(struct spi_nor *, unsigned char, const unsigned char *, unsigned long)') with an expression of type 'ssize_t (struct spi_nor *, u8, const u8 *, size_t)' (aka 'long (struct spi_nor *, unsigned char, const unsigned char *, unsigned long)') [-Wincompatible-function-pointer-types]
->      305 |         .write_reg = spi_flash_nor_write_reg,
->          |                      ^~~~~~~~~~~~~~~~~~~~~~~
->    3 warnings and 1 error generated.
-> 
-> 
-> vim +305 drivers/mtd/spi-nor/litex-spiflash.c
-> 
->    300	
->    301	static const struct spi_nor_controller_ops litex_spi_controller_ops = {
->    302		.read = spi_flash_nor_read,
->    303		.write = spi_flash_nor_write,
->    304		.read_reg = spi_flash_nor_read_reg,
->  > 305		.write_reg = spi_flash_nor_write_reg,
->    306		.erase = spi_flash_nor_erase,
->    307	};
->    308	
+kernel test robot noticed the following build warnings:
 
-Fixed by s/ssize_t/int/ in the definition of spi_flash_nor_write_reg():
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on trondmy-nfs/linux-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus cifs/for-next xfs-linux/for-next linus/master v6.14-rc3 next-20250217]
+[cannot apply to ericvh-v9fs/for-next tyhicks-ecryptfs/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--static ssize_t spi_flash_nor_write_reg(struct spi_nor *nor, u8 opcode,
-+static int spi_flash_nor_write_reg(struct spi_nor *nor, u8 opcode,
+url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfs-change-mkdir-inode_operation-to-return-alternate-dentry-if-needed/20250214-141741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250214052204.3105610-2-neilb%40suse.de
+patch subject: [PATCH 1/3] Change inode_operations.mkdir to return struct dentry *
+config: um-randconfig-r122-20250217 (https://download.01.org/0day-ci/archive/20250217/202502172326.hdZnGqWS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502172326.hdZnGqWS-lkp@intel.com/reproduce)
 
-I will squash that change on top of the existing driver in a few days.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502172326.hdZnGqWS-lkp@intel.com/
 
-Thanks,
---Gabriel
+sparse warnings: (new ones prefixed by >>)
+>> fs/hostfs/hostfs_kern.c:689:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected struct dentry * @@     got int @@
+   fs/hostfs/hostfs_kern.c:689:24: sparse:     expected struct dentry *
+   fs/hostfs/hostfs_kern.c:689:24: sparse:     got int
+
+vim +689 fs/hostfs/hostfs_kern.c
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  681  
+456289e0bd14ce NeilBrown         2025-02-14  682  static struct dentry *hostfs_mkdir(struct mnt_idmap *idmap, struct inode *ino,
+549c7297717c32 Christian Brauner 2021-01-21  683  				   struct dentry *dentry, umode_t mode)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  684  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  685  	char *file;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  686  	int err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  687  
+c5322220eb91b9 Al Viro           2010-06-06  688  	if ((file = dentry_name(dentry)) == NULL)
+f1adc05e773830 Jeff Dike         2007-05-08 @689  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  690  	err = do_mkdir(file, mode);
+e9193059b1b373 Al Viro           2010-06-06  691  	__putname(file);
+456289e0bd14ce NeilBrown         2025-02-14  692  	if (err)
+456289e0bd14ce NeilBrown         2025-02-14  693  		return ERR_PTR(err);
+456289e0bd14ce NeilBrown         2025-02-14  694  	else
+456289e0bd14ce NeilBrown         2025-02-14  695  		return dentry;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  696  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  697  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
