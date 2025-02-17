@@ -1,140 +1,135 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2191A08DB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 12:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB97C1DE3C3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 12:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739794021; cv=none; b=e1n9jL5WkXq3lb0R1k1wGI1EjXEbOlpxkHkdtmmFFR8XDIOpQUpiFKmxQgh7sPTAzMo8R480blLo+xWpu26Ugn/SOzxWGxI3mcXoh04VDoqqnA2Acv2IXSH6tyx8UwOWJrTscTRdqMM40GkAIK7ltYUvsV3uw4zMCWCnxULokB8=
+	t=1739794173; cv=none; b=k53O7XtwLGK2OkSXYG3If1s55YMhPW6r4xJei1vEQvpXaKaQeNLbat7ArqfT+uSSUGxUFedsrnaG/GwJ368CFTIunY86JcqRczgDaSwRxukNtFDQiWhHCDFMUpxZLB/a8xDS0JQ2FxSsqN1Ib1mW9zRhc7PNhEoWHymgm8AcAio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739794021; c=relaxed/simple;
-	bh=X/KpQNA1qmybhn2eemCkawYW7o05VCaGU6XdYv22Az4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hMZyo1YrCTB37M4Xwt85Vsrqo494oGEIXuG4WjjSxp07fhPCgnBit1QhqtYNj4gexjcIAeL3i9ncuyP8TJsDGeki6SBQyGnAhIh3C8pFkZCpx9xeO7ifhIyu5a/GD23SKAz0nfsSebvRh7nrk7t4WppjtYRK9Jh7ZkuwmcKTqO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C1F3A43181;
-	Mon, 17 Feb 2025 12:06:49 +0000 (UTC)
-Message-ID: <a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
-Date: Mon, 17 Feb 2025 13:06:49 +0100
+	s=arc-20240116; t=1739794173; c=relaxed/simple;
+	bh=TXvNXH5nYpZKuu4MPZq8KtdJiRzh50qP+ib8LeN2boY=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kWfDhWday23sMxmEZTUgzZL9c3upxkDjU2Ht8v7Il/RxeYogQtpAb5oLb/xYE8J+rCRkkV2iGaUOALrVVoH/J8ShjNYWBVZlsCbrz39ih/6XkpOY6dqkfZI3r0y7l5yx9oaU+lFvt3w3vKvTZgILP88O9MuMn9KDbpep9KM0ZY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dp+3y8EL; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dp+3y8EL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739794172; x=1771330172;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=TXvNXH5nYpZKuu4MPZq8KtdJiRzh50qP+ib8LeN2boY=;
+  b=dp+3y8ELwdIXPWzV96BJMAFpouBXmngyb05BKBJ8BUgRep6g6AdlHj1K
+   Ze/8LE+kyp9+v2x/M3pYavo2Ze50zpyHxiNIKCECPaHewMn0xm4NCLxHF
+   y8TVYspPN5Y1djrBUTgjRsi1thKr/OcF2dhfL9rZLDQFHv6GZWzwF0PR6
+   QeCIZGof4fbnsIeN1rjA0AzRns4VBDPj5GBQ/SL6syPdRW7a//afiaB8J
+   rGWlasfAn1lz7r/lHb40UwsJRDcQgqNBeMf7wohZ/QAeB7edPWRJE+UIG
+   gwogSWh2tUSmvt0YE4jBJOuQR2kdNlQRmiPRf7+4z62SbesgWg9gGlm6C
+   A==;
+X-CSE-ConnectionGUID: RAbTFQh6SHKj18L+UJjtgQ==
+X-CSE-MsgGUID: cKNrZ/joQtek3/fC3lOH4Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51881986"
+X-IronPort-AV: E=Sophos;i="6.13,292,1732608000"; 
+   d="scan'208";a="51881986"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 04:09:31 -0800
+X-CSE-ConnectionGUID: 1yBcne1zRGicZj2MMoJTXQ==
+X-CSE-MsgGUID: a63O4srtSIKh7ThYjNeerA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119321915"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 17 Feb 2025 04:09:31 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjzwG-001D4v-15
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 17 Feb 2025 12:09:28 +0000
+Date: Mon, 17 Feb 2025 20:09:11 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] include/crypto/hash.h:666:21: warning: storing
+ the address of local variable 'result' in '*req.result'
+Message-ID: <202502172029.Tg9B9Ncx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is
- never less than zero.
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- linux-riscv@lists.infradead.org
-References: <202502171326.j4Xd3I0j-lkp@intel.com>
- <20250217092445.GA29568@lst.de>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250217092445.GA29568@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehkeefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhephfduteegueelkeelgeejfeeigffhkeefhedvffdugeeuvddtudfhuefgkeffgfeunecuffhomhgrihhnpehgihhthhhusgdrtghomhdpihhnfhhrrgguvggrugdrohhrghenucfkphepvddttddumeekiedumeeffeekvdemvghfledtmeellegvheemfhgrtdgsmeejiedvugemudgssghfnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeellegvheemfhgrtdgsmeejiedvugemudgssghfpdhhvghloheplgfkrfggieemvddttddumeekiedumeeffeekvdemvghfledtmeellegvheemfhgrtdgsmeejiedvugemudgssghfngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeejpdhrtghpthhtohephhgthheslhhsthdruggvpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhil
- hguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptggvmheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Christoph,
+Hi Eric,
 
-On 17/02/2025 10:24, Christoph Hellwig wrote:
-> On Mon, Feb 17, 2025 at 01:53:08PM +0800, kernel test robot wrote:
->> New smatch warnings:
->> fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is never less than zero.
-> Looks like this is an issue in the riscv virt_to_page implementation
-> which also shows up in various other places.  Any chance this could get
-> fixed in the riscv code?
+FYI, the error/warning still remains.
 
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 4cc2dcf95f1c2849e489df91c07aee5f368a39f9 [1/1] crypto: testmgr - convert hash testing to use testvec_configs
+config: arm-randconfig-002-20250217 (https://download.01.org/0day-ci/archive/20250217/202502172029.Tg9B9Ncx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250217/202502172029.Tg9B9Ncx-lkp@intel.com/reproduce)
 
-To me, the only test that could give rise to this warning is the last 
-part of:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502172029.Tg9B9Ncx-lkp@intel.com/
 
-#define is_linear_mapping(x) \
-         ((x) >= PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < 
-PAGE_OFFSET + KERN_VIRT_SIZE))
+All warnings (new ones prefixed by >>):
 
-But given that the config is a 32-bit config, it should not be evaluated 
-at all.
-
-Could that be a false-positive and then an issue in smatch?
-
-Thanks,
-
-Alex
+   crypto/testmgr.c:644:13: warning: 'is_test_sglist_corrupted' defined but not used [-Wunused-function]
+     644 | static bool is_test_sglist_corrupted(const struct test_sglist *tsgl)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from crypto/testmgr.c:25:
+   In function 'ahash_request_set_crypt',
+       inlined from 'test_hash_vec_cfg' at crypto/testmgr.c:929:2:
+>> include/crypto/hash.h:666:21: warning: storing the address of local variable 'result' in '*req.result' [-Wdangling-pointer=]
+     666 |         req->result = result;
+         |         ~~~~~~~~~~~~^~~~~~~~
+   crypto/testmgr.c: In function 'test_hash_vec_cfg':
+   crypto/testmgr.c:881:12: note: 'result' declared here
+     881 |         u8 result[HASH_MAX_DIGESTSIZE + TESTMGR_POISON_LEN];
+         |            ^~~~~~
+   crypto/testmgr.c:865:52: note: 'req' declared here
+     865 |                              struct ahash_request *req,
+         |                              ~~~~~~~~~~~~~~~~~~~~~~^~~
 
 
->
->> Old smatch warnings:
->> fs/xfs/xfs_linux.h:283 kmem_to_page() warn: unsigned '_x' is never less than zero.
->> fs/xfs/xfs_buf.c:761 xfs_buf_get_map() error: we previously assumed 'bp' could be null (see line 743)
->> arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
->>
->> vim +/_x +1534 fs/xfs/xfs_buf.c
->>
->>    1518	
->>    1519	static void
->>    1520	xfs_buf_submit_bio(
->>    1521		struct xfs_buf		*bp)
->>    1522	{
->>    1523		unsigned int		size = BBTOB(bp->b_length);
->>    1524		unsigned int		map = 0, p;
->>    1525		struct blk_plug		plug;
->>    1526		struct bio		*bio;
->>    1527	
->>    1528		bio = bio_alloc(bp->b_target->bt_bdev, bp->b_page_count,
->>    1529				xfs_buf_bio_op(bp), GFP_NOIO);
->>    1530		bio->bi_private = bp;
->>    1531		bio->bi_end_io = xfs_buf_bio_end_io;
->>    1532	
->>    1533		if (bp->b_flags & _XBF_KMEM) {
->>> 1534			__bio_add_page(bio, virt_to_page(bp->b_addr), size,
->>    1535					bp->b_offset);
->>    1536		} else {
->>    1537			for (p = 0; p < bp->b_page_count; p++)
->>    1538				__bio_add_page(bio, bp->b_pages[p], PAGE_SIZE, 0);
->>    1539			bio->bi_iter.bi_size = size; /* limit to the actual size used */
->>    1540	
->>    1541			if (xfs_buf_is_vmapped(bp))
->>    1542				flush_kernel_vmap_range(bp->b_addr,
->>    1543						xfs_buf_vmap_len(bp));
->>    1544		}
->>    1545	
->>    1546		/*
->>    1547		 * If there is more than one map segment, split out a new bio for each
->>    1548		 * map except of the last one.  The last map is handled by the
->>    1549		 * remainder of the original bio outside the loop.
->>    1550		 */
->>    1551		blk_start_plug(&plug);
->>    1552		for (map = 0; map < bp->b_map_count - 1; map++) {
->>    1553			struct bio	*split;
->>    1554	
->>    1555			split = bio_split(bio, bp->b_maps[map].bm_len, GFP_NOFS,
->>    1556					&fs_bio_set);
->>    1557			split->bi_iter.bi_sector = bp->b_maps[map].bm_bn;
->>    1558			bio_chain(split, bio);
->>    1559			submit_bio(split);
->>    1560		}
->>    1561		bio->bi_iter.bi_sector = bp->b_maps[map].bm_bn;
->>    1562		submit_bio(bio);
->>    1563		blk_finish_plug(&plug);
->>    1564	}
->>    1565	
->>
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
-> ---end quoted text---
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+vim +666 include/crypto/hash.h
+
+18e33e6d5cc049 Herbert Xu      2008-07-10  646  
+90240ffb127729 Stephan Mueller 2014-11-12  647  /**
+90240ffb127729 Stephan Mueller 2014-11-12  648   * ahash_request_set_crypt() - set data buffers
+90240ffb127729 Stephan Mueller 2014-11-12  649   * @req: ahash_request handle to be updated
+90240ffb127729 Stephan Mueller 2014-11-12  650   * @src: source scatter/gather list
+90240ffb127729 Stephan Mueller 2014-11-12  651   * @result: buffer that is filled with the message digest -- the caller must
+90240ffb127729 Stephan Mueller 2014-11-12  652   *	    ensure that the buffer has sufficient space by, for example, calling
+90240ffb127729 Stephan Mueller 2014-11-12  653   *	    crypto_ahash_digestsize()
+90240ffb127729 Stephan Mueller 2014-11-12  654   * @nbytes: number of bytes to process from the source scatter/gather list
+90240ffb127729 Stephan Mueller 2014-11-12  655   *
+90240ffb127729 Stephan Mueller 2014-11-12  656   * By using this call, the caller references the source scatter/gather list.
+90240ffb127729 Stephan Mueller 2014-11-12  657   * The source scatter/gather list points to the data the message digest is to
+90240ffb127729 Stephan Mueller 2014-11-12  658   * be calculated for.
+90240ffb127729 Stephan Mueller 2014-11-12  659   */
+18e33e6d5cc049 Herbert Xu      2008-07-10  660  static inline void ahash_request_set_crypt(struct ahash_request *req,
+18e33e6d5cc049 Herbert Xu      2008-07-10  661  					   struct scatterlist *src, u8 *result,
+18e33e6d5cc049 Herbert Xu      2008-07-10  662  					   unsigned int nbytes)
+18e33e6d5cc049 Herbert Xu      2008-07-10  663  {
+18e33e6d5cc049 Herbert Xu      2008-07-10  664  	req->src = src;
+18e33e6d5cc049 Herbert Xu      2008-07-10  665  	req->nbytes = nbytes;
+18e33e6d5cc049 Herbert Xu      2008-07-10 @666  	req->result = result;
+18e33e6d5cc049 Herbert Xu      2008-07-10  667  }
+18e33e6d5cc049 Herbert Xu      2008-07-10  668  
+
+:::::: The code at line 666 was first introduced by commit
+:::::: 18e33e6d5cc0495826f5245777cd267732815e01 crypto: hash - Move ahash functions into crypto/hash.h
+
+:::::: TO: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
