@@ -1,203 +1,117 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC5D1FCD09
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 12:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCC721A45B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 13:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739796329; cv=none; b=PdxdNi+j3gax4ah7I8ldryLU3ZGuSa7I65MLlyjegFBwPlnMK/bwSFiZKmv1WkpP2zm88ngQD9vU3w+3I3wZLZod/X9nnvuOHF3Rek2+ctRyMSM3kZO5+AJD0dB3rcRfdzpPBqArmEjSDPTWRCVQblWxmTB0jyFNAnxnXM8aqlU=
+	t=1739797928; cv=none; b=g77Q/i9K79WCkiNBEHcqFaQq/jbqnlpP2kl2918MilDVDuOw6zFJPO9GBENYHbjrJiilL8/BMVxYk+VcVKTlG8TqeR312vgAgLLo2E2ch/cd7L3qai6Fnm42AEdMVa628N4Y+KhS+p29UjBB8LNIAHjp7lpl7PyujkoTXia7b44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739796329; c=relaxed/simple;
-	bh=JLCthkDiujhJWvaZO4mfOYy+exv3O43V+pwlShIwWyQ=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=LV35Gxackd26SVbEN7aOsDOYJBOlzZoQ5ux5159XJwyVAypWDIoqhWHgt83ztr9RgA2XVokPlEDh4BMbTxZ46uIFaUM78zGbim7GQBQOsR5YQ+UC03GjLLasHmz8dlL1RLCWh9UBGQTqVK9wVcYV7vm0MLv18q/HFzH/OxeB+Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=MpUxES5l; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1739797928; c=relaxed/simple;
+	bh=MRAFcY9ayAng/g+VDNI+8agAhkl6MiiLqZ85TtSKkcc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eu8zDDxwo2JNJuFgUdMmIN7UWWpgktbWYdEyesuR5FhbHlT91iJHWTq3D/j+n/WsZqEwDTvY4RKMNvkP73MYshAMQZmBOrxg01gKm2THywLQDMfx0u/KkykGDEHvB+57IP2IWTr+l7KL3G9QCux1EHFGgK6OXTI8eOlNEl9WLdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmHwRnTK; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="MpUxES5l"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmHwRnTK"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38f2f748128so1332062f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Feb 2025 05:12:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R7KZ3Z3RVh09CVwO6uMl2Psc8lQKM6wS6pkVXMO9YJk=;
-  b=MpUxES5lQA4sBXb0q2T5B+5tPst4JCHkexuF2NT6HqFOOEU6J+O3mwlO
-   jt+QIJajKoPplw1jgCn0IMnck4A6y8+Jcpj9bJt0u/FZEntRdiqTwjOQC
-   tFRH+XwN5bkjvjy5rX0LPenTMoZbTrnk1ay1xdXURztWUvYzfBcMxhUUH
-   U=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.13,292,1732575600"; 
-   d="scan'208";a="109307503"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 13:44:14 +0100
-Date: Mon, 17 Feb 2025 13:44:13 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: David Lechner <dlechner@baylibre.com>
-cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-    Nuno Sa <nuno.sa@analog.com>, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 2779/4577] drivers/spi/spi-offload.c:127:9-17:
- ERROR: reference preceded by free on line 126 (fwd)
-Message-ID: <ddd17670-106b-a491-2bb0-658ce193a9a@inria.fr>
+        d=gmail.com; s=20230601; t=1739797925; x=1740402725; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dbv6tZxsXHhtGn9KFBS5fucmEZ2CZu7fW3YyX0NKPZI=;
+        b=nmHwRnTKBM3PyVa5N0I8uyaTwHfb7z3h/ChrPiS+UMsAt+X3lhuaACN8aPFigHEtTN
+         nkbQYNjKy9O6COKnhYBT/3wt9GnpVjzSS88djMiW1EG1zG9HX7/Rz6ixd6TUsTY08PgW
+         0oKMlOnBsHNIXvmtOMQYkDPRZveRk9xP+r4ZO6xR2Wl2oStlU284uaDCTeSDjn4gpN19
+         udW9NP0JvTYfKMTADhPOUGwya5M8rWo+mIXzMSMWGu0C4y0rILkTGSVZkJ/c4++og4sI
+         CoDqQsJyt05/fZQ5O2fGkXVflOYd+3p+W5rF1Gw0Aq6L/XUAAAIf/6HDr3PPZX487jaa
+         py0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739797925; x=1740402725;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Dbv6tZxsXHhtGn9KFBS5fucmEZ2CZu7fW3YyX0NKPZI=;
+        b=YJO9qwxiiICAuEqJEAC+G1jS3tUjW5qQyzHf/7HuxBcqaXIQe5ks3C4V5D1AL7tyGB
+         1/FVv4itEvTK7/6e79NRibFkkbY7ZbAK06nNGl1yadQimoN5f3GpFo9sMFgGAmf6YeT2
+         OjU5ACz7Qf2UX21MwwQomrtBL1JFfiNFKwaeYORMTf+2VB4WH1+udrlN72KMAJg+PRgP
+         7lgoqSxbkz7A2kw4L4lkfyCop9oc8/VKmjhwvOqWO6sZJg/h/Buw9DPgH1L1nCyoqPO+
+         QPCWuY/xw3B97atDTEfuzcdfOnzilddZVSgzyIWCbqsik2pcft1sHPQS9MOeVuI/CbD/
+         laQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3IE2d9hK4CYzZjecq13ddBsdlDY8cJy/B9aLAyjZIZ+tG93v9rfM5Ra2O0I8TL/+WISj42vYYfBFUSoDE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgxEIVJUGDXTf1uIJt5a3S3/61BBYRJ/H7019X2cHJj+WJMIM/
+	5BR13YbFbG6wH866DeTWKrTod+hBT7EQ9BVr5QHGTFUo4lVBIson
+X-Gm-Gg: ASbGncso0rWHXnFSSsAI2qQ8yH9ZtJyZKfZ/eBPdG9/XtrtXwr+edVv5LycwRFZU4OY
+	VFn3g3yAHQxSejzaYgtlxZEnUwqcv/hSCm/L0DmCTt9jL5SMs3DJwIlW58HEDpoFMYoFKKJk77t
+	rP4euPcqNsoXcVXvYJ+8j8hFUN9wDXoQ0Ao55y14orM8WShD8Pe0tfPvxD4/Y0U1CIFetCs+DM4
+	YNCHESR1gfGd+lFG8XMdkeEZi78rMAGNvDdbyH+gTu/71V0CbbM/bJtls+9zKMbt8dnDt12nhgL
+	4Y1NI86oTa2uBYkbS4CasrlkfBW2uWV/1u+pMrXNSKVi+/VnqPuOjw==
+X-Google-Smtp-Source: AGHT+IGI8Y+1gHpNEIL5sYVZymnBYx2kGRoduPMaxMSQCJyc4mjJ84MG14TVAegnNK2lJjDu/Lbf2Q==
+X-Received: by 2002:a5d:59a7:0:b0:38f:3224:6615 with SMTP id ffacd0b85a97d-38f33f374bcmr8372027f8f.7.1739797924909;
+        Mon, 17 Feb 2025 05:12:04 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259f85c2sm12639181f8f.91.2025.02.17.05.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 05:12:04 -0800 (PST)
+Date: Mon, 17 Feb 2025 13:12:03 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Carlos
+ Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
+ linux-riscv@lists.infradead.org
+Subject: Re: fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x'
+ is never less than zero.
+Message-ID: <20250217131203.2657cc4b@pumpkin>
+In-Reply-To: <a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
+References: <202502171326.j4Xd3I0j-lkp@intel.com>
+	<20250217092445.GA29568@lst.de>
+	<a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-See line 126.
+On Mon, 17 Feb 2025 13:06:49 +0100
+Alexandre Ghiti <alex@ghiti.fr> wrote:
 
-julia
+> Hi Christoph,
+>=20
+> On 17/02/2025 10:24, Christoph Hellwig wrote:
+> > On Mon, Feb 17, 2025 at 01:53:08PM +0800, kernel test robot wrote: =20
+> >> New smatch warnings:
+> >> fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is neve=
+r less than zero. =20
+> > Looks like this is an issue in the riscv virt_to_page implementation
+> > which also shows up in various other places.  Any chance this could get
+> > fixed in the riscv code? =20
+>=20
+>=20
+> To me, the only test that could give rise to this warning is the last=20
+> part of:
+>=20
+> #define is_linear_mapping(x) \
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) >=3D PAGE_OFFSET && (!IS=
+_ENABLED(CONFIG_64BIT) || (x) <=20
+> PAGE_OFFSET + KERN_VIRT_SIZE))
+>=20
+> But given that the config is a 32-bit config, it should not be evaluated=
+=20
+> at all.
+>=20
+> Could that be a false-positive and then an issue in smatch?
 
----------- Forwarded message ----------
-Date: Mon, 17 Feb 2025 19:37:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 2779/4577] drivers/spi/spi-offload.c:127:9-17:
-    ERROR: reference preceded by free on line 126
+Why is smatch even looking.
+The equivalent check in gcc has been moved to -W2 because of all false posi=
+tives.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: David Lechner <dlechner@baylibre.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Nuno Sa <nuno.sa@analog.com>
-
-Hi David,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   253c82b3a2cec22bf9db65645f934fbe095899a3
-commit: f09f140e3ea8f4c1b2990cdd72848f4083388ad8 [2779/4577] iio: adc: ad4695: Add support for SPI offload
-:::::: branch date: 4 hours ago
-:::::: commit date: 6 days ago
-config: xtensa-randconfig-r062-20250217 (https://download.01.org/0day-ci/archive/20250217/202502171956.DsCx3n8E-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202502171956.DsCx3n8E-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/spi/spi-offload.c:127:9-17: ERROR: reference preceded by free on line 126
---
->> drivers/spi/spi-offload.c:181:15-22: ERROR: invalid reference to the index variable of the iterator on line 169
-
-vim +127 drivers/spi/spi-offload.c
-
-8e02d188698851 David Lechner 2025-02-07   93
-8e02d188698851 David Lechner 2025-02-07   94  /**
-8e02d188698851 David Lechner 2025-02-07   95   * devm_spi_offload_get() - Get an offload instance
-8e02d188698851 David Lechner 2025-02-07   96   * @dev: Device for devm purposes
-8e02d188698851 David Lechner 2025-02-07   97   * @spi: SPI device to use for the transfers
-8e02d188698851 David Lechner 2025-02-07   98   * @config: Offload configuration
-8e02d188698851 David Lechner 2025-02-07   99   *
-8e02d188698851 David Lechner 2025-02-07  100   * Peripheral drivers call this function to get an offload instance that meets
-8e02d188698851 David Lechner 2025-02-07  101   * the requirements specified in @config. If no suitable offload instance is
-8e02d188698851 David Lechner 2025-02-07  102   * available, -ENODEV is returned.
-8e02d188698851 David Lechner 2025-02-07  103   *
-8e02d188698851 David Lechner 2025-02-07  104   * Return: Offload instance or error on failure.
-8e02d188698851 David Lechner 2025-02-07  105   */
-8e02d188698851 David Lechner 2025-02-07  106  struct spi_offload *devm_spi_offload_get(struct device *dev,
-8e02d188698851 David Lechner 2025-02-07  107  					 struct spi_device *spi,
-8e02d188698851 David Lechner 2025-02-07  108  					 const struct spi_offload_config *config)
-8e02d188698851 David Lechner 2025-02-07  109  {
-8e02d188698851 David Lechner 2025-02-07  110  	struct spi_controller_and_offload *resource;
-8e02d188698851 David Lechner 2025-02-07  111  	int ret;
-8e02d188698851 David Lechner 2025-02-07  112
-8e02d188698851 David Lechner 2025-02-07  113  	if (!spi || !config)
-8e02d188698851 David Lechner 2025-02-07  114  		return ERR_PTR(-EINVAL);
-8e02d188698851 David Lechner 2025-02-07  115
-8e02d188698851 David Lechner 2025-02-07  116  	if (!spi->controller->get_offload)
-8e02d188698851 David Lechner 2025-02-07  117  		return ERR_PTR(-ENODEV);
-8e02d188698851 David Lechner 2025-02-07  118
-8e02d188698851 David Lechner 2025-02-07  119  	resource = kzalloc(sizeof(*resource), GFP_KERNEL);
-8e02d188698851 David Lechner 2025-02-07  120  	if (!resource)
-8e02d188698851 David Lechner 2025-02-07  121  		return ERR_PTR(-ENOMEM);
-8e02d188698851 David Lechner 2025-02-07  122
-8e02d188698851 David Lechner 2025-02-07  123  	resource->controller = spi->controller;
-8e02d188698851 David Lechner 2025-02-07  124  	resource->offload = spi->controller->get_offload(spi, config);
-8e02d188698851 David Lechner 2025-02-07  125  	if (IS_ERR(resource->offload)) {
-8e02d188698851 David Lechner 2025-02-07 @126  		kfree(resource);
-8e02d188698851 David Lechner 2025-02-07 @127  		return resource->offload;
-8e02d188698851 David Lechner 2025-02-07  128  	}
-8e02d188698851 David Lechner 2025-02-07  129
-8e02d188698851 David Lechner 2025-02-07  130  	ret = devm_add_action_or_reset(dev, spi_offload_put, resource);
-8e02d188698851 David Lechner 2025-02-07  131  	if (ret)
-8e02d188698851 David Lechner 2025-02-07  132  		return ERR_PTR(ret);
-8e02d188698851 David Lechner 2025-02-07  133
-8e02d188698851 David Lechner 2025-02-07  134  	return resource->offload;
-8e02d188698851 David Lechner 2025-02-07  135  }
-8e02d188698851 David Lechner 2025-02-07  136  EXPORT_SYMBOL_GPL(devm_spi_offload_get);
-d7231be4b4657e David Lechner 2025-02-07  137
-d7231be4b4657e David Lechner 2025-02-07  138  static void spi_offload_trigger_free(struct kref *ref)
-d7231be4b4657e David Lechner 2025-02-07  139  {
-d7231be4b4657e David Lechner 2025-02-07  140  	struct spi_offload_trigger *trigger =
-d7231be4b4657e David Lechner 2025-02-07  141  		container_of(ref, struct spi_offload_trigger, ref);
-d7231be4b4657e David Lechner 2025-02-07  142
-d7231be4b4657e David Lechner 2025-02-07  143  	mutex_destroy(&trigger->lock);
-d7231be4b4657e David Lechner 2025-02-07  144  	fwnode_handle_put(trigger->fwnode);
-d7231be4b4657e David Lechner 2025-02-07  145  	kfree(trigger);
-d7231be4b4657e David Lechner 2025-02-07  146  }
-d7231be4b4657e David Lechner 2025-02-07  147
-d7231be4b4657e David Lechner 2025-02-07  148  static void spi_offload_trigger_put(void *data)
-d7231be4b4657e David Lechner 2025-02-07  149  {
-d7231be4b4657e David Lechner 2025-02-07  150  	struct spi_offload_trigger *trigger = data;
-d7231be4b4657e David Lechner 2025-02-07  151
-d7231be4b4657e David Lechner 2025-02-07  152  	scoped_guard(mutex, &trigger->lock)
-d7231be4b4657e David Lechner 2025-02-07  153  		if (trigger->ops && trigger->ops->release)
-d7231be4b4657e David Lechner 2025-02-07  154  			trigger->ops->release(trigger);
-d7231be4b4657e David Lechner 2025-02-07  155
-d7231be4b4657e David Lechner 2025-02-07  156  	kref_put(&trigger->ref, spi_offload_trigger_free);
-d7231be4b4657e David Lechner 2025-02-07  157  }
-d7231be4b4657e David Lechner 2025-02-07  158
-d7231be4b4657e David Lechner 2025-02-07  159  static struct spi_offload_trigger
-d7231be4b4657e David Lechner 2025-02-07  160  *spi_offload_trigger_get(enum spi_offload_trigger_type type,
-d7231be4b4657e David Lechner 2025-02-07  161  			 struct fwnode_reference_args *args)
-d7231be4b4657e David Lechner 2025-02-07  162  {
-d7231be4b4657e David Lechner 2025-02-07  163  	struct spi_offload_trigger *trigger;
-d7231be4b4657e David Lechner 2025-02-07  164  	bool match = false;
-d7231be4b4657e David Lechner 2025-02-07  165  	int ret;
-d7231be4b4657e David Lechner 2025-02-07  166
-d7231be4b4657e David Lechner 2025-02-07  167  	guard(mutex)(&spi_offload_triggers_lock);
-d7231be4b4657e David Lechner 2025-02-07  168
-d7231be4b4657e David Lechner 2025-02-07 @169  	list_for_each_entry(trigger, &spi_offload_triggers, list) {
-d7231be4b4657e David Lechner 2025-02-07  170  		if (trigger->fwnode != args->fwnode)
-d7231be4b4657e David Lechner 2025-02-07  171  			continue;
-d7231be4b4657e David Lechner 2025-02-07  172
-d7231be4b4657e David Lechner 2025-02-07  173  		match = trigger->ops->match(trigger, type, args->args, args->nargs);
-d7231be4b4657e David Lechner 2025-02-07  174  		if (match)
-d7231be4b4657e David Lechner 2025-02-07  175  			break;
-d7231be4b4657e David Lechner 2025-02-07  176  	}
-d7231be4b4657e David Lechner 2025-02-07  177
-d7231be4b4657e David Lechner 2025-02-07  178  	if (!match)
-d7231be4b4657e David Lechner 2025-02-07  179  		return ERR_PTR(-EPROBE_DEFER);
-d7231be4b4657e David Lechner 2025-02-07  180
-d7231be4b4657e David Lechner 2025-02-07 @181  	guard(mutex)(&trigger->lock);
-d7231be4b4657e David Lechner 2025-02-07  182
-d7231be4b4657e David Lechner 2025-02-07  183  	if (!trigger->ops)
-d7231be4b4657e David Lechner 2025-02-07  184  		return ERR_PTR(-ENODEV);
-d7231be4b4657e David Lechner 2025-02-07  185
-d7231be4b4657e David Lechner 2025-02-07  186  	if (trigger->ops->request) {
-d7231be4b4657e David Lechner 2025-02-07  187  		ret = trigger->ops->request(trigger, type, args->args, args->nargs);
-d7231be4b4657e David Lechner 2025-02-07  188  		if (ret)
-d7231be4b4657e David Lechner 2025-02-07  189  			return ERR_PTR(ret);
-d7231be4b4657e David Lechner 2025-02-07  190  	}
-d7231be4b4657e David Lechner 2025-02-07  191
-d7231be4b4657e David Lechner 2025-02-07  192  	kref_get(&trigger->ref);
-d7231be4b4657e David Lechner 2025-02-07  193
-d7231be4b4657e David Lechner 2025-02-07  194  	return trigger;
-d7231be4b4657e David Lechner 2025-02-07  195  }
-d7231be4b4657e David Lechner 2025-02-07  196
-
-:::::: The code at line 127 was first introduced by commit
-:::::: 8e02d188698851436f76038ea998b726193d1b10 spi: add basic support for SPI offloading
-
-:::::: TO: David Lechner <dlechner@baylibre.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	David
