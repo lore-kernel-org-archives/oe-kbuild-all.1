@@ -1,140 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2EB1ACEBA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 04:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5401ACEBA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 04:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739854430; cv=none; b=qBooc6Tg2U9qxcx5t1yiqu7FPvEDzLIOHfFLnTIFtl7Qf/VWxP3kJTeQqmcPdKeNluyOrzm0bfBrVjzR5BdcL30EZpc2N45Qh9WUXQPmJv/pH61woH6czt7iFIr1flW4JY7artyo4TLzp2vbVgCdYKwT5scEuCA28Pwjk5bD1pc=
+	t=1739854508; cv=none; b=PDJqrZ27gza7FnSF1TtzqDpBoyY8lxaJMfYMFA+H5GhmEZTQzY32ZadlroM6MMwHJg6qZMF4ZHdjCMZyJ/Vb+t9ZST+/yWZO6e1ZSBl7KhNNe4TdTJUlSlFJoo6NjdZA81HsMdsfyUjUqZw6Nnl8gEKVAsXT9qICVJaVhLRbu8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739854430; c=relaxed/simple;
-	bh=SFd0vf+SSyJmv1pfmQJ/JnKhPHmXJWFI2fbuEvKCGQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UJqrjaYmPWCBoGuuH1PV09ohTqsmckSqv5+tuOeOjMDc1xBgyt1mZbMsr+86dhHdSLY91kG7f4+NZj1IkmS05EzDFLT6cLuxEo2wABethFCJg8t4uz3g3u7IjvtFZ8IvQi/qOoq4IJ2FREv2K/aHFJa841OW5eIr7s5+QAS0CPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqJ5fMmV; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqJ5fMmV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739854428; x=1771390428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SFd0vf+SSyJmv1pfmQJ/JnKhPHmXJWFI2fbuEvKCGQI=;
-  b=YqJ5fMmVw0dYavXFZhKiuvXz5T6vDaQMG3skbUcbZegrUWaFp7wnI7oX
-   q0shbf3SLsU/DCmKhzxaENslnqYNl1Y2ig40d+A1zCCIr7p/y7diFGhaX
-   hRkJ0ROtZ9dME9+ShhGYeB7TIRODPAkZCX7pdgqg6NWF0+m5Mjrcv0w8U
-   dJcaqtYH7efkEG1C9cfIRmw/XS4bjS9Krkgo76SZVGs+gfExwIsLOvJiI
-   oCjwUNtoYwdrjYEgrEUd9aiL//HUb2vnv6bDpp9whBtG4qXaGS9gxA+18
-   CO2UNzUlBPdmZO9wlvf4UclNtHhOcJlGiCw/L2SEsbtQ55PHy+9gjZqP6
-   Q==;
-X-CSE-ConnectionGUID: ZsRF9qwFThq1TMlnM8hj2A==
-X-CSE-MsgGUID: tXpkuSROR5ymyGH03ErOIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="65893212"
-X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="65893212"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 20:53:47 -0800
-X-CSE-ConnectionGUID: GQwDedp+T12/GFkd/cUa3g==
-X-CSE-MsgGUID: nq0WqdYGQ5SIoyunToPdnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="119284206"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 17 Feb 2025 20:53:45 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tkFc0-0000BQ-18;
-	Tue, 18 Feb 2025 04:53:37 +0000
-Date: Tue, 18 Feb 2025 12:53:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 101/106]
- fs/bcachefs/fsck.c:1989:33: warning: format '%u' expects argument of type
- 'unsigned int', but argument 8 has type 'u64' {aka 'long long unsigned int'}
-Message-ID: <202502181211.CwbdSRHW-lkp@intel.com>
+	s=arc-20240116; t=1739854508; c=relaxed/simple;
+	bh=8Rww1tDeYsBTVtksCnifbW9ho3ZZuv64PVKG9q+qInc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TdJTAOVMrsC+jx7FwRQliqTCsUXmWkC50rlb3z3JkM5qrYjW8f7wBYCDtPXowXxL1OUm3xBeRdhuIUPodcX4tHBtgqZxxBE1LK/QxJZWy12IgLfjXnAhsxD/m3H1O2rf+Zeol1+b3NgGZzAVk5IBdcQN3o/CTyRu3VxJxi6an8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 135F544291;
+	Tue, 18 Feb 2025 04:55:01 +0000 (UTC)
+Message-ID: <ca8bf710-f77a-42b7-92ed-5d6ef9fe44b5@ghiti.fr>
+Date: Tue, 18 Feb 2025 05:55:01 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: mm/workingset.c:621 workingset_update_node() warn: unsigned '_x'
+ is never less than zero.
+Content-Language: en-US
+To: Andrew Morton <akpm@linux-foundation.org>,
+ kernel test robot <lkp@intel.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ "T.J. Mercier" <tjmercier@google.com>, linux-riscv@lists.infradead.org
+References: <202502160323.ZLUfooA0-lkp@intel.com>
+ <20250217202127.cf92afe2c0a89d5865e1811b@linux-foundation.org>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20250217202127.cf92afe2c0a89d5865e1811b@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeitdeflecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepkeefkeetveejgfelheefvefhvedvfefhieegiedtkefgjeetffejueekgefggfeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgpdhinhhfrhgruggvrggurdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemugeifeejmegrhehfieemrgefhedtmeejvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeguieefjeemrgehfheimegrfeehtdemjedviedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemugeifeejmegrhehfieemrgefhedtmeejvdeingdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeelpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlkhhpsehinhhtvghlr
+ dgtohhmpdhrtghpthhtohepshhhrghkvggvlhdrsghuthhtsehlihhnuhigrdguvghvpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehrohhmrghnrdhguhhshhgthhhinheslhhinhhugidruggvvhdprhgtphhtthhopehtjhhmvghrtghivghrsehgohhoghhlvgdrtghomh
+X-GND-Sasl: alex@ghiti.fr
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   c0a15f588bcc855c5e30e6c8cfe2ec207e13acf2
-commit: 30f640edcaf4398d30d758f6dc888258d7916042 [101/106] fixup! bcachefs: Fix fsck directory i_size checking
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250218/202502181211.CwbdSRHW-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181211.CwbdSRHW-lkp@intel.com/reproduce)
+Hi Andrew,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502181211.CwbdSRHW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from fs/bcachefs/str_hash.h:8,
-                    from fs/bcachefs/dirent.h:5,
-                    from fs/bcachefs/fsck.c:10:
-   fs/bcachefs/fsck.c: In function 'check_dir_i_size_notnested':
->> fs/bcachefs/fsck.c:1989:33: warning: format '%u' expects argument of type 'unsigned int', but argument 8 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
-    1989 |                                 "directory %llu:%u with wrong i_size: got %u, should be %llu",
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1990 |                                 w->last_pos.inode, i->snapshot, i->inode.bi_size, i->i_size)) {
-         |                                                                 ~~~~~~~~~~~~~~~~
-         |                                                                         |
-         |                                                                         u64 {aka long long unsigned int}
-   fs/bcachefs/error.h:107:20: note: in definition of macro 'fsck_err_wrap'
-     107 |         int _ret = _do;                                                 \
-         |                    ^~~
-   fs/bcachefs/error.h:117:47: note: in expansion of macro 'bch2_fsck_err'
-     117 | #define __fsck_err(...)         fsck_err_wrap(bch2_fsck_err(__VA_ARGS__))
-         |                                               ^~~~~~~~~~~~~
-   fs/bcachefs/error.h:130:27: note: in expansion of macro '__fsck_err'
-     130 |         (unlikely(cond) ? __fsck_err(c, _flags, _err_type, __VA_ARGS__) : false);\
-         |                           ^~~~~~~~~~
-   fs/bcachefs/error.h:143:9: note: in expansion of macro '__fsck_err_on'
-     143 |         __fsck_err_on(cond, c, FSCK_CAN_FIX|FSCK_CAN_IGNORE, _err_type, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~
-   fs/bcachefs/fsck.c:1987:21: note: in expansion of macro 'fsck_err_on'
-    1987 |                 if (fsck_err_on(i->inode.bi_size != i->i_size,
-         |                     ^~~~~~~~~~~
-   fs/bcachefs/fsck.c:1989:76: note: format string is defined here
-    1989 |                                 "directory %llu:%u with wrong i_size: got %u, should be %llu",
-         |                                                                           ~^
-         |                                                                            |
-         |                                                                            unsigned int
-         |                                                                           %llu
+On 18/02/2025 05:21, Andrew Morton wrote:
+> On Sun, 16 Feb 2025 03:56:06 +0800 kernel test robot <lkp@intel.com> wrote:
+>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   7ff71e6d923969d933e1ba7e0db857782d36cd19
+>> commit: 4715c6a753dccd15fd3a8928168f57e349205bd4 mm: cleanup WORKINGSET_NODES in workingset
+>> date:   9 months ago
+>> config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250216/202502160323.ZLUfooA0-lkp@intel.com/config)
+>> compiler: riscv32-linux-gcc (GCC) 14.2.0
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202502160323.ZLUfooA0-lkp@intel.com/
+>>
+>> New smatch warnings:
+>> mm/workingset.c:621 workingset_update_node() warn: unsigned '_x' is never less than zero.
+>> mm/workingset.c:746 shadow_lru_isolate() warn: unsigned '_x' is never less than zero.
+>>
+>> Old smatch warnings:
+>> include/linux/mm.h:1306 virt_to_head_page() warn: unsigned '_x' is never less than zero.
+>>
+>> vim +/_x +621 mm/workingset.c
+>>
+>>     617	
+>>     618	void workingset_update_node(struct xa_node *node)
+>>     619	{
+>>     620		struct address_space *mapping;
+>>   > 621		struct page *page = virt_to_page(node);
+> We're seeing several reports like this.  It looks like the RISC-V
+> virt_to_page() (actualy __pa) implementation needs some attention.
 
 
-vim +1989 fs/bcachefs/fsck.c
+Yes, Christoph reported the same warning yesterday, we are discussing it 
+since it is probably a false-positive 
+https://lore.kernel.org/linux-riscv/Z7PWuSA4jtZnxp5J@rli9-mobl/T/#t.
 
-  1980	
-  1981	static int check_dir_i_size_notnested(struct btree_trans *trans, struct inode_walker *w)
-  1982	{
-  1983		struct bch_fs *c = trans->c;
-  1984		int ret = 0;
-  1985	
-  1986		darray_for_each(w->inodes, i)
-  1987			if (fsck_err_on(i->inode.bi_size != i->i_size,
-  1988					trans, inode_dir_wrong_nlink,
-> 1989					"directory %llu:%u with wrong i_size: got %u, should be %llu",
-  1990					w->last_pos.inode, i->snapshot, i->inode.bi_size, i->i_size)) {
-  1991				i->inode.bi_size = i->i_size;
-  1992				ret = bch2_fsck_write_inode(trans, &i->inode);
-  1993				if (ret)
-  1994					break;
-  1995			}
-  1996	fsck_err:
-  1997		bch_err_fn(c, ret);
-  1998		return ret;
-  1999	}
-  2000	
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alex
+
+
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
