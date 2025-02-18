@@ -1,113 +1,84 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AA81DB361
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 14:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4F226B2BE;
+	Tue, 18 Feb 2025 16:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739889995; cv=none; b=T0Dcxr+OacdD4oFsYzsa3+UKyTDw1nQzhkAhQlEnan8HxOJsnJQuq9zfpRPq1MPu4si7IDNrObUQbgU4RDB7sCkgWGcHI/yPU6Xbz1MaVKjk40gzoU0LO/VkEOl/D5ffjs5M8dKtEmLyD79lBydz+unmLzM1aHWRToRS4cIkYEY=
+	t=1739897246; cv=none; b=RS8gT24vopwCXoSTR9yBJmTEWwoLEaBWLH8p5FqylgwYHWhDTMtUOXNHwuoZZVZONzPp7PiMwO2nS+lBRm4xTmEn/iUfntQwPgYMgE5Ul9MQGNP8NYU6lx+CXIVCyLZOl2rKRCY2oDUoV1B1XPRY6rRntYJFUc9Mjt8XCYThy4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739889995; c=relaxed/simple;
-	bh=vzaGpdLNX9OLuU+R9yufw9PuZi+mKKQ3x8jQJ0RfnxY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CzyXuJf5BQiRwphkPG8lhGVc5TM+Zk+GaeDe39ThJ8xfFq9LSm4Klh/AdQD5LkVFKLknVyaQgiEcKJiTy5MUGJWQlfT1CAgXawTK4IfdI7xMxtBstCtoJ74Rd6H9vNf0NM9bBLGHCXsRfFxJDcKOXfLF7f3cfA4kdJVBEFFnADY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EB4C844196;
-	Tue, 18 Feb 2025 14:46:23 +0000 (UTC)
-Message-ID: <52e0c3d1-239b-475e-8ddd-932a460c6da1@ghiti.fr>
-Date: Tue, 18 Feb 2025 15:46:23 +0100
+	s=arc-20240116; t=1739897246; c=relaxed/simple;
+	bh=oVD0aPVJ0JUxzWxJf3CwW8yIcPV/QlQ3knpGNTg2Fho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ExKH8vOOStYYgK7jtQD2YGAp1atPcAoV4mQD4aDYJ8wYRHBeE5XYhX4UiJ9NY4oIeVzkuWuCiOk8GjDlrGB1c8ii9FpA5p4TE15PJ54HEEbf7V0SBpZdtpRLqj1T0q1TTx5j/Sasqq16YM90BBubvBXX4wPERsxM80MLu2IAxxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E792AC4CEE2;
+	Tue, 18 Feb 2025 16:47:25 +0000 (UTC)
+Date: Tue, 18 Feb 2025 08:47:24 -0800
+From: Josh Poimboeuf <jpoimboe@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: ERROR: modpost: "kmsan_handle_dma"
+ [drivers/virtio/virtio_ring.ko] undefined!
+Message-ID: <20250218164724.uxcwotv3wgc5y3id@jpoimboe>
+References: <202502150634.qjxwSeJR-lkp@intel.com>
+ <20250218114857.oBuLvPYs@linutronix.de>
+ <20250218132855.GE40464@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is
- never less than zero.
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, Philip Li <philip.li@intel.com>
-Cc: David Laight <david.laight.linux@gmail.com>,
- Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- linux-riscv@lists.infradead.org
-References: <202502171326.j4Xd3I0j-lkp@intel.com>
- <20250217092445.GA29568@lst.de>
- <a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
- <20250217131203.2657cc4b@pumpkin> <Z7PWuSA4jtZnxp5J@rli9-mobl>
- <78ff844a-0fb4-42f6-b54f-4d19e14cfd05@stanley.mountain>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <78ff844a-0fb4-42f6-b54f-4d19e14cfd05@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeiudehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepuefffedvleetleetjefhjeehudejteetvedtvddvtdfhieetffelvdffgefgieeinecuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecukfhppeduleefrdeffedrheejrdduleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudelfedrfeefrdehjedrudelledphhgvlhhopegludelvddrudeikedrvddurddvhegnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslhhinhgrrhhordhorhhgpdhrtghpthhtohepphhhihhlihhprdhlihesihhnthgvlhdrtghomhdprhgtphhtthhopegurghvihgurdhlrghighhhthdrlhhinhhugiesghhmrghilhdrtghomhdprhgtphhtthhopehhtghhsehlshhtrdguvgdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepohgvq
- dhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegtvghmsehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: alex@ghiti.fr
+In-Reply-To: <20250218132855.GE40464@noisy.programming.kicks-ass.net>
 
-Hi Dan,
+On Tue, Feb 18, 2025 at 02:28:55PM +0100, Peter Zijlstra wrote:
+> On Tue, Feb 18, 2025 at 12:48:57PM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2025-02-15 06:42:36 [+0800], kernel test robot wrote:
+> > > >> arch/x86/kvm/cpuid.o: warning: objtool: do_cpuid_func+0x2428: undefined stack state
+> > 
+> 
+> > From the assembly it seems to make sense:
+> > |   110ae:       49 89 e0                mov    %rsp,%r8
+> > stash for later
+> > |   110b1:       48 85 db                test   %rbx,%rbx
+> > |   110b4:       c7 00 00 00 00 00       movl   $0x0,(%rax)
+> > |   110ba:       45 89 7e 14             mov    %r15d,0x14(%r14)
+> > |   110be:       0f 85 40 01 00 00       jne    11204 <do_cpuid_func+0x22f4>
+> > …
+> > |   11204:       44 8b 74 24 38          mov    0x38(%rsp),%r14d
+> > |   11209:       44 89 f7                mov    %r14d,%edi
+> > |   1120c:       4d 89 c7                mov    %r8,%r15
+> > 
+> > mov rsp to r15
+> 
+> This, objtool doesn't track this one. It only does:
+> 
+>  mov %rsp, reg
+> 
+>  mov reg, %rsp
+> 
+> I'm not entirely sure how painful it would be to teach objtool about
+> this case. Horrible code it is :/
+> 
+> > restore rsp. I just don't see how rsp is destroyed but this could be
+> > related to paravirt's xxl clobbing in__cpuid().
+> > 
+> > I miss 1120c in my output. I don't understand how it jumps from 110ae to
+> > 1124b. It misses the assignments in between but this might not be goal
+> > here…
 
-On 18/02/2025 15:21, Dan Carpenter wrote:
-> On Tue, Feb 18, 2025 at 08:39:21AM +0800, Philip Li wrote:
->> + Dan
->>
->> Hi Dan,
->>
->> On Mon, Feb 17, 2025 at 01:12:03PM +0000, David Laight wrote:
->>> On Mon, 17 Feb 2025 13:06:49 +0100
->>> Alexandre Ghiti <alex@ghiti.fr> wrote:
->>>
->>>> Hi Christoph,
->>>>
->>>> On 17/02/2025 10:24, Christoph Hellwig wrote:
->>>>> On Mon, Feb 17, 2025 at 01:53:08PM +0800, kernel test robot wrote:
->>>>>> New smatch warnings:
->>>>>> fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is never less than zero.
->>>>> Looks like this is an issue in the riscv virt_to_page implementation
->>>>> which also shows up in various other places.  Any chance this could get
->>>>> fixed in the riscv code?
->>>>
->>>> To me, the only test that could give rise to this warning is the last
->>>> part of:
->>>>
->>>> #define is_linear_mapping(x) \
->>>>           ((x) >= PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) <
->>>> PAGE_OFFSET + KERN_VIRT_SIZE))
->>>>
->>>> But given that the config is a 32-bit config, it should not be evaluated
->>>> at all.
->>>>
->>>> Could that be a false-positive and then an issue in smatch?
->>> Why is smatch even looking.
->>> The equivalent check in gcc has been moved to -W2 because of all false positives.
-> The Smatch check is a bit more sophisticated than the GCC check...
-> I think if you removed the (!IS_ENABLED(CONFIG_64BIT) condition then
-> Smatch wouldn't trigger a warning here.  How would I duplicate this
-> warning?  The "ARCH=riscv make.cross" command does a 64bit build.
+FYI, you can add OBJTOOL_ARGS="--backtrace" or OBJTOOL_VERBOSE=1 to the
+cmdline to see how objtool got there.  On my build there were some
+ALTERNATIVE()s involved which makes it trickier to follow.
 
+There's definitely some weirdness going on, I'm also seeing the .s not
+match the .o.  Maybe it's the __msan_*() stuff.  Still looking...
 
-riscv uses the same toolchain for both 32 and 64-bit, if you look at the 
-faulty config, you can see that CONFIG_32BIT is enabled so it actually 
-is a 32-bit build.
-
-Thanks for jumping in,
-
-Alex
-
-
->
-> Screw it, I can just silence this warning based on that it's a kernel
-> build and the variable is called "_x".
->
-> regards,
-> dan carpenter
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+-- 
+Josh
