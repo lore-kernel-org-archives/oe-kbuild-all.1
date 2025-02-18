@@ -1,135 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DF92417DA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 12:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1172526F479;
+	Tue, 18 Feb 2025 13:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739881765; cv=none; b=QyiUhY4km6hNqEody+FDRPUX+Kx+GNZmeWelSVE0Jvm7HyqH3oVdk9JE2RxdLGEVL7K+NYTeanXioPAuRK1s23zMsurQxhP7sZdgG2SKS7ECA8vp4jgFJ32GbqAG9PkbKG7050CW/BFX/JcXmkYZwSZNuuDLpqxUMTT9MZOo/3M=
+	t=1739885341; cv=none; b=R6NOuO+w2YkuNsWWDT7HZKalE8vinEPaiFLbjawDtQlb90QxMJ7MzI5DoiFph3/D1TvoYIs9R/Z1324bSY/n4f2bhlWPih/TDX5PDvVMqtJqk970b31LmlH12uG4rp/qvqkCdwptomUo/dOy9mmK+/kJmao+6XnOmBm1Juu5D5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739881765; c=relaxed/simple;
-	bh=hGsv2vXpRwUZZLZ2yGnB9ShAh5sU8nupXyL8jAVDq94=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d/BIRA7aR3d5jg9C8tXVG+WB5yyAPpoqAbyJzRyVdv+4C65txG8AC6hcZQvCWFMP69/StWfbT1FUQ/fWNncIhIPdKwVKl7t2UDFrvVUkalZOECK1r4+PeLSZuqG8ERCD96r+R/3mc/Dmfx4EXoLr35jL77ToCgM/4lCi521gaiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ma4iZaxt; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739885341; c=relaxed/simple;
+	bh=iw/SPrbXn98cADc38nK9IqPnmrHPqixHtVWli1zCfVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9NR5q1LHobrIE2mUTy0HX7idXTuwrIGnDyhIWW8SLZNmygNDFGWzRupajm4LPvd5TuDmEOKMrJDdjp3VyGoPDHFlNjNycHKqw79m/rTuTqA6ULscQnaoUAdqGHvk7JtMJVDvShR5cP/BXbhV7tmjalI0i5RqW7dVDVWOf/RTJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bWZZTJk7; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ma4iZaxt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739881763; x=1771417763;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hGsv2vXpRwUZZLZ2yGnB9ShAh5sU8nupXyL8jAVDq94=;
-  b=Ma4iZaxt5MIHI5RDcE7fwOlJib0gKsVDql3YRnJ7yu6JDdXIoTAXHirA
-   wPFXkiaPFy42YbITX7shOBPWbszyINAtMEw2xPHz3QeShKrjnNslEE/L2
-   ytYPOs34Z90HXIBY6Q7/cqwaxGIlIKp4e6K3S5SI+JCktwF2Tl/4g7pcQ
-   hL3pcPy1jMRza0nWhRSCL+ZSBo1L5loKjPJodg1l5/LFHFmyyRBfbRtTy
-   4HTpMFaPrMw681QllszxNXu7xaPDl5q/GnJLpxWvwjRIfi2O+8fwIm3U/
-   eUCqoJi+fqPh7n+98fY37JHE5RKGtUvN8XWNDMpnAkJEBFu+4U7afufcJ
-   Q==;
-X-CSE-ConnectionGUID: NMn3DoxFRVCdM+kqX8uSLQ==
-X-CSE-MsgGUID: pjzTI3K1R2qPYR0WhBmgeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40278227"
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="40278227"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 04:29:23 -0800
-X-CSE-ConnectionGUID: WGcp88rXTXqAI0O9YPevSw==
-X-CSE-MsgGUID: lZDkfhpJR5eBU+5Ls2x/yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
-   d="scan'208";a="114305486"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 18 Feb 2025 04:29:22 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tkMiw-0000Vh-06;
-	Tue, 18 Feb 2025 12:29:15 +0000
-Date: Tue, 18 Feb 2025 20:28:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Smart <jsmart2021@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Hannes Reinecke <hare@suse.de>, Daniel Wagner <dwagner@suse.de>,
-	Ram Vegesna <ram.vegesna@broadcom.com>
-Subject: drivers/scsi/elx/libefc/efc_node.c:254:70: warning: '%s' directive
- output may be truncated writing up to 15 bytes into a region of size between
- 0 and 31
-Message-ID: <202502182036.RChzXKS8-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bWZZTJk7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=R/o1iYOuTnHdhQ5dQpONUa+xtnc26ne1K/lxsZiqLlE=; b=bWZZTJk7HG6EUCdOIuwtQ31mF1
+	y3H28+JyOq58NxaxEzH+37aZDlVv2j4Zbsz6TJm0ImcqOxrtVka/Hr2QhJSF7n2saSxRmTVOYsunA
+	fWv0oRN1aFkicZUgFGE3ssWnQ4ZFqh7FQ9XDS9cJm94kS0rNI/+WNeKx3dAQiHrq7ZwtzL/+eCAXu
+	xJmCQ5Fj9eW6GbxBHwop3ReqPZ6Z//V6u9cCx3nS9MO0WTeijNcCzTXYlzuROWt4jI31IwGK8es30
+	RC377zVtYk8kRGuAI48MfMPMpTrcEmzbG13qvlEHQ8jdgB9LFy4zAvHKxjLHVhdZgm0jBgpLSCqIP
+	+Rd1dU3A==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tkNei-000000030UP-19lA;
+	Tue, 18 Feb 2025 13:28:56 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 2341230066A; Tue, 18 Feb 2025 14:28:55 +0100 (CET)
+Date: Tue, 18 Feb 2025 14:28:55 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: ERROR: modpost: "kmsan_handle_dma"
+ [drivers/virtio/virtio_ring.ko] undefined!
+Message-ID: <20250218132855.GE40464@noisy.programming.kicks-ass.net>
+References: <202502150634.qjxwSeJR-lkp@intel.com>
+ <20250218114857.oBuLvPYs@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250218114857.oBuLvPYs@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2408a807bfc3f738850ef5ad5e3fd59d66168996
-commit: ebc076b3eddc807729bd81f7bc48e798a3ddc477 scsi: elx: efct: Tie into kernel Kconfig and build process
-date:   3 years, 8 months ago
-config: x86_64-randconfig-001-20241126 (https://download.01.org/0day-ci/archive/20250218/202502182036.RChzXKS8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502182036.RChzXKS8-lkp@intel.com/reproduce)
+On Tue, Feb 18, 2025 at 12:48:57PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-02-15 06:42:36 [+0800], kernel test robot wrote:
+> > >> arch/x86/kvm/cpuid.o: warning: objtool: do_cpuid_func+0x2428: undefined stack state
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502182036.RChzXKS8-lkp@intel.com/
+> From the assembly it seems to make sense:
+> |   110ae:       49 89 e0                mov    %rsp,%r8
+> stash for later
+> |   110b1:       48 85 db                test   %rbx,%rbx
+> |   110b4:       c7 00 00 00 00 00       movl   $0x0,(%rax)
+> |   110ba:       45 89 7e 14             mov    %r15d,0x14(%r14)
+> |   110be:       0f 85 40 01 00 00       jne    11204 <do_cpuid_func+0x22f4>
+> …
+> |   11204:       44 8b 74 24 38          mov    0x38(%rsp),%r14d
+> |   11209:       44 89 f7                mov    %r14d,%edi
+> |   1120c:       4d 89 c7                mov    %r8,%r15
+> 
+> mov rsp to r15
 
-All warnings (new ones prefixed by >>):
+This, objtool doesn't track this one. It only does:
 
-   drivers/scsi/elx/libefc/efc_node.c: In function 'efc_node_alloc':
->> drivers/scsi/elx/libefc/efc_node.c:254:70: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size between 0 and 31 [-Wformat-truncation=]
-     254 |         snprintf(node->display_name, sizeof(node->display_name), "%s.%s",
-         |                                                                      ^~
-     255 |                  nport->display_name, portid_display);
-         |                                       ~~~~~~~~~~~~~~                  
-   In function 'efc_node_update_display_name',
-       inlined from 'efc_node_alloc' at drivers/scsi/elx/libefc/efc_node.c:95:2:
-   drivers/scsi/elx/libefc/efc_node.c:254:9: note: 'snprintf' output between 2 and 48 bytes into a destination of size 32
-     254 |         snprintf(node->display_name, sizeof(node->display_name), "%s.%s",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     255 |                  nport->display_name, portid_display);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/elx/libefc/efc_node.c: In function 'efc_node_update_display_name':
->> drivers/scsi/elx/libefc/efc_node.c:254:70: warning: '%s' directive output may be truncated writing up to 15 bytes into a region of size between 0 and 31 [-Wformat-truncation=]
-     254 |         snprintf(node->display_name, sizeof(node->display_name), "%s.%s",
-         |                                                                      ^~
-     255 |                  nport->display_name, portid_display);
-         |                                       ~~~~~~~~~~~~~~                  
-   drivers/scsi/elx/libefc/efc_node.c:254:9: note: 'snprintf' output between 2 and 48 bytes into a destination of size 32
-     254 |         snprintf(node->display_name, sizeof(node->display_name), "%s.%s",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     255 |                  nport->display_name, portid_display);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ mov %rsp, reg
 
+ mov reg, %rsp
 
-vim +254 drivers/scsi/elx/libefc/efc_node.c
+I'm not entirely sure how painful it would be to teach objtool about
+this case. Horrible code it is :/
 
-6bc6180d7b5c97 James Smart 2021-06-01  244  
-6bc6180d7b5c97 James Smart 2021-06-01  245  void
-6bc6180d7b5c97 James Smart 2021-06-01  246  efc_node_update_display_name(struct efc_node *node)
-6bc6180d7b5c97 James Smart 2021-06-01  247  {
-6bc6180d7b5c97 James Smart 2021-06-01  248  	u32 port_id = node->rnode.fc_id;
-6bc6180d7b5c97 James Smart 2021-06-01  249  	struct efc_nport *nport = node->nport;
-6bc6180d7b5c97 James Smart 2021-06-01  250  	char portid_display[16];
-6bc6180d7b5c97 James Smart 2021-06-01  251  
-6bc6180d7b5c97 James Smart 2021-06-01  252  	efc_node_fcid_display(port_id, portid_display, sizeof(portid_display));
-6bc6180d7b5c97 James Smart 2021-06-01  253  
-6bc6180d7b5c97 James Smart 2021-06-01 @254  	snprintf(node->display_name, sizeof(node->display_name), "%s.%s",
-6bc6180d7b5c97 James Smart 2021-06-01  255  		 nport->display_name, portid_display);
-6bc6180d7b5c97 James Smart 2021-06-01  256  }
-6bc6180d7b5c97 James Smart 2021-06-01  257  
-
-:::::: The code at line 254 was first introduced by commit
-:::::: 6bc6180d7b5c972c10a2f5392621921de32ce5bc scsi: elx: libefc: Remote node state machine interfaces
-
-:::::: TO: James Smart <jsmart2021@gmail.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> |   1120f:       e8 00 00 00 00          call   11214 <do_cpuid_func+0x2304>
+> |                        11210: R_X86_64_PLT32   __msan_chain_origin-0x4
+> |   11214:       89 c7                   mov    %eax,%edi
+> |   11216:       e8 00 00 00 00          call   1121b <do_cpuid_func+0x230b>
+> |                        11217: R_X86_64_PLT32   __msan_warning-0x4
+> |   1121b:       44 89 f7                mov    %r14d,%edi
+> |   1121e:       e8 00 00 00 00          call   11223 <do_cpuid_func+0x2313>
+> |                        1121f: R_X86_64_PLT32   __msan_chain_origin-0x4
+> |   11223:       89 c7                   mov    %eax,%edi
+> |   11225:       e8 00 00 00 00          call   1122a <do_cpuid_func+0x231a>
+> |                        11226: R_X86_64_PLT32   __msan_warning-0x4
+> |   1122a:       44 89 f7                mov    %r14d,%edi
+> |   1122d:       e8 00 00 00 00          call   11232 <do_cpuid_func+0x2322>
+> |                        1122e: R_X86_64_PLT32   __msan_chain_origin-0x4
+> |   11232:       89 c7                   mov    %eax,%edi
+> |   11234:       e8 00 00 00 00          call   11239 <do_cpuid_func+0x2329>
+> |                        11235: R_X86_64_PLT32   __msan_warning-0x4
+> |   11239:       44 89 f7                mov    %r14d,%edi
+> |   1123c:       e8 00 00 00 00          call   11241 <do_cpuid_func+0x2331>
+> |                        1123d: R_X86_64_PLT32   __msan_chain_origin-0x4
+> |   11241:       89 c7                   mov    %eax,%edi
+> |   11243:       e8 00 00 00 00          call   11248 <do_cpuid_func+0x2338>
+> |                        11244: R_X86_64_PLT32   __msan_warning-0x4
+> |   11248:       4c 89 ef                mov    %r13,%rdi
+> |   1124b:       48 8b 74 24 20          mov    0x20(%rsp),%rsi
+> |   11250:       4c 89 e2                mov    %r12,%rdx
+> |   11253:       48 8b 4c 24 08          mov    0x8(%rsp),%rcx
+> |   11258:       4c 89 fc                mov    %r15,%rsp
+> 
+> restore rsp. I just don't see how rsp is destroyed but this could be
+> related to paravirt's xxl clobbing in__cpuid().
+> 
+> I miss 1120c in my output. I don't understand how it jumps from 110ae to
+> 1124b. It misses the assignments in between but this might not be goal
+> here…
+> 
+> gcc does not cause objtool to produce the warning but then gcc does
+> shuffle rsp as much as llvm does.
+> 
+> Sebastian
