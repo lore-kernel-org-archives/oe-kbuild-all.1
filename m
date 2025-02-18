@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5402198823
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 04:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2006B1A3140
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 04:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739852531; cv=none; b=uVQJDhfQwSnGdvRdEBOGtFqJPm1wR+PqfyH/MF3SlaemuXmgBinr3VTSsijEMSwcPQ444R/WWeHL5Eoq9quTqUKE0QSyzkni9e3VyifGJckyhJqC1U/fNtIEVftGI7HRHSJvcvl6AWnVhWKfCeTSsT98dEosySmuciQ0ZYdq0Uc=
+	t=1739854422; cv=none; b=eRc3f4+WNp4SLbxYEmanMf709ZfLCHfC2es6E+dfnUlxl5CqeiBlBoAj8B0bwFC1lzM8NtRD7yDBGVq09XPzsu/4evLU6gfsCKwoHRZ+ckz65MHa7hQL+YBW8G8Q3syt7GHPraZNhOZSG6Fma2fl/VLseTGqij8MHPMrHScpvPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739852531; c=relaxed/simple;
-	bh=z/TatgOE6ERquHYJ+CpTz6Po69K65ZiMKYHblH7M3gY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gPFnYIwRFdoBLsvejVnwJISMI8HZxWB7c8SFdk2Mq0mY93rWIbZ8Nd2tYoYirrIBLoA46lDmiYkCZKC8VVn3GzjqJiJripcFGetfm8XB9zmfpBznHha3cr6RvmSH9kGw4Zp6xMtbnw9hgKzTKRoK2HCPHGiXzLUNRbwJs6OeXjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0p306wl; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1739854422; c=relaxed/simple;
+	bh=zHmfBF/oghzx0CmSE06QujzhAse/xLku0vSAis9lhY0=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nsLbahup4AkTE9Mfq3wnsy6FDI/HX6peM1hGkSEgcCKpaF6yzPOmTOa9miX3Ot4Rl9nJC05C7idEySpB6xDwF/mo0pV9b65Z+yBj03azUcu5kcQXj/eZp5GkuROSYUCfQ35HOY6BQJay7t/851pMk9G3UCYdYZkfxTP2I7IIqTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvXFogWX; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0p306wl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvXFogWX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739852529; x=1771388529;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z/TatgOE6ERquHYJ+CpTz6Po69K65ZiMKYHblH7M3gY=;
-  b=M0p306wlK3zIbbU4fLtz89aMsvwZgLD3ZHHq7jDKcz5mtUz7YS2EEKEv
-   I62gQiB9++ZL9FBp5mUjF50cr/GQH0Gb3kR8fh0SK7t3QMPhMdbqvYXAG
-   WhyGvQl8n+Lp6wNENtjRpHqprx2EOxMqj+NFg/IfyIPakntmsZ4rao1YN
-   JzWvOw3BFGUuu6zWYfumo963BFUoZEZIjatBahcLDokbi/V2EMpBrr4xC
-   npKXuw7/tMkCMV5cc/zuj6bCZs2+IbuG/UsLQh4JqAKpnZoatxTjhqPtR
-   Jg0thMaIieWVwsadNkxkMuN413FrgLA4qj7xbsXL8OCGuQlat/LxriePV
-   w==;
-X-CSE-ConnectionGUID: AtTlRILkQjaFWXYcvDS0sA==
-X-CSE-MsgGUID: vui60wX8T/Sv9pv1OYNq/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="57940472"
+  t=1739854420; x=1771390420;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=zHmfBF/oghzx0CmSE06QujzhAse/xLku0vSAis9lhY0=;
+  b=IvXFogWX28nzI2jqfxPXiU4Xgr1UNTSV8oDZI2MGXIdbFBOn+0c6ZZJ9
+   9L6fJPtZf1uijp45MPLSyZnAolkWEfS/ed0cv4iQYqqNO/L0dxhQEwqFQ
+   CSF5vuO5KxSFuwWKaQCsOgpWUyLuUbFU0a5nSgOzFOaOxFd9p67+UeU4M
+   Ug9ehM2TC5KWINzIpHYWgl39wuVBUd/z1ul/7VJ7jA+z+7DuFMBBTAHtX
+   HhfsafNqO3a7U40iiwsKVgYwzY9/Xmf5N6W/z32YUTlKQ/J1qsoTjoBXW
+   dYoql8yM1zu6IDLp09JpEjJk6Pw7hiJvViCgu9hybMgBtbUqb5yfEacG8
+   Q==;
+X-CSE-ConnectionGUID: cd9iti3hQymbjAUiwiPSww==
+X-CSE-MsgGUID: W4oVdtfyStGuibWx/kQDYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40403597"
 X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="57940472"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 20:22:08 -0800
-X-CSE-ConnectionGUID: WOnlaqJ8RNeXRYZqWE+4hw==
-X-CSE-MsgGUID: j7RMc4BmTkK6fGt0P0FYrw==
+   d="scan'208";a="40403597"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 20:53:39 -0800
+X-CSE-ConnectionGUID: lUkftwyWR6GnFNu8nN8D+g==
+X-CSE-MsgGUID: LKT5cTt1Q9mEbDf4Qkjlsw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="114478113"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118415512"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Feb 2025 20:22:07 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 17 Feb 2025 20:53:38 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkF7U-00009j-33;
-	Tue, 18 Feb 2025 04:22:04 +0000
-Date: Tue, 18 Feb 2025 12:21:42 +0800
+	id 1tkFbw-0000BN-0w
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 18 Feb 2025 04:53:33 +0000
+Date: Tue, 18 Feb 2025 12:53:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eugen Hristev <eugen.hristev@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC][PATCH 05/10] pstore: implement core area registration
-Message-ID: <202502181221.ImSQYXh4-lkp@intel.com>
-References: <20250217101706.2104498-6-eugen.hristev@linaro.org>
+Subject: [intel-lts:pr/57 1/1] drivers/clk/mediatek/clk-mt8516.c:234:27:
+ warning: 'ddrphycfg_parents' defined but not used
+Message-ID: <202502181229.Jkue825l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +61,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250217101706.2104498-6-eugen.hristev@linaro.org>
 
-Hi Eugen,
+Hi Fabien,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on kees/for-next/pstore]
-[also build test WARNING on kees/for-next/kspp driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.14-rc3 next-20250217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/pstore-zone-move-pstore_device_info-into-zone-header/20250217-182615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
-patch link:    https://lore.kernel.org/r/20250217101706.2104498-6-eugen.hristev%40linaro.org
-patch subject: [RFC][PATCH 05/10] pstore: implement core area registration
-config: arm-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250218/202502181221.ImSQYXh4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181221.ImSQYXh4-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: db077febb774b400cff461195106c1ea320497a4 [1/1] clk: mediatek: add clock driver for MT8516
+config: x86_64-buildonly-randconfig-005-20250217 (https://download.01.org/0day-ci/archive/20250218/202502181229.Jkue825l-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181229.Jkue825l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502181221.ImSQYXh4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502181229.Jkue825l-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/pstore/platform.c: In function 'pstore_unregister_core_area':
-   fs/pstore/platform.c:316:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     316 |         int ret;
-         |             ^~~
-   fs/pstore/platform.c: In function 'pstore_register_core_area':
->> fs/pstore/platform.c:299:17: warning: 'strncpy' specified bound 8 equals destination size [-Wstringop-truncation]
-     299 |                 strncpy(record->priv, handle, 8);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/mediatek/clk-mt8516.c:234:27: warning: 'ddrphycfg_parents' defined but not used [-Wunused-const-variable=]
+     234 | static const char * const ddrphycfg_parents[] __initconst = {
+         |                           ^~~~~~~~~~~~~~~~~
 
 
-vim +/strncpy +299 fs/pstore/platform.c
+vim +/ddrphycfg_parents +234 drivers/clk/mediatek/clk-mt8516.c
 
-   280	
-   281	int pstore_register_core_area(const char *handle, void *area, size_t size)
-   282	{
-   283		struct rec_list_t *rec_element = kzalloc(sizeof (*rec_element), GFP_KERNEL);
-   284		struct pstore_record *record = &rec_element->rec;
-   285		int ret;
-   286	
-   287		if (!psinfo || !psinfo->register_dmr) {
-   288			pr_err("No pstore available ! Bailing out.\n");
-   289			return -EAGAIN;
-   290		}
-   291	
-   292		pstore_record_init(record, psinfo);
-   293		record->type = PSTORE_TYPE_DMAPPED;
-   294		record->buf = area;
-   295		record->size = size;
-   296	
-   297		if (handle) {
-   298			record->priv = kmalloc(8, GFP_KERNEL);
- > 299			strncpy(record->priv, handle, 8);
-   300		}
-   301	
-   302		mutex_lock(&ps_dmr_lock);
-   303	
-   304		ret = psinfo->register_dmr(record);
-   305		if (!ret)
-   306			list_add(&rec_element->list, &rec_list);
-   307	
-   308		mutex_unlock(&ps_dmr_lock);
-   309		return ret;
-   310	}
-   311	EXPORT_SYMBOL_GPL(pstore_register_core_area);
-   312	
+   233	
+ > 234	static const char * const ddrphycfg_parents[] __initconst = {
+   235		"clk26m_ck",
+   236		"mainpll_d16"
+   237	};
+   238	
 
 -- 
 0-DAY CI Kernel Test Service
