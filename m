@@ -1,143 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3EC1EA6F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 03:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0ED31487F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 03:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739849444; cv=none; b=gelF0AYJtERX0SVPCmnZe252vynsq9cVK+l518lh7D51JmQ+Qq0deYook//lf6WM33nyDsQom1IBbTjIqmUFIIfR+t54iRYXP/VHjkekG58L8rZv5SOqfe1+iwY/K2cNfzPnIExcEJal/kbQTr0SM2FM2fnaCdIkpsIwSraSOA0=
+	t=1739850037; cv=none; b=EXrQHhDgZbg3XsJH5Mnf4OJySQZ03Z0tdhZDkHdVkLG0gGsbFke1ir4RDyMb83OuspBmwSUw1F/oTzvN7HxEjLgwAw7H4qp8Lp01JNwJqWJMmjwMDv/tublV3IkLtIb4FfIOH45j5zf6lAETImHZAO5ZW4jHRoCk9wU34pkK1Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739849444; c=relaxed/simple;
-	bh=h92Lotw9ubSHQjSgn/EEsc+OaoiV8Wc6aewdxzGy+4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=as+beO+Le/FmtYpxv+S4A3UOBTyVmxbcbF5xpaoHwj531d/BUjYMCNYHK3oSK/ThdrbbaMSnjqTk77kNe+F2mY2sNmYrjwyPQqux4Bg9XKyGgd+zFhl0GS1WTeaZUhJCSvvkLXJ8xqUD1Ix+DE7xmPSXs/biU8XL45Qaw5kgHtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLZNnKTn; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1739850037; c=relaxed/simple;
+	bh=KpmGQkXTeFDvvL63msmB9N1RGEE+EvyrKZjYnELYpXo=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aPcLANpF1c/ZtFh0FlYn7UUKOsj/SkiUtKcNnuMMs2qK1+8fzeLp2O7aphJQexEcy2/9hfKuR8+YrJBnuSOX1OHkJYTr7fF5Lz9QLwl7CzDd+lqj1xDcmyNEEsw4DmP89Jll6ybDK6ODnEokGB444QqcFgqCKT2QL7/qHvPQj2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvmYQRi4; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLZNnKTn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvmYQRi4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739849443; x=1771385443;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h92Lotw9ubSHQjSgn/EEsc+OaoiV8Wc6aewdxzGy+4w=;
-  b=RLZNnKTn0UFgmOrImRprjTswuG74+qYLlRnkUR/Mv6iwerWDIHKwXTpo
-   34EOdy+UJ7fqM5DqAPiH8SYKFbQ+I8J6J7wIKSyyEpCEELKYYcFBMEW98
-   xD/1a7tv8/yzQ+CrJ4S3HSUZTSR7ECvktbMxPkZSC2QfTAFfMXO6F8caN
-   yuEh9aOcMXrAS6ZKFKsuaoj2LG+ZU/gtYEko+w2CLPa7NTreTyowflAAM
-   HoON61rx+7TYwBU2l9n0V9CrWPpKKmGEV7BviGQT45SRLQDsY277JSaji
-   kpFl2nKr3ruTi7tC6mBc4XnP+2M+D+7+niTt0ChHWSsLEGf/mm4pQUGcR
-   g==;
-X-CSE-ConnectionGUID: NMlICXIrQxC8B2GMv2cGhQ==
-X-CSE-MsgGUID: bbg/L5DLSsCbYPqRh5cTCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="39767242"
+  t=1739850036; x=1771386036;
+  h=date:from:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KpmGQkXTeFDvvL63msmB9N1RGEE+EvyrKZjYnELYpXo=;
+  b=fvmYQRi4LyTZPnrj7u6gP+51DKiRhLj7sFWbPJoWXlEoHW3TRjTYjdB6
+   u+2poHrsVw3OzxvCkHzaizjk453Wl+2ikzb2oOOIXHyvP01QMM+qUnqJB
+   zV0sAFEU5e9hnXWatUQnPTV6hJeyxtfjTw69mqIMfflTTrqenQQCe7t91
+   cSEd/sj2b//lxXiOBm4few0P7iCvmQq3Dudx3E38KkPn2YIM2qeSNJa7Y
+   MACPSssO0U3hO6A/8LD1pbPvFnwOQsgt3APW3RfQLs8JKBCXPcO1RkqUu
+   SJwQB8BPa+nuoYPgwkD8UoBd5st8NJujuKqDxcT4IhXYBRLFaXgYClPCc
+   w==;
+X-CSE-ConnectionGUID: VYtZecbITSu62j5+fmQ2HQ==
+X-CSE-MsgGUID: FKXCoRTWTlyXzj4HvrDmJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40557332"
 X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="39767242"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 19:30:42 -0800
-X-CSE-ConnectionGUID: 7Kf48oUETV6URzWHqRaeFA==
-X-CSE-MsgGUID: WS6hk7G1TRSjweI1DhNbAA==
+   d="scan'208";a="40557332"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 19:40:35 -0800
+X-CSE-ConnectionGUID: AJL0vDCcRE2bXIb+EYtEEg==
+X-CSE-MsgGUID: 4e1fQyFQRsqObW3yQzepGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="114924252"
+   d="scan'208";a="114255761"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Feb 2025 19:30:41 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Feb 2025 19:40:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkEJe-00007j-0S;
-	Tue, 18 Feb 2025 03:30:35 +0000
-Date: Tue, 18 Feb 2025 11:29:32 +0800
+	id 1tkET9-00008F-0B
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 18 Feb 2025 03:40:25 +0000
+Date: Tue, 18 Feb 2025 11:39:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 28/28]
- fs/fuse/backing.c:861:48: sparse: sparse: incorrect type in argument 4
- (different base types)
-Message-ID: <202502181122.R7dRwEnO-lkp@intel.com>
+Subject: [intel-lts:pr/57 1/1] fs/eventpoll.c:1672: Error: unrecognized
+ opcode `csrs sstatus,s7', extension `zicsr' required
+Message-ID: <202502181115.zEndtaMw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   beb8e60d0487cc606d41b948106c68787f909dee
-commit: 8be90ef631b70dedc3c43b247aeae296a633dcb2 [28/28] ANDROID: fuse-bpf: fuse-bpf v1.2
-config: x86_64-randconfig-r121-20250218 (https://download.01.org/0day-ci/archive/20250218/202502181122.R7dRwEnO-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181122.R7dRwEnO-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 4e0982a00564c80cb849a892043450860ef91e14 [1/1] fs/epoll: simplify ep_send_events_proc() ready-list loop
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20250218/202502181115.zEndtaMw-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181115.zEndtaMw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502181122.R7dRwEnO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502181115.zEndtaMw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/fuse/backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
-   fs/fuse/backing.c:314:16: sparse: sparse: Using plain integer as NULL pointer
->> fs/fuse/backing.c:861:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/backing.c:861:48: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/backing.c:861:48: sparse:     got int
-   fs/fuse/backing.c:949:59: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/backing.c:949:59: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/backing.c:949:59: sparse:     got int
-   fs/fuse/backing.c:2097:18: sparse: sparse: Initializer entry defined twice
-   fs/fuse/backing.c:2098:18: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +861 fs/fuse/backing.c
+   arch/riscv/include/asm/irqflags.h: Assembler messages:
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+>> fs/eventpoll.c:1672: Error: unrecognized opcode `csrs sstatus,s7', extension `zicsr' required
+>> fs/eventpoll.c:1672: Error: unrecognized opcode `csrc sstatus,s7', extension `zicsr' required
+   fs/eventpoll.c:1673: Error: unrecognized opcode `csrs sstatus,s7', extension `zicsr' required
+   fs/eventpoll.c:1673: Error: unrecognized opcode `csrc sstatus,s7', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2', extension `zicsr' required
 
-   841	
-   842	int fuse_file_read_iter_backing(struct fuse_bpf_args *fa,
-   843			struct kiocb *iocb, struct iov_iter *to)
-   844	{
-   845		struct fuse_read_iter_out *frio = fa->out_args[0].value;
-   846		struct file *file = iocb->ki_filp;
-   847		struct fuse_file *ff = file->private_data;
-   848		ssize_t ret;
-   849	
-   850		if (!iov_iter_count(to))
-   851			return 0;
-   852	
-   853		if ((iocb->ki_flags & IOCB_DIRECT) &&
-   854		    (!ff->backing_file->f_mapping->a_ops ||
-   855		     !ff->backing_file->f_mapping->a_ops->direct_IO))
-   856			return -EINVAL;
-   857	
-   858		/* TODO This just plain ignores any change to fuse_read_in */
-   859		if (is_sync_kiocb(iocb)) {
-   860			ret = vfs_iter_read(ff->backing_file, to, &iocb->ki_pos,
- > 861					iocb->ki_flags & FUSE_BPF_IOCB_MASK);
-   862		} else {
-   863			struct fuse_bpf_aio_req *aio_req;
-   864	
-   865			ret = -ENOMEM;
-   866			aio_req = kmem_cache_zalloc(fuse_bpf_aio_request_cachep, GFP_KERNEL);
-   867			if (!aio_req)
-   868				goto out;
-   869	
-   870			aio_req->iocb_orig = iocb;
-   871			kiocb_clone(&aio_req->iocb, iocb, ff->backing_file);
-   872			aio_req->iocb.ki_complete = fuse_bpf_aio_rw_complete;
-   873			refcount_set(&aio_req->ref, 2);
-   874			ret = vfs_iocb_iter_read(ff->backing_file, &aio_req->iocb, to);
-   875			fuse_bpf_aio_put(aio_req);
-   876			if (ret != -EIOCBQUEUED)
-   877				fuse_bpf_aio_cleanup_handler(aio_req);
-   878		}
-   879	
-   880		frio->ret = ret;
-   881	
-   882		/* TODO Need to point value at the buffer for post-modification */
-   883	
-   884	out:
-   885		fuse_file_accessed(file, ff->backing_file);
-   886	
-   887		return ret;
-   888	}
-   889	
+
+vim +1672 fs/eventpoll.c
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1621  
+d85e2aa2e34dac Al Viro         2018-02-01  1622  static __poll_t ep_send_events_proc(struct eventpoll *ep, struct list_head *head,
+296e236e96ddde Davide Libenzi  2009-03-31  1623  			       void *priv)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1624  {
+5071f97ec6d74f Davide Libenzi  2009-03-31  1625  	struct ep_send_events_data *esed = priv;
+d85e2aa2e34dac Al Viro         2018-02-01  1626  	__poll_t revents;
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1627  	struct epitem *epi, *tmp;
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1628  	struct epoll_event __user *uevent = esed->events;
+eea1d585917c53 Eric Wong       2013-04-30  1629  	struct wakeup_source *ws;
+626cf236608505 Hans Verkuil    2012-03-23  1630  	poll_table pt;
+626cf236608505 Hans Verkuil    2012-03-23  1631  
+626cf236608505 Hans Verkuil    2012-03-23  1632  	init_poll_funcptr(&pt, NULL);
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1633  	esed->res = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1634  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1635  	/*
+5071f97ec6d74f Davide Libenzi  2009-03-31  1636  	 * We can loop without lock because we are passed a task private list.
+5071f97ec6d74f Davide Libenzi  2009-03-31  1637  	 * Items cannot vanish during the loop because ep_scan_ready_list() is
+5071f97ec6d74f Davide Libenzi  2009-03-31  1638  	 * holding "mtx" during this call.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1639  	 */
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1640  	list_for_each_entry_safe(epi, tmp, head, rdllink) {
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1641  		if (esed->res >= esed->maxevents)
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1642  			break;
+d47de16c722196 Davide Libenzi  2007-05-15  1643  
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1644  		/*
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1645  		 * Activate ep->ws before deactivating epi->ws to prevent
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1646  		 * triggering auto-suspend here (in case we reactive epi->ws
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1647  		 * below).
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1648  		 *
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1649  		 * This could be rearranged to delay the deactivation of epi->ws
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1650  		 * instead, but then epi->ws would temporarily be out of sync
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1651  		 * with ep_is_linked().
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1652  		 */
+eea1d585917c53 Eric Wong       2013-04-30  1653  		ws = ep_wakeup_source(epi);
+eea1d585917c53 Eric Wong       2013-04-30  1654  		if (ws) {
+eea1d585917c53 Eric Wong       2013-04-30  1655  			if (ws->active)
+4d7e30d98939a0 Arve Hjønnevåg  2012-05-01  1656  				__pm_stay_awake(ep->ws);
+eea1d585917c53 Eric Wong       2013-04-30  1657  			__pm_relax(ws);
+eea1d585917c53 Eric Wong       2013-04-30  1658  		}
+eea1d585917c53 Eric Wong       2013-04-30  1659  
+d47de16c722196 Davide Libenzi  2007-05-15  1660  		list_del_init(&epi->rdllink);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1661  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1662  		/*
+5071f97ec6d74f Davide Libenzi  2009-03-31  1663  		 * If the event mask intersect the caller-requested one,
+5071f97ec6d74f Davide Libenzi  2009-03-31  1664  		 * deliver the event to userspace. Again, ep_scan_ready_list()
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1665  		 * is holding ep->mtx, so no operations coming from userspace
+5071f97ec6d74f Davide Libenzi  2009-03-31  1666  		 * can change the item.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1667  		 */
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1668  		revents = ep_item_poll(epi, &pt, 1);
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1669  		if (!revents)
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1670  			continue;
+4e0982a00564c8 Davidlohr Bueso 2019-01-03  1671  
+5071f97ec6d74f Davide Libenzi  2009-03-31 @1672  		if (__put_user(revents, &uevent->events) ||
+d0305882825784 Tony Battersby  2009-03-31  1673  		    __put_user(epi->event.data, &uevent->data)) {
+d0305882825784 Tony Battersby  2009-03-31  1674  			list_add(&epi->rdllink, head);
+eea1d585917c53 Eric Wong       2013-04-30  1675  			ep_pm_stay_awake(epi);
+d7ebbe46f445d8 Al Viro         2018-02-01  1676  			if (!esed->res)
+d7ebbe46f445d8 Al Viro         2018-02-01  1677  				esed->res = -EFAULT;
+d7ebbe46f445d8 Al Viro         2018-02-01  1678  			return 0;
+d0305882825784 Tony Battersby  2009-03-31  1679  		}
+d7ebbe46f445d8 Al Viro         2018-02-01  1680  		esed->res++;
+5071f97ec6d74f Davide Libenzi  2009-03-31  1681  		uevent++;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1682  		if (epi->event.events & EPOLLONESHOT)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1683  			epi->event.events &= EP_PRIVATE_BITS;
+296e236e96ddde Davide Libenzi  2009-03-31  1684  		else if (!(epi->event.events & EPOLLET)) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1685  			/*
+296e236e96ddde Davide Libenzi  2009-03-31  1686  			 * If this file has been added with Level
+296e236e96ddde Davide Libenzi  2009-03-31  1687  			 * Trigger mode, we need to insert back inside
+296e236e96ddde Davide Libenzi  2009-03-31  1688  			 * the ready list, so that the next call to
+296e236e96ddde Davide Libenzi  2009-03-31  1689  			 * epoll_wait() will check again the events
+296e236e96ddde Davide Libenzi  2009-03-31  1690  			 * availability. At this point, no one can insert
+296e236e96ddde Davide Libenzi  2009-03-31  1691  			 * into ep->rdllist besides us. The epoll_ctl()
+296e236e96ddde Davide Libenzi  2009-03-31  1692  			 * callers are locked out by
+296e236e96ddde Davide Libenzi  2009-03-31  1693  			 * ep_scan_ready_list() holding "mtx" and the
+296e236e96ddde Davide Libenzi  2009-03-31  1694  			 * poll callback will queue them in ep->ovflist.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1695  			 */
+d47de16c722196 Davide Libenzi  2007-05-15  1696  			list_add_tail(&epi->rdllink, &ep->rdllist);
+eea1d585917c53 Eric Wong       2013-04-30  1697  			ep_pm_stay_awake(epi);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1698  		}
+9ce209d64d820a Davide Libenzi  2008-10-17  1699  	}
+6192bd536f96c6 Davide Libenzi  2007-05-08  1700  
+d7ebbe46f445d8 Al Viro         2018-02-01  1701  	return 0;
+6192bd536f96c6 Davide Libenzi  2007-05-08  1702  }
+d47de16c722196 Davide Libenzi  2007-05-15  1703  
+
+:::::: The code at line 1672 was first introduced by commit
+:::::: 5071f97ec6d74f006072de0ce89b67c8792fe5a1 epoll: fix epoll's own poll
+
+:::::: TO: Davide Libenzi <davidel@xmailserver.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
