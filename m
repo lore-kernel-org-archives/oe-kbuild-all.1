@@ -1,99 +1,132 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5401ACEBA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 04:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9632B10E5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 05:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739854508; cv=none; b=PDJqrZ27gza7FnSF1TtzqDpBoyY8lxaJMfYMFA+H5GhmEZTQzY32ZadlroM6MMwHJg6qZMF4ZHdjCMZyJ/Vb+t9ZST+/yWZO6e1ZSBl7KhNNe4TdTJUlSlFJoo6NjdZA81HsMdsfyUjUqZw6Nnl8gEKVAsXT9qICVJaVhLRbu8A=
+	t=1739856975; cv=none; b=K6yOLvZpmdUbD+hO/wiSie+57mhHEeOQ8ceSVHyaT68BplDgWRmd2OsaF3Mgaw+WBtB6Kwb4o7RNOZCgZM2/dg6ObOPcAtnr3JqDSJkBI6zVCkm7qLeMT2iFIVQi8XOea2IloUwECQOX7vug27uZmBY8GOe5oV9v4Mrf9Dii5Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739854508; c=relaxed/simple;
-	bh=8Rww1tDeYsBTVtksCnifbW9ho3ZZuv64PVKG9q+qInc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TdJTAOVMrsC+jx7FwRQliqTCsUXmWkC50rlb3z3JkM5qrYjW8f7wBYCDtPXowXxL1OUm3xBeRdhuIUPodcX4tHBtgqZxxBE1LK/QxJZWy12IgLfjXnAhsxD/m3H1O2rf+Zeol1+b3NgGZzAVk5IBdcQN3o/CTyRu3VxJxi6an8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 135F544291;
-	Tue, 18 Feb 2025 04:55:01 +0000 (UTC)
-Message-ID: <ca8bf710-f77a-42b7-92ed-5d6ef9fe44b5@ghiti.fr>
-Date: Tue, 18 Feb 2025 05:55:01 +0100
+	s=arc-20240116; t=1739856975; c=relaxed/simple;
+	bh=dTYeD0wVg8BPijl8PLb7FQl2FDKToBuxC8KoJT5E/nY=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cJH9GdjAb73HL7a+HTftdCBucybdq0Ya6rS6M3xKYlnFZqZr4Vur8RoaysP+QuetGPLC2S2Cumq0PrZq8KyEy3OwTvoXadDZtqybrP0O1WuArnsGz0m7v7BuN2A/wyC/mU88S1lDOz9H2B8VkqzuR/y/1TUTNQOpvYWRTDsbA/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wj6F2qrK; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wj6F2qrK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739856973; x=1771392973;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=dTYeD0wVg8BPijl8PLb7FQl2FDKToBuxC8KoJT5E/nY=;
+  b=Wj6F2qrKKml1pHjRGFx/k1ymubgdLJrIvnYf5eiTCA0KIhcddz+Loba2
+   +U82AUe7Iv4VU4UKCooeZG0nVzhaYi/t5wtCU9ldeklJPBBbWJ5FHJLqx
+   VBj1FZ1TYS/Ks/ePHD7gTVqP0f2TTUfGE/h14306rwxiLkT53lBP8hunD
+   Eet4SacexYU9BSZuphskfpsE4hAxGxzPByqjLsECILIAW1DjCuQ3Em/02
+   9ZrJlTnLxidVJMjd1CQmoVkPAFYGX52WDN/KCrJufDpMdHTc0nywhJRdV
+   +XrlzaNnHp4nDbjTpJg/SFdfVvZqbwBBZQrq4t+bBRbUINOwsmzX73Ta8
+   A==;
+X-CSE-ConnectionGUID: 81DwAx/ETsGJSNXfq8LaDw==
+X-CSE-MsgGUID: xg7yDa9CRfiZzfUiU+Gk4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40675551"
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; 
+   d="scan'208";a="40675551"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 21:36:13 -0800
+X-CSE-ConnectionGUID: HafUAOr+RMGGYcb78M7Frg==
+X-CSE-MsgGUID: uEUneNsTR6eeotbWRTXqZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114163763"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 17 Feb 2025 21:36:12 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkGHC-0000CZ-0J
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 18 Feb 2025 05:36:10 +0000
+Date: Tue, 18 Feb 2025 13:35:23 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] fs/select.c:783: Error: unrecognized opcode
+ `csrs sstatus,t1', extension `zicsr' required
+Message-ID: <202502181316.9aozGMYc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: mm/workingset.c:621 workingset_update_node() warn: unsigned '_x'
- is never less than zero.
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>,
- kernel test robot <lkp@intel.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- "T.J. Mercier" <tjmercier@google.com>, linux-riscv@lists.infradead.org
-References: <202502160323.ZLUfooA0-lkp@intel.com>
- <20250217202127.cf92afe2c0a89d5865e1811b@linux-foundation.org>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20250217202127.cf92afe2c0a89d5865e1811b@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeitdeflecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepkeefkeetveejgfelheefvefhvedvfefhieegiedtkefgjeetffejueekgefggfeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgpdhinhhfrhgruggvrggurdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemugeifeejmegrhehfieemrgefhedtmeejvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeeffeekvdemvghfledtmeguieefjeemrgehfheimegrfeehtdemjedviedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemugeifeejmegrhehfieemrgefhedtmeejvdeingdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeelpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlkhhpsehinhhtvghlr
- dgtohhmpdhrtghpthhtohepshhhrghkvggvlhdrsghuthhtsehlihhnuhigrdguvghvpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehrohhmrghnrdhguhhshhgthhhinheslhhinhhugidruggvvhdprhgtphhtthhopehtjhhmvghrtghivghrsehgohhoghhlvgdrtghomh
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Andrew,
+Hi Arnd,
 
-On 18/02/2025 05:21, Andrew Morton wrote:
-> On Sun, 16 Feb 2025 03:56:06 +0800 kernel test robot <lkp@intel.com> wrote:
->
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   7ff71e6d923969d933e1ba7e0db857782d36cd19
->> commit: 4715c6a753dccd15fd3a8928168f57e349205bd4 mm: cleanup WORKINGSET_NODES in workingset
->> date:   9 months ago
->> config: riscv-randconfig-r073-20250213 (https://download.01.org/0day-ci/archive/20250216/202502160323.ZLUfooA0-lkp@intel.com/config)
->> compiler: riscv32-linux-gcc (GCC) 14.2.0
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202502160323.ZLUfooA0-lkp@intel.com/
->>
->> New smatch warnings:
->> mm/workingset.c:621 workingset_update_node() warn: unsigned '_x' is never less than zero.
->> mm/workingset.c:746 shadow_lru_isolate() warn: unsigned '_x' is never less than zero.
->>
->> Old smatch warnings:
->> include/linux/mm.h:1306 virt_to_head_page() warn: unsigned '_x' is never less than zero.
->>
->> vim +/_x +621 mm/workingset.c
->>
->>     617	
->>     618	void workingset_update_node(struct xa_node *node)
->>     619	{
->>     620		struct address_space *mapping;
->>   > 621		struct page *page = virt_to_page(node);
-> We're seeing several reports like this.  It looks like the RISC-V
-> virt_to_page() (actualy __pa) implementation needs some attention.
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 00bf25d693e7f69497cb7f61d46ef99fe295a8a5 [1/1] y2038: use time32 syscall names on 32-bit
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20250218/202502181316.9aozGMYc-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181316.9aozGMYc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502181316.9aozGMYc-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/select.c: Assembler messages:
+   fs/select.c:1014: Error: unrecognized opcode `csrs sstatus,a1', extension `zicsr' required
+   fs/select.c:1014: Error: unrecognized opcode `csrc sstatus,a1', extension `zicsr' required
+>> fs/select.c:783: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+>> fs/select.c:783: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   fs/select.c:784: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+   fs/select.c:784: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   fs/select.c:803: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+   fs/select.c:803: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
+   fs/select.c:804: Error: unrecognized opcode `csrs sstatus,t1', extension `zicsr' required
+   fs/select.c:804: Error: unrecognized opcode `csrc sstatus,t1', extension `zicsr' required
 
 
-Yes, Christoph reported the same warning yesterday, we are discussing it 
-since it is probably a false-positive 
-https://lore.kernel.org/linux-riscv/Z7PWuSA4jtZnxp5J@rli9-mobl/T/#t.
+vim +783 fs/select.c
 
-Thanks,
+9f72949f679df0 David Woodhouse 2006-01-18  767  
+9f72949f679df0 David Woodhouse 2006-01-18  768  /*
+9f72949f679df0 David Woodhouse 2006-01-18  769   * Most architectures can't handle 7-argument syscalls. So we provide a
+9f72949f679df0 David Woodhouse 2006-01-18  770   * 6-argument version where the sixth argument is a pointer to a structure
+9f72949f679df0 David Woodhouse 2006-01-18  771   * which has a pointer to the sigset_t itself followed by a size_t containing
+9f72949f679df0 David Woodhouse 2006-01-18  772   * the sigset size.
+9f72949f679df0 David Woodhouse 2006-01-18  773   */
+d4e82042c4cfa8 Heiko Carstens  2009-01-14  774  SYSCALL_DEFINE6(pselect6, int, n, fd_set __user *, inp, fd_set __user *, outp,
+e024707bccae15 Deepa Dinamani  2018-09-19  775  		fd_set __user *, exp, struct __kernel_timespec __user *, tsp,
+d4e82042c4cfa8 Heiko Carstens  2009-01-14  776  		void __user *, sig)
+9f72949f679df0 David Woodhouse 2006-01-18  777  {
+9f72949f679df0 David Woodhouse 2006-01-18  778  	size_t sigsetsize = 0;
+9f72949f679df0 David Woodhouse 2006-01-18  779  	sigset_t __user *up = NULL;
+9f72949f679df0 David Woodhouse 2006-01-18  780  
+9f72949f679df0 David Woodhouse 2006-01-18  781  	if (sig) {
+96d4f267e40f95 Linus Torvalds  2019-01-03  782  		if (!access_ok(sig, sizeof(void *)+sizeof(size_t))
+e110ab94ebc714 Al Viro         2006-02-01 @783  		    || __get_user(up, (sigset_t __user * __user *)sig)
+9f72949f679df0 David Woodhouse 2006-01-18  784  		    || __get_user(sigsetsize,
+e110ab94ebc714 Al Viro         2006-02-01  785  				(size_t __user *)(sig+sizeof(void *))))
+9f72949f679df0 David Woodhouse 2006-01-18  786  			return -EFAULT;
+9f72949f679df0 David Woodhouse 2006-01-18  787  	}
+9f72949f679df0 David Woodhouse 2006-01-18  788  
+e024707bccae15 Deepa Dinamani  2018-09-19  789  	return do_pselect(n, inp, outp, exp, tsp, up, sigsetsize, PT_TIMESPEC);
+9f72949f679df0 David Woodhouse 2006-01-18  790  }
+9f72949f679df0 David Woodhouse 2006-01-18  791  
 
-Alex
+:::::: The code at line 783 was first introduced by commit
+:::::: e110ab94ebc714de57f75f0c7c576dde8cf80944 [PATCH] fix __user annotations in fs/select.c
 
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
->
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
