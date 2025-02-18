@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564A914A0B7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 03:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7C128373
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 03:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739848057; cv=none; b=EYF95/Hu93L9EhWMiWZCU7LEv9IwFPj7oUXDpFltOoUU0MngdGEof1cF50iVKVCeMQFSPfwPa5UijZxemTOFQ+4CfHNI9gfPQswSPZD/hhMvMg9aTBExq7w5F2Ymx5PrgsG1sDgZ/+T2lSdpx5lF36tOcTniGWfSCpUOZIzQXpM=
+	t=1739848134; cv=none; b=uc3nNKZK3u8vhvNd2FS3kcX/4I/1wyozYintEHKxqfaRWbrULXCmdduokam7afyeUSjD+GZfZOAm8z+Lnw3koRgHtDt+XJNN6XlCoS186osWinJlCKqrSEf8DbqdK+wXzc2gKR+lY4ulBL7ibeUY+b0zboKNVBRqDRne03zjGWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739848057; c=relaxed/simple;
-	bh=LJCRGsPscyCMWgefTOMlF4XecTltnIfoamUgwmuNWoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SvSoAXvfUkxf3rScxoTACsUAMtB1trQbydsS2+G4RKltwDNn7+fVcss4WZFrJYNqQ0STNDfcvwTRA3eEwhjq9rgT07QLDiLuMdqow2wjGoMeC/OVNdvOc6pRsTCHOnoInXSiejOGUiDSmmRHy6HqLD5XJT3LfH7hv7upWHgjS6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8Bo9QiY; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1739848134; c=relaxed/simple;
+	bh=rR4ZeBmlVwjAcB2wYbs5R8VxmKXxiA++oauyLLyhveg=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lWHdZBaNuy90JIPm5p8XAKpv0wTaN1injlU9+yNG9hzdWyLb97hJVP6PjEE8rLSM59ensuUcajrIGmmZGnkPGsKIXwGHnDs8syiA6mMZEGnzGckMkreQgeqrAYW/b03Avf7q9HX01afeGDl8W+RrQgDQpMS/HVOfOc+g6QKFtxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EfLEDDMx; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8Bo9QiY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfLEDDMx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739848055; x=1771384055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LJCRGsPscyCMWgefTOMlF4XecTltnIfoamUgwmuNWoQ=;
-  b=O8Bo9QiY1hAhWIy6TGb91N8XUmfXZ6Z+Br81RZ4RcBSpZu0ldr7nk26T
-   5l4lQVPbR7XJI0324IV9LkmED6BjxZQNs499SKEEeHMRbQxDCBatF8mj/
-   FGU0ipLPV98H1PknTR+roFJkOcAB2yCjKi8qipKoUtMJshi/48mGEbZf0
-   UVvivvyiKIWcrMV4fSQavaTQT7MBW7Tn3iLEzzlmzvw+GLM6qXQMaO2x7
-   poNA4QZhKNOXX74t8pL6q+GIQKO0+AQmHY5m/qIFilGDA3DLsHG9Sl6mG
-   PG1FZFZJ+wHZOnkM8Uuw0Ef0O+69qgiK94Er78XJGxGS7ivTKOXI+rzZh
+  t=1739848133; x=1771384133;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=rR4ZeBmlVwjAcB2wYbs5R8VxmKXxiA++oauyLLyhveg=;
+  b=EfLEDDMxNF8+QLuC51gZmwLq5O3bpFyVwYvrHPapa3vkj3PfgU/8RzDi
+   gP1wzBCSzg1sK04vSwJEgBncmrRTrfrecL6NX2pv2lVFDzXEDkgpX6B6Y
+   m9fW3d/J35iW4EV+aaswFpMTagjMm7uRDmzHA6+CXqSkCB82tI3fAdMax
+   5fxGlbl+rb6ou04kYA3Y+JqCrCSY5cJIYfncmJIKPz6dUkdyKUr3WuOV5
+   Hav/enT5bopphAxEh61T4tHhs97tl7Kh5zVFboEZiqPCI8/5rJWT8y/wn
+   39T69aS37R0VZLNUw2SeldpzW8g7rBJ5TtYlGLAWmwn1iCsIQelGJR2An
    Q==;
-X-CSE-ConnectionGUID: T9+xgF0DSpuOl3h63XWsAA==
-X-CSE-MsgGUID: ggSMe7eqReuIUu0cek33Dg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="44182364"
-X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="44182364"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 19:07:35 -0800
-X-CSE-ConnectionGUID: ZE877J0WRiaNmAglAEfRbQ==
-X-CSE-MsgGUID: aUXGUHQRRZeKmyPbe0Jlfg==
+X-CSE-ConnectionGUID: 6ANQPWU6RuW6UQJG6SQckw==
+X-CSE-MsgGUID: 6hCaC/92SC+TnBPiVSQ7lQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51963794"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="51963794"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2025 19:08:52 -0800
+X-CSE-ConnectionGUID: z3P9/EXoQTymNzSQaikH2Q==
+X-CSE-MsgGUID: badm4eqTSJONDJMGUBX5Yw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,294,1732608000"; 
-   d="scan'208";a="114249776"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="151463790"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Feb 2025 19:07:32 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Feb 2025 19:08:51 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkDx5-00006t-1r;
-	Tue, 18 Feb 2025 03:07:19 +0000
-Date: Tue, 18 Feb 2025 11:06:56 +0800
+	id 1tkDyI-00006x-27
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 18 Feb 2025 03:08:40 +0000
+Date: Tue, 18 Feb 2025 11:08:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jinyang He <hejinyang@loongson.cn>,
-	Youling Tang <tangyouling@loongson.cn>
-Subject: drivers/net/wireless/ath/ath10k/mac.o: warning: objtool:
- ath10k_monitor_start+0x240: stack state mismatch: reg1[26]=-1+0
- reg2[26]=-2-40
-Message-ID: <202502181126.ot62N8wN-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1]
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c:107:46: warning: variable
+ 'new_crtc_st' set but not used
+Message-ID: <202502181112.tNDSWt3h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,44 +63,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2408a807bfc3f738850ef5ad5e3fd59d66168996
-commit: cb8a2ef0848ca80d67d6d56e2df757cfdf6b3355 LoongArch: Add ORC stack unwinder support
-date:   11 months ago
-config: loongarch-randconfig-r051-20250218 (https://download.01.org/0day-ci/archive/20250218/202502181126.ot62N8wN-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181126.ot62N8wN-lkp@intel.com/reproduce)
+Hi james,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 42c729418d9ce8f212ee691a8a91d93bfe9f34de [1/1] drm/komeda: Add komeda_kms_check
+config: x86_64-buildonly-randconfig-005-20250217 (https://download.01.org/0day-ci/archive/20250218/202502181112.tNDSWt3h-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181112.tNDSWt3h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502181126.ot62N8wN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502181112.tNDSWt3h-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/wireless/ath/ath10k/mac.o: warning: objtool: ath10k_monitor_start+0x240: stack state mismatch: reg1[26]=-1+0 reg2[26]=-2-40
->> drivers/net/wireless/ath/ath10k/mac.o: warning: objtool: ath10k_peer_assoc_h_ht+0x438: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
->> drivers/net/wireless/ath/ath10k/mac.o: warning: objtool: ath10k_peer_assoc_h_vht+0x3e8: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
->> drivers/net/wireless/ath/ath10k/mac.o: warning: objtool: ath10k_control_beaconing+0x2a8: stack state mismatch: reg1[27]=-1+0 reg2[27]=-2-48
->> drivers/net/wireless/ath/ath10k/mac.o: warning: objtool: ath10k_mac_handle_tx_pause_iter+0xec: stack state mismatch: reg1[25]=-1+0 reg2[25]=-2-32
---
->> drivers/net/wireless/ath/ath10k/core.o: warning: objtool: ath10k_core_check_bdfext+0x230: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
->> drivers/net/wireless/ath/ath10k/core.o: warning: objtool: ath10k_core_copy_target_iram+0x2d4: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
->> drivers/net/wireless/ath/ath10k/core.o: warning: objtool: ath10k_download_cal_data+0x3a0: stack state mismatch: reg1[25]=-1+0 reg2[25]=-2-32
---
->> drivers/net/wireless/ath/ath10k/htt_rx.o: warning: objtool: ath10k_update_per_peer_tx_stats+0x590: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
->> drivers/net/wireless/ath/ath10k/htt_rx.o: warning: objtool: ath10k_htt_rx_alloc+0x2e0: stack state mismatch: reg1[25]=-1+0 reg2[25]=-2-32
---
->> drivers/net/wireless/ath/ath10k/htt_tx.o: warning: objtool: __ath10k_htt_tx_txq_recalc.isra.0+0x354: stack state mismatch: reg1[26]=-1+0 reg2[26]=-2-40
---
->> drivers/net/wireless/ath/ath10k/wmi.o: warning: objtool: ath10k_wmi_handle_tdls_peer_event+0x24c: stack state mismatch: reg1[25]=-1+0 reg2[25]=-2-32
->> drivers/net/wireless/ath/ath10k/wmi.o: warning: objtool: ath10k_wmi_event_mgmt_tx_bundle_compl+0x138: stack state mismatch: reg1[26]=-1+0 reg2[26]=-2-40
->> drivers/net/wireless/ath/ath10k/wmi.o: warning: objtool: ath10k_wmi_event_pdev_tpc_config+0x338: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
->> drivers/net/wireless/ath/ath10k/wmi.o: warning: objtool: ath10k_wmi_event_tpc_final_table+0x32c: stack state mismatch: reg1[24]=-1+0 reg2[24]=-2-24
---
->> drivers/net/wireless/ath/ath10k/wmi-tlv.o: warning: objtool: ath10k_wmi_tlv_op_rx+0xe98: stack state mismatch: reg1[26]=-1+0 reg2[26]=-2-40
---
->> drivers/net/wireless/ath/ath10k/ahb.o: warning: objtool: ath10k_ahb_halt_chip+0x43c: stack state mismatch: reg1[25]=-1+0 reg2[25]=-2-32
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c: In function 'komeda_kms_check':
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:107:46: warning: variable 'new_crtc_st' set but not used [-Wunused-but-set-variable]
+     107 |         struct drm_crtc_state *old_crtc_st, *new_crtc_st;
+         |                                              ^~~~~~~~~~~
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:107:32: warning: variable 'old_crtc_st' set but not used [-Wunused-but-set-variable]
+     107 |         struct drm_crtc_state *old_crtc_st, *new_crtc_st;
+         |                                ^~~~~~~~~~~
+
+
+vim +/new_crtc_st +107 drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+
+   102	
+   103	static int komeda_kms_check(struct drm_device *dev,
+   104				    struct drm_atomic_state *state)
+   105	{
+   106		struct drm_crtc *crtc;
+ > 107		struct drm_crtc_state *old_crtc_st, *new_crtc_st;
+   108		int i, err;
+   109	
+   110		err = drm_atomic_helper_check_modeset(dev, state);
+   111		if (err)
+   112			return err;
+   113	
+   114		/* komeda need to re-calculate resource assumption in every commit
+   115		 * so need to add all affected_planes (even unchanged) to
+   116		 * drm_atomic_state.
+   117		 */
+   118		for_each_oldnew_crtc_in_state(state, crtc, old_crtc_st, new_crtc_st, i) {
+   119			err = drm_atomic_add_affected_planes(state, crtc);
+   120			if (err)
+   121				return err;
+   122		}
+   123	
+   124		err = drm_atomic_helper_check_planes(dev, state);
+   125		if (err)
+   126			return err;
+   127	
+   128		return 0;
+   129	}
+   130	
 
 -- 
 0-DAY CI Kernel Test Service
