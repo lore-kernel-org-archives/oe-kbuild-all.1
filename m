@@ -1,284 +1,306 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFF422CBD0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 12:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7EA9479
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 12:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739880556; cv=none; b=aPVt13bdQmhn2DhWGqFudRzWvJCt9acUZUlUNYHuVVe9vi+3TzzQvGDK9wnrcet1MWv9FHkIE8Pdzj/6PGLrfa36eKoEn2nk1rLTO02b75XOMwgFAcSDYZW65LqZOR0Ywh7QaX67G1WRusvBZPWnw7OuCNmUoi0TzpC8e5rM9vU=
+	t=1739881760; cv=none; b=ITTuf5JxszSSH5OAhrOsCEaVISdboSQDHU4WroJoHzehRFy4GK85fx2Mp6NNDh+2m15JE7EKJgNdNTIkykKpbjNPFo9viVIe2MjQDZQBaHBvoANK2AzU+vaCxOlNG2hRn3YU5zB71lnazLcBOoZf4OSINADlZ9P2PENGRYpp/Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739880556; c=relaxed/simple;
-	bh=3bqTF3woxoL4JnUMd0tAm5+mcX7pd7jNTZOEoQ3dMFA=;
+	s=arc-20240116; t=1739881760; c=relaxed/simple;
+	bh=kPmVEFrBX7xKXCqbiltWNkjdEd2q1FNMHn3cBqbVyJ8=;
 	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g4iUGpRZC3iNVtZKhM3zw77y09QBNtEoXX9M1C7NmalFu9smhDY88yRbCjAyETuvWtiyw6GGUm/rNa8S86dzt7zzHMnFc3GgPsOaQ+e4q7ZPZjUXiBBoZzWCsqiSd/Ypxbiggk/sniQquHMBwBJQLcLMWCwekV2jcTIcUgC4C8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aOMQtu05; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=Gnx9yzETsKrJpOD8pUT7aLutsSDP91o2dRDIyQYjZI1UJMPKZYddO1ihew6p5uMIKrO/Kx+jobTk3qYdfbvkPRS18m3AWX3swSPG0S00O9wz0TeDfH0FZgK4KhPTVXJlSWMCFZIfup8X2MpVTX1q5+l/CdzSV2bkSp5a0ORMfYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsTeMF43; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aOMQtu05"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsTeMF43"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739880555; x=1771416555;
-  h=date:from:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3bqTF3woxoL4JnUMd0tAm5+mcX7pd7jNTZOEoQ3dMFA=;
-  b=aOMQtu05uD2tyA3nHlx4rzOxQ57sAxwVuydsl++5ez8xLqWThuEfw8JC
-   4sKhgJf6Z6e3BANm6DtAwIZpl841v7ZqIZd0phns4/KXDJBvjel64NzMG
-   kSfWH2k3VJcjh9lKXH/niyHXGYn6tnuUtDMOBcy2MLtWzZC0gOzykk04z
-   oR+RHcqa2ralbvT2cJh5uwhIi7/39gOZWqHqrL0L2Z2HHDHsPCEgpn8qo
-   vtq6im7jpwEeXzWP47tlyrpxwWmDI1CSblFt859gKVR93mnjShC/lWf/v
-   5GjFvDluP3LXcwzTtmJNcF8lUnysbqoDo+pJbCP2RQKHS9tYTeHEI7r50
+  t=1739881758; x=1771417758;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=kPmVEFrBX7xKXCqbiltWNkjdEd2q1FNMHn3cBqbVyJ8=;
+  b=DsTeMF43oyNK13FB1R5OUQ85Lku+1JhQDinYt/cfZh+HD5CkIsO6rjFB
+   5aGvmXrLu6u22ECRYzed6qTn5sPN+r44faROOwFnC/XdGJc4wyJNTZERp
+   nIHn9v1KmX+qDm6a3ckVLLgx0hdpAz/ZisavnASt3WRYxm2T1ztHvLcZX
+   1b2dBXjB9wz3D5mXly0ShxiDSwXF1UqLGYjXRrzM9Iy6j/a0MusrDlurI
+   mKe2iMpoBReibFbz3r0aGU1SbUKwqW4sDaQoyYi5z5r0VBq82s9E7qwtP
+   CV2gResyzHxIuD9ENCNI6DP/UFWF3bm98XF7iBjgGURbgXlCqFsT52b1Y
    g==;
-X-CSE-ConnectionGUID: y2e1X6RQS8GksdTOCsLJ1g==
-X-CSE-MsgGUID: yoFfVkOORwOWFwbda0uQ8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40707364"
-X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; 
-   d="scan'208";a="40707364"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 04:09:14 -0800
-X-CSE-ConnectionGUID: nfZG6o8QQlGHoa2XPzKRKw==
-X-CSE-MsgGUID: Gd9lsWR+QOS7Z4rJs1zX7g==
+X-CSE-ConnectionGUID: N7c2QqqpQzikbxe+AAS0pA==
+X-CSE-MsgGUID: 2qc9ccblSm67NOqqMd36Nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40278217"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
+   d="scan'208";a="40278217"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 04:29:17 -0800
+X-CSE-ConnectionGUID: TD2CyzBWRv6OsaCL//P5cg==
+X-CSE-MsgGUID: +ezbReRHRM+7nc6UUSWpOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119591211"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
+   d="scan'208";a="114305462"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 18 Feb 2025 04:09:12 -0800
+  by orviesa006.jf.intel.com with ESMTP; 18 Feb 2025 04:29:17 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkMPS-0000Uz-1L
+	id 1tkMil-0000Vf-2Q
 	for oe-kbuild-all@lists.linux.dev;
-	Tue, 18 Feb 2025 12:09:07 +0000
-Date: Tue, 18 Feb 2025 20:08:11 +0800
+	Tue, 18 Feb 2025 12:29:09 +0000
+Date: Tue, 18 Feb 2025 20:28:33 +0800
 From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/60 1/1] drivers/mtd/nand/raw/nand_bbt.c:563:32:
- warning: writing 1 byte into a region of size 0
-Message-ID: <202502181951.Yl0X71jJ-lkp@intel.com>
+Subject: [intel-lts:pr/57 1/1] drivers/tty/vt/keyboard.c:2026: Error:
+ unrecognized opcode `csrs sstatus,a1', extension `zicsr' required
+Message-ID: <202502182030.ZzoaAafP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Miquel,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/intel/linux-intel-lts.git pr/60
-head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
-commit: 72c5af00272339af6bbed6fe7275cd731f57be2d [1/1] mtd: rawnand: Clarify Kconfig entry MTD_NAND
-config: arc-randconfig-001-20250218 (https://download.01.org/0day-ci/archive/20250218/202502181951.Yl0X71jJ-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502181951.Yl0X71jJ-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 46ca3f735f345c9d87383dd3a09fa5d43870770e [1/1] tty/vt: fix write/write race in ioctl(KDSKBSENT) handler
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20250218/202502182030.ZzoaAafP-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250218/202502182030.ZzoaAafP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502181951.Yl0X71jJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502182030.ZzoaAafP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/asm-generic/div64.h:235:16: note: in expansion of macro 'if'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                ^~
-   include/linux/mtd/nand.h:462:21: note: in expansion of macro 'do_div'
-     462 |         pos->page = do_div(tmp, nand->memorg.pages_per_eraseblock);
-         |                     ^~~~~~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("\"_ftrace_annotated_branch\"")' because it conflicts with previous 'section ("\"_ftrace_branch\"")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/asm-generic/div64.h:235:16: note: in expansion of macro 'if'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:235:20: note: in expansion of macro 'likely'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                    ^~~~~~
-   include/linux/mtd/nand.h:463:27: note: in expansion of macro 'do_div'
-     463 |         pos->eraseblock = do_div(tmp, nand->memorg.eraseblocks_per_lun);
-         |                           ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/asm-generic/div64.h:235:16: note: in expansion of macro 'if'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                ^~
-   include/linux/mtd/nand.h:463:27: note: in expansion of macro 'do_div'
-     463 |         pos->eraseblock = do_div(tmp, nand->memorg.eraseblocks_per_lun);
-         |                           ^~~~~~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("\"_ftrace_annotated_branch\"")' because it conflicts with previous 'section ("\"_ftrace_branch\"")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/asm-generic/div64.h:235:16: note: in expansion of macro 'if'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:235:20: note: in expansion of macro 'likely'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                    ^~~~~~
-   include/linux/mtd/nand.h:465:20: note: in expansion of macro 'do_div'
-     465 |         pos->lun = do_div(tmp, nand->memorg.luns_per_target);
-         |                    ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/asm-generic/div64.h:235:16: note: in expansion of macro 'if'
-     235 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                ^~
-   include/linux/mtd/nand.h:465:20: note: in expansion of macro 'do_div'
-     465 |         pos->lun = do_div(tmp, nand->memorg.luns_per_target);
-         |                    ^~~~~~
-   drivers/mtd/nand/raw/internals.h: In function 'nand_exec_op':
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("\"_ftrace_annotated_branch\"")' because it conflicts with previous 'section ("\"_ftrace_branch\"")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   drivers/mtd/nand/raw/internals.h:113:9: note: in expansion of macro 'if'
-     113 |         if (WARN_ON(op->cs >= nanddev_ntargets(&chip->base)))
-         |         ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:192:9: note: in expansion of macro 'unlikely'
-     192 |         unlikely(__ret_warn_on);                                        \
-         |         ^~~~~~~~
-   drivers/mtd/nand/raw/internals.h:113:13: note: in expansion of macro 'WARN_ON'
-     113 |         if (WARN_ON(op->cs >= nanddev_ntargets(&chip->base)))
-         |             ^~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   drivers/mtd/nand/raw/internals.h:113:9: note: in expansion of macro 'if'
-     113 |         if (WARN_ON(op->cs >= nanddev_ntargets(&chip->base)))
-         |         ^~
-   drivers/mtd/nand/raw/nand_bbt.c: In function 'search_bbt.isra':
->> drivers/mtd/nand/raw/nand_bbt.c:563:32: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-     563 |                 td->version[i] = 0;
-         |                 ~~~~~~~~~~~~~~~^~~
-   In file included from drivers/mtd/nand/raw/nand_bbt.c:63:
-   include/linux/mtd/bbm.h:60:17: note: at offset 8 into destination object 'version' of size 8
-      60 |         uint8_t version[NAND_MAX_CHIPS];
-         |                 ^~~~~~~
+   drivers/tty/vt/keyboard.c: In function 'k_fn':
+   drivers/tty/vt/keyboard.c:740:29: warning: comparison is always true due to limited range of data type [-Wtype-limits]
+     740 |         if ((unsigned)value < ARRAY_SIZE(func_table)) {
+         |                             ^
+   In file included from drivers/tty/vt/keyboard.c:33:
+   In function 'tty_insert_flip_char',
+       inlined from 'puts_queue' at drivers/tty/vt/keyboard.c:315:3:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   In file included from drivers/tty/vt/keyboard.c:32:
+   include/linux/tty.h: In function 'puts_queue':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'puts_queue' at drivers/tty/vt/keyboard.c:315:3:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'puts_queue':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'fn_send_intr' at drivers/tty/vt/keyboard.c:562:2:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/tty.h: In function 'fn_send_intr':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'fn_send_intr' at drivers/tty/vt/keyboard.c:562:2:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'fn_send_intr':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'put_queue' at drivers/tty/vt/keyboard.c:308:2:
+   include/linux/tty_flip.h:27:53: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      27 |                         *flag_buf_ptr(tb, tb->used) = flag;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/tty.h: In function 'put_queue':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   In function 'tty_insert_flip_char',
+       inlined from 'put_queue' at drivers/tty/vt/keyboard.c:308:2:
+   include/linux/tty_flip.h:28:47: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+      28 |                 *char_buf_ptr(tb, tb->used++) = ch;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/tty.h: In function 'put_queue':
+   include/linux/tty.h:69:23: note: destination object 'data' of size 0
+      69 |         unsigned long data[0];
+         |                       ^~~~
+   drivers/tty/vt/keyboard.c: Assembler messages:
+   drivers/tty/vt/keyboard.c:1723: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1723: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1761: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1761: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1705: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1705: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1678: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1678: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1867: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1867: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1908: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:1908: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+>> drivers/tty/vt/keyboard.c:2026: Error: unrecognized opcode `csrs sstatus,a1', extension `zicsr' required
+>> drivers/tty/vt/keyboard.c:2026: Error: unrecognized opcode `csrc sstatus,a1', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:2030: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:2030: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:2133: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:2133: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:2151: Error: unrecognized opcode `csrs sstatus,a4', extension `zicsr' required
+   drivers/tty/vt/keyboard.c:2151: Error: unrecognized opcode `csrc sstatus,a4', extension `zicsr' required
 
 
-vim +563 drivers/mtd/nand/raw/nand_bbt.c
+vim +2026 drivers/tty/vt/keyboard.c
 
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  515  
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  516  /**
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  517   * search_bbt - [GENERIC] scan the device for a specific bad block table
-0813621ba898aa drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-11-11  518   * @this: NAND chip object
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  519   * @buf: temporary buffer
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  520   * @td: descriptor for the bad block table
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  521   *
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  522   * Read the bad block table by searching for a given ident pattern. Search is
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  523   * preformed either from the beginning up or from the end of the device
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  524   * downwards. The search starts always at the start of a block. If the option
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  525   * NAND_BBT_PERCHIP is given, each chip is searched for a bbt, which contains
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  526   * the bad block information of this chip. This is necessary to provide support
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  527   * for certain DOC devices.
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  528   *
-8b6e50c9eba8bf drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-05-25  529   * The bbt ident pattern resides in the oob area of the first page in a block.
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  530   */
-0813621ba898aa drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-11-11  531  static int search_bbt(struct nand_chip *this, uint8_t *buf,
-0813621ba898aa drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-11-11  532  		      struct nand_bbt_descr *td)
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  533  {
-6c836d515ff85e drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-10-29  534  	u64 targetsize = nanddev_target_size(&this->base);
-0813621ba898aa drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-11-11  535  	struct mtd_info *mtd = nand_to_mtd(this);
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  536  	int i, chips;
-930de53701c139 drivers/mtd/nand/nand_bbt.c     Brian Norris              2014-01-02  537  	int startblock, block, dir;
-28318776a80bc3 drivers/mtd/nand/nand_bbt.c     Joern Engel               2006-05-22  538  	int scanlen = mtd->writesize + mtd->oobsize;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  539  	int bbtblocks;
-8593fbc68b0df1 drivers/mtd/nand/nand_bbt.c     Thomas Gleixner           2006-05-29  540  	int blocktopage = this->bbt_erase_shift - this->page_shift;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  541  
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  542  	/* Search direction top -> down? */
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  543  	if (td->options & NAND_BBT_LASTBLOCK) {
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  544  		startblock = (mtd->size >> this->bbt_erase_shift) - 1;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  545  		dir = -1;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  546  	} else {
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  547  		startblock = 0;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  548  		dir = 1;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  549  	}
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  550  
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  551  	/* Do we have a bbt per chip? */
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  552  	if (td->options & NAND_BBT_PERCHIP) {
-32813e288414fe drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-10-29  553  		chips = nanddev_ntargets(&this->base);
-6c836d515ff85e drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-10-29  554  		bbtblocks = targetsize >> this->bbt_erase_shift;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  555  		startblock &= bbtblocks - 1;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  556  	} else {
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  557  		chips = 1;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  558  		bbtblocks = mtd->size >> this->bbt_erase_shift;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  559  	}
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  560  
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  561  	for (i = 0; i < chips; i++) {
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  562  		/* Reset version information */
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16 @563  		td->version[i] = 0;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  564  		td->pages[i] = -1;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  565  		/* Scan the maximum number of blocks */
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  566  		for (block = 0; block < td->maxblocks; block++) {
-8593fbc68b0df1 drivers/mtd/nand/nand_bbt.c     Thomas Gleixner           2006-05-29  567  
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  568  			int actblock = startblock + dir * block;
-69423d99fc182a drivers/mtd/nand/nand_bbt.c     Adrian Hunter             2008-12-10  569  			loff_t offs = (loff_t)actblock << this->bbt_erase_shift;
-8593fbc68b0df1 drivers/mtd/nand/nand_bbt.c     Thomas Gleixner           2006-05-29  570  
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  571  			/* Read first page */
-0813621ba898aa drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-11-11  572  			scan_read(this, buf, offs, mtd->writesize, td);
-28318776a80bc3 drivers/mtd/nand/nand_bbt.c     Joern Engel               2006-05-22  573  			if (!check_pattern(buf, scanlen, mtd->writesize, td)) {
-8593fbc68b0df1 drivers/mtd/nand/nand_bbt.c     Thomas Gleixner           2006-05-29  574  				td->pages[i] = actblock << blocktopage;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  575  				if (td->options & NAND_BBT_VERSION) {
-0813621ba898aa drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-11-11  576  					offs = bbt_get_ver_offs(this, td);
-7cba7b14fe1799 drivers/mtd/nand/nand_bbt.c     Sebastian Andrzej Siewior 2010-09-30  577  					td->version[i] = buf[offs];
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  578  				}
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  579  				break;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  580  			}
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  581  		}
-6c836d515ff85e drivers/mtd/nand/raw/nand_bbt.c Boris Brezillon           2018-10-29  582  		startblock += targetsize >> this->bbt_erase_shift;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  583  	}
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  584  	/* Check, if we found a bbt for each requested chip */
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  585  	for (i = 0; i < chips; i++) {
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  586  		if (td->pages[i] == -1)
-9a4d4d69018e7b drivers/mtd/nand/nand_bbt.c     Brian Norris              2011-07-19  587  			pr_warn("Bad block table not found for chip %d\n", i);
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  588  		else
-2ac63d901b1170 drivers/mtd/nand/nand_bbt.c     Rafał Miłecki             2014-08-19  589  			pr_info("Bad block table found at page %d, version 0x%02X\n",
-2ac63d901b1170 drivers/mtd/nand/nand_bbt.c     Rafał Miłecki             2014-08-19  590  				td->pages[i], td->version[i]);
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  591  	}
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  592  	return 0;
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  593  }
-^1da177e4c3f41 drivers/mtd/nand/nand_bbt.c     Linus Torvalds            2005-04-16  594  
+079c9534a96da9 Alan Cox           2012-02-28  1986  
+079c9534a96da9 Alan Cox           2012-02-28  1987  /* FIXME: This one needs untangling and locking */
+079c9534a96da9 Alan Cox           2012-02-28  1988  int vt_do_kdgkb_ioctl(int cmd, struct kbsentry __user *user_kdgkb, int perm)
+079c9534a96da9 Alan Cox           2012-02-28  1989  {
+079c9534a96da9 Alan Cox           2012-02-28  1990  	struct kbsentry *kbs;
+079c9534a96da9 Alan Cox           2012-02-28  1991  	char *p;
+079c9534a96da9 Alan Cox           2012-02-28  1992  	u_char *q;
+079c9534a96da9 Alan Cox           2012-02-28  1993  	u_char __user *up;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  1994  	int sz, fnw_sz;
+079c9534a96da9 Alan Cox           2012-02-28  1995  	int delta;
+079c9534a96da9 Alan Cox           2012-02-28  1996  	char *first_free, *fj, *fnw;
+079c9534a96da9 Alan Cox           2012-02-28  1997  	int i, j, k;
+079c9534a96da9 Alan Cox           2012-02-28  1998  	int ret;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  1999  	unsigned long flags;
+079c9534a96da9 Alan Cox           2012-02-28  2000  
+079c9534a96da9 Alan Cox           2012-02-28  2001  	if (!capable(CAP_SYS_TTY_CONFIG))
+079c9534a96da9 Alan Cox           2012-02-28  2002  		perm = 0;
+079c9534a96da9 Alan Cox           2012-02-28  2003  
+079c9534a96da9 Alan Cox           2012-02-28  2004  	kbs = kmalloc(sizeof(*kbs), GFP_KERNEL);
+079c9534a96da9 Alan Cox           2012-02-28  2005  	if (!kbs) {
+079c9534a96da9 Alan Cox           2012-02-28  2006  		ret = -ENOMEM;
+079c9534a96da9 Alan Cox           2012-02-28  2007  		goto reterr;
+079c9534a96da9 Alan Cox           2012-02-28  2008  	}
+079c9534a96da9 Alan Cox           2012-02-28  2009  
+079c9534a96da9 Alan Cox           2012-02-28  2010  	/* we mostly copy too much here (512bytes), but who cares ;) */
+079c9534a96da9 Alan Cox           2012-02-28  2011  	if (copy_from_user(kbs, user_kdgkb, sizeof(struct kbsentry))) {
+079c9534a96da9 Alan Cox           2012-02-28  2012  		ret = -EFAULT;
+079c9534a96da9 Alan Cox           2012-02-28  2013  		goto reterr;
+079c9534a96da9 Alan Cox           2012-02-28  2014  	}
+079c9534a96da9 Alan Cox           2012-02-28  2015  	kbs->kb_string[sizeof(kbs->kb_string)-1] = '\0';
+079c9534a96da9 Alan Cox           2012-02-28  2016  	i = kbs->kb_func;
+079c9534a96da9 Alan Cox           2012-02-28  2017  
+079c9534a96da9 Alan Cox           2012-02-28  2018  	switch (cmd) {
+079c9534a96da9 Alan Cox           2012-02-28  2019  	case KDGKBSENT:
+079c9534a96da9 Alan Cox           2012-02-28  2020  		sz = sizeof(kbs->kb_string) - 1; /* sz should have been
+079c9534a96da9 Alan Cox           2012-02-28  2021  						  a struct member */
+079c9534a96da9 Alan Cox           2012-02-28  2022  		up = user_kdgkb->kb_string;
+079c9534a96da9 Alan Cox           2012-02-28  2023  		p = func_table[i];
+079c9534a96da9 Alan Cox           2012-02-28  2024  		if(p)
+079c9534a96da9 Alan Cox           2012-02-28  2025  			for ( ; *p && sz; p++, sz--)
+079c9534a96da9 Alan Cox           2012-02-28 @2026  				if (put_user(*p, up++)) {
+079c9534a96da9 Alan Cox           2012-02-28  2027  					ret = -EFAULT;
+079c9534a96da9 Alan Cox           2012-02-28  2028  					goto reterr;
+079c9534a96da9 Alan Cox           2012-02-28  2029  				}
+079c9534a96da9 Alan Cox           2012-02-28  2030  		if (put_user('\0', up)) {
+079c9534a96da9 Alan Cox           2012-02-28  2031  			ret = -EFAULT;
+079c9534a96da9 Alan Cox           2012-02-28  2032  			goto reterr;
+079c9534a96da9 Alan Cox           2012-02-28  2033  		}
+079c9534a96da9 Alan Cox           2012-02-28  2034  		kfree(kbs);
+079c9534a96da9 Alan Cox           2012-02-28  2035  		return ((p && *p) ? -EOVERFLOW : 0);
+079c9534a96da9 Alan Cox           2012-02-28  2036  	case KDSKBSENT:
+079c9534a96da9 Alan Cox           2012-02-28  2037  		if (!perm) {
+079c9534a96da9 Alan Cox           2012-02-28  2038  			ret = -EPERM;
+079c9534a96da9 Alan Cox           2012-02-28  2039  			goto reterr;
+079c9534a96da9 Alan Cox           2012-02-28  2040  		}
+079c9534a96da9 Alan Cox           2012-02-28  2041  
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2042  		fnw = NULL;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2043  		fnw_sz = 0;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2044  		/* race aginst other writers */
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2045  		again:
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2046  		spin_lock_irqsave(&func_buf_lock, flags);
+079c9534a96da9 Alan Cox           2012-02-28  2047  		q = func_table[i];
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2048  
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2049  		/* fj pointer to next entry after 'q' */
+079c9534a96da9 Alan Cox           2012-02-28  2050  		first_free = funcbufptr + (funcbufsize - funcbufleft);
+079c9534a96da9 Alan Cox           2012-02-28  2051  		for (j = i+1; j < MAX_NR_FUNC && !func_table[j]; j++)
+079c9534a96da9 Alan Cox           2012-02-28  2052  			;
+079c9534a96da9 Alan Cox           2012-02-28  2053  		if (j < MAX_NR_FUNC)
+079c9534a96da9 Alan Cox           2012-02-28  2054  			fj = func_table[j];
+079c9534a96da9 Alan Cox           2012-02-28  2055  		else
+079c9534a96da9 Alan Cox           2012-02-28  2056  			fj = first_free;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2057  		/* buffer usage increase by new entry */
+079c9534a96da9 Alan Cox           2012-02-28  2058  		delta = (q ? -strlen(q) : 1) + strlen(kbs->kb_string);
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2059  
+079c9534a96da9 Alan Cox           2012-02-28  2060  		if (delta <= funcbufleft) { 	/* it fits in current buf */
+079c9534a96da9 Alan Cox           2012-02-28  2061  		    if (j < MAX_NR_FUNC) {
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2062  			/* make enough space for new entry at 'fj' */
+079c9534a96da9 Alan Cox           2012-02-28  2063  			memmove(fj + delta, fj, first_free - fj);
+079c9534a96da9 Alan Cox           2012-02-28  2064  			for (k = j; k < MAX_NR_FUNC; k++)
+079c9534a96da9 Alan Cox           2012-02-28  2065  			    if (func_table[k])
+079c9534a96da9 Alan Cox           2012-02-28  2066  				func_table[k] += delta;
+079c9534a96da9 Alan Cox           2012-02-28  2067  		    }
+079c9534a96da9 Alan Cox           2012-02-28  2068  		    if (!q)
+079c9534a96da9 Alan Cox           2012-02-28  2069  		      func_table[i] = fj;
+079c9534a96da9 Alan Cox           2012-02-28  2070  		    funcbufleft -= delta;
+079c9534a96da9 Alan Cox           2012-02-28  2071  		} else {			/* allocate a larger buffer */
+079c9534a96da9 Alan Cox           2012-02-28  2072  		    sz = 256;
+079c9534a96da9 Alan Cox           2012-02-28  2073  		    while (sz < funcbufsize - funcbufleft + delta)
+079c9534a96da9 Alan Cox           2012-02-28  2074  		      sz <<= 1;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2075  		    if (fnw_sz != sz) {
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2076  		      spin_unlock_irqrestore(&func_buf_lock, flags);
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2077  		      kfree(fnw);
+079c9534a96da9 Alan Cox           2012-02-28  2078  		      fnw = kmalloc(sz, GFP_KERNEL);
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2079  		      fnw_sz = sz;
+079c9534a96da9 Alan Cox           2012-02-28  2080  		      if (!fnw) {
+079c9534a96da9 Alan Cox           2012-02-28  2081  			ret = -ENOMEM;
+079c9534a96da9 Alan Cox           2012-02-28  2082  			goto reterr;
+079c9534a96da9 Alan Cox           2012-02-28  2083  		      }
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2084  		      goto again;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2085  		    }
+079c9534a96da9 Alan Cox           2012-02-28  2086  
+079c9534a96da9 Alan Cox           2012-02-28  2087  		    if (!q)
+079c9534a96da9 Alan Cox           2012-02-28  2088  		      func_table[i] = fj;
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2089  		    /* copy data before insertion point to new location */
+079c9534a96da9 Alan Cox           2012-02-28  2090  		    if (fj > funcbufptr)
+079c9534a96da9 Alan Cox           2012-02-28  2091  			memmove(fnw, funcbufptr, fj - funcbufptr);
+079c9534a96da9 Alan Cox           2012-02-28  2092  		    for (k = 0; k < j; k++)
+079c9534a96da9 Alan Cox           2012-02-28  2093  		      if (func_table[k])
+079c9534a96da9 Alan Cox           2012-02-28  2094  			func_table[k] = fnw + (func_table[k] - funcbufptr);
+079c9534a96da9 Alan Cox           2012-02-28  2095  
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2096  		    /* copy data after insertion point to new location */
+079c9534a96da9 Alan Cox           2012-02-28  2097  		    if (first_free > fj) {
+079c9534a96da9 Alan Cox           2012-02-28  2098  			memmove(fnw + (fj - funcbufptr) + delta, fj, first_free - fj);
+079c9534a96da9 Alan Cox           2012-02-28  2099  			for (k = j; k < MAX_NR_FUNC; k++)
+079c9534a96da9 Alan Cox           2012-02-28  2100  			  if (func_table[k])
+079c9534a96da9 Alan Cox           2012-02-28  2101  			    func_table[k] = fnw + (func_table[k] - funcbufptr) + delta;
+079c9534a96da9 Alan Cox           2012-02-28  2102  		    }
+079c9534a96da9 Alan Cox           2012-02-28  2103  		    if (funcbufptr != func_buf)
+079c9534a96da9 Alan Cox           2012-02-28  2104  		      kfree(funcbufptr);
+079c9534a96da9 Alan Cox           2012-02-28  2105  		    funcbufptr = fnw;
+079c9534a96da9 Alan Cox           2012-02-28  2106  		    funcbufleft = funcbufleft - delta + sz - funcbufsize;
+079c9534a96da9 Alan Cox           2012-02-28  2107  		    funcbufsize = sz;
+079c9534a96da9 Alan Cox           2012-02-28  2108  		}
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2109  		/* finally insert item itself */
+079c9534a96da9 Alan Cox           2012-02-28  2110  		strcpy(func_table[i], kbs->kb_string);
+46ca3f735f345c Sergei Trofimovich 2019-03-10  2111  		spin_unlock_irqrestore(&func_buf_lock, flags);
+079c9534a96da9 Alan Cox           2012-02-28  2112  		break;
+079c9534a96da9 Alan Cox           2012-02-28  2113  	}
+079c9534a96da9 Alan Cox           2012-02-28  2114  	ret = 0;
+079c9534a96da9 Alan Cox           2012-02-28  2115  reterr:
+079c9534a96da9 Alan Cox           2012-02-28  2116  	kfree(kbs);
+079c9534a96da9 Alan Cox           2012-02-28  2117  	return ret;
+079c9534a96da9 Alan Cox           2012-02-28  2118  }
+079c9534a96da9 Alan Cox           2012-02-28  2119  
 
-:::::: The code at line 563 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 2026 was first introduced by commit
+:::::: 079c9534a96da9a85a2a2f9715851050fbfbf749 vt:tackle kbd_table
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Alan Cox <alan@linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
