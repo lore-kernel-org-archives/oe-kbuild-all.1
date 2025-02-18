@@ -1,124 +1,134 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1172526F479;
-	Tue, 18 Feb 2025 13:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137E026A0A7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 14:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739885341; cv=none; b=R6NOuO+w2YkuNsWWDT7HZKalE8vinEPaiFLbjawDtQlb90QxMJ7MzI5DoiFph3/D1TvoYIs9R/Z1324bSY/n4f2bhlWPih/TDX5PDvVMqtJqk970b31LmlH12uG4rp/qvqkCdwptomUo/dOy9mmK+/kJmao+6XnOmBm1Juu5D5M=
+	t=1739888494; cv=none; b=kj9i4afi9SDiYpO40rSu6Jdu7WYdlfRMZlcbTaoY6h2C4NIbTo/nhUdY0/7dPVYCLf8wPdXcZXKlao1crHpQFgmEH0KmUvZzU633teaYZS3MLSyK21l3O8Lhc6pFeQCimX1q8GSP+T8EaFS8i3/xHwA9a7/ecIS0jWDLjw/Me6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739885341; c=relaxed/simple;
-	bh=iw/SPrbXn98cADc38nK9IqPnmrHPqixHtVWli1zCfVg=;
+	s=arc-20240116; t=1739888494; c=relaxed/simple;
+	bh=33TMhdfwzRIeMgbcmfNy/XvfM4Ozc97THaJpS4//qnE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C9NR5q1LHobrIE2mUTy0HX7idXTuwrIGnDyhIWW8SLZNmygNDFGWzRupajm4LPvd5TuDmEOKMrJDdjp3VyGoPDHFlNjNycHKqw79m/rTuTqA6ULscQnaoUAdqGHvk7JtMJVDvShR5cP/BXbhV7tmjalI0i5RqW7dVDVWOf/RTJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bWZZTJk7; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=gXMszT7py6pIuiRfJbXZO/HregHBKzVMGTY1jeU8n3zYod/kdjx7H0CRKP7pD8G+HvIfs8xM9FkheSrLVjb4bxg+KqGYymez7RZhdvk0R+U0WKLbUixQ5OxE9z7CwckIjWXVFcNea9tQMKKsRinskF8/lo/0Td7sR/d8+GC/Aak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GjpHOUbx; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bWZZTJk7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=R/o1iYOuTnHdhQ5dQpONUa+xtnc26ne1K/lxsZiqLlE=; b=bWZZTJk7HG6EUCdOIuwtQ31mF1
-	y3H28+JyOq58NxaxEzH+37aZDlVv2j4Zbsz6TJm0ImcqOxrtVka/Hr2QhJSF7n2saSxRmTVOYsunA
-	fWv0oRN1aFkicZUgFGE3ssWnQ4ZFqh7FQ9XDS9cJm94kS0rNI/+WNeKx3dAQiHrq7ZwtzL/+eCAXu
-	xJmCQ5Fj9eW6GbxBHwop3ReqPZ6Z//V6u9cCx3nS9MO0WTeijNcCzTXYlzuROWt4jI31IwGK8es30
-	RC377zVtYk8kRGuAI48MfMPMpTrcEmzbG13qvlEHQ8jdgB9LFy4zAvHKxjLHVhdZgm0jBgpLSCqIP
-	+Rd1dU3A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tkNei-000000030UP-19lA;
-	Tue, 18 Feb 2025 13:28:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 2341230066A; Tue, 18 Feb 2025 14:28:55 +0100 (CET)
-Date: Tue, 18 Feb 2025 14:28:55 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: ERROR: modpost: "kmsan_handle_dma"
- [drivers/virtio/virtio_ring.ko] undefined!
-Message-ID: <20250218132855.GE40464@noisy.programming.kicks-ass.net>
-References: <202502150634.qjxwSeJR-lkp@intel.com>
- <20250218114857.oBuLvPYs@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GjpHOUbx"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5dccaaca646so10040752a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 06:21:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739888491; x=1740493291; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=epp5Oj1kI3V0zqhBHGE/nEmzKDkVzIEDSBJvoi97Moc=;
+        b=GjpHOUbxMCFtbrPjnZjcM9Wk87UhFs9fxumRQYKeCsRBKRfue8cQz7WgM7dBJlRbt1
+         e+EpsRTNDa/eECCR5tekyiGO4PiJQqIpI7k/d2/MYJ2Estu6MTwE5E7t+XYpW8bZ3Ihw
+         nj/UTqFG3vnnsxiW5eMSsJXiq4iLApg3TBpImaixM6zWlPVB7H/6jvt+lF8BhddYjz3E
+         Js2qE7l2iJ0P/mCXE2UYR1mdURZAYun75ZbA/VZobz2rdOWRC0fQYL5L1ILYkC08tZ2W
+         b+I7xCi+1cOXlcbOj4gp/WKBVqPz/jFyEb/XCkpX//Nt6p7eCIt6OuTyCLh9r88mz7kk
+         uyFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739888491; x=1740493291;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=epp5Oj1kI3V0zqhBHGE/nEmzKDkVzIEDSBJvoi97Moc=;
+        b=Cu9nX55esmTuZ+TbMBxkUJOJWsKIV7iwnwMGLscqnGZQ5ySiiZ39zvD6oa2C+cnuJm
+         e44fZIUrse5BH697jOASh6FYtuoR7qZKb2PuG8nOYinY0C2qYquJRl/vWSP6Y5xxOzF5
+         jaY0jQkYncZ3WWmVFz4a2YGpmOg6HRnbQZT49FSi7+uW0X1Q5gtzjMBU6gqtseS0gsRY
+         nwO9fmaL18+z9TQ+3cPOcqst2k90Ob3snTUOuwAf3iMUwdWZffBsw++nY8rV0NM7YFkR
+         waaWm2WhW9014FBKEmaGGYIz4D/kukujcvkeh2UeXmFtukffdjUVJ15EzZ05fcOnuq4e
+         vAeA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvmpajQ6+6Zh1BDH7q9NeUOyKNnCyjyZxcNrX8CIhRERP9pJObsa+acjoZEU6eHavpH0ebbjybr9mJby02@lists.linux.dev
+X-Gm-Message-State: AOJu0Yypj5ylHcpyb7b3MosKXbldmqHv2qmHe9fbgLot7L8V6V5mSlla
+	eKgkfciKQPjcH729yRZBqVvCGKwDdMzPRXOv1kinzhSY1pSszg/mm1DOPfFEtlUiTo0XZuSkAqo
+	n
+X-Gm-Gg: ASbGncs9GhsOd3wrvSGuB89sffeEFzVhz+3ncntTzG9yCMcark4z2WKxd/IqknMasLK
+	rLSf2c/QHdMNv+uC6HZ27iPq/UihRsKZED2s9rA2WUBu0W48BOPIbcQJkhftXmR8H2xChpjHFpp
+	JD08f/8pAvgQIDAIFpb60lBcQ9WBliYZWZyjcUiAA+Xz2yBqKzHt1c+qlp5pvqQrOFOHmR9O0WR
+	N1dpRTXwv28WvljMKl8yPfY9hmafDKxpTsJU3Wx2riD+QHitdVhDfgp/zQoo0XQFLNQeEeLidIC
+	3pMmRj1UldGnETBpvtUL
+X-Google-Smtp-Source: AGHT+IGm8Y3zgYesHPFu1v5tsyTj/+j/bH9iWtpP4bLHsu1ODM2GS9NeO/WPPPsgDryp1DtOkgMs3Q==
+X-Received: by 2002:a05:6402:234a:b0:5de:a972:8c7 with SMTP id 4fb4d7f45d1cf-5e03722345amr12702547a12.5.1739888491339;
+        Tue, 18 Feb 2025 06:21:31 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5dece1b5415sm8699308a12.4.2025.02.18.06.21.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2025 06:21:31 -0800 (PST)
+Date: Tue, 18 Feb 2025 17:21:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Philip Li <philip.li@intel.com>
+Cc: David Laight <david.laight.linux@gmail.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Christoph Hellwig <hch@lst.de>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Carlos Maiolino <cem@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	linux-riscv@lists.infradead.org
+Subject: Re: fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x'
+ is never less than zero.
+Message-ID: <78ff844a-0fb4-42f6-b54f-4d19e14cfd05@stanley.mountain>
+References: <202502171326.j4Xd3I0j-lkp@intel.com>
+ <20250217092445.GA29568@lst.de>
+ <a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
+ <20250217131203.2657cc4b@pumpkin>
+ <Z7PWuSA4jtZnxp5J@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250218114857.oBuLvPYs@linutronix.de>
+In-Reply-To: <Z7PWuSA4jtZnxp5J@rli9-mobl>
 
-On Tue, Feb 18, 2025 at 12:48:57PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-02-15 06:42:36 [+0800], kernel test robot wrote:
-> > >> arch/x86/kvm/cpuid.o: warning: objtool: do_cpuid_func+0x2428: undefined stack state
+On Tue, Feb 18, 2025 at 08:39:21AM +0800, Philip Li wrote:
+> + Dan
 > 
-
-> From the assembly it seems to make sense:
-> |   110ae:       49 89 e0                mov    %rsp,%r8
-> stash for later
-> |   110b1:       48 85 db                test   %rbx,%rbx
-> |   110b4:       c7 00 00 00 00 00       movl   $0x0,(%rax)
-> |   110ba:       45 89 7e 14             mov    %r15d,0x14(%r14)
-> |   110be:       0f 85 40 01 00 00       jne    11204 <do_cpuid_func+0x22f4>
-> â€¦
-> |   11204:       44 8b 74 24 38          mov    0x38(%rsp),%r14d
-> |   11209:       44 89 f7                mov    %r14d,%edi
-> |   1120c:       4d 89 c7                mov    %r8,%r15
+> Hi Dan,
 > 
-> mov rsp to r15
+> On Mon, Feb 17, 2025 at 01:12:03PM +0000, David Laight wrote:
+> > On Mon, 17 Feb 2025 13:06:49 +0100
+> > Alexandre Ghiti <alex@ghiti.fr> wrote:
+> > 
+> > > Hi Christoph,
+> > > 
+> > > On 17/02/2025 10:24, Christoph Hellwig wrote:
+> > > > On Mon, Feb 17, 2025 at 01:53:08PM +0800, kernel test robot wrote:  
+> > > >> New smatch warnings:
+> > > >> fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is never less than zero.  
+> > > > Looks like this is an issue in the riscv virt_to_page implementation
+> > > > which also shows up in various other places.  Any chance this could get
+> > > > fixed in the riscv code?  
+> > > 
+> > > 
+> > > To me, the only test that could give rise to this warning is the last 
+> > > part of:
+> > > 
+> > > #define is_linear_mapping(x) \
+> > >          ((x) >= PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < 
+> > > PAGE_OFFSET + KERN_VIRT_SIZE))
+> > > 
+> > > But given that the config is a 32-bit config, it should not be evaluated 
+> > > at all.
+> > > 
+> > > Could that be a false-positive and then an issue in smatch?
+> > 
+> > Why is smatch even looking.
+> > The equivalent check in gcc has been moved to -W2 because of all false positives.
 
-This, objtool doesn't track this one. It only does:
+The Smatch check is a bit more sophisticated than the GCC check...
+I think if you removed the (!IS_ENABLED(CONFIG_64BIT) condition then
+Smatch wouldn't trigger a warning here.  How would I duplicate this
+warning?  The "ARCH=riscv make.cross" command does a 64bit build.
 
- mov %rsp, reg
+Screw it, I can just silence this warning based on that it's a kernel
+build and the variable is called "_x".
 
- mov reg, %rsp
+regards,
+dan carpenter
 
-I'm not entirely sure how painful it would be to teach objtool about
-this case. Horrible code it is :/
-
-> |   1120f:       e8 00 00 00 00          call   11214 <do_cpuid_func+0x2304>
-> |                        11210: R_X86_64_PLT32   __msan_chain_origin-0x4
-> |   11214:       89 c7                   mov    %eax,%edi
-> |   11216:       e8 00 00 00 00          call   1121b <do_cpuid_func+0x230b>
-> |                        11217: R_X86_64_PLT32   __msan_warning-0x4
-> |   1121b:       44 89 f7                mov    %r14d,%edi
-> |   1121e:       e8 00 00 00 00          call   11223 <do_cpuid_func+0x2313>
-> |                        1121f: R_X86_64_PLT32   __msan_chain_origin-0x4
-> |   11223:       89 c7                   mov    %eax,%edi
-> |   11225:       e8 00 00 00 00          call   1122a <do_cpuid_func+0x231a>
-> |                        11226: R_X86_64_PLT32   __msan_warning-0x4
-> |   1122a:       44 89 f7                mov    %r14d,%edi
-> |   1122d:       e8 00 00 00 00          call   11232 <do_cpuid_func+0x2322>
-> |                        1122e: R_X86_64_PLT32   __msan_chain_origin-0x4
-> |   11232:       89 c7                   mov    %eax,%edi
-> |   11234:       e8 00 00 00 00          call   11239 <do_cpuid_func+0x2329>
-> |                        11235: R_X86_64_PLT32   __msan_warning-0x4
-> |   11239:       44 89 f7                mov    %r14d,%edi
-> |   1123c:       e8 00 00 00 00          call   11241 <do_cpuid_func+0x2331>
-> |                        1123d: R_X86_64_PLT32   __msan_chain_origin-0x4
-> |   11241:       89 c7                   mov    %eax,%edi
-> |   11243:       e8 00 00 00 00          call   11248 <do_cpuid_func+0x2338>
-> |                        11244: R_X86_64_PLT32   __msan_warning-0x4
-> |   11248:       4c 89 ef                mov    %r13,%rdi
-> |   1124b:       48 8b 74 24 20          mov    0x20(%rsp),%rsi
-> |   11250:       4c 89 e2                mov    %r12,%rdx
-> |   11253:       48 8b 4c 24 08          mov    0x8(%rsp),%rcx
-> |   11258:       4c 89 fc                mov    %r15,%rsp
-> 
-> restore rsp. I just don't see how rsp is destroyed but this could be
-> related to paravirt's xxl clobbing in__cpuid().
-> 
-> I miss 1120c in my output. I don't understand how it jumps from 110ae to
-> 1124b. It misses the assignments in between but this might not be goal
-> hereâ€¦
-> 
-> gcc does not cause objtool to produce the warning but then gcc does
-> shuffle rsp as much as llvm does.
-> 
-> Sebastian
