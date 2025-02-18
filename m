@@ -1,120 +1,95 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4571EB5D3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 19:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FFB28628C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 21:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739908429; cv=none; b=kh2lVbaGNr2NUpzR4fC0CNaPriSoqWCwcIJzg+s0Lwbl9bm47LTfGxIBN3cMtO9uiSaBScZHBQftI3V2uIYhMExLSc9kTm9bYOMJM8UH8OpIY+E3Qr65tnvkz/Nj9e1ELsYlOArtV7P3sLsHV5F8W8geKYm53xztOHAk9QNiTXE=
+	t=1739912507; cv=none; b=E+2eShwgIw7ZbMfN2ab/SklhwYj7sZLU/2mOU7KiQhrdfCV1JaB/jBmHUzPyt1uc2pjO0Y7G267hGOHB3tmADNo7m1VQz6me5qJ1CoyxV9YvzWFnGkSf+nY1u+wpFHbTdzM9HcChpiDo2VJjXuffdpqkbJDDidXSmKn3j/NfiDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739908429; c=relaxed/simple;
-	bh=etJYd6VC24ah8kdBhkG4rqY+vIZaUIDWL/AZdFtvCOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IH5lV3W0Skx6Mw/W8I5h/oJnWCxyvEthaBsAbiYQa2Fl6p4va+2mHpEMdD+1Bl5yOYPDMYZSdk64zcWRs2qVYlNDTFRNk17ME2WR0+9cAYeb/Lz0hf2BdgYZZSz1Hh4g1gqaPc0SRkNiwvWIG/fDwf9WWTZaWpqc11KYkwfsOrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKkWQQiU; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739912507; c=relaxed/simple;
+	bh=4iAjNWBRHULUQ3ImOuIWROZJrkYl7LMbn2TzSgF5CyE=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M2jGy9JSQbkCgnO4wnjGXo5GI/qa+WDUdxHWmSLJQerdT0Rp9XyMRgQakxYKUHLvemqcCJ3RhSOlSp3RclHqFWSuSSlwg3t/YGRlDOZmA0acyPw18yYd0xsl89VUwF5OyYLd2Hg4QpGXcXQPoepdurSWElnfkaGlqR6NeOVrnHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UK7MT4Hi; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKkWQQiU"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so41190915e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 11:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739908426; x=1740513226; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QYMHtedu2RkDcedr/ZB86DaCSOrnLAFrvmqyAZWKjac=;
-        b=hKkWQQiUwHXVVzV1g8se7dXPPdzRoVEFi3U7aPTG02E9EXm2VAx0tvGZDiPMKHw/ng
-         Znm3Qzt79UqvE0a1HOBgEM6ukuWAw36R0+NQSSfK5C9S8T4VW8JYMEShZlvDFCRe9pqx
-         iuc7h7cpidb6g+BwntL/sYczYg6M/xwYlI4WgoNOVvHKYAatVoVxygdzeJEg/Lzy+1zu
-         Cm7IRZM8udOXVc3tdexe+2ZuiEgoXs7xFsEgVgDy1fpknSEj+ZgBixI+dQzrzayBTOCC
-         aNlhJWBSpcJRmYHCcT0V7v582kVz4wkwhouAjWx2aguubAnKKckyOMPqgKmeqd+b9wpa
-         chyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739908426; x=1740513226;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QYMHtedu2RkDcedr/ZB86DaCSOrnLAFrvmqyAZWKjac=;
-        b=NuhRoYP3QOQa7hFjXekZlYLOR9+o8QET3EvzA+7tpncM0hDeITufuVOVdf+POl0VdO
-         nZL+YxDItIozTx5jGpj8nQ07oEotJ+xtXwrqdiCB253s/Hl6ryPIHaPFSATdGSW7n4gb
-         U+a8u3yCm5hT+MK/9q0b3W/iEcOu9rSmltcvNuL3dOKjK8QRkAv7kcTpiMRAywS2usCV
-         lMOix5H5SYD4Am4T8CxY9TJ1GS2dmLMXlgFlsNag76hHLva+EmSsBkmRYay2R63Chdhf
-         0CkgSIdnfte1XVqClz+U3C4+4SxYJQVSdR41rwXlPIIhDdiETj3Jf0AoNtKB25wEQE06
-         vEBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW/4Si1JKxK33jsidgZXVY0sXU0kT/laJr+rCryDxxN1iDEu1qj+CE50C55bo/Il//MQ9dsiO1DK7j0xH95@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyi1xO1L0zoEOia0nhSkD/Tu1+QMM2tSk/ZZodldRJ9El9rJ0Go
-	ub9JPZ1YkIBI1YacLx0jx1P/cXxd0vnsqaP3WuftUwYb6ywFYFAl
-X-Gm-Gg: ASbGncuVlkoRhocmP3k/EAlbK0IhmoGDINPbxx3Z7XTBBOgDD+8JG1L+xWMsgPH7Jge
-	xCsRXTNpfhXa019bDEJ7j7j4HAdk8KCyAZGCmHf16doyRdeeNVNOTdwI/auUtcg14BCUWUY8mwK
-	8qU52pXMFgRNInq9GWLM+oUHn+QTxsbWSKvV8lEPg82A8I3w+lYHI8PJr7jMkWkWoI3bUq2oft3
-	Xmizh5vfHVunIsujf0YJC8zpSTUVdpp5qP/LpHta5s2PnXY6V5SaQXJc5KZIGplKe9DSWdiG5O+
-	My0I2e8EEcD0s7iWD9uQhfOhY30aikQPhdc9Hhe7CwMnsjJ5eEDDaQ==
-X-Google-Smtp-Source: AGHT+IEVzhGLDFw0m2CxrU8xE0NL3g5D882Hv0CJvkZ5WneGTfQV7aWsK7afVUQ8OMm7xDV09B8LJA==
-X-Received: by 2002:a05:600c:3548:b0:439:8e95:795b with SMTP id 5b1f17b1804b1-4398e957b86mr60901585e9.31.1739908425796;
-        Tue, 18 Feb 2025 11:53:45 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5f4fsm15885782f8f.78.2025.02.18.11.53.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 11:53:45 -0800 (PST)
-Date: Tue, 18 Feb 2025 19:53:43 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Christoph Hellwig <hch@lst.de>, kernel test robot <lkp@intel.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Carlos
- Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- linux-riscv@lists.infradead.org
-Subject: Re: fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x'
- is never less than zero.
-Message-ID: <20250218195343.10fa6eb9@pumpkin>
-In-Reply-To: <a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
-References: <202502171326.j4Xd3I0j-lkp@intel.com>
-	<20250217092445.GA29568@lst.de>
-	<a14347d2-6189-49bc-a1cc-e5959e76e6c2@ghiti.fr>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UK7MT4Hi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739912506; x=1771448506;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=4iAjNWBRHULUQ3ImOuIWROZJrkYl7LMbn2TzSgF5CyE=;
+  b=UK7MT4HiXClgDSy/Q2QVG0V9nuNgVCVyrmcc8OeJ+CuZ6jYB2jZQAfP/
+   y9hP66iqBQIZCCbrgKZFnSk2HF14P0pbszi3ZHnCKqaIKfq/T5f/NStJs
+   p336uamomfPabGhZfitFEAEMrCuBgUmkw1aAbz6nIkBnDCnnCCKSxYyc0
+   OOefI+kaboeYJnnOPDTLhiYNUhZR3bPIETu7wvdbmJkwC+rjUK0GSd1b/
+   rNZKmdT2iQTtzzlG847TMqJ/MJWHVLFABU/u4DaXAm3xA/KIePyZ5Uj+x
+   YBttIS2Sl2ehsf494SEseXFYsIbIx3vpd0U1k9t/g5qKYUV8KTJcKMLpK
+   A==;
+X-CSE-ConnectionGUID: uL6Ks5KLRiaRUTzxJz/K0Q==
+X-CSE-MsgGUID: iTfwZy2MQtWsGVQiFyxtNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="43461945"
+X-IronPort-AV: E=Sophos;i="6.13,296,1732608000"; 
+   d="scan'208";a="43461945"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 13:01:43 -0800
+X-CSE-ConnectionGUID: EbuHM/rYShuCdIFpfP7YXg==
+X-CSE-MsgGUID: VIO/PPX5QXKhJwZzNBZL1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="145410991"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Feb 2025 13:01:42 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkUiq-0000sR-0e
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 18 Feb 2025 21:01:40 +0000
+Date: Wed, 19 Feb 2025 05:00:57 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/60 1/1] ERROR: "__icmp_send"
+ [drivers/net/ethernet/sun/sunvnet_common.ko] undefined!
+Message-ID: <202502190430.m8h7x2fy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 17 Feb 2025 13:06:49 +0100
-Alexandre Ghiti <alex@ghiti.fr> wrote:
+tree:   https://github.com/intel/linux-intel-lts.git pr/60
+head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
+commit: 9ef6b42ad6fd7929dd1b6092cb02014e382c6a91 [1/1] net: Add __icmp_send helper.
+config: sparc-randconfig-001-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190430.m8h7x2fy-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502190430.m8h7x2fy-lkp@intel.com/reproduce)
 
-> Hi Christoph,
->=20
-> On 17/02/2025 10:24, Christoph Hellwig wrote:
-> > On Mon, Feb 17, 2025 at 01:53:08PM +0800, kernel test robot wrote: =20
-> >> New smatch warnings:
-> >> fs/xfs/xfs_buf.c:1534 xfs_buf_submit_bio() warn: unsigned '_x' is neve=
-r less than zero. =20
-> > Looks like this is an issue in the riscv virt_to_page implementation
-> > which also shows up in various other places.  Any chance this could get
-> > fixed in the riscv code? =20
->=20
->=20
-> To me, the only test that could give rise to this warning is the last=20
-> part of:
->=20
-> #define is_linear_mapping(x) \
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ((x) >=3D PAGE_OFFSET && (!IS=
-_ENABLED(CONFIG_64BIT) || (x) < PAGE_OFFSET + KERN_VIRT_SIZE))
->=20
-> But given that the config is a 32-bit config, it should not be evaluated=
-=20
-> at all.
->=20
-> Could that be a false-positive and then an issue in smatch?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502190430.m8h7x2fy-lkp@intel.com/
 
-It's not managing to try to build when:
-#define PAGE_OFFSET		_AC(CONFIG_PAGE_OFFSET, UL)
-is zero?
+All errors (new ones prefixed by >>):
 
-I think that is supposed to be (near) the user-kernel boundary.
-So probably 0x80000000 or 0xc0000000.
-(or 0xe0000000 for some old sparc32)
+>> ERROR: "__icmp_send" [drivers/net/ethernet/sun/sunvnet_common.ko] undefined!
+   ERROR: "ip_route_output_flow" [drivers/net/ethernet/sun/sunvnet_common.ko] undefined!
+   ERROR: "ip_send_check" [drivers/net/ethernet/sun/sunvnet_common.ko] undefined!
 
-	David
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for COMPAT_BINFMT_ELF
+   Depends on [n]: COMPAT [=y] && BINFMT_ELF [=n]
+   Selected by [y]:
+   - COMPAT [=y] && SPARC64 [=y]
+   WARNING: unmet direct dependencies detected for COMPAT_BINFMT_ELF
+   Depends on [n]: COMPAT [=y] && BINFMT_ELF [=n]
+   Selected by [y]:
+   - COMPAT [=y] && SPARC64 [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
