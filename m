@@ -1,72 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACA01B4247
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 20:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C447223C393
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 20:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739996418; cv=none; b=upkO80GLKsJVf7mF1P0c3xDe0fYuyw5xPyDq2QTGUOw2sIm6095bJpYLjY0xOsEiqEWLRZ86aN3MbOxhnfTkFaWh92XW6JcqsL48LSwy8g/G7ij0Yt2OS5rrCFKyB8HjoWQQty+vd/KJVx5qY3nyYArvGmyLQbwoDV9h41W8Nb4=
+	t=1739997905; cv=none; b=dfILv734w0FCHYeh5l9GKVkJO0s4uAPCY5g/hY/5cioSIbXUo9NCrd8KAmIWrCBESSEmz3yqKSS+couQDDf6vncrGjWhCc9ibPttY7BhGrk2wWOWDybHVGkp92Gkt3IJ8+27qyjmBAG0XrOXhJLTlymQrVsxSus+Y5U7hMILCF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739996418; c=relaxed/simple;
-	bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/zQ/A0bIyWu4LjDD47WXHvMm3T4TNlgLwzf+whOWyJ3DOmcoLZNtKfzto844waj2yrEQCyB5nqSJj6Ve0qYzTvo/muJul4stmXTgrPI3+cB/WQEJjvE09//DC2NIctO+7Da97+S6yvi6tZMgV66q5OMQZ3uddCSARGsWqbpZWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HByGJz5z; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1739997905; c=relaxed/simple;
+	bh=dq4e9m6PdOExZSwIjs79M+yCDpLOLRm+I4LV6boAyXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TRIFt36ToeekcNjsE5h+ivG86OyVCC2ZcLHWy6PANFEnoV1ZO5bhJnz3A3WhXMWm73Ih3zi3dve6Y3S8hnMWUQxRwTKSzLRZwCNi6BypxUCdEnWCw+rle3s98TYKH2h85rq76IngzqtBBdIeHOQQ+lmmpegBJF93lEbtKTMeUi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1qY9d1n; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HByGJz5z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1qY9d1n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739996416; x=1771532416;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
-  b=HByGJz5zdl9yNJNgx0XkRzhhm2KrPnWXETdJYl+IcekfvYCLyrQJLpve
-   NSKVXMq4YfniEmT3GnftOBUWApwKyOcO9d17pv2R2irine3mSGkHVa3eA
-   vXlHl8CeNPlMzBwHFZl4IXPhXW18oeHyRiH6lYcLLtjfVFeWCsoXo0bPg
-   dhCRTOLha2zxhiwh8yH93r/T1ZNXxMIxn3KkGjPTizOG2JRbZhX5FzN5g
-   FecpoSy7YCu5CDNWM9DsUXvHsjY2+dgZpLzKdOqVPUgThfYmTYNx6s8cQ
-   QVWE5SHpOG5xkxvTesJ0K7iadLlCBX/2H+73Xhzq2v0gDYwgpnXDcFRzV
-   g==;
-X-CSE-ConnectionGUID: E52Yu6GpRF61uh9TJR/xCA==
-X-CSE-MsgGUID: EXRQwdgZTcCTptOvItbgmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="50966661"
+  t=1739997903; x=1771533903;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dq4e9m6PdOExZSwIjs79M+yCDpLOLRm+I4LV6boAyXI=;
+  b=f1qY9d1n+xLsuj6MV/BKv+vyNBnIQRi3SuDUqZG9+RTiq2lMcFgGOESc
+   QXJhvKeIrlduY9Y33JX3v8eWSj/ApzK36DtakT/sN+1LILAzQYBk/uPMP
+   ylQfivYCBbKYy0/XQkOXmI4NRp3zOTkHW6U+JywA0sZHIcXYyTgK/VXmA
+   Y9SIzdPBCyn07ZuMCtIqRc9aLdBiyUy4sucZlYK7+5DZ4s/YV1qPc+Oqg
+   8OU+lhvwRG/epTOXW0KQUQ9oy/j8xaXkHDzr9y3YZePiUanFQ+x/U2sEJ
+   z6gCTyrx8a4qsaN1KF4UtFCwlGLCYD1C0gSEHqMUkPkYhZxTSxfTUvLRi
+   Q==;
+X-CSE-ConnectionGUID: EviWVIFFTJSaUmhsdezU6Q==
+X-CSE-MsgGUID: /u9U34VSRbOpydhcX04GIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51372137"
 X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="50966661"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:20:13 -0800
-X-CSE-ConnectionGUID: pBlNVsujSvyr6QenP15SOg==
-X-CSE-MsgGUID: Nq+u8uC3QQy+wHa6XfpUhQ==
+   d="scan'208";a="51372137"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:45:02 -0800
+X-CSE-ConnectionGUID: WcjlHBj8SYy8hGceEuo3Zg==
+X-CSE-MsgGUID: YcJtKu4+RfuKW34uiJ9TVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="115020364"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:20:08 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tkqY8-0000000D7d9-2wZe;
-	Wed, 19 Feb 2025 22:20:04 +0200
-Date: Wed, 19 Feb 2025 22:20:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-Message-ID: <Z7Y89AI8me_MFsEV@smile.fi.intel.com>
-References: <20250218132702.114669-3-clamor95@gmail.com>
- <202502192343.twEQ3SSs-lkp@intel.com>
+   d="scan'208";a="145667013"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 19 Feb 2025 12:45:00 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkqw8-0003SR-17;
+	Wed, 19 Feb 2025 20:44:53 +0000
+Date: Thu, 20 Feb 2025 04:44:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Kim, Dongwon" <dongwon.kim@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	"Matuesz, Polrola" <mateuszx.potrola@intel.com>
+Subject: [intel-lts:pr/59 1/1]
+ drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:109:6: warning: variable
+ 'ret' set but not used
+Message-ID: <202502200446.GRUPOcUM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,18 +64,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502192343.twEQ3SSs-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 20, 2025 at 12:02:51AM +0800, kernel test robot wrote:
-> Hi Svyatoslav,
-> 
-> kernel test robot noticed the following build errors:
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 94c6728a425eabc9a9048abde83e6d3fcf3055cf [1/1] REVERTME [IOTG]: hyper_dmabuf: Introducing the hyper_dmabuf driver
+config: sparc64-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250220/202502200446.GRUPOcUM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200446.GRUPOcUM-lkp@intel.com/reproduce)
 
-It a second time you send not even compiled code.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502200446.GRUPOcUM-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_detach':
+>> drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:109:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_map':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:126:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_unmap':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:172:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_release':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:191:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_end_cpu_access':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:252:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_kmap_atomic':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:268:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_kunmap_atomic':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:285:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_kmap':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:298:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_kunmap':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:315:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_vmap':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:344:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c: In function 'hyper_dmabuf_ops_vunmap':
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c:359:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     int ret;
+         ^~~
+--
+   drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_msg.c: In function 'cmd_process_work':
+>> drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_msg.c:127:6: warning: variable 'domid' set but not used [-Wunused-but-set-variable]
+     int domid;
+         ^~~~~
+
+
+vim +/ret +109 drivers/dma-buf/hyper_dmabuf/hyper_dmabuf_ops.c
+
+   104	
+   105	static void hyper_dmabuf_ops_detach(struct dma_buf *dmabuf,
+   106					    struct dma_buf_attachment *attach)
+   107	{
+   108		struct imported_sgt_info *imported;
+ > 109		int ret;
+   110	
+   111		if (!attach->dmabuf->priv)
+   112			return;
+   113	
+   114		imported = (struct imported_sgt_info *)attach->dmabuf->priv;
+   115	
+   116		ret = sync_request(imported->hid, HYPER_DMABUF_OPS_DETACH);
+   117	}
+   118	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
