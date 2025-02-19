@@ -1,178 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0431B1DE2B8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 08:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A44E15B971
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 09:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739955065; cv=none; b=ZQ6f4MDvImleelpnzaJPwnyb28B4ye6T2SVs4zPemDYpWIdCTnl08beQF3l/scGb0cInaOhoY9/nnJ8MpgQ4lhAzAWIIph8C4cDrmKcb5MuVsOgFGPxlGUSPtoDtX54SLzkA90ybRf0+WYpwQFRyp/ECc1kVGNYHbADMy68IVLg=
+	t=1739957955; cv=none; b=TfOnn7FdF33ngZ4jUPLjuO49qILSAZlUh/qZ94k3hUWxgwxUwOtW4oe16hnJSMF6zQyKUEiJkeRE+ySUnyikDEk6nzv6Xc2fiSPM8fwzUf3qBfabQx0CpuSpJYbHDMDx9uQiObbQZ8nmsmlpyOEEGeRs05Mjs4fy/VeO3ay9JMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739955065; c=relaxed/simple;
-	bh=hbSqsiykuNDWOokYPnx5zxrp0p4HqkViEANBANJlSFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PoqHIkK1qQTmuSPwB5miQWn0xw9g6kPO+gtM0bjcWGaKIG7U9eVlPfKMKX6B2ErSm+y4Fs07un26WfcboXe039YteMalKWC707gFAy3tvgMxCzcVUZ1nlwnXGrzE17wIG0zQL+X7u9x0lthcReDYL4qjkBtxOyyi7RXjU9x0sds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkLjwluL; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739957955; c=relaxed/simple;
+	bh=7n3byoWOLZH4hHSvStFaAA7s//pAF2NCwrHj26g0pJs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bPvKi3yP9qUrzlIOz08PRSSqYu7xReYJjG+UFgmGJ/1P8LGAPUFY2U+LkWMx3fX2pegVZlLqFbhkPasDmEvGENqCFSV2XfI9AkjqdQiFl9sQN9elZN8ZY9slHQoEQRfsF0pBjAR1iLfFWOPkGjxc0njhmy0VRldV1v7H+QrRTbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=p14vvZnr; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkLjwluL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739955064; x=1771491064;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hbSqsiykuNDWOokYPnx5zxrp0p4HqkViEANBANJlSFs=;
-  b=JkLjwluLuPdx2fnzwBkR0PjAH678u847og8N5HUxFdcLKjjRvkp7Upkg
-   7RpR+h+4/5uk4usR4sPj21RU1e59AHzED9WNZfWvMt7nab45sDdL/EuDq
-   n/ohSbFIwztC7C+IMRKmjvbch7PU8UMiqskVTjThd7Mezgjc3/gZR556z
-   OfvqnDeHDziweofAvZdbIqNojSF8M5c9jRjMcu2tXrb7Ekw4jU0uYj3vZ
-   qy7wbc5GKVYa61r0j5Zn+KZVEil2vvYFWj3cjZOJnXiX/f7SPmnv9SmPJ
-   M9ba5QUOX9UJE2Ie6kj/rCx2zSpXL0sATqEzh7+FSYpmTxfA1K/QsAxA4
-   g==;
-X-CSE-ConnectionGUID: 4QhuKU6zTP+TIi8eFRU9Mg==
-X-CSE-MsgGUID: vS9Al1FQST+d4867Xs5X2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="51323286"
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="51323286"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 00:50:29 -0800
-X-CSE-ConnectionGUID: zwUy2+s6Qiiluj1yN7OmHA==
-X-CSE-MsgGUID: xDmN3XvTSOKjgikhTWzITw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="119631744"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 19 Feb 2025 00:50:26 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tkfmh-0001d1-0i;
-	Wed, 19 Feb 2025 08:50:23 +0000
-Date: Wed, 19 Feb 2025 16:48:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: JP Kobryn <inwardvessel@gmail.com>, shakeel.butt@linux.dev,
-	tj@kernel.org, mhocko@kernel.org, hannes@cmpxchg.org,
-	yosryahmed@google.com, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 08/11] cgroup: rstat cpu lock indirection
-Message-ID: <202502191619.0t8nOsuQ-lkp@intel.com>
-References: <20250218031448.46951-9-inwardvessel@gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="p14vvZnr"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e0939c6456so452541a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 01:39:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1739957951; x=1740562751; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0rO3mWpZ6atvQwdZjp+cx5fZvxrczwBMKiuKHh0d6V0=;
+        b=p14vvZnrr8vPYA56dOEiKqByDrCGm7JfzmdhPiRp4AT8YKcWCVHFTFdXhD8ITnpnE/
+         hv9oyukC1haYtCZHoX/iE/cAfRm14fDyoW41kTsrrHrLo4s1bzR/ZOWZh1h/3O2l+uUn
+         0dMnmELZETJISyyJlWBds2sLsguXBM+kFWrKNGZA6i0fp1KQbID4VhGKSm/L3vko9zUF
+         v/+U+zaTWDQqf5qm/Epo+JUxcZiD2Dm9xAakmayr7feOje73HaqMNI/V+O4tJHTm6I3B
+         FO0S/uQHSWuMvhEUCHnAxo1vKcvLMyxOoMGxqOefQO5RzTyaXxB87MHmTiVKdQMmGo99
+         rEaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739957951; x=1740562751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0rO3mWpZ6atvQwdZjp+cx5fZvxrczwBMKiuKHh0d6V0=;
+        b=jbiT/oxbP8WGd9lgfwBfvOKTrdR55EZqv3aJ2FDaYEcjACFj6eLN9WbfZFpjPRgAoS
+         /uRB4EPP7QW69RjeGvfnFJe2DsGjwb7mJWfILKztkh/zm+h1RPMy5XYOHDthEbys0lnw
+         hhDqPiJ32CTIkvDkqfs+iYGNfw8bRfTNeBSiFDirVupI2v1WuGhd4+zXYo2lS4GNLfp7
+         wh9gOlCySQbtDFpLCc2awPrVP7Xye43HmrRnkb1RvgXDiL19+zzsb7sJWbokHhYviXqb
+         niD032rjdQ6SNTbe+wdQLJUUxGPHp3EUeZ+w5d3PG+8x7k5JahJyWeLbi6iKGae1qO38
+         NWtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaNlYJP+RA6Un025IRMGCc/9ND3ng3pYRh5jrjMWnSneX2qYHnbz81DRhVhCZWGg2/ApdcUlfI2i3Bdjyg@lists.linux.dev
+X-Gm-Message-State: AOJu0Yypy9B5KJLuHxZJiyPgSFDtfDQNlQCLAvL0vDG3BfK/HmA+W6ci
+	CLdjXirMabZMnNY4mSf4ER5l8zsYgqmRQ0/Mvi+8qWt8cJYSImHZG7RQ24RTma2Oj8JDkVDzhG3
+	+f3UT1Rce5op2r4IkTlFdFs5D6TY8MrMfaVB1gw==
+X-Gm-Gg: ASbGnctEc187tqmocaG/JHJQWt23eEGyWmKSfPpFH8F+EhDGSaM8ZRQyKrw29xymIR0
+	qWuPkwknfYdww8NoVv631ympDZGAKPpT/eHwefx24XQ95l544fF4up5kKuWKjEqn+E17caboHin
+	Yht6/dZqUg0C2/FI/dvUkIhDCTm10/ww==
+X-Google-Smtp-Source: AGHT+IHsJPkqy2ZH0eBqOQBYv49B7MAogQUabnz25aTMM/icVm5CtPBAaDqCW0tcocx+So9EXZlbUQQd6JSX8vcsU7c=
+X-Received: by 2002:a05:6402:1f4c:b0:5de:a6a8:5ebc with SMTP id
+ 4fb4d7f45d1cf-5e03601ed02mr17546166a12.3.1739957951353; Wed, 19 Feb 2025
+ 01:39:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250218031448.46951-9-inwardvessel@gmail.com>
+References: <202502191201.7fARkW7m-lkp@intel.com>
+In-Reply-To: <202502191201.7fARkW7m-lkp@intel.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Wed, 19 Feb 2025 10:38:59 +0100
+X-Gm-Features: AWEUYZkeyMz8uEHsOheH7MhhqDFksT--rRliut76KZwhuc1R84gECWqgTf1ewt0
+Message-ID: <CAHVXubgqm=E2qm_EKtYX4m8WHmt8Fjj0CZqh3Qxio0x_0G5EjA@mail.gmail.com>
+Subject: Re: [linux-next:master 3383/4377] include/linux/atomic/atomic-arch-fallback.h:4152:16:
+ sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d
+ becomes c001d00d)
+To: kernel test robot <lkp@intel.com>
+Cc: Andreas Schwab <schwab@suse.de>, oe-kbuild-all@lists.linux.dev, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi JP,
+On Wed, Feb 19, 2025 at 5:52=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   e5d3fd687aac5eceb1721fa92b9f49afcf4c3717
+> commit: 1898300abf3508bca152e65b36cce5bf93d7e63e [3383/4377] riscv/atomic=
+: Do proper sign extension also for unsigned in arch_cmpxchg
+> config: riscv-randconfig-r111-20250219 (https://download.01.org/0day-ci/a=
+rchive/20250219/202502191201.7fARkW7m-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce: (https://download.01.org/0day-ci/archive/20250219/202502191201=
+.7fARkW7m-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502191201.7fARkW7m-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>    lib/atomic64_test.c: note: in included file (through include/linux/ato=
+mic.h):
+> >> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: c=
+ast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+>    include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: c=
+ast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+>    include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: c=
+ast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+>    include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: c=
+ast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+> >> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: c=
+ast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+>    include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: c=
+ast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+>    include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: c=
+ast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+>    include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: c=
+ast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+>
+> vim +4152 include/linux/atomic/atomic-arch-fallback.h
+>
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4126
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4127  /**
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4128   * raw_atomic64_cmpxchg() - atomic compare and exchange =
+with full ordering
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4129   * @v: pointer to atomic64_t
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4130   * @old: s64 value to compare with
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4131   * @new: s64 value to assign
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4132   *
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4133   * If (@v =3D=3D @old), atomically updates @v to @new wi=
+th full ordering.
+> 6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2024-02-09  4134   * Otherwise, @v is not modified and relaxed ordering is=
+ provided.
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4135   *
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4136   * Safe to use in noinstr code; prefer atomic64_cmpxchg(=
+) elsewhere.
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4137   *
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4138   * Return: The original value of @v.
+> ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4139   */
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4140  static __always_inline s64
+> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4141  raw_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4142  {
+> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4143  #if defined(arch_atomic64_cmpxchg)
+> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4144      return arch_atomic64_cmpxchg(v, old, new);
+> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4145  #elif defined(arch_atomic64_cmpxchg_relaxed)
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4146      s64 ret;
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4147      __atomic_pre_full_fence();
+> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4148      ret =3D arch_atomic64_cmpxchg_relaxed(v, old, new);
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4149      __atomic_post_full_fence();
+> 37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra=
+ 2020-01-24  4150      return ret;
+> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4151  #else
+> 9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05 @4152      return raw_cmpxchg(&v->counter, old, new);
+> d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4153  #endif
+> 1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4154  }
+> d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland  =
+ 2023-06-05  4155
+>
+> :::::: The code at line 4152 was first introduced by commit
+> :::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: =
+restructure fallback ifdeffery
+>
+> :::::: TO: Mark Rutland <mark.rutland@arm.com>
+> :::::: CC: Peter Zijlstra <peterz@infradead.org>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build warnings:
+I don't get it, everything here is 64-bit and commit "riscv/atomic: Do
+proper sign extension also for unsigned in arch_cmpxchg" introduced a
+cast *only* for 32-bit values.  Could that be a false-positive?
 
-[auto build test WARNING on tj-cgroup/for-next]
-[also build test WARNING on bpf-next/master bpf/master linus/master v6.14-rc3 next-20250219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn/cgroup-move-rstat-pointers-into-struct-of-their-own/20250218-111725
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20250218031448.46951-9-inwardvessel%40gmail.com
-patch subject: [PATCH 08/11] cgroup: rstat cpu lock indirection
-config: arc-randconfig-002-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191619.0t8nOsuQ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502191619.0t8nOsuQ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502191619.0t8nOsuQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   kernel/cgroup/rstat.c:266: warning: Function parameter or struct member 'ops' not described in 'cgroup_rstat_push_children'
-   kernel/cgroup/rstat.c:326: warning: Function parameter or struct member 'ops' not described in 'cgroup_rstat_updated_list'
->> kernel/cgroup/rstat.c:326: warning: Function parameter or struct member 'cpu_lock' not described in 'cgroup_rstat_updated_list'
-   kernel/cgroup/rstat.c:532: warning: Function parameter or struct member 'ops' not described in '__cgroup_rstat_flush_release'
->> kernel/cgroup/rstat.c:532: warning: Function parameter or struct member 'lock' not described in '__cgroup_rstat_flush_release'
-   kernel/cgroup/rstat.c:532: warning: expecting prototype for cgroup_rstat_flush_release(). Prototype was for __cgroup_rstat_flush_release() instead
-
-
-vim +326 kernel/cgroup/rstat.c
-
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  304  
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  305  /**
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  306   * cgroup_rstat_updated_list - return a list of updated cgroups to be flushed
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  307   * @root: root of the cgroup subtree to traverse
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  308   * @cpu: target cpu
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  309   * Return: A singly linked list of cgroups to be flushed
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  310   *
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  311   * Walks the updated rstat_cpu tree on @cpu from @root.  During traversal,
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  312   * each returned cgroup is unlinked from the updated tree.
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  313   *
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  314   * The only ordering guarantee is that, for a parent and a child pair
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  315   * covered by a given traversal, the child is before its parent in
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  316   * the list.
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  317   *
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  318   * Note that updated_children is self terminated and points to a list of
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  319   * child cgroups if not empty. Whereas updated_next is like a sibling link
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  320   * within the children list and terminated by the parent cgroup. An exception
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  321   * here is the cgroup root whose updated_next can be self terminated.
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  322   */
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  323  static struct cgroup_rstat *cgroup_rstat_updated_list(
-85c7ff288b9391 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  324  		struct cgroup_rstat *root, int cpu, struct cgroup_rstat_ops *ops,
-85c7ff288b9391 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  325  		raw_spinlock_t *cpu_lock)
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25 @326  {
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  327  	struct cgroup_rstat_cpu *rstatc = rstat_cpu(root, cpu);
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  328  	struct cgroup_rstat *head = NULL, *parent, *child;
-d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  329  	struct cgroup *cgrp;
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  330  	unsigned long flags;
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  331  
-d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  332  	cgrp = ops->cgroup_fn(root);
-85c7ff288b9391 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  333  	flags = _cgroup_rstat_cpu_lock(cpu_lock, cpu, cgrp, false);
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  334  
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  335  	/* Return NULL if this subtree is not on-list */
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  336  	if (!rstatc->updated_next)
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  337  		goto unlock_ret;
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  338  
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  339  	/*
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  340  	 * Unlink @root from its parent. As the updated_children list is
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  341  	 * singly linked, we have to walk it to find the removal point.
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  342  	 */
-d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  343  	parent = ops->parent_fn(root);
-dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  344  	if (parent) {
-dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  345  		struct cgroup_rstat_cpu *prstatc;
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  346  		struct cgroup_rstat **nextp;
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  347  
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  348  		prstatc = rstat_cpu(parent, cpu);
-c58632b3631cb2 kernel/cgroup/rstat.c Tejun Heo       2018-04-26  349  		nextp = &prstatc->updated_children;
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  350  		while (*nextp != root) {
-dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  351  			struct cgroup_rstat_cpu *nrstatc;
-dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  352  
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  353  			nrstatc = rstat_cpu(*nextp, cpu);
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  354  			WARN_ON_ONCE(*nextp == parent);
-c58632b3631cb2 kernel/cgroup/rstat.c Tejun Heo       2018-04-26  355  			nextp = &nrstatc->updated_next;
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  356  		}
-c58632b3631cb2 kernel/cgroup/rstat.c Tejun Heo       2018-04-26  357  		*nextp = rstatc->updated_next;
-dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  358  	}
-9a9e97b2f1f27e kernel/cgroup/rstat.c Tejun Heo       2018-04-26  359  
-dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  360  	rstatc->updated_next = NULL;
-e76d28bdf9ba53 kernel/cgroup/rstat.c Waiman Long     2023-11-03  361  
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  362  	/* Push @root to the list first before pushing the children */
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  363  	head = root;
-3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  364  	root->rstat_flush_next = NULL;
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  365  	child = rstatc->updated_children;
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  366  	rstatc->updated_children = root;
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  367  	if (child != root)
-d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  368  		head = cgroup_rstat_push_children(head, child, cpu, ops);
-d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  369  unlock_ret:
-85c7ff288b9391 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  370  	_cgroup_rstat_cpu_unlock(cpu_lock, cpu, cgrp, flags, false);
-e76d28bdf9ba53 kernel/cgroup/rstat.c Waiman Long     2023-11-03  371  	return head;
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  372  }
-041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  373  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alex
