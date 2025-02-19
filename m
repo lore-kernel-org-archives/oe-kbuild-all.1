@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C9F33E7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 05:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7FD2AE95;
+	Wed, 19 Feb 2025 06:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739944688; cv=none; b=qQmLQ39tVnaMn2BQeWLqYc6K90q+21iOuBTYzpFh7LMRPV0mla1d1IVN99KLjDFfi1nHQmCttre9fmmL11+SJhmLm2brbTHOYcrJmY5d99sUm5SsJxHZo2DBe4t6QP3587jep+7021O3F+izBJ7mSJ4/NgRTDHZkxZEwNs08hZk=
+	t=1739947796; cv=none; b=ipDdH3IiKIcVS193TZQd6TgZJe/8WdoeKUyHr4JMKpMXMzKZsSy/b8Inx4Sd22i6yIIUcdaTPF5pDTRPHUchstblVlBZX1p55XxPri30mZMVlSOtj8DU4zz3TmgRtNtzuOodk5tUSs5nOTQZgZ/g2+7T433Br9HykfBicfzq+70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739944688; c=relaxed/simple;
-	bh=1jBB5gCn5yEdD3tr6XbtIWqBXsKnT9h7exQ03iJAmRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cYjTVqRRrYp3n4hwQMGbiHiysGF8gcxLymvcE8aIM6o4WG5uBcXc2GIGVQ0WoFNtmyn4YCt9b/gzlIN5XkMmF8cISL0NXck41wVV+zdQduFmH7U8unkpmVWR6GoGxNADUD0qYyJOLYweWyBdulYnHYWEtDhOYAWWY/3yPX26jyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TduXOAre; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1739947796; c=relaxed/simple;
+	bh=7Krk71qge0LEXwn6sNemb0UiQ/gW3FDKvxGULGwUycA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=konORxL0GkCfIU6ma8twDrgq0uyAAs69nsyqpIXSMU7T/aEWtQYJvlnKs1+rubiSkBqcozWl7s0WCUcw4wILpwTJrP3hOZKe4kBCfGchROvOVDtJqkzxyYgzFY05Grn9PEaz9QGcvM8j1XHhwQleYxl/n7/PCPtWjJcEr7WjYxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NW5eklWg; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TduXOAre"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NW5eklWg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739944687; x=1771480687;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1jBB5gCn5yEdD3tr6XbtIWqBXsKnT9h7exQ03iJAmRQ=;
-  b=TduXOArexblVPuTUIz2dxNeGsOO0E4/QfmKey26WGPpSkRPdg05jH1UY
-   7ZenytDYeHh78alHiGJ0NgFdGo7bid7mNjhnWxDKjvfzeaVn7mEWZlNx5
-   pfXz95xVoWa4HsrmlBlQZyssDWnMMiEQ9DdQEbhAP/j/mnWSFR6LS7wYk
-   RdkO/7cUOfNCvZYGCTnd7T0YtOAV3l7VDEOoyc11wXDa4nlwa/sPyUCGl
-   3q2PQOeYP19z1KPF8k4cRbQjnv9gPsHFKGu6aLsqip+ZCFST/sAAoYmKj
-   P4sI1wfp1AMMLJkOUFRGkG3n0JDINZsBP/IRkkpbNNhnAH9HohshRs+Zo
-   A==;
-X-CSE-ConnectionGUID: BA3ofh/+QlWaXJm+MogNNw==
-X-CSE-MsgGUID: 7ourlUF1S9S5y+7fbeP67A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40682109"
+  t=1739947795; x=1771483795;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7Krk71qge0LEXwn6sNemb0UiQ/gW3FDKvxGULGwUycA=;
+  b=NW5eklWg8IiLKZYdOodxi/I3LPv556k+k2qtr0Ir85AVtwiKjxSeVo51
+   D2OT0VZjvMRVa8ev6ns0SwHbF37EqLrbXvPijgqLf0ZzyRWpRa98Pddcp
+   DTJJRPoEIuC5v+1Smn47CHgWqfCzmTosVBqkGij984LJWrVPHvHjo/awb
+   8+kgKZsB6SYQf8OlP6IC75MUUlNqT0mJV18L+rGF2kxYHwFM7KMmayRTp
+   RuOgHTnBMFEC24AD+W8sVw4j9R3g237TimPuIyP47JFBdo8k1/+7KpQ2K
+   I+tg9fDxjRngshKsdgW9XHtLeX02UcQG2oSEF5VqKeMWDpMtnle89XWeL
+   Q==;
+X-CSE-ConnectionGUID: o9t21f9qTny+N8d+CvsmGw==
+X-CSE-MsgGUID: EkvFPHJJTk2nX8SnYevIrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40930093"
 X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="40682109"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 21:58:07 -0800
-X-CSE-ConnectionGUID: Qf0mqyrGRCCE6Y87G2KWLQ==
-X-CSE-MsgGUID: wB5EM/NSTXqDYKzau+Iccw==
+   d="scan'208";a="40930093"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 22:49:54 -0800
+X-CSE-ConnectionGUID: kl0lAx/dSzaRu65qWmVkMQ==
+X-CSE-MsgGUID: /O96zr7eRpSdjpCHByKB3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="114351431"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119826062"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 18 Feb 2025 21:58:03 -0800
+  by orviesa005.jf.intel.com with ESMTP; 18 Feb 2025 22:49:51 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkd5s-0001IF-0F;
-	Wed, 19 Feb 2025 05:58:00 +0000
-Date: Wed, 19 Feb 2025 13:57:22 +0800
+	id 1tkdu1-0001KF-1i;
+	Wed, 19 Feb 2025 06:49:49 +0000
+Date: Wed, 19 Feb 2025 14:49:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: JP Kobryn <inwardvessel@gmail.com>, shakeel.butt@linux.dev,
-	tj@kernel.org, mhocko@kernel.org, hannes@cmpxchg.org,
-	yosryahmed@google.com, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 02/11] cgroup: add level of indirection for cgroup_rstat
- struct
-Message-ID: <202502191307.zqD101Gp-lkp@intel.com>
-References: <20250218031448.46951-3-inwardvessel@gmail.com>
+To: Jack Livingood <jacklivingood@comcast.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [thesofproject:topic/sof-dev-rebase 4/76]
+ sound/firewire/isight.c:647:2: error: call to undeclared function 'strspy';
+ ISO C99 and later do not support implicit function declarations
+Message-ID: <202502191455.cX0HILg0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,52 +65,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218031448.46951-3-inwardvessel@gmail.com>
 
-Hi JP,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tj-cgroup/for-next]
-[also build test WARNING on bpf-next/master bpf/master linus/master v6.14-rc3 next-20250218]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn/cgroup-move-rstat-pointers-into-struct-of-their-own/20250218-111725
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-patch link:    https://lore.kernel.org/r/20250218031448.46951-3-inwardvessel%40gmail.com
-patch subject: [PATCH 02/11] cgroup: add level of indirection for cgroup_rstat struct
-config: arc-randconfig-002-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191307.zqD101Gp-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502191307.zqD101Gp-lkp@intel.com/reproduce)
+tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
+head:   5ca0718708095df0cc5a98ff9197021467737b3c
+commit: 959fde874df9675d3cf934569ac9c0ea36cec285 [4/76] ALSA: firewire: isight: changed strcpy to strscpy
+config: powerpc-randconfig-001-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191455.cX0HILg0-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502191455.cX0HILg0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502191307.zqD101Gp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502191455.cX0HILg0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/cgroup/rstat.c:416: warning: Function parameter or struct member 'rstat' not described in '__cgroup_rstat_flush_release'
->> kernel/cgroup/rstat.c:416: warning: expecting prototype for cgroup_rstat_flush_release(). Prototype was for __cgroup_rstat_flush_release() instead
+>> sound/firewire/isight.c:647:2: error: call to undeclared function 'strspy'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           strspy(card->mixername, "iSight");
+           ^
+   1 error generated.
 
 
-vim +416 kernel/cgroup/rstat.c
+vim +/strspy +647 sound/firewire/isight.c
 
-6162cef0f741c7 Tejun Heo              2018-04-26  409  
-6162cef0f741c7 Tejun Heo              2018-04-26  410  /**
-6162cef0f741c7 Tejun Heo              2018-04-26  411   * cgroup_rstat_flush_release - release cgroup_rstat_flush_hold()
-97a46a66ad7d91 Jesper Dangaard Brouer 2024-04-17  412   * @cgrp: cgroup used by tracepoint
-6162cef0f741c7 Tejun Heo              2018-04-26  413   */
-3d844899ba042a JP Kobryn              2025-02-17  414  static void __cgroup_rstat_flush_release(struct cgroup_rstat *rstat)
-0fa294fb1985c0 Tejun Heo              2018-04-26  415  	__releases(&cgroup_rstat_lock)
-6162cef0f741c7 Tejun Heo              2018-04-26 @416  {
-3d844899ba042a JP Kobryn              2025-02-17  417  	struct cgroup *cgrp = container_of(rstat, typeof(*cgrp), rstat);
-3d844899ba042a JP Kobryn              2025-02-17  418  
-fc29e04ae1ad4c Jesper Dangaard Brouer 2024-04-16  419  	__cgroup_rstat_unlock(cgrp, -1);
-6162cef0f741c7 Tejun Heo              2018-04-26  420  }
-6162cef0f741c7 Tejun Heo              2018-04-26  421  
+   612	
+   613	static int isight_probe(struct fw_unit *unit,
+   614				const struct ieee1394_device_id *id)
+   615	{
+   616		struct fw_device *fw_dev = fw_parent_device(unit);
+   617		struct snd_card *card;
+   618		struct isight *isight;
+   619		int err;
+   620	
+   621		err = snd_card_new(&unit->device, -1, NULL, THIS_MODULE,
+   622				   sizeof(*isight), &card);
+   623		if (err < 0)
+   624			return err;
+   625	
+   626		isight = card->private_data;
+   627		isight->card = card;
+   628		mutex_init(&isight->mutex);
+   629		isight->unit = fw_unit_get(unit);
+   630		isight->device = fw_dev;
+   631		isight->audio_base = get_unit_base(unit);
+   632		if (!isight->audio_base) {
+   633			dev_err(&unit->device, "audio unit base not found\n");
+   634			err = -ENXIO;
+   635			goto error;
+   636		}
+   637		fw_iso_resources_init(&isight->resources, unit);
+   638	
+   639		card->private_free = isight_card_free;
+   640	
+   641		strscpy(card->driver, "iSight");
+   642		strscpy(card->shortname, "Apple iSight");
+   643		snprintf(card->longname, sizeof(card->longname),
+   644			 "Apple iSight (GUID %08x%08x) at %s, S%d",
+   645			 fw_dev->config_rom[3], fw_dev->config_rom[4],
+   646			 dev_name(&unit->device), 100 << fw_dev->max_speed);
+ > 647		strspy(card->mixername, "iSight");
+   648	
+   649		err = isight_create_pcm(isight);
+   650		if (err < 0)
+   651			goto error;
+   652	
+   653		err = isight_create_mixer(isight);
+   654		if (err < 0)
+   655			goto error;
+   656	
+   657		err = snd_card_register(card);
+   658		if (err < 0)
+   659			goto error;
+   660	
+   661		dev_set_drvdata(&unit->device, isight);
+   662	
+   663		return 0;
+   664	error:
+   665		snd_card_free(card);
+   666	
+   667		mutex_destroy(&isight->mutex);
+   668		fw_unit_put(isight->unit);
+   669	
+   670		return err;
+   671	}
+   672	
 
 -- 
 0-DAY CI Kernel Test Service
