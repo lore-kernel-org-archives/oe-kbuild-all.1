@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80B519AD89
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 04:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8531B4247
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 05:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739940774; cv=none; b=sTvfhgvmPa2FLJQ2OPR9pn5GD6bofBp9TtkxgxFVI3yiXRsXFsh9w5jMepGd/UGqcM6OuBmbFT1anwiWxmCSEP5ZfzdVNAwzOuQHhA/c7HX1ucEHNVLoRima1ve1Zne3i3NAxmCysHtY20xPzdl9eFiC9bZLDqt2ry4BYyZ5Fg4=
+	t=1739942756; cv=none; b=tTqsJ+ytRRZdnYmJqOmiCguL/7795AAPmFWe18nYP5khOs0NsmgM9UYSLxku1OzWPyBzRuSdxeO18eI7/QcyzSLFI5cclmhOb+GfYlhlJR6TRZ8XNKgd2AAYwREILSt8ENGRxYusxVW+OSOHV781jrXdV6wrfa1H5ZEW10eWh5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739940774; c=relaxed/simple;
-	bh=jTM/DidQIAQIM7NA8h+c4nmBxUnGnUfVg2rSKNC+K0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=vAYKZ67+VuB+leKgTxGOfZabniM+WHWkv9aYsOIZ+h2OU9LO+NwutIC2ky19YBgUN2Fxcpnfkp/8F87PYvrp8zdbGl/yVmnVBbSkk+ek4xJUOwEfWLuTLCcL0nlUdYIyC4e+x0ooqe4WShWbwruR9yfQjsgzPNqxI+hke8/kZGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ar7q7XGo; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1739942756; c=relaxed/simple;
+	bh=S8Bo1mBNhsHitvYqtIs6rp8B5fdMlpBSYkGUIFzfbm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p2OWQBMXbIVkeRizghrln+IsD0LDj14ZOX643soqZnxnjWNeQMfvAZKOMNutdRM0d3ZTzW9zGyZAUwktOS+rgY9z0Xg46Olw+9F01nDBgWDHzx6lo6X9WGxnifePOm3TgHPNX1Nd7bUtvT0mnkQdipSQMkZrrz/bGq6B8Ntua0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpUqxIhC; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ar7q7XGo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpUqxIhC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739940773; x=1771476773;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jTM/DidQIAQIM7NA8h+c4nmBxUnGnUfVg2rSKNC+K0E=;
-  b=ar7q7XGoBk6i8UTOJGIE3nuPWxpO0g54IidildmCu1q95QN2yo1LLqE6
-   T7h7wfkKXZMJsmVdWBljLzj29UPOUJNNWr3GFkCXmXudcGM3a0ci0Nrfj
-   ZgxdDc8Ui6BNwXwQiDsIAQTY2KsYpJZmYDhoSVJcKDqFlPz6rYRxAVb6G
-   c8P6M/6c482jDq7MRkLPTTM/wIv+DB2c6KZ2iWLsCCc36ShMhm1wTzIhj
-   HF1XnYYN/4nyo9FA+Vy9d2M7pJi7IG6j2n5lU+sV3SeBP2+ycbaw7XnLa
-   7ZufuLcSjIuTMi2t4Rw6m92ljkGDVSRgyJcvOvRKAVq2BDE02/Wd5JySf
-   Q==;
-X-CSE-ConnectionGUID: wIaVtet2Tb2u6IPneBd7tQ==
-X-CSE-MsgGUID: /Lz8a7AGQ5GdpKZTKw5z5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="43495379"
+  t=1739942754; x=1771478754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S8Bo1mBNhsHitvYqtIs6rp8B5fdMlpBSYkGUIFzfbm4=;
+  b=bpUqxIhCAB4UMAKaD730EzXR0FhlEPtnTfOJU2KmTfzx9gEDi/lTOWnZ
+   xiXtgCxqOhl0jOVXRhTsBT/CUn1JuUY7rmuWtKJv86C7zwFgUC8XWQIJB
+   9mf+Ek0g6w39c6a45Mrf6pNuEoDFYjm3IboFTN4aaSOnflb0qAIlkVErY
+   QD5UUC5mNmkcGnIsR3ZPin+1SjalfuXgHG64TJEwapvHtxehRjAZplRey
+   D4iPu/ydKLyMKBuC8qeS3Q/YuNnVzHZKLcSPpERXCwWmemSfwVbSWkRGq
+   pqlo6Vt1FbQBWzcqAScrti1UW6yMi6fuhEpQBQQb3Dum1vM0uIwsInW0c
+   g==;
+X-CSE-ConnectionGUID: OMNoKq3OTQOAaIxVcINTAw==
+X-CSE-MsgGUID: RN8VYW3qSAmoV/plGLSg5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="40530055"
 X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="43495379"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 20:52:53 -0800
-X-CSE-ConnectionGUID: cRX6lExdRDSJ6zPLWLcHoA==
-X-CSE-MsgGUID: E1jYjrDDTSakJs7oerV/ag==
+   d="scan'208";a="40530055"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 21:25:53 -0800
+X-CSE-ConnectionGUID: 7coZRVwtRnuLC2mtXb/sSg==
+X-CSE-MsgGUID: eT5/0cxQQpum+SAVrkC6+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119254348"
+X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
+   d="scan'208";a="114462839"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Feb 2025 20:52:51 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 18 Feb 2025 21:25:50 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkc4e-0001Fh-0a;
-	Wed, 19 Feb 2025 04:52:43 +0000
-Date: Wed, 19 Feb 2025 12:51:55 +0800
+	id 1tkcaT-0001Gt-0i;
+	Wed, 19 Feb 2025 05:25:36 +0000
+Date: Wed, 19 Feb 2025 13:25:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Schwab <schwab@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>
-Subject: [linux-next:master 3383/4377]
- include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast
- truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-Message-ID: <202502191201.7fARkW7m-lkp@intel.com>
+To: oushixiong1025@163.com, Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Shixiong Ou <oushixiong@kylinos.cn>
+Subject: Re: [PATCH v2] fbdev: lcdcfb: add missing device_remove_file()
+Message-ID: <202502191200.AVwVc1DY-lkp@intel.com>
+References: <20250208092918.251733-1-oushixiong1025@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,68 +68,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250208092918.251733-1-oushixiong1025@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e5d3fd687aac5eceb1721fa92b9f49afcf4c3717
-commit: 1898300abf3508bca152e65b36cce5bf93d7e63e [3383/4377] riscv/atomic: Do proper sign extension also for unsigned in arch_cmpxchg
-config: riscv-randconfig-r111-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191201.7fARkW7m-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20250219/202502191201.7fARkW7m-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on linus/master v6.14-rc3 next-20250218]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/fbdev-lcdcfb-add-missing-device_remove_file/20250208-173203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20250208092918.251733-1-oushixiong1025%40163.com
+patch subject: [PATCH v2] fbdev: lcdcfb: add missing device_remove_file()
+config: nios2-randconfig-r072-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191200.AVwVc1DY-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502191201.7fARkW7m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502191200.AVwVc1DY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/atomic64_test.c: note: in included file (through include/linux/atomic.h):
->> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
->> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
-   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+smatch warnings:
+drivers/video/fbdev/sh_mobile_lcdcfb.c:1544 sh_mobile_lcdc_overlay_fb_register() warn: always true condition '(--i >= 0) => (0-u32max >= 0)'
+drivers/video/fbdev/sh_mobile_lcdcfb.c:1544 sh_mobile_lcdc_overlay_fb_register() warn: always true condition '(--i >= 0) => (0-u32max >= 0)'
+drivers/video/fbdev/sh_mobile_lcdcfb.c:2652 sh_mobile_lcdc_probe() warn: 'irq' from request_irq() not released on lines: 2652.
+drivers/video/fbdev/sh_mobile_lcdcfb.c:2652 sh_mobile_lcdc_probe() warn: 'priv->base' from ioremap() not released on lines: 2652.
 
-vim +4152 include/linux/atomic/atomic-arch-fallback.h
+vim +1544 drivers/video/fbdev/sh_mobile_lcdcfb.c
 
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4126  
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4127  /**
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4128   * raw_atomic64_cmpxchg() - atomic compare and exchange with full ordering
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4129   * @v: pointer to atomic64_t
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4130   * @old: s64 value to compare with
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4131   * @new: s64 value to assign
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4132   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4133   * If (@v == @old), atomically updates @v to @new with full ordering.
-6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2024-02-09  4134   * Otherwise, @v is not modified and relaxed ordering is provided.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4135   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4136   * Safe to use in noinstr code; prefer atomic64_cmpxchg() elsewhere.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4137   *
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4138   * Return: The original value of @v.
-ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4139   */
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4140  static __always_inline s64
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4141  raw_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4142  {
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4143  #if defined(arch_atomic64_cmpxchg)
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4144  	return arch_atomic64_cmpxchg(v, old, new);
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4145  #elif defined(arch_atomic64_cmpxchg_relaxed)
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4146  	s64 ret;
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4147  	__atomic_pre_full_fence();
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4148  	ret = arch_atomic64_cmpxchg_relaxed(v, old, new);
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4149  	__atomic_post_full_fence();
-37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4150  	return ret;
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4151  #else
-9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05 @4152  	return raw_cmpxchg(&v->counter, old, new);
-d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4153  #endif
-1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4154  }
-d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4155  
-
-:::::: The code at line 4152 was first introduced by commit
-:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
-
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+  1517	
+  1518	static int
+  1519	sh_mobile_lcdc_overlay_fb_register(struct sh_mobile_lcdc_overlay *ovl)
+  1520	{
+  1521		struct sh_mobile_lcdc_priv *lcdc = ovl->channel->lcdc;
+  1522		struct fb_info *info = ovl->info;
+  1523		unsigned int i, error = 0;
+  1524		int ret;
+  1525	
+  1526		if (info == NULL)
+  1527			return 0;
+  1528	
+  1529		ret = register_framebuffer(info);
+  1530		if (ret < 0)
+  1531			return ret;
+  1532	
+  1533		dev_info(lcdc->dev, "registered %s/overlay %u as %dx%d %dbpp.\n",
+  1534			 dev_name(lcdc->dev), ovl->index, info->var.xres,
+  1535			 info->var.yres, info->var.bits_per_pixel);
+  1536	
+  1537		for (i = 0; i < ARRAY_SIZE(overlay_sysfs_attrs); ++i) {
+  1538			error = device_create_file(info->dev, &overlay_sysfs_attrs[i]);
+  1539			if (error)
+  1540				break;
+  1541		}
+  1542	
+  1543		if (error) {
+> 1544			while (--i >= 0)
+  1545				device_remove_file(info->dev, &overlay_sysfs_attrs[i]);
+  1546			return error;
+  1547		}
+  1548	
+  1549		return 0;
+  1550	}
+  1551	
 
 -- 
 0-DAY CI Kernel Test Service
