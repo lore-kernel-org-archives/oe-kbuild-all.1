@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331B0A944
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 17:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ADE2144CE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 17:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739986999; cv=none; b=HubQI3/m3yuXBIQe8t6R5SMketIomEgEhoORpDZVaBjh/7/YPVfJrlbmYLJ2O7Ys1i+DHFv2oXrch0gT8Ri6z4VxIm4cZQUsGTQ0zP99CyVoS43Nu+l/SqIBa+qFtU7cuLdR2WuU17TpuQJHtLhTePWZkpE09jtUfXoEpJen7ZE=
+	t=1739987963; cv=none; b=a7hlS9plSilbqxgW+LYp4mMJl1EFuXpxQNf0BdKNHVyPmOS+MrHFtZVnxhKhnKfTwMgWm6Uphkm/IMMkakIl4nmALKJcuBsQhtUyOhflmGfxYJKGS28xywhVwgXBDVHOnzNftIUN9rBtcITIZ1x/7qMey6izogtywyIQ2gQZp80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739986999; c=relaxed/simple;
-	bh=dVqwsB+tDW/tubytCSFMsupA26ImOk8sdT2JruUEV3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=puNgAGl/tQFCyryRpekTM9mEMxg8m2uDcsNuNmQwXTn/rw0IpzbQgBtpWqLGONLD1LGQmihChOzRDSVwhk1Y8DESE2DbLomg30TcDRyCSbfG22zOVs+3/p0JmiRScDQZA+dTig9LiVa2+/dERkFFm55UBHMvb/t/IyLtUYFKWL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+JeniPh; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1739987963; c=relaxed/simple;
+	bh=8E5M/gZvMK2QnqnA01Kg5t6JS+LTnhL0QuH2mkmeeJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k8VV2n3HZLCTknZ5GcE3kAhzbof/j5Zfk/mzCT/1t3kCUIuKjux4J9YeKK5pU2vvHZWxshauUPVrqwSi9oraAgAyYW1RL5CgC5EuxqUE/B9fSaf8p9ZQC6lBNV39izFkGmBqS7ii/aFIj60xhHPgRn3I8r8ZMu9w262Q5NTIdMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8BfbZzZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+JeniPh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8BfbZzZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739986997; x=1771522997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dVqwsB+tDW/tubytCSFMsupA26ImOk8sdT2JruUEV3Y=;
-  b=f+JeniPhzzODmwFbCk/ikiCxbnM6XYyWt4LlfomIC+Nky+y87Gz4HVwn
-   T1B3qEvkq1M844TpSYN58qrL7nkeR7kzolsAzpmLCbuz/Y3IF1BDvaoIZ
-   vcvQk+IiA/KD/yNdrU/m8AFiOfbtrDTBuzOU+z3KgSW3C1mB0fKtFZ1Y/
-   PT8URY1Kh77y1b7SHXMcDFmjYpKcZ2HQO5c89NafZ7bPalHN1g4lhcZA5
-   mhHvVHQYmrLzJIVQtq1x2AshDNXfX3HhRU6TqPArLC0/ksdlTOvRvzSJX
-   L88jc/EIQNw/Ax2FJVixlZeXCqtZPKssvk7zHozlj9uyjSc2rJdX65i0H
-   w==;
-X-CSE-ConnectionGUID: vyhpPTvBQBit/t+pUdfsxg==
-X-CSE-MsgGUID: 8oDr5tD7TSm7pTXKlTqAYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40997506"
+  t=1739987962; x=1771523962;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8E5M/gZvMK2QnqnA01Kg5t6JS+LTnhL0QuH2mkmeeJs=;
+  b=b8BfbZzZwghXBVSbhHirVb1rDcFaXWjJpKSPS58Z5YhSkMrrhH7pQF3L
+   SlfadlMYydCm53x+Yzcjtw6YJHKq7x0IoJHW2djbV164ZXnwf2mlQGYzQ
+   Jxa0nK8gsElWAdnGR63fMWzqleSKqsvVEoSt3MqjfiAelklLnnNJ5NeQW
+   jfP+nRc+unWruHXikgOxr1njhyh1PKWt2++ZJrGOVQ4N1aMx2Evp92UyY
+   P+hnopagH3mKAmr3n9AdEe67+gb1BRqkjdOI0wwtZxoX/jPw9NKYwXrbi
+   dXtd8j2OJtsBivJez61FBs/MRFgXPVZk2RjqYCLjld530Kum428k2q+7m
+   g==;
+X-CSE-ConnectionGUID: q8nMIWY3Qem5c+URK+1tlA==
+X-CSE-MsgGUID: 6zKBiL2RR6qscw2P8yPfZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44508047"
 X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="40997506"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 09:43:16 -0800
-X-CSE-ConnectionGUID: +OXqpB3PT8iVUOVncg8zuQ==
-X-CSE-MsgGUID: kxVG89nZRHyvI85adQqrZA==
+   d="scan'208";a="44508047"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 09:59:21 -0800
+X-CSE-ConnectionGUID: L2RN2Md3QH6gaILOplXMOg==
+X-CSE-MsgGUID: UZwc8kEhSueuP8eH/OS1mw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="114614079"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119992327"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Feb 2025 08:04:04 -0800
+  by orviesa005.jf.intel.com with ESMTP; 19 Feb 2025 09:37:48 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkmXb-00038M-04;
-	Wed, 19 Feb 2025 16:03:29 +0000
-Date: Thu, 20 Feb 2025 00:02:51 +0800
+	id 1tko12-0003FX-0d;
+	Wed, 19 Feb 2025 17:37:44 +0000
+Date: Thu, 20 Feb 2025 01:37:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-Message-ID: <202502192343.twEQ3SSs-lkp@intel.com>
-References: <20250218132702.114669-3-clamor95@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/59 1/1] drivers/gpu/drm/drm_atomic_helper.c:1269:25:
+ warning: variable 'unused' set but not used
+Message-ID: <202502200149.qtxEonrL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,61 +61,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218132702.114669-3-clamor95@gmail.com>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-mfd/for-mfd-next]
-[also build test ERROR on lee-leds/for-leds-next robh/for-next linus/master v6.14-rc3 next-20250219]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-mfd-Document-TI-LM3533-MFD/20250218-212857
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20250218132702.114669-3-clamor95%40gmail.com
-patch subject: [PATCH v2 2/2] mfd: lm3533: convert to use OF
-config: i386-buildonly-randconfig-003-20250219 (https://download.01.org/0day-ci/archive/20250219/202502192343.twEQ3SSs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502192343.twEQ3SSs-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: b20adb9188f10874af2890eebec8862b91c71c5c [1/1] drm/atomic: Use new iterator macros in drm_atomic_helper_wait_for_flip_done, again.
+config: sparc64-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250220/202502200149.qtxEonrL-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200149.qtxEonrL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502192343.twEQ3SSs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502200149.qtxEonrL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/iio/iio.h:10,
-                    from drivers/iio/light/lm3533-als.c:15:
->> drivers/iio/light/lm3533-als.c:921:25: error: 'lm3533_match_table' undeclared here (not in a function); did you mean 'lm3533_als_match_table'?
-     921 | MODULE_DEVICE_TABLE(of, lm3533_match_table);
-         |                         ^~~~~~~~~~~~~~~~~~
-   include/linux/module.h:250:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     250 | extern typeof(name) __mod_device_table__##type##__##name                \
-         |               ^~~~
-   include/linux/module.h:250:21: error: '__mod_device_table__of__lm3533_match_table' aliased to undefined symbol 'lm3533_match_table'
-     250 | extern typeof(name) __mod_device_table__##type##__##name                \
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/lm3533-als.c:921:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     921 | MODULE_DEVICE_TABLE(of, lm3533_match_table);
-         | ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c: In function 'drm_atomic_helper_wait_for_vblanks':
+   drivers/gpu/drm/drm_atomic_helper.c:1211:25: warning: variable 'old_crtc_state' set but not used [-Wunused-but-set-variable]
+     struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+                            ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c: In function 'drm_atomic_helper_wait_for_flip_done':
+>> drivers/gpu/drm/drm_atomic_helper.c:1269:25: warning: variable 'unused' set but not used [-Wunused-but-set-variable]
+     struct drm_crtc_state *unused;
+                            ^~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c: In function 'drm_atomic_helper_wait_for_dependencies':
+   drivers/gpu/drm/drm_atomic_helper.c:1807:25: warning: variable 'new_crtc_state' set but not used [-Wunused-but-set-variable]
+     struct drm_crtc_state *new_crtc_state;
+                            ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c: In function 'drm_atomic_helper_commit_cleanup_done':
+   drivers/gpu/drm/drm_atomic_helper.c:1889:25: warning: variable 'new_crtc_state' set but not used [-Wunused-but-set-variable]
+     struct drm_crtc_state *new_crtc_state;
+                            ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c: In function 'drm_atomic_helper_commit_duplicated_state':
+   drivers/gpu/drm/drm_atomic_helper.c:2898:25: warning: variable 'new_crtc_state' set but not used [-Wunused-but-set-variable]
+     struct drm_crtc_state *new_crtc_state;
+                            ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c:2896:30: warning: variable 'new_conn_state' set but not used [-Wunused-but-set-variable]
+     struct drm_connector_state *new_conn_state;
+                                 ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_atomic_helper.c:2894:26: warning: variable 'new_plane_state' set but not used [-Wunused-but-set-variable]
+     struct drm_plane_state *new_plane_state;
+                             ^~~~~~~~~~~~~~~
 
 
-vim +921 drivers/iio/light/lm3533-als.c
+vim +/unused +1269 drivers/gpu/drm/drm_atomic_helper.c
 
-   916	
-   917	static const struct of_device_id lm3533_als_match_table[] = {
-   918		{ .compatible = "ti,lm3533-als" },
-   919		{ },
-   920	};
- > 921	MODULE_DEVICE_TABLE(of, lm3533_match_table);
-   922	
+623369e533e8a5 Daniel Vetter     2014-09-16  1250  
+0108648749bfa5 Boris Brezillon   2017-06-02  1251  /**
+0108648749bfa5 Boris Brezillon   2017-06-02  1252   * drm_atomic_helper_wait_for_flip_done - wait for all page flips to be done
+0108648749bfa5 Boris Brezillon   2017-06-02  1253   * @dev: DRM device
+0108648749bfa5 Boris Brezillon   2017-06-02  1254   * @old_state: atomic state object with old state structures
+0108648749bfa5 Boris Brezillon   2017-06-02  1255   *
+0108648749bfa5 Boris Brezillon   2017-06-02  1256   * Helper to, after atomic commit, wait for page flips on all effected
+0108648749bfa5 Boris Brezillon   2017-06-02  1257   * crtcs (ie. before cleaning up old framebuffers using
+0108648749bfa5 Boris Brezillon   2017-06-02  1258   * drm_atomic_helper_cleanup_planes()). Compared to
+0108648749bfa5 Boris Brezillon   2017-06-02  1259   * drm_atomic_helper_wait_for_vblanks() this waits for the completion of on all
+0108648749bfa5 Boris Brezillon   2017-06-02  1260   * CRTCs, assuming that cursors-only updates are signalling their completion
+0108648749bfa5 Boris Brezillon   2017-06-02  1261   * immediately (or using a different path).
+0108648749bfa5 Boris Brezillon   2017-06-02  1262   *
+0108648749bfa5 Boris Brezillon   2017-06-02  1263   * This requires that drivers use the nonblocking commit tracking support
+0108648749bfa5 Boris Brezillon   2017-06-02  1264   * initialized using drm_atomic_helper_setup_commit().
+0108648749bfa5 Boris Brezillon   2017-06-02  1265   */
+0108648749bfa5 Boris Brezillon   2017-06-02  1266  void drm_atomic_helper_wait_for_flip_done(struct drm_device *dev,
+0108648749bfa5 Boris Brezillon   2017-06-02  1267  					  struct drm_atomic_state *old_state)
+0108648749bfa5 Boris Brezillon   2017-06-02  1268  {
+2d705c0b367622 Maarten Lankhorst 2017-07-12 @1269  	struct drm_crtc_state *unused;
+0108648749bfa5 Boris Brezillon   2017-06-02  1270  	struct drm_crtc *crtc;
+0108648749bfa5 Boris Brezillon   2017-06-02  1271  	int i;
+0108648749bfa5 Boris Brezillon   2017-06-02  1272  
+b20adb9188f108 Maarten Lankhorst 2017-07-19  1273  	for_each_new_crtc_in_state(old_state, crtc, unused, i) {
+0108648749bfa5 Boris Brezillon   2017-06-02  1274  		struct drm_crtc_commit *commit = old_state->crtcs[i].commit;
+0108648749bfa5 Boris Brezillon   2017-06-02  1275  		int ret;
+0108648749bfa5 Boris Brezillon   2017-06-02  1276  
+0108648749bfa5 Boris Brezillon   2017-06-02  1277  		if (!commit)
+0108648749bfa5 Boris Brezillon   2017-06-02  1278  			continue;
+0108648749bfa5 Boris Brezillon   2017-06-02  1279  
+0108648749bfa5 Boris Brezillon   2017-06-02  1280  		ret = wait_for_completion_timeout(&commit->flip_done, 10 * HZ);
+0108648749bfa5 Boris Brezillon   2017-06-02  1281  		if (ret == 0)
+0108648749bfa5 Boris Brezillon   2017-06-02  1282  			DRM_ERROR("[CRTC:%d:%s] flip_done timed out\n",
+0108648749bfa5 Boris Brezillon   2017-06-02  1283  				  crtc->base.id, crtc->name);
+0108648749bfa5 Boris Brezillon   2017-06-02  1284  	}
+0108648749bfa5 Boris Brezillon   2017-06-02  1285  }
+0108648749bfa5 Boris Brezillon   2017-06-02  1286  EXPORT_SYMBOL(drm_atomic_helper_wait_for_flip_done);
+0108648749bfa5 Boris Brezillon   2017-06-02  1287  
+
+:::::: The code at line 1269 was first introduced by commit
+:::::: 2d705c0b367622d382d80c38240b3069c19f4eeb drm/atomic: Use new iterator macros in drm_atomic_helper_wait_for_flip_done
+
+:::::: TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+:::::: CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
