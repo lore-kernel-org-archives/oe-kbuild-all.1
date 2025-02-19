@@ -1,60 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694291AF0D7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 20:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACA01B4247
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 20:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739995778; cv=none; b=ABBpYmL6qDCRg0AhoqGEIzQtihyF7kRp09njnmbLlvf/Kc//rHoXhvbvP/fIQz+4qIaT/y9NM3AjZX3lbMLmebAB7PHkwaD48pkxGhWIahaokMCn/XWzlxeZdNC2WqTAivDvc4WMu4WDWtqGjtG4/SQfvBHL8YkL34QLExWnYjA=
+	t=1739996418; cv=none; b=upkO80GLKsJVf7mF1P0c3xDe0fYuyw5xPyDq2QTGUOw2sIm6095bJpYLjY0xOsEiqEWLRZ86aN3MbOxhnfTkFaWh92XW6JcqsL48LSwy8g/G7ij0Yt2OS5rrCFKyB8HjoWQQty+vd/KJVx5qY3nyYArvGmyLQbwoDV9h41W8Nb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739995778; c=relaxed/simple;
-	bh=PLqW0aXcVZF4KuL8ogH32YJ7Rd5So26fY3N5HOcumwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IvBkHEvEkYEaDXv4AHpLOJ/GL+4wXZoUY8Egureb1+HidUM9h1/xLnCw5UjtL45SXx5TGn9gMxkJ3R7mfkyT7CtjQcfwztDgPkDtF7Iua0g5SUEKOGvHfmIbFlBhdQtqBxxOCNOvU/HoJsPy3Cf7EC371SHWeWgy1ZaMz1umtJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GGUcqe81; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739996418; c=relaxed/simple;
+	bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/zQ/A0bIyWu4LjDD47WXHvMm3T4TNlgLwzf+whOWyJ3DOmcoLZNtKfzto844waj2yrEQCyB5nqSJj6Ve0qYzTvo/muJul4stmXTgrPI3+cB/WQEJjvE09//DC2NIctO+7Da97+S6yvi6tZMgV66q5OMQZ3uddCSARGsWqbpZWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HByGJz5z; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GGUcqe81"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HByGJz5z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739995776; x=1771531776;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PLqW0aXcVZF4KuL8ogH32YJ7Rd5So26fY3N5HOcumwQ=;
-  b=GGUcqe81ysUy+OWW64wO+D6Oru6qqp0Grf5SyXwo3gR8cUsXN9PdjVyd
-   fs+mvQFog+NmFy2ZYKed7CFJXXIz7QmJ+jeITsjfXpsVVe5yKtycvzhhG
-   AiIKPuSIP/GznCQtsj+jXFtRa2FmRKyom0eEz1GaTAT5z4l53B4LJEZDf
-   f6/R7Vy3S0LB/fyov3KWYacxzm1GvRG3WcMjAxFxYcaH1sUrt/DxUw9KI
-   qZOMQSPtQal1GrTuh0ZFTt0QMNRxwANBTP2UV3KqfDcGQVNWbnbp6yxCL
-   91hvF2CAPUw/1myGC/+Uz/DR5q3qmfHgHjNhiPSKoOnrcHLhDqMzvyatj
+  t=1739996416; x=1771532416;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oUcnF6wLVy+xmj8OVpUmP+faVLotvjxceq1mY3aO/So=;
+  b=HByGJz5zdl9yNJNgx0XkRzhhm2KrPnWXETdJYl+IcekfvYCLyrQJLpve
+   NSKVXMq4YfniEmT3GnftOBUWApwKyOcO9d17pv2R2irine3mSGkHVa3eA
+   vXlHl8CeNPlMzBwHFZl4IXPhXW18oeHyRiH6lYcLLtjfVFeWCsoXo0bPg
+   dhCRTOLha2zxhiwh8yH93r/T1ZNXxMIxn3KkGjPTizOG2JRbZhX5FzN5g
+   FecpoSy7YCu5CDNWM9DsUXvHsjY2+dgZpLzKdOqVPUgThfYmTYNx6s8cQ
+   QVWE5SHpOG5xkxvTesJ0K7iadLlCBX/2H+73Xhzq2v0gDYwgpnXDcFRzV
    g==;
-X-CSE-ConnectionGUID: xFhI34INQ4Wk4Wg5juirtA==
-X-CSE-MsgGUID: Fxbljc+jTjuWUhZj44tczg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="44523318"
+X-CSE-ConnectionGUID: E52Yu6GpRF61uh9TJR/xCA==
+X-CSE-MsgGUID: EXRQwdgZTcCTptOvItbgmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="50966661"
 X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="44523318"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:09:35 -0800
-X-CSE-ConnectionGUID: p9g4c8kyQ8aPSoFdAfI0gw==
-X-CSE-MsgGUID: Ux3R3wfkSaGQXj3fVP4y5Q==
+   d="scan'208";a="50966661"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:20:13 -0800
+X-CSE-ConnectionGUID: pBlNVsujSvyr6QenP15SOg==
+X-CSE-MsgGUID: Nq+u8uC3QQy+wHa6XfpUhQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="152023770"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 Feb 2025 11:43:02 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tkpy3-0003O7-0G;
-	Wed, 19 Feb 2025 19:42:47 +0000
-Date: Thu, 20 Feb 2025 03:42:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-fixes 1/2] fs/erofs/fscache.c:122:20: error:
- assignment to 'netfs_io_terminated_t' {aka 'void (*)(void *, long int)'}
- from incompatible pointer type 'void (*)(void *, ssize_t,  bool)' {aka 'void
- (*)(void *, long int,  _Bool)'}
-Message-ID: <202502200302.hGuSsM61-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
+   d="scan'208";a="115020364"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 12:20:08 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tkqY8-0000000D7d9-2wZe;
+	Wed, 19 Feb 2025 22:20:04 +0200
+Date: Wed, 19 Feb 2025 22:20:04 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Pavel Machek <pavel@ucw.cz>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-leds@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mfd: lm3533: convert to use OF
+Message-ID: <Z7Y89AI8me_MFsEV@smile.fi.intel.com>
+References: <20250218132702.114669-3-clamor95@gmail.com>
+ <202502192343.twEQ3SSs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +75,18 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202502192343.twEQ3SSs-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-fixes
-head:   423353c292d881a53125bbe8aff5fcc329f3dbb7
-commit: c313ce74e3946fcc6ae5c80187c8d576ac097a65 [1/2] netfs: Fix the request's work item to not require a ref
-config: x86_64-buildonly-randconfig-003-20250220 (https://download.01.org/0day-ci/archive/20250220/202502200302.hGuSsM61-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200302.hGuSsM61-lkp@intel.com/reproduce)
+On Thu, Feb 20, 2025 at 12:02:51AM +0800, kernel test robot wrote:
+> Hi Svyatoslav,
+> 
+> kernel test robot noticed the following build errors:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502200302.hGuSsM61-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   fs/erofs/fscache.c: In function 'erofs_fscache_req_io_alloc':
->> fs/erofs/fscache.c:122:20: error: assignment to 'netfs_io_terminated_t' {aka 'void (*)(void *, long int)'} from incompatible pointer type 'void (*)(void *, ssize_t,  bool)' {aka 'void (*)(void *, long int,  _Bool)'} [-Werror=incompatible-pointer-types]
-     122 |         io->end_io = erofs_fscache_req_end_io;
-         |                    ^
-   fs/erofs/fscache.c: In function 'erofs_fscache_bio_alloc':
-   fs/erofs/fscache.c:202:23: error: assignment to 'netfs_io_terminated_t' {aka 'void (*)(void *, long int)'} from incompatible pointer type 'void (*)(void *, ssize_t,  bool)' {aka 'void (*)(void *, long int,  _Bool)'} [-Werror=incompatible-pointer-types]
-     202 |         io->io.end_io = erofs_fscache_bio_endio;
-         |                       ^
-   cc1: some warnings being treated as errors
-
-
-vim +122 fs/erofs/fscache.c
-
-f2151df5743536 Jingbo Xu 2024-03-08  115  
-f2151df5743536 Jingbo Xu 2024-03-08  116  static struct erofs_fscache_io *erofs_fscache_req_io_alloc(struct erofs_fscache_rq *req)
-f2151df5743536 Jingbo Xu 2024-03-08  117  {
-f2151df5743536 Jingbo Xu 2024-03-08  118  	struct erofs_fscache_io *io = kzalloc(sizeof(*io), GFP_KERNEL);
-f2151df5743536 Jingbo Xu 2024-03-08  119  
-f2151df5743536 Jingbo Xu 2024-03-08  120  	if (!io)
-f2151df5743536 Jingbo Xu 2024-03-08  121  		return NULL;
-f2151df5743536 Jingbo Xu 2024-03-08 @122  	io->end_io = erofs_fscache_req_end_io;
-f2151df5743536 Jingbo Xu 2024-03-08  123  	io->private = req;
-f2151df5743536 Jingbo Xu 2024-03-08  124  	refcount_inc(&req->ref);
-f2151df5743536 Jingbo Xu 2024-03-08  125  	refcount_set(&io->ref, 1);
-f2151df5743536 Jingbo Xu 2024-03-08  126  	return io;
-d435d53228dd03 Xin Yin   2022-05-09  127  }
-d435d53228dd03 Xin Yin   2022-05-09  128  
-
-:::::: The code at line 122 was first introduced by commit
-:::::: f2151df5743536e0b98a2094bd58b52d4e060016 erofs: make iov_iter describe target buffers over fscache
-
-:::::: TO: Jingbo Xu <jefflexu@linux.alibaba.com>
-:::::: CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+It a second time you send not even compiled code.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
