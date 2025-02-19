@@ -1,129 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A346415B971
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 09:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E3F1CCEF0;
+	Wed, 19 Feb 2025 09:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739958028; cv=none; b=d6Z7+8gnsEeP0ZIj6o8AIepUrQXbiCK/FAHIxgXI4wJceSRYJIUODdAeH0MtceL40vEany/kBaTSMtBIMZJHxf0NUNq6shkFhxTbPy3u+M/Q4ZXN6sewTj0SS21/DysOiRPRKnWXeoWGC+848y7FsJPlSOhSznhZ1PXoMiM38Pw=
+	t=1739958555; cv=none; b=jXTzg3xj8Mb4bODQdpd/6pEbjHphFV/03ArxEPV0vwtqR1hg/N2G44pEi+CYtNUeIVq/WbC7+6BEqPedgKaFn8peww8TThcFoQlnHgyZ4+o1bxkY6mKv4Eb1mFZt74Bg7oLjWf7aMiLekqdh7o/wNi/symu5QrEOT80SQbE9mq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739958028; c=relaxed/simple;
-	bh=Aktdd3XUBtzOF9yZQEDf87evYqXJNTX9Nu6KqB3Y+b4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6XG/2Gp/X4x/QRVg3P3C+mtjeHj+Clu6jApVVc2U5QflglBgFWRHQIbgXlKoJ3SwLNiCpCKEbinqpH9zC38h3AEBugWqVwSeYQGYd63dVuSZ1kQPviDAJos3R4n3fZcwSW650PdggHeDs/l3AvZ+xkIqAkOlyfSaAVW4rCGui8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeCPwfd3; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739958555; c=relaxed/simple;
+	bh=IDdKOPjCrlEO+d9xrqCUMISosxj48iipqqT4b+hx/+I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bqJXxIn3DKwyDWCB5L0fTyWZhsebRgJkgKkI8Dof6JRcf1AtPHQy/KVbmeobwNOCRFOOFUsdwy9OL3JhIL/OUX6peq9Gx5j46pCVDCvuOxGEhcxZVEndUB3+9JQL5J+VoWg3DxxmlXoNtNAyxQ3RblDxy5CRXH8wA2Bn7Twb+sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZAZx5mCs; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeCPwfd3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739958026; x=1771494026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Aktdd3XUBtzOF9yZQEDf87evYqXJNTX9Nu6KqB3Y+b4=;
-  b=HeCPwfd36Yv785NXdq0ROCiIWmpkEPhMXsnuDJXKXezEr5JhoNrWPCyQ
-   wfMDPVNHXIUubt0TPChPhz+EfeQ/mYp1He7JG15sDa0X+MshtLHL/o7Or
-   c7VnlbBubCZzWswX7MSgdsJV6NSKS9D1SrwiMwDkgNBMkCRSSRmzOlAGe
-   +WZGV58euFVu2CJAxvEJNAry6XSc/yiJQmJX9d+v9ypJKleGQit953QPi
-   e8AOjdMvm++9sr1NcmyhlB9clrYk9a3fzio5wYd/WEujAOtv8CwVDqHLL
-   uQS4x0PY0qJeS44hmqNOA0Hsg8w7ndRc61hokpr6vT5b9u2Cn803nEYhu
-   w==;
-X-CSE-ConnectionGUID: gT4sZDJYRaWm+TesJkWzdw==
-X-CSE-MsgGUID: DYZR3L15RYy/QHcsBGLi3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="58093244"
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="58093244"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 01:40:26 -0800
-X-CSE-ConnectionGUID: ebZoyQbSSOu/xmJotJKw7Q==
-X-CSE-MsgGUID: zaWb09UWTbi2l2NBsAvpLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="115177838"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Feb 2025 01:40:25 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tkgZ4-0002gN-15;
-	Wed, 19 Feb 2025 09:40:22 +0000
-Date: Wed, 19 Feb 2025 17:39:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thippeswamy Havalige <thippeswamy.havalige@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v12 3/3] PCI: amd-mdb: Add AMD MDB Root Port driver
-Message-ID: <202502191741.xrVmEAG4-lkp@intel.com>
-References: <20250218053039.714208-4-thippeswamy.havalige@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZAZx5mCs"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abbdf897503so41864666b.0;
+        Wed, 19 Feb 2025 01:49:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739958552; x=1740563352; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=38FDnIWBk/hMvvKZAZkdIWl6cijPdX14mYcohSV/aX0=;
+        b=ZAZx5mCsZBrqo1rMRx/UtkRj0d5P4MoAaUvTKvzrk+v/bVSnDyxI35nsFQWfdgk+7q
+         cwWmOe8MJAPXcv8dWwsXQSzOV3wTFtJU0xoANgPxdyRDFuAZo+kl7ikvsDdGkFO1gyuQ
+         fB2phfCUJ63m2xFO/UfOdy5LXGMqAMY7w/amuPr78o8GnyVYiRUXX+65bj/co7xRIWdQ
+         aIT9d49ZYiVLoOc7zauw78Ysi3EoG95xI4JHGtVV4BkrXrsuSi6CqsPLC0ThNX15pS//
+         PTw17eCXmptyILPwwxCT0XRtU+7AMCa3UUbzAw39fmqr57PmUsOFYXElrZuPZtQgxeBM
+         9ZTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739958552; x=1740563352;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=38FDnIWBk/hMvvKZAZkdIWl6cijPdX14mYcohSV/aX0=;
+        b=bAm0lDteq5tMVlN06AuFhcGQoGKE37chfgWF0jwB9tNUY5IZQgvzw+s+GcJ4EqeiAc
+         bkkaOA+k4PWDjBXBCUAg0EjukPMMnMg+Jm/8mrGISitfWXA0Pa+wlyBjzYiO82CFHLWL
+         +FskDLDjMtOdT7UbX0d/yxRXeu5PEx/w73TFtEUon4SPuv875rJ+CKsKMfKG4Dlbt1VK
+         5VdDp8hol4zfmKsZrTjKOoQty2aCn5miTjS6DtLU8HE1L7nKfeQZKv/l5pGiSaiGBaoG
+         nDkjB+itAUvxMZAi4nCSmYa4EdwSJXyqXsJryFmE9lsykpgNDEAsbz6dUM//cuumANXL
+         2J2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUH4oZUv28S5kdhkk7qZh1MQXzBnH7XaClim3hSd+DHzIjwAd5QSzCKw/OJ1dVnUakSpDPQyxtR7ZZQuoq1@lists.linux.dev, AJvYcCVd7ySPi1QP0QHcNMuyZPOIL/dZgaGygQHWFCojjIsRyUIvSY3H6gW051YyrBu5fuqb54XPeU1BrUqZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL2g8xH/0Z6eD1IdUssBADt6BucDklrUOVxGXuYj4nshkeocKp
+	ybu70fVNsj8nKOCmWI7ZT1BDx4siV/AecSqT3cjL1BaPHonJAWUgMUscdg==
+X-Gm-Gg: ASbGnctLYJcnLVixbYyjctC1TSk41iEWbAO4kCfnLL427kwSv2v2L08xH9DiJ7jSWUQ
+	42C3F5ITro+66FlUIVQY11gy2G4P01cAl9In5a06/4oRiYn9cjcDnclcnQcTfDnffM2/C9kVCdt
+	7yNXpLCsYJk/U72Aib7RDIMG+8DnAayJ/cB3Kcf15TYnvtCcz7rmr31mL/rQ2vG1YIIsmNeOX74
+	CCcUrpa4Y2g5aitiYRQj0iqVXhnPmoytqJfmPa/AF9VXM27ofR+mle4G0yc56v9LsVLJwjsw0nS
+	xmVUXTeGdofrxjzDz0tQ79fWRO3JPQq3ZS16a7ySE5dwNvsm
+X-Google-Smtp-Source: AGHT+IGtNbC/AL8G7JwNITVBrH6AzXwe+c022KZdL3yHX+FgpnhCwb52Hpe3yeMpCZPU64H/OFWdvQ==
+X-Received: by 2002:a17:906:99d6:b0:ab7:cf7c:f9ed with SMTP id a640c23a62f3a-abbcc7ef0a3mr263267566b.24.1739958551650;
+        Wed, 19 Feb 2025 01:49:11 -0800 (PST)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:cfff])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1d3624sm10318487a12.40.2025.02.19.01.49.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Feb 2025 01:49:09 -0800 (PST)
+Message-ID: <e6f8ffd6-57f7-413c-9e45-8b68d3979278@gmail.com>
+Date: Wed, 19 Feb 2025 09:50:15 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250218053039.714208-4-thippeswamy.havalige@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 3999/4377] io_uring/zcrx.c:223
+ io_register_zcrx_ifq() warn: missing unwind goto?
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jens Axboe
+ <axboe@kernel.dk>, David Wei <dw@davidwei.uk>
+References: <9123f4ac-233a-41df-b50e-9865e528bd60@stanley.mountain>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <9123f4ac-233a-41df-b50e-9865e528bd60@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Thippeswamy,
+On 2/19/25 07:21, Dan Carpenter wrote:
+> Hi Pavel,
+...
+> smatch warnings:
+> io_uring/zcrx.c:223 io_register_zcrx_ifq() warn: missing unwind goto?
+>  
+> vim +223 io_uring/zcrx.c
+...
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  215  	ret = -ENODEV;
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  216  	ifq->netdev = netdev_get_by_index(current->nsproxy->net_ns, reg.if_idx,
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  217  					  &ifq->netdev_tracker, GFP_KERNEL);
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  218  	if (!ifq->netdev)
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  219  		goto err;
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  220
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  221  	ifq->dev = ifq->netdev->dev.parent;
+> 035af94b39fd13 Pavel Begunkov 2025-02-14  222  	if (!ifq->dev)
+> 035af94b39fd13 Pavel Begunkov 2025-02-14 @223  		return -EOPNOTSUPP;
+> 
+> goto err;
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.14-rc3 next-20250219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thippeswamy-Havalige/dt-bindings-PCI-dwc-Add-AMD-Versal2-mdb-slcr-support/20250218-133550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250218053039.714208-4-thippeswamy.havalige%40amd.com
-patch subject: [PATCH v12 3/3] PCI: amd-mdb: Add AMD MDB Root Port driver
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250219/202502191741.xrVmEAG4-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502191741.xrVmEAG4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502191741.xrVmEAG4-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/pci/controller/dwc/pcie-amd-mdb.c:67: warning: Function parameter or struct member 'intx_irq' not described in 'amd_mdb_pcie'
-
-
-vim +67 drivers/pci/controller/dwc/pcie-amd-mdb.c
-
-    40	
-    41	#define IMR(x) BIT(AMD_MDB_PCIE_INTR_ ##x)
-    42	#define AMD_MDB_PCIE_IMR_ALL_MASK			\
-    43		(						\
-    44			IMR(CMPL_TIMEOUT)	|		\
-    45			IMR(PM_PME_RCVD)	|		\
-    46			IMR(PME_TO_ACK_RCVD)	|		\
-    47			IMR(MISC_CORRECTABLE)	|		\
-    48			IMR(NONFATAL)		|		\
-    49			IMR(FATAL)		|		\
-    50			AMD_MDB_TLP_PCIE_INTX_MASK		\
-    51		)
-    52	
-    53	#define AMD_MDB_PCIE_INTX_BIT(x) (1U << (2 * (x) + AMD_MDB_PCIE_INTR_INTX))
-    54	/**
-    55	 * struct amd_mdb_pcie - PCIe port information
-    56	 * @pci: DesignWare PCIe controller structure
-    57	 * @slcr: MDB System Level Control and Status Register (SLCR) Base
-    58	 * @intx_domain: INTx IRQ domain pointer
-    59	 * @mdb_domain: MDB IRQ domain pointer
-    60	 */
-    61	struct amd_mdb_pcie {
-    62		struct dw_pcie			pci;
-    63		void __iomem			*slcr;
-    64		struct irq_domain		*intx_domain;
-    65		struct irq_domain		*mdb_domain;
-    66		int				intx_irq;
-  > 67	};
-    68	
+Yes, you're right, thanks for letting us know!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pavel Begunkov
+
