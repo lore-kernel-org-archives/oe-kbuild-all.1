@@ -1,68 +1,62 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132B18C0B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 07:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A7C169397
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 07:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739949720; cv=none; b=Q/fzMVSokQJ4A04g/n0XXpoGFmeQiMG49R775TLZzjWnbFaVCY1iNTrmIT5V/4iGMsMckz+Fij3AR8vU74QtfzgvZPRbiu6nBObf7zHRfVN4+LC/V175wVSi4hNZlBvrziiysNHZNefNZ8qAoReNAGigQvtnthtnHl7yzdk9VQ0=
+	t=1739949760; cv=none; b=gOJlc2A9zB+sXqkDx55USsUNj9E4S31+P4OWGtz5xZ5Apdz3yyZC5L+Hzn6zWEJ1EKigAZbIikd6RIX3S7nr1vWYp7zzcs+8BOL3XEXRleJBmmKbVo/lxbuPfk80jU/cjGKFYB9b9WUo07HKNVQ4M4Rj4ujinrgQokeqvKDcuPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739949720; c=relaxed/simple;
-	bh=SQ0DQqDA4bJ+HlaHXC27e986ZWIb1dqrj6EAgISpNwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kJjImgBZoWnP7ZM4Ku4wYUFLXMyAa9xvmdVSqX49HsFiMM7I+lfzRlq1wsRDZHOnh5v0xjAi1hGhrwBCKX+eGnQo0CLQJnOxkYmwqlrhXYHTCElQH9aG5wpV7sHjOY+yiTAJ7MUnt9YJmHwAYRLebNXva5TZLZWhPsceqAKVMdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BNUL6LUJ; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739949760; c=relaxed/simple;
+	bh=eG7Opms5bxKXHu4QwYtttvZV/gOZn8yV8H4ck1U/Qsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pp9CKW99p2JaA7AnYuFOxwAOUaHa8F8yiK1DXepHU39tTanFUzlUgry/rj+LsMd/Ygd0WOghwZNEoQ7pIMHoBIvlLXF/M8fZk5HrTaXrds+BUj8yuYy+iCFZmxCnPrm0i0tcJsYjhG/KeyWRZC/NqBax8UEtA64s/kx8off5aOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cok/vA95; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BNUL6LUJ"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5e050b1491eso1015068a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Feb 2025 23:21:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739949716; x=1740554516; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nL4ehjy0HunCJ0sJe+PFpLuc0MbSZl0UMHQbeYAyHRI=;
-        b=BNUL6LUJcmNyT9Ahfw/PYcBQf5t+FFZGD4k0DmfhJm68tquHxezw4PYKx1BanD6y24
-         qNYOOGll3DS3XSmUq4yoW1Hu2JKeF7U0u7F0EfLb6sWx5Mr8gbpDun9VA1DAhcfjmps0
-         XG7eKyhDHMnZ3kz7lzUOz4aMT5Z8A98Sb/9LfUGUZPhe4Xkvv73g4ZgSwIKuKqbf7lQG
-         SzdEHcFEYNrnwT/5FYNlx0hJ6RQzFzZOI5SO//QWsv18y0uzb8nFamyTgcbRfTIG8944
-         ya08Morkr0CflDFJ7uyrnC0rAZTmDOmA6EBHLdsaasgCG+ZpfgTsv31J3hMJC6JOAZS4
-         Wiug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739949716; x=1740554516;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nL4ehjy0HunCJ0sJe+PFpLuc0MbSZl0UMHQbeYAyHRI=;
-        b=tRe48XcibOWwHYy9Dx/2NinB5YpISRB+JxqOwcURCr6Wr9WFwQh+dX8y4Hn77i/Vio
-         jtMgoPdnahKogNzvYUep7AlQ9TaF+3L76RkKb+5JTTPXToj/iw5L9iW73d0utPMXOpNT
-         sG0u6OUejFnG6Rk0W4zS4SjFtKHHa4UX+t9kkcay6qHg+7xx272sB5IYbEUyIiv7PFpb
-         QV4kmwQ3I0vehguqqlawV2GhY2p/Ag4Qyq4vTWpvK15u1TF42nVogK1pzYfE5tZ4n4Jx
-         aDQqTUMkH7kACVth0ccyeid1wQuaruUW6mMHhy6Z3A9EDuisgL5SC+0pxzBlD1ptSrdT
-         +N6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUu8WgdyOeTkOm8ZES7OOCjbocTFKMWtCXiS3gewefmnLXv+uY+IF+f1UDz2c/W87yWJk6MK2spVFnhQOS/@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpEvAMjTgIDnzMsoPncVONSjBCybCX8r6oNIFfKBaaRbGJINDZ
-	R2mCvvWUyAzrMQO8qJO91ORcfz/5BBVlMG38RpWEfPSPTwnLBhqC2N/Luwyh0k8=
-X-Gm-Gg: ASbGncuapEKRwfturRpEGiEySPh5IIRahzRAvdYpTdPnWymtkR/PJ5u1PGUfiK8BMO1
-	w2wEd5qJKkGxtOUdkm2ujHC9CRX1UAr2khjsZa+049zGEP/Af27raFd3Fr6cSysXTtSqjpxASDv
-	oML12efjSjyFbwLZyB8JzSAT5OAYzoDdNXE4fdk/41oTeVknWQqKHXZPdRV5DlWeu3WmZ1dAAjZ
-	kJH3RKHdWyzGqJQa4jONm2NG7Yllt3yQEcV6Ab8KgnTIPIrw7KVYOt+WkCh70qA+Ouzc8oZNV/i
-	CQ1PsFmsx7qmYTc/gfX3
-X-Google-Smtp-Source: AGHT+IEP99w93lRjUsG1LWrTV9PSO+j6kUMUtQdYxNrHsv8+/S4B02UoOh0SxZNhKWZSRJoHtBhNSQ==
-X-Received: by 2002:a17:907:9411:b0:ab6:fe30:f49e with SMTP id a640c23a62f3a-abbcc7f2de8mr285156766b.28.1739949716226;
-        Tue, 18 Feb 2025 23:21:56 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-aba5323226asm1208953266b.8.2025.02.18.23.21.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 23:21:55 -0800 (PST)
-Date: Wed, 19 Feb 2025 10:21:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, David Wei <dw@davidwei.uk>
-Subject: [linux-next:master 3999/4377] io_uring/zcrx.c:223
- io_register_zcrx_ifq() warn: missing unwind goto?
-Message-ID: <9123f4ac-233a-41df-b50e-9865e528bd60@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cok/vA95"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739949757; x=1771485757;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eG7Opms5bxKXHu4QwYtttvZV/gOZn8yV8H4ck1U/Qsk=;
+  b=cok/vA95CAUptTJQz6cetNUhw3L/+9PRmMBMSirk9P+zq4YBJ7KAoXR6
+   3GLCO+oFo2m9UsHffNoCLgCC6KBNszEJQb9j+XmPfv3HPTmI1oLP5faWm
+   PeGfH6Tc7Z+zim4gGTqu/Xhs5iVmhPlK0bHc3z/j5Tbk07KZMdNe8zDDZ
+   HH/uRq9skX++0mWSEebokESiCGJQw/ZrAWKsXSxvFtmGRB92vjOhrEAHn
+   uhlJB4lDoCoJk4F57BN//XZSx6YZLm7uw1hiSdnurHjWGW5WQR1hB5PDk
+   kttdS3UiOfcRr9PALYDGbYIaM9ikdboiniaz9dxEDZfhubyVN+lH1xgMJ
+   w==;
+X-CSE-ConnectionGUID: ziWGlu34Rmqh6HZyCBUO+w==
+X-CSE-MsgGUID: fRwF4whhRQG1U2aBpTw8gA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="44322287"
+X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
+   d="scan'208";a="44322287"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 23:22:36 -0800
+X-CSE-ConnectionGUID: sfFSKR1ZSW2a2xM4czPbBg==
+X-CSE-MsgGUID: HjLPVzB2QV6DOny0ngffrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
+   d="scan'208";a="115147883"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 18 Feb 2025 23:22:33 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkePZ-0001Lz-1d;
+	Wed, 19 Feb 2025 07:22:26 +0000
+Date: Wed, 19 Feb 2025 15:21:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: JP Kobryn <inwardvessel@gmail.com>, shakeel.butt@linux.dev,
+	tj@kernel.org, mhocko@kernel.org, hannes@cmpxchg.org,
+	yosryahmed@google.com, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 04/11] cgroup: introduce cgroup_rstat_ops
+Message-ID: <202502191558.xCTZRkPs-lkp@intel.com>
+References: <20250218031448.46951-5-inwardvessel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,118 +65,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250218031448.46951-5-inwardvessel@gmail.com>
 
-Hi Pavel,
+Hi JP,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e5d3fd687aac5eceb1721fa92b9f49afcf4c3717
-commit: 035af94b39fd13751abf5f0a2948c9eddede55d0 [3999/4377] io_uring/zcrx: grab a net device
-config: i386-randconfig-141-20250218 (https://download.01.org/0day-ci/archive/20250219/202502190532.W7NnmyiP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+[auto build test WARNING on tj-cgroup/for-next]
+[also build test WARNING on bpf-next/master bpf/master linus/master v6.14-rc3 next-20250219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/JP-Kobryn/cgroup-move-rstat-pointers-into-struct-of-their-own/20250218-111725
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20250218031448.46951-5-inwardvessel%40gmail.com
+patch subject: [PATCH 04/11] cgroup: introduce cgroup_rstat_ops
+config: arc-randconfig-002-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191558.xCTZRkPs-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502191558.xCTZRkPs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502190532.W7NnmyiP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502191558.xCTZRkPs-lkp@intel.com/
 
-smatch warnings:
-io_uring/zcrx.c:223 io_register_zcrx_ifq() warn: missing unwind goto?
+All warnings (new ones prefixed by >>):
 
-vim +223 io_uring/zcrx.c
+>> kernel/cgroup/rstat.c:210: warning: Function parameter or struct member 'ops' not described in 'cgroup_rstat_push_children'
+>> kernel/cgroup/rstat.c:269: warning: Function parameter or struct member 'ops' not described in 'cgroup_rstat_updated_list'
+>> kernel/cgroup/rstat.c:465: warning: Function parameter or struct member 'ops' not described in '__cgroup_rstat_flush_release'
+   kernel/cgroup/rstat.c:465: warning: expecting prototype for cgroup_rstat_flush_release(). Prototype was for __cgroup_rstat_flush_release() instead
 
-6f377873cb2390 David Wei      2025-02-14  160  int io_register_zcrx_ifq(struct io_ring_ctx *ctx,
-6f377873cb2390 David Wei      2025-02-14  161  			  struct io_uring_zcrx_ifq_reg __user *arg)
-6f377873cb2390 David Wei      2025-02-14  162  {
-cf96310c5f9a0d David Wei      2025-02-14  163  	struct io_uring_zcrx_area_reg area;
-6f377873cb2390 David Wei      2025-02-14  164  	struct io_uring_zcrx_ifq_reg reg;
-6f377873cb2390 David Wei      2025-02-14  165  	struct io_uring_region_desc rd;
-6f377873cb2390 David Wei      2025-02-14  166  	struct io_zcrx_ifq *ifq;
-6f377873cb2390 David Wei      2025-02-14  167  	int ret;
-6f377873cb2390 David Wei      2025-02-14  168  
-6f377873cb2390 David Wei      2025-02-14  169  	/*
-6f377873cb2390 David Wei      2025-02-14  170  	 * 1. Interface queue allocation.
-6f377873cb2390 David Wei      2025-02-14  171  	 * 2. It can observe data destined for sockets of other tasks.
-6f377873cb2390 David Wei      2025-02-14  172  	 */
-6f377873cb2390 David Wei      2025-02-14  173  	if (!capable(CAP_NET_ADMIN))
-6f377873cb2390 David Wei      2025-02-14  174  		return -EPERM;
-6f377873cb2390 David Wei      2025-02-14  175  
-6f377873cb2390 David Wei      2025-02-14  176  	/* mandatory io_uring features for zc rx */
-6f377873cb2390 David Wei      2025-02-14  177  	if (!(ctx->flags & IORING_SETUP_DEFER_TASKRUN &&
-6f377873cb2390 David Wei      2025-02-14  178  	      ctx->flags & IORING_SETUP_CQE32))
-6f377873cb2390 David Wei      2025-02-14  179  		return -EINVAL;
-6f377873cb2390 David Wei      2025-02-14  180  	if (ctx->ifq)
-6f377873cb2390 David Wei      2025-02-14  181  		return -EBUSY;
-6f377873cb2390 David Wei      2025-02-14  182  	if (copy_from_user(&reg, arg, sizeof(reg)))
-6f377873cb2390 David Wei      2025-02-14  183  		return -EFAULT;
-6f377873cb2390 David Wei      2025-02-14  184  	if (copy_from_user(&rd, u64_to_user_ptr(reg.region_ptr), sizeof(rd)))
-6f377873cb2390 David Wei      2025-02-14  185  		return -EFAULT;
-6f377873cb2390 David Wei      2025-02-14  186  	if (memchr_inv(&reg.__resv, 0, sizeof(reg.__resv)))
-6f377873cb2390 David Wei      2025-02-14  187  		return -EINVAL;
-6f377873cb2390 David Wei      2025-02-14  188  	if (reg.if_rxq == -1 || !reg.rq_entries || reg.flags)
-6f377873cb2390 David Wei      2025-02-14  189  		return -EINVAL;
-6f377873cb2390 David Wei      2025-02-14  190  	if (reg.rq_entries > IO_RQ_MAX_ENTRIES) {
-6f377873cb2390 David Wei      2025-02-14  191  		if (!(ctx->flags & IORING_SETUP_CLAMP))
-6f377873cb2390 David Wei      2025-02-14  192  			return -EINVAL;
-6f377873cb2390 David Wei      2025-02-14  193  		reg.rq_entries = IO_RQ_MAX_ENTRIES;
-6f377873cb2390 David Wei      2025-02-14  194  	}
-6f377873cb2390 David Wei      2025-02-14  195  	reg.rq_entries = roundup_pow_of_two(reg.rq_entries);
-6f377873cb2390 David Wei      2025-02-14  196  
-cf96310c5f9a0d David Wei      2025-02-14  197  	if (copy_from_user(&area, u64_to_user_ptr(reg.area_ptr), sizeof(area)))
-6f377873cb2390 David Wei      2025-02-14  198  		return -EFAULT;
-6f377873cb2390 David Wei      2025-02-14  199  
-6f377873cb2390 David Wei      2025-02-14  200  	ifq = io_zcrx_ifq_alloc(ctx);
-6f377873cb2390 David Wei      2025-02-14  201  	if (!ifq)
-6f377873cb2390 David Wei      2025-02-14  202  		return -ENOMEM;
-6f377873cb2390 David Wei      2025-02-14  203  
-6f377873cb2390 David Wei      2025-02-14  204  	ret = io_allocate_rbuf_ring(ifq, &reg, &rd);
-6f377873cb2390 David Wei      2025-02-14  205  	if (ret)
-6f377873cb2390 David Wei      2025-02-14  206  		goto err;
-6f377873cb2390 David Wei      2025-02-14  207  
-cf96310c5f9a0d David Wei      2025-02-14  208  	ret = io_zcrx_create_area(ifq, &ifq->area, &area);
-cf96310c5f9a0d David Wei      2025-02-14  209  	if (ret)
-cf96310c5f9a0d David Wei      2025-02-14  210  		goto err;
-cf96310c5f9a0d David Wei      2025-02-14  211  
-6f377873cb2390 David Wei      2025-02-14  212  	ifq->rq_entries = reg.rq_entries;
-6f377873cb2390 David Wei      2025-02-14  213  	ifq->if_rxq = reg.if_rxq;
-6f377873cb2390 David Wei      2025-02-14  214  
-035af94b39fd13 Pavel Begunkov 2025-02-14  215  	ret = -ENODEV;
-035af94b39fd13 Pavel Begunkov 2025-02-14  216  	ifq->netdev = netdev_get_by_index(current->nsproxy->net_ns, reg.if_idx,
-035af94b39fd13 Pavel Begunkov 2025-02-14  217  					  &ifq->netdev_tracker, GFP_KERNEL);
-035af94b39fd13 Pavel Begunkov 2025-02-14  218  	if (!ifq->netdev)
-035af94b39fd13 Pavel Begunkov 2025-02-14  219  		goto err;
-035af94b39fd13 Pavel Begunkov 2025-02-14  220  
-035af94b39fd13 Pavel Begunkov 2025-02-14  221  	ifq->dev = ifq->netdev->dev.parent;
-035af94b39fd13 Pavel Begunkov 2025-02-14  222  	if (!ifq->dev)
-035af94b39fd13 Pavel Begunkov 2025-02-14 @223  		return -EOPNOTSUPP;
 
-goto err;
+vim +210 kernel/cgroup/rstat.c
 
-035af94b39fd13 Pavel Begunkov 2025-02-14  224  	get_device(ifq->dev);
-035af94b39fd13 Pavel Begunkov 2025-02-14  225  
-6f377873cb2390 David Wei      2025-02-14  226  	reg.offsets.rqes = sizeof(struct io_uring);
-6f377873cb2390 David Wei      2025-02-14  227  	reg.offsets.head = offsetof(struct io_uring, head);
-6f377873cb2390 David Wei      2025-02-14  228  	reg.offsets.tail = offsetof(struct io_uring, tail);
-6f377873cb2390 David Wei      2025-02-14  229  
-6f377873cb2390 David Wei      2025-02-14  230  	if (copy_to_user(arg, &reg, sizeof(reg)) ||
-6f377873cb2390 David Wei      2025-02-14  231  	    copy_to_user(u64_to_user_ptr(reg.region_ptr), &rd, sizeof(rd))) {
-6f377873cb2390 David Wei      2025-02-14  232  		ret = -EFAULT;
-6f377873cb2390 David Wei      2025-02-14  233  		goto err;
-6f377873cb2390 David Wei      2025-02-14  234  	}
-cf96310c5f9a0d David Wei      2025-02-14  235  	if (copy_to_user(u64_to_user_ptr(reg.area_ptr), &area, sizeof(area))) {
-cf96310c5f9a0d David Wei      2025-02-14  236  		ret = -EFAULT;
-cf96310c5f9a0d David Wei      2025-02-14  237  		goto err;
-cf96310c5f9a0d David Wei      2025-02-14  238  	}
-6f377873cb2390 David Wei      2025-02-14  239  	ctx->ifq = ifq;
-6f377873cb2390 David Wei      2025-02-14  240  	return 0;
-6f377873cb2390 David Wei      2025-02-14  241  err:
-6f377873cb2390 David Wei      2025-02-14  242  	io_zcrx_ifq_free(ifq);
-6f377873cb2390 David Wei      2025-02-14  243  	return ret;
-6f377873cb2390 David Wei      2025-02-14  244  }
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  194  
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  195  /**
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  196   * cgroup_rstat_push_children - push children cgroups into the given list
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  197   * @head: current head of the list (= subtree root)
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  198   * @child: first child of the root
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  199   * @cpu: target cpu
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  200   * Return: A new singly linked list of cgroups to be flush
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  201   *
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  202   * Iteratively traverse down the cgroup_rstat_cpu updated tree level by
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  203   * level and push all the parents first before their next level children
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  204   * into a singly linked list built from the tail backward like "pushing"
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  205   * cgroups into a stack. The root is pushed by the caller.
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  206   */
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  207  static struct cgroup_rstat *cgroup_rstat_push_children(
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  208  	struct cgroup_rstat *head, struct cgroup_rstat *child, int cpu,
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  209  	struct cgroup_rstat_ops *ops)
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30 @210  {
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  211  	struct cgroup_rstat *chead = child;	/* Head of child cgroup level */
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  212  	struct cgroup_rstat *ghead = NULL;	/* Head of grandchild cgroup level */
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  213  	struct cgroup_rstat *parent, *grandchild;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  214  	struct cgroup_rstat_cpu *crstatc;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  215  
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  216  	child->rstat_flush_next = NULL;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  217  
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  218  next_level:
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  219  	while (chead) {
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  220  		child = chead;
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  221  		chead = child->rstat_flush_next;
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  222  		parent = ops->parent_fn(child);
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  223  
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  224  		/* updated_next is parent cgroup terminated */
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  225  		while (child != parent) {
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  226  			child->rstat_flush_next = head;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  227  			head = child;
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  228  			crstatc = rstat_cpu(child, cpu);
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  229  			grandchild = crstatc->updated_children;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  230  			if (grandchild != child) {
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  231  				/* Push the grand child to the next level */
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  232  				crstatc->updated_children = child;
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  233  				grandchild->rstat_flush_next = ghead;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  234  				ghead = grandchild;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  235  			}
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  236  			child = crstatc->updated_next;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  237  			crstatc->updated_next = NULL;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  238  		}
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  239  	}
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  240  
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  241  	if (ghead) {
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  242  		chead = ghead;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  243  		ghead = NULL;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  244  		goto next_level;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  245  	}
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  246  	return head;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  247  }
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  248  
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  249  /**
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  250   * cgroup_rstat_updated_list - return a list of updated cgroups to be flushed
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  251   * @root: root of the cgroup subtree to traverse
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  252   * @cpu: target cpu
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  253   * Return: A singly linked list of cgroups to be flushed
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  254   *
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  255   * Walks the updated rstat_cpu tree on @cpu from @root.  During traversal,
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  256   * each returned cgroup is unlinked from the updated tree.
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  257   *
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  258   * The only ordering guarantee is that, for a parent and a child pair
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  259   * covered by a given traversal, the child is before its parent in
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  260   * the list.
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  261   *
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  262   * Note that updated_children is self terminated and points to a list of
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  263   * child cgroups if not empty. Whereas updated_next is like a sibling link
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  264   * within the children list and terminated by the parent cgroup. An exception
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  265   * here is the cgroup root whose updated_next can be self terminated.
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  266   */
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  267  static struct cgroup_rstat *cgroup_rstat_updated_list(
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  268  		struct cgroup_rstat *root, int cpu, struct cgroup_rstat_ops *ops)
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25 @269  {
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  270  	raw_spinlock_t *cpu_lock = per_cpu_ptr(&cgroup_rstat_cpu_lock, cpu);
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  271  	struct cgroup_rstat_cpu *rstatc = rstat_cpu(root, cpu);
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  272  	struct cgroup_rstat *head = NULL, *parent, *child;
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  273  	struct cgroup *cgrp;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  274  	unsigned long flags;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  275  
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  276  	cgrp = ops->cgroup_fn(root);
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  277  	flags = _cgroup_rstat_cpu_lock(cpu_lock, cpu, cgrp, false);
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  278  
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  279  	/* Return NULL if this subtree is not on-list */
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  280  	if (!rstatc->updated_next)
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  281  		goto unlock_ret;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  282  
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  283  	/*
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  284  	 * Unlink @root from its parent. As the updated_children list is
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  285  	 * singly linked, we have to walk it to find the removal point.
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  286  	 */
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  287  	parent = ops->parent_fn(root);
+dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  288  	if (parent) {
+dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  289  		struct cgroup_rstat_cpu *prstatc;
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  290  		struct cgroup_rstat **nextp;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  291  
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  292  		prstatc = rstat_cpu(parent, cpu);
+c58632b3631cb2 kernel/cgroup/rstat.c Tejun Heo       2018-04-26  293  		nextp = &prstatc->updated_children;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  294  		while (*nextp != root) {
+dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  295  			struct cgroup_rstat_cpu *nrstatc;
+dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  296  
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  297  			nrstatc = rstat_cpu(*nextp, cpu);
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  298  			WARN_ON_ONCE(*nextp == parent);
+c58632b3631cb2 kernel/cgroup/rstat.c Tejun Heo       2018-04-26  299  			nextp = &nrstatc->updated_next;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  300  		}
+c58632b3631cb2 kernel/cgroup/rstat.c Tejun Heo       2018-04-26  301  		*nextp = rstatc->updated_next;
+dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  302  	}
+9a9e97b2f1f27e kernel/cgroup/rstat.c Tejun Heo       2018-04-26  303  
+dc26532aed0ab2 kernel/cgroup/rstat.c Johannes Weiner 2021-04-29  304  	rstatc->updated_next = NULL;
+e76d28bdf9ba53 kernel/cgroup/rstat.c Waiman Long     2023-11-03  305  
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  306  	/* Push @root to the list first before pushing the children */
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  307  	head = root;
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  308  	root->rstat_flush_next = NULL;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  309  	child = rstatc->updated_children;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  310  	rstatc->updated_children = root;
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  311  	if (child != root)
+d67ed623c585f2 kernel/cgroup/rstat.c JP Kobryn       2025-02-17  312  		head = cgroup_rstat_push_children(head, child, cpu, ops);
+d499fd418fa159 kernel/cgroup/rstat.c Waiman Long     2023-11-30  313  unlock_ret:
+3d844899ba042a kernel/cgroup/rstat.c JP Kobryn       2025-02-17  314  	_cgroup_rstat_cpu_unlock(cpu_lock, cpu, cgrp, flags, false);
+e76d28bdf9ba53 kernel/cgroup/rstat.c Waiman Long     2023-11-03  315  	return head;
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  316  }
+041cd640b2f3c5 kernel/cgroup/stat.c  Tejun Heo       2017-09-25  317  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
