@@ -1,105 +1,133 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E3F1CCEF0;
-	Wed, 19 Feb 2025 09:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFDC1C7013
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 09:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739958555; cv=none; b=jXTzg3xj8Mb4bODQdpd/6pEbjHphFV/03ArxEPV0vwtqR1hg/N2G44pEi+CYtNUeIVq/WbC7+6BEqPedgKaFn8peww8TThcFoQlnHgyZ4+o1bxkY6mKv4Eb1mFZt74Bg7oLjWf7aMiLekqdh7o/wNi/symu5QrEOT80SQbE9mq4=
+	t=1739958940; cv=none; b=pteP3HR/EKB0ICo8s6ANi9HEnsNw0iHuolVFMvMLDqd6Mq42WtrPjwLl/hEf/5aoieIlPyDne3y7PM6YE6hja8U7zFddygFrDUfWx358wFF0DlLwYXHhqTwWE108rrrodCLqlfUVy+OByO7zfBHwIiYceIMp7mwA2zQ6lmbwnN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739958555; c=relaxed/simple;
-	bh=IDdKOPjCrlEO+d9xrqCUMISosxj48iipqqT4b+hx/+I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bqJXxIn3DKwyDWCB5L0fTyWZhsebRgJkgKkI8Dof6JRcf1AtPHQy/KVbmeobwNOCRFOOFUsdwy9OL3JhIL/OUX6peq9Gx5j46pCVDCvuOxGEhcxZVEndUB3+9JQL5J+VoWg3DxxmlXoNtNAyxQ3RblDxy5CRXH8wA2Bn7Twb+sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZAZx5mCs; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739958940; c=relaxed/simple;
+	bh=XfgjO5JffOLafFQn5ca4WAlxHH5UNe/agS8RJHfrt10=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=nuId48qdpZhJnFyG9nNMqadJ6o/fZKViDZxDyIwNPJk+iy0Tsw2TKgpOu68lAufXU/r92ET2l5iesr+JmDFHpH1l5sohn+QRR6FtxTUhEEpmEFiQV7Ka8gQhgBmR9+xuL13riJkZD/GmIy7gva+FWPNPD2eByuNXkRUSuvFciyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=fail smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OrPY42s+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bPke+1rN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OrPY42s+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bPke+1rN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZAZx5mCs"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abbdf897503so41864666b.0;
-        Wed, 19 Feb 2025 01:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739958552; x=1740563352; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=38FDnIWBk/hMvvKZAZkdIWl6cijPdX14mYcohSV/aX0=;
-        b=ZAZx5mCsZBrqo1rMRx/UtkRj0d5P4MoAaUvTKvzrk+v/bVSnDyxI35nsFQWfdgk+7q
-         cwWmOe8MJAPXcv8dWwsXQSzOV3wTFtJU0xoANgPxdyRDFuAZo+kl7ikvsDdGkFO1gyuQ
-         fB2phfCUJ63m2xFO/UfOdy5LXGMqAMY7w/amuPr78o8GnyVYiRUXX+65bj/co7xRIWdQ
-         aIT9d49ZYiVLoOc7zauw78Ysi3EoG95xI4JHGtVV4BkrXrsuSi6CqsPLC0ThNX15pS//
-         PTw17eCXmptyILPwwxCT0XRtU+7AMCa3UUbzAw39fmqr57PmUsOFYXElrZuPZtQgxeBM
-         9ZTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739958552; x=1740563352;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=38FDnIWBk/hMvvKZAZkdIWl6cijPdX14mYcohSV/aX0=;
-        b=bAm0lDteq5tMVlN06AuFhcGQoGKE37chfgWF0jwB9tNUY5IZQgvzw+s+GcJ4EqeiAc
-         bkkaOA+k4PWDjBXBCUAg0EjukPMMnMg+Jm/8mrGISitfWXA0Pa+wlyBjzYiO82CFHLWL
-         +FskDLDjMtOdT7UbX0d/yxRXeu5PEx/w73TFtEUon4SPuv875rJ+CKsKMfKG4Dlbt1VK
-         5VdDp8hol4zfmKsZrTjKOoQty2aCn5miTjS6DtLU8HE1L7nKfeQZKv/l5pGiSaiGBaoG
-         nDkjB+itAUvxMZAi4nCSmYa4EdwSJXyqXsJryFmE9lsykpgNDEAsbz6dUM//cuumANXL
-         2J2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUH4oZUv28S5kdhkk7qZh1MQXzBnH7XaClim3hSd+DHzIjwAd5QSzCKw/OJ1dVnUakSpDPQyxtR7ZZQuoq1@lists.linux.dev, AJvYcCVd7ySPi1QP0QHcNMuyZPOIL/dZgaGygQHWFCojjIsRyUIvSY3H6gW051YyrBu5fuqb54XPeU1BrUqZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyL2g8xH/0Z6eD1IdUssBADt6BucDklrUOVxGXuYj4nshkeocKp
-	ybu70fVNsj8nKOCmWI7ZT1BDx4siV/AecSqT3cjL1BaPHonJAWUgMUscdg==
-X-Gm-Gg: ASbGnctLYJcnLVixbYyjctC1TSk41iEWbAO4kCfnLL427kwSv2v2L08xH9DiJ7jSWUQ
-	42C3F5ITro+66FlUIVQY11gy2G4P01cAl9In5a06/4oRiYn9cjcDnclcnQcTfDnffM2/C9kVCdt
-	7yNXpLCsYJk/U72Aib7RDIMG+8DnAayJ/cB3Kcf15TYnvtCcz7rmr31mL/rQ2vG1YIIsmNeOX74
-	CCcUrpa4Y2g5aitiYRQj0iqVXhnPmoytqJfmPa/AF9VXM27ofR+mle4G0yc56v9LsVLJwjsw0nS
-	xmVUXTeGdofrxjzDz0tQ79fWRO3JPQq3ZS16a7ySE5dwNvsm
-X-Google-Smtp-Source: AGHT+IGtNbC/AL8G7JwNITVBrH6AzXwe+c022KZdL3yHX+FgpnhCwb52Hpe3yeMpCZPU64H/OFWdvQ==
-X-Received: by 2002:a17:906:99d6:b0:ab7:cf7c:f9ed with SMTP id a640c23a62f3a-abbcc7ef0a3mr263267566b.24.1739958551650;
-        Wed, 19 Feb 2025 01:49:11 -0800 (PST)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:cfff])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1d3624sm10318487a12.40.2025.02.19.01.49.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Feb 2025 01:49:09 -0800 (PST)
-Message-ID: <e6f8ffd6-57f7-413c-9e45-8b68d3979278@gmail.com>
-Date: Wed, 19 Feb 2025 09:50:15 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OrPY42s+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bPke+1rN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OrPY42s+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bPke+1rN"
+Received: from hawking.nue2.suse.org (unknown [IPv6:2a07:de40:a101:3:92b1:1cff:fe69:ddc])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 00DF721185;
+	Wed, 19 Feb 2025 09:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739958937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWOzKHlJd0Tx7cilSjlnarbibqkqDv9kgfoq44xSml8=;
+	b=OrPY42s+Iz0DDp7jQ10/IgWUAKYG2TmOYzGo/n8uTvyOvSsqMc5r6NA+jVxp9pS/6vIu1L
+	+SLSg5OQ13sk/9ASsxsgdIVKJAXLoc0bU+btZQRCScU1sTkvMDdW5cYr3FBQNL2Z2QKdul
+	hXQOVbhtp54M8ZkL3Cl0xLls16jnNf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739958937;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWOzKHlJd0Tx7cilSjlnarbibqkqDv9kgfoq44xSml8=;
+	b=bPke+1rNdmap+obVN5mdP1owQdTmz1xbylHWuKLoQ2JMpy2btU7YFyuknXQ06MyJBoVjlD
+	1qF9suTBVr7lapCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OrPY42s+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bPke+1rN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1739958937; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWOzKHlJd0Tx7cilSjlnarbibqkqDv9kgfoq44xSml8=;
+	b=OrPY42s+Iz0DDp7jQ10/IgWUAKYG2TmOYzGo/n8uTvyOvSsqMc5r6NA+jVxp9pS/6vIu1L
+	+SLSg5OQ13sk/9ASsxsgdIVKJAXLoc0bU+btZQRCScU1sTkvMDdW5cYr3FBQNL2Z2QKdul
+	hXQOVbhtp54M8ZkL3Cl0xLls16jnNf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1739958937;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWOzKHlJd0Tx7cilSjlnarbibqkqDv9kgfoq44xSml8=;
+	b=bPke+1rNdmap+obVN5mdP1owQdTmz1xbylHWuKLoQ2JMpy2btU7YFyuknXQ06MyJBoVjlD
+	1qF9suTBVr7lapCw==
+Received: by hawking.nue2.suse.org (Postfix, from userid 17005)
+	id BF0EA4A04B3; Wed, 19 Feb 2025 10:55:36 +0100 (CET)
+From: Andreas Schwab <schwab@suse.de>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: kernel test robot <lkp@intel.com>,  oe-kbuild-all@lists.linux.dev,
+  Palmer Dabbelt <palmer@rivosinc.com>,  Andrew Jones
+ <ajones@ventanamicro.com>
+Subject: Re: [linux-next:master 3383/4377]
+ include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast
+ truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+In-Reply-To: <CAHVXubgqm=E2qm_EKtYX4m8WHmt8Fjj0CZqh3Qxio0x_0G5EjA@mail.gmail.com>
+	(Alexandre Ghiti's message of "Wed, 19 Feb 2025 10:38:59 +0100")
+References: <202502191201.7fARkW7m-lkp@intel.com>
+	<CAHVXubgqm=E2qm_EKtYX4m8WHmt8Fjj0CZqh3Qxio0x_0G5EjA@mail.gmail.com>
+Date: Wed, 19 Feb 2025 10:55:36 +0100
+Message-ID: <mvmjz9mxnqf.fsf@suse.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 3999/4377] io_uring/zcrx.c:223
- io_register_zcrx_ifq() warn: missing unwind goto?
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jens Axboe
- <axboe@kernel.dk>, David Wei <dw@davidwei.uk>
-References: <9123f4ac-233a-41df-b50e-9865e528bd60@stanley.mountain>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <9123f4ac-233a-41df-b50e-9865e528bd60@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Spam-Level: **
+X-Spamd-Result: default: False [2.59 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	HFILTER_HOSTNAME_UNKNOWN(2.50)[];
+	RDNS_NONE(2.00)[];
+	ONCE_RECEIVED(1.20)[];
+	HFILTER_HELO_IP_A(1.00)[hawking.nue2.suse.org];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	HFILTER_HELO_NORES_A_OR_MX(0.30)[hawking.nue2.suse.org];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.987];
+	RCVD_NO_TLS_LAST(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DIRECT_TO_MX(0.00)[Gnus/5.13 (Gnus v5.13)];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_FIVE(0.00)[5];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid]
+X-Spam-Score: 2.59
+X-Spamd-Bar: ++
+X-Rspamd-Queue-Id: 00DF721185
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On 2/19/25 07:21, Dan Carpenter wrote:
-> Hi Pavel,
-...
-> smatch warnings:
-> io_uring/zcrx.c:223 io_register_zcrx_ifq() warn: missing unwind goto?
->  
-> vim +223 io_uring/zcrx.c
-...
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  215  	ret = -ENODEV;
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  216  	ifq->netdev = netdev_get_by_index(current->nsproxy->net_ns, reg.if_idx,
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  217  					  &ifq->netdev_tracker, GFP_KERNEL);
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  218  	if (!ifq->netdev)
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  219  		goto err;
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  220
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  221  	ifq->dev = ifq->netdev->dev.parent;
-> 035af94b39fd13 Pavel Begunkov 2025-02-14  222  	if (!ifq->dev)
-> 035af94b39fd13 Pavel Begunkov 2025-02-14 @223  		return -EOPNOTSUPP;
-> 
-> goto err;
+On Feb 19 2025, Alexandre Ghiti wrote:
 
-Yes, you're right, thanks for letting us know!
+> I don't get it, everything here is 64-bit and commit "riscv/atomic: Do
+> proper sign extension also for unsigned in arch_cmpxchg" introduced a
+> cast *only* for 32-bit values.  Could that be a false-positive?
+
+Yes, it is.  All the arch_cmpxchg macros are type-generic macros, and
+the path that casts the value is never executed if sizeof(*__ptr) == 8,
+but sparse does not understand that (and gcc doesn't either when it
+generates the -Wpointer-to-int-cast warning).
 
 -- 
-Pavel Begunkov
-
+Andreas Schwab, SUSE Labs, schwab@suse.de
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
