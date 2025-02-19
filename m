@@ -1,65 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D95B1ADC8D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 04:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80B519AD89
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 04:52:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739940768; cv=none; b=NNHfGIpNv3GTQgkbo+R+rb9mNcS+X1JR+M+XGIONZS9tFmyU3VsG97rE8zBZWb18Ow6KxW8gD6wSf5os6jcwu4EqwUmphKsJugiEYONK/kCciGBTAii7pEg0wtdiRaKDG+BMKiyN+UTAZgWeC8h5IgcEFS+3d6d1c1eEiDaZmdA=
+	t=1739940774; cv=none; b=sTvfhgvmPa2FLJQ2OPR9pn5GD6bofBp9TtkxgxFVI3yiXRsXFsh9w5jMepGd/UGqcM6OuBmbFT1anwiWxmCSEP5ZfzdVNAwzOuQHhA/c7HX1ucEHNVLoRima1ve1Zne3i3NAxmCysHtY20xPzdl9eFiC9bZLDqt2ry4BYyZ5Fg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739940768; c=relaxed/simple;
-	bh=Q8ctQsR2351bxrMFb8cCweqJBN/E/bdNGQaYMMTG9Iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LhhzisOVZYCkeuvCAhSFH7RaqAu55y7B6LPA2VnCcrTMJxA8s90ppfcrlDGLvVb4Ck6tNfNlqThWbMalqqmGIZ+bRibeL0DYqO5bFjm2gq4IOHsMqcl5nghUhl6I9wpKabID1G+hHGurleILS1pOvZ5IrVQRUiFA03Zz078rd5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YakXu136; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1739940774; c=relaxed/simple;
+	bh=jTM/DidQIAQIM7NA8h+c4nmBxUnGnUfVg2rSKNC+K0E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vAYKZ67+VuB+leKgTxGOfZabniM+WHWkv9aYsOIZ+h2OU9LO+NwutIC2ky19YBgUN2Fxcpnfkp/8F87PYvrp8zdbGl/yVmnVBbSkk+ek4xJUOwEfWLuTLCcL0nlUdYIyC4e+x0ooqe4WShWbwruR9yfQjsgzPNqxI+hke8/kZGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ar7q7XGo; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YakXu136"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ar7q7XGo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739940766; x=1771476766;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q8ctQsR2351bxrMFb8cCweqJBN/E/bdNGQaYMMTG9Iw=;
-  b=YakXu13654mDgOI7mW4oAn9mjGPkLRTHjEQzPQ0tJpScgzAODLK8m83M
-   +WDXTZnFEIF2MuukIbWNuqCo1EaKsUdYizY0vmX4ZCKQIFHs2lVCwPEM2
-   Sx2rGyrnDeUfLPVHSKnjwjdBEDukzQP2x9PJfSP4EXj7+q7aBWqKFUVNN
-   YTsIfUvdcQK8nxujoTlrs+hcODin5Ot1UwfUlseFqarA9anin2l4MSkPu
-   n72MAQgh0tJ6bWMzn9lwiWBZdwgBlkfNbMHKStoEKizjoOe98YU+5062q
-   e6eNb+2+OHeS4/PHL+zz+ucgzSotgYTBAtqMA6/CTRlLgNwFCmeyGs7DD
+  t=1739940773; x=1771476773;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jTM/DidQIAQIM7NA8h+c4nmBxUnGnUfVg2rSKNC+K0E=;
+  b=ar7q7XGoBk6i8UTOJGIE3nuPWxpO0g54IidildmCu1q95QN2yo1LLqE6
+   T7h7wfkKXZMJsmVdWBljLzj29UPOUJNNWr3GFkCXmXudcGM3a0ci0Nrfj
+   ZgxdDc8Ui6BNwXwQiDsIAQTY2KsYpJZmYDhoSVJcKDqFlPz6rYRxAVb6G
+   c8P6M/6c482jDq7MRkLPTTM/wIv+DB2c6KZ2iWLsCCc36ShMhm1wTzIhj
+   HF1XnYYN/4nyo9FA+Vy9d2M7pJi7IG6j2n5lU+sV3SeBP2+ycbaw7XnLa
+   7ZufuLcSjIuTMi2t4Rw6m92ljkGDVSRgyJcvOvRKAVq2BDE02/Wd5JySf
    Q==;
-X-CSE-ConnectionGUID: YVzCFa9MRsu8UFUECTRkUA==
-X-CSE-MsgGUID: dAHLoJtwSVCaOjTqiy6Sfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="43495371"
+X-CSE-ConnectionGUID: wIaVtet2Tb2u6IPneBd7tQ==
+X-CSE-MsgGUID: /Lz8a7AGQ5GdpKZTKw5z5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="43495379"
 X-IronPort-AV: E=Sophos;i="6.13,298,1732608000"; 
-   d="scan'208";a="43495371"
+   d="scan'208";a="43495379"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 20:52:45 -0800
-X-CSE-ConnectionGUID: 3uZNm+txTRiSv/mFjGpSzQ==
-X-CSE-MsgGUID: y6PB4NRPQL61whdOUES/kQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 20:52:53 -0800
+X-CSE-ConnectionGUID: cRX6lExdRDSJ6zPLWLcHoA==
+X-CSE-MsgGUID: E1jYjrDDTSakJs7oerV/ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119254335"
+   d="scan'208";a="119254348"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Feb 2025 20:52:42 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 18 Feb 2025 20:52:51 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkc4S-0001Fd-38;
-	Wed, 19 Feb 2025 04:52:33 +0000
-Date: Wed, 19 Feb 2025 12:52:15 +0800
+	id 1tkc4e-0001Fh-0a;
+	Wed, 19 Feb 2025 04:52:43 +0000
+Date: Wed, 19 Feb 2025 12:51:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, saurabhg.gupta@intel.com,
-	alex.zuo@intel.com, jonathan.cavitt@intel.com,
-	joonas.lahtinen@linux.intel.com, tvrtko.ursulin@linux.intel.com,
-	lucas.demarch@intel.com, matthew.brost@intel.com,
-	dri-devel@lists.freedesktop.org, simona.vetter@ffwll.ch
-Subject: Re: [PATCH v2 6/6] drm/xe/xe_query: Add support for per-drm-client
- reset stat querying
-Message-ID: <202502191202.It7kBP8q-lkp@intel.com>
-References: <20250218202426.103151-7-jonathan.cavitt@intel.com>
+To: Andreas Schwab <schwab@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>
+Subject: [linux-next:master 3383/4377]
+ include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast
+ truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+Message-ID: <202502191201.7fARkW7m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,226 +64,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218202426.103151-7-jonathan.cavitt@intel.com>
 
-Hi Jonathan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20250218]
-[cannot apply to linus/master v6.14-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_exec_queue-Add-ID-param-to-exec-queue-struct/20250219-042528
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250218202426.103151-7-jonathan.cavitt%40intel.com
-patch subject: [PATCH v2 6/6] drm/xe/xe_query: Add support for per-drm-client reset stat querying
-config: xtensa-randconfig-001-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191202.It7kBP8q-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250219/202502191202.It7kBP8q-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e5d3fd687aac5eceb1721fa92b9f49afcf4c3717
+commit: 1898300abf3508bca152e65b36cce5bf93d7e63e [3383/4377] riscv/atomic: Do proper sign extension also for unsigned in arch_cmpxchg
+config: riscv-randconfig-r111-20250219 (https://download.01.org/0day-ci/archive/20250219/202502191201.7fARkW7m-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20250219/202502191201.7fARkW7m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502191202.It7kBP8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502191201.7fARkW7m-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/atomic64_test.c: note: in included file (through include/linux/atomic.h):
+>> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (aaa31337c001d00d becomes c001d00d)
+>> include/linux/atomic/atomic-arch-fallback.h:4152:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+   include/linux/atomic/atomic-arch-fallback.h:4181:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+   include/linux/atomic/atomic-arch-fallback.h:4209:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
+   include/linux/atomic/atomic-arch-fallback.h:4234:16: sparse: sparse: cast truncates bits from constant value (faceabadf00df001 becomes f00df001)
 
-   drivers/gpu/drm/xe/xe_query.c: In function 'calc_reset_stats_size':
->> drivers/gpu/drm/xe/xe_query.c:749:26: error: 'struct xe_drm_client' has no member named 'blame_lock'
-     749 |         spin_lock(&client->blame_lock);
-         |                          ^~
->> drivers/gpu/drm/xe/xe_query.c:750:62: error: 'struct xe_drm_client' has no member named 'blame_len'
-     750 |         size += sizeof(struct drm_xe_exec_queue_ban) * client->blame_len;
-         |                                                              ^~
-   drivers/gpu/drm/xe/xe_query.c:751:26: error: 'struct xe_drm_client' has no member named 'blame_lock'
-     751 |         spin_lock(&client->blame_lock);
-         |                          ^~
-   drivers/gpu/drm/xe/xe_query.c: In function 'query_reset_stats':
->> drivers/gpu/drm/xe/xe_query.c:778:47: error: 'struct xe_drm_client' has no member named 'reset_count'
-     778 |         resp.reset_count = atomic_read(&client->reset_count);
-         |                                               ^~
-   drivers/gpu/drm/xe/xe_query.c:780:26: error: 'struct xe_drm_client' has no member named 'blame_lock'
-     780 |         spin_lock(&client->blame_lock);
-         |                          ^~
-   drivers/gpu/drm/xe/xe_query.c:781:32: error: 'struct xe_drm_client' has no member named 'blame_len'
-     781 |         resp.ban_count = client->blame_len;
-         |                                ^~
-   In file included from include/linux/list.h:5,
-                    from include/linux/smp.h:12,
-                    from include/linux/sched/clock.h:5,
-                    from drivers/gpu/drm/xe/xe_query.c:9:
->> drivers/gpu/drm/xe/xe_query.c:782:39: error: 'struct xe_drm_client' has no member named 'blame_list'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |                                       ^~
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_query.c:782:9: note: in expansion of macro 'list_for_each_entry'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5:
->> drivers/gpu/drm/xe/xe_query.c:782:39: error: 'struct xe_drm_client' has no member named 'blame_list'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |                                       ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_query.c:782:9: note: in expansion of macro 'list_for_each_entry'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/xe/xe_query.c:782:39: error: 'struct xe_drm_client' has no member named 'blame_list'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |                                       ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_query.c:782:9: note: in expansion of macro 'list_for_each_entry'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:483:27: error: expression in static assertion is not an integer
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_query.c:782:9: note: in expansion of macro 'list_for_each_entry'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |         ^~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/xe/xe_query.c:782:39: error: 'struct xe_drm_client' has no member named 'blame_list'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |                                       ^~
-   include/linux/list.h:761:37: note: in definition of macro 'list_entry_is_head'
-     761 |         list_is_head(&pos->member, (head))
-         |                                     ^~~~
-   drivers/gpu/drm/xe/xe_query.c:782:9: note: in expansion of macro 'list_for_each_entry'
-     782 |         list_for_each_entry(b, &client->blame_list, list) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_query.c:800:28: error: 'struct xe_drm_client' has no member named 'blame_lock'
-     800 |         spin_unlock(&client->blame_lock);
-         |                            ^~
+vim +4152 include/linux/atomic/atomic-arch-fallback.h
 
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4126  
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4127  /**
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4128   * raw_atomic64_cmpxchg() - atomic compare and exchange with full ordering
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4129   * @v: pointer to atomic64_t
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4130   * @old: s64 value to compare with
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4131   * @new: s64 value to assign
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4132   *
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4133   * If (@v == @old), atomically updates @v to @new with full ordering.
+6dfee110c6cc7a include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2024-02-09  4134   * Otherwise, @v is not modified and relaxed ordering is provided.
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4135   *
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4136   * Safe to use in noinstr code; prefer atomic64_cmpxchg() elsewhere.
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4137   *
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4138   * Return: The original value of @v.
+ad8110706f3811 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4139   */
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4140  static __always_inline s64
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4141  raw_atomic64_cmpxchg(atomic64_t *v, s64 old, s64 new)
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4142  {
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4143  #if defined(arch_atomic64_cmpxchg)
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4144  	return arch_atomic64_cmpxchg(v, old, new);
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4145  #elif defined(arch_atomic64_cmpxchg_relaxed)
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4146  	s64 ret;
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4147  	__atomic_pre_full_fence();
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4148  	ret = arch_atomic64_cmpxchg_relaxed(v, old, new);
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4149  	__atomic_post_full_fence();
+37f8173dd84936 include/linux/atomic-arch-fallback.h        Peter Zijlstra 2020-01-24  4150  	return ret;
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4151  #else
+9257959a6e5b4f include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05 @4152  	return raw_cmpxchg(&v->counter, old, new);
+d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4153  #endif
+1d78814d41701c include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4154  }
+d12157efc8e083 include/linux/atomic/atomic-arch-fallback.h Mark Rutland   2023-06-05  4155  
 
-vim +749 drivers/gpu/drm/xe/xe_query.c
+:::::: The code at line 4152 was first introduced by commit
+:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
 
-   744	
-   745	static size_t calc_reset_stats_size(struct xe_drm_client *client)
-   746	{
-   747		size_t size = sizeof(struct drm_xe_query_reset_stats);
-   748	
- > 749		spin_lock(&client->blame_lock);
- > 750		size += sizeof(struct drm_xe_exec_queue_ban) * client->blame_len;
-   751		spin_lock(&client->blame_lock);
-   752	
-   753		return size;
-   754	}
-   755	
-   756	static int query_reset_stats(struct xe_device *xe,
-   757				     struct drm_xe_device_query *query,
-   758				     struct drm_file *file)
-   759	{
-   760		void __user *query_ptr = u64_to_user_ptr(query->data);
-   761		struct drm_xe_query_reset_stats resp;
-   762		struct xe_file *xef = to_xe_file(file);
-   763		struct xe_drm_client *client = xef->client;
-   764		struct blame *b;
-   765		size_t size = calc_reset_stats_size(client);
-   766		int i = 0;
-   767	
-   768		if (query->size == 0) {
-   769			query->size = size;
-   770			return 0;
-   771		} else if (XE_IOCTL_DBG(xe, query->size != size)) {
-   772			return -EINVAL;
-   773		}
-   774	
-   775		if (copy_from_user(&resp, query_ptr, size))
-   776			return -EFAULT;
-   777	
- > 778		resp.reset_count = atomic_read(&client->reset_count);
-   779	
-   780		spin_lock(&client->blame_lock);
- > 781		resp.ban_count = client->blame_len;
- > 782		list_for_each_entry(b, &client->blame_list, list) {
-   783			struct drm_xe_exec_queue_ban *ban = &resp.ban_list[i++];
-   784			struct pagefault *pf = b->pf;
-   785	
-   786			ban->exec_queue_id = b->exec_queue_id;
-   787			ban->pf_found = pf ? 1 : 0;
-   788			if (!pf)
-   789				continue;
-   790	
-   791			ban->access_type = pf->access_type;
-   792			ban->fault_type = pf->fault_type;
-   793			ban->vfid = pf->vfid;
-   794			ban->asid = pf->asid;
-   795			ban->pdata = pf->pdata;
-   796			ban->engine_class = xe_to_user_engine_class[pf->engine_class];
-   797			ban->engine_instance = pf->engine_instance;
-   798			ban->fault_addr = pf->page_addr;
-   799		}
-   800		spin_unlock(&client->blame_lock);
-   801	
-   802		if (copy_to_user(query_ptr, &resp, size))
-   803			return -EFAULT;
-   804	
-   805		return 0;
-   806	}
-   807	
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
