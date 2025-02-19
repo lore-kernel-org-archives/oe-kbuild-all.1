@@ -1,193 +1,477 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C482821A457
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 19:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24CA722A81E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 19:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739992280; cv=none; b=W1+58+kahZFTq5KGSxnN5VlSA5v50jbgeMMm/NHHG5/rE4xPCPm3e4xWTZdEupiMtGJpVS1eHeByuo8MHvnY/ciaccCRxjEP8xw0i92JoAF5dbs6Uc+LDgYkkXGWzpr3wsNfj3DPdVx0COMYWLyaFRSzhqrJq3uccUcRKpBvBLo=
+	t=1739993193; cv=none; b=CRJoUpnQnliJiIuwhmBuVHhSLZfTLuQoKTdqbL1LEF4RL0OMv3/rJ8xYlZE7dOXJ9YrxO/FAmZak6OLcoAmYWHui44P6IM5IMpCbXMB7/xXjk5IxXfFqyTY5am27QIzhLKdxCZaoqx0gHXcY9Dd78jO56EssZ4Gkwhs22Nr+Tl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739992280; c=relaxed/simple;
-	bh=/21m/vouBSiUZS0wnkimrb7aqiEeXaFVsVQtevvwhss=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VpS53GJXPzE4upfu47dsoknj+NC1GOSBlw+UYTaigN0raK3Ox4F6Vfx2p1h9zZAUVAaa5nOEEr8eZAk1DGRO88xUaPdOuroMFtEIKUfJ0AGNyQ+JvezsPpEpTPWpxQMOcqGADA6lxGT8c1cpUizjHeuSayaCVxaEV+xwDu+RwV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxL/0Wml; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1739993193; c=relaxed/simple;
+	bh=Ra74+gM4LAblYhCTrF0FnwQS8bdQC38UMf/+Yv3jF0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TK1iBsowcVBgd0+8IieyJi2+1T4ZqacbtrItOwUYYks1kr37ggxvWkzqSSwCDhI423QlyutxUqiKKFxKLg3dfFSzWm63J8OIBt/xKwVC0GUorKOnrW40RpUwlRsbKrFuJmkcKEMCnDPKto55P+on5zoEErm9SqHT3PqpuOGAgzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJF4aRkG; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxL/0Wml"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJF4aRkG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739992279; x=1771528279;
-  h=date:from:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/21m/vouBSiUZS0wnkimrb7aqiEeXaFVsVQtevvwhss=;
-  b=kxL/0WmlVWC20Dj92cIZhCEcRLKjouMLHttQX3SF6ulQxP3SqWUlpJ41
-   K0Yp68vXF1pKAAsXJzjclTVLFJHOWpYxdGDhtbY6vuA6qFahodOVyaacS
-   kNz6JKT+GwaeYaVTRNNo6i44trTWzAF7dxopZGtUNJg9luFIakTgR4mwI
-   YZXZH1u3874z6uu/nsWti+tXRuuttEyAQcA1j0ewagFaiZIH2a3faeSm5
-   +EGPEKI5sOqwMbsyKvA3GIsbN80jHM0Fjj3g1KjOu3juZNpNGgo1yXK5k
-   5bzDvRtbjP14820V7gx1imrRVuFE/yRM1rcbXpGybqevnpj3ZA8w9W1Gb
-   g==;
-X-CSE-ConnectionGUID: aX/1R9YLQmKBXrb5s6pCwg==
-X-CSE-MsgGUID: j53lzQkmTwyRcoUmdi39zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="41006138"
+  t=1739993191; x=1771529191;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ra74+gM4LAblYhCTrF0FnwQS8bdQC38UMf/+Yv3jF0Q=;
+  b=FJF4aRkGYjFLD7BM2sRAPaHmgo1oiRdd4qqOlfXjofH5n9Ho2FTq6jal
+   fWL2ia1C3XLAy1Mo5oumBHuizjbMJCHd9iMTLUBgbstIT+3t/CQJOYxve
+   IHIUQWXYAKJ4++fiwlomcA0rZpCvfDbo0mJ1WDVRGBg/g706yBur96S5h
+   rrP5XLlErjLsEpUaFJDlOMVLor7/soy79itkafIGUq2+SBI6+oqWxiCe3
+   XBaQJ7dQOrC303I9j/4Yz8SE27iCPubPKnyp9yBdnE101ohQnX3TvdNvy
+   m+QKn9UqUe75/wnQh/7qp7SxVl1NbQYS9DRnBZPyvHfpN39x0tZSuotgV
+   Q==;
+X-CSE-ConnectionGUID: e53iPtxDSWamO9lIizM6aA==
+X-CSE-MsgGUID: pWEMf2pVTKOteBWO3hBePQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="52156479"
 X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
-   d="scan'208";a="41006138"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 11:11:18 -0800
-X-CSE-ConnectionGUID: AA0prw1uTEK/h9hQA2ztFQ==
-X-CSE-MsgGUID: ssUXG/6FScyz2BUuPSc8IA==
+   d="scan'208";a="52156479"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 11:26:31 -0800
+X-CSE-ConnectionGUID: YCo1f/N6Q+SrO7GBVjb7Qg==
+X-CSE-MsgGUID: Ym77USorSpaHhzcRNu3Shw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115285575"
+X-IronPort-AV: E=Sophos;i="6.13,299,1732608000"; 
+   d="scan'208";a="114551634"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 19 Feb 2025 11:11:17 -0800
+  by orviesa009.jf.intel.com with ESMTP; 19 Feb 2025 11:22:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkpTW-0003MB-2X;
-	Wed, 19 Feb 2025 19:11:14 +0000
-Date: Thu, 20 Feb 2025 03:11:00 +0800
+	id 1tkpeB-0003Md-2h;
+	Wed, 19 Feb 2025 19:22:19 +0000
+Date: Thu, 20 Feb 2025 03:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/mtd/mtdpart.c:985:34: warning: '%s' directive argument is
- null
-Message-ID: <202502200318.2gMnYLgi-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:cap-analysis/dev 30/31] include/linux/sched/task.h:231:1:
+ warning: spinlock 'p->.alloc_lock' is still held at the end of function
+Message-ID: <202502200305.Fr12eLSo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Greg,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6537cfb395f352782918d8ee7b7f10ba2cc3cbf2
-commit: 239a5791ffd5559f51815df442c4dbbe7fc21ade dynamic_debug: allow to work if debugfs is disabled
-date:   5 years ago
-config: um-randconfig-r113-20240905 (https://download.01.org/0day-ci/archive/20250220/202502200318.2gMnYLgi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200318.2gMnYLgi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git cap-analysis/dev
+head:   e064f46a74e53c4986a0acc07a4c60dbea0b0aa5
+commit: 26bf30e9185ae72092b427b8a21621b0838354e4 [30/31] drivers/tty: Enable capability analysis for core files
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250220/202502200305.Fr12eLSo-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 910be4ff90d7d07bd4518ea03b85c0974672bf9c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200305.Fr12eLSo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502200318.2gMnYLgi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502200305.Fr12eLSo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   cc1: warning: arch/um/include/uapi: No such file or directory [-Wmissing-include-dirs]
-   In file included from include/linux/kernel.h:15,
-                    from include/linux/list.h:9,
-                    from include/linux/module.h:12,
-                    from drivers/mtd/mtdpart.c:10:
-   drivers/mtd/mtdpart.c: In function 'parse_mtd_partitions':
->> drivers/mtd/mtdpart.c:985:34: warning: '%s' directive argument is null [-Wformat-overflow=]
-     985 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                                  ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:288:21: note: in definition of macro 'pr_fmt'
-     288 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/dynamic_debug.h:143:9: note: in expansion of macro '__dynamic_func_call'
-     143 |         __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:153:9: note: in expansion of macro '_dynamic_func_call'
-     153 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:335:9: note: in expansion of macro 'dynamic_pr_debug'
-     335 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/mtd/mtdpart.c:985:25: note: in expansion of macro 'pr_debug'
-     985 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                         ^~~~~~~~
-   drivers/mtd/mtdpart.c:985:50: note: format string is defined here
-     985 |                         pr_debug("%s: got parser %s\n", master->name,
-         |                                                  ^~
+   In file included from drivers/tty/tty_io.c:73:
+   In file included from include/linux/sched/signal.h:9:
+>> include/linux/sched/task.h:231:1: warning: spinlock 'p->.alloc_lock' is still held at the end of function [-Wthread-safety-analysis]
+     231 | }
+         | ^
+   include/linux/sched/task.h:230:2: note: spinlock acquired here
+     230 |         spin_lock(&p->alloc_lock);
+         |         ^
+>> include/linux/sched/task.h:235:2: warning: releasing spinlock 'p->.alloc_lock' that was not held [-Wthread-safety-analysis]
+     235 |         spin_unlock(&p->alloc_lock);
+         |         ^
+   In file included from drivers/tty/tty_io.c:73:
+>> include/linux/sched/signal.h:741:2: warning: releasing spinlock 'task->.sighand->siglock' that was not held [-Wthread-safety-analysis]
+     741 |         spin_unlock_irqrestore(&task->sighand->siglock, *flags);
+         |         ^
+   In file included from drivers/tty/tty_io.c:75:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:131:
+   In file included from include/asm-generic/io.h:1108:
+   include/linux/pgtable.h:136:2: warning: releasing __capability_RCU 'RCU' that was not held [-Wthread-safety-analysis]
+     136 |         rcu_read_unlock();
+         |         ^
+   In file included from drivers/tty/tty_io.c:75:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:578:
+   In file included from include/linux/irqdesc.h:6:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   In file included from include/linux/idr.h:15:
+   include/linux/radix-tree.h:260:2: warning: releasing local_lock 'radix_tree_preloads.lock' that was not held [-Wthread-safety-analysis]
+     260 |         local_unlock(&radix_tree_preloads.lock);
+         |         ^
+   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
+      37 | #define local_unlock(lock)              __local_unlock(lock)
+         |                                         ^
+   include/linux/local_lock_internal.h:103:3: note: expanded from macro '__local_unlock'
+     103 |                 __release(lock);                                \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:291:23: note: expanded from macro '__release'
+     291 | #define __release(x)            __release_cap(x)
+         |                                 ^
+   In file included from drivers/tty/tty_io.c:75:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:578:
+   In file included from include/linux/irqdesc.h:6:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   include/linux/idr.h:174:2: warning: releasing local_lock 'radix_tree_preloads.lock' that was not held [-Wthread-safety-analysis]
+     174 |         local_unlock(&radix_tree_preloads.lock);
+         |         ^
+   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
+      37 | #define local_unlock(lock)              __local_unlock(lock)
+         |                                         ^
+   include/linux/local_lock_internal.h:103:3: note: expanded from macro '__local_unlock'
+     103 |                 __release(lock);                                \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:291:23: note: expanded from macro '__release'
+     291 | #define __release(x)            __release_cap(x)
+         |                                 ^
+   In file included from drivers/tty/tty_io.c:75:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   include/linux/irq.h:1226:1: warning: raw_spinlock 'gc->lock' is still held at the end of function [-Wthread-safety-analysis]
+    1226 | }
+         | ^
+   include/linux/irq.h:1225:2: note: raw_spinlock acquired here
+    1225 |         raw_spin_lock(&gc->lock);
+         |         ^
+   include/linux/spinlock.h:218:29: note: expanded from macro 'raw_spin_lock'
+     218 | #define raw_spin_lock(lock)     _raw_spin_lock(lock)
+         |                                 ^
+   In file included from drivers/tty/tty_io.c:75:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   include/linux/irq.h:1230:2: warning: releasing raw_spinlock 'gc->lock' that was not held [-Wthread-safety-analysis]
+    1230 |         raw_spin_unlock(&gc->lock);
+         |         ^
+   include/linux/spinlock.h:277:32: note: expanded from macro 'raw_spin_unlock'
+     277 | #define raw_spin_unlock(lock)           _raw_spin_unlock(lock)
+         |                                         ^
+   In file included from drivers/tty/tty_io.c:75:
+   include/linux/interrupt.h:239:1: warning: 'assert_capability' attribute requires arguments whose type is annotated with 'capability' attribute; type here is 'int *' [-Wthread-safety-attributes]
+     239 | DEFINE_LOCK_GUARD_1(disable_irq, int,
+         | ^
+   include/linux/cleanup.h:413:60: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
+     413 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
+         |                                                                         ^
+   include/linux/cleanup.h:390:27: note: expanded from macro '\
+   __DEFINE_LOCK_GUARD_1'
+     390 |         __no_capability_analysis __asserts_cap(l)                       \
+         |                                  ^
+   include/linux/compiler-capability-analysis.h:21:46: note: expanded from macro '__asserts_cap'
+      21 | # define __asserts_cap(var)                     __attribute__((assert_capability(var)))
+         |                                                                ^
+   In file included from drivers/tty/tty_io.c:76:
+   In file included from include/linux/tty.h:5:
+--
+   In file included from drivers/tty/n_tty.c:40:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:15:
+   include/linux/radix-tree.h:260:2: warning: releasing local_lock 'radix_tree_preloads.lock' that was not held [-Wthread-safety-analysis]
+     260 |         local_unlock(&radix_tree_preloads.lock);
+         |         ^
+   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
+      37 | #define local_unlock(lock)              __local_unlock(lock)
+         |                                         ^
+   include/linux/local_lock_internal.h:103:3: note: expanded from macro '__local_unlock'
+     103 |                 __release(lock);                                \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:291:23: note: expanded from macro '__release'
+     291 | #define __release(x)            __release_cap(x)
+         |                                 ^
+   In file included from drivers/tty/n_tty.c:40:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:9:
+>> include/linux/sched/task.h:231:1: warning: spinlock 'p->.alloc_lock' is still held at the end of function [-Wthread-safety-analysis]
+     231 | }
+         | ^
+   include/linux/sched/task.h:230:2: note: spinlock acquired here
+     230 |         spin_lock(&p->alloc_lock);
+         |         ^
+>> include/linux/sched/task.h:235:2: warning: releasing spinlock 'p->.alloc_lock' that was not held [-Wthread-safety-analysis]
+     235 |         spin_unlock(&p->alloc_lock);
+         |         ^
+   In file included from drivers/tty/n_tty.c:40:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+>> include/linux/sched/signal.h:741:2: warning: releasing spinlock 'task->.sighand->siglock' that was not held [-Wthread-safety-analysis]
+     741 |         spin_unlock_irqrestore(&task->sighand->siglock, *flags);
+         |         ^
+   In file included from drivers/tty/n_tty.c:40:
+   In file included from include/linux/poll.h:10:
+   include/linux/fs.h:545:1: warning: rw_semaphore 'mapping->i_mmap_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     545 | }
+         | ^
+   include/linux/fs.h:544:2: note: rw_semaphore acquired here
+     544 |         down_write(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:554:2: warning: releasing rw_semaphore 'mapping->i_mmap_rwsem' that was not held [-Wthread-safety-analysis]
+     554 |         up_write(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:565:1: warning: rw_semaphore 'mapping->i_mmap_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     565 | }
+         | ^
+   include/linux/fs.h:564:2: note: rw_semaphore acquired here
+     564 |         down_read(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:569:2: warning: releasing rw_semaphore 'mapping->i_mmap_rwsem' that was not held [-Wthread-safety-analysis]
+     569 |         up_read(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:878:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     878 | }
+         | ^
+   include/linux/fs.h:877:2: note: rw_semaphore acquired here
+     877 |         down_write(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:882:2: warning: releasing rw_semaphore 'inode->i_rwsem' that was not held [-Wthread-safety-analysis]
+     882 |         up_write(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:888:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     888 | }
+         | ^
+   include/linux/fs.h:887:2: note: rw_semaphore acquired here
+     887 |         down_read(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:892:2: warning: releasing rw_semaphore 'inode->i_rwsem' that was not held [-Wthread-safety-analysis]
+     892 |         up_read(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:913:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     913 | }
+         | ^
+   include/linux/fs.h:912:2: note: rw_semaphore acquired here
+     912 |         down_write_nested(&inode->i_rwsem, subclass);
+         |         ^
+   include/linux/fs.h:918:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     918 | }
+         | ^
+   include/linux/fs.h:917:2: note: rw_semaphore acquired here
+     917 |         down_read_nested(&inode->i_rwsem, subclass);
+         |         ^
+   include/linux/fs.h:923:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+     923 | }
+         | ^
+   include/linux/fs.h:922:2: note: rw_semaphore acquired here
+     922 |         down_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:927:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+     927 |         up_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:933:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+     933 | }
+         | ^
+   include/linux/fs.h:932:2: note: rw_semaphore acquired here
+     932 |         down_read(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:944:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+     944 |         up_read(&mapping->invalidate_lock);
+         |         ^
+   In file included from drivers/tty/n_tty.c:46:
+   In file included from include/linux/tty.h:9:
+   In file included from include/linux/tty_driver.h:9:
+   In file included from include/linux/cdev.h:5:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   include/linux/idr.h:174:2: warning: releasing local_lock 'radix_tree_preloads.lock' that was not held [-Wthread-safety-analysis]
+     174 |         local_unlock(&radix_tree_preloads.lock);
+         |         ^
+   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
+      37 | #define local_unlock(lock)              __local_unlock(lock)
+         |                                         ^
+   include/linux/local_lock_internal.h:103:3: note: expanded from macro '__local_unlock'
+     103 |                 __release(lock);                                \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:291:23: note: expanded from macro '__release'
+     291 | #define __release(x)            __release_cap(x)
+         |                                 ^
+   In file included from drivers/tty/n_tty.c:46:
+   In file included from include/linux/tty.h:9:
+   In file included from include/linux/tty_driver.h:9:
+   In file included from include/linux/cdev.h:8:
+   include/linux/device.h:1031:1: warning: mutex 'dev->mutex' is still held at the end of function [-Wthread-safety-analysis]
+    1031 | }
+         | ^
+   include/linux/device.h:1030:2: note: mutex acquired here
+    1030 |         mutex_lock(&dev->mutex);
+         |         ^
+   include/linux/mutex.h:167:26: note: expanded from macro 'mutex_lock'
+--
+   In file included from drivers/tty/tty_ioctl.c:14:
+   In file included from include/linux/sched/signal.h:9:
+>> include/linux/sched/task.h:231:1: warning: spinlock 'p->.alloc_lock' is still held at the end of function [-Wthread-safety-analysis]
+     231 | }
+         | ^
+   include/linux/sched/task.h:230:2: note: spinlock acquired here
+     230 |         spin_lock(&p->alloc_lock);
+         |         ^
+>> include/linux/sched/task.h:235:2: warning: releasing spinlock 'p->.alloc_lock' that was not held [-Wthread-safety-analysis]
+     235 |         spin_unlock(&p->alloc_lock);
+         |         ^
+   In file included from drivers/tty/tty_ioctl.c:14:
+>> include/linux/sched/signal.h:741:2: warning: releasing spinlock 'task->.sighand->siglock' that was not held [-Wthread-safety-analysis]
+     741 |         spin_unlock_irqrestore(&task->sighand->siglock, *flags);
+         |         ^
+   In file included from drivers/tty/tty_ioctl.c:17:
+   In file included from include/linux/tty.h:5:
+   In file included from include/linux/fs.h:15:
+   include/linux/radix-tree.h:260:2: warning: releasing local_lock 'radix_tree_preloads.lock' that was not held [-Wthread-safety-analysis]
+     260 |         local_unlock(&radix_tree_preloads.lock);
+         |         ^
+   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
+      37 | #define local_unlock(lock)              __local_unlock(lock)
+         |                                         ^
+   include/linux/local_lock_internal.h:103:3: note: expanded from macro '__local_unlock'
+     103 |                 __release(lock);                                \
+         |                 ^
+   include/linux/compiler-capability-analysis.h:291:23: note: expanded from macro '__release'
+     291 | #define __release(x)            __release_cap(x)
+         |                                 ^
+   In file included from drivers/tty/tty_ioctl.c:17:
+   In file included from include/linux/tty.h:5:
+   include/linux/fs.h:545:1: warning: rw_semaphore 'mapping->i_mmap_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     545 | }
+         | ^
+   include/linux/fs.h:544:2: note: rw_semaphore acquired here
+     544 |         down_write(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:554:2: warning: releasing rw_semaphore 'mapping->i_mmap_rwsem' that was not held [-Wthread-safety-analysis]
+     554 |         up_write(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:565:1: warning: rw_semaphore 'mapping->i_mmap_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     565 | }
+         | ^
+   include/linux/fs.h:564:2: note: rw_semaphore acquired here
+     564 |         down_read(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:569:2: warning: releasing rw_semaphore 'mapping->i_mmap_rwsem' that was not held [-Wthread-safety-analysis]
+     569 |         up_read(&mapping->i_mmap_rwsem);
+         |         ^
+   include/linux/fs.h:878:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     878 | }
+         | ^
+   include/linux/fs.h:877:2: note: rw_semaphore acquired here
+     877 |         down_write(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:882:2: warning: releasing rw_semaphore 'inode->i_rwsem' that was not held [-Wthread-safety-analysis]
+     882 |         up_write(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:888:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     888 | }
+         | ^
+   include/linux/fs.h:887:2: note: rw_semaphore acquired here
+     887 |         down_read(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:892:2: warning: releasing rw_semaphore 'inode->i_rwsem' that was not held [-Wthread-safety-analysis]
+     892 |         up_read(&inode->i_rwsem);
+         |         ^
+   include/linux/fs.h:913:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     913 | }
+         | ^
+   include/linux/fs.h:912:2: note: rw_semaphore acquired here
+     912 |         down_write_nested(&inode->i_rwsem, subclass);
+         |         ^
+   include/linux/fs.h:918:1: warning: rw_semaphore 'inode->i_rwsem' is still held at the end of function [-Wthread-safety-analysis]
+     918 | }
+         | ^
+   include/linux/fs.h:917:2: note: rw_semaphore acquired here
+     917 |         down_read_nested(&inode->i_rwsem, subclass);
+         |         ^
+   include/linux/fs.h:923:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+     923 | }
+         | ^
+   include/linux/fs.h:922:2: note: rw_semaphore acquired here
+     922 |         down_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:927:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+     927 |         up_write(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:933:1: warning: rw_semaphore 'mapping->invalidate_lock' is still held at the end of function [-Wthread-safety-analysis]
+     933 | }
+         | ^
+   include/linux/fs.h:932:2: note: rw_semaphore acquired here
+     932 |         down_read(&mapping->invalidate_lock);
+         |         ^
+   include/linux/fs.h:944:2: warning: releasing rw_semaphore 'mapping->invalidate_lock' that was not held [-Wthread-safety-analysis]
+     944 |         up_read(&mapping->invalidate_lock);
+         |         ^
+   In file included from drivers/tty/tty_ioctl.c:17:
+   In file included from include/linux/tty.h:9:
+   In file included from include/linux/tty_driver.h:9:
+   In file included from include/linux/cdev.h:5:
+   In file included from include/linux/kobject.h:20:
+   In file included from include/linux/sysfs.h:16:
+   In file included from include/linux/kernfs.h:12:
+   include/linux/idr.h:174:2: warning: releasing local_lock 'radix_tree_preloads.lock' that was not held [-Wthread-safety-analysis]
+     174 |         local_unlock(&radix_tree_preloads.lock);
+         |         ^
+   include/linux/local_lock.h:37:29: note: expanded from macro 'local_unlock'
+      37 | #define local_unlock(lock)              __local_unlock(lock)
+         |                                         ^
+   include/linux/local_lock_internal.h:103:3: note: expanded from macro '__local_unlock'
+     103 |                 __release(lock);                                \
+..
 
 
-vim +985 drivers/mtd/mtdpart.c
+vim +231 include/linux/sched/task.h
 
-5b644aa012f67f Rafał Miłecki           2018-03-14   941  
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   942  /**
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   943   * parse_mtd_partitions - parse and register MTD partitions
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   944   *
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   945   * @master: the master partition (describes whole MTD device)
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   946   * @types: names of partition parsers to try or %NULL
-c7975330154af1 Dmitry Eremin-Solenikov 2011-06-10   947   * @data: MTD partition parser-specific data
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   948   *
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   949   * This function tries to find & register partitions on MTD device @master. It
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   950   * uses MTD partition parsers, specified in @types. However, if @types is %NULL,
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   951   * then the default list of parsers is used. The default list contains only the
-d26c87d64eff27 Dmitry Eremin-Solenikov 2011-05-29   952   * "cmdlinepart" and "ofpart" parsers ATM.
-c51803ddba10d8 Huang Shijie            2012-08-18   953   * Note: If there are more then one parser in @types, the kernel only takes the
-c51803ddba10d8 Huang Shijie            2012-08-18   954   * partitions parsed out by the first parser.
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   955   *
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   956   * This function may return:
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   957   * o a negative error code in case of failure
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   958   * o number of found partitions otherwise
-ad274cecdbce18 Artem Bityutskiy        2011-06-08   959   */
-26a4734623e4f0 Artem Bityutskiy        2013-03-11   960  int parse_mtd_partitions(struct mtd_info *master, const char *const *types,
-c7975330154af1 Dmitry Eremin-Solenikov 2011-06-10   961  			 struct mtd_part_parser_data *data)
-^1da177e4c3f41 Linus Torvalds          2005-04-16   962  {
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   963  	struct mtd_partitions pparts = { };
-^1da177e4c3f41 Linus Torvalds          2005-04-16   964  	struct mtd_part_parser *parser;
-5a2415b0769233 Brian Norris            2015-10-11   965  	int ret, err = 0;
-^1da177e4c3f41 Linus Torvalds          2005-04-16   966  
-5c4eefbd5bb82a Dmitry Eremin-Solenikov 2011-06-02   967  	if (!types)
-76a832254ab055 Rafał Miłecki           2018-07-13   968  		types = mtd_is_partition(master) ? default_subpartition_types :
-76a832254ab055 Rafał Miłecki           2018-07-13   969  			default_mtd_part_types;
-5c4eefbd5bb82a Dmitry Eremin-Solenikov 2011-06-02   970  
-5a2415b0769233 Brian Norris            2015-10-11   971  	for ( ; *types; types++) {
-5b644aa012f67f Rafał Miłecki           2018-03-14   972  		/*
-5b644aa012f67f Rafał Miłecki           2018-03-14   973  		 * ofpart is a special type that means OF partitioning info
-5b644aa012f67f Rafał Miłecki           2018-03-14   974  		 * should be used. It requires a bit different logic so it is
-5b644aa012f67f Rafał Miłecki           2018-03-14   975  		 * handled in a separated function.
-5b644aa012f67f Rafał Miłecki           2018-03-14   976  		 */
-5b644aa012f67f Rafał Miłecki           2018-03-14   977  		if (!strcmp(*types, "ofpart")) {
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   978  			ret = mtd_part_of_parse(master, &pparts);
-5b644aa012f67f Rafał Miłecki           2018-03-14   979  		} else {
-5b644aa012f67f Rafał Miłecki           2018-03-14   980  			pr_debug("%s: parsing partitions %s\n", master->name,
-5b644aa012f67f Rafał Miłecki           2018-03-14   981  				 *types);
-5531ae4818fb04 Brian Norris            2015-12-04   982  			parser = mtd_part_parser_get(*types);
-^1da177e4c3f41 Linus Torvalds          2005-04-16   983  			if (!parser && !request_module("%s", *types))
-5531ae4818fb04 Brian Norris            2015-12-04   984  				parser = mtd_part_parser_get(*types);
-8e2c992b59fcb5 Michal Suchanek         2015-08-18  @985  			pr_debug("%s: got parser %s\n", master->name,
-8e2c992b59fcb5 Michal Suchanek         2015-08-18   986  				parser ? parser->name : NULL);
-7c802fbd541448 Artem Bityutskiy        2011-05-17   987  			if (!parser)
-^1da177e4c3f41 Linus Torvalds          2005-04-16   988  				continue;
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   989  			ret = mtd_part_do_parse(parser, master, &pparts, data);
-5b644aa012f67f Rafał Miłecki           2018-03-14   990  			if (ret <= 0)
-5b644aa012f67f Rafał Miłecki           2018-03-14   991  				mtd_part_parser_put(parser);
-5b644aa012f67f Rafał Miłecki           2018-03-14   992  		}
-01f9c7240a900d Brian Norris            2017-05-23   993  		/* Found partitions! */
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   994  		if (ret > 0) {
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   995  			err = add_mtd_partitions(master, pparts.parts,
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   996  						 pparts.nr_parts);
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   997  			mtd_part_parser_cleanup(&pparts);
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   998  			return err ? err : pparts.nr_parts;
-5ac67ce36cfe38 Rafał Miłecki           2018-03-27   999  		}
-5a2415b0769233 Brian Norris            2015-10-11  1000  		/*
-5a2415b0769233 Brian Norris            2015-10-11  1001  		 * Stash the first error we see; only report it if no parser
-5a2415b0769233 Brian Norris            2015-10-11  1002  		 * succeeds
-5a2415b0769233 Brian Norris            2015-10-11  1003  		 */
-5a2415b0769233 Brian Norris            2015-10-11  1004  		if (ret < 0 && !err)
-5a2415b0769233 Brian Norris            2015-10-11  1005  			err = ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1006  	}
-5a2415b0769233 Brian Norris            2015-10-11  1007  	return err;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1008  }
-5daa7b21496aeb Roman Tereshonkov       2010-09-17  1009  
+901b14bd946a8b Ingo Molnar           2017-02-03  217  
+56cd697366b6d6 Ingo Molnar           2017-02-06  218  /*
+56cd697366b6d6 Ingo Molnar           2017-02-06  219   * Protects ->fs, ->files, ->mm, ->group_info, ->comm, keyring
+56cd697366b6d6 Ingo Molnar           2017-02-06  220   * subscriptions and synchronises with wait4().  Also used in procfs.  Also
+56cd697366b6d6 Ingo Molnar           2017-02-06  221   * pins the final release of task.io_context.  Also protects ->cpuset and
+85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  222   * ->cgroup.subsys[]. And ->vfork_done. And ->sysvshm.shm_clist.
+56cd697366b6d6 Ingo Molnar           2017-02-06  223   *
+56cd697366b6d6 Ingo Molnar           2017-02-06  224   * Nests both inside and outside of read_lock(&tasklist_lock).
+56cd697366b6d6 Ingo Molnar           2017-02-06  225   * It must not be nested with write_lock_irq(&tasklist_lock),
+56cd697366b6d6 Ingo Molnar           2017-02-06  226   * neither inside nor outside.
+56cd697366b6d6 Ingo Molnar           2017-02-06  227   */
+56cd697366b6d6 Ingo Molnar           2017-02-06  228  static inline void task_lock(struct task_struct *p)
+56cd697366b6d6 Ingo Molnar           2017-02-06  229  {
+56cd697366b6d6 Ingo Molnar           2017-02-06  230  	spin_lock(&p->alloc_lock);
+56cd697366b6d6 Ingo Molnar           2017-02-06 @231  }
+56cd697366b6d6 Ingo Molnar           2017-02-06  232  
+56cd697366b6d6 Ingo Molnar           2017-02-06  233  static inline void task_unlock(struct task_struct *p)
+56cd697366b6d6 Ingo Molnar           2017-02-06  234  {
+56cd697366b6d6 Ingo Molnar           2017-02-06 @235  	spin_unlock(&p->alloc_lock);
+56cd697366b6d6 Ingo Molnar           2017-02-06  236  }
+56cd697366b6d6 Ingo Molnar           2017-02-06  237  
 
-:::::: The code at line 985 was first introduced by commit
-:::::: 8e2c992b59fcb5e56e3667f5c30c7d26fbbf14a2 mtd: mtdpart: add debug prints to partition parser.
+:::::: The code at line 231 was first introduced by commit
+:::::: 56cd697366b6d6f67acb6c58ac7f3b185d11ef07 sched/headers: Move the task_lock()/unlock() APIs to <linux/sched/task.h>
 
-:::::: TO: Michal Suchanek <hramrach@gmail.com>
-:::::: CC: Brian Norris <computersforpeace@gmail.com>
+:::::: TO: Ingo Molnar <mingo@kernel.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
