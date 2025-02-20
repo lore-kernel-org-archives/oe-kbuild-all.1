@@ -1,80 +1,59 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7801DF997
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 05:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B071A920
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 06:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740030618; cv=none; b=F5kRZxcMzA/68RIuTox25QRjmnm6pKVNgc/6VS3P5AisZ9E7eKMx/hPssroIxMVrzsR+6rA5efTKt/mVgna1mh28+aymfP8qJLVD8ULhxTbF9AHJsWQEOiK9HhsE+qNXMCEfyxvhH0j2zRp9rj3dd17sggHEiRDgTvs9q7M8sxg=
+	t=1740031502; cv=none; b=VEvr/G+qQbaIgY93HgV7XqWu9kwU6PysTh0jnsRyYvjzXLw82ONigbMXbykRVTYRLAn3flSPnwA6Tc7azfSKMifVHKe28LjVJpvnfPBI140B6EBhVSLsc27WgeUymTUtUe4z97sUPzSSZeSoDSVwaiJsfOLtKUkRBWalJs1QiT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740030618; c=relaxed/simple;
-	bh=bSs6EObO01GFd1/soPW4V2bEKCnO+2d7+Dd0Cr0R9AQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UMJOtSj2EOsA8IZcqIKMGQBc0/WnsoZyqXQ77dcibT8cITd4oS+SjYMjy8/oelun1W3aYn8wM2o5r+u9PYjD1fqfXVY0e3YZ56RvuLo6r2aH5Ogzgpu+SDfWMTFmYanGvsy72cP2VEUufIldVVhPg6BrNDQmPfC/jXOXvAVJWNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rnTs4CdI; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740031502; c=relaxed/simple;
+	bh=jevWpQWS7+464rnswUl+ITpDSpldFuwfhnjaDC6q6gU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RGuIDnIeIvoUkyySHDHxRzZgRqkJ+xGHDoBQLZItmEeQbZX6YdBkJ5DF3SaX0Du2u/4vvbddfu2VMjcYOQVM2GrllZ15AaYgHWdRbyxMSdDSpZRKJQ/SzfCS3kdrLyqTq82MuV6AtZNa5kdOfvNuZFq+9V9JH4OpYA6No1hBCWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5Z1AZEg; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rnTs4CdI"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abb75200275so89229266b.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Feb 2025 21:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740030612; x=1740635412; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4UdQnDrC//12flSexyKbPIUDcd8LQ6iO5eT8IHA0tm4=;
-        b=rnTs4CdIn7XWwsxzFDPvBb+MvY8uWmhEqxWvZUcssfbisxhRxwQoOwQ+ydRIGrmMnD
-         dEchwHiyOL3V5gxJWioIKBuR8GKIVWyRwKwgNaazDCw7ZxLXL7RYxZkkZhGpNbVZ3v/l
-         ce+mqnI8lfvdQpqCUoWA0UQJNqvqrWoeQf8DGWnO/BeRJ/Cz//KrvSauUZpRVXOjcGMJ
-         XcTMdX/Z9y2PAFo+eWdQADk8a/mk4EEeLYHHdcMqIJ5p6jOAnuNO1b6jcX5/rF1us1q5
-         QV3sRhHDWP7aJ2RDvXkooGkpr5+Dg2FHxtWAOMvr+Cj+vSRDzJQoLqx3AuuM40d1f98k
-         mbPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740030612; x=1740635412;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4UdQnDrC//12flSexyKbPIUDcd8LQ6iO5eT8IHA0tm4=;
-        b=ARAbmra3JAPRx+UurJB2HP0IScfeA2E1UyxVhmIUdgOZFwkEqlBbryxwxaTBlx6mWy
-         enZNZj6lXzFWi0IwIgABcUKUNxpoyqdIpOfsu3VKGPajw+GJ4SqDAdGzdfPuepxuslQZ
-         AqGXWqA3jvjA0V94GMPJVRc9/oXBQlaKoXPxY+PgYe9qQnmAgmrn3NOTaujfR7SN7mrU
-         gbx7rkioWdbZOZRdTBqtqP2la092sbdHqnSFVpiduHifokbALyz9uT6zfRJ9MEb6RYgO
-         LhazklJpmP+zvoWu6sdgbUkNsaz3Wt8+EaAffn5QrZ7O5tocQbx55sxqtnzKLbPkaLFb
-         aAqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWv4xzc0CEuwKSHSPo2E2peBm7xQQcUIPykmFqC7iENcN3kW8P6e7MAv0ov5lsjn18aEezaoXLy+mfG1h7f@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2xKrthnrUTDjXY1nob4B8uaByqIc8cFIO0xfYxghTiwlaTywM
-	4aaNBcYfBpDJd/0YhXP6JLH2fF3r0nshcWD8wRibpZZp6E0BSCNRQEF+bxyFaAU=
-X-Gm-Gg: ASbGncv1bMa2q6Y2VSpY/qnQ+5f+pWsJ2NRQVQ9ZrHBKqOvGLaffFDS2tlJwxa7dYHI
-	p4c66z92jOfd/tGA7bvPDIudHPXMreLhXK3PFMHk5R6VGaiT2QRtirt9M5ouC/Sg02wMLPJHsOY
-	vnP/E7RKuoeMImY/0ddPTaDRMLD3hCcHEtsJIlNqBm8J7UE1sN8QbowdPDFeWL0jdytdhJ+3vxH
-	GohlSIZaM3kCb/Jslyl27Tm6sbhQ1478kRPjXS02/5+o0kohy8z3xuzIJY6Hl8oPij9lYWS7DNd
-	bO97aKA3VAKjlFCfE20K
-X-Google-Smtp-Source: AGHT+IErRbIkqhaq1U1Cvw6m/fzTGdjG/w1CKIiyvbxXGaxWJrO6d40PJ1AJLGV8a9Co67aHSnHXNw==
-X-Received: by 2002:a17:906:314d:b0:ab7:d179:24a2 with SMTP id a640c23a62f3a-abbf380427cmr92734366b.1.1740030612432;
-        Wed, 19 Feb 2025 21:50:12 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abb989d89edsm735442866b.81.2025.02.19.21.50.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 21:50:11 -0800 (PST)
-Date: Thu, 20 Feb 2025 08:50:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Karan Tilak Kumar (kartilak)" <kartilak@cisco.com>
-Cc: "oe-kbuild@lists.linux.dev" <oe-kbuild@lists.linux.dev>,
-	"lkp@intel.com" <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"Sesidhar Baddela (sebaddel)" <sebaddel@cisco.com>,
-	"Gian Carlo Boffa (gcboffa)" <gcboffa@cisco.com>,
-	"Arulprabhu Ponnusamy (arulponn)" <arulponn@cisco.com>,
-	"Arun Easi (aeasi)" <aeasi@cisco.com>
-Subject: Re: drivers/scsi/fnic/fdls_disc.c:263
- fdls_schedule_oxid_free_retry_work() warn: inconsistent indenting
-Message-ID: <5886f4ff-d6be-4804-8c76-c431946128a5@stanley.mountain>
-References: <f1c717cf-63eb-402a-82cc-91c445055b97@stanley.mountain>
- <fd4d8516-5eaa-43b0-9100-2984312930f8@stanley.mountain>
- <SJ0PR11MB58962A4F0B9CFFB9439FF959C3F92@SJ0PR11MB5896.namprd11.prod.outlook.com>
- <SJ0PR11MB5896888C81BFF2EB81E2B533C3C42@SJ0PR11MB5896.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5Z1AZEg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740031501; x=1771567501;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jevWpQWS7+464rnswUl+ITpDSpldFuwfhnjaDC6q6gU=;
+  b=e5Z1AZEgKoV9XwwUhJgn6TLw2Afh78Rz4biunSkRdtnCJh66kz0jxGJn
+   S/q+ZUlz7D3NjpPPoXpxQnjv5OZH4gNAp60NNJYcjCmc4F7H8HQfxTffb
+   nGXXxxycx94H8mSBoA48zdpnThLDEVOxpmyNUvZLQdeZtLesNb85HuDdr
+   9H7GVoNAqgRfwtyPQIwAdqFR2g9lCGRLepCzo15M2Xck+TzM/eBBrvkwq
+   32Xs2fEIZ4p5z36CCKU7BSD01f+FGrAAsXOt44+c4L3Nn01JMT6rOpDsr
+   g+UlL8iTmWZny6yx7ezeHZGZsCavkFA1KvWX3Fv7xf3kkp1dzo0bW6NDG
+   g==;
+X-CSE-ConnectionGUID: qPzLAjCWRNus+FmBwtWBEg==
+X-CSE-MsgGUID: 3fhjM6zuQhakgC1FRmxJpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51438687"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="51438687"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 22:05:00 -0800
+X-CSE-ConnectionGUID: VrT7POvcQfGzOL5VLEUS3w==
+X-CSE-MsgGUID: 0enuceJpStasyQKF3yYUuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="114792555"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 19 Feb 2025 22:04:59 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tkzg8-0003ud-2x;
+	Thu, 20 Feb 2025 06:04:56 +0000
+Date: Thu, 20 Feb 2025 14:04:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Subject: [intel-lts:pr/59 1/1] drivers/tty/serial/8250/8250_port.c:2054:25:
+ warning: unused variable 'up'
+Message-ID: <202502201313.wKrf30dc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,32 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SJ0PR11MB5896888C81BFF2EB81E2B533C3C42@SJ0PR11MB5896.namprd11.prod.outlook.com>
 
-On Thu, Feb 20, 2025 at 03:10:26AM +0000, Karan Tilak Kumar (kartilak) wrote:
-> On Saturday, February 15, 2025 1:03 PM, Karan Tilak Kumar (kartilak) wrote:
-> >
-> > On Friday, February 14, 2025 7:03 AM, Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > >
-> > > On Fri, Feb 14, 2025 at 05:42:25PM +0300, Dan Carpenter wrote:
-> > > >
-> > > > I guess we can't call schedule_delayed_work() without holding the
-> > > > spin_lock?  It's a strange thing.
-> > >
-> > > Actually, I see now that we're just dropping the lock to avoid a sleeping
-> > > in atomic warning with the GFP_ATOMIC allocation...  I bet you could make
-> > > the code under the lock much smaller.  Just the test_and_clear_bit() stuff
-> > > basically.
-> > >
-> > > regards,
-> > > dan carpenter
-> 
-> The window can be further reduced by adding the lock/unlock around the list_add_tail. But this looks good too.
-> 
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 20d2b572f04e7777c14c00eae743d7a4fd329653 [1/1] serial: 8250_port: Remove calls to runtime PM
+config: sparc-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250220/202502201313.wKrf30dc-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201313.wKrf30dc-lkp@intel.com/reproduce)
 
-Could you send the patch for this.  I don't know the code that well and
-can't test it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502201313.wKrf30dc-lkp@intel.com/
 
-regards,
-dan carpenter
+All error/warnings (new ones prefixed by >>):
 
+   drivers/tty/serial/8250/8250_port.c: In function 'serial8250_get_poll_char':
+>> drivers/tty/serial/8250/8250_port.c:2054:25: warning: unused variable 'up' [-Wunused-variable]
+     struct uart_8250_port *up = up_to_u8250p(port);
+                            ^~
+--
+   arch/sparc/kernel/head_32.o: in function `current_pc':
+>> (.head.text+0x2040): relocation truncated to fit: R_SPARC_WDISP22 against `.init.text'
+   arch/sparc/kernel/head_32.o: in function `halt_notsup':
+   (.head.text+0x2100): relocation truncated to fit: R_SPARC_WDISP22 against `.init.text'
+   arch/sparc/kernel/process_32.o:(.fixup+0x4): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/process_32.o:(.fixup+0xc): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x0): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x8): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x10): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x18): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x20): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x28): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
+   arch/sparc/kernel/signal_32.o:(.fixup+0x30): additional relocation overflows omitted from the output
+
+
+vim +/up +2054 drivers/tty/serial/8250/8250_port.c
+
+b6830f6df8914fa Peter Hurley    2015-06-27  2045  
+b6830f6df8914fa Peter Hurley    2015-06-27  2046  #ifdef CONFIG_CONSOLE_POLL
+b6830f6df8914fa Peter Hurley    2015-06-27  2047  /*
+b6830f6df8914fa Peter Hurley    2015-06-27  2048   * Console polling routines for writing and reading from the uart while
+b6830f6df8914fa Peter Hurley    2015-06-27  2049   * in an interrupt or debug context.
+b6830f6df8914fa Peter Hurley    2015-06-27  2050   */
+b6830f6df8914fa Peter Hurley    2015-06-27  2051  
+b6830f6df8914fa Peter Hurley    2015-06-27  2052  static int serial8250_get_poll_char(struct uart_port *port)
+b6830f6df8914fa Peter Hurley    2015-06-27  2053  {
+b6830f6df8914fa Peter Hurley    2015-06-27 @2054  	struct uart_8250_port *up = up_to_u8250p(port);
+b6830f6df8914fa Peter Hurley    2015-06-27  2055  	unsigned char lsr;
+b6830f6df8914fa Peter Hurley    2015-06-27  2056  
+b6830f6df8914fa Peter Hurley    2015-06-27  2057  	lsr = serial_port_in(port, UART_LSR);
+20d2b572f04e777 Andy Shevchenko 2016-11-16  2058  	if (!(lsr & UART_LSR_DR))
+20d2b572f04e777 Andy Shevchenko 2016-11-16  2059  		return NO_POLL_CHAR;
+b6830f6df8914fa Peter Hurley    2015-06-27  2060  
+20d2b572f04e777 Andy Shevchenko 2016-11-16  2061  	return serial_port_in(port, UART_RX);
+b6830f6df8914fa Peter Hurley    2015-06-27  2062  }
+b6830f6df8914fa Peter Hurley    2015-06-27  2063  
+
+:::::: The code at line 2054 was first introduced by commit
+:::::: b6830f6df8914faae9561bb245860c21af9b9e9b serial: 8250: Split base port operations from universal driver
+
+:::::: TO: Peter Hurley <peter@hurleysoftware.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
