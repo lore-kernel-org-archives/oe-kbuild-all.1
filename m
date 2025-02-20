@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7336262D35
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 19:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BA31ADC6C;
+	Thu, 20 Feb 2025 20:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740078608; cv=none; b=FuVMmkPG63e0JLbdTzU0vasUgjVGSx3PzBFPaYVdegQgpxmV+kgiBvN0gmPblI1t+cDl5vosMUEGr0U5MzfIRLx7KtbkuCJT1npkZAfQS1vu0B4BNbeb+qxNX18EZ0BK+QVfkiZbmOS0XDiF4S0/qOQSs5GLBhK3AGKNMUoNBEg=
+	t=1740081696; cv=none; b=ZdzjLLZ0tIN8FWRRu33HtBlxARnQbVEukysBM+UtS4QBfBpdBOBRw1F8pQY9emG3Pfu3CebMQNc6KZErUJ4uDHoxYEXyVlIAzyNOtyRE6nn9jDOVvB8Czl1ASj6kIsm2kqSRGeY9bvJ1zYaGiAe7HeivHwXp67Hr74NAAbmIRrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740078608; c=relaxed/simple;
-	bh=1tQ9o+uMocsNfZfr+QWymv2tkD3cqVaa0pAMpmvmaKM=;
+	s=arc-20240116; t=1740081696; c=relaxed/simple;
+	bh=E/5YCxJbkRWceBzp8kxov21PXkLqMU+DfDqgJpn02Ls=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cPBrgzr96wBI09KmUEouMhPbZTrvT9RCL6IA5cHxMLK1EohDchdUE/93s827TafpQ2g1VeQEEHkNDt7/Nx2univD6vZXt6uVUPJADIok+gzTYjRYez2yL6Yqdi2s+ZvQUorP0CTjXrQHi8OwPSkqHnPqQ/a8mIA+rMQzEwbj9+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNkYQmGm; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=MOlwACnV9MSwy0mSVnzUknL0p+qHhCnGZWgkHmSmhFMET5CDPvLXHFiggc1For4pfK5+oUvC3raQPCUzJlOrSP52/41XbUNkcKWZ1tYwHgExB2Y0IvGmh9H3yLDv6rF+nmkd7Ug18OX3AKvIUn6Q8jeLgGYryu4s8JQ9JzYTGgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DbckWYhs; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNkYQmGm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DbckWYhs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740078607; x=1771614607;
+  t=1740081695; x=1771617695;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1tQ9o+uMocsNfZfr+QWymv2tkD3cqVaa0pAMpmvmaKM=;
-  b=RNkYQmGmuxi5wcHNQoFnlA/KBnrTVNeYB7VDTdozZbKeDC/pDAGJaj3i
-   hbpUsusjzPJ6s14Gh3N/ObCjBZ+Y1tT3yBAiiXGnRKGz6PEKiJOcoNS/t
-   8umU+8Gx1eL+cvIztzriu5Jwo4KEKZS1DddhJTeAlWAn8FbTGhqD20nYp
-   GGIOE6mIcSemisaSz2MaZAXe3Ykk/d0i3DnSVCqE6vmwfR9b8uDGcuc8l
-   IRwA6VuP0nc0rQ5ChNcd2NhurJmTi6oxz/DG8KRZPQ3NAO7SncI4tw+nZ
-   XNzMjrBytjDAiy6mNuc++OyXTUq/eEtBvCxof9UsxZXi3hexFQ/R48yBL
-   Q==;
-X-CSE-ConnectionGUID: tKDGGohaTJamRa96jbltUQ==
-X-CSE-MsgGUID: MSHq5GZKTJSELnBeC9y+Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40799635"
+  bh=E/5YCxJbkRWceBzp8kxov21PXkLqMU+DfDqgJpn02Ls=;
+  b=DbckWYhsxNdUn4hUtulyd4nbd89mpCt8Rkv/VHGhnMF9IYw07v4YpK9V
+   W627sNKPykWX0jL0B/8z4EpnQu6ilERiRwPBM9n/MOzGplkbB0nLX0T1+
+   VilegH9JtmcC7djTRHOLbYtwt08D1i96ro5ofwBIeU6i2goXjghfPFuXC
+   ZhfaKvWxM2yHEZIKLIJmtQVgqdWR2ZvEECa0Gi7QBvBfBtHuIffgJyO6y
+   HF/kM5oVEub/1eW420QTe0mTinG0N6Jc7DI2FfAQFaD75EsaAaO1ca3AV
+   Xm04WPdQWiigiG637DZe9zcsq3ttR/f3eMMMeDegn1E7J7s4hLd3Sc415
+   g==;
+X-CSE-ConnectionGUID: Zn+29eFTRfSxIJTfjEaLDw==
+X-CSE-MsgGUID: 90lXudEpTJqjKNglLTMjNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="41003775"
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="40799635"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 11:10:07 -0800
-X-CSE-ConnectionGUID: cD+YAbxPS+qCXilJIL1H8g==
-X-CSE-MsgGUID: v3ueY5nBQKymx7OJY0ZPqg==
+   d="scan'208";a="41003775"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 12:01:33 -0800
+X-CSE-ConnectionGUID: 0F0tLK/GSHKpKrT5ZrwBuA==
+X-CSE-MsgGUID: ikcp0NtgQ9uuGPvquKXZUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="119747548"
+   d="scan'208";a="138365512"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2025 11:10:04 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2025 12:01:31 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlBvu-0004fZ-23;
-	Thu, 20 Feb 2025 19:10:02 +0000
-Date: Fri, 21 Feb 2025 03:09:48 +0800
+	id 1tlCjg-0004iJ-1d;
+	Thu, 20 Feb 2025 20:01:28 +0000
+Date: Fri, 21 Feb 2025 04:01:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-Message-ID: <202502210336.e9x8ZTh5-lkp@intel.com>
+To: Pei Xiao <xiaopei01@kylinos.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [driver-core:driver-core-testing 5/32] include/linux/device.h:381:9:
+ error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202502210319.SfrlprS5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +65,353 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Darrick,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e9a8cac0bf895efe0bc7b11d174e8dae9b195da8
-commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
-date:   4 months ago
-config: arm-randconfig-003-20250221 (https://download.01.org/0day-ci/archive/20250221/202502210336.e9x8ZTh5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210336.e9x8ZTh5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git driver-core-testing
+head:   820252db26434126c85a78027a1bcbe9c0903204
+commit: cd29796e495160c05a672f3098dffe0fb6ae9daf [5/32] driver core: device.h: fix incorrect type in return expression
+config: s390-randconfig-001-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210319.SfrlprS5-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210319.SfrlprS5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210336.e9x8ZTh5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210319.SfrlprS5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bitfield.h:10,
-                    from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:390,
-                    from include/linux/uuid.h:11,
-                    from fs/xfs/xfs_linux.h:10,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:133:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     133 |         XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,         3);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:136:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     136 |         XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused,      6);
-         |         ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/irqchip/irqchip.c:11:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/irqchip/irqchip.c:11:
+   In file included from include/linux/acpi.h:14:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 6 errors generated.
+--
+   In file included from drivers/dax/device.c:4:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/dax/device.c:6:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/dax/device.c:13:
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     159 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
+     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     160 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
+     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   4 warnings and 6 errors generated.
+--
+   In file included from drivers/leds/leds-pca9532.c:11:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/leds/leds-pca9532.c:12:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-pca9532.c:391:6: warning: variable 'gpios' set but not used [-Wunused-but-set-variable]
+     391 |         int gpios = 0;
+         |             ^
+   3 warnings and 6 errors generated.
+--
+   In file included from drivers/dma-buf/udmabuf.c:3:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/dma-buf/udmabuf.c:3:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:563:9: warning: shift count >= width of type [-Wshift-count-overflow]
+     563 |                                            DMA_BIT_MASK(64));
+         |                                            ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   3 warnings and 6 errors generated.
+--
+   In file included from drivers/input/touchscreen/mms114.c:7:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/input/touchscreen/mms114.c:10:
+   In file included from include/linux/i2c.h:13:
+   In file included from include/linux/acpi.h:14:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/mms114.c:507:15: warning: cast to smaller integer type 'enum mms_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+     507 |         data->type = (enum mms_type)match_data;
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   3 warnings and 6 errors generated.
+--
+   In file included from drivers/gpio/gpiolib-cdev.c:7:
+   In file included from include/linux/cdev.h:8:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpio/gpiolib-cdev.c:7:
+   In file included from include/linux/cdev.h:8:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-cdev.c:1665:2: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+    1665 |         INIT_KFIFO(lr->events);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:135:69: note: expanded from macro 'INIT_KFIFO'
+     135 |         __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
+         |                       ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   3 warnings and 6 errors generated.
+--
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:9:
+   In file included from include/linux/tty_driver.h:9:
+   In file included from include/linux/cdev.h:8:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:9:
+   In file included from include/linux/tty_driver.h:9:
+   In file included from include/linux/cdev.h:8:
+>> include/linux/device.h:381:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+>> include/linux/device.h:381:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     381 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:388:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:388:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     388 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:396:9: error: call to undeclared function 'IOMEM_ERR_PTR'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^
+   include/linux/device.h:396:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
+     396 |         return IOMEM_ERR_PTR(-EINVAL);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/tty_port.c:266:2: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     266 |         INIT_KFIFO(port->xmit_fifo);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:135:69: note: expanded from macro 'INIT_KFIFO'
+     135 |         __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
+         |                       ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   3 warnings and 6 errors generated.
+..
 
 
-vim +78 include/linux/build_bug.h
+vim +/IOMEM_ERR_PTR +381 include/linux/device.h
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   376	
+   377	static inline
+   378	void __iomem *devm_ioremap_resource(struct device *dev,
+   379					    const struct resource *res)
+   380	{
+ > 381		return IOMEM_ERR_PTR(-EINVAL);
+   382	}
+   383	
 
 -- 
 0-DAY CI Kernel Test Service
