@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1FF2F852;
-	Thu, 20 Feb 2025 00:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AB02AE66
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 00:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740012263; cv=none; b=XLmFijGsusDFNCBpQuM1yvBPhMdoYHFjMHt/1cctF4WuZ6HvGlFXD7hy4vKdmRCkYFHPrRlniCv02Yo3Rvd1+9Czx90ojXd9o0HSydHIliKRxUp9VYwpeW1se9agCWWiAcZe/DKZpmUb+APBgjIltgF/OQkJLsVnoCggxhr5meM=
+	t=1740012883; cv=none; b=GA5/DOlbZAI0aHaPEqCgGmAH3QXTI0aihy1Cdg+JtjIxTuHVF/SxPEfPiI7MS+Qdae2DVST54gIPH2IBiPdBh0XRX0rZp0GgL7z2GS8bedxOnBI52yYO4iUXxPFXu5RyWvmRGiVG/GP17sCWhYRMv3WaEnnolkDhWsf2PMKHFME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740012263; c=relaxed/simple;
-	bh=hC7w/ueXz1ar21mfEcIIPDDMtbUij9k8b7g/Dp7FSu8=;
+	s=arc-20240116; t=1740012883; c=relaxed/simple;
+	bh=hwUtCzqyh6aH1mIHsXsfvOdcnu0WliYUJzQAHSkkG70=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HY2AY6s1MkOIquVj+nbVw+PtMUcF8sHVE5psHjCz7vRSmxKc0ro2rgRDOaFIMJh4kWfqS59VaTt3xuII2k/f65zkzwj70KYnLlWLJ1y3fD6v6YcrqQs3izCUk/0t61nRjD+kehxlzkWKxzpgTyJ7xQ85uTptlIiaC0cPfbl8O7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aF+ooXwc; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=esDlrk/g2gCcGHAde9xseo8USbqSDpvLu6M8OPCPIW4x/NMilIJag0Qt4PluZeQBbHQhImER+8qg8ETjxoNjAcdqrTye5536b63YZmJrUOsDxukhV1A5xJOhYJbKURMCCo0zv+QOG13fMY23oT2U4Tj+eTiP1msz2jAWeVIenug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEBV1IaM; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aF+ooXwc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEBV1IaM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740012262; x=1771548262;
+  t=1740012880; x=1771548880;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hC7w/ueXz1ar21mfEcIIPDDMtbUij9k8b7g/Dp7FSu8=;
-  b=aF+ooXwcnu4RvczHU4cUNs4ThW5DG1fTygCm5LGJpNpa6j6Wy8n1FclV
-   2V3xJpKA4B8VYAqcNVaV3n3pH1L5XnfAfVjs5YbRyQ1RH1nYpCgcY9u+U
-   CjaiBAp4qUiHzxLWSJOf9HjaZR1S+yk31OWrlN1Ll6DK5CUchuvI3cTBy
-   wzfQiD3H/XE+plW8GhxYViJ8hbdqwLSLC9i4fl3n6wjvx5BPXNvse4eaT
-   qTw6zikB22LFvx3HU/vkcRE8wk8JzmQe1M2jvK5KmvKI2Gk4F7Zgbi3E/
-   CCmKZSsny98sode3JD6qBUp3ZOoOGW5yc//GRtdlrqeo4Q4M+HrXdhrXJ
+  bh=hwUtCzqyh6aH1mIHsXsfvOdcnu0WliYUJzQAHSkkG70=;
+  b=hEBV1IaM63DUG1hRRr21QcZ0SfdcHNI2nzbZQhEYQ48DbGneMWhVEXFq
+   g+Wu0tXQ6MGAIJxjaMDiqyNzJ0IOivYLTUFlWKwS6V6SUPHeeq27VJOf0
+   NVcSi+YH7CAkDLwWFbzZMbTGuH8UtIpnML4aB7lseCGZOeZu2Dm10qwG+
+   f84p5Qdy5HOtMdG3SrYEQaY9LTUwByboemqm/F9Xu8cxul9yGle57fv+B
+   oQW8r4mYyizFM1fsskl8zMZeeSv2Hhh9o/V04cl73/L7iR9VXIzwA/Fg5
+   T8psbrXtZIs6jFr/2o6e9kTkOWXTIbz7tR2SI7077IjDML+YyUeVM4LiP
    g==;
-X-CSE-ConnectionGUID: jfP8e9gPRS+dxezXiZd5Pg==
-X-CSE-MsgGUID: viFTacSaQjW7eyzAcRRvpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="43604683"
-X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="43604683"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 16:44:21 -0800
-X-CSE-ConnectionGUID: JNzdxpTERAmFE7vg+W2FRg==
-X-CSE-MsgGUID: rqA02sHPTu2v1yaslifJmA==
+X-CSE-ConnectionGUID: BkmGQzO2SsOdj9cbJ5rk5Q==
+X-CSE-MsgGUID: +lBrp5YUREWlinxuy/aHWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52209165"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52209165"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 16:54:39 -0800
+X-CSE-ConnectionGUID: qeMsjbubQyOQIon3FZs7uQ==
+X-CSE-MsgGUID: 4Mqc+Lu2SYmP5XegMdo/+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="119866693"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115785521"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 19 Feb 2025 16:44:20 -0800
+  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2025 16:54:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkufp-0003h9-1o;
-	Thu, 20 Feb 2025 00:44:17 +0000
-Date: Thu, 20 Feb 2025 08:43:33 +0800
+	id 1tkupg-0003hv-13;
+	Thu, 20 Feb 2025 00:54:29 +0000
+Date: Thu, 20 Feb 2025 08:53:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nemesa Garg <nemesa.garg@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 5/6] drm/i915/display: Add registers and compute the
- strength
-Message-ID: <202502200838.vQNIR4Ee-lkp@intel.com>
-References: <20250219115359.2320992-6-nemesa.garg@intel.com>
+To: steven chen <chenste@linux.microsoft.com>, zohar@linux.ibm.com,
+	stefanb@linux.ibm.com, roberto.sassu@huaweicloud.com,
+	roberto.sassu@huawei.com, eric.snowberg@oracle.com,
+	ebiederm@xmission.com, paul@paul-moore.com, code@tyhicks.com,
+	bauermann@kolabnow.com, linux-integrity@vger.kernel.org,
+	kexec@lists.infradead.org, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, madvenka@linux.microsoft.com,
+	nramas@linux.microsoft.com, James.Bottomley@hansenpartnership.com,
+	bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com
+Subject: Re: [PATCH v8 2/7] kexec: define functions to map and unmap segments
+Message-ID: <202502200848.MJEuphR1-lkp@intel.com>
+References: <20250218225502.747963-3-chenste@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,113 +70,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250219115359.2320992-6-nemesa.garg@intel.com>
+In-Reply-To: <20250218225502.747963-3-chenste@linux.microsoft.com>
 
-Hi Nemesa,
+Hi steven,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20250219]
-[cannot apply to drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master v6.14-rc3 v6.14-rc2 v6.14-rc1 v6.14-rc3]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.14-rc3 next-20250219]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nemesa-Garg/drm-Introduce-sharpness-strength-property/20250219-200229
-base:   next-20250219
-patch link:    https://lore.kernel.org/r/20250219115359.2320992-6-nemesa.garg%40intel.com
-patch subject: [PATCH v8 5/6] drm/i915/display: Add registers and compute the strength
-config: i386-buildonly-randconfig-004-20250219 (https://download.01.org/0day-ci/archive/20250220/202502200838.vQNIR4Ee-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200838.vQNIR4Ee-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/steven-chen/ima-define-and-call-ima_alloc_kexec_file_buf/20250219-065931
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250218225502.747963-3-chenste%40linux.microsoft.com
+patch subject: [PATCH v8 2/7] kexec: define functions to map and unmap segments
+config: x86_64-buildonly-randconfig-004-20250220 (https://download.01.org/0day-ci/archive/20250220/202502200848.MJEuphR1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200848.MJEuphR1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502200838.vQNIR4Ee-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502200848.MJEuphR1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/display/intel_casf.c:9:
-   In file included from drivers/gpu/drm/i915/display/intel_de.h:10:
-   In file included from drivers/gpu/drm/i915/display/intel_display_core.h:16:
-   In file included from include/drm/drm_connector.h:32:
-   In file included from include/drm/drm_util.h:36:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2287:
-   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/i915/display/intel_casf.c:97:19: warning: result of comparison of constant 2073600 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-      97 |         if (total_pixels <= MAX_PIXELS_FOR_3_TAP_FILTER)
-         |             ~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_casf.c:99:24: warning: result of comparison of constant 8294400 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-      99 |         else if (total_pixels <= MAX_PIXELS_FOR_5_TAP_FILTER)
-         |                  ~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_casf.c:111:73: error: no member named 'strength' in 'struct intel_casf'
-     111 |         sharpness_ctl = FILTER_EN | FILTER_STRENGTH(crtc_state->hw.casf_params.strength);
-         |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/gpu/drm/i915/display/intel_casf_regs.h:23:69: note: expanded from macro 'FILTER_STRENGTH'
-      23 | #define   FILTER_STRENGTH(x)            REG_FIELD_PREP(FILTER_STRENGTH_MASK, (x))
-         |                                                                               ^
-   drivers/gpu/drm/i915/i915_reg_defs.h:99:28: note: expanded from macro 'REG_FIELD_PREP'
-      99 |         ((u32)((((typeof(__mask))(__val) << __bf_shf(__mask)) & (__mask)) +     \
-         |                                   ^~~~~
-   drivers/gpu/drm/i915/display/intel_casf.c:111:73: error: no member named 'strength' in 'struct intel_casf'
-     111 |         sharpness_ctl = FILTER_EN | FILTER_STRENGTH(crtc_state->hw.casf_params.strength);
-         |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/gpu/drm/i915/display/intel_casf_regs.h:23:69: note: expanded from macro 'FILTER_STRENGTH'
-      23 | #define   FILTER_STRENGTH(x)            REG_FIELD_PREP(FILTER_STRENGTH_MASK, (x))
-         |                                                                               ^
-   drivers/gpu/drm/i915/i915_reg_defs.h:103:64: note: expanded from macro 'REG_FIELD_PREP'
-     103 |                BUILD_BUG_ON_ZERO(__builtin_choose_expr(__is_constexpr(__val), (~((__mask) >> __bf_shf(__mask)) & (__val)), 0))))
-         |                                                                       ^~~~~
-   include/linux/compiler.h:328:48: note: expanded from macro '__is_constexpr'
-     328 |         (sizeof(int) == sizeof(*(8 ? ((void *)((long)(x) * 0l)) : (int *)8)))
-         |                                                       ^
-   include/linux/build_bug.h:16:62: note: expanded from macro 'BUILD_BUG_ON_ZERO'
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                              ^
-   drivers/gpu/drm/i915/display/intel_casf.c:111:73: error: no member named 'strength' in 'struct intel_casf'
-     111 |         sharpness_ctl = FILTER_EN | FILTER_STRENGTH(crtc_state->hw.casf_params.strength);
-         |                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/gpu/drm/i915/display/intel_casf_regs.h:23:69: note: expanded from macro 'FILTER_STRENGTH'
-      23 | #define   FILTER_STRENGTH(x)            REG_FIELD_PREP(FILTER_STRENGTH_MASK, (x))
-         |                                                                               ^
-   drivers/gpu/drm/i915/i915_reg_defs.h:103:108: note: expanded from macro 'REG_FIELD_PREP'
-     103 |                BUILD_BUG_ON_ZERO(__builtin_choose_expr(__is_constexpr(__val), (~((__mask) >> __bf_shf(__mask)) & (__val)), 0))))
-         |                                                                                                                   ^~~~~
-   include/linux/build_bug.h:16:62: note: expanded from macro 'BUILD_BUG_ON_ZERO'
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                              ^
-   drivers/gpu/drm/i915/display/intel_casf.c:196:30: error: no member named 'strength' in 'struct intel_casf'
-     196 |                 crtc_state->hw.casf_params.strength = 0;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/gpu/drm/i915/display/intel_casf.c:214:29: error: no member named 'strength' in 'struct intel_casf'
-     214 |         crtc_state->hw.casf_params.strength =
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   3 warnings and 5 errors generated.
+   In file included from include/linux/crash_dump.h:5,
+                    from mm/mm_init.c:30:
+>> include/linux/kexec.h:479:47: warning: 'struct kimage' declared inside parameter list will not be visible outside of this definition or declaration
+     479 | static inline void *kimage_map_segment(struct kimage *image, unsigned long addr, unsigned long size)
+         |                                               ^~~~~~
 
 
-vim +97 drivers/gpu/drm/i915/display/intel_casf.c
+vim +479 include/linux/kexec.h
 
-    91	
-    92	static void intel_casf_size_compute(struct intel_crtc_state *crtc_state)
-    93	{
-    94		const struct drm_display_mode *mode = &crtc_state->hw.adjusted_mode;
-    95		u16 total_pixels = mode->hdisplay * mode->vdisplay;
-    96	
-  > 97		if (total_pixels <= MAX_PIXELS_FOR_3_TAP_FILTER)
-    98			crtc_state->hw.casf_params.win_size = 0;
-    99		else if (total_pixels <= MAX_PIXELS_FOR_5_TAP_FILTER)
-   100			crtc_state->hw.casf_params.win_size = 1;
-   101		else
-   102			crtc_state->hw.casf_params.win_size = 2;
-   103	}
-   104	
+   466	
+   467	#define kexec_dprintk(fmt, arg...) \
+   468	        do { if (kexec_file_dbg_print) pr_info(fmt, ##arg); } while (0)
+   469	
+   470	extern void *kimage_map_segment(struct kimage *image, unsigned long addr, unsigned long size);
+   471	extern void kimage_unmap_segment(void *buffer);
+   472	#else /* !CONFIG_KEXEC_CORE */
+   473	struct pt_regs;
+   474	struct task_struct;
+   475	static inline void __crash_kexec(struct pt_regs *regs) { }
+   476	static inline void crash_kexec(struct pt_regs *regs) { }
+   477	static inline int kexec_should_crash(struct task_struct *p) { return 0; }
+   478	static inline int kexec_crash_loaded(void) { return 0; }
+ > 479	static inline void *kimage_map_segment(struct kimage *image, unsigned long addr, unsigned long size)
+   480	{ return NULL; }
+   481	static inline void kimage_unmap_segment(void *buffer) { }
+   482	#define kexec_in_progress false
+   483	#endif /* CONFIG_KEXEC_CORE */
+   484	
 
 -- 
 0-DAY CI Kernel Test Service
