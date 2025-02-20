@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375DF1D8A14
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 18:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7336262D35
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 19:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740074924; cv=none; b=o4R6op0dM1L8K3KQtDCQnMcWNmChkSSXlujSzkeUDYc9zzBTZ93LRGTNNK0TUcGA9VOVKt8QRddvc5A7hgRKCu2/kLQ/wis3J2UpvL542sZt7SgmdX7jsnC1t8GFMRKcPK4I1a8BahEBgdZBJHMhsNToTpigpiFmC0+XxGH2fXQ=
+	t=1740078608; cv=none; b=FuVMmkPG63e0JLbdTzU0vasUgjVGSx3PzBFPaYVdegQgpxmV+kgiBvN0gmPblI1t+cDl5vosMUEGr0U5MzfIRLx7KtbkuCJT1npkZAfQS1vu0B4BNbeb+qxNX18EZ0BK+QVfkiZbmOS0XDiF4S0/qOQSs5GLBhK3AGKNMUoNBEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740074924; c=relaxed/simple;
-	bh=l0WssEPwzQ2dk++aKKLOnTqlS4Z+Ssx4Zdw2/9+HInU=;
+	s=arc-20240116; t=1740078608; c=relaxed/simple;
+	bh=1tQ9o+uMocsNfZfr+QWymv2tkD3cqVaa0pAMpmvmaKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D7cWfT1UXxY1C6LjqheFxRxYIitOdBSSVutOwVBDoy7FO2XFhK5olmCV4U0O7Sfa+131FW4iTJQ/4PZOErWWx2M/2JvxPdXPtZIS3BH6vV7oofkZyDONr3swdUsKpAeYB6LRQqPHTrVVQH0nKAvn3oYLVjnEUSZaZOqdk6h4nh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YdKWqVfj; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=cPBrgzr96wBI09KmUEouMhPbZTrvT9RCL6IA5cHxMLK1EohDchdUE/93s827TafpQ2g1VeQEEHkNDt7/Nx2univD6vZXt6uVUPJADIok+gzTYjRYez2yL6Yqdi2s+ZvQUorP0CTjXrQHi8OwPSkqHnPqQ/a8mIA+rMQzEwbj9+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNkYQmGm; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdKWqVfj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNkYQmGm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740074923; x=1771610923;
+  t=1740078607; x=1771614607;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l0WssEPwzQ2dk++aKKLOnTqlS4Z+Ssx4Zdw2/9+HInU=;
-  b=YdKWqVfjevxO8085v4sZ0/vkKZH+1umufbCcNvtjbAeJcwgfGEO5AdTW
-   BSVuCd8BhCdPcF/rfO4A/7hr0a2Eap7alif2mRj1tT4h9KlRkfwKmW++m
-   +I3cMZpogHpxmXw6pc/Nh8oK5omYiEMi7qOPNR3EAcp4LJL3iFOzbglG3
-   2c5PnLwaRo98StxoEWK9zC6NqxT2kyazjeXr1F46ErZCaa3giwy0gul6w
-   i1UdPEspp2VkbG2wlbS2n7kuJsbmBbXsHgvTHjNqecS3XGNyQpbgBm0sX
-   /a2HNfj3HYIUmYkLJ3anVVvpwgsZEcuoI3PKwzNcSZ+HpxtMfFg86Ey7L
-   g==;
-X-CSE-ConnectionGUID: CGpS8ggURfCEEsdDsZ5yEw==
-X-CSE-MsgGUID: LTzDwFk3T66crGUOMgm05Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44653363"
+  bh=1tQ9o+uMocsNfZfr+QWymv2tkD3cqVaa0pAMpmvmaKM=;
+  b=RNkYQmGmuxi5wcHNQoFnlA/KBnrTVNeYB7VDTdozZbKeDC/pDAGJaj3i
+   hbpUsusjzPJ6s14Gh3N/ObCjBZ+Y1tT3yBAiiXGnRKGz6PEKiJOcoNS/t
+   8umU+8Gx1eL+cvIztzriu5Jwo4KEKZS1DddhJTeAlWAn8FbTGhqD20nYp
+   GGIOE6mIcSemisaSz2MaZAXe3Ykk/d0i3DnSVCqE6vmwfR9b8uDGcuc8l
+   IRwA6VuP0nc0rQ5ChNcd2NhurJmTi6oxz/DG8KRZPQ3NAO7SncI4tw+nZ
+   XNzMjrBytjDAiy6mNuc++OyXTUq/eEtBvCxof9UsxZXi3hexFQ/R48yBL
+   Q==;
+X-CSE-ConnectionGUID: tKDGGohaTJamRa96jbltUQ==
+X-CSE-MsgGUID: MSHq5GZKTJSELnBeC9y+Pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40799635"
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="44653363"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 10:08:42 -0800
-X-CSE-ConnectionGUID: dtHoWVwMSD+GirqEKfEWgw==
-X-CSE-MsgGUID: xLCeSwt4RA60VNcHuCv0xA==
+   d="scan'208";a="40799635"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 11:10:07 -0800
+X-CSE-ConnectionGUID: cD+YAbxPS+qCXilJIL1H8g==
+X-CSE-MsgGUID: v3ueY5nBQKymx7OJY0ZPqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="120096732"
+   d="scan'208";a="119747548"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 20 Feb 2025 10:08:41 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2025 11:10:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlAyU-0004d5-2l;
-	Thu, 20 Feb 2025 18:08:38 +0000
-Date: Fri, 21 Feb 2025 02:07:55 +0800
+	id 1tlBvu-0004fZ-23;
+	Thu, 20 Feb 2025 19:10:02 +0000
+Date: Fri, 21 Feb 2025 03:09:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pei Xiao <xiaopei01@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [driver-core:driver-core-testing 5/32]
- include/linux/device.h:381:16: warning: returning 'int' from a function with
- return type 'void *' makes pointer from integer without a cast
-Message-ID: <202502210251.RZwPO8Hk-lkp@intel.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+Message-ID: <202502210336.e9x8ZTh5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,88 +63,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git driver-core-testing
-head:   820252db26434126c85a78027a1bcbe9c0903204
-commit: cd29796e495160c05a672f3098dffe0fb6ae9daf [5/32] driver core: device.h: fix incorrect type in return expression
-config: um-randconfig-002-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210251.RZwPO8Hk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210251.RZwPO8Hk-lkp@intel.com/reproduce)
+Hi Darrick,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e9a8cac0bf895efe0bc7b11d174e8dae9b195da8
+commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
+date:   4 months ago
+config: arm-randconfig-003-20250221 (https://download.01.org/0day-ci/archive/20250221/202502210336.e9x8ZTh5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210336.e9x8ZTh5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210251.RZwPO8Hk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210336.e9x8ZTh5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/time/tick-common.c:11:
-   include/linux/device.h: In function 'devm_ioremap_resource':
-   include/linux/device.h:381:16: error: implicit declaration of function 'IOMEM_ERR_PTR' [-Werror=implicit-function-declaration]
-     381 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~
->> include/linux/device.h:381:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     381 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h: In function 'devm_ioremap_resource_wc':
-   include/linux/device.h:388:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     388 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h: In function 'devm_of_iomap':
-   include/linux/device.h:396:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     396 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/time/hrtimer.c:25:
-   include/linux/device.h: In function 'devm_ioremap_resource':
-   include/linux/device.h:381:16: error: implicit declaration of function 'IOMEM_ERR_PTR' [-Werror=implicit-function-declaration]
-     381 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~
->> include/linux/device.h:381:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     381 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h: In function 'devm_ioremap_resource_wc':
-   include/linux/device.h:388:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     388 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h: In function 'devm_of_iomap':
-   include/linux/device.h:396:16: warning: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-     396 |         return IOMEM_ERR_PTR(-EINVAL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c: At top level:
-   kernel/time/hrtimer.c:124:35: warning: initialized field overwritten [-Woverride-init]
-     124 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:124:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:125:35: warning: initialized field overwritten [-Woverride-init]
-     125 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:125:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:126:35: warning: initialized field overwritten [-Woverride-init]
-     126 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:126:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:127:35: warning: initialized field overwritten [-Woverride-init]
-     127 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:127:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   cc1: some warnings being treated as errors
+   In file included from include/linux/bitfield.h:10,
+                    from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:390,
+                    from include/linux/uuid.h:11,
+                    from fs/xfs/xfs_linux.h:10,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/xfs_super.c:7:
+   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:133:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     133 |         XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,         3);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:136:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     136 |         XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused,      6);
+         |         ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +381 include/linux/device.h
+vim +78 include/linux/build_bug.h
 
-   376	
-   377	static inline
-   378	void __iomem *devm_ioremap_resource(struct device *dev,
-   379					    const struct resource *res)
-   380	{
- > 381		return IOMEM_ERR_PTR(-EINVAL);
-   382	}
-   383	
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
