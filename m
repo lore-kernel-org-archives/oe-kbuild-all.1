@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B771199FC5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 06:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BE58F7D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 06:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740031503; cv=none; b=rgrQsLzLtXUe/w8FkKbI/ZmUrYpCwkNFErIo/Vu+P2CVDV6YnaLlDmnzNQ0nnlUBKgSq9SyfGJdae9BIxGW48G6OvXT+y4aciokVL7hyxd7EY33adfSPOrFKyHInumD00XdPctwOlAlfIe9FSct96lLhx2gr1GorxQ82yD1dFYU=
+	t=1740033056; cv=none; b=TQbMif48+vNtM5a2hAhcaeNHlE7Z/CRnK39M8aaL1ariVDHItIpNkXuKQ33wYfZoFqaJz1jqN1v1um1e4XBukBvA2NAhKgypJP3OCI5x7XGvo/clSkj29XdRztJelJySv3tvfggXwQkcL6tWRUPbi5fAVq2FcQjHIRAHR/9/D/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740031503; c=relaxed/simple;
-	bh=LEMI46MYGP6Mj44o8JnfUs/f51k6JJbhxElJkechiqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1YZs2HB39MtDwyCQXZK/f8VSfhOny4coZND2DQnQGyUweh1YWAciYvxnI50k3mOMoa1HQHYdjC2sZqARKH71Sb1/HTIYfaoSfUH5taZX3eRf41G/sdzQHacibh5awx+QdS7QpcKtXIgA7tUz5WN7tDtiQ9d6pURvcH3KKB03G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fg0WmP3p; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1740033056; c=relaxed/simple;
+	bh=S5CUxeZpcWEYIAUUVZ0+g64oDmWilgCokA4bYfqduZc=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZXZpMhr3HeJ5DiHwlHBwu84ctXLtdREZH9RGWd38SpaPGQlFxWdt8sEQXw2jPFkGPtiG8Z0yVdfZZY2xe06zrM9rItPbMt1oetNksTJT+PQhy4OtvQVgBjiq6zYRl9TDyMU73ePotfUfLTkFBJIZgDP4X0OE3cjgzdea7h3jx+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gws58L1y; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fg0WmP3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gws58L1y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740031502; x=1771567502;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LEMI46MYGP6Mj44o8JnfUs/f51k6JJbhxElJkechiqY=;
-  b=Fg0WmP3p8eBC56Sax9Xx0UTpKOdJkJ7SXtznOdnFesQVWYjUF7+yo4ZG
-   NFO3fdW816Oun2cZSAduVhepf8fRySvdgaQHMRv27Mz3S2Kl1lThWSLzR
-   L/wkBs9f2aPmArwoTPelrn/TRCqbxl/DKxjCn7iz1cAr5xFFzHgLG94tf
-   5UwXM2zLdJcQAAtyYsaolBZu92ecdr/aQpkIbqVyOFzI/stAorDhtScvb
-   4F0u5R7YL1W1RJ1GQavxkNMLmN31iBsoLIYxYxNXHWjUHc2sy76lGP/le
-   r4PXS5LQWFI9lmk1mGQoEZgFqUDa8AXiyuEZufG8sTctc+IKZ77wvBQb9
-   w==;
-X-CSE-ConnectionGUID: vJKd+hJvQPCHHYsOQdmquA==
-X-CSE-MsgGUID: SxMhTTHPQIWZjPgukMwDaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="52204136"
+  t=1740033055; x=1771569055;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=S5CUxeZpcWEYIAUUVZ0+g64oDmWilgCokA4bYfqduZc=;
+  b=gws58L1yWdbdfY6x7ilu7/eFi8zJW5YhZC3w1ZiwSqzO941+muRugcav
+   NKANlDkwjJxDo3lVUzkiSYzgvcdsCvda46OlFqvldC8ZsYg4X5lSXJPs1
+   scXeA7432z5YRnfM7wCxv8cUGEVlUDf8jislzgaO6v1WUlc0Ja/2RSB6m
+   4jb8GM06G6ToZFpNHGnAP1tQM1Wp/tIMReusIYkuje+4G/GKUlerRM0hZ
+   Arf8h7ouET0nOBPVffhZtVexaw4BM2D20ZygwR0rdT7hsiuh1z8G4qajb
+   wK2tlktlzd/YgpZS28tYUzvByS20tks4kmthY1rn7ZxMX16yoYR9RyScX
+   A==;
+X-CSE-ConnectionGUID: 2RUSUQx6SSaQ2Ye5BE5vew==
+X-CSE-MsgGUID: n6DJROKGRg6L1cAjWO+Y3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="58205792"
 X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="52204136"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 22:05:01 -0800
-X-CSE-ConnectionGUID: g8GBfc0VRW+MBI47bJprLQ==
-X-CSE-MsgGUID: NNip9r77T1e9k0x4lesnfg==
+   d="scan'208";a="58205792"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 22:30:54 -0800
+X-CSE-ConnectionGUID: t0YscbAORkylyhY2V8pBPw==
+X-CSE-MsgGUID: Yvp0ciTIRpCRHKBaDGb/Ug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="114924865"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115435008"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Feb 2025 22:04:59 -0800
+  by orviesa007.jf.intel.com with ESMTP; 19 Feb 2025 22:30:53 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkzg8-0003ub-2u;
-	Thu, 20 Feb 2025 06:04:56 +0000
-Date: Thu, 20 Feb 2025 14:04:30 +0800
+	id 1tl03a-0003vl-1n
+	for oe-kbuild-all@lists.linux.dev;
+	Thu, 20 Feb 2025 06:29:32 +0000
+Date: Thu, 20 Feb 2025 14:25:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-pm@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
-	Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] pmdomain: rockchip: Check if smcc could be handled by TA
-Message-ID: <202502201601.rQYwZmA8-lkp@intel.com>
-References: <1739926689-151827-1-git-send-email-shawn.lin@rock-chips.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] net/ipv4/raw.c:829: Error: unrecognized opcode
+ `csrs sstatus,a1', extension `zicsr' required
+Message-ID: <202502201409.JN33jGES-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,83 +61,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1739926689-151827-1-git-send-email-shawn.lin@rock-chips.com>
 
-Hi Shawn,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250218]
-[cannot apply to v6.14-rc3 v6.14-rc2 v6.14-rc1 linus/master v6.14-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/pmdomain-rockchip-Check-if-smcc-could-be-handled-by-TA/20250219-122924
-base:   next-20250218
-patch link:    https://lore.kernel.org/r/1739926689-151827-1-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH] pmdomain: rockchip: Check if smcc could be handled by TA
-config: i386-buildonly-randconfig-001-20250220 (https://download.01.org/0day-ci/archive/20250220/202502201601.rQYwZmA8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201601.rQYwZmA8-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: d18ebc274ca78f61094fba39ec9f206d46be5a85 [1/1] riscv: support trap-based WARN()
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20250220/202502201409.JN33jGES-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201409.JN33jGES-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502201601.rQYwZmA8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502201409.JN33jGES-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/pmdomain/rockchip/pm-domains.o: in function `rockchip_do_pmu_set_power_domain':
->> drivers/pmdomain/rockchip/pm-domains.c:575: undefined reference to `arm_smccc_1_1_get_conduit'
+   net/ipv4/raw.c: Assembler messages:
+   net/ipv4/raw.c:921: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   net/ipv4/raw.c:921: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+   net/ipv4/raw.c:910: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   net/ipv4/raw.c:910: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
+>> net/ipv4/raw.c:829: Error: unrecognized opcode `csrs sstatus,a1', extension `zicsr' required
+>> net/ipv4/raw.c:829: Error: unrecognized opcode `csrc sstatus,a1', extension `zicsr' required
+   net/ipv4/raw.c:837: Error: unrecognized opcode `csrs sstatus,a5', extension `zicsr' required
+   net/ipv4/raw.c:837: Error: unrecognized opcode `csrc sstatus,a5', extension `zicsr' required
 
 
-vim +575 drivers/pmdomain/rockchip/pm-domains.c
+vim +829 net/ipv4/raw.c
 
-   537	
-   538	static void rockchip_do_pmu_set_power_domain(struct rockchip_pm_domain *pd,
-   539						     bool on)
-   540	{
-   541		struct rockchip_pmu *pmu = pd->pmu;
-   542		struct generic_pm_domain *genpd = &pd->genpd;
-   543		u32 pd_pwr_offset = pd->info->pwr_offset;
-   544		bool is_on, is_mem_on = false;
-   545		struct arm_smccc_res res;
-   546	
-   547		if (pd->info->pwr_mask == 0)
-   548			return;
-   549	
-   550		if (on && pd->info->mem_status_mask)
-   551			is_mem_on = rockchip_pmu_domain_is_mem_on(pd);
-   552	
-   553		if (pd->info->pwr_w_mask)
-   554			regmap_write(pmu->regmap, pmu->info->pwr_offset + pd_pwr_offset,
-   555				     on ? pd->info->pwr_w_mask :
-   556				     (pd->info->pwr_mask | pd->info->pwr_w_mask));
-   557		else
-   558			regmap_update_bits(pmu->regmap, pmu->info->pwr_offset + pd_pwr_offset,
-   559					   pd->info->pwr_mask, on ? 0 : -1U);
-   560	
-   561		wmb();
-   562	
-   563		if (is_mem_on && rockchip_pmu_domain_mem_reset(pd))
-   564			return;
-   565	
-   566		if (readx_poll_timeout_atomic(rockchip_pmu_domain_is_on, pd, is_on,
-   567					      is_on == on, 0, 10000)) {
-   568			dev_err(pmu->dev,
-   569				"failed to set domain '%s', val=%d\n",
-   570				genpd->name, is_on);
-   571			return;
-   572		}
-   573	
-   574		/* Inform firmware to keep this pd on or off */
- > 575		if (arm_smccc_1_1_get_conduit() != SMCCC_CONDUIT_NONE)
-   576			arm_smccc_smc(ROCKCHIP_SIP_SUSPEND_MODE, ROCKCHIP_SLEEP_PD_CONFIG,
-   577					pmu->info->pwr_offset + pd_pwr_offset,
-   578					pd->info->pwr_mask, on, 0, 0, 0, &res);
-   579	}
-   580	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  824  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  825  static int raw_geticmpfilter(struct sock *sk, char __user *optval, int __user *optlen)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  826  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  827  	int len, ret = -EFAULT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  828  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @829  	if (get_user(len, optlen))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  830  		goto out;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  831  	ret = -EINVAL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  832  	if (len < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  833  		goto out;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  834  	if (len > sizeof(struct icmp_filter))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  835  		len = sizeof(struct icmp_filter);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  836  	ret = -EFAULT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  837  	if (put_user(len, optlen) ||
+^1da177e4c3f41 Linus Torvalds 2005-04-16  838  	    copy_to_user(optval, &raw_sk(sk)->filter, len))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  839  		goto out;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  840  	ret = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  841  out:	return ret;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  842  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  843  
+
+:::::: The code at line 829 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
