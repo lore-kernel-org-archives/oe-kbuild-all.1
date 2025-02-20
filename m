@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1029D1DF735
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 21:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0366C1C3C18
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 21:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740085972; cv=none; b=buSj/g6F+RuMSSCrzl0FXMuMsjU1eJJMRlo5WS6NkNLBHWTccqqBSGbPNCOgVXQvAohf03z4+b9SNMl0vRnoaA2gS8bHbHeRjjxjoVotogyyJgXmx7tEfS1Vse9RnBvAWo9AYLAMFy4oHFBBd4U1r0jHAPiq3J1C8uZryOdcRcI=
+	t=1740087236; cv=none; b=IW1G/4sMlv/U8QvKQUehjbvqjEC0zx6gtFiiUfcnq5taOcUkmLXuVy5IWq4XZYVyOCbu1lZXshQnJnrZT6oTJHZMux9Q4jIN4wE5WEyM6Rd3F7TWpyjjsHydQmaRrD7MiL2Yb3do8tBasU6s77ENYTQY6IeZjmeYh+IszbqYwkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740085972; c=relaxed/simple;
-	bh=VEL8RaFih5qilJBRqr1wV2JkfkJAdFhQMULYm49K/44=;
+	s=arc-20240116; t=1740087236; c=relaxed/simple;
+	bh=Zc2WVwnAP5GcP01zUUQhJ3ecg8lb8r2WOdu5vZTgDYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Shomv7hI5jNEICciGC/GOlbwtrjObURstHMnSY6c6UgJI4T1U+BNK7kCUU/ZGQHoZ7/zxVhaf+qrpqiEiXUcj/zNOn+s4xRknDlDpZsYt43nta8OrBn89AxjCmUODo5aBl9+eI21P90LJ2TNYRHk4qpJZwQoW6iB/tsgrHzrNfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPH0qcUf; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=XrlkdZCU2DKHipL0UqfOmViOdAC81i+qm4M/lvZqfXCBZJMmUtOuLStSLmlmmP0cV5OjMj0FM8IEj6quHMAZELVV4Uslkdx/eAzvVKXmam4o4t9GNLcrHJEbTvSElmOBvu0BHjfsthzjmQyM/OguxCSFd3n173GEyWIzt4PUCCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TP9wSKYI; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPH0qcUf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TP9wSKYI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740085970; x=1771621970;
+  t=1740087232; x=1771623232;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VEL8RaFih5qilJBRqr1wV2JkfkJAdFhQMULYm49K/44=;
-  b=QPH0qcUf4Igh3KivZFG9wCCZQj6PyslwtYDcxbXCov0Hak07dXGVRHkD
-   wPL7go6s78I6SelbC5vmu/43/K07DBle+g/gIsJqe98bITNaVtxfM8PJs
-   4DvyLjTgML4J2beuZEyL1dcKBkiUGxhpwzdpoL84DoJW2WnYRe42lAkBw
-   WRGJnwUs0Zg8aSbaK39saKyFKqVx8NEQ3quapsE0/IHBgfGGyKfmWOPWv
-   GX6u2sNfgc3rGNkZB3GVgTuV0yvk9vqdsU1HVdcAmr9eZ8HjvPVznGJxA
-   7CcIwuK+3Pyd8dMM5UvsQykhbn1V/gjNjnnXOtPutFcnZrDiJLdRFl+O5
-   g==;
-X-CSE-ConnectionGUID: eaRbsk9jQgmX5OWyP0snIA==
-X-CSE-MsgGUID: W9XJKG/9TH+G+hXx+6xExQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40756346"
+  bh=Zc2WVwnAP5GcP01zUUQhJ3ecg8lb8r2WOdu5vZTgDYI=;
+  b=TP9wSKYI2WX30LiAtxrftwUb66rDnWj+MtGoZE4UBV38YNEZrjz1IG+W
+   RQsMBuZhHW2OW0zQ0wN7ENBmnmafF9o3OJOrEGCR1hjzZJS9pjR6pK3zD
+   AYyZKXgR/UOww9bNRr0AWhDuaBtseRTunCwDScnnxjsqkoqorQWYaWVAm
+   uOnpkQ7KvAzEPNeaa00w7rBCkOA58EiTpnsT4SdP0wwgVxLL9BpoxZTlZ
+   yZ86YNflNuBWVr/k/9YsbY4X98g7m4sJBnMHt2fUvQoQRhXyAM93GvGfS
+   /oylEHO/pRyWG7WYX9rkkIgfYKBMKPWe/P3YF2b35L6zaqytnuAp0Wb3A
+   w==;
+X-CSE-ConnectionGUID: vSs4yWBGQSikv/VnSeP+SQ==
+X-CSE-MsgGUID: U2sdi6f7RhmzQxbyP14TxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="28487853"
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="40756346"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 13:12:49 -0800
-X-CSE-ConnectionGUID: nobtpWGOSfqCK/2FOC9Fwg==
-X-CSE-MsgGUID: QpyEbhZVTKiXlb3ABy4wxQ==
+   d="scan'208";a="28487853"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 13:33:51 -0800
+X-CSE-ConnectionGUID: Nkj8Y0HdQfu/z1qa9FYStg==
+X-CSE-MsgGUID: EK3H11zDTDW6LODlfXbflw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="115826864"
+   d="scan'208";a="146033214"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Feb 2025 13:12:48 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Feb 2025 13:33:50 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlDqg-0004lv-13;
-	Thu, 20 Feb 2025 21:12:46 +0000
-Date: Fri, 21 Feb 2025 05:12:43 +0800
+	id 1tlEB1-0004mZ-2Z;
+	Thu, 20 Feb 2025 21:33:47 +0000
+Date: Fri, 21 Feb 2025 05:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:futex/scope 1/4] kernel/futex/waitwake.c:343: warning:
- expecting prototype for futex_wait_queue(). Prototype was for
- futex_do_wait() instead
-Message-ID: <202502210552.DMq5sFjU-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1] kernel/sched/core.c:7724:4:
+ error: call to undeclared function 'stack_trace_save_tsk'; ISO C99 and later
+ do not support implicit function declarations
+Message-ID: <202502210535.2R8EYar0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +63,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git futex/scope
-head:   39534100fe613f467451202beacb7f4f39c4e403
-commit: f8af8b710a8a109b2dff00b94e9d493de3f7425f [1/4] futex: Move futex_queue() into futex_wait_setup()
-config: arc-randconfig-002-20250221 (https://download.01.org/0day-ci/archive/20250221/202502210552.DMq5sFjU-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210552.DMq5sFjU-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   5f63d051ce041cdea246873cd91d9d864f8322cf
+commit: b24c1517d9cc137d7ad4d356cc68fd94680ab998 [1/1] ANDROID: Fix invalid caller output in trace_sched_blocked_reason
+config: arm-lpc18xx_defconfig (https://download.01.org/0day-ci/archive/20250221/202502210535.2R8EYar0-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210535.2R8EYar0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210552.DMq5sFjU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210535.2R8EYar0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/futex/waitwake.c:343: warning: expecting prototype for futex_wait_queue(). Prototype was for futex_do_wait() instead
->> kernel/futex/waitwake.c:584: warning: Function parameter or struct member 'key2' not described in 'futex_wait_setup'
->> kernel/futex/waitwake.c:584: warning: Function parameter or struct member 'task' not described in 'futex_wait_setup'
->> kernel/futex/waitwake.c:584: warning: Excess function parameter 'hb' description in 'futex_wait_setup'
+>> kernel/sched/core.c:7724:4: error: call to undeclared function 'stack_trace_save_tsk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    7724 |                         stack_trace_save_tsk(prev, &blocked_func, 1, 0);
+         |                         ^
+   1 error generated.
 
 
-vim +343 kernel/futex/waitwake.c
+vim +/stack_trace_save_tsk +7724 kernel/sched/core.c
 
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  335  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  336  /**
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  337   * futex_wait_queue() - futex_queue() and wait for wakeup, timeout, or signal
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  338   * @hb:		the futex hash bucket, must be locked by the caller
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  339   * @q:		the futex_q to queue up on
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  340   * @timeout:	the prepared hrtimer_sleeper, or null for no timeout
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  341   */
-f8af8b710a8a10 Peter Zijlstra 2025-02-20  342  void futex_do_wait(struct futex_q *q, struct hrtimer_sleeper *timeout)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23 @343  {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  344  	/* Arm the timer */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  345  	if (timeout)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  346  		hrtimer_sleeper_start_expires(timeout, HRTIMER_MODE_ABS);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  347  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  348  	/*
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  349  	 * If we have been removed from the hash list, then another task
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  350  	 * has tried to wake us, and we can skip the call to schedule().
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  351  	 */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  352  	if (likely(!plist_node_empty(&q->list))) {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  353  		/*
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  354  		 * If the timer has already expired, current will already be
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  355  		 * flagged for rescheduling. Only call schedule if there
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  356  		 * is no timeout, or if it has yet to expire.
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  357  		 */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  358  		if (!timeout || timeout->task)
-f5d39b02080914 Peter Zijlstra 2022-08-22  359  			schedule();
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  360  	}
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  361  	__set_current_state(TASK_RUNNING);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  362  }
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  363  
-
-:::::: The code at line 343 was first introduced by commit
-:::::: a046f1a0d3e320cfee6bdac336416a537f49e7c6 futex: Split out wait/wake
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+  7676	
+  7677		trace_android_rvh_schedule(prev, next, rq);
+  7678		if (likely(prev != next)) {
+  7679			rq->nr_switches++;
+  7680			/*
+  7681			 * RCU users of rcu_dereference(rq->curr) may not see
+  7682			 * changes to task_struct made by pick_next_task().
+  7683			 */
+  7684			RCU_INIT_POINTER(rq->curr, next);
+  7685	
+  7686			if (!task_current_donor(rq, next))
+  7687				proxy_tag_curr(rq, next);
+  7688	
+  7689			/*
+  7690			 * The membarrier system call requires each architecture
+  7691			 * to have a full memory barrier after updating
+  7692			 * rq->curr, before returning to user-space.
+  7693			 *
+  7694			 * Here are the schemes providing that barrier on the
+  7695			 * various architectures:
+  7696			 * - mm ? switch_mm() : mmdrop() for x86, s390, sparc, PowerPC,
+  7697			 *   RISC-V.  switch_mm() relies on membarrier_arch_switch_mm()
+  7698			 *   on PowerPC and on RISC-V.
+  7699			 * - finish_lock_switch() for weakly-ordered
+  7700			 *   architectures where spin_unlock is a full barrier,
+  7701			 * - switch_to() for arm64 (weakly-ordered, spin_unlock
+  7702			 *   is a RELEASE barrier),
+  7703			 *
+  7704			 * The barrier matches a full barrier in the proximity of
+  7705			 * the membarrier system call entry.
+  7706			 *
+  7707			 * On RISC-V, this barrier pairing is also needed for the
+  7708			 * SYNC_CORE command when switching between processes, cf.
+  7709			 * the inline comments in membarrier_arch_switch_mm().
+  7710			 */
+  7711			++*switch_count;
+  7712	
+  7713			migrate_disable_switch(rq, prev);
+  7714			psi_account_irqtime(rq, prev, next);
+  7715			psi_sched_switch(prev, next, !task_on_rq_queued(prev) ||
+  7716						     prev->se.sched_delayed);
+  7717	
+  7718			trace_sched_switch(preempt, prev, next, prev_state);
+  7719	
+  7720			if (block && (prev_state & TASK_UNINTERRUPTIBLE)
+  7721				&& trace_sched_blocked_reason_enabled()) {
+  7722				unsigned long blocked_func = 0;
+  7723	
+> 7724				stack_trace_save_tsk(prev, &blocked_func, 1, 0);
+  7725				trace_sched_blocked_reason(prev, (void *)blocked_func);
+  7726			}
+  7727	
+  7728			/* Also unlocks the rq: */
+  7729			rq = context_switch(rq, prev, next, &rf);
+  7730		} else {
+  7731			/* In case next was already curr but just got blocked_donor */
+  7732			if (prev_not_proxied && next->blocked_donor)
+  7733				proxy_tag_curr(rq, next);
+  7734	
+  7735			rq_unpin_lock(rq, &rf);
+  7736			__balance_callbacks(rq);
+  7737			raw_spin_rq_unlock_irq(rq);
+  7738		}
+  7739	}
+  7740	
 
 -- 
 0-DAY CI Kernel Test Service
