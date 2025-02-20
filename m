@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AB02AE66
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 00:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B462A12B73
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 01:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740012883; cv=none; b=GA5/DOlbZAI0aHaPEqCgGmAH3QXTI0aihy1Cdg+JtjIxTuHVF/SxPEfPiI7MS+Qdae2DVST54gIPH2IBiPdBh0XRX0rZp0GgL7z2GS8bedxOnBI52yYO4iUXxPFXu5RyWvmRGiVG/GP17sCWhYRMv3WaEnnolkDhWsf2PMKHFME=
+	t=1740015347; cv=none; b=tuOZkwenok8LSm0lb1NLbfcotO3gyugmBg8rTxEXMeuqMSwKcSlYeHstBvNqGmuOfRohWmVBsNagjyizhqG7PTsUZwbNTG4lJNmY19FXt0NsycmB7f/dEEeLXqB+oz1mQb4ZT9EnGqndm9J+gBhM+ArtqBmkQzU0/YIJm0fRw3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740012883; c=relaxed/simple;
-	bh=hwUtCzqyh6aH1mIHsXsfvOdcnu0WliYUJzQAHSkkG70=;
+	s=arc-20240116; t=1740015347; c=relaxed/simple;
+	bh=6zmoCVN+tM70IALjoYFIvZaT00kAmX8foq6e3TRZLYA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esDlrk/g2gCcGHAde9xseo8USbqSDpvLu6M8OPCPIW4x/NMilIJag0Qt4PluZeQBbHQhImER+8qg8ETjxoNjAcdqrTye5536b63YZmJrUOsDxukhV1A5xJOhYJbKURMCCo0zv+QOG13fMY23oT2U4Tj+eTiP1msz2jAWeVIenug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEBV1IaM; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=dOMukabAPbC3c8efTaV7u0ecbjnCSwxrYUaDT/gLFriM3dFr3CesGdd/j8WavWojl9YR5ovkjzDOKy/IAH7/Ogpy4/qqoyElv8baIZ30PHgVum9JUC3SoyP3U95fPsxJIplBNJF3zjsR8R7vaL653dbjYcq3GcFNCG6vvAD0Gyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GI3qFoJ/; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEBV1IaM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GI3qFoJ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740012880; x=1771548880;
+  t=1740015345; x=1771551345;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hwUtCzqyh6aH1mIHsXsfvOdcnu0WliYUJzQAHSkkG70=;
-  b=hEBV1IaM63DUG1hRRr21QcZ0SfdcHNI2nzbZQhEYQ48DbGneMWhVEXFq
-   g+Wu0tXQ6MGAIJxjaMDiqyNzJ0IOivYLTUFlWKwS6V6SUPHeeq27VJOf0
-   NVcSi+YH7CAkDLwWFbzZMbTGuH8UtIpnML4aB7lseCGZOeZu2Dm10qwG+
-   f84p5Qdy5HOtMdG3SrYEQaY9LTUwByboemqm/F9Xu8cxul9yGle57fv+B
-   oQW8r4mYyizFM1fsskl8zMZeeSv2Hhh9o/V04cl73/L7iR9VXIzwA/Fg5
-   T8psbrXtZIs6jFr/2o6e9kTkOWXTIbz7tR2SI7077IjDML+YyUeVM4LiP
-   g==;
-X-CSE-ConnectionGUID: BkmGQzO2SsOdj9cbJ5rk5Q==
-X-CSE-MsgGUID: +lBrp5YUREWlinxuy/aHWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52209165"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52209165"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 16:54:39 -0800
-X-CSE-ConnectionGUID: qeMsjbubQyOQIon3FZs7uQ==
-X-CSE-MsgGUID: 4Mqc+Lu2SYmP5XegMdo/+Q==
+  bh=6zmoCVN+tM70IALjoYFIvZaT00kAmX8foq6e3TRZLYA=;
+  b=GI3qFoJ/VQcyNn5A0FMjhhQFF04Qu72/Hz1MRwanjP41Uah8fufKYAOj
+   8rV4O9CQPwHiYk6iujNaHLf8RGriWrLQYkuRLJyXt4akQiMwP64vVJKDn
+   QwH5EAcpFETOIrJiVAU4zGTVOQgU0t29nxmkatcQ+ksJotNy4YTXK7o7/
+   qArzGBKEURfGZHukyojlvjwi0gE2D3Y6WTOPH2MGgX18SyzOj69RUwbm8
+   rHmtPOX2MIAVf2j+0k3ljCOnjusWX/fJg1VtP/9be8c2weHLKjEthjhQL
+   b027mnUsDEQHF6Ro1VybQvc2THUpGALX3nzJ01wu+Q5lMYxtwoqhrfUge
+   Q==;
+X-CSE-ConnectionGUID: ZBUs83spRiOnPMqeTw8ttA==
+X-CSE-MsgGUID: GAAEHTFqSCOPUfqJblxv5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="63256302"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="63256302"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 17:35:45 -0800
+X-CSE-ConnectionGUID: /CSaJmWzSfmHu8r7w0K3Sg==
+X-CSE-MsgGUID: kf6Hjk7XR6md3lqe5LyxTg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115785521"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="114622753"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 19 Feb 2025 16:54:34 -0800
+  by orviesa009.jf.intel.com with ESMTP; 19 Feb 2025 17:35:41 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkupg-0003hv-13;
-	Thu, 20 Feb 2025 00:54:29 +0000
-Date: Thu, 20 Feb 2025 08:53:48 +0800
+	id 1tkvTW-0003jb-0R;
+	Thu, 20 Feb 2025 01:35:38 +0000
+Date: Thu, 20 Feb 2025 09:35:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven chen <chenste@linux.microsoft.com>, zohar@linux.ibm.com,
 	stefanb@linux.ibm.com, roberto.sassu@huaweicloud.com,
@@ -59,9 +59,10 @@ To: steven chen <chenste@linux.microsoft.com>, zohar@linux.ibm.com,
 Cc: oe-kbuild-all@lists.linux.dev, madvenka@linux.microsoft.com,
 	nramas@linux.microsoft.com, James.Bottomley@hansenpartnership.com,
 	bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com
-Subject: Re: [PATCH v8 2/7] kexec: define functions to map and unmap segments
-Message-ID: <202502200848.MJEuphR1-lkp@intel.com>
-References: <20250218225502.747963-3-chenste@linux.microsoft.com>
+Subject: Re: [PATCH v8 5/7] ima: kexec: move IMA log copy from kexec load to
+ execute
+Message-ID: <202502200920.rOyK1770-lkp@intel.com>
+References: <20250218225502.747963-6-chenste@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,61 +71,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250218225502.747963-3-chenste@linux.microsoft.com>
+In-Reply-To: <20250218225502.747963-6-chenste@linux.microsoft.com>
 
 Hi steven,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.14-rc3 next-20250219]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc3 next-20250219]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/steven-chen/ima-define-and-call-ima_alloc_kexec_file_buf/20250219-065931
 base:   linus/master
-patch link:    https://lore.kernel.org/r/20250218225502.747963-3-chenste%40linux.microsoft.com
-patch subject: [PATCH v8 2/7] kexec: define functions to map and unmap segments
-config: x86_64-buildonly-randconfig-004-20250220 (https://download.01.org/0day-ci/archive/20250220/202502200848.MJEuphR1-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20250218225502.747963-6-chenste%40linux.microsoft.com
+patch subject: [PATCH v8 5/7] ima: kexec: move IMA log copy from kexec load to execute
+config: x86_64-buildonly-randconfig-001-20250220 (https://download.01.org/0day-ci/archive/20250220/202502200920.rOyK1770-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200848.MJEuphR1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502200920.rOyK1770-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502200848.MJEuphR1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502200920.rOyK1770-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/crash_dump.h:5,
-                    from mm/mm_init.c:30:
->> include/linux/kexec.h:479:47: warning: 'struct kimage' declared inside parameter list will not be visible outside of this definition or declaration
-     479 | static inline void *kimage_map_segment(struct kimage *image, unsigned long addr, unsigned long size)
-         |                                               ^~~~~~
+   kernel/kexec_file.c: In function 'kimage_file_post_load':
+>> kernel/kexec_file.c:206:9: error: implicit declaration of function 'ima_kexec_post_load'; did you mean 'machine_kexec_post_load'? [-Werror=implicit-function-declaration]
+     206 |         ima_kexec_post_load(image);
+         |         ^~~~~~~~~~~~~~~~~~~
+         |         machine_kexec_post_load
+   cc1: some warnings being treated as errors
 
 
-vim +479 include/linux/kexec.h
+vim +206 kernel/kexec_file.c
 
-   466	
-   467	#define kexec_dprintk(fmt, arg...) \
-   468	        do { if (kexec_file_dbg_print) pr_info(fmt, ##arg); } while (0)
-   469	
-   470	extern void *kimage_map_segment(struct kimage *image, unsigned long addr, unsigned long size);
-   471	extern void kimage_unmap_segment(void *buffer);
-   472	#else /* !CONFIG_KEXEC_CORE */
-   473	struct pt_regs;
-   474	struct task_struct;
-   475	static inline void __crash_kexec(struct pt_regs *regs) { }
-   476	static inline void crash_kexec(struct pt_regs *regs) { }
-   477	static inline int kexec_should_crash(struct task_struct *p) { return 0; }
-   478	static inline int kexec_crash_loaded(void) { return 0; }
- > 479	static inline void *kimage_map_segment(struct kimage *image, unsigned long addr, unsigned long size)
-   480	{ return NULL; }
-   481	static inline void kimage_unmap_segment(void *buffer) { }
-   482	#define kexec_in_progress false
-   483	#endif /* CONFIG_KEXEC_CORE */
-   484	
+   203	
+   204	static void kimage_file_post_load(struct kimage *image)
+   205	{
+ > 206		ima_kexec_post_load(image);
+   207	}
+   208	
 
 -- 
 0-DAY CI Kernel Test Service
