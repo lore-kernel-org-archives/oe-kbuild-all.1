@@ -1,74 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C31DFDA5;
-	Thu, 20 Feb 2025 16:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030C3214804
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 16:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740068308; cv=none; b=CZIasIHr7wutXH5ivN6Za0kGg71ozj+q5Mzpii4JkyhjlXgkL5QRU9ZbOSp6rS8z0vZAfDtcOG0wdhZ+Fc4tgIJ6xd+YGkNV/FFX9bS5BJAJGeioYy2s9OgASsgxWcD7UEgQyJuniP9YNPPzltEu3RJTYcTlkP0NBV4ENfBmUPc=
+	t=1740070223; cv=none; b=kk/0tx2y5TQFajYEnUsx7divRGJOilyGuLt74IvNl8b7Dt+qO/2c/HLtCyNEkfKyYOR940LF0lz30gC7CbD5wKNYmtQotSBFGnV+6QnHzMmwejI7qWobQcd5sh8oytisyizw4788zIZ4b2N4Sq8UjKXAJLKfCzmV7Kv+HWpI7cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740068308; c=relaxed/simple;
-	bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
+	s=arc-20240116; t=1740070223; c=relaxed/simple;
+	bh=rUnSm1CHBOZ8g5EsPwsntxRI3qbpAPNrKv7/VWM6RoY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b1jIcgyOHaTZHMqxegMdWefN1Sb3Up534prgLAA1DDBxYV+wXowFWNdRpQjlKU4CvdoCbclJK4n3GsAJTRE/McgjbavR0JN2eHc6nwUSwRZA0RYzWfICLr6AwMnKW6iR8pRmCBIxnuJBdLpVNiEaRqcFG39MisTVBOKoL5Cd8xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNlekTg7; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=cX9X86uH6liwMQM2kAPmHYyxd4C4SgrfI4cRr/TO88aCo4K2+aZJDEfJ3whEJJtOI7Qc9/+f7fleeAGdQeUxce/w/N02F8Pn69uXTzK9lYZWr1cXSpn6P7/OKT7cZsFVcxJqbr5R34cJHKZZXQ4JZKmsPHPhGJXXejGAIogvycE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K524BASU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNlekTg7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K524BASU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740068307; x=1771604307;
+  t=1740070222; x=1771606222;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9RlNbYnLFzVjYgxQyd9KBfI9XCJfe/tCHW00K82XgB4=;
-  b=VNlekTg75J0qAfGXfCvz0vp9dqZZQvGYx1+ARWw+GevfDx2ZXEEsqZnY
-   EP12CT5KYU2m5qe/J5UdIeollr3MxqD8LeOG46/PH5IlfUSQv1TT5bNTR
-   oN1bDImQ7RLyF2Wt4+7LndeRXNa5rtyqrnQfWe6DeM1CqnB0co3wmKq/B
-   /rufj10FsJRtDmVRPq4jy/wkk8gWpU1aBcjP++YIz7VNKE6hAK2LTJXaR
-   wLsxEJ6u4j9zZzcyzZauVn4+Xu1botvPUdM5oxzgpK4C4w7g2pPzllIq0
-   rM2mkWK0OWKRhgpbL4pakdx4bF+W7dYCVlJ7mOj4miR39qMoy08g/L31b
-   g==;
-X-CSE-ConnectionGUID: P+VVjY+TQ3SQwOyVP/WbZA==
-X-CSE-MsgGUID: GkCvY2uaRwaPiJGR+rADvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="63329816"
-X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="63329816"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 08:18:26 -0800
-X-CSE-ConnectionGUID: MUBFVS80SV+FEOQ9rn5jww==
-X-CSE-MsgGUID: 0PpoekXBQF2IG16mnDk74Q==
+  bh=rUnSm1CHBOZ8g5EsPwsntxRI3qbpAPNrKv7/VWM6RoY=;
+  b=K524BASUI/S0WbcKCFa1/3D0Q2+fjoq+3T9SpucNjwsjIybUZqFjopjY
+   ANYxtDtWtTYIssjjB3LTgtESbd6vzouHd01Edzoj6mgq3FYMllxi4kgRU
+   MgiBaiK4zZfH5GottRJONkmJwtORDPa92b8LqKXAiTMRQg2fjR1elSiQa
+   IwK0qJaPuXtaTZmrWbKkqnYG3Kz5j+WZSO7aUK70Rj2lyfaSiI+MBKBXc
+   jfZiLYmpHc7BwxMGKKazpuldFA50s4eAlpNMprMIa7rBe21rEB/IxlmTf
+   3Ru6EXrQsNxGWWNAUUBP0DhCqYX962drXaF8H8rC+DbMD+fqX5uwpyp9O
+   A==;
+X-CSE-ConnectionGUID: TAvuOyIDTmW2aSw6ds4UKw==
+X-CSE-MsgGUID: 51przTljS+ikIQhlhl1Xbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52292199"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52292199"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 08:50:21 -0800
+X-CSE-ConnectionGUID: 3Zyn0mScTl2y3B3P+rYNXQ==
+X-CSE-MsgGUID: cDJKx+U1RqmAtuBofdVP0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
-   d="scan'208";a="138294951"
+   d="scan'208";a="120196006"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Feb 2025 08:18:21 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 20 Feb 2025 08:50:18 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tl9Fj-0004UJ-01;
-	Thu, 20 Feb 2025 16:18:19 +0000
-Date: Fri, 21 Feb 2025 00:17:33 +0800
+	id 1tl9jq-0004Wh-1F;
+	Thu, 20 Feb 2025 16:49:44 +0000
+Date: Fri, 21 Feb 2025 00:49:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
-Message-ID: <202502210037.162FN3PM-lkp@intel.com>
-References: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
+To: Jaakko Karrenpalo <jkarrenpalo@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jaakko Karrenpalo <jaakko.karrenpalo@fi.abb.com>
+Subject: Re: [PATCH net-next 2/2] net: hsr: Add KUnit test for PRP
+Message-ID: <202502210240.ZO6FLmH9-lkp@intel.com>
+References: <20250219124831.544318-2-jaakko.karrenpalo@fi.abb.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,30 +68,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount@gmail.com>
+In-Reply-To: <20250219124831.544318-2-jaakko.karrenpalo@fi.abb.com>
 
-Hi Matti,
+Hi Jaakko,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 5bc55a333a2f7316b58edc7573e8e893f7acb532]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-ROHM-BD79124-ADC-GPO/20250219-203748
-base:   5bc55a333a2f7316b58edc7573e8e893f7acb532
-patch link:    https://lore.kernel.org/r/21b9af362b64a1d9c2a13cc46242dd6955996c46.1739967040.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v3 7/9] iio: adc: sun20i-gpadc: Use adc-helpers
-config: i386-buildonly-randconfig-002-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210037.162FN3PM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jaakko-Karrenpalo/net-hsr-Add-KUnit-test-for-PRP/20250219-205153
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250219124831.544318-2-jaakko.karrenpalo%40fi.abb.com
+patch subject: [PATCH net-next 2/2] net: hsr: Add KUnit test for PRP
+config: riscv-randconfig-001-20250220 (https://download.01.org/0day-ci/archive/20250221/202502210240.ZO6FLmH9-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502210240.ZO6FLmH9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502210037.162FN3PM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502210240.ZO6FLmH9-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "devm_iio_adc_device_alloc_chaninfo" [drivers/iio/adc/sun20i-gpadc-iio.ko] undefined!
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/prp_dup_discard_test.o
+>> ERROR: modpost: "prp_register_frame_out" [net/hsr/prp_dup_discard_test.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
