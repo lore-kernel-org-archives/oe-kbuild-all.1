@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C9F1E5710
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 06:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CCA1E8345
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 08:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740034025; cv=none; b=f6j0zPBa5Q5hNU0C1CRXUvz2AelR+9UUOxZtaIgRphBoURg49HydCjjycvewAUgPtVQZSll9Cc1VKbRTjL1uBjS9BcGhu0if9wT/xkp9H3hbca3wT1fE+NDJ7YUbEVdthGPrIF1yE4s+S2jrqlsuE0tBwwfxQaWR7KwAN2bljog=
+	t=1740039700; cv=none; b=WVCNVqACLcmGL0w2p1hj2tnP2N75YEu4NHf4Ce30tDi4ln3donHHzlNr8LEIPCQcD72XctNNu7B4ID3htaYw7Lrtx2LN7Blr0+5HMy+5EhcKsQua21w+AgbSB2j7RjLmRCSGBL5EtQEUtMpSGaXct+pEV3cQbeRYX/4RHwHQIxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740034025; c=relaxed/simple;
-	bh=sz5jR86VPN0LnfqC8pO9xIZNgJwCjM9li9CUL9Seri4=;
+	s=arc-20240116; t=1740039700; c=relaxed/simple;
+	bh=eQYTj3zyLS3aPUdG/Og76hysDgQMmUbtgdRarWN+Lww=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DsfFQWi5DjP45cvejXcyR+nbA9NjDTjMvy4s5xW0HNpwRNEexjVOC0Y2z881eEzsCJ0OTrHLnYOXRWCoqBdmnpPw39YrfGFkD3Wbjh1DDRWxWOgYN3WhzZ++XS3fDE+xKS3HonDGsg0z3C/5EYGR6ldB/6w572FYLZHz1Es62Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8sh0lb+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=hg1s7duzxLbKmpD9WxQWmV5KzRZTwcm/lE5sTRpbGMqGZejWPzouV89EUwALS7MOBxvlBvIORw7+/zEmEdFQP44MOWm/MOXpL4RQ91LXwQTkWj5DlPn8WAXWleK6PUAO9wO2UqTMDKWhsETeihvz8Rq+FGQPvVjY/FeaMdP1VN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cnKBbHHR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8sh0lb+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cnKBbHHR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740034024; x=1771570024;
+  t=1740039698; x=1771575698;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sz5jR86VPN0LnfqC8pO9xIZNgJwCjM9li9CUL9Seri4=;
-  b=X8sh0lb+MtGT/SeUUzUUnW4YFJ8o5ThhmksvlTkKklOsfswKVxedJd4s
-   UymdIkKiM63koz72hPLtlVX9gDxlh+B6w3iPa/ZkEc+LCUTW86dntTbXn
-   wQtj8AOJFh7gieYiaNcrp0x3IdO/PGPfMgbYe6h+/cvvipAsiax4UDjxL
-   n+rbVJLF0jU/a3nMB4oiTWY7E8jag7RMuw5ocdzvnaWZdipcKuWQcHtN+
-   0kJoo25EKs9O6fYRfg8IjEYVJrxAr9kAgBOokISNSf1+L8RN03+UcswWB
-   x+AzxGxgi/BxWfbwa5zfAPmlYdSRg6sShokvy3C25Py3pZH/O/jRWXb1K
-   Q==;
-X-CSE-ConnectionGUID: Q//i41buR362Swi7QS4vFg==
-X-CSE-MsgGUID: 4RnMDFRAReyj+ze1aWAhnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51780839"
-X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="51780839"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 22:47:04 -0800
-X-CSE-ConnectionGUID: F8Q7viy6Tp+1bNTkdIFMnA==
-X-CSE-MsgGUID: xsogVkfSQpqSNqwkeGJu/w==
+  bh=eQYTj3zyLS3aPUdG/Og76hysDgQMmUbtgdRarWN+Lww=;
+  b=cnKBbHHR/hrwHYUkmvO3Nsq9OzebFg2g9D3fOkdlbEMCCgsR+FWS2SUr
+   qQ3p6dnUNSzXmG07oW7nqYjT6Ye2ePYimx/BDUfeEIhz3Hb3F6YRXs+h0
+   Zhl192HXVCLQYFi7ywrsmqAp1LZw4JblnFtb6jwhF8X8dlT6c1b9JyoHe
+   JsSVCatK2oqBbf9LJTBC5U69zBmE2Fi/gOox/UwOtnrFH4X/OnjqQBRve
+   Xjt8Wq8lfL9yB/xvvOUHbfWsYw6nv/qrzJDh61QsMNelLZj79HknEzPMG
+   3Vj2fJia/uAX2mmo++6JQ5645P765L/ZeDFpxykewuYI8MwdExs9IZ1AV
+   g==;
+X-CSE-ConnectionGUID: pVVLTwVtTouowty7nRoM5A==
+X-CSE-MsgGUID: bKNJoboNT2mL7s3WEfnV8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40038758"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="40038758"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 00:21:37 -0800
+X-CSE-ConnectionGUID: ZVbKXaSUTjeCgera0AEWSw==
+X-CSE-MsgGUID: KkBe72N7TT+LU+NN128KQw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="119891877"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="115641475"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 19 Feb 2025 22:47:01 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Feb 2025 00:21:35 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tl0Kn-0003xf-0V;
-	Thu, 20 Feb 2025 06:46:57 +0000
-Date: Thu, 20 Feb 2025 14:46:51 +0800
+	id 1tl1oK-00042B-2i;
+	Thu, 20 Feb 2025 08:21:32 +0000
+Date: Thu, 20 Feb 2025 16:20:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-pm@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
-	Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH] pmdomain: rockchip: Check if smcc could be handled by TA
-Message-ID: <202502201459.wqX8VWY9-lkp@intel.com>
-References: <1739926689-151827-1-git-send-email-shawn.lin@rock-chips.com>
+To: Nemesa Garg <nemesa.garg@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Nemesa Garg <nemesa.garg@intel.com>
+Subject: Re: [PATCH 1/6] drm: Introduce sharpness strength property
+Message-ID: <202502201640.Kv91RrH2-lkp@intel.com>
+References: <20250219115359.2320992-2-nemesa.garg@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,35 +63,376 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1739926689-151827-1-git-send-email-shawn.lin@rock-chips.com>
+In-Reply-To: <20250219115359.2320992-2-nemesa.garg@intel.com>
 
-Hi Shawn,
+Hi Nemesa,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20250218]
-[cannot apply to v6.14-rc3 v6.14-rc2 v6.14-rc1 linus/master v6.14-rc3]
+[auto build test WARNING on next-20250219]
+[cannot apply to drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master v6.14-rc3 v6.14-rc2 v6.14-rc1 v6.14-rc3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/pmdomain-rockchip-Check-if-smcc-could-be-handled-by-TA/20250219-122924
-base:   next-20250218
-patch link:    https://lore.kernel.org/r/1739926689-151827-1-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH] pmdomain: rockchip: Check if smcc could be handled by TA
-config: x86_64-buildonly-randconfig-005-20250220 (https://download.01.org/0day-ci/archive/20250220/202502201459.wqX8VWY9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201459.wqX8VWY9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nemesa-Garg/drm-Introduce-sharpness-strength-property/20250219-200229
+base:   next-20250219
+patch link:    https://lore.kernel.org/r/20250219115359.2320992-2-nemesa.garg%40intel.com
+patch subject: [PATCH 1/6] drm: Introduce sharpness strength property
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250220/202502201640.Kv91RrH2-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201640.Kv91RrH2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502201459.wqX8VWY9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502201640.Kv91RrH2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/pmdomain/rockchip/pm-domains.o: in function `rockchip_pd_power':
->> pm-domains.c:(.text+0x3bad): undefined reference to `arm_smccc_1_1_get_conduit'
+>> include/drm/drm_crtc.h:321: warning: Incorrect use of kernel-doc format:          * @sharpness_strength
+>> include/drm/drm_crtc.h:398: warning: Function parameter or struct member 'sharpness_strength' not described in 'drm_crtc_state'
+>> include/drm/drm_crtc.h:1194: warning: Function parameter or struct member 'sharpness_strength_property' not described in 'drm_crtc'
+>> include/drm/drm_crtc.h:1194: warning: Excess struct member 'sharpness_strength_prop' description in 'drm_crtc'
+
+
+vim +321 include/drm/drm_crtc.h
+
+    65	
+    66	/**
+    67	 * struct drm_crtc_state - mutable CRTC state
+    68	 *
+    69	 * Note that the distinction between @enable and @active is rather subtle:
+    70	 * Flipping @active while @enable is set without changing anything else may
+    71	 * never return in a failure from the &drm_mode_config_funcs.atomic_check
+    72	 * callback. Userspace assumes that a DPMS On will always succeed. In other
+    73	 * words: @enable controls resource assignment, @active controls the actual
+    74	 * hardware state.
+    75	 *
+    76	 * The three booleans active_changed, connectors_changed and mode_changed are
+    77	 * intended to indicate whether a full modeset is needed, rather than strictly
+    78	 * describing what has changed in a commit. See also:
+    79	 * drm_atomic_crtc_needs_modeset()
+    80	 */
+    81	struct drm_crtc_state {
+    82		/** @crtc: backpointer to the CRTC */
+    83		struct drm_crtc *crtc;
+    84	
+    85		/**
+    86		 * @enable: Whether the CRTC should be enabled, gates all other state.
+    87		 * This controls reservations of shared resources. Actual hardware state
+    88		 * is controlled by @active.
+    89		 */
+    90		bool enable;
+    91	
+    92		/**
+    93		 * @active: Whether the CRTC is actively displaying (used for DPMS).
+    94		 * Implies that @enable is set. The driver must not release any shared
+    95		 * resources if @active is set to false but @enable still true, because
+    96		 * userspace expects that a DPMS ON always succeeds.
+    97		 *
+    98		 * Hence drivers must not consult @active in their various
+    99		 * &drm_mode_config_funcs.atomic_check callback to reject an atomic
+   100		 * commit. They can consult it to aid in the computation of derived
+   101		 * hardware state, since even in the DPMS OFF state the display hardware
+   102		 * should be as much powered down as when the CRTC is completely
+   103		 * disabled through setting @enable to false.
+   104		 */
+   105		bool active;
+   106	
+   107		/**
+   108		 * @planes_changed: Planes on this crtc are updated. Used by the atomic
+   109		 * helpers and drivers to steer the atomic commit control flow.
+   110		 */
+   111		bool planes_changed : 1;
+   112	
+   113		/**
+   114		 * @mode_changed: @mode or @enable has been changed. Used by the atomic
+   115		 * helpers and drivers to steer the atomic commit control flow. See also
+   116		 * drm_atomic_crtc_needs_modeset().
+   117		 *
+   118		 * Drivers are supposed to set this for any CRTC state changes that
+   119		 * require a full modeset. They can also reset it to false if e.g. a
+   120		 * @mode change can be done without a full modeset by only changing
+   121		 * scaler settings.
+   122		 */
+   123		bool mode_changed : 1;
+   124	
+   125		/**
+   126		 * @active_changed: @active has been toggled. Used by the atomic
+   127		 * helpers and drivers to steer the atomic commit control flow. See also
+   128		 * drm_atomic_crtc_needs_modeset().
+   129		 */
+   130		bool active_changed : 1;
+   131	
+   132		/**
+   133		 * @connectors_changed: Connectors to this crtc have been updated,
+   134		 * either in their state or routing. Used by the atomic
+   135		 * helpers and drivers to steer the atomic commit control flow. See also
+   136		 * drm_atomic_crtc_needs_modeset().
+   137		 *
+   138		 * Drivers are supposed to set this as-needed from their own atomic
+   139		 * check code, e.g. from &drm_encoder_helper_funcs.atomic_check
+   140		 */
+   141		bool connectors_changed : 1;
+   142		/**
+   143		 * @zpos_changed: zpos values of planes on this crtc have been updated.
+   144		 * Used by the atomic helpers and drivers to steer the atomic commit
+   145		 * control flow.
+   146		 */
+   147		bool zpos_changed : 1;
+   148		/**
+   149		 * @color_mgmt_changed: Color management properties have changed
+   150		 * (@gamma_lut, @degamma_lut or @ctm). Used by the atomic helpers and
+   151		 * drivers to steer the atomic commit control flow.
+   152		 */
+   153		bool color_mgmt_changed : 1;
+   154	
+   155		/**
+   156		 * @no_vblank:
+   157		 *
+   158		 * Reflects the ability of a CRTC to send VBLANK events. This state
+   159		 * usually depends on the pipeline configuration. If set to true, DRM
+   160		 * atomic helpers will send out a fake VBLANK event during display
+   161		 * updates after all hardware changes have been committed. This is
+   162		 * implemented in drm_atomic_helper_fake_vblank().
+   163		 *
+   164		 * One usage is for drivers and/or hardware without support for VBLANK
+   165		 * interrupts. Such drivers typically do not initialize vblanking
+   166		 * (i.e., call drm_vblank_init() with the number of CRTCs). For CRTCs
+   167		 * without initialized vblanking, this field is set to true in
+   168		 * drm_atomic_helper_check_modeset(), and a fake VBLANK event will be
+   169		 * send out on each update of the display pipeline by
+   170		 * drm_atomic_helper_fake_vblank().
+   171		 *
+   172		 * Another usage is CRTCs feeding a writeback connector operating in
+   173		 * oneshot mode. In this case the fake VBLANK event is only generated
+   174		 * when a job is queued to the writeback connector, and we want the
+   175		 * core to fake VBLANK events when this part of the pipeline hasn't
+   176		 * changed but others had or when the CRTC and connectors are being
+   177		 * disabled.
+   178		 *
+   179		 * __drm_atomic_helper_crtc_duplicate_state() will not reset the value
+   180		 * from the current state, the CRTC driver is then responsible for
+   181		 * updating this field when needed.
+   182		 *
+   183		 * Note that the combination of &drm_crtc_state.event == NULL and
+   184		 * &drm_crtc_state.no_blank == true is valid and usually used when the
+   185		 * writeback connector attached to the CRTC has a new job queued. In
+   186		 * this case the driver will send the VBLANK event on its own when the
+   187		 * writeback job is complete.
+   188		 */
+   189		bool no_vblank : 1;
+   190	
+   191		/**
+   192		 * @plane_mask: Bitmask of drm_plane_mask(plane) of planes attached to
+   193		 * this CRTC.
+   194		 */
+   195		u32 plane_mask;
+   196	
+   197		/**
+   198		 * @connector_mask: Bitmask of drm_connector_mask(connector) of
+   199		 * connectors attached to this CRTC.
+   200		 */
+   201		u32 connector_mask;
+   202	
+   203		/**
+   204		 * @encoder_mask: Bitmask of drm_encoder_mask(encoder) of encoders
+   205		 * attached to this CRTC.
+   206		 */
+   207		u32 encoder_mask;
+   208	
+   209		/**
+   210		 * @adjusted_mode:
+   211		 *
+   212		 * Internal display timings which can be used by the driver to handle
+   213		 * differences between the mode requested by userspace in @mode and what
+   214		 * is actually programmed into the hardware.
+   215		 *
+   216		 * For drivers using &drm_bridge, this stores hardware display timings
+   217		 * used between the CRTC and the first bridge. For other drivers, the
+   218		 * meaning of the adjusted_mode field is purely driver implementation
+   219		 * defined information, and will usually be used to store the hardware
+   220		 * display timings used between the CRTC and encoder blocks.
+   221		 */
+   222		struct drm_display_mode adjusted_mode;
+   223	
+   224		/**
+   225		 * @mode:
+   226		 *
+   227		 * Display timings requested by userspace. The driver should try to
+   228		 * match the refresh rate as close as possible (but note that it's
+   229		 * undefined what exactly is close enough, e.g. some of the HDMI modes
+   230		 * only differ in less than 1% of the refresh rate). The active width
+   231		 * and height as observed by userspace for positioning planes must match
+   232		 * exactly.
+   233		 *
+   234		 * For external connectors where the sink isn't fixed (like with a
+   235		 * built-in panel), this mode here should match the physical mode on the
+   236		 * wire to the last details (i.e. including sync polarities and
+   237		 * everything).
+   238		 */
+   239		struct drm_display_mode mode;
+   240	
+   241		/**
+   242		 * @mode_blob: &drm_property_blob for @mode, for exposing the mode to
+   243		 * atomic userspace.
+   244		 */
+   245		struct drm_property_blob *mode_blob;
+   246	
+   247		/**
+   248		 * @degamma_lut:
+   249		 *
+   250		 * Lookup table for converting framebuffer pixel data before apply the
+   251		 * color conversion matrix @ctm. See drm_crtc_enable_color_mgmt(). The
+   252		 * blob (if not NULL) is an array of &struct drm_color_lut.
+   253		 */
+   254		struct drm_property_blob *degamma_lut;
+   255	
+   256		/**
+   257		 * @ctm:
+   258		 *
+   259		 * Color transformation matrix. See drm_crtc_enable_color_mgmt(). The
+   260		 * blob (if not NULL) is a &struct drm_color_ctm.
+   261		 */
+   262		struct drm_property_blob *ctm;
+   263	
+   264		/**
+   265		 * @gamma_lut:
+   266		 *
+   267		 * Lookup table for converting pixel data after the color conversion
+   268		 * matrix @ctm.  See drm_crtc_enable_color_mgmt(). The blob (if not
+   269		 * NULL) is an array of &struct drm_color_lut.
+   270		 *
+   271		 * Note that for mostly historical reasons stemming from Xorg heritage,
+   272		 * this is also used to store the color map (also sometimes color lut,
+   273		 * CLUT or color palette) for indexed formats like DRM_FORMAT_C8.
+   274		 */
+   275		struct drm_property_blob *gamma_lut;
+   276	
+   277		/**
+   278		 * @target_vblank:
+   279		 *
+   280		 * Target vertical blank period when a page flip
+   281		 * should take effect.
+   282		 */
+   283		u32 target_vblank;
+   284	
+   285		/**
+   286		 * @async_flip:
+   287		 *
+   288		 * This is set when DRM_MODE_PAGE_FLIP_ASYNC is set in the legacy
+   289		 * PAGE_FLIP IOCTL. It's not wired up for the atomic IOCTL itself yet.
+   290		 */
+   291		bool async_flip;
+   292	
+   293		/**
+   294		 * @vrr_enabled:
+   295		 *
+   296		 * Indicates if variable refresh rate should be enabled for the CRTC.
+   297		 * Support for the requested vrr state will depend on driver and
+   298		 * hardware capabiltiy - lacking support is not treated as failure.
+   299		 */
+   300		bool vrr_enabled;
+   301	
+   302		/**
+   303		 * @self_refresh_active:
+   304		 *
+   305		 * Used by the self refresh helpers to denote when a self refresh
+   306		 * transition is occurring. This will be set on enable/disable callbacks
+   307		 * when self refresh is being enabled or disabled. In some cases, it may
+   308		 * not be desirable to fully shut off the crtc during self refresh.
+   309		 * CRTC's can inspect this flag and determine the best course of action.
+   310		 */
+   311		bool self_refresh_active;
+   312	
+   313		/**
+   314		 * @scaling_filter:
+   315		 *
+   316		 * Scaling filter to be applied
+   317		 */
+   318		enum drm_scaling_filter scaling_filter;
+   319	
+   320		/**
+ > 321		 * @sharpness_strength
+   322		 *
+   323		 * Used by the user to set the sharpness intensity.
+   324		 * The value ranges from 0-255.
+   325		 * Any value greater than 0 means enabling the featuring
+   326		 * along with setting the value for sharpness.
+   327		 */
+   328		u8 sharpness_strength;
+   329	
+   330		/**
+   331		 * @event:
+   332		 *
+   333		 * Optional pointer to a DRM event to signal upon completion of the
+   334		 * state update. The driver must send out the event when the atomic
+   335		 * commit operation completes. There are two cases:
+   336		 *
+   337		 *  - The event is for a CRTC which is being disabled through this
+   338		 *    atomic commit. In that case the event can be send out any time
+   339		 *    after the hardware has stopped scanning out the current
+   340		 *    framebuffers. It should contain the timestamp and counter for the
+   341		 *    last vblank before the display pipeline was shut off. The simplest
+   342		 *    way to achieve that is calling drm_crtc_send_vblank_event()
+   343		 *    somewhen after drm_crtc_vblank_off() has been called.
+   344		 *
+   345		 *  - For a CRTC which is enabled at the end of the commit (even when it
+   346		 *    undergoes an full modeset) the vblank timestamp and counter must
+   347		 *    be for the vblank right before the first frame that scans out the
+   348		 *    new set of buffers. Again the event can only be sent out after the
+   349		 *    hardware has stopped scanning out the old buffers.
+   350		 *
+   351		 *  - Events for disabled CRTCs are not allowed, and drivers can ignore
+   352		 *    that case.
+   353		 *
+   354		 * For very simple hardware without VBLANK interrupt, enabling
+   355		 * &struct drm_crtc_state.no_vblank makes DRM's atomic commit helpers
+   356		 * send a fake VBLANK event at the end of the display update after all
+   357		 * hardware changes have been applied. See
+   358		 * drm_atomic_helper_fake_vblank().
+   359		 *
+   360		 * For more complex hardware this
+   361		 * can be handled by the drm_crtc_send_vblank_event() function,
+   362		 * which the driver should call on the provided event upon completion of
+   363		 * the atomic commit. Note that if the driver supports vblank signalling
+   364		 * and timestamping the vblank counters and timestamps must agree with
+   365		 * the ones returned from page flip events. With the current vblank
+   366		 * helper infrastructure this can be achieved by holding a vblank
+   367		 * reference while the page flip is pending, acquired through
+   368		 * drm_crtc_vblank_get() and released with drm_crtc_vblank_put().
+   369		 * Drivers are free to implement their own vblank counter and timestamp
+   370		 * tracking though, e.g. if they have accurate timestamp registers in
+   371		 * hardware.
+   372		 *
+   373		 * For hardware which supports some means to synchronize vblank
+   374		 * interrupt delivery with committing display state there's also
+   375		 * drm_crtc_arm_vblank_event(). See the documentation of that function
+   376		 * for a detailed discussion of the constraints it needs to be used
+   377		 * safely.
+   378		 *
+   379		 * If the device can't notify of flip completion in a race-free way
+   380		 * at all, then the event should be armed just after the page flip is
+   381		 * committed. In the worst case the driver will send the event to
+   382		 * userspace one frame too late. This doesn't allow for a real atomic
+   383		 * update, but it should avoid tearing.
+   384		 */
+   385		struct drm_pending_vblank_event *event;
+   386	
+   387		/**
+   388		 * @commit:
+   389		 *
+   390		 * This tracks how the commit for this update proceeds through the
+   391		 * various phases. This is never cleared, except when we destroy the
+   392		 * state, so that subsequent commits can synchronize with previous ones.
+   393		 */
+   394		struct drm_crtc_commit *commit;
+   395	
+   396		/** @state: backpointer to global drm_atomic_state */
+   397		struct drm_atomic_state *state;
+ > 398	};
+   399	
 
 -- 
 0-DAY CI Kernel Test Service
