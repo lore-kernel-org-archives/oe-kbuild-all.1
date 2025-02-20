@@ -1,125 +1,83 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E132D1EE003
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 08:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081C11EC018
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 09:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740041867; cv=none; b=ozGObn2nTVACSCzZzZMQyxyrfk+8FioTeLfcloCzVVEmVLZb0jLT7UZ/Nhgh4ygxZuKtCIQDqjipYXtiS60ogPtzSOrqvjZ6ZVhxl14Q5k9J8MwL9PtBC3erZZ44xXH6JmMZ3DQ647yeZOr0WgcH9sI2qVyarGItzF3Oy9l61sw=
+	t=1740044036; cv=none; b=Fb08izKUYAru2ZbPYIy1MnYMz2cIi0gJ/1U6lTlsL3q7EME3DaJCOuKDmO2eX9MNZpe6LkpqvG4tICrPvq+GsRrlfQFXFiJQhxRA1XxiQR1DX7i7k3LBLNxb6IVmoTioi+BNOnYFMhFxO7qOPt6x1RcMCr5n+0F1nW6GtCaYH0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740041867; c=relaxed/simple;
-	bh=Xe3KW08CtnTWxDsfXEunDUYKjhgHZTGBlTQTiSWGgco=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b/qJLrwosoTKnu0hTIU9k+SvPGOYkm9n7is+8sFbVNq1ko3ICv8/l+PY5ySsSHiJKlzIbOIOMcdUdj13zvzDBZTsIBV8xrpvT59X0FxvjI5EOgYmnCCvE7pG3VeTY9dCCqbVAJ+QWJtCMqUMFRbWT9GdyLQEHfsGtcha2ZPn7qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6+Q1BCg; arc=none smtp.client-ip=209.85.166.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740044036; c=relaxed/simple;
+	bh=pazP0gk3FmV0X5DLB3wYfAlzKrB9Rdm8n15n+jg4ekY=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NHiY79pGZHRNSf7aXI5D0EpoFKsnQvVDGlZjDEz4df2zpOTYVfDfsATagC4agPeh0MuTRkdvHkKu2KWQLlfIGLq9UAf0SjATdQ6bfNPzMbh3ckmGxbbGonkxT00W478x5lH/Z+ETfcwdm0RR8NVU0a5G+cD7lOEb3M3YCVbF7kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhH3yPn8; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6+Q1BCg"
-Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-855a8c1ffe9so20273539f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 00:57:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740041865; x=1740646665; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZJ1ukTj9LoDYtqtD5ecMxI2UxUwlSfIH76RTECIiysM=;
-        b=U6+Q1BCggGNMBNArQ0N5AbrCMkBCiGEsesxI6XclLwcbXjWLu1bqZmIT1nhUsjJwBn
-         HLmS8bOdD2qyKiV5uHeicWXPSe9Y2SMgHSvDR4mSIfosgXQaICFKcJnpW9V/NCTnqOAr
-         Uu4I+MYj5Gc9I9XGcKZaCxikE7n8VOKjWAASqEYRXyZ4ca35xMOk3PuEe0SVvGuEtYWP
-         K1Itibxfdzcsf33PhYIfwkLaW+kYY54YFp3fC0waQQfnYGF0O8ke72KfNxBBc6ibUayN
-         cxXAc6aJv2tUR4a7+La/t/60OlIocr926wdrCN65nqzs/99xt9XHrPOT18lp3kIS6ws/
-         +81w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740041865; x=1740646665;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZJ1ukTj9LoDYtqtD5ecMxI2UxUwlSfIH76RTECIiysM=;
-        b=gdaI5mynDeTAYWwZdQt9xgvpATeKLCHJGq2CLGjUnHPHqL2WVC5DOV7LXTxbqINv+p
-         xxnUaFkARuq89202E/vuJRDCu+SV9N4utcbhAtNcsCIXePvP3KiLeqrU91JCZXYaVHbV
-         L/wGnmAkpp3+wj9xhGTHpt2d1S54/K4EwkjWyia7oHBlxN8OwqcDqQzhjSdnX4uFkxoP
-         vaUqRNRw4HiJibHPag96Kd4eUp3oVFgHfDF5JCObjAEzul4p2bJ3zFQMvieslKaXlxSD
-         Ong9z7SDOdreuY6xMiRMgVyKfbTYd6GC9f9xZc2uO5rgPCXXFDJk/A2MP2rodcmSnOwf
-         riYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpYnX1r3BjPti/83TZoJaxsRyWKVHO31HKzSz9y3HxUZpK6jF71rVuqh0royGQlbehb/EB4kuyOdim7QIK@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDfdX1AQqRfmnqlLMa8BNcROs2ZO9gaUNCf66WQ85rkJ1nYRgD
-	uXOf8m32vKv6f8skbW1D4YU13TuSWvVhvulQaxPs5mNQyQ+fOhHIFMuaxaCAcbOCZGus0CRxyyu
-	KrG+C2YpyTuAGZcrAi3DOgWRLzH8=
-X-Gm-Gg: ASbGncuTdN5FkgyQT5l0GRbnhAHjcJNMhT3Y7U/Uau+S82x3tHvA9mSV1IN+7nYkzUZ
-	gZm76wZunKkzuavrVN5zoQcsddBUL1SjU7cW9C3mEmyyQdjdB94Vv8Q9bkVhlfD9G5r5iFvcL
-X-Google-Smtp-Source: AGHT+IFqzNFKSbcp0m+sVNShsOIjZnefnBiSt3e7dTYZO4FvWSEE9vIyYmmpnmKMzyBwF8FIEZfT3i4wI6Q0Vt6JVKE=
-X-Received: by 2002:a05:6e02:2686:b0:3d0:3fa2:ccfd with SMTP id
- e9e14a558f8ab-3d280771e1amr219813525ab.5.1740041864809; Thu, 20 Feb 2025
- 00:57:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhH3yPn8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740044034; x=1771580034;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=pazP0gk3FmV0X5DLB3wYfAlzKrB9Rdm8n15n+jg4ekY=;
+  b=GhH3yPn8RjqdEPP8oRcyN/aY+rr/TOqXlFC4V+x8NbPIYyvfmnLVTsG7
+   eW9M+B7LVlOAusbtATc4qf3G8mJ32ta9XKDC9Ok7yGl0LELcDQ7Y5knkG
+   WXoRUduNoE/ezuDg35DrKZkKwxQqw7BY0yLjYxvLsHDS0cIIrQf32ugnu
+   ROPs+TPF/nT0HVemcLgDwMbSGtRxNiuGQQEW+srHSSJHqA2dAZK2lwX6U
+   arcxWtzkDU6slc0gvwxjtLYZS16ipyA8BJHPSV5ThbfyM2CW0ly5Q8Y1j
+   Ug7qzsGVaHjasBfPFnzT+O1SCxi/eYjAblAX4o4f2KW8w+LpF3zLMS5sZ
+   A==;
+X-CSE-ConnectionGUID: FLOZb8jcRUaG2Wiq5dYx4Q==
+X-CSE-MsgGUID: zbupC7W4RXi2FquGeTmxZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51797712"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="51797712"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 01:33:53 -0800
+X-CSE-ConnectionGUID: 8vD13C1nTseEbfq5VwLcCQ==
+X-CSE-MsgGUID: Sj7qewjyRrOfGhzdizQegA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="119965769"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 20 Feb 2025 01:33:51 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tl2vz-00046B-2h
+	for oe-kbuild-all@lists.linux.dev;
+	Thu, 20 Feb 2025 09:33:40 +0000
+Date: Thu, 20 Feb 2025 17:33:14 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/60 1/1] drivers/iio/dac/ti-dac7612.o: warning:
+ objtool: missing symbol for section .init.text
+Message-ID: <202502201733.CvUWKOVX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250219081333.56378-2-kerneljasonxing@gmail.com> <202502201843.xA1qZbKX-lkp@intel.com>
-In-Reply-To: <202502201843.xA1qZbKX-lkp@intel.com>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Thu, 20 Feb 2025 16:57:08 +0800
-X-Gm-Features: AWEUYZkZEa_RTXX9eGIodABGhTE06_-yx8MFYAYIY0b_nk5Ib5cNvbHdq_7paqg
-Message-ID: <CAL+tcoC9nboQ9UNeP1-g4nQKqXg+fLDu68RHjwKRx97f_iuCZQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/2] bpf: support TCP_RTO_MAX_MS for bpf_setsockopt
-To: kernel test robot <lkp@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, dsahern@kernel.org, kuniyu@amazon.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, ykolal@fb.com, 
-	oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Feb 20, 2025 at 4:52=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Jason,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on bpf-next/master]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/bpf-sup=
-port-TCP_RTO_MAX_MS-for-bpf_setsockopt/20250219-161637
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
-master
-> patch link:    https://lore.kernel.org/r/20250219081333.56378-2-kerneljas=
-onxing%40gmail.com
-> patch subject: [PATCH bpf-next v3 1/2] bpf: support TCP_RTO_MAX_MS for bp=
-f_setsockopt
-> config: x86_64-buildonly-randconfig-002-20250220 (https://download.01.org=
-/0day-ci/archive/20250220/202502201843.xA1qZbKX-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250220/202502201843.xA1qZbKX-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502201843.xA1qZbKX-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    net/core/filter.c: In function 'sol_tcp_sockopt':
-> >> net/core/filter.c:5385:14: error: 'TCP_RTO_MAX_MS' undeclared (first u=
-se in this function); did you mean 'TCP_RTO_MAX'?
->     5385 |         case TCP_RTO_MAX_MS:
->          |              ^~~~~~~~~~~~~~
->          |              TCP_RTO_MAX
->    net/core/filter.c:5385:14: note: each undeclared identifier is reporte=
-d only once for each function it appears in
+tree:   https://github.com/intel/linux-intel-lts.git pr/60
+head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
+commit: 977724d20584bd268b0a84bc2fbfffbc8681b595 [1/1] iio:dac:ti-dac7612: Add driver for Texas Instruments DAC7612
+config: x86_64-buildonly-randconfig-005-20250218 (https://download.01.org/0day-ci/archive/20250220/202502201733.CvUWKOVX-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201733.CvUWKOVX-lkp@intel.com/reproduce)
 
-We've discussed this a few hours ago. It turned out to be the wrong
-branch which this series applied to. Please try bpf-next net branch
-instead :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502201733.CvUWKOVX-lkp@intel.com/
 
-Thanks,
-Jason
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/dac/ti-dac7612.o: warning: objtool: missing symbol for section .init.text
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
