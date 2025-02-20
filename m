@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B071A920
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 06:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B771199FC5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Feb 2025 06:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740031502; cv=none; b=VEvr/G+qQbaIgY93HgV7XqWu9kwU6PysTh0jnsRyYvjzXLw82ONigbMXbykRVTYRLAn3flSPnwA6Tc7azfSKMifVHKe28LjVJpvnfPBI140B6EBhVSLsc27WgeUymTUtUe4z97sUPzSSZeSoDSVwaiJsfOLtKUkRBWalJs1QiT0=
+	t=1740031503; cv=none; b=rgrQsLzLtXUe/w8FkKbI/ZmUrYpCwkNFErIo/Vu+P2CVDV6YnaLlDmnzNQ0nnlUBKgSq9SyfGJdae9BIxGW48G6OvXT+y4aciokVL7hyxd7EY33adfSPOrFKyHInumD00XdPctwOlAlfIe9FSct96lLhx2gr1GorxQ82yD1dFYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740031502; c=relaxed/simple;
-	bh=jevWpQWS7+464rnswUl+ITpDSpldFuwfhnjaDC6q6gU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RGuIDnIeIvoUkyySHDHxRzZgRqkJ+xGHDoBQLZItmEeQbZX6YdBkJ5DF3SaX0Du2u/4vvbddfu2VMjcYOQVM2GrllZ15AaYgHWdRbyxMSdDSpZRKJQ/SzfCS3kdrLyqTq82MuV6AtZNa5kdOfvNuZFq+9V9JH4OpYA6No1hBCWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5Z1AZEg; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1740031503; c=relaxed/simple;
+	bh=LEMI46MYGP6Mj44o8JnfUs/f51k6JJbhxElJkechiqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b1YZs2HB39MtDwyCQXZK/f8VSfhOny4coZND2DQnQGyUweh1YWAciYvxnI50k3mOMoa1HQHYdjC2sZqARKH71Sb1/HTIYfaoSfUH5taZX3eRf41G/sdzQHacibh5awx+QdS7QpcKtXIgA7tUz5WN7tDtiQ9d6pURvcH3KKB03G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fg0WmP3p; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5Z1AZEg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fg0WmP3p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740031501; x=1771567501;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jevWpQWS7+464rnswUl+ITpDSpldFuwfhnjaDC6q6gU=;
-  b=e5Z1AZEgKoV9XwwUhJgn6TLw2Afh78Rz4biunSkRdtnCJh66kz0jxGJn
-   S/q+ZUlz7D3NjpPPoXpxQnjv5OZH4gNAp60NNJYcjCmc4F7H8HQfxTffb
-   nGXXxxycx94H8mSBoA48zdpnThLDEVOxpmyNUvZLQdeZtLesNb85HuDdr
-   9H7GVoNAqgRfwtyPQIwAdqFR2g9lCGRLepCzo15M2Xck+TzM/eBBrvkwq
-   32Xs2fEIZ4p5z36CCKU7BSD01f+FGrAAsXOt44+c4L3Nn01JMT6rOpDsr
-   g+UlL8iTmWZny6yx7ezeHZGZsCavkFA1KvWX3Fv7xf3kkp1dzo0bW6NDG
-   g==;
-X-CSE-ConnectionGUID: qPzLAjCWRNus+FmBwtWBEg==
-X-CSE-MsgGUID: 3fhjM6zuQhakgC1FRmxJpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="51438687"
+  t=1740031502; x=1771567502;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LEMI46MYGP6Mj44o8JnfUs/f51k6JJbhxElJkechiqY=;
+  b=Fg0WmP3p8eBC56Sax9Xx0UTpKOdJkJ7SXtznOdnFesQVWYjUF7+yo4ZG
+   NFO3fdW816Oun2cZSAduVhepf8fRySvdgaQHMRv27Mz3S2Kl1lThWSLzR
+   L/wkBs9f2aPmArwoTPelrn/TRCqbxl/DKxjCn7iz1cAr5xFFzHgLG94tf
+   5UwXM2zLdJcQAAtyYsaolBZu92ecdr/aQpkIbqVyOFzI/stAorDhtScvb
+   4F0u5R7YL1W1RJ1GQavxkNMLmN31iBsoLIYxYxNXHWjUHc2sy76lGP/le
+   r4PXS5LQWFI9lmk1mGQoEZgFqUDa8AXiyuEZufG8sTctc+IKZ77wvBQb9
+   w==;
+X-CSE-ConnectionGUID: vJKd+hJvQPCHHYsOQdmquA==
+X-CSE-MsgGUID: SxMhTTHPQIWZjPgukMwDaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="52204136"
 X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
-   d="scan'208";a="51438687"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 22:05:00 -0800
-X-CSE-ConnectionGUID: VrT7POvcQfGzOL5VLEUS3w==
-X-CSE-MsgGUID: 0enuceJpStasyQKF3yYUuQ==
+   d="scan'208";a="52204136"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2025 22:05:01 -0800
+X-CSE-ConnectionGUID: g8GBfc0VRW+MBI47bJprLQ==
+X-CSE-MsgGUID: NNip9r77T1e9k0x4lesnfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="114792555"
+X-IronPort-AV: E=Sophos;i="6.13,300,1732608000"; 
+   d="scan'208";a="114924865"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 19 Feb 2025 22:04:59 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 19 Feb 2025 22:04:59 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tkzg8-0003ud-2x;
+	id 1tkzg8-0003ub-2u;
 	Thu, 20 Feb 2025 06:04:56 +0000
-Date: Thu, 20 Feb 2025 14:04:29 +0800
+Date: Thu, 20 Feb 2025 14:04:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-Subject: [intel-lts:pr/59 1/1] drivers/tty/serial/8250/8250_port.c:2054:25:
- warning: unused variable 'up'
-Message-ID: <202502201313.wKrf30dc-lkp@intel.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
+	linux-pm@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
+	Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] pmdomain: rockchip: Check if smcc could be handled by TA
+Message-ID: <202502201601.rQYwZmA8-lkp@intel.com>
+References: <1739926689-151827-1-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +67,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1739926689-151827-1-git-send-email-shawn.lin@rock-chips.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/59
-head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
-commit: 20d2b572f04e7777c14c00eae743d7a4fd329653 [1/1] serial: 8250_port: Remove calls to runtime PM
-config: sparc-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250220/202502201313.wKrf30dc-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201313.wKrf30dc-lkp@intel.com/reproduce)
+Hi Shawn,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20250218]
+[cannot apply to v6.14-rc3 v6.14-rc2 v6.14-rc1 linus/master v6.14-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/pmdomain-rockchip-Check-if-smcc-could-be-handled-by-TA/20250219-122924
+base:   next-20250218
+patch link:    https://lore.kernel.org/r/1739926689-151827-1-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH] pmdomain: rockchip: Check if smcc could be handled by TA
+config: i386-buildonly-randconfig-001-20250220 (https://download.01.org/0day-ci/archive/20250220/202502201601.rQYwZmA8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250220/202502201601.rQYwZmA8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502201313.wKrf30dc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502201601.rQYwZmA8-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_port.c: In function 'serial8250_get_poll_char':
->> drivers/tty/serial/8250/8250_port.c:2054:25: warning: unused variable 'up' [-Wunused-variable]
-     struct uart_8250_port *up = up_to_u8250p(port);
-                            ^~
---
-   arch/sparc/kernel/head_32.o: in function `current_pc':
->> (.head.text+0x2040): relocation truncated to fit: R_SPARC_WDISP22 against `.init.text'
-   arch/sparc/kernel/head_32.o: in function `halt_notsup':
-   (.head.text+0x2100): relocation truncated to fit: R_SPARC_WDISP22 against `.init.text'
-   arch/sparc/kernel/process_32.o:(.fixup+0x4): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/process_32.o:(.fixup+0xc): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x0): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x8): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x10): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x18): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x20): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x28): relocation truncated to fit: R_SPARC_WDISP22 against `.text'
-   arch/sparc/kernel/signal_32.o:(.fixup+0x30): additional relocation overflows omitted from the output
+   ld: drivers/pmdomain/rockchip/pm-domains.o: in function `rockchip_do_pmu_set_power_domain':
+>> drivers/pmdomain/rockchip/pm-domains.c:575: undefined reference to `arm_smccc_1_1_get_conduit'
 
 
-vim +/up +2054 drivers/tty/serial/8250/8250_port.c
+vim +575 drivers/pmdomain/rockchip/pm-domains.c
 
-b6830f6df8914fa Peter Hurley    2015-06-27  2045  
-b6830f6df8914fa Peter Hurley    2015-06-27  2046  #ifdef CONFIG_CONSOLE_POLL
-b6830f6df8914fa Peter Hurley    2015-06-27  2047  /*
-b6830f6df8914fa Peter Hurley    2015-06-27  2048   * Console polling routines for writing and reading from the uart while
-b6830f6df8914fa Peter Hurley    2015-06-27  2049   * in an interrupt or debug context.
-b6830f6df8914fa Peter Hurley    2015-06-27  2050   */
-b6830f6df8914fa Peter Hurley    2015-06-27  2051  
-b6830f6df8914fa Peter Hurley    2015-06-27  2052  static int serial8250_get_poll_char(struct uart_port *port)
-b6830f6df8914fa Peter Hurley    2015-06-27  2053  {
-b6830f6df8914fa Peter Hurley    2015-06-27 @2054  	struct uart_8250_port *up = up_to_u8250p(port);
-b6830f6df8914fa Peter Hurley    2015-06-27  2055  	unsigned char lsr;
-b6830f6df8914fa Peter Hurley    2015-06-27  2056  
-b6830f6df8914fa Peter Hurley    2015-06-27  2057  	lsr = serial_port_in(port, UART_LSR);
-20d2b572f04e777 Andy Shevchenko 2016-11-16  2058  	if (!(lsr & UART_LSR_DR))
-20d2b572f04e777 Andy Shevchenko 2016-11-16  2059  		return NO_POLL_CHAR;
-b6830f6df8914fa Peter Hurley    2015-06-27  2060  
-20d2b572f04e777 Andy Shevchenko 2016-11-16  2061  	return serial_port_in(port, UART_RX);
-b6830f6df8914fa Peter Hurley    2015-06-27  2062  }
-b6830f6df8914fa Peter Hurley    2015-06-27  2063  
-
-:::::: The code at line 2054 was first introduced by commit
-:::::: b6830f6df8914faae9561bb245860c21af9b9e9b serial: 8250: Split base port operations from universal driver
-
-:::::: TO: Peter Hurley <peter@hurleysoftware.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   537	
+   538	static void rockchip_do_pmu_set_power_domain(struct rockchip_pm_domain *pd,
+   539						     bool on)
+   540	{
+   541		struct rockchip_pmu *pmu = pd->pmu;
+   542		struct generic_pm_domain *genpd = &pd->genpd;
+   543		u32 pd_pwr_offset = pd->info->pwr_offset;
+   544		bool is_on, is_mem_on = false;
+   545		struct arm_smccc_res res;
+   546	
+   547		if (pd->info->pwr_mask == 0)
+   548			return;
+   549	
+   550		if (on && pd->info->mem_status_mask)
+   551			is_mem_on = rockchip_pmu_domain_is_mem_on(pd);
+   552	
+   553		if (pd->info->pwr_w_mask)
+   554			regmap_write(pmu->regmap, pmu->info->pwr_offset + pd_pwr_offset,
+   555				     on ? pd->info->pwr_w_mask :
+   556				     (pd->info->pwr_mask | pd->info->pwr_w_mask));
+   557		else
+   558			regmap_update_bits(pmu->regmap, pmu->info->pwr_offset + pd_pwr_offset,
+   559					   pd->info->pwr_mask, on ? 0 : -1U);
+   560	
+   561		wmb();
+   562	
+   563		if (is_mem_on && rockchip_pmu_domain_mem_reset(pd))
+   564			return;
+   565	
+   566		if (readx_poll_timeout_atomic(rockchip_pmu_domain_is_on, pd, is_on,
+   567					      is_on == on, 0, 10000)) {
+   568			dev_err(pmu->dev,
+   569				"failed to set domain '%s', val=%d\n",
+   570				genpd->name, is_on);
+   571			return;
+   572		}
+   573	
+   574		/* Inform firmware to keep this pd on or off */
+ > 575		if (arm_smccc_1_1_get_conduit() != SMCCC_CONDUIT_NONE)
+   576			arm_smccc_smc(ROCKCHIP_SIP_SUSPEND_MODE, ROCKCHIP_SLEEP_PD_CONFIG,
+   577					pmu->info->pwr_offset + pd_pwr_offset,
+   578					pd->info->pwr_mask, on, 0, 0, 0, &res);
+   579	}
+   580	
 
 -- 
 0-DAY CI Kernel Test Service
