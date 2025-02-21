@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792EA205514
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 14:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8880E26AEC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 15:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740149665; cv=none; b=Ah3F12kln+MScHYmFERNcEJk9bYUYwKWeZIJDCUtB56SvUUbnfaFgeapTxxxCo2/dGEZWR/RuN7JRXEK17bHfNa4k3ZdqUoNFU5qYbXCJswT9hGiw0LwpheDkB7aszgQ+WG0Lwswy3RYJTC7Wdm0QP5uUK/S+1GSgRc6qeChBsk=
+	t=1740152148; cv=none; b=tg89CAHIEwmcDe3O4IFdqnK584oLp/SOwfk5xD0aW558iwCl/TfvFJ9IJunlMzhZlrJ0qQ88Bb2wm4pqimXYLboISBv5iBVASO6krrCi3fAm09gGToqn1r4YyA3osGH1zjwHI01KV5+vqqu6yiQYBW0kKwjusiEtthiWn3TtFbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740149665; c=relaxed/simple;
-	bh=+Rw0Gi2FDtzl3Gv2Z1ddChZhnU6r87VVmpkvHDOJVU0=;
+	s=arc-20240116; t=1740152148; c=relaxed/simple;
+	bh=4sevlbjlLEpgNae5fl+DrTQzKOQEcEv7ZFU17BMMMAI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tR3CUdaKa/Z4ABNEWcsldUrKeHUkU0i2AfjPx+mw3haJhpZQXs/LsUUEjHktKqo2D0a9loFkCTG2vHSmh5YB3CfJkCIbaVKWafrOBq8pMg4ayncGBXr+zAx83b8iOHNTkS/nxveTF8lnpF/qtsPjJbNwIux49mHYQ9jQhIXYhNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XyaIFBej; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ddUnCBq4cFNyg+UbWnF3mapR3Qw1Cprx+urDbHQ3avRwDBa7l8fR3Oe7ITqoK/3ISohlCjxK9hGqmPb7sMo2sz8FldKD05DQ+Ag1J0p8BCekEXsNeDyuQRCAbegAjH+7FYNMrvyubxtcGNWT+kN8W2rW+TjkP0f/HbkJjCOh7ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbopWj09; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XyaIFBej"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbopWj09"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740149664; x=1771685664;
+  t=1740152147; x=1771688147;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Rw0Gi2FDtzl3Gv2Z1ddChZhnU6r87VVmpkvHDOJVU0=;
-  b=XyaIFBejz0wnA3mP3ZM6lFfp+bncFqsNtfD98bzYCGpsYbOelYNkVzdn
-   rP4TMYvYvDc5eSWjxJVN/hij/+Xz3uYgmGs68pWFLLeV80kBdHlCeW3le
-   LjZT7TxXLjaGPL0UT1r0frMrBl9Qg3bFGjmOn7XXNta/dVlK2YJlX2De4
-   5bFKrEo+Sx+HUvST9JqnrfG+UXcof0sC0ODmg1JhHgYQwxv9Ct2t9bZu3
-   Ac3UlT1cknF8K1RaitAUni0wIIDVy43jnG0K7T73HgCpo4fihS/UyegBc
-   PkRMLydyJc2H6kHGSkkX0kAk4bNwtpyP8Uq+Kn5Im7dyQGyYuuwoBUV0V
-   Q==;
-X-CSE-ConnectionGUID: DTC7Q/8qQuasbFl6W2/5fw==
-X-CSE-MsgGUID: UO2UYHugSz+9FGP4WERk9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="41093512"
+  bh=4sevlbjlLEpgNae5fl+DrTQzKOQEcEv7ZFU17BMMMAI=;
+  b=lbopWj09UNFtJDvjNDF4TjXyk5+gH/gfNG5HCzy8oTx2+Bp0RUq1FncQ
+   EmctdEwWftQNDZ0QLSlDfcuMolIoc1qvSTLNCMcFwuWxjlup6ySPxVBRc
+   8jfkDS1L2E3XaEIJGVzif3vp4MhMTuIlBm/PcjKp/D1bR/MvZeB8T9RFx
+   DvUep/HPVlILL6XkX5baY47IakTxtiah7Xz0zfNVOtugQrrs96nhot+P4
+   8xHuNr7Na2zaFRz+4YgvedFS/DJHwtVrymS9Jlz+PaXdXd/m81603NM2/
+   HdMuT9oM9RXlTLwvRmQpVWqYQucT+KDqEnH7TdNGBLhaKXU9K4G0ng6J8
+   w==;
+X-CSE-ConnectionGUID: jCn1TL1kQUW9e09OER6exA==
+X-CSE-MsgGUID: /bMEjOu2TFyLgKqXeOSzog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="44758357"
 X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="41093512"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 06:54:23 -0800
-X-CSE-ConnectionGUID: TyKSZKzDSsKGxNYn6vcJ4A==
-X-CSE-MsgGUID: mMgD1pyZSSiHU2c1ofMyQw==
+   d="scan'208";a="44758357"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:35:46 -0800
+X-CSE-ConnectionGUID: aS/zFnKLRdubxxx9JM2MkQ==
+X-CSE-MsgGUID: 5TztbLHhRkW6JMWkp6jOeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="116025184"
+   d="scan'208";a="115115277"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Feb 2025 06:54:21 -0800
+  by orviesa009.jf.intel.com with ESMTP; 21 Feb 2025 07:35:44 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlUPz-0005dT-0w;
-	Fri, 21 Feb 2025 14:54:19 +0000
-Date: Fri, 21 Feb 2025 22:54:02 +0800
+	id 1tlV42-0005fe-0d;
+	Fri, 21 Feb 2025 15:35:42 +0000
+Date: Fri, 21 Feb 2025 23:35:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivasharan S <shivasharan.srikanteshwara@broadcom.com>
+To: Jack Livingood <jacklivingood@comcast.net>
 Cc: oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Sathya Prakash <sathya.prakash@broadcom.com>
-Subject: [linux-next:master 5453/5524]
- drivers/scsi/mpt3sas/mpt3sas_ctl.c:678:38: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202502212253.oIgoXdQa-lkp@intel.com>
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [thesofproject:topic/sof-dev 7769/7771]
+ sound/firewire/isight.c:647:9: error: implicit declaration of function
+ 'strspy'; did you mean 'strspn'?
+Message-ID: <202502212301.Ftkz0mbY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +66,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d4b0fd87ff0d4338b259dc79b2b3c6f7e70e8afa
-commit: c72be4b5bb7cb1a9059d0b845f87223b52399cc2 [5453/5524] scsi: mpt3sas: Add support for MCTP Passthrough commands
-config: x86_64-randconfig-r113-20250221 (https://download.01.org/0day-ci/archive/20250221/202502212253.oIgoXdQa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502212253.oIgoXdQa-lkp@intel.com/reproduce)
+tree:   https://github.com/thesofproject/linux topic/sof-dev
+head:   05477f184fc6188b402a7ccaf6702c479eb169f4
+commit: d63fe2848faae2c75ebd805565799a69654b8c1c [7769/7771] ALSA: firewire: isight: changed strcpy to strscpy
+config: s390-randconfig-002-20250221 (https://download.01.org/0day-ci/archive/20250221/202502212301.Ftkz0mbY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502212301.Ftkz0mbY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502212253.oIgoXdQa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502212301.Ftkz0mbY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/scsi/mpt3sas/mpt3sas_ctl.c:678:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] H2DLength @@     got int data_out_sz @@
-   drivers/scsi/mpt3sas/mpt3sas_ctl.c:678:38: sparse:     expected restricted __le32 [usertype] H2DLength
-   drivers/scsi/mpt3sas/mpt3sas_ctl.c:678:38: sparse:     got int data_out_sz
->> drivers/scsi/mpt3sas/mpt3sas_ctl.c:679:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] D2HLength @@     got int data_in_sz @@
-   drivers/scsi/mpt3sas/mpt3sas_ctl.c:679:38: sparse:     expected restricted __le32 [usertype] D2HLength
-   drivers/scsi/mpt3sas/mpt3sas_ctl.c:679:38: sparse:     got int data_in_sz
->> drivers/scsi/mpt3sas/mpt3sas_ctl.c:2862:40: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +678 drivers/scsi/mpt3sas/mpt3sas_ctl.c
+   sound/firewire/isight.c: In function 'isight_probe':
+>> sound/firewire/isight.c:647:9: error: implicit declaration of function 'strspy'; did you mean 'strspn'? [-Wimplicit-function-declaration]
+     647 |         strspy(card->mixername, "iSight");
+         |         ^~~~~~
+         |         strspn
 
-   657	
-   658	/**
-   659	 * _ctl_send_mctp_passthru_req - Send an MCTP passthru request
-   660	 * @ioc: per adapter object
-   661	 * @mctp_passthru_req: MPI mctp passhthru request from caller
-   662	 * @psge: pointer to the H2DSGL
-   663	 * @data_out_dma: DMA buffer for H2D SGL
-   664	 * @data_out_sz: H2D length
-   665	 * @data_in_dma: DMA buffer for D2H SGL
-   666	 * @data_in_sz: D2H length
-   667	 * @smid: SMID to submit the request
-   668	 *
-   669	 */
-   670	static void
-   671	_ctl_send_mctp_passthru_req(
-   672		struct MPT3SAS_ADAPTER *ioc,
-   673		Mpi26MctpPassthroughRequest_t *mctp_passthru_req, void *psge,
-   674		dma_addr_t data_out_dma, int data_out_sz,
-   675		dma_addr_t data_in_dma, int data_in_sz,
-   676		u16 smid)
-   677	{
- > 678		mctp_passthru_req->H2DLength = data_out_sz;
- > 679		mctp_passthru_req->D2HLength = data_in_sz;
-   680	
-   681		/* Build the H2D SGL from the data out buffer */
-   682		ioc->build_sg(ioc, psge, data_out_dma, data_out_sz, 0, 0);
-   683	
-   684		psge += ioc->sge_size_ieee;
-   685	
-   686		/* Build the D2H SGL for the data in buffer */
-   687		ioc->build_sg(ioc, psge, 0, 0, data_in_dma, data_in_sz);
-   688	
-   689		ioc->put_smid_default(ioc, smid);
-   690	}
-   691	
+
+vim +647 sound/firewire/isight.c
+
+   612	
+   613	static int isight_probe(struct fw_unit *unit,
+   614				const struct ieee1394_device_id *id)
+   615	{
+   616		struct fw_device *fw_dev = fw_parent_device(unit);
+   617		struct snd_card *card;
+   618		struct isight *isight;
+   619		int err;
+   620	
+   621		err = snd_card_new(&unit->device, -1, NULL, THIS_MODULE,
+   622				   sizeof(*isight), &card);
+   623		if (err < 0)
+   624			return err;
+   625	
+   626		isight = card->private_data;
+   627		isight->card = card;
+   628		mutex_init(&isight->mutex);
+   629		isight->unit = fw_unit_get(unit);
+   630		isight->device = fw_dev;
+   631		isight->audio_base = get_unit_base(unit);
+   632		if (!isight->audio_base) {
+   633			dev_err(&unit->device, "audio unit base not found\n");
+   634			err = -ENXIO;
+   635			goto error;
+   636		}
+   637		fw_iso_resources_init(&isight->resources, unit);
+   638	
+   639		card->private_free = isight_card_free;
+   640	
+   641		strscpy(card->driver, "iSight");
+   642		strscpy(card->shortname, "Apple iSight");
+   643		snprintf(card->longname, sizeof(card->longname),
+   644			 "Apple iSight (GUID %08x%08x) at %s, S%d",
+   645			 fw_dev->config_rom[3], fw_dev->config_rom[4],
+   646			 dev_name(&unit->device), 100 << fw_dev->max_speed);
+ > 647		strspy(card->mixername, "iSight");
+   648	
+   649		err = isight_create_pcm(isight);
+   650		if (err < 0)
+   651			goto error;
+   652	
+   653		err = isight_create_mixer(isight);
+   654		if (err < 0)
+   655			goto error;
+   656	
+   657		err = snd_card_register(card);
+   658		if (err < 0)
+   659			goto error;
+   660	
+   661		dev_set_drvdata(&unit->device, isight);
+   662	
+   663		return 0;
+   664	error:
+   665		snd_card_free(card);
+   666	
+   667		mutex_destroy(&isight->mutex);
+   668		fw_unit_put(isight->unit);
+   669	
+   670		return err;
+   671	}
+   672	
 
 -- 
 0-DAY CI Kernel Test Service
