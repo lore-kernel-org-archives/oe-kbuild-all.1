@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4ED1E9B01
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 11:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A511209F33
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 11:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740138436; cv=none; b=X6+o5W5q6YZMAFFP6s2l6m3idx3KXy0hfpBxF67v5AyEc9YSoCVudu8QU/G/8Hrj0Alm/nqW24BjbIhHu0JaeNaTePEKBJShlPy5XnYHl2m14ZautjU/SpiZ65X0y12wWOOdwz2xoMeeuICLZmOnRJLVVBdaU/PNOXMSZ6Meno0=
+	t=1740139097; cv=none; b=PKf/srlL1fQFoQXOm/QURPCx2vZmz1DMY7xHRokahGmHdBGAFMJYaadsoiIAXb/B/rQtuGtGmFr3iX3ko+zbaSJwPbzZtt36VApYSdCVIVnB7JisMsdpY2MoCdo/rZPu1kHb4U818ttcc5ov9nicSxBj2bkZBfhq2WnfdMbN+YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740138436; c=relaxed/simple;
-	bh=ABY1TCmlToByq1IOLk66sUQr0qnecw/tSow9TAlG5as=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ShaUl7jQ713MisePJ+8P6e6/zA/3cRpCJEvfg5i5RVArndP6pVy9dwhXR/xS1WQAU8gyH0yZJrJjrrpjA6GDaBOTov3MgqIXojVz2+YzJ5Q7LTSZS+LC2hMmxNDQ8ePLGIOy14oB2qSQiAmxdWh0ZwNtvi6A3NZgVTwNRYPnY4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcGRL9uT; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1740139097; c=relaxed/simple;
+	bh=fALUb78F8P70KlTgg2wn3jF4q9289n7M57FxUsF1SkE=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AQQBtiwjVCGSb643O1MABIGod89+4mro5DngxleOjWl5yznETgpBsbqsJskBkpWDKIKSCGecvAaDvHBxZNL914fCJ2+IiM+gp8M7Kn4W0Xn8/uTPfpK7mBdrwGkFO+4yUnpM+bZcVzEIV3yxhwPynuEEGZ1CjNDYsvBBPcP2vWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYyv1bTa; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcGRL9uT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYyv1bTa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740138435; x=1771674435;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ABY1TCmlToByq1IOLk66sUQr0qnecw/tSow9TAlG5as=;
-  b=QcGRL9uTUuzgcAQweGHGe23ShRXDHRT10R1b8s5+ylroFi3VF9YFX4Wn
-   5R58N6InvdpIus6sJiidplb6ZwR9MSNrnlMVTIfqW7o/x6nTKVVAviIzW
-   BUs9XKI4iDCRgm8OZwrm/hm0EIGQ2IGAIIYYJWsMpcZG2Xegnu5NCe6JZ
-   eJ7UKsvP7OmK8cv9ePuT7sAS04SIZVr4aDwvTjoaBsPzSZR8pDINO+/y3
-   9Hq2AP7Zrvp671RNLr2SgNvWEfN6Jt3ynnZE8YpKCSJXo+Mmy/Rp8MDm0
-   FUdC/2kTQeH0f9/IvOs88UMRx6ya32rnCSnOHmyQgyDipeK4kvYHuURb3
+  t=1740139096; x=1771675096;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=fALUb78F8P70KlTgg2wn3jF4q9289n7M57FxUsF1SkE=;
+  b=hYyv1bTayb32ISg0MGcobj6sMRObQQhBN/CFDQxo1AvN25NASvMn7UFD
+   ObNx5j6o1rQX/MA7t0T+DzluPpZzOFceQ1tx/BHD16QON6waKr1dHymDU
+   KUirneq9BjKC6MJjnVbFlEwG0JllzLQKsr+wa2knanyil4Xk36ru/XYm8
+   WIGdNExwuCKAEENVyLBFpPxewzDYl0QUwSs033vypvOktBDyTHus4xeYC
+   bUnFo85GMrGzvjaxc9GPSbgX3UraeS0/h4WvI+wnIYOXHa1PNqFH5FNWt
+   p74SPVM6gp68nSrub2Jf/xsX/R7xfDaXldJ6k2EVlZuS6pPewhASNQtK1
    g==;
-X-CSE-ConnectionGUID: /CurS2l2S2qgUFpn0XGgNw==
-X-CSE-MsgGUID: yf2/nKl/TCWpMlCIVTvpTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51580130"
+X-CSE-ConnectionGUID: kLd3FdbZS12rWsVNLPr3KQ==
+X-CSE-MsgGUID: yg+NGh6+Rh2ibwoDObTZzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40668015"
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="51580130"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 03:47:14 -0800
-X-CSE-ConnectionGUID: 0jil1O78QlqN01HRD7PX2g==
-X-CSE-MsgGUID: aC+Sewv9QTCpGGKr1vsmFA==
+   d="scan'208";a="40668015"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 03:58:15 -0800
+X-CSE-ConnectionGUID: gKfiOx9UQ564lAa32rIobw==
+X-CSE-MsgGUID: 6Vhs+6cXR3Kr48v8vI9PFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="138567660"
+   d="scan'208";a="120455857"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Feb 2025 03:47:12 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 21 Feb 2025 03:58:14 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlRUs-0005Sh-1o;
-	Fri, 21 Feb 2025 11:47:10 +0000
-Date: Fri, 21 Feb 2025 19:46:11 +0800
+	id 1tlRfX-0005TL-36
+	for oe-kbuild-all@lists.linux.dev;
+	Fri, 21 Feb 2025 11:58:11 +0000
+Date: Fri, 21 Feb 2025 19:57:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134
- core_dcn4_initialize() warn: inconsistent indenting
-Message-ID: <202502211920.txUfwtSj-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/60 1/1]
+ arch/arm/boot/dts/bcm47094-phicomm-k3.dts:16.9-19.4: Warning
+ (unit_address_vs_reg): /memory: node has a reg or ranges property, but no
+ unit name
+Message-ID: <202502211959.29EEwfoK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +64,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   334426094588f8179fe175a09ecc887ff0c75758
-commit: 00c391102abc13763e2bfc90e05503109b19f074 drm/amd/display: Add misc DC changes for DCN401
-date:   10 months ago
-config: loongarch-randconfig-r072-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211920.txUfwtSj-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/intel/linux-intel-lts.git pr/60
+head:   9e3b33a0fe250f006a2d39da8cc8f99a0101e89b
+commit: 33067418cedd3a20ef5948bf7f3747dc4906f602 [1/1] Merge tag 'arm-soc/for-5.1/devicetree' of https://github.com/Broadcom/stblinux into arm/dt
+config: arm-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250221/202502211959.29EEwfoK-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211959.29EEwfoK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211920.txUfwtSj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211959.29EEwfoK-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134 core_dcn4_initialize() warn: inconsistent indenting
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/bcm5301x.dtsi:22.14-45.4: Warning (unit_address_vs_reg): /chipcommonA: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:47.9-106.4: Warning (unit_address_vs_reg): /mpcore: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:151.21-158.4: Warning (unit_address_vs_reg): /usb2-phy: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x.dtsi:360.15-381.4: Warning (unit_address_vs_reg): /mdio-bus-mux: node has a reg or ranges property, but no unit name
+>> arch/arm/boot/dts/bcm47094-phicomm-k3.dts:16.9-19.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/bcm5301x-nand-cs0.dtsi:10.20-19.5: Warning (avoid_unnecessary_addr_size): /nand@18028000/nandcs@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/bcm47094-phicomm-k3.dts:21.12-31.4: Warning (avoid_unnecessary_addr_size): /gpio-keys: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:553 core_dcn4_mode_programming() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:568 core_dcn4_mode_programming() warn: curly braces intended?
+vim +16 arch/arm/boot/dts/bcm47094-phicomm-k3.dts
 
-vim +134 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c
+40a17923367118e Hao Dong 2019-01-20  11  
+40a17923367118e Hao Dong 2019-01-20  12  / {
+40a17923367118e Hao Dong 2019-01-20  13  	compatible = "phicomm,k3", "brcm,bcm47094", "brcm,bcm4708";
+40a17923367118e Hao Dong 2019-01-20  14  	model = "Phicomm K3";
+40a17923367118e Hao Dong 2019-01-20  15  
+40a17923367118e Hao Dong 2019-01-20 @16  	memory {
+40a17923367118e Hao Dong 2019-01-20  17  		reg = <0x00000000 0x08000000
+40a17923367118e Hao Dong 2019-01-20  18  		       0x88000000 0x18000000>;
+40a17923367118e Hao Dong 2019-01-20  19  	};
+40a17923367118e Hao Dong 2019-01-20  20  
+40a17923367118e Hao Dong 2019-01-20  21  	gpio-keys {
+40a17923367118e Hao Dong 2019-01-20  22  		compatible = "gpio-keys";
+40a17923367118e Hao Dong 2019-01-20  23  		#address-cells = <1>;
+40a17923367118e Hao Dong 2019-01-20  24  		#size-cells = <0>;
+40a17923367118e Hao Dong 2019-01-20  25  
+40a17923367118e Hao Dong 2019-01-20  26  		restart {
+40a17923367118e Hao Dong 2019-01-20  27  			label = "Reset";
+40a17923367118e Hao Dong 2019-01-20  28  			linux,code = <KEY_RESTART>;
+40a17923367118e Hao Dong 2019-01-20  29  			gpios = <&chipcommon 17 GPIO_ACTIVE_LOW>;
+40a17923367118e Hao Dong 2019-01-20  30  		};
+40a17923367118e Hao Dong 2019-01-20  31  	};
+40a17923367118e Hao Dong 2019-01-20  32  };
+40a17923367118e Hao Dong 2019-01-20  33  
 
-70839da6360500 Aurabindo Pillai 2024-04-19  112  
-70839da6360500 Aurabindo Pillai 2024-04-19  113  bool core_dcn4_initialize(struct dml2_core_initialize_in_out *in_out)
-70839da6360500 Aurabindo Pillai 2024-04-19  114  {
-70839da6360500 Aurabindo Pillai 2024-04-19  115  	struct dml2_core_instance *core = in_out->instance;
-70839da6360500 Aurabindo Pillai 2024-04-19  116  
-70839da6360500 Aurabindo Pillai 2024-04-19  117  	if (!in_out->minimum_clock_table)
-70839da6360500 Aurabindo Pillai 2024-04-19  118  		return false;
-70839da6360500 Aurabindo Pillai 2024-04-19  119  	else
-70839da6360500 Aurabindo Pillai 2024-04-19  120  		core->minimum_clock_table = in_out->minimum_clock_table;
-70839da6360500 Aurabindo Pillai 2024-04-19  121  
-70839da6360500 Aurabindo Pillai 2024-04-19  122  	if (in_out->explicit_ip_bb && in_out->explicit_ip_bb_size > 0) {
-70839da6360500 Aurabindo Pillai 2024-04-19  123  		memcpy(&core->clean_me_up.mode_lib.ip, in_out->explicit_ip_bb, in_out->explicit_ip_bb_size);
-70839da6360500 Aurabindo Pillai 2024-04-19  124  
-70839da6360500 Aurabindo Pillai 2024-04-19  125  		// FIXME_STAGE2:
-70839da6360500 Aurabindo Pillai 2024-04-19  126  		// DV still uses stage1 ip_param_st for each variant, need to patch the ip_caps with ip_param info
-70839da6360500 Aurabindo Pillai 2024-04-19  127  		// Should move DV to use ip_caps but need move more overrides to ip_caps
-70839da6360500 Aurabindo Pillai 2024-04-19  128  		patch_ip_caps_with_explicit_ip_params(in_out->ip_caps, in_out->explicit_ip_bb);
-70839da6360500 Aurabindo Pillai 2024-04-19  129  		core->clean_me_up.mode_lib.ip.subvp_pstate_allow_width_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
-70839da6360500 Aurabindo Pillai 2024-04-19  130  		core->clean_me_up.mode_lib.ip.subvp_fw_processing_delay_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
-70839da6360500 Aurabindo Pillai 2024-04-19  131  		core->clean_me_up.mode_lib.ip.subvp_swath_height_margin_lines = core_dcn4_ip_caps_base.subvp_swath_height_margin_lines;
-70839da6360500 Aurabindo Pillai 2024-04-19  132  	} else {
-70839da6360500 Aurabindo Pillai 2024-04-19  133  			memcpy(&core->clean_me_up.mode_lib.ip, &core_dcn4_ip_caps_base, sizeof(struct dml2_core_ip_params));
-70839da6360500 Aurabindo Pillai 2024-04-19 @134  		patch_ip_params_with_ip_caps(&core->clean_me_up.mode_lib.ip, in_out->ip_caps);
-70839da6360500 Aurabindo Pillai 2024-04-19  135  
-70839da6360500 Aurabindo Pillai 2024-04-19  136  		core->clean_me_up.mode_lib.ip.imall_supported = false;
-70839da6360500 Aurabindo Pillai 2024-04-19  137  	}
-70839da6360500 Aurabindo Pillai 2024-04-19  138  
-70839da6360500 Aurabindo Pillai 2024-04-19  139  	memcpy(&core->clean_me_up.mode_lib.soc, in_out->soc_bb, sizeof(struct dml2_soc_bb));
-70839da6360500 Aurabindo Pillai 2024-04-19  140  
-70839da6360500 Aurabindo Pillai 2024-04-19  141  	return true;
-70839da6360500 Aurabindo Pillai 2024-04-19  142  }
-70839da6360500 Aurabindo Pillai 2024-04-19  143  
+:::::: The code at line 16 was first introduced by commit
+:::::: 40a17923367118e32e5e413a952736dd83635b32 ARM: dts: BCM5301X: Add basic DT for Phicomm K3
 
-:::::: The code at line 134 was first introduced by commit
-:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
-
-:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Hao Dong <halbertdong@gmail.com>
+:::::: CC: Florian Fainelli <f.fainelli@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
