@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835B62B9AA;
-	Fri, 21 Feb 2025 12:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA793A31
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 13:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740139761; cv=none; b=HSx8RafeywuqeKO3RLHhGh989GsP8BewisXYyJIqXGzqCi3SkwjQUw7XxsDUIpcsahwiFoQ/8+QHXY4hdhRGZCcnFWas0u0oqGSNnIe47HO/hY264KvK86duWBEFfqk2rfRr3fHKyTAbPlHk1nKZbNZZlOuk5xS1meCuIl51wL8=
+	t=1740142866; cv=none; b=bpKlkeuQxCKCLN+6MzIY5s4349uzBiLLKkbXYUpHf9S6GYnQAlkNucDFOCnfId6l6jfcJRYIXE93ViM8/pY+gUD5IkeVMe6dJXnH2Pe8I/cSTH9dKGCdxbvdO7+wgNIaGHSyz7Z83XjXGdGZ2gowf7ocgKUiXNYBz6WE9OgcoiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740139761; c=relaxed/simple;
-	bh=C5U3RxfuTtuHOcmi/E44+nqNV54k8lJLpkj27EZLcAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pUXEq10AdhkxRyY9g7N5PKIxfu/ebTySZJ+Sltw9cJ/1M2eSjgdenn3Qv3uvTXPZSSeZ2z2x1xPmuY68OTOD8c+Gh2yEY4y3xUy5kWD+CeuOfEHh9t9VtUuwjjSok929mj1dxedEH4X6E9gtIvBG9lF73+bKB8kVv7w8oBcLIRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VdI/Lv+v; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1740142866; c=relaxed/simple;
+	bh=o9UnwFJSPu5oh4kjBw3Ido8HjzE7zwAEbjsnVj6KQHI=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mpiewVIjgUmvNvmp4tcSKwaPib3OV95N+hj6SboS3M8KcJNe2f9u+mspHw4UUgluKpM7JDxXVL+EIW7qq47e1Lahi2E3VVesUTHTWNVG6U8jZey63Y5IWUKLPvBjtmvlZMbL+pcnn6ZIZRwCYm2DFkdF6V6GcZNigfag+Uu6IrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZOt/sk53; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdI/Lv+v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZOt/sk53"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740139760; x=1771675760;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C5U3RxfuTtuHOcmi/E44+nqNV54k8lJLpkj27EZLcAM=;
-  b=VdI/Lv+vZcrfKIzHI/PqIelD6LzmSeIY9p25QQLYrcnZ2tWXpkbl6acG
-   3qdmjiw+t1Zu69CxzVlhvyRGZovbUXxhcFzSw7wOfa56vsmXcF/3x771n
-   DIWNJRUY1FcBS+4eZG8TOLozEWN/RuVucEbQOh5VpMf/wAUQhgc8pDLqz
-   dS+bgaJZNGNXBK3gmZ02e5YcfDp4T0vDZ1/Ya8tCK7Agq+qcmdTAo0WkL
-   rqbxzH8s7ypsu1V3a/puXtQ0OX5BYfhHhH9yo74n1m4Twa8ySPUR1r+E+
-   oRRyg2frOHl6tuaR/1q0YkA2cG1pQ4HW1bD1JVRhY3g/BptEg60Y/dBRE
-   w==;
-X-CSE-ConnectionGUID: l91JgNe6T3qvEOMpdXLM8w==
-X-CSE-MsgGUID: xmCAK6TlS2eJ1kFzXJ5PQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51173504"
+  t=1740142865; x=1771678865;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=o9UnwFJSPu5oh4kjBw3Ido8HjzE7zwAEbjsnVj6KQHI=;
+  b=ZOt/sk53G6neOuc2FphZ6Q9G0JN6hX78ovMuVwuqT7/uLJW3lhP3b98c
+   GnatyBKvnxE8aL3Bpcu+x81seLuN3BraicCG33RwY4m+4ek++4zFAbjGc
+   K9XtmoyuT4Cx0BhbtxP6rXYZsDDOec3vQMEZT2NeaQkoRYIkOsZYCQfvN
+   Sv7jR8U5LPU1vtp1LWnYA3cVeDv+buydFfotB8km+JOCbSAvhgHJ+wrpt
+   KB7DXv9lbo7zgdicHstPPenmeNK9fCxOOR/taDxrotkO5xapCPWTfizVU
+   ICluQpxpo2llMeAX2fIb2CX1bEaDyzUnZazK/vzSL3PqaB+p3u/kl3O5h
+   Q==;
+X-CSE-ConnectionGUID: kjf4TT9oSCq+D7/RK4iEdA==
+X-CSE-MsgGUID: oFlFnKKZSVSjhayuKgB+CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40149879"
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="51173504"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 04:09:19 -0800
-X-CSE-ConnectionGUID: 3EBEiyPYSrSIgqmHsZ+fTw==
-X-CSE-MsgGUID: 1Hz8CEQdT8KqwVaCSV8LyQ==
+   d="scan'208";a="40149879"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 05:01:04 -0800
+X-CSE-ConnectionGUID: fSlXeTxrRJSZlnlWh/PcWA==
+X-CSE-MsgGUID: EAxj6RvsTvWle0GJxviX/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="115182338"
+   d="scan'208";a="115895569"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Feb 2025 04:09:16 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 21 Feb 2025 05:01:03 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlRqD-0005UH-39;
-	Fri, 21 Feb 2025 12:09:13 +0000
-Date: Fri, 21 Feb 2025 20:09:03 +0800
+	id 1tlSeL-0005XD-0L
+	for oe-kbuild-all@lists.linux.dev;
+	Fri, 21 Feb 2025 13:01:01 +0000
+Date: Fri, 21 Feb 2025 21:00:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Slawomir Mrozowicz <slawomirx.mrozowicz@intel.com>,
-	Piotr Kwapulinski <piotr.kwapulinski@intel.com>
-Subject: [tnguy-next-queue:dev-queue 41/50]
- drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:45:12: warning: variable
- 'orom' is used uninitialized whenever 'if' condition is false
-Message-ID: <202502212058.5XVt80Wb-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/59 1/1]
+ drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:308:34: warning:
+ 'pcie_perf_stall_stats_desc' defined but not used
+Message-ID: <202502212017.bIFuv1Kz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,295 +63,313 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   692375ca2a4e6916ddc2ef0d73faa37c7a93cd1a
-commit: 6b998cf3e55cb55c817e12fdd5b05b3ab162cca7 [41/50] ixgbe: extend .info_get with stored versions
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250221/202502212058.5XVt80Wb-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502212058.5XVt80Wb-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 73e90646a275aeffea263305c8662f8dd0cb41ef [1/1] net/mlx5e: Add PCIe outbound stalls counters
+config: xtensa-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250221/202502212017.bIFuv1Kz-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502212017.bIFuv1Kz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502212058.5XVt80Wb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502212017.bIFuv1Kz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:4:
-   In file included from drivers/net/ethernet/intel/ixgbe/ixgbe.h:9:
-   In file included from include/linux/pci.h:37:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:45:12: warning: variable 'orom' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-      45 |                 else if (type == IXGBE_DL_VERSION_STORED)
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:49:5: note: uninitialized use occurs here
-      49 |                          orom->major, orom->build, orom->patch);
-         |                          ^~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:45:8: note: remove the 'if' if its condition is always true
-      45 |                 else if (type == IXGBE_DL_VERSION_STORED)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      46 |                         orom = &ctx->pending_orom;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:41:31: note: initialize the variable 'orom' to silence this warning
-      41 |                 struct ixgbe_orom_info *orom;
-         |                                             ^
-         |                                              = NULL
->> drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:80:12: warning: variable 'eetrack' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-      80 |                 else if (type == IXGBE_DL_VERSION_STORED)
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:83:50: note: uninitialized use occurs here
-      83 |                 snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", eetrack);
-         |                                                                ^~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:80:8: note: remove the 'if' if its condition is always true
-      80 |                 else if (type == IXGBE_DL_VERSION_STORED)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      81 |                         eetrack = ctx->pending_nvm.eetrack;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:76:14: note: initialize the variable 'eetrack' to silence this warning
-      76 |                 u32 eetrack;
-         |                            ^
-         |                             = 0
->> drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:124:11: warning: variable 'nvm' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     124 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:127:45: note: uninitialized use occurs here
-     127 |         snprintf(ctx->buf, sizeof(ctx->buf), "%u", nvm->srev);
-         |                                                    ^~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:124:7: note: remove the 'if' if its condition is always true
-     124 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     125 |                 nvm = &ctx->pending_nvm;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:120:28: note: initialize the variable 'nvm' to silence this warning
-     120 |         struct ixgbe_nvm_info *nvm;
-         |                                   ^
-         |                                    = NULL
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:138:11: warning: variable 'orom' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     138 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:141:45: note: uninitialized use occurs here
-     141 |         snprintf(ctx->buf, sizeof(ctx->buf), "%u", orom->srev);
-         |                                                    ^~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:138:7: note: remove the 'if' if its condition is always true
-     138 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     139 |                 orom = &ctx->pending_orom;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:134:30: note: initialize the variable 'orom' to silence this warning
-     134 |         struct ixgbe_orom_info *orom;
-         |                                     ^
-         |                                      = NULL
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:152:11: warning: variable 'nvm' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     152 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:155:50: note: uninitialized use occurs here
-     155 |         snprintf(ctx->buf, sizeof(ctx->buf), "%x.%02x", nvm->major, nvm->minor);
-         |                                                         ^~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:152:7: note: remove the 'if' if its condition is always true
-     152 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     153 |                 nvm = &ctx->pending_nvm;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:148:28: note: initialize the variable 'nvm' to silence this warning
-     148 |         struct ixgbe_nvm_info *nvm;
-         |                                   ^
-         |                                    = NULL
->> drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:166:11: warning: variable 'netlist' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     166 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:171:4: note: uninitialized use occurs here
-     171 |                  netlist->major, netlist->minor,
-         |                  ^~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:166:7: note: remove the 'if' if its condition is always true
-     166 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     167 |                 netlist = &ctx->pending_netlist;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:162:36: note: initialize the variable 'netlist' to silence this warning
-     162 |         struct ixgbe_netlist_info *netlist;
-         |                                           ^
-         |                                            = NULL
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:184:11: warning: variable 'netlist' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     184 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:187:49: note: uninitialized use occurs here
-     187 |         snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", netlist->hash);
-         |                                                        ^~~~~~~
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:184:7: note: remove the 'if' if its condition is always true
-     184 |         else if (type == IXGBE_DL_VERSION_STORED)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     185 |                 netlist = &ctx->pending_netlist;
-   drivers/net/ethernet/intel/ixgbe/devlink/devlink.c:180:36: note: initialize the variable 'netlist' to silence this warning
-     180 |         struct ixgbe_netlist_info *netlist;
-         |                                           ^
-         |                                            = NULL
-   10 warnings generated.
+   In file included from include/uapi/linux/stddef.h:1:0,
+                    from include/linux/stddef.h:4,
+                    from include/uapi/linux/posix_types.h:4,
+                    from include/uapi/linux/types.h:13,
+                    from include/linux/types.h:5,
+                    from include/linux/prefetch.h:13,
+                    from drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:33:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+            ^
+   include/linux/compiler.h:175:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   include/linux/dma-mapping.h:331:2: note: in expansion of macro 'BUG_ON'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+     ^~~~~~
+   include/linux/dma-mapping.h:331:9: note: in expansion of macro 'pfn_valid'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+            ^~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_rx.c: In function 'mlx5e_xdp_handle':
+   drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:765:3: warning: this statement may fall through [-Wimplicit-fallthrough=]
+      bpf_warn_invalid_xdp_action(act);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:766:2: note: here
+     case XDP_ABORTED:
+     ^~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:767:3: warning: this statement may fall through [-Wimplicit-fallthrough=]
+      trace_xdp_exception(rq->netdev, prog, act);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:768:2: note: here
+     case XDP_DROP:
+     ^~~~
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:39:0:
+   At top level:
+   drivers/net/ethernet/mellanox/mlx5/core/en.h:188:19: warning: 'mlx5e_priv_flags' defined but not used [-Wunused-const-variable=]
+    static const char mlx5e_priv_flags[][ETH_GSTRING_LEN] = {
+                      ^~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/en.h:51:0,
+                    from drivers/net/ethernet/mellanox/mlx5/core/en_rx.c:39:
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:438:34: warning: 'mlx5e_pme_error_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc mlx5e_pme_error_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:434:34: warning: 'mlx5e_pme_status_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc mlx5e_pme_status_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:379:34: warning: 'sq_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc sq_stats_desc[] = {
+                                     ^~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:338:34: warning: 'rq_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc rq_stats_desc[] = {
+                                     ^~~~~~~~~~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:308:34: warning: 'pcie_perf_stall_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pcie_perf_stall_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:303:34: warning: 'pcie_perf_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pcie_perf_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:284:34: warning: 'pport_per_prio_pfc_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_per_prio_pfc_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:277:34: warning: 'pport_per_prio_traffic_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_per_prio_traffic_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:272:34: warning: 'pport_phy_statistical_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_phy_statistical_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:256:34: warning: 'pport_2819_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_2819_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:250:34: warning: 'pport_2863_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_2863_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:229:34: warning: 'pport_802_3_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_802_3_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:145:34: warning: 'vport_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc vport_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:133:34: warning: 'q_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc q_stats_desc[] = {
+                                     ^~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:92:34: warning: 'sw_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc sw_stats_desc[] = {
+                                     ^~~~~~~~~~~~~
+--
+   In file included from include/uapi/linux/stddef.h:1:0,
+                    from include/linux/stddef.h:4,
+                    from include/uapi/linux/posix_types.h:4,
+                    from include/uapi/linux/types.h:13,
+                    from include/linux/types.h:5,
+                    from include/linux/list.h:4,
+                    from drivers/net/ethernet/mellanox/mlx5/core/en_fs.c:33:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+            ^
+   include/linux/compiler.h:175:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   include/linux/dma-mapping.h:331:2: note: in expansion of macro 'BUG_ON'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+     ^~~~~~
+   include/linux/dma-mapping.h:331:9: note: in expansion of macro 'pfn_valid'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+            ^~~~~~~~~
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/en_fs.c:38:0:
+   At top level:
+   drivers/net/ethernet/mellanox/mlx5/core/en.h:188:19: warning: 'mlx5e_priv_flags' defined but not used [-Wunused-const-variable=]
+    static const char mlx5e_priv_flags[][ETH_GSTRING_LEN] = {
+                      ^~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/mellanox/mlx5/core/en.h:51:0,
+                    from drivers/net/ethernet/mellanox/mlx5/core/en_fs.c:38:
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:438:34: warning: 'mlx5e_pme_error_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc mlx5e_pme_error_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:434:34: warning: 'mlx5e_pme_status_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc mlx5e_pme_status_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:379:34: warning: 'sq_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc sq_stats_desc[] = {
+                                     ^~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:338:34: warning: 'rq_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc rq_stats_desc[] = {
+                                     ^~~~~~~~~~~~~
+>> drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:308:34: warning: 'pcie_perf_stall_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pcie_perf_stall_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:303:34: warning: 'pcie_perf_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pcie_perf_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:284:34: warning: 'pport_per_prio_pfc_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_per_prio_pfc_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:277:34: warning: 'pport_per_prio_traffic_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_per_prio_traffic_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:272:34: warning: 'pport_phy_statistical_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_phy_statistical_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:256:34: warning: 'pport_2819_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_2819_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:250:34: warning: 'pport_2863_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_2863_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:229:34: warning: 'pport_802_3_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc pport_802_3_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:145:34: warning: 'vport_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc vport_stats_desc[] = {
+                                     ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:133:34: warning: 'q_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc q_stats_desc[] = {
+                                     ^~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/en_stats.h:92:34: warning: 'sw_stats_desc' defined but not used [-Wunused-const-variable=]
+    static const struct counter_desc sw_stats_desc[] = {
+                                     ^~~~~~~~~~~~~
 
 
-vim +45 drivers/net/ethernet/intel/ixgbe/devlink/devlink.c
+vim +/pcie_perf_stall_stats_desc +308 drivers/net/ethernet/mellanox/mlx5/core/en_stats.h
 
-    30	
-    31	static void ixgbe_info_orom_ver(struct ixgbe_adapter *adapter,
-    32					struct ixgbe_info_ctx *ctx,
-    33					enum ixgbe_devlink_version_type type)
-    34	{
-    35		struct ixgbe_hw *hw = &adapter->hw;
-    36		struct ixgbe_nvm_version nvm_ver;
-    37	
-    38		ctx->buf[0] = '\0';
-    39	
-    40		if (hw->mac.type == ixgbe_mac_e610) {
-    41			struct ixgbe_orom_info *orom;
-    42	
-    43			if (type == IXGBE_DL_VERSION_RUNNING)
-    44				orom = &adapter->hw.flash.orom;
-  > 45			else if (type == IXGBE_DL_VERSION_STORED)
-    46				orom = &ctx->pending_orom;
-    47	
-    48			snprintf(ctx->buf, sizeof(ctx->buf), "%d.%d.%d",
-    49				 orom->major, orom->build, orom->patch);
-    50			return;
-    51		}
-    52	
-    53		ixgbe_get_oem_prod_version(hw, &nvm_ver);
-    54		if (nvm_ver.oem_valid) {
-    55			snprintf(ctx->buf, sizeof(ctx->buf), "%x.%x.%x",
-    56				 nvm_ver.oem_major, nvm_ver.oem_minor,
-    57				 nvm_ver.oem_release);
-    58	
-    59			return;
-    60		}
-    61	
-    62		ixgbe_get_orom_version(hw, &nvm_ver);
-    63		if (nvm_ver.or_valid)
-    64			snprintf(ctx->buf, sizeof(ctx->buf), "%d.%d.%d",
-    65				 nvm_ver.or_major, nvm_ver.or_build, nvm_ver.or_patch);
-    66	}
-    67	
-    68	static void ixgbe_info_eetrack(struct ixgbe_adapter *adapter,
-    69				       struct ixgbe_info_ctx *ctx,
-    70				       enum ixgbe_devlink_version_type type)
-    71	{
-    72		struct ixgbe_hw *hw = &adapter->hw;
-    73		struct ixgbe_nvm_version nvm_ver;
-    74	
-    75		if (hw->mac.type == ixgbe_mac_e610) {
-    76			u32 eetrack;
-    77	
-    78			if (type == IXGBE_DL_VERSION_RUNNING)
-    79				eetrack = hw->flash.nvm.eetrack;
-  > 80			else if (type == IXGBE_DL_VERSION_STORED)
-    81				eetrack = ctx->pending_nvm.eetrack;
-    82	
-    83			snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", eetrack);
-    84			return;
-    85		}
-    86	
-    87		ixgbe_get_oem_prod_version(hw, &nvm_ver);
-    88	
-    89		/* No ETRACK version for OEM */
-    90		if (nvm_ver.oem_valid) {
-    91			ctx->buf[0] = '\0';
-    92			return;
-    93		}
-    94	
-    95		ixgbe_get_etk_id(hw, &nvm_ver);
-    96		snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", nvm_ver.etk_id);
-    97	}
-    98	
-    99	static void ixgbe_info_fw_api(struct ixgbe_adapter *adapter,
-   100				      struct ixgbe_info_ctx *ctx)
-   101	{
-   102		struct ixgbe_hw *hw = &adapter->hw;
-   103	
-   104		snprintf(ctx->buf, sizeof(ctx->buf), "%u.%u.%u",
-   105			 hw->api_maj_ver, hw->api_min_ver, hw->api_patch);
-   106	}
-   107	
-   108	static void ixgbe_info_fw_build(struct ixgbe_adapter *adapter,
-   109					struct ixgbe_info_ctx *ctx)
-   110	{
-   111		struct ixgbe_hw *hw = &adapter->hw;
-   112	
-   113		snprintf(ctx->buf, sizeof(ctx->buf), "0x%08x", hw->fw_build);
-   114	}
-   115	
-   116	static void ixgbe_info_fw_srev(struct ixgbe_adapter *adapter,
-   117				       struct ixgbe_info_ctx *ctx,
-   118				       enum ixgbe_devlink_version_type type)
-   119	{
-   120		struct ixgbe_nvm_info *nvm;
-   121	
-   122		if (type == IXGBE_DL_VERSION_RUNNING)
-   123			nvm = &adapter->hw.flash.nvm;
- > 124		else if (type == IXGBE_DL_VERSION_STORED)
-   125			nvm = &ctx->pending_nvm;
-   126	
-   127		snprintf(ctx->buf, sizeof(ctx->buf), "%u", nvm->srev);
-   128	}
-   129	
-   130	static void ixgbe_info_orom_srev(struct ixgbe_adapter *adapter,
-   131					 struct ixgbe_info_ctx *ctx,
-   132					 enum ixgbe_devlink_version_type type)
-   133	{
-   134		struct ixgbe_orom_info *orom;
-   135	
-   136		if (type == IXGBE_DL_VERSION_RUNNING)
-   137			orom = &adapter->hw.flash.orom;
-   138		else if (type == IXGBE_DL_VERSION_STORED)
-   139			orom = &ctx->pending_orom;
-   140	
-   141		snprintf(ctx->buf, sizeof(ctx->buf), "%u", orom->srev);
-   142	}
-   143	
-   144	static void ixgbe_info_nvm_ver(struct ixgbe_adapter *adapter,
-   145				       struct ixgbe_info_ctx *ctx,
-   146				       enum ixgbe_devlink_version_type type)
-   147	{
-   148		struct ixgbe_nvm_info *nvm;
-   149	
-   150		if (type == IXGBE_DL_VERSION_RUNNING)
-   151			nvm = &adapter->hw.flash.nvm;
-   152		else if (type == IXGBE_DL_VERSION_STORED)
-   153			nvm = &ctx->pending_nvm;
-   154	
-   155		snprintf(ctx->buf, sizeof(ctx->buf), "%x.%02x", nvm->major, nvm->minor);
-   156	}
-   157	
-   158	static void ixgbe_info_netlist_ver(struct ixgbe_adapter *adapter,
-   159					   struct ixgbe_info_ctx *ctx,
-   160					   enum ixgbe_devlink_version_type type)
-   161	{
-   162		struct ixgbe_netlist_info *netlist;
-   163	
-   164		if (type == IXGBE_DL_VERSION_RUNNING)
-   165			netlist = &adapter->hw.flash.netlist;
- > 166		else if (type == IXGBE_DL_VERSION_STORED)
-   167			netlist = &ctx->pending_netlist;
-   168	
-   169		/* The netlist version fields are BCD formatted */
-   170		snprintf(ctx->buf, sizeof(ctx->buf), "%x.%x.%x-%x.%x.%x",
-   171			 netlist->major, netlist->minor,
-   172			 netlist->type >> 16, netlist->type & 0xFFFF,
-   173			 netlist->rev, netlist->cust_ver);
-   174	}
-   175	
+   307	
+ > 308	static const struct counter_desc pcie_perf_stall_stats_desc[] = {
+   309		{ "outbound_pci_stalled_rd", PCIE_PERF_OFF(outbound_stalled_reads) },
+   310		{ "outbound_pci_stalled_wr", PCIE_PERF_OFF(outbound_stalled_writes) },
+   311		{ "outbound_pci_stalled_rd_events", PCIE_PERF_OFF(outbound_stalled_reads_events) },
+   312		{ "outbound_pci_stalled_wr_events", PCIE_PERF_OFF(outbound_stalled_writes_events) },
+   313	};
+   314	
+   315	struct mlx5e_rq_stats {
+   316		u64 packets;
+   317		u64 bytes;
+   318		u64 csum_complete;
+   319		u64 csum_unnecessary_inner;
+   320		u64 csum_none;
+   321		u64 lro_packets;
+   322		u64 lro_bytes;
+   323		u64 xdp_drop;
+   324		u64 xdp_tx;
+   325		u64 xdp_tx_full;
+   326		u64 wqe_err;
+   327		u64 mpwqe_filler;
+   328		u64 buff_alloc_err;
+   329		u64 cqe_compress_blks;
+   330		u64 cqe_compress_pkts;
+   331		u64 page_reuse;
+   332		u64 cache_reuse;
+   333		u64 cache_full;
+   334		u64 cache_empty;
+   335		u64 cache_busy;
+   336	};
+   337	
+   338	static const struct counter_desc rq_stats_desc[] = {
+   339		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, packets) },
+   340		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, bytes) },
+   341		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, csum_complete) },
+   342		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, csum_unnecessary_inner) },
+   343		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, csum_none) },
+   344		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, xdp_drop) },
+   345		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, xdp_tx) },
+   346		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, xdp_tx_full) },
+   347		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, lro_packets) },
+   348		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, lro_bytes) },
+   349		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, wqe_err) },
+   350		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, mpwqe_filler) },
+   351		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, buff_alloc_err) },
+   352		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, cqe_compress_blks) },
+   353		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, cqe_compress_pkts) },
+   354		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, page_reuse) },
+   355		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, cache_reuse) },
+   356		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, cache_full) },
+   357		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, cache_empty) },
+   358		{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, cache_busy) },
+   359	};
+   360	
+   361	struct mlx5e_sq_stats {
+   362		/* commonly accessed in data path */
+   363		u64 packets;
+   364		u64 bytes;
+   365		u64 xmit_more;
+   366		u64 tso_packets;
+   367		u64 tso_bytes;
+   368		u64 tso_inner_packets;
+   369		u64 tso_inner_bytes;
+   370		u64 csum_partial_inner;
+   371		u64 nop;
+   372		/* less likely accessed in data path */
+   373		u64 csum_none;
+   374		u64 stopped;
+   375		u64 wake;
+   376		u64 dropped;
+   377	};
+   378	
+   379	static const struct counter_desc sq_stats_desc[] = {
+   380		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, packets) },
+   381		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, bytes) },
+   382		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tso_packets) },
+   383		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tso_bytes) },
+   384		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tso_inner_packets) },
+   385		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, tso_inner_bytes) },
+   386		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, csum_partial_inner) },
+   387		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, nop) },
+   388		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, csum_none) },
+   389		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, stopped) },
+   390		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, wake) },
+   391		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, dropped) },
+   392		{ MLX5E_DECLARE_TX_STAT(struct mlx5e_sq_stats, xmit_more) },
+   393	};
+   394	
+   395	#define NUM_SW_COUNTERS			ARRAY_SIZE(sw_stats_desc)
+   396	#define NUM_Q_COUNTERS			ARRAY_SIZE(q_stats_desc)
+   397	#define NUM_VPORT_COUNTERS		ARRAY_SIZE(vport_stats_desc)
+   398	#define NUM_PPORT_802_3_COUNTERS	ARRAY_SIZE(pport_802_3_stats_desc)
+   399	#define NUM_PPORT_2863_COUNTERS		ARRAY_SIZE(pport_2863_stats_desc)
+   400	#define NUM_PPORT_2819_COUNTERS		ARRAY_SIZE(pport_2819_stats_desc)
+   401	#define NUM_PPORT_PHY_STATISTICAL_COUNTERS(priv) \
+   402		(ARRAY_SIZE(pport_phy_statistical_stats_desc) * \
+   403		 MLX5_CAP_PCAM_FEATURE((priv)->mdev, ppcnt_statistical_group))
+   404	#define NUM_PCIE_PERF_COUNTERS(priv) \
+   405		(ARRAY_SIZE(pcie_perf_stats_desc) * \
+   406		 MLX5_CAP_MCAM_FEATURE((priv)->mdev, pcie_performance_group))
+   407	#define NUM_PCIE_PERF_STALL_COUNTERS(priv) \
+   408		(ARRAY_SIZE(pcie_perf_stall_stats_desc) * \
+   409		 MLX5_CAP_MCAM_FEATURE((priv)->mdev, pcie_outbound_stalled))
+   410	#define NUM_PPORT_PER_PRIO_TRAFFIC_COUNTERS \
+   411		ARRAY_SIZE(pport_per_prio_traffic_stats_desc)
+   412	#define NUM_PPORT_PER_PRIO_PFC_COUNTERS \
+   413		ARRAY_SIZE(pport_per_prio_pfc_stats_desc)
+   414	#define NUM_PPORT_COUNTERS(priv)	(NUM_PPORT_802_3_COUNTERS + \
+   415						 NUM_PPORT_2863_COUNTERS  + \
+   416						 NUM_PPORT_2819_COUNTERS  + \
+   417						 NUM_PPORT_PHY_STATISTICAL_COUNTERS(priv) + \
+   418						 NUM_PPORT_PER_PRIO_TRAFFIC_COUNTERS * \
+   419						 NUM_PPORT_PRIO)
+   420	#define NUM_PCIE_COUNTERS(priv)		(NUM_PCIE_PERF_COUNTERS(priv) + \
+   421						 NUM_PCIE_PERF_STALL_COUNTERS(priv))
+   422	#define NUM_RQ_STATS			ARRAY_SIZE(rq_stats_desc)
+   423	#define NUM_SQ_STATS			ARRAY_SIZE(sq_stats_desc)
+   424	
+   425	struct mlx5e_stats {
+   426		struct mlx5e_sw_stats sw;
+   427		struct mlx5e_qcounter_stats qcnt;
+   428		struct mlx5e_vport_stats vport;
+   429		struct mlx5e_pport_stats pport;
+   430		struct rtnl_link_stats64 vf_vport;
+   431		struct mlx5e_pcie_stats pcie;
+   432	};
+   433	
+ > 434	static const struct counter_desc mlx5e_pme_status_desc[] = {
+   435		{ "module_unplug", 8 },
+   436	};
+   437	
 
 -- 
 0-DAY CI Kernel Test Service
