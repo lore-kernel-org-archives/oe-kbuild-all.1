@@ -1,92 +1,106 @@
-Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FED96F30C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 16:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE4F1DF73A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 16:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153641; cv=none; b=jp/hJXtx2b3ErO8+gFLlegsdIxYfW+ck4XX7QBrcCbF2JuAxeqAmyoelbWaM90raEMReYjopvYKqRLrdbZm0ql0k2zciGMycnNgxMMdnpQUOKi+big9KDZVT7EioTd0LABYZe9E0mzj42Q1UYJHJr9UIVnNKnXUyx6bfrXcXlk8=
+	t=1740154073; cv=none; b=mWS2DAlxvvQNpUl0fhdCbSkYvJSKGdm8k+OlZtxcPNmwZh0r7p+REDCSEVFGE3/HLmhKpl93HElRwZOFsVRIO4UGNjf3bTHVklINO+M/MMUMpRW5qyGYQnKYjh79KJFcFpTS7Uo6BaIw4oUOuoA61sJaHTxkkG/fUmxMLgZtirI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740153641; c=relaxed/simple;
-	bh=8JwxSrAkb49WD2mDErfKLvyH0/6S3kZaUGqW2G14m5Q=;
+	s=arc-20240116; t=1740154073; c=relaxed/simple;
+	bh=y5JhGk6+y/UVmyY9PqhauCRFg3xwKvQSWW03fAoWreI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eTEF7sZXtg5r2Ol7okpCqb0TKVPJhXLMjpFpuMYMoePTpCl9FCbvc9GCrum8y0xaZGp93KKGvtOkJFMu2Iz9VJQh3aTY9Fw0JbI9WLYA0XoeyacOL1Kp6oxUYjY980AoO0jgMeqQS0UTU/gymP07lYmrod/2ZMnwROcYjI6FbX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=Wd3VgrGl; arc=none smtp.client-ip=185.125.25.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=K6xc97AuvsQv34BThXWyVL03dSb5YM/fIOER9oBnmohqmDREVNPRrHwk8D+dtn7i/qPSuwfFMEZsQ13gqeEH5K/lF+S87d0AIQ9OwWPc4T+WD+gbPShj3Xwv8cUnUIEJH/sWUnTof6h8lYrcf4kemMZiCNPy7A3TIA+9hk54kpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8I2+nAu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="Wd3VgrGl"
-Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10:40ca:feff:fe05:1])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4Yzvx01MRfzhfX;
-	Fri, 21 Feb 2025 17:00:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1740153636;
-	bh=bzQREuWWWsR2CIYsAKZ/AYGR6t2UePv92kGxLbABb24=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wd3VgrGl6XF5Mb3O9V4H28Jc/XuZkOXkVlwUk6gWUIiGjwc5DMUVu/Viwn21aOl6p
-	 7YGIL6b7a8D84nOQO/r2Rh0K6IoQ0TY+kB3OskTqKEVoyANhXyDRf82jrZKfoh25Q+
-	 lAgYf5VQLnbtELW6PXW2op7t6A4vdKp1L2QVYRl8=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4Yzvwz4GQHzgjK;
-	Fri, 21 Feb 2025 17:00:35 +0100 (CET)
-Date: Fri, 21 Feb 2025 17:00:34 +0100
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Kees Cook <kees@kernel.org>, Guo Ren <guoren@kernel.org>
-Cc: linux-hardening@vger.kernel.org, kernel test robot <lkp@intel.com>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	James Morris <jamorris@linux.microsoft.com>, Jann Horn <jannh@google.com>, linux-csky@vger.kernel.org, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-Subject: Re: security/landlock/ruleset.c:96:9: warning: 'memcpy' accessing
- 4294967295 bytes at offsets 20 and 0 overlaps 6442450943 bytes at offset
- -2147483648
-Message-ID: <20250221.ga2OSh6ieZei@digikod.net>
-References: <202501040747.S3LYfvYq-lkp@intel.com>
- <20250106.uu8as0Ha6pof@digikod.net>
- <202501061623.7A617B09@keescook>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8I2+nAu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740154071; x=1771690071;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y5JhGk6+y/UVmyY9PqhauCRFg3xwKvQSWW03fAoWreI=;
+  b=B8I2+nAuqzxfr3FP4bPdkBeSuLj7QGY7Lod3ClJe0cd+ioGDUgcZQz7J
+   TTkeboxPwRlTLQC29U7AlcW6GSA+MSMQHluWIQe3dnEOhHtjr1qCNoPSF
+   MbK+xgu5SD4y/cA4yDA2k5B7/lOfD74XTS7o9WGNwUTXj2f923wWUdPHg
+   bzXMnCQoOQfonqW+uk45rs5ycPJszp0Jel73bi9bK+ZVV7/6jUpkPETRd
+   8cq2hpnl7c5BEMh6aVXIPAfA1cvpw0M4at4pxGWdPY8vy8wFcplkrETVW
+   PvlD1febtwhDH9+S5xqb+1JsBHOApt2i+IQR7xmDei1uKk+C0w0pxyfa9
+   g==;
+X-CSE-ConnectionGUID: 1bSTBk+yQAqIHATfi2x4LQ==
+X-CSE-MsgGUID: fZnQqN1/SbuCY1l85mE2hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="44892224"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="44892224"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:07:49 -0800
+X-CSE-ConnectionGUID: cfC2HSiJSmy16Dk7sQ8oGg==
+X-CSE-MsgGUID: J7IerKaiSvub47CRnDOKNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="120384991"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:07:48 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlVZ3-0000000Dgc2-1KOk;
+	Fri, 21 Feb 2025 18:07:45 +0200
+Date: Fri, 21 Feb 2025 18:07:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Raag Jadav <raag.jadav@intel.com>, arnd@arndb.de,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] io.h: drop unused headers
+Message-ID: <Z7ik0etxGlj3QKOa@smile.fi.intel.com>
+References: <20250220173305.2752125-1-raag.jadav@intel.com>
+ <202502211009.s6xoWtae-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202501061623.7A617B09@keescook>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <202502211009.s6xoWtae-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Cc csky developers.
-
-See https://lore.kernel.org/r/202501040747.S3LYfvYq-lkp@intel.com
-
-On Mon, Jan 06, 2025 at 04:27:26PM -0800, Kees Cook wrote:
-> On Mon, Jan 06, 2025 at 06:04:56PM +0100, Mickaël Salaün wrote:
-> > On Sat, Jan 04, 2025 at 07:26:27AM +0800, kernel test robot wrote:
-> > >    security/landlock/ruleset.c: In function 'create_rule':
-> > > >> security/landlock/ruleset.c:96:9: warning: 'memcpy' accessing 4294967295 bytes at offsets 20 and 0 overlaps 6442450943 bytes at offset -2147483648 [-Wrestrict]
-> > >       96 |         memcpy(new_rule->layers, layers,
-> > >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >       97 |                         flex_array_size(new_rule, layers, num_layers));
-> > >          |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This warning seems to only show with the csky architecture.
-
-> >
-> > I guess the GCC warning is a false positive?
-> > See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=116494
+On Fri, Feb 21, 2025 at 10:52:12AM +0800, kernel test robot wrote:
+> Hi Raag,
 > 
-> Does the warning go away if flex_array_size() is open-coded or if the
-> create_rule prototype uses "*" instead of "[]" syntax for the "layers"
-> argument?
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on b16e9f8547a328b19af59afc213ce323124d11e9]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/io-h-drop-unused-headers/20250221-013530
+> base:   b16e9f8547a328b19af59afc213ce323124d11e9
+> patch link:    https://lore.kernel.org/r/20250220173305.2752125-1-raag.jadav%40intel.com
+> patch subject: [PATCH v1] io.h: drop unused headers
+> config: sparc-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211009.s6xoWtae-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211009.s6xoWtae-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502211009.s6xoWtae-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/gpu/drm/drm_draw.c: In function 'drm_draw_color_from_xrgb8888':
+> >> drivers/gpu/drm/drm_draw.c:130:17: error: implicit declaration of function 'WARN_ONCE' [-Wimplicit-function-declaration]
+>      130 |                 WARN_ONCE(1, "Can't convert to %p4cc\n", &format);
+>          |                 ^~~~~~~~~
 
-But that would not be correct right?
+dwm_draw.c misses linux/bug.h.
 
-> 
-> The warning is about the "read" part ("accessing"). Using tip-of-tree
-> gcc with -fdiagnostics-details might show more details on the calling
-> path.
-> 
-> -Kees
-> 
-> -- 
-> Kees Cook
-> 
+Raag, please add it to your patch. But let's wait at least a week that CIs can
+collect more issues, if any, along with people, who want to test this change.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
