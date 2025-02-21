@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E9C1E491B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 16:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25321F1535;
+	Fri, 21 Feb 2025 16:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740154262; cv=none; b=l5HU6lVeLG8VMn1z/hZg8ahb2lfpN2wdj3EZla8jhSC53t0Y+2eqhJ+gcQRmMwANkWAWV3H8pMDnPrf7kkpgwHIsSbFJS8ZqQdElEtR1TkKhuqiEJ3yB71tzOZZU7PGdBS+XfNdHHCJQpS7w4XkQX8JRScor+kKcoLqFXbl+Hq8=
+	t=1740156134; cv=none; b=Mf+jzMfrzM/fnoyuv1QcAGIRMX4Rwa7OlTZOI6htfj6tDIm7dgTBUU27PjQxfPdsXyKhq/uUubns4wx3/zLdGGtFh2gIc6c0Jws65CFp9qVUYvM78dSFbilkqGcm+hKPf4cup88u5mJJ56T6Jotal2+jWlzKf9VJxrGVIpA4mYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740154262; c=relaxed/simple;
-	bh=KRjsAT5DUOpWHkO4tSIDUkdRch527sPbLWMDBLFtJyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cf3HuoNSFVtHsbWSEDJ9nWcg1YRiLzTX/y6tTPVAkS6U5AsFGsebEqqxiC0glE7OoRq3by1Nxdim+FIIRNhL9PVNFrWa1npZkdJ5n2RmbFuUty5Ucr7SlzgKxvbdY6e6VjNBtZsbfOW0hgqMOJ1x7dtdRZqDPpjaKFf1Uks0qbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UW/3qSXe; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740156134; c=relaxed/simple;
+	bh=MT8Oz8LKggTnAerQVbmxJLltFBmUPL1hicO8W1R2OjM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=helFy0pyRj8E2bnLvgKyvAaAZU7f2NBcZqi42g22RL2WPSLWGiNKxI7x/fTfVg31C22TzP4BftJ57/dM2KKSZDp1THSOil2aP3LwNKndgXOmBAaUosHS2iLq/5w2u0FbMtTun0ng3VzA974vW5nwts5MjKh/oskCqqV4pLvqwK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cctGYG6R; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UW/3qSXe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cctGYG6R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740154261; x=1771690261;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KRjsAT5DUOpWHkO4tSIDUkdRch527sPbLWMDBLFtJyA=;
-  b=UW/3qSXecWXxHcbd71HU6keyyVOdSdRWyNjLx7SGtVHP75YgrP/lgmDH
-   A0UDJE0XTCaRHl+tW8CmALWLNx96n+OwNX49/bjKZ3+9XOgh0UuPTf6Ff
-   HbudjEY0Ba6LjdZRE4W5sCpP/kDvkKaHshRCKtdMWvopifGlmkhOPIhGa
-   DdGw5H814mecH1JaSsCdtVyhxTI6IBclb4ue4KmvpKyKfTazpETAHAjpC
-   YOJ8CW8Q8SWvHqrtorHdLYHxR2Iq03A7V/MCJaUB/76BJbs4MM1nJFps5
-   9w2OvA4B3fGRQolkOmaQx+ysqrzKRqSPShSivC4Wt4NK+Dp4Tn710+og4
-   w==;
-X-CSE-ConnectionGUID: Mxo6px4XT6uhSl4UtlBISA==
-X-CSE-MsgGUID: BYkHsLfKRESW0XLuonD7Mg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58388061"
+  t=1740156131; x=1771692131;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MT8Oz8LKggTnAerQVbmxJLltFBmUPL1hicO8W1R2OjM=;
+  b=cctGYG6RoD9O5xg0yq+oSXLIuCbzvHKU+jevM7ZNdRh3gQGy+SQHwgwr
+   IFTGFymtDlL81v28FAQWF8u296D1w/z7o4OknOfyGiEU5gLW7brDYQEGS
+   0wAPJGWIDuWsQpkTzoeZFce3htwc0XEqAD+Y4JUUhePznp6aBzHJZ07pK
+   4wy9yITX3bLOzfn3yZTX/22jRfcOppQTG61sCOFi++G0X9Yaqy+rWr5Uq
+   q97yMlo8nupFE/AZfd8Chp/R3G0N48CkJlw1+F844sWeD8OIjrSb+/Ay2
+   aCsFrxUJ4zruXiWz0ob6ZwL52bPMb2x2yfnohizC1mgkwLSwav475T7wq
+   Q==;
+X-CSE-ConnectionGUID: 0A4FakvgTHaFTFViGH4Sdg==
+X-CSE-MsgGUID: 6NcRV5D7Ss+Oigy/n+xTDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40208841"
 X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="58388061"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:11:01 -0800
-X-CSE-ConnectionGUID: S8BT3XOQRLKjH6e3xlYVOQ==
-X-CSE-MsgGUID: HjAahuYcQI+inxqd0Oaetg==
+   d="scan'208";a="40208841"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:42:11 -0800
+X-CSE-ConnectionGUID: kqts383RQr6Idnx08B4WKQ==
+X-CSE-MsgGUID: 6B6m3+HXQ6i/3csx2NkCkQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120644962"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:11:00 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tlVc8-0000000DgeM-2vfg;
-	Fri, 21 Feb 2025 18:10:56 +0200
-Date: Fri, 21 Feb 2025 18:10:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>, arnd@arndb.de,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] io.h: drop unused headers
-Message-ID: <Z7ilkKt1waKJuZPi@smile.fi.intel.com>
-References: <20250220173305.2752125-1-raag.jadav@intel.com>
- <202502211137.IRE8qrlR-lkp@intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="115943465"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Feb 2025 08:42:09 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlW6J-0005kS-1q;
+	Fri, 21 Feb 2025 16:42:07 +0000
+Date: Sat, 22 Feb 2025 00:38:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: [vbabka:slub-percpu-sheaves-v2-maple-hack 17/23]
+ lib/maple_tree.c:5379:11: error: no member named 'allocated' in 'struct
+ ma_state'
+Message-ID: <202502220054.mdh5WJUF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,49 +63,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502211137.IRE8qrlR-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Feb 21, 2025 at 11:22:38AM +0800, kernel test robot wrote:
-> Hi Raag,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on b16e9f8547a328b19af59afc213ce323124d11e9]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/io-h-drop-unused-headers/20250221-013530
-> base:   b16e9f8547a328b19af59afc213ce323124d11e9
-> patch link:    https://lore.kernel.org/r/20250220173305.2752125-1-raag.jadav%40intel.com
-> patch subject: [PATCH v1] io.h: drop unused headers
-> config: nios2-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211137.IRE8qrlR-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211137.IRE8qrlR-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502211137.IRE8qrlR-lkp@intel.com/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-sheaves-v2-maple-hack
+head:   f149e44ecb02faef3e47597eb05bad0c2f8ff81c
+commit: 23c4ef3e74093f9ebaaa9cc96cc3e8713fe2503e [17/23] maple_tree: Add single node allocation support to maple state
+config: i386-randconfig-012-20250218 (https://download.01.org/0day-ci/archive/20250222/202502220054.mdh5WJUF-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220054.mdh5WJUF-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502220054.mdh5WJUF-lkp@intel.com/
 
->    drivers/gpu/drm/drm_draw.c: At top level:
-> >> drivers/gpu/drm/drm_draw.c:134:1: warning: data definition has no type or storage class
->      134 | EXPORT_SYMBOL(drm_draw_color_from_xrgb8888);
->          | ^~~~~~~~~~~~~
-> >> drivers/gpu/drm/drm_draw.c:134:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
-> >> drivers/gpu/drm/drm_draw.c:134:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->    drivers/gpu/drm/drm_draw.c:151:1: warning: data definition has no type or storage class
->      151 | EXPORT_SYMBOL(drm_draw_blit16);
->          | ^~~~~~~~~~~~~
+Note: the vbabka/slub-percpu-sheaves-v2-maple-hack HEAD f149e44ecb02faef3e47597eb05bad0c2f8ff81c builds fine.
+      It only hurts bisectability.
 
-I haven't looked deeply into this, but it might be the export.h is missing
-or it's just a followup of missing bug.h. In any case the io.h patch needs
-a prerequisite for dwm_draw.c to eliminate usage of "proxy" headers and follow
-IWYU principle. So, it will become a series of two. But as I said before,
-let's wait a bit longer.
+All errors (new ones prefixed by >>):
+
+>> lib/maple_tree.c:5379:11: error: no member named 'allocated' in 'struct ma_state'
+    5379 |         if (mas->allocated) {
+         |             ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> lib/maple_tree.c:5379:11: error: no member named 'allocated' in 'struct ma_state'
+    5379 |         if (mas->allocated) {
+         |             ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> lib/maple_tree.c:5379:11: error: no member named 'allocated' in 'struct ma_state'
+    5379 |         if (mas->allocated) {
+         |             ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   lib/maple_tree.c:5380:47: error: no member named 'allocated' in 'struct ma_state'
+    5380 |                 kmem_cache_free_bulk(maple_node_cache, mas->allocated,
+         |                                                        ~~~  ^
+   lib/maple_tree.c:5382:8: error: no member named 'allocated' in 'struct ma_state'
+    5382 |                 mas->allocated = 0;
+         |                 ~~~  ^
+   5 errors generated.
+
+
+vim +5379 lib/maple_tree.c
+
+  5344	
+  5345	/*
+  5346	 * mas_destroy() - destroy a maple state.
+  5347	 * @mas: The maple state
+  5348	 *
+  5349	 * Upon completion, check the left-most node and rebalance against the node to
+  5350	 * the right if necessary.  Frees any allocated nodes associated with this maple
+  5351	 * state.
+  5352	 */
+  5353	void mas_destroy(struct ma_state *mas)
+  5354	{
+  5355		/*
+  5356		 * When using mas_for_each() to insert an expected number of elements,
+  5357		 * it is possible that the number inserted is less than the expected
+  5358		 * number.  To fix an invalid final node, a check is performed here to
+  5359		 * rebalance the previous node with the final node.
+  5360		 */
+  5361		if (mas->mas_flags & MA_STATE_REBALANCE) {
+  5362			unsigned char end;
+  5363			if (mas_is_err(mas))
+  5364				mas_reset(mas);
+  5365			mas_start(mas);
+  5366			mtree_range_walk(mas);
+  5367			end = mas->end + 1;
+  5368			if (end < mt_min_slot_count(mas->node) - 1)
+  5369				mas_destroy_rebalance(mas, end);
+  5370	
+  5371			mas->mas_flags &= ~MA_STATE_REBALANCE;
+  5372		}
+  5373		mas->mas_flags &= ~(MA_STATE_BULK|MA_STATE_PREALLOC);
+  5374	
+  5375		mas->node_request = 0;
+  5376		if (mas->sheaf)
+  5377			kmem_cache_return_sheaf(maple_node_cache, GFP_KERNEL,
+  5378						mas->sheaf);
+> 5379		if (mas->allocated) {
+  5380			kmem_cache_free_bulk(maple_node_cache, mas->allocated,
+  5381					     (void **)mas->alloc);
+  5382			mas->allocated = 0;
+  5383		}
+  5384		mas->sheaf = NULL;
+  5385	}
+  5386	EXPORT_SYMBOL_GPL(mas_destroy);
+  5387	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
