@@ -1,117 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B862D200BB8;
-	Fri, 21 Feb 2025 09:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF63202C30;
+	Fri, 21 Feb 2025 09:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740128907; cv=none; b=dtuYBdF7RPyEPMkRXo8YeCzp6MYwHV/EC1PdPrytE13ne5Npkhpo+garUbw7P/BM1cBgWwDlTxU8FXls/1Y95Ul1s81odacj8EnEqtAxVfO3e+Y9moLsfotCSiPplI+DhAs+RWKiY92OPRwjMq5tNjbR7ZhflomZwzoe/Q8rXOA=
+	t=1740131417; cv=none; b=bmLpGKK1lhENOFS59kfU1Aq+PnxfP8qRMayvUC9Bnn1bf7WtaOCle+6Z6E80dcVJw2Rp1mSAZxhlw4Y6YLgWWJA316pq4OSWlQh+YyS5ZgKuzKK7tgR8cJUA6kfXeYK+sybNhke2jzK/tL2Ws3bLUg0sLLV5j9R17f3bQYcID4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740128907; c=relaxed/simple;
-	bh=oimX8Q/LxRwlfk+t54o1mqJdiaT+zvHD2n1g78Yevyo=;
+	s=arc-20240116; t=1740131417; c=relaxed/simple;
+	bh=14wihrgxDAMUcm++Tqe/xZOkIahAfsAi/hjuQ1z8YnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IWZCVOFrUNvxzn2axlrnulSo6WCxUhb1oA/77+mXqDtwQKhwjTQ/QVd6GSsTEyyE1f/OT2AK32Smbd917zITAGIAJnhDSuZAv74apBy5GVYcqUIozvGSouXx5LL24B1UxtxOzpsRDRTt50zZJ/5W+/GiCMi6mwOFf8SgItrugXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JClM5MEs; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gt2owH0Tu4MflNNEWEOtjuD39IA2s1/PrLvLnQ7TD2sS7x0xLHb/bKPE2D/5ivKOO7H9bO4blo5clmb8gqE0ImtJFKA+zKuHMcrj1S8/bZy80UNX0GWMIVSh6emvMbMvPflGPfKUnEdyzEI21X93gEJguaRdgd4eAYEEY2ZK1OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QceuWUWz; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JClM5MEs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0642C4CED6;
-	Fri, 21 Feb 2025 09:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740128907;
-	bh=oimX8Q/LxRwlfk+t54o1mqJdiaT+zvHD2n1g78Yevyo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JClM5MEstLWw6w/T8uUGehpMEt3dq/s2eDp9+GtkyXyLoak10+VKVrUaDo3SVYzBr
-	 qOJILi55XlxfVFZBj8KyETVvp3mTXn5W5WoMcO9mnzsld87a3jr7aMrqOSOJBAZf41
-	 Alqg95mv/MI43DgUp2Q8dRXA5bBFE1Gi1DZg92lmDDwz5V609dFscVct1r+LxFXMb0
-	 keBbOaEpJSLcTdgo4DtdXvWxqX9aBqoE+zjJUpnSjiXX35F6yL4EjxUe52ywu5J0aQ
-	 AnFQKfV+44glIbtY3xwzA0Sq6kqATZ0JF3rJHNbq+M4NZkn/5BwbCXYuybXLRKnIdB
-	 2EL+uArOtSmkQ==
-Date: Fri, 21 Feb 2025 10:08:24 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: kernel test robot <lkp@intel.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
-Message-ID: <hb7agtiqcuotiie646a2nzwg2cfwmahtgzzexxsf4tqu3rztf6@qqq2a7qkazh5>
-References: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
- <202412182358.9wma1UUE-lkp@intel.com>
- <TY3PR01MB11346CC402843A628226F5C6186122@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <b7woae7iquvuzs4vcollns7qcyand4ginrbjqs75bnsiockrjc@c4pyody6zdcr>
- <TY3PR01MB1134690173EBB583582DE8E3386132@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QceuWUWz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740131416; x=1771667416;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=14wihrgxDAMUcm++Tqe/xZOkIahAfsAi/hjuQ1z8YnA=;
+  b=QceuWUWzQLwrKunv/LbSRjHVVlsXk7kPyiEjVYbcSkqNOJ/ZcPgexaMA
+   tgXqnxZDrsNr0yGRf0llo6m8729Sy+JR2TZvzpofogkOsKUf2FK7F+VnA
+   XTJPb7eErtpnhjk6qyzkQaxcsGUH/e73bRfAKOCFN07wcyytZWG4J90nV
+   bXHNx8ULu2ZDUfniRXaPmQSNhv4ht21w285YKMJoX+b/lbHAoGjxDssyc
+   ka4WG27Rv6HDXY61pAFcSOBPG3rsKPF7hCYpo6WfiYrhgpfM3P+p1Vsd8
+   LVO9W1ab7rrP7N41XQM6zW2tdtMxdBlqt7OzcmcHNyCM0ASj8Lrlcq//t
+   Q==;
+X-CSE-ConnectionGUID: zc7bJs5eQnmDUrnUR/8Iqw==
+X-CSE-MsgGUID: MhfPqVxQRoGfl7Swg5VhWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44731169"
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="44731169"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 01:50:15 -0800
+X-CSE-ConnectionGUID: nvscHLlGQeKJjK5VYLNqCg==
+X-CSE-MsgGUID: b029fyUDTOWE658I96WXXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="146216348"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 21 Feb 2025 01:50:12 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tlPfb-0005MV-1X;
+	Fri, 21 Feb 2025 09:50:08 +0000
+Date: Fri, 21 Feb 2025 17:49:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, alexander.deucher@amd.com,
+	christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+	simona@ffwll.ch
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] drm/radeon: Add error handlings for r420 cp errata
+ initiation
+Message-ID: <202502211718.EFZaW3pW-lkp@intel.com>
+References: <20250220064050.686-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="k2zrcougat4y5ihj"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134690173EBB583582DE8E3386132@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250220064050.686-1-vulab@iscas.ac.cn>
+
+Hi Wentao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on linus/master v6.14-rc3 next-20250220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/drm-radeon-Add-error-handlings-for-r420-cp-errata-initiation/20250220-144327
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250220064050.686-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] drm/radeon: Add error handlings for r420 cp errata initiation
+config: i386-buildonly-randconfig-005-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211718.EFZaW3pW-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211718.EFZaW3pW-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211718.EFZaW3pW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/radeon/r420.c:229:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+     229 | }
+         | ^
+   1 warning generated.
 
 
---k2zrcougat4y5ihj
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
-MIME-Version: 1.0
+vim +229 drivers/gpu/drm/radeon/r420.c
 
-Hello Biju,
+9f022ddfb23793 Jerome Glisse   2009-09-11  206  
+fe881d3e554a1f Wentao Liang    2025-02-20  207  static int r420_cp_errata_init(struct radeon_device *rdev)
+62cdc0c20663ef Corbin Simpson  2010-01-06  208  {
+c346fb74fb6463 Pan Bian        2017-04-24  209  	int r;
+e32eb50dbe4386 Christian König 2011-10-23  210  	struct radeon_ring *ring = &rdev->ring[RADEON_RING_TYPE_GFX_INDEX];
+7b1f2485db253a Christian König 2011-09-23  211  
+62cdc0c20663ef Corbin Simpson  2010-01-06  212  	/* RV410 and R420 can lock up if CP DMA to host memory happens
+62cdc0c20663ef Corbin Simpson  2010-01-06  213  	 * while the 2D engine is busy.
+62cdc0c20663ef Corbin Simpson  2010-01-06  214  	 *
+62cdc0c20663ef Corbin Simpson  2010-01-06  215  	 * The proper workaround is to queue a RESYNC at the beginning
+62cdc0c20663ef Corbin Simpson  2010-01-06  216  	 * of the CP init, apparently.
+62cdc0c20663ef Corbin Simpson  2010-01-06  217  	 */
+fe881d3e554a1f Wentao Liang    2025-02-20  218  	r = radeon_scratch_get(rdev, &rdev->config.r300.resync_scratch);
+fe881d3e554a1f Wentao Liang    2025-02-20  219  	if (r) {
+fe881d3e554a1f Wentao Liang    2025-02-20  220  		DRM_ERROR("failed to get scratch reg (%d).\n", r);
+fe881d3e554a1f Wentao Liang    2025-02-20  221  		return r;
+fe881d3e554a1f Wentao Liang    2025-02-20  222  	}
+c346fb74fb6463 Pan Bian        2017-04-24  223  	r = radeon_ring_lock(rdev, ring, 8);
+c346fb74fb6463 Pan Bian        2017-04-24  224  	WARN_ON(r);
+e32eb50dbe4386 Christian König 2011-10-23  225  	radeon_ring_write(ring, PACKET0(R300_CP_RESYNC_ADDR, 1));
+e32eb50dbe4386 Christian König 2011-10-23  226  	radeon_ring_write(ring, rdev->config.r300.resync_scratch);
+e32eb50dbe4386 Christian König 2011-10-23  227  	radeon_ring_write(ring, 0xDEADBEEF);
+1538a9e0e04f6a Michel Dänzer   2014-08-18  228  	radeon_ring_unlock_commit(rdev, ring, false);
+62cdc0c20663ef Corbin Simpson  2010-01-06 @229  }
+62cdc0c20663ef Corbin Simpson  2010-01-06  230  
 
-On Thu, Jan 09, 2025 at 09:32:58AM +0000, Biju Das wrote:
-> > On Wed, Jan 08, 2025 at 02:13:09PM +0000, Biju Das wrote:
-> > > Please let me know, if there is any feedback for this patch series or
-> > > any new API to be adapted in next kernel version which simplifies the=
- code, So that I can send next
-> > version.
-> >=20
-> > I didn't look, but if you're ambitious you can convert your driver to t=
-he waveform callbacks.
->=20
-> Is it ok, after the acceptance of initial version, will switch to wavefor=
-m callbacks to enable
-> the users of GPT(Reason: lot of customers are using GPT for backlight for=
- LCD panels)?
->=20
-> Please let me know.
-
-I'd still accept your driver with the legacy callbacks, mostly because
-your effort is already that old (which I consider my fault mostly).
-
-> Is there any documentation available for waveform callback? What scenario=
-s we can use
-> Waveform callbacks compared to traditional one?=20
-
-There is no nice documentation available yet. The improvements include:
-
- - arbitrary offsets for the duty cycle, so the active phase doesn't
-   need to be at the start or the end of a period any more
- - consumers can query the result of a configuration request (before and
-   also after the request was issued).
-
-Both are of little importance if your focus is mostly backlights.
-
-Best regards
-Uwe
-
---k2zrcougat4y5ihj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAme4Qn8ACgkQj4D7WH0S
-/k7FvAf/SOI19tb6fGsBqVcRMh6WfkohHjyd+hY6mT9Ldu9nlH+O/29gn2WT7q0V
-0Vxl7YzQFTAg6yi9CJVFTTxUYI0Lguc6axHEZJpEqbgGHTa6wxL5xBEFneEbZ2O3
-PbMfFIFtGrpYWz9ThcDbdwlamRBaAVFOFgP3zIubK7m3Qn/Esdvtj88ZVGur+D6n
-DvuxxmaN1wD3d4YWI/prGd1LwlGAarvjWDVzFOIvlUOE1fooxeN0mvlam/sDl1x4
-O++C/ldxqSRhEl7pL1iZy7321/ofkqdlBlIPLgDF2azF98jDAfUvYy3wUOklj8Vo
-r0daeIGYwIoCRibBTvmkRTIlNrhCFw==
-=ajkb
------END PGP SIGNATURE-----
-
---k2zrcougat4y5ihj--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
