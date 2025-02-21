@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0475E1FBE8E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 11:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4ED1E9B01
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 11:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740137773; cv=none; b=WSZUR9l3drc/bB/JF4+1NPplIHQoZetY4560DkZs9txzl+PRBqvpFEUxq7rpnkYiSZo13aS1P3LVnM2o8Eeo9/sAFpy01qHJER17Hd0m6vIDxZBXcjOkLg9PCpzg+32EN4/UvHKxu3FWdOmL4ig10IqVQoj12D/KBK/fB0/rQi4=
+	t=1740138436; cv=none; b=X6+o5W5q6YZMAFFP6s2l6m3idx3KXy0hfpBxF67v5AyEc9YSoCVudu8QU/G/8Hrj0Alm/nqW24BjbIhHu0JaeNaTePEKBJShlPy5XnYHl2m14ZautjU/SpiZ65X0y12wWOOdwz2xoMeeuICLZmOnRJLVVBdaU/PNOXMSZ6Meno0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740137773; c=relaxed/simple;
-	bh=fdaxToFFaHqcAHURT5RxKU1RY8OBnLB2TcVeS5Ncv40=;
+	s=arc-20240116; t=1740138436; c=relaxed/simple;
+	bh=ABY1TCmlToByq1IOLk66sUQr0qnecw/tSow9TAlG5as=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eXb1Gcz8LYXLHHKjsujq5PbgHDGeUvM6EUgu/j8gM8pgrvDa78S52vHgCBB2kskW5AbnINT5ziecZFL8MD9YqqwAF2n2d98MKSz6D+CXER4SYZ+b0oZ+mdmPHNh+i1j4qtxXBLvJKhxg8hVdhYDtrqJQxTAFENhygpbhR6fhDe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VsKkTdru; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=ShaUl7jQ713MisePJ+8P6e6/zA/3cRpCJEvfg5i5RVArndP6pVy9dwhXR/xS1WQAU8gyH0yZJrJjrrpjA6GDaBOTov3MgqIXojVz2+YzJ5Q7LTSZS+LC2hMmxNDQ8ePLGIOy14oB2qSQiAmxdWh0ZwNtvi6A3NZgVTwNRYPnY4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcGRL9uT; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VsKkTdru"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcGRL9uT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740137771; x=1771673771;
+  t=1740138435; x=1771674435;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fdaxToFFaHqcAHURT5RxKU1RY8OBnLB2TcVeS5Ncv40=;
-  b=VsKkTdruiOAY0IRuFHWrKiAR3ES7okVib76q7AlaQwF9dTNiGQlvx++d
-   H9ydb0t6j/YnVpTrqgUfwoHFWu7Z4wIXCJCl589iO8r0SY6M2pg7n2PM+
-   dXCSsnOUa1j4SEMdOp10ow9ulvQg7A41Vu3a3q1n0xqCP/leB0imIgK43
-   gBopXoxXbzbehO/6MZK08X2tTrUPjL7pHegqzJcEfXoWlfrIcLBR0m+Wm
-   AOoXfb+wDuwkw1kqLLp+ptOX78I3S1UDMAZOTQfRoEv8asLLgTiFyd8Rl
-   fGDo0WBahUjb54jrXu175HjJVY0uJhq7sRodgro9IRg8Gv0di0vLkQ0Iu
-   w==;
-X-CSE-ConnectionGUID: D9BwTk/WREy9Sj0msT8JnQ==
-X-CSE-MsgGUID: wFPGhN7QTDqnhTr9b/7BrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="44869902"
+  bh=ABY1TCmlToByq1IOLk66sUQr0qnecw/tSow9TAlG5as=;
+  b=QcGRL9uTUuzgcAQweGHGe23ShRXDHRT10R1b8s5+ylroFi3VF9YFX4Wn
+   5R58N6InvdpIus6sJiidplb6ZwR9MSNrnlMVTIfqW7o/x6nTKVVAviIzW
+   BUs9XKI4iDCRgm8OZwrm/hm0EIGQ2IGAIIYYJWsMpcZG2Xegnu5NCe6JZ
+   eJ7UKsvP7OmK8cv9ePuT7sAS04SIZVr4aDwvTjoaBsPzSZR8pDINO+/y3
+   9Hq2AP7Zrvp671RNLr2SgNvWEfN6Jt3ynnZE8YpKCSJXo+Mmy/Rp8MDm0
+   FUdC/2kTQeH0f9/IvOs88UMRx6ya32rnCSnOHmyQgyDipeK4kvYHuURb3
+   g==;
+X-CSE-ConnectionGUID: /CurS2l2S2qgUFpn0XGgNw==
+X-CSE-MsgGUID: yf2/nKl/TCWpMlCIVTvpTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51580130"
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="44869902"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 03:36:09 -0800
-X-CSE-ConnectionGUID: Va3cWfcJSNyJaPXpof/v2Q==
-X-CSE-MsgGUID: 4woC1rnDQ6awS3+mKcgB0g==
+   d="scan'208";a="51580130"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 03:47:14 -0800
+X-CSE-ConnectionGUID: 0jil1O78QlqN01HRD7PX2g==
+X-CSE-MsgGUID: aC+Sewv9QTCpGGKr1vsmFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="115349460"
+   d="scan'208";a="138567660"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Feb 2025 03:36:09 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 21 Feb 2025 03:47:12 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlRJu-0005S5-2c;
-	Fri, 21 Feb 2025 11:35:55 +0000
-Date: Fri, 21 Feb 2025 19:34:56 +0800
+	id 1tlRUs-0005Sh-1o;
+	Fri, 21 Feb 2025 11:47:10 +0000
+Date: Fri, 21 Feb 2025 19:46:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 1/1] mm/kasan/report.c:104:2: error: call to
- undeclared function 'hw_suppress_tag_checks_start'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202502211934.xrSFy8im-lkp@intel.com>
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134
+ core_dcn4_initialize() warn: inconsistent indenting
+Message-ID: <202502211920.txUfwtSj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   2ceb61dcb8306f85332e2a4a0f8d2dda2b30d111
-commit: ac77fe0577ca694d7689bb60da939dc8d25fa2dd [1/1] kasan: suppress recursive reports for HW_TAGS
-config: arm64-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211934.xrSFy8im-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211934.xrSFy8im-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   334426094588f8179fe175a09ecc887ff0c75758
+commit: 00c391102abc13763e2bfc90e05503109b19f074 drm/amd/display: Add misc DC changes for DCN401
+date:   10 months ago
+config: loongarch-randconfig-r072-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211920.txUfwtSj-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211934.xrSFy8im-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211920.txUfwtSj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:134 core_dcn4_initialize() warn: inconsistent indenting
 
->> mm/kasan/report.c:104:2: error: call to undeclared function 'hw_suppress_tag_checks_start'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           hw_suppress_tag_checks_start();
-           ^
->> mm/kasan/report.c:113:2: error: call to undeclared function 'hw_suppress_tag_checks_stop'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           hw_suppress_tag_checks_stop();
-           ^
-   2 errors generated.
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:553 core_dcn4_mode_programming() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c:568 core_dcn4_mode_programming() warn: curly braces intended?
 
+vim +134 drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4.c
 
-vim +/hw_suppress_tag_checks_start +104 mm/kasan/report.c
+70839da6360500 Aurabindo Pillai 2024-04-19  112  
+70839da6360500 Aurabindo Pillai 2024-04-19  113  bool core_dcn4_initialize(struct dml2_core_initialize_in_out *in_out)
+70839da6360500 Aurabindo Pillai 2024-04-19  114  {
+70839da6360500 Aurabindo Pillai 2024-04-19  115  	struct dml2_core_instance *core = in_out->instance;
+70839da6360500 Aurabindo Pillai 2024-04-19  116  
+70839da6360500 Aurabindo Pillai 2024-04-19  117  	if (!in_out->minimum_clock_table)
+70839da6360500 Aurabindo Pillai 2024-04-19  118  		return false;
+70839da6360500 Aurabindo Pillai 2024-04-19  119  	else
+70839da6360500 Aurabindo Pillai 2024-04-19  120  		core->minimum_clock_table = in_out->minimum_clock_table;
+70839da6360500 Aurabindo Pillai 2024-04-19  121  
+70839da6360500 Aurabindo Pillai 2024-04-19  122  	if (in_out->explicit_ip_bb && in_out->explicit_ip_bb_size > 0) {
+70839da6360500 Aurabindo Pillai 2024-04-19  123  		memcpy(&core->clean_me_up.mode_lib.ip, in_out->explicit_ip_bb, in_out->explicit_ip_bb_size);
+70839da6360500 Aurabindo Pillai 2024-04-19  124  
+70839da6360500 Aurabindo Pillai 2024-04-19  125  		// FIXME_STAGE2:
+70839da6360500 Aurabindo Pillai 2024-04-19  126  		// DV still uses stage1 ip_param_st for each variant, need to patch the ip_caps with ip_param info
+70839da6360500 Aurabindo Pillai 2024-04-19  127  		// Should move DV to use ip_caps but need move more overrides to ip_caps
+70839da6360500 Aurabindo Pillai 2024-04-19  128  		patch_ip_caps_with_explicit_ip_params(in_out->ip_caps, in_out->explicit_ip_bb);
+70839da6360500 Aurabindo Pillai 2024-04-19  129  		core->clean_me_up.mode_lib.ip.subvp_pstate_allow_width_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
+70839da6360500 Aurabindo Pillai 2024-04-19  130  		core->clean_me_up.mode_lib.ip.subvp_fw_processing_delay_us = core_dcn4_ip_caps_base.subvp_pstate_allow_width_us;
+70839da6360500 Aurabindo Pillai 2024-04-19  131  		core->clean_me_up.mode_lib.ip.subvp_swath_height_margin_lines = core_dcn4_ip_caps_base.subvp_swath_height_margin_lines;
+70839da6360500 Aurabindo Pillai 2024-04-19  132  	} else {
+70839da6360500 Aurabindo Pillai 2024-04-19  133  			memcpy(&core->clean_me_up.mode_lib.ip, &core_dcn4_ip_caps_base, sizeof(struct dml2_core_ip_params));
+70839da6360500 Aurabindo Pillai 2024-04-19 @134  		patch_ip_params_with_ip_caps(&core->clean_me_up.mode_lib.ip, in_out->ip_caps);
+70839da6360500 Aurabindo Pillai 2024-04-19  135  
+70839da6360500 Aurabindo Pillai 2024-04-19  136  		core->clean_me_up.mode_lib.ip.imall_supported = false;
+70839da6360500 Aurabindo Pillai 2024-04-19  137  	}
+70839da6360500 Aurabindo Pillai 2024-04-19  138  
+70839da6360500 Aurabindo Pillai 2024-04-19  139  	memcpy(&core->clean_me_up.mode_lib.soc, in_out->soc_bb, sizeof(struct dml2_soc_bb));
+70839da6360500 Aurabindo Pillai 2024-04-19  140  
+70839da6360500 Aurabindo Pillai 2024-04-19  141  	return true;
+70839da6360500 Aurabindo Pillai 2024-04-19  142  }
+70839da6360500 Aurabindo Pillai 2024-04-19  143  
 
-    95	
-    96	static void report_suppress_start(void)
-    97	{
-    98	#ifdef CONFIG_KASAN_HW_TAGS
-    99		/*
-   100		 * Disable preemption for the duration of printing a KASAN report, as
-   101		 * hw_suppress_tag_checks_start() disables checks on the current CPU.
-   102		 */
-   103		preempt_disable();
- > 104		hw_suppress_tag_checks_start();
-   105	#else
-   106		kasan_disable_current();
-   107	#endif
-   108	}
-   109	
-   110	static void report_suppress_stop(void)
-   111	{
-   112	#ifdef CONFIG_KASAN_HW_TAGS
- > 113		hw_suppress_tag_checks_stop();
-   114		preempt_enable();
-   115	#else
-   116		kasan_enable_current();
-   117	#endif
-   118	}
-   119	
+:::::: The code at line 134 was first introduced by commit
+:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
+
+:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
