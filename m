@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1471FBE9C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 06:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31321E3DCF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 06:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740118819; cv=none; b=FA8cdbme9gnhyhDPaTzNxmpLUPxJjQm+BMlWFSRl8WlCIPIvh6d+4gjZ497wlZb4y7AGQkelmFeMcf4nGJ2xamSNr8t85uNVw4g3xLQX/zp2Zpdt/y5935qCh/E8rRYo5K2UlVIxudRaGVo52qOIqz8nfn/3058NE84lvJgPCOM=
+	t=1740120102; cv=none; b=Pwx+nQlpt2z+Nd8TLE9eGvHENv/XrHq3qCse8yzTUR7FHKXzO+DYPXrE4x3Xz3nywZwURFzOAm3YiPw7P3qZ7Db8y+Nhm8CilcJk75Kv96TvvnvQHU7xG17hk8Qy3f1CuXnVv76gSy9pF4sCi9Mzi74CYIWJf9V75UUMDeeDTcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740118819; c=relaxed/simple;
-	bh=/TmnVBEIhOLYaI4vqlqV5Wg1fLgUkRzb1PPSGi6Cpn0=;
+	s=arc-20240116; t=1740120102; c=relaxed/simple;
+	bh=YBE10lw/KY2mWsZO5Ipl44wv7wLNBnITdo/s6Cl4z0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OCAQeQO+P+JW9pQ/p+ZbNgi9toUINfJers1FWpyXrSZkr99XTzPHtFgCODNisOuzrviaM9UePQIEDKeGQeYjr2sC0c6dXNRsLPnO7B7iy0NlOjf7hW3NhBqvImi2eotNZij6PybhMbglCZ4oqteVhR0uUBMYcl3ZCheGPVFwSr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=na3fnZAi; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=XpmghXzwRnNHf5RVtFyl1R2aD84Ja+iQiYQ2ZdJ/TA1mKkjowWKtvFHf0KNbab5/07sxIc6j72eTozNBGuTBmN3Pswa43tv9YzfaBIEYMSQU9+8aCy3namP6CsLN1dpIdrWHyx1/PIE+pzK2N5p3yWOh6NvJwLL+OoFlf9pVESY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Il+8wWGK; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="na3fnZAi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Il+8wWGK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740118818; x=1771654818;
+  t=1740120101; x=1771656101;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/TmnVBEIhOLYaI4vqlqV5Wg1fLgUkRzb1PPSGi6Cpn0=;
-  b=na3fnZAiq+gIblDmUMOVfS1CSgKr5t1PvSFDLjRzmjK3oFlilQ1MhqB+
-   z4JwZoV64Zn0YXdRl/IFOy+L6KMhdsFAEoM3Co4H6Oqr+eHYAJbxImtJO
-   HHi6YOKrH+JO5qH5onOHc6N3vdx3kHMcPhmcdenldwsVAkT0gv1bSS9+J
-   qo/uZ0SRsNL2/E0y2pKvdPF20JsmtHO/NscRWhZcRy4vAAXvz1lUAqrY7
-   FLs8fub/WwvI7hTW9hPn5G87YBfLbH/Vgp1ZPI0TWYVVXZGcOfjo4B2Xk
-   QuC13tkFVgLBl9BGxaXhfKBR8e8ELMuFPfFiMoR42kV4mnu9hemoIwdW8
-   w==;
-X-CSE-ConnectionGUID: yQFFXK6RRuO2u20KABhqPA==
-X-CSE-MsgGUID: /NiLxQvPR96D99BLgg16Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="58333287"
-X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
-   d="scan'208";a="58333287"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 22:20:16 -0800
-X-CSE-ConnectionGUID: QSoUjupuSyWODAJQ+lJ9uw==
-X-CSE-MsgGUID: nkvV8U6zTbugezukpYjsaw==
+  bh=YBE10lw/KY2mWsZO5Ipl44wv7wLNBnITdo/s6Cl4z0g=;
+  b=Il+8wWGKIK/T3QhNG6BnlqVitnagHlmGjLBsUx/S5xW4RI2Fqqzqj8MY
+   FjoyHrycgREGMKvvi0rVYBzQatJVztGhjuePWKcZxGJ7t0ufOnDx/g0qQ
+   9q/daEhqji/MNESN4QWV88kQSO1AYWARcw/mDT+08+1nYAo+ropqIhQ+6
+   bqH9pmbsCvlqlYdjX5xi8GSiAppQJjhnIxK0/d6XJ/m5v+k2w/je78T16
+   ujgYUlfqdGWy0txREVdri/jZ9ZPk3AzGuLEdlPFrMK2VKW3cQtRl4+nli
+   XYQ8f8MXwwTb7xfuG0jbUk4JIwc8rE5D8A75arZSH1D9d26MuhRswvd9R
+   A==;
+X-CSE-ConnectionGUID: 10A99fnbRjCj4TJgH9AsFQ==
+X-CSE-MsgGUID: X1NkcrxVSjKfzd/0hkDV3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52358011"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52358011"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 22:41:40 -0800
+X-CSE-ConnectionGUID: zVZNgTkvSkSlnXuXsjU9XA==
+X-CSE-MsgGUID: UZWAd2hIRPWpnLmP8jbNmw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
-   d="scan'208";a="114995433"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116172862"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 20 Feb 2025 22:20:14 -0800
+  by orviesa008.jf.intel.com with ESMTP; 20 Feb 2025 22:41:40 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlMOR-0005Bd-1U;
-	Fri, 21 Feb 2025 06:20:11 +0000
-Date: Fri, 21 Feb 2025 14:19:33 +0800
+	id 1tlMjB-0005Cx-0o;
+	Fri, 21 Feb 2025 06:41:37 +0000
+Date: Fri, 21 Feb 2025 14:41:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhiming Hu <zhiming.hu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Farrah Chen <farrah.chen@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: [kvm:kvm-coco-queue 30/121] arch/x86/include/asm/tdx.h:183:12:
- warning: 'tdx_get_nr_guest_keyids' defined but not used
-Message-ID: <202502211420.jG76aLe3-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-lts 1/1]
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb:
+ /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/pwm@20: failed to match
+ any schema with compatible: ['maxim,max31790']
+Message-ID: <202502211427.qAOZ6dF2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +64,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
-head:   ff2046f9bcd0883c72158404a1466eb96781ccca
-commit: 5c017bb4d89f65807c56d652443b53e7765b8b35 [30/121] KVM: TDX: Register TDX host key IDs to cgroup misc controller
-config: i386-buildonly-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211420.jG76aLe3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211420.jG76aLe3-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
+head:   721365424acefbefb05831eeb599f7e5a1a42457
+commit: c62ceade98a0f453f3a1a542c5702a069bdc778d [1/1] ARM: dts: aspeed: yosemite4: correct the compatible string for max31790
+config: arm-randconfig-051-20250220 (https://download.01.org/0day-ci/archive/20250221/202502211427.qAOZ6dF2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2025.2
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211427.qAOZ6dF2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211420.jG76aLe3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211427.qAOZ6dF2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/asm-offsets.c:22:
->> arch/x86/include/asm/tdx.h:183:12: warning: 'tdx_get_nr_guest_keyids' defined but not used [-Wunused-function]
-     183 | static u32 tdx_get_nr_guest_keyids(void) { return 0; }
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/x86/kernel/asm-offsets.c:22:
->> arch/x86/include/asm/tdx.h:183:12: warning: 'tdx_get_nr_guest_keyids' defined but not used [-Wunused-function]
-     183 | static u32 tdx_get_nr_guest_keyids(void) { return 0; }
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/tdx_get_nr_guest_keyids +183 arch/x86/include/asm/tdx.h
-
-   162	
-   163	u64 tdh_mng_addcx(struct tdx_td *td, struct page *tdcs_page);
-   164	u64 tdh_vp_addcx(struct tdx_vp *vp, struct page *tdcx_page);
-   165	u64 tdh_mng_key_config(struct tdx_td *td);
-   166	u64 tdh_mng_create(struct tdx_td *td, u16 hkid);
-   167	u64 tdh_vp_create(struct tdx_td *td, struct tdx_vp *vp);
-   168	u64 tdh_mng_rd(struct tdx_td *td, u64 field, u64 *data);
-   169	u64 tdh_vp_flush(struct tdx_vp *vp);
-   170	u64 tdh_mng_vpflushdone(struct tdx_td *td);
-   171	u64 tdh_mng_key_freeid(struct tdx_td *td);
-   172	u64 tdh_mng_init(struct tdx_td *td, u64 td_params, u64 *extended_err);
-   173	u64 tdh_vp_init(struct tdx_vp *vp, u64 initial_rcx, u32 x2apicid);
-   174	u64 tdh_vp_rd(struct tdx_vp *vp, u64 field, u64 *data);
-   175	u64 tdh_vp_wr(struct tdx_vp *vp, u64 field, u64 data, u64 mask);
-   176	u64 tdh_phymem_page_reclaim(struct page *page, u64 *tdx_pt, u64 *tdx_owner, u64 *tdx_size);
-   177	u64 tdh_phymem_cache_wb(bool resume);
-   178	u64 tdh_phymem_page_wbinvd_tdr(struct tdx_td *td);
-   179	#else
-   180	static inline void tdx_init(void) { }
-   181	static inline int tdx_cpu_enable(void) { return -ENODEV; }
-   182	static inline int tdx_enable(void)  { return -ENODEV; }
- > 183	static u32 tdx_get_nr_guest_keyids(void) { return 0; }
-   184	static inline const char *tdx_dump_mce_info(struct mce *m) { return NULL; }
-   185	static inline const struct tdx_sys_info *tdx_get_sysinfo(void) { return NULL; }
-   186	#endif	/* CONFIG_INTEL_TDX_HOST */
-   187	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/adc@1d: failed to match any schema with compatible: ['ti,adc128d818']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@35: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/adc@35: failed to match any schema with compatible: ['ti,adc128d818']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@37: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/adc@37: failed to match any schema with compatible: ['ti,adc128d818']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@1f: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/adc@1f: failed to match any schema with compatible: ['ti,adc128d818']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/pwm@20: failed to match any schema with compatible: ['maxim,max31790']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/pwm@23: failed to match any schema with compatible: ['maxim,max31790']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/gpio@61: failed to match any schema with compatible: ['nxp,pca9552']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@1f: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/adc@1f: failed to match any schema with compatible: ['ti,adc128d818']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/pwm@20: failed to match any schema with compatible: ['maxim,max31790']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/pwm@23: failed to match any schema with compatible: ['maxim,max31790']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/gpio@61: failed to match any schema with compatible: ['nxp,pca9552']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
 
 -- 
 0-DAY CI Kernel Test Service
