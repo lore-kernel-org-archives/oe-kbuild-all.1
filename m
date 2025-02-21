@@ -1,61 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BF61F427D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 03:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FFA1D63F5;
+	Fri, 21 Feb 2025 03:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740109497; cv=none; b=WAuQ/LzYabLU1jHh/UiRQlvFfX72dzsK65CzOJveOHqh+afltmuvToEiQCzi86jv8WeDNZTVbxkYBRpXoxdZx/ZlVq2QWu+Uq67RnExtORp7WGOOcepBfZZv3pWVbMvfi3vpd3oEOc8cfFsILaFrxB2prplLDDLh310hECwGc5w=
+	t=1740110104; cv=none; b=YXwIoUxLE0sume8dcrobny+IhiEBkZr+O3MbYiNBYDWeShQyDrRy92yjmrjbi88mxSOpPRqpUrMWOewoiPoy6tCBVbS2rQxolAZZbZA/OH3SvWRLu42F2lml4dxYzc3eE7G9n92a6DFr+TNTFTcuR2oZZSA3ZaqqFh4/QIg10Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740109497; c=relaxed/simple;
-	bh=KUTLgK2Xp2SvcKFL6jmGIV78nc4eHUxmVQMR4wPZNvU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=llyzGy9JQ2Rm4dMC6NUPPE7QHP81EuqtruXO3BvmlCV8P6veTHVwobD6KYD81LX1M2OmSjiiP8IyvzmW+5RrEhwlCi3fO+Vs/15PDBpk1EkrPP5W7WPoRoBcdQycafaLLuE4/QRTYErqSJCYJlmTTllALWO5MF8r9PSWC4JShpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hPs8T5dd; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1740110104; c=relaxed/simple;
+	bh=EQaa21FF4GQ2Uk/EyOkgixVDvya7izCgu83IuLazTV0=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FJR4xhcD/ABYN3V93d0XT8vUIfA0yJneTXAZae4v4S6tXuqVj7xArt9rLb8tVwsKXesKFDJT1PGgV4IEr5pkheA2YGyoR+K9WGtVZgHPpUqdpwAAJ/t5GawC0jq3+8cX6z5fcTjNDDEp8flfRo/Yp3dWGVJHpJ2DntiuMz6JwCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ll4li00R; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hPs8T5dd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ll4li00R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740109495; x=1771645495;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KUTLgK2Xp2SvcKFL6jmGIV78nc4eHUxmVQMR4wPZNvU=;
-  b=hPs8T5ddbDfwMptq02S98/rPPclo2HRPWX0YzqVBr2+2XWcqP8Keynqh
-   /mpfezmdm3pN0DvA7xx6kla7HnLNvMesNmftHz28pyg6GXySuU2qB6pP2
-   tW46CS2pLybxbGJrotCMjW81FQKEhhBU3tTRicMG2jJkNlaXUuB62cagN
-   nGA5QUpwRxYja8M/sM9WE5DdROBW/kj91K9fTKRBQcvycU8T+RAZCqUet
-   G455uAX7X8XP8FovoOkWBOAVl/Jd9pzTJvYDsY58oUCv9pj0pAYfb+jIY
-   k4F05SFtIXu5i0s5fWrAO6qshOTHsLffC6pqjXVnNFrseYU7NgdsPwDRQ
-   g==;
-X-CSE-ConnectionGUID: Sh9uXeY7Rrm6+OMQ3YmVNg==
-X-CSE-MsgGUID: 5jYfynDlTIaA2c1QogUehg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51536853"
+  t=1740110101; x=1771646101;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=EQaa21FF4GQ2Uk/EyOkgixVDvya7izCgu83IuLazTV0=;
+  b=ll4li00RaJEoSfC2qsLuvIO52fFjsN1Dwn9ddas3362NLdj25Uy7/iUY
+   GI4Z2iwkeCd8xT87C+HKD3UDa78UjRyamQEu9obXhCLf82bAKWHyGufNq
+   Jy5YjJl4AnId5G3knLdShuNzkM93w5eqSq5gxC4XpLZqRDC1X/xvvp9LG
+   RFN54GF0Rqmvyr6tIIAk1OJyRPJ7y3Kak12AMxKAOYXHDv4VJPyTJKEq1
+   qiNoDNAHNthBVlzzcaM5/WTqTsCjcfI1eSza86E9yVtbU8HsZspvPSKI8
+   RtMogTI9LzYC/B3NagrknujvJ5wJBDBDzW9WyMdySdKtDKBQ6rvi2GJ4v
+   A==;
+X-CSE-ConnectionGUID: YS9SgOfAQOq6T8vYHFufaA==
+X-CSE-MsgGUID: 1oACpaEgTryXATowhPa0rw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="43750229"
 X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
-   d="scan'208";a="51536853"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 19:44:54 -0800
-X-CSE-ConnectionGUID: w6YGOm9tR0+73hlzEeyd8g==
-X-CSE-MsgGUID: 5EQxgGyCR0yZTXGM6KdmQg==
+   d="scan'208";a="43750229"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 19:55:01 -0800
+X-CSE-ConnectionGUID: kM+nQg2PQ1ShLEgKHTh7cQ==
+X-CSE-MsgGUID: lsXt5r/sScK2vc0aSXOCIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115746845"
+X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
+   d="scan'208";a="146118438"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Feb 2025 19:44:52 -0800
+  by orviesa002.jf.intel.com with ESMTP; 20 Feb 2025 19:54:59 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlJy5-00054f-2Z;
-	Fri, 21 Feb 2025 03:44:49 +0000
-Date: Fri, 21 Feb 2025 11:43:56 +0800
+	id 1tlK7s-000554-2j;
+	Fri, 21 Feb 2025 03:54:56 +0000
+Date: Fri, 21 Feb 2025 11:54:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [rafael-pm:bleeding-edge 42/43] include/linux/acpi.h:1133:49:
- warning: 'struct acpi_s2idle_dev_ops' declared inside parameter list will
- not be visible outside of this definition or declaration
-Message-ID: <202502211150.aq1wxCVv-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: drivers/char/applicom.c:131:25: warning: variable 'byte_reset_it'
+ set but not used
+Message-ID: <202502211149.4F4X173g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,74 +61,379 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   2c6f7196fd5d56b357e1f68d7be5866963aeea6f
-commit: b748ba3ac26ac7c6f5ff7dc55d27583ce6ab4506 [42/43] ACPI: Add missing prototype for non CONFIG_SUSPEND/CONFIG_X86 case
-config: i386-buildonly-randconfig-004-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211150.aq1wxCVv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211150.aq1wxCVv-lkp@intel.com/reproduce)
+CC: linux-kernel@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+
+Hi Arnd,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   334426094588f8179fe175a09ecc887ff0c75758
+commit: 250c1a694ff304e5d69e74ab32755eddcc2b8f65 ARM: pxa: convert to multiplatform
+date:   2 years, 10 months ago
+config: arm-randconfig-004-20250120 (https://download.01.org/0day-ci/archive/20250221/202502211149.4F4X173g-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211149.4F4X173g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211150.aq1wxCVv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211149.4F4X173g-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/tpm.h:21,
-                    from include/keys/trusted-type.h:12,
-                    from crypto/af_alg.c:26:
->> include/linux/acpi.h:1133:49: warning: 'struct acpi_s2idle_dev_ops' declared inside parameter list will not be visible outside of this definition or declaration
-    1133 | static inline int acpi_register_lps0_dev(struct acpi_s2idle_dev_ops *arg)
-         |                                                 ^~~~~~~~~~~~~~~~~~~
-   include/linux/acpi.h:1137:52: warning: 'struct acpi_s2idle_dev_ops' declared inside parameter list will not be visible outside of this definition or declaration
-    1137 | static inline void acpi_unregister_lps0_dev(struct acpi_s2idle_dev_ops *arg)
-         |                                                    ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/char/applicom.c:32:
+   In file included from include/linux/pci.h:1522:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1719:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/char/applicom.c:131:25: warning: variable 'byte_reset_it' set but not used [-Wunused-but-set-variable]
+     131 |         volatile unsigned char byte_reset_it;
+         |                                ^
+>> drivers/char/applicom.c:540:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     540 |         int ret = 0;
+         |             ^
+   drivers/char/applicom.c:703:25: warning: variable 'byte_reset_it' set but not used [-Wunused-but-set-variable]
+     703 |         volatile unsigned char byte_reset_it;
+         |                                ^
+   4 warnings generated.
+--
+   In file included from drivers/dma/dw-edma/dw-edma-v0-core.c:11:
+   In file included from drivers/dma/dw-edma/dw-edma-core.h:13:
+   In file included from include/linux/dma/edma.h:13:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1719:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/dma/dw-edma/dw-edma-v0-core.c:13:
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:37:4: warning: field sar within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:31:2)' and is usually due to 'struct dw_edma_v0_ch_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      37 |         } sar;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:44:4: warning: field dar within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:38:2)' and is usually due to 'struct dw_edma_v0_ch_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      44 |         } dar;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:51:4: warning: field llp within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:45:2)' and is usually due to 'struct dw_edma_v0_ch_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      51 |         } llp;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:172:4: warning: field rd_err_status within 'struct dw_edma_v0_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:166:2)' and is usually due to 'struct dw_edma_v0_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     172 |         } rd_err_status;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:182:4: warning: field rd_done_imwr within 'struct dw_edma_v0_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:176:2)' and is usually due to 'struct dw_edma_v0_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     182 |         } rd_done_imwr;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:189:4: warning: field rd_abort_imwr within 'struct dw_edma_v0_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:183:2)' and is usually due to 'struct dw_edma_v0_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     189 |         } rd_abort_imwr;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:71:4: warning: field wr_engine_hshake_cnt within 'struct dw_edma_v0_unroll' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:65:2)' and is usually due to 'struct dw_edma_v0_unroll' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      71 |         } wr_engine_hshake_cnt;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:79:4: warning: field rd_engine_hshake_cnt within 'struct dw_edma_v0_unroll' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:73:2)' and is usually due to 'struct dw_edma_v0_unroll' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      79 |         } rd_engine_hshake_cnt;
+         |           ^
+   9 warnings generated.
+--
+   In file included from drivers/gpu/drm/radeon/radeon_drv.c:36:
+   In file included from include/linux/vga_switcheroo.h:34:
+   In file included from include/linux/fb.h:6:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:1719:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:3:60: note: expanded from macro 'radeon_PCI_IDS'
+       3 |         {0x1002, 0x1304, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:4:60: note: expanded from macro 'radeon_PCI_IDS'
+       4 |         {0x1002, 0x1305, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:5:60: note: expanded from macro 'radeon_PCI_IDS'
+       5 |         {0x1002, 0x1306, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:6:60: note: expanded from macro 'radeon_PCI_IDS'
+       6 |         {0x1002, 0x1307, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:7:60: note: expanded from macro 'radeon_PCI_IDS'
+       7 |         {0x1002, 0x1309, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:8:60: note: expanded from macro 'radeon_PCI_IDS'
+       8 |         {0x1002, 0x130A, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:9:60: note: expanded from macro 'radeon_PCI_IDS'
+       9 |         {0x1002, 0x130B, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:10:60: note: expanded from macro 'radeon_PCI_IDS'
+      10 |         {0x1002, 0x130C, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:11:60: note: expanded from macro 'radeon_PCI_IDS'
+      11 |         {0x1002, 0x130D, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:12:60: note: expanded from macro 'radeon_PCI_IDS'
+      12 |         {0x1002, 0x130E, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:13:60: note: expanded from macro 'radeon_PCI_IDS'
+      13 |         {0x1002, 0x130F, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:14:60: note: expanded from macro 'radeon_PCI_IDS'
+      14 |         {0x1002, 0x1310, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:15:60: note: expanded from macro 'radeon_PCI_IDS'
+      15 |         {0x1002, 0x1311, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:16:60: note: expanded from macro 'radeon_PCI_IDS'
+      16 |         {0x1002, 0x1312, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:17:60: note: expanded from macro 'radeon_PCI_IDS'
+      17 |         {0x1002, 0x1313, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:18:60: note: expanded from macro 'radeon_PCI_IDS'
+      18 |         {0x1002, 0x1315, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:19:60: note: expanded from macro 'radeon_PCI_IDS'
+      19 |         {0x1002, 0x1316, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:20:60: note: expanded from macro 'radeon_PCI_IDS'
+      20 |         {0x1002, 0x1317, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:21:60: note: expanded from macro 'radeon_PCI_IDS'
+      21 |         {0x1002, 0x1318, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:22:60: note: expanded from macro 'radeon_PCI_IDS'
+      22 |         {0x1002, 0x131B, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:23:60: note: expanded from macro 'radeon_PCI_IDS'
+      23 |         {0x1002, 0x131C, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:24:60: note: expanded from macro 'radeon_PCI_IDS'
+      24 |         {0x1002, 0x131D, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_KAVERI|RADEON_NEW_MEMMAP|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:25:59: note: expanded from macro 'radeon_PCI_IDS'
+      25 |         {0x1002, 0x3150, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_IS_MOBILITY}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:26:59: note: expanded from macro 'radeon_PCI_IDS'
+      26 |         {0x1002, 0x3151, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:27:59: note: expanded from macro 'radeon_PCI_IDS'
+      27 |         {0x1002, 0x3152, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:28:59: note: expanded from macro 'radeon_PCI_IDS'
+      28 |         {0x1002, 0x3154, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:29:59: note: expanded from macro 'radeon_PCI_IDS'
+      29 |         {0x1002, 0x3155, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:30:59: note: expanded from macro 'radeon_PCI_IDS'
+      30 |         {0x1002, 0x3E50, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_NEW_MEMMAP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:31:59: note: expanded from macro 'radeon_PCI_IDS'
+      31 |         {0x1002, 0x3E54, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RV380|RADEON_NEW_MEMMAP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:32:59: note: expanded from macro 'radeon_PCI_IDS'
+      32 |         {0x1002, 0x4136, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RS100|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:33:59: note: expanded from macro 'radeon_PCI_IDS'
+      33 |         {0x1002, 0x4137, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RS200|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:49:59: note: expanded from macro 'radeon_PCI_IDS'
+      49 |         {0x1002, 0x4237, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RS200|RADEON_IS_IGP}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:51:59: note: expanded from macro 'radeon_PCI_IDS'
+      51 |         {0x1002, 0x4336, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RS100|RADEON_IS_IGP|RADEON_IS_MOBILITY}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:52:59: note: expanded from macro 'radeon_PCI_IDS'
+      52 |         {0x1002, 0x4337, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RS200|RADEON_IS_IGP|RADEON_IS_MOBILITY}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:53:59: note: expanded from macro 'radeon_PCI_IDS'
+      53 |         {0x1002, 0x4437, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_RS200|RADEON_IS_IGP|RADEON_IS_MOBILITY}, \
+         |                                                        ~~~~~~~~~~^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:284:2: warning: bitwise operation between different enumeration types ('enum radeon_family' and 'enum radeon_chip_flags') [-Wenum-enum-conversion]
+     284 |         radeon_PCI_IDS
+         |         ^~~~~~~~~~~~~~
+   include/drm/drm_pciids.h:56:58: note: expanded from macro 'radeon_PCI_IDS'
+      56 |         {0x1002, 0x4A48, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_R420|RADEON_NEW_MEMMAP}, \
+--
+>> drivers/ntb/msi.c:33: warning: Function parameter or struct member 'desc_changed' not described in 'ntb_msi_init'
+--
+   In file included from drivers/rapidio/rio_cm.c:12:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:1719:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/rapidio/rio_cm.c:673:7: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+     673 |                 int rc;
+         |                     ^
+   2 warnings generated.
+--
+>> drivers/remoteproc/da8xx_remoteproc.c:77: warning: Function parameter or struct member 'dsp_reset' not described in 'da8xx_rproc'
+>> drivers/remoteproc/da8xx_remoteproc.c:86: warning: Function parameter or struct member 'irq' not described in 'handle_event'
+>> drivers/remoteproc/da8xx_remoteproc.c:86: warning: Function parameter or struct member 'p' not described in 'handle_event'
+>> drivers/remoteproc/da8xx_remoteproc.c:106: warning: Function parameter or struct member 'irq' not described in 'da8xx_rproc_callback'
+>> drivers/remoteproc/da8xx_remoteproc.c:106: warning: Function parameter or struct member 'p' not described in 'da8xx_rproc_callback'
+..
 
 
-vim +1133 include/linux/acpi.h
+vim +/byte_reset_it +131 drivers/char/applicom.c
 
-  1105	
-  1106	#ifdef CONFIG_ACPI
-  1107	void acpi_os_set_prepare_sleep(int (*func)(u8 sleep_state,
-  1108				       u32 pm1a_ctrl,  u32 pm1b_ctrl));
-  1109	
-  1110	acpi_status acpi_os_prepare_sleep(u8 sleep_state,
-  1111					  u32 pm1a_control, u32 pm1b_control);
-  1112	
-  1113	void acpi_os_set_prepare_extended_sleep(int (*func)(u8 sleep_state,
-  1114					        u32 val_a,  u32 val_b));
-  1115	
-  1116	acpi_status acpi_os_prepare_extended_sleep(u8 sleep_state,
-  1117						   u32 val_a, u32 val_b);
-  1118	#if defined(CONFIG_SUSPEND) && defined(CONFIG_X86)
-  1119	struct acpi_s2idle_dev_ops {
-  1120		struct list_head list_node;
-  1121		void (*prepare)(void);
-  1122		void (*check)(void);
-  1123		void (*restore)(void);
-  1124	};
-  1125	int acpi_register_lps0_dev(struct acpi_s2idle_dev_ops *arg);
-  1126	void acpi_unregister_lps0_dev(struct acpi_s2idle_dev_ops *arg);
-  1127	int acpi_get_lps0_constraint(struct acpi_device *adev);
-  1128	#else /* CONFIG_SUSPEND && CONFIG_X86 */
-  1129	static inline int acpi_get_lps0_constraint(struct device *dev)
-  1130	{
-  1131		return ACPI_STATE_UNKNOWN;
-  1132	}
-> 1133	static inline int acpi_register_lps0_dev(struct acpi_s2idle_dev_ops *arg)
-  1134	{
-  1135		return -ENODEV;
-  1136	}
-  1137	static inline void acpi_unregister_lps0_dev(struct acpi_s2idle_dev_ops *arg)
-  1138	{
-  1139	}
-  1140	#endif /* CONFIG_SUSPEND && CONFIG_X86 */
-  1141	void arch_reserve_mem_area(acpi_physical_address addr, size_t size);
-  1142	#else
-  1143	#define acpi_os_set_prepare_sleep(func, pm1a_ctrl, pm1b_ctrl) do { } while (0)
-  1144	#endif
-  1145	
+^1da177e4c3f41 Linus Torvalds  2005-04-16  127  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  128  static int ac_register_board(unsigned long physloc, void __iomem *loc, 
+^1da177e4c3f41 Linus Torvalds  2005-04-16  129  		      unsigned char boardno)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  130  {
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @131  	volatile unsigned char byte_reset_it;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  132  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  133  	if((readb(loc + CONF_END_TEST)     != 0x00) ||
+^1da177e4c3f41 Linus Torvalds  2005-04-16  134  	   (readb(loc + CONF_END_TEST + 1) != 0x55) ||
+^1da177e4c3f41 Linus Torvalds  2005-04-16  135  	   (readb(loc + CONF_END_TEST + 2) != 0xAA) ||
+^1da177e4c3f41 Linus Torvalds  2005-04-16  136  	   (readb(loc + CONF_END_TEST + 3) != 0xFF))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  137  		return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  138  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  139  	if (!boardno)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  140  		boardno = readb(loc + NUMCARD_OWNER_TO_PC);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  141  
+e60b6e2f747e94 Eric Sesterhenn 2006-04-10  142  	if (!boardno || boardno > MAX_BOARD) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  143  		printk(KERN_WARNING "Board #%d (at 0x%lx) is out of range (1 <= x <= %d).\n",
+^1da177e4c3f41 Linus Torvalds  2005-04-16  144  		       boardno, physloc, MAX_BOARD);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  145  		return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  146  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  147  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  148  	if (apbs[boardno - 1].RamIO) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  149  		printk(KERN_WARNING "Board #%d (at 0x%lx) conflicts with previous board #%d (at 0x%lx)\n", 
+^1da177e4c3f41 Linus Torvalds  2005-04-16  150  		       boardno, physloc, boardno, apbs[boardno-1].PhysIO);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  151  		return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  152  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  153  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  154  	boardno--;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  155  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  156  	apbs[boardno].PhysIO = physloc;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  157  	apbs[boardno].RamIO = loc;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  158  	init_waitqueue_head(&apbs[boardno].FlagSleepSend);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  159  	spin_lock_init(&apbs[boardno].mutex);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  160  	byte_reset_it = readb(loc + RAM_IT_TO_PC);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  161  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  162  	numboards++;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  163  	return boardno + 1;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  164  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  165  
+
+:::::: The code at line 131 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
