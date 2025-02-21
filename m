@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE4F1DF73A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 16:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E9C1E491B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 16:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740154073; cv=none; b=mWS2DAlxvvQNpUl0fhdCbSkYvJSKGdm8k+OlZtxcPNmwZh0r7p+REDCSEVFGE3/HLmhKpl93HElRwZOFsVRIO4UGNjf3bTHVklINO+M/MMUMpRW5qyGYQnKYjh79KJFcFpTS7Uo6BaIw4oUOuoA61sJaHTxkkG/fUmxMLgZtirI=
+	t=1740154262; cv=none; b=l5HU6lVeLG8VMn1z/hZg8ahb2lfpN2wdj3EZla8jhSC53t0Y+2eqhJ+gcQRmMwANkWAWV3H8pMDnPrf7kkpgwHIsSbFJS8ZqQdElEtR1TkKhuqiEJ3yB71tzOZZU7PGdBS+XfNdHHCJQpS7w4XkQX8JRScor+kKcoLqFXbl+Hq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740154073; c=relaxed/simple;
-	bh=y5JhGk6+y/UVmyY9PqhauCRFg3xwKvQSWW03fAoWreI=;
+	s=arc-20240116; t=1740154262; c=relaxed/simple;
+	bh=KRjsAT5DUOpWHkO4tSIDUkdRch527sPbLWMDBLFtJyA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K6xc97AuvsQv34BThXWyVL03dSb5YM/fIOER9oBnmohqmDREVNPRrHwk8D+dtn7i/qPSuwfFMEZsQ13gqeEH5K/lF+S87d0AIQ9OwWPc4T+WD+gbPShj3Xwv8cUnUIEJH/sWUnTof6h8lYrcf4kemMZiCNPy7A3TIA+9hk54kpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8I2+nAu; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=cf3HuoNSFVtHsbWSEDJ9nWcg1YRiLzTX/y6tTPVAkS6U5AsFGsebEqqxiC0glE7OoRq3by1Nxdim+FIIRNhL9PVNFrWa1npZkdJ5n2RmbFuUty5Ucr7SlzgKxvbdY6e6VjNBtZsbfOW0hgqMOJ1x7dtdRZqDPpjaKFf1Uks0qbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UW/3qSXe; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8I2+nAu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UW/3qSXe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740154071; x=1771690071;
+  t=1740154261; x=1771690261;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y5JhGk6+y/UVmyY9PqhauCRFg3xwKvQSWW03fAoWreI=;
-  b=B8I2+nAuqzxfr3FP4bPdkBeSuLj7QGY7Lod3ClJe0cd+ioGDUgcZQz7J
-   TTkeboxPwRlTLQC29U7AlcW6GSA+MSMQHluWIQe3dnEOhHtjr1qCNoPSF
-   MbK+xgu5SD4y/cA4yDA2k5B7/lOfD74XTS7o9WGNwUTXj2f923wWUdPHg
-   bzXMnCQoOQfonqW+uk45rs5ycPJszp0Jel73bi9bK+ZVV7/6jUpkPETRd
-   8cq2hpnl7c5BEMh6aVXIPAfA1cvpw0M4at4pxGWdPY8vy8wFcplkrETVW
-   PvlD1febtwhDH9+S5xqb+1JsBHOApt2i+IQR7xmDei1uKk+C0w0pxyfa9
-   g==;
-X-CSE-ConnectionGUID: 1bSTBk+yQAqIHATfi2x4LQ==
-X-CSE-MsgGUID: fZnQqN1/SbuCY1l85mE2hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="44892224"
+  bh=KRjsAT5DUOpWHkO4tSIDUkdRch527sPbLWMDBLFtJyA=;
+  b=UW/3qSXecWXxHcbd71HU6keyyVOdSdRWyNjLx7SGtVHP75YgrP/lgmDH
+   A0UDJE0XTCaRHl+tW8CmALWLNx96n+OwNX49/bjKZ3+9XOgh0UuPTf6Ff
+   HbudjEY0Ba6LjdZRE4W5sCpP/kDvkKaHshRCKtdMWvopifGlmkhOPIhGa
+   DdGw5H814mecH1JaSsCdtVyhxTI6IBclb4ue4KmvpKyKfTazpETAHAjpC
+   YOJ8CW8Q8SWvHqrtorHdLYHxR2Iq03A7V/MCJaUB/76BJbs4MM1nJFps5
+   9w2OvA4B3fGRQolkOmaQx+ysqrzKRqSPShSivC4Wt4NK+Dp4Tn710+og4
+   w==;
+X-CSE-ConnectionGUID: Mxo6px4XT6uhSl4UtlBISA==
+X-CSE-MsgGUID: BYkHsLfKRESW0XLuonD7Mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58388061"
 X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="44892224"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:07:49 -0800
-X-CSE-ConnectionGUID: cfC2HSiJSmy16Dk7sQ8oGg==
-X-CSE-MsgGUID: J7IerKaiSvub47CRnDOKNQ==
+   d="scan'208";a="58388061"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:11:01 -0800
+X-CSE-ConnectionGUID: S8BT3XOQRLKjH6e3xlYVOQ==
+X-CSE-MsgGUID: HjAahuYcQI+inxqd0Oaetg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="120384991"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120644962"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:07:48 -0800
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 08:11:00 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tlVZ3-0000000Dgc2-1KOk;
-	Fri, 21 Feb 2025 18:07:45 +0200
-Date: Fri, 21 Feb 2025 18:07:45 +0200
+	id 1tlVc8-0000000DgeM-2vfg;
+	Fri, 21 Feb 2025 18:10:56 +0200
+Date: Fri, 21 Feb 2025 18:10:56 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: kernel test robot <lkp@intel.com>
 Cc: Raag Jadav <raag.jadav@intel.com>, arnd@arndb.de,
 	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v1] io.h: drop unused headers
-Message-ID: <Z7ik0etxGlj3QKOa@smile.fi.intel.com>
+Message-ID: <Z7ilkKt1waKJuZPi@smile.fi.intel.com>
 References: <20250220173305.2752125-1-raag.jadav@intel.com>
- <202502211009.s6xoWtae-lkp@intel.com>
+ <202502211137.IRE8qrlR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,10 +64,10 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502211009.s6xoWtae-lkp@intel.com>
+In-Reply-To: <202502211137.IRE8qrlR-lkp@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Feb 21, 2025 at 10:52:12AM +0800, kernel test robot wrote:
+On Fri, Feb 21, 2025 at 11:22:38AM +0800, kernel test robot wrote:
 > Hi Raag,
 > 
 > kernel test robot noticed the following build errors:
@@ -78,26 +78,32 @@ On Fri, Feb 21, 2025 at 10:52:12AM +0800, kernel test robot wrote:
 > base:   b16e9f8547a328b19af59afc213ce323124d11e9
 > patch link:    https://lore.kernel.org/r/20250220173305.2752125-1-raag.jadav%40intel.com
 > patch subject: [PATCH v1] io.h: drop unused headers
-> config: sparc-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211009.s6xoWtae-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211009.s6xoWtae-lkp@intel.com/reproduce)
+> config: nios2-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211137.IRE8qrlR-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211137.IRE8qrlR-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502211009.s6xoWtae-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/gpu/drm/drm_draw.c: In function 'drm_draw_color_from_xrgb8888':
-> >> drivers/gpu/drm/drm_draw.c:130:17: error: implicit declaration of function 'WARN_ONCE' [-Wimplicit-function-declaration]
->      130 |                 WARN_ONCE(1, "Can't convert to %p4cc\n", &format);
->          |                 ^~~~~~~~~
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502211137.IRE8qrlR-lkp@intel.com/
 
-dwm_draw.c misses linux/bug.h.
+...
 
-Raag, please add it to your patch. But let's wait at least a week that CIs can
-collect more issues, if any, along with people, who want to test this change.
+>    drivers/gpu/drm/drm_draw.c: At top level:
+> >> drivers/gpu/drm/drm_draw.c:134:1: warning: data definition has no type or storage class
+>      134 | EXPORT_SYMBOL(drm_draw_color_from_xrgb8888);
+>          | ^~~~~~~~~~~~~
+> >> drivers/gpu/drm/drm_draw.c:134:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+> >> drivers/gpu/drm/drm_draw.c:134:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>    drivers/gpu/drm/drm_draw.c:151:1: warning: data definition has no type or storage class
+>      151 | EXPORT_SYMBOL(drm_draw_blit16);
+>          | ^~~~~~~~~~~~~
+
+I haven't looked deeply into this, but it might be the export.h is missing
+or it's just a followup of missing bug.h. In any case the io.h patch needs
+a prerequisite for dwm_draw.c to eliminate usage of "proxy" headers and follow
+IWYU principle. So, it will become a series of two. But as I said before,
+let's wait a bit longer.
 
 -- 
 With Best Regards,
