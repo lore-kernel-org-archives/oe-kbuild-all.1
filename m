@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD04209F3C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 11:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F321E4110;
+	Fri, 21 Feb 2025 12:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740139099; cv=none; b=jONpUSHQlG33tfiKBMptgyjg0s5iZqVHfAhNERDHHKRRBiaeQRdY6wOb4g+i9XqLcs0Nd3SAWBWPZO79C6FJTFgIyVUiz0OdEbqtLR8RGjbcY2nGOG4lKKkdjXFY+sptxZ2wthTXHR/ix3etSkxMy8rkbuTp8zeArxm7Covxlqk=
+	t=1740139760; cv=none; b=IfBp7tAQSa7K/JsPddEjvzrDvGNFdBRvL+LngxAy7NYUJH2F4k2lnjxEpADoZxFFhDEypd0XUQ/ly6Pzhwly7dI+ZNO9Ob+KLE6u+GPmT2gCAmGd64NQGO+tXYvZhbHoirCFD/bvDAIXksNjBv92UjXTge//RK5To4q2NGGV0UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740139099; c=relaxed/simple;
-	bh=YCWbDh62miv7wUbdZDJZhE3w3uTGwtKLtTckT6S1J6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M89Ds4+6vHhNRqjn8Sd/YS95pOBhPh1SFVuUx9Lq0WEcFbcQLG76Z+ns+pP9RFTacPTBuKcwACwbzMU7cTM4Ip5TPWvhd5861MaCCWr6McOlShi00LS9mclS1iiSBp9wwJyh4pJgNjZDfaBhSt3Dn9Hj4uxttAPARF29VhwF0Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZUUIakuH; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1740139760; c=relaxed/simple;
+	bh=CfNmBLOxAWnaWdoPOVNFimEWPZH8p+VwR8krHYB5Mqs=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PVOCwztZOdr6ew28XyPagSU6LYlzwgqzxyqH8SeHnhUro6NRMoDVzv+Qi2dZgQdopFecTgMhM8oP0p79aqakbWGxdZkoTjqSA1e5kz8puHgQPOhr2zOYuLhR5//7kERFVFSNimNm9MCxeI3QenTqw/GhcYTqbO/qjHymq9WKHpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhBEZ9/N; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZUUIakuH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhBEZ9/N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740139098; x=1771675098;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YCWbDh62miv7wUbdZDJZhE3w3uTGwtKLtTckT6S1J6Q=;
-  b=ZUUIakuH1hK8sKhu4PJSfBApfiLomqnbuLNZlnW9i8JGfihczy6qeE4g
-   Q8FEPVNB4Y+z1ofPBitbZMj9+RMMWAc1C8IkNEhgrK/zGUJpRgfCiVyYa
-   Y7MEb/XUjsBVEqmiXkHKWKjFRjJ2Ocqu91HX9ZZqLsmfm+SXD8KebXJbB
-   NAifYjIPp7Z+ap0UVs3i1rzBIBI1+a1+tFpzRzC3UPKUqXF0Q8q8tpfCN
-   XV8yw5eEoAGXwMcPml25gonTiQFhsE4UFhdODRVY0ks22iizEQKPJ//vg
-   jZLkFSgS4t50RL62L/gmwY7fuhW53v0SzEDc+u/FAo8Badk/t1mav7l/6
-   w==;
-X-CSE-ConnectionGUID: UUXuFl4NS26p2SDxN2Jiaw==
-X-CSE-MsgGUID: 9vSARgDqRtOLFTXPth6iGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40668016"
+  t=1740139759; x=1771675759;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=CfNmBLOxAWnaWdoPOVNFimEWPZH8p+VwR8krHYB5Mqs=;
+  b=RhBEZ9/NwKYnhyGMnaLgN9FWYfGbDp1I7fyrSlTo1RN9eft2x2fPbu61
+   H9HFy8HHcToDIgQ0MVkUn3ug08kHB93BXLoPN47KD8700rFqjIWZO+jkC
+   hUaR6D4KnKjXUS86FlN0I6PNMEQi0+3zmPemjR463riHYXFVHn9NRIMrx
+   CTJnZIqwQdugEKCIcUGKoGoCdhJvpzGg2/Ex1WdU/aFtLNrtyojRzI+Ch
+   k3jnHx2p5022mHv4QXotMwFCmxkDOVsn5fgj0C+67z/+SXYugYiVROWHN
+   9KQTxsTyvZldcONQ3O6TFi+ZB5gmuUqL0aCzJGF9cCy9uTorap1rtIYZS
+   A==;
+X-CSE-ConnectionGUID: 12i2DodJRnC9GvXxrZ4okw==
+X-CSE-MsgGUID: EjP0/xlnQG+vlAag+JkpLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40809388"
 X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="40668016"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 03:58:16 -0800
-X-CSE-ConnectionGUID: Fj+jXC08RSOh+38go1OV4Q==
-X-CSE-MsgGUID: WMs1WiuQR9qlseNVQEgCwg==
+   d="scan'208";a="40809388"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 04:09:18 -0800
+X-CSE-ConnectionGUID: 2d99ROkIRJOE3XFk1MmIew==
+X-CSE-MsgGUID: ka8yhyVNQ7Cia3ieaxyutA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
-   d="scan'208";a="120455859"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119481435"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Feb 2025 03:58:14 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 21 Feb 2025 04:09:16 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlRfX-0005TH-2j;
-	Fri, 21 Feb 2025 11:58:11 +0000
-Date: Fri, 21 Feb 2025 19:57:27 +0800
+	id 1tlRqD-0005UK-3D;
+	Fri, 21 Feb 2025 12:09:13 +0000
+Date: Fri, 21 Feb 2025 20:09:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 22/22] [DEBUG] sched/fair: Debug pick_eevdf()
- returning NULL!
-Message-ID: <202502211905.w6RU0AXv-lkp@intel.com>
-References: <20250220093257.9380-23-kprateek.nayak@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: kernel/bpf/verifier.c:6415:36: warning: bitwise operation between
+ different enumeration types ('const enum bpf_arg_type' and 'enum
+ bpf_type_flag')
+Message-ID: <202502211951.Vvmun4BS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,189 +61,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250220093257.9380-23-kprateek.nayak@amd.com>
 
-Hi Prateek,
+CC: linux-kernel@vger.kernel.org
+TO: Maxim Mikityanskiy <maximmi@nvidia.com>
+CC: Alexei Starovoitov <ast@kernel.org>
+CC: Tariq Toukan <tariqt@nvidia.com>
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+Hi Maxim,
 
-[auto build test ERROR on d34e798094ca7be935b629a42f8b237d4d5b7f1d]
+FYI, the error/warning still remains.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-Prateek-Nayak/kernel-entry-common-Move-syscall_enter_from_user_mode_work-out-of-header/20250220-174233
-base:   d34e798094ca7be935b629a42f8b237d4d5b7f1d
-patch link:    https://lore.kernel.org/r/20250220093257.9380-23-kprateek.nayak%40amd.com
-patch subject: [RFC PATCH 22/22] [DEBUG] sched/fair: Debug pick_eevdf() returning NULL!
-config: arc-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211905.w6RU0AXv-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211905.w6RU0AXv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   334426094588f8179fe175a09ecc887ff0c75758
+commit: 508362ac66b0478affb4e52cb8da98478312d72d bpf: Allow helpers to accept pointers with a fixed size
+date:   2 years, 8 months ago
+config: arm-randconfig-004-20250120 (https://download.01.org/0day-ci/archive/20250221/202502211951.Vvmun4BS-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211951.Vvmun4BS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211905.w6RU0AXv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211951.Vvmun4BS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:31,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
-   kernel/sched/fair.c: In function 'debug_print_se':
->> kernel/sched/fair.c:5618:103: error: 'struct sched_entity' has no member named 'kernel_cs_count'
-    5618 |         pr_warn("CPU%d: se kcs: kernel_cs_count(%d) min_kcs_vruntime(%lld) pick_entity(%d)\n", cpu, se->kernel_cs_count, se->min.kcs_vruntime, pick_entity(cfs_rq, se, h_throttled));
-         |                                                                                                       ^~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/fair.c:5618:9: note: in expansion of macro 'pr_warn'
-    5618 |         pr_warn("CPU%d: se kcs: kernel_cs_count(%d) min_kcs_vruntime(%lld) pick_entity(%d)\n", cpu, se->kernel_cs_count, se->min.kcs_vruntime, pick_entity(cfs_rq, se, h_throttled));
-         |         ^~~~~~~
->> kernel/sched/fair.c:5618:130: error: 'struct <anonymous>' has no member named 'kcs_vruntime'; did you mean 'vruntime'?
-    5618 |         pr_warn("CPU%d: se kcs: kernel_cs_count(%d) min_kcs_vruntime(%lld) pick_entity(%d)\n", cpu, se->kernel_cs_count, se->min.kcs_vruntime, pick_entity(cfs_rq, se, h_throttled));
-         |                                                                                                                                  ^~~~~~~~~~~~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/fair.c:5618:9: note: in expansion of macro 'pr_warn'
-    5618 |         pr_warn("CPU%d: se kcs: kernel_cs_count(%d) min_kcs_vruntime(%lld) pick_entity(%d)\n", cpu, se->kernel_cs_count, se->min.kcs_vruntime, pick_entity(cfs_rq, se, h_throttled));
-         |         ^~~~~~~
-   kernel/sched/fair.c: In function 'debug_print_cfs_rq':
->> kernel/sched/fair.c:5624:171: error: 'struct cfs_rq' has no member named 'throttled'
-    5624 |         pr_warn("CPU%d: cfs_rq: throttled?(%d) cfs_rq->throttled(%d) h_nr_queued(%d) h_nr_runnable(%d) nr_queued(%d) gse->kernel_cs_count(%d)\n", cpu, h_throttled, cfs_rq->throttled, cfs_rq->h_nr_queued, cfs_rq->h_nr_runnable, cfs_rq->nr_queued, (se)? se->kernel_cs_count: -1);
-         |                                                                                                                                                                           ^~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/fair.c:5624:9: note: in expansion of macro 'pr_warn'
-    5624 |         pr_warn("CPU%d: cfs_rq: throttled?(%d) cfs_rq->throttled(%d) h_nr_queued(%d) h_nr_runnable(%d) nr_queued(%d) gse->kernel_cs_count(%d)\n", cpu, h_throttled, cfs_rq->throttled, cfs_rq->h_nr_queued, cfs_rq->h_nr_runnable, cfs_rq->nr_queued, (se)? se->kernel_cs_count: -1);
-         |         ^~~~~~~
-   kernel/sched/fair.c:5624:255: error: 'struct sched_entity' has no member named 'kernel_cs_count'
-    5624 |         pr_warn("CPU%d: cfs_rq: throttled?(%d) cfs_rq->throttled(%d) h_nr_queued(%d) h_nr_runnable(%d) nr_queued(%d) gse->kernel_cs_count(%d)\n", cpu, h_throttled, cfs_rq->throttled, cfs_rq->h_nr_queued, cfs_rq->h_nr_runnable, cfs_rq->nr_queued, (se)? se->kernel_cs_count: -1);
-         |                                                                                                                                                                                                                                                               ^~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/fair.c:5624:9: note: in expansion of macro 'pr_warn'
-    5624 |         pr_warn("CPU%d: cfs_rq: throttled?(%d) cfs_rq->throttled(%d) h_nr_queued(%d) h_nr_runnable(%d) nr_queued(%d) gse->kernel_cs_count(%d)\n", cpu, h_throttled, cfs_rq->throttled, cfs_rq->h_nr_queued, cfs_rq->h_nr_runnable, cfs_rq->nr_queued, (se)? se->kernel_cs_count: -1);
-         |         ^~~~~~~
->> kernel/sched/fair.c:5625:173: error: 'struct cfs_rq' has no member named 'avg_kcs_vruntime'; did you mean 'avg_vruntime'?
-    5625 |         pr_warn("CPU%d: cfs_rq EEVDF: avg_vruntime(%lld) avg_load(%lld) avg_kcs_vruntime(%lld) avg_kcs_load(%lld) \n", cpu, cfs_rq->avg_vruntime, cfs_rq->avg_load, cfs_rq->avg_kcs_vruntime, cfs_rq->avg_kcs_load);
-         |                                                                                                                                                                             ^~~~~~~~~~~~~~~~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/fair.c:5625:9: note: in expansion of macro 'pr_warn'
-    5625 |         pr_warn("CPU%d: cfs_rq EEVDF: avg_vruntime(%lld) avg_load(%lld) avg_kcs_vruntime(%lld) avg_kcs_load(%lld) \n", cpu, cfs_rq->avg_vruntime, cfs_rq->avg_load, cfs_rq->avg_kcs_vruntime, cfs_rq->avg_kcs_load);
-         |         ^~~~~~~
->> kernel/sched/fair.c:5625:199: error: 'struct cfs_rq' has no member named 'avg_kcs_load'; did you mean 'avg_load'?
-    5625 |         pr_warn("CPU%d: cfs_rq EEVDF: avg_vruntime(%lld) avg_load(%lld) avg_kcs_vruntime(%lld) avg_kcs_load(%lld) \n", cpu, cfs_rq->avg_vruntime, cfs_rq->avg_load, cfs_rq->avg_kcs_vruntime, cfs_rq->avg_kcs_load);
-         |                                                                                                                                                                                                       ^~~~~~~~~~~~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/sched/fair.c:5625:9: note: in expansion of macro 'pr_warn'
-    5625 |         pr_warn("CPU%d: cfs_rq EEVDF: avg_vruntime(%lld) avg_load(%lld) avg_kcs_vruntime(%lld) avg_kcs_load(%lld) \n", cpu, cfs_rq->avg_vruntime, cfs_rq->avg_load, cfs_rq->avg_kcs_vruntime, cfs_rq->avg_kcs_load);
-         |         ^~~~~~~
-   kernel/sched/fair.c: In function 'debug_pick_next_entity':
->> kernel/sched/fair.c:5653:41: error: 'struct cfs_rq' has no member named 'tg'
-    5653 |         struct sched_entity *se = cfs_rq->tg->se[cpu_of(rq_of(cfs_rq))];
-         |                                         ^~
+   In file included from kernel/bpf/verifier.c:7:
+   In file included from include/linux/bpf-cgroup.h:5:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:1725:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   kernel/bpf/verifier.c:560:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     560 |         if (type & PTR_MAYBE_NULL) {
+         |             ~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:567:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     567 |         if (type & MEM_RDONLY)
+         |             ~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:569:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     569 |         if (type & MEM_ALLOC)
+         |             ~~~~ ^ ~~~~~~~~~
+   kernel/bpf/verifier.c:571:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     571 |         if (type & MEM_USER)
+         |             ~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:573:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     573 |         if (type & MEM_PERCPU)
+         |             ~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:575:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+     575 |         if (type & PTR_UNTRUSTED)
+         |             ~~~~ ^ ~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:1710:35: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    1710 |         regs[regno].type = PTR_TO_BTF_ID | flag;
+         |                            ~~~~~~~~~~~~~ ^ ~~~~
+   kernel/bpf/verifier.c:3719:62: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    3719 |                 verbose(env, " or %s%s\n", reg_type_str(env, PTR_TO_BTF_ID | PTR_UNTRUSTED),
+         |                                                              ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:4499:16: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4499 |         if (reg->type & MEM_USER) {
+         |             ~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:4506:16: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4506 |         if (reg->type & MEM_PERCPU) {
+         |             ~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:5550:14: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5550 |         return type & OBJ_RELEASE;
+         |                ~~~~ ^ ~~~~~~~~~~~
+   kernel/bpf/verifier.c:5643:14: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5643 |                 PTR_TO_MEM | MEM_ALLOC,
+         |                 ~~~~~~~~~~ ^ ~~~~~~~~~
+   kernel/bpf/verifier.c:5661:77: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5661 | static const struct bpf_reg_types alloc_mem_types = { .types = { PTR_TO_MEM | MEM_ALLOC } };
+         |                                                                  ~~~~~~~~~~ ^ ~~~~~~~~~
+   kernel/bpf/verifier.c:5665:85: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5665 | static const struct bpf_reg_types percpu_btf_ptr_types = { .types = { PTR_TO_BTF_ID | MEM_PERCPU } };
+         |                                                                       ~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:5726:15: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5726 |         if (arg_type & MEM_RDONLY)
+         |             ~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:5728:15: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5728 |         if (arg_type & PTR_MAYBE_NULL)
+         |             ~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:5799:18: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5799 |         case PTR_TO_MEM | MEM_RDONLY:
+         |              ~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:5800:18: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5800 |         case PTR_TO_MEM | MEM_ALLOC:
+         |              ~~~~~~~~~~ ^ ~~~~~~~~~
+   kernel/bpf/verifier.c:5802:18: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5802 |         case PTR_TO_BUF | MEM_RDONLY:
+         |              ~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:5987:29: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5987 |                 meta->raw_mode = arg_type & MEM_UNINIT;
+         |                                  ~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:6018:29: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6018 |                 meta->raw_mode = arg_type & MEM_UNINIT;
+         |                                  ~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:6019:16: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6019 |                 if (arg_type & MEM_FIXED_SIZE) {
+         |                     ~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:6029:16: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6029 |                 if (arg_type & MEM_UNINIT) {
+         |                     ~~~~~~~~ ^ ~~~~~~~~~~
+>> kernel/bpf/verifier.c:6415:36: warning: bitwise operation between different enumeration types ('const enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6415 |         bool is_fixed = fn->arg_type[arg] & MEM_FIXED_SIZE;
+         |                         ~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:6484:26: warning: bitwise operation between different enumeration types ('const enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6484 |                      !(fn->arg_type[i] & MEM_FIXED_SIZE)))
+         |                        ~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:7324:43: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7324 |                 regs[BPF_REG_0].type = PTR_TO_MAP_VALUE | ret_flag;
+         |                                        ~~~~~~~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7331:40: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7331 |                 regs[BPF_REG_0].type = PTR_TO_SOCKET | ret_flag;
+         |                                        ~~~~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7334:45: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7334 |                 regs[BPF_REG_0].type = PTR_TO_SOCK_COMMON | ret_flag;
+         |                                        ~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7337:42: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7337 |                 regs[BPF_REG_0].type = PTR_TO_TCP_SOCK | ret_flag;
+         |                                        ~~~~~~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7340:37: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7340 |                 regs[BPF_REG_0].type = PTR_TO_MEM | ret_flag;
+         |                                        ~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7360:38: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7360 |                         regs[BPF_REG_0].type = PTR_TO_MEM | ret_flag;
+         |                                                ~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7370:41: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7370 |                         regs[BPF_REG_0].type = PTR_TO_BTF_ID | ret_flag;
+         |                                                ~~~~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:7379:40: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    7379 |                 regs[BPF_REG_0].type = PTR_TO_BTF_ID | ret_flag;
+         |                                        ~~~~~~~~~~~~~ ^ ~~~~~~~~
+   kernel/bpf/verifier.c:8055:20: warning: bitwise operation between different enumeration types ('const enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    8055 |         if (ptr_reg->type & PTR_MAYBE_NULL) {
+         |             ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   kernel/bpf/verifier.c:12436:41: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    12436 |                 aux->btf_var.reg_type = PTR_TO_BTF_ID | MEM_PERCPU;
+          |                                         ~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:12453:38: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    12453 |                 aux->btf_var.reg_type = PTR_TO_MEM | MEM_RDONLY;
+          |                                         ~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/verifier.c:13401:22: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    13401 |                 case PTR_TO_BTF_ID | PTR_UNTRUSTED:
+          |                      ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+   38 warnings generated.
 
 
-vim +5618 kernel/sched/fair.c
+vim +6415 kernel/bpf/verifier.c
 
-  5612	
-  5613	static void debug_print_se(int cpu, struct sched_entity *se, bool h_throttled)
-  5614	{
-  5615		struct cfs_rq *cfs_rq = cfs_rq_of(se);
-  5616	
-  5617		pr_warn("CPU%d: se: load(%lu) vruntime(%lld) entity_key(%lld) deadline(%lld) min_vruntime(%lld) on_rq(%d)\n", cpu, scale_load_down(se->load.weight), se->vruntime, entity_key(cfs_rq, se), se->deadline, se->min.vruntime, se->on_rq);
-> 5618		pr_warn("CPU%d: se kcs: kernel_cs_count(%d) min_kcs_vruntime(%lld) pick_entity(%d)\n", cpu, se->kernel_cs_count, se->min.kcs_vruntime, pick_entity(cfs_rq, se, h_throttled));
-  5619	}
-  5620	
-  5621	static void debug_print_cfs_rq(int cpu, struct cfs_rq *cfs_rq, struct sched_entity *se, bool h_throttled)
-  5622	{
-  5623		pr_warn("CPU%d: ----- cfs_rq ----\n", cpu);
-> 5624		pr_warn("CPU%d: cfs_rq: throttled?(%d) cfs_rq->throttled(%d) h_nr_queued(%d) h_nr_runnable(%d) nr_queued(%d) gse->kernel_cs_count(%d)\n", cpu, h_throttled, cfs_rq->throttled, cfs_rq->h_nr_queued, cfs_rq->h_nr_runnable, cfs_rq->nr_queued, (se)? se->kernel_cs_count: -1);
-> 5625		pr_warn("CPU%d: cfs_rq EEVDF: avg_vruntime(%lld) avg_load(%lld) avg_kcs_vruntime(%lld) avg_kcs_load(%lld) \n", cpu, cfs_rq->avg_vruntime, cfs_rq->avg_load, cfs_rq->avg_kcs_vruntime, cfs_rq->avg_kcs_load);
-  5626	
-  5627		if (cfs_rq->curr) {
-  5628			pr_warn("CPU%d: ----- cfs_rq->curr ----\n", cpu);
-  5629			debug_print_se(cpu, cfs_rq->curr, h_throttled);
-  5630		}
-  5631		pr_warn("CPU%d: ----- cfs_rq done ----\n", cpu);
-  5632	}
-  5633	
-  5634	static void debug_recursive(int cpu, struct rb_node *node, bool h_throttled)
-  5635	{
-  5636		debug_print_se(cpu, __node_2_se(node), h_throttled);
-  5637	
-  5638		if (node->rb_left) {
-  5639			pr_warn("CPU%d: ----- Left Subtree ----\n", cpu);
-  5640			debug_recursive(cpu, node->rb_left, h_throttled);
-  5641			pr_warn("CPU%d: ----- Left Subtree Done ----\n", cpu);
-  5642		}
-  5643	
-  5644		if (node->rb_right) {
-  5645			pr_warn("CPU%d: ----- Right Subtree ----\n", cpu);
-  5646			debug_recursive(cpu, node->rb_right, h_throttled);
-  5647			pr_warn("CPU%d: ----- Right Subtree Done ----\n", cpu);
-  5648		}
-  5649	}
-  5650	
-  5651	static void debug_pick_next_entity(struct cfs_rq *cfs_rq, bool h_throttled)
-  5652	{
-> 5653		struct sched_entity *se = cfs_rq->tg->se[cpu_of(rq_of(cfs_rq))];
-  5654		struct rb_node *node = cfs_rq->tasks_timeline.rb_root.rb_node;
-  5655		struct task_struct *p = rq_of(cfs_rq)->curr;
-  5656		int cpu = smp_processor_id();
-  5657	
-  5658		if (p) {
-  5659			pr_warn("CPU%d: ----- current task ----\n", cpu);
-  5660			pr_warn("CPU%d: pid(%d) comm(%s) task_cpu(%d) task_on_rq_queued(%d) task_on_rq_migrating(%d) normal_policy(%d) idle_policy(%d)\n", cpu, p->pid, p->comm, task_cpu(p), task_on_rq_queued(p), task_on_rq_migrating(p), normal_policy(p->policy), idle_policy(p->policy));
-  5661			pr_warn("CPU%d: ----- current task done ----\n", cpu);
-  5662		}
-  5663	
-  5664		debug_print_cfs_rq(cpu, cfs_rq, se, h_throttled);
-  5665	
-  5666		if (node) {
-  5667			pr_warn("CPU%d: ----- rbtree traversal: root ----\n", cpu);
-  5668			debug_recursive(cpu, node, h_throttled);
-  5669			pr_warn("CPU%d: ----- rbtree done ----\n", cpu);
-  5670		}
-  5671	
-  5672		cfs_rq = cfs_rq_of(se);
-  5673		se = parent_entity(se);
-  5674	
-  5675		for_each_sched_entity(se) {
-  5676			pr_warn("CPU%d: ----- parent cfs_rq ----\n", cpu);
-  5677			debug_print_cfs_rq(cpu, cfs_rq, se, h_throttled);
-  5678	
-  5679			cfs_rq = cfs_rq_of(se);
-  5680		}
-  5681	
-  5682		debug_print_cfs_rq(cpu, cfs_rq, NULL, false);
-  5683	}
-  5684	
+  6412	
+  6413	static bool check_args_pair_invalid(const struct bpf_func_proto *fn, int arg)
+  6414	{
+> 6415		bool is_fixed = fn->arg_type[arg] & MEM_FIXED_SIZE;
+  6416		bool has_size = fn->arg_size[arg] != 0;
+  6417		bool is_next_size = false;
+  6418	
+  6419		if (arg + 1 < ARRAY_SIZE(fn->arg_type))
+  6420			is_next_size = arg_type_is_mem_size(fn->arg_type[arg + 1]);
+  6421	
+  6422		if (base_type(fn->arg_type[arg]) != ARG_PTR_TO_MEM)
+  6423			return is_next_size;
+  6424	
+  6425		return has_size == is_next_size || is_next_size == is_fixed;
+  6426	}
+  6427	
 
 -- 
 0-DAY CI Kernel Test Service
