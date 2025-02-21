@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9B21BEF8A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 02:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F2013A3F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 03:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740106398; cv=none; b=irI6NxAzckcM+aORJMRKJRIkWCTxLczGToFGUEN+QymvZ1micxoKmud32H8VxuM5pAMW/mpTh7hf/r5XMHbc+wuCtPAHBWQKKHFAdj8iB/zR3awDLVt9MdYhGnO5/uaJs+cRnVQk/2R53hyihWMrUWUJadoTXhhfhIDMDDv4QY8=
+	t=1740108178; cv=none; b=HX6OBbmwr6P1vbbQtz/B6FGVSzyRzWSBTJRyssX669daSJNz9AYcsViRja3OX98Zam4eGcJo9YQZVprTfVRZkiYvYmZPk1EdAEqgkjsfZ9M/bhsm03pvl1iFl0F6XvHgPZ4Tm0XVRSuuHfp1zske0qfYC7UoUmOquKT1Ep/A1Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740106398; c=relaxed/simple;
-	bh=DO5+Tn4eszjaLI7lcqLuh0OXqTQsizaN0M6Ea3DROdU=;
+	s=arc-20240116; t=1740108178; c=relaxed/simple;
+	bh=eOaUX2jxhFsGUZlrmXt3butQF1UC0A1TChXKbzzXMiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eIRwlkr3BtVBY8p8Pre1q39pHTYaJ4JALXrbURsSTvmHSAM/79zhYWjTH0mjNZA0N3u98ok9sOFWwpJ6WqIYA67IhioZBxGGAlGGTCBwpj5sDJRpwKIHuqhnpzLeUnPrk4Tss6Mfn1xsgVJ/MeVdjXU8OE/oJSFsThfEZ0bChGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GrK52dJL; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=uZ7/zs6YHhd9XtB/Ut/GxYVAzTPJqjq9ytomqnlpSbV63FUd2u1frbvGuSgvv5tcnHz8mbi6HTt91Czw1luIg9tNUV/zNtSxe8D4fgmIEdZB/p6a6hDAQxU+uqJ+7fTsBq7S139KRrlJcztsg+xGQegAMaJcZNNGiZ1sjpH28ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKgFIzzA; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GrK52dJL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKgFIzzA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740106396; x=1771642396;
+  t=1740108173; x=1771644173;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DO5+Tn4eszjaLI7lcqLuh0OXqTQsizaN0M6Ea3DROdU=;
-  b=GrK52dJL9YfEbtpSuXeTV3zUqp9Ko/zrLFZUJ2K6qvSjkaBDsjkM3/R7
-   msfwZXf0MeRu1wUeTjDan+d0BBcITb2JTJrhpzNwcg7iiAIFIZ1FnGqGL
-   qq1P7rayHYk+7w96GpypBH5+pft6EjisGYZ654ujjumaxVdvXIqUuZvg/
-   T8XTVDVdR/xkVI24a73CWMYkLug60QGNC6d/JsE/+AiOJdPG2w8Fubu76
-   6WAX79/OhMtv9w2jPp5iuP/OeFD9AIM7AGJG77Ncd1qGeoFnF3KZLhNCA
-   RLY9CNWJrgLAw4UfNK/ho0sBmbsKBGqIw7/fUj+cInjizA5WVehd3UQ9E
-   g==;
-X-CSE-ConnectionGUID: SRdfFQgnSgib5VCimSQ99Q==
-X-CSE-MsgGUID: ixG3CFBuRxSMmow2MzbcaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="58320396"
+  bh=eOaUX2jxhFsGUZlrmXt3butQF1UC0A1TChXKbzzXMiI=;
+  b=PKgFIzzAJJhS+iP0K8A5gwffjHob+bdte1VTIjpWnQKLr9BqSeF98Wkx
+   bFeiixevmJYIAx7YOvw219JO6xauf0JmcgrsSszPXyHT2KlnNk/8GUoud
+   dHcsBO4YxXYgmi0Qa3leY/+CXrprYhqKUoU2pX/QApZiYORdIJtmHNB04
+   rUkCNe32XXyaYbF+vHH9+UmR2mehXdksjno3Fjh7unNXpMx5p4zGjATU0
+   z9hkNNVqlA/WDdUnaWPLrIpGjx43ucCKzXZd/Sn6isMh5bqskorKaaRQ/
+   wesxrcyorgJ4nFYywm8eHR53Yay44j5EPSiEXjtdZu73CV6tz9N4elk5b
+   A==;
+X-CSE-ConnectionGUID: Hpp9gfxdThCVD7oHyIGyaA==
+X-CSE-MsgGUID: LiXr7hMWRZ2jxsUQBUkF9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51906642"
 X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
-   d="scan'208";a="58320396"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 18:53:15 -0800
-X-CSE-ConnectionGUID: /TQ+oBo7QQG/+OhUF6UDYw==
-X-CSE-MsgGUID: v6lKwnhaRZ6LmN4v/L3DWQ==
+   d="scan'208";a="51906642"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 19:22:52 -0800
+X-CSE-ConnectionGUID: 1WQAM2cqSCKs3A+wj/OHmw==
+X-CSE-MsgGUID: tRkP6OGUSPys2oYbJejRpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,303,1732608000"; 
-   d="scan'208";a="115434872"
+   d="scan'208";a="119872698"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2025 18:53:14 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 20 Feb 2025 19:22:50 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlJA7-00052R-2l;
-	Fri, 21 Feb 2025 02:53:11 +0000
-Date: Fri, 21 Feb 2025 10:52:12 +0800
+	id 1tlJcl-00053j-2s;
+	Fri, 21 Feb 2025 03:22:47 +0000
+Date: Fri, 21 Feb 2025 11:22:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Raag Jadav <raag.jadav@intel.com>, arnd@arndb.de,
 	andriy.shevchenko@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Raag Jadav <raag.jadav@intel.com>
 Subject: Re: [PATCH v1] io.h: drop unused headers
-Message-ID: <202502211009.s6xoWtae-lkp@intel.com>
+Message-ID: <202502211137.IRE8qrlR-lkp@intel.com>
 References: <20250220173305.2752125-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,24 +76,60 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/io-h-drop-unus
 base:   b16e9f8547a328b19af59afc213ce323124d11e9
 patch link:    https://lore.kernel.org/r/20250220173305.2752125-1-raag.jadav%40intel.com
 patch subject: [PATCH v1] io.h: drop unused headers
-config: sparc-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211009.s6xoWtae-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211009.s6xoWtae-lkp@intel.com/reproduce)
+config: nios2-randconfig-001-20250221 (https://download.01.org/0day-ci/archive/20250221/202502211137.IRE8qrlR-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211137.IRE8qrlR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211009.s6xoWtae-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211137.IRE8qrlR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
    drivers/gpu/drm/drm_draw.c: In function 'drm_draw_color_from_xrgb8888':
->> drivers/gpu/drm/drm_draw.c:130:17: error: implicit declaration of function 'WARN_ONCE' [-Wimplicit-function-declaration]
+   drivers/gpu/drm/drm_draw.c:130:17: error: implicit declaration of function 'WARN_ONCE' [-Wimplicit-function-declaration]
      130 |                 WARN_ONCE(1, "Can't convert to %p4cc\n", &format);
          |                 ^~~~~~~~~
+   drivers/gpu/drm/drm_draw.c: At top level:
+>> drivers/gpu/drm/drm_draw.c:134:1: warning: data definition has no type or storage class
+     134 | EXPORT_SYMBOL(drm_draw_color_from_xrgb8888);
+         | ^~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_draw.c:134:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+>> drivers/gpu/drm/drm_draw.c:134:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/gpu/drm/drm_draw.c:151:1: warning: data definition has no type or storage class
+     151 | EXPORT_SYMBOL(drm_draw_blit16);
+         | ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_draw.c:151:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+   drivers/gpu/drm/drm_draw.c:151:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/gpu/drm/drm_draw.c:173:1: warning: data definition has no type or storage class
+     173 | EXPORT_SYMBOL(drm_draw_blit24);
+         | ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_draw.c:173:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+   drivers/gpu/drm/drm_draw.c:173:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/gpu/drm/drm_draw.c:187:1: warning: data definition has no type or storage class
+     187 | EXPORT_SYMBOL(drm_draw_blit32);
+         | ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_draw.c:187:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+   drivers/gpu/drm/drm_draw.c:187:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/gpu/drm/drm_draw.c:202:1: warning: data definition has no type or storage class
+     202 | EXPORT_SYMBOL(drm_draw_fill16);
+         | ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_draw.c:202:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+   drivers/gpu/drm/drm_draw.c:202:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/gpu/drm/drm_draw.c:221:1: warning: data definition has no type or storage class
+     221 | EXPORT_SYMBOL(drm_draw_fill24);
+         | ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_draw.c:221:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+   drivers/gpu/drm/drm_draw.c:221:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+   drivers/gpu/drm/drm_draw.c:233:1: warning: data definition has no type or storage class
+     233 | EXPORT_SYMBOL(drm_draw_fill32);
+         | ^~~~~~~~~~~~~
+   drivers/gpu/drm/drm_draw.c:233:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL' [-Wimplicit-int]
+   drivers/gpu/drm/drm_draw.c:233:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
 
 
-vim +/WARN_ONCE +130 drivers/gpu/drm/drm_draw.c
+vim +134 drivers/gpu/drm/drm_draw.c
 
 31fa2c1ca0b239 Jocelyn Falempe 2024-12-04   93  
 31fa2c1ca0b239 Jocelyn Falempe 2024-12-04   94  /**
@@ -136,7 +172,7 @@ vim +/WARN_ONCE +130 drivers/gpu/drm/drm_draw.c
 31fa2c1ca0b239 Jocelyn Falempe 2024-12-04  131  		return 0;
 31fa2c1ca0b239 Jocelyn Falempe 2024-12-04  132  	}
 31fa2c1ca0b239 Jocelyn Falempe 2024-12-04  133  }
-31fa2c1ca0b239 Jocelyn Falempe 2024-12-04  134  EXPORT_SYMBOL(drm_draw_color_from_xrgb8888);
+31fa2c1ca0b239 Jocelyn Falempe 2024-12-04 @134  EXPORT_SYMBOL(drm_draw_color_from_xrgb8888);
 31fa2c1ca0b239 Jocelyn Falempe 2024-12-04  135  
 
 -- 
