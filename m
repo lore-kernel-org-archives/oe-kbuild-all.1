@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31321E3DCF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 06:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8138E35979
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 07:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740120102; cv=none; b=Pwx+nQlpt2z+Nd8TLE9eGvHENv/XrHq3qCse8yzTUR7FHKXzO+DYPXrE4x3Xz3nywZwURFzOAm3YiPw7P3qZ7Db8y+Nhm8CilcJk75Kv96TvvnvQHU7xG17hk8Qy3f1CuXnVv76gSy9pF4sCi9Mzi74CYIWJf9V75UUMDeeDTcc=
+	t=1740121971; cv=none; b=QeINvL1JFO3mBymNuVRtdTUDnPKG9hFL76CWjD1gcGsw+Jxqfmg5anrSpRf2ja6qM/99pu0JdwO6Dz31DTNUu3O8x56V4tDeoxbxCwdfZWDKCVW6tP3sTRqJnz/Y2tOZvYVuFPtujiSeac2AvkbMXlWVvf21vDPrpBJm+QPW/3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740120102; c=relaxed/simple;
-	bh=YBE10lw/KY2mWsZO5Ipl44wv7wLNBnITdo/s6Cl4z0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XpmghXzwRnNHf5RVtFyl1R2aD84Ja+iQiYQ2ZdJ/TA1mKkjowWKtvFHf0KNbab5/07sxIc6j72eTozNBGuTBmN3Pswa43tv9YzfaBIEYMSQU9+8aCy3namP6CsLN1dpIdrWHyx1/PIE+pzK2N5p3yWOh6NvJwLL+OoFlf9pVESY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Il+8wWGK; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1740121971; c=relaxed/simple;
+	bh=UN2iUnEbOyTbv+z/IQOcExyrMUiIvg5qUKrPtGkR+ns=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X+9sK6zG8IogszCydF0pneMIDt2IrmbbpcqGlA+e5ME+gsrc4Y6JG9oT07zG3Avxy5FeiGC5lgfs3Akfg3ywYniY6TL2HfBUDtnsiy6D/niGgnvd+bZWz/Bqi4AG8pUfXtWK07VCDqSRZR+zkhznAzM2QIiwm855HNeHK/+FsO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X6W+pBYe; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Il+8wWGK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X6W+pBYe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740120101; x=1771656101;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YBE10lw/KY2mWsZO5Ipl44wv7wLNBnITdo/s6Cl4z0g=;
-  b=Il+8wWGKIK/T3QhNG6BnlqVitnagHlmGjLBsUx/S5xW4RI2Fqqzqj8MY
-   FjoyHrycgREGMKvvi0rVYBzQatJVztGhjuePWKcZxGJ7t0ufOnDx/g0qQ
-   9q/daEhqji/MNESN4QWV88kQSO1AYWARcw/mDT+08+1nYAo+ropqIhQ+6
-   bqH9pmbsCvlqlYdjX5xi8GSiAppQJjhnIxK0/d6XJ/m5v+k2w/je78T16
-   ujgYUlfqdGWy0txREVdri/jZ9ZPk3AzGuLEdlPFrMK2VKW3cQtRl4+nli
-   XYQ8f8MXwwTb7xfuG0jbUk4JIwc8rE5D8A75arZSH1D9d26MuhRswvd9R
-   A==;
-X-CSE-ConnectionGUID: 10A99fnbRjCj4TJgH9AsFQ==
-X-CSE-MsgGUID: X1NkcrxVSjKfzd/0hkDV3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52358011"
+  t=1740121970; x=1771657970;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=UN2iUnEbOyTbv+z/IQOcExyrMUiIvg5qUKrPtGkR+ns=;
+  b=X6W+pBYeeGEcUWMYfD1Wk35dfW+apVwoRsxFBr++uwsGje/nhbjC4uU+
+   oKUAlJrRhB0kkxroi4oka5PgkUNfnbkop9v0dHmIAWuMXXKGWBLI413N4
+   o+8B00NqtbpktU1/MtmpzJIbZmPN2NVGs99KeNU2DjTUc5mW1l9Bv98MZ
+   PI36a0qP8SWQqraOY0nn7v9IH1CFCV6Z6A4T31MV7UUPd/T+CSSvUQ2Gg
+   R/lYBPmD+5rgUkoGfEc7WsszRR+DsSByDxsAQ9+aT4MvaLZHpABHj7nKD
+   Lqtfnr29iycXFTRkyrdSVFlfHmwbplF+XN3qv+NMs5pn9uLOMFi1Nbma0
+   g==;
+X-CSE-ConnectionGUID: MBd3S8TsQuK6pbxgfscFgw==
+X-CSE-MsgGUID: Dd9gHdWsQe66cBvhR5jdXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41137776"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52358011"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 22:41:40 -0800
-X-CSE-ConnectionGUID: zVZNgTkvSkSlnXuXsjU9XA==
-X-CSE-MsgGUID: UZWAd2hIRPWpnLmP8jbNmw==
+   d="scan'208";a="41137776"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 23:12:46 -0800
+X-CSE-ConnectionGUID: AuehNcmaQ+e+diYZYJ2MpA==
+X-CSE-MsgGUID: o2zQe28aS6it1432TssbTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116172862"
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="115009230"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 20 Feb 2025 22:41:40 -0800
+  by orviesa009.jf.intel.com with ESMTP; 20 Feb 2025 23:12:45 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlMjB-0005Cx-0o;
-	Fri, 21 Feb 2025 06:41:37 +0000
-Date: Fri, 21 Feb 2025 14:41:08 +0800
+	id 1tlNDH-0005Dr-0d
+	for oe-kbuild-all@lists.linux.dev;
+	Fri, 21 Feb 2025 07:12:43 +0000
+Date: Fri, 21 Feb 2025 15:12:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-lts 1/1]
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb:
- /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/pwm@20: failed to match
- any schema with compatible: ['maxim,max31790']
-Message-ID: <202502211427.qAOZ6dF2-lkp@intel.com>
+Subject: [intel-lts:pr/59 1/1]
+ drivers/net/ethernet/hisilicon/hns/hns_ethtool.c:309:7: warning: this
+ statement may fall through
+Message-ID: <202502211515.UVZCsumx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +63,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
-head:   721365424acefbefb05831eeb599f7e5a1a42457
-commit: c62ceade98a0f453f3a1a542c5702a069bdc778d [1/1] ARM: dts: aspeed: yosemite4: correct the compatible string for max31790
-config: arm-randconfig-051-20250220 (https://download.01.org/0day-ci/archive/20250221/202502211427.qAOZ6dF2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2025.2
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211427.qAOZ6dF2-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 67cd9a997f1bfb5dedf407ad540232912bd04b10 [1/1] net: hns: Use phy_driver to setup Phy loopback
+config: xtensa-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250221/202502211515.UVZCsumx-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250221/202502211515.UVZCsumx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502211427.qAOZ6dF2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502211515.UVZCsumx-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/adc@1d: failed to match any schema with compatible: ['ti,adc128d818']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@35: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/adc@35: failed to match any schema with compatible: ['ti,adc128d818']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@37: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/adc@37: failed to match any schema with compatible: ['ti,adc128d818']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@1f: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/adc@1f: failed to match any schema with compatible: ['ti,adc128d818']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/pwm@20: failed to match any schema with compatible: ['maxim,max31790']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/pwm@23: failed to match any schema with compatible: ['maxim,max31790']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@0/gpio@61: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: adc@1f: ti,mode: b'\x02' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/adc@1f: failed to match any schema with compatible: ['ti,adc128d818']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/pwm@20: failed to match any schema with compatible: ['maxim,max31790']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/pwm@23: failed to match any schema with compatible: ['maxim,max31790']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/bus@1e78a000/i2c-bus@780/i2c-mux@71/i2c@1/gpio@61: failed to match any schema with compatible: ['nxp,pca9552']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: /ahb/apb/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/linkage.h:4:0,
+                    from include/linux/kernel.h:6,
+                    from include/linux/skbuff.h:17,
+                    from include/linux/if_ether.h:23,
+                    from include/linux/etherdevice.h:25,
+                    from drivers/net/ethernet/hisilicon/hns/hns_ethtool.c:10:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+            ^
+   include/linux/compiler.h:179:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   include/linux/dma-mapping.h:308:2: note: in expansion of macro 'BUG_ON'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+     ^~~~~~
+   include/linux/dma-mapping.h:308:9: note: in expansion of macro 'pfn_valid'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+            ^~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns/hns_ethtool.c: In function '__lb_setup':
+>> drivers/net/ethernet/hisilicon/hns/hns_ethtool.c:309:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+      ret = hns_nic_config_phy_loopback(phy_dev, 0x0);
+      ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns/hns_ethtool.c:310:2: note: here
+     case MAC_LOOP_NONE:
+     ^~~~
+   In file included from include/linux/string.h:18:0,
+                    from include/linux/bitmap.h:8,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:4,
+                    from include/linux/kmemcheck.h:4,
+                    from include/linux/skbuff.h:18,
+                    from include/linux/if_ether.h:23,
+                    from include/linux/etherdevice.h:25,
+                    from drivers/net/ethernet/hisilicon/hns/hns_ethtool.c:10:
+   drivers/net/ethernet/hisilicon/hns/hns_ethtool.c: In function 'hns_nic_get_drvinfo':
+   arch/xtensa/include/asm/string.h:56:42: warning: array subscript is above array bounds [-Warray-bounds]
+      : "0" (__dest), "1" (__src), "r" (__src+__n)
+                                        ~~~~~^~~~
+   arch/xtensa/include/asm/string.h:56:42: warning: array subscript is above array bounds [-Warray-bounds]
+      : "0" (__dest), "1" (__src), "r" (__src+__n)
+                                        ~~~~~^~~~
+   arch/xtensa/include/asm/string.h:56:42: warning: array subscript is above array bounds [-Warray-bounds]
+      : "0" (__dest), "1" (__src), "r" (__src+__n)
+                                        ~~~~~^~~~
+
+
+vim +309 drivers/net/ethernet/hisilicon/hns/hns_ethtool.c
+
+   284	
+   285	static int __lb_setup(struct net_device *ndev,
+   286			      enum hnae_loop loop)
+   287	{
+   288		int ret = 0;
+   289		struct hns_nic_priv *priv = netdev_priv(ndev);
+   290		struct phy_device *phy_dev = ndev->phydev;
+   291		struct hnae_handle *h = priv->ae_handle;
+   292	
+   293		switch (loop) {
+   294		case MAC_INTERNALLOOP_PHY:
+   295			ret = hns_nic_config_phy_loopback(phy_dev, 0x1);
+   296			if (!ret)
+   297				ret = h->dev->ops->set_loopback(h, loop, 0x1);
+   298			break;
+   299		case MAC_INTERNALLOOP_MAC:
+   300			if ((h->dev->ops->set_loopback) &&
+   301			    (priv->ae_handle->phy_if != PHY_INTERFACE_MODE_XGMII))
+   302				ret = h->dev->ops->set_loopback(h, loop, 0x1);
+   303			break;
+   304		case MAC_INTERNALLOOP_SERDES:
+   305			if (h->dev->ops->set_loopback)
+   306				ret = h->dev->ops->set_loopback(h, loop, 0x1);
+   307			break;
+   308		case MAC_LOOP_PHY_NONE:
+ > 309			ret = hns_nic_config_phy_loopback(phy_dev, 0x0);
+   310		case MAC_LOOP_NONE:
+   311			if (!ret && h->dev->ops->set_loopback) {
+   312				if (priv->ae_handle->phy_if != PHY_INTERFACE_MODE_XGMII)
+   313					ret = h->dev->ops->set_loopback(h,
+   314						MAC_INTERNALLOOP_MAC, 0x0);
+   315	
+   316				if (!ret)
+   317					ret = h->dev->ops->set_loopback(h,
+   318						MAC_INTERNALLOOP_SERDES, 0x0);
+   319			}
+   320			break;
+   321		default:
+   322			ret = -EINVAL;
+   323			break;
+   324		}
+   325	
+   326		if (!ret) {
+   327			if (loop == MAC_LOOP_NONE)
+   328				h->dev->ops->set_promisc_mode(
+   329					h, ndev->flags & IFF_PROMISC);
+   330			else
+   331				h->dev->ops->set_promisc_mode(h, 1);
+   332		}
+   333		return ret;
+   334	}
+   335	
 
 -- 
 0-DAY CI Kernel Test Service
