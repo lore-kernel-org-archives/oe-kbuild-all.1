@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0504A05
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 03:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AEF38F83;
+	Sat, 22 Feb 2025 05:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740195708; cv=none; b=FJxXm4p3u/Ik3OwTNU/lj9KT6CnQsuGjGEbBx5YHsiTGJhCvcoLsnFNYynrDDgbDkXzcUvwKAE0Zs0t653tRJgs1I0Ov4y7zI2jp7D9wj+4wRuaJr2VEygHy0B9P/Lb8yaEiV0HxfgGy1PQPFltUeioXDHJIn8k3gGaTkcg1iCo=
+	t=1740201334; cv=none; b=G/hNjjgg8P7TT3MMRhimx8QybrbRAhpelQCbkkgTvhWBrfb3xSKO+MNWo+G/MkRLnd+Y3GBTAKErRBMAn3a5euV59rwZl9VnMVe9x0S9IDLZsqjyzy2FE04HN97LrUGljV/9/x8KqFTlL4gc2URvyDiko/hhN6LDjilpnMTAiwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740195708; c=relaxed/simple;
-	bh=1pIQli5yX5TLQa8vO+yxFp6bgV32bNbZld5SseY5aho=;
+	s=arc-20240116; t=1740201334; c=relaxed/simple;
+	bh=FJ3zVMJeoIN044fqK+n90glzBQSH5L52/z6vP49YSQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WOpRGbxKMkwiSbkHF3lBXuKlx2dzFEpB8rk/lDg5ce3fSR3R0kgN1TcrTrJh5Sc1o8I9QawdSMAxccAD5mnl5gh9s+51r5YzT3Myu9XSepM/pEoswd7eZGjgnxKIh4P3JVmmgiq30B7deEHuq2Wo6Vln/VLX+dPQgzps5oA4LxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDerlatj; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=ugto856yHNPSPD7LxdzDgxUkudn9/NU+liFVclR0Y/mVNfmklK156rOfcRpOJPGo0diJb9GU3h2PvH5DQImmdT/HZa2zRGqIJtEAjsGVse732zOz0ZAZCUNkOANVaW2AUjSrM1GrOzRZEJM+X42FylZKgY5hG2yJfBS95h41wps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqxqCP0G; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDerlatj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqxqCP0G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740195706; x=1771731706;
+  t=1740201332; x=1771737332;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1pIQli5yX5TLQa8vO+yxFp6bgV32bNbZld5SseY5aho=;
-  b=KDerlatjsmL0JTRHWA3YOyWsbNnc0Y+1HF57IXQ2+fbE1rJpiQXaA4AT
-   NnS55Aa+20bvZ0PNnNML4IFWDs+TLjDsrjIsDQBF7UGAIDdwge0b1L/vs
-   tSWOGhNxEjyJY2MbZP4xpU4yWgQqJLUlavKGQ07sYzny+4wo6OugUqrYU
-   rialzfimAPVQMzs58OHnk+2LK2AHDVTvT1XEbjUD/erPHJrf0kHk8WNpd
-   EpzUfsHxiUdubUtcuINuAbBqxyfk5OkNmjvkz275AK+poERq1oLOs2EMV
-   4eUAvd01qgbl4+zMTZu+yRvNCYxVAZPtN98ChbRoBStPnNhNk9q2h5tne
-   A==;
-X-CSE-ConnectionGUID: 28r8UCmHR8y8qXPiXYHxSw==
-X-CSE-MsgGUID: nZYp5S99QKiZkp1+/jH3RQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="44935363"
+  bh=FJ3zVMJeoIN044fqK+n90glzBQSH5L52/z6vP49YSQ4=;
+  b=IqxqCP0GvlJ8o1/IKa2SnRjrjXU6Zd+N3POHSv+WxdlCx/WHiqxXEUzf
+   BhIGxPIZVf4wd7xSqfGxmmp25Y8K0oyWJVnggSqIrzuDAnHyJxx8PyLmu
+   1UXiZ6uYwxWlAqx0fU3taneOSXuRZUkL3WZ97D/eq3Ha6AFGVpZGJihos
+   ZgtfnFh5dt9WohrR0NVyX49/57pjFHWUeFKg5DxaQpRqfVHV0/oqEgxnC
+   WlnqCEsf/gCC4ui33wBZmUR46dbq0+Hg9lCCDLrk5lC7sozO/SmW2Kx/v
+   HS9LXpGmmrhV+pQtC5O0Vg7WvFwYL/Kvi5rnB/XYIBWFp+zPGoB1Illb9
+   w==;
+X-CSE-ConnectionGUID: ib3fvnRySVimxwXRSYocpg==
+X-CSE-MsgGUID: 8ewyDNm0RhW3GfdB3OEFYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40900699"
 X-IronPort-AV: E=Sophos;i="6.13,306,1732608000"; 
-   d="scan'208";a="44935363"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 19:41:46 -0800
-X-CSE-ConnectionGUID: q0fgMa92RQSDmQG8sLCSBw==
-X-CSE-MsgGUID: /xpFUttySQmq+tPejtj0uQ==
+   d="scan'208";a="40900699"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 21:15:31 -0800
+X-CSE-ConnectionGUID: FfwNEWmrSXOUMf+rENoRqQ==
+X-CSE-MsgGUID: c3pJCj0jTCqTUVmTGhAf9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,306,1732608000"; 
-   d="scan'208";a="116172867"
+   d="scan'208";a="120529176"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Feb 2025 19:41:45 -0800
+  by orviesa004.jf.intel.com with ESMTP; 21 Feb 2025 21:15:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlgOX-0006HR-0g;
-	Sat, 22 Feb 2025 03:41:38 +0000
-Date: Sat, 22 Feb 2025 11:41:02 +0800
+	id 1tlhrD-0006Jv-0I;
+	Sat, 22 Feb 2025 05:15:21 +0000
+Date: Sat, 22 Feb 2025 13:14:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [tnguy-next-queue:40GbE 7/39] wx_lib.c:undefined reference to
- `ptp_schedule_worker'
-Message-ID: <202502221148.uKcTIWhU-lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ambarus:b4/acpm-debugfs 3/4]
+ drivers/firmware/samsung/exynos-acpm.h:7:9: warning: '__EXYNOS_ACPM_H__' is
+ used as a header guard here, followed by #define of a different macro
+Message-ID: <202502221308.l4i4pSeO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,32 +63,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git 40GbE
-head:   bb3bb6c92e5719c0f5d7adb9d34db7e76705ac33
-commit: 06e75161b9d4833518a7c266310a0635eab50616 [7/39] net: wangxun: Add support for PTP clock
-config: i386-buildonly-randconfig-005-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221148.uKcTIWhU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221148.uKcTIWhU-lkp@intel.com/reproduce)
+tree:   https://github.com/ambarus/linux-0day b4/acpm-debugfs
+head:   bafe7f9a113167725d05a697c67c199f0be52748
+commit: 9dd49cfd36484439b89892286b5d0ed7af69e0bd [3/4] firmware: exynos-acpm: move common structures to exynos-acpm.h
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250222/202502221308.l4i4pSeO-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221308.l4i4pSeO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221148.uKcTIWhU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221308.l4i4pSeO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/net/ethernet/wangxun/libwx/wx_lib.o: in function `wx_clean_tx_irq':
->> wx_lib.c:(.text+0x3334): undefined reference to `ptp_schedule_worker'
-   ld: drivers/net/ethernet/wangxun/libwx/wx_ptp.o: in function `wx_ptp_stop':
->> wx_ptp.c:(.text+0xaa0): undefined reference to `ptp_clock_unregister'
-   ld: drivers/net/ethernet/wangxun/libwx/wx_ptp.o: in function `wx_ptp_init':
->> wx_ptp.c:(.text+0x104e): undefined reference to `ptp_clock_register'
+   In file included from drivers/firmware/samsung/exynos-acpm.c:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/firmware/samsung/exynos-acpm.c:29:
+>> drivers/firmware/samsung/exynos-acpm.h:7:9: warning: '__EXYNOS_ACPM_H__' is used as a header guard here, followed by #define of a different macro [-Wheader-guard]
+       7 | #ifndef __EXYNOS_ACPM_H__
+         |         ^~~~~~~~~~~~~~~~~
+   drivers/firmware/samsung/exynos-acpm.h:8:9: note: '__EXYNOS_ACPM_H_' is defined here; did you mean '__EXYNOS_ACPM_H__'?
+       8 | #define __EXYNOS_ACPM_H_
+         |         ^~~~~~~~~~~~~~~~
+         |         __EXYNOS_ACPM_H__
+   4 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LIBWX
-   Depends on [m]: NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PTP_1588_CLOCK_OPTIONAL [=m]
-   Selected by [y]:
-   - NGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PCI [=y]
+
+vim +/__EXYNOS_ACPM_H__ +7 drivers/firmware/samsung/exynos-acpm.h
+
+   > 7	#ifndef __EXYNOS_ACPM_H__
+     8	#define __EXYNOS_ACPM_H_
+     9	
 
 -- 
 0-DAY CI Kernel Test Service
