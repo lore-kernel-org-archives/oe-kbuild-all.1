@@ -1,61 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DB74A05
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 06:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2061F03C1;
+	Sat, 22 Feb 2025 07:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740205015; cv=none; b=XfAjGamYNrSDKLbob/5DAuyffPH+gCsqdvbmcQ9PV6HWetGX2E9yMiExjQ6uL357Pg7MgrJt+XSQwtFq205sfAx/d3JrcbJSJB9cUX+EzqSX6QdUUdgSFvbz2yqF/YT3mRjZApCDt6XppwNiRqyglwLCQtt8af36+qrrpYk0ECc=
+	t=1740208102; cv=none; b=bpztZ/z7pfNa0a82So/0MPjNmxWd+kn6M0SaPc9HgAA/6KYN6PR4L9fDAD/PHGdFoRIPLrRc15IyJpVjEvV7AW7bp/yn1gN81rWjXvJwe0VLo/i4d/uO0RNqsvtXKWdQelzp8XB18Zi+Kudhtu6AEwKz5Smy1wF5ICekvbFnw0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740205015; c=relaxed/simple;
-	bh=bERci+EnP68fSaz8z6pV4FtfvjP9YJlknHF4NJgGmH8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eCGeTsc87Nsu25iw0mIqmBIRa6fizHtgAad5jqeRFuIi8W+eDgcX6gH2XmEhrJtuEecVjdUJsLEc7fTrZqUpULEXu6T1XQCPL7aPLd+81kFwKS17UeFaSyDyAXwOtrnj0Rfjcel89ODq4iKO+ARkNBLj+xrM4lM9RAiNKR9k9CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ap+fIVDw; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1740208102; c=relaxed/simple;
+	bh=fsY5t112Q8WM/mdH96kIkcjOJgGQNS0f/svA6RtETtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FpY39MNVkRaU9lpcWrYC1cvthIJ6TG7vJx2co6aWS27bAAPUGFmqR3+PiEXgg7Z4Xao3hz813qCMyURZla5dMExZgMLJfAr0Z1HoLb7BItxcx0eKjfhj/PpBqVivIHjqDf2msJoTyH5+aDc5Kx4qDgrQfgL5JpPkNZPZdDwHpsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqwunMRA; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ap+fIVDw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqwunMRA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740205014; x=1771741014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bERci+EnP68fSaz8z6pV4FtfvjP9YJlknHF4NJgGmH8=;
-  b=Ap+fIVDw8Auey5vAt7ZGrczFL7S4NI2xBFiz82t22P8NHMAe1eO4B7MV
-   bFGR2T3LitAQ9f43YvkkFx8Szg/mDZg2rtUE0lmHDrEno6Zoq3TrckvnN
-   TdRx28l0XOgmugAaMe9Jf53RfdQDfTI8wrAplQuoa1Gty9i1iK6Cqh1FX
-   BFsydBZFQFYrxOb62VZpcfDduzy9PUJ+ieW7Fn8qoz/cNTzBZMhTU7zzI
-   l6ZC5nEGs4puZjz3bPLkNbUHVWcHYJUb+k88TLY/h5ajGEniAE5rtCZwk
-   XlZjQFQMLRefnUde2WVBS7bND+hzDdRJARKBPk0UiUVO0hozwumzAClMo
-   Q==;
-X-CSE-ConnectionGUID: KuurN7z2QwCjW498Gi5EaQ==
-X-CSE-MsgGUID: A4wisSetQBSbYc2bIlmR4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="44681642"
+  t=1740208101; x=1771744101;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fsY5t112Q8WM/mdH96kIkcjOJgGQNS0f/svA6RtETtk=;
+  b=SqwunMRAQM6s901/4UrngrC+CIJxFiwUoW8Tx9xLz9DbeKRNNxL4Ejb5
+   GAsvuuuCR4IA2HvS25bhy6YD8W9SOP0vvh0WGt3300rqx2jkPafe4aDrw
+   ifMzOTlXUizxUBi+Zz3HzVIviUFx7iDC91yNE0IAB+IvhfYjdQGE9J6rl
+   /fwj4HPJJQI6RlDDeeW8xFWOT5My+3F24eNhiCJwvmTeSFNO1G+f5uowr
+   LhDxfo+tUCYf7fWMbCZteigrs0BXt+zWTJl32kOqZCEElu0e+PtETz0eE
+   s7w87LCw343jzN6oG10W4TQ3/ecD311Xq83PmzbiZBt8hX+3CMHJxQOai
+   w==;
+X-CSE-ConnectionGUID: fOU41fMGSMKNym0mrFH/4A==
+X-CSE-MsgGUID: QPvc8VZiRNeIQBYnxqfLwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66400785"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="44681642"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 22:16:53 -0800
-X-CSE-ConnectionGUID: TUR3361IQRmk2o/yleH7ow==
-X-CSE-MsgGUID: ujlA1LrzRf2vfaH/1XGt7w==
+   d="scan'208";a="66400785"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 23:08:20 -0800
+X-CSE-ConnectionGUID: ac7/Se+NRD+BbfAHzKfzKA==
+X-CSE-MsgGUID: gfp972L3RJKUyasanhGhfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="115277019"
+   d="scan'208";a="115763826"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 21 Feb 2025 22:16:51 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Feb 2025 23:08:16 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tliof-0006LN-0w;
-	Sat, 22 Feb 2025 06:16:46 +0000
-Date: Sat, 22 Feb 2025 14:16:03 +0800
+	id 1tljcR-0006Mh-12;
+	Sat, 22 Feb 2025 07:08:12 +0000
+Date: Sat, 22 Feb 2025 15:08:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiawen Wu <jiawenwu@trustnetic.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [tnguy-next-queue:40GbE 8/39] wx_ethtool.c:undefined reference to
- `ptp_clock_index'
-Message-ID: <202502221412.TDbqnUpd-lkp@intel.com>
+To: Srirangan Madhavan <smadhavan@nvidia.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Zhi Wang <zhiw@nvidia.com>, Vishal Aslot <vaslot@nvidia.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	linux-cxl@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] cxl: add support for cxl reset
+Message-ID: <202502221438.j0UgOryU-lkp@intel.com>
+References: <20250221043906.1593189-3-smadhavan@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,35 +73,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250221043906.1593189-3-smadhavan@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git 40GbE
-head:   bb3bb6c92e5719c0f5d7adb9d34db7e76705ac33
-commit: ce114069a654be6b1597da983a201c72ceca7a85 [8/39] net: wangxun: Support to get ts info
-config: i386-buildonly-randconfig-005-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221412.TDbqnUpd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221412.TDbqnUpd-lkp@intel.com/reproduce)
+Hi Srirangan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250220]
+[cannot apply to pci/next pci/for-linus linus/master v6.14-rc3 v6.14-rc2 v6.14-rc1 v6.14-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Srirangan-Madhavan/cxl-de-duplicate-cxl-DVSEC-reg-defines/20250221-124043
+base:   next-20250220
+patch link:    https://lore.kernel.org/r/20250221043906.1593189-3-smadhavan%40nvidia.com
+patch subject: [PATCH v2 2/2] cxl: add support for cxl reset
+config: arm64-randconfig-003-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221438.j0UgOryU-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221438.j0UgOryU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221412.TDbqnUpd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221438.j0UgOryU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/net/ethernet/wangxun/libwx/wx_lib.o: in function `wx_clean_tx_irq':
-   wx_lib.c:(.text+0x3334): undefined reference to `ptp_schedule_worker'
-   ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_ts_info':
->> wx_ethtool.c:(.text+0x739): undefined reference to `ptp_clock_index'
-   ld: drivers/net/ethernet/wangxun/libwx/wx_ptp.o: in function `wx_ptp_stop':
-   wx_ptp.c:(.text+0xaa0): undefined reference to `ptp_clock_unregister'
-   ld: drivers/net/ethernet/wangxun/libwx/wx_ptp.o: in function `wx_ptp_init':
-   wx_ptp.c:(.text+0x104e): undefined reference to `ptp_clock_register'
+>> drivers/pci/pci.c:5258:10: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+    5258 |         if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/pci.c:5258:10: note: place parentheses around the '==' expression to silence this warning
+    5258 |         if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/pci.c:5258:10: note: place parentheses around the & expression to evaluate it first
+    5258 |         if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
+         |             ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LIBWX
-   Depends on [m]: NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PTP_1588_CLOCK_OPTIONAL [=m]
-   Selected by [y]:
-   - NGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PCI [=y]
+
+vim +5258 drivers/pci/pci.c
+
+  5235	
+  5236	/**
+  5237	 * cxl_reset - initiate a cxl reset
+  5238	 * @dev: device to reset
+  5239	 * @probe: if true, return 0 if device can be reset this way
+  5240	 *
+  5241	 * Initiate a cxl reset on @dev.
+  5242	 */
+  5243	static int cxl_reset(struct pci_dev *dev, bool probe)
+  5244	{
+  5245		u16 dvsec, reg;
+  5246		int rc;
+  5247	
+  5248		dvsec = pci_find_dvsec_capability(dev, PCI_VENDOR_ID_CXL,
+  5249						  CXL_DVSEC_PCIE_DEVICE);
+  5250		if (!dvsec)
+  5251			return -ENOTTY;
+  5252	
+  5253		/* Check if CXL Reset is supported. */
+  5254		rc = pci_read_config_word(dev, dvsec + CXL_DVSEC_CAP_OFFSET, &reg);
+  5255		if (rc)
+  5256			return -ENOTTY;
+  5257	
+> 5258		if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
+  5259			return -ENOTTY;
+  5260	
+  5261		if (probe)
+  5262			return 0;
+  5263	
+  5264		rc = cxl_reset_prepare(dev, dvsec);
+  5265		if (rc)
+  5266			return rc;
+  5267	
+  5268		return cxl_reset_init(dev, dvsec);
+  5269	}
+  5270	
 
 -- 
 0-DAY CI Kernel Test Service
