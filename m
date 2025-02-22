@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E531EA7EA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 22:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F72B1632DD;
+	Sat, 22 Feb 2025 22:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740262260; cv=none; b=bna70Uhxqf4iWRJ/wtTZGd1B6Q0V6e1rPIteLrZYcuZlkUeJpz5fdIBLEIbd4DHVqtG0knFmohKzamscfmXRGPkbtDw8zxSpU3KOWJ0HRT2TPnT9D/YCnFnPAmynDooJL796TW2IkCTEsSURk6cpDUci8M1/x85M4HdlEpdQldY=
+	t=1740264754; cv=none; b=IauOwQ0Kyty1/UWL4FfD80vdy4az2wv+gkrav5QNDagOs0zWB8DIMZj9xuZ3l30W0QPTg8HPGePpleTLhr+zh+DIAdwS/xxNQAGH26B9oF99qsbLeQdINuQgM16HU5GVhASk2QBA5C13xR9SJTIGsWsork3+1JiCySXZ9xAHkcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740262260; c=relaxed/simple;
-	bh=EcUrjcaIUd0wmfWUpOi0aP7Np0Zk/Ud7BwqYQp73pZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ev3459wFxqViDOkB9a1CXi5s4f1VgzBzmFEjuPEYibMsPNwv+wD/LvalL51Pwh1J+t1NWAwd5bP7ENmyYU/+kh92OA385Du4mZOD5NFU72i3/rIzqNn0w/XuIB1B6S0NOxEf1E74Qi7y+t+PhQpp4+hBw0IIClL5/hRIYgaAUZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/fEyHB1; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1740264754; c=relaxed/simple;
+	bh=Nd6QA6/cYeZst96/ye9TyeT7k2VCgW2t+UlxpiR8J9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HgsjVJc3BFNQqHBltibTMhNBdm65k6B3ez/Euf1JQvuWzKK9SVC7u+a+2p7rWgnICGwR/tx1Rfz6mdF7pwk+DzJylfHtwvdc3ZmkErNuYs12gxdyGR3QvnnH8sli+5h/b+rgcXlb2avdRvesrW7OQ0qP8BQ/fTVhNltcMWd70uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxzJT5Xq; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/fEyHB1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxzJT5Xq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740262258; x=1771798258;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EcUrjcaIUd0wmfWUpOi0aP7Np0Zk/Ud7BwqYQp73pZo=;
-  b=l/fEyHB1w0oD4OwzehlNXtT2D190nDWZjAn0dX1XfnE4LiJnLQn089AR
-   0qUV7h/RPVcnWWbobrgPEnr5I4GEOm3XXrI4FEXFZe818x0sYeF8teBrC
-   KDK67I5f9WCbKjN/MnE3aiXPRP4F32eQl5JN9SkjDUOGjinccs4IO7Wvg
-   0FgVYQWr5WCEij37y+VXz7KAPMYmSer49pEcpHlIsbHsuU5WJ97FGDYuj
-   6OyoYoC+fo84uf06UncvdsSwBdW6skoqvrGP9q6vlismjV62RPQ6lgoBe
-   ErolpDGmbBAbXiGBBh+0iSHnjCn88jX3ARfU/2Xju/V2bM33966hKEMl/
-   w==;
-X-CSE-ConnectionGUID: JviOArRDS2i9M1GIa4j6tQ==
-X-CSE-MsgGUID: finVb54oQTqkM+Zodp45XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="52458072"
+  t=1740264752; x=1771800752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nd6QA6/cYeZst96/ye9TyeT7k2VCgW2t+UlxpiR8J9Y=;
+  b=OxzJT5XqBk6WnPKUzPmFHVO2TU1lsmZ9RJW+c5qMjwJVLPzEVrQo742e
+   0sMykq6oUtzRuPW9DeMptTAcNWWXcgMPPTnEM5aPJY2sqAOtvXDOWkvo+
+   BKZpGcisZdUt44abzZnKq+fERGiCWzim9c2/q31NnxVLedO6PKsRHiUrQ
+   13F7eqaIO2kEFKer3dgZtaE2dPJFrWUju6hI6RlAewHpJrF4L3ajR7JB9
+   3TlfQxNhYrG7jj78lWPxTtfZmjDUhSsqQIYcu7BaHCa6pAuOu+UVkMkoH
+   BYRAgMroGKmwtbd5Rh2ykXDxZ+vPFhoCIuVBX2tACXmQD0HUDuI+qdFgq
+   g==;
+X-CSE-ConnectionGUID: 67yRov9IRs2sNaCcbB1GjA==
+X-CSE-MsgGUID: YctFxYkLTLCfmaUffUSJLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="44708762"
 X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="52458072"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 14:10:57 -0800
-X-CSE-ConnectionGUID: J77rvnxNTPCYvrl6Ggu1og==
-X-CSE-MsgGUID: nDoPeWkdTk2bsokCCOFoIA==
+   d="scan'208";a="44708762"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 14:52:32 -0800
+X-CSE-ConnectionGUID: LQxw2WKxTcGTo6alwSGThA==
+X-CSE-MsgGUID: KgyCal27QVKdc/FqrjGA4Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="152885579"
+X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
+   d="scan'208";a="115720660"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 Feb 2025 14:10:56 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Feb 2025 14:52:25 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlxi2-0006wl-0H;
-	Sat, 22 Feb 2025 22:10:54 +0000
-Date: Sun, 23 Feb 2025 06:10:14 +0800
+	id 1tlyMB-0006xr-0W;
+	Sat, 22 Feb 2025 22:52:23 +0000
+Date: Sun, 23 Feb 2025 06:51:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 0/8]
- drivers/dma-buf/heaps/restricted_heap_mtk.c:226:51: warning: format
- specifies type 'unsigned long' but the argument has type 'size_t' (aka
- 'unsigned int')
-Message-ID: <202502230644.MwHFmwWe-lkp@intel.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	dsahern@kernel.org, kuniyu@amazon.com, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
+	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+	ykolal@fb.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, netdev@vger.kernel.org,
+	Jason Xing <kerneljasonxing@gmail.com>
+Subject: Re: [PATCH bpf-next v3 1/2] bpf: support TCP_RTO_MAX_MS for
+ bpf_setsockopt
+Message-ID: <202502230656.sZc7duhR-lkp@intel.com>
+References: <20250219081333.56378-2-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,127 +72,171 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250219081333.56378-2-kerneljasonxing@gmail.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   1fccbaa220247bcecbab7873df408563a5a4344f
-commit: 2d808e7e1cc13b4c3a7ea5eb6cb81d25442e11be [0/8] CHROMIUM: dma-buf: heaps: mtk_restricted: Add dynamic CMA support
-config: i386-randconfig-051-20250223 (https://download.01.org/0day-ci/archive/20250223/202502230644.MwHFmwWe-lkp@intel.com/config)
+Hi Jason,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/bpf-support-TCP_RTO_MAX_MS-for-bpf_setsockopt/20250219-161637
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250219081333.56378-2-kerneljasonxing%40gmail.com
+patch subject: [PATCH bpf-next v3 1/2] bpf: support TCP_RTO_MAX_MS for bpf_setsockopt
+config: i386-buildonly-randconfig-004-20250220 (https://download.01.org/0day-ci/archive/20250223/202502230656.sZc7duhR-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230644.MwHFmwWe-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230656.sZc7duhR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502230644.MwHFmwWe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502230656.sZc7duhR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/dma-buf/heaps/restricted_heap_mtk.c:226:51: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     225 |                 pr_err("%s: failed used 0x%x total_size 0x%lx needed 0x%lx\n",
-         |                                                                        ~~~
-         |                                                                        %zx
-     226 |                         __func__, data->cma_used_size, heap->cma_size, buf->size);
-         |                                                                        ^~~~~~~~~
-   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:352:34: error: call to undeclared function 'phys_to_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     352 |                 sg_set_page(buf->sg_table.sgl, phys_to_page(pa_tee), buf->size, 0);
-         |                                                ^
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:352:34: note: did you mean 'phys_to_virt'?
-   arch/x86/include/asm/io.h:147:21: note: 'phys_to_virt' declared here
-     147 | static inline void *phys_to_virt(phys_addr_t address)
-         |                     ^
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:352:34: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct page *' [-Wint-conversion]
-     352 |                 sg_set_page(buf->sg_table.sgl, phys_to_page(pa_tee), buf->size, 0);
-         |                                                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/scatterlist.h:136:69: note: passing argument to parameter 'page' here
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                                     ^
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:390:19: error: call to undeclared function 'phys_to_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     390 |                 sg_set_page(sg, phys_to_page(tee_sg_item->pa),
-         |                                 ^
-   drivers/dma-buf/heaps/restricted_heap_mtk.c:390:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct page *' [-Wint-conversion]
-     390 |                 sg_set_page(sg, phys_to_page(tee_sg_item->pa),
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/scatterlist.h:136:69: note: passing argument to parameter 'page' here
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                                     ^
-   1 warning and 4 errors generated.
+   net/core/filter.c:1726:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    1726 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:2041:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    2041 |         .arg1_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   net/core/filter.c:2043:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    2043 |         .arg3_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   net/core/filter.c:2580:35: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    2580 |         .arg2_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+   net/core/filter.c:4649:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4649 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:4663:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4663 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:4863:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4863 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:4891:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    4891 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5063:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5063 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5077:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5077 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5126:45: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5126 |         .arg1_type      = ARG_PTR_TO_BTF_ID_SOCK_COMMON | PTR_MAYBE_NULL,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
+>> net/core/filter.c:5385:7: error: use of undeclared identifier 'TCP_RTO_MAX_MS'; did you mean 'TCA_RED_MAX_P'?
+    5385 |         case TCP_RTO_MAX_MS:
+         |              ^~~~~~~~~~~~~~
+         |              TCA_RED_MAX_P
+   include/uapi/linux/pkt_sched.h:258:2: note: 'TCA_RED_MAX_P' declared here
+     258 |         TCA_RED_MAX_P,
+         |         ^
+   net/core/filter.c:5562:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5562 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5596:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5596 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5630:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5630 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5664:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5664 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:5839:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5839 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6376:46: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6376 |         .arg3_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_WRITE | MEM_ALIGNED,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
+   net/core/filter.c:6388:46: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6388 |         .arg3_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_WRITE | MEM_ALIGNED,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~
+   net/core/filter.c:6474:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6474 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   net/core/filter.c:6484:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6484 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   20 warnings and 1 error generated.
 
 
-vim +226 drivers/dma-buf/heaps/restricted_heap_mtk.c
+vim +5385 net/core/filter.c
 
-   199	
-   200	static int mtk_restricted_memory_cma_allocate(struct restricted_heap *heap,
-   201						      struct restricted_buffer *buf)
-   202	{
-   203		struct mtk_restricted_heap_data *data = heap->priv_data;
-   204		unsigned long block_start, block_size, cm_mem_end;
-   205		int ret = 0, i;
-   206	
-   207		if (!data->cma_block_count) {
-   208			ret = mtk_tee_get_cma_region_num(heap);
-   209			if (ret) {
-   210				pr_err("%s: failed to get cma region num %d\n",
-   211				       __func__, ret);
-   212				return ret;
-   213			}
-   214		}
-   215	
-   216		/*
-   217		 * The reserved memory will be divided into several blocks in TEE.
-   218		 * Allocate a block from CMA when allocating buffer return OOM in TEE.
-   219		 * The variable "cma_hold_size" and "cma_used_size" will be
-   220		 * increased. Actually the memory allocating is within the TEE.
-   221		 */
-   222		cm_mem_end = heap->cma_paddr + heap->cma_size;
-   223		mutex_lock(&data->lock);
-   224		if ((buf->size + data->cma_used_size) > heap->cma_size) {
-   225			pr_err("%s: failed used 0x%x total_size 0x%lx needed 0x%lx\n",
- > 226				__func__, data->cma_used_size, heap->cma_size, buf->size);
-   227			ret = -ENOMEM;
-   228			goto out_unlock;
-   229		}
-   230		if (((buf->size + data->cma_used_size) > data->cma_hold_size) || data->oom_retry) {
-   231			for (i = 0; i < data->cma_block_count; ++i) {
-   232				if (data->cma_hold_block_mask & BIT(i))
-   233					continue;
-   234	
-   235				block_start = heap->cma_paddr + data->cma_block_size * i;
-   236				block_size = min(data->cma_block_size, cm_mem_end - block_start);
-   237				ret = alloc_contig_range(PFN_DOWN(block_start),
-   238							 PFN_DOWN(block_start + block_size),
-   239							 MIGRATE_CMA, GFP_KERNEL);
-   240				if (ret) {
-   241					pr_err("%s: failed to alloc block %d mask 0x%x, ret %d\n",
-   242						__func__, i, data->cma_hold_block_mask, ret);
-   243					continue;
-   244				}
-   245				data->cma_hold_block_mask |= BIT(i);
-   246				data->cma_hold_size += block_size;
-   247				data->cma_page_index = i;
-   248				break;
-   249			}
-   250		}
-   251		if (data->oom_retry) {
-   252			data->oom_retry = false;
-   253			goto out_unlock;
-   254		}
-   255		data->cma_used_size += buf->size;
-   256	
-   257	out_unlock:
-   258		/* TODO: Free the previous successful case. */
-   259		mutex_unlock(&data->lock);
-   260		return ret;
-   261	}
-   262	
+  5365	
+  5366	static int sol_tcp_sockopt(struct sock *sk, int optname,
+  5367				   char *optval, int *optlen,
+  5368				   bool getopt)
+  5369	{
+  5370		if (sk->sk_protocol != IPPROTO_TCP)
+  5371			return -EINVAL;
+  5372	
+  5373		switch (optname) {
+  5374		case TCP_NODELAY:
+  5375		case TCP_MAXSEG:
+  5376		case TCP_KEEPIDLE:
+  5377		case TCP_KEEPINTVL:
+  5378		case TCP_KEEPCNT:
+  5379		case TCP_SYNCNT:
+  5380		case TCP_WINDOW_CLAMP:
+  5381		case TCP_THIN_LINEAR_TIMEOUTS:
+  5382		case TCP_USER_TIMEOUT:
+  5383		case TCP_NOTSENT_LOWAT:
+  5384		case TCP_SAVE_SYN:
+> 5385		case TCP_RTO_MAX_MS:
+  5386			if (*optlen != sizeof(int))
+  5387				return -EINVAL;
+  5388			break;
+  5389		case TCP_CONGESTION:
+  5390			return sol_tcp_sockopt_congestion(sk, optval, optlen, getopt);
+  5391		case TCP_SAVED_SYN:
+  5392			if (*optlen < 1)
+  5393				return -EINVAL;
+  5394			break;
+  5395		case TCP_BPF_SOCK_OPS_CB_FLAGS:
+  5396			if (*optlen != sizeof(int))
+  5397				return -EINVAL;
+  5398			if (getopt) {
+  5399				struct tcp_sock *tp = tcp_sk(sk);
+  5400				int cb_flags = tp->bpf_sock_ops_cb_flags;
+  5401	
+  5402				memcpy(optval, &cb_flags, *optlen);
+  5403				return 0;
+  5404			}
+  5405			return bpf_sol_tcp_setsockopt(sk, optname, optval, *optlen);
+  5406		default:
+  5407			if (getopt)
+  5408				return -EINVAL;
+  5409			return bpf_sol_tcp_setsockopt(sk, optname, optval, *optlen);
+  5410		}
+  5411	
+  5412		if (getopt) {
+  5413			if (optname == TCP_SAVED_SYN) {
+  5414				struct tcp_sock *tp = tcp_sk(sk);
+  5415	
+  5416				if (!tp->saved_syn ||
+  5417				    *optlen > tcp_saved_syn_len(tp->saved_syn))
+  5418					return -EINVAL;
+  5419				memcpy(optval, tp->saved_syn->data, *optlen);
+  5420				/* It cannot free tp->saved_syn here because it
+  5421				 * does not know if the user space still needs it.
+  5422				 */
+  5423				return 0;
+  5424			}
+  5425	
+  5426			return do_tcp_getsockopt(sk, SOL_TCP, optname,
+  5427						 KERNEL_SOCKPTR(optval),
+  5428						 KERNEL_SOCKPTR(optlen));
+  5429		}
+  5430	
+  5431		return do_tcp_setsockopt(sk, SOL_TCP, optname,
+  5432					 KERNEL_SOCKPTR(optval), *optlen);
+  5433	}
+  5434	
 
 -- 
 0-DAY CI Kernel Test Service
