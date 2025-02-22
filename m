@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABD81F03C1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 07:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239C67494;
+	Sat, 22 Feb 2025 08:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740208104; cv=none; b=exS1x1JiJPi259dzlM9SQmhke+b+KztXaxx3EP4gwIkYFNJDcQiJlfj7BqAxfGwpLa3mSTJKvSMRtVpTxG1BUH1yaVhacajw5O8EchrdQAiQ9QiuQ2SRcGnz5NOSEZ72NTpsqZDHXdskyqme3ct/iYHjBamI7V3JAPwD29um29Q=
+	t=1740211239; cv=none; b=olcJJSpasTU7i/gRQt0OQq9v/o8qss34iQnNTn+wPAeYkTl6qKnDtQmaQ0qSrg04CFKJ9OTMUJ634QpO9d660co+4JhFZ6zxOZtkiLBAyvGH8P/hBR3379xH5Jke6VDUDdxFaonca8d/Z2peB/f7YRQrm0P/mzqJTxsH38cox/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740208104; c=relaxed/simple;
-	bh=jJJhFiY88ymYM+d79dmqyNzqw+p5FIsRXdyNaD8dc3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ksCUcFEraVp/4dJ5QAjwGtg0suo888YeUe3VZXzOj1khUwAZjYccH8N5YyxiZ2/UjWoVJ51Rw6AJ4H9/9OmmAsDB56TAtdSql2uWcoK+4vZlKPo9KR3rMSi8Ou68rhX2xCkjvO9QwrWE/y0ykrkS99uN7EgQQAVKhQcHzSxfIDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrzoSk2L; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1740211239; c=relaxed/simple;
+	bh=VDIgSMNF/GuTbpRvpV0HFWzpA8QC7+IdUuqcvSlzDGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ftzY3BUeMdzNe9zgFreJrz9YHIHl7mQlp9/h5JX0hO+imYCyI/QumIYXqhHdndoMqfZ4HTTukh2xh3TBGJOMr+ncQvflG87gQOELJu38GcdeJApxmSjq6qOvwNJax9pPl2cC9b5ET6SBQiRp9BWLR102I3FdGk/7B2pqPFH6H0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hpNb06f4; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrzoSk2L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hpNb06f4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740208103; x=1771744103;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jJJhFiY88ymYM+d79dmqyNzqw+p5FIsRXdyNaD8dc3I=;
-  b=HrzoSk2L2l+dFGM/TL8VCNrOiMMHL4A1WKFl5okaQNavA5DrTLDi9zf6
-   dMW7Zlxjf0iBZY4siBbF0Fycipzpv+Jo9Xb0zCN1DI9KG0vOBbiClDyW1
-   qlCB3JMtr0EU/LehxfW/Qn/JUQa8wLFym2nuXygRSsacCwKTm2TVa59gg
-   EnEYQ9fiiVuonijssDWYEaB2EfbQHoQBd4pIIeVdJ6YcVOcicrBY0w48H
-   C8TwarrvKfMfSW5e0WcrRw/NIlVOVirRq7/OllvrLwnuK3CUKkV/Nn21R
-   BWEtjIle4v0EaD1kI8Fgp29OFd0tThgdZx8BQ72GOcQIqfQxnULH6P+8O
-   Q==;
-X-CSE-ConnectionGUID: w+mdKDQ4Q7aMjFmBshIvxg==
-X-CSE-MsgGUID: wauJmRFQS/6lJ7FhfhIa8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66400789"
-X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="66400789"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 23:08:22 -0800
-X-CSE-ConnectionGUID: tftB5lopTUqDM4rLQAgZrA==
-X-CSE-MsgGUID: 5pSid9ICSiuwsiLZ8KOfsQ==
+  t=1740211236; x=1771747236;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VDIgSMNF/GuTbpRvpV0HFWzpA8QC7+IdUuqcvSlzDGU=;
+  b=hpNb06f4ljCti5fEsyr+05CiKziAwEgphigh/JjhXRvv9NQpOA0iEvHW
+   KKUyXa1d8fpo/pMPIL5dMFCSThKbAF43GnykGa6L5vOV0Qjp38a/sGYBW
+   EIRU5Bi/ziR4was2ty3SAAWwBzDgKPIxcX73DzA41GxOBpFGAQ6NDMt+8
+   SwNxL4Qqm5Z2fEn+LvxRFKQV4hAdKkcjw8Np8c9ADFixf1TxxNSNJ2RpD
+   s25qzjGripo8f3QNmcNHsZDAir/SOK0vYX+7Djh1ASO5VcQj6EQwKevs9
+   9NOe65Ddm2n5CbBdBj0m9RegUj2vf48rsYIYVvsT6/ictLxzLebdjCIeX
+   w==;
+X-CSE-ConnectionGUID: saEjwC29RE6RkQAbSQ8d9w==
+X-CSE-MsgGUID: TKOOzGHPRRe+H5m20pno5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41234928"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41234928"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 00:00:35 -0800
+X-CSE-ConnectionGUID: lwzyr+XTQNukRQe8y9bwMQ==
+X-CSE-MsgGUID: l38OadvYQ0G0LES2hVGxTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="115763831"
+   d="scan'208";a="138803309"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Feb 2025 23:08:21 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Feb 2025 00:00:32 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tljcU-0006Mj-1S;
-	Sat, 22 Feb 2025 07:08:16 +0000
-Date: Sat, 22 Feb 2025 15:08:00 +0800
+	id 1tlkR3-0006ON-31;
+	Sat, 22 Feb 2025 08:00:29 +0000
+Date: Sat, 22 Feb 2025 15:59:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1963/1963] include/linux/mmzone.h:1788:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202502221546.vr9bH9ug-lkp@intel.com>
+To: Stanley Chu <stanley.chuys@gmail.com>, frank.li@nxp.com,
+	miquel.raynal@bootlin.com, alexandre.belloni@bootlin.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-i3c@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	tomer.maimon@nuvoton.com, kwliu@nuvoton.com, yschu@nuvoton.com
+Subject: Re: [PATCH v3 2/4] i3c: master: svc: Add support for Nuvoton npcm845
+ i3c
+Message-ID: <202502221511.0BCyUyEU-lkp@intel.com>
+References: <20250221063528.1810007-3-yschu@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,90 +68,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250221063528.1810007-3-yschu@nuvoton.com>
 
-Hi zhangtianyang,
+Hi Stanley,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   97a32f076246fcfdb99917daa4daffc96a22e3d9
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [1963/1963] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-001-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221546.vr9bH9ug-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221546.vr9bH9ug-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chu/dt-bindings-i3c-silvaco-Add-npcm845-compatible-string/20250221-143909
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250221063528.1810007-3-yschu%40nuvoton.com
+patch subject: [PATCH v3 2/4] i3c: master: svc: Add support for Nuvoton npcm845 i3c
+config: arm-randconfig-003-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221511.0BCyUyEU-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221511.0BCyUyEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221546.vr9bH9ug-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221511.0BCyUyEU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      18 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      65 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      80 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      96 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     132 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     173 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     183 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     215 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     223 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     261 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     294 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=1637967642
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=1637967642
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1637967642
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1637967642
-   make: Target 'prepare' not remade because of errors.
+>> drivers/i3c/master/svc-i3c-master.c:240: warning: Function parameter or struct member 'drvdata' not described in 'svc_i3c_master'
 
 
-vim +1788 include/linux/mmzone.h
+vim +240 drivers/i3c/master/svc-i3c-master.c
 
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+28c82e7b13d49b1 Stanley Chu   2025-02-21  180  
+dd3c52846d5954a Miquel Raynal 2021-01-21  181  /**
+dd3c52846d5954a Miquel Raynal 2021-01-21  182   * struct svc_i3c_master - Silvaco I3C Master structure
+dd3c52846d5954a Miquel Raynal 2021-01-21  183   * @base: I3C master controller
+dd3c52846d5954a Miquel Raynal 2021-01-21  184   * @dev: Corresponding device
+dd3c52846d5954a Miquel Raynal 2021-01-21  185   * @regs: Memory mapping
+5496eac6ad7428f Miquel Raynal 2023-08-17  186   * @saved_regs: Volatile values for PM operations
+dd3c52846d5954a Miquel Raynal 2021-01-21  187   * @free_slots: Bit array of available slots
+dd3c52846d5954a Miquel Raynal 2021-01-21  188   * @addrs: Array containing the dynamic addresses of each attached device
+dd3c52846d5954a Miquel Raynal 2021-01-21  189   * @descs: Array of descriptors, one per attached device
+dd3c52846d5954a Miquel Raynal 2021-01-21  190   * @hj_work: Hot-join work
+dd3c52846d5954a Miquel Raynal 2021-01-21  191   * @ibi_work: IBI work
+dd3c52846d5954a Miquel Raynal 2021-01-21  192   * @irq: Main interrupt
+dd3c52846d5954a Miquel Raynal 2021-01-21  193   * @pclk: System clock
+dd3c52846d5954a Miquel Raynal 2021-01-21  194   * @fclk: Fast clock (bus)
+dd3c52846d5954a Miquel Raynal 2021-01-21  195   * @sclk: Slow clock (other events)
+dd3c52846d5954a Miquel Raynal 2021-01-21  196   * @xferqueue: Transfer queue structure
+dd3c52846d5954a Miquel Raynal 2021-01-21  197   * @xferqueue.list: List member
+dd3c52846d5954a Miquel Raynal 2021-01-21  198   * @xferqueue.cur: Current ongoing transfer
+dd3c52846d5954a Miquel Raynal 2021-01-21  199   * @xferqueue.lock: Queue lock
+dd3c52846d5954a Miquel Raynal 2021-01-21  200   * @ibi: IBI structure
+dd3c52846d5954a Miquel Raynal 2021-01-21  201   * @ibi.num_slots: Number of slots available in @ibi.slots
+dd3c52846d5954a Miquel Raynal 2021-01-21  202   * @ibi.slots: Available IBI slots
+dd3c52846d5954a Miquel Raynal 2021-01-21  203   * @ibi.tbq_slot: To be queued IBI slot
+dd3c52846d5954a Miquel Raynal 2021-01-21  204   * @ibi.lock: IBI lock
+6bf3fc268183816 Frank Li      2023-10-23  205   * @lock: Transfer lock, protect between IBI work thread and callbacks from master
+05b26c31a4859af Frank Li      2023-12-01  206   * @enabled_events: Bit masks for enable events (IBI, HotJoin).
+20ade67bb1645f5 Carlos Song   2024-09-10  207   * @mctrl_config: Configuration value in SVC_I3C_MCTRL for setting speed back.
+dd3c52846d5954a Miquel Raynal 2021-01-21  208   */
+dd3c52846d5954a Miquel Raynal 2021-01-21  209  struct svc_i3c_master {
+dd3c52846d5954a Miquel Raynal 2021-01-21  210  	struct i3c_master_controller base;
+dd3c52846d5954a Miquel Raynal 2021-01-21  211  	struct device *dev;
+dd3c52846d5954a Miquel Raynal 2021-01-21  212  	void __iomem *regs;
+1c5ee2a77b1bacd Clark Wang    2023-05-17  213  	struct svc_i3c_regs_save saved_regs;
+dd3c52846d5954a Miquel Raynal 2021-01-21  214  	u32 free_slots;
+dd3c52846d5954a Miquel Raynal 2021-01-21  215  	u8 addrs[SVC_I3C_MAX_DEVS];
+dd3c52846d5954a Miquel Raynal 2021-01-21  216  	struct i3c_dev_desc *descs[SVC_I3C_MAX_DEVS];
+dd3c52846d5954a Miquel Raynal 2021-01-21  217  	struct work_struct hj_work;
+dd3c52846d5954a Miquel Raynal 2021-01-21  218  	struct work_struct ibi_work;
+dd3c52846d5954a Miquel Raynal 2021-01-21  219  	int irq;
+dd3c52846d5954a Miquel Raynal 2021-01-21  220  	struct clk *pclk;
+dd3c52846d5954a Miquel Raynal 2021-01-21  221  	struct clk *fclk;
+dd3c52846d5954a Miquel Raynal 2021-01-21  222  	struct clk *sclk;
+dd3c52846d5954a Miquel Raynal 2021-01-21  223  	struct {
+dd3c52846d5954a Miquel Raynal 2021-01-21  224  		struct list_head list;
+dd3c52846d5954a Miquel Raynal 2021-01-21  225  		struct svc_i3c_xfer *cur;
+dd3c52846d5954a Miquel Raynal 2021-01-21  226  		/* Prevent races between transfers */
+dd3c52846d5954a Miquel Raynal 2021-01-21  227  		spinlock_t lock;
+dd3c52846d5954a Miquel Raynal 2021-01-21  228  	} xferqueue;
+dd3c52846d5954a Miquel Raynal 2021-01-21  229  	struct {
+dd3c52846d5954a Miquel Raynal 2021-01-21  230  		unsigned int num_slots;
+dd3c52846d5954a Miquel Raynal 2021-01-21  231  		struct i3c_dev_desc **slots;
+dd3c52846d5954a Miquel Raynal 2021-01-21  232  		struct i3c_ibi_slot *tbq_slot;
+dd3c52846d5954a Miquel Raynal 2021-01-21  233  		/* Prevent races within IBI handlers */
+dd3c52846d5954a Miquel Raynal 2021-01-21  234  		spinlock_t lock;
+dd3c52846d5954a Miquel Raynal 2021-01-21  235  	} ibi;
+6bf3fc268183816 Frank Li      2023-10-23  236  	struct mutex lock;
+28c82e7b13d49b1 Stanley Chu   2025-02-21  237  	const struct svc_i3c_drvdata *drvdata;
+25bc99be5fe5385 Frank Li      2024-11-01  238  	u32 enabled_events;
+20ade67bb1645f5 Carlos Song   2024-09-10  239  	u32 mctrl_config;
+dd3c52846d5954a Miquel Raynal 2021-01-21 @240  };
+dd3c52846d5954a Miquel Raynal 2021-01-21  241  
 
 -- 
 0-DAY CI Kernel Test Service
