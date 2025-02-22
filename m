@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA8B2063EF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 10:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568852080C1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 10:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740220814; cv=none; b=Ovqet/qVwVE1VfZQKThPK3oqqsU5mmrxfs7y+WfXbEUlAcL7hcj5cUObFl2PdJpRLUWVVq8JY+YcKynAAWxdVSVx2i+XDD7ZgWNi4SR+i5ox6k6M37vgSO4FWWT9xnYIvs2GjS6vip5OxKR3/KC+MK7HmMoJKQaNrwLXVRcQzEc=
+	t=1740220816; cv=none; b=rlNayUzknmkMJepwidZs/4VIa/lKy8d502q3qDARFpTtit83IeQJDXdMLLMhXh6DZAiCTXnjqtRys0CxRYBD2K6x8ktTgvdNdDCPP5++Tsn+FrcIkO+Hw/xVXNQQAgnjF+D/P2xx41Y+v4lCp99d68sjq/J6gdj+y+qAuhHFtEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740220814; c=relaxed/simple;
-	bh=g59C/ve4vi0qfA68hGXasRqE3B1uzAfyX1l/gNiD0ro=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uME4KZGh21dNJKWM7w6JUmJ00UsE5AbpVO25MsvVu4qebnftB2nAEbQof7zyCtoQQZXKH/XgpLY37zJlozYH2xFv+IWqdumm9FTXYqV/3EVHeGKewPy0iXHgHxfqrRUmqxSCTgVe7xjkTiIrmgkeNnW1lImo7nFdZn29BZdmktw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G57HYB//; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1740220816; c=relaxed/simple;
+	bh=vSASphmv7GuCD3+nCg2Rl2lWFdCmO3iS1cyTzdEAICY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E7oTC1LwscfIso9xUrKI6GZYZo9GZy1pP5bjnQrCuMrmwmw+W+nQ8Ad9HE0Iap9pZxdadJOiCfV8GFqUPevTY9LUy9XFw4S4g+KvgevFDQqa8rkSDLXstkuAQJZUxfPkjKlB6HC4NTKxR1yp3muhBYD90hOy2BU2ytd70vZeP9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZVwQWK1; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G57HYB//"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZVwQWK1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740220812; x=1771756812;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=g59C/ve4vi0qfA68hGXasRqE3B1uzAfyX1l/gNiD0ro=;
-  b=G57HYB//pN4JHYgQUMY1iiFiZc0yq+fTS/DhLcsVeVk9X5HerAwy2toR
-   Vb5wLWIrANNNBZjICHt7UcTIdk6oNcLSFn8ap0JtG4l7wsB3xVIevkHat
-   5nb/l2RzRoCRr6emgS/iblY5LBLYuOhvPs5XmFUdBjCf4RBqNKO0MoDWW
-   HHcAmz3zhP/rqgnJDQYn35ai8hDzSmyb4jG2oy7D0RJIGFHaqBkrJ52VP
-   LFOdnB3WX2oXLtV2RlJ8sfy1ujte64ReaUOR6IpljIo+AgnvHcEwL3pIT
-   GtWAre7wxsYa+jZN08uDo6hq0h3Sijt9zMjWrjHBFotT/GIfufLCoeB3/
+  t=1740220815; x=1771756815;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vSASphmv7GuCD3+nCg2Rl2lWFdCmO3iS1cyTzdEAICY=;
+  b=nZVwQWK1QNHXRPQt2T8C60SFxQe5dw9MRVRbv32m+DpDfDK7VLOf2Ajf
+   bOZmEJ/Cw0lHa1Or56mhH1WVlUQiOy3hqQUtHiCG1S0ki4C/5djANynhT
+   PuLdFu255UFvxBg8Rhikllcgl/eHgUqBMuH0AD8czwFfZIiz47SbWwK0G
+   iXFVS3HwynRk1l1Hg7gtEOhO25v+dTOp+zp5wxYZ9VHGrM1Umx6Q0rjkw
+   GuJwZL9rADYHWu9+KsIFCWG9FjEPA521wv6CALd4HDHsHPXdvQGrlJFty
+   ++iYdYmQmS1oPJPE/Fs3SYbvG3mbc6TbJ3UNoDRA7bofi/QDC/vJWw+Vo
    Q==;
-X-CSE-ConnectionGUID: XY56b1nWT4Cbtmvs4fFaRA==
-X-CSE-MsgGUID: YavsoFYRQD2wPAgLbJNjtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40953908"
+X-CSE-ConnectionGUID: GcqL7lQ3RjyIeACWNBPneA==
+X-CSE-MsgGUID: z5EbP7WpSfSQYbPJu/roZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58584430"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="40953908"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 02:40:11 -0800
-X-CSE-ConnectionGUID: qegFo0aTRr6HMe8F5avEyQ==
-X-CSE-MsgGUID: UFTHLN94QhWveXfqE1od5w==
+   d="scan'208";a="58584430"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 02:40:12 -0800
+X-CSE-ConnectionGUID: BHFVion9Q1qVzfXgyNINgg==
+X-CSE-MsgGUID: 4s9SzbWqRPenr2SwJ4pwzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="115431118"
+   d="scan'208";a="120843257"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Feb 2025 02:40:11 -0800
+  by orviesa005.jf.intel.com with ESMTP; 22 Feb 2025 02:40:10 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlmvY-0006UR-1y
-	for oe-kbuild-all@lists.linux.dev;
+	id 1tlmvY-0006UL-1q;
 	Sat, 22 Feb 2025 10:40:08 +0000
-Date: Sat, 22 Feb 2025 18:39:49 +0800
+Date: Sat, 22 Feb 2025 18:39:48 +0800
 From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.12/dovetail-xenomai 5/5]
- arch/x86/kernel/apic/apic.c:2157: warning: Function parameter or struct
- member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ_PIPELINED'
-Message-ID: <202502221853.XJ36Cmwm-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 1/1] kismet: WARNING: unmet
+ direct dependencies detected for INTEL_TCC when selected by
+ GKI_HIDDEN_THERMAL_CONFIGS
+Message-ID: <202502221846.LDnZaLto-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.12/dovetail-xenomai
-head:   96c9aceb59d0ff2f4ac73415eeee24969ba6fa8f
-commit: 0261c1973ea02eb7a596dda743b1c1a212662aa2 [5/5] x86: irq_pipeline: add IRQ pipeline core
-config: i386-buildonly-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221853.XJ36Cmwm-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221853.XJ36Cmwm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   f1a7d64e039461ef511f25b61668310cc675cf24
+commit: 440d11cd96f3f7bad78bdb2e10122b02a626478e [1/1] ANDROID: GKI: x86: Add hidden thermal configs
+config: x86_64-kismet-CONFIG_INTEL_TCC-CONFIG_GKI_HIDDEN_THERMAL_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250222/202502221846.LDnZaLto-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250222/202502221846.LDnZaLto-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221853.XJ36Cmwm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221846.LDnZaLto-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> arch/x86/kernel/apic/apic.c:2157: warning: Function parameter or struct member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ_PIPELINED'
->> arch/x86/kernel/apic/apic.c:2157: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ_PIPELINED() instead
-
-
-vim +2157 arch/x86/kernel/apic/apic.c
-
-c4d58cbd158dc9 arch/x86/kernel/apic_64.c   Thomas Gleixner 2007-10-12  2146  
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2147  /**
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2148   * spurious_interrupt - Catch all for interrupts raised on unused vectors
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2149   * @regs:	Pointer to pt_regs on stack
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2150   * @vector:	The vector number
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2151   *
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2152   * This is invoked from ASM entry code to catch all interrupts which
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2153   * trigger on an entry which is routed to the common_spurious idtentry
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2154   * point.
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2155   */
-0261c1973ea02e arch/x86/kernel/apic/apic.c Philippe Gerum  2019-04-24  2156  DEFINE_IDTENTRY_IRQ_PIPELINED(spurious_interrupt)
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10 @2157  {
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2158  	handle_spurious_interrupt(vector);
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2159  }
-3c5e0267ec3e6e arch/x86/kernel/apic/apic.c Thomas Gleixner 2021-02-10  2160  
-
-:::::: The code at line 2157 was first introduced by commit
-:::::: 3c5e0267ec3e6ed7d3f1793273cbf0beb4f86a74 x86/apic: Split out spurious handling code
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_TCC when selected by GKI_HIDDEN_THERMAL_CONFIGS
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+     Depends on [n]: NET [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_NET_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for INTEL_TCC
+     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
+     Selected by [y]:
+     - GKI_HIDDEN_THERMAL_CONFIGS [=y] && X86 [=y]
+   
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+     Depends on [n]: NET [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_NET_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+     Depends on [n]: NET [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_NET_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for ACPI_THERMAL_LIB
+     Depends on [n]: ACPI [=y] && THERMAL [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_THERMAL_CONFIGS [=y] && X86 [=y] && ACPI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
