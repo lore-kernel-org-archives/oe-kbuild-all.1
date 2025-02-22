@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BB017CA17
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Feb 2025 23:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558994EB50
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 00:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740180289; cv=none; b=Zt3ZkNAjEeLuAM+sCD0CY8LLZDtgYi+pw7GnslQ5yi4Gjn86Wkh7v8y788YJo4Sj8U0QJNCvUZb0ytOIeuzeUiOKjo1WuCtzQBiuGEr+A84cJ6iEIoqaOb98xvArJ9YWmw3eMgvhHfDl6cOchiMqis/y4i7uW46O5z1LeVurgA4=
+	t=1740185841; cv=none; b=FtYyNnFQIUPqX7YyQp4828awGccEq33Z1HAQ0jv5WrImssRb6yFd1K+1zo6SQyhszX51pVwbeywDV5KIKyG+BS2D0AsyUsPmf6sJvkeUB1D06sj4xXEqHNoxwCfKSuJrcFIvUlzFf1k8BDsWxZ7Z8lr8i4r+/eYjFrHLNtx0oPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740180289; c=relaxed/simple;
-	bh=umi+s7G7Zc/UkflnjE+u6ayqRWyPKaEj3Zl86+lNrI4=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lv/yuDCZtY4xzsucJ8jfWRlm0frWTb/ZrNgSKF6AaWGjHUzWH0MPkGWU8QMLVQ4p4SufCbTsqb/YC+1C9rTu6FK8PCoi6sBLfLedg5j+jpFZ7GW5bNBAmKG0i8dqDp01oWtIlrWN7JCm6dMnWSNQm/fuy8ppJURnLut/gPvmsu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cc/2mXG/; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1740185841; c=relaxed/simple;
+	bh=gIbhA2HoZRGm/SBgx8dv1l2TxtF9waa1Yeax4/LTpxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CzPFmXJU3Lm2nIrll3hfNrdMYlPyiJzq0RDeAGjdPWQELLo0xZX3qh3uxxGDH1GAfBCJ74alP9mrqIE6iLyJ3Bas6XjX6Uxw/CqbPjTLBc6ew2CQE8n7lmHUaHGrq5/XYOJw8m7azsp2lMv5sPUqJB3pgx7MmFhky13FNYkrNR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JaskN/rJ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cc/2mXG/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JaskN/rJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740180287; x=1771716287;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=umi+s7G7Zc/UkflnjE+u6ayqRWyPKaEj3Zl86+lNrI4=;
-  b=Cc/2mXG/Yfwi/icGwi/da6ip8uJV/sDvTXZ4smU4Fpzc0hASL0//TXQt
-   WM6wOZVsi5Xjs4GV/2MzPjQDL9hKtWK+JYK7OjJJq3meIiiKZQPx/tiUL
-   N5UienHJHVI0MgKH/lKO9JZa3LQCMy5i9hXLqrWt8/jkU58qPg1OVjpFX
-   VIDs3YccvrkAIqgo6/vYUsgsGQcLttPxrEOfaBwkhFMqFjJonMEFXKinC
-   J3+ZdkBMbpttJOO4h/LhnTiyGKLnyJsaUw4I7fzWUUnGs7I4qPGunXOWB
-   0dnedDCt5Yrw/9eWo48iTk5cIBOkSRo/KHre3Nc8xzOAzE46StzksaMCx
-   g==;
-X-CSE-ConnectionGUID: lyUTAZ9ZRHq44GcKTSG2Lw==
-X-CSE-MsgGUID: DDuTBikbQJWp0mwAordoEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40860288"
+  t=1740185839; x=1771721839;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gIbhA2HoZRGm/SBgx8dv1l2TxtF9waa1Yeax4/LTpxM=;
+  b=JaskN/rJa2xn6yzAfXr7g1NcradNF1bYSETixJGq2ayf3HlJ5Iuvhq0W
+   EAd5QqB3FNB5JSS36ktw4Vf/b3s1M8q3xAZqOTe8Gz2F3dnIjR3eOP3Zi
+   QJ6GEGlrQNuoXwjk0jqlMONfYhSuEhm4u3R973BnQKVb7yamOXm7jXQyS
+   vKi7eAV3uqaR46FhyY88QQjgNnIFqvmcwouSkFPy+5pbhG6l8DsjMpzAn
+   ES+Pi89HOctBsR6KXDosrCSwEhISXphsLyQ/asOfNGiriQO6UBjmyfb+3
+   PoEp59FBrcNYC1ikttzKIvpRAzVa5+MBuMszouh0nnAgnjyPfabifRiwp
+   w==;
+X-CSE-ConnectionGUID: c+70ywW9Q+mj2G0i0G0J4A==
+X-CSE-MsgGUID: zWBk8kj8T6iwk/XRwXEJRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40252380"
 X-IronPort-AV: E=Sophos;i="6.13,306,1732608000"; 
-   d="scan'208";a="40860288"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 15:24:46 -0800
-X-CSE-ConnectionGUID: MowSXhFrR56ftLkX+wtC7A==
-X-CSE-MsgGUID: BPAA8uxeQ0GDXzzc5nUbLQ==
+   d="scan'208";a="40252380"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 16:57:18 -0800
+X-CSE-ConnectionGUID: Yv8rNbN2SuabtzUrqFWhKA==
+X-CSE-MsgGUID: 3f/w0mKNTOiY8HdRI+YNnQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,306,1732608000"; 
-   d="scan'208";a="146344218"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116016982"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 21 Feb 2025 15:24:46 -0800
+  by orviesa007.jf.intel.com with ESMTP; 21 Feb 2025 16:57:16 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlcNv-00068p-1X
-	for oe-kbuild-all@lists.linux.dev;
-	Fri, 21 Feb 2025 23:24:43 +0000
-Date: Sat, 22 Feb 2025 07:24:20 +0800
+	id 1tldpS-0006Br-0u;
+	Sat, 22 Feb 2025 00:57:14 +0000
+Date: Sat, 22 Feb 2025 08:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/59 1/1] sound/soc/codecs/rt274.c:757:3: warning: this
- statement may fall through
-Message-ID: <202502220711.Kw0xLGHz-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 4334/5524] arch/x86/include/asm/amd_node.h:30:16:
+ error: implicit declaration of function 'topology_amd_nodes_per_pkg'
+Message-ID: <202502220800.08S8jZj3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/59
-head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
-commit: c7e79b2b2d2d7c13c6162ed8672357f4ad0fd8f5 [1/1] ASoC: rt274: add rt274 codec driver
-config: xtensa-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250222/202502220711.Kw0xLGHz-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220711.Kw0xLGHz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d4b0fd87ff0d4338b259dc79b2b3c6f7e70e8afa
+commit: f120cf33d2325fd95d063eccbff2e86ffc7f493a [4334/5524] ASoC: SOF: amd: Use AMD_NODE
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250222/202502220800.08S8jZj3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220800.08S8jZj3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502220711.Kw0xLGHz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502220800.08S8jZj3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/rt274.c: In function 'rt274_set_dai_pll':
->> sound/soc/codecs/rt274.c:757:3: warning: this statement may fall through [-Wimplicit-fallthrough=]
-      dev_warn(codec->dev, "invalid pll source, use BCLK\n");
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/rt274.c:758:2: note: here
-     case RT274_PLL2_S_BCLK:
-     ^~~~
-   sound/soc/codecs/rt274.c:784:4: warning: this statement may fall through [-Wimplicit-fallthrough=]
-       dev_warn(codec->dev, "invalid freq_in, assume 4.8M\n");
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/rt274.c:785:3: note: here
-      case 100:
-      ^~~~
-   At top level:
-   sound/soc/codecs/rt274.c:1103:36: warning: 'rt274_acpi_match' defined but not used [-Wunused-const-variable=]
-    static const struct acpi_device_id rt274_acpi_match[] = {
-                                       ^~~~~~~~~~~~~~~~
+   In file included from sound/soc/sof/amd/acp.c:19:
+   arch/x86/include/asm/amd_node.h: In function 'amd_num_nodes':
+>> arch/x86/include/asm/amd_node.h:30:16: error: implicit declaration of function 'topology_amd_nodes_per_pkg' [-Werror=implicit-function-declaration]
+      30 |         return topology_amd_nodes_per_pkg() * topology_max_packages();
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/amd_node.h:30:47: error: implicit declaration of function 'topology_max_packages' [-Werror=implicit-function-declaration]
+      30 |         return topology_amd_nodes_per_pkg() * topology_max_packages();
+         |                                               ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_SOC_SOF_AMD_COMMON
+   Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SOF_TOPLEVEL [=y] && SND_SOC_SOF_AMD_TOPLEVEL [=y] && AMD_NODE
+   Selected by [y]:
+   - SND_SOC_SOF_AMD_RENOIR [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SOF_TOPLEVEL [=y] && SND_SOC_SOF_AMD_TOPLEVEL [=y] && SND_SOC_SOF_PCI [=y]
+   - SND_SOC_SOF_AMD_VANGOGH [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SOF_TOPLEVEL [=y] && SND_SOC_SOF_AMD_TOPLEVEL [=y] && SND_SOC_SOF_PCI [=y]
+   - SND_SOC_SOF_AMD_REMBRANDT [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SOF_TOPLEVEL [=y] && SND_SOC_SOF_AMD_TOPLEVEL [=y] && SND_SOC_SOF_PCI [=y]
+   - SND_SOC_SOF_AMD_ACP63 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SOF_TOPLEVEL [=y] && SND_SOC_SOF_AMD_TOPLEVEL [=y] && SND_SOC_SOF_PCI [=y]
+   - SND_SOC_SOF_AMD_ACP70 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SOF_TOPLEVEL [=y] && SND_SOC_SOF_AMD_TOPLEVEL [=y] && SND_SOC_SOF_PCI [=y]
 
 
-vim +757 sound/soc/codecs/rt274.c
+vim +/topology_amd_nodes_per_pkg +30 arch/x86/include/asm/amd_node.h
 
-   744	
-   745	static int rt274_set_dai_pll(struct snd_soc_dai *dai, int pll_id, int source,
-   746				unsigned int freq_in, unsigned int freq_out)
-   747	{
-   748		struct snd_soc_codec *codec = dai->codec;
-   749		struct rt274_priv *rt274 = snd_soc_codec_get_drvdata(codec);
-   750	
-   751		switch (source) {
-   752		case RT274_PLL2_S_MCLK:
-   753			snd_soc_update_bits(codec, RT274_PLL2_CTRL,
-   754					RT274_PLL2_SRC_MASK, RT274_PLL2_SRC_MCLK);
-   755			break;
-   756		default:
- > 757			dev_warn(codec->dev, "invalid pll source, use BCLK\n");
-   758		case RT274_PLL2_S_BCLK:
-   759			snd_soc_update_bits(codec, RT274_PLL2_CTRL,
-   760					RT274_PLL2_SRC_MASK, RT274_PLL2_SRC_BCLK);
-   761			break;
-   762		}
-   763	
-   764		if (source == RT274_PLL2_S_BCLK) {
-   765			snd_soc_update_bits(codec, RT274_MCLK_CTRL,
-   766					(0x3 << 12), (0x3 << 12));
-   767			switch (rt274->fs) {
-   768			case 50:
-   769				snd_soc_write(codec, 0x7a, 0xaab6);
-   770				snd_soc_write(codec, 0x7b, 0x0301);
-   771				snd_soc_write(codec, 0x7c, 0x04fe);
-   772				break;
-   773			case 64:
-   774				snd_soc_write(codec, 0x7a, 0xaa96);
-   775				snd_soc_write(codec, 0x7b, 0x8003);
-   776				snd_soc_write(codec, 0x7c, 0x081e);
-   777				break;
-   778			case 128:
-   779				snd_soc_write(codec, 0x7a, 0xaa96);
-   780				snd_soc_write(codec, 0x7b, 0x8003);
-   781				snd_soc_write(codec, 0x7c, 0x080e);
-   782				break;
-   783			default:
-   784				dev_warn(codec->dev, "invalid freq_in, assume 4.8M\n");
-   785			case 100:
-   786				snd_soc_write(codec, 0x7a, 0xaab6);
-   787				snd_soc_write(codec, 0x7b, 0x0301);
-   788				snd_soc_write(codec, 0x7c, 0x047e);
-   789				break;
-   790			}
-   791		}
-   792	
-   793		return 0;
-   794	}
-   795	
+e6e6e5e85116b8 Yazen Ghannam 2024-12-06  27  
+bc7b2e629e0c92 Yazen Ghannam 2025-01-07  28  static inline u16 amd_num_nodes(void)
+bc7b2e629e0c92 Yazen Ghannam 2025-01-07  29  {
+bc7b2e629e0c92 Yazen Ghannam 2025-01-07 @30  	return topology_amd_nodes_per_pkg() * topology_max_packages();
+bc7b2e629e0c92 Yazen Ghannam 2025-01-07  31  }
+bc7b2e629e0c92 Yazen Ghannam 2025-01-07  32  
+
+:::::: The code at line 30 was first introduced by commit
+:::::: bc7b2e629e0c9251ba96d864a30d34d1497b1b1b x86/amd_nb: Use topology info to get AMD node count
+
+:::::: TO: Yazen Ghannam <yazen.ghannam@amd.com>
+:::::: CC: Borislav Petkov (AMD) <bp@alien8.de>
 
 -- 
 0-DAY CI Kernel Test Service
