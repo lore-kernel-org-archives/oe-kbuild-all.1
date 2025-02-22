@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99301B2182
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 13:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BDCBA53;
+	Sat, 22 Feb 2025 14:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740229863; cv=none; b=EklCYgArIvkM/TO0xWjX4kH48ikpnHNdHZ+zagDXGq5smKQIu61m9gofaJ7VBGOsqnKVh7n2bPMBh3u826tx8PQrzhZKA6rGg8IWe6I/y8OKFHRj6KKs42h+/Y6scUtcwb4nlwTO21ked5dIhrcqfNIyw1rvmdnyHNCnbye3Q18=
+	t=1740232958; cv=none; b=kqgnTL7pQqGab157CM0+3Urc3/2nsJuvqmf+z1AipF+ZqDTc1SyecYbs0G60aMj+y4xxUhXQzWVjgJP6kORDORkdOHWS8FLza8ZsSnaRcy9J8SmLqqpaGpnCtYfLmluWBKVGIg6SWT/vZKDIpq2on2GmZJkdnJVhmd7HoioG59Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740229863; c=relaxed/simple;
-	bh=HNezDl7QnHeK6UKUxGgqfQtINn8omKBZrCUijJfbi6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=plckL1CE3iA/hjvjlxUyDquCBDedJYYlmJxSG2Jb1FviV6GGxi4zaUhP9fzc2qiGqCd6mq+p97QD+V5wNU75v+M/kxMMFwfwElmvUL6kya31u++MYRaJXrBUXQd7NWhQp+AJIh1Lx6VgxqEeC95J1WqtNwbOei9W3pYNXm+gRhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMfEAaP0; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1740232958; c=relaxed/simple;
+	bh=cqLdn3pSfdlFMz8BT1qTRt7U9h2eoJo3ZzvxPRvlrbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=szhHB71bEZnWqzPtFlxnBG4nP8WqxasGGzkuAAqkSQh1LM1UMRKikMmhIUgqZ28hMMaFmNkr2qcqhtShaq7wBKMdN/xEi2/gyEj42uCoLgig9eE83DIwQn5Eg+Kdo+Kv7VTRUT5WmJ0LmLQnwbVWExSsKjKHEhnqMD2WuTAws2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDZX9tX5; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMfEAaP0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDZX9tX5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740229861; x=1771765861;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HNezDl7QnHeK6UKUxGgqfQtINn8omKBZrCUijJfbi6A=;
-  b=nMfEAaP0KnBwKuKE61Zg7puqKocnbY8T0Adjia6KYWhU0SZsx8ggFtzo
-   4X9GhEwaZzi3H/xONys/KfSXYS0W7PKH/1V9JJ7pnVuJ8wxcRtdcfUo5v
-   Ow16xhO/4VrOYhYkXwVHLw48zzqCj56uc2Dp6zzT7Up0SHVaOSi0iXRy+
-   mEaH4X1+GBSI6pvgaQOo97aob9ZPtGyhXLlzdsGmSyaGRPxcpIlse/8Zt
-   YVMW1JQYe3LRx1Y4dcEQCxfAyIM0kdkyLbYcSFZlcTCtaAmj07izn++ES
-   CGujBRWXYqFnz5zLQQs7QvFbMr3RDAKj6czyxymNsUJ8C8BXFAnio+R0T
-   Q==;
-X-CSE-ConnectionGUID: QNfs88fdTPGaQNMm3bMQwQ==
-X-CSE-MsgGUID: vgIIm5iYSl6xirQwzVOE7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="40229808"
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="40229808"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 05:11:00 -0800
-X-CSE-ConnectionGUID: Uan20aq4R1WTILOi2deLmA==
-X-CSE-MsgGUID: pEYD+1pwTQqQoqsuwqo0Bw==
+  t=1740232956; x=1771768956;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cqLdn3pSfdlFMz8BT1qTRt7U9h2eoJo3ZzvxPRvlrbM=;
+  b=lDZX9tX5zfmMqGpj/R7pIsQhJwH4Ip4s8kKPLR2mWHiG1BBHmlCaTQvz
+   +u9fejGnaVlMuQo+R1upRbVyoEffacI+vcPVAa6KfaaGfDrobOkG8wSM/
+   2snjOHDpJGHIax8Kug3ZKGgH4uZ5SjETNUZfmGgONAD5a7GjbBtO5p076
+   VR5KE3mJHwE5pc5xzfn4bBbkh1MOPUhDcjXrQuCjD+frWclbBjBRQURR1
+   UxPkoZfy1zrfBs92syMZVlO2YHHb9L+pIbRnfN0nTbHh4PnEtmmBxu5Mf
+   Y3zZ00LtJgylEFWkEj1lnkPwaBzryIt+1sSURSPW3MiZ4JXDCf2xKUEqa
+   w==;
+X-CSE-ConnectionGUID: ICiGh+eQRva7T+9wq5FEwg==
+X-CSE-MsgGUID: p6o/8Mn7SlGe1+E/7r0ssg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41247811"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41247811"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 06:02:35 -0800
+X-CSE-ConnectionGUID: YpbMq6JwSYqlDX5v5TKBPw==
+X-CSE-MsgGUID: 5foC5zoJSDSp20UImXrUdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="120536558"
+   d="scan'208";a="120722829"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Feb 2025 05:10:59 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 22 Feb 2025 06:02:32 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlpHU-0006aJ-08;
-	Sat, 22 Feb 2025 13:10:56 +0000
-Date: Sat, 22 Feb 2025 21:09:59 +0800
+	id 1tlq5N-0006d5-2d;
+	Sat, 22 Feb 2025 14:02:29 +0000
+Date: Sat, 22 Feb 2025 22:01:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: stephen.smalley.work@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ssmalley-selinuxns:working-selinuxns 23/42]
- security/selinux/avc.c:1518: warning: Function parameter or struct member
- 'ad' not described in 'cred_tsid_has_perm'
-Message-ID: <202502222113.HpsjkKpA-lkp@intel.com>
+To: Christian Eggers <ceggers@arri.de>,
+	Russell King <linux@armlinux.org.uk>,
+	Yuntao Liu <liuyuntao12@huawei.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, ceggers@gmx.de,
+	Christian Eggers <ceggers@arri.de>, stable@vger.kernel.org
+Subject: Re: [PATCH] ARM: add KEEP() keyword to ARM_VECTORS
+Message-ID: <202502222158.UhwuvDZv-lkp@intel.com>
+References: <20250221125520.14035-1-ceggers@arri.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +71,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250221125520.14035-1-ceggers@arri.de>
 
-Hi Stephen,
+Hi Christian,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
-head:   8e33da6864e173556431920c74deb653617db98e
-commit: b8a2002fcf91b914b8e8b94e36c25c47c873423b [23/42] selinux: rename cred_has_perm*() to cred_tsid_has_perm*()
-config: i386-buildonly-randconfig-001-20250222 (https://download.01.org/0day-ci/archive/20250222/202502222113.HpsjkKpA-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502222113.HpsjkKpA-lkp@intel.com/reproduce)
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Eggers/ARM-add-KEEP-keyword-to-ARM_VECTORS/20250221-205720
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20250221125520.14035-1-ceggers%40arri.de
+patch subject: [PATCH] ARM: add KEEP() keyword to ARM_VECTORS
+config: arm-randconfig-003-20250222 (https://download.01.org/0day-ci/archive/20250222/202502222158.UhwuvDZv-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502222158.UhwuvDZv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502222113.HpsjkKpA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502222158.UhwuvDZv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   security/selinux/avc.c:1286: warning: Function parameter or struct member 'ad' not described in 'cred_task_has_perm'
-   security/selinux/avc.c:1286: warning: Excess function parameter 'auditdata' description in 'cred_task_has_perm'
-   security/selinux/avc.c:1342: warning: Function parameter or struct member 'ad' not described in 'task_obj_has_perm'
-   security/selinux/avc.c:1342: warning: Excess function parameter 'auditdata' description in 'task_obj_has_perm'
-   security/selinux/avc.c:1401: warning: Function parameter or struct member 'base_perm' not described in 'cred_has_extended_perms'
-   security/selinux/avc.c:1401: warning: Function parameter or struct member 'ad' not described in 'cred_has_extended_perms'
-   security/selinux/avc.c:1401: warning: Excess function parameter 'auditdata' description in 'cred_has_extended_perms'
-   security/selinux/avc.c:1440: warning: Function parameter or struct member 'ad' not described in 'cred_self_has_perm'
-   security/selinux/avc.c:1440: warning: Excess function parameter 'auditdata' description in 'cred_self_has_perm'
->> security/selinux/avc.c:1518: warning: Function parameter or struct member 'ad' not described in 'cred_tsid_has_perm'
->> security/selinux/avc.c:1518: warning: Excess function parameter 'auditdata' description in 'cred_tsid_has_perm'
-   security/selinux/avc.c:1605: warning: Function parameter or struct member 'ad' not described in 'cred_ssid_has_perm'
-   security/selinux/avc.c:1605: warning: Excess function parameter 'auditdata' description in 'cred_ssid_has_perm'
-   security/selinux/avc.c:1657: warning: Function parameter or struct member 'ad' not described in 'cred_other_has_perm'
-   security/selinux/avc.c:1657: warning: Excess function parameter 'auditdata' description in 'cred_other_has_perm'
-
-
-vim +1518 security/selinux/avc.c
-
-a1cd8aa391eebc6 Stephen Smalley 2024-09-24  1496  
-77119259f8191e6 Stephen Smalley 2024-09-30  1497  
-77119259f8191e6 Stephen Smalley 2024-09-30  1498  /**
-b8a2002fcf91b91 Stephen Smalley 2024-09-30  1499   * cred_tsid_has_perm - Check and audit permissions on a (cred, tsid) pair
-77119259f8191e6 Stephen Smalley 2024-09-30  1500   * @cred: subject credentials
-77119259f8191e6 Stephen Smalley 2024-09-30  1501   * @tsid: target security identifier
-77119259f8191e6 Stephen Smalley 2024-09-30  1502   * @tclass: target security class
-77119259f8191e6 Stephen Smalley 2024-09-30  1503   * @requested: requested permissions, interpreted based on @tclass
-77119259f8191e6 Stephen Smalley 2024-09-30  1504   * @auditdata: auxiliary audit data
-77119259f8191e6 Stephen Smalley 2024-09-30  1505   *
-77119259f8191e6 Stephen Smalley 2024-09-30  1506   * Check permissions between a cred @cred and a target SID @tsid for
-77119259f8191e6 Stephen Smalley 2024-09-30  1507   * @cred's namespace and all ancestors to determine whether the
-77119259f8191e6 Stephen Smalley 2024-09-30  1508   * @requested permissions are granted, interpreting the permissions based
-77119259f8191e6 Stephen Smalley 2024-09-30  1509   * on @tclass.
-77119259f8191e6 Stephen Smalley 2024-09-30  1510   * Audit the granting or denial of permissions in accordance with the policy.
-77119259f8191e6 Stephen Smalley 2024-09-30  1511   * Return %0 if all @requested permissions are granted, -%EACCES if any
-77119259f8191e6 Stephen Smalley 2024-09-30  1512   * permissions are denied, or another -errno upon other errors.
-77119259f8191e6 Stephen Smalley 2024-09-30  1513   * DO NOT USE when checking permissions between two creds (or tasks);
-77119259f8191e6 Stephen Smalley 2024-09-30  1514   * use cred_other_has_perm() or cred_task_has_perm() instead.
-77119259f8191e6 Stephen Smalley 2024-09-30  1515   */
-b8a2002fcf91b91 Stephen Smalley 2024-09-30  1516  int cred_tsid_has_perm(const struct cred *cred, u32 tsid, u16 tclass,
-ea5452c91df1901 Stephen Smalley 2024-09-25  1517  		       u32 requested, struct common_audit_data *ad)
-ea5452c91df1901 Stephen Smalley 2024-09-25 @1518  {
-ea5452c91df1901 Stephen Smalley 2024-09-25  1519  	struct task_security_struct *tsec;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1520  	struct selinux_state *state;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1521  	u32 ssid;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1522  	int rc;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1523  
-ea5452c91df1901 Stephen Smalley 2024-09-25  1524  	do {
-ea5452c91df1901 Stephen Smalley 2024-09-25  1525  		tsec = selinux_cred(cred);
-ea5452c91df1901 Stephen Smalley 2024-09-25  1526  		ssid = tsec->sid;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1527  		state = tsec->state;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1528  		rc = avc_has_perm(state, ssid, tsid, tclass, requested, ad);
-ea5452c91df1901 Stephen Smalley 2024-09-25  1529  		if (rc)
-ea5452c91df1901 Stephen Smalley 2024-09-25  1530  			return rc;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1531  
-ea5452c91df1901 Stephen Smalley 2024-09-25  1532  		cred = tsec->parent_cred;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1533  	} while (cred);
-ea5452c91df1901 Stephen Smalley 2024-09-25  1534  
-ea5452c91df1901 Stephen Smalley 2024-09-25  1535  	return 0;
-ea5452c91df1901 Stephen Smalley 2024-09-25  1536  }
-ea5452c91df1901 Stephen Smalley 2024-09-25  1537  
-
-:::::: The code at line 1518 was first introduced by commit
-:::::: ea5452c91df190178ee46d0274c2ed059004579b selinux: introduce cred_has_perm()
-
-:::::: TO: Stephen Smalley <stephen.smalley.work@gmail.com>
-:::::: CC: Stephen Smalley <stephen.smalley.work@gmail.com>
+>> ld.lld: error: ./arch/arm/kernel/vmlinux.lds:33: ( expected, but got }
+   >>>  __vectors_lma = .; OVERLAY 0xffff0000 : AT(__vectors_lma) { .vectors { KEEP(*(.vectors)) } .vectors.bhb.loop8 { KEEP(*(.vectors.bhb.loop8)) } .vectors.bhb.bpiall { KEEP(*(.vectors.bhb.bpiall)) } } __vectors_start = LOADADDR(.vectors); __vectors_end = LOADADDR(.vectors) + SIZEOF(.vectors); __vectors_bhb_loop8_start = LOADADDR(.vectors.bhb.loop8); __vectors_bhb_loop8_end = LOADADDR(.vectors.bhb.loop8) + SIZEOF(.vectors.bhb.loop8); __vectors_bhb_bpiall_start = LOADADDR(.vectors.bhb.bpiall); __vectors_bhb_bpiall_end = LOADADDR(.vectors.bhb.bpiall) + SIZEOF(.vectors.bhb.bpiall); . = __vectors_lma + SIZEOF(.vectors) + SIZEOF(.vectors.bhb.loop8) + SIZEOF(.vectors.bhb.bpiall); __stubs_lma = .; .stubs ADDR(.vectors) + 0x1000 : AT(__stubs_lma) { *(.stubs) } __stubs_start = LOADADDR(.stubs); __stubs_end = LOADADDR(.stubs) + SIZEOF(.stubs); . = __stubs_lma + SIZEOF(.stubs); PROVIDE(vector_fiq_offset = vector_fiq - ADDR(.vectors));
+   >>>                                                                                           ^
 
 -- 
 0-DAY CI Kernel Test Service
