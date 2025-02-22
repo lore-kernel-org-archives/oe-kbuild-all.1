@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69859207A23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3AA207A2B
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 09:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740218339; cv=none; b=uChmDrGMhhEwWRoVBBhQR/uVJrAkb4EdPWC5yqYef6UCeQUADz/FUKyhIshGDD39Q/qzUxD5TzHA0Ehurv6b/DhluWq/Zo52vIy4lBaYgulfXq+FP+XWWeYetv4qWsno5l2nZ8BjQZzqweqKT/fE+Xkp97bGcFg9SL3EiUe+Wac=
+	t=1740218340; cv=none; b=i74eubpf6my6GonXACUHbxVHFHsKfEBsUk41xIaIhBESCYyw/lbFjsCeOGsfCj+oB5S2NuiLkvSQLQrhbT9QuTPr9l/8flTwWQbfeYCAowXQ+IdHG6wIeB0laFwJ934FMQkNDyIHuStOiIzinO7HIctRky67SERTFtKlYR3APME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740218339; c=relaxed/simple;
-	bh=EyEQMzDnkx2JHVDCp2MeuYVWmDF1PXFUzas1pP0SVsU=;
+	s=arc-20240116; t=1740218340; c=relaxed/simple;
+	bh=se9w2vU0xYQrK1GndXLdvM2DXLeY6zcipcqfUFKQ6/M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bPqHRtwNRE+kaL2fT3gYWJ3FhAWw6Grr/1hZ65knH+F72wdXYqqTTDe0e2ZcotkN0awO2lb09/lx9trVJzext6WaY4sX1Zmrz4lruCJ2nJDSNzoPMiypEn5gG+7CfnRoJas7vTNMYzjf33PBgFugxmLar6McgeWKkNO4kbAtWg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lZzQbNuX; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=SOmaFGhgSLHsBPO0/1o2Pri78vs6WlZwT/jVX9SIE/IXF/yy3kNlJY4A5KpZ7+ExZD+uABHFXIyE2tCx9BhhLGrrdUUZS/1sjajmh9jeOZ4kUG8WzhBsgCXpCI78VVCxnR6ROaqCAZ/t2NLUw+wAXE2oZr3pZXqPURAnpYJTNh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BdL/3ctV; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lZzQbNuX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BdL/3ctV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1740218338; x=1771754338;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EyEQMzDnkx2JHVDCp2MeuYVWmDF1PXFUzas1pP0SVsU=;
-  b=lZzQbNuXHAptQl3ezV02Q8Mbq+aWAhpfoc5CzpPPus1c2dKLz9c1T7sr
-   2v5luSG+Rp89n5GmZdHER+KEu02IuFiHbOQeLa9svJW1TtOQjNKiTYDp5
-   frjaDIhhXundPI8XaD128kcRAYxVigxHQdLHcxzo7O9m+oRw10sLQrYfO
-   czLNIxf5xyr44TsABWsFY2P/dCfWRhs6TUrunZ7ndD/pkC4YQkZbiXiKt
-   ry0qZxiRbnZJPDyTd/c0eWouIDvkT1w0rfWVN3bejVEv3FkYabow3fqs6
-   e/RuA8Aw+TfiMMwcoFDDe1bvWXNh7AZ5W0UCKRjkJH9GznRu8gJFECJ7d
-   A==;
-X-CSE-ConnectionGUID: tYAF3/hhQ+eKpEHSv8CmeA==
-X-CSE-MsgGUID: 9D3i+w6hTeu6juWQLjuWTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="41050717"
+  bh=se9w2vU0xYQrK1GndXLdvM2DXLeY6zcipcqfUFKQ6/M=;
+  b=BdL/3ctVRtiUkAulsQSUbNTpOanraWJDDr4LBvTuKVutk5iTp+ryE2/3
+   FkIGE1CRe6lL6j+GCwpDb0zT8rqfg1OFNozCINJKqaCVnJxnyeK24+kOn
+   Pe1wSnSApyYZxqCgM2EXruLlvh86InO8vtlen8pEMu5ilf9vIRaPx2Seh
+   L19n5+i4sLdA/k+3Kghr0AdVF+ckRbvwROG07eHT0Gma5STHYksct402m
+   NBKC61Iqtty/Whot8uJ2awrZOFWSy2N5DI8J+Z0p8y3RkoEWUx70VLICu
+   jO6TfaD/rkYo+5TMYnTO9CthkY9wna097rvzfz2NypKy5gb/cjbl59v0x
+   w==;
+X-CSE-ConnectionGUID: k1L8pedsRyae1g1bLCkZEw==
+X-CSE-MsgGUID: bquodVbHQwC+/U14s8ezgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51250398"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="41050717"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 01:58:57 -0800
-X-CSE-ConnectionGUID: woZSGifmQAmQQAOt/trzDA==
-X-CSE-MsgGUID: hh4F/2zmQKSZpSLd5qvPFA==
+   d="scan'208";a="51250398"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 01:58:57 -0800
+X-CSE-ConnectionGUID: QEYd5HZoTf6n0wxLu3jI4w==
+X-CSE-MsgGUID: ZnomUuAATQK/0Ec6TkszPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="120221076"
+   d="scan'208";a="115305983"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Feb 2025 01:58:55 -0800
+  by orviesa009.jf.intel.com with ESMTP; 22 Feb 2025 01:58:56 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlmHd-0006Sz-1L;
+	id 1tlmHd-0006Sx-1H;
 	Sat, 22 Feb 2025 09:58:53 +0000
-Date: Sat, 22 Feb 2025 17:58:04 +0800
+Date: Sat, 22 Feb 2025 17:58:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Gow <davidgow@google.com>,
-	Rae Moar <rmoar@google.com>
-Subject: [kees:for-next/move-kunit-tests 3/10] WARNING: modpost:
- "csum_partial" [lib/tests/checksum_kunit.ko] has no CRC!
-Message-ID: <202502221712.0sIYUprL-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Stafford Horne <shorne@gmail.com>, Rong Xu <xur@google.com>
+Subject: (.head.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26
+ against `no symbol'
+Message-ID: <202502221728.6WLWBLJO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,27 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/move-kunit-tests
-head:   03d0e920d775c58d5f71febbbc6e6c2135ebe70f
-commit: db6fe4d61ece24193eb4d94a82d967501d53358c [3/10] lib: Move KUnit tests into tests/ subdirectory
-config: um-randconfig-002-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221712.0sIYUprL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221712.0sIYUprL-lkp@intel.com/reproduce)
+Hi Masahiro,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ff202c5028a195c07b16e1a2fbb8ca6b7ba11a1c
+commit: a412f04070e52e6d6b5f6f964b9d9644de16bb81 openrisc: place exception table at the head of vmlinux
+date:   2 months ago
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250222/202502221728.6WLWBLJO-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221728.6WLWBLJO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221712.0sIYUprL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221728.6WLWBLJO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
-WARNING: modpost: EXPORT symbol "csum_partial" [vmlinux] version generation failed, symbol will not be versioned.
-Is "csum_partial" prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: EXPORT symbol "csum_partial_copy_generic" [vmlinux] version generation failed, symbol will not be versioned.
-Is "csum_partial_copy_generic" prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: "csum_partial" [lib/tests/checksum_kunit.ko] has no CRC!
->> WARNING: modpost: "csum_partial" [lib/tests/checksum_kunit.ko] has no CRC!
+   arch/openrisc/kernel/head.o: in function `_dispatch_do_ipage_fault':
+>> (.head.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   (.head.text+0xa00): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   arch/openrisc/kernel/head.o: in function `exit_with_no_dtranslation':
+>> (.init.text+0x21bc): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   arch/openrisc/kernel/head.o: in function `exit_with_no_itranslation':
+   (.init.text+0x2264): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   init/main.o: in function `trace_event_raw_event_initcall_level':
+   main.c:(.text+0x28c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `strlen' defined in .text section in lib/string.o
+   init/main.o: in function `initcall_blacklisted':
+   main.c:(.text+0x6f4): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `strcmp' defined in .text section in lib/string.o
+   init/main.o: in function `trace_initcall_finish_cb':
+   main.c:(.text+0x818): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x83c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x87c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x8a8): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   init/main.o: in function `do_one_initcall':
+   main.c:(.text+0xec0): additional relocation overflows omitted from the output
 
 -- 
 0-DAY CI Kernel Test Service
