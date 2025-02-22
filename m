@@ -1,70 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2061F03C1;
-	Sat, 22 Feb 2025 07:08:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABD81F03C1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 07:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740208102; cv=none; b=bpztZ/z7pfNa0a82So/0MPjNmxWd+kn6M0SaPc9HgAA/6KYN6PR4L9fDAD/PHGdFoRIPLrRc15IyJpVjEvV7AW7bp/yn1gN81rWjXvJwe0VLo/i4d/uO0RNqsvtXKWdQelzp8XB18Zi+Kudhtu6AEwKz5Smy1wF5ICekvbFnw0o=
+	t=1740208104; cv=none; b=exS1x1JiJPi259dzlM9SQmhke+b+KztXaxx3EP4gwIkYFNJDcQiJlfj7BqAxfGwpLa3mSTJKvSMRtVpTxG1BUH1yaVhacajw5O8EchrdQAiQ9QiuQ2SRcGnz5NOSEZ72NTpsqZDHXdskyqme3ct/iYHjBamI7V3JAPwD29um29Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740208102; c=relaxed/simple;
-	bh=fsY5t112Q8WM/mdH96kIkcjOJgGQNS0f/svA6RtETtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpY39MNVkRaU9lpcWrYC1cvthIJ6TG7vJx2co6aWS27bAAPUGFmqR3+PiEXgg7Z4Xao3hz813qCMyURZla5dMExZgMLJfAr0Z1HoLb7BItxcx0eKjfhj/PpBqVivIHjqDf2msJoTyH5+aDc5Kx4qDgrQfgL5JpPkNZPZdDwHpsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqwunMRA; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1740208104; c=relaxed/simple;
+	bh=jJJhFiY88ymYM+d79dmqyNzqw+p5FIsRXdyNaD8dc3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ksCUcFEraVp/4dJ5QAjwGtg0suo888YeUe3VZXzOj1khUwAZjYccH8N5YyxiZ2/UjWoVJ51Rw6AJ4H9/9OmmAsDB56TAtdSql2uWcoK+4vZlKPo9KR3rMSi8Ou68rhX2xCkjvO9QwrWE/y0ykrkS99uN7EgQQAVKhQcHzSxfIDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrzoSk2L; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqwunMRA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrzoSk2L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740208101; x=1771744101;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fsY5t112Q8WM/mdH96kIkcjOJgGQNS0f/svA6RtETtk=;
-  b=SqwunMRAQM6s901/4UrngrC+CIJxFiwUoW8Tx9xLz9DbeKRNNxL4Ejb5
-   GAsvuuuCR4IA2HvS25bhy6YD8W9SOP0vvh0WGt3300rqx2jkPafe4aDrw
-   ifMzOTlXUizxUBi+Zz3HzVIviUFx7iDC91yNE0IAB+IvhfYjdQGE9J6rl
-   /fwj4HPJJQI6RlDDeeW8xFWOT5My+3F24eNhiCJwvmTeSFNO1G+f5uowr
-   LhDxfo+tUCYf7fWMbCZteigrs0BXt+zWTJl32kOqZCEElu0e+PtETz0eE
-   s7w87LCw343jzN6oG10W4TQ3/ecD311Xq83PmzbiZBt8hX+3CMHJxQOai
-   w==;
-X-CSE-ConnectionGUID: fOU41fMGSMKNym0mrFH/4A==
-X-CSE-MsgGUID: QPvc8VZiRNeIQBYnxqfLwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66400785"
+  t=1740208103; x=1771744103;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jJJhFiY88ymYM+d79dmqyNzqw+p5FIsRXdyNaD8dc3I=;
+  b=HrzoSk2L2l+dFGM/TL8VCNrOiMMHL4A1WKFl5okaQNavA5DrTLDi9zf6
+   dMW7Zlxjf0iBZY4siBbF0Fycipzpv+Jo9Xb0zCN1DI9KG0vOBbiClDyW1
+   qlCB3JMtr0EU/LehxfW/Qn/JUQa8wLFym2nuXygRSsacCwKTm2TVa59gg
+   EnEYQ9fiiVuonijssDWYEaB2EfbQHoQBd4pIIeVdJ6YcVOcicrBY0w48H
+   C8TwarrvKfMfSW5e0WcrRw/NIlVOVirRq7/OllvrLwnuK3CUKkV/Nn21R
+   BWEtjIle4v0EaD1kI8Fgp29OFd0tThgdZx8BQ72GOcQIqfQxnULH6P+8O
+   Q==;
+X-CSE-ConnectionGUID: w+mdKDQ4Q7aMjFmBshIvxg==
+X-CSE-MsgGUID: wauJmRFQS/6lJ7FhfhIa8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66400789"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="66400785"
+   d="scan'208";a="66400789"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 23:08:20 -0800
-X-CSE-ConnectionGUID: ac7/Se+NRD+BbfAHzKfzKA==
-X-CSE-MsgGUID: gfp972L3RJKUyasanhGhfw==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 23:08:22 -0800
+X-CSE-ConnectionGUID: tftB5lopTUqDM4rLQAgZrA==
+X-CSE-MsgGUID: 5pSid9ICSiuwsiLZ8KOfsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="115763826"
+   d="scan'208";a="115763831"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Feb 2025 23:08:16 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Feb 2025 23:08:21 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tljcR-0006Mh-12;
-	Sat, 22 Feb 2025 07:08:12 +0000
-Date: Sat, 22 Feb 2025 15:08:04 +0800
+	id 1tljcU-0006Mj-1S;
+	Sat, 22 Feb 2025 07:08:16 +0000
+Date: Sat, 22 Feb 2025 15:08:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srirangan Madhavan <smadhavan@nvidia.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Zhi Wang <zhiw@nvidia.com>, Vishal Aslot <vaslot@nvidia.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	linux-cxl@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] cxl: add support for cxl reset
-Message-ID: <202502221438.j0UgOryU-lkp@intel.com>
-References: <20250221043906.1593189-3-smadhavan@nvidia.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1963/1963] include/linux/mmzone.h:1788:2: error:
+ #error Allocator MAX_ORDER exceeds SECTION_SIZE
+Message-ID: <202502221546.vr9bH9ug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,83 +61,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221043906.1593189-3-smadhavan@nvidia.com>
 
-Hi Srirangan,
+Hi zhangtianyang,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on next-20250220]
-[cannot apply to pci/next pci/for-linus linus/master v6.14-rc3 v6.14-rc2 v6.14-rc1 v6.14-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Srirangan-Madhavan/cxl-de-duplicate-cxl-DVSEC-reg-defines/20250221-124043
-base:   next-20250220
-patch link:    https://lore.kernel.org/r/20250221043906.1593189-3-smadhavan%40nvidia.com
-patch subject: [PATCH v2 2/2] cxl: add support for cxl reset
-config: arm64-randconfig-003-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221438.j0UgOryU-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221438.j0UgOryU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   97a32f076246fcfdb99917daa4daffc96a22e3d9
+commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [1963/1963] LoongArch: Adapted SECTION_SIZE_BITS with page size
+config: loongarch-randconfig-001-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221546.vr9bH9ug-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221546.vr9bH9ug-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221438.j0UgOryU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221546.vr9bH9ug-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/pci.c:5258:10: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
-    5258 |         if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci.c:5258:10: note: place parentheses around the '==' expression to silence this warning
-    5258 |         if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
-         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci.c:5258:10: note: place parentheses around the & expression to evaluate it first
-    5258 |         if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
-         |             ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/loongarch/kernel/asm-offsets.c:9:
+>> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
+    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
+         |  ^~~~~
+   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      18 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      65 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      80 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      96 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     132 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
+     173 | void output_thread_lbt_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     183 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     215 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     223 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     261 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
+     294 | void output_kvm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=1637967642
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=1637967642
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1637967642
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1637967642
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +5258 drivers/pci/pci.c
+vim +1788 include/linux/mmzone.h
 
-  5235	
-  5236	/**
-  5237	 * cxl_reset - initiate a cxl reset
-  5238	 * @dev: device to reset
-  5239	 * @probe: if true, return 0 if device can be reset this way
-  5240	 *
-  5241	 * Initiate a cxl reset on @dev.
-  5242	 */
-  5243	static int cxl_reset(struct pci_dev *dev, bool probe)
-  5244	{
-  5245		u16 dvsec, reg;
-  5246		int rc;
-  5247	
-  5248		dvsec = pci_find_dvsec_capability(dev, PCI_VENDOR_ID_CXL,
-  5249						  CXL_DVSEC_PCIE_DEVICE);
-  5250		if (!dvsec)
-  5251			return -ENOTTY;
-  5252	
-  5253		/* Check if CXL Reset is supported. */
-  5254		rc = pci_read_config_word(dev, dvsec + CXL_DVSEC_CAP_OFFSET, &reg);
-  5255		if (rc)
-  5256			return -ENOTTY;
-  5257	
-> 5258		if (reg & CXL_DVSEC_CXL_RST_CAPABLE == 0)
-  5259			return -ENOTTY;
-  5260	
-  5261		if (probe)
-  5262			return 0;
-  5263	
-  5264		rc = cxl_reset_prepare(dev, dvsec);
-  5265		if (rc)
-  5266			return rc;
-  5267	
-  5268		return cxl_reset_init(dev, dvsec);
-  5269	}
-  5270	
+d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
+835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
+d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
+835c134ec4dd75 Mel Gorman         2007-10-16  1786  
+23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
+d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
+d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
+d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
+
+:::::: The code at line 1788 was first introduced by commit
+:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
+
+:::::: TO: Andy Whitcroft <apw@shadowen.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
