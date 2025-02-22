@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1E71F4E3B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 12:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB9D78C9C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 12:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740227835; cv=none; b=JtQ8dUr4v4yh/Phq/adOGltgTYh+xuDq9Hc6osJ/CC6v6F0iJebUmaeblRm2q/ACyWgnm/1QjYPV1REApc20WO+biFDvD+HyquYP9hcFg9CAehpSt+bFw0CjOHNgeWbCwEQOmp7n+4rk4WVQ86NF4XtqY+5fI7NMS0lhrQhSXps=
+	t=1740228546; cv=none; b=DM7kHKN4TxKZeVM2JtIkBS5ZwHnFcqYcFa5W+ZTmPFzlZvQ+fbtyztGNV6pGtPKCBUE5irESEFcoSEBb9terzcVbk4on3OpGhVo3rCa6NACQohYq3JL6LW+U27Dv32rw/JwInY0D7Z1VKaaUyxRdpYHqipul3de5YUbZ1nUTbcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740227835; c=relaxed/simple;
-	bh=hBYi3l3qY5o6nNs7qQDorH8lsPUuhDPY7sp5HOFcl5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a8vhQOlSwz/BtBhdt5yMo4bQadTyTol2WXsD+ngkCxsnQHdLR1Q0Ls8j69I2yI2beEBNtyAAPf90JupZiB8SzPOapJG891x6zhFbSSsBERdcKzqBNyKMl9bef/UNiFS2OcbXMjWRevaPGXrjS7AISnlAJEQMM9V3Jj5w0kEJDUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGqtpJfk; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1740228546; c=relaxed/simple;
+	bh=798NgMCLrORlrXdOiB4bVXReEEKYsrbFICshl3jALIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HxbCiUpnpp/PH2ZJEsm3ZJEqOoOg26D2SE9t2RFUuv7OJBTObiK36+iNQeXZxPAZ6Tn1UvubloAsIXJ5o33pUwxdhm25FosUwVbxlbTMJtwM2PA/wfEZu1caNFpNYMxADKq/cVxQJhuR3xuDHRljkxdpdrkkxLZm4z5SGKoOHBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hkj9BuWt; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGqtpJfk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hkj9BuWt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740227834; x=1771763834;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hBYi3l3qY5o6nNs7qQDorH8lsPUuhDPY7sp5HOFcl5E=;
-  b=aGqtpJfkoNLNcPO5FHFoQmuR1riMzzaruNaQeecvMg2ESz0+TPvK4N3t
-   TpAmm1mItF+v1Vo4qoEDjLJ9ZrLH87yRv/eEoYhzmMslTgZGVs0uOr5WE
-   Ds5gd0x/P6VLb6aLbgRftv3wmUI2PwpSowV6VDsh2hTRdM+gXt8QrJ4xq
-   bTddLNKXoHaIID5hGOwa6Phw+6B5/tHzLVDIf86z1byIuyhAuWBQpwt7l
-   YwSV5Esb1I0yDVt/gi/AIuSon7SFO2J09gAzqqOy163xywOEsF60U/tqO
-   qdNYxf9esvQJ2DTc1SuwikkU+nUJG1Bgzm5aZljej7A+NeiCS0cioptti
-   Q==;
-X-CSE-ConnectionGUID: Y8jIlGE5Smiy7EEaaSgM2w==
-X-CSE-MsgGUID: zyM04ZHFSy6Qh9d+II3YUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="51664977"
+  t=1740228545; x=1771764545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=798NgMCLrORlrXdOiB4bVXReEEKYsrbFICshl3jALIE=;
+  b=hkj9BuWtwkQxt9dhRAhLVmNPiD79MK+HEK4UQ8WvxjFnYAFR8St0pUNo
+   HDAXo6pKTNtXnA+hSakKoKKzO8L95LuEmHHsx8+FPdrXdIw4oQvu9rmek
+   nSoGgOeNvNekF0TC+GXLjE9PZREkvIJRmU4auSbw9XN70mNBOAiWuyz97
+   EO4aGh23G1Pci77DEETX4Jy3qWvdt+0GcoR8IMEeU+/qin6HUJ5ryVoLf
+   fRHuEknXXeAdrUlmAckfAiEOrom9sujxHvmvYcGPQEFbb2p0kF8fVeCpJ
+   KvbPh7DHBq4n9mAwQwDDDdACO1jZPQ/jbSBpRsQ+QV7rjqnvxGiRrf1ED
+   w==;
+X-CSE-ConnectionGUID: /K9jSWXMRIKkmJVqHo19rg==
+X-CSE-MsgGUID: nvJynECmTqeeZS1PewD1Zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="51254645"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="51664977"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 04:37:13 -0800
-X-CSE-ConnectionGUID: ESE1e2yRSAWXwCiqE84Iwg==
-X-CSE-MsgGUID: f48qpgY+T+ama5NFP03CLg==
+   d="scan'208";a="51254645"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 04:49:04 -0800
+X-CSE-ConnectionGUID: S9BkAu39TJ2OLOmqvM+e3w==
+X-CSE-MsgGUID: 0SAy3QrSTqy9USmdsmE6Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="115327384"
+   d="scan'208";a="116138775"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Feb 2025 04:37:12 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 22 Feb 2025 04:48:57 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlokl-0006Yw-1e;
-	Sat, 22 Feb 2025 12:37:08 +0000
-Date: Sat, 22 Feb 2025 20:36:51 +0800
+	id 1tlowB-0006ZP-06;
+	Sat, 22 Feb 2025 12:48:55 +0000
+Date: Sat, 22 Feb 2025 20:48:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gao Xiang <hsiangkao@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, Xiang Gao <xiang@kernel.org>
-Subject: [xiang:erofs/48bits 5/6] fs/erofs/super.c:316:33: sparse: sparse:
- cast to restricted __le16
-Message-ID: <202502222035.o4rRiXPL-lkp@intel.com>
+To: Eason Yang <j2anfernee@gmail.com>, avifishman70@gmail.com,
+	tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
+	yuenn@google.com, benjaminfair@google.com, jic23@kernel.org,
+	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
+	javier.carrasco.cruz@gmail.com, andriy.shevchenko@linux.intel.com,
+	gstols@baylibre.com, olivier.moysan@foss.st.com,
+	mitrutzceclan@gmail.com, tgamblin@baylibre.com,
+	matteomartelli3@gmail.com, marcelo.schmitt@analog.com,
+	alisadariana@gmail.com, joao.goncalves@toradex.com,
+	thomas.bonnefille@bootlin.com, ramona.nechita@analog.com,
+	herve.codina@bootlin.com, chanh@os.amperecomputing.com,
+	KWLIU@nuvoton.com, yhyang2@nuvoton.com
+Cc: oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v4 2/2] iio: adc: add support for Nuvoton NCT7201
+Message-ID: <202502222047.beX8h1H7-lkp@intel.com>
+References: <20250221090918.1487689-3-j2anfernee@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,129 +74,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250221090918.1487689-3-j2anfernee@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/linux.git erofs/48bits
-head:   33ed55d3d1e69f86cf8e4b9fd140fcec8ac3e8c5
-commit: 433d1d6f9f560a3d250b0e7cdca92c9428725a4f [5/6] erofs: implement 48-bit block addressing
-config: loongarch-randconfig-r131-20250221 (https://download.01.org/0day-ci/archive/20250222/202502222035.o4rRiXPL-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250222/202502222035.o4rRiXPL-lkp@intel.com/reproduce)
+Hi Eason,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eason-Yang/dt-bindings-iio-adc-add-NCT7201-ADCs/20250221-171244
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250221090918.1487689-3-j2anfernee%40gmail.com
+patch subject: [PATCH v4 2/2] iio: adc: add support for Nuvoton NCT7201
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250222/202502222047.beX8h1H7-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502222047.beX8h1H7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502222035.o4rRiXPL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502222047.beX8h1H7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/erofs/super.c:316:33: sparse: sparse: cast to restricted __le16
->> fs/erofs/super.c:316:33: sparse: sparse: cast from restricted __le64
+All errors (new ones prefixed by >>):
 
-vim +316 fs/erofs/super.c
+   drivers/iio/adc/nct7201.c: In function 'nct7201_read_raw':
+>> drivers/iio/adc/nct7201.c:212:24: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     212 |                 *val = FIELD_GET(NCT7201_REG_VIN_MASK, volt);
+         |                        ^~~~~~~~~
+   drivers/iio/adc/nct7201.c: In function 'nct7201_write_event_value':
+>> drivers/iio/adc/nct7201.c:278:30: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     278 |                              FIELD_PREP(NCT7201_REG_VIN_MASK, val));
+         |                              ^~~~~~~~~~
 
-   249	
-   250	static int erofs_read_superblock(struct super_block *sb)
-   251	{
-   252		struct erofs_sb_info *sbi = EROFS_SB(sb);
-   253		struct erofs_buf buf = __EROFS_BUF_INITIALIZER;
-   254		struct erofs_super_block *dsb;
-   255		void *data;
-   256		int ret;
+
+vim +/FIELD_GET +212 drivers/iio/adc/nct7201.c
+
+   192	
+   193	static int nct7201_read_raw(struct iio_dev *indio_dev,
+   194				    struct iio_chan_spec const *chan,
+   195				    int *val, int *val2, long mask)
+   196	{
+   197		u16 volt;
+   198		unsigned int value;
+   199		int err;
+   200		struct nct7201_chip_info *chip = iio_priv(indio_dev);
+   201	
+   202		if (chan->type != IIO_VOLTAGE)
+   203			return -EOPNOTSUPP;
+   204	
+   205		guard(mutex)(&chip->access_lock);
+   206		switch (mask) {
+   207		case IIO_CHAN_INFO_RAW:
+   208			err = regmap_read(chip->regmap16, NCT7201_REG_VIN(chan->address), &value);
+   209			if (err < 0)
+   210				return err;
+   211			volt = value;
+ > 212			*val = FIELD_GET(NCT7201_REG_VIN_MASK, volt);
+   213			return IIO_VAL_INT;
+   214		case IIO_CHAN_INFO_SCALE:
+   215			/* From the datasheet, we have to multiply by 0.0004995 */
+   216			*val = 0;
+   217			*val2 = 499500;
+   218			return IIO_VAL_INT_PLUS_NANO;
+   219		default:
+   220			return -EINVAL;
+   221		}
+   222	}
+   223	
+   224	static int nct7201_read_event_value(struct iio_dev *indio_dev,
+   225					    const struct iio_chan_spec *chan,
+   226					    enum iio_event_type type,
+   227					    enum iio_event_direction dir,
+   228					    enum iio_event_info info,
+   229					    int *val, int *val2)
+   230	{
+   231		struct nct7201_chip_info *chip = iio_priv(indio_dev);
+   232		u16 volt;
+   233		unsigned int value;
+   234		int err;
+   235	
+   236		if (chan->type != IIO_VOLTAGE)
+   237			return -EOPNOTSUPP;
+   238	
+   239		if (info != IIO_EV_INFO_VALUE)
+   240			return -EINVAL;
+   241	
+   242		if (dir == IIO_EV_DIR_FALLING) {
+   243			err = regmap_read(chip->regmap16, NCT7201_REG_VIN_LOW_LIMIT(chan->address),
+   244					  &value);
+   245			if (err < 0)
+   246				return err;
+   247			volt = value;
+   248		} else {
+   249			err = regmap_read(chip->regmap16, NCT7201_REG_VIN_HIGH_LIMIT(chan->address),
+   250					  &value);
+   251			if (err < 0)
+   252				return err;
+   253			volt = value;
+   254		}
+   255	
+   256		*val = FIELD_GET(NCT7201_REG_VIN_MASK, volt);
    257	
-   258		data = erofs_read_metabuf(&buf, sb, 0, true);
-   259		if (IS_ERR(data)) {
-   260			erofs_err(sb, "cannot read erofs superblock");
-   261			return PTR_ERR(data);
-   262		}
-   263	
-   264		dsb = (struct erofs_super_block *)(data + EROFS_SUPER_OFFSET);
-   265		ret = -EINVAL;
-   266		if (le32_to_cpu(dsb->magic) != EROFS_SUPER_MAGIC_V1) {
-   267			erofs_err(sb, "cannot find valid erofs superblock");
-   268			goto out;
-   269		}
-   270	
-   271		sbi->blkszbits = dsb->blkszbits;
-   272		if (sbi->blkszbits < 9 || sbi->blkszbits > PAGE_SHIFT) {
-   273			erofs_err(sb, "blkszbits %u isn't supported", sbi->blkszbits);
-   274			goto out;
-   275		}
-   276		if (dsb->dirblkbits) {
-   277			erofs_err(sb, "dirblkbits %u isn't supported", dsb->dirblkbits);
-   278			goto out;
-   279		}
-   280	
-   281		sbi->feature_compat = le32_to_cpu(dsb->feature_compat);
-   282		if (erofs_sb_has_sb_chksum(sbi)) {
-   283			ret = erofs_superblock_csum_verify(sb, data);
-   284			if (ret)
-   285				goto out;
-   286		}
-   287	
-   288		ret = -EINVAL;
-   289		sbi->feature_incompat = le32_to_cpu(dsb->feature_incompat);
-   290		if (sbi->feature_incompat & ~EROFS_ALL_FEATURE_INCOMPAT) {
-   291			erofs_err(sb, "unidentified incompatible feature %x, please upgrade kernel",
-   292				  sbi->feature_incompat & ~EROFS_ALL_FEATURE_INCOMPAT);
-   293			goto out;
-   294		}
-   295	
-   296		sbi->sb_size = 128 + dsb->sb_extslots * EROFS_SB_EXTSLOT_SIZE;
-   297		if (sbi->sb_size > PAGE_SIZE - EROFS_SUPER_OFFSET) {
-   298			erofs_err(sb, "invalid sb_extslots %u (more than a fs block)",
-   299				  sbi->sb_size);
-   300			goto out;
-   301		}
-   302		sbi->dif0.blocks = le32_to_cpu(dsb->blocks_lo);
-   303		sbi->meta_blkaddr = le32_to_cpu(dsb->meta_blkaddr);
-   304	#ifdef CONFIG_EROFS_FS_XATTR
-   305		sbi->xattr_blkaddr = le32_to_cpu(dsb->xattr_blkaddr);
-   306		sbi->xattr_prefix_start = le32_to_cpu(dsb->xattr_prefix_start);
-   307		sbi->xattr_prefix_count = dsb->xattr_prefix_count;
-   308		sbi->xattr_filter_reserved = dsb->xattr_filter_reserved;
-   309	#endif
-   310		sbi->islotbits = ilog2(sizeof(struct erofs_inode_compact));
-   311		if (erofs_sb_has_48bit(sbi) && dsb->rootnid_8b) {
-   312			if (!erofs_sb_has_48bit(sbi)) {
-   313				ret = -EOPNOTSUPP;
-   314				goto out;
-   315			}
- > 316			sbi->root_nid = le16_to_cpu(dsb->rootnid_8b);
-   317			sbi->dif0.blocks = (sbi->dif0.blocks << 32) |
-   318					le16_to_cpu(dsb->rb.blocks_hi);
-   319		} else {
-   320			sbi->root_nid = le16_to_cpu(dsb->rb.rootnid_2b);
-   321		}
-   322		sbi->packed_nid = le64_to_cpu(dsb->packed_nid);
-   323		sbi->inos = le64_to_cpu(dsb->inos);
-   324	
-   325		sbi->epoch = (s64)le64_to_cpu(dsb->epoch);
-   326		sbi->build_time = le32_to_cpu(dsb->build_time);
-   327		sbi->fixed_nsec = le32_to_cpu(dsb->fixed_nsec);
-   328		super_set_uuid(sb, (void *)dsb->uuid, sizeof(dsb->uuid));
-   329	
-   330		ret = strscpy(sbi->volume_name, dsb->volume_name,
-   331			      sizeof(dsb->volume_name));
-   332		if (ret < 0) {	/* -E2BIG */
-   333			erofs_err(sb, "bad volume name without NIL terminator");
-   334			ret = -EFSCORRUPTED;
-   335			goto out;
-   336		}
-   337	
-   338		/* parse on-disk compression configurations */
-   339		ret = z_erofs_parse_cfgs(sb, dsb);
-   340		if (ret < 0)
-   341			goto out;
-   342	
-   343		/* handle multiple devices */
-   344		ret = erofs_scan_devices(sb, dsb);
-   345	
-   346		if (erofs_is_fscache_mode(sb))
-   347			erofs_info(sb, "[deprecated] fscache-based on-demand read feature in use. Use at your own risk!");
-   348	out:
-   349		erofs_put_metabuf(&buf);
-   350		return ret;
-   351	}
-   352	
+   258		return IIO_VAL_INT;
+   259	}
+   260	
+   261	static int nct7201_write_event_value(struct iio_dev *indio_dev,
+   262					     const struct iio_chan_spec *chan,
+   263					     enum iio_event_type type,
+   264					     enum iio_event_direction dir,
+   265					     enum iio_event_info info,
+   266					     int val, int val2)
+   267	{
+   268		struct nct7201_chip_info *chip = iio_priv(indio_dev);
+   269	
+   270		if (chan->type != IIO_VOLTAGE)
+   271			return -EOPNOTSUPP;
+   272	
+   273		if (info != IIO_EV_INFO_VALUE)
+   274			return -EOPNOTSUPP;
+   275	
+   276		if (dir == IIO_EV_DIR_FALLING)
+   277			regmap_write(chip->regmap16, NCT7201_REG_VIN_LOW_LIMIT(chan->address),
+ > 278				     FIELD_PREP(NCT7201_REG_VIN_MASK, val));
+   279		else
+   280			regmap_write(chip->regmap16, NCT7201_REG_VIN_HIGH_LIMIT(chan->address),
+   281				     FIELD_PREP(NCT7201_REG_VIN_MASK, val));
+   282	
+   283		return 0;
+   284	}
+   285	
 
 -- 
 0-DAY CI Kernel Test Service
