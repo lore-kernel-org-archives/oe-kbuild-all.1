@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3AA207A2B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 09:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245932066E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Feb 2025 10:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740218340; cv=none; b=i74eubpf6my6GonXACUHbxVHFHsKfEBsUk41xIaIhBESCYyw/lbFjsCeOGsfCj+oB5S2NuiLkvSQLQrhbT9QuTPr9l/8flTwWQbfeYCAowXQ+IdHG6wIeB0laFwJ934FMQkNDyIHuStOiIzinO7HIctRky67SERTFtKlYR3APME=
+	t=1740220814; cv=none; b=DyRksMi+7EJtf3nd/ku3kQPx8efjgLFHJbnov5z/U6ZbPzu58df7ZEeXLv4Jcu44E40vJsnPGqrQacrKD9yqaNxw1pF5YANkXsTiqzBlTWGUOBp4fpyssgLTsdWoqCXvKm5wBrK19ezjj3IXRBMugx/0+8+XYeHqTvZyOZ2JYlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740218340; c=relaxed/simple;
-	bh=se9w2vU0xYQrK1GndXLdvM2DXLeY6zcipcqfUFKQ6/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SOmaFGhgSLHsBPO0/1o2Pri78vs6WlZwT/jVX9SIE/IXF/yy3kNlJY4A5KpZ7+ExZD+uABHFXIyE2tCx9BhhLGrrdUUZS/1sjajmh9jeOZ4kUG8WzhBsgCXpCI78VVCxnR6ROaqCAZ/t2NLUw+wAXE2oZr3pZXqPURAnpYJTNh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BdL/3ctV; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1740220814; c=relaxed/simple;
+	bh=StVPx/hr5VXk66iq/WEpcIZc+SptqolvhGOkT2wuQB4=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JfIxYKPGr7VRaIE+XeGajUQtTckK5pnD64p+WC4YQHC7iRSqwjM2Iq/uPW1jmAbIgyd8TBqPV6t2C3Kv/gwLqLfT+Z3S818sR6n2Y2kUr8RZCSssSMaDqbZckcVW22XoxT6FkvlYPhkvFyymmSjEak7LVp/jYoMme4qU6g+P+xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WsVTx27A; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BdL/3ctV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WsVTx27A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740218338; x=1771754338;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=se9w2vU0xYQrK1GndXLdvM2DXLeY6zcipcqfUFKQ6/M=;
-  b=BdL/3ctVRtiUkAulsQSUbNTpOanraWJDDr4LBvTuKVutk5iTp+ryE2/3
-   FkIGE1CRe6lL6j+GCwpDb0zT8rqfg1OFNozCINJKqaCVnJxnyeK24+kOn
-   Pe1wSnSApyYZxqCgM2EXruLlvh86InO8vtlen8pEMu5ilf9vIRaPx2Seh
-   L19n5+i4sLdA/k+3Kghr0AdVF+ckRbvwROG07eHT0Gma5STHYksct402m
-   NBKC61Iqtty/Whot8uJ2awrZOFWSy2N5DI8J+Z0p8y3RkoEWUx70VLICu
-   jO6TfaD/rkYo+5TMYnTO9CthkY9wna097rvzfz2NypKy5gb/cjbl59v0x
-   w==;
-X-CSE-ConnectionGUID: k1L8pedsRyae1g1bLCkZEw==
-X-CSE-MsgGUID: bquodVbHQwC+/U14s8ezgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="51250398"
+  t=1740220812; x=1771756812;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=StVPx/hr5VXk66iq/WEpcIZc+SptqolvhGOkT2wuQB4=;
+  b=WsVTx27AgR0NTAX2OAdab5X2O4oFcVjH37ydQrx6HumD6727OapnCU+i
+   iLx5Lwzc1F6vCh2wthFKX4h7fj2nWiZMy/c5fqwGQaUJ3N480K5GqnXLc
+   rS9GGwqo38yx0X+uemLT2JIQWQLRD3/i7oHa/NjYmd2ZVN8js5dt9Ts6n
+   jbIjVv2O1hnKwN0Fbw7CbavSTvQOqhmbS+dScZKvncEnCC3CyaFB6qrWu
+   8FAEkFLAmOMScGcLyL9e7iR/xtZgElmOO3DGcQEkCTsQE9rWjtkjxVTVY
+   VO2dQgOrSG6p/W3WmlgnXXepRKIan+3zPtrsZjGkMngK31YpqOoaucJj7
+   A==;
+X-CSE-ConnectionGUID: Dq8EKKGdRKyLaqGULlAI3Q==
+X-CSE-MsgGUID: XexXNYLsTbCRQ8J8sbo4Vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="58584429"
 X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="51250398"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 01:58:57 -0800
-X-CSE-ConnectionGUID: QEYd5HZoTf6n0wxLu3jI4w==
-X-CSE-MsgGUID: ZnomUuAATQK/0Ec6TkszPg==
+   d="scan'208";a="58584429"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 02:40:12 -0800
+X-CSE-ConnectionGUID: wCbTbPSfTNmM/WWCtssLIQ==
+X-CSE-MsgGUID: beguvZ7JQ5aU7fpxfH5H6A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,307,1732608000"; 
-   d="scan'208";a="115305983"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120843258"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Feb 2025 01:58:56 -0800
+  by orviesa005.jf.intel.com with ESMTP; 22 Feb 2025 02:40:11 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tlmHd-0006Sx-1H;
-	Sat, 22 Feb 2025 09:58:53 +0000
-Date: Sat, 22 Feb 2025 17:58:03 +0800
+	id 1tlmvY-0006UN-1u
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 22 Feb 2025 10:40:08 +0000
+Date: Sat, 22 Feb 2025 18:39:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Stafford Horne <shorne@gmail.com>, Rong Xu <xur@google.com>
-Subject: (.head.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26
- against `no symbol'
-Message-ID: <202502221728.6WLWBLJO-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:6.12/dovetail-xenomai 5/5]
+ arch/arm/kernel/ptrace.c:208:9: error: implicit declaration of function
+ 'mark_trap_entry'
+Message-ID: <202502221838.8Jq7qsKB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,43 +63,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Masahiro,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ff202c5028a195c07b16e1a2fbb8ca6b7ba11a1c
-commit: a412f04070e52e6d6b5f6f964b9d9644de16bb81 openrisc: place exception table at the head of vmlinux
-date:   2 months ago
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250222/202502221728.6WLWBLJO-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221728.6WLWBLJO-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.12/dovetail-xenomai
+head:   96c9aceb59d0ff2f4ac73415eeee24969ba6fa8f
+commit: 321bdf89d2b75198908d7ee8c1895f22cdcc4665 [5/5] ARM: dovetail: route traps
+config: arm-randconfig-002-20250222 (https://download.01.org/0day-ci/archive/20250222/202502221838.8Jq7qsKB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502221838.8Jq7qsKB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502221728.6WLWBLJO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502221838.8Jq7qsKB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/openrisc/kernel/head.o: in function `_dispatch_do_ipage_fault':
->> (.head.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   (.head.text+0xa00): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   arch/openrisc/kernel/head.o: in function `exit_with_no_dtranslation':
->> (.init.text+0x21bc): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   arch/openrisc/kernel/head.o: in function `exit_with_no_itranslation':
-   (.init.text+0x2264): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
-   init/main.o: in function `trace_event_raw_event_initcall_level':
-   main.c:(.text+0x28c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `strlen' defined in .text section in lib/string.o
-   init/main.o: in function `initcall_blacklisted':
-   main.c:(.text+0x6f4): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `strcmp' defined in .text section in lib/string.o
-   init/main.o: in function `trace_initcall_finish_cb':
-   main.c:(.text+0x818): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
-   main.c:(.text+0x83c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
-   main.c:(.text+0x87c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
-   main.c:(.text+0x8a8): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
-   init/main.o: in function `do_one_initcall':
-   main.c:(.text+0xec0): additional relocation overflows omitted from the output
+   arch/arm/kernel/ptrace.c: In function 'break_trap':
+>> arch/arm/kernel/ptrace.c:208:9: error: implicit declaration of function 'mark_trap_entry' [-Wimplicit-function-declaration]
+     208 |         mark_trap_entry(ARM_TRAP_BREAK, regs);
+         |         ^~~~~~~~~~~~~~~
+>> arch/arm/kernel/ptrace.c:208:25: error: 'ARM_TRAP_BREAK' undeclared (first use in this function)
+     208 |         mark_trap_entry(ARM_TRAP_BREAK, regs);
+         |                         ^~~~~~~~~~~~~~
+   arch/arm/kernel/ptrace.c:208:25: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/arm/kernel/ptrace.c:210:9: error: implicit declaration of function 'mark_trap_exit'; did you mean 'early_trap_init'? [-Wimplicit-function-declaration]
+     210 |         mark_trap_exit(ARM_TRAP_BREAK, regs);
+         |         ^~~~~~~~~~~~~~
+         |         early_trap_init
+--
+>> arch/arm/mm/fault.c:168:15: warning: no previous prototype for 'fault_entry' [-Wmissing-prototypes]
+     168 | unsigned long fault_entry(int exception, struct pt_regs *regs)
+         |               ^~~~~~~~~~~
+
+
+vim +/mark_trap_entry +208 arch/arm/kernel/ptrace.c
+
+   205	
+   206	static int break_trap(struct pt_regs *regs, unsigned int instr)
+   207	{
+ > 208		mark_trap_entry(ARM_TRAP_BREAK, regs);
+   209		ptrace_break(regs);
+ > 210		mark_trap_exit(ARM_TRAP_BREAK, regs);
+   211		return 0;
+   212	}
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
