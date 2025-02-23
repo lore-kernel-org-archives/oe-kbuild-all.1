@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CB61FDA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 02:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DC31862A;
+	Sun, 23 Feb 2025 02:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740277708; cv=none; b=JdZNkJRCQjN2gQfPIQAY0NRBVJyXVNyvIhILoTaR/K8hK3jnFCPFMq52eLjdmPMtw5QBYIXrcfTjiAn9FIDs6QrG3CfdS381ekRMyThF1PGq/Kg4jmYzoqk7ZXjOVDZebb3xEtjM66z83YzoRqo1b5BRl9UnhF+FXa4REY3HLnA=
+	t=1740277710; cv=none; b=IF7dr5lLY9oGXfcyQlY+e2wFSQ2Vt+lG0bPZrM2E4ntk/hDQxzMSaKDZ1EimoA40oFRSp1lAsmUFsIX26diX5qQL4xrDMTYtulh46AM/9EObnTJ1TTM5ClviTPxnomhnP8hx4fqUJbb14IW5jcMUle/xv59n4TA5grXYT5pdcXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740277708; c=relaxed/simple;
-	bh=x/CR03mTkP5EtUPDfTNB3fFI3VRJEdRXAhwh4iPpP8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iW8qco+8jnS0g6LqMXCKSW2Zv8GKpIsQhILSSzMUUHprtSaW5HBtirCf0kx10aMu1gYMUoajE1Xob6rzv4ojSHgLXT3pSwvrvg4rn5WHgC46IwNpStDjacoAGxef4FNZ/9EsK/KMkDoOaFzSRy7lyAL2KnQixe1c3PAfLuT+37k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMLETFGb; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1740277710; c=relaxed/simple;
+	bh=u6oSsqRbLvRGRbt/R4ec7n7Himb8x7z/KiYZxAR9YTM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lby11mSMCI33BB1P+lLbtoVZ2V7N4iu7OsA0jHDZcKLF0SrWXw3O5IZQa5Dq6BIpQtUPx+6Igk5VhqqPvfS07bKHuIc3fdTyu7Bo+zewpfYD/JDrZxvw9hHBYjzY0yrjOz8ACYFsx3M3pHyHjPm6RQQ38RFvPPmj1nX1rXWTIUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afreXd7T; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMLETFGb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afreXd7T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740277706; x=1771813706;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x/CR03mTkP5EtUPDfTNB3fFI3VRJEdRXAhwh4iPpP8k=;
-  b=UMLETFGbVapCIhLn2bKv+o5bssXY/GwSSBBK+UFLcJkJYICjADL/UVdT
-   yeLRfw0NnFLYeIT2Lj+OU4X1XcUd39MU4F7QwITcqmsKS6I3LlfkhFq7h
-   8QaMXi3RAwCDbKSYwIQqOr6cTnyVcRbolJRXg9nZkSAeECWaPz/SWdHpm
-   DOC9K8UU4n6Xr3SrmcK7+gnaG/4L14aojZFsdzvXZzx19q8nWI37980SY
-   rXvldtuP2kwwIYkgLnyyDNU2rAhpBuqTlaB+MlUhpsNlzT5oSF/LBjsWH
-   pr+89qUtMVf8/eqo3ahId19Xrdao8bqEJ2ucacbJeA8jwY9xnSnOoCUJz
-   Q==;
-X-CSE-ConnectionGUID: fHujgbksRBqDCLHaxe/29w==
-X-CSE-MsgGUID: kjYAuV2rSEWvhRgoO1CMRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52490045"
+  t=1740277709; x=1771813709;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u6oSsqRbLvRGRbt/R4ec7n7Himb8x7z/KiYZxAR9YTM=;
+  b=afreXd7TdRiQZRmXL++yq6qF2M9L64vwjdomM2CAj+626Hzq/8s8ekHn
+   RQAjYWgJ41mKgyUhcYpG2iLGCdaNcEbZrlype6PRhXXH7CclX1SFwmt1z
+   4bPskOlLfz9NMIwguhZoBj0zIJ38vigNetVOrs1lir6lgmYPeDmzjwInH
+   +fZt6kCgi0yCWD+/Lq0smlewZb6ofnmhxxUT5YrgejnOZ0HwzQfdz5tW5
+   0To8kq5+eEzRMJIV7pnh6DaETCqWzVPGdazoPozereHbdg98LJQSne8wb
+   u2YdJyGEjspiZx3Lm6dls+YXvPb/s28cADs7T87YCMFO1ZGYsc4IEZfiN
+   g==;
+X-CSE-ConnectionGUID: Opcfjp1ZT8edS5xK6WOAcw==
+X-CSE-MsgGUID: Z/jl5rCJQSOlwADIydwUrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52490047"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52490045"
+   d="scan'208";a="52490047"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 18:28:25 -0800
-X-CSE-ConnectionGUID: RkYzh4Z1SXOLp24qFyhEjw==
-X-CSE-MsgGUID: LJjMzJ8WSrauWSY5PgcHHw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 18:28:26 -0800
+X-CSE-ConnectionGUID: AfV/qSZVTwCJVa6AY56LJQ==
+X-CSE-MsgGUID: fT7Eu9vBTOKc4WWQjtWDpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119842391"
+   d="scan'208";a="119842392"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Feb 2025 18:28:24 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 22 Feb 2025 18:28:25 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tm1jB-000749-2n;
+	id 1tm1jB-000747-2j;
 	Sun, 23 Feb 2025 02:28:21 +0000
-Date: Sun, 23 Feb 2025 10:27:47 +0800
+Date: Sun, 23 Feb 2025 10:27:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 6/15] net/ceph/ceph_san.c:17:39: error:
- arithmetic on a pointer to an incomplete type 'typeof (ceph_san_tls)' (aka
- 'struct ceph_san_tls_logger')
-Message-ID: <202502231007.WIrsl6gW-lkp@intel.com>
+To: Sarika Sharma <quic_sarishar@quicinc.com>, ath12k@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org, johannes@sipsolutions.net,
+	Sarika Sharma <quic_sarishar@quicinc.com>
+Subject: Re: [PATCH v2 3/5] wifi: ath12k: add EHT support for TX rate
+Message-ID: <202502231023.vzEGxJWz-lkp@intel.com>
+References: <20250213173206.1665731-4-quic_sarishar@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +64,202 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250213173206.1665731-4-quic_sarishar@quicinc.com>
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   6426787926c0ab3f8cd024b9cac8bd0fd28813a4
-commit: 485747e7711ebb9bcda819027564d587d215874a [6/15] ceph_san: moving to per_cpu
-config: hexagon-randconfig-r072-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231007.WIrsl6gW-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231007.WIrsl6gW-lkp@intel.com/reproduce)
+Hi Sarika,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 704a2d7237043317ed1b0f8a08203e9ddde70097]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarika-Sharma/wifi-mac80211-correct-RX-stats-packet-increment-for-multi-link/20250214-014020
+base:   704a2d7237043317ed1b0f8a08203e9ddde70097
+patch link:    https://lore.kernel.org/r/20250213173206.1665731-4-quic_sarishar%40quicinc.com
+patch subject: [PATCH v2 3/5] wifi: ath12k: add EHT support for TX rate
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250223/202502231023.vzEGxJWz-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231023.vzEGxJWz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502231007.WIrsl6gW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502231023.vzEGxJWz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/ceph/ceph_san.c:17:39: error: arithmetic on a pointer to an incomplete type 'typeof (ceph_san_tls)' (aka 'struct ceph_san_tls_logger')
-      17 |     struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:254:27: note: expanded from macro 'this_cpu_ptr'
-     254 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
-         |                           ^~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:243:2: note: expanded from macro 'raw_cpu_ptr'
-     243 |         __verify_pcpu_ptr(ptr);                                         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:219:52: note: expanded from macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                     ~~~~~ ^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
->> net/ceph/ceph_san.c:18:23: error: incomplete definition of type 'struct ceph_san_tls_logger'
-      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-         |                    ~~~^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
->> net/ceph/ceph_san.c:18:39: error: use of undeclared identifier 'CEPH_SAN_MAX_LOGS'
-      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-         |                                       ^
-   net/ceph/ceph_san.c:19:8: error: incomplete definition of type 'struct ceph_san_tls_logger'
-      19 |     tls->logs[head_idx].pid = current->pid;
-         |     ~~~^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
-   net/ceph/ceph_san.c:20:8: error: incomplete definition of type 'struct ceph_san_tls_logger'
-      20 |     tls->logs[head_idx].ts = jiffies;
-         |     ~~~^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
-   net/ceph/ceph_san.c:21:15: error: incomplete definition of type 'struct ceph_san_tls_logger'
-      21 |     memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-         |            ~~~^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
-   net/ceph/ceph_san.c:23:15: error: incomplete definition of type 'struct ceph_san_tls_logger'
-      23 |     return tls->logs[head_idx].buf;
-         |            ~~~^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
-   net/ceph/ceph_san.c:15:7: warning: no previous prototype for function 'get_log_cephsan' [-Wmissing-prototypes]
-      15 | char *get_log_cephsan(void) {
-         |       ^
-   net/ceph/ceph_san.c:15:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      15 | char *get_log_cephsan(void) {
-         | ^
-         | static 
-   net/ceph/ceph_san.c:30:6: error: redefinition of 'cephsan_cleanup'
-      30 | void cephsan_cleanup(void)
-         |      ^
-   include/linux/ceph/ceph_san.h:104:20: note: previous definition is here
-     104 | static inline void cephsan_cleanup(void) {}
-         |                    ^
-   net/ceph/ceph_san.c:37:5: error: redefinition of 'cephsan_init'
-      37 | int cephsan_init(void)
-         |     ^
-   include/linux/ceph/ceph_san.h:105:26: note: previous definition is here
-     105 | static inline int __init cephsan_init(void) { return 0; }
-         |                          ^
-   net/ceph/ceph_san.c:9:44: error: tentative definition has type 'typeof(struct ceph_san_tls_logger)' (aka 'struct ceph_san_tls_logger') that is never completed
-       9 | DEFINE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                                            ^
-   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
-      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-         |                        ^
-   1 warning and 10 errors generated.
+>> drivers/net/wireless/ath/ath12k/dp_rx.c:1488:26: error: call to undeclared function 'ath12k_eht_gi_to_nl80211_eht_gi'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   arsta->txrate.eht_gi = ath12k_eht_gi_to_nl80211_eht_gi(sgi);
+                                          ^
+   drivers/net/wireless/ath/ath12k/dp_rx.c:1364:24: warning: variable 'sta' set but not used [-Wunused-but-set-variable]
+           struct ieee80211_sta *sta;
+                                 ^
+   1 warning and 1 error generated.
 
 
-vim +17 net/ceph/ceph_san.c
+vim +/ath12k_eht_gi_to_nl80211_eht_gi +1488 drivers/net/wireless/ath/ath12k/dp_rx.c
 
-     7	
-     8	/* Use per-core TLS logger; no global list or lock needed */
-     9	DEFINE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
-    10	EXPORT_SYMBOL(ceph_san_tls);
-    11	/* The definitions for struct ceph_san_log_entry and struct ceph_san_tls_logger
-    12	 * have been moved to cephsan.h (under CONFIG_DEBUG_FS) to avoid duplication.
-    13	 */
-    14	
-    15	char *get_log_cephsan(void) {
-    16	    /* Use the per-core TLS logger */
-  > 17	    struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
-  > 18	    int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
-    19	    tls->logs[head_idx].pid = current->pid;
-    20	    tls->logs[head_idx].ts = jiffies;
-    21	    memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-    22	
-    23	    return tls->logs[head_idx].buf;
-    24	}
-    25	EXPORT_SYMBOL(get_log_cephsan);
-    26	
+  1357	
+  1358	static void
+  1359	ath12k_update_per_peer_tx_stats(struct ath12k *ar,
+  1360					struct htt_ppdu_stats *ppdu_stats, u8 user)
+  1361	{
+  1362		struct ath12k_base *ab = ar->ab;
+  1363		struct ath12k_peer *peer;
+  1364		struct ieee80211_sta *sta;
+  1365		struct ath12k_link_sta *arsta;
+  1366		struct htt_ppdu_stats_user_rate *user_rate;
+  1367		struct ath12k_per_peer_tx_stats *peer_stats = &ar->peer_tx_stats;
+  1368		struct htt_ppdu_user_stats *usr_stats = &ppdu_stats->user_stats[user];
+  1369		struct htt_ppdu_stats_common *common = &ppdu_stats->common;
+  1370		int ret;
+  1371		u8 flags, mcs, nss, bw, sgi, dcm, rate_idx = 0;
+  1372		u32 v, succ_bytes = 0;
+  1373		u16 tones, rate = 0, succ_pkts = 0;
+  1374		u32 tx_duration = 0;
+  1375		u8 tid = HTT_PPDU_STATS_NON_QOS_TID;
+  1376		bool is_ampdu = false;
+  1377	
+  1378		if (!(usr_stats->tlv_flags & BIT(HTT_PPDU_STATS_TAG_USR_RATE)))
+  1379			return;
+  1380	
+  1381		if (usr_stats->tlv_flags & BIT(HTT_PPDU_STATS_TAG_USR_COMPLTN_COMMON))
+  1382			is_ampdu =
+  1383				HTT_USR_CMPLTN_IS_AMPDU(usr_stats->cmpltn_cmn.flags);
+  1384	
+  1385		if (usr_stats->tlv_flags &
+  1386		    BIT(HTT_PPDU_STATS_TAG_USR_COMPLTN_ACK_BA_STATUS)) {
+  1387			succ_bytes = le32_to_cpu(usr_stats->ack_ba.success_bytes);
+  1388			succ_pkts = le32_get_bits(usr_stats->ack_ba.info,
+  1389						  HTT_PPDU_STATS_ACK_BA_INFO_NUM_MSDU_M);
+  1390			tid = le32_get_bits(usr_stats->ack_ba.info,
+  1391					    HTT_PPDU_STATS_ACK_BA_INFO_TID_NUM);
+  1392		}
+  1393	
+  1394		if (common->fes_duration_us)
+  1395			tx_duration = le32_to_cpu(common->fes_duration_us);
+  1396	
+  1397		user_rate = &usr_stats->rate;
+  1398		flags = HTT_USR_RATE_PREAMBLE(user_rate->rate_flags);
+  1399		bw = HTT_USR_RATE_BW(user_rate->rate_flags) - 2;
+  1400		nss = HTT_USR_RATE_NSS(user_rate->rate_flags) + 1;
+  1401		mcs = HTT_USR_RATE_MCS(user_rate->rate_flags);
+  1402		sgi = HTT_USR_RATE_GI(user_rate->rate_flags);
+  1403		dcm = HTT_USR_RATE_DCM(user_rate->rate_flags);
+  1404	
+  1405		/* Note: If host configured fixed rates and in some other special
+  1406		 * cases, the broadcast/management frames are sent in different rates.
+  1407		 * Firmware rate's control to be skipped for this?
+  1408		 */
+  1409	
+  1410		if (flags == WMI_RATE_PREAMBLE_HE && mcs > ATH12K_HE_MCS_MAX) {
+  1411			ath12k_warn(ab, "Invalid HE mcs %d peer stats",  mcs);
+  1412			return;
+  1413		}
+  1414	
+  1415		if (flags == WMI_RATE_PREAMBLE_VHT && mcs > ATH12K_VHT_MCS_MAX) {
+  1416			ath12k_warn(ab, "Invalid VHT mcs %d peer stats",  mcs);
+  1417			return;
+  1418		}
+  1419	
+  1420		if (flags == WMI_RATE_PREAMBLE_HT && (mcs > ATH12K_HT_MCS_MAX || nss < 1)) {
+  1421			ath12k_warn(ab, "Invalid HT mcs %d nss %d peer stats",
+  1422				    mcs, nss);
+  1423			return;
+  1424		}
+  1425	
+  1426		if (flags == WMI_RATE_PREAMBLE_CCK || flags == WMI_RATE_PREAMBLE_OFDM) {
+  1427			ret = ath12k_mac_hw_ratecode_to_legacy_rate(mcs,
+  1428								    flags,
+  1429								    &rate_idx,
+  1430								    &rate);
+  1431			if (ret < 0)
+  1432				return;
+  1433		}
+  1434	
+  1435		rcu_read_lock();
+  1436		spin_lock_bh(&ab->base_lock);
+  1437		peer = ath12k_peer_find_by_id(ab, usr_stats->peer_id);
+  1438	
+  1439		if (!peer || !peer->sta) {
+  1440			spin_unlock_bh(&ab->base_lock);
+  1441			rcu_read_unlock();
+  1442			return;
+  1443		}
+  1444	
+  1445		sta = peer->sta;
+  1446		arsta = ath12k_peer_get_link_sta(ab, peer);
+  1447		if (!arsta) {
+  1448			spin_unlock_bh(&ab->base_lock);
+  1449			rcu_read_unlock();
+  1450			return;
+  1451		}
+  1452	
+  1453		memset(&arsta->txrate, 0, sizeof(arsta->txrate));
+  1454	
+  1455		switch (flags) {
+  1456		case WMI_RATE_PREAMBLE_OFDM:
+  1457			arsta->txrate.legacy = rate;
+  1458			break;
+  1459		case WMI_RATE_PREAMBLE_CCK:
+  1460			arsta->txrate.legacy = rate;
+  1461			break;
+  1462		case WMI_RATE_PREAMBLE_HT:
+  1463			arsta->txrate.mcs = mcs + 8 * (nss - 1);
+  1464			arsta->txrate.flags = RATE_INFO_FLAGS_MCS;
+  1465			if (sgi)
+  1466				arsta->txrate.flags |= RATE_INFO_FLAGS_SHORT_GI;
+  1467			break;
+  1468		case WMI_RATE_PREAMBLE_VHT:
+  1469			arsta->txrate.mcs = mcs;
+  1470			arsta->txrate.flags = RATE_INFO_FLAGS_VHT_MCS;
+  1471			if (sgi)
+  1472				arsta->txrate.flags |= RATE_INFO_FLAGS_SHORT_GI;
+  1473			break;
+  1474		case WMI_RATE_PREAMBLE_HE:
+  1475			arsta->txrate.mcs = mcs;
+  1476			arsta->txrate.flags = RATE_INFO_FLAGS_HE_MCS;
+  1477			arsta->txrate.he_dcm = dcm;
+  1478			arsta->txrate.he_gi = ath12k_he_gi_to_nl80211_he_gi(sgi);
+  1479			tones = le16_to_cpu(user_rate->ru_end) -
+  1480				le16_to_cpu(user_rate->ru_start) + 1;
+  1481			v = ath12k_he_ru_tones_to_nl80211_he_ru_alloc(tones);
+  1482			arsta->txrate.he_ru_alloc = v;
+  1483			break;
+  1484		case WMI_RATE_PREAMBLE_EHT:
+  1485			arsta->txrate.mcs = mcs;
+  1486			arsta->txrate.flags = RATE_INFO_FLAGS_EHT_MCS;
+  1487			arsta->txrate.he_dcm = dcm;
+> 1488			arsta->txrate.eht_gi = ath12k_eht_gi_to_nl80211_eht_gi(sgi);
+  1489			tones = le16_to_cpu(user_rate->ru_end) -
+  1490				le16_to_cpu(user_rate->ru_start) + 1;
+  1491			v = ath12k_mac_eht_ru_tones_to_nl80211_eht_ru_alloc(tones);
+  1492			arsta->txrate.eht_ru_alloc = v;
+  1493			break;
+  1494		}
+  1495	
+  1496		arsta->txrate.nss = nss;
+  1497		arsta->txrate.bw = ath12k_mac_bw_to_mac80211_bw(bw);
+  1498		arsta->tx_duration += tx_duration;
+  1499		memcpy(&arsta->last_txrate, &arsta->txrate, sizeof(struct rate_info));
+  1500	
+  1501		/* PPDU stats reported for mgmt packet doesn't have valid tx bytes.
+  1502		 * So skip peer stats update for mgmt packets.
+  1503		 */
+  1504		if (tid < HTT_PPDU_STATS_NON_QOS_TID) {
+  1505			memset(peer_stats, 0, sizeof(*peer_stats));
+  1506			peer_stats->succ_pkts = succ_pkts;
+  1507			peer_stats->succ_bytes = succ_bytes;
+  1508			peer_stats->is_ampdu = is_ampdu;
+  1509			peer_stats->duration = tx_duration;
+  1510			peer_stats->ba_fails =
+  1511				HTT_USR_CMPLTN_LONG_RETRY(usr_stats->cmpltn_cmn.flags) +
+  1512				HTT_USR_CMPLTN_SHORT_RETRY(usr_stats->cmpltn_cmn.flags);
+  1513		}
+  1514	
+  1515		spin_unlock_bh(&ab->base_lock);
+  1516		rcu_read_unlock();
+  1517	}
+  1518	
 
 -- 
 0-DAY CI Kernel Test Service
