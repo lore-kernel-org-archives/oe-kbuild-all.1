@@ -1,202 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD251ACEA7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 13:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F491E480
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 13:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740317725; cv=none; b=PZL8bQ7GUDiQdYtoNJkDgYxLNF0LJZ/1/xOBoC2sR9e9EtB9Ljn0BINGNpqttHCyQA+ai0PDBegioTRwT98W/WYyOufz+kJXGKbWnPiEOmZ82JAx5fK7I5I4b+qZnisk5VOncRwbfGWIW7K8jRNjnmGlr7PyLuK/k28to4Abwxg=
+	t=1740318056; cv=none; b=tpHOAIbuau7V45JTNMW9d047HQn068giE64GpmymOoFqExy8vGOHn3NpdOgFnAHUVw0E7YQwNd/nf/CXnz5GUELCl29jGqxUQZxasjv7G/OKwMxyts246QtAtPJhaVFYVWRYxmYgZCa9mnpqvjzG+k6v16w/NWUNAP7zdurVtH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740317725; c=relaxed/simple;
-	bh=IwpjEMhhm2wgRT9TAQYRQqSJb1A9L88oV2SWkgtbJ5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ahAXXxL/63Tt+SxipMHSPPlaEOscAj/5i6OrRBRMTZu1JoKxCEFS8JJWCIS/zBvMBV3WQrYaCawkwLMjLoP3tad25cK1TnWieMqXsIwvY1RqixHYq82MMYp0oSk6NmbG0DwBJhl4q+/uT1YpwqCZ0maLLSVOODAcqMJJIxS90rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVDiFiNL; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740318056; c=relaxed/simple;
+	bh=hcf7+7C3MEhs4rmBsctVJxr+hv1xZgTKJoSQHXSsCz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WV0D8lQZ7Hd4npYIfgk3UhS/GCVH9g+RnbdxNracDuJoaJSTfVA+AS2uICpGQCDNd0CdZITV/wPpOG5TzX3SqeMTlk/x4J8btn8gDPH7fVta7MZuHaYPQflQoBvnfW2lQgZrashtTxBM6cy465yIIxv4mqPmCfVvxvN3hh0bpvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oBlq8azH; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVDiFiNL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740317723; x=1771853723;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IwpjEMhhm2wgRT9TAQYRQqSJb1A9L88oV2SWkgtbJ5k=;
-  b=ZVDiFiNLA21VYswQ+y86+Sl/ImhAHFl7r0QURXeakT2dJDfm5S3VRyUD
-   vBa5P9KKJyKuUyN/a34IoMNVa4l2mrVB0KE06UsRVz0Uvbo4uGP8V/xZY
-   xt3l10qKL/2RCs7ZZ6ABO+/vj3+6YhScu1+mlhHZuD6OAP7PAPrQ2KI/2
-   3H0ybhOMLP2mcR3FyMQ8/vulX8M8i+aNqo+FbkowhLAbprK9gSsfMJ1OD
-   yLQZkigDggVELUO2COois2gRnh95r3oSxVipqTLhKW+RHlguNX3Mc0dUD
-   9+hHqCQ47XR5BU0g7kWWfgvduomE8uFvlyWj5lZJMMNE/3dTSIYyLS5QD
-   Q==;
-X-CSE-ConnectionGUID: 9KNsW/TpTS+LNKeED+HhdA==
-X-CSE-MsgGUID: ZMGqQsI8SDmb3q3f6WQ1eQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="51294404"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="51294404"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 05:35:22 -0800
-X-CSE-ConnectionGUID: RRQwZql8SM6/KsoI87AP4w==
-X-CSE-MsgGUID: tTT5zCkqRsC7q7Yy9TN96g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="120738871"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 23 Feb 2025 05:35:21 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmC8a-0007MN-0G;
-	Sun, 23 Feb 2025 13:35:16 +0000
-Date: Sun, 23 Feb 2025 21:34:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-lts 1/1]
- arch/arm64/boot/dts/qcom/apq8094-sony-xperia-kitakami-karin_windy.dtb:
- usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-Message-ID: <202502232143.Mzeklt7l-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oBlq8azH"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D908844388;
+	Sun, 23 Feb 2025 13:40:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740318045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K6bIJuULWhsZxJCwa0hMVmk2iWw7cX6L/3fW6XmaZJY=;
+	b=oBlq8azH+BF3Jjf44h2fXFP4YWqwNaegZtOSOGTfSqIOT1AFfSfYqFmyz5BobJH+FtwYxX
+	7rUdaZtPc/VvY69ZzMXGzrvYXIwY2/SSLKHiIIchfSsW1sRCgkLv2NAQuQ8bMTw2Y+g/0r
+	WoTcPJ5UU2/7+qzv/EsMrNX0aohLiMbKuVMkn16JUdTb5jQwX3VQL6ZTv1dl9vl3DsdfAu
+	gcIZy5TWsnQU1dUPVNKhJiwHoutc5YyMTCH3KwfwUFaSUF0tVh7/lr4Rt035QzlGD5jdgQ
+	ioXiVTa6R6kIl+KSX1yjoJJYSPXoBm3rhqwgPtbU3jB1X0wM22iqVIuDVHTkUg==
+Date: Sun, 23 Feb 2025 14:40:41 +0100
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: kernel test robot <lkp@intel.com>
+Cc: davem@davemloft.net, Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski
+ <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, oe-kbuild-all@lists.linux.dev,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ thomas.petazzoni@bootlin.com, linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Herve Codina
+ <herve.codina@bootlin.com>, Florian Fainelli <f.fainelli@gmail.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, =?UTF-8?B?S8O2cnk=?= Maincent
+ <kory.maincent@bootlin.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ Simon Horman <horms@kernel.org>, Romain Gantois
+ <romain.gantois@bootlin.com>
+Subject: Re: [PATCH net-next 08/13] net: phy: phy_caps: Introduce
+ link_caps_valid
+Message-ID: <20250223144041.1bf253ca@fedora.home>
+In-Reply-To: <202502231409.QTfXTqrD-lkp@intel.com>
+References: <20250222142727.894124-9-maxime.chevallier@bootlin.com>
+	<202502231409.QTfXTqrD-lkp@intel.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejheeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepofgrgihimhgvucevhhgvvhgrlhhlihgvrhcuoehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegveeltddvveeuhefhvefhlefhkeevfedtgfeiudefffeiledttdfgfeeuhfeukeenucfkphepvdgrtddumegtsgduleemkegugegtmeelfhdttdemsggtvddumeekkeelleemheegtdgtmegvheelvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudelmeekugegtgemlehftddtmegstgdvudemkeekleelmeehgedttgemvgehlegvpdhhvghlohepfhgvughorhgrrdhhohhmvgdpmhgrihhlfhhrohhmpehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvuddprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopehkuhgsrgesk
+ hgvrhhnvghlrdhorhhgpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehhkhgrlhhlfigvihhtudesghhmrghilhdrtghomh
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
-head:   100e5d54ced2ed22d23bb58d456bdf23c2f57ba7
-commit: 7e466bb7f544e58979ba81d8f5edc0ec58f73a78 [1/1] arm64: dts: qcom: msm8994: Describe USB interrupts
-config: arm64-randconfig-052-20250220 (https://download.01.org/0day-ci/archive/20250223/202502232143.Mzeklt7l-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502232143.Mzeklt7l-lkp@intel.com/reproduce)
+On Sun, 23 Feb 2025 14:38:46 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502232143.Mzeklt7l-lkp@intel.com/
+> >> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'speed' not described in 'phy_caps_valid'
+> >> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'duplex' not described in 'phy_caps_valid'
+> >> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'linkmodes' not described in 'phy_caps_valid'  
+> 
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:639.28-655.5: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@f9928000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/apq8094-sony-xperia-kitakami-karin_windy.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/apq8094-sony-xperia-kitakami-karin_windy.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/apq8094-sony-xperia-kitakami-karin_windy.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/apq8094-sony-xperia-kitakami-karin_windy.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8992-lg-bullhead-rev-10.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8992-lg-bullhead-rev-10.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-lg-bullhead-rev-10.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-lg-bullhead-rev-10.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:284.20-287.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/memory@6c00000)
-   arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: /soc@0/i2c@f9924000/tas2553@40: failed to match any schema with compatible: ['ti,tas2552']
-   arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: /soc@0/i2c@f9963000/ad7147_captouch@2c: failed to match any schema with compatible: ['ad,ad7147_captouch']
-   arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dtb: /soc@0/spi@f9966000/ice5lp2k@0: failed to match any schema with compatible: ['lattice,ice40-fpga-mgr']
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:284.20-287.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/hole2@6c00000)
-   arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/msm8994-huawei-angler-rev-101.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-huawei-angler-rev-101.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-huawei-angler-rev-101.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-huawei-angler-rev-101.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:284.20-287.5: Warning (unique_unit_address_if_enabled): /reserved-memory/reserved@6c00000: duplicate unit-address (also used in node /reserved-memory/memory@6c00000)
-   arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: /soc@0/i2c@f9924000/tas2553@40: failed to match any schema with compatible: ['ti,tas2552']
-   arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: /soc@0/i2c@f9963000/ad7147_captouch@2c: failed to match any schema with compatible: ['ad,ad7147_captouch']
-   arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dtb: /soc@0/spi@f9966000/ice5lp2k@0: failed to match any schema with compatible: ['lattice,ice40-fpga-mgr']
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-ivy.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-ivy.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-ivy.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-ivy.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/msm8994.dtsi:639.28-655.5: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@f9928000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-karin.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-karin.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-karin.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-karin.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-satsuki.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-satsuki.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-satsuki.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-satsuki.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-sumire.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-sumire.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-sumire.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-sumire.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
---
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-suzuran.dtb: usb@f92f8800: interrupt-names:0: 'hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-suzuran.dtb: usb@f92f8800: interrupt-names:1: 'ss_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-suzuran.dtb: usb@f92f8800: interrupt-names:2: 'dm_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-suzuran.dtb: usb@f92f8800: interrupt-names:3: 'dp_hs_phy_irq' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+Ah indeed, I'm missing the kdoc description here.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Meh and the commit title should be :
+
+	net: phy: phy_caps: Introduce phy_caps_valid
+
+I'll wait a bit for reviews and fix that in the next round.
+
+Thanks mister robot,
+
+Maxime
+
