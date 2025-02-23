@@ -1,67 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D5012E7F;
-	Sun, 23 Feb 2025 05:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E9FDDDC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 06:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740288473; cv=none; b=W3mz4hjw7RYLCIviusQ8tdKf820Kxz71d03g6OxAL8KeEBAw+uXl1/uR7zwsAqVbL3I72egdw+qeH4jy0XvL6rO+N6dev6s8Clzyg8buQdZLhkZBejlAJ6mr8irMHBPYmvlUFtjIl9rPOcDnYmmTAt0LrpOumM++hzpGNXwl3g4=
+	t=1740292759; cv=none; b=bYVHdmusY4Ndx96+YVYi347pJJgXldgRyXk8w7ZZFnaIplVUBTiLq3U/OL2mKFgihJ4YfbKaaeZOlMAXNs/VJcpxmi2cmUjr6/gxBxOTAnFioZLS/TXdx1OR0zXWWlpVa0X7x2PTwn8JumEiR2ObGVPRWLGVKMkgz3HmRbVMHdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740288473; c=relaxed/simple;
-	bh=ZoFMidOYBshnEsnzIKH5pW7glP8uk+guezRItblF2Ys=;
+	s=arc-20240116; t=1740292759; c=relaxed/simple;
+	bh=I+4KPvRzypPtuDrJMCOOp4HSPrPDgHBgGBkD6P6VHUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hxnt+5JzGqYnUzPJgsBx2DUIjx574MsL8ekJrjIcqUagsEm7lBM1C899RakQP6c6BCM3ACiMCClfgYQQyF/WvP5LPvQhZfTeg42nbPKzsm5LCIqWO4xtFIc5FsstUIooTx1yLhkbi3zsTPZ7qC8q6VbFWR4EN7kMfyVQZWTz93U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EmaKKQTD; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=TJ0GXwdkkKOYEAiggYsSNFPnJkvAQM0XcKVpGb1rmZNhB89V1nEe9mxtC6EEK/ZCF1I/rVtjFL4KPdgxXvqJowaZ0j5gtX4eLWBsrZ7fbgkEwCZqInBRCgN5PAgg0URL5FxWVPerQUmkoRfuNnZvcfbuw6DnU00gU+rqu9CRKZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDtaXut0; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EmaKKQTD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDtaXut0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740288470; x=1771824470;
+  t=1740292757; x=1771828757;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZoFMidOYBshnEsnzIKH5pW7glP8uk+guezRItblF2Ys=;
-  b=EmaKKQTDP7TVqARWgE9p0Z+O5lSUSfmco2NMQ/lE+X3WJCntZNM55aY+
-   RxSqkJBEnQsUfh60zmCfAIrSH/FYoVY8an2makRcyo2mcW9DoLTM7cSkQ
-   I5uNug9tZl4COMRq9c+EAFnu6NOExzqvJBnSBgWoip8HJW97L20WbVxdc
-   SOee5/cD1FDHGMO09wAVU+H18l1kPxNcyf7ofWTx1JVF7RtaiUp+K8Odo
-   4jG7LVyIlsER8heAZDv9evNvr182s3Jz2BBzP2WVhXW4lPJMrLXsOXmve
-   erLJU4HEpsDi++OrT7jlXKWDwD4kfa1EZ3KSFdCdKPOPJB+L/Fsftg4rC
+  bh=I+4KPvRzypPtuDrJMCOOp4HSPrPDgHBgGBkD6P6VHUI=;
+  b=LDtaXut0yFZzr0DFoGMduGECsxn21PFszWURTI4IMCiPngIzlHJqL2qm
+   2c91xkuH0orN7la+sUWHwYwjdDS+maFbKNy54IeR79X0SUlT9EKyeuddI
+   o2sVIPTgodYHv66oKxQssGKDsMHtD1+LiZF6MsFxU+koqxYXSjhnapEuf
+   /V2F5r1RhbYaJj3lRnYliuqUrMev5iUviumhPc2pfgwR9T7drtsCUZS4C
+   pRuxxbRerpIlBzqqRFKvA3praAYyHVsHVX26lzZXh/GJ4hUBeKeWjevl0
+   A0YC+Vg5dIUePbNHqJtMxojh1E6udOML/j7m6lBgLWQH78MTfmADd8u8z
    w==;
-X-CSE-ConnectionGUID: 3YpTL49SQVyAcvPBq721aw==
-X-CSE-MsgGUID: 0HcKlWWwR+mq/q7lUZ9Zhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52494655"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52494655"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 21:27:49 -0800
-X-CSE-ConnectionGUID: MDi6dxZtSu61rtEuamNdDw==
-X-CSE-MsgGUID: 5Ce2PjiPSwG7ocpbQD3+mw==
+X-CSE-ConnectionGUID: ATtaXvk6RuKP4DPmw5isNQ==
+X-CSE-MsgGUID: VRPUAx4LR76EP+KCi+PGyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="44849614"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="44849614"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 22:39:16 -0800
+X-CSE-ConnectionGUID: 5uG0uvraSIuqsYe9IW/NcQ==
+X-CSE-MsgGUID: ia23rpyKQ7SEVYI3PsLXiw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="116261630"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="115719579"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Feb 2025 21:27:45 -0800
+  by orviesa006.jf.intel.com with ESMTP; 22 Feb 2025 22:39:11 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tm4Wl-00079L-0b;
-	Sun, 23 Feb 2025 05:27:43 +0000
-Date: Sun, 23 Feb 2025 13:26:58 +0800
+	id 1tm5ds-0007Al-2M;
+	Sun, 23 Feb 2025 06:39:08 +0000
+Date: Sun, 23 Feb 2025 14:38:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
-	tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	liangjian010@huawei.com, chenjianmin@huawei.com,
-	lidongming5@huawei.com, shiyongbang@huawei.com, libaihan@huawei.com,
-	shenjian15@huawei.com, shaojijie@huawei.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug
- detect of irq feature
-Message-ID: <202502231304.BCzV4Y8D-lkp@intel.com>
-References: <20250222025102.1519798-8-shiyongbang@huawei.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net,
+	Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, linux-arm-kernel@lists.infradead.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Simon Horman <horms@kernel.org>,
+	Romain Gantois <romain.gantois@bootlin.com>
+Subject: Re: [PATCH net-next 08/13] net: phy: phy_caps: Introduce
+ link_caps_valid
+Message-ID: <202502231409.QTfXTqrD-lkp@intel.com>
+References: <20250222142727.894124-9-maxime.chevallier@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,36 +78,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250222025102.1519798-8-shiyongbang@huawei.com>
+In-Reply-To: <20250222142727.894124-9-maxime.chevallier@bootlin.com>
 
-Hi Yongbang,
+Hi Maxime,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.14-rc3 next-20250221]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-Restructuring-the-header-dp_reg-h/20250222-110052
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250222025102.1519798-8-shiyongbang%40huawei.com
-patch subject: [PATCH v3 drm-dp 7/8] drm/hisilicon/hibmc: Enable this hot plug detect of irq feature
-config: arm64-randconfig-004-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231304.BCzV4Y8D-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231304.BCzV4Y8D-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-phy-Extract-the-speed-duplex-to-linkmode-conversion-from-phylink/20250222-223310
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250222142727.894124-9-maxime.chevallier%40bootlin.com
+patch subject: [PATCH net-next 08/13] net: phy: phy_caps: Introduce link_caps_valid
+config: x86_64-buildonly-randconfig-004-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231409.QTfXTqrD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231409.QTfXTqrD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502231304.BCzV4Y8D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502231409.QTfXTqrD-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "drm_client_init" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
->> ERROR: modpost: "drm_client_register" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
->> ERROR: modpost: "drm_client_release" [drivers/gpu/drm/hisilicon/hibmc/hibmc-drm.ko] undefined!
+>> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'speed' not described in 'phy_caps_valid'
+>> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'duplex' not described in 'phy_caps_valid'
+>> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'linkmodes' not described in 'phy_caps_valid'
+
+
+vim +152 drivers/net/phy/phy_caps.c
+
+   147	
+   148	/**
+   149	 * phy_caps_valid() - Validate a linkmodes set agains given speed and duplex
+   150	 */
+   151	bool phy_caps_valid(int speed, int duplex, const unsigned long *linkmodes)
+ > 152	{
+   153		int capa = speed_duplex_to_capa(speed, duplex);
+   154	
+   155		if (capa < 0)
+   156			return false;
+   157	
+   158		return linkmode_intersects(link_caps[capa].linkmodes, linkmodes);
+   159	}
+   160	
 
 -- 
 0-DAY CI Kernel Test Service
