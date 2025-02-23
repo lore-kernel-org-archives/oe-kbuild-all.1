@@ -1,89 +1,115 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F491E480
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 13:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247851C84B4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 13:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740318056; cv=none; b=tpHOAIbuau7V45JTNMW9d047HQn068giE64GpmymOoFqExy8vGOHn3NpdOgFnAHUVw0E7YQwNd/nf/CXnz5GUELCl29jGqxUQZxasjv7G/OKwMxyts246QtAtPJhaVFYVWRYxmYgZCa9mnpqvjzG+k6v16w/NWUNAP7zdurVtH4=
+	t=1740318926; cv=none; b=Rng+4i3QOVS9kPkTNZMf2c4x1f8Ew6Vkwm5GSu2mCzoi4gB1fMMyHTGX7JOLAoxhdlXYhgX7JqzjRvz0qbgYV92w2FO4s/FCjEB7lByKmWZjVPbtdq8pwAWa6MnVnFBsORhrs8nJPvdC97nCw2G2FRy0OQHnUhXzt085mcBlipk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740318056; c=relaxed/simple;
-	bh=hcf7+7C3MEhs4rmBsctVJxr+hv1xZgTKJoSQHXSsCz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WV0D8lQZ7Hd4npYIfgk3UhS/GCVH9g+RnbdxNracDuJoaJSTfVA+AS2uICpGQCDNd0CdZITV/wPpOG5TzX3SqeMTlk/x4J8btn8gDPH7fVta7MZuHaYPQflQoBvnfW2lQgZrashtTxBM6cy465yIIxv4mqPmCfVvxvN3hh0bpvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oBlq8azH; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1740318926; c=relaxed/simple;
+	bh=hw44ByTdUYk50z3XDb/JoVSiQG+PPhJ5JUdR58IzaLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z6rAQzj1PSHc8UhtQ8LBc0gLsI1Oq09QTvmAEOEVKRRWga3ngSlOp+i0J2Cal7lYn3jVg/C6OqaWOc3Lh0DD/j5yTQV+NYqNpL3y6hoQEYlcxK4C+UnClVKNQG0MzD7eBzybxy2QkEP0JYNvgUap3HpBsNmuFBA+PGtcIjnD0sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTcbUnic; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oBlq8azH"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D908844388;
-	Sun, 23 Feb 2025 13:40:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1740318045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K6bIJuULWhsZxJCwa0hMVmk2iWw7cX6L/3fW6XmaZJY=;
-	b=oBlq8azH+BF3Jjf44h2fXFP4YWqwNaegZtOSOGTfSqIOT1AFfSfYqFmyz5BobJH+FtwYxX
-	7rUdaZtPc/VvY69ZzMXGzrvYXIwY2/SSLKHiIIchfSsW1sRCgkLv2NAQuQ8bMTw2Y+g/0r
-	WoTcPJ5UU2/7+qzv/EsMrNX0aohLiMbKuVMkn16JUdTb5jQwX3VQL6ZTv1dl9vl3DsdfAu
-	gcIZy5TWsnQU1dUPVNKhJiwHoutc5YyMTCH3KwfwUFaSUF0tVh7/lr4Rt035QzlGD5jdgQ
-	ioXiVTa6R6kIl+KSX1yjoJJYSPXoBm3rhqwgPtbU3jB1X0wM22iqVIuDVHTkUg==
-Date: Sun, 23 Feb 2025 14:40:41 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: davem@davemloft.net, Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski
- <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, Heiner Kallweit
- <hkallweit1@gmail.com>, oe-kbuild-all@lists.linux.dev,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- thomas.petazzoni@bootlin.com, linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@csgroup.eu>, Herve Codina
- <herve.codina@bootlin.com>, Florian Fainelli <f.fainelli@gmail.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, =?UTF-8?B?S8O2cnk=?= Maincent
- <kory.maincent@bootlin.com>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Simon Horman <horms@kernel.org>, Romain Gantois
- <romain.gantois@bootlin.com>
-Subject: Re: [PATCH net-next 08/13] net: phy: phy_caps: Introduce
- link_caps_valid
-Message-ID: <20250223144041.1bf253ca@fedora.home>
-In-Reply-To: <202502231409.QTfXTqrD-lkp@intel.com>
-References: <20250222142727.894124-9-maxime.chevallier@bootlin.com>
-	<202502231409.QTfXTqrD-lkp@intel.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTcbUnic"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740318924; x=1771854924;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hw44ByTdUYk50z3XDb/JoVSiQG+PPhJ5JUdR58IzaLE=;
+  b=nTcbUnic7rUG/C19nn5gkxq9pn+/o5rgGye2DPr7NQLIGG3+bbyWovXc
+   D5D7F3juu2FnATEoouO801DEtoFaBcRaClTviwWL1bWRBBrpVFCJkX+E0
+   5ccUhRGQenwqmTlbSSsui0quAgui9rNLd3b1B1ZNzTjbxuXWT2+TMBDjt
+   U5/aUbvpiJHX+BOTAGK0NUuaLgVtlPy0zCt3KJCTnX8qYb9dumO9yw14q
+   L460Le5jAFeIKza/kkahAYUksmQN2TVPLTsD/1iUdlCDvNJ9PcfovWd4j
+   SwkE1rE45W7F8zyolDobXLczcOFvzW+PX/l42Aj+lgG/OjjS9TQNZt661
+   A==;
+X-CSE-ConnectionGUID: xqOhAaVTS3yHQuVneHi28w==
+X-CSE-MsgGUID: giJHg5ueTmWZPqHoXRsx6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41202020"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="41202020"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 05:55:24 -0800
+X-CSE-ConnectionGUID: 3lVE7KFsTRufC8kH0h3pWQ==
+X-CSE-MsgGUID: Kk5m5mVETjetGdHn04FEsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="115852422"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 23 Feb 2025 05:55:23 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tmCS0-0007Mp-1V;
+	Sun, 23 Feb 2025 13:55:20 +0000
+Date: Sun, 23 Feb 2025 21:54:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch
+ is modular
+Message-ID: <202502232152.JC84YDLp-lkp@intel.com>
+References: <Z6woN4vgdaywOZxm@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejheeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepofgrgihimhgvucevhhgvvhgrlhhlihgvrhcuoehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeegveeltddvveeuhefhvefhlefhkeevfedtgfeiudefffeiledttdfgfeeuhfeukeenucfkphepvdgrtddumegtsgduleemkegugegtmeelfhdttdemsggtvddumeekkeelleemheegtdgtmegvheelvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudelmeekugegtgemlehftddtmegstgdvudemkeekleelmeehgedttgemvgehlegvpdhhvghlohepfhgvughorhgrrdhhohhmvgdpmhgrihhlfhhrohhmpehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvuddprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopehkuhgsrgesk
- hgvrhhnvghlrdhorhhgpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehhkhgrlhhlfigvihhtudesghhmrghilhdrtghomh
-X-GND-Sasl: maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6woN4vgdaywOZxm@gondor.apana.org.au>
 
-On Sun, 23 Feb 2025 14:38:46 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Herbert,
 
-> >> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'speed' not described in 'phy_caps_valid'
-> >> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'duplex' not described in 'phy_caps_valid'
-> >> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'linkmodes' not described in 'phy_caps_valid'  
-> 
+kernel test robot noticed the following build errors:
 
-Ah indeed, I'm missing the kdoc description here.
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Meh and the commit title should be :
+url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-lib-Kconfig-Fix-lib-built-in-failure-when-arch-is-modular/20250212-125048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/Z6woN4vgdaywOZxm%40gondor.apana.org.au
+patch subject: [PATCH] crypto: lib/Kconfig - Fix lib built-in failure when arch is modular
+config: s390-randconfig-r072-20250223 (https://download.01.org/0day-ci/archive/20250223/202502232152.JC84YDLp-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502232152.JC84YDLp-lkp@intel.com/reproduce)
 
-	net: phy: phy_caps: Introduce phy_caps_valid
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502232152.JC84YDLp-lkp@intel.com/
 
-I'll wait a bit for reviews and fix that in the next round.
+All errors (new ones prefixed by >>):
 
-Thanks mister robot,
+   s390x-linux-ld: lib/crypto/chacha20poly1305.o: in function `chacha20poly1305_encrypt':
+>> chacha20poly1305.c:(.text+0x27a): undefined reference to `chacha_init_arch'
+   s390x-linux-ld: lib/crypto/chacha20poly1305.o: in function `__chacha20poly1305_encrypt':
+>> chacha20poly1305.c:(.text+0x5bc): undefined reference to `chacha_crypt_arch'
+>> s390x-linux-ld: chacha20poly1305.c:(.text+0x638): undefined reference to `chacha_crypt_arch'
+   s390x-linux-ld: lib/crypto/chacha20poly1305.o: in function `xchacha_init':
+   chacha20poly1305.c:(.text+0x9f2): undefined reference to `chacha_init_arch'
+>> s390x-linux-ld: chacha20poly1305.c:(.text+0xa04): undefined reference to `hchacha_block_arch'
+>> s390x-linux-ld: chacha20poly1305.c:(.text+0xa1a): undefined reference to `chacha_init_arch'
+   s390x-linux-ld: lib/crypto/chacha20poly1305.o: in function `chacha20poly1305_decrypt':
+   chacha20poly1305.c:(.text+0xeca): undefined reference to `chacha_init_arch'
+   s390x-linux-ld: lib/crypto/chacha20poly1305.o: in function `__chacha20poly1305_decrypt':
+   chacha20poly1305.c:(.text+0x126a): undefined reference to `chacha_crypt_arch'
+   s390x-linux-ld: chacha20poly1305.c:(.text+0x13ca): undefined reference to `chacha_crypt_arch'
+   s390x-linux-ld: lib/crypto/chacha20poly1305.o: in function `chacha20poly1305_crypt_sg_inplace':
+   chacha20poly1305.c:(.text+0x18ec): undefined reference to `chacha_init_arch'
+   s390x-linux-ld: chacha20poly1305.c:(.text+0x190c): undefined reference to `chacha_crypt_arch'
+   s390x-linux-ld: chacha20poly1305.c:(.text+0x1bb6): undefined reference to `chacha_crypt_arch'
+   s390x-linux-ld: chacha20poly1305.c:(.text+0x1c24): undefined reference to `chacha_crypt_arch'
 
-Maxime
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
