@@ -1,75 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E9FDDDC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 06:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4961FC7D2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 08:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740292759; cv=none; b=bYVHdmusY4Ndx96+YVYi347pJJgXldgRyXk8w7ZZFnaIplVUBTiLq3U/OL2mKFgihJ4YfbKaaeZOlMAXNs/VJcpxmi2cmUjr6/gxBxOTAnFioZLS/TXdx1OR0zXWWlpVa0X7x2PTwn8JumEiR2ObGVPRWLGVKMkgz3HmRbVMHdM=
+	t=1740298899; cv=none; b=fEy1qzOLvUViNnwfihYzkQ1ONjxMAMx0enmbJbIAOrtxobQVexfc3vMZG9Q/mQHnsRwq7V/goq8zR+2p265zn6gI51WXqWoFoaAe4VjjH898hfffoZvPDbsMJOmIYHI2DUHIL4xlFXDKLR7O7Te0UyhyzifDOzHR19fbt2QlROQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740292759; c=relaxed/simple;
-	bh=I+4KPvRzypPtuDrJMCOOp4HSPrPDgHBgGBkD6P6VHUI=;
+	s=arc-20240116; t=1740298899; c=relaxed/simple;
+	bh=90wQ+ltilL4gvTyMoe64RHL4T1bK+YyA9wK24My8hOU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TJ0GXwdkkKOYEAiggYsSNFPnJkvAQM0XcKVpGb1rmZNhB89V1nEe9mxtC6EEK/ZCF1I/rVtjFL4KPdgxXvqJowaZ0j5gtX4eLWBsrZ7fbgkEwCZqInBRCgN5PAgg0URL5FxWVPerQUmkoRfuNnZvcfbuw6DnU00gU+rqu9CRKZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDtaXut0; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwU2RM/mRX7WX8MFUk4Ac4XNbAThpygBkuq6rWoJPlQ1h39Ksyg8zBPaI2L19DWZ7ZMgXalw7ij/Awi14DpMgAbmMyOXcKEFGJgkiRx1Lg365a5A8n4nGcQtwUoZYxUnfoCjn7WkS4oRu3+p5aFDxglygCOziV2iGUrtFsNYX7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhPPoWxu; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDtaXut0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhPPoWxu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740292757; x=1771828757;
+  t=1740298897; x=1771834897;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=I+4KPvRzypPtuDrJMCOOp4HSPrPDgHBgGBkD6P6VHUI=;
-  b=LDtaXut0yFZzr0DFoGMduGECsxn21PFszWURTI4IMCiPngIzlHJqL2qm
-   2c91xkuH0orN7la+sUWHwYwjdDS+maFbKNy54IeR79X0SUlT9EKyeuddI
-   o2sVIPTgodYHv66oKxQssGKDsMHtD1+LiZF6MsFxU+koqxYXSjhnapEuf
-   /V2F5r1RhbYaJj3lRnYliuqUrMev5iUviumhPc2pfgwR9T7drtsCUZS4C
-   pRuxxbRerpIlBzqqRFKvA3praAYyHVsHVX26lzZXh/GJ4hUBeKeWjevl0
-   A0YC+Vg5dIUePbNHqJtMxojh1E6udOML/j7m6lBgLWQH78MTfmADd8u8z
+  bh=90wQ+ltilL4gvTyMoe64RHL4T1bK+YyA9wK24My8hOU=;
+  b=RhPPoWxurSLhnAX8Bdu7fmhPvu1b0XEpbt0Ua7y3J8WEXgjhON/yTjpF
+   rk1iGmUkEapLQYOhUrYfR4waPpnzLLhKcfR7AERkK+p29y5F+at0/Xifi
+   uIJk3NOGxUMNxYbQ0SSWLySJEeldrKnz8ahvyiFdq5RLYarb6YQlkeVwN
+   T2LY4WuxmEsd4HUebP1ZhSr/yAas6wa7yOA3xyWspth4w6svmr6Q5DHR7
+   shr/CiUco7dYvvNUgq2IQMeZbjcCGDQPgeTwK9Jr05x8ZYNpvS/8yHqdl
+   eYDZdTPWE5v93j8EmN70pfSsqA37SB30eLKp4zFk7dv7z1o9eqMQ84Q5X
    w==;
-X-CSE-ConnectionGUID: ATtaXvk6RuKP4DPmw5isNQ==
-X-CSE-MsgGUID: VRPUAx4LR76EP+KCi+PGyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="44849614"
+X-CSE-ConnectionGUID: YXkjt683TsecoNvBGd4oJw==
+X-CSE-MsgGUID: W+OqxkKiQm6fIfNwcjQ76w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="51709926"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="44849614"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 22:39:16 -0800
-X-CSE-ConnectionGUID: 5uG0uvraSIuqsYe9IW/NcQ==
-X-CSE-MsgGUID: ia23rpyKQ7SEVYI3PsLXiw==
+   d="scan'208";a="51709926"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 00:21:36 -0800
+X-CSE-ConnectionGUID: MhJcB458TdmF83dgqq/7yg==
+X-CSE-MsgGUID: KIBtOcOFSxa6B4eHiNDYsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="115719579"
+   d="scan'208";a="116282573"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 22 Feb 2025 22:39:11 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 23 Feb 2025 00:21:32 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tm5ds-0007Al-2M;
-	Sun, 23 Feb 2025 06:39:08 +0000
-Date: Sun, 23 Feb 2025 14:38:46 +0800
+	id 1tm7Ew-0007DH-22;
+	Sun, 23 Feb 2025 08:21:30 +0000
+Date: Sun, 23 Feb 2025 16:21:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net,
-	Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, linux-arm-kernel@lists.infradead.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Simon Horman <horms@kernel.org>,
-	Romain Gantois <romain.gantois@bootlin.com>
-Subject: Re: [PATCH net-next 08/13] net: phy: phy_caps: Introduce
- link_caps_valid
-Message-ID: <202502231409.QTfXTqrD-lkp@intel.com>
-References: <20250222142727.894124-9-maxime.chevallier@bootlin.com>
+To: Yafang Shao <laoar.shao@gmail.com>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
+	haoluo@google.com, jolsa@kernel.org, jpoimboe@kernel.org,
+	peterz@infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yafang Shao <laoar.shao@gmail.com>
+Subject: Re: [PATCH v2 bpf-next 1/3] objtool: Copy noreturns.h to
+ include/linux
+Message-ID: <202502231624.0BVpxwbg-lkp@intel.com>
+References: <20250223062735.3341-2-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,50 +69,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250222142727.894124-9-maxime.chevallier@bootlin.com>
+In-Reply-To: <20250223062735.3341-2-laoar.shao@gmail.com>
 
-Hi Maxime,
+Hi Yafang,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Chevallier/net-phy-Extract-the-speed-duplex-to-linkmode-conversion-from-phylink/20250222-223310
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250222142727.894124-9-maxime.chevallier%40bootlin.com
-patch subject: [PATCH net-next 08/13] net: phy: phy_caps: Introduce link_caps_valid
-config: x86_64-buildonly-randconfig-004-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231409.QTfXTqrD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231409.QTfXTqrD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/objtool-Copy-noreturns-h-to-include-linux/20250223-143010
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250223062735.3341-2-laoar.shao%40gmail.com
+patch subject: [PATCH v2 bpf-next 1/3] objtool: Copy noreturns.h to include/linux
+reproduce: (https://download.01.org/0day-ci/archive/20250223/202502231624.0BVpxwbg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502231409.QTfXTqrD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502231624.0BVpxwbg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'speed' not described in 'phy_caps_valid'
->> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'duplex' not described in 'phy_caps_valid'
->> drivers/net/phy/phy_caps.c:152: warning: Function parameter or struct member 'linkmodes' not described in 'phy_caps_valid'
-
-
-vim +152 drivers/net/phy/phy_caps.c
-
-   147	
-   148	/**
-   149	 * phy_caps_valid() - Validate a linkmodes set agains given speed and duplex
-   150	 */
-   151	bool phy_caps_valid(int speed, int duplex, const unsigned long *linkmodes)
- > 152	{
-   153		int capa = speed_duplex_to_capa(speed, duplex);
-   154	
-   155		if (capa < 0)
-   156			return false;
-   157	
-   158		return linkmode_intersects(link_caps[capa].linkmodes, linkmodes);
-   159	}
-   160	
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+   make[2]: *** [scripts/Makefile.build:102: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target 'scripts/mod/' not remade because of errors.
+   make[1]: *** [Makefile:1263: prepare0] Error 2
+>> diff: tools/tools/objtool/noreturns.h: No such file or directory
+   Warning: Kernel ABI header at 'tools/tools/objtool/noreturns.h' differs from latest version at 'tools/objtool/noreturns.h'
+   make[3]: *** [Makefile:70: tools/objtool/objtool-in.o] Error 1
+   make[3]: Target 'all' not remade because of errors.
+   make[2]: *** [Makefile:73: objtool] Error 2
+   make[1]: *** [Makefile:1430: tools/objtool] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
