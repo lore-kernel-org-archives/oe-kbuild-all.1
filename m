@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809C01FDA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 02:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CB61FDA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 02:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740277106; cv=none; b=oHXhHo9GkvRus7Ti8YpAFmH5S41GocDxn7bQZ27T0G9/AsP3aVGnTiRHlJvbHkVlHGCh7ZLT2sASqacd6nCWqHXD3Wk2eXPEEw5pD2MKCmLTL+ddyFLIPSXAxz8X+W/DZjaIE6ZQcYjlhpp9lMcvD6gCifnxOvu+cr0pJe8XJko=
+	t=1740277708; cv=none; b=JdZNkJRCQjN2gQfPIQAY0NRBVJyXVNyvIhILoTaR/K8hK3jnFCPFMq52eLjdmPMtw5QBYIXrcfTjiAn9FIDs6QrG3CfdS381ekRMyThF1PGq/Kg4jmYzoqk7ZXjOVDZebb3xEtjM66z83YzoRqo1b5BRl9UnhF+FXa4REY3HLnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740277106; c=relaxed/simple;
-	bh=wn4dsiQDuZ4wDO3+pqXZpc+4kXeidMG9qH5nKZpGBbc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+dtuyHWdQlcGAOvJf45S6gC7M2e83xt83ybCoAuqv7D0JT3E3a/GW58SvdZwUddhZatV1xPNzvih8ubBimHSr0RxApReMaxoL2ez4IuLXOa5ddttUM+TM3FT1eQUSnq60FGgV4P1Ispn1XgabqdZieQ7Ogc7gh4C3tYWG7VbEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UROa18nU; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1740277708; c=relaxed/simple;
+	bh=x/CR03mTkP5EtUPDfTNB3fFI3VRJEdRXAhwh4iPpP8k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iW8qco+8jnS0g6LqMXCKSW2Zv8GKpIsQhILSSzMUUHprtSaW5HBtirCf0kx10aMu1gYMUoajE1Xob6rzv4ojSHgLXT3pSwvrvg4rn5WHgC46IwNpStDjacoAGxef4FNZ/9EsK/KMkDoOaFzSRy7lyAL2KnQixe1c3PAfLuT+37k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMLETFGb; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UROa18nU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMLETFGb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740277104; x=1771813104;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wn4dsiQDuZ4wDO3+pqXZpc+4kXeidMG9qH5nKZpGBbc=;
-  b=UROa18nUa3u+9tJ4L7JMBnztN3Hdqyt9ZGHHXZM1STWyBKQeKWg0l0EG
-   0UgSqWCN5R1cb6gbRq0AmtPOewCsY1v6SeX/wyQxE4l3Z3ewYaYsA/vEE
-   /cSct7rWCUXv2eH1S35EY6W4VGd/v3m6RqLt96zB1wZdjjG0QVI2u3F3d
-   otSzmcb3GLpmkRlYwCJNsnje4kGkb9FwQqtQS5biGsMPhnRCdLbrEPPbx
-   SalxPSBxZNe/PnteguaIFMO7NVNO8vZEK6FbYuDQL/l6DQEpB32kXnObE
-   AACVTu0sp/TThN1FoFjBgKPmZfYRpYPT0Ukw6t50l9wvLTfdzgTCv8vGU
+  t=1740277706; x=1771813706;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x/CR03mTkP5EtUPDfTNB3fFI3VRJEdRXAhwh4iPpP8k=;
+  b=UMLETFGbVapCIhLn2bKv+o5bssXY/GwSSBBK+UFLcJkJYICjADL/UVdT
+   yeLRfw0NnFLYeIT2Lj+OU4X1XcUd39MU4F7QwITcqmsKS6I3LlfkhFq7h
+   8QaMXi3RAwCDbKSYwIQqOr6cTnyVcRbolJRXg9nZkSAeECWaPz/SWdHpm
+   DOC9K8UU4n6Xr3SrmcK7+gnaG/4L14aojZFsdzvXZzx19q8nWI37980SY
+   rXvldtuP2kwwIYkgLnyyDNU2rAhpBuqTlaB+MlUhpsNlzT5oSF/LBjsWH
+   pr+89qUtMVf8/eqo3ahId19Xrdao8bqEJ2ucacbJeA8jwY9xnSnOoCUJz
    Q==;
-X-CSE-ConnectionGUID: kBCK8k5fRyutX6wHuJGTaQ==
-X-CSE-MsgGUID: D2Kj0lWcQCSb4tcVWLsckQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11353"; a="51701285"
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="51701285"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 18:18:24 -0800
-X-CSE-ConnectionGUID: hxZzzr7GQHub4X5ep94xQw==
-X-CSE-MsgGUID: ymsm1AnnRfW9zG4wdXdguQ==
+X-CSE-ConnectionGUID: fHujgbksRBqDCLHaxe/29w==
+X-CSE-MsgGUID: kjYAuV2rSEWvhRgoO1CMRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52490045"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52490045"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2025 18:28:25 -0800
+X-CSE-ConnectionGUID: RkYzh4Z1SXOLp24qFyhEjw==
+X-CSE-MsgGUID: LJjMzJ8WSrauWSY5PgcHHw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,308,1732608000"; 
-   d="scan'208";a="146571617"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119842391"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 22 Feb 2025 18:18:22 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 22 Feb 2025 18:28:24 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tm1ZU-00073f-1A;
-	Sun, 23 Feb 2025 02:18:20 +0000
-Date: Sun, 23 Feb 2025 10:17:27 +0800
+	id 1tm1jB-000749-2n;
+	Sun, 23 Feb 2025 02:28:21 +0000
+Date: Sun, 23 Feb 2025 10:27:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH bpf-next v9 2/6] mm, bpf: Introduce try_alloc_pages() for
- opportunistic page allocation
-Message-ID: <202502230935.fqsCRt0F-lkp@intel.com>
-References: <20250222024427.30294-3-alexei.starovoitov@gmail.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
+Subject: [ceph-client:tls_logger 6/15] net/ceph/ceph_san.c:17:39: error:
+ arithmetic on a pointer to an incomplete type 'typeof (ceph_san_tls)' (aka
+ 'struct ceph_san_tls_logger')
+Message-ID: <202502231007.WIrsl6gW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +62,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250222024427.30294-3-alexei.starovoitov@gmail.com>
 
-Hi Alexei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/locking-local_lock-Introduce-localtry_lock_t/20250222-104619
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250222024427.30294-3-alexei.starovoitov%40gmail.com
-patch subject: [PATCH bpf-next v9 2/6] mm, bpf: Introduce try_alloc_pages() for opportunistic page allocation
-config: x86_64-buildonly-randconfig-003-20250223 (https://download.01.org/0day-ci/archive/20250223/202502230935.fqsCRt0F-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230935.fqsCRt0F-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git tls_logger
+head:   6426787926c0ab3f8cd024b9cac8bd0fd28813a4
+commit: 485747e7711ebb9bcda819027564d587d215874a [6/15] ceph_san: moving to per_cpu
+config: hexagon-randconfig-r072-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231007.WIrsl6gW-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502231007.WIrsl6gW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502230935.fqsCRt0F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502231007.WIrsl6gW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/page_alloc.c:7103: warning: Function parameter or struct member 'nid' not described in 'try_alloc_pages'
->> mm/page_alloc.c:7103: warning: Function parameter or struct member 'order' not described in 'try_alloc_pages'
+>> net/ceph/ceph_san.c:17:39: error: arithmetic on a pointer to an incomplete type 'typeof (ceph_san_tls)' (aka 'struct ceph_san_tls_logger')
+      17 |     struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:254:27: note: expanded from macro 'this_cpu_ptr'
+     254 | #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+         |                           ^~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:243:2: note: expanded from macro 'raw_cpu_ptr'
+     243 |         __verify_pcpu_ptr(ptr);                                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:219:52: note: expanded from macro '__verify_pcpu_ptr'
+     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
+         |                                                     ~~~~~ ^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+>> net/ceph/ceph_san.c:18:23: error: incomplete definition of type 'struct ceph_san_tls_logger'
+      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
+         |                    ~~~^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+>> net/ceph/ceph_san.c:18:39: error: use of undeclared identifier 'CEPH_SAN_MAX_LOGS'
+      18 |     int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
+         |                                       ^
+   net/ceph/ceph_san.c:19:8: error: incomplete definition of type 'struct ceph_san_tls_logger'
+      19 |     tls->logs[head_idx].pid = current->pid;
+         |     ~~~^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+   net/ceph/ceph_san.c:20:8: error: incomplete definition of type 'struct ceph_san_tls_logger'
+      20 |     tls->logs[head_idx].ts = jiffies;
+         |     ~~~^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+   net/ceph/ceph_san.c:21:15: error: incomplete definition of type 'struct ceph_san_tls_logger'
+      21 |     memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
+         |            ~~~^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+   net/ceph/ceph_san.c:23:15: error: incomplete definition of type 'struct ceph_san_tls_logger'
+      23 |     return tls->logs[head_idx].buf;
+         |            ~~~^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+   net/ceph/ceph_san.c:15:7: warning: no previous prototype for function 'get_log_cephsan' [-Wmissing-prototypes]
+      15 | char *get_log_cephsan(void) {
+         |       ^
+   net/ceph/ceph_san.c:15:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      15 | char *get_log_cephsan(void) {
+         | ^
+         | static 
+   net/ceph/ceph_san.c:30:6: error: redefinition of 'cephsan_cleanup'
+      30 | void cephsan_cleanup(void)
+         |      ^
+   include/linux/ceph/ceph_san.h:104:20: note: previous definition is here
+     104 | static inline void cephsan_cleanup(void) {}
+         |                    ^
+   net/ceph/ceph_san.c:37:5: error: redefinition of 'cephsan_init'
+      37 | int cephsan_init(void)
+         |     ^
+   include/linux/ceph/ceph_san.h:105:26: note: previous definition is here
+     105 | static inline int __init cephsan_init(void) { return 0; }
+         |                          ^
+   net/ceph/ceph_san.c:9:44: error: tentative definition has type 'typeof(struct ceph_san_tls_logger)' (aka 'struct ceph_san_tls_logger') that is never completed
+       9 | DEFINE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                                            ^
+   include/linux/ceph/ceph_san.h:10:24: note: forward declaration of 'struct ceph_san_tls_logger'
+      10 | DECLARE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+         |                        ^
+   1 warning and 10 errors generated.
 
 
-vim +7103 mm/page_alloc.c
+vim +17 net/ceph/ceph_san.c
 
-  7087	
-  7088	/**
-  7089	 * try_alloc_pages - opportunistic reentrant allocation from any context
-  7090	 * @nid - node to allocate from
-  7091	 * @order - allocation order size
-  7092	 *
-  7093	 * Allocates pages of a given order from the given node. This is safe to
-  7094	 * call from any context (from atomic, NMI, and also reentrant
-  7095	 * allocator -> tracepoint -> try_alloc_pages_noprof).
-  7096	 * Allocation is best effort and to be expected to fail easily so nobody should
-  7097	 * rely on the success. Failures are not reported via warn_alloc().
-  7098	 * See always fail conditions below.
-  7099	 *
-  7100	 * Return: allocated page or NULL on failure.
-  7101	 */
-  7102	struct page *try_alloc_pages_noprof(int nid, unsigned int order)
-> 7103	{
-  7104		/*
-  7105		 * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
-  7106		 * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
-  7107		 * is not safe in arbitrary context.
-  7108		 *
-  7109		 * These two are the conditions for gfpflags_allow_spinning() being true.
-  7110		 *
-  7111		 * Specify __GFP_NOWARN since failing try_alloc_pages() is not a reason
-  7112		 * to warn. Also warn would trigger printk() which is unsafe from
-  7113		 * various contexts. We cannot use printk_deferred_enter() to mitigate,
-  7114		 * since the running context is unknown.
-  7115		 *
-  7116		 * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
-  7117		 * is safe in any context. Also zeroing the page is mandatory for
-  7118		 * BPF use cases.
-  7119		 *
-  7120		 * Though __GFP_NOMEMALLOC is not checked in the code path below,
-  7121		 * specify it here to highlight that try_alloc_pages()
-  7122		 * doesn't want to deplete reserves.
-  7123		 */
-  7124		gfp_t alloc_gfp = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC;
-  7125		unsigned int alloc_flags = ALLOC_TRYLOCK;
-  7126		struct alloc_context ac = { };
-  7127		struct page *page;
-  7128	
-  7129		/*
-  7130		 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
-  7131		 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
-  7132		 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
-  7133		 * mark the task as the owner of another rt_spin_lock which will
-  7134		 * confuse PI logic, so return immediately if called form hard IRQ or
-  7135		 * NMI.
-  7136		 *
-  7137		 * Note, irqs_disabled() case is ok. This function can be called
-  7138		 * from raw_spin_lock_irqsave region.
-  7139		 */
-  7140		if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
-  7141			return NULL;
-  7142		if (!pcp_allowed_order(order))
-  7143			return NULL;
-  7144	
+     7	
+     8	/* Use per-core TLS logger; no global list or lock needed */
+     9	DEFINE_PER_CPU(struct ceph_san_tls_logger, ceph_san_tls);
+    10	EXPORT_SYMBOL(ceph_san_tls);
+    11	/* The definitions for struct ceph_san_log_entry and struct ceph_san_tls_logger
+    12	 * have been moved to cephsan.h (under CONFIG_DEBUG_FS) to avoid duplication.
+    13	 */
+    14	
+    15	char *get_log_cephsan(void) {
+    16	    /* Use the per-core TLS logger */
+  > 17	    struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
+  > 18	    int head_idx = tls->head_idx++ & (CEPH_SAN_MAX_LOGS - 1);
+    19	    tls->logs[head_idx].pid = current->pid;
+    20	    tls->logs[head_idx].ts = jiffies;
+    21	    memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
+    22	
+    23	    return tls->logs[head_idx].buf;
+    24	}
+    25	EXPORT_SYMBOL(get_log_cephsan);
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
