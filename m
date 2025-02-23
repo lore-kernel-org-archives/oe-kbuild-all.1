@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5025670825;
-	Sun, 23 Feb 2025 16:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566A743ABC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 17:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740328210; cv=none; b=DJcVjt0GoEKDH7vuH8YFTf2pOakobJIK5Uswaix8ywIRrLAidPtvvAtEuI7ymYOvhQV47NglRfHs1+R263F2AYtve/D1TKW2lsw4KsjOIoJ9C42DdFTBuEUxHhAPtWv+cB78vZMkVAwCEO2vCl0vRP21Rm57J5Y6HPJ5JZIxUUI=
+	t=1740330074; cv=none; b=cLeGNINrSa4NRur42zRyao2Xp0DpdmVgKJ/cLU92ChkFv2+gzPPpLCCqGoMIUl504Oqz3RcinKtALp3Zv5XJGFiO04fO+j6XH9BJO1hCgJUdRyA2wx3f3MLXK5lY5hKNI3tjRrZK8EUxWjqC9DmJpkPmkRJxDhpScP18DHqvvvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740328210; c=relaxed/simple;
-	bh=+Y/0FhJQcQb7H79QrG1GfWT+QyqFxJ6L8wblssNi1cI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aR0CTHL7vbvD1hM4cbhhBTbI6grkst01Ht20DMqcRcTJRWtKke4E2QaHSyG81Vk+WD/aARlNHe94jy4b/QUteQwnKUv2AB+KbWS9pXWum0dRhWuu3skaWtnSpDpMmbsvudk6HmKGUEsXWI9ZpiKeujcmYZRi2pJkVF9roFC2WkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+jTLU7c; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1740330074; c=relaxed/simple;
+	bh=hce+YrPGmrSFkOORUi3xYv5tzmbWodZaL3ZsXnTZWtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pl+VsR56bfREU/xD7zUujn92F9gUn8CjqOr9kPGs5b7SSWvcIvpVNskfVl8TGkWKXfzlKgT/pflmJsK2pYZf2DRvmuel4IQ9HzstnBIfI3dtRtyhnrYMPAGyOf9yjokZcBmx2VTCnqCXQyf6dWxtNMFo7/ZpNO7aY+VNfe7pqnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XiXDHEr3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+jTLU7c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XiXDHEr3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740328208; x=1771864208;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Y/0FhJQcQb7H79QrG1GfWT+QyqFxJ6L8wblssNi1cI=;
-  b=I+jTLU7cDy5Di/BdXYoQNHBkTCI4vKiepISTV3iTGB2yPWlv/I2U/TVx
-   UR60wrvoNMitDVNCbP4bLseAFhOG+E2J5MFFc/tXkUR5179nP/6phDO7q
-   P7SK8eMfoi5gaSnReTR+CLCS0uBgvM6JN4zTqaZxvyJHGWT3dsfs4NpP0
-   upCKJ+uBLrW8DANl4U/gGmeDtmtmBcaWr7UEusHE+pj/txBMBE9t1gYuQ
-   n4G/wRjwvV/nRN/sDDu48F7ezunTweOFyXZT8F9o7NtMUsQxwbXwl5DEX
-   P5QhXqxk3z7pAH6PNoMcjJGkAu89fEAFX0vU76J1sU05NQ29uj6LX/x+j
-   Q==;
-X-CSE-ConnectionGUID: G3eecT+YQwm3gyzf53JFMQ==
-X-CSE-MsgGUID: Sko3dXdsRZutLYXa1JqM0g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58635947"
+  t=1740330073; x=1771866073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hce+YrPGmrSFkOORUi3xYv5tzmbWodZaL3ZsXnTZWtQ=;
+  b=XiXDHEr3d3JvkDEa9sPwmjhHqJYLWWSHCOLIRMuAJY03WNHoHS8/Khw9
+   KQRew84sb/xj4cehG4ED+XOYX0yRbODsdHx4KPCqyR6Iy6qKcPh4l0W12
+   1RWkdwRL5o/18qMIt2G+PQtuVMlqdz1bDgF1QpC8lfOofSyji7pVGlH4M
+   7dXvuU9dHGii+ZwzKt/HXoEGmWcvRkZyPVSHKDDYiZ4JFSJ8LAggJ14I7
+   ZtswQFz6SxQKfLx8MLkTfXxRxJCu4eREo0hKQ5P1ECr8K53JGvyFsHp+Z
+   OMCZ7WJ5AQu4ZnhdgPMuQDP7NXOSA2ENtAgoA8DK81D4oIZVLiVT1z0WL
+   w==;
+X-CSE-ConnectionGUID: oZUxTj73SiWqlRfas2OgWA==
+X-CSE-MsgGUID: Rxd8RMvlShW90e/5OUuDBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="63557682"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="58635947"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 08:30:06 -0800
-X-CSE-ConnectionGUID: 7bfAfqnHR/+G+ed+wATm2Q==
-X-CSE-MsgGUID: 5LDLmZwnSuiuRwPyQDwy+w==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="63557682"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 09:01:11 -0800
+X-CSE-ConnectionGUID: pt1LIXu7QMCp6BV5jQiC4w==
+X-CSE-MsgGUID: dtvLSN++Sc+fPbZlSCdwpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="116496834"
+   d="scan'208";a="116360702"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Feb 2025 08:30:04 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 23 Feb 2025 09:01:07 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmEri-0007S9-2E;
-	Sun, 23 Feb 2025 16:30:02 +0000
-Date: Mon, 24 Feb 2025 00:29:17 +0800
+	id 1tmFLk-0007T1-38;
+	Sun, 23 Feb 2025 17:01:04 +0000
+Date: Mon, 24 Feb 2025 01:00:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:page_bulk_alloc_opt_v2 1/1]
- fs/btrfs/extent_io.c:631:37: error: use of undeclared identifier 'pages'
-Message-ID: <202502240053.pJMTGvUm-lkp@intel.com>
+To: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: add entry for Samsung Exynos2200 SoC
+Message-ID: <202502240019.JZE1rcyX-lkp@intel.com>
+References: <20250223123044.725493-5-ivo.ivanov.ivanov1@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +68,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250223123044.725493-5-ivo.ivanov.ivanov1@gmail.com>
 
-tree:   https://github.com/gestionlin/linux.git page_bulk_alloc_opt_v2
-head:   10c5db9fc7b189b222074598ce5bc9c1d8cd0ea8
-commit: 10c5db9fc7b189b222074598ce5bc9c1d8cd0ea8 [1/1] mm: alloc_pages_bulk: remove assumption of populating only NULL elements
-config: x86_64-buildonly-randconfig-001-20250223 (https://download.01.org/0day-ci/archive/20250224/202502240053.pJMTGvUm-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240053.pJMTGvUm-lkp@intel.com/reproduce)
+Hi Ivaylo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next pinctrl-samsung/for-next linus/master v6.14-rc3 next-20250221]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivaylo-Ivanov/dt-bindings-arm-samsung-document-g0s-board-binding/20250223-203243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250223123044.725493-5-ivo.ivanov.ivanov1%40gmail.com
+patch subject: [PATCH v2 4/4] MAINTAINERS: add entry for Samsung Exynos2200 SoC
+reproduce: (https://download.01.org/0day-ci/archive/20250224/202502240019.JZE1rcyX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502240053.pJMTGvUm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502240019.JZE1rcyX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/btrfs/extent_io.c:5:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/btrfs/extent_io.c:631:37: error: use of undeclared identifier 'pages'
-     631 |         for (allocated = 0, ret = 0; ret < pages; ret++) {
-         |                                            ^
->> fs/btrfs/extent_io.c:633:4: error: use of undeclared identifier 'rqstp'
-     633 |                         rqstp->rq_pages[allocated] = rqstp->rq_pages[ret];
-         |                         ^
-   fs/btrfs/extent_io.c:633:33: error: use of undeclared identifier 'rqstp'
-     633 |                         rqstp->rq_pages[allocated] = rqstp->rq_pages[ret];
-         |                                                      ^
-   fs/btrfs/extent_io.c:635:5: error: use of undeclared identifier 'rqstp'
-     635 |                                 rqstp->rq_pages[ret] = NULL;
-         |                                 ^
-   3 warnings and 4 errors generated.
-
-
-vim +/pages +631 fs/btrfs/extent_io.c
-
-   609	
-   610	/*
-   611	 * Populate every free slot in a provided array with pages, using GFP_NOFS.
-   612	 *
-   613	 * @nr_pages:   number of pages to allocate
-   614	 * @page_array: the array to fill with pages; any existing non-null entries in
-   615	 *		the array will be skipped
-   616	 * @nofail:	whether using __GFP_NOFAIL flag
-   617	 *
-   618	 * Return: 0        if all pages were able to be allocated;
-   619	 *         -ENOMEM  otherwise, the partially allocated pages would be freed and
-   620	 *                  the array slots zeroed
-   621	 */
-   622	int btrfs_alloc_page_array(unsigned int nr_pages, struct page **page_array,
-   623				   bool nofail)
-   624	{
-   625		const gfp_t gfp = nofail ? (GFP_NOFS | __GFP_NOFAIL) : GFP_NOFS;
-   626		unsigned int allocated, ret;
-   627	
-   628		/* Defragment page_array so pages can be bulk allocated into remaining
-   629		 * NULL elements sequentially.
-   630		 */
- > 631		for (allocated = 0, ret = 0; ret < pages; ret++) {
-   632			if (page_array[ret]) {
- > 633				rqstp->rq_pages[allocated] = rqstp->rq_pages[ret];
-   634				if (ret != allocated)
-   635					rqstp->rq_pages[ret] = NULL;
-   636	
-   637				allocated++;
-   638			}
-   639		}
-   640	
-   641		while (allocated < nr_pages) {
-   642			ret = alloc_pages_bulk(gfp, nr_pages - allocated,
-   643					       page_array + allocated);
-   644			allocated += ret;
-   645			if (unlikely(!ret)) {
-   646				/* No progress, fail and do cleanup. */
-   647				for (int i = 0; i < allocated; i++) {
-   648					__free_page(page_array[i]);
-   649					page_array[i] = NULL;
-   650				}
-   651				return -ENOMEM;
-   652			}
-   653		}
-   654		return 0;
-   655	}
-   656	
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/clock/samsung,exynos2200-cmu.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/phy/samsung,exynos2200-usbcon-phy.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
