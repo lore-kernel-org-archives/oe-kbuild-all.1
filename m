@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C5778F41
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Feb 2025 16:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5025670825;
+	Sun, 23 Feb 2025 16:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740328208; cv=none; b=sfcFSzv2lG7z5hEHiySr/TxIOmEfCdYb6UX6OTg1ULF7W8AQGc8QZVXo/pxNoF9EezPlBvU8tblcEbXJySpp8Y7j2G4lho4VLe/ueS0Gj8CTanaTwPHSgJFl1H7wLqFf9NOT/GiI1OkPPgxehguSpALzOsH9AnLzdq8WaAGasio=
+	t=1740328210; cv=none; b=DJcVjt0GoEKDH7vuH8YFTf2pOakobJIK5Uswaix8ywIRrLAidPtvvAtEuI7ymYOvhQV47NglRfHs1+R263F2AYtve/D1TKW2lsw4KsjOIoJ9C42DdFTBuEUxHhAPtWv+cB78vZMkVAwCEO2vCl0vRP21Rm57J5Y6HPJ5JZIxUUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740328208; c=relaxed/simple;
-	bh=ag+qCYYAufPFgZJytz/svzN1g27O27QvGyf2Xc2uuOY=;
+	s=arc-20240116; t=1740328210; c=relaxed/simple;
+	bh=+Y/0FhJQcQb7H79QrG1GfWT+QyqFxJ6L8wblssNi1cI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JGOr/EkUsJWRXgjG4Us9p/E3ksWPNGhCezGRzcLjsnVDbzOKnDilZRTgPwLsFBtxVul0WyafGxGZvzbSfQsI4KS3cduGENznuMxeT4XzUuWMF0yEY+64Zwrg38qbUjWaIFY05YqurxpktaQPBzgaHv7WJ4pEUrjOpD4CKdMWMIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hnV/Irou; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=aR0CTHL7vbvD1hM4cbhhBTbI6grkst01Ht20DMqcRcTJRWtKke4E2QaHSyG81Vk+WD/aARlNHe94jy4b/QUteQwnKUv2AB+KbWS9pXWum0dRhWuu3skaWtnSpDpMmbsvudk6HmKGUEsXWI9ZpiKeujcmYZRi2pJkVF9roFC2WkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I+jTLU7c; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hnV/Irou"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I+jTLU7c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740328206; x=1771864206;
+  t=1740328208; x=1771864208;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ag+qCYYAufPFgZJytz/svzN1g27O27QvGyf2Xc2uuOY=;
-  b=hnV/Irou9LlowkQpRmY0mXpt42Wwapn/5IjdLcFIKdE/7nri8wZr+08O
-   1hEhkTTcDOMooDJc2T9a6iYOwqRQuzmv/ujkQdP2BQX3e2hgEpM3MPDpN
-   GBxXcfMAo5i5U/4HniEjd0XcwvGaMcSSwJ2YlKMsWJD60ve5pd9kCLXfI
-   kZ3sURXSE5i3oiI2ba6xttGtKp9/J2TfC1U4BRa8uXGbUwTIlCOVVkJGk
-   ERbrN0EDIBfotiBtGf5B7ynP9b6xnesTddWeqIZ4HUsr+MSptk9F9jMVJ
-   o3oKRl0hwyI8GkqDx6lM9xQ69siH3ow+q+4Qfyu9mhVvOrlJEUd50oA/z
-   w==;
-X-CSE-ConnectionGUID: yuLr7XfITuCwmriKOthVsQ==
-X-CSE-MsgGUID: zhzH9vb0SM6JqlMQRgr6Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58635945"
+  bh=+Y/0FhJQcQb7H79QrG1GfWT+QyqFxJ6L8wblssNi1cI=;
+  b=I+jTLU7cDy5Di/BdXYoQNHBkTCI4vKiepISTV3iTGB2yPWlv/I2U/TVx
+   UR60wrvoNMitDVNCbP4bLseAFhOG+E2J5MFFc/tXkUR5179nP/6phDO7q
+   P7SK8eMfoi5gaSnReTR+CLCS0uBgvM6JN4zTqaZxvyJHGWT3dsfs4NpP0
+   upCKJ+uBLrW8DANl4U/gGmeDtmtmBcaWr7UEusHE+pj/txBMBE9t1gYuQ
+   n4G/wRjwvV/nRN/sDDu48F7ezunTweOFyXZT8F9o7NtMUsQxwbXwl5DEX
+   P5QhXqxk3z7pAH6PNoMcjJGkAu89fEAFX0vU76J1sU05NQ29uj6LX/x+j
+   Q==;
+X-CSE-ConnectionGUID: G3eecT+YQwm3gyzf53JFMQ==
+X-CSE-MsgGUID: Sko3dXdsRZutLYXa1JqM0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58635947"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="58635945"
+   d="scan'208";a="58635947"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 08:30:06 -0800
-X-CSE-ConnectionGUID: te7hEAxuSbO2uL5ZNvID6A==
-X-CSE-MsgGUID: mpiHCD1aTFCPwjTEsIJjUw==
+X-CSE-ConnectionGUID: 7bfAfqnHR/+G+ed+wATm2Q==
+X-CSE-MsgGUID: 5LDLmZwnSuiuRwPyQDwy+w==
+X-Ironport-Invalid-End-Of-Message: True
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="116496833"
+   d="scan'208";a="116496834"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by fmviesa009.fm.intel.com with ESMTP; 23 Feb 2025 08:30:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmEri-0007S7-2A;
+	id 1tmEri-0007S9-2E;
 	Sun, 23 Feb 2025 16:30:02 +0000
-Date: Mon, 24 Feb 2025 00:29:16 +0800
+Date: Mon, 24 Feb 2025 00:29:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [linyunsheng:page_bulk_alloc_opt_v2 1/1]
- fs/btrfs/extent_io.c:631:44: error: 'pages' undeclared; did you mean 'page'?
-Message-ID: <202502240027.TQnmq91I-lkp@intel.com>
+ fs/btrfs/extent_io.c:631:37: error: use of undeclared identifier 'pages'
+Message-ID: <202502240053.pJMTGvUm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,29 +66,56 @@ Content-Disposition: inline
 tree:   https://github.com/gestionlin/linux.git page_bulk_alloc_opt_v2
 head:   10c5db9fc7b189b222074598ce5bc9c1d8cd0ea8
 commit: 10c5db9fc7b189b222074598ce5bc9c1d8cd0ea8 [1/1] mm: alloc_pages_bulk: remove assumption of populating only NULL elements
-config: x86_64-buildonly-randconfig-004-20250223 (https://download.01.org/0day-ci/archive/20250224/202502240027.TQnmq91I-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240027.TQnmq91I-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-001-20250223 (https://download.01.org/0day-ci/archive/20250224/202502240053.pJMTGvUm-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240053.pJMTGvUm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502240027.TQnmq91I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502240053.pJMTGvUm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/btrfs/extent_io.c: In function 'btrfs_alloc_page_array':
->> fs/btrfs/extent_io.c:631:44: error: 'pages' undeclared (first use in this function); did you mean 'page'?
+   In file included from fs/btrfs/extent_io.c:5:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/btrfs/extent_io.c:631:37: error: use of undeclared identifier 'pages'
      631 |         for (allocated = 0, ret = 0; ret < pages; ret++) {
-         |                                            ^~~~~
-         |                                            page
-   fs/btrfs/extent_io.c:631:44: note: each undeclared identifier is reported only once for each function it appears in
->> fs/btrfs/extent_io.c:633:25: error: 'rqstp' undeclared (first use in this function)
+         |                                            ^
+>> fs/btrfs/extent_io.c:633:4: error: use of undeclared identifier 'rqstp'
      633 |                         rqstp->rq_pages[allocated] = rqstp->rq_pages[ret];
-         |                         ^~~~~
+         |                         ^
+   fs/btrfs/extent_io.c:633:33: error: use of undeclared identifier 'rqstp'
+     633 |                         rqstp->rq_pages[allocated] = rqstp->rq_pages[ret];
+         |                                                      ^
+   fs/btrfs/extent_io.c:635:5: error: use of undeclared identifier 'rqstp'
+     635 |                                 rqstp->rq_pages[ret] = NULL;
+         |                                 ^
+   3 warnings and 4 errors generated.
 
 
-vim +631 fs/btrfs/extent_io.c
+vim +/pages +631 fs/btrfs/extent_io.c
 
    609	
    610	/*
