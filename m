@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D362728DB3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 05:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9790C1448E3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 05:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740374376; cv=none; b=nz6xb02UJSS8tnOpqhKFe1vIEcJmaIwwPcqU4onhVjZSV4WoCpgTlwwTMNnf/mgu9M+tCrrJXk4tVczA32EnNOr6zOvyFrf0Rn628Go4u8/lBLYGjkMEPnxlouaovSgyF/yUL341mfXAdvxPEJw173zCshux0+nnLYx3K2JeXyY=
+	t=1740376240; cv=none; b=Q9ZEx1xMESzimsFta+3RI6H83QZbSZMkSBsPX+cJpoeu6HGIHSgpuhJnpktw8F2cLtnZDV5Uhhf3EibgvnR0txyxaywTG8O0sWZoKz7qSUhX04AFAmSEm7LWcKePwakRBhLeoebmsLoFUc+wzagAf48YV0F269op8vOtX9Idz78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740374376; c=relaxed/simple;
-	bh=AXn7UZtVzDz8sM5XOwqQu38uup36qXPAwxwGY11zbrg=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UDs1NtXaABY0OiqO67MIQG5Up1E7hjSnQKzCL+Q6GAEb1dI3OWt2/WGvOzdJz9yF5kLxHN830yeVQFgeTPCd9NmrDxAYCRoSZD/wtwz8upPnGd+hvuJNFtODoxelQVmxLWf1FIbdLCKGhIlGvDZkwiUR3rdDiStKUGuXAjISnW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0YvIr73; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1740376240; c=relaxed/simple;
+	bh=A7EfJBvUW3LMtXSdRfQ8ZkBEmA06TG+fgSOBhFsTc/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g0EiAZJW3674hF5ckdklRliyu5/Bthpgoj8/lz3yM+TsT7mwmY64sJlF5QihhJ4XCbr++BxnhO4XbDQo33OcXxfqmXkxX5mLtjF0KoL2kcdaN92DKtxbeNucW8Qbok5JPVu52VPdlJSjvY74dzRwRoD67Py9zr3aidGpJHk4JMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZSg6peWa; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0YvIr73"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZSg6peWa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740374374; x=1771910374;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=AXn7UZtVzDz8sM5XOwqQu38uup36qXPAwxwGY11zbrg=;
-  b=K0YvIr739XQ1uEYKxGGtvby1iDrIvWIowE8BnEb+OcMpCnBNtuPLz5At
-   rhE2c/p/LEqZ/ylKhUt1SL/T6roFxD3TDZjJoeWPbHNvyJbD15677AuMN
-   MRDBy/Khh8qoKK6a8ccaUH/OiBvQanD09KDzfmR/spgm1/Eg8DJ0642uv
-   B1hrd/AYJS/4BifYEBJWaxWCuU0gecbu+tY5SZjdHE7NEYictj0SVAHTX
-   m/2gRP3yuj1PHMBqfgUh81UkT7I0IscgaKq7OrifciUWjhH1THPllqiIR
-   dXMcEKwT+habPG0fxm2MzPwnE7dVR/RF7EXsi+yuIwBLkxegxoRpmJPAc
+  t=1740376238; x=1771912238;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A7EfJBvUW3LMtXSdRfQ8ZkBEmA06TG+fgSOBhFsTc/M=;
+  b=ZSg6peWaz0l7BH8SCG8bq2XOBEgDozrfZNZ5cch7Nx048DIyWx4J8FiZ
+   61saiwpae/fPR41cnWJF67gA4mCgE6QjtnKaZCceoxfgte2N4Jzn3HDcs
+   H2LPsmLogDZFlOrEc+RfN+ad7vLm32tYldiBKPV+8e5qFXqhaX7GLiNJT
+   9/SWzgXB3p+Y15cboB/fSmCWJ/HuYc4jymO08TRuM3tuI1krP4Q4L3hVo
+   3Gus3MnODb3c9WeEuOH0Bx0/9mzS0Uf5YOyMS60ooP93wUjN/9atwO4a3
+   pxJ8WyBaX2s1p8tgmCZ3lovhulVicYZsCwnatMVMw43rTJj73inNukxZB
    A==;
-X-CSE-ConnectionGUID: vMfYKz7LTx+bcu29grWRbA==
-X-CSE-MsgGUID: ATP9isoPRzi3hAti/c8E1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="40990323"
+X-CSE-ConnectionGUID: P1S6LMRPTVKND0xvgP8eUg==
+X-CSE-MsgGUID: 5yxZCw8vRq2NKqPHzJICSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="45026180"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="40990323"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 21:19:33 -0800
-X-CSE-ConnectionGUID: f7Zl+ACpQRSmR++breTpeg==
-X-CSE-MsgGUID: p8WmsAV2QhW3BIHOGLdK8w==
+   d="scan'208";a="45026180"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 21:50:37 -0800
+X-CSE-ConnectionGUID: qkxMj/lGRsaeR1WRLSHi2g==
+X-CSE-MsgGUID: UTAcRZ0mT6exLj2mPFD9tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="120867901"
+   d="scan'208";a="120936522"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 23 Feb 2025 21:19:33 -0800
+  by orviesa004.jf.intel.com with ESMTP; 23 Feb 2025 21:50:35 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmQsL-0007t9-2S
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 24 Feb 2025 05:19:29 +0000
-Date: Mon, 24 Feb 2025 13:19:27 +0800
+	id 1tmRMO-0007uZ-32;
+	Mon, 24 Feb 2025 05:50:32 +0000
+Date: Mon, 24 Feb 2025 13:50:08 +0800
 From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yuntao Liu <liuyuntao12@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/69 1/1] arch/s390/include/asm/io.h:64:38: warning:
- 'return' with a value, in function returning void
-Message-ID: <202502241340.igE4pn5n-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1966/1966] include/linux/fortify-string.h:57:33:
+ warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a
+ region of size 64
+Message-ID: <202502241304.ilCBBhWc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,112 +63,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Daniel,
+Hi Guo,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/69
-head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
-commit: 22e743898dcd693cf587593781699db2fa888e23 [1/1] media: ddbridge: bump ddbridge code to version 0.9.29
-config: s390-randconfig-002-20250224 (https://download.01.org/0day-ci/archive/20250224/202502241340.igE4pn5n-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502241340.igE4pn5n-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   88b69da4524a4c574fa7642d89cb392506b4595e
+commit: f04c0f3eb9b49427c273cd3e4d5a2ff895855b4b [1966/1966] make OPTIMIZE_INLINING config editable
+config: arm64-randconfig-001-20250224 (https://download.01.org/0day-ci/archive/20250224/202502241304.ilCBBhWc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502241304.ilCBBhWc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502241340.igE4pn5n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502241304.ilCBBhWc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:25:0,
-                    from drivers/media/pci/ddbridge/ddbridge-core.c:29:
-   drivers/media/pci/ddbridge/ddbridge.h: In function 'ddbcpyto':
->> arch/s390/include/asm/io.h:64:38: warning: 'return' with a value, in function returning void
-    #define memcpy_toio(dst, src, count) zpci_memcpy_toio(dst, src, count)
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/ddbridge/ddbridge.h:374:9: note: in expansion of macro 'memcpy_toio'
-     return memcpy_toio((char *) (dev->regs + adr), src, count);
-            ^~~~~~~~~~~
-   In file included from drivers/media/pci/ddbridge/ddbridge-core.c:37:0:
-   drivers/media/pci/ddbridge/ddbridge.h:372:20: note: declared here
-    static inline void ddbcpyto(struct ddb *dev, u32 adr, void *src, long count)
-                       ^~~~~~~~
-   In file included from include/linux/io.h:25:0,
-                    from drivers/media/pci/ddbridge/ddbridge-core.c:29:
-   drivers/media/pci/ddbridge/ddbridge.h: In function 'ddbcpyfrom':
-   arch/s390/include/asm/io.h:63:40: warning: 'return' with a value, in function returning void
-    #define memcpy_fromio(dst, src, count) zpci_memcpy_fromio(dst, src, count)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/ddbridge/ddbridge.h:379:9: note: in expansion of macro 'memcpy_fromio'
-     return memcpy_fromio(dst, (char *) (dev->regs + adr), count);
-            ^~~~~~~~~~~~~
-   In file included from drivers/media/pci/ddbridge/ddbridge-core.c:37:0:
-   drivers/media/pci/ddbridge/ddbridge.h:377:20: note: declared here
-    static inline void ddbcpyfrom(struct ddb *dev, void *dst, u32 adr, long count)
-                       ^~~~~~~~~~
-   drivers/media/pci/ddbridge/ddbridge-core.c: In function 'ddb_port_attach':
-   drivers/media/pci/ddbridge/ddbridge-core.c:2290:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
-      if (ret < 0)
-         ^
-   drivers/media/pci/ddbridge/ddbridge-core.c:2292:2: note: here
-     case DDB_PORT_LOOP:
-     ^~~~
-   drivers/media/pci/ddbridge/ddbridge-core.c: In function 'dvb_input_attach':
-   drivers/media/pci/ddbridge/ddbridge-core.c:1534:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
-      if (input->port->dev->link[input->port->lnr].info->ts_quirks &
-         ^
-   drivers/media/pci/ddbridge/ddbridge-core.c:1539:2: note: here
-     case DDB_TUNER_DVBCT2_SONY_P:
-     ^~~~
-   drivers/media/pci/ddbridge/ddbridge-core.c:1558:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
-      osc24 = 1;
-      ~~~~~~^~~
-   drivers/media/pci/ddbridge/ddbridge-core.c:1559:2: note: here
-     case DDB_TUNER_DVBCT2_SONY:
-     ^~~~
---
-   In file included from include/linux/io.h:25:0,
-                    from drivers/media/pci/ddbridge/ddbridge-i2c.c:25:
-   drivers/media/pci/ddbridge/ddbridge.h: In function 'ddbcpyto':
->> arch/s390/include/asm/io.h:64:38: warning: 'return' with a value, in function returning void
-    #define memcpy_toio(dst, src, count) zpci_memcpy_toio(dst, src, count)
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/ddbridge/ddbridge.h:374:9: note: in expansion of macro 'memcpy_toio'
-     return memcpy_toio((char *) (dev->regs + adr), src, count);
-            ^~~~~~~~~~~
-   In file included from drivers/media/pci/ddbridge/ddbridge-i2c.c:33:0:
-   drivers/media/pci/ddbridge/ddbridge.h:372:20: note: declared here
-    static inline void ddbcpyto(struct ddb *dev, u32 adr, void *src, long count)
-                       ^~~~~~~~
-   In file included from include/linux/io.h:25:0,
-                    from drivers/media/pci/ddbridge/ddbridge-i2c.c:25:
-   drivers/media/pci/ddbridge/ddbridge.h: In function 'ddbcpyfrom':
-   arch/s390/include/asm/io.h:63:40: warning: 'return' with a value, in function returning void
-    #define memcpy_fromio(dst, src, count) zpci_memcpy_fromio(dst, src, count)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/ddbridge/ddbridge.h:379:9: note: in expansion of macro 'memcpy_fromio'
-     return memcpy_fromio(dst, (char *) (dev->regs + adr), count);
-            ^~~~~~~~~~~~~
-   In file included from drivers/media/pci/ddbridge/ddbridge-i2c.c:33:0:
-   drivers/media/pci/ddbridge/ddbridge.h:377:20: note: declared here
-    static inline void ddbcpyfrom(struct ddb *dev, void *dst, u32 adr, long count)
-                       ^~~~~~~~~~
+   In file included from include/linux/string.h:294,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from kernel/padata.c:14:
+   In function 'bitmap_copy',
+       inlined from 'cpumask_copy' at include/linux/cpumask.h:740:2,
+       inlined from '__padata_set_cpumasks' at kernel/padata.c:709:2:
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a region of size 64 [-Wstringop-overread]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:268:17: note: in expansion of macro 'memcpy'
+     268 |                 memcpy(dst, src, len);
+         |                 ^~~~~~
+   kernel/padata.c: In function '__padata_set_cpumasks':
+   kernel/padata.c:692:48: note: source object 'pcpumask' of size [0, 64]
+     692 |                                  cpumask_var_t pcpumask,
+         |                                  ~~~~~~~~~~~~~~^~~~~~~~
+   In function 'bitmap_copy',
+       inlined from 'cpumask_copy' at include/linux/cpumask.h:740:2,
+       inlined from '__padata_set_cpumasks' at kernel/padata.c:709:2:
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' reading between 65 and 536870912 bytes from a region of size 64 [-Wstringop-overread]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:268:17: note: in expansion of macro 'memcpy'
+     268 |                 memcpy(dst, src, len);
+         |                 ^~~~~~
+   kernel/padata.c: In function '__padata_set_cpumasks':
+   kernel/padata.c:692:48: note: source object 'pcpumask' of size [0, 64]
+     692 |                                  cpumask_var_t pcpumask,
+         |                                  ~~~~~~~~~~~~~~^~~~~~~~
 
 
-vim +/return +64 arch/s390/include/asm/io.h
+vim +/__builtin_memcpy +57 include/linux/fortify-string.h
 
-cd24834130ac65 Jan Glauber 2012-11-29  62  
-cd24834130ac65 Jan Glauber 2012-11-29  63  #define memcpy_fromio(dst, src, count)	zpci_memcpy_fromio(dst, src, count)
-cd24834130ac65 Jan Glauber 2012-11-29 @64  #define memcpy_toio(dst, src, count)	zpci_memcpy_toio(dst, src, count)
-cd24834130ac65 Jan Glauber 2012-11-29  65  #define memset_io(dst, val, count)	zpci_memset_io(dst, val, count)
-cd24834130ac65 Jan Glauber 2012-11-29  66  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
 
-:::::: The code at line 64 was first introduced by commit
-:::::: cd24834130ac655d15accee6757e0eaeab4ad4ef s390/pci: base support
+:::::: The code at line 57 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
 
-:::::: TO: Jan Glauber <jang@linux.vnet.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
