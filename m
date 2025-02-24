@@ -1,172 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE6F207DFB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 07:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC36E23C8CA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 08:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740383597; cv=none; b=KbrKmIA5d0TFhRT4O0t27gnSZBujh1M3vjNdqQWuZ8F1K/Awb0k1kPf1kGwzzNNUR+HJKf83zpDp5luw9UJigDzttV+iCEF85u24JwCLWIw8l26NI3QNLdJn3XWW4aCTkq2V55SkvM1z7MRYchVYN8Z6xcUHr3hZsdwIPaf1rpw=
+	t=1740387131; cv=none; b=X8ZxEUuVVRWnIbuhqP92ofYYyhw0POX8Kt30Dvk7pSD/iDOJb9c+TPMaJRiodq906IPqnBwvZQuT62e+06kAhBDznI4Qx6UUEpiMvxRKKq3YM63cscOY7gQmkpr5CiEQ65WYk+XUO0NQAeieRRP1sRM1ZdJimWUyHNHMbaqq0XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740383597; c=relaxed/simple;
-	bh=Jmk4C2lYizyDErc9RLDs3EyuIerG8RookggUrVh3tjI=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ONiy0ztutqx1EW2uCvCAoNZX8IuvyVV9DDrpRHmUmBTp5+8dRN+CqFSmsAxBW25glSA3GV7OYnqkKBGJUAp3UEPsIsMsDk6+kOMllrMnrX0uxkOeKoyDf/tIYbpQQ4o05sJZHWNU5swLg3oa6mKhCJSghqsMN9SSaSm8STORvsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOlUNtji; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740387131; c=relaxed/simple;
+	bh=XSOuVzEV5wJ+2xG/f2+O7fTZAE71MI8CljYtG0w/leE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KydiUBj4WZ4MN2T2KPMHoRaHZ9cWbIvpvnNFWvklq+UoFHlT6dYZmWL9MT1sPb/BHF6kyQ2wiuytq1dDXI4iIFJrvgBwqICwD0m3jXEi5p4CUb36fObtBnWAnff16u3R+Rcfc8LssovORoG2ps5sWD9+Kbpyp5aURaufFDJENsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BoAVo9ng; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOlUNtji"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740383596; x=1771919596;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Jmk4C2lYizyDErc9RLDs3EyuIerG8RookggUrVh3tjI=;
-  b=GOlUNtjiE9P+3RDNK8EKZj5+IsvWSy9nnP57A84HMaAjYJ8v2bsOWMAG
-   vphehKED379WXLflwWB4tegQ47Xw37EXIMYeyy2bMzB/QH7it+qrsdsaN
-   97c6VHZE5asGOXaKBirGGn4pSqk8lTbHTfjQ0HERpN5pbYRWD8o9OeNwb
-   llt6tC7//n6LWlD/QWH1YZ+GJCNny7bajnIolRlgCCI2LqCY74ZSWC0vD
-   55wTF96RRwI9hchM17JsRP55oyWV5IwYhtTnru8lZ5QTCQUlkDdqwuKgU
-   y4jzpWk5bVdFV6AINCs4bax6Zb9L+A0CobPAnGXNGNFbSFHdj/THd//l7
-   w==;
-X-CSE-ConnectionGUID: MjezuZtXRvKlltFEthWkyQ==
-X-CSE-MsgGUID: BpHt8ITSRMe79wY3b1ZpoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58544437"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="58544437"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 23:53:13 -0800
-X-CSE-ConnectionGUID: UK27D/atS6ai/9/YTfjv/Q==
-X-CSE-MsgGUID: eFBKAN7iR4GrsvlFgT6jww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121252779"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 23 Feb 2025 23:53:12 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmTH4-00080z-1n
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 24 Feb 2025 07:53:10 +0000
-Date: Mon, 24 Feb 2025 15:52:44 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/69 1/1] lib/xxhash.c:236:1: warning: the frame size of
- 1624 bytes is larger than 1024 bytes
-Message-ID: <202502241546.Xy99Tcrt-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BoAVo9ng"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-439ac3216dcso21772765e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 00:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740387128; x=1740991928; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rfttPucZes4uslCtilxnixZCmYMBBrCsgPvpifvl92U=;
+        b=BoAVo9ngvC9uUvWb1OSL9k/pUDgrer0a2eBskaYmoLzBmzC8M2HkFaTjA00eHF1LaQ
+         RYPWORJOwo9nNog7AZLI3ntZZp4mAEltYLx/df3y/dBEuZkrujOQSRuRsXg/tMjKEOFL
+         BX2jKLwHF6V5Fg5BuZEvv34vD/vw+G+KzUw9U41EwMZjDVHBczWT7/gFTTJECA71cqR1
+         CfU8G9RqZYb/AywGZWNRoECtNJ2UXZGiSWQxIvI7+rsIGAQGvtJPbh8ZZw4Y5ojOB7OR
+         tuQgfCiy5vceAyopHoJ8H/Ivb0rlef9nw4K6dCpz/vAkI2hQelkaLifC8BVUfPWYCkGS
+         bq9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740387128; x=1740991928;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rfttPucZes4uslCtilxnixZCmYMBBrCsgPvpifvl92U=;
+        b=A4bY0Ed1Bcb82Ym4ztFd5jMWierAgTRrlQ2wvJtBp2EnonzSwDpveyFcqJw7bmvdzU
+         2TMVpIXF4HDc4Z19X5DNN535KmaVxtB9Yxd5obUhorJFOSpAsUY+Au7wL+jhCq1+SZC+
+         UJVcBGdsqQc5YQJVRfxPDCdK16uYPJ6GHdKvYM858Tzq634RdOEfclAe/hied7D1TkRq
+         jd5cF1J3ZlqZGaLvVmVCIBy8OYDnaElQbpFFYUf+844hRIHnqnKKKorXF9NxTBP5+Rmh
+         c2RMk7tTshvUHnubjNn9GOQRemU+/NRkCM/XIokIjEw22hx+KCvx/GPpFlJWslijpl4K
+         9R2Q==
+X-Gm-Message-State: AOJu0YxgZmHjaSbWAX9cWCWrJ15C28guzS8iMASGlOOF73Ar9G7jGFSt
+	Y+oa3J6bahisvv0ufzp/ujMRE/yeAqoTtFYhTqh3mY0ulrUZ2lfREyf6fKijANs=
+X-Gm-Gg: ASbGncvJ/Ve1kq3OPH/HL5Dx/oHkb+37djryVV1p60hWDLrr/eSfsdovDDPdtXBmO9b
+	/Qkla7qnXrJ9DYOIg3gj9lB9tK45BpU+2wT63LDxgyhXGbvghd3dtQ8W4aHpcX5k9OuPK7MtkDq
+	ehUaCrEOB/Cdn/1XvupsYjEr1cvHHoTtImna+MS36hevQP/juwynT8wzc+rP+8gYw3BQgrA5B0S
+	BptOk6uq0mJ+S4j4wW2etWRHQaynD8tIBQ3YZUx/K/1Q++lw2muZ80acYOCbS1tFAP+CMKtxR2t
+	lQ7hMfo5hoauX9AFNxNJc1tK/RA5bWsX8vhRyqoXvaF8mHxlwE6BFbuP/J7iGiyTPsW+WTmeGra
+	DNIo=
+X-Google-Smtp-Source: AGHT+IGc4DlL71WulAAnKcQ9CzF1y/33BchgEuu9bZ5o2bSiiIB3/0bTM2b5M5+480mvGS24HXxp7w==
+X-Received: by 2002:a05:600c:19ce:b0:439:a1c7:7b2d with SMTP id 5b1f17b1804b1-439aeae05fbmr98203575e9.4.1740387128219;
+        Mon, 24 Feb 2025 00:52:08 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:825b:5392:ef70:cc0b? ([2a01:e0a:982:cbb0:825b:5392:ef70:cc0b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02ce65dsm99552155e9.1.2025.02.24.00.52.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 00:52:07 -0800 (PST)
+Message-ID: <794bf229-df4a-41f3-a8a4-8b1362eb7f04@linaro.org>
+Date: Mon, 24 Feb 2025 09:52:06 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
+To: kernel test robot <lkp@intel.com>,
+ Christian Hewitt <christianshewitt@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <20250110074458.3624094-3-christianshewitt@gmail.com>
+ <202501210513.GCec6kts-lkp@intel.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <202501210513.GCec6kts-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Nick,
+Hi,
 
-FYI, the error/warning still remains.
+On 20/01/2025 22:56, kernel test robot wrote:
+> Hi Christian,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.13 next-20250120]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/Revert-drm-meson-vclk-fix-calculation-of-59-94-fractional-rates/20250110-154701
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20250110074458.3624094-3-christianshewitt%40gmail.com
+> patch subject: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
+> config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202501210513.GCec6kts-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/fmh_gpib/fmh_gpib.o
+>>> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/meson/meson-drm.ko] undefined!
+> 
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/69
-head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
-commit: 5c1aab1dd5445ed8bdcdbb575abc1b0d7ee5b2e7 [1/1] btrfs: Add zstd support
-config: parisc-randconfig-002-20250224 (https://download.01.org/0day-ci/archive/20250224/202502241546.Xy99Tcrt-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502241546.Xy99Tcrt-lkp@intel.com/reproduce)
+Please use do_div() when dividing 64bit numbers to please 32-bit platforms.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502241546.Xy99Tcrt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   lib/xxhash.c: In function 'xxh64':
->> lib/xxhash.c:236:1: warning: the frame size of 1624 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    }
-    ^
-   lib/xxhash.c: In function 'xxh64_update':
-   lib/xxhash.c:441:1: warning: the frame size of 1248 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    }
-    ^
-
-
-vim +236 lib/xxhash.c
-
-5d2405227a9eae Nick Terrell 2017-08-04  171  
-5d2405227a9eae Nick Terrell 2017-08-04  172  uint64_t xxh64(const void *input, const size_t len, const uint64_t seed)
-5d2405227a9eae Nick Terrell 2017-08-04  173  {
-5d2405227a9eae Nick Terrell 2017-08-04  174  	const uint8_t *p = (const uint8_t *)input;
-5d2405227a9eae Nick Terrell 2017-08-04  175  	const uint8_t *const b_end = p + len;
-5d2405227a9eae Nick Terrell 2017-08-04  176  	uint64_t h64;
-5d2405227a9eae Nick Terrell 2017-08-04  177  
-5d2405227a9eae Nick Terrell 2017-08-04  178  	if (len >= 32) {
-5d2405227a9eae Nick Terrell 2017-08-04  179  		const uint8_t *const limit = b_end - 32;
-5d2405227a9eae Nick Terrell 2017-08-04  180  		uint64_t v1 = seed + PRIME64_1 + PRIME64_2;
-5d2405227a9eae Nick Terrell 2017-08-04  181  		uint64_t v2 = seed + PRIME64_2;
-5d2405227a9eae Nick Terrell 2017-08-04  182  		uint64_t v3 = seed + 0;
-5d2405227a9eae Nick Terrell 2017-08-04  183  		uint64_t v4 = seed - PRIME64_1;
-5d2405227a9eae Nick Terrell 2017-08-04  184  
-5d2405227a9eae Nick Terrell 2017-08-04  185  		do {
-5d2405227a9eae Nick Terrell 2017-08-04  186  			v1 = xxh64_round(v1, get_unaligned_le64(p));
-5d2405227a9eae Nick Terrell 2017-08-04  187  			p += 8;
-5d2405227a9eae Nick Terrell 2017-08-04  188  			v2 = xxh64_round(v2, get_unaligned_le64(p));
-5d2405227a9eae Nick Terrell 2017-08-04  189  			p += 8;
-5d2405227a9eae Nick Terrell 2017-08-04  190  			v3 = xxh64_round(v3, get_unaligned_le64(p));
-5d2405227a9eae Nick Terrell 2017-08-04  191  			p += 8;
-5d2405227a9eae Nick Terrell 2017-08-04  192  			v4 = xxh64_round(v4, get_unaligned_le64(p));
-5d2405227a9eae Nick Terrell 2017-08-04  193  			p += 8;
-5d2405227a9eae Nick Terrell 2017-08-04  194  		} while (p <= limit);
-5d2405227a9eae Nick Terrell 2017-08-04  195  
-5d2405227a9eae Nick Terrell 2017-08-04  196  		h64 = xxh_rotl64(v1, 1) + xxh_rotl64(v2, 7) +
-5d2405227a9eae Nick Terrell 2017-08-04  197  			xxh_rotl64(v3, 12) + xxh_rotl64(v4, 18);
-5d2405227a9eae Nick Terrell 2017-08-04  198  		h64 = xxh64_merge_round(h64, v1);
-5d2405227a9eae Nick Terrell 2017-08-04  199  		h64 = xxh64_merge_round(h64, v2);
-5d2405227a9eae Nick Terrell 2017-08-04  200  		h64 = xxh64_merge_round(h64, v3);
-5d2405227a9eae Nick Terrell 2017-08-04  201  		h64 = xxh64_merge_round(h64, v4);
-5d2405227a9eae Nick Terrell 2017-08-04  202  
-5d2405227a9eae Nick Terrell 2017-08-04  203  	} else {
-5d2405227a9eae Nick Terrell 2017-08-04  204  		h64  = seed + PRIME64_5;
-5d2405227a9eae Nick Terrell 2017-08-04  205  	}
-5d2405227a9eae Nick Terrell 2017-08-04  206  
-5d2405227a9eae Nick Terrell 2017-08-04  207  	h64 += (uint64_t)len;
-5d2405227a9eae Nick Terrell 2017-08-04  208  
-5d2405227a9eae Nick Terrell 2017-08-04  209  	while (p + 8 <= b_end) {
-5d2405227a9eae Nick Terrell 2017-08-04  210  		const uint64_t k1 = xxh64_round(0, get_unaligned_le64(p));
-5d2405227a9eae Nick Terrell 2017-08-04  211  
-5d2405227a9eae Nick Terrell 2017-08-04  212  		h64 ^= k1;
-5d2405227a9eae Nick Terrell 2017-08-04  213  		h64 = xxh_rotl64(h64, 27) * PRIME64_1 + PRIME64_4;
-5d2405227a9eae Nick Terrell 2017-08-04  214  		p += 8;
-5d2405227a9eae Nick Terrell 2017-08-04  215  	}
-5d2405227a9eae Nick Terrell 2017-08-04  216  
-5d2405227a9eae Nick Terrell 2017-08-04  217  	if (p + 4 <= b_end) {
-5d2405227a9eae Nick Terrell 2017-08-04  218  		h64 ^= (uint64_t)(get_unaligned_le32(p)) * PRIME64_1;
-5d2405227a9eae Nick Terrell 2017-08-04  219  		h64 = xxh_rotl64(h64, 23) * PRIME64_2 + PRIME64_3;
-5d2405227a9eae Nick Terrell 2017-08-04  220  		p += 4;
-5d2405227a9eae Nick Terrell 2017-08-04  221  	}
-5d2405227a9eae Nick Terrell 2017-08-04  222  
-5d2405227a9eae Nick Terrell 2017-08-04  223  	while (p < b_end) {
-5d2405227a9eae Nick Terrell 2017-08-04  224  		h64 ^= (*p) * PRIME64_5;
-5d2405227a9eae Nick Terrell 2017-08-04  225  		h64 = xxh_rotl64(h64, 11) * PRIME64_1;
-5d2405227a9eae Nick Terrell 2017-08-04  226  		p++;
-5d2405227a9eae Nick Terrell 2017-08-04  227  	}
-5d2405227a9eae Nick Terrell 2017-08-04  228  
-5d2405227a9eae Nick Terrell 2017-08-04  229  	h64 ^= h64 >> 33;
-5d2405227a9eae Nick Terrell 2017-08-04  230  	h64 *= PRIME64_2;
-5d2405227a9eae Nick Terrell 2017-08-04  231  	h64 ^= h64 >> 29;
-5d2405227a9eae Nick Terrell 2017-08-04  232  	h64 *= PRIME64_3;
-5d2405227a9eae Nick Terrell 2017-08-04  233  	h64 ^= h64 >> 32;
-5d2405227a9eae Nick Terrell 2017-08-04  234  
-5d2405227a9eae Nick Terrell 2017-08-04  235  	return h64;
-5d2405227a9eae Nick Terrell 2017-08-04 @236  }
-5d2405227a9eae Nick Terrell 2017-08-04  237  EXPORT_SYMBOL(xxh64);
-5d2405227a9eae Nick Terrell 2017-08-04  238  
-
-:::::: The code at line 236 was first introduced by commit
-:::::: 5d2405227a9eaea48e8cc95756a06d407b11f141 lib: Add xxhash module
-
-:::::: TO: Nick Terrell <terrelln@fb.com>
-:::::: CC: Chris Mason <clm@fb.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Neil
