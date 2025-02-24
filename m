@@ -1,153 +1,134 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC36E23C8CA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 08:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CF218C924
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 10:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740387131; cv=none; b=X8ZxEUuVVRWnIbuhqP92ofYYyhw0POX8Kt30Dvk7pSD/iDOJb9c+TPMaJRiodq906IPqnBwvZQuT62e+06kAhBDznI4Qx6UUEpiMvxRKKq3YM63cscOY7gQmkpr5CiEQ65WYk+XUO0NQAeieRRP1sRM1ZdJimWUyHNHMbaqq0XE=
+	t=1740391650; cv=none; b=YdZ7IhsOqEItsIZLuIfGV26wmd38LeK0QJbpP+fx4+OsuzHz813+BonvYooRwH3f0qSc8gDp06e1Y30/29zEqkgepUWs7hALoUZL0aQTG1xcsra6PVbCm7mB5lNY9CbZmGg2BK0rbgpS8zgr3yC94wCNyENqQesdI7uMnffU+3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740387131; c=relaxed/simple;
-	bh=XSOuVzEV5wJ+2xG/f2+O7fTZAE71MI8CljYtG0w/leE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KydiUBj4WZ4MN2T2KPMHoRaHZ9cWbIvpvnNFWvklq+UoFHlT6dYZmWL9MT1sPb/BHF6kyQ2wiuytq1dDXI4iIFJrvgBwqICwD0m3jXEi5p4CUb36fObtBnWAnff16u3R+Rcfc8LssovORoG2ps5sWD9+Kbpyp5aURaufFDJENsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BoAVo9ng; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740391650; c=relaxed/simple;
+	bh=YhoMCA9TvYqWKrOv9t43YooyguplUNSkT2l3nIFDGa8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EU6yqLyEVLy1dNzMJcvkVnao9EHL7cIYr3mpzlop9i5DS/9+f1mTtjolPvD1NTA1FKVlQvbtbrWJ4G9N+AETY1A354UOz0MrIab6owQGIgNuK6smcO/1Tk2GJSw7H8am0K8cbQ//luyw6m0leYDQ2sHbZydtGU97yzKCQtOAx7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJzPf8B5; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BoAVo9ng"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-439ac3216dcso21772765e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 00:52:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740387128; x=1740991928; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rfttPucZes4uslCtilxnixZCmYMBBrCsgPvpifvl92U=;
-        b=BoAVo9ngvC9uUvWb1OSL9k/pUDgrer0a2eBskaYmoLzBmzC8M2HkFaTjA00eHF1LaQ
-         RYPWORJOwo9nNog7AZLI3ntZZp4mAEltYLx/df3y/dBEuZkrujOQSRuRsXg/tMjKEOFL
-         BX2jKLwHF6V5Fg5BuZEvv34vD/vw+G+KzUw9U41EwMZjDVHBczWT7/gFTTJECA71cqR1
-         CfU8G9RqZYb/AywGZWNRoECtNJ2UXZGiSWQxIvI7+rsIGAQGvtJPbh8ZZw4Y5ojOB7OR
-         tuQgfCiy5vceAyopHoJ8H/Ivb0rlef9nw4K6dCpz/vAkI2hQelkaLifC8BVUfPWYCkGS
-         bq9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740387128; x=1740991928;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rfttPucZes4uslCtilxnixZCmYMBBrCsgPvpifvl92U=;
-        b=A4bY0Ed1Bcb82Ym4ztFd5jMWierAgTRrlQ2wvJtBp2EnonzSwDpveyFcqJw7bmvdzU
-         2TMVpIXF4HDc4Z19X5DNN535KmaVxtB9Yxd5obUhorJFOSpAsUY+Au7wL+jhCq1+SZC+
-         UJVcBGdsqQc5YQJVRfxPDCdK16uYPJ6GHdKvYM858Tzq634RdOEfclAe/hied7D1TkRq
-         jd5cF1J3ZlqZGaLvVmVCIBy8OYDnaElQbpFFYUf+844hRIHnqnKKKorXF9NxTBP5+Rmh
-         c2RMk7tTshvUHnubjNn9GOQRemU+/NRkCM/XIokIjEw22hx+KCvx/GPpFlJWslijpl4K
-         9R2Q==
-X-Gm-Message-State: AOJu0YxgZmHjaSbWAX9cWCWrJ15C28guzS8iMASGlOOF73Ar9G7jGFSt
-	Y+oa3J6bahisvv0ufzp/ujMRE/yeAqoTtFYhTqh3mY0ulrUZ2lfREyf6fKijANs=
-X-Gm-Gg: ASbGncvJ/Ve1kq3OPH/HL5Dx/oHkb+37djryVV1p60hWDLrr/eSfsdovDDPdtXBmO9b
-	/Qkla7qnXrJ9DYOIg3gj9lB9tK45BpU+2wT63LDxgyhXGbvghd3dtQ8W4aHpcX5k9OuPK7MtkDq
-	ehUaCrEOB/Cdn/1XvupsYjEr1cvHHoTtImna+MS36hevQP/juwynT8wzc+rP+8gYw3BQgrA5B0S
-	BptOk6uq0mJ+S4j4wW2etWRHQaynD8tIBQ3YZUx/K/1Q++lw2muZ80acYOCbS1tFAP+CMKtxR2t
-	lQ7hMfo5hoauX9AFNxNJc1tK/RA5bWsX8vhRyqoXvaF8mHxlwE6BFbuP/J7iGiyTPsW+WTmeGra
-	DNIo=
-X-Google-Smtp-Source: AGHT+IGc4DlL71WulAAnKcQ9CzF1y/33BchgEuu9bZ5o2bSiiIB3/0bTM2b5M5+480mvGS24HXxp7w==
-X-Received: by 2002:a05:600c:19ce:b0:439:a1c7:7b2d with SMTP id 5b1f17b1804b1-439aeae05fbmr98203575e9.4.1740387128219;
-        Mon, 24 Feb 2025 00:52:08 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:825b:5392:ef70:cc0b? ([2a01:e0a:982:cbb0:825b:5392:ef70:cc0b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02ce65dsm99552155e9.1.2025.02.24.00.52.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Feb 2025 00:52:07 -0800 (PST)
-Message-ID: <794bf229-df4a-41f3-a8a4-8b1362eb7f04@linaro.org>
-Date: Mon, 24 Feb 2025 09:52:06 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJzPf8B5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740391648; x=1771927648;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YhoMCA9TvYqWKrOv9t43YooyguplUNSkT2l3nIFDGa8=;
+  b=WJzPf8B5Ky1jHLzABRSmR2Ro8/a2KtmO5wx9U7/6PoSR3ReRMJNAFqMI
+   4R42wj7vXVZ1C4A401lVSWx7l+i/AqdfpHWE5inETRNuE0tpjY4/C8a2F
+   S/78uBGrTUGdzDBOwYqNi801H/62gbij3no3uVGoqaz+7Ogsk79cd8Usi
+   nAQY9DcLd0Bp8UqptyiEZ5cGIiPvkrXoTknkAIflwtHizuOhKCiKG8aRO
+   ssVZJ4/6UgH4TFwDNhj5FLt3zkJYWqdKuWcFoWMRyl3vrBcVs3wdQOV/t
+   IL0XYWBYqi33lWoOSQc2g0107wR98dghE7QB5dRZptRCB8qrapyKYRjoP
+   w==;
+X-CSE-ConnectionGUID: sfDmj8uLTT+v2iBbvehPuQ==
+X-CSE-MsgGUID: CHmX4zn8S1qPLv2VA/fKCA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="28736968"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="28736968"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:07:28 -0800
+X-CSE-ConnectionGUID: eVJykmziQbSOCjArXeH1Kg==
+X-CSE-MsgGUID: XaqysoxVQ0eAmO0uOCD7Rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="116513261"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Feb 2025 02:07:27 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tmVMy-00089U-1i;
+	Mon, 24 Feb 2025 10:07:24 +0000
+Date: Mon, 24 Feb 2025 18:06:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: [ulfh-pm:rockchip 4/4]
+ drivers/pmdomain/rockchip/pm-domains.c:575:undefined reference to
+ `arm_smccc_1_1_get_conduit'
+Message-ID: <202502241736.7ilfo582-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
-To: kernel test robot <lkp@intel.com>,
- Christian Hewitt <christianshewitt@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <20250110074458.3624094-3-christianshewitt@gmail.com>
- <202501210513.GCec6kts-lkp@intel.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <202501210513.GCec6kts-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git rockchip
+head:   61eeb9678789644f118eff608d9031b5de4f719d
+commit: 61eeb9678789644f118eff608d9031b5de4f719d [4/4] pmdomain: rockchip: Check if SMC could be handled by TA
+config: powerpc-randconfig-002-20250224 (https://download.01.org/0day-ci/archive/20250224/202502241736.7ilfo582-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502241736.7ilfo582-lkp@intel.com/reproduce)
 
-On 20/01/2025 22:56, kernel test robot wrote:
-> Hi Christian,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.13 next-20250120]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/Revert-drm-meson-vclk-fix-calculation-of-59-94-fractional-rates/20250110-154701
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20250110074458.3624094-3-christianshewitt%40gmail.com
-> patch subject: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
-> config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501210513.GCec6kts-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/fmh_gpib/fmh_gpib.o
->>> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/meson/meson-drm.ko] undefined!
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502241736.7ilfo582-lkp@intel.com/
 
-Please use do_div() when dividing 64bit numbers to please 32-bit platforms.
+All errors (new ones prefixed by >>):
 
-Neil
+   powerpc-linux-ld: drivers/pmdomain/rockchip/pm-domains.o: in function `rockchip_do_pmu_set_power_domain':
+>> drivers/pmdomain/rockchip/pm-domains.c:575:(.text+0x1c9c): undefined reference to `arm_smccc_1_1_get_conduit'
+
+
+vim +575 drivers/pmdomain/rockchip/pm-domains.c
+
+   537	
+   538	static void rockchip_do_pmu_set_power_domain(struct rockchip_pm_domain *pd,
+   539						     bool on)
+   540	{
+   541		struct rockchip_pmu *pmu = pd->pmu;
+   542		struct generic_pm_domain *genpd = &pd->genpd;
+   543		u32 pd_pwr_offset = pd->info->pwr_offset;
+   544		bool is_on, is_mem_on = false;
+   545		struct arm_smccc_res res;
+   546	
+   547		if (pd->info->pwr_mask == 0)
+   548			return;
+   549	
+   550		if (on && pd->info->mem_status_mask)
+   551			is_mem_on = rockchip_pmu_domain_is_mem_on(pd);
+   552	
+   553		if (pd->info->pwr_w_mask)
+   554			regmap_write(pmu->regmap, pmu->info->pwr_offset + pd_pwr_offset,
+   555				     on ? pd->info->pwr_w_mask :
+   556				     (pd->info->pwr_mask | pd->info->pwr_w_mask));
+   557		else
+   558			regmap_update_bits(pmu->regmap, pmu->info->pwr_offset + pd_pwr_offset,
+   559					   pd->info->pwr_mask, on ? 0 : -1U);
+   560	
+   561		wmb();
+   562	
+   563		if (is_mem_on && rockchip_pmu_domain_mem_reset(pd))
+   564			return;
+   565	
+   566		if (readx_poll_timeout_atomic(rockchip_pmu_domain_is_on, pd, is_on,
+   567					      is_on == on, 0, 10000)) {
+   568			dev_err(pmu->dev,
+   569				"failed to set domain '%s', val=%d\n",
+   570				genpd->name, is_on);
+   571			return;
+   572		}
+   573	
+   574		/* Inform firmware to keep this pd on or off */
+ > 575		if (arm_smccc_1_1_get_conduit() != SMCCC_CONDUIT_NONE)
+   576			arm_smccc_smc(ROCKCHIP_SIP_SUSPEND_MODE, ROCKCHIP_SLEEP_PD_CONFIG,
+   577					pmu->info->pwr_offset + pd_pwr_offset,
+   578					pd->info->pwr_mask, on, 0, 0, 0, &res);
+   579	}
+   580	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
