@@ -1,120 +1,106 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC878F5E;
-	Mon, 24 Feb 2025 00:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D532746A;
+	Mon, 24 Feb 2025 01:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740358449; cv=none; b=CH2/x4E5DciZKVSsIUSF4hJv8rNhqUncAEaLxIFhtXpBChuUO1NcmOJ3L0k9cpM8O8u5mLH9tr+rztrQH7vTrPPhMdu4qZajMzuUsd3PniNlO+B+rfdyE7KyWfDUrI571h7G2SeK8DdIhCMP0OEsu8AQwSPjdB4aTw/dppMJs5s=
+	t=1740360389; cv=none; b=uke0sfxHHXMKxBUIsnctg0XuwdjDujDTIjkoX0BJfJ+hfvaSnamt7myaswyUA7v3AVT8zlIIplD03GZtrW2JaashZ8wKnUXfnptZLiTXoJFk/PXlm4Y1VnjRtOyrQgGgD010ujt2fmlkR+v+LdJwh13P0anhnDgFJTnw/UbyNo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740358449; c=relaxed/simple;
-	bh=CNirDmsVDT1LLQ2KIbgV1Ns5LAgnpftSLIJlpMFNMfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oHyNarQX72TEnHcWB6u+3KZ8wOxffHBOL29/y7LBBILMMr0mIRZTp+UIhBEBS5dZKIRdInYbFoJG9e+JzRl6B6+XB3A/+Ls/FEwIZxmQqoQ/NioucjrRTszYpk9nF1I3VIBDNjhhggS4enoJ6Zb4GUfwZFIZIjfL1T3S1EJt+Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ccKUvWnC; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WZAk0XfH; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ccKUvWnC";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WZAk0XfH"
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 6DA32254011D;
-	Sun, 23 Feb 2025 19:54:04 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sun, 23 Feb 2025 19:54:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1740358444; x=
-	1740444844; bh=t/Eb+wcf7EZ+UThL8O/D+kbB1rl2eRNVJ73UFN6E/Yw=; b=c
-	cKUvWnClrwAkgd+lW1OmlDKi8ks8ZzZIPleLp2hT1ZfaoCQKmIbTTztoShL5j+aK
-	5QIsLzUNIlCGhrJv4XG6LD4ogPSYohUSrW+3Fa7POM1qosPusVLD0trUkGmUB6j2
-	cbWgCYZdIY5vBiEctIGBETmTS2PNxehmPYecWoldvGz48YAjN2fQrOFH0F1zlF33
-	NJDcqqYsN4jQVNTWpB/0QEHUHRh8LeecBt8oUm1YM93EUbp3qL/pyDwVYoxE3Ato
-	tJF9C1ZbIJmV956w6pQBzr8yLUv5dv9eaGJRU22RgtpTlSeoaIe2lUAFP0x/LwNk
-	eX55YSQKKJQNK0wyLq8Ag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1740358444; x=1740444844; bh=t/Eb+wcf7EZ+UThL8O/D+kbB1rl2eRNVJ73
-	UFN6E/Yw=; b=WZAk0XfHOrss8OU5SHkDLcFwcNnG9eAVyotI2Wm/uzQPmQlDLpf
-	zT1lbJKEvsn6EpdR+iStWJ72oKSsRDPdG/SGn5JeZFNqz6JyzTsWP9uDPJjfVAhl
-	wIVMY9WqvcHEQGSuQzcaaF6oqOosqhsxrZ8MW/liy18Od2pDBOYnTgCMjh2Gezd7
-	O8HSxFof/JjSgEw9oFytF4qN0m+y5n3u5Dkm/1A6qeFQg7OkK8OtEmgQky365cf1
-	FT2nF5cGtLLyJ2SKs/PLcNm8eARZKS5hCgnc1ZpASBhRMwfckVtc8EjF0uWqabs+
-	pZYdmhLtDGdbFwe6m62PehyU19c04Y95a8Q==
-X-ME-Sender: <xms:K8O7Zyfc9HFMbbE-Vg7_BfQHbRtt-yP7b1iaNdLLZ6jKUAFsfLIKgg>
-    <xme:K8O7Z8Pi9pBCs9lULb7yI_4c2qWdNMdSPt1cHHgZ1O1koiVP6dupoWEQaR_nShE6b
-    N1I49-o0GafmLPOlC8>
-X-ME-Received: <xmr:K8O7ZzgX_qVIbnCBjoD3GykcNbEfJ4aDXCw1OzfSgGVCAcbv9HjFmakr_5dFA1uFxLKnk3_KwNLtogQc6-fUumPxn-bqvg81rg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejjeefhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
-    necuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhise
-    hsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeevieelhfdukeffheek
-    ffduudevvdefudelleefgeeileejheejuedvgefhteevvdenucffohhmrghinhepkhgvrh
-    hnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghrtghpth
-    htohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrtghklhhivhhinhhg
-    ohhougestghomhgtrghsthdrnhgvthdprhgtphhtthhopehllhhvmheslhhishhtshdrlh
-    hinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhs
-    rdhlihhnuhigrdguvghvpdhrtghpthhtohephihunhhgqdgthhhurghnrdhlihgroheslh
-    hinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtihifrghisehsuhhsvgdruggv
-    pdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomh
-X-ME-Proxy: <xmx:K8O7Z_-ejzKIWH4_SvLBdH4YUHvAWcITT3CRT5QLVIiGbW9rf1aMnw>
-    <xmx:K8O7Z-uQV4EN_jiUoeZBLnqEB1tCkjjvoyp5hxBmDT3I3Dr4jPquLQ>
-    <xmx:K8O7Z2FyBqKgj3GM5GiPkCdC34hhB0ABw0-aRbV2xuV3xJ-uB62JQQ>
-    <xmx:K8O7Z9Nqi8k2jriPlhHW8uOwQsW6KoN8yk0zn0Tu6CjpuJeQBKaLIA>
-    <xmx:LMO7ZyiZ_eXgTLJuB-4zNt0HEqtq_7zEtiWPr_oV0CWS5y_1BY3DYcEM>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 23 Feb 2025 19:54:01 -0500 (EST)
-Date: Mon, 24 Feb 2025 09:53:58 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: jack Livingood <jacklivingood@comcast.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	yung-chuan.liao@linux.intel.com, tiwai@suse.de,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] sound:firewire:fixed spelling error
-Message-ID: <20250224005358.GA6489@workstation.local>
-References: <20250219172817.50172-1-jacklivingood@comcast.net>
+	s=arc-20240116; t=1740360389; c=relaxed/simple;
+	bh=hjai5cWeX6pZYG1rCJTwsLHGKRcbgXuPJ+E4fwroHKA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bX/qOusFeqLybwfIam8G7/rd6CSYMU5hgP9ss78TolbC/9r6UrlUlwAztLwpnO15DSDFKX/NXvEoegBp4HajH8zAWpeku/2Z0pFJCDAaWg79Trbp7OOmaP0uN9dW2y8dVX+m9lvFqNsz2x2xnfnFLxdrwVuaRSSawM9xoHpvgW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=shelob.surriel.com; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shelob.surriel.com
+Received: from fangorn.home.surriel.com ([10.0.13.7])
+	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <riel@shelob.surriel.com>)
+	id 1tmNEf-0000000020f-2b9H;
+	Sun, 23 Feb 2025 20:26:17 -0500
+Message-ID: <0bb6a374a02995e78db49beb69e0f369480520a4.camel@surriel.com>
+Subject: Re: [PATCH v13 08/14] x86/mm: global ASID context switch & TLB
+ flush handling
+From: Rik van Riel <riel@surriel.com>
+To: kernel test robot <lkp@intel.com>, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ bp@alien8.de, 	peterz@infradead.org, dave.hansen@linux.intel.com,
+ zhengqi.arch@bytedance.com, 	nadav.amit@gmail.com, thomas.lendacky@amd.com,
+ kernel-team@meta.com, 	linux-mm@kvack.org, akpm@linux-foundation.org,
+ jackmanb@google.com, 	jannh@google.com, mhklinux@outlook.com,
+ andrew.cooper3@citrix.com, 	Manali.Shukla@amd.com, mingo@kernel.org
+Date: Sun, 23 Feb 2025 20:26:17 -0500
+In-Reply-To: <202502240650.kzshiji7-lkp@intel.com>
+References: <20250223194943.3518952-9-riel@surriel.com>
+	 <202502240650.kzshiji7-lkp@intel.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250219172817.50172-1-jacklivingood@comcast.net>
+Sender: riel@surriel.com
 
-Hi,
+On Mon, 2025-02-24 at 07:08 +0800, kernel test robot wrote:
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> =C2=A0=C2=A0 In file included from <command-line>:
+> =C2=A0=C2=A0 arch/x86/include/asm/tlbflush.h: In function 'in_asid_transi=
+tion':
+> > > arch/x86/include/asm/tlbflush.h:253:43: error: 'mm_context_t' has
+> > > no member named 'asid_transition'
+> =C2=A0=C2=A0=C2=A0=C2=A0 253 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 return mm && READ_ONCE(mm-
+> >context.asid_transition);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ^
 
-On Wed, Feb 19, 2025 at 09:28:17AM -0800, jack Livingood wrote:
-> fixed a spelling error.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202502191455.cX0HILg0-lkp@intel.com/
-> Signed-off-by: Jack Livingood <jacklivingood@comcast.net>
-> ---
->  sound/firewire/isight.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Looks like this one needs to be moved under
+the #ifdef, too.
 
-The issued patch does not exist in linux-next branch of sound.git[1]. The
-report to which you address is for Sound Open Firmware project[2].
+Short-circuiting the build by hard-disabling
+X86_FEATURE_INVLPGB, or even adding an explicit
+if(!IS_ENABLED(CONFIG_X86_BROADCAST_TLB_FLUSH))
+is not enough to get the compiler to short-circuit
+the rest of the code in that function.
 
-I think it better to re-post the revised-version of patch to replace the
-usage of 'strcpy()' with 'strscpy()'[3].
+We might need an #ifdef inside destroy_context_free_global_asid
+as well, no good way to move that one into a .h file without
+making the global asid data structures in tlb.c visible to
+the entire kernel instead of keeping them static in tlb.c
 
-
-[1] I guess that the maintainer realized the build error when applying
-the patch after my review.
-[2] https://lore.kernel.org/oe-kbuild-all/202502220137.fyFohYSo-lkp@intel.com/
-[3] https://lore.kernel.org/linux-sound/20250205192258.358362-1-jacklivingood@comcast.net/
-
-Thanks
-
-Takashi Sakamoto
+--=20
+All Rights Reversed.
