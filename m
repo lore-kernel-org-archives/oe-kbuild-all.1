@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C67227E86
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 20:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13AF24EF6E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 20:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740428045; cv=none; b=GYrj1M6pnJwGq+E8aZqqDlwjUllpn7d+1AfWkAIztHiTrtlYdlU2YNExPMUXO5vkcn1oiqaaEyv4oJstdKacuUOcBRABtBfTdw1eocDPq1IXexd/z/+B5uEhp5pePu2oh8q47p7Ik6U6M9R4n9SyO60PtAqkDtZuXAZ8PTGe2eI=
+	t=1740429266; cv=none; b=VYva1imX6kROTn0f5nh+GhJzJuSOOdIsL8XDqPreeGwo3t8EtVgdAXmB9c9nx2SMwTNse3M7J+5lYa4ttukirJ0EPnchce30D63rimDU1hjB129NhCliH9DK2GtBVJT/BthjRL7m+rle5bdcHBVegsZhlbtURasB/lVsGyC5qUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740428045; c=relaxed/simple;
-	bh=8UknH8Kal6iWvJLnVuA6mpaq5VJvWf7UnUN7ojRqkxc=;
+	s=arc-20240116; t=1740429266; c=relaxed/simple;
+	bh=/EJGPYPsY4Nyk+jmsN8qS4x8/U8GxQxZ7Puza3XE3zY=;
 	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m0MTiM6JgYIfWvgH0HjEjcqaky4XOQWjM5abcHl2Z2iku9MLjPhabddZiwGNzkNNu9JJRd0KNO/nY6k39mFye6tGjIF8+LrypeNsq89/TCmhN1Tc4cT6Nd94+op43Anqng5qPaQlIu5EG1TnBVbkPNJcKj83Kl8wJsk5olq0t7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kSDdrP17; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=uX+aWycO7eKXghZv9eUCCjRpP6rcab7VTjeM3+syhwRJXm+dSPFBM00FbSHTp3L4BkDZ4uOVfTnmFNVGuAgB35xNfgfrR/Xjg3BnyVnRTt1M6mZ+s9TpRmg7DWQTwlJfTtabj9jkfK43l5vrDBc52agIgx6kdzuqwl3hE0E1YZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RTu+9ssZ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kSDdrP17"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RTu+9ssZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740428043; x=1771964043;
+  t=1740429264; x=1771965264;
   h=date:from:cc:subject:message-id:mime-version;
-  bh=8UknH8Kal6iWvJLnVuA6mpaq5VJvWf7UnUN7ojRqkxc=;
-  b=kSDdrP17/54XkM/Kh7Ro9dTqofik8TUQoxK5BmPRqM44u5q/mocrXTTX
-   /hhpV5K4BGLKpnQjYf7QWX59M0Eih+zU1ctQbtOaWAihKLjqJ4gdzX+FO
-   Lgrjc6GIUhrRHgLDAJkTPpIR/wWpU4k8vY5ylP5bAsz2ZRUd5ZYgvnhjU
-   fLcVBegchfMR61qLrYuo+8dGEyGh+1NVS7Ry2kksP66z8mWms1x0+mPJ5
-   4l+GHS/6mlyfCtmPVOChruuct2ZH53UzOVQuL27wEE4mW436BZr9bXz5L
-   gRwlWZnMtY6HUesUftFrefFWmyBmA9uqyLdyigBRNVBCkrw8RtFDX+O1Z
+  bh=/EJGPYPsY4Nyk+jmsN8qS4x8/U8GxQxZ7Puza3XE3zY=;
+  b=RTu+9ssZsPEO+cbm5tqIu3Em+pPBz1eeIoWcNTdAtj4QSJtWJgX+BsTT
+   SUaOXF+eA1nxcbIPpCiwFmDIlolVhpM7211kS/VHSY/D3Za9XKt7QvLiz
+   7/xJXEDjCVUWRgf5FUIAO7XBnqZIEEeX1ZReB+tVUcGfY2T8ski2nmUX1
+   k84Sm+T9UZMA5w+YwAiZeAH7wSDgLz5Fmvfr3KX6/m7d05sMDZpe0YOHe
+   SOmIxfyaU5zPHQt5CuOqZsa9dzJgtzCrtlgbZZiAnu4H2L82J+bhMVQF+
+   PwdaP0ZTet2Yb+w2AX2RFraHRwDQ7u2tHt+1wFK2ssZLTQUT8gPl4pzI/
    A==;
-X-CSE-ConnectionGUID: rG4rRyiLTgunSN+oHUgl7w==
-X-CSE-MsgGUID: BJNSEkj0Tf2UOGE00nHKoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="28794426"
+X-CSE-ConnectionGUID: 8YOqBqrgT6uCod/pFzjIfA==
+X-CSE-MsgGUID: I+7J+LZSSLWsscScp78yew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58751556"
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="28794426"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 12:14:03 -0800
-X-CSE-ConnectionGUID: PGQKMWOeQFCN5LSh0GlnVw==
-X-CSE-MsgGUID: kfuJ7wIXR/2eSbqvxVHNyA==
+   d="scan'208";a="58751556"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 12:34:23 -0800
+X-CSE-ConnectionGUID: oz2iA9ZuSQeF7Lq/e4kPIA==
+X-CSE-MsgGUID: /4SjV8nMR/y4Pl8IOgB68w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="139404239"
+   d="scan'208";a="121135673"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Feb 2025 12:14:01 -0800
+  by orviesa004.jf.intel.com with ESMTP; 24 Feb 2025 12:34:22 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmepr-0009IZ-1k
+	id 1tmf9f-0009JP-20
 	for oe-kbuild-all@lists.linux.dev;
-	Mon, 24 Feb 2025 20:13:53 +0000
-Date: Tue, 25 Feb 2025 04:13:07 +0800
+	Mon, 24 Feb 2025 20:34:19 +0000
+Date: Tue, 25 Feb 2025 04:33:41 +0800
 From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/57 1/1] drivers/dma/xilinx/xilinx_dma.c:1102:49:
- warning: variable 'tail_desc' set but not used
-Message-ID: <202502250446.PfrsARkV-lkp@intel.com>
+Subject: [intel-lts:pr/69 1/1] drivers/pinctrl/pinctrl-mcp23s08.c:782:24:
+ warning: unused variable 'one_regmap_config'
+Message-ID: <202502250444.kC5LoHEu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,190 +62,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi YueHaibing,
+Hi Jan,
 
 FYI, the error/warning still remains.
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/57
-head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
-commit: c2be36ac2141b97f9a35ab560381317566bee357 [1/1] dmaengine: xilinx_dma: remove set but not used variable 'tail_segment'
-config: arm-randconfig-001-20250217 (https://download.01.org/0day-ci/archive/20250225/202502250446.PfrsARkV-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250446.PfrsARkV-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/69
+head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
+commit: 39958037723af522b275f5d3a72f5778d893f5aa [1/1] pinctrl: mcp23s08: spi: Fix regmap debugfs entries
+config: arm-randconfig-004-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250444.kC5LoHEu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250444.kC5LoHEu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502250446.PfrsARkV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502250444.kC5LoHEu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/dma/xilinx/xilinx_dma.c: In function 'xilinx_vdma_start_transfer':
->> drivers/dma/xilinx/xilinx_dma.c:1102:49: warning: variable 'tail_desc' set but not used [-Wunused-but-set-variable]
-    1102 |         struct xilinx_dma_tx_descriptor *desc, *tail_desc;
-         |                                                 ^~~~~~~~~
-   drivers/dma/xilinx/xilinx_dma.c: In function 'xilinx_vdma_dma_prep_interleaved':
-   drivers/dma/xilinx/xilinx_dma.c:1649:34: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    1649 |         if (!xt->numf || !xt->sgl[0].size)
-         |                           ~~~~~~~^~~
-   In file included from include/linux/dma/xilinx_dma.h:16,
-                    from drivers/dma/xilinx/xilinx_dma.c:36:
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
-   drivers/dma/xilinx/xilinx_dma.c:1672:28: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    1672 |         hw->hsize = xt->sgl[0].size;
-         |                     ~~~~~~~^~~
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
-   drivers/dma/xilinx/xilinx_dma.c:1673:30: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    1673 |         hw->stride = (xt->sgl[0].icg + xt->sgl[0].size) <<
-         |                       ~~~~~~~^~~
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
-   drivers/dma/xilinx/xilinx_dma.c: In function 'xilinx_dma_prep_interleaved':
-   drivers/dma/xilinx/xilinx_dma.c:1993:34: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    1993 |         if (!xt->numf || !xt->sgl[0].size)
-         |                           ~~~~~~~^~~
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
-   drivers/dma/xilinx/xilinx_dma.c:2024:37: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    2024 |         hw->vsize_stride |= (xt->sgl[0].icg + xt->sgl[0].size) &
-         |                              ~~~~~~~^~~
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
-   drivers/dma/xilinx/xilinx_dma.c:2024:54: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    2024 |         hw->vsize_stride |= (xt->sgl[0].icg + xt->sgl[0].size) &
-         |                                               ~~~~~~~^~~
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
-   drivers/dma/xilinx/xilinx_dma.c:2026:30: warning: array subscript 0 is outside array bounds of 'struct data_chunk[0]' [-Warray-bounds=]
-    2026 |         hw->control = xt->sgl[0].size & XILINX_DMA_BD_HSIZE_MASK;
-         |                       ~~~~~~~^~~
-   include/linux/dmaengine.h:168:27: note: while referencing 'sgl'
-     168 |         struct data_chunk sgl[0];
-         |                           ^~~
+   drivers/pinctrl/pinctrl-mcp23s08.c: In function 'mcp_pinconf_set':
+   drivers/pinctrl/pinctrl-mcp23s08.c:282:6: warning: variable 'val' set but not used [-Wunused-but-set-variable]
+     u16 val;
+         ^~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:281:11: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
+     u32 arg, mask;
+              ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c: In function 'mcp23s08_probe_one':
+>> drivers/pinctrl/pinctrl-mcp23s08.c:782:24: warning: unused variable 'one_regmap_config' [-Wunused-variable]
+     struct regmap_config *one_regmap_config = NULL;
+                           ^~~~~~~~~~~~~~~~~
 
 
-vim +/tail_desc +1102 drivers/dma/xilinx/xilinx_dma.c
+vim +/one_regmap_config +782 drivers/pinctrl/pinctrl-mcp23s08.c
 
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1094  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1095  /**
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1096   * xilinx_vdma_start_transfer - Starts VDMA transfer
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1097   * @chan: Driver specific channel struct pointer
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1098   */
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1099  static void xilinx_vdma_start_transfer(struct xilinx_dma_chan *chan)
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1100  {
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1101  	struct xilinx_vdma_config *config = &chan->config;
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07 @1102  	struct xilinx_dma_tx_descriptor *desc, *tail_desc;
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1103  	u32 reg, j;
-b8349172b4001e drivers/dma/xilinx/xilinx_dma.c  Andrea Merello         2018-11-20  1104  	struct xilinx_vdma_tx_segment *segment, *last = NULL;
-b8349172b4001e drivers/dma/xilinx/xilinx_dma.c  Andrea Merello         2018-11-20  1105  	int i = 0;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1106  
-26c5e36931b3fe drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-02-26  1107  	/* This function was invoked with lock held */
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1108  	if (chan->err)
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1109  		return;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1110  
-21e02a3e05cfd3 drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1111  	if (!chan->idle)
-21e02a3e05cfd3 drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1112  		return;
-21e02a3e05cfd3 drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1113  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1114  	if (list_empty(&chan->pending_list))
-26c5e36931b3fe drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-02-26  1115  		return;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1116  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1117  	desc = list_first_entry(&chan->pending_list,
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1118  				struct xilinx_dma_tx_descriptor, node);
-7096f36e5388be drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-02-26  1119  	tail_desc = list_last_entry(&chan->pending_list,
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1120  				    struct xilinx_dma_tx_descriptor, node);
-7096f36e5388be drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-02-26  1121  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1122  	/* Configure the hardware using info in the config structure */
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1123  	if (chan->has_vflip) {
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1124  		reg = dma_read(chan, XILINX_VDMA_REG_ENABLE_VERTICAL_FLIP);
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1125  		reg &= ~XILINX_VDMA_ENABLE_VERTICAL_FLIP;
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1126  		reg |= config->vflip_en;
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1127  		dma_write(chan, XILINX_VDMA_REG_ENABLE_VERTICAL_FLIP,
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1128  			  reg);
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1129  	}
-0894aa28aece68 drivers/dma/xilinx/xilinx_dma.c  Radhey Shyam Pandey    2018-06-13  1130  
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1131  	reg = dma_ctrl_read(chan, XILINX_DMA_REG_DMACR);
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1132  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1133  	if (config->frm_cnt_en)
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1134  		reg |= XILINX_DMA_DMACR_FRAMECNT_EN;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1135  	else
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1136  		reg &= ~XILINX_DMA_DMACR_FRAMECNT_EN;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1137  
-b8349172b4001e drivers/dma/xilinx/xilinx_dma.c  Andrea Merello         2018-11-20  1138  	/* If not parking, enable circular mode */
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1139  	if (config->park)
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1140  		reg &= ~XILINX_DMA_DMACR_CIRC_EN;
-b8349172b4001e drivers/dma/xilinx/xilinx_dma.c  Andrea Merello         2018-11-20  1141  	else
-b8349172b4001e drivers/dma/xilinx/xilinx_dma.c  Andrea Merello         2018-11-20  1142  		reg |= XILINX_DMA_DMACR_CIRC_EN;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1143  
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1144  	dma_ctrl_write(chan, XILINX_DMA_REG_DMACR, reg);
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1145  
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1146  	j = chan->desc_submitcount;
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1147  	reg = dma_read(chan, XILINX_DMA_REG_PARK_PTR);
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1148  	if (chan->direction == DMA_MEM_TO_DEV) {
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1149  		reg &= ~XILINX_DMA_PARK_PTR_RD_REF_MASK;
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1150  		reg |= j << XILINX_DMA_PARK_PTR_RD_REF_SHIFT;
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1151  	} else {
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1152  		reg &= ~XILINX_DMA_PARK_PTR_WR_REF_MASK;
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1153  		reg |= j << XILINX_DMA_PARK_PTR_WR_REF_SHIFT;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1154  	}
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1155  	dma_write(chan, XILINX_DMA_REG_PARK_PTR, reg);
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1156  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1157  	/* Start the hardware */
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1158  	xilinx_dma_start(chan);
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1159  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1160  	if (chan->err)
-26c5e36931b3fe drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-02-26  1161  		return;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1162  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1163  	/* Start the transfer */
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1164  	if (chan->desc_submitcount < chan->num_frms)
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1165  		i = chan->desc_submitcount;
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1166  
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1167  	list_for_each_entry(segment, &desc->segments, node) {
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1168  		if (chan->ext_addr)
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1169  			vdma_desc_write_64(chan,
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1170  				   XILINX_VDMA_REG_START_ADDRESS_64(i++),
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1171  				   segment->hw.buf_addr,
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1172  				   segment->hw.buf_addr_msb);
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1173  		else
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1174  			vdma_desc_write(chan,
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1175  					XILINX_VDMA_REG_START_ADDRESS(i++),
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1176  					segment->hw.buf_addr);
-b72db4005fe4bf drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1177  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1178  		last = segment;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1179  	}
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1180  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1181  	if (!last)
-26c5e36931b3fe drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-02-26  1182  		return;
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1183  
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1184  	/* HW expects these parameters to be same for one transaction */
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1185  	vdma_desc_write(chan, XILINX_DMA_REG_HSIZE, last->hw.hsize);
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1186  	vdma_desc_write(chan, XILINX_DMA_REG_FRMDLY_STRIDE,
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1187  			last->hw.stride);
-42c1a2ede4f6a3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-07  1188  	vdma_desc_write(chan, XILINX_DMA_REG_VSIZE, last->hw.vsize);
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1189  
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1190  	chan->desc_submitcount++;
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1191  	chan->desc_pendingcount--;
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1192  	list_del(&desc->node);
-fe0503e19310bd drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1193  	list_add_tail(&desc->node, &chan->active_list);
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1194  	if (chan->desc_submitcount == chan->num_frms)
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1195  		chan->desc_submitcount = 0;
-21e02a3e05cfd3 drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1196  
-21e02a3e05cfd3 drivers/dma/xilinx/xilinx_dma.c  Kedareswara rao Appana 2017-12-07  1197  	chan->idle = false;
-a65cf5125b49f3 drivers/dma/xilinx/xilinx_vdma.c Kedareswara rao Appana 2016-04-06  1198  }
-9cd4360de6090a drivers/dma/xilinx/xilinx_vdma.c Srikanth Thokala       2014-04-23  1199  
-
-:::::: The code at line 1102 was first introduced by commit
-:::::: 42c1a2ede4f6a320d6843fc846f5466bff836a0c dmaengine: vdma: Rename xilinx_vdma_ prefix to xilinx_dma
-
-:::::: TO: Kedareswara rao Appana <appana.durga.rao@xilinx.com>
-:::::: CC: Vinod Koul <vinod.koul@intel.com>
+   775	
+   776	static int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+   777				      void *data, unsigned addr, unsigned type,
+   778				      unsigned int base, int cs)
+   779	{
+   780		int status, ret;
+   781		bool mirror = false;
+ > 782		struct regmap_config *one_regmap_config = NULL;
+   783	
+   784		mutex_init(&mcp->lock);
+   785	
+   786		mcp->dev = dev;
+   787		mcp->addr = addr;
+   788		mcp->irq_active_high = false;
+   789	
+   790		mcp->chip.direction_input = mcp23s08_direction_input;
+   791		mcp->chip.get = mcp23s08_get;
+   792		mcp->chip.direction_output = mcp23s08_direction_output;
+   793		mcp->chip.set = mcp23s08_set;
+   794		mcp->chip.dbg_show = mcp23s08_dbg_show;
+   795	#ifdef CONFIG_OF_GPIO
+   796		mcp->chip.of_gpio_n_cells = 2;
+   797		mcp->chip.of_node = dev->of_node;
+   798	#endif
+   799	
+   800		switch (type) {
+   801	#ifdef CONFIG_SPI_MASTER
+   802		case MCP_TYPE_S08:
+   803		case MCP_TYPE_S17:
+   804			switch (type) {
+   805			case MCP_TYPE_S08:
+   806				one_regmap_config =
+   807					devm_kmemdup(dev, &mcp23x08_regmap,
+   808						sizeof(struct regmap_config), GFP_KERNEL);
+   809				mcp->reg_shift = 0;
+   810				mcp->chip.ngpio = 8;
+   811				mcp->chip.label = "mcp23s08";
+   812				break;
+   813			case MCP_TYPE_S17:
+   814				one_regmap_config =
+   815					devm_kmemdup(dev, &mcp23x17_regmap,
+   816						sizeof(struct regmap_config), GFP_KERNEL);
+   817				mcp->reg_shift = 1;
+   818				mcp->chip.ngpio = 16;
+   819				mcp->chip.label = "mcp23s17";
+   820				break;
+   821			}
+   822			if (!one_regmap_config)
+   823				return -ENOMEM;
+   824	
+   825			one_regmap_config->name = devm_kasprintf(dev, GFP_KERNEL, "%d", (addr & ~0x40) >> 1);
+   826			mcp->regmap = devm_regmap_init(dev, &mcp23sxx_spi_regmap, mcp,
+   827						       one_regmap_config);
+   828			break;
+   829	
+   830		case MCP_TYPE_S18:
+   831			if (!one_regmap_config)
+   832				return -ENOMEM;
+   833			mcp->regmap = devm_regmap_init(dev, &mcp23sxx_spi_regmap, mcp,
+   834						       &mcp23x17_regmap);
+   835			mcp->reg_shift = 1;
+   836			mcp->chip.ngpio = 16;
+   837			mcp->chip.label = "mcp23s18";
+   838			break;
+   839	#endif /* CONFIG_SPI_MASTER */
+   840	
 
 -- 
 0-DAY CI Kernel Test Service
