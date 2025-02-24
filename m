@@ -1,65 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07072A8D0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 14:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235471519B0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 15:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740408999; cv=none; b=kBcOI2zezlJxE4DORhuVGT7eHsrxHAThSbQkRgAq6gRjjU4yD6KqE3L4IenGv4cloVPztiMoPSKvU9Heqw2uO1CbaUMYokpJIfV2wTjRD0K+U6ZJ1DIripfKnv7CY7JRpm3ePZ5dMcfZOqWvhI3XSnmu7/IIpE7cCh/EeGnUFFg=
+	t=1740410183; cv=none; b=PwQ7/BCjob1XREfvdhxZd/xGqH386MPJf50ZY4c1g8eK3VKviVLCW8jL7gKvS3ec44UACRejz75+srfBkSAF5+KFSKXx2Y8zQF50nljDvYkUms7iIzrKed5/94bXa8Ppf132FfZEDAs71qgX3cYZyHdwSeVlmw+kgo/G76QDxAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740408999; c=relaxed/simple;
-	bh=kLvQSsfByF9witrbdeJo0ttxnE3VKPGq/3+vWTmXkgc=;
+	s=arc-20240116; t=1740410183; c=relaxed/simple;
+	bh=j1amh3GLQwBv+BmYGEPSqQplCa3rIZrtSko1QfgKVV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TJTQ/rxjoTqg1yinJ56G0I1/uk7VZmYBfOrQaEfKgdYoroN24XNp2d6viRxecwDLmrB3pY+WM6WhGkQTjrbOq77QiIVfSrn4U7dfGbormwta17nM45YvHSsxCv//2wGUEfPyVYdg9Y+5I3elnq6cceA+7BUW9UDrZZtUDqRIWq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSoNhnvU; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nLpvm2yqJMiWxGhmPNmaODctmHAmornrDqinGVZbyrtMKXP4LB8kFsWWD+yT2XvYIcbxCXpowITXiD/CexeHmuonejvZkWxSNgFsa1SI6sUgdwCwl4b32Anw/Z9mqH5kuq6uPsmIvOXFNCllsgKDizyxl5DgybmeXV2HS2GqhT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=FydJNcRm; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSoNhnvU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740408998; x=1771944998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kLvQSsfByF9witrbdeJo0ttxnE3VKPGq/3+vWTmXkgc=;
-  b=CSoNhnvUb1j1QlIAvBfxwdTIOvrwBTvIUMNnC+0w8R90QA4jqd5d9I0M
-   rd9rxCdorz9sR+u7gWmLg+v1g5DZvKmmkOYcMdb2i4tV/dSi/OzbdnPo1
-   Lwjj2j9V0AS7Qh68rHgryHd8KyKBXiAZL592zI7B3Volid7gISA2XZbQq
-   7vuLO9h1s35pGJj7ZwTyginUkHTeaMrWEOtVFyMkJkQDh+jdNsyNrN4XX
-   tGLJTYDZ2S8emYFt9JNHcJw8rQT9VB5x/KZqEp75TKFi70y0edl3kzqxn
-   59wnWwFng7UOzOjrTJtRDPyYD2Mxynpes6pzs1+KakwfxmkuVS8bFc4lx
-   A==;
-X-CSE-ConnectionGUID: uhnX10+9Rhmf/q9ZH4cRsA==
-X-CSE-MsgGUID: Zt8frn09SneK3sXqzfv1rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40353109"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="40353109"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:56:37 -0800
-X-CSE-ConnectionGUID: xQ/AlRxeSYueNaOP2pPq3w==
-X-CSE-MsgGUID: xlXwXB39RReif3MX5BGDRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="115873701"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Feb 2025 06:56:29 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmZsh-0008eZ-1E;
-	Mon, 24 Feb 2025 14:56:27 +0000
-Date: Mon, 24 Feb 2025 22:56:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
-Cc: oe-kbuild-all@lists.linux.dev, hjc@rock-chips.com, mripard@kernel.org,
-	cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
-	yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, robh@kernel.org,
-	sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH 3/6] drm/rockchip: Add RK3588 DPTX output support
-Message-ID: <202502242201.3fE7QpMy-lkp@intel.com>
-References: <20250223113036.74252-4-andyshrk@163.com>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="FydJNcRm"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4399d14334aso39810435e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 07:16:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1740410178; x=1741014978; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LfS+Z06Kv6L0rZqsEuMfHLU9T6TZKUI64/SNe3QOt3g=;
+        b=FydJNcRmGI8DgGDUnF+aBR4MzUwg6wqUcjVt+PavawQyN1j8UCzC6sgDIyYzthr6FG
+         eejOrNYXYEOiNXe4pnjQljx7SVsd0XeCT2hRq7bnHAAw92Tdz/OIirL/vrGPyBKVKAyJ
+         3P0MBWfK35fNaWBzg13fq7l0p/V1GRSFFNcUc8tQhl5TyUn03LgDVonS3pZbQDxsMq9A
+         7HhPnWN40ovvvf7lPQpHXkh+UzC9u5dylcdaLSj82US0zIV1koqdgQdDn2jda8AijlSO
+         Ub5/iy2qWgqZMHHkNVgwcdfN41Qf9ld6CZLjOLwg7rEyJ9TOy/uKRHsxJoxhA/kLJJEL
+         LUig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740410178; x=1741014978;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LfS+Z06Kv6L0rZqsEuMfHLU9T6TZKUI64/SNe3QOt3g=;
+        b=NwdFs8nukVBt45vaoxVVjd1HtnxlvNVTbI3Mddp7MtSf4iVavt2zUiMLiCY+a3OPyD
+         i+sIWZzrEtNZLZxcsyYV3Tn1M5o1tTmZyDxMQN4ZHcdzNmfqitJ+z/wSwlaMGlMZ/Lb2
+         /8lyJi6wN3cr/ml1cCoTdsIuzcUdGXH4OrQ59oXfNaaA99ylA+vpcuNi1Sfocr0KyM8s
+         tqbegnsOimaf0astw9Hhm02+GKkesOQ9Pl60T6w4AqOe0wuBrWaJG4JvnkNaR5wMk01A
+         tApBtdTkRCBEDhq1RVxtuWmkgd2XJ1M2Drp7UlnPRWlp9XHWiN9neE/vbzChpBsC1j0k
+         CoXg==
+X-Gm-Message-State: AOJu0YxID2mBL2gGSpER59+4/36IW7jq6a06rUqa7TF2YTGgfrI0tHYP
+	UbRLWdGil0tZelYtBdDaAQVB3c7sotD+B5mBOgPDCWGAArAsIGBt84mutUSFhEID3pr/NqKtjFh
+	i
+X-Gm-Gg: ASbGncvTdday/RTCq2n93gRci5cIxhaIARdPFsuMgSLpx1sIjaUE2VkcUKUprsqL6jc
+	Ro0jpJQu5u/4AuPV3EHsvNyPjfUshMNInTfPTSD5daK2TQ2aYDUxAXnvKiKliJl+w6xojHRp/M7
+	Ywklr3bLLpd3leY4EAlLSkn5mL647WHbSfip0Rf5gthZKu5yIrkGMrnUHmmGBE//TD1HB5YE0ly
+	/uZHa7JoYUuhASrpgXpFYPx1ecqRVBPmrdkMLOOyB2/ABVAT5SRYfFuayr/SfK2UVOFsrw4ejMZ
+	4EXlvLw4gXIWbkeGK6lTQ5l5A0C+NirJmQd7PljN/YDj18XxqdSQcn8=
+X-Google-Smtp-Source: AGHT+IHD7IQa2hR2BzePsORrYvXKwBP8zZPbU6UjUepnOBOOx6KkffEVjFVO5JteQJTLCq3CWCnDXQ==
+X-Received: by 2002:a05:600c:3b08:b0:439:5da7:8e0 with SMTP id 5b1f17b1804b1-439ae1f30dbmr136958115e9.16.1740410178141;
+        Mon, 24 Feb 2025 07:16:18 -0800 (PST)
+Received: from localhost (cst2-173-28.cust.vodafone.cz. [31.30.173.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02e6701sm108245625e9.20.2025.02.24.07.16.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 07:16:17 -0800 (PST)
+Date: Mon, 24 Feb 2025 16:16:16 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 7/8] riscv: Add parameter for skipping access speed
+ tests
+Message-ID: <20250224-c0b507d4e558bd4995384d55@orel>
+References: <20250221145718.115076-17-ajones@ventanamicro.com>
+ <202502230100.z4YCnXZg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,36 +73,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250223113036.74252-4-andyshrk@163.com>
+In-Reply-To: <202502230100.z4YCnXZg-lkp@intel.com>
 
-Hi Andy,
+On Sun, Feb 23, 2025 at 01:10:11AM +0800, kernel test robot wrote:
+> Hi Andrew,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v6.14-rc3 next-20250221]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Jones/riscv-Annotate-unaligned-access-init-functions/20250221-230314
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/20250221145718.115076-17-ajones%40ventanamicro.com
+> patch subject: [PATCH v2 7/8] riscv: Add parameter for skipping access speed tests
+> config: riscv-randconfig-002-20250222 (https://download.01.org/0day-ci/archive/20250223/202502230100.z4YCnXZg-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230100.z4YCnXZg-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502230100.z4YCnXZg-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    arch/riscv/kernel/unaligned_access_speed.c: In function 'set_unaligned_access_static_branches_except_cpu':
+>    arch/riscv/kernel/unaligned_access_speed.c:201:39: error: 'fast_misaligned_access' undeclared (first use in this function); did you mean 'vector_misaligned_access'?
+>      201 |         cpumask_and(&fast_except_me, &fast_misaligned_access, cpu_online_mask);
+>          |                                       ^~~~~~~~~~~~~~~~~~~~~~
+>          |                                       vector_misaligned_access
 
-kernel test robot noticed the following build errors:
+Looks like I forgot to move fast_misaligned_access out of the
+CONFIG_RISCV_PROBE_UNALIGNED_ACCESS. I'll fix it for v3.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.14-rc4]
-[cannot apply to rockchip/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+drew
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Yan/dt-bindings-display-rockchip-Add-schema-for-RK3588-DPTX-Controller/20250223-193323
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250223113036.74252-4-andyshrk%40163.com
-patch subject: [PATCH 3/6] drm/rockchip: Add RK3588 DPTX output support
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250224/202502242201.3fE7QpMy-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502242201.3fE7QpMy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502242201.3fE7QpMy-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "dw_dp_bind" [drivers/gpu/drm/rockchip/rockchipdrm.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    arch/riscv/kernel/unaligned_access_speed.c:201:39: note: each undeclared identifier is reported only once for each function it appears in
+>    arch/riscv/kernel/unaligned_access_speed.c: In function 'set_unaligned_access_static_branches':
+>    arch/riscv/kernel/unaligned_access_speed.c:220:40: error: 'fast_misaligned_access' undeclared (first use in this function); did you mean 'vector_misaligned_access'?
+>      220 |         cpumask_and(&fast_and_online, &fast_misaligned_access, cpu_online_mask);
+>          |                                        ^~~~~~~~~~~~~~~~~~~~~~
+>          |                                        vector_misaligned_access
+>    arch/riscv/kernel/unaligned_access_speed.c: In function 'riscv_online_cpu':
+> >> arch/riscv/kernel/unaligned_access_speed.c:238:29: warning: unused variable 'buf' [-Wunused-variable]
+>      238 |         static struct page *buf;
+>          |                             ^~~
+> 
+> 
+> vim +/buf +238 arch/riscv/kernel/unaligned_access_speed.c
+> 
+> f413aae96cda05 Charlie Jenkins 2024-03-08  235  
+> f413aae96cda05 Charlie Jenkins 2024-03-08  236  static int riscv_online_cpu(unsigned int cpu)
+> f413aae96cda05 Charlie Jenkins 2024-03-08  237  {
+> f413aae96cda05 Charlie Jenkins 2024-03-08 @238  	static struct page *buf;
+> f413aae96cda05 Charlie Jenkins 2024-03-08  239  
+> f413aae96cda05 Charlie Jenkins 2024-03-08  240  	/* We are already set since the last check */
+> cf73109e3f3716 Andrew Jones    2025-02-21  241  	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
+> f413aae96cda05 Charlie Jenkins 2024-03-08  242  		goto exit;
+> cf73109e3f3716 Andrew Jones    2025-02-21  243  	} else if (unaligned_scalar_speed_param != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
+> cf73109e3f3716 Andrew Jones    2025-02-21  244  		per_cpu(misaligned_access_speed, cpu) = unaligned_scalar_speed_param;
+> cf73109e3f3716 Andrew Jones    2025-02-21  245  		goto exit;
+> cf73109e3f3716 Andrew Jones    2025-02-21  246  	}
+> f413aae96cda05 Charlie Jenkins 2024-03-08  247  
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
