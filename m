@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2981474A9;
-	Sun, 23 Feb 2025 23:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB41B376
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 00:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740353994; cv=none; b=mzSlEBV/xRYaKgplUVtT5ZChJEAaNlMaJEtxmgxyB2M1NtmOoI0a5ngdwQ5hv5aUFKtmom4MOPx1l3seGJvuUYJ9fNWUuseFJ0tRBKHoBKGGXHprnTlYnqkEUfiEIXVxhCt6TJIjclRzMeTveEKpsQZot6TRusxA7/ojnJfzw7A=
+	t=1740355858; cv=none; b=bR3Luyjuqx0/NjoxF7s6TZq4XBf2y/A1+/yqYLuEt30DkbXBxu1k7fKUvd/+3HmZnqEXBtppTBrbN8jHRR4cfjAHoVjvwtLQUGjrDKyi+nPpystlJP2uBG+QHuI2Vn3YVhLvmBMSMKGcVeCAsWGkahvp4+gw2RgxxD65cMFML7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740353994; c=relaxed/simple;
-	bh=hzCL0wIUvmBcBhuuc3gsWODoNAycfhMCTUXDCPb41Wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f0B+8rZVtgU8Hub2UJNSyqDwoyMFaFuOpuVgglc8tG4lQtC4O2P2jbdwFOdpmdv5QB3AerII47xo/0RmQxIS8+ZMxyg8qnhsXFWIkacImUUpzqCxcVYjPrm6OqYvmxyxDdqgJCm11/Ul1uvlr4KXUj+hI2ZfNlOnxC2obkjZh4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jb5yWmsM; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1740355858; c=relaxed/simple;
+	bh=jqwNdQgH1HCTo8J94LxMdT1m3uTDhWHq7ia8KwACxxc=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O4ws44mpx7AZkGyiiDNDx8K2n4i3Tf9Ozme/qdFPvblTkSA+FcDvQSoyxFF+LMfN/cwm35byjSeQViUCyxLGoqndB/+YVY9BybJuClGoe0P74AZbCQXzzuk+5OhO/RxTB4FJShbxMphOnuDoIr5enSNQJWMhvBDEjODSBNQYsAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpGQGT9c; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jb5yWmsM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpGQGT9c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740353992; x=1771889992;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hzCL0wIUvmBcBhuuc3gsWODoNAycfhMCTUXDCPb41Wo=;
-  b=jb5yWmsMPdn8iYWxbLzaafI1N3HhfpCHimxexdlKBHKOK0cpSfUvq6xb
-   EfGWGGQDX3MoVxSWdqlZWpwiry0YKhGmSeNiCuT8HEuyUi1UXdYERbOIp
-   JR8/AAK54fSykYuwLPdfzrllqCIZ+qN0NqBP+9TvsjMA9dhgCkN4E87s1
-   UjsKTBl5p+hOoAlEC5jvOBvNYHeRQmPU3xb0AGlWoVSsQdG0edRI1TLtv
-   KwVzm38h+FhS26EbMtWDMP7u+vgL742JMpooaK4oDoC1M7lFzBjB0O8wM
-   t2grjMhzCCD9Y8Atw5BE7O2DMl6lnQ/rpb0TFZjM1VZNG1KWwX3hVZa5r
-   A==;
-X-CSE-ConnectionGUID: 9dDba23uQC+De4fkX78RkQ==
-X-CSE-MsgGUID: 552ic8FtSNWhc2OM6Vy+9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="58517709"
+  t=1740355857; x=1771891857;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=jqwNdQgH1HCTo8J94LxMdT1m3uTDhWHq7ia8KwACxxc=;
+  b=fpGQGT9cahOKKnGEvJj6Icy6AyrduLVpO7AJlOUcGEH1n4Pdjb6nBAhJ
+   ihlbDBIVnU85Y1r9B9A+hIyOuNjJl7a7hJnxnvFUvhIPD6gpiuH0T3zp6
+   mATrhakIcpFZe9k7qDOZTjGo1epc2tgBzni3ZEJERzSP4Pc5hKQI9GS+q
+   ufUvaFlf6DC+hmSCs9arkJ0ZOdxU9f/JUmgN/YDO0sGQ5aAmhsiYftALp
+   FpCNuNcG9NaLms6ex+oRBMSIVXADxqOWpqvaFxIlquarpyGTW0mY4lDWU
+   PnhrbgJ0CdyzRutcuUQXwybFTWuys0I/oesUQphA4AdEnjCu/Gy+cCcnf
+   w==;
+X-CSE-ConnectionGUID: BvqPhAEDRP6xr4lGckGX6w==
+X-CSE-MsgGUID: G5fVDYNxRH6NDKxWNNKfdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="41220525"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="58517709"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 15:39:51 -0800
-X-CSE-ConnectionGUID: BPnuqFCAQseOTp6NxUr3xQ==
-X-CSE-MsgGUID: CpAuFQekSleKlr7kNt142A==
+   d="scan'208";a="41220525"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 16:10:53 -0800
+X-CSE-ConnectionGUID: hUemnWF9QomJLzyPo9a5kg==
+X-CSE-MsgGUID: FZp4RoDMRayStJAxE7n2Wg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="115876309"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121166648"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 23 Feb 2025 15:39:49 -0800
+  by orviesa005.jf.intel.com with ESMTP; 23 Feb 2025 16:10:52 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmLZb-0007fV-0j;
-	Sun, 23 Feb 2025 23:39:47 +0000
-Date: Mon, 24 Feb 2025 07:39:35 +0800
+	id 1tmM3d-0007gP-1o
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 24 Feb 2025 00:10:49 +0000
+Date: Mon, 24 Feb 2025 08:10:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhiming Hu <zhiming.hu@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, Farrah Chen <farrah.chen@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: [kvm:kvm-coco-queue 30/121] arch/x86/include/asm/tdx.h:183:12:
- error: unused function 'tdx_get_nr_guest_keyids'
-Message-ID: <202502240742.C79LoViU-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/68 1/1] cc1: warning: arch/sh/include/mach-hp6xx: No
+ such file or directory
+Message-ID: <202502240827.pkjrHzN1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,65 +62,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
-head:   ff2046f9bcd0883c72158404a1466eb96781ccca
-commit: 5c017bb4d89f65807c56d652443b53e7765b8b35 [30/121] KVM: TDX: Register TDX host key IDs to cgroup misc controller
-config: x86_64-randconfig-004-20250224 (https://download.01.org/0day-ci/archive/20250224/202502240742.C79LoViU-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240742.C79LoViU-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/68
+head:   1512b732e7eb769e47792aa376270df979374d81
+commit: 4c8dd95a723d9cccf8810be54aa62be82885c9d8 [1/1] kbuild: add some extra warning flags unconditionally
+config: sh-randconfig-002-20250224 (https://download.01.org/0day-ci/archive/20250224/202502240827.pkjrHzN1-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502240827.pkjrHzN1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502240742.C79LoViU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502240827.pkjrHzN1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:4:
-   In file included from drivers/gpu/drm/xe/compat-i915-headers/i915_utils.h:6:
-   In file included from drivers/gpu/drm/xe/compat-i915-headers/../../i915/i915_utils.h:37:
-   In file included from arch/x86/include/asm/hypervisor.h:37:
-   In file included from arch/x86/include/asm/kvm_para.h:10:
->> arch/x86/include/asm/tdx.h:183:12: error: unused function 'tdx_get_nr_guest_keyids' [-Werror,-Wunused-function]
-     183 | static u32 tdx_get_nr_guest_keyids(void) { return 0; }
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-   Selected by [m]:
-   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
-
-
-vim +/tdx_get_nr_guest_keyids +183 arch/x86/include/asm/tdx.h
-
-   162	
-   163	u64 tdh_mng_addcx(struct tdx_td *td, struct page *tdcs_page);
-   164	u64 tdh_vp_addcx(struct tdx_vp *vp, struct page *tdcx_page);
-   165	u64 tdh_mng_key_config(struct tdx_td *td);
-   166	u64 tdh_mng_create(struct tdx_td *td, u16 hkid);
-   167	u64 tdh_vp_create(struct tdx_td *td, struct tdx_vp *vp);
-   168	u64 tdh_mng_rd(struct tdx_td *td, u64 field, u64 *data);
-   169	u64 tdh_vp_flush(struct tdx_vp *vp);
-   170	u64 tdh_mng_vpflushdone(struct tdx_td *td);
-   171	u64 tdh_mng_key_freeid(struct tdx_td *td);
-   172	u64 tdh_mng_init(struct tdx_td *td, u64 td_params, u64 *extended_err);
-   173	u64 tdh_vp_init(struct tdx_vp *vp, u64 initial_rcx, u32 x2apicid);
-   174	u64 tdh_vp_rd(struct tdx_vp *vp, u64 field, u64 *data);
-   175	u64 tdh_vp_wr(struct tdx_vp *vp, u64 field, u64 data, u64 mask);
-   176	u64 tdh_phymem_page_reclaim(struct page *page, u64 *tdx_pt, u64 *tdx_owner, u64 *tdx_size);
-   177	u64 tdh_phymem_cache_wb(bool resume);
-   178	u64 tdh_phymem_page_wbinvd_tdr(struct tdx_td *td);
-   179	#else
-   180	static inline void tdx_init(void) { }
-   181	static inline int tdx_cpu_enable(void) { return -ENODEV; }
-   182	static inline int tdx_enable(void)  { return -ENODEV; }
- > 183	static u32 tdx_get_nr_guest_keyids(void) { return 0; }
-   184	static inline const char *tdx_dump_mce_info(struct mce *m) { return NULL; }
-   185	static inline const struct tdx_sys_info *tdx_get_sysinfo(void) { return NULL; }
-   186	#endif	/* CONFIG_INTEL_TDX_HOST */
-   187	
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+--
+   scripts/extract-cert.c: In function 'display_openssl_errors':
+   scripts/extract-cert.c:46:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+      46 |         while ((e = ERR_get_error_line(&file, &line))) {
+         |         ^~~~~
+   In file included from scripts/extract-cert.c:23:
+   /usr/include/openssl/err.h:423:15: note: declared here
+     423 | unsigned long ERR_get_error_line(const char **file, int *line);
+         |               ^~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c: In function 'drain_openssl_errors':
+   scripts/extract-cert.c:59:9: warning: 'ERR_get_error_line' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+      59 |         while (ERR_get_error_line(&file, &line)) {}
+         |         ^~~~~
+   /usr/include/openssl/err.h:423:15: note: declared here
+     423 | unsigned long ERR_get_error_line(const char **file, int *line);
+         |               ^~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c: In function 'main':
+   scripts/extract-cert.c:124:17: warning: 'ENGINE_load_builtin_engines' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     124 |                 ENGINE_load_builtin_engines();
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from scripts/extract-cert.c:24:
+   /usr/include/openssl/engine.h:358:28: note: declared here
+     358 | OSSL_DEPRECATEDIN_3_0 void ENGINE_load_builtin_engines(void);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c:126:17: warning: 'ENGINE_by_id' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     126 |                 e = ENGINE_by_id("pkcs11");
+         |                 ^
+   /usr/include/openssl/engine.h:336:31: note: declared here
+     336 | OSSL_DEPRECATEDIN_3_0 ENGINE *ENGINE_by_id(const char *id);
+         |                               ^~~~~~~~~~~~
+   scripts/extract-cert.c:128:17: warning: 'ENGINE_init' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     128 |                 if (ENGINE_init(e))
+         |                 ^~
+   /usr/include/openssl/engine.h:620:27: note: declared here
+     620 | OSSL_DEPRECATEDIN_3_0 int ENGINE_init(ENGINE *e);
+         |                           ^~~~~~~~~~~
+   scripts/extract-cert.c:133:25: warning: 'ENGINE_ctrl_cmd_string' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     133 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
+         |                         ^~~
+   /usr/include/openssl/engine.h:479:5: note: declared here
+     479 | int ENGINE_ctrl_cmd_string(ENGINE *e, const char *cmd_name, const char *arg,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   scripts/extract-cert.c:134:17: warning: 'ENGINE_ctrl_cmd' is deprecated: Since OpenSSL 3.0 [-Wdeprecated-declarations]
+     134 |                 ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
+         |                 ^~~~~~~~~~~~~~~
+   /usr/include/openssl/engine.h:450:27: note: declared here
+     450 | OSSL_DEPRECATEDIN_3_0 int ENGINE_ctrl_cmd(ENGINE *e, const char *cmd_name,
+         |                           ^~~~~~~~~~~~~~~
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory [-Wmissing-include-dirs]
 
 -- 
 0-DAY CI Kernel Test Service
