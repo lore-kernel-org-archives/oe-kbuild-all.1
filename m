@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C84219300;
-	Mon, 24 Feb 2025 12:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ED91E487
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 12:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740400124; cv=none; b=mzY+zfjc18uOwXFLRi1SC9RzriiFgruRQYbXhAEVlQBhxNo0h2nWho/wITL4MRyPuoQLXTYe/LwrPu2CkLTv5FHZOhPRFKkr8Hel6AyLH/fkaWuUwAp0n4W382tbkWYcGrh+guuLj42wpmH5bUgD5l7CgAmCxjIXCiHIj1ZZvLI=
+	t=1740401545; cv=none; b=DZbq6ATUYiMPmAfjAqG+7t32DY2fgwAcvMHdB1I6+hn0MTJMKG6sX2RRti14xak59r4csjKa/JYWyWb8hlTrOYw8w+9OskCnUi1Tlkh+tN+Q4DuR8d9WV3ChHpUy9tj2zU2n9QI5j8RxkcqjatdSuiitZBIhCCOoDAXn775mNAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740400124; c=relaxed/simple;
-	bh=HY86v1D01B8de8bRnCwQfhrLaS7Uve8orhJi2zLc/AQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jh4LUgKKlM4Edd4PJWrIeokMDdiu+/UXo2MJHe8N4+t+m1WDc4DwdeSdERNuEl5DjqzLAhP81KaCwMcEXRSY8flUDxrmdbApLyi28Y/qcH7n4EaVROUH2hh51y1wsTemIU3mBrBwvrZhzD1xQdWs5cR7ZtgwrgXT66JYDkwWN8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGfXPRpo; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740401545; c=relaxed/simple;
+	bh=OE3dOxjMSdCJq/5ltfKNVJI7Wxgpas4dGiARDOHib8I=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gkZ9h+XBqQdyqrgkHB2fGPf+N51JQGrPIPnCVQwirjKuNF9aawkvFhOYLE1zgc6oNqFW3zAtN14oZ7JEZtmEX9d0O6l6klL4ckPmQjLWnA2cwp3NzDWpHhvdynEDkhHJrgzKRTIkWMjWsHM+PGqnReEygfxxBmYf8m37oCqkI8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwYiYk/+; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGfXPRpo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwYiYk/+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740400124; x=1771936124;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HY86v1D01B8de8bRnCwQfhrLaS7Uve8orhJi2zLc/AQ=;
-  b=oGfXPRpoazB8Nz67eKcV+7uYQok9c9CXZp+D7vLhxuepnCgePkPabIUK
-   w9hDhHHZ0YA9dNLxueXxUoGd4iRFwmL5oAb/8S54kWhF7ozwPKO1fBsGG
-   6vvMzP8UTVjdyPL/+eVBzSC6rnIGV+A9oRf8Tru1dLIgrtPRLPL/0zfdn
-   5jblIw67GGj6e+mFBVMOSgBP+RGMCf8ydUm1BXLx6e+uBS1My8qLhY66s
-   ScASDymsf8Tvk2aIpFuRJ0LAgMiWihe2Wk/Hx7nD4TpJdsfhcxg0qvukR
-   tERcSe+bZoasfYsywGAGN1G7UxHU3LSMUN8e8ZT3TYIXrvEOn6y2bu2yo
-   Q==;
-X-CSE-ConnectionGUID: ssKEkSpoS6yv019XEUxxsg==
-X-CSE-MsgGUID: BC6RzgrcS0i/cFAftZZZ+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52143192"
+  t=1740401541; x=1771937541;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=OE3dOxjMSdCJq/5ltfKNVJI7Wxgpas4dGiARDOHib8I=;
+  b=mwYiYk/+PGxtEK/xbt57Vd2J4gWt/2whqhwwe11otwwmUpY9FiErJL0I
+   lxKJ8L+TPEjE713CMWYynKVxtjFmZ+tb5we5nFT0Nuit0wsaDaALcuW1D
+   olE+zIdCaytsA/ngz7jLTj7kkipsVNinhPaD1VazKYeBEbJ9WB5DINVPG
+   /qi7u7qt5j9J55m8RyIy1dpwhYDX6jLbgwrhXgRM3g+/FMi7iRB6Y64lr
+   D3lyGqxrSBMMElm3X8NOthSNXjA0OUR70jP1fUlETftrveWuqyLUEXc34
+   IBOQaEH4ZqiBV6wJearXFW1waeEZK6yjj01LDnahrRq6cYtUw/IujdDMv
+   A==;
+X-CSE-ConnectionGUID: su8woWuLQMOPs2P/r1QCVw==
+X-CSE-MsgGUID: 5SJoc2/TQSa+IprWVS3AEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40997931"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="52143192"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:28:43 -0800
-X-CSE-ConnectionGUID: 5iuv9pjeSqGU3LIzJDbdHQ==
-X-CSE-MsgGUID: oR1SJYDNStqf2Ekl4VOMnQ==
+   d="scan'208";a="40997931"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:52:20 -0800
+X-CSE-ConnectionGUID: dL8yEM+3RmC1ZH6hY5MXMQ==
+X-CSE-MsgGUID: Cq3Rb57rQuWOwgoP0E78ng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116532987"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:28:39 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmXZb-0000000Eh02-268V;
-	Mon, 24 Feb 2025 14:28:35 +0200
-Date: Mon, 24 Feb 2025 14:28:35 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: kernel test robot <lkp@intel.com>, perex@perex.cz, tiwai@suse.com,
-	broonie@kernel.org, lgirdwood@gmail.com, deller@gmx.de,
-	sre@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
-	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, ntb@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-Message-ID: <Z7xl80RPM6YQgOTj@smile.fi.intel.com>
-References: <20250221165333.2780888-8-raag.jadav@intel.com>
- <202502220449.DvJuMgsL-lkp@intel.com>
- <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
- <Z7xW2AIz6vUo6mu-@black.fi.intel.com>
- <Z7xa0cGZvGxsGCrI@smile.fi.intel.com>
- <Z7xkb9m_Qc54znOH@black.fi.intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="115778398"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 24 Feb 2025 04:52:20 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tmXwX-0008Jf-1I
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 24 Feb 2025 12:52:17 +0000
+Date: Mon, 24 Feb 2025 20:52:03 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/69 1/1] fs/f2fs/sysfs.c:448:37: warning:
+ 'f2fs_seq_iostat_info_fops' defined but not used
+Message-ID: <202502242000.Ycal5ow2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,57 +61,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z7xkb9m_Qc54znOH@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Feb 24, 2025 at 02:22:07PM +0200, Raag Jadav wrote:
-> On Mon, Feb 24, 2025 at 01:41:05PM +0200, Andy Shevchenko wrote:
-> > On Mon, Feb 24, 2025 at 01:24:08PM +0200, Raag Jadav wrote:
-> > > On Mon, Feb 24, 2025 at 12:58:35PM +0200, Andy Shevchenko wrote:
-> > > > On Sat, Feb 22, 2025 at 05:41:24AM +0800, kernel test robot wrote:
-> > > > > Hi Raag,
-> > > > > 
-> > > > > kernel test robot noticed the following build warnings:
-> > > > > 
-> > > > > [auto build test WARNING on b16e9f8547a328b19af59afc213ce323124d11e9]
-> > > > > 
-> > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/ASoC-Intel-avs-use-devm_kmemdup_array/20250222-010322
-> > > > > base:   b16e9f8547a328b19af59afc213ce323124d11e9
-> > > > > patch link:    https://lore.kernel.org/r/20250221165333.2780888-8-raag.jadav%40intel.com
-> > > > > patch subject: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-> > > > > config: arm-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/config)
-> > > > > compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/reproduce)
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502220449.DvJuMgsL-lkp@intel.com/
-> > > > > 
-> > > > > All warnings (new ones prefixed by >>):
-> > > > > 
-> > > > >    drivers/video/fbdev/pxafb.c: In function 'pxafb_probe':
-> > > > > >> drivers/video/fbdev/pxafb.c:2236:13: warning: unused variable 'i' [-Wunused-variable]
-> > > > >     2236 |         int i, irq, ret;
-> > > > >          |             ^
-> > > > 
-> > > > Ragg, please, fix this, and issue a v2 with the link to fixed PR:
-> > > > https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
-> > > 
-> > > Sure, but perhaps wait a few days for review comments.
-> > 
-> > Then perhaps answering to the cover letter that the maintainers who want to
-> > apply should use the updated PR?
-> 
-> Okay, but I'm not sure how this plays out for those who already pulled
-> the old PR, i.e. Sebastian.
-> 
-> Anything to worry about here?
+Hi Chao,
 
-I already informed him and Stephen about a new PR I just sent a few hours ago.
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git pr/69
+head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
+commit: b0af6d491a6b5f5622fa91ac75f34f3640f862c4 [1/1] f2fs: add app/fs io stat
+config: s390-randconfig-001-20250224 (https://download.01.org/0day-ci/archive/20250224/202502242000.Ycal5ow2-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502242000.Ycal5ow2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502242000.Ycal5ow2-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/f2fs/sysfs.c:448:37: warning: 'f2fs_seq_iostat_info_fops' defined but not used [-Wunused-const-variable=]
+    static const struct file_operations f2fs_seq_##_name##_fops = {  \
+                                        ^
+   fs/f2fs/sysfs.c:457:1: note: in expansion of macro 'F2FS_PROC_FILE_DEF'
+    F2FS_PROC_FILE_DEF(iostat_info);
+    ^~~~~~~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:448:37: warning: 'f2fs_seq_segment_bits_fops' defined but not used [-Wunused-const-variable=]
+    static const struct file_operations f2fs_seq_##_name##_fops = {  \
+                                        ^
+   fs/f2fs/sysfs.c:456:1: note: in expansion of macro 'F2FS_PROC_FILE_DEF'
+    F2FS_PROC_FILE_DEF(segment_bits);
+    ^~~~~~~~~~~~~~~~~~
+   fs/f2fs/sysfs.c:448:37: warning: 'f2fs_seq_segment_info_fops' defined but not used [-Wunused-const-variable=]
+    static const struct file_operations f2fs_seq_##_name##_fops = {  \
+                                        ^
+   fs/f2fs/sysfs.c:455:1: note: in expansion of macro 'F2FS_PROC_FILE_DEF'
+    F2FS_PROC_FILE_DEF(segment_info);
+    ^~~~~~~~~~~~~~~~~~
+
+
+vim +/f2fs_seq_iostat_info_fops +448 fs/f2fs/sysfs.c
+
+b0af6d491a6b5f5 Chao Yu 2017-08-02  441  
+8ceffcb29e61ba8 Chao Yu 2017-06-14  442  #define F2FS_PROC_FILE_DEF(_name)					\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  443  static int _name##_open_fs(struct inode *inode, struct file *file)	\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  444  {									\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  445  	return single_open(file, _name##_seq_show, PDE_DATA(inode));	\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  446  }									\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  447  									\
+8ceffcb29e61ba8 Chao Yu 2017-06-14 @448  static const struct file_operations f2fs_seq_##_name##_fops = {		\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  449  	.open = _name##_open_fs,					\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  450  	.read = seq_read,						\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  451  	.llseek = seq_lseek,						\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  452  	.release = single_release,					\
+8ceffcb29e61ba8 Chao Yu 2017-06-14  453  };
+8ceffcb29e61ba8 Chao Yu 2017-06-14  454  
+
+:::::: The code at line 448 was first introduced by commit
+:::::: 8ceffcb29e61ba882a011b1e4d73ca03691fdc2e f2fs: move sysfs code from super.c to fs/f2fs/sysfs.c
+
+:::::: TO: Chao Yu <yuchao0@huawei.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
