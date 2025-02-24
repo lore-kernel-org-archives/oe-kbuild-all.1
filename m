@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23911A5B82;
-	Mon, 24 Feb 2025 21:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E3D469D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 21:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740431711; cv=none; b=SWQLJr10I//tWQ0MYfbHnMvrpvlz9rG+X1wNe7kX85ddp3VS2p5+znfIfQ+CEawr0kZ0B5eanHkeWlVYEy9r5Z+/QwHK/Uwmada8bV3n0bWssMT5n8LRyOM01+z0/wdmUkImcsoJIMkZtfmGyZTyeXj5Pnf9vj6NR9QY1135dzw=
+	t=1740433130; cv=none; b=blZxSfgtC0WOx7rUUyn+oDvPniE+gXRVpTOtLopfEzxnbAlawwcR4W13DliNnoQRRlVH081+0KvhXftCIzxuxQwCVcz6CYnU194WgQUVRzRuIBha8HWT0q1zUADtYG3HcOKXmn+qmdfgAc4LUJA+f263nohF1WNIz5nnRP845io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740431711; c=relaxed/simple;
-	bh=bXe1NbVXDUqX6gfPJp23NouXpLkyelH5uYMnNMB+OEk=;
+	s=arc-20240116; t=1740433130; c=relaxed/simple;
+	bh=UEHsR685Hp+tfGeP3M3+q/EyKQZGmlGSkL8F/zIiZDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ep7qX6AaVNzQpLr55AFS0cJohhAPHwDG5JjdexslO7HlnXSQX5XY60PyRy/GjgYKJQSnQ3KRRrj5ycDhhaYDEkAKOwATeX2vvHul0+NHzqyk3+QWKSOu8bEtZDl/KKSNQGas8z3InHZMr/RuMhwgb8TheQHJLP5HeV0qktZslFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cn/vPi0k; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozbHFqx6rbHm2rY+FnvVu6e77PfScyPbDjOHdgtqu68HBauIS/+LWCNEz3ohrtDqVHTXJF+hWNx9JJ/+eIIxDxp6KDb1V7nZHs3KUlsC9+nOMFMX9S111U4AUL/FV++DwVeaf/uwwvrO1o1iVMYN3I+tkoM2OdPGQcNax7NmM6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5V3JXQZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cn/vPi0k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5V3JXQZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740431710; x=1771967710;
+  t=1740433128; x=1771969128;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bXe1NbVXDUqX6gfPJp23NouXpLkyelH5uYMnNMB+OEk=;
-  b=cn/vPi0kjRPtNCC8ioepK0stLoBPRDoSnC/PFQWUt4RDUTECqFgQ3DzY
-   eAdhiF2kjW94gn/9uKtIScUlsmNzZDAlmwcbuk6ws2hMYuvpXsigIMjlD
-   JRAJUybDYVBrMPDcQE0DeZoMiIAkTziiiimGGSKo9hNb7x+SUVmdZvStK
-   K8vIO8Kdg5uTdsercGngelag0vj1GuCFJOqCPRTcPQzJqQihKQsx5KCGc
-   qmtQ2eqMz7MHZ664Aug46z3HJk9LrttZdUVcBaal8nTp64wIjTBwU8sL0
-   MGT714EYf9ZSloxUTUZW+rZtD2SUbCIWdBHxYHm3Mvdg3pOVTFap9mNAa
+  bh=UEHsR685Hp+tfGeP3M3+q/EyKQZGmlGSkL8F/zIiZDQ=;
+  b=B5V3JXQZMZBphnCfaFzuOi4AzMGwDWEP7k83/QiJFcYCnljbnVdtkrF4
+   2iY8BprslAP+9Zyse330SyShfFaweEUdiVALaxr51/HPnDFTlZNNyBcLb
+   nAa88WB7azBbHgPn2BVriX4K6WA3RRDRH5g697lDo0IEAnOwqc/x5qw9n
+   gbawf2j1KC8AGFwXM8kYTvWXCf4B2Gmdn4bPbe0ryOAE+yZYpi8t1/gJc
+   1hxhhb9k9Pj+cah/egdMCs5eD2CNg9oZXnJsD8STjFwZJCNhZScWUWVpG
+   QclA+l6p6n0WPEM6MjKGl6u6/OCpEc0A6oPGedpPUpSU2l6XLbAG7dd/J
    g==;
-X-CSE-ConnectionGUID: xw3dLz6cRj2UqsNrJA4Ixg==
-X-CSE-MsgGUID: OWqYf2mFSu+zmCTrshRbgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="51423968"
+X-CSE-ConnectionGUID: F8uCzL4YRmm7LiUzIUXISw==
+X-CSE-MsgGUID: HKtJyGVTSKuoa4KMnVtYDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40399702"
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="51423968"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 13:15:09 -0800
-X-CSE-ConnectionGUID: FQNkBpt0R4qGNSIbKeHZ/Q==
-X-CSE-MsgGUID: 3/445uQTSHS4AdPsDnnRhQ==
+   d="scan'208";a="40399702"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 13:38:45 -0800
+X-CSE-ConnectionGUID: s2lHYtSaQlaDHuHr99s4XQ==
+X-CSE-MsgGUID: nYhxSHVkQuip8V+RcKklSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="121270536"
+   d="scan'208";a="115979619"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Feb 2025 13:15:06 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 24 Feb 2025 13:38:45 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmfn6-0009LH-2w;
-	Mon, 24 Feb 2025 21:15:04 +0000
-Date: Tue, 25 Feb 2025 05:14:41 +0800
+	id 1tmg9y-0009MN-2Y;
+	Mon, 24 Feb 2025 21:38:42 +0000
+Date: Tue, 25 Feb 2025 05:37:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Anshuman Gupta <anshuman.gupta@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC 5/6] drm/xe/pm: D3Cold target state
-Message-ID: <202502250431.N9MpQ2rF-lkp@intel.com>
+Message-ID: <202502250510.3h9zZG7v-lkp@intel.com>
 References: <20250224164849.3746751-6-anshuman.gupta@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,28 +80,35 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Gupta/PCI-ACPI-I
 base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
 patch link:    https://lore.kernel.org/r/20250224164849.3746751-6-anshuman.gupta%40intel.com
 patch subject: [RFC 5/6] drm/xe/pm: D3Cold target state
-config: riscv-randconfig-001-20250225 (https://download.01.org/0day-ci/archive/20250225/202502250431.N9MpQ2rF-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250431.N9MpQ2rF-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20250225 (https://download.01.org/0day-ci/archive/20250225/202502250510.3h9zZG7v-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250510.3h9zZG7v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502250431.N9MpQ2rF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502250510.3h9zZG7v-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_pm.c:888:38: error: call to undeclared function 'xe_display_connected'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           else if (xe->d3cold.vrsr_capable && xe_display_connected(xe))
-                                               ^
-   drivers/gpu/drm/xe/xe_pm.c:888:38: note: did you mean 'xe_display_create'?
-   drivers/gpu/drm/xe/display/xe_display.h:51:19: note: 'xe_display_create' declared here
-   static inline int xe_display_create(struct xe_device *xe) { return 0; }
-                     ^
-   1 error generated.
+   In file included from drivers/gpu/drm/xe/xe_device_types.h:10,
+                    from drivers/gpu/drm/xe/xe_device.h:11,
+                    from drivers/gpu/drm/xe/display/xe_display.h:9,
+                    from drivers/gpu/drm/xe/xe_pm.c:15:
+   include/linux/pci-acpi.h:143:5: warning: no previous prototype for 'pci_acpi_request_d3cold_aux_power' [-Wmissing-prototypes]
+     143 | int pci_acpi_request_d3cold_aux_power(struct pci_dev *dev, u32 requested_power)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pci-acpi.h:148:5: warning: no previous prototype for 'pci_acpi_add_perst_assertion_delay' [-Wmissing-prototypes]
+     148 | int pci_acpi_add_perst_assertion_delay(struct pci_dev *dev, u32 delay_us)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_pm.c: In function 'xe_pm_d3cold_allowed_toggle':
+>> drivers/gpu/drm/xe/xe_pm.c:888:45: error: implicit declaration of function 'xe_display_connected'; did you mean 'xe_display_create'? [-Wimplicit-function-declaration]
+     888 |         else if (xe->d3cold.vrsr_capable && xe_display_connected(xe))
+         |                                             ^~~~~~~~~~~~~~~~~~~~
+         |                                             xe_display_create
 
 
-vim +/xe_display_connected +888 drivers/gpu/drm/xe/xe_pm.c
+vim +888 drivers/gpu/drm/xe/xe_pm.c
 
    856	
    857	/**
