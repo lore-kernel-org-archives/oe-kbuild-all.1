@@ -1,70 +1,58 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235471519B0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 15:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE923263C66
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 16:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740410183; cv=none; b=PwQ7/BCjob1XREfvdhxZd/xGqH386MPJf50ZY4c1g8eK3VKviVLCW8jL7gKvS3ec44UACRejz75+srfBkSAF5+KFSKXx2Y8zQF50nljDvYkUms7iIzrKed5/94bXa8Ppf132FfZEDAs71qgX3cYZyHdwSeVlmw+kgo/G76QDxAk=
+	t=1740416370; cv=none; b=REtpG9/6imcrK8FkjfIaZNeUDNTzh/w6NJuGZ4crEWrumjmuV1BTtzFjhAPtLwCRe9KJtQ50YFzCbnsHTMoHhS3qk1+sUEXvbfeXLfrVx2wKnfKTR0fFhVxbGIoSgzWEJUhAyzgZOXqD4Ceyj+cHvqu2GBIukr03QO+Nexeshsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740410183; c=relaxed/simple;
-	bh=j1amh3GLQwBv+BmYGEPSqQplCa3rIZrtSko1QfgKVV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nLpvm2yqJMiWxGhmPNmaODctmHAmornrDqinGVZbyrtMKXP4LB8kFsWWD+yT2XvYIcbxCXpowITXiD/CexeHmuonejvZkWxSNgFsa1SI6sUgdwCwl4b32Anw/Z9mqH5kuq6uPsmIvOXFNCllsgKDizyxl5DgybmeXV2HS2GqhT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=FydJNcRm; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1740416370; c=relaxed/simple;
+	bh=iDsYe6yJZYKaB/YSKdeCLOwIrFe8SjoFRi2Tq4+cw8Y=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jtLg8lNx5jKcAobhHbTYtTxeHdT/zJd4drANODuRk7pQEEjghgq1nhxtt3GRogkrPgLQNAcrck6smuvVyVTxXlzIazq0RZF20QdZa3xhHZ6gVTg3jbJ8veKCoT7T6Gk0KcdgWB3bPBTmRyxq+URRHMNn0K6v+dXyk1Pb2YdNqtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDkGEkrm; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="FydJNcRm"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4399d14334aso39810435e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 07:16:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1740410178; x=1741014978; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LfS+Z06Kv6L0rZqsEuMfHLU9T6TZKUI64/SNe3QOt3g=;
-        b=FydJNcRmGI8DgGDUnF+aBR4MzUwg6wqUcjVt+PavawQyN1j8UCzC6sgDIyYzthr6FG
-         eejOrNYXYEOiNXe4pnjQljx7SVsd0XeCT2hRq7bnHAAw92Tdz/OIirL/vrGPyBKVKAyJ
-         3P0MBWfK35fNaWBzg13fq7l0p/V1GRSFFNcUc8tQhl5TyUn03LgDVonS3pZbQDxsMq9A
-         7HhPnWN40ovvvf7lPQpHXkh+UzC9u5dylcdaLSj82US0zIV1koqdgQdDn2jda8AijlSO
-         Ub5/iy2qWgqZMHHkNVgwcdfN41Qf9ld6CZLjOLwg7rEyJ9TOy/uKRHsxJoxhA/kLJJEL
-         LUig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740410178; x=1741014978;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LfS+Z06Kv6L0rZqsEuMfHLU9T6TZKUI64/SNe3QOt3g=;
-        b=NwdFs8nukVBt45vaoxVVjd1HtnxlvNVTbI3Mddp7MtSf4iVavt2zUiMLiCY+a3OPyD
-         i+sIWZzrEtNZLZxcsyYV3Tn1M5o1tTmZyDxMQN4ZHcdzNmfqitJ+z/wSwlaMGlMZ/Lb2
-         /8lyJi6wN3cr/ml1cCoTdsIuzcUdGXH4OrQ59oXfNaaA99ylA+vpcuNi1Sfocr0KyM8s
-         tqbegnsOimaf0astw9Hhm02+GKkesOQ9Pl60T6w4AqOe0wuBrWaJG4JvnkNaR5wMk01A
-         tApBtdTkRCBEDhq1RVxtuWmkgd2XJ1M2Drp7UlnPRWlp9XHWiN9neE/vbzChpBsC1j0k
-         CoXg==
-X-Gm-Message-State: AOJu0YxID2mBL2gGSpER59+4/36IW7jq6a06rUqa7TF2YTGgfrI0tHYP
-	UbRLWdGil0tZelYtBdDaAQVB3c7sotD+B5mBOgPDCWGAArAsIGBt84mutUSFhEID3pr/NqKtjFh
-	i
-X-Gm-Gg: ASbGncvTdday/RTCq2n93gRci5cIxhaIARdPFsuMgSLpx1sIjaUE2VkcUKUprsqL6jc
-	Ro0jpJQu5u/4AuPV3EHsvNyPjfUshMNInTfPTSD5daK2TQ2aYDUxAXnvKiKliJl+w6xojHRp/M7
-	Ywklr3bLLpd3leY4EAlLSkn5mL647WHbSfip0Rf5gthZKu5yIrkGMrnUHmmGBE//TD1HB5YE0ly
-	/uZHa7JoYUuhASrpgXpFYPx1ecqRVBPmrdkMLOOyB2/ABVAT5SRYfFuayr/SfK2UVOFsrw4ejMZ
-	4EXlvLw4gXIWbkeGK6lTQ5l5A0C+NirJmQd7PljN/YDj18XxqdSQcn8=
-X-Google-Smtp-Source: AGHT+IHD7IQa2hR2BzePsORrYvXKwBP8zZPbU6UjUepnOBOOx6KkffEVjFVO5JteQJTLCq3CWCnDXQ==
-X-Received: by 2002:a05:600c:3b08:b0:439:5da7:8e0 with SMTP id 5b1f17b1804b1-439ae1f30dbmr136958115e9.16.1740410178141;
-        Mon, 24 Feb 2025 07:16:18 -0800 (PST)
-Received: from localhost (cst2-173-28.cust.vodafone.cz. [31.30.173.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439b02e6701sm108245625e9.20.2025.02.24.07.16.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 07:16:17 -0800 (PST)
-Date: Mon, 24 Feb 2025 16:16:16 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDkGEkrm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740416368; x=1771952368;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=iDsYe6yJZYKaB/YSKdeCLOwIrFe8SjoFRi2Tq4+cw8Y=;
+  b=hDkGEkrmwsrguUcl+vwFaKU/Eja/OZVPbT+D8b6+ZnnFFtYjI6LBzx1/
+   IKyXGWAMSt8wHI5P09irm7C+lY+PNsKbnbZPQLJbXKOXKEqd5YPZO9wpU
+   pukx2HIjKD0mrnp4Dvx95lno60V8Rkz+waohHBDNvABWue3WoJudCsbo4
+   w75QKZwCw+m63tRjUaH4oYkQsSb2vaZpi5s/hBgS7j9a5cu5rUxe93gOI
+   cmZ8R5x2ZjpB/JC0uktLVLs1SOb873j6SUJPnf0E5XGSkKQ6Ho77IN6Bg
+   CtM0Q8NIYnX081QAkP0ds10IRb9b0PAWZXn+JhJGJbyGEsx2I+fJRSvMG
+   A==;
+X-CSE-ConnectionGUID: DGqhCeOWRmit2qCmliMo4w==
+X-CSE-MsgGUID: XY+mgRW6Q12dtM/r0Flvcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52586170"
+X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
+   d="scan'208";a="52586170"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 08:59:28 -0800
+X-CSE-ConnectionGUID: Fc16okUaQsCJdzFi0OQdxw==
+X-CSE-MsgGUID: WdDHLZ7JTZuPnJm5bLijPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116603548"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 24 Feb 2025 08:59:27 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tmbnh-000939-0V
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 24 Feb 2025 16:59:25 +0000
+Date: Tue, 25 Feb 2025 00:59:06 +0800
+From: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 7/8] riscv: Add parameter for skipping access speed
- tests
-Message-ID: <20250224-c0b507d4e558bd4995384d55@orel>
-References: <20250221145718.115076-17-ajones@ventanamicro.com>
- <202502230100.z4YCnXZg-lkp@intel.com>
+Subject: [intel-lts:pr/67 1/1] include/linux/uaccess.h:112:17: warning:
+ 'old_tv' may be used uninitialized
+Message-ID: <202502250050.Nc5OsROT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,73 +61,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502230100.z4YCnXZg-lkp@intel.com>
 
-On Sun, Feb 23, 2025 at 01:10:11AM +0800, kernel test robot wrote:
-> Hi Andrew,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on linus/master v6.14-rc3 next-20250221]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Jones/riscv-Annotate-unaligned-access-init-functions/20250221-230314
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:    https://lore.kernel.org/r/20250221145718.115076-17-ajones%40ventanamicro.com
-> patch subject: [PATCH v2 7/8] riscv: Add parameter for skipping access speed tests
-> config: riscv-randconfig-002-20250222 (https://download.01.org/0day-ci/archive/20250223/202502230100.z4YCnXZg-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250223/202502230100.z4YCnXZg-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202502230100.z4YCnXZg-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    arch/riscv/kernel/unaligned_access_speed.c: In function 'set_unaligned_access_static_branches_except_cpu':
->    arch/riscv/kernel/unaligned_access_speed.c:201:39: error: 'fast_misaligned_access' undeclared (first use in this function); did you mean 'vector_misaligned_access'?
->      201 |         cpumask_and(&fast_except_me, &fast_misaligned_access, cpu_online_mask);
->          |                                       ^~~~~~~~~~~~~~~~~~~~~~
->          |                                       vector_misaligned_access
+tree:   https://github.com/intel/linux-intel-lts.git pr/67
+head:   d4d762eeb80852805ab03951a26b1625f7702e74
+commit: a9beb86ae6e55bd92f38453c8623de60b8e5a308 [1/1] sock: Add SO_RCVTIMEO_NEW and SO_SNDTIMEO_NEW
+config: arm64-randconfig-002-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250050.Nc5OsROT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250050.Nc5OsROT-lkp@intel.com/reproduce)
 
-Looks like I forgot to move fast_misaligned_access out of the
-CONFIG_RISCV_PROBE_UNALIGNED_ACCESS. I'll fix it for v3.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502250050.Nc5OsROT-lkp@intel.com/
 
-drew
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
 
->    arch/riscv/kernel/unaligned_access_speed.c:201:39: note: each undeclared identifier is reported only once for each function it appears in
->    arch/riscv/kernel/unaligned_access_speed.c: In function 'set_unaligned_access_static_branches':
->    arch/riscv/kernel/unaligned_access_speed.c:220:40: error: 'fast_misaligned_access' undeclared (first use in this function); did you mean 'vector_misaligned_access'?
->      220 |         cpumask_and(&fast_and_online, &fast_misaligned_access, cpu_online_mask);
->          |                                        ^~~~~~~~~~~~~~~~~~~~~~
->          |                                        vector_misaligned_access
->    arch/riscv/kernel/unaligned_access_speed.c: In function 'riscv_online_cpu':
-> >> arch/riscv/kernel/unaligned_access_speed.c:238:29: warning: unused variable 'buf' [-Wunused-variable]
->      238 |         static struct page *buf;
->          |                             ^~~
-> 
-> 
-> vim +/buf +238 arch/riscv/kernel/unaligned_access_speed.c
-> 
-> f413aae96cda05 Charlie Jenkins 2024-03-08  235  
-> f413aae96cda05 Charlie Jenkins 2024-03-08  236  static int riscv_online_cpu(unsigned int cpu)
-> f413aae96cda05 Charlie Jenkins 2024-03-08  237  {
-> f413aae96cda05 Charlie Jenkins 2024-03-08 @238  	static struct page *buf;
-> f413aae96cda05 Charlie Jenkins 2024-03-08  239  
-> f413aae96cda05 Charlie Jenkins 2024-03-08  240  	/* We are already set since the last check */
-> cf73109e3f3716 Andrew Jones    2025-02-21  241  	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
-> f413aae96cda05 Charlie Jenkins 2024-03-08  242  		goto exit;
-> cf73109e3f3716 Andrew Jones    2025-02-21  243  	} else if (unaligned_scalar_speed_param != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
-> cf73109e3f3716 Andrew Jones    2025-02-21  244  		per_cpu(misaligned_access_speed, cpu) = unaligned_scalar_speed_param;
-> cf73109e3f3716 Andrew Jones    2025-02-21  245  		goto exit;
-> cf73109e3f3716 Andrew Jones    2025-02-21  246  	}
-> f413aae96cda05 Charlie Jenkins 2024-03-08  247  
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+   net/core/sock.c: In function 'sock_setsockopt':
+   net/core/sock.c:914:17: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     914 |                 sock_set_flag(sk, SOCK_TSTAMP_NEW);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/sock.c:915:9: note: here
+     915 |         case SO_TIMESTAMPING_OLD:
+         |         ^~~~
+   In file included from include/linux/crypto.h:26,
+                    from include/crypto/hash.h:16,
+                    from include/linux/uio.h:14,
+                    from include/linux/socket.h:8,
+                    from include/linux/skbuff.h:23,
+                    from include/linux/ip.h:20,
+                    from include/net/ip.h:26,
+                    from include/linux/errqueue.h:6,
+                    from net/core/sock.c:97:
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'sock_set_timeout' at net/core/sock.c:390:7:
+>> include/linux/uaccess.h:112:17: warning: 'old_tv' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/compiler.h:251,
+                    from include/uapi/linux/swab.h:6,
+                    from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:13,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/arm64/include/uapi/asm/byteorder.h:21,
+                    from include/asm-generic/unaligned.h:9,
+                    from ./arch/arm64/include/generated/asm/unaligned.h:1,
+                    from net/core/sock.c:94:
+   include/linux/kasan-checks.h: In function 'sock_set_timeout':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   net/core/sock.c:386:45: note: 'old_tv' declared here
+     386 |                 struct __kernel_old_timeval old_tv;
+         |                                             ^~~~~~
+   In function '_copy_from_user',
+       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
+       inlined from 'sock_set_timeout' at net/core/sock.c:397:7:
+   include/linux/uaccess.h:112:17: warning: 'tv' may be used uninitialized [-Wmaybe-uninitialized]
+     112 |                 kasan_check_write(to, n);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kasan-checks.h: In function 'sock_set_timeout':
+   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
+       7 | void kasan_check_write(const volatile void *p, unsigned int size);
+         |      ^~~~~~~~~~~~~~~~~
+   net/core/sock.c:373:38: note: 'tv' declared here
+     373 |         struct __kernel_sock_timeval tv;
+         |                                      ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARM64_ERRATUM_845719
+   Depends on [n]: COMPAT [=n]
+   Selected by [y]:
+   - ARCH_MXC [=y]
+   WARNING: unmet direct dependencies detected for ARM64_ERRATUM_845719
+   Depends on [n]: COMPAT [=n]
+   Selected by [y]:
+   - ARCH_MXC [=y]
+
+
+vim +/old_tv +112 include/linux/uaccess.h
+
+d597580d373774 Al Viro        2017-03-20  104  
+d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
+d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  108  {
+d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
+9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
+96d4f267e40f95 Linus Torvalds 2019-01-03  111  	if (likely(access_ok(from, n))) {
+9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
+d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  114  	}
+d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
+d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
+d597580d373774 Al Viro        2017-03-20  117  	return res;
+d597580d373774 Al Viro        2017-03-20  118  }
+d597580d373774 Al Viro        2017-03-20  119  #else
+d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  122  #endif
+d597580d373774 Al Viro        2017-03-20  123  
+d597580d373774 Al Viro        2017-03-20  124  #ifdef INLINE_COPY_TO_USER
+d597580d373774 Al Viro        2017-03-20  125  static inline unsigned long
+d597580d373774 Al Viro        2017-03-20  126  _copy_to_user(void __user *to, const void *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  127  {
+9c5f6908de03a4 Al Viro        2017-06-29  128  	might_fault();
+96d4f267e40f95 Linus Torvalds 2019-01-03  129  	if (access_ok(to, n)) {
+9c5f6908de03a4 Al Viro        2017-06-29  130  		kasan_check_read(from, n);
+d597580d373774 Al Viro        2017-03-20  131  		n = raw_copy_to_user(to, from, n);
+9c5f6908de03a4 Al Viro        2017-06-29  132  	}
+d597580d373774 Al Viro        2017-03-20  133  	return n;
+d597580d373774 Al Viro        2017-03-20  134  }
+d597580d373774 Al Viro        2017-03-20  135  #else
+d597580d373774 Al Viro        2017-03-20  136  extern unsigned long
+d597580d373774 Al Viro        2017-03-20  137  _copy_to_user(void __user *, const void *, unsigned long);
+d597580d373774 Al Viro        2017-03-20  138  #endif
+d597580d373774 Al Viro        2017-03-20  139  
+d597580d373774 Al Viro        2017-03-20  140  static __always_inline unsigned long __must_check
+d597580d373774 Al Viro        2017-03-20  141  copy_from_user(void *to, const void __user *from, unsigned long n)
+d597580d373774 Al Viro        2017-03-20  142  {
+b0377fedb65280 Al Viro        2017-06-29  143  	if (likely(check_copy_size(to, n, false)))
+d597580d373774 Al Viro        2017-03-20 @144  		n = _copy_from_user(to, from, n);
+d597580d373774 Al Viro        2017-03-20  145  	return n;
+d597580d373774 Al Viro        2017-03-20  146  }
+d597580d373774 Al Viro        2017-03-20  147  
+
+:::::: The code at line 112 was first introduced by commit
+:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
