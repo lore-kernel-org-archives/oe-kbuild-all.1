@@ -1,106 +1,292 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206C0802
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 01:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9732BD1B;
+	Mon, 24 Feb 2025 02:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740362060; cv=none; b=doh8Df2PRkn8qJPGTfHoJ18UrMLxcwubQTfXE1YEjFVaTsyybF1/IP3D0YIBkAB0Y99ara3SMDwFaqFs6DaBzVUMOX8URMaPF5DYqIf0wQ5Pvy6Lo9dGf+n8OtFjbrimvgvQyzDn6hgwWEsb579KEUpzn+nYHGx8h75LWYlATHA=
+	t=1740362540; cv=none; b=n6Lu6Wy9TSRrXMnROMwtu8PmwBXo7BUUXQCJgs7/ImvUvdHrE/0EPWGO5NSzREdpVf1Ao/BrOLbro/apDyu+EOfgUjhMxARuZM2IhVwn4PumDDB59fuCoTpho+w1oECqQC3aJI9EY9d3Iriy6ox6eu5a4iFveRXbuzOevdATVbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740362060; c=relaxed/simple;
-	bh=4z78s7yfM+VsfcW4o1xl0pqvWYtQOUkjszN/4Xlk2qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fvpeeOktTJdDT6dv9oF+YEHQeTw3A6a/o0at/tu16Uitm2eP5LoByS0kb556tFigXe8Y5RzKnn1WQy8WIqY78hwURjzN35a7ZagQ8DzQvzE5K9JNlqERxRwl0UCgyX8BVqYFgKZ20m4GlUjFkL/EaKa3jY/jrmLxaPOahe3yqmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CBFp+GHi; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CBFp+GHi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740362059; x=1771898059;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4z78s7yfM+VsfcW4o1xl0pqvWYtQOUkjszN/4Xlk2qw=;
-  b=CBFp+GHivuTGia31vm8cyCXYnGf+MHMmeRaswD6nZO54G8MWbzdTvTqU
-   QEZoP1MXcjxiJemlRvlIxNx5Rtjps9eQ0Fd2MChbDc1pb5hIePenqpeD4
-   6UlIMpChxxXfq1gYPbPhd6JT3ZyPfYS7GZlymAxhVJEw7QaVnRgrH0iIX
-   OChaFJk8J4XAWIhm3yM230YwGhng/BOO3tbUn9CfTgo9biMie6aD/srhA
-   WorsAD9Cy31+FTg5S5o4QCZg/bvloBC2XPaAMttvdNtePu61PmrSLfzRW
-   Srf9Lp7T/Mt8LXjYAqLvMnnHtY/6X+wWsERmzgaQhpcv0DFBBaLM5vP50
-   g==;
-X-CSE-ConnectionGUID: yjNSj2oNRsiuniWzxy0AsA==
-X-CSE-MsgGUID: URhpYq54QM6iKVCj8aLxkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="63574188"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="63574188"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 17:54:19 -0800
-X-CSE-ConnectionGUID: Vtb/z15cRdmjBkh9/T9VbQ==
-X-CSE-MsgGUID: 1VGH8pFhQbGuADa1EltwWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="115729215"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Feb 2025 17:54:17 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmNfj-0007jj-1H;
-	Mon, 24 Feb 2025 01:54:15 +0000
-Date: Mon, 24 Feb 2025 09:53:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol
- 'sifive_errata_patch_func.______f'; recompile with -fPIC
-Message-ID: <202502240916.8dheDMgU-lkp@intel.com>
+	s=arc-20240116; t=1740362540; c=relaxed/simple;
+	bh=ZLask/BKV23TJd8RnIZxzwZpkB9KagOMw8p4/vK2+Fc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hbByc2fAk6HJDIprDHtIL0B/Um0KiUeLGV9NSR/Ljw7OkfkZFyIH7Vnorlx2JpYw6dxNR0InALZcMBEWBiF+iHEkEyudASIOwXhXILTcCW8IPHOcB57V4tZGRBmiKdFF26A53wT18MSdx8hvTCTXPdr3VniVXOG3+0WLd3fhMYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=shelob.surriel.com; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shelob.surriel.com
+Received: from [2601:18c:8180:83cc:5a47:caff:fe78:8708] (helo=fangorn)
+	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.97.1)
+	(envelope-from <riel@shelob.surriel.com>)
+	id 1tmNnA-00000000340-0LPO;
+	Sun, 23 Feb 2025 21:01:56 -0500
+Date: Sun, 23 Feb 2025 21:01:55 -0500
+From: Rik van Riel <riel@surriel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: x86@kernel.org, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, bp@alien8.de, peterz@infradead.org,
+ dave.hansen@linux.intel.com, zhengqi.arch@bytedance.com,
+ nadav.amit@gmail.com, thomas.lendacky@amd.com, kernel-team@meta.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, jackmanb@google.com,
+ jannh@google.com, mhklinux@outlook.com, andrew.cooper3@citrix.com,
+ Manali.Shukla@amd.com, mingo@kernel.org
+Subject: Re: [PATCH v13 08/14] x86/mm: global ASID context switch & TLB
+ flush handling
+Message-ID: <20250223210155.3c90843f@fangorn>
+In-Reply-To: <202502240650.kzshiji7-lkp@intel.com>
+References: <20250223194943.3518952-9-riel@surriel.com>
+	<202502240650.kzshiji7-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Sender: riel@surriel.com
 
-Hi Masahiro,
+On Mon, 24 Feb 2025 07:08:49 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> Hi Rik,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on tip/x86/core]
+> [also build test ERROR on tip/x86/mm tip/master linus/master v6.14-rc4 next-20250221]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d082ecbc71e9e0bf49883ee4afd435a77a5101b6
-commit: f79dc03fe68c79d388908182e68d702f7f1786bc kconfig: refactor choice value calculation
-date:   7 months ago
-config: riscv-randconfig-r121-20250223 (https://download.01.org/0day-ci/archive/20250224/202502240916.8dheDMgU-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce: (https://download.01.org/0day-ci/archive/20250224/202502240916.8dheDMgU-lkp@intel.com/reproduce)
+This version of patch 8 fixes these compile errors.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502240916.8dheDMgU-lkp@intel.com/
+I hoped the compiler was smart enough to elide the code when
+broadcast TLB invalidation was disabled at the config level,
+but maybe that happens at a later stage in the compilation,
+after it's already thrown the errors...
 
-All errors (new ones prefixed by >>):
+I'm not entirely happy with this, but it does seem simple enough.
 
->> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol 'sifive_errata_patch_func.______f'; recompile with -fPIC
-   >>> defined in vmlinux.a(arch/riscv/errata/sifive/errata.o)
-   >>> referenced by errata.c:0 (arch/riscv/errata/sifive/errata.c:0)
-   >>>               arch/riscv/errata/sifive/errata.o:(sifive_errata_patch_func) in archive vmlinux.a
---
->> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symbol 'sifive_errata_patch_func.______f'; recompile with -fPIC
-   >>> defined in vmlinux.a(arch/riscv/errata/sifive/errata.o)
-   >>> referenced by errata.c:99 (arch/riscv/errata/sifive/errata.c:99)
-   >>>               arch/riscv/errata/sifive/errata.o:(sifive_errata_patch_func) in archive vmlinux.a
---
->> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol 'sifive_errata_patch_func.______f.3'; recompile with -fPIC
-   >>> defined in vmlinux.a(arch/riscv/errata/sifive/errata.o)
-   >>> referenced by errata.c:99 (arch/riscv/errata/sifive/errata.c:99)
-   >>>               arch/riscv/errata/sifive/errata.o:(sifive_errata_patch_func) in archive vmlinux.a
---
->> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symbol 'sifive_errata_patch_func.______f.3'; recompile with -fPIC
-   >>> defined in vmlinux.a(arch/riscv/errata/sifive/errata.o)
-   >>> referenced by errata.c:99 (arch/riscv/errata/sifive/errata.c:99)
-   >>>               arch/riscv/errata/sifive/errata.o:(sifive_errata_patch_func) in archive vmlinux.a
+---8<---
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+x86/mm: global ASID context switch & TLB flush handling
+
+Context switch and TLB flush support for processes that use a global
+ASID & PCID across all CPUs.
+
+At both context switch time and TLB flush time, we need to check
+whether a task is switching to a global ASID, and reload the TLB
+with the new ASID as appropriate.
+
+In both code paths, we also short-circuit the TLB flush if we
+are using a global ASID, because the global ASIDs are always
+kept up to date across CPUs, even while the process is not
+running on a CPU.
+
+Signed-off-by: Rik van Riel <riel@surriel.com>
+
+diff --git a/arch/x86/include/asm/tlbflush.h b/arch/x86/include/asm/tlbflush.h
+index 83f1da2f1e4a..24e6531e0b1a 100644
+--- a/arch/x86/include/asm/tlbflush.h
++++ b/arch/x86/include/asm/tlbflush.h
+@@ -240,6 +240,11 @@ static inline bool is_dyn_asid(u16 asid)
+ 	return asid < TLB_NR_DYN_ASIDS;
+ }
+ 
++static inline bool is_global_asid(u16 asid)
++{
++	return !is_dyn_asid(asid);
++}
++
+ #ifdef CONFIG_X86_BROADCAST_TLB_FLUSH
+ static inline u16 mm_global_asid(struct mm_struct *mm)
+ {
+@@ -266,6 +271,14 @@ static inline void assign_mm_global_asid(struct mm_struct *mm, u16 asid)
+ 	mm->context.asid_transition = true;
+ 	smp_store_release(&mm->context.global_asid, asid);
+ }
++
++static inline bool in_asid_transition(struct mm_struct *mm)
++{
++	if (!cpu_feature_enabled(X86_FEATURE_INVLPGB))
++		return false;
++
++	return mm && READ_ONCE(mm->context.asid_transition);
++}
+ #else
+ static inline u16 mm_global_asid(struct mm_struct *mm)
+ {
+@@ -275,6 +288,11 @@ static inline u16 mm_global_asid(struct mm_struct *mm)
+ static inline void assign_mm_global_asid(struct mm_struct *mm, u16 asid)
+ {
+ }
++
++static inline bool in_asid_transition(struct mm_struct *mm)
++{
++	return false;
++}
+ #endif
+ 
+ #ifdef CONFIG_PARAVIRT
+diff --git a/arch/x86/mm/tlb.c b/arch/x86/mm/tlb.c
+index 405630479b90..e4aecd38ac4f 100644
+--- a/arch/x86/mm/tlb.c
++++ b/arch/x86/mm/tlb.c
+@@ -227,6 +227,20 @@ static void choose_new_asid(struct mm_struct *next, u64 next_tlb_gen,
+ 		return;
+ 	}
+ 
++	/*
++	 * TLB consistency for global ASIDs is maintained with hardware assisted
++	 * remote TLB flushing. Global ASIDs are always up to date.
++	 */
++	if (static_cpu_has(X86_FEATURE_INVLPGB)) {
++		u16 global_asid = mm_global_asid(next);
++
++		if (global_asid) {
++			*new_asid = global_asid;
++			*need_flush = false;
++			return;
++		}
++	}
++
+ 	if (this_cpu_read(cpu_tlbstate.invalidate_other))
+ 		clear_asid_other();
+ 
+@@ -382,11 +396,30 @@ void destroy_context_free_global_asid(struct mm_struct *mm)
+ 
+ 	guard(raw_spinlock_irqsave)(&global_asid_lock);
+ 
++#ifdef CONFIG_X86_BROADCAST_TLB_FLUSH
+ 	/* The global ASID can be re-used only after flush at wrap-around. */
+ 	__set_bit(mm->context.global_asid, global_asid_freed);
+ 
+ 	mm->context.global_asid = 0;
+ 	global_asid_available++;
++#endif
++}
++
++/*
++ * Is the mm transitioning from a CPU-local ASID to a global ASID?
++ */
++static bool needs_global_asid_reload(struct mm_struct *next, u16 prev_asid)
++{
++	u16 global_asid = mm_global_asid(next);
++
++	if (!static_cpu_has(X86_FEATURE_INVLPGB))
++		return false;
++
++	/* Process is transitioning to a global ASID */
++	if (global_asid && prev_asid != global_asid)
++		return true;
++
++	return false;
+ }
+ 
+ /*
+@@ -694,7 +727,8 @@ void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
+ 	 */
+ 	if (prev == next) {
+ 		/* Not actually switching mm's */
+-		VM_WARN_ON(this_cpu_read(cpu_tlbstate.ctxs[prev_asid].ctx_id) !=
++		VM_WARN_ON(is_dyn_asid(prev_asid) &&
++			   this_cpu_read(cpu_tlbstate.ctxs[prev_asid].ctx_id) !=
+ 			   next->context.ctx_id);
+ 
+ 		/*
+@@ -711,6 +745,20 @@ void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
+ 				 !cpumask_test_cpu(cpu, mm_cpumask(next))))
+ 			cpumask_set_cpu(cpu, mm_cpumask(next));
+ 
++		/* Check if the current mm is transitioning to a global ASID */
++		if (needs_global_asid_reload(next, prev_asid)) {
++			next_tlb_gen = atomic64_read(&next->context.tlb_gen);
++			choose_new_asid(next, next_tlb_gen, &new_asid, &need_flush);
++			goto reload_tlb;
++		}
++
++		/*
++		 * Broadcast TLB invalidation keeps this PCID up to date
++		 * all the time.
++		 */
++		if (is_global_asid(prev_asid))
++			return;
++
+ 		/*
+ 		 * If the CPU is not in lazy TLB mode, we are just switching
+ 		 * from one thread in a process to another thread in the same
+@@ -744,6 +792,13 @@ void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
+ 		 */
+ 		cond_mitigation(tsk);
+ 
++		/*
++		 * Let nmi_uaccess_okay() and finish_asid_transition()
++		 * know that we're changing CR3.
++		 */
++		this_cpu_write(cpu_tlbstate.loaded_mm, LOADED_MM_SWITCHING);
++		barrier();
++
+ 		/*
+ 		 * Leave this CPU in prev's mm_cpumask. Atomic writes to
+ 		 * mm_cpumask can be expensive under contention. The CPU
+@@ -758,14 +813,12 @@ void switch_mm_irqs_off(struct mm_struct *unused, struct mm_struct *next,
+ 		next_tlb_gen = atomic64_read(&next->context.tlb_gen);
+ 
+ 		choose_new_asid(next, next_tlb_gen, &new_asid, &need_flush);
+-
+-		/* Let nmi_uaccess_okay() know that we're changing CR3. */
+-		this_cpu_write(cpu_tlbstate.loaded_mm, LOADED_MM_SWITCHING);
+-		barrier();
+ 	}
+ 
++reload_tlb:
+ 	new_lam = mm_lam_cr3_mask(next);
+ 	if (need_flush) {
++		VM_WARN_ON_ONCE(is_global_asid(new_asid));
+ 		this_cpu_write(cpu_tlbstate.ctxs[new_asid].ctx_id, next->context.ctx_id);
+ 		this_cpu_write(cpu_tlbstate.ctxs[new_asid].tlb_gen, next_tlb_gen);
+ 		load_new_mm_cr3(next->pgd, new_asid, new_lam, true);
+@@ -884,7 +937,7 @@ static void flush_tlb_func(void *info)
+ 	const struct flush_tlb_info *f = info;
+ 	struct mm_struct *loaded_mm = this_cpu_read(cpu_tlbstate.loaded_mm);
+ 	u32 loaded_mm_asid = this_cpu_read(cpu_tlbstate.loaded_mm_asid);
+-	u64 local_tlb_gen = this_cpu_read(cpu_tlbstate.ctxs[loaded_mm_asid].tlb_gen);
++	u64 local_tlb_gen;
+ 	bool local = smp_processor_id() == f->initiating_cpu;
+ 	unsigned long nr_invalidate = 0;
+ 	u64 mm_tlb_gen;
+@@ -907,6 +960,16 @@ static void flush_tlb_func(void *info)
+ 	if (unlikely(loaded_mm == &init_mm))
+ 		return;
+ 
++	/* Reload the ASID if transitioning into or out of a global ASID */
++	if (needs_global_asid_reload(loaded_mm, loaded_mm_asid)) {
++		switch_mm_irqs_off(NULL, loaded_mm, NULL);
++		loaded_mm_asid = this_cpu_read(cpu_tlbstate.loaded_mm_asid);
++	}
++
++	/* Broadcast ASIDs are always kept up to date with INVLPGB. */
++	if (is_global_asid(loaded_mm_asid))
++		return;
++
+ 	VM_WARN_ON(this_cpu_read(cpu_tlbstate.ctxs[loaded_mm_asid].ctx_id) !=
+ 		   loaded_mm->context.ctx_id);
+ 
+@@ -924,6 +987,8 @@ static void flush_tlb_func(void *info)
+ 		return;
+ 	}
+ 
++	local_tlb_gen = this_cpu_read(cpu_tlbstate.ctxs[loaded_mm_asid].tlb_gen);
++
+ 	if (unlikely(f->new_tlb_gen != TLB_GENERATION_INVALID &&
+ 		     f->new_tlb_gen <= local_tlb_gen)) {
+ 		/*
+@@ -1091,7 +1156,7 @@ STATIC_NOPV void native_flush_tlb_multi(const struct cpumask *cpumask,
+ 	 * up on the new contents of what used to be page tables, while
+ 	 * doing a speculative memory access.
+ 	 */
+-	if (info->freed_tables)
++	if (info->freed_tables || in_asid_transition(info->mm))
+ 		on_each_cpu_mask(cpumask, flush_tlb_func, (void *)info, true);
+ 	else
+ 		on_each_cpu_cond_mask(should_flush_tlb, flush_tlb_func,
+
