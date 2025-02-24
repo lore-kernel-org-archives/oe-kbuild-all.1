@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E827B2A8D0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 14:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C305664C6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Feb 2025 14:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740408353; cv=none; b=HC7pi4ZDX/ustJYxJ9m+pQFdSLjd3q9he+RHGRfoL+h3+M+Jn/HS9nhBdJJOqZSQTJjGGcEgqSquhJFfsrF9GInBDHo/LChHyb6TD6ZM83zVSfEQ3NIBQkCVnRRsG8ef0j8eGfJgako47XcB0NAv4gYcvJT5NouZKCfu6yKAU0U=
+	t=1740408993; cv=none; b=QgaibMXnZxVh1B+7gwDVMO/0hKD2yhRwUiH4wG4GrWZ5NMqNl4WT7xa2QyLFy9OGC2hSwALMjJGTMenP1IlsfFyuFjrDfAeaHsiUyZGFgXU0KnX1BHWStg6oopRkhazyjqJ8OT17lKHRitBaqPpmqCAKFNFZA0gCcbiISnsT6JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740408353; c=relaxed/simple;
-	bh=PCzYrqdEWHbRc/RmfA/BR/Y6Y53YQ0oUhS4aM5lQIFs=;
+	s=arc-20240116; t=1740408993; c=relaxed/simple;
+	bh=/TGppB07Js5qAkJVBln4P2jGYYYMYXUJW/kLI7oKHJk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lZEC/q7PCTPYfrZwVy/+SEq+KJm5DnpxOKDDuciw1rAtEscslFUXfWLvIHkNV9swiTWNkqxFY6tX1eeu5HNDDiHfNYdi+iWORQASGv4SPlXDnwUmDZjD92t/ktVJ7+KkwT7SC6XcCw+EddGQhlDpGx4/ndncD6wqmgMCW0/tinY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MHfiBtRO; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=r8MrvTXmNT08CnYXx2BEH6uc6u7GU25ZnCJjrd7qga0YqyC3p5itwsX4+hgWAQIwf6yQ73GqZkITeJWy8eS3ftFGCirNXYzMyP/C9JuOBZZMeRtq4MW+FN91R4Cnsnia/IPk5U+ZY5EabJc9m2zct/RqIQXUKNR1z7b7MPuaIhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HTecN3rh; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MHfiBtRO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTecN3rh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740408352; x=1771944352;
+  t=1740408991; x=1771944991;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PCzYrqdEWHbRc/RmfA/BR/Y6Y53YQ0oUhS4aM5lQIFs=;
-  b=MHfiBtROS1VyOUCOF2ZgDi4PgLHG8YYElq4FEMJLk2SXF/wtBrIVvzyR
-   gwrlkPTQMxruy3jeesaqypxOzrjmMVPwBruz2+o5gPVAb0f//dVUfTMnC
-   3H9WcyQz3a7Qzn2BJgHi2BMzGOyh8SlF2Rb4lCp/61EOpoi8DNmzZglFB
-   VmB5alqExNQ3R4xgcDCJR05975ycBVv1iad6UceNsEheVgIU7OEF9U0yI
-   y9uUcbXaNTiyF/LaaJqoZpt5GnlbEcVL7lYccfwmYeshGCx/0Myr2M7bu
-   hsx4pfkFmneWkblV9NaI4CZxzskietd2yktt4KBkm5vEAON7zuhO9gOmD
-   A==;
-X-CSE-ConnectionGUID: wdUELpzDQQG5+lMF1fzF2A==
-X-CSE-MsgGUID: 3Q6JfwTBSY2r24WwUXc/ZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41285346"
+  bh=/TGppB07Js5qAkJVBln4P2jGYYYMYXUJW/kLI7oKHJk=;
+  b=HTecN3rhsN1V/n1jOrOWso5YWLw1/eNaRiHZHLRAcx0Crb+yHwYeufAw
+   UskjDgSnQqPi4hX0L3jYz2afq/eNcVKMC2E08Ln8sHpE/dZ+sFAbwWjBL
+   jsufvU0F9TogJDVzHaUE63pWvQEcMbYgAjc8iSzSQpJO5P5MlrPFsdzgA
+   Wgh3kJHAo+hx6DWB/2l6y6dmHyoPPIs//v1mIG7fQ9hIL7KuKYp/WfJep
+   xxciclAqU/gUDgWQFWpon3/Ft8c0j6J2W0dh5u0X7C2MEhIUtQpiZ4WX1
+   oXtplCbtBy731LC8ATXAjhGsdQj8+C3o6DZeEXZLwfipr+wsZdE6FjVJO
+   g==;
+X-CSE-ConnectionGUID: E6UBNZluT7KPAyE0wcSMxQ==
+X-CSE-MsgGUID: GG+HOmelTDebJFO12q4eYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41043848"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="41285346"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:45:51 -0800
-X-CSE-ConnectionGUID: iuVZcyaXRJKnOn3ZCZrjyw==
-X-CSE-MsgGUID: i5CtgbvgRs+34idIo4/FdA==
+   d="scan'208";a="41043848"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:56:31 -0800
+X-CSE-ConnectionGUID: JTJ0IRGqQe2fq6/j/vmIDg==
+X-CSE-MsgGUID: pgxyhxstQq2TvoYb7muAFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="116101466"
+   d="scan'208";a="116706613"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Feb 2025 06:45:50 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 24 Feb 2025 06:56:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmZiN-0008Vn-2t;
-	Mon, 24 Feb 2025 14:45:47 +0000
-Date: Mon, 24 Feb 2025 22:45:40 +0800
+	id 1tmZsh-0008eb-1I;
+	Mon, 24 Feb 2025 14:56:27 +0000
+Date: Mon, 24 Feb 2025 22:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/1]
- include/trace/trace_events.h:27:23: warning:
- 'str__cdc_ether__trace_system_name' defined but not used
-Message-ID: <202502242229.9pFcVkLE-lkp@intel.com>
+To: Divya Prakash <divya1.prakash@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+	"Babu, Ramesh" <ramesh.babu@intel.com>
+Subject: [intel-lts:pr/69 1/1] sound/hda/hdac_stream.c:369:28: warning:
+ variable 'cruntime' set but not used
+Message-ID: <202502242255.AyVr97Rg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +64,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi yenchia.chen,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   c484f2aaf61764ca062726606fe236affcfb758d
-commit: bd4dfcd275f371e3d65b7896148151aed16a6c80 [1/1] ANDROID: vendor_hooks: Add hooks to support rndis_host
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250224/202502242229.9pFcVkLE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502242229.9pFcVkLE-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/69
+head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
+commit: c419b592740df1e6b5943088447559e5389addf0 [1/1] ALSA: hda: Enhance HD audio framework to support compress streams
+config: s390-randconfig-001-20250224 (https://download.01.org/0day-ci/archive/20250224/202502242255.AyVr97Rg-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250224/202502242255.AyVr97Rg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502242229.9pFcVkLE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502242255.AyVr97Rg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cdc_ether.h:17,
-                    from drivers/android/vendor_hooks.c:81:
->> include/trace/trace_events.h:27:23: warning: 'str__cdc_ether__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/bl_hib.h:44,
-                    from drivers/android/vendor_hooks.c:80:
-   include/trace/trace_events.h:27:23: warning: 'str__bl_hib__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/delayacct.h:65,
-                    from drivers/android/vendor_hooks.c:79:
-   include/trace/trace_events.h:27:23: warning: 'str__delayacct__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/user.h:21,
-                    from drivers/android/vendor_hooks.c:78:
-   include/trace/trace_events.h:27:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sound.h:18,
-                    from drivers/android/vendor_hooks.c:77:
-   include/trace/trace_events.h:27:23: warning: 'str__sound__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/typec.h:59,
-                    from drivers/android/vendor_hooks.c:76:
-   include/trace/trace_events.h:27:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+   sound/hda/hdac_stream.c: In function 'snd_hdac_stream_setup_periods':
+>> sound/hda/hdac_stream.c:369:28: warning: variable 'cruntime' set but not used [-Wunused-but-set-variable]
+     struct snd_compr_runtime *cruntime = NULL;
+                               ^~~~~~~~
 
 
-vim +/str__cdc_ether__trace_system_name +27 include/trace/trace_events.h
+vim +/cruntime +369 sound/hda/hdac_stream.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+   355	
+   356	/**
+   357	 * snd_hdac_stream_setup_periods - set up BDL entries
+   358	 * @azx_dev: HD-audio core stream to set up
+   359	 *
+   360	 * Set up the buffer descriptor table of the given stream based on the
+   361	 * period and buffer sizes of the assigned PCM substream.
+   362	 */
+   363	int snd_hdac_stream_setup_periods(struct hdac_stream *azx_dev)
+   364	{
+   365		struct hdac_bus *bus = azx_dev->bus;
+   366		struct snd_pcm_substream *substream = azx_dev->substream;
+   367		struct snd_compr_stream *csubstream = azx_dev->stream;
+   368		struct snd_pcm_runtime *runtime = NULL;
+ > 369		struct snd_compr_runtime *cruntime = NULL;
+   370		struct snd_dma_buffer *dma_buffer_p = NULL;
+   371		__le32 *bdl;
+   372		int i, ofs, periods, period_bytes;
+   373		int pos_adj, pos_align;
+   374	
+   375		if (substream) {
+   376			runtime = substream->runtime;
+   377			dma_buffer_p = snd_pcm_get_dma_buf(substream);
+   378		} else if (csubstream) {
+   379			cruntime = csubstream->runtime;
+   380			dma_buffer_p = csubstream->runtime->dma_buffer_p;
+   381		}
+   382	
+   383		/* reset BDL address */
+   384		snd_hdac_stream_writel(azx_dev, SD_BDLPL, 0);
+   385		snd_hdac_stream_writel(azx_dev, SD_BDLPU, 0);
+   386	
+   387		period_bytes = azx_dev->period_bytes;
+   388		periods = azx_dev->bufsize / period_bytes;
+   389	
+   390		/* program the initial BDL entries */
+   391		bdl = (__le32 *)azx_dev->bdl.area;
+   392		ofs = 0;
+   393		azx_dev->frags = 0;
+   394	
+   395		pos_adj = bus->bdl_pos_adj;
+   396		if (!azx_dev->no_period_wakeup && pos_adj > 0 && substream) {
+   397			pos_align = pos_adj;
+   398			pos_adj = (pos_adj * runtime->rate + 47999) / 48000;
+   399			if (!pos_adj)
+   400				pos_adj = pos_align;
+   401			else
+   402				pos_adj = ((pos_adj + pos_align - 1) / pos_align) *
+   403					pos_align;
+   404			pos_adj = frames_to_bytes(runtime, pos_adj);
+   405			if (pos_adj >= period_bytes) {
+   406				dev_warn(bus->dev, "Too big adjustment %d\n",
+   407					 pos_adj);
+   408				pos_adj = 0;
+   409			} else {
+   410				ofs = setup_bdle(bus, dma_buffer_p, azx_dev,
+   411						 &bdl, ofs, pos_adj, true);
+   412				if (ofs < 0)
+   413					goto error;
+   414			}
+   415		} else
+   416			pos_adj = 0;
+   417	
+   418		for (i = 0; i < periods; i++) {
+   419			if (i == periods - 1 && pos_adj)
+   420				ofs = setup_bdle(bus, dma_buffer_p, azx_dev,
+   421						&bdl, ofs, period_bytes - pos_adj, 0);
+   422			else
+   423				ofs = setup_bdle(bus, dma_buffer_p, azx_dev,
+   424						&bdl, ofs, period_bytes,
+   425						!azx_dev->no_period_wakeup);
+   426			if (ofs < 0)
+   427				goto error;
+   428		}
+   429		return 0;
+   430	
+   431	 error:
+   432		dev_err(bus->dev, "Too many BDL entries: buffer=%d, period=%d\n",
+   433			azx_dev->bufsize, period_bytes);
+   434		return -EINVAL;
+   435	}
+   436	EXPORT_SYMBOL_GPL(snd_hdac_stream_setup_periods);
+   437	
 
 -- 
 0-DAY CI Kernel Test Service
