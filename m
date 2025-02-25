@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBFA55897
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 01:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEB2199B8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 02:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740446475; cv=none; b=D8/OrFo5rHAXMvRAeySbZ8W8pRgJvJHMrmpDQ8d8y46S5LuE269TuXJOtwB4MQpzv4VoDV3YWVm9PV8kXOHREWYNu2Ms6ouqMJchYL/N5Zgq7H5eNuNdT5BJ5bmbVCQ0+45BvF8fevagMewji6Nd5JWntf3E+p57X9XvOtcxE20=
+	t=1740449071; cv=none; b=JUNDvtUcNkT2PDu+EIPGjl7jX5ZQ48O221+q6ryhlpqmG7wdWikVHhFwJ7DECVoDMGA+6NpDC/cdI3WY9QaJ6VcSXD6Si5Ar6I6lTV55mhFx4eIJs4iJDOBAO62nz8GDsvfbmPzmCVGgmJsXZ3IkKIu4gsKC7mY89ODIUHb4Iqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740446475; c=relaxed/simple;
-	bh=34rmwhb2bBO3XVsccPBg5dFXR9H5wQTu1+GuS3aaCRU=;
+	s=arc-20240116; t=1740449071; c=relaxed/simple;
+	bh=gPt9zZpwsOlyi+V6qHKNgcK/P6TbuaG0ByrTtCB6waA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kn5fqyhvK4FoHqYpPcqcgMpSJYXxfDIxJeJ+/8v+VRDCqYjVTz3GNgBSUChkGEvAxa9YdobAmfebQI7SXVvpysg0oAS61sZCo6IkOAgpxh8LhgyrhUqjTZy86pvuBVJxckceEWtouZOc+OdFZsdNvGkYaIgHbuqBYqHhF1QJOnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLklv7rQ; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=V+OsCz2U1zJmb8bBz/y4EPyJE4D9fzalbQAdhoIKfVYgfdVeMBJUJoVzSukk5ynkQZrs4ii0dZO9z+P1T8wOj2L1xXmuusXGbf4YLUFk3yEbDPWyZ4QawMa/DSrMZ4o7MX5Npw5PVhPQ9v1E3GGaA9qfQk7tenySk8M7BXgb8ZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PlI2JKBu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLklv7rQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PlI2JKBu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740446473; x=1771982473;
+  t=1740449070; x=1771985070;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=34rmwhb2bBO3XVsccPBg5dFXR9H5wQTu1+GuS3aaCRU=;
-  b=NLklv7rQW3U+eAfCGbR9LblPyubZ+vvVDyo5HkgtE+ooNkTbZoBnDY1q
-   ShrDte0GXwYdtYO9i2JUSFO17jTrxk7VS/P/pp3XL8aEMxDTv+gthPwNx
-   kGHoOTdWVc02mxRhfoOYnNrQI7p576EYsnhRhtcSSTnipDadWWIIWc0gP
-   wqCtJOISIoDif2pWId0CinutAV7r/yC7I6PbgvV7kMT44hnEDlFvkFpBJ
-   kostt2onvDYMKgD/HQ475j6RID9kEyKm5bKDAjKlNiIv+eQ5fwO6vG35K
-   wHz5IXb0khW2tyMJ6xFEmNNKzx/4ccw0D+ER82uambR0gTTXsm9nD9aQy
-   A==;
-X-CSE-ConnectionGUID: SlbzMq1ZQh+cBapK347GNA==
-X-CSE-MsgGUID: qwEN14+3TUymVhJiX4HNmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52230938"
+  bh=gPt9zZpwsOlyi+V6qHKNgcK/P6TbuaG0ByrTtCB6waA=;
+  b=PlI2JKBuCfi2ONkjLJ+h1acoazwK/sR7GoEqaySiAc70KFmU7CFjgpom
+   /VQlFNJTwx9o0F+rKHgSuTJgT1C6IebLGOFNrOxDXuvHqlZL10Dn4PcER
+   +AIUP6Mq3fR6VOJoUlPC0PLbeVikzSSBnNeUTDWka3eWtkoM5g38OvPNx
+   sOnfrZtB7kpzparmqD3KlekYnDOU0YXkFO7e9rsjDDEDHTRTi+fhG++qm
+   M7SjcONiIAZ3EFndPCxLpoMix4UObpkc67AlWoooSyuFpgfrdnYndj+5I
+   eDrIFmkVWljRmu6DDAc4f+zOlLOa55CvfITM8XsCjymt92sRT+QfS6bLD
+   Q==;
+X-CSE-ConnectionGUID: WdT5CPOeSBiFTcaJyywRjA==
+X-CSE-MsgGUID: nPfU0tqoSxq2rRSpsJzPgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="28827272"
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="52230938"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 17:21:12 -0800
-X-CSE-ConnectionGUID: Z123ZxbbQviv/AyiMaHNhw==
-X-CSE-MsgGUID: KuOlUUnNTKiwSo7Jy88aXg==
+   d="scan'208";a="28827272"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 18:04:29 -0800
+X-CSE-ConnectionGUID: 7j3TW6SbTKew+uBNG07GgQ==
+X-CSE-MsgGUID: fWRbOQCOQ0iRJV6Ac38fXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,312,1732608000"; 
-   d="scan'208";a="121209972"
+   d="scan'208";a="116051075"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 24 Feb 2025 17:21:11 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 24 Feb 2025 18:04:28 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmjdE-0009YU-1v;
-	Tue, 25 Feb 2025 01:21:08 +0000
-Date: Tue, 25 Feb 2025 09:21:06 +0800
+	id 1tmkJ8-0009d5-0Z;
+	Tue, 25 Feb 2025 02:04:26 +0000
+Date: Tue, 25 Feb 2025 10:03:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jesse Taube <jesse@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: arch/riscv/kernel/unaligned_access_speed.c:22:1: sparse: sparse:
- symbol '__pcpu_scope_misaligned_access_speed' was not declared. Should it be
- static?
-Message-ID: <202502250928.pomaaBLM-lkp@intel.com>
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>
+Subject: [linux-next:master 5346/5954]
+ arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb:
+ /dp@fec00000: failed to match any schema with compatible:
+ ['rockchip,rk3399-cdn-dp']
+Message-ID: <202502250941.ArlU6xgs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,31 +64,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d082ecbc71e9e0bf49883ee4afd435a77a5101b6
-commit: d1703dc7bc8ec7adb91f5ceaf1556ff1ed212858 RISC-V: Detect unaligned vector accesses supported
-date:   4 months ago
-config: riscv-randconfig-r131-20250225 (https://download.01.org/0day-ci/archive/20250225/202502250928.pomaaBLM-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250225/202502250928.pomaaBLM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4ef7aa6a88280d015c6533a210e46efd55bdb57f
+commit: 066a69db9db3f0c58cc8f74fab169573556f322a [5346/5954] arm64: dts: rockchip: add overlay for RK3399 Puma Haikou Video Demo adapter
+config: arm64-randconfig-051-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250941.ArlU6xgs-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250941.ArlU6xgs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502250928.pomaaBLM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502250941.ArlU6xgs-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/unaligned_access_speed.c:22:1: sparse: sparse: symbol '__pcpu_scope_misaligned_access_speed' was not declared. Should it be static?
-   arch/riscv/kernel/unaligned_access_speed.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-
-vim +/__pcpu_scope_misaligned_access_speed +22 arch/riscv/kernel/unaligned_access_speed.c
-
-    21	
-  > 22	DEFINE_PER_CPU(long, misaligned_access_speed) = RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN;
-    23	DEFINE_PER_CPU(long, vector_misaligned_access) = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
-    24	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: gpio@27: 'reset-gpios' does not match any of the regexes: '^(.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/nxp,pcf8575.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: panel@0: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/panel/leadtek,ltk050h3146w.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou-haikou-video-demo.dtb: pinctrl: gpios: {'bios-disable-override-hog-pin': {'rockchip,pins': [[3, 29, 0, 188]], 'phandle': 183}, 'q7-thermal-pin': {'rockchip,pins': [[0, 3, 0, 187]], 'phandle': 182}} is not of type 'array'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
