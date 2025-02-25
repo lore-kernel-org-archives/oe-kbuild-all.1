@@ -1,255 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011028.outbound.protection.outlook.com [52.101.70.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5AC263C75
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 10:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740477750; cv=none; b=a1qwgXfFDOeillrL1Q5/b/wFL7Nw+NHOC0EUAlU/GJ5kMujl5TWm8wvccbCceYGHxVch//w3+5EE8CRtb4FtNONzf9Jz9ocnxDolNa447Ez58ItC8OEzwQHiTLsuuUblWJNK8qUgHJ3WRgDDkeasvoXmkDMc1LxMVjaYRzcsjCo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740477750; c=relaxed/simple;
-	bh=VdECs7pAQ6IeAPof7xAQ7PXwep0JBiBn269twn0dF5M=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LB6S+SQVq4z6rqlCgdqAaZMdhWHm/KTQK8sKCFHStXIVvBj0NNblCmck6LwANspYnduinONQV4AU2D+PrB7cmBfITpfor9Imb6PbnGA/kmqVqkbZEtYDKIxNG1zvkkU+M5W2TrZAUjz2nEpsiDggFBMF5+9g8hCfHrm0JXjqE5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQtwomEt; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FC7263C7C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 10:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740478111; cv=fail; b=KgGAAyj7CouUOPu3Wm6yOaznVEXHakt9CzSJwfgQtrs1tajHQDI1gHgS0JdVFmbiSreaktozbA/GCLO7wXZ9p96GgfENhBLbB5fLtWRXAtYonQAWftyGS2e7g+NP4p3FI8hw320heRCl1gjFzIZOlFui+eBtVAzAjZnDJG06qek=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740478111; c=relaxed/simple;
+	bh=ENtmyaRRpg4AHyp2WEfFevBaXa+OGd47gKbVwgoKueE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cBJkOl2bF+EfHArpECxDOoCGvISY58zycNjDjHzJjqyEpsHDsqFIqQBtkef0L7f4RUvzkXoZsNWT0NW3WQvvTxLd63eB/9MJNxhf9Ico5ydEJyiBdT9+mZoQFkkmRsRykewZmrBiOyoughGeTQzhcy+1fTu92xNpux7y6+9RDOI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de; spf=pass smtp.mailfrom=cherry.de; dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b=nHAwUZo7; arc=fail smtp.client-ip=52.101.70.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cherry.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherry.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQtwomEt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740477749; x=1772013749;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=VdECs7pAQ6IeAPof7xAQ7PXwep0JBiBn269twn0dF5M=;
-  b=nQtwomEtDza+cAWMqR7LykRlmVTEDtpUingohmBv6hmgC4Q+kd+5QBkU
-   gX+2six28IRoJ8m2c5yKOrLirGLBEA8d5jUlubYQpHD/KV6dy6rDaAD2k
-   u6M2zD0z8839eB3/KdWiu8g3ahMvVfJ06z3h0YKJQVInMNUF8Q1LIgq0y
-   Glij/MHILBLBjffj6VckTELYmTNwVmsMM2dhT8NBm7UIqzEmjmNLEpFFF
-   v3rCcQNumEPQwronZaUiRPt7cOZIvn84h2VRvpElojzzEmnLQFqO51nPZ
-   g6Qgtx6lpMC+VqoGdbTBAD0D0i6Ko2LUY22SiU3TsB07XxGiwh2lSsQtZ
-   Q==;
-X-CSE-ConnectionGUID: PHUOpDkxQQGXyuAer39eIw==
-X-CSE-MsgGUID: 1FBaYdXOTbiKuaXr0TWc3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="45060251"
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="45060251"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 02:02:28 -0800
-X-CSE-ConnectionGUID: jjIT6/AeQOyPhR2JSUHpLQ==
-X-CSE-MsgGUID: EL92iP3vRdmJMKbdlcx7GQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="116967367"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Feb 2025 02:02:27 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmrlb-000A5S-09
-	for oe-kbuild-all@lists.linux.dev;
-	Tue, 25 Feb 2025 10:02:20 +0000
-Date: Tue, 25 Feb 2025 18:02:03 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/59 1/1] drivers/scsi/libiscsi.c:1703:7: warning: this
- statement may fall through
-Message-ID: <202502251709.Y3JcwQhp-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=cherry.de header.i=@cherry.de header.b="nHAwUZo7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iZafRbqtOYx1ZFYTyoNJAyHit+1VKSpqDISNnVeYDfOzNyyx2wMvNjgrbRZMcNZzhF3V5GSv5di6xK/PPj2Qz8uil2QmuK6l4MMn8PujBKqP3PpaoeMTLnXPP4BWvcJluskjspGRyvFsExyD6qzTlHnQSThj7G21ufA1I/IYBdDRWwkNvpnzGcN+9uuuRXadpEaU19X+yWCsvdAl9FE0p7/deFaODDJmcPffBsAb86F9i72CMK43ODG0e4lH4wW4d/F2gC/qSINTOtij7e15jkxX69cxNpQfDhedIjZBaoRGxxK+WTzbJKLaGWk+vJL+N80MaIP/KF9yG/m+NxB0hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=62dk86FKyKPz95sHr4+hhOqrd5gbhcYMiuAU2XKoqGU=;
+ b=TUf9rmmShlKtgLIzshCn7Ex9RDXZfcxVsmcKyvpT4H4802GtUdkm1XpE2aNMWtTHa2+QQcluuKOg6o8ylxEFgO5u1xdc8B7MYfS3/CPGBsdhVBJQrzlJrseYvsOLzWPqlb/CwfFOFBrEYHduCtFuHWtpXFceqx4hB7e2OPjVdMXQGzNgAUvUMc6GBvhYefsurycPurfa0u0iFrOwTWSZJOgRYpJHdLJjEA+iuyOSSDbza2Xr7x/SW68V8OyFE0fd3cUI343Xmu7h1HPx1yt0Y92n8BHIJ1K0RUakt8qHmqcLFqsP/xN2Sq/f3DZqK/m1Wr3ZaZkfVuxGTy7kLgCTUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=62dk86FKyKPz95sHr4+hhOqrd5gbhcYMiuAU2XKoqGU=;
+ b=nHAwUZo7+zR+JROKSgBuerUdGX0QN3lmmKRAvkSUbbPk8wFRL1tpu+16wrGm272Uig7hfgVRAgRGIabWZf6vw7WSP8P7Y5BhqShLY6VdLjZKmKs0mYQZ0ctll02Lf0uK2yO5wKyLNaS+OWHiV84DYRXP7vF8qqMouvKbC6vRLLQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com (2603:10a6:20b:42c::20)
+ by DB9PR04MB8378.eurprd04.prod.outlook.com (2603:10a6:10:25f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.18; Tue, 25 Feb
+ 2025 10:08:24 +0000
+Received: from AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a]) by AS8PR04MB8897.eurprd04.prod.outlook.com
+ ([fe80::35f6:bc7d:633:369a%6]) with mapi id 15.20.8489.018; Tue, 25 Feb 2025
+ 10:08:24 +0000
+Message-ID: <0e8571a2-37b2-42cc-a3b4-8dbb947fb1a1@cherry.de>
+Date: Tue, 25 Feb 2025 11:08:23 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 5345/5954]
+ arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-video-demo.dtb:
+ gpio@27: 'reset-gpios' does not match any of the regexes:
+ '^(.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>
+References: <202502250657.z4e1UeVZ-lkp@intel.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <202502250657.z4e1UeVZ-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: FR3P281CA0063.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::13) To AS8PR04MB8897.eurprd04.prod.outlook.com
+ (2603:10a6:20b:42c::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8897:EE_|DB9PR04MB8378:EE_
+X-MS-Office365-Filtering-Correlation-Id: d34b6910-3b74-48ea-9185-08dd558456d9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|220923002;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aXhTTmRGR0VkaXM3NkRSVFZFeEQxLzc5U3ZqM0dIK3ViL1kzd29qL0J5dGpk?=
+ =?utf-8?B?OGhwMXpheDdXT0trVFY3dkRCTUU3M3BqM1VKb1E2eUhQdXlJVVh5V1ZZcXJx?=
+ =?utf-8?B?K1I5WmhmdDFTWC93ZE8yYks0a3A2WFFEbnBxbjNxZ1NiTGVkNlAxT0NKQmRr?=
+ =?utf-8?B?MlAvNmxUSUNzemJTeWc0bGNWSU51RWlTY21OU2VyODkxTDFqNWpycE5nZExm?=
+ =?utf-8?B?TUZwbTl3VkNUQVRkZUpaZGhyK2JSdG92QWZYOE5VVWY2YlBkdXNvM1JWZWNS?=
+ =?utf-8?B?VkpKUEdwd0F5SGJ5TWxuUjUweVVLdGx2ZCtBSmgzYUZaYzFEVEZUMnV6ZHA3?=
+ =?utf-8?B?RWVaZ2VvWk93a2NhY2M2aGZMUGVsVkdrSVhkNWRQUFViaXNNRjFQSjMyN1V4?=
+ =?utf-8?B?ZHF0UlMyNmtKMjYvbEhOYmEyNDB5YWtFZlVxRTVSdnErN0dQZEo0dnd2bEx2?=
+ =?utf-8?B?blI1K2R4c2VRRmxkZDhQVHltaFZ1RDJNbGpoQVVDSHlKeU1Ka3Y5UUFHUUhh?=
+ =?utf-8?B?cFJzUkJ3c2d0ZHhpNVBEZzVkT3FrZGpKTWJqd001T0gwcTdSa21IZWFDVjYx?=
+ =?utf-8?B?Y1YrNSs0NjdLV21xVks2TVJNZy96RUw4WHZqbEhBZ2RnS0k1N0FLL2xoOFBy?=
+ =?utf-8?B?endyN3RuUmgvS1Nrb2o4WUptbmxtTG11V3BTa0RtLzNnZnEzVENJY3pySUR2?=
+ =?utf-8?B?STluajdaT1RVMi9CeUE5N0tlRmNJTEEzMTRML3RISzdnYzJRcElRSnNOdk1P?=
+ =?utf-8?B?L2tlMTV6RkNUSEt1cDVuZVYrN3V5UEcreEE5UHRaeTlFVGNac2JCd1dIeWhE?=
+ =?utf-8?B?RlFRQXk2Mit6K3NTWWFTK0wxNVpiSnJNc3BrL1N4Ynh0MlJTRkRLRG5uNFI2?=
+ =?utf-8?B?NzgxR1B2MTNkaEw1RFFkZnExRGRKVkVUYzk1MFk5cjlmV0hjUmFYcGxmZFlE?=
+ =?utf-8?B?RkIzallxRXQ3dWltMEZ3K1ZGS0ZLOFJiVTUyaGVXNjdjTzREekx1M3NqV2R3?=
+ =?utf-8?B?TjVLVnJWeE1hZDd1aHlNUjU1TEJvdC9vOTRBWXVvNHRpb2M2T1ozanBqMXBD?=
+ =?utf-8?B?V2VPaHpmaWNrMElobmd4L1JUVEt3UU1zNUdIZ3d2Umw5VmRLa1N1MXhsZElS?=
+ =?utf-8?B?d3luQjlYMlc0Tmh1VkloMmxKUXpTQy80T3pRcnFqYmZRRXFnMVdlTnFWa3Nq?=
+ =?utf-8?B?bGxPU2p6MkZLZVhvTWlEekNqa3VaSFFBRUNGcFpLbmRiZytDeHZMSVlnYUYw?=
+ =?utf-8?B?MmIwRkNwZXcvVmNoNlN3L1o3KzZGbkppMFpQNFgxaElBbERLQ0VZQUdNU2ZN?=
+ =?utf-8?B?bkcwUyt3cmR3QkxORU1MdWplQUxUUnNqL015amJ6THM4aDZDQWNSRW5WR1NI?=
+ =?utf-8?B?cWE2K3JiN0xVQXBraDQrWlcyZy9yYjM3czZiZitRaFZ0WWxPYmlXR3Z2UzFz?=
+ =?utf-8?B?eFNPc2hFQk9JQWVpbU55VFljblZ1akFUMHFEQzJLcHQ4VERNcEdJWHpJRHFS?=
+ =?utf-8?B?cUxWQ2dUdnRINmFpcHdkbDZVTlBQemI5RUhhODNZOVdxUWxEVUhycEpKWGRK?=
+ =?utf-8?B?VUhrOUtRT05WRGRDT0lFMi9odVNSRHZNKzlsMHNWQldyanU5UlVQV0x3a2lT?=
+ =?utf-8?B?a3hiUis1NWgzbktxdG84TVFFUTh6ZjVWVG9rb1gyYXR6WnNNa0NWYi8xUjky?=
+ =?utf-8?B?NkcyOGFqRjRrbVR2VTBFWDVqSG1PSWYrYXNyRW5nNHQzSVJTU0YzT2FWczBY?=
+ =?utf-8?B?WlRHVWFTNnl6aGV2c2J3RDB5S1R6OGh2Vlg4RFErdmdjNW1FVHVOUCsxU3E0?=
+ =?utf-8?B?V1JFdFhjV0cxTVEyY1AzVHgvT2pDRmNLOWxhSGNGTGdub25yWitEV2NxTEhy?=
+ =?utf-8?Q?0lGq5wtcyIeAu?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8897.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(220923002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Q1NUOVhZL0lqSGw0SEd1a3VZeGp6ZWhaQzYvNkxMYmFWZElnSzkxQzNwb2NY?=
+ =?utf-8?B?clI0cGRKZ3JWTEQ0QmVsR1N5dnJLamxpTVpCWkdyc0NqVldxU1ZOaUtaVTh1?=
+ =?utf-8?B?bG8vZ3hJUjJ4eUtYdkM2cVd5RG9NYklRaTREN2R6ckU4V0hMTUx1SUVZU2ti?=
+ =?utf-8?B?Wkk2VXdtNk9UVGhTSnh5aFJzZ3NUK1dwVEI3NFJOQTVaeUxra2F0bnkrL1J1?=
+ =?utf-8?B?Vml5OWhxTXRjaGdzQUdSUW42amxINENlcFZJVC9YRUFObHZoYjV2OUNSb1Jz?=
+ =?utf-8?B?ZnhwSzNDaHVJQlNWczNtOU1OU2VBd3VpZDkvdklsTElNK2hXMGg1aW04VXB0?=
+ =?utf-8?B?VG11R3JVaktXWEROT29GL016K3Z3TFZ4R0tCd1h0ajh3VWJRbW1wVEExYTJW?=
+ =?utf-8?B?bWxReWpobU1SUHZrWEQ0R1FNeVNBZVNXOXQxbDVWT2ZPc095SGtqbldObmJ3?=
+ =?utf-8?B?V09xREFjNWhHdUtjbEtvSXFKSHZneWNLLzk4cEVQVlRNWWpCZ2JpSGd3VzY0?=
+ =?utf-8?B?dS81dFhEaEdpK2Zzdmp2TjhrcnBPQ2NINnBuL1lKaVhvaU1pd3hoVHB0QnRO?=
+ =?utf-8?B?UHhnVDJMTHIwM3BOcG9MNitMeFZtbWtxalNvU0lwcW4wcUk5UklxOXBjUnhQ?=
+ =?utf-8?B?SFpoMW15VnJxYUQwNk1hdkxsODhWbmxwUFhBOUVlVVpqb1k5OWpvMCtWRG92?=
+ =?utf-8?B?R1VYbGZZUGd4ODFwQVJpL3Bxb3RaSHJWRTgzVzBzM1VkWktVb1lPekc1NWc5?=
+ =?utf-8?B?MWZVV2cxVzJCL3llbkpnM1hCK0tQNmRmQXN2ZzBUbmZ3cXJoZWRIR2Z0dGE0?=
+ =?utf-8?B?NmJRTnR1OEV4MGhmb3VNRFIrTXRsdEloL1crRzF5TS9CeFhCeHBtZG9HWUQr?=
+ =?utf-8?B?RjRYR0JpQjIxemxHSWNYeUJHVytYYW1ab3lwUkhSRytqS2N1RENtbWVKdWh6?=
+ =?utf-8?B?NEJJdmdXejlLOG93eFdKSmNORVUzVkxhaE8rckFpM21LMVlCU2IwYkJQbDJP?=
+ =?utf-8?B?MVdhRzVsLzNGNitMeFpHSGYzME9ldDFsTVM5aGpIdTRDbHBmWTZCYWVFYnRx?=
+ =?utf-8?B?K1Rqb0lQZStzOVJ3aXRGVDFWMVprZ0lENjhZWW1xbUFyRWRoZUtEM3lEdVlZ?=
+ =?utf-8?B?NlBEZ0pZOHRiVkcvNkdwekxBR3Awa1NEbC9WbHRRZmFHZXpsUGV4YmhaaXRm?=
+ =?utf-8?B?MUJERFl3WWZ1WUtmdWFydU1CWW43a294aXlVUXBsQ0RHZEhmdGUxM1JBYjd5?=
+ =?utf-8?B?cEtNREVQSnFZb1JnL0ZTWm11R3d6R3NFWGdLM1N6MlNnUFBaS212bEZhWXh6?=
+ =?utf-8?B?a3h0Nk9mLzJaYzdibVRxVWRrOHRCU0pCL3d1TUxTUmZFRWFmbVdINElSR2NH?=
+ =?utf-8?B?Rk1VRzNEekc0VmtxSlBTcnpGZXEyU2wwNDRkQ0JtZUhmVW0vOXl1NTBWZU9F?=
+ =?utf-8?B?YnlnUjVLQXg2cld2aDFJRmJDS1FFcmd3anI1Lzl2aVV6Nk96TVBYamFjbldX?=
+ =?utf-8?B?QXp1SFIyMEp0K3JIS2ZYNUR1TVVITnF3QzB2RGpZamxHK2laMDFqKzNnVmll?=
+ =?utf-8?B?UFU1UWx4YWdPR1VYWG9CbEdBczM1OFVOL3plaEkvc3NJcVBGeVFpUmovUnFX?=
+ =?utf-8?B?bEtQdGZhZitFRmo1MldFZ3JDKzZGRzJUNkw2dFI5VUQrdU5ZSW1EVmh0NEFN?=
+ =?utf-8?B?NkdmMFREbUZ2aVJ6QjAwbXUzMkhjM0NqdTV2SUxXRU1mTU5ISENwZFdzTEtn?=
+ =?utf-8?B?WGpZQ3c1am9WdnNhNUFoaVBYemFuT0oyV01EWnRGTWpzUFlxTitlKzlxQWhU?=
+ =?utf-8?B?d1BTUkM1bFZ1Qk5VVk1VVE8vWDdHWG00MDI2YmtEVWViVm9JTTNZOUl5cUdo?=
+ =?utf-8?B?TjM0RFcwM2xzZmtxajExVWxRVDF3TTR0S09IcmlqNmJiMkdxeW9ISFBMZ2dB?=
+ =?utf-8?B?RDJoelRhWUV1TlNiNnN1NDQ5VEtQN21MV0dOaVJ5NDYzZ2Yybm5CcWt6MGVy?=
+ =?utf-8?B?Yi9GZk1DTWF5TGxXQzczVHdzbCtlNFppRFN4Zll0Mi8yallONXprQ0xid2Nu?=
+ =?utf-8?B?dEZXb0pSY2lxaWwwU2lZZ2tMRHZXL3BtdXVHcWFCa1hTY3A3TDduemxUTWFl?=
+ =?utf-8?B?NlpYMjZydUhyTFVRN0hQT0dlckwwbWh6Rmh4eVMwRVZ2SGU1U0JuTEJiWFp2?=
+ =?utf-8?B?cGc9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: d34b6910-3b74-48ea-9185-08dd558456d9
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8897.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2025 10:08:23.9141
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ICmvJNQKnu47t74YpyNzrr10RPE1U7499agd0SAa6ZXoJ2Qs+3CVg9aI4YQK1JxqKbzcd0i0uuJ0gXoqujriS2djs4AwvK50Ll02lrPFOhY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8378
 
-Hi Rafael,
+Hi Heiko,
 
-FYI, the error/warning still remains.
+On 2/24/25 11:09 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   4ef7aa6a88280d015c6533a210e46efd55bdb57f
+> commit: 9f889cf1783680835d3ed401279075690b7f078a [5345/5954] arm64: dts: rockchip: add overlay for PX30 Ringneck Haikou Video Demo adapter
+> config: arm64-randconfig-051-20250224 (https://download.01.org/0day-ci/archive/20250225/202502250657.z4e1UeVZ-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+> dtschema version: 2025.3.dev3+gabf9328
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502250657.z4e1UeVZ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502250657.z4e1UeVZ-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>>> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-video-demo.dtb: gpio@27: 'reset-gpios' does not match any of the regexes: '^(.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+>     	from schema $id: http://devicetree.org/schemas/gpio/nxp,pcf8575.yaml#
+>>> arch/arm64/boot/dts/rockchip/px30-ringneck-haikou-haikou-video-demo.dtb: panel@0: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+>     	from schema $id: http://devicetree.org/schemas/display/panel/leadtek,ltk050h3146w.yaml#
+> 
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/59
-head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
-commit: 3807b6fec674e88d9cc653427728581263311141 [1/1] scsi: libiscsi: Allow sd_shutdown on bad transport
-config: xtensa-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250225/202502251709.Y3JcwQhp-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502251709.Y3JcwQhp-lkp@intel.com/reproduce)
+I think we may have merged the Haikou Video Demo overlays too quickly. 
+The Haikou Video Demo overlays depend on support for reset-gpios in the 
+I2C GPIO expander driver, which was added in a separate series, c.f. 
+https://lore.kernel.org/linux-gpio/20250224-pca976x-reset-driver-v3-0-58370ef405be@cherry.de/T/#m34648451131d34ba85538e08da0cacfc366d91af
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502251709.Y3JcwQhp-lkp@intel.com/
+I guess we should revert the patches and reapply them once the gpio 
+patches get merged? Do I need to resend the patches in a new series or 
+are you going to keep track of patches to re-revert? The Haikou LVDS 
+overlay should be fine to keep as it doesn't have this GPIO expander.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/kernel.h:10:0,
-                    from include/linux/kfifo.h:53,
-                    from drivers/scsi/libiscsi.c:25:
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
-     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-            ^
-   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
-    # define unlikely(x) __builtin_expect(!!(x), 0)
-                                             ^
-   include/linux/dma-mapping.h:327:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-     ^~~~~~
-   include/linux/dma-mapping.h:327:9: note: in expansion of macro 'pfn_valid'
-     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
-            ^~~~~~~~~
-   drivers/scsi/libiscsi.c: In function 'iscsi_queuecommand':
->> drivers/scsi/libiscsi.c:1703:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-       if (unlikely(system_state != SYSTEM_RUNNING)) {
-          ^
-   drivers/scsi/libiscsi.c:1708:3: note: here
-      case ISCSI_STATE_IN_RECOVERY:
-      ^~~~
-
-
-vim +1703 drivers/scsi/libiscsi.c
-
-  1665	
-  1666	int iscsi_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *sc)
-  1667	{
-  1668		struct iscsi_cls_session *cls_session;
-  1669		struct iscsi_host *ihost;
-  1670		int reason = 0;
-  1671		struct iscsi_session *session;
-  1672		struct iscsi_conn *conn;
-  1673		struct iscsi_task *task = NULL;
-  1674	
-  1675		sc->result = 0;
-  1676		sc->SCp.ptr = NULL;
-  1677	
-  1678		ihost = shost_priv(host);
-  1679	
-  1680		cls_session = starget_to_session(scsi_target(sc->device));
-  1681		session = cls_session->dd_data;
-  1682		spin_lock_bh(&session->frwd_lock);
-  1683	
-  1684		reason = iscsi_session_chkready(cls_session);
-  1685		if (reason) {
-  1686			sc->result = reason;
-  1687			goto fault;
-  1688		}
-  1689	
-  1690		if (session->state != ISCSI_STATE_LOGGED_IN) {
-  1691			/*
-  1692			 * to handle the race between when we set the recovery state
-  1693			 * and block the session we requeue here (commands could
-  1694			 * be entering our queuecommand while a block is starting
-  1695			 * up because the block code is not locked)
-  1696			 */
-  1697			switch (session->state) {
-  1698			case ISCSI_STATE_FAILED:
-  1699				/*
-  1700				 * cmds should fail during shutdown, if the session
-  1701				 * state is bad, allowing completion to happen
-  1702				 */
-> 1703				if (unlikely(system_state != SYSTEM_RUNNING)) {
-  1704					reason = FAILURE_SESSION_FAILED;
-  1705					sc->result = DID_NO_CONNECT << 16;
-  1706					break;
-  1707				}
-  1708			case ISCSI_STATE_IN_RECOVERY:
-  1709				reason = FAILURE_SESSION_IN_RECOVERY;
-  1710				sc->result = DID_IMM_RETRY << 16;
-  1711				break;
-  1712			case ISCSI_STATE_LOGGING_OUT:
-  1713				reason = FAILURE_SESSION_LOGGING_OUT;
-  1714				sc->result = DID_IMM_RETRY << 16;
-  1715				break;
-  1716			case ISCSI_STATE_RECOVERY_FAILED:
-  1717				reason = FAILURE_SESSION_RECOVERY_TIMEOUT;
-  1718				sc->result = DID_TRANSPORT_FAILFAST << 16;
-  1719				break;
-  1720			case ISCSI_STATE_TERMINATE:
-  1721				reason = FAILURE_SESSION_TERMINATE;
-  1722				sc->result = DID_NO_CONNECT << 16;
-  1723				break;
-  1724			default:
-  1725				reason = FAILURE_SESSION_FREED;
-  1726				sc->result = DID_NO_CONNECT << 16;
-  1727			}
-  1728			goto fault;
-  1729		}
-  1730	
-  1731		conn = session->leadconn;
-  1732		if (!conn) {
-  1733			reason = FAILURE_SESSION_FREED;
-  1734			sc->result = DID_NO_CONNECT << 16;
-  1735			goto fault;
-  1736		}
-  1737	
-  1738		if (test_bit(ISCSI_SUSPEND_BIT, &conn->suspend_tx)) {
-  1739			reason = FAILURE_SESSION_IN_RECOVERY;
-  1740			sc->result = DID_REQUEUE << 16;
-  1741			goto fault;
-  1742		}
-  1743	
-  1744		if (iscsi_check_cmdsn_window_closed(conn)) {
-  1745			reason = FAILURE_WINDOW_CLOSED;
-  1746			goto reject;
-  1747		}
-  1748	
-  1749		task = iscsi_alloc_task(conn, sc);
-  1750		if (!task) {
-  1751			reason = FAILURE_OOM;
-  1752			goto reject;
-  1753		}
-  1754	
-  1755		if (!ihost->workq) {
-  1756			reason = iscsi_prep_scsi_cmd_pdu(task);
-  1757			if (reason) {
-  1758				if (reason == -ENOMEM ||  reason == -EACCES) {
-  1759					reason = FAILURE_OOM;
-  1760					goto prepd_reject;
-  1761				} else {
-  1762					sc->result = DID_ABORT << 16;
-  1763					goto prepd_fault;
-  1764				}
-  1765			}
-  1766			if (session->tt->xmit_task(task)) {
-  1767				session->cmdsn--;
-  1768				reason = FAILURE_SESSION_NOT_READY;
-  1769				goto prepd_reject;
-  1770			}
-  1771		} else {
-  1772			spin_lock_bh(&conn->taskqueuelock);
-  1773			list_add_tail(&task->running, &conn->cmdqueue);
-  1774			spin_unlock_bh(&conn->taskqueuelock);
-  1775			iscsi_conn_queue_work(conn);
-  1776		}
-  1777	
-  1778		session->queued_cmdsn++;
-  1779		spin_unlock_bh(&session->frwd_lock);
-  1780		return 0;
-  1781	
-  1782	prepd_reject:
-  1783		iscsi_complete_task(task, ISCSI_TASK_REQUEUE_SCSIQ);
-  1784	reject:
-  1785		spin_unlock_bh(&session->frwd_lock);
-  1786		ISCSI_DBG_SESSION(session, "cmd 0x%x rejected (%d)\n",
-  1787				  sc->cmnd[0], reason);
-  1788		return SCSI_MLQUEUE_TARGET_BUSY;
-  1789	
-  1790	prepd_fault:
-  1791		iscsi_complete_task(task, ISCSI_TASK_REQUEUE_SCSIQ);
-  1792	fault:
-  1793		spin_unlock_bh(&session->frwd_lock);
-  1794		ISCSI_DBG_SESSION(session, "iscsi: cmd 0x%x is not queued (%d)\n",
-  1795				  sc->cmnd[0], reason);
-  1796		if (!scsi_bidi_cmnd(sc))
-  1797			scsi_set_resid(sc, scsi_bufflen(sc));
-  1798		else {
-  1799			scsi_out(sc)->resid = scsi_out(sc)->length;
-  1800			scsi_in(sc)->resid = scsi_in(sc)->length;
-  1801		}
-  1802		sc->scsi_done(sc);
-  1803		return 0;
-  1804	}
-  1805	EXPORT_SYMBOL_GPL(iscsi_queuecommand);
-  1806	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Quentin
