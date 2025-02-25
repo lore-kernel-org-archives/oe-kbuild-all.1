@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5763BE49
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 02:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6349E33DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 04:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740452314; cv=none; b=qZ2w0s/JMAFgUp/dw1zdOnWN/olFyI5U3cODvWOQ787WhBgufoWe7EaBnikXvfda3vroFzGlxCEhz6ryDyufBz1dc3TxyWbPbTBifCDlJwUaxYzrZEq4RuCvrmitIBkkzpDJX04uDlplwUlEB9cOyKjBFHFpdI+frVwxMPBp0Kw=
+	t=1740456728; cv=none; b=STvVFOuLSDUKJ/AdUGWJXOxoncpd6ft0GlTorby20vmc//FlN/MIaukCm8TuS+C6txMHCzUdHb1uGn4YHDAqt+UCHbCoNzW0SwIUb0IDc7QuRuMpMpOd7bu9/Ii8+W10uHdz/UwUOCPSuWz77ZHdcpqtehT2MfUJW4KiyN649HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740452314; c=relaxed/simple;
-	bh=kxKjwHCL2pWf5OC1/LimyCSG0RtuNXBaXTYrsRixrjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rQ1ZjEPOkLStT4Y7BT9CaeblR+pO4blxgaU/jjOU0Wx78/3THrnKlX0QHAiAHHiwWDkbWNQqQXv/iNXcpVzCtGPOJ0MalTl0xC5Z/BKMXklKY5rP+II4jayTwYPyF9z+QtuGqosYFl6mXlQCkn+yvxI98D1MaMcdXxyZHrAMghk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltnWhdP5; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1740456728; c=relaxed/simple;
+	bh=ZLzY6jJR2iW/mvCTxDia2AzxDqhnLWyHGRSliULurtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TsNmoHiMcK/Faj0i9aAgK3cscoOj8ENOA2wSA4MCMF8teC3vJ3oe8ucrOuKaFsD39U7xiZ8bziSMj/dhMRCGtXdFTzBu+6w+gvAI1DiyRmfxEb85cwHdY1+D59iHS2oXqCrzU5OmTJfHKHMlybGXrHX70OjeOkMXXmzpFj9uF+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SwjYRkP5; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltnWhdP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SwjYRkP5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740452312; x=1771988312;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kxKjwHCL2pWf5OC1/LimyCSG0RtuNXBaXTYrsRixrjA=;
-  b=ltnWhdP50TGVp5uBz5NmADeeYnBkoYXQ9PpqbyMQ45EvK0awSa10QGQr
-   k/a65E1D+CodoUxES9z8YWY5b5skNGWnG6KGl9pj8djvFQEI8KSlsGD5H
-   8jJAq6XIDoxUWdv057rKK3jn7nh7WvGGz51Ir13P0QFKK1D16KQkXt0dB
-   eCkHECOR/d9OzjMXH7dAhefqXuorJF0T5swoOF0OJf/RmjDiE67EYmjQb
-   bIUl4i8hjpBuAz+YjfC9H7LPGYCI5/zL43OEx9tgwmFEAxVPHMkLFjYLa
-   j2tsOTKnpM/8WKisFurZkdzwoZA7+H5ScXZub6kT7AMct/43N6p+Ut22L
+  t=1740456726; x=1771992726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZLzY6jJR2iW/mvCTxDia2AzxDqhnLWyHGRSliULurtE=;
+  b=SwjYRkP5NNLRfj/0UDzQSRwfBwpxAUVGHkhwlzOWUaOXB55OIPpufsVx
+   4vj3fYV7cZ0hAya/dpJN3gO0E/40Aaz1EJcaTQABvud4P/wHIalg1o9nk
+   2ETGg4F150PU4hQ7D992JDWVM+DskDS0MkCIJc/DhNPkuVCTXENlPA+RI
+   ktAYLWtpMpuPA6Z3yowv0wnfotsnFFgYTd5IDCKtUgtPndVNagKby50Tz
+   YJMdAo1vpZIh4sczn1QqIhODQMaOvSmjW6ShGMzSoEzWSLIyHSUxXbgiN
+   38EMv8pCWH/M/7TFOr4Cajvg4eMh5VjWN0nr3TC69o11+Lzg5DI6tFwAF
    A==;
-X-CSE-ConnectionGUID: MDYM75RETXuFj4F+4I8tQg==
-X-CSE-MsgGUID: zAATYpK0QAWBbQ5R8adeIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="51878358"
+X-CSE-ConnectionGUID: vnu4aG7MS5mFzKZiHkwvHA==
+X-CSE-MsgGUID: tv/CZpIJTXOiGo94uxgCqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40433088"
 X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="51878358"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 18:58:31 -0800
-X-CSE-ConnectionGUID: THs3B3IGTTO1RbdbsvRWyA==
-X-CSE-MsgGUID: H2uipHQOTJaTXBQwpo37aw==
+   d="scan'208";a="40433088"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 20:12:06 -0800
+X-CSE-ConnectionGUID: 9lDMY4qPRUaeUr+LEabMHQ==
+X-CSE-MsgGUID: EtsmMYQxQ36HGWg0quwJrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116100079"
+   d="scan'208";a="121512863"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 24 Feb 2025 18:58:30 -0800
+  by orviesa005.jf.intel.com with ESMTP; 24 Feb 2025 20:12:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tml9H-0009gX-2G;
-	Tue, 25 Feb 2025 02:58:22 +0000
-Date: Tue, 25 Feb 2025 10:57:00 +0800
+	id 1tmmIB-0009jj-1D;
+	Tue, 25 Feb 2025 04:11:58 +0000
+Date: Tue, 25 Feb 2025 12:09:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/69 1/1]
- drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c:112:25: warning: variable
- 'crtc_state' set but not used
-Message-ID: <202502251045.qYicZBsJ-lkp@intel.com>
+To: Animesh Manna <animesh.manna@intel.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jouni.hogander@intel.com,
+	jani.nikula@intel.com, jeevan.b@intel.com,
+	Animesh Manna <animesh.manna@intel.com>
+Subject: Re: [PATCH v4 4/8] drm/i915/lobf: Update lobf if any change in
+ dependent parameters
+Message-ID: <202502251108.hxPBVdqV-lkp@intel.com>
+References: <20250224080847.326350-5-animesh.manna@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,58 +66,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250224080847.326350-5-animesh.manna@intel.com>
 
-Hi Maarten,
+Hi Animesh,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/69
-head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
-commit: d7429669c8f939cf4db4865c4e1106df0da76754 [1/1] drm/msm: Convert to use new iterator macros, v2.
-config: arm-randconfig-003-20250224 (https://download.01.org/0day-ci/archive/20250225/202502251045.qYicZBsJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502251045.qYicZBsJ-lkp@intel.com/reproduce)
+[auto build test WARNING on v6.14-rc4]
+[also build test WARNING on linus/master next-20250224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-i915-lobf-Add-lobf-enablement-in-post-plane-update/20250224-221647
+base:   v6.14-rc4
+patch link:    https://lore.kernel.org/r/20250224080847.326350-5-animesh.manna%40intel.com
+patch subject: [PATCH v4 4/8] drm/i915/lobf: Update lobf if any change in dependent parameters
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502251045.qYicZBsJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502251108.hxPBVdqV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/display/intel_ddi.c: intel_alpm.h is included more than once.
 
-   drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c: In function 'mdp4_prepare_commit':
->> drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c:112:25: warning: variable 'crtc_state' set but not used [-Wunused-but-set-variable]
-     struct drm_crtc_state *crtc_state;
-                            ^~~~~~~~~~
-   drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c: In function 'mdp4_complete_commit':
-   drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c:126:25: warning: variable 'crtc_state' set but not used [-Wunused-but-set-variable]
-     struct drm_crtc_state *crtc_state;
-                            ^~~~~~~~~~
+vim +38 drivers/gpu/drm/i915/display/intel_ddi.c
 
-
-vim +/crtc_state +112 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c
-
-c8afe684c95cd1 drivers/gpu/drm/msm/mdp4/mdp4_kms.c     Rob Clark         2013-06-26  106  
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  107  static void mdp4_prepare_commit(struct msm_kms *kms, struct drm_atomic_state *state)
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  108  {
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  109  	struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
-8d76b79faaaefb drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Daniel Vetter     2016-06-02  110  	int i;
-8d76b79faaaefb drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Daniel Vetter     2016-06-02  111  	struct drm_crtc *crtc;
-8d76b79faaaefb drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Daniel Vetter     2016-06-02 @112  	struct drm_crtc_state *crtc_state;
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  113  
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  114  	mdp4_enable(mdp4_kms);
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  115  
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  116  	/* see 119ecb7fd */
-d7429669c8f939 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Maarten Lankhorst 2017-07-19  117  	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  118  		drm_crtc_vblank_get(crtc);
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  119  }
-0b776d457b9476 drivers/gpu/drm/msm/mdp/mdp4/mdp4_kms.c Rob Clark         2015-01-30  120  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 8d76b79faaaefb1bd16a56dc66f799c9afd82c6f drm/msm: Use for_each_*_in_state
-
-:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+    34	
+    35	#include "i915_drv.h"
+    36	#include "i915_reg.h"
+    37	#include "icl_dsi.h"
+  > 38	#include "intel_alpm.h"
+    39	#include "intel_audio.h"
+  > 40	#include "intel_alpm.h"
+    41	#include "intel_audio_regs.h"
+    42	#include "intel_backlight.h"
+    43	#include "intel_combo_phy.h"
+    44	#include "intel_combo_phy_regs.h"
+    45	#include "intel_connector.h"
+    46	#include "intel_crtc.h"
+    47	#include "intel_cx0_phy.h"
+    48	#include "intel_cx0_phy_regs.h"
+    49	#include "intel_ddi.h"
+    50	#include "intel_ddi_buf_trans.h"
+    51	#include "intel_de.h"
+    52	#include "intel_display_power.h"
+    53	#include "intel_display_types.h"
+    54	#include "intel_dkl_phy.h"
+    55	#include "intel_dkl_phy_regs.h"
+    56	#include "intel_dp.h"
+    57	#include "intel_dp_aux.h"
+    58	#include "intel_dp_link_training.h"
+    59	#include "intel_dp_mst.h"
+    60	#include "intel_dp_test.h"
+    61	#include "intel_dp_tunnel.h"
+    62	#include "intel_dpio_phy.h"
+    63	#include "intel_dsi.h"
+    64	#include "intel_encoder.h"
+    65	#include "intel_fdi.h"
+    66	#include "intel_fifo_underrun.h"
+    67	#include "intel_gmbus.h"
+    68	#include "intel_hdcp.h"
+    69	#include "intel_hdmi.h"
+    70	#include "intel_hotplug.h"
+    71	#include "intel_hti.h"
+    72	#include "intel_lspcon.h"
+    73	#include "intel_mg_phy_regs.h"
+    74	#include "intel_modeset_lock.h"
+    75	#include "intel_pps.h"
+    76	#include "intel_psr.h"
+    77	#include "intel_quirks.h"
+    78	#include "intel_snps_phy.h"
+    79	#include "intel_tc.h"
+    80	#include "intel_vdsc.h"
+    81	#include "intel_vdsc_regs.h"
+    82	#include "skl_scaler.h"
+    83	#include "skl_universal_plane.h"
+    84	
 
 -- 
 0-DAY CI Kernel Test Service
