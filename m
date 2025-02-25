@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A466325EF8A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 13:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3355269896
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 13:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740490757; cv=none; b=XKN1wpGRjaEo/docC9bw2IJxycHDKEke2GSn0zqoSlsbg2SNZDLAi71bUuup1mTX7IjDM1o2bBlUBNsO0X/gTKjTsB/1cn4HT3jzxsegpo0lArwEbNpLqRMy31cv2FDnZqI3cdXKqoY6S2EgvobAvDUZUvVwuVwfxpiI2M+25MA=
+	t=1740491211; cv=none; b=jessaemnpxTYdSqi3DgJ5Yz4iOg/PHhh+7SLjcVoSxttgxy/oEgOkQal9i59sj4QPqHXfGzO/q0RU14chW5aK7yBcob6mqp2mhDSvH+ubZFD6ZqyVZz2S4l6PyH9JKFc4a0T2CTZb34rxcr02SvNzvLpGYy4O2lYVHuIlWkFbMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740490757; c=relaxed/simple;
-	bh=OVdXdLOnq+fdiLiirmQAkOKhOVGnqQaprSt27grq0Og=;
+	s=arc-20240116; t=1740491211; c=relaxed/simple;
+	bh=Km2KIT046jnyJlSCBZuePZUSvEIIe9O957LoKl3ShyE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T4ewM9eJaZ5RyguUBmXUD6f5mmITdq0rEXisIulQ0Xxz9iT59on97QrWwN1VwgNEX/s1L+B1zrGkYK166v+/WJWGtYHN2B7wl0SK23uSbBOdVHhtJYgypwLp1FiiE24zbFvJoFtokk5qUE+Uf3gKromnQLNOA/9dYua/pAIB2n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IkHU4YgS; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition:In-Reply-To; b=U6Kp6w6y2/NCWRJNRDNlxoshr4dQ5LvTfQhFSSnBSw4GvQCwUNzT7qPXO+r3S2nIW92uRyzcaIlt5RgEGzzTO8FbiSi8um287ZA9znJLnWz0v6QI88nqcZVT1I1PZBr433WHldHfJduObmTnSjte9ZXfUknlR3iV1CIJ8IaSjfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XF2rjCgP; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IkHU4YgS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XF2rjCgP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740490753; x=1772026753;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OVdXdLOnq+fdiLiirmQAkOKhOVGnqQaprSt27grq0Og=;
-  b=IkHU4YgSZh3KMeb6QbaB6C8ufD7t0J73qpwx2OicaePU9LUaCYHfU4qC
-   AtcOlwZmFXdVZe1KNVKBhbhEne/UjIfyTK3j55CVyNeWEXPXGJptFewBh
-   xc+5MM7OCGZc1aTjw/WcvY0n24KouQ/Ja0x1HD+hAx/9NlocWE192dMJk
-   JJH1MDexx7s9ZbywwzSHaBugEx5BS1bSN01vxW9LMUiWfaOBZUzJMCPOp
-   VDGmb89RfDoHuZSKDYzNErrDeUG3gnMxeBM0v9n9Yw00YO+4+2XsRiHY0
-   SEpPs1s4B1kklnyfPycCPM9qbywCavmHDLVLDpaoV+RnkjImqzGy643Cj
+  t=1740491209; x=1772027209;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=Km2KIT046jnyJlSCBZuePZUSvEIIe9O957LoKl3ShyE=;
+  b=XF2rjCgPwB//rUjMOFd0s/yyHtu3J5MfGbT30Div5dnOXFXC6eiMPjsy
+   doRWTCwicjq3pC8Q1PE/7wkn5L48eTBOXSd8a2imeQRVYsynr5M7NWo99
+   HBR6BzRXzeMKVJPcmQYEcf3WE5mnmLAJLngSofzUkQFLMgkSNWz5hcrIE
+   l+HQCHbCBXqWnaEFOVcIHEx1LipDuHFKXNWnQ2yjAa9dfJIRBKi59nE4x
+   jQM2eeDAut+JtS8qEEh/m3nVIcrCsX7INLniu4Mpw9kt2YKGzQKwI3dQh
+   rnNuanW7+UydlRIWfF0t6OQOx9TJFiXRnGjJsH/dVENeqczKk4uz4w1zj
    g==;
-X-CSE-ConnectionGUID: l0gUHxzTRSuH2qQjLv0j3A==
-X-CSE-MsgGUID: zSizehVlTX6saun5cfrQqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="44118313"
+X-CSE-ConnectionGUID: aCdb4ZMmS42KNblEEnGu+A==
+X-CSE-MsgGUID: TpeN3xJDQj6lQmjZlEmfEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="51931934"
 X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; 
-   d="scan'208";a="44118313"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 05:39:13 -0800
-X-CSE-ConnectionGUID: GPfSWTXcSuqnPxxyhqNYJg==
-X-CSE-MsgGUID: WbOEPZD8Rpm9/Y8wJYJQGA==
+   d="scan'208";a="51931934"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 05:46:48 -0800
+X-CSE-ConnectionGUID: QE0qsuZ/RGire+pe1QDxdA==
+X-CSE-MsgGUID: FXoFclDjSva8ZgRoep5M9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="153580236"
+   d="scan'208";a="117320515"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 25 Feb 2025 05:39:11 -0800
+  by orviesa008.jf.intel.com with ESMTP; 25 Feb 2025 05:46:46 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmv9Q-000AIR-2u;
-	Tue, 25 Feb 2025 13:39:08 +0000
-Date: Tue, 25 Feb 2025 21:38:42 +0800
+	id 1tmvGm-000AJ6-1N;
+	Tue, 25 Feb 2025 13:46:44 +0000
+Date: Tue, 25 Feb 2025 21:45:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1422/1422] kernel/time/.tmp_hrtimer.o:
- warning: objtool: hrtimer_start_range_ns()+0x535: unreachable instruction
-Message-ID: <202502252117.9plCzQUe-lkp@intel.com>
+To: niravkumar.l.rabara@intel.com
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RESEND v2] arm64: dts: socfpga: agilex: Add dma channel
+ id for spi
+Message-ID: <Z73JlgLQHLTupk_y@37ee6694ac45>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,52 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250225133919.4128252-1-niravkumar.l.rabara@intel.com>
 
-Hi Phil,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   33c097cb0d6c8c1dcf8cde0f66b1c6c907ee2740
-commit: 40ecfb28732cefd0c5658f7c10543bbc4cd41cb8 [1422/1422] hrtimer: Prevent queuing of hrtimer without a function callback
-config: x86_64-buildonly-randconfig-001-20250210 (https://download.01.org/0day-ci/archive/20250225/202502252117.9plCzQUe-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502252117.9plCzQUe-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502252117.9plCzQUe-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-All warnings (new ones prefixed by >>):
-
-   kernel/time/hrtimer.c:130:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     130 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:128:27: note: previous initialization is here
-     128 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:131:22: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     131 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:128:27: note: previous initialization is here
-     128 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:132:21: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     132 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:128:27: note: previous initialization is here
-     128 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:133:17: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     133 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:128:27: note: previous initialization is here
-     128 |         [0 ... MAX_CLOCKS - 1]  = HRTIMER_MAX_CLOCK_BASES,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
->> kernel/time/.tmp_hrtimer.o: warning: objtool: hrtimer_start_range_ns()+0x535: unreachable instruction
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH RESEND v2] arm64: dts: socfpga: agilex: Add dma channel id for spi
+Link: https://lore.kernel.org/stable/20250225133919.4128252-1-niravkumar.l.rabara%40intel.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
