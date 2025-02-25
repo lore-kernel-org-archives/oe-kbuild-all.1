@@ -1,192 +1,204 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45F021ABB2;
-	Tue, 25 Feb 2025 14:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CAA15C14B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 16:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740495262; cv=none; b=HO7LCSVIK9gluNZtpOa9F+d49L3CeSW01r5f0NhJmR255YxDHavc7XPEpFInD7TrZueGWggmzt6IoaK5IiT0P6+vz3UlWGkx+7BA81kAjAMIcZ1UHCNvjH/r55rPBJq4V/yoLn+MfVOwA5W7yT2oe8mhBIQplZfOeOc+b5BOL7g=
+	t=1740499384; cv=none; b=hMR7WzHzOv6PpGH6e2ofJXu8kTeOgjekBpzKd9gfujLkLBkLTnEU0P1f0IdDNOG0G2NkNDw9otKTq0rZlKUekmFFGSt48a5ta/pUPPGl+gdmOGj5O/hxqtQnV4KT8S8CbC2H0rKZlEilFZN2PJBiXeuoIn5Q3C66jeQe8od1ZDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740495262; c=relaxed/simple;
-	bh=fGFy6TkVvvFSBJBtvwKKCIcuqLB8Gp5LhuAXcZ++iWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UydKlNedP1CfaaK71vuQzw3UbSAbE8qW1D4PeD+Krwfx196+/Od6kn16a8HHey4j4EOzTYicYmLhQ2wqCSt3mGfUkfeoyP2Caw5ejZEJ+X1j0S4sppxSttCQrqXjSIV7DfFWDXjAvbgOBaWUaehiTUk6bnh9w2IJ0lcKuEdNHEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OIurxDBV; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1740499384; c=relaxed/simple;
+	bh=zEHxcM5n+JN/9FVLv4/ywRY49fQAZAiJTbdkOubYdV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qKo8l+Ama2iXfqV9/6WwrJ6onCyg1HJ82XyiHhuIQmCJUfKqf7W+/SY8VmiVnFiKDR9tZrfVf7Ff6o5EV0FQEgfLZlqzfXBg2EKGs7sDmE94hk7xBSkn6quzdyNB5zZTJdHH4KaHWvp174Y9PfiELwNGSAq5ICCy7E0dkAb6T3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HaKW3amq; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OIurxDBV"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id E1F1B40E01B2;
-	Tue, 25 Feb 2025 14:54:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ztTnc5zCCFJz; Tue, 25 Feb 2025 14:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1740495252; bh=HuKrRSoC93GtPlKMv4c20e2TYzpEJC46tpoId9qbscU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OIurxDBVhcS4+EjQjReOOwB1cYXmA10MgPEVu6GE2gBeY/6KqWIIIzRXuv+XKH4xj
-	 FlGpc0BTxAb75kNCXL0iCn3byCJzJ2PzomAdQPpFrBLUs9lLOwObvP5n13vQhNLz/7
-	 FnzE4wTBdjQE6UNdNQNUwXDqDzDIp94jJ2THGxTxkS6ZVxp8khG+ZHe0ztOJ8C6Afk
-	 KyxlTMy3f5CxN8gyR7NkPsEuXr72xHMDfgXdlWID2dQYyTysZv/aFkWGLruV/0ggfu
-	 0SKa65WiUu9k+lfKLKPHJMHZiqrK8SUCLEKtG3kwPKpCUZ76R+WiCjnJQRbIgbTsqD
-	 oRvwullyQ2+5UoTrhos2ffd4+cZO5mEUpNSgfNp/cFBAkMmOsQu2sy+zV3kunbrsWA
-	 FMlj9YZjEy7zpN0qCpecuTgcGQRiU0BRZgVjuUKnzu5eWdeuMaTu5kZ3zGfJRAlYHm
-	 8UAEhNL4AhwslasRyhZ219/amjmOG+h4QBEZv/FaLJcqMeZNclpDUI3kCYCKGmID3k
-	 bukO2tzkoQQzVcq0iiY+ootiega5aIiVZlATij9ggfeau2jJxnaCid+4B2gCu1pYCr
-	 cd1lNrARhXq9kGGgNWb6ZHOxG3ofG/PENMFEk4cTGQV5pIr6ZSTzuwPOpBYPpggSQX
-	 i3Q9gHR+DbyikTEuPbPEHFKM=
-Received: from zn.tnic (pd95303ce.dip0.t-ipconnect.de [217.83.3.206])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5058940E01A0;
-	Tue, 25 Feb 2025 14:54:06 +0000 (UTC)
-Date: Tue, 25 Feb 2025 15:54:00 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-	Shiju Jose <shiju.jose@huawei.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [bp:edac-cxl 2/5] drivers/edac/edac_device.c:705
- edac_dev_register() error: uninitialized symbol 'ret'.
-Message-ID: <20250225145343.GAZ73Zd05zHax2bL02@fat_crate.local>
-References: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HaKW3amq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740499382; x=1772035382;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zEHxcM5n+JN/9FVLv4/ywRY49fQAZAiJTbdkOubYdV4=;
+  b=HaKW3amq1W1GvEFKl6UYxDZwiBbmXv+VZ4XKeE0dCraSjcbL456l0QRY
+   +oyF1JnYArz+JWM3G0K/T9zrH+ZnEvXLgDwxb9BTPf8rlGM3hTjWuT3q8
+   VsNniJqXKG6VRSD7AlBGV4W6I7tePBlqRrK+YV4HCI3QL9WF6/pdqsURV
+   MzAbrH06bX9Fwh/XwvovkhRxcWSprhtnjYz4r9iE5vGZVZ+9TpYNUwdFY
+   TJt7xziHA0bM2Y0mnoimwNqyGvhQy/wYCj2iyhhXqvi/XXdykpev7VRK2
+   vcDSfBbmEBbv5Y8l052/EfeNKtnozA+ajbNls3zc+Z1dvwO7FNJh0L17B
+   Q==;
+X-CSE-ConnectionGUID: AYVtbgq/QCmy9nn5afXzSA==
+X-CSE-MsgGUID: DQbk5Ib4QZaVbJ02nGc7mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41157963"
+X-IronPort-AV: E=Sophos;i="6.13,314,1732608000"; 
+   d="scan'208";a="41157963"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 08:03:02 -0800
+X-CSE-ConnectionGUID: 12qMg/s0TqaBEbBiTmWVNg==
+X-CSE-MsgGUID: 5NLL4wxlRf6CrPltyvYtRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120543806"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 25 Feb 2025 08:03:00 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tmxOb-000AQh-21;
+	Tue, 25 Feb 2025 16:02:57 +0000
+Date: Wed, 26 Feb 2025 00:02:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 2/2]
+ arch/x86/kvm/mmu/paging_tmpl.h:780:19: warning: variable 'orig_pfn' set but
+ not used
+Message-ID: <202502252349.MW5rIYDX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6036787e-1322-46ae-bd56-4a1e0d9966b9@stanley.mountain>
 
-On Tue, Feb 25, 2025 at 10:46:48AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git edac-cxl
-> head:   4fab25b62bc682c0df886d97dcb106d4989c9ff1
-> commit: e777719d5bec32af859990456f4b0e0e362f425a [2/5] EDAC: Add scrub control feature
-> config: i386-randconfig-141-20250225 (https://download.01.org/0day-ci/archive/20250225/202502251009.0sGkolEJ-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502251009.0sGkolEJ-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/edac/edac_device.c:705 edac_dev_register() error: uninitialized symbol 'ret'.
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   1cd69cd68d8470b2504c03c331dca866646cacff
+commit: 1cd69cd68d8470b2504c03c331dca866646cacff [2/2] Merge branch 'android15-6.6-2aa57daa75e0' into android15-6.6-desktop
+config: x86_64-buildonly-randconfig-001-20250225 (https://download.01.org/0day-ci/archive/20250225/202502252349.MW5rIYDX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502252349.MW5rIYDX-lkp@intel.com/reproduce)
 
-Thanks for reporting.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502252349.MW5rIYDX-lkp@intel.com/
 
-I went through the whole set and did some scrubbing of retvals. And that
-edac_dev_register() is already a mess. But cleaning that up is for another
-day.
+All warnings (new ones prefixed by >>):
 
-So, Shiju, I've pushed a edac-cxl2 branch, please run it again.
+   In file included from arch/x86/kvm/mmu/mmu.c:4748:
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'ept_page_fault':
+>> arch/x86/kvm/mmu/paging_tmpl.h:780:19: warning: variable 'orig_pfn' set but not used [-Wunused-but-set-variable]
+     780 |         kvm_pfn_t orig_pfn;
+         |                   ^~~~~~~~
+   In file included from arch/x86/kvm/mmu/mmu.c:4752:
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'paging64_page_fault':
+>> arch/x86/kvm/mmu/paging_tmpl.h:780:19: warning: variable 'orig_pfn' set but not used [-Wunused-but-set-variable]
+     780 |         kvm_pfn_t orig_pfn;
+         |                   ^~~~~~~~
+   In file included from arch/x86/kvm/mmu/mmu.c:4756:
+   arch/x86/kvm/mmu/paging_tmpl.h: In function 'paging32_page_fault':
+>> arch/x86/kvm/mmu/paging_tmpl.h:780:19: warning: variable 'orig_pfn' set but not used [-Wunused-but-set-variable]
+     780 |         kvm_pfn_t orig_pfn;
+         |                   ^~~~~~~~
 
-Thx.
 
-Full diff of the changes I've done:
+vim +/orig_pfn +780 arch/x86/kvm/mmu/paging_tmpl.h
 
----
-diff --git a/drivers/edac/edac_device.c b/drivers/edac/edac_device.c
-index 081f77b1f125..16611515ab34 100644
---- a/drivers/edac/edac_device.c
-+++ b/drivers/edac/edac_device.c
-@@ -581,7 +581,7 @@ static void edac_dev_release(struct device *dev)
- 	kfree(ctx);
- }
- 
--const struct device_type edac_dev_type = {
-+static const struct device_type edac_dev_type = {
- 	.name = "edac_dev",
- 	.release = edac_dev_release,
- };
-@@ -616,8 +616,9 @@ int edac_dev_register(struct device *parent, char *name,
- 	struct edac_dev_feat_ctx *ctx;
- 	int mem_repair_cnt = 0;
- 	int attr_gcnt = 0;
-+	int ret = -ENOMEM;
- 	int scrub_cnt = 0;
--	int ret, feat;
-+	int feat;
- 
- 	if (!parent || !name || !num_features || !ras_features)
- 		return -EINVAL;
-@@ -646,25 +647,19 @@ int edac_dev_register(struct device *parent, char *name,
- 		return -ENOMEM;
- 
- 	ras_attr_groups = kcalloc(attr_gcnt + 1, sizeof(*ras_attr_groups), GFP_KERNEL);
--	if (!ras_attr_groups) {
--		ret = -ENOMEM;
-+	if (!ras_attr_groups)
- 		goto ctx_free;
--	}
- 
- 	if (scrub_cnt) {
- 		ctx->scrub = kcalloc(scrub_cnt, sizeof(*ctx->scrub), GFP_KERNEL);
--		if (!ctx->scrub) {
--			ret = -ENOMEM;
-+		if (!ctx->scrub)
- 			goto groups_free;
--		}
- 	}
- 
- 	if (mem_repair_cnt) {
- 		ctx->mem_repair = kcalloc(mem_repair_cnt, sizeof(*ctx->mem_repair), GFP_KERNEL);
--		if (!ctx->mem_repair) {
--			ret = -ENOMEM;
-+		if (!ctx->mem_repair)
- 			goto data_mem_free;
--		}
- 	}
- 
- 	attr_gcnt = 0;
-@@ -673,9 +668,10 @@ int edac_dev_register(struct device *parent, char *name,
- 	for (feat = 0; feat < num_features; feat++, ras_features++) {
- 		switch (ras_features->ft_type) {
- 		case RAS_FEAT_SCRUB:
--			if (!ras_features->scrub_ops ||
--			    scrub_cnt != ras_features->instance)
-+			if (!ras_features->scrub_ops || scrub_cnt != ras_features->instance) {
-+				ret = -EINVAL;
- 				goto data_mem_free;
-+			}
- 
- 			dev_data = &ctx->scrub[scrub_cnt];
- 			dev_data->instance = scrub_cnt;
-@@ -690,8 +686,10 @@ int edac_dev_register(struct device *parent, char *name,
- 			attr_gcnt++;
- 			break;
- 		case RAS_FEAT_ECS:
--			if (!ras_features->ecs_ops)
-+			if (!ras_features->ecs_ops) {
-+				ret = -EINVAL;
- 				goto data_mem_free;
-+			}
- 
- 			dev_data = &ctx->ecs;
- 			dev_data->ecs_ops = ras_features->ecs_ops;
-@@ -705,8 +703,10 @@ int edac_dev_register(struct device *parent, char *name,
- 			break;
- 		case RAS_FEAT_MEM_REPAIR:
- 			if (!ras_features->mem_repair_ops ||
--			    mem_repair_cnt != ras_features->instance)
-+			    mem_repair_cnt != ras_features->instance) {
-+				ret = -EINVAL;
- 				goto data_mem_free;
-+			}
- 
- 			dev_data = &ctx->mem_repair[mem_repair_cnt];
- 			dev_data->instance = mem_repair_cnt;
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  762  
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  763  /*
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  764   * Page fault handler.  There are several causes for a page fault:
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  765   *   - there is no shadow pte for the guest pte
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  766   *   - write access through a shadow pte marked read only so that we can set
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  767   *     the dirty bit
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  768   *   - write access to a shadow pte marked read only so we can update the page
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  769   *     dirty bitmap, when userspace requests it
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  770   *   - mmio access; in this case we will never install a present shadow pte
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  771   *   - normal guest page fault due to the guest pte marked not present, not
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  772   *     writable, or not executable
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  773   *
+e2dec939db1269 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  774   *  Returns: 1 if we need to emulate the instruction, 0 otherwise, or
+e2dec939db1269 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  775   *           a negative value on error.
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  776   */
+c501040abc4209 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  777  static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  778  {
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  779  	struct guest_walker walker;
+0d5c7fcfa58534 arch/x86/kvm/mmu/paging_tmpl.h Nikolay Kuratov     2024-12-08 @780  	kvm_pfn_t orig_pfn;
+e2dec939db1269 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  781  	int r;
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  782  
+c501040abc4209 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  783  	WARN_ON_ONCE(fault->is_tdp);
+714b93da1a6d97 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  784  
+ceee7df749da03 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2015-05-07  785  	/*
+9c03b1821a89c1 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  786  	 * Look up the guest pte for the faulting address.
+e9ee956e311d3d arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2016-02-22  787  	 * If PFEC.RSVD is set, this is a shadow page fault.
+e9ee956e311d3d arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2016-02-22  788  	 * The bit needs to be cleared before walking guest page tables.
+ceee7df749da03 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2015-05-07  789  	 */
+9c03b1821a89c1 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  790  	r = FNAME(walk_addr)(&walker, vcpu, fault->addr,
+9c03b1821a89c1 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  791  			     fault->error_code & ~PFERR_RSVD_MASK);
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  792  
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  793  	/*
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  794  	 * The page is not mapped by the guest.  Let the guest handle it.
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  795  	 */
+7993ba43db1c07 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-26  796  	if (!r) {
+2839180ce5bb27 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-09-29  797  		if (!fault->prefetch)
+0cd665bd20f908 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2020-03-25  798  			kvm_inject_emulated_page_fault(vcpu, &walker.fault);
+a30f47cb150dd8 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2011-09-22  799  
+9b8ebbdb74b5ad arch/x86/kvm/paging_tmpl.h     Paolo Bonzini       2017-08-17  800  		return RET_PF_RETRY;
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  801  	}
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  802  
+b8a5d551151537 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  803  	fault->gfn = walker.gfn;
+9a967700496fea arch/x86/kvm/mmu/paging_tmpl.h Lai Jiangshan       2023-02-02  804  	fault->max_level = walker.level;
+e710c5f6be0eb3 arch/x86/kvm/mmu/paging_tmpl.h David Matlack       2021-09-24  805  	fault->slot = kvm_vcpu_gfn_to_memslot(vcpu, fault->gfn);
+e710c5f6be0eb3 arch/x86/kvm/mmu/paging_tmpl.h David Matlack       2021-09-24  806  
+b8a5d551151537 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  807  	if (page_fault_handle_page_track(vcpu, fault)) {
+9c03b1821a89c1 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  808  		shadow_page_table_clear_flood(vcpu, fault->addr);
+9b8ebbdb74b5ad arch/x86/kvm/paging_tmpl.h     Paolo Bonzini       2017-08-17  809  		return RET_PF_EMULATE;
+e5691a81e830c1 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2016-02-24  810  	}
+3d0c27ad6ee465 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2016-02-24  811  
+378f5cd64aefd7 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2020-07-02  812  	r = mmu_topup_memory_caches(vcpu, true);
+f3747a5a9e5a26 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2020-07-02  813  	if (r)
+f3747a5a9e5a26 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2020-07-02  814  		return r;
+f3747a5a9e5a26 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2020-07-02  815  
+354c908c068ec0 arch/x86/kvm/mmu/paging_tmpl.h David Matlack       2022-09-21  816  	r = kvm_faultin_pfn(vcpu, fault, walker.pte_access);
+5276c616abf149 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2022-04-23  817  	if (r != RET_PF_CONTINUE)
+d7c55201e66e9f arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2011-07-12  818  		return r;
+d7c55201e66e9f arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2011-07-12  819  
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  820  	/*
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  821  	 * Do not change pte_access if the pfn is a mmio page, otherwise
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  822  	 * we will cache the incorrect access into mmio spte.
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  823  	 */
+c501040abc4209 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  824  	if (fault->write && !(walker.pte_access & ACC_WRITE_MASK) &&
+e710c5f6be0eb3 arch/x86/kvm/mmu/paging_tmpl.h David Matlack       2021-09-24  825  	    !is_cr0_wp(vcpu->arch.mmu) && !fault->user && fault->slot) {
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  826  		walker.pte_access |= ACC_WRITE_MASK;
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  827  		walker.pte_access &= ~ACC_USER_MASK;
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  828  
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  829  		/*
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  830  		 * If we converted a user page to a kernel page,
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  831  		 * so that the kernel can write to it when cr0.wp=0,
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  832  		 * then we should prevent the kernel from executing it
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  833  		 * if SMEP is enabled.
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  834  		 */
+9a65d0b70fa06a arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  835  		if (is_cr4_smep(vcpu->arch.mmu))
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  836  			walker.pte_access &= ~ACC_EXEC_MASK;
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  837  	}
+c22885050e651c arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2013-01-08  838  
+0d5c7fcfa58534 arch/x86/kvm/mmu/paging_tmpl.h Nikolay Kuratov     2024-12-08  839  	orig_pfn = fault->pfn;
+0d5c7fcfa58534 arch/x86/kvm/mmu/paging_tmpl.h Nikolay Kuratov     2024-12-08  840  
+43fdcda96e2550 arch/x86/kvm/paging_tmpl.h     Junaid Shahid       2019-01-03  841  	r = RET_PF_RETRY;
+531810caa9f4bc arch/x86/kvm/mmu/paging_tmpl.h Ben Gardon          2021-02-02  842  	write_lock(&vcpu->kvm->mmu_lock);
+a955cad84cdaff arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-11-20  843  
+ba6e3fe255439f arch/x86/kvm/mmu/paging_tmpl.h David Matlack       2022-09-21  844  	if (is_page_fault_stale(vcpu, fault))
+e930bffe95e1e8 arch/x86/kvm/paging_tmpl.h     Andrea Arcangeli    2008-07-25  845  		goto out_unlock;
+bc32ce21524064 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2010-08-28  846  
+7bd7ded642978f arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2020-06-23  847  	r = make_mmu_pages_available(vcpu);
+7bd7ded642978f arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2020-06-23  848  	if (r)
+26eeb53cf0f9a0 arch/x86/kvm/paging_tmpl.h     Wanpeng Li          2017-08-10  849  		goto out_unlock;
+9c03b1821a89c1 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2021-08-06  850  	r = FNAME(fetch)(vcpu, fault, &walker);
+e930bffe95e1e8 arch/x86/kvm/paging_tmpl.h     Andrea Arcangeli    2008-07-25  851  
+e930bffe95e1e8 arch/x86/kvm/paging_tmpl.h     Andrea Arcangeli    2008-07-25  852  out_unlock:
+efe8eebff6d08b arch/x86/kvm/mmu/paging_tmpl.h David Stevens       2024-02-21  853  	kvm_set_page_accessed(fault->accessed_page);
+531810caa9f4bc arch/x86/kvm/mmu/paging_tmpl.h Ben Gardon          2021-02-02  854  	write_unlock(&vcpu->kvm->mmu_lock);
+43fdcda96e2550 arch/x86/kvm/paging_tmpl.h     Junaid Shahid       2019-01-03  855  	return r;
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  856  }
+6aa8b732ca01c3 drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  857  
+
+:::::: The code at line 780 was first introduced by commit
+:::::: 0d5c7fcfa5853462fd161389182fb975eeb1bd2a KVM: x86/mmu: Ensure that kvm_release_pfn_clean() takes exact pfn from kvm_faultin_pfn()
+
+:::::: TO: Nikolay Kuratov <kniv@yandex-team.ru>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
