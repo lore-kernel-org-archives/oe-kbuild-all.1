@@ -1,69 +1,58 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6ED264FB7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 09:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5AC263C75
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 10:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740474185; cv=none; b=LRXPxoNdjMMJUECNTBYzLvev6GSt7CMs0JZUhCK4v9nL/JFcETTyTTJ/OL+kPBJtWCOVKDgfqIobJPjmIQ1ERqTMJmsQgEUaBpETiXhBzripdF75bhz/xcJn56YPuWgUEsyFjuF6MUBmhctvrbM6iBvcoINKfDtnOalr3ZfICEI=
+	t=1740477750; cv=none; b=a1qwgXfFDOeillrL1Q5/b/wFL7Nw+NHOC0EUAlU/GJ5kMujl5TWm8wvccbCceYGHxVch//w3+5EE8CRtb4FtNONzf9Jz9ocnxDolNa447Ez58ItC8OEzwQHiTLsuuUblWJNK8qUgHJ3WRgDDkeasvoXmkDMc1LxMVjaYRzcsjCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740474185; c=relaxed/simple;
-	bh=n0EB057seNvA9h3/NN3MByUeOXkUJbArTd7T60aSt1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UXov7An2Zu36na5HqFOn8SxodIPe8oJ/K3ScikXDckSQj1wml3Z1yLMGtgqyMkBioxfVP10NAjBKOAGtRudcqTs8I/VOw1m47iVYlFA/pvDFFQU1vzjhRv3oIOIsZvsJLp8K3fplQ5/uNswY9HCIk5tLv5v2wag2zRM7PY8l97Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=na1lVs70; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740477750; c=relaxed/simple;
+	bh=VdECs7pAQ6IeAPof7xAQ7PXwep0JBiBn269twn0dF5M=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LB6S+SQVq4z6rqlCgdqAaZMdhWHm/KTQK8sKCFHStXIVvBj0NNblCmck6LwANspYnduinONQV4AU2D+PrB7cmBfITpfor9Imb6PbnGA/kmqVqkbZEtYDKIxNG1zvkkU+M5W2TrZAUjz2nEpsiDggFBMF5+9g8hCfHrm0JXjqE5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nQtwomEt; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="na1lVs70"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-439a4dec9d5so50748395e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 01:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740474181; x=1741078981; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gKgYZYADACy30IaCXExUX8oou2qy9v1ws6O1re1moBk=;
-        b=na1lVs70X9ndwIKZw8pyty/WxG0A5MQnr65ioMxhO2sCtzlVEZ9kJ3k0/oWkqyagOQ
-         9KlMyAfymWo1J0e8TwlkzHz/oNsP/VDIEifQbVRW2YZUoUJ1fIwH6X0MwInkcvMiV7sF
-         3PRJZGUi9G39xH8FMBYApqjcShXt162bla7XvqoyVm3yOjdhsRUV1X0HFdmLeoWEA3eT
-         V9JftKHEJHlt096xzVhGZ8GW6TFrAQzmwrp2EIjbb8wUX0Kh3RqLWkM7bt42NAk1T6JJ
-         U/X75TVk06O0LJuAIDU/tBQBom06XM75Dvq4CngaGtbEhf/d9Hj5v5pLJDK/4z9DMUhb
-         x5pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740474181; x=1741078981;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gKgYZYADACy30IaCXExUX8oou2qy9v1ws6O1re1moBk=;
-        b=VJRpNLKybt94Y+QNvmM8zZXnoDjE35t2yMFAB9srAW+xYqMo9YHZMXpvQLd+17CS3+
-         skXKVdTiRxUYPDZt/C7O1luTqls8HjU42AoCkmuzVYWJP3IvLp6aNYhUh95/pF8IPHvs
-         DivllXrlAcZI6eYxqnae3a/gLhb+4BC7W+7gVkY91xkeJEyvkHPfI2UTNn5zaAltrdF2
-         /ZjeyV+roWgYqL1M95TMwChjsFLIO3K7d4+zh6TPk5JXFN1mXvk0nGAfBTBFNJ3/DyjS
-         bQwZx1VM2AIYV75f9UXz5ZL7pBqSIXchL4pEpBm3b4Bh2yfkjwGMmSpxsU6cN0WBMhgO
-         tGug==
-X-Forwarded-Encrypted: i=1; AJvYcCXbpo5r6n/XkBec4nVIffVmXmCls8XpqMnFqqVDyMYC+3QlgUbDjNvkMcqGhoIBqV0QuHn1/IzQgBp1VBPq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx62jMF0Lz8xTYU71A9/b4XaVA43hl32b+EgVWDDTGTkBtcJcO/
-	TDFisu/Vr8eXJaslh/5nEwF7z/Rj4600Sgl3Nrtd/3xwS+8JTYiQ1UncJxipA9w=
-X-Gm-Gg: ASbGncuDiuvXOL8bs8M9T36XD7dFrYEbh8+nd3WZ2kKpQuUszwrjIip4EloXM75TORZ
-	N1Yp7mMoeMhg1GP8a4WsWFCdDIsAJOgQlb9/esn4WPOaVyh/eYz7b5FE7QTQmQBQ7ZhqpUKTow6
-	nLeelSWryJXW5U9WGqzaGhVc6I5hELWdOQrxGWV6KmQThM8QRukjBuYXVLYmQ78n183mpTiWAGY
-	tAjBWIHJCTrvWU7Snz6Nfrb2tNaG+tIRafRe+boL0BapTFZsplIoJ+VIE26cWWkWEaU+vKJaz0Y
-	VM6ym4ZpYX73OhGC8N7JpXtkMxzmdeI=
-X-Google-Smtp-Source: AGHT+IFUbXvRXDMa+0e5ZJNCJLdb+utkR88zcXej3+sO/Z2lWVOMV8zrridYLa+k7OHlaVrN36mAiw==
-X-Received: by 2002:a05:6000:18a2:b0:38c:2745:2df3 with SMTP id ffacd0b85a97d-390cc631b3bmr1701013f8f.37.1740474180499;
-        Tue, 25 Feb 2025 01:03:00 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed1d54a0dsm107879866b.50.2025.02.25.01.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 01:02:59 -0800 (PST)
-Date: Tue, 25 Feb 2025 12:02:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3] Bluetooth: hci_core: Enable buffer flow control for
- SCO/eSCO
-Message-ID: <7829aa4b-54fb-427f-ab3c-fbb90ea7588f@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nQtwomEt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740477749; x=1772013749;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=VdECs7pAQ6IeAPof7xAQ7PXwep0JBiBn269twn0dF5M=;
+  b=nQtwomEtDza+cAWMqR7LykRlmVTEDtpUingohmBv6hmgC4Q+kd+5QBkU
+   gX+2six28IRoJ8m2c5yKOrLirGLBEA8d5jUlubYQpHD/KV6dy6rDaAD2k
+   u6M2zD0z8839eB3/KdWiu8g3ahMvVfJ06z3h0YKJQVInMNUF8Q1LIgq0y
+   Glij/MHILBLBjffj6VckTELYmTNwVmsMM2dhT8NBm7UIqzEmjmNLEpFFF
+   v3rCcQNumEPQwronZaUiRPt7cOZIvn84h2VRvpElojzzEmnLQFqO51nPZ
+   g6Qgtx6lpMC+VqoGdbTBAD0D0i6Ko2LUY22SiU3TsB07XxGiwh2lSsQtZ
+   Q==;
+X-CSE-ConnectionGUID: PHUOpDkxQQGXyuAer39eIw==
+X-CSE-MsgGUID: 1FBaYdXOTbiKuaXr0TWc3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="45060251"
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
+   d="scan'208";a="45060251"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 02:02:28 -0800
+X-CSE-ConnectionGUID: jjIT6/AeQOyPhR2JSUHpLQ==
+X-CSE-MsgGUID: EL92iP3vRdmJMKbdlcx7GQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
+   d="scan'208";a="116967367"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Feb 2025 02:02:27 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tmrlb-000A5S-09
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 25 Feb 2025 10:02:20 +0000
+Date: Tue, 25 Feb 2025 18:02:03 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/59 1/1] drivers/scsi/libiscsi.c:1703:7: warning: this
+ statement may fall through
+Message-ID: <202502251709.Y3JcwQhp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,120 +61,195 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221204916.2217628-1-luiz.dentz@gmail.com>
 
-Hi Luiz,
+Hi Rafael,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-hci_core-Enable-buffer-flow-control-for-SCO-eSCO/20250222-045019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20250221204916.2217628-1-luiz.dentz%40gmail.com
-patch subject: [PATCH v3] Bluetooth: hci_core: Enable buffer flow control for SCO/eSCO
-config: i386-randconfig-141-20250223 (https://download.01.org/0day-ci/archive/20250223/202502231103.loPGnZml-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 3807b6fec674e88d9cc653427728581263311141 [1/1] scsi: libiscsi: Allow sd_shutdown on bad transport
+config: xtensa-randconfig-002-20250218 (https://download.01.org/0day-ci/archive/20250225/202502251709.Y3JcwQhp-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502251709.Y3JcwQhp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502231103.loPGnZml-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502251709.Y3JcwQhp-lkp@intel.com/
 
-New smatch warnings:
-net/bluetooth/hci_core.c:3583 hci_sched_sco() error: uninitialized symbol 'conn'.
-net/bluetooth/hci_core.c:3583 hci_sched_sco() error: we previously assumed 'conn' could be null (see line 3562)
-net/bluetooth/hci_core.c:3621 hci_sched_esco() error: uninitialized symbol 'conn'.
-net/bluetooth/hci_core.c:3621 hci_sched_esco() error: we previously assumed 'conn' could be null (see line 3599)
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-net/bluetooth/hci_core.c:2595 hci_register_dev() warn: 'hdev->rfkill' is an error pointer or valid
+   In file included from include/linux/kernel.h:10:0,
+                    from include/linux/kfifo.h:53,
+                    from drivers/scsi/libiscsi.c:25:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/xtensa/include/asm/page.h:185:9: warning: comparison of unsigned expression >= 0 is always true [-Wtype-limits]
+     ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+            ^
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   include/linux/dma-mapping.h:327:2: note: in expansion of macro 'BUG_ON'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+     ^~~~~~
+   include/linux/dma-mapping.h:327:9: note: in expansion of macro 'pfn_valid'
+     BUG_ON(pfn_valid(PHYS_PFN(phys_addr)));
+            ^~~~~~~~~
+   drivers/scsi/libiscsi.c: In function 'iscsi_queuecommand':
+>> drivers/scsi/libiscsi.c:1703:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+       if (unlikely(system_state != SYSTEM_RUNNING)) {
+          ^
+   drivers/scsi/libiscsi.c:1708:3: note: here
+      case ISCSI_STATE_IN_RECOVERY:
+      ^~~~
 
-vim +/conn +3583 net/bluetooth/hci_core.c
 
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3551  static void hci_sched_sco(struct hci_dev *hdev)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3552  {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3553  	struct hci_conn *conn;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3554  	struct sk_buff *skb;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3555  	int quote;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3556  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3557  	BT_DBG("%s", hdev->name);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3558  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3559  	if (!hci_conn_num(hdev, SCO_LINK))
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3560  		return;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3561  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23 @3562  	while (hdev->sco_cnt && (conn = hci_low_sent(hdev, SCO_LINK, &quote))) {
+vim +1703 drivers/scsi/libiscsi.c
 
-Can hdev->sco_cnt be zero at the start?  That would make "conn"
-uninitialized.  This loop can exit with conn set to NULL.
-
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3563  		while (quote-- && (skb = skb_dequeue(&conn->data_q))) {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3564  			BT_DBG("skb %p len %d", skb, skb->len);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3565  			hci_send_frame(hdev, skb);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3566  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3567  			hdev->sco_cnt--;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3568  			conn->sent++;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3569  			if (conn->sent == ~0)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3570  				conn->sent = 0;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3571  		}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3572  	}
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3573  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3574  	/* Restore sco_cnt if flow control has not been enabled as
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3575  	 * HCI_EV_NUM_COMP_PKTS won't be generated.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3576  	 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3577  	if (!hci_dev_test_flag(hdev, HCI_SCO_FLOWCTL)) {
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3578  		hdev->sco_cnt = hdev->sco_pkts;
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3579  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3580  		/* As flow control is disabled force tx_work to run if there are
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3581  		 * still packets left in the queue.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3582  		 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21 @3583  		if (!skb_queue_empty(&conn->data_q))
-                                                                                              ^^^^
-
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3584  			queue_work(hdev->workqueue, &hdev->tx_work);
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3585  	}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3586  }
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3587  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3588  static void hci_sched_esco(struct hci_dev *hdev)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3589  {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3590  	struct hci_conn *conn;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3591  	struct sk_buff *skb;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3592  	int quote;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3593  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3594  	BT_DBG("%s", hdev->name);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3595  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3596  	if (!hci_conn_num(hdev, ESCO_LINK))
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3597  		return;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3598  
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23 @3599  	while (hdev->sco_cnt && (conn = hci_low_sent(hdev, ESCO_LINK,
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3600  						     &quote))) {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3601  		while (quote-- && (skb = skb_dequeue(&conn->data_q))) {
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3602  			BT_DBG("skb %p len %d", skb, skb->len);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3603  			hci_send_frame(hdev, skb);
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3604  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3605  			hdev->sco_cnt--;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3606  			conn->sent++;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3607  			if (conn->sent == ~0)
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3608  				conn->sent = 0;
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3609  		}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3610  	}
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3611  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3612  	/* Restore sco_cnt if flow control has not been enabled as
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3613  	 * HCI_EV_NUM_COMP_PKTS won't be generated.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3614  	 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3615  	if (!hci_dev_test_flag(hdev, HCI_SCO_FLOWCTL)) {
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3616  		hdev->sco_cnt = hdev->sco_pkts;
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3617  
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3618  		/* As flow control is disabled force tx_work to run if there are
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3619  		 * still packets left in the queue.
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3620  		 */
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21 @3621  		if (!skb_queue_empty(&conn->data_q))
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3622  			queue_work(hdev->workqueue, &hdev->tx_work);
-efee7ae7cd85cf7 Luiz Augusto von Dentz 2025-02-21  3623  	}
-7fedd3bb6b77f9b Abhishek Pandit-Subedi 2020-03-23  3624  }
+  1665	
+  1666	int iscsi_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *sc)
+  1667	{
+  1668		struct iscsi_cls_session *cls_session;
+  1669		struct iscsi_host *ihost;
+  1670		int reason = 0;
+  1671		struct iscsi_session *session;
+  1672		struct iscsi_conn *conn;
+  1673		struct iscsi_task *task = NULL;
+  1674	
+  1675		sc->result = 0;
+  1676		sc->SCp.ptr = NULL;
+  1677	
+  1678		ihost = shost_priv(host);
+  1679	
+  1680		cls_session = starget_to_session(scsi_target(sc->device));
+  1681		session = cls_session->dd_data;
+  1682		spin_lock_bh(&session->frwd_lock);
+  1683	
+  1684		reason = iscsi_session_chkready(cls_session);
+  1685		if (reason) {
+  1686			sc->result = reason;
+  1687			goto fault;
+  1688		}
+  1689	
+  1690		if (session->state != ISCSI_STATE_LOGGED_IN) {
+  1691			/*
+  1692			 * to handle the race between when we set the recovery state
+  1693			 * and block the session we requeue here (commands could
+  1694			 * be entering our queuecommand while a block is starting
+  1695			 * up because the block code is not locked)
+  1696			 */
+  1697			switch (session->state) {
+  1698			case ISCSI_STATE_FAILED:
+  1699				/*
+  1700				 * cmds should fail during shutdown, if the session
+  1701				 * state is bad, allowing completion to happen
+  1702				 */
+> 1703				if (unlikely(system_state != SYSTEM_RUNNING)) {
+  1704					reason = FAILURE_SESSION_FAILED;
+  1705					sc->result = DID_NO_CONNECT << 16;
+  1706					break;
+  1707				}
+  1708			case ISCSI_STATE_IN_RECOVERY:
+  1709				reason = FAILURE_SESSION_IN_RECOVERY;
+  1710				sc->result = DID_IMM_RETRY << 16;
+  1711				break;
+  1712			case ISCSI_STATE_LOGGING_OUT:
+  1713				reason = FAILURE_SESSION_LOGGING_OUT;
+  1714				sc->result = DID_IMM_RETRY << 16;
+  1715				break;
+  1716			case ISCSI_STATE_RECOVERY_FAILED:
+  1717				reason = FAILURE_SESSION_RECOVERY_TIMEOUT;
+  1718				sc->result = DID_TRANSPORT_FAILFAST << 16;
+  1719				break;
+  1720			case ISCSI_STATE_TERMINATE:
+  1721				reason = FAILURE_SESSION_TERMINATE;
+  1722				sc->result = DID_NO_CONNECT << 16;
+  1723				break;
+  1724			default:
+  1725				reason = FAILURE_SESSION_FREED;
+  1726				sc->result = DID_NO_CONNECT << 16;
+  1727			}
+  1728			goto fault;
+  1729		}
+  1730	
+  1731		conn = session->leadconn;
+  1732		if (!conn) {
+  1733			reason = FAILURE_SESSION_FREED;
+  1734			sc->result = DID_NO_CONNECT << 16;
+  1735			goto fault;
+  1736		}
+  1737	
+  1738		if (test_bit(ISCSI_SUSPEND_BIT, &conn->suspend_tx)) {
+  1739			reason = FAILURE_SESSION_IN_RECOVERY;
+  1740			sc->result = DID_REQUEUE << 16;
+  1741			goto fault;
+  1742		}
+  1743	
+  1744		if (iscsi_check_cmdsn_window_closed(conn)) {
+  1745			reason = FAILURE_WINDOW_CLOSED;
+  1746			goto reject;
+  1747		}
+  1748	
+  1749		task = iscsi_alloc_task(conn, sc);
+  1750		if (!task) {
+  1751			reason = FAILURE_OOM;
+  1752			goto reject;
+  1753		}
+  1754	
+  1755		if (!ihost->workq) {
+  1756			reason = iscsi_prep_scsi_cmd_pdu(task);
+  1757			if (reason) {
+  1758				if (reason == -ENOMEM ||  reason == -EACCES) {
+  1759					reason = FAILURE_OOM;
+  1760					goto prepd_reject;
+  1761				} else {
+  1762					sc->result = DID_ABORT << 16;
+  1763					goto prepd_fault;
+  1764				}
+  1765			}
+  1766			if (session->tt->xmit_task(task)) {
+  1767				session->cmdsn--;
+  1768				reason = FAILURE_SESSION_NOT_READY;
+  1769				goto prepd_reject;
+  1770			}
+  1771		} else {
+  1772			spin_lock_bh(&conn->taskqueuelock);
+  1773			list_add_tail(&task->running, &conn->cmdqueue);
+  1774			spin_unlock_bh(&conn->taskqueuelock);
+  1775			iscsi_conn_queue_work(conn);
+  1776		}
+  1777	
+  1778		session->queued_cmdsn++;
+  1779		spin_unlock_bh(&session->frwd_lock);
+  1780		return 0;
+  1781	
+  1782	prepd_reject:
+  1783		iscsi_complete_task(task, ISCSI_TASK_REQUEUE_SCSIQ);
+  1784	reject:
+  1785		spin_unlock_bh(&session->frwd_lock);
+  1786		ISCSI_DBG_SESSION(session, "cmd 0x%x rejected (%d)\n",
+  1787				  sc->cmnd[0], reason);
+  1788		return SCSI_MLQUEUE_TARGET_BUSY;
+  1789	
+  1790	prepd_fault:
+  1791		iscsi_complete_task(task, ISCSI_TASK_REQUEUE_SCSIQ);
+  1792	fault:
+  1793		spin_unlock_bh(&session->frwd_lock);
+  1794		ISCSI_DBG_SESSION(session, "iscsi: cmd 0x%x is not queued (%d)\n",
+  1795				  sc->cmnd[0], reason);
+  1796		if (!scsi_bidi_cmnd(sc))
+  1797			scsi_set_resid(sc, scsi_bufflen(sc));
+  1798		else {
+  1799			scsi_out(sc)->resid = scsi_out(sc)->length;
+  1800			scsi_in(sc)->resid = scsi_in(sc)->length;
+  1801		}
+  1802		sc->scsi_done(sc);
+  1803		return 0;
+  1804	}
+  1805	EXPORT_SYMBOL_GPL(iscsi_queuecommand);
+  1806	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
