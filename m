@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB79236D;
-	Tue, 25 Feb 2025 05:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DA2190664
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Feb 2025 05:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740459793; cv=none; b=OKbWg1oS9SMw+eIt0ipDDiECuIbXQ2fmGx/AL0i6o0FM39w6B3YqB4odijHhW4l7c8zl7FfdsP9nf8BNQLFwdV+zhOj+E7iZIO+3Ym7RkwXmxvnC2WoFXf6K4qn/B0zErEF11CFcewUAZW5SOSMwCycNoZ6botgNWt+djxWgh1Q=
+	t=1740461744; cv=none; b=UoX/iuPDB5uUVJ/NsEb2jqkGTMla0PpNGPlymTumXIb/bkuuASxFkAS5sePQfVZZ9Fu+G0PXsUnewmthFWXUzy6M3kjL0o5RGjK5LHovZi3+nHNyT7nAiBxIjBAOhIL4zw8ioYzQ+VQEmEiSQBhqYgVSe93B8M0t3WLmFImP1Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740459793; c=relaxed/simple;
-	bh=T/PHvP7RJ3qeFxngOY7GDIvGVwQCrFvEwnEAWxQp65k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k3u5NoVbrZl9KlUAD8s7dTIFENBBBOzXil2awWLkIQ1lwGFgS/DFWuXMbBk+FOARFJhPSvxI1NnjsVyss92aOZVxOjQZYMfxvEgrHaOKXiq2yEm2GTpaQdTQdA6HAK+1O1KJDabiuUE72LIvjG5xKTlx8tBJQBkrw52B7kZPTEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BX5K0CYu; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1740461744; c=relaxed/simple;
+	bh=YJdCnwsW0pSl8EGudP+zkEAPojJvpiNBIuv9hO6LA/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CRQ6leyBz7LACwpqa6gQmUujCt2AakCOOFT+ssj9STL4QrA2ir30YmxvuBQwoi4gVFCS3ghgV/FC4Ki5Xxx0kkfwMr2enc+mGx/ApU6U5VBD6LU85V10oOfIs6LNSbwyMlif8pyUsE8q9gx50+gwa+6+362E0cn+O/uqjIg/USI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5uB6ukP; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BX5K0CYu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5uB6ukP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740459791; x=1771995791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T/PHvP7RJ3qeFxngOY7GDIvGVwQCrFvEwnEAWxQp65k=;
-  b=BX5K0CYueCPyUXvckaKpfneVdb19fCf69gYFK9a2sN6V4kEuhSdxDrZN
-   AGBh0WFj+Tv2esUYGLeCMqMVrs1v9kOE3Wlo3rDYXIXQ9XU0+6i35saXQ
-   kEwpkgR/ub8OqrgeHHYZweP+3Jn69Kww3Skaxmr0/6EuzakrdDSRnbE3B
-   dwna96tzpQrqADNkGtSIKa8p3PocveAj9SHF+gKsZacw8Nrmz9kA+iEgp
-   N1/br9pSXkn5w1WPfJKPimIkSs2hpoKUUrIvsI59cljZ2MQeONEPQLXbB
-   m8FggH5l3ivJAjMkjjkUEqpxNoo5pBDkUX5i5jRqdE6aXc3G8fi9Jzb3c
-   A==;
-X-CSE-ConnectionGUID: vV7QJSsqSwWKCVwMcwTNzQ==
-X-CSE-MsgGUID: qYk+LLiZTg6xO1RdUoP05g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58791624"
+  t=1740461741; x=1771997741;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YJdCnwsW0pSl8EGudP+zkEAPojJvpiNBIuv9hO6LA/0=;
+  b=V5uB6ukPg+avsKXB9t7Rpn/Ax9I1ogBgom01A4VS+0OCtAAOPWoOg2s1
+   3p2U74sDPp1g7t+jrkm93SPlAqHnBw1vAIrTOUdFdGhaPEbDhg4QaizgG
+   Wo4Pyd9cw1oeHGTB0fT/tM/fXa7sTp0ABiT8NTIGjiE0qWGn10b9uY0Ma
+   HrfLKokxMMrZ10N/ViWb3qDKyGusCbJ/fXBG3OlNFnSD1w3qSk91hFn65
+   FGxPpPUbZ6UQax10+/+Bmcnv2ZIBmjM9zA0vESNFfN9nnlHr3fqRqDV7/
+   4a2CKJc05tO1ei5BlzfiY5kBbTSeoBaMef/2r/uGYW0hVHs8HlgfSETDl
+   w==;
+X-CSE-ConnectionGUID: 1U/voyCyROS7J7dQK2UmSg==
+X-CSE-MsgGUID: vHcO+PIZT7q35YKEvBqoeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="58671397"
 X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="58791624"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 21:03:10 -0800
-X-CSE-ConnectionGUID: FTtwx+E9R/S3kATFv4pcnQ==
-X-CSE-MsgGUID: 7R5/+2ZHSn2fa9x4WY1E3g==
+   d="scan'208";a="58671397"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 21:35:41 -0800
+X-CSE-ConnectionGUID: BUYfEhA+TS2Z/BhoiFRXRA==
+X-CSE-MsgGUID: 808sZLpJSKmpnPI9Xk88IA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="120899348"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116769042"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Feb 2025 21:03:08 -0800
+  by orviesa007.jf.intel.com with ESMTP; 24 Feb 2025 21:35:41 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tmn5e-0009lj-37;
-	Tue, 25 Feb 2025 05:02:49 +0000
-Date: Tue, 25 Feb 2025 13:02:21 +0800
+	id 1tmnbV-0009od-30;
+	Tue, 25 Feb 2025 05:35:37 +0000
+Date: Tue, 25 Feb 2025 13:34:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: alison.schofield@intel.com, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-cxl@vger.kernel.org
-Subject: Re: [PATCH] cxl/region: Allow 6 & 12 way regions on 3-way HB
- interleaves
-Message-ID: <202502251245.NLuc888W-lkp@intel.com>
-References: <20250224235817.2259508-1-alison.schofield@intel.com>
+To: stephen.smalley.work@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ssmalley-selinuxns:working-selinuxns 12/45]
+ security/selinux/hooks.c:5271:41: warning: passing argument 1 of
+ 'selinux_xfrm_sock_rcv_skb' makes integer from pointer without a cast
+Message-ID: <202502251338.bnWxHSv5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,113 +62,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250224235817.2259508-1-alison.schofield@intel.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2bb67004903cfd35710750654669a77e7223fcd1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alison-schofield-intel-com/cxl-region-Allow-6-12-way-regions-on-3-way-HB-interleaves/20250225-080107
-base:   2bb67004903cfd35710750654669a77e7223fcd1
-patch link:    https://lore.kernel.org/r/20250224235817.2259508-1-alison.schofield%40intel.com
-patch subject: [PATCH] cxl/region: Allow 6 & 12 way regions on 3-way HB interleaves
-config: riscv-randconfig-001-20250225 (https://download.01.org/0day-ci/archive/20250225/202502251245.NLuc888W-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502251245.NLuc888W-lkp@intel.com/reproduce)
+tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
+head:   752b9498c24448fa4ace5104afa9a1c8ba1f2832
+commit: 897e85169ad60085853a3d494489bf6ab7dac182 [12/45] selinux: update hook functions to use correct selinux namespace
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250225/202502251338.bnWxHSv5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250225/202502251338.bnWxHSv5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502251245.NLuc888W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502251338.bnWxHSv5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/cxl/core/region.c:1852: warning: Function parameter or struct member 'multiple' not described in 'cxl_calc_interleave_pos'
+   security/selinux/hooks.c: In function 'selinux_sock_rcv_skb_compat':
+>> security/selinux/hooks.c:5271:41: warning: passing argument 1 of 'selinux_xfrm_sock_rcv_skb' makes integer from pointer without a cast [-Wint-conversion]
+    5271 |         err = selinux_xfrm_sock_rcv_skb(sksec, skb, &ad);
+         |                                         ^~~~~
+         |                                         |
+         |                                         struct sk_security_struct *
+   In file included from security/selinux/hooks.c:104:
+   security/selinux/include/xfrm.h:65:49: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'struct sk_security_struct *'
+      65 | static inline int selinux_xfrm_sock_rcv_skb(u32 sk_sid, struct sk_buff *skb,
+         |                                             ~~~~^~~~~~
+   security/selinux/hooks.c: In function 'selinux_ip_postroute_compat':
+   security/selinux/hooks.c:5970:63: error: passing argument 3 of 'selinux_xfrm_postroute_last' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    5970 |         if (selinux_xfrm_postroute_last(sksec->sid, skb, sksec->state, &ad,
+         |                                                          ~~~~~^~~~~~~
+         |                                                               |
+         |                                                               struct selinux_state *
+   In file included from security/selinux/hooks.c:104:
+   security/selinux/include/xfrm.h:72:73: note: expected 'struct common_audit_data *' but argument is of type 'struct selinux_state *'
+      72 |                                               struct common_audit_data *ad,
+         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+>> security/selinux/hooks.c:5970:72: warning: passing argument 4 of 'selinux_xfrm_postroute_last' makes integer from pointer without a cast [-Wint-conversion]
+    5970 |         if (selinux_xfrm_postroute_last(sksec->sid, skb, sksec->state, &ad,
+         |                                                                        ^~~
+         |                                                                        |
+         |                                                                        struct common_audit_data *
+   In file included from security/selinux/hooks.c:104:
+   security/selinux/include/xfrm.h:73:50: note: expected 'u8' {aka 'unsigned char'} but argument is of type 'struct common_audit_data *'
+      73 |                                               u8 proto)
+         |                                               ~~~^~~~~
+   security/selinux/hooks.c:5970:13: error: too many arguments to function 'selinux_xfrm_postroute_last'
+    5970 |         if (selinux_xfrm_postroute_last(sksec->sid, skb, sksec->state, &ad,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from security/selinux/hooks.c:104:
+   security/selinux/include/xfrm.h:71:19: note: declared here
+      71 | static inline int selinux_xfrm_postroute_last(u32 sk_sid, struct sk_buff *skb,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1852 drivers/cxl/core/region.c
+vim +/selinux_xfrm_sock_rcv_skb +5271 security/selinux/hooks.c
 
-a3e00c964fb9439 Alison Schofield 2023-10-27  1834  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1835  /**
-a3e00c964fb9439 Alison Schofield 2023-10-27  1836   * cxl_calc_interleave_pos() - calculate an endpoint position in a region
-a3e00c964fb9439 Alison Schofield 2023-10-27  1837   * @cxled: endpoint decoder member of given region
-a3e00c964fb9439 Alison Schofield 2023-10-27  1838   *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1839   * The endpoint position is calculated by traversing the topology from
-a3e00c964fb9439 Alison Schofield 2023-10-27  1840   * the endpoint to the root decoder and iteratively applying this
-a3e00c964fb9439 Alison Schofield 2023-10-27  1841   * calculation:
-a3e00c964fb9439 Alison Schofield 2023-10-27  1842   *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1843   *    position = position * parent_ways + parent_pos;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1844   *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1845   * ...where @position is inferred from switch and root decoder target lists.
-a3e00c964fb9439 Alison Schofield 2023-10-27  1846   *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1847   * Return: position >= 0 on success
-a3e00c964fb9439 Alison Schofield 2023-10-27  1848   *	   -ENXIO on failure
-a3e00c964fb9439 Alison Schofield 2023-10-27  1849   */
-22639743643957e Alison Schofield 2025-02-24  1850  static int cxl_calc_interleave_pos(struct cxl_endpoint_decoder *cxled,
-22639743643957e Alison Schofield 2025-02-24  1851  				   int multiple)
-a3e00c964fb9439 Alison Schofield 2023-10-27 @1852  {
-a3e00c964fb9439 Alison Schofield 2023-10-27  1853  	struct cxl_port *iter, *port = cxled_to_port(cxled);
-a3e00c964fb9439 Alison Schofield 2023-10-27  1854  	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-a3e00c964fb9439 Alison Schofield 2023-10-27  1855  	struct range *range = &cxled->cxld.hpa_range;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1856  	int parent_ways = 0, parent_pos = 0, pos = 0;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1857  	int rc;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1858  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1859  	/*
-a3e00c964fb9439 Alison Schofield 2023-10-27  1860  	 * Example: the expected interleave order of the 4-way region shown
-a3e00c964fb9439 Alison Schofield 2023-10-27  1861  	 * below is: mem0, mem2, mem1, mem3
-a3e00c964fb9439 Alison Schofield 2023-10-27  1862  	 *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1863  	 *		  root_port
-a3e00c964fb9439 Alison Schofield 2023-10-27  1864  	 *                 /      \
-a3e00c964fb9439 Alison Schofield 2023-10-27  1865  	 *      host_bridge_0    host_bridge_1
-a3e00c964fb9439 Alison Schofield 2023-10-27  1866  	 *        |    |           |    |
-a3e00c964fb9439 Alison Schofield 2023-10-27  1867  	 *       mem0 mem1        mem2 mem3
-a3e00c964fb9439 Alison Schofield 2023-10-27  1868  	 *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1869  	 * In the example the calculator will iterate twice. The first iteration
-a3e00c964fb9439 Alison Schofield 2023-10-27  1870  	 * uses the mem position in the host-bridge and the ways of the host-
-a3e00c964fb9439 Alison Schofield 2023-10-27  1871  	 * bridge to generate the first, or local, position. The second
-a3e00c964fb9439 Alison Schofield 2023-10-27  1872  	 * iteration uses the host-bridge position in the root_port and the ways
-a3e00c964fb9439 Alison Schofield 2023-10-27  1873  	 * of the root_port to refine the position.
-a3e00c964fb9439 Alison Schofield 2023-10-27  1874  	 *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1875  	 * A trace of the calculation per endpoint looks like this:
-a3e00c964fb9439 Alison Schofield 2023-10-27  1876  	 * mem0: pos = 0 * 2 + 0    mem2: pos = 0 * 2 + 0
-a3e00c964fb9439 Alison Schofield 2023-10-27  1877  	 *       pos = 0 * 2 + 0          pos = 0 * 2 + 1
-a3e00c964fb9439 Alison Schofield 2023-10-27  1878  	 *       pos: 0                   pos: 1
-a3e00c964fb9439 Alison Schofield 2023-10-27  1879  	 *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1880  	 * mem1: pos = 0 * 2 + 1    mem3: pos = 0 * 2 + 1
-a3e00c964fb9439 Alison Schofield 2023-10-27  1881  	 *       pos = 1 * 2 + 0          pos = 1 * 2 + 1
-a3e00c964fb9439 Alison Schofield 2023-10-27  1882  	 *       pos: 2                   pos = 3
-a3e00c964fb9439 Alison Schofield 2023-10-27  1883  	 *
-a3e00c964fb9439 Alison Schofield 2023-10-27  1884  	 * Note that while this example is simple, the method applies to more
-a3e00c964fb9439 Alison Schofield 2023-10-27  1885  	 * complex topologies, including those with switches.
-a3e00c964fb9439 Alison Schofield 2023-10-27  1886  	 */
-a3e00c964fb9439 Alison Schofield 2023-10-27  1887  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1888  	/* Iterate from endpoint to root_port refining the position */
-a3e00c964fb9439 Alison Schofield 2023-10-27  1889  	for (iter = port; iter; iter = next_port(iter)) {
-a3e00c964fb9439 Alison Schofield 2023-10-27  1890  		if (is_cxl_root(iter))
-a3e00c964fb9439 Alison Schofield 2023-10-27  1891  			break;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1892  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1893  		rc = find_pos_and_ways(iter, range, &parent_pos, &parent_ways);
-a3e00c964fb9439 Alison Schofield 2023-10-27  1894  		if (rc)
-a3e00c964fb9439 Alison Schofield 2023-10-27  1895  			return rc;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1896  
-22639743643957e Alison Schofield 2025-02-24  1897  		if (multiple > 1 && is_cxl_root(next_port(iter))) {
-22639743643957e Alison Schofield 2025-02-24  1898  			pos = pos + multiple * parent_pos;
-22639743643957e Alison Schofield 2025-02-24  1899  			break;
-22639743643957e Alison Schofield 2025-02-24  1900  		}
-22639743643957e Alison Schofield 2025-02-24  1901  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1902  		pos = pos * parent_ways + parent_pos;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1903  	}
-a3e00c964fb9439 Alison Schofield 2023-10-27  1904  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1905  	dev_dbg(&cxlmd->dev,
-a3e00c964fb9439 Alison Schofield 2023-10-27  1906  		"decoder:%s parent:%s port:%s range:%#llx-%#llx pos:%d\n",
-a3e00c964fb9439 Alison Schofield 2023-10-27  1907  		dev_name(&cxled->cxld.dev), dev_name(cxlmd->dev.parent),
-a3e00c964fb9439 Alison Schofield 2023-10-27  1908  		dev_name(&port->dev), range->start, range->end, pos);
-a3e00c964fb9439 Alison Schofield 2023-10-27  1909  
-a3e00c964fb9439 Alison Schofield 2023-10-27  1910  	return pos;
-a3e00c964fb9439 Alison Schofield 2023-10-27  1911  }
-a3e00c964fb9439 Alison Schofield 2023-10-27  1912  
+  5244	
+  5245	static int selinux_sock_rcv_skb_compat(struct sock *sk, struct sk_buff *skb,
+  5246					       u16 family)
+  5247	{
+  5248		int err = 0;
+  5249		struct sk_security_struct *sksec = selinux_sock(sk);
+  5250		u32 sk_sid = sksec->sid;
+  5251		struct selinux_state *state = sksec->state;
+  5252		struct common_audit_data ad;
+  5253		struct lsm_network_audit net;
+  5254		char *addrp;
+  5255	
+  5256		ad_net_init_from_iif(&ad, &net, skb->skb_iif, family);
+  5257		err = selinux_parse_skb(skb, &ad, &addrp, 1, NULL);
+  5258		if (err)
+  5259			return err;
+  5260	
+  5261		if (selinux_secmark_enabled()) {
+  5262			err = avc_has_perm(state, sk_sid, skb->secmark, SECCLASS_PACKET,
+  5263					   PACKET__RECV, &ad);
+  5264			if (err)
+  5265				return err;
+  5266		}
+  5267	
+  5268		err = selinux_netlbl_sock_rcv_skb(sksec, skb, family, &ad);
+  5269		if (err)
+  5270			return err;
+> 5271		err = selinux_xfrm_sock_rcv_skb(sksec, skb, &ad);
+  5272	
+  5273		return err;
+  5274	}
+  5275	
 
 -- 
 0-DAY CI Kernel Test Service
