@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEBC21ABB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 05:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE69B67A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 05:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740546083; cv=none; b=u+BBBva+VOe6aKaU7JbrxAy6DSDg9XskHsYCDtK/RnQdrwx2B4uCxUToNqPNRDhc78TVnFKejL5w9vCmvf8XXXJI//OUfLLydso/U9wKYEYAiuv9UObFcE1d4Ka7Y+lPTFRIXKYV0Q8FZBeKUFY0gANronZMOVqMchLV5Z/9Am8=
+	t=1740547436; cv=none; b=Fjhm5xJAc671G9mmbOSGRb9/1M6ERIHm30Gya3vfCJBW0D3Xd7GEQ7Z53RzigSPgUiM/YX6zsovutEvWnTGOVOvy8DU8SG7/Z1PpVkjBSURC944z0PS4YV8XAj+f11SsD9Q97ID2xczPjVfqHd5gRL2IA8dmKqIldGcQ347MpK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740546083; c=relaxed/simple;
-	bh=eL1jgGsCKQBM27kcAea4rTdGKcwuGmnVUE14WU3md3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OJ7uv4q/9LiAYzgoflpWVihqalH0FEu9FdnDp225lbJ4AsV8K8hsiNLSvm7RM2pPxFcSCJHLd8povWZ5uk4A4i5rbszaEXsktcGDaVRuU/mJx2TzhkUMqcuMIaJswXkcIhFN3Zsy/Ez4w3zpqh0gGN4PCKsa9T4lLvU26l6NS3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aUvxEnxy; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1740547436; c=relaxed/simple;
+	bh=hsNq+ky1CZ2eWWp1fULZlDRNRpv5S7U+YFzAGt4kO/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S49HySMBpNWF/FzJw0BsTGpnz/vswmGcE0FMW2wZhuC3RGylfQusxRxo3eyLfp2Y0y7QCT4UEoCCTKueOqcZ1COf/IPoTE+53pQruZyFZv+BCx8O9zewrGaAv29o5OdJUHP0UplZI59jOKqMJQBXpPXXkPcz1QUEP445BjyYXSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBL15OOc; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aUvxEnxy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBL15OOc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740546080; x=1772082080;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eL1jgGsCKQBM27kcAea4rTdGKcwuGmnVUE14WU3md3g=;
-  b=aUvxEnxyupD4BrXwpq/IR1f1nK4ESgKJPT/ivpxb6zJp12hnZS9VS5Sf
-   ToRVd9OhRtwUSbhftQYNAVKq2BRn/aB72ugCZpgJWydLCDz3doCb0I3r8
-   ZUdFM92m8rO8BXr0mdfsbHaDHA9ESf3abde/SnkvNU76ASFV9KlO5wwIk
-   FKtTFMU8pVFPHjcT3QqNua2LyQpXMeBp/6UtgVHpXjdcek9DrCLgcCoaU
-   gv2LBXXSI3zpgZt3zvbunobfcJbKMAbbzoZBx1rwvuItJOddXElU4H5X1
-   GDon93fJeM1zW3G+WPEOTxomgOUW0kJcXTm+DzsbQk4lyb6RM5lht72zb
-   A==;
-X-CSE-ConnectionGUID: V0MyDJTCQ8WqhRr/6/x9NQ==
-X-CSE-MsgGUID: zEgvuVPERUeKwV8Bk6Mcow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41396660"
+  t=1740547434; x=1772083434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hsNq+ky1CZ2eWWp1fULZlDRNRpv5S7U+YFzAGt4kO/I=;
+  b=bBL15OOc+3+/U1atTlVCzYr4fGE9maCt0aqGyXBHJk5xoiYX1faHfev6
+   US2xBfygTiz7V7Xa3KBSmKTajKAKsTddaA8OXetDF5YvLEI9twVRJpHC/
+   aiQJ9UFyBB4b6NJ0ESTfJwuE/kc8UREJXTi+nRDKxeg53LG1y0EXAaCWC
+   kiAf/YV8Q8iDS6YOco8gu3DJB3H82sdHB71swZXyAVrIfzSR9VTk2yOYF
+   rnIrEHNU4B1RGGJhqCxd7fn5UuAyPVgNvmSy3pr2/Hdxx9q4S+GYLA3bi
+   qTzf1KFcxlmwyUniqQXMFfLhQaQZcMMpotpdBMY+uVSUHVtm1ZH+t2k56
+   Q==;
+X-CSE-ConnectionGUID: m99HIqgURjmufnb6yRoVMw==
+X-CSE-MsgGUID: BVJKUjktSAKnunclrd4MFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="45294045"
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="41396660"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 21:01:20 -0800
-X-CSE-ConnectionGUID: lGPs2XPaRfqnhzcXkslitw==
-X-CSE-MsgGUID: Xxhv3RJ9SXaGlPngDJ3Aig==
+   d="scan'208";a="45294045"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 21:23:53 -0800
+X-CSE-ConnectionGUID: hkr0ZdHSRYeq+gNbVpE3JQ==
+X-CSE-MsgGUID: KBKu5FpXS6WH0XHyO3nfOg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="116385349"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121847677"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 25 Feb 2025 21:01:18 -0800
+  by orviesa005.jf.intel.com with ESMTP; 25 Feb 2025 21:23:53 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tn9Xn-000BBB-1y;
-	Wed, 26 Feb 2025 05:01:15 +0000
-Date: Wed, 26 Feb 2025 12:59:53 +0800
+	id 1tn9sM-000BCR-0z;
+	Wed, 26 Feb 2025 05:22:51 +0000
+Date: Wed, 26 Feb 2025 13:21:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>
-Subject: drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter
- or struct member 'irq_mask' not described in 'tegra_devfreq_device_config'
-Message-ID: <202502261254.nyRjWic9-lkp@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 3/6] drm/xe/vrsr: Apis to init and enable VRSR feature
+Message-ID: <202502261332.3GzxfFDL-lkp@intel.com>
+References: <20250224164849.3746751-4-anshuman.gupta@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,229 +62,184 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250224164849.3746751-4-anshuman.gupta@intel.com>
 
-Hi Johannes,
+Hi Anshuman,
 
-First bad commit (maybe != root cause):
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7
-commit: 68f5d3f3b6543266b29e047cfaf9842333019b4c um: add PCI over virtio emulation driver
-date:   3 years, 8 months ago
-config: um-randconfig-r052-20240430 (https://download.01.org/0day-ci/archive/20250226/202502261254.nyRjWic9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261254.nyRjWic9-lkp@intel.com/reproduce)
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20250225]
+[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge pci/next pci/for-linus linus/master v6.14-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Gupta/PCI-ACPI-Implement-PCI-FW-_DSM-method/20250225-005537
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250224164849.3746751-4-anshuman.gupta%40intel.com
+patch subject: [RFC 3/6] drm/xe/vrsr: Apis to init and enable VRSR feature
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250226/202502261332.3GzxfFDL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261332.3GzxfFDL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502261254.nyRjWic9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502261332.3GzxfFDL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/char/applicom.c: In function 'ac_register_board':
->> drivers/char/applicom.c:131:32: warning: variable 'byte_reset_it' set but not used [-Wunused-but-set-variable]
-     131 |         volatile unsigned char byte_reset_it;
-         |                                ^~~~~~~~~~~~~
-   drivers/char/applicom.c: In function 'ac_read':
->> drivers/char/applicom.c:540:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     540 |         int ret = 0;
-         |             ^~~
-   drivers/char/applicom.c: In function 'ac_ioctl':
-   drivers/char/applicom.c:703:32: warning: variable 'byte_reset_it' set but not used [-Wunused-but-set-variable]
-     703 |         volatile unsigned char byte_reset_it;
-         |                                ^~~~~~~~~~~~~
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_bo.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_bo.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_bo_evict.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_bo_evict.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_devcoredump.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_devcoredump.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_device.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_device.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_device_sysfs.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_device_sysfs.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_dma_buf.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_dma_buf.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_drm_client.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_drm_client.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_exec.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_exec.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_exec_queue.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_exec_queue.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_execlist.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_execlist.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_force_wake.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_force_wake.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_ggtt.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_ggtt.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc_debugfs.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc_debugfs.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc_proxy.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc_proxy.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc_submit.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gsc_submit.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_ccs_mode.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_ccs_mode.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_clock.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_clock.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_freq.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_freq.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_idle.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_idle.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_mcr.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_mcr.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_pagefault.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_pagefault.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_sysfs.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_sysfs.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_throttle.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_throttle.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_tlb_invalidation.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_tlb_invalidation.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_topology.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_gt_topology.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_ads.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_ads.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_buf.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_buf.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_capture.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_capture.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_ct.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_ct.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_db_mgr.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_db_mgr.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_hwconfig.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_hwconfig.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_id_mgr.o: in function `pci_acpi_request_d3cold_aux_power':
+   (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/xe_guc_id_mgr.o: in function `pci_acpi_add_perst_assertion_delay':
+   (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/xe_bb.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
 --
-   drivers/char/sonypi.c: In function 'sonypi_call1':
->> drivers/char/sonypi.c:637:12: warning: variable 'v1' set but not used [-Wunused-but-set-variable]
-     637 |         u8 v1, v2;
-         |            ^~
---
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'offset' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'irq_mask' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'boost_up_coeff' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'boost_down_coeff' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'boost_up_threshold' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'boost_down_threshold' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:100: warning: Function parameter or struct member 'avg_dependency_threshold' not described in 'tegra_devfreq_device_config'
->> drivers/devfreq/tegra30-devfreq.c:171: warning: Function parameter or struct member 'config' not described in 'tegra_devfreq_device'
->> drivers/devfreq/tegra30-devfreq.c:171: warning: Function parameter or struct member 'regs' not described in 'tegra_devfreq_device'
->> drivers/devfreq/tegra30-devfreq.c:171: warning: Function parameter or struct member 'avg_count' not described in 'tegra_devfreq_device'
->> drivers/devfreq/tegra30-devfreq.c:171: warning: Function parameter or struct member 'boost_freq' not described in 'tegra_devfreq_device'
->> drivers/devfreq/tegra30-devfreq.c:171: warning: Function parameter or struct member 'target_freq' not described in 'tegra_devfreq_device'
---
-   drivers/hwmon/aht10.c:87: warning: Excess function parameter 'client' description in 'aht10_init'
-   drivers/hwmon/aht10.c:131: warning: Function parameter or struct member 'data' not described in 'aht10_read_values'
-   drivers/hwmon/aht10.c:131: warning: Excess function parameter 'aht10_data' description in 'aht10_read_values'
->> drivers/hwmon/aht10.c:184: warning: Function parameter or struct member 'data' not described in 'aht10_interval_write'
->> drivers/hwmon/aht10.c:184: warning: Function parameter or struct member 'val' not described in 'aht10_interval_write'
->> drivers/hwmon/aht10.c:195: warning: Function parameter or struct member 'data' not described in 'aht10_interval_read'
->> drivers/hwmon/aht10.c:195: warning: Function parameter or struct member 'val' not described in 'aht10_interval_read'
->> drivers/hwmon/aht10.c:204: warning: Function parameter or struct member 'data' not described in 'aht10_temperature1_read'
->> drivers/hwmon/aht10.c:204: warning: Function parameter or struct member 'val' not described in 'aht10_temperature1_read'
->> drivers/hwmon/aht10.c:219: warning: Function parameter or struct member 'data' not described in 'aht10_humidity1_read'
->> drivers/hwmon/aht10.c:219: warning: Function parameter or struct member 'val' not described in 'aht10_humidity1_read'
---
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'timing0' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'timing1' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'timing2' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'dmach' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'pio_data' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'addr_data' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'sg_io' not described in 'mxs_i2c_dev'
->> drivers/i2c/busses/i2c-mxs.c:131: warning: Function parameter or struct member 'dma_read' not described in 'mxs_i2c_dev'
---
-   drivers/net/ethernet/broadcom/bnx2.c: In function 'bnx2_tx_int':
->> drivers/net/ethernet/broadcom/bnx2.c:2890:47: warning: variable 'tx_buf' set but not used [-Wunused-but-set-variable]
-    2890 |                         struct bnx2_sw_tx_bd *tx_buf;
-         |                                               ^~~~~~
-   drivers/net/ethernet/broadcom/bnx2.c: In function 'bnx2_reuse_rx_data':
->> drivers/net/ethernet/broadcom/bnx2.c:2998:28: warning: variable 'cons_rx_buf' set but not used [-Wunused-but-set-variable]
-    2998 |         struct bnx2_sw_bd *cons_rx_buf, *prod_rx_buf;
-         |                            ^~~~~~~~~~~
---
->> drivers/ntb/msi.c:33: warning: Function parameter or struct member 'desc_changed' not described in 'ntb_msi_init'
-   drivers/ntb/msi.c:283: warning: Function parameter or struct member 'name' not described in 'ntbm_msi_request_threaded_irq'
-   drivers/ntb/msi.c:283: warning: Function parameter or struct member 'msi_desc' not described in 'ntbm_msi_request_threaded_irq'
-   drivers/ntb/msi.c:283: warning: Excess function parameter 'devname' description in 'ntbm_msi_request_threaded_irq'
---
-   drivers/rapidio/rio_cm.c: In function 'rio_txcq_handler':
->> drivers/rapidio/rio_cm.c:673:21: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
-     673 |                 int rc;
-         |                     ^~
---
->> drivers/rtc/rtc-omap.c:411: warning: Function parameter or struct member 'dev' not described in 'omap_rtc_power_off_program'
---
->> drivers/rtc/rtc-fsl-ftm-alarm.c:315:36: warning: 'ftm_imx_acpi_ids' defined but not used [-Wunused-const-variable=]
-     315 | static const struct acpi_device_id ftm_imx_acpi_ids[] = {
-         |                                    ^~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE
-   Depends on [n]: VT [=n] && FB [=y] && !UML [=y]
-   Selected by [y]:
-   - DRM_KMS_FB_HELPER [=y] && HAS_IOMEM [=y] && DRM_KMS_HELPER [=y] && !EXPERT [=n]
-   WARNING: unmet direct dependencies detected for FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
-   Depends on [n]: VT [=n] && FRAMEBUFFER_CONSOLE [=y]
-   Selected by [y]:
-   - DRM_KMS_FB_HELPER [=y] && HAS_IOMEM [=y] && DRM_KMS_HELPER [=y] && FRAMEBUFFER_CONSOLE [=y]
-   WARNING: unmet direct dependencies detected for VT_HW_CONSOLE_BINDING
-   Depends on [n]: TTY [=y] && HW_CONSOLE [=n]
-   Selected by [y]:
-   - DRM_TVE200 [=y] && HAS_IOMEM [=y] && DRM [=y] && CMA [=y] && (ARM || COMPILE_TEST [=y]) && OF [=y] && FRAMEBUFFER_CONSOLE [=y]
-   Selected by [m]:
-   - DRM_INGENIC [=m] && HAS_IOMEM [=y] && (MIPS || COMPILE_TEST [=y]) && DRM [=y] && CMA [=y] && OF [=y] && COMMON_CLK [=y] && FRAMEBUFFER_CONSOLE [=y]
-   - DRM_PL111 [=m] && HAS_IOMEM [=y] && DRM [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && FRAMEBUFFER_CONSOLE [=y]
-   - DRM_MCDE [=m] && HAS_IOMEM [=y] && DRM [=y] && CMA [=y] && (ARM || COMPILE_TEST [=y]) && OF [=y] && COMMON_CLK [=y] && FRAMEBUFFER_CONSOLE [=y]
-
-
-vim +100 drivers/devfreq/tegra30-devfreq.c
-
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   74  
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   75  /**
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   76   * struct tegra_devfreq_device_config - configuration specific to an ACTMON
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   77   * device
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   78   *
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   79   * Coefficients and thresholds are percentages unless otherwise noted
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   80   */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   81  struct tegra_devfreq_device_config {
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   82  	u32		offset;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   83  	u32		irq_mask;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   84  
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   85  	/* Factors applied to boost_freq every consecutive watermark breach */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   86  	unsigned int	boost_up_coeff;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   87  	unsigned int	boost_down_coeff;
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   88  
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   89  	/* Define the watermark bounds when applied to the current avg */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   90  	unsigned int	boost_up_threshold;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   91  	unsigned int	boost_down_threshold;
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   92  
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   93  	/*
-28615e37be9687 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2019-11-05   94  	 * Threshold of activity (cycles translated to kHz) below which the
-28615e37be9687 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2019-11-05   95  	 * CPU frequency isn't to be taken into account. This is to avoid
-28615e37be9687 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2019-11-05   96  	 * increasing the EMC frequency when the CPU is very busy but not
-28615e37be9687 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2019-11-05   97  	 * accessing the bus often.
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17   98  	 */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24   99  	u32		avg_dependency_threshold;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24 @100  };
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  101  
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  102  enum tegra_actmon_device {
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  103  	MCALL = 0,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  104  	MCCPU,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  105  };
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  106  
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  107  static const struct tegra_devfreq_device_config tegra124_device_configs[] = {
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  108  	{
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  109  		/* MCALL: All memory accesses (including from the CPUs) */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  110  		.offset = 0x1c0,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  111  		.irq_mask = 1 << 26,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  112  		.boost_up_coeff = 200,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  113  		.boost_down_coeff = 50,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  114  		.boost_up_threshold = 60,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  115  		.boost_down_threshold = 40,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  116  	},
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  117  	{
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  118  		/* MCCPU: memory accesses from the CPUs */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  119  		.offset = 0x200,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  120  		.irq_mask = 1 << 25,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  121  		.boost_up_coeff = 800,
-fee22854c02735 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2019-11-05  122  		.boost_down_coeff = 40,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  123  		.boost_up_threshold = 27,
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  124  		.boost_down_threshold = 10,
-28615e37be9687 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2019-11-05  125  		.avg_dependency_threshold = 16000, /* 16MHz in kHz units */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  126  	},
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  127  };
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  128  
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  129  static const struct tegra_devfreq_device_config tegra30_device_configs[] = {
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  130  	{
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  131  		/* MCALL: All memory accesses (including from the CPUs) */
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  132  		.offset = 0x1c0,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  133  		.irq_mask = 1 << 26,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  134  		.boost_up_coeff = 200,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  135  		.boost_down_coeff = 50,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  136  		.boost_up_threshold = 20,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  137  		.boost_down_threshold = 10,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  138  	},
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  139  	{
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  140  		/* MCCPU: memory accesses from the CPUs */
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  141  		.offset = 0x200,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  142  		.irq_mask = 1 << 25,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  143  		.boost_up_coeff = 800,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  144  		.boost_down_coeff = 40,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  145  		.boost_up_threshold = 27,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  146  		.boost_down_threshold = 10,
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  147  		.avg_dependency_threshold = 16000, /* 16MHz in kHz units */
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  148  	},
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  149  };
-6a575e84f11e15 drivers/devfreq/tegra30-devfreq.c Dmitry Osipenko 2020-12-03  150  
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  151  /**
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  152   * struct tegra_devfreq_device - state specific to an ACTMON device
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  153   *
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  154   * Frequencies are in kHz.
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  155   */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  156  struct tegra_devfreq_device {
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  157  	const struct tegra_devfreq_device_config *config;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  158  	void __iomem *regs;
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  159  
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  160  	/* Average event count sampled in the last interrupt */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  161  	u32 avg_count;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  162  
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  163  	/*
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  164  	 * Extra frequency to increase the target by due to consecutive
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  165  	 * watermark breaches.
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  166  	 */
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  167  	unsigned long boost_freq;
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  168  
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  169  	/* Optimal frequency calculated from the stats for this device */
-11573e9132ae40 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2015-03-17  170  	unsigned long target_freq;
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24 @171  };
-6234f38016ad56 drivers/devfreq/tegra-devfreq.c   Tomeu Vizoso    2014-11-24  172  
-
-:::::: The code at line 100 was first introduced by commit
-:::::: 6234f38016ad56321ad0e4bfb57a10a3d940380a PM / devfreq: tegra: add devfreq driver for Tegra Activity Monitor
-
-:::::: TO: Tomeu Vizoso <tomeu.vizoso@collabora.com>
-:::::: CC: MyungJoo Ham <myungjoo.ham@samsung.com>
+   hppa-linux-ld: drivers/gpu/drm/xe/tests/xe_rtp_test.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/tests/xe_pci_test.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/tests/xe_rtp_test.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/tests/xe_pci_test.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/tests/xe_wa_test.o: in function `pci_acpi_request_d3cold_aux_power':
+>> (.text.pci_acpi_request_d3cold_aux_power+0x10): multiple definition of `pci_acpi_request_d3cold_aux_power'; drivers/gpu/drm/xe/tests/xe_pci_test.o:(.text.pci_acpi_request_d3cold_aux_power+0x10): first defined here
+   hppa-linux-ld: drivers/gpu/drm/xe/tests/xe_wa_test.o: in function `pci_acpi_add_perst_assertion_delay':
+>> (.text.pci_acpi_add_perst_assertion_delay+0x10): multiple definition of `pci_acpi_add_perst_assertion_delay'; drivers/gpu/drm/xe/tests/xe_pci_test.o:(.text.pci_acpi_add_perst_assertion_delay+0x10): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
