@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8964E22DFBF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 03:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5881A08B8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 04:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740539700; cv=none; b=FihEZxRzX8xWElUDKRmGr6lP6SpSQFJfBOzsBv7nJpO9ELKslG8SvEkxJ6neINY/ymYNcV3WedjOsRcDuYcS+J88ETomysc8WEgDXeNWCvyZAQEgEfj9ZP6Q6E7vL7WfwTecqsYTryJmNUC33q3GUrhuEbJqMzChE8IyI5/rJ2U=
+	t=1740542766; cv=none; b=CFKJm9LxMyDUk3KokmOfxhProAxetgvZ/Pr+DgPYoWDcy2205dHbAsdAkgzsxQuNmgaNadSvaPV/ChO2FkT5+XhsAkWzY9b4dmVSIA1JVEaPBasHQlr+bxMybYJChw7q9ILtBQOgfvz1BcKZRMg4fkrLDr2vIldI5DxIYZelehw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740539700; c=relaxed/simple;
-	bh=W6XD2/MQZj2eOwyfRfUaZAX9Y5USvTF+h2+B2TL0ACg=;
+	s=arc-20240116; t=1740542766; c=relaxed/simple;
+	bh=P3pW0eZEsq4Rky8QmFi3pcoZ0BNh0GsgZ3ry24YZW5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oyxDUxtwL+mIzSvp+ml9m9rRaZch+OMOIeVPW13tL8PAcGGqqKpVRVxmwHOeVOlGXFcJzUC1jHrN440C/5736acm3H3QKxovhHl9CwfJsHyADtO4p4oCuv1BTCdwqNiQemxuxjALRXhzm108XMoAqI9XIwNRKuZRs/IxVqbU8bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fiMxDIK4; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=o54Js3DAv5j8MwjJOzxbh2ECGKvIJihBtUFsrQQdL/uEWd7XCq5icAyy4Rkrj+sbZ24xdFHIcPkN3U+URckWsj+rMvRF2AD7ZJxgprqrn8vs4w+DcUIwleYnNxls9uQXJKtND50Mdnde2BgT/QuhmbyG8pM0zNch2YObIClSf9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHzNzaVk; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fiMxDIK4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHzNzaVk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740539698; x=1772075698;
+  t=1740542763; x=1772078763;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W6XD2/MQZj2eOwyfRfUaZAX9Y5USvTF+h2+B2TL0ACg=;
-  b=fiMxDIK4WtVm2YFLpYeiYkQZWET1NMdZby1LjE8IBYhqVFkpdaHNm0Pu
-   tUe+2FLtzWaki1LxwV7984KiKcijA7ST+bqb/+nZgXqQEVxcvllD9qciA
-   SBaKteFxzHUStCsHjtLBJtlU6q3iJe95ZNCUvVu6UL40eEKRlfH2wXhlG
-   TiFDYZGca4v/W0bko4DozS5aIylQvKwPxtcyfSJYZ4IF1xz3shEhKQaBS
-   OoUTSfeaUwzep4oPssJKEBC4oyJ0v5ANcvFmdWrWePL5zelyteYQ34K6/
-   s/kl9/u8j/1RRP3LD8wO9YwYl6ghCzcES7lqDwKsvQt+lrXyCQVronqbK
-   w==;
-X-CSE-ConnectionGUID: DCZedVobSpa2s/bpMa6fsw==
-X-CSE-MsgGUID: ccNP59OnRc+OOobuwrwJqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41505484"
+  bh=P3pW0eZEsq4Rky8QmFi3pcoZ0BNh0GsgZ3ry24YZW5Y=;
+  b=OHzNzaVkJW9Jw23tEPCJ01cCLyYXM9xLumlJtCYBwmASFpDeFe6eyUMN
+   L+xeTcLA3wpkMTDNj91Gjv2u43KIrsFFBijsvMWRCuo00xwGkOapVT4ny
+   ldfh65vSWmo0AIWsINagGeDg7THoUxEF7rnIAchbeFwIahXKDjU/MAxNu
+   d0X+ZzYzxxttg01wf3i/I6dIs7a0slAjs5Gzo/tC0P175McMfsoBlUHgW
+   E4pb+dEEeqkeuhDtpPiohK+Wr+W8/s2WVno4ox3u/dt6+GvavzJI1oLUH
+   GBiajQqkBwpmnxT2mO3YcYPlVS/691uCLzxPRzg5eLfVq6jKx1Vc9hhkT
+   A==;
+X-CSE-ConnectionGUID: NtkjATyYTyKbdjkb+HSuvw==
+X-CSE-MsgGUID: Q4FY/nIAQymGzBkUypL4qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="44199044"
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="41505484"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 19:14:57 -0800
-X-CSE-ConnectionGUID: eGwp2gxVRXmGIRIsM0oS1w==
-X-CSE-MsgGUID: hQ/Zktp5RIaOYIAYB6czNQ==
+   d="scan'208";a="44199044"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 20:06:03 -0800
+X-CSE-ConnectionGUID: HyQ5oFFFSkSQtUUjfMoEwg==
+X-CSE-MsgGUID: yjYsd3wfTBSMgVlWPOpZnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="121193736"
+   d="scan'208";a="116393879"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Feb 2025 19:14:12 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 25 Feb 2025 20:06:01 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tn7sA-000B4M-0f;
-	Wed, 26 Feb 2025 03:14:10 +0000
-Date: Wed, 26 Feb 2025 11:13:27 +0800
+	id 1tn8gJ-000B6T-0E;
+	Wed, 26 Feb 2025 04:05:59 +0000
+Date: Wed, 26 Feb 2025 12:05:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2768/2768] arch/x86/kernel/fpu/core.c:452:15:
- warning: no previous prototype for function 'get_fpu_registers_pos'
-Message-ID: <202502261100.jDFUgPr4-lkp@intel.com>
+To: Jordan Niethe <jniethe5@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Alistair Popple <alistair@popple.id.au>
+Subject: arch/powerpc/lib/sstep.c:1172:28: warning: variable 'suffix' set but
+ not used
+Message-ID: <202502261215.YbtZ3kzV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,165 +64,198 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   a3384275f6f1faae9ddfeb8d95a66345f1e58b94
-commit: 0cd6fd52741f659d2a57501ca933ab33040cb911 [2768/2768] mm: Enhanced copy capabilities for Hygon processor
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250226/202502261100.jDFUgPr4-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261100.jDFUgPr4-lkp@intel.com/reproduce)
+Hi Jordan,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7
+commit: 650b55b707fdfa764e9f2b81314d3eb4216fb962 powerpc: Add prefixed instructions to instruction data type
+date:   4 years, 9 months ago
+config: powerpc-randconfig-003-20231218 (https://download.01.org/0day-ci/archive/20250226/202502261215.YbtZ3kzV-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261215.YbtZ3kzV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502261100.jDFUgPr4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502261215.YbtZ3kzV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/fpu/core.c:14:
-   In file included from arch/x86/include/asm/traps.h:6:
-   In file included from include/linux/kprobes.h:29:
-   In file included from include/linux/ftrace.h:11:
-   In file included from include/linux/kallsyms.h:12:
-   In file included from include/linux/mm.h:1587:
-   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     418 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     425 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     437 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:445:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     445 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     446 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/fpu/core.c:444:14: warning: no previous prototype for function 'get_fpustate_free_space' [-Wmissing-prototypes]
-     444 | unsigned int get_fpustate_free_space(struct fpu *fpu)
-         |              ^
-   arch/x86/kernel/fpu/core.c:444:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     444 | unsigned int get_fpustate_free_space(struct fpu *fpu)
-         | ^
-         | static 
->> arch/x86/kernel/fpu/core.c:452:15: warning: no previous prototype for function 'get_fpu_registers_pos' [-Wmissing-prototypes]
-     452 | unsigned long get_fpu_registers_pos(struct fpu *fpu, unsigned int off)
-         |               ^
-   arch/x86/kernel/fpu/core.c:452:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     452 | unsigned long get_fpu_registers_pos(struct fpu *fpu, unsigned int off)
-         | ^
-         | static 
->> arch/x86/kernel/fpu/core.c:533:6: warning: no previous prototype for function 'save_fpregs_to_fpkernelstate' [-Wmissing-prototypes]
-     533 | void save_fpregs_to_fpkernelstate(struct fpu *kfpu)
-         |      ^
-   arch/x86/kernel/fpu/core.c:533:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     533 | void save_fpregs_to_fpkernelstate(struct fpu *kfpu)
-         | ^
-         | static 
-   8 warnings generated.
+   arch/powerpc/lib/sstep.c: In function 'analyse_instr':
+>> arch/powerpc/lib/sstep.c:1172:28: warning: variable 'suffix' set but not used [-Wunused-but-set-variable]
+    1172 |         unsigned int word, suffix;
+         |                            ^~~~~~
+   arch/powerpc/lib/sstep.c:1168:38: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+    1168 |         unsigned int opcode, ra, rb, rc, rd, spr, u;
+         |                                      ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=y] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
 
 
-vim +/get_fpu_registers_pos +452 arch/x86/kernel/fpu/core.c
+vim +/suffix +1172 arch/powerpc/lib/sstep.c
 
-   451	
- > 452	unsigned long get_fpu_registers_pos(struct fpu *fpu, unsigned int off)
-   453	{
-   454		unsigned long addr = 0;
-   455	
-   456		if (fpu && (fpu_kernel_nonatomic_xstate_size > off)) {
-   457			addr = (unsigned long)&fpu->__fpstate.regs.__padding[0];
-   458			addr += fpu_kernel_cfg.default_size + off;
-   459		}
-   460		return addr;
-   461	}
-   462	
-   463	/*
-   464	 * We can call kernel_fpu_begin_nonatomic in non-atomic task context.
-   465	 */
-   466	int kernel_fpu_begin_nonatomic_mask(unsigned int kfpu_mask)
-   467	{
-   468		preempt_disable();
-   469		/* we not support Nested call */
-   470		if (test_thread_flag(TIF_USING_FPU_NONATOMIC))
-   471			goto err;
-   472	
-   473		if (KERNEL_FPU_NONATOMIC_SIZE >
-   474		    get_fpustate_free_space(&current->thread.fpu))
-   475			goto err;
-   476	
-   477		/*
-   478		 * This means we call kernel_fpu_begin_nonatomic after kernel_fpu_begin,
-   479		 * but before kernel_fpu_end.
-   480		 */
-   481		if (this_cpu_read(in_kernel_fpu))
-   482			goto err;
-   483	
-   484		if (in_interrupt())
-   485			goto err;
-   486	
-   487		if (current->flags & PF_KTHREAD)
-   488			goto err;
-   489	
-   490		if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-   491			set_thread_flag(TIF_NEED_FPU_LOAD);
-   492			save_fpregs_to_fpstate(&current->thread.fpu);
-   493		}
-   494		/* Set thread flag: TIC_USING_FPU_NONATOMIC */
-   495		set_thread_flag(TIF_USING_FPU_NONATOMIC);
-   496	
-   497		__cpu_invalidate_fpregs_state();
-   498	
-   499		/* Put sane initial values into the control registers. */
-   500		if (likely(kfpu_mask & KFPU_MXCSR) && boot_cpu_has(X86_FEATURE_XMM))
-   501			ldmxcsr(MXCSR_DEFAULT);
-   502	
-   503		if (unlikely(kfpu_mask & KFPU_387) && boot_cpu_has(X86_FEATURE_FPU))
-   504			asm volatile ("fninit");
-   505	
-   506		preempt_enable();
-   507	
-   508		return 0;
-   509	
-   510	err:
-   511		preempt_enable();
-   512	
-   513		return -1;
-   514	}
-   515	EXPORT_SYMBOL_GPL(kernel_fpu_begin_nonatomic_mask);
-   516	
-   517	void kernel_fpu_end_nonatomic(void)
-   518	{
-   519		preempt_disable();
-   520		/*
-   521		 * This means we call kernel_fpu_end_nonatomic after kernel_fpu_begin,
-   522		 * but before kernel_fpu_end.
-   523		 */
-   524		WARN_ON_FPU(this_cpu_read(in_kernel_fpu));
-   525	
-   526		WARN_ON_FPU(!test_thread_flag(TIF_USING_FPU_NONATOMIC));
-   527	
-   528		clear_thread_flag(TIF_USING_FPU_NONATOMIC);
-   529		preempt_enable();
-   530	}
-   531	EXPORT_SYMBOL_GPL(kernel_fpu_end_nonatomic);
-   532	
- > 533	void save_fpregs_to_fpkernelstate(struct fpu *kfpu)
-   534	{
-   535		kernel_fpu_states_save((void *)get_fpu_registers_pos(kfpu,
-   536								     MAX_FPU_CTX_SIZE),
-   537				       NULL, MAX_FPU_CTX_SIZE);
-   538	}
-   539	#endif
-   540	
+  1153	
+  1154	/*
+  1155	 * Decode an instruction, and return information about it in *op
+  1156	 * without changing *regs.
+  1157	 * Integer arithmetic and logical instructions, branches, and barrier
+  1158	 * instructions can be emulated just using the information in *op.
+  1159	 *
+  1160	 * Return value is 1 if the instruction can be emulated just by
+  1161	 * updating *regs with the information in *op, -1 if we need the
+  1162	 * GPRs but *regs doesn't contain the full register set, or 0
+  1163	 * otherwise.
+  1164	 */
+  1165	int analyse_instr(struct instruction_op *op, const struct pt_regs *regs,
+  1166			  struct ppc_inst instr)
+  1167	{
+  1168		unsigned int opcode, ra, rb, rc, rd, spr, u;
+  1169		unsigned long int imm;
+  1170		unsigned long int val, val2;
+  1171		unsigned int mb, me, sh;
+> 1172		unsigned int word, suffix;
+  1173		long ival;
+  1174	
+  1175		word = ppc_inst_val(instr);
+  1176		suffix = ppc_inst_suffix(instr);
+  1177	
+  1178		op->type = COMPUTE;
+  1179	
+  1180		opcode = ppc_inst_primary_opcode(instr);
+  1181		switch (opcode) {
+  1182		case 16:	/* bc */
+  1183			op->type = BRANCH;
+  1184			imm = (signed short)(word & 0xfffc);
+  1185			if ((word & 2) == 0)
+  1186				imm += regs->nip;
+  1187			op->val = truncate_if_32bit(regs->msr, imm);
+  1188			if (word & 1)
+  1189				op->type |= SETLK;
+  1190			if (branch_taken(word, regs, op))
+  1191				op->type |= BRTAKEN;
+  1192			return 1;
+  1193	#ifdef CONFIG_PPC64
+  1194		case 17:	/* sc */
+  1195			if ((word & 0xfe2) == 2)
+  1196				op->type = SYSCALL;
+  1197			else
+  1198				op->type = UNKNOWN;
+  1199			return 0;
+  1200	#endif
+  1201		case 18:	/* b */
+  1202			op->type = BRANCH | BRTAKEN;
+  1203			imm = word & 0x03fffffc;
+  1204			if (imm & 0x02000000)
+  1205				imm -= 0x04000000;
+  1206			if ((word & 2) == 0)
+  1207				imm += regs->nip;
+  1208			op->val = truncate_if_32bit(regs->msr, imm);
+  1209			if (word & 1)
+  1210				op->type |= SETLK;
+  1211			return 1;
+  1212		case 19:
+  1213			switch ((word >> 1) & 0x3ff) {
+  1214			case 0:		/* mcrf */
+  1215				op->type = COMPUTE + SETCC;
+  1216				rd = 7 - ((word >> 23) & 0x7);
+  1217				ra = 7 - ((word >> 18) & 0x7);
+  1218				rd *= 4;
+  1219				ra *= 4;
+  1220				val = (regs->ccr >> ra) & 0xf;
+  1221				op->ccval = (regs->ccr & ~(0xfUL << rd)) | (val << rd);
+  1222				return 1;
+  1223	
+  1224			case 16:	/* bclr */
+  1225			case 528:	/* bcctr */
+  1226				op->type = BRANCH;
+  1227				imm = (word & 0x400)? regs->ctr: regs->link;
+  1228				op->val = truncate_if_32bit(regs->msr, imm);
+  1229				if (word & 1)
+  1230					op->type |= SETLK;
+  1231				if (branch_taken(word, regs, op))
+  1232					op->type |= BRTAKEN;
+  1233				return 1;
+  1234	
+  1235			case 18:	/* rfid, scary */
+  1236				if (regs->msr & MSR_PR)
+  1237					goto priv;
+  1238				op->type = RFI;
+  1239				return 0;
+  1240	
+  1241			case 150:	/* isync */
+  1242				op->type = BARRIER | BARRIER_ISYNC;
+  1243				return 1;
+  1244	
+  1245			case 33:	/* crnor */
+  1246			case 129:	/* crandc */
+  1247			case 193:	/* crxor */
+  1248			case 225:	/* crnand */
+  1249			case 257:	/* crand */
+  1250			case 289:	/* creqv */
+  1251			case 417:	/* crorc */
+  1252			case 449:	/* cror */
+  1253				op->type = COMPUTE + SETCC;
+  1254				ra = (word >> 16) & 0x1f;
+  1255				rb = (word >> 11) & 0x1f;
+  1256				rd = (word >> 21) & 0x1f;
+  1257				ra = (regs->ccr >> (31 - ra)) & 1;
+  1258				rb = (regs->ccr >> (31 - rb)) & 1;
+  1259				val = (word >> (6 + ra * 2 + rb)) & 1;
+  1260				op->ccval = (regs->ccr & ~(1UL << (31 - rd))) |
+  1261					(val << (31 - rd));
+  1262				return 1;
+  1263			}
+  1264			break;
+  1265		case 31:
+  1266			switch ((word >> 1) & 0x3ff) {
+  1267			case 598:	/* sync */
+  1268				op->type = BARRIER + BARRIER_SYNC;
+  1269	#ifdef __powerpc64__
+  1270				switch ((word >> 21) & 3) {
+  1271				case 1:		/* lwsync */
+  1272					op->type = BARRIER + BARRIER_LWSYNC;
+  1273					break;
+  1274				case 2:		/* ptesync */
+  1275					op->type = BARRIER + BARRIER_PTESYNC;
+  1276					break;
+  1277				}
+  1278	#endif
+  1279				return 1;
+  1280	
+  1281			case 854:	/* eieio */
+  1282				op->type = BARRIER + BARRIER_EIEIO;
+  1283				return 1;
+  1284			}
+  1285			break;
+  1286		}
+  1287	
+  1288		/* Following cases refer to regs->gpr[], so we need all regs */
+  1289		if (!FULL_REGS(regs))
+  1290			return -1;
+  1291	
+  1292		rd = (word >> 21) & 0x1f;
+  1293		ra = (word >> 16) & 0x1f;
+  1294		rb = (word >> 11) & 0x1f;
+  1295		rc = (word >> 6) & 0x1f;
+  1296	
+  1297		switch (opcode) {
+  1298	#ifdef __powerpc64__
+  1299		case 2:		/* tdi */
+  1300			if (rd & trap_compare(regs->gpr[ra], (short) word))
+  1301				goto trap;
+  1302			return 1;
+  1303	#endif
+  1304		case 3:		/* twi */
+  1305			if (rd & trap_compare((int)regs->gpr[ra], (short) word))
+  1306				goto trap;
+  1307			return 1;
+  1308	
 
 -- 
 0-DAY CI Kernel Test Service
