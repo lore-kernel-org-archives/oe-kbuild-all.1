@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9079610D;
-	Wed, 26 Feb 2025 07:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190E61898FB;
+	Wed, 26 Feb 2025 07:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740554219; cv=none; b=ouXU4XQ/NQtYdd9UY3udt0KQ06JzaPQ7uEWNsNIc0jOpJu1aN8XyF+pvg+wezQ9Z2PVBbJum1GbS4h+/yoCu5infV4jCsFUk6TXPfJEuPNoIMiqyzcryGK3mByZNldUVtTgaK7aI5DBdlDEd4dMt+9Q7oUtVs11v0FlzR4tnIi8=
+	t=1740556152; cv=none; b=F0tMa5bGx2oJ7NiGC0sQ/fyRzehZT2hkfGi0iw3WxiN8wSOXpwuAzeAFaJQPOWbo5ciuLqVRKX6FrwX8K7vTeKl/AMjBysa4Hn6UqcVDR8wONrUuysY1cc+GG+Z9ZMxaw830p1NZnA+po2oNSWQ6HSnK9fn5K91JyM1dSVrN/es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740554219; c=relaxed/simple;
-	bh=1Kb0KQQpe86zLyyYFwC5pDOTMSMspwB5NAM1OebGI9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q+YWfyxlIlcFdcMrNhGyY7+lx/0oNygLFuqyS6ick9RoQ0soT7n39fn2Nw3Ic0GeUFZLfmLdQAUkA6gMl+g7zIprJIQMQMK/XXtiuFONWoMaHTHfPfnDxBj5bEIRBBYGOkJlXid5yH4mdUhJX2g6grewE12AqefFGa+gG72NhPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4BYT5Et; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1740556152; c=relaxed/simple;
+	bh=5cQoD7Xj2iZryYy9aBsI41+A76x5ySkRxVxY7EVlfSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rxjtwl8mXmmHmNhfcZx9feg7658k2vOw8lxCoHg1gTjiISTMQI8Pqoq0jN9BcMKBaQiyFS9atGIywLyz6zymNEi8kkIuimsdrNTjrY1gk7WH9DP5O8XL/Kk4IJucC8ohzxz4FjwWiECfikYM216mFLNzbqUgc72mN7Ol8oPk4d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nK4oVuip; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4BYT5Et"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nK4oVuip"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740554218; x=1772090218;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1Kb0KQQpe86zLyyYFwC5pDOTMSMspwB5NAM1OebGI9E=;
-  b=H4BYT5EtdB2qMF32HWwqyjT/Q2Ez4vEBu3kam09Fh/WUVPdBYRZqZGGO
-   issIENybDJmGcsLicpEo2L/DlKqw4PMJ/K54LlDw0jfXeqb7ONq7VzuG4
-   Ztq5clEmEyjXfQ36S6nmfr0hpOJ4+NG4s2Fe9D2y9v2KeZfMkBSzckAc5
-   88N1B6WLg6gS+bocOD6n073Cn9P+yhGaeLmz3PYH3V8BfABAqZekLKir6
-   4/S4V+PSBsZJ2HE/j7WgjRT4r8DTqbh78Mb1sq1nMAle3coRF9hq6N8pp
-   Y6CODl2mHwgY7hB6AftZPWD7LbLG6WBZnFvsk1JUe4vVn0zAxEeFaNc9E
-   Q==;
-X-CSE-ConnectionGUID: /ffLIad3Q8q3bdqsrLypYw==
-X-CSE-MsgGUID: VKU/8rHjTjGBr1tBbyF4Rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="40623203"
+  t=1740556150; x=1772092150;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5cQoD7Xj2iZryYy9aBsI41+A76x5ySkRxVxY7EVlfSg=;
+  b=nK4oVuip5fceu+OnFwN5/JemBpr5MKtkTmarAcroJM7fTYZAiQbMcN9N
+   26nTzWPO5Z/wkmE1wkQvTlEo9eA/cDISFJzuub4O2ydnzEY9eNkAq6/0Z
+   uOlJ03NeWVi0bASpbDsV3uYKUGh8vQOnxzzup/JrbTyjeDt+HA5OBxN+W
+   6rvTwOHKfnvhCLRjg25nyLjHdzYD6Ap0/CrUARsey9FD2eiXMQvTW4vza
+   vX+qeOt1+ZGMDJRBC1mE+Mki27TtXW/7GFr03lMr+YDFYkj+Qicxk1bkC
+   s26SK1Q5XmW9Tcojg98q9/XFy+rHYbibYKJYJogh2CL2j5RK+WtyuHJ3W
+   g==;
+X-CSE-ConnectionGUID: s+NdFlxCQ0euriHGSnbt4g==
+X-CSE-MsgGUID: R6mq5x8tQZGWCwN/fYisTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41409417"
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="40623203"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 23:16:57 -0800
-X-CSE-ConnectionGUID: sTb0f3sYRs6tMWCGyOF8nw==
-X-CSE-MsgGUID: 5us5yGZDS+mZTJyldJmxsQ==
+   d="scan'208";a="41409417"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 23:49:10 -0800
+X-CSE-ConnectionGUID: u+gjdte4TX6KTFW7j+dreQ==
+X-CSE-MsgGUID: +w6L6/fDSk6zN8+RpOOcmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="147448898"
+   d="scan'208";a="116418536"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 25 Feb 2025 23:16:53 -0800
+  by orviesa009.jf.intel.com with ESMTP; 25 Feb 2025 23:49:09 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnBf0-000BK7-3D;
-	Wed, 26 Feb 2025 07:16:50 +0000
-Date: Wed, 26 Feb 2025 15:16:42 +0800
+	id 1tnCAD-000BLz-31;
+	Wed, 26 Feb 2025 07:49:05 +0000
+Date: Wed, 26 Feb 2025 15:48:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xu Yang <xu.yang_2@nxp.com>, gregkh@linuxfoundation.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, peter.chen@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v2 4/6] usb: chipidea: imx: add wakeup interrupt handling
-Message-ID: <202502261559.XexYUCXi-lkp@intel.com>
-References: <20250225053955.3781831-5-xu.yang_2@nxp.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 122/123]
+ fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76
+ bits) exceeds the width of its type (64 bits)
+Message-ID: <202502261546.ZokeMDs6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,88 +63,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225053955.3781831-5-xu.yang_2@nxp.com>
 
-Hi Xu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on shawnguo/for-next]
-[also build test ERROR on tty/tty-testing tty/tty-next tty/tty-linus linus/master v6.14-rc4 next-20250225]
-[cannot apply to usb/usb-testing usb/usb-next usb/usb-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yang/dt-bindings-usb-chipidea-Add-i-MX95-compatible-string-fsl-imx95-usb/20250225-134215
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250225053955.3781831-5-xu.yang_2%40nxp.com
-patch subject: [PATCH v2 4/6] usb: chipidea: imx: add wakeup interrupt handling
-config: x86_64-buildonly-randconfig-003-20250226 (https://download.01.org/0day-ci/archive/20250226/202502261559.XexYUCXi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261559.XexYUCXi-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   8de504fc059b751ae0cc0fd600f2d5e28ccb8dc5
+commit: 82af8187566114f55114f1b878562de031e0b9b4 [122/123] bcachefs: bcachefs_metadata_version_extent_flags
+config: s390-randconfig-002-20250226 (https://download.01.org/0day-ci/archive/20250226/202502261546.ZokeMDs6-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261546.ZokeMDs6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502261559.XexYUCXi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502261546.ZokeMDs6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/usb/chipidea/ci_hdrc_imx.c: In function 'imx_controller_resume':
->> drivers/usb/chipidea/ci_hdrc_imx.c:633:14: error: implicit declaration of function 'irqd_irq_disabled'; did you mean 'arch_irqs_disabled'? [-Werror=implicit-function-declaration]
-     633 |         if (!irqd_irq_disabled(irq_get_irq_data(data->wakeup_irq)))
-         |              ^~~~~~~~~~~~~~~~~
-         |              arch_irqs_disabled
->> drivers/usb/chipidea/ci_hdrc_imx.c:633:32: error: implicit declaration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
-     633 |         if (!irqd_irq_disabled(irq_get_irq_data(data->wakeup_irq)))
-         |                                ^~~~~~~~~~~~~~~~
-         |                                irq_set_irq_wake
-   cc1: some warnings being treated as errors
+   In file included from fs/bcachefs/btree_locking.c:3:
+   In file included from fs/bcachefs/bcachefs.h:208:
+   In file included from fs/bcachefs/bcachefs_format.h:502:
+>> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
+           __u64                   flags:76
+                                   ^
+>> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
+           __u64                   flags:76
+                                           ^
+                                           ;
+   2 errors generated.
+--
+   In file included from fs/bcachefs/io_write.c:7:
+   In file included from fs/bcachefs/bcachefs.h:208:
+   In file included from fs/bcachefs/bcachefs_format.h:502:
+>> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
+           __u64                   flags:76
+                                   ^
+>> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
+           __u64                   flags:76
+                                           ^
+                                           ;
+>> fs/bcachefs/io_write.c:1180:2: error: statement requires expression of scalar type ('void' invalid)
+           extent_for_each_ptr_decode(e, p, entry) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:396:2: note: expanded from macro 'extent_for_each_ptr_decode'
+           __bkey_for_each_ptr_decode((_e).k, (_e).v->start,               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:350:2: note: expanded from macro '__bkey_for_each_ptr_decode'
+           for ((_ptr).crc = bch2_extent_crc_unpack(_k, NULL),             \
+           ^
+   3 errors generated.
+--
+   In file included from fs/bcachefs/move.c:3:
+   In file included from fs/bcachefs/bcachefs.h:208:
+   In file included from fs/bcachefs/bcachefs_format.h:502:
+>> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
+           __u64                   flags:76
+                                   ^
+>> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
+           __u64                   flags:76
+                                           ^
+                                           ;
+   fs/bcachefs/move.c:715:11: warning: variable 'sectors_moved' set but not used [-Wunused-but-set-variable]
+           unsigned sectors_moved = 0;
+                    ^
+   1 warning and 2 errors generated.
+--
+   In file included from fs/bcachefs/data_update.c:3:
+   In file included from fs/bcachefs/bcachefs.h:208:
+   In file included from fs/bcachefs/bcachefs_format.h:502:
+>> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
+           __u64                   flags:76
+                                   ^
+>> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
+           __u64                   flags:76
+                                           ^
+                                           ;
+>> fs/bcachefs/data_update.c:281:3: error: statement requires expression of scalar type ('void' invalid)
+                   extent_for_each_ptr_decode(extent_i_to_s(new), p, entry)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:396:2: note: expanded from macro 'extent_for_each_ptr_decode'
+           __bkey_for_each_ptr_decode((_e).k, (_e).v->start,               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:350:2: note: expanded from macro '__bkey_for_each_ptr_decode'
+           for ((_ptr).crc = bch2_extent_crc_unpack(_k, NULL),             \
+           ^
+   fs/bcachefs/data_update.c:306:3: error: statement requires expression of scalar type ('void' invalid)
+                   extent_for_each_ptr_decode(extent_i_to_s(new), p, entry)
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:396:2: note: expanded from macro 'extent_for_each_ptr_decode'
+           __bkey_for_each_ptr_decode((_e).k, (_e).v->start,               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/extents.h:350:2: note: expanded from macro '__bkey_for_each_ptr_decode'
+           for ((_ptr).crc = bch2_extent_crc_unpack(_k, NULL),             \
+           ^
+   4 errors generated.
 
 
-vim +633 drivers/usb/chipidea/ci_hdrc_imx.c
+vim +/flags +219 fs/bcachefs/extents_format.h
 
-   616	
-   617	static int imx_controller_resume(struct device *dev,
-   618							pm_message_t msg)
-   619	{
-   620		struct ci_hdrc_imx_data *data = dev_get_drvdata(dev);
-   621		int ret = 0;
-   622	
-   623		dev_dbg(dev, "at %s\n", __func__);
-   624	
-   625		if (!data->in_lpm) {
-   626			WARN_ON(1);
-   627			return 0;
-   628		}
-   629	
-   630		if (data->plat_data->flags & CI_HDRC_PMQOS)
-   631			cpu_latency_qos_add_request(&data->pm_qos_req, 0);
-   632	
- > 633		if (!irqd_irq_disabled(irq_get_irq_data(data->wakeup_irq)))
-   634			disable_irq_nosync(data->wakeup_irq);
-   635	
-   636		ret = imx_prepare_enable_clks(dev);
-   637		if (ret)
-   638			return ret;
-   639	
-   640		data->in_lpm = false;
-   641	
-   642		ret = imx_usbmisc_resume(data->usbmisc_data,
-   643					 PMSG_IS_AUTO(msg) || device_may_wakeup(dev));
-   644		if (ret) {
-   645			dev_err(dev, "usbmisc resume failed, ret=%d\n", ret);
-   646			goto clk_disable;
-   647		}
-   648	
-   649		return 0;
-   650	
-   651	clk_disable:
-   652		imx_disable_unprepare_clks(dev);
-   653		return ret;
-   654	}
-   655	
+   213	
+   214	struct bch_extent_flags {
+   215	#if defined(__LITTLE_ENDIAN_BITFIELD)
+   216		__u64			type:7,
+   217					flags:57;
+   218	#elif defined (__BIG_ENDIAN_BITFIELD)
+ > 219		__u64			flags:76
+   220					type:7;
+   221	#endif
+   222	};
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
