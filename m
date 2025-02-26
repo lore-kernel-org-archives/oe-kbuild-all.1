@@ -1,181 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFCE25CC61
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 22:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEE225D8E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 22:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740608405; cv=none; b=DEpovP+vlymb9LyfqTGkmDji4KODWWDNoIYPa25TNHpggIsJxZIZyGQ36dbteL6fZB/ciz6vFPLvc5wnzJCfvTMcVjkywz2LcgaaRkgYaCq7gUOV8cfz7aFMOee6QI8DtzBPyERZqAydWAN0vv2JPPDZ0zVdN8kiHus/2m5o7WA=
+	t=1740608927; cv=none; b=ZDQHRdBtGBhduoT/1vrZcoaBlAzs8UYWzIsX+x3A0oPdtu0jMf0fL552yYrSNz4hFANNpGNDe0AgjMXHFpxnjoWsnogEDyr1+ZLaHp8nmO4vm1oue94LAhjjEmIb/WKIIYYTt6r6FuQkdP88eXe78/Fvk18YLHuHvwr/Hc7Ttvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740608405; c=relaxed/simple;
-	bh=2R3jk3LWIuwwEVPnk835IzI/96JL1vWLEUpvSgCyDOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GfD935BVzQPNDooHYmc0ETTLk6HRm/sb5t823VdCxHzwXeuNTe7b8QzNUdA2IIy8B2zo51BXNcek6D15LTSXAA4sLbI/oGW4pPUsumwtNaySRuv9r0mIKvxgUYHDwKkpGifbQuhq9n6CAGqVsDTo4aS0FdHmVOsaN2DVfNs+Sqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjpmShBT; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1740608927; c=relaxed/simple;
+	bh=3NM9fCSqPjuEQvrkksJN159Wo5ngXcg0pkVksitwrVc=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Lg+4d+pflv1H6q0E92l6r3Z5nxNOcNWkTAeFjlJBgOckvyFIjrYAq69bmZS5iCXor2YepgDphmdOJTbA975g0zhsfmpFXyeeIvmAndHsQQh/V0Cy7vYOINmYA9BjZTa/x8aPW/eQoZ70O3PZTdRfad1hQFRHJEldwdHEcNLdmIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtdCLhyf; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjpmShBT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtdCLhyf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740608402; x=1772144402;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2R3jk3LWIuwwEVPnk835IzI/96JL1vWLEUpvSgCyDOg=;
-  b=VjpmShBTi+LwC7z6tEP5r8bc7we8uyf3W9jQuSsjKFgjbPM3Q+lG74BU
-   4Z45m0lEgMk4/X2wvNgwJ+1gPTN8hdgaw7ME7YIqdf0xot9/y7jwAqWWX
-   5P55N8AqeO2M26iFjLETciL/4aj3aajsmOsLz2puQJW5cXYnKNO/Q+IjN
-   +9NR9lFFCFJzZ8Qr8E+g3cI4dC4962AFevXeDIL8sOTtnwWu1x+XOZ555
-   TFvOqWMFdEI9sQNZueAC9cJ0UOHqaaDwNAH7n3wWcg2+GZlTOGmNZHXt2
-   miNmrr12ud0gvN75SSF5EcmO5hsK5BJD1UyDf53n7WqzZ9tgDhAnw3228
-   g==;
-X-CSE-ConnectionGUID: uAWL4qhTSTiwsZIFatdohg==
-X-CSE-MsgGUID: p0sq/34uQ+e1W93C+PqA3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52875887"
+  t=1740608926; x=1772144926;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=3NM9fCSqPjuEQvrkksJN159Wo5ngXcg0pkVksitwrVc=;
+  b=BtdCLhyfF6xeDkD9uz78zzpI8HnZ1D8yCIWx4L+bxI0ZW63WFr8lyTE1
+   pskOusV5CGLnwi2D9fSuV4DTCTc272PGcjJk1QL8sMjnXIvPOPL+tMEuS
+   GbsHT8gQ520AoncUHp3o/FU5iSsSFR+293CoHDt7p3lvCuttmvIqcs8Su
+   Oi9fg2SUCuJeYXz7qsBXPfBvb/YCsX1TLoXR2BKmOGZQjbfbHtQTaKr69
+   NPrd3kjtcdeqZMssBV2C20eXHCYii9C82+JOLSCOGMMvxKBTSSx8uz/bd
+   5b+Jd7NxgoukLT/3I6smBXW/IkSl3QDGSx5O8WkrHXHWb4WriK17+Ezv8
+   Q==;
+X-CSE-ConnectionGUID: sAQuUEBORzqy7AxFZWCQ7Q==
+X-CSE-MsgGUID: 24sEli1cQHuwCN0w3fD9qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45260421"
 X-IronPort-AV: E=Sophos;i="6.13,318,1732608000"; 
-   d="scan'208";a="52875887"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 14:20:02 -0800
-X-CSE-ConnectionGUID: jjqWLe81Q7Ge0C4qbP3HDg==
-X-CSE-MsgGUID: epAsV+qiRpy2wpsDCO+b+g==
+   d="scan'208";a="45260421"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 14:28:45 -0800
+X-CSE-ConnectionGUID: r/DWVlL8Q1OIqVtobBDf6w==
+X-CSE-MsgGUID: Eqqgf7IGQeyRLkPE5vZ6Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122095666"
+   d="scan'208";a="117752192"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 26 Feb 2025 14:20:00 -0800
+  by orviesa008.jf.intel.com with ESMTP; 26 Feb 2025 14:28:45 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnPkG-000CXd-02;
-	Wed, 26 Feb 2025 22:19:25 +0000
-Date: Thu, 27 Feb 2025 06:17:57 +0800
+	id 1tnPtR-000CYI-3D
+	for oe-kbuild-all@lists.linux.dev;
+	Wed, 26 Feb 2025 22:28:41 +0000
+Date: Thu, 27 Feb 2025 06:28:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: drivers/firmware/turris-mox-rwtm.c:249:90: warning: '%08x' directive
- writing 8 bytes into a region of size between 7 and 9
-Message-ID: <202502270657.cNsilu1y-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] drivers/bus/ti-sysc.c:93: warning: Function
+ parameter or member 'mdata' not described in 'sysc'
+Message-ID: <202502270604.fbemSrWd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Marek,
+Hi Tony,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7
-commit: e34e60253d9272311831daed8a2d967cf80ca3dc firmware: turris-mox-rwtm: fix reply status decoding function
-date:   3 years, 8 months ago
-config: arm-randconfig-r002-20220811 (https://download.01.org/0day-ci/archive/20250227/202502270657.cNsilu1y-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502270657.cNsilu1y-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: a3e92e7b32f2f932239666e826988a13db10e513 [1/1] bus: ti-sysc: Allocate mdata as needed and do platform data based init later
+config: arm-randconfig-001-20250217 (https://download.01.org/0day-ci/archive/20250227/202502270604.fbemSrWd-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502270604.fbemSrWd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502270657.cNsilu1y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502270604.fbemSrWd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/turris-mox-rwtm.c: In function 'mox_get_board_info':
->> drivers/firmware/turris-mox-rwtm.c:249:90: warning: '%08x' directive writing 8 bytes into a region of size between 7 and 9 [-Wformat-overflow=]
-     249 |                         "%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
-         |                                                                                          ^~~~
-   drivers/firmware/turris-mox-rwtm.c:248:17: note: 'sprintf' output between 135 and 137 bytes into a destination of size 135
-     248 |                 sprintf(rwtm->pubkey,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-     249 |                         "%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     250 |                         ret, s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     251 |                         s[8], s[9], s[10], s[11], s[12], s[13], s[14], s[15]);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/ti-sysc.c:93: warning: Function parameter or member 'mdata' not described in 'sysc'
+   drivers/bus/ti-sysc.c:93: warning: Function parameter or member 'rsts' not described in 'sysc'
+   drivers/bus/ti-sysc.c:93: warning: Function parameter or member 'cookie' not described in 'sysc'
+   drivers/bus/ti-sysc.c:93: warning: Function parameter or member 'enabled' not described in 'sysc'
+   drivers/bus/ti-sysc.c:93: warning: Function parameter or member 'child_needs_resume' not described in 'sysc'
+   drivers/bus/ti-sysc.c:93: warning: Function parameter or member 'idle_work' not described in 'sysc'
 
 
-vim +249 drivers/firmware/turris-mox-rwtm.c
+vim +93 drivers/bus/ti-sysc.c
 
-389711b3749399 Marek Behún 2019-08-22  190  
-389711b3749399 Marek Behún 2019-08-22  191  static int mox_get_board_info(struct mox_rwtm *rwtm)
-389711b3749399 Marek Behún 2019-08-22  192  {
-389711b3749399 Marek Behún 2019-08-22  193  	struct armada_37xx_rwtm_tx_msg msg;
-389711b3749399 Marek Behún 2019-08-22  194  	struct armada_37xx_rwtm_rx_msg *reply = &rwtm->reply;
-389711b3749399 Marek Behún 2019-08-22  195  	int ret;
-389711b3749399 Marek Behún 2019-08-22  196  
-389711b3749399 Marek Behún 2019-08-22  197  	msg.command = MBOX_CMD_BOARD_INFO;
-389711b3749399 Marek Behún 2019-08-22  198  	ret = mbox_send_message(rwtm->mbox, &msg);
-389711b3749399 Marek Behún 2019-08-22  199  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  200  		return ret;
-389711b3749399 Marek Behún 2019-08-22  201  
-389711b3749399 Marek Behún 2019-08-22  202  	ret = wait_for_completion_timeout(&rwtm->cmd_done, HZ / 2);
-389711b3749399 Marek Behún 2019-08-22  203  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  204  		return ret;
-389711b3749399 Marek Behún 2019-08-22  205  
-389711b3749399 Marek Behún 2019-08-22  206  	ret = mox_get_status(MBOX_CMD_BOARD_INFO, reply->retval);
-389711b3749399 Marek Behún 2019-08-22  207  	if (ret < 0 && ret != -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  208  		return ret;
-389711b3749399 Marek Behún 2019-08-22  209  	} else if (ret == -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  210  		dev_warn(rwtm->dev,
-389711b3749399 Marek Behún 2019-08-22  211  			 "Board does not have manufacturing information burned!\n");
-389711b3749399 Marek Behún 2019-08-22  212  	} else {
-389711b3749399 Marek Behún 2019-08-22  213  		rwtm->serial_number = reply->status[1];
-389711b3749399 Marek Behún 2019-08-22  214  		rwtm->serial_number <<= 32;
-389711b3749399 Marek Behún 2019-08-22  215  		rwtm->serial_number |= reply->status[0];
-389711b3749399 Marek Behún 2019-08-22  216  		rwtm->board_version = reply->status[2];
-389711b3749399 Marek Behún 2019-08-22  217  		rwtm->ram_size = reply->status[3];
-389711b3749399 Marek Behún 2019-08-22  218  		reply_to_mac_addr(rwtm->mac_address1, reply->status[4],
-389711b3749399 Marek Behún 2019-08-22  219  				  reply->status[5]);
-389711b3749399 Marek Behún 2019-08-22  220  		reply_to_mac_addr(rwtm->mac_address2, reply->status[6],
-389711b3749399 Marek Behún 2019-08-22  221  				  reply->status[7]);
-389711b3749399 Marek Behún 2019-08-22  222  		rwtm->has_board_info = 1;
-389711b3749399 Marek Behún 2019-08-22  223  
-389711b3749399 Marek Behún 2019-08-22  224  		pr_info("Turris Mox serial number %016llX\n",
-389711b3749399 Marek Behún 2019-08-22  225  			rwtm->serial_number);
-389711b3749399 Marek Behún 2019-08-22  226  		pr_info("           board version %i\n", rwtm->board_version);
-389711b3749399 Marek Behún 2019-08-22  227  		pr_info("           burned RAM size %i MiB\n", rwtm->ram_size);
-389711b3749399 Marek Behún 2019-08-22  228  	}
-389711b3749399 Marek Behún 2019-08-22  229  
-389711b3749399 Marek Behún 2019-08-22  230  	msg.command = MBOX_CMD_ECDSA_PUB_KEY;
-389711b3749399 Marek Behún 2019-08-22  231  	ret = mbox_send_message(rwtm->mbox, &msg);
-389711b3749399 Marek Behún 2019-08-22  232  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  233  		return ret;
-389711b3749399 Marek Behún 2019-08-22  234  
-389711b3749399 Marek Behún 2019-08-22  235  	ret = wait_for_completion_timeout(&rwtm->cmd_done, HZ / 2);
-389711b3749399 Marek Behún 2019-08-22  236  	if (ret < 0)
-389711b3749399 Marek Behún 2019-08-22  237  		return ret;
-389711b3749399 Marek Behún 2019-08-22  238  
-389711b3749399 Marek Behún 2019-08-22  239  	ret = mox_get_status(MBOX_CMD_ECDSA_PUB_KEY, reply->retval);
-389711b3749399 Marek Behún 2019-08-22  240  	if (ret < 0 && ret != -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  241  		return ret;
-389711b3749399 Marek Behún 2019-08-22  242  	} else if (ret == -ENODATA) {
-389711b3749399 Marek Behún 2019-08-22  243  		dev_warn(rwtm->dev, "Board has no public key burned!\n");
-389711b3749399 Marek Behún 2019-08-22  244  	} else {
-389711b3749399 Marek Behún 2019-08-22  245  		u32 *s = reply->status;
-389711b3749399 Marek Behún 2019-08-22  246  
-389711b3749399 Marek Behún 2019-08-22  247  		rwtm->has_pubkey = 1;
-389711b3749399 Marek Behún 2019-08-22  248  		sprintf(rwtm->pubkey,
-389711b3749399 Marek Behún 2019-08-22 @249  			"%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
-389711b3749399 Marek Behún 2019-08-22  250  			ret, s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
-389711b3749399 Marek Behún 2019-08-22  251  			s[8], s[9], s[10], s[11], s[12], s[13], s[14], s[15]);
-389711b3749399 Marek Behún 2019-08-22  252  	}
-389711b3749399 Marek Behún 2019-08-22  253  
-389711b3749399 Marek Behún 2019-08-22  254  	return 0;
-389711b3749399 Marek Behún 2019-08-22  255  }
-389711b3749399 Marek Behún 2019-08-22  256  
+c5a2de97fbd297 Tony Lindgren 2017-12-15  54  
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  55  /**
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  56   * struct sysc - TI sysc interconnect target module registers and capabilities
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  57   * @dev: struct device pointer
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  58   * @module_pa: physical address of the interconnect target module
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  59   * @module_size: size of the interconnect target module
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  60   * @module_va: virtual address of the interconnect target module
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  61   * @offsets: register offsets from module base
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  62   * @clocks: clocks used by the interconnect target module
+09dfe5810762cd Tony Lindgren 2018-04-16  63   * @clock_roles: clock role names for the found clocks
+09dfe5810762cd Tony Lindgren 2018-04-16  64   * @nr_clocks: number of clocks used by the interconnect target module
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  65   * @legacy_mode: configured for legacy mode if set
+70a65240efb111 Tony Lindgren 2017-12-15  66   * @cap: interconnect target module capabilities
+70a65240efb111 Tony Lindgren 2017-12-15  67   * @cfg: interconnect target module configuration
+566a9b05e1fa47 Tony Lindgren 2017-12-15  68   * @name: name if available
+566a9b05e1fa47 Tony Lindgren 2017-12-15  69   * @revision: interconnect target module revision
+62020f23123221 Tony Lindgren 2018-02-22  70   * @needs_resume: runtime resume needed on resume from suspend
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  71   */
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  72  struct sysc {
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  73  	struct device *dev;
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  74  	u64 module_pa;
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  75  	u32 module_size;
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  76  	void __iomem *module_va;
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  77  	int offsets[SYSC_MAX_REGS];
+a3e92e7b32f2f9 Tony Lindgren 2019-03-21  78  	struct ti_sysc_module_data *mdata;
+09dfe5810762cd Tony Lindgren 2018-04-16  79  	struct clk **clocks;
+09dfe5810762cd Tony Lindgren 2018-04-16  80  	const char **clock_roles;
+09dfe5810762cd Tony Lindgren 2018-04-16  81  	int nr_clocks;
+5062236ec45876 Tony Lindgren 2018-04-16  82  	struct reset_control *rsts;
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  83  	const char *legacy_mode;
+70a65240efb111 Tony Lindgren 2017-12-15  84  	const struct sysc_capabilities *cap;
+70a65240efb111 Tony Lindgren 2017-12-15  85  	struct sysc_config cfg;
+ef70b0bdeaf893 Tony Lindgren 2018-02-22  86  	struct ti_sysc_cookie cookie;
+566a9b05e1fa47 Tony Lindgren 2017-12-15  87  	const char *name;
+566a9b05e1fa47 Tony Lindgren 2017-12-15  88  	u32 revision;
+62020f23123221 Tony Lindgren 2018-02-22  89  	bool enabled;
+62020f23123221 Tony Lindgren 2018-02-22  90  	bool needs_resume;
+a885f0fe209f26 Tony Lindgren 2018-02-22  91  	bool child_needs_resume;
+76f0f772e4691d Tony Lindgren 2018-02-23  92  	struct delayed_work idle_work;
+0eecc636e5a2f6 Tony Lindgren 2017-10-10 @93  };
+0eecc636e5a2f6 Tony Lindgren 2017-10-10  94  
 
-:::::: The code at line 249 was first introduced by commit
-:::::: 389711b374939968d2d0adede01b9e1f3bb4f531 firmware: Add Turris Mox rWTM firmware driver
+:::::: The code at line 93 was first introduced by commit
+:::::: 0eecc636e5a2f667e69df318867b63edc8b44218 bus: ti-sysc: Add minimal TI sysc interconnect target driver
 
-:::::: TO: Marek Behún <marek.behun@nic.cz>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+:::::: TO: Tony Lindgren <tony@atomide.com>
+:::::: CC: Tony Lindgren <tony@atomide.com>
 
 -- 
 0-DAY CI Kernel Test Service
