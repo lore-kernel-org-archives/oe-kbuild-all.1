@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190E61898FB;
-	Wed, 26 Feb 2025 07:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B134238144
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 08:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740556152; cv=none; b=F0tMa5bGx2oJ7NiGC0sQ/fyRzehZT2hkfGi0iw3WxiN8wSOXpwuAzeAFaJQPOWbo5ciuLqVRKX6FrwX8K7vTeKl/AMjBysa4Hn6UqcVDR8wONrUuysY1cc+GG+Z9ZMxaw830p1NZnA+po2oNSWQ6HSnK9fn5K91JyM1dSVrN/es=
+	t=1740557519; cv=none; b=ZjwX2aCIN0iHhwlsR6xpNRGMIqFYmJ9BCtglQ+/c9v2t6Ges3vudrhqX5mPRG9prqyMZHxIrbs4Ofe1tVg9oHiIUGQolEEIfYaPK3nYx29tNkO8ZBS6cR9vvFXAOXZ0eP+l5UrBuEKXlWyym3f/JEmb7VLgpEdZBrVgCbWKW50g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740556152; c=relaxed/simple;
-	bh=5cQoD7Xj2iZryYy9aBsI41+A76x5ySkRxVxY7EVlfSg=;
+	s=arc-20240116; t=1740557519; c=relaxed/simple;
+	bh=s+Bjwoi8YJrIqN97bYect5gD3M0uZEvCHwTZ97to1J0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rxjtwl8mXmmHmNhfcZx9feg7658k2vOw8lxCoHg1gTjiISTMQI8Pqoq0jN9BcMKBaQiyFS9atGIywLyz6zymNEi8kkIuimsdrNTjrY1gk7WH9DP5O8XL/Kk4IJucC8ohzxz4FjwWiECfikYM216mFLNzbqUgc72mN7Ol8oPk4d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nK4oVuip; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=CPQjxm1/77+S7agT+sbO53+26lQWRQ4YLaKpW34T4aq+uNZOj6ouPXd5nOSualrSVpnzUaw2spDDL6CLKqXbENYM9hPKKWqRk0A1LxIy3ixFGQlM3cQOTmLNKaHmg68m6buNNNIJ5e/2u3pF7Hug0mS0vX3ocpMZlcfaXYHsI8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PyNPicHV; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nK4oVuip"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740556150; x=1772092150;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5cQoD7Xj2iZryYy9aBsI41+A76x5ySkRxVxY7EVlfSg=;
-  b=nK4oVuip5fceu+OnFwN5/JemBpr5MKtkTmarAcroJM7fTYZAiQbMcN9N
-   26nTzWPO5Z/wkmE1wkQvTlEo9eA/cDISFJzuub4O2ydnzEY9eNkAq6/0Z
-   uOlJ03NeWVi0bASpbDsV3uYKUGh8vQOnxzzup/JrbTyjeDt+HA5OBxN+W
-   6rvTwOHKfnvhCLRjg25nyLjHdzYD6Ap0/CrUARsey9FD2eiXMQvTW4vza
-   vX+qeOt1+ZGMDJRBC1mE+Mki27TtXW/7GFr03lMr+YDFYkj+Qicxk1bkC
-   s26SK1Q5XmW9Tcojg98q9/XFy+rHYbibYKJYJogh2CL2j5RK+WtyuHJ3W
-   g==;
-X-CSE-ConnectionGUID: s+NdFlxCQ0euriHGSnbt4g==
-X-CSE-MsgGUID: R6mq5x8tQZGWCwN/fYisTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="41409417"
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="41409417"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 23:49:10 -0800
-X-CSE-ConnectionGUID: u+gjdte4TX6KTFW7j+dreQ==
-X-CSE-MsgGUID: +w6L6/fDSk6zN8+RpOOcmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="116418536"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 25 Feb 2025 23:49:09 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnCAD-000BLz-31;
-	Wed, 26 Feb 2025 07:49:05 +0000
-Date: Wed, 26 Feb 2025 15:48:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 122/123]
- fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76
- bits) exceeds the width of its type (64 bits)
-Message-ID: <202502261546.ZokeMDs6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PyNPicHV"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abec8c122e4so344365466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 00:11:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740557515; x=1741162315; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pok0mIvLeITMrChGwDUbCNIfuZyPgW77IlN7F5j/3WM=;
+        b=PyNPicHVHCLGOp0aaho1gBjAoTm/tAHHseDVjnelsTJcL61R/tlidZDslaTWIwOdi6
+         c3AO93V/rB0N8/D5Cnd+rNYyJI3ZgOcbB82SR/K2qsnXL+ydoz/OqG7YgoR3tlLRQ04U
+         prXaryRi49IselziiqaiMP2kWA2MmBMTmBEigmtlaOejXhROHlgOz6rTOw+dgoVNfrj2
+         72FNesz17NLW6s2yM1rauxhUoTg0HVHXrhYmxkcbJgPtSODID9f4dAjC/pXiCLZ7ngGl
+         RuHrm4qpR4zGOPN1gSCvfky6IMIkO31WTtaSkR4EQmOxjr51JtDjbs8gIa0yANeDUpfw
+         H/YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740557515; x=1741162315;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pok0mIvLeITMrChGwDUbCNIfuZyPgW77IlN7F5j/3WM=;
+        b=wcSR2hxHlFgSZYeVP643UkUzsu8yDa6QxH5z8VJdd/yoYGUwnzR8L6K9cYOJ6vcHRG
+         15NLj1DG2P71+B5YsQnoGEedPh8lYSXxwflnZIpzInEXnMVdB4dVEK7M5Wgf8/DHNZOj
+         AMLNjUL89r8heqd5/iRi3Bul2SETiSxfGSYxvDCJKg+0iREJt9aq2hu1JLOi/eqy8NIL
+         qCABQvjhzW1SPIj1o3wDAWp7dLEENk7Osekb83mTqxfDkCqJfSmtp4N3vgzAhI+v4MF2
+         w5OmbQTiZDFy0ozjiq866rP7ih1Hosj9gwQMruswHAPlSDmN31F7sR8kDrBN1tDuHQEQ
+         3ZcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWkXxpvg/JvePe6DNX2NtDPp2XbQnU9LEmfOdixx2obQ3GgTFTgC7tt1wRPzxRIrqZhzvyamXquhu9QmI98@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuHbDMS+GjfxlBseo9GDq77jy+eis+DI3hhuaO6uHwLLTOI2jy
+	go8vrx7+GtUL5/158dTsAINGmRKzT1Ie6KpB5x8UBgAfQgDRAnPHElHwh8VPC54=
+X-Gm-Gg: ASbGncsDbqBWzQ8Vzx8RXXj2FmiVCgVOg3K9Vo2QJnovZaq+Mv/z3VU5QdKtdUU5ZDH
+	UnVjVclOsshajPHRv5YZRIPMQPZ0tAYHWUMiPbO9o1vRO30iYgfltSELq7LT4C2RH020jYaa53i
+	+FZkauvnRPm8bAmaY/uptPuCA372R7Zbw9959GdDxDKd0GTSvFymDsGLUwvBfrEmq/I6a4FXWE1
+	UFDArPHTRDy5b5gcnLFekP5DYR+HP7ASZk7CIYk2fgSAERPqOJqjifx54J7brV+d/VTP+KKXzOr
+	AeqboYBbO0p2xjnP6dN4fNrzVWNOIDQ=
+X-Google-Smtp-Source: AGHT+IGFjBlz6ALqfYLoGE9PxwjThSMXDCGpI9ssfGq+g0dABRHwtq/nG1O3LTVG+zq6GwCLFDOijA==
+X-Received: by 2002:a17:907:7f0c:b0:abc:269d:d534 with SMTP id a640c23a62f3a-abeeef34ed6mr250207266b.40.1740557515475;
+        Wed, 26 Feb 2025 00:11:55 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed1da1c2dsm284791366b.77.2025.02.26.00.11.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 00:11:54 -0800 (PST)
+Date: Wed, 26 Feb 2025 11:11:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Animesh Manna <animesh.manna@intel.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jouni.hogander@intel.com,
+	jani.nikula@intel.com, jeevan.b@intel.com,
+	Animesh Manna <animesh.manna@intel.com>
+Subject: Re: [PATCH v4 7/8] drm/i915/lobf: Add mutex for alpm update
+Message-ID: <51d3816e-2201-4d02-a6a7-def3a4398e77@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,114 +73,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250224080847.326350-8-animesh.manna@intel.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   8de504fc059b751ae0cc0fd600f2d5e28ccb8dc5
-commit: 82af8187566114f55114f1b878562de031e0b9b4 [122/123] bcachefs: bcachefs_metadata_version_extent_flags
-config: s390-randconfig-002-20250226 (https://download.01.org/0day-ci/archive/20250226/202502261546.ZokeMDs6-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261546.ZokeMDs6-lkp@intel.com/reproduce)
+Hi Animesh,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Animesh-Manna/drm-i915-lobf-Add-lobf-enablement-in-post-plane-update/20250224-221647
+base:   v6.14-rc4
+patch link:    https://lore.kernel.org/r/20250224080847.326350-8-animesh.manna%40intel.com
+patch subject: [PATCH v4 7/8] drm/i915/lobf: Add mutex for alpm update
+config: i386-randconfig-141-20250225 (https://download.01.org/0day-ci/archive/20250226/202502261244.aUuaLdTn-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502261546.ZokeMDs6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502261244.aUuaLdTn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_alpm.c:548 intel_alpm_disable() warn: inconsistent returns '&intel_dp->alpm_parameters.lock'.
 
-   In file included from fs/bcachefs/btree_locking.c:3:
-   In file included from fs/bcachefs/bcachefs.h:208:
-   In file included from fs/bcachefs/bcachefs_format.h:502:
->> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
-           __u64                   flags:76
-                                   ^
->> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
-           __u64                   flags:76
-                                           ^
-                                           ;
-   2 errors generated.
---
-   In file included from fs/bcachefs/io_write.c:7:
-   In file included from fs/bcachefs/bcachefs.h:208:
-   In file included from fs/bcachefs/bcachefs_format.h:502:
->> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
-           __u64                   flags:76
-                                   ^
->> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
-           __u64                   flags:76
-                                           ^
-                                           ;
->> fs/bcachefs/io_write.c:1180:2: error: statement requires expression of scalar type ('void' invalid)
-           extent_for_each_ptr_decode(e, p, entry) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:396:2: note: expanded from macro 'extent_for_each_ptr_decode'
-           __bkey_for_each_ptr_decode((_e).k, (_e).v->start,               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:350:2: note: expanded from macro '__bkey_for_each_ptr_decode'
-           for ((_ptr).crc = bch2_extent_crc_unpack(_k, NULL),             \
-           ^
-   3 errors generated.
---
-   In file included from fs/bcachefs/move.c:3:
-   In file included from fs/bcachefs/bcachefs.h:208:
-   In file included from fs/bcachefs/bcachefs_format.h:502:
->> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
-           __u64                   flags:76
-                                   ^
->> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
-           __u64                   flags:76
-                                           ^
-                                           ;
-   fs/bcachefs/move.c:715:11: warning: variable 'sectors_moved' set but not used [-Wunused-but-set-variable]
-           unsigned sectors_moved = 0;
-                    ^
-   1 warning and 2 errors generated.
---
-   In file included from fs/bcachefs/data_update.c:3:
-   In file included from fs/bcachefs/bcachefs.h:208:
-   In file included from fs/bcachefs/bcachefs_format.h:502:
->> fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
-           __u64                   flags:76
-                                   ^
->> fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
-           __u64                   flags:76
-                                           ^
-                                           ;
->> fs/bcachefs/data_update.c:281:3: error: statement requires expression of scalar type ('void' invalid)
-                   extent_for_each_ptr_decode(extent_i_to_s(new), p, entry)
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:396:2: note: expanded from macro 'extent_for_each_ptr_decode'
-           __bkey_for_each_ptr_decode((_e).k, (_e).v->start,               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:350:2: note: expanded from macro '__bkey_for_each_ptr_decode'
-           for ((_ptr).crc = bch2_extent_crc_unpack(_k, NULL),             \
-           ^
-   fs/bcachefs/data_update.c:306:3: error: statement requires expression of scalar type ('void' invalid)
-                   extent_for_each_ptr_decode(extent_i_to_s(new), p, entry)
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:396:2: note: expanded from macro 'extent_for_each_ptr_decode'
-           __bkey_for_each_ptr_decode((_e).k, (_e).v->start,               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/extents.h:350:2: note: expanded from macro '__bkey_for_each_ptr_decode'
-           for ((_ptr).crc = bch2_extent_crc_unpack(_k, NULL),             \
-           ^
-   4 errors generated.
+vim +548 drivers/gpu/drm/i915/display/intel_alpm.c
 
+026d6557dc2749d Animesh Manna 2025-02-24  527  void intel_alpm_disable(struct intel_dp *intel_dp)
+026d6557dc2749d Animesh Manna 2025-02-24  528  {
+026d6557dc2749d Animesh Manna 2025-02-24  529  	struct intel_display *display = to_intel_display(intel_dp);
+026d6557dc2749d Animesh Manna 2025-02-24  530  	enum transcoder cpu_transcoder = intel_dp->alpm_parameters.transcoder;
+026d6557dc2749d Animesh Manna 2025-02-24  531  
+026d6557dc2749d Animesh Manna 2025-02-24  532  	if (DISPLAY_VER(display) < 20)
+026d6557dc2749d Animesh Manna 2025-02-24  533  		return;
+026d6557dc2749d Animesh Manna 2025-02-24  534  
+737b2873a48f3ab Animesh Manna 2025-02-24  535  	mutex_lock(&intel_dp->alpm_parameters.lock);
+737b2873a48f3ab Animesh Manna 2025-02-24  536  
+026d6557dc2749d Animesh Manna 2025-02-24  537  	if (!(intel_de_read(display, ALPM_CTL(display, cpu_transcoder)) & ALPM_CTL_ALPM_ENABLE))
+026d6557dc2749d Animesh Manna 2025-02-24  538  		return;
 
-vim +/flags +219 fs/bcachefs/extents_format.h
+mutex_unlock(&intel_dp->alpm_parameters.lock) before the return
 
-   213	
-   214	struct bch_extent_flags {
-   215	#if defined(__LITTLE_ENDIAN_BITFIELD)
-   216		__u64			type:7,
-   217					flags:57;
-   218	#elif defined (__BIG_ENDIAN_BITFIELD)
- > 219		__u64			flags:76
-   220					type:7;
-   221	#endif
-   222	};
-   223	
+026d6557dc2749d Animesh Manna 2025-02-24  539  
+026d6557dc2749d Animesh Manna 2025-02-24  540  	intel_de_rmw(display, ALPM_CTL(display, cpu_transcoder),
+026d6557dc2749d Animesh Manna 2025-02-24  541  		     ALPM_CTL_ALPM_ENABLE | ALPM_CTL_LOBF_ENABLE |
+026d6557dc2749d Animesh Manna 2025-02-24  542  		     ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+026d6557dc2749d Animesh Manna 2025-02-24  543  
+026d6557dc2749d Animesh Manna 2025-02-24  544  	intel_de_rmw(display,
+026d6557dc2749d Animesh Manna 2025-02-24  545  		     PORT_ALPM_CTL(cpu_transcoder),
+026d6557dc2749d Animesh Manna 2025-02-24  546  		     PORT_ALPM_CTL_ALPM_AUX_LESS_ENABLE, 0);
+737b2873a48f3ab Animesh Manna 2025-02-24  547  
+737b2873a48f3ab Animesh Manna 2025-02-24 @548  	mutex_unlock(&intel_dp->alpm_parameters.lock);
+026d6557dc2749d Animesh Manna 2025-02-24  549  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
