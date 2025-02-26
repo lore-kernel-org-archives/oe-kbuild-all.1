@@ -1,119 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010056.outbound.protection.outlook.com [52.101.229.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F14212D84
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 09:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740561157; cv=none; b=SrKJCyJQb5ZqNQsHejbK6YzlMmJnweb0k0vLVU0bXE7diAaKwwnyN73YofdDFWValIFvPcmS0WkE28kxVEA38FiLaymO6FNRAtJN2gl+KCEISZA1UtJe+x4ulUltlaZFT3EqCU1KGVst7GT/gMweo8K0mdaBRlYgtacHqPMTxtE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740561157; c=relaxed/simple;
-	bh=CpIR0NJnHdXi9gzfcb1sxnR+G02fPwBiijjT1hJl9Vc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YoRBwJPos3XJTHJ46grt55lEP3Hsa+plC0tnAKrunKzpcP4UBmK21dXafHXTMahSSUOZWFDSoZbbH75sBAZue/QQ28UWNe7iVT+o/uREWSVzdEmnsCS5J2k9Dk9BLiHObCg6gO/5M9Tneb5Om8NP68JHN0xr1UfciyHHvjpBSdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EV/ilw18; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDEF212FB5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 09:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740561646; cv=fail; b=ESlb6eOkYeYtZqsv8Pt19Syg+K3G0s+AthEYsfs/NdV10JWLEXU1WPTvOq4JnHfS65vqwQ6FCbzYCwVcIvBwJUbC/Q6KMf8hBkaV5BrKE20qRapGzQzOfrWs4Oy8nlYGzvM09RW/E9TlXkvcynOIW9Oxg/2N7zJ5fTXFAj7OD9s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740561646; c=relaxed/simple;
+	bh=S+OG4woGnAi3pcvSc/pbpFBksslNf+AaLpiYiWwIMlk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PYhAR1k3284ZXW/9WdUBTyBCghfDR7RJG+Ih6G/B9SdbfQ24v9AJkXsVIbyvXVCEsuWU9O7/S6vl9aphUyeDts4+C9g9f6lk0MFMiEM0P7r7f5Tc6T0keX7/2YKPZdU+w/RQP9IMbbMZGjn0+xTjcHri6CbMXWqynb3CzOT1c2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=k3Jq1p2G; arc=fail smtp.client-ip=52.101.229.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EV/ilw18"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740561156; x=1772097156;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CpIR0NJnHdXi9gzfcb1sxnR+G02fPwBiijjT1hJl9Vc=;
-  b=EV/ilw18/ABtT3ujNFqfxbRQRJVCu85Dg5LdP1eJo2TIKKbR6cme+Hzd
-   SYHSdjU1Vr6ovhpOhqB+pN9vNvRdeQ8nTzuURSvzLJyFbYfRG4Ci1QLok
-   u3o5iF1C0DnXhMx7QHU0epa7KimgqoCVJ3GCDIHIpI3VwHpD1rcxAosx8
-   i6otv65vZBZVtNSR5lOfdx7JJnbqYGgWBrqvcdMtvjOrCc8N0M2I07dI7
-   jOYCihyHgaIusqcldIGHeVySJiDnJj+W0wDNpgsBR8dLwPkNzKH2BGTe1
-   w2QlS0XjYLlCf4mnZ74zMpMzrqFkudwfsHh55Gl/Slke+oyvGcgZpKB2E
-   A==;
-X-CSE-ConnectionGUID: HO//rHv6R4aiXbBj6vqt+g==
-X-CSE-MsgGUID: +xcwzKhWQoiJDZ5P4STMSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="45048178"
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="45048178"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 01:12:35 -0800
-X-CSE-ConnectionGUID: qEaQhkCfT5aD86RnYhFiIA==
-X-CSE-MsgGUID: VVIOIiu2Rx6pgR8ad2QgbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="116657294"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 01:12:35 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnDSy-000BRr-0t;
-	Wed, 26 Feb 2025 09:12:32 +0000
-Date: Wed, 26 Feb 2025 17:11:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Aditya Garg <85610623+AdityaGarg8@users.noreply.github.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:pr/372 1/1] drivers/hid/hid-apple.c:706:44: error:
- 'apple_fn_keys_mbp13' undeclared; did you mean 'apple_fn_keys_spi'?
-Message-ID: <202502261717.MzYQP5uv-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="k3Jq1p2G"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kV6ztxqb78xdawJIStLuez3cWYnSkw0nVaFNxUzygOSXdn9uC2sXqkfHWhfT2s30KkXgL788x+GU6KZHRljSlp4nBIXwCAvtzwCqQfhXcTvtufhMWTXmTAKmIuK7MKMzYli2826dwydK4wQWymwEHHvY65XWcxuoQvDfkv6KNbI3KtddiIorZ/WYMsRLpAzmaIO3KSoXCQMkxTuH6i4J6IsFIb9cO9lbhGn1dVF3JqWD4rRKs4de8L1JNuKq8QgstYzek5wKYvzt80eUgseflu+Hc/6lI2crD3WPIVuZY6dcDGq5B112tj5LfkEGkpJk4OF/WLPHxfAd95LL3UbWSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IxZUk1cpPyh9fyT9o0PVQ2hF06z8oJv3C0OYBLhu1g0=;
+ b=BDy/neChmLFAJmGHNw56dO3w2kXotgv+SRYeGFmWGXguGoaL7FgOQEJMBBFZcI4/LOheBqK7nLprg8ugfDf7IS0gf3UhveRcS/RXYFpwT2nSon3v6IkxAZbDyv9ccoOUlHsxHj9elZYWK3AJTXArrExR98RFzysQ1OxClgv7+kLGgHrTuFfypMLYx1/UHD/4w5aP4o6ui4eo9Q1qWblJmZnJlGUV/NcK7SEuwEHadUyiHdk8Zmttyekp0cZ+VtPJvp+2v5tSoCfy+sbYWMZ4U5R3US2WKubsv8JsdY1xP9YlRqGqz2lC2fb0S23Jri2PNXnHcjew36Y+4tI26oabAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IxZUk1cpPyh9fyT9o0PVQ2hF06z8oJv3C0OYBLhu1g0=;
+ b=k3Jq1p2Gvsdsi+GkN3n0W3jGUSELAatzO9FC421TSnA6BgZM2YlAP4Ou4kn3LXSwFxya505bSutgXBTLRZ6z7bdiOvX5xFxHzThD9gh1PV8IUGxIMzqRW0mIfLP5z1ikEYmwgTP2cU7IYnzA9AqHFEYgMeXFTwIB4yB1T5H19RU=
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com (2603:1096:400:3c0::7)
+ by OS3PR01MB7407.jpnprd01.prod.outlook.com (2603:1096:604:14a::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.21; Wed, 26 Feb
+ 2025 09:20:40 +0000
+Received: from TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479]) by TYCPR01MB11332.jpnprd01.prod.outlook.com
+ ([fe80::7497:30af:3081:1479%7]) with mapi id 15.20.8466.016; Wed, 26 Feb 2025
+ 09:20:40 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <ukleinek@kernel.org>
+CC: kernel test robot <lkp@intel.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+Thread-Topic: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+Thread-Index:
+ AQHbUIfEye5JKGoBg0O4godryy/UCLLsKj8AgCDikqCAAUJZAIAAAFoggEOPvgCAB91nAA==
+Date: Wed, 26 Feb 2025 09:20:40 +0000
+Message-ID:
+ <TYCPR01MB11332CCA52D52AA982BCDBFA486C22@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+References: <20241217132921.169640-4-biju.das.jz@bp.renesas.com>
+ <202412182358.9wma1UUE-lkp@intel.com>
+ <TY3PR01MB11346CC402843A628226F5C6186122@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <b7woae7iquvuzs4vcollns7qcyand4ginrbjqs75bnsiockrjc@c4pyody6zdcr>
+ <TY3PR01MB1134690173EBB583582DE8E3386132@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <hb7agtiqcuotiie646a2nzwg2cfwmahtgzzexxsf4tqu3rztf6@qqq2a7qkazh5>
+In-Reply-To: <hb7agtiqcuotiie646a2nzwg2cfwmahtgzzexxsf4tqu3rztf6@qqq2a7qkazh5>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11332:EE_|OS3PR01MB7407:EE_
+x-ms-office365-filtering-correlation-id: 71ef120d-6fce-401c-9e95-08dd5646d663
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?g6oxEk1anjkMWEscXX+PT0y4OguHGLgNisReQfOKz8xQQJRIcF1MkOw4vv?=
+ =?iso-8859-1?Q?RZVEAUyulxN+vRYWHi/Gi+Q3AQsUfwOPK9WFlq8uuIgx0fIyHlkh2vgHvp?=
+ =?iso-8859-1?Q?HHAJheUpIx9h4XSYA3P6DWhmEBAm9W8rQT8jnp7U+CiFAy3yMaXC708Ruz?=
+ =?iso-8859-1?Q?I/5CvDNl/Bp/GdhW04/5FEwSwDIy6Vv/YVGmMbD5ojA//wl2Ez6K9Bw9VR?=
+ =?iso-8859-1?Q?6zctwnuMtYWKvx0kfl1FtjI5MWQxX6Cqjg6qoL8FyShxEOTT8Pb0fjT4BI?=
+ =?iso-8859-1?Q?RWNWgopqKIGGN/Lrj9fJoK2JVuiArBO/U4ySDkewuD++2uMC3mF1awCFLt?=
+ =?iso-8859-1?Q?Jl2J4MrsqDTmtXVwQcJwoDWosKsB8y/GukYeVjZ/YNoX5rG7LiNA2GquxK?=
+ =?iso-8859-1?Q?vt7ceNfDH0BIW5NbWVmdXoMzVqVIKng9bOGRu8xwPACgOXHP6bGgOVZPpc?=
+ =?iso-8859-1?Q?+NhTAp2kA57D7s4ONLvXRHNRAmXwidYVn+JKXDKhNj2WesXtVUnhj/S+t9?=
+ =?iso-8859-1?Q?zOdL9UU/uJ1OPBWTCu6nfIhZW0Gf3xRAUVkOlcjChhH9x2T/ySKnRLraan?=
+ =?iso-8859-1?Q?BWPYgzOMotUw7eo/IX4NtMOIcb60kKXwIHyPqAsvX3AxAUrsQVhr/orgsy?=
+ =?iso-8859-1?Q?S5iA745d0zV/la054I2kpfA3bgNkFxcx+cKqcNWNMBJljS0GdVulMgXbBQ?=
+ =?iso-8859-1?Q?bQjR915aF7L4IxlcOlaPm+50aMv4t4KDm0FRdmXAulyFHETbFgS/fGQofP?=
+ =?iso-8859-1?Q?ebstMk513+H1tiZ8SzpF4NF/iiehhIxNaU6GWGiBruYkQnHgRs4BGZtYqZ?=
+ =?iso-8859-1?Q?o7mzh0eXhq2TD9xzm6bypvkTyY0chlPKCe86GXkV4r17wdVZlBHIuoNski?=
+ =?iso-8859-1?Q?nEjDif9/N0Y6ESKw/0ExwHHgG5w+VIPBYqCWJaSNATHevXSlk/bAunocBj?=
+ =?iso-8859-1?Q?74ZpBl+4VW3oddT5mmX88fj9KpwiAN1gxv8Hw2a96OCJf2op9B/bZYaGiN?=
+ =?iso-8859-1?Q?qKzdD9M057xUVtRhA3GcCU6w+/N+lPGKefhUVie8nGTxMFIbNP7rcAikSb?=
+ =?iso-8859-1?Q?b81lq4YEA3N5ugxT51ys9925hNZ1NBZIOC8EBYIxJfsSUwVD9WEutNFTbl?=
+ =?iso-8859-1?Q?733unvnSC7vLEHLXaKgUFxRViJVSBx2IeSOrMwbO/LiXohalXYgT3fLaqQ?=
+ =?iso-8859-1?Q?dL1f+YcDhpL+EfSmXLm+YkmJvyl1gob4CCG+J9Bf3X8smra1r5SrsKbBIb?=
+ =?iso-8859-1?Q?dWoKaCQNzfuVOYJBXTIGYhayCTx9b2tIDxVsqZvA1UaE+IDoPPvfDxCf09?=
+ =?iso-8859-1?Q?XE2Cy757ItUHZlS0ueTLRxpzMVJxmddO9ESUSK1RgkEosqNObRZDvOI1cw?=
+ =?iso-8859-1?Q?k4GQeQH2usQN5dQjrLcvJrUKqyreSOkFQIDSwHmOCNQShMScKQCK1xj+4G?=
+ =?iso-8859-1?Q?Ea7GqgRMtMSPknhezWtymz/m0lQkdEn1SDyAZ5E/Q1Jzxl6Q/9F3EMixl/?=
+ =?iso-8859-1?Q?EduX2VDO3+bpLVVJcFJBYj?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11332.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?SYhmx1gKiqvHLFeEzzgBDqVRBLX/qTPrgwHYY08tzoltuxzaayMdiauoDf?=
+ =?iso-8859-1?Q?CuAvMAQfVuxHDIp0KCpTTeU9yPIs/Vbw/l8rzl/kWScQ2GeWbrbp6fIVHD?=
+ =?iso-8859-1?Q?9T90mPDcmtoZw1ibbWD7ZB5J3oLLNM0SWXbUM1zOuzB1yOMoRBRB0YiUFe?=
+ =?iso-8859-1?Q?hyleAJa0Eo4kp1lNPxAbNZyJF1MeBvRV1T28yiUdIrytEqB1brBTucwKL0?=
+ =?iso-8859-1?Q?Z1cQu3ySadsyP7WuY3cU0NhXLJczrqXvNYF2047CSLAyF7hsM07spgyAUg?=
+ =?iso-8859-1?Q?P14WpF5wqyWKmxnkES1phHsHIUMoiIDrPYqmfEPLOAqNWWc4w0caHgz4S3?=
+ =?iso-8859-1?Q?mw6ojrFYlJwCbc0VSYGWBblMThx3Ch75rY2jiWh9FMabzDYkxWl+b+DBVV?=
+ =?iso-8859-1?Q?yEkXrSkYUxLJmQQ/FbrMysMNO2S/VHfcJOnXPI2Q48zX3EJ5TMINzZdHFx?=
+ =?iso-8859-1?Q?zBrydimZyyisuBtubVoSSbN4UXslw16GTzXkigsNU8xBqY8RfrJp0I0XSf?=
+ =?iso-8859-1?Q?/zB4C6Bzt08YEvKxy7y9UZDDYmFFLH1KeOHK/LLSwuM9wJCew6nTKc0ITT?=
+ =?iso-8859-1?Q?RCFGl9P34lZJ52uIK50kyxdeWNCdsFIjhWe7jgacaqVKBCoZwU6IU2vAbm?=
+ =?iso-8859-1?Q?la3jUCICjOPgOYd35t3VnpAaZRFh5q3Cw5m74CEj9hkOfheuOaQ/MkGo3i?=
+ =?iso-8859-1?Q?gic0AD7tHna0UJWIRPr0uZg+ZKmgTbePBqiiqrEPMER5q7NPK9bVl/E45V?=
+ =?iso-8859-1?Q?X6aSMhHq1+gKCXWLy52quinp99ZTjRTaTGQn6tcMSYmQ5f84NcJjkUJAwC?=
+ =?iso-8859-1?Q?pAcMTClBdF+3q1ziZ9JY7oxrcv7IvdcuHxvGDzPQPTh2ZVEn5E2FsXijtl?=
+ =?iso-8859-1?Q?IN8EkbIj5Gkv66OcRCfeyamXg4+im5VBBfEJSu4d1pYiCLa7YR28bseOQa?=
+ =?iso-8859-1?Q?YgVICdaZxdpNmo0dQlmz/j2uwDsS1g3zOdvpOvFILSrXDdyTbIdpGdeZjh?=
+ =?iso-8859-1?Q?aEMfS7IV0torZ4YEtacCpm1NxSHw+1D8kGD2K0qfcN7dVZjM7T1iHgqrrt?=
+ =?iso-8859-1?Q?vmK2eFoR8VoqRReL6DpshB6aNHlcmJ4J26jlGZZaW7ej+9MhtcYD6Uvg9K?=
+ =?iso-8859-1?Q?SiHj6ZVGXBNIseBVPz1LU+Gmqbf2giOWO7nrH5QoH8jlEZgoHVwF0LVzS/?=
+ =?iso-8859-1?Q?6+f4V3Oy9lBUlSAYi4jR4JB4Wzfg7GcCoK4z05r8JVSbkwRJaW6OSXKe3u?=
+ =?iso-8859-1?Q?ElVdvDZXc/OvhCY0GDPW4wVt5mIFg3lubVvskJ4xYOiMLfes/y8a8nLpe1?=
+ =?iso-8859-1?Q?iEpRPtj0du77moMfYDC85TLQXT2jsRZhvHn0QONoPTcDEOrG6Gs2UtdfqM?=
+ =?iso-8859-1?Q?qkKVdNIqTRtJFRjOVXKfNtd8k8Pgf+RMwsvxFLkIFrGz+vTChlTbtNUXSM?=
+ =?iso-8859-1?Q?+niAFaD9E2DcmKgdcPUIsPsZxHjTxFgyNQEdj0PJ/WgAi+bIM/iV/n/dTB?=
+ =?iso-8859-1?Q?7EJvih1F/d09O2euuDWEti15wgYK9YqbJVL3JBO7cpxF2uWRnSvwOkB3ja?=
+ =?iso-8859-1?Q?LUQtz6OPpVfqu9i3a8XcpL4UVPsPQEh1t+7blfMXaSo94qSZYR0vM1oQZQ?=
+ =?iso-8859-1?Q?j6GdxkDFeZKz7Om3br9rw10k1BOpqhgqD5Wo38twQqNmXZHNWgSAldYg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11332.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71ef120d-6fce-401c-9e95-08dd5646d663
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2025 09:20:40.0965
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5OuO+73a/whfHL+akTxECjuqlLJPzJQg522jEqJfSag4pakUPDHklgiomhEIOO3a4f2BS+2FtygG2r9NNbJodRbTmh5RjSfpE0LyxDF8uok=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7407
 
-tree:   https://github.com/AsahiLinux/linux pr/372
-head:   0ce68966540e787e080a3bafdecd863469693b09
-commit: 0ce68966540e787e080a3bafdecd863469693b09 [1/1] HID: apple: remove duplicated table used for 13 inch MacBook Pros with touchbar
-config: arm-randconfig-001-20250226 (https://download.01.org/0day-ci/archive/20250226/202502261717.MzYQP5uv-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261717.MzYQP5uv-lkp@intel.com/reproduce)
+Hi Uwe,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502261717.MzYQP5uv-lkp@intel.com/
+Thanks for the feedback.
 
-All errors (new ones prefixed by >>):
+> -----Original Message-----
+> From: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
+> Sent: 21 February 2025 09:08
+> Subject: Re: [PATCH v23 3/4] pwm: Add support for RZ/G2L GPT
+>=20
+> Hello Biju,
+>=20
+> On Thu, Jan 09, 2025 at 09:32:58AM +0000, Biju Das wrote:
+> > > On Wed, Jan 08, 2025 at 02:13:09PM +0000, Biju Das wrote:
+> > > > Please let me know, if there is any feedback for this patch series
+> > > > or any new API to be adapted in next kernel version which
+> > > > simplifies the code, So that I can send next
+> > > version.
+> > >
+> > > I didn't look, but if you're ambitious you can convert your driver to=
+ the waveform callbacks.
+> >
+> > Is it ok, after the acceptance of initial version, will switch to
+> > waveform callbacks to enable the users of GPT(Reason: lot of customers =
+are using GPT for backlight
+> for LCD panels)?
+> >
+> > Please let me know.
+>=20
+> I'd still accept your driver with the legacy callbacks, mostly because yo=
+ur effort is already that old
+> (which I consider my fault mostly).
 
-   drivers/hid/hid-apple.c: In function 'apple_setup_input':
->> drivers/hid/hid-apple.c:706:44: error: 'apple_fn_keys_mbp13' undeclared (first use in this function); did you mean 'apple_fn_keys_spi'?
-     706 |         apple_setup_key_translation(input, apple_fn_keys_mbp13);
-         |                                            ^~~~~~~~~~~~~~~~~~~
-         |                                            apple_fn_keys_spi
-   drivers/hid/hid-apple.c:706:44: note: each undeclared identifier is reported only once for each function it appears in
+OK.=20
 
+>=20
+> > Is there any documentation available for waveform callback? What
+> > scenarios we can use Waveform callbacks compared to traditional one?
+>=20
+> There is no nice documentation available yet. The improvements include:
+>=20
+>  - arbitrary offsets for the duty cycle, so the active phase doesn't
+>    need to be at the start or the end of a period any more
+>  - consumers can query the result of a configuration request (before and
+>    also after the request was issued).
+>=20
+> Both are of little importance if your focus is mostly backlights.
 
-vim +706 drivers/hid/hid-apple.c
+Mostly RZ/G2L GPT users are backlights. So, from RZ/G2L usecase point, lega=
+cy
+callback is sufficient.
 
-8c19a51591d06f Jiri Slaby    2008-06-18  698  
-8c19a51591d06f Jiri Slaby    2008-06-18  699  static void apple_setup_input(struct input_dev *input)
-8c19a51591d06f Jiri Slaby    2008-06-18  700  {
-8c19a51591d06f Jiri Slaby    2008-06-18  701  	set_bit(KEY_NUMLOCK, input->keybit);
-8c19a51591d06f Jiri Slaby    2008-06-18  702  
-8c19a51591d06f Jiri Slaby    2008-06-18  703  	/* Enable all needed keys */
-f1d1b3a9b41125 José Expósito 2022-02-08  704  	apple_setup_key_translation(input, apple_fn_keys);
-9b8df1c76e1d6a Janne Grunau  2021-12-19  705  	apple_setup_key_translation(input, apple_fn_keys_spi);
-77280a39c0c29e Janne Grunau  2022-01-05 @706  	apple_setup_key_translation(input, apple_fn_keys_mbp13);
-f1d1b3a9b41125 José Expósito 2022-02-08  707  	apple_setup_key_translation(input, powerbook_fn_keys);
-f1d1b3a9b41125 José Expósito 2022-02-08  708  	apple_setup_key_translation(input, powerbook_numlock_keys);
-f1d1b3a9b41125 José Expósito 2022-02-08  709  	apple_setup_key_translation(input, apple_iso_keyboard);
-0fea6fe7d5ef1b José Expósito 2022-02-08  710  	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
-250b369ed2380b José Expósito 2022-02-08  711  	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
-f1d1b3a9b41125 José Expósito 2022-02-08  712  	apple_setup_key_translation(input, apple2021_fn_keys);
-c5f09b1b45cbb9 Aditya Garg   2022-02-03  713  	apple_setup_key_translation(input, macbookpro_no_esc_fn_keys);
-c5f09b1b45cbb9 Aditya Garg   2022-02-03  714  	apple_setup_key_translation(input, macbookpro_dedicated_esc_fn_keys);
-8c19a51591d06f Jiri Slaby    2008-06-18  715  }
-8c19a51591d06f Jiri Slaby    2008-06-18  716  
+Later, I will switch to waveform callbacks, for complex GPT usecase support=
+ for next
+SoCs(eg: RZ/G3E).
 
-:::::: The code at line 706 was first introduced by commit
-:::::: 77280a39c0c29eec0c58e4aa6db7abb459b25228 HID: apple: add Fn key mapping for Macbook Pro with touchbar
-
-:::::: TO: Janne Grunau <j@jannau.net>
-:::::: CC: Janne Grunau <j@jannau.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Biju
