@@ -1,97 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB2A258CC0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 08:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F14212D84
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 09:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740559326; cv=none; b=rdoROzOLh70EZcrxaDCaJPIKL2RXkbr3aMBo3rf2MPKMHzKHPrnZCn7/tq+a0INWFSrNI1Bx4OgalGNEl99jHfVdQm66T4JO+uOlvus/wTIh49wGL/mSwv9eyTeH73cpGG+5YJuRQn7fRJgpD7I5nMEmHpHLHbrxP4k48b93KTc=
+	t=1740561157; cv=none; b=SrKJCyJQb5ZqNQsHejbK6YzlMmJnweb0k0vLVU0bXE7diAaKwwnyN73YofdDFWValIFvPcmS0WkE28kxVEA38FiLaymO6FNRAtJN2gl+KCEISZA1UtJe+x4ulUltlaZFT3EqCU1KGVst7GT/gMweo8K0mdaBRlYgtacHqPMTxtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740559326; c=relaxed/simple;
-	bh=el2Chi1RxV7Fdr3nSH2E5NsfD+R/cCUTfEjUkbNAreo=;
+	s=arc-20240116; t=1740561157; c=relaxed/simple;
+	bh=CpIR0NJnHdXi9gzfcb1sxnR+G02fPwBiijjT1hJl9Vc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kFNvjdWNEJ9Pyi0RWKzgoS2ARJ102WzXl2sbUsjOfsI1xEZsVugD/WsZ1RFG/42+8+K4wBma0XPKLCuKMfLrPZl9W6m/FiSWSXVuwSkFn3DLL2zO6i7axS2DMkk19gtsJKuewkGTQiMVcnM25HYKxPUj9WpUNi4jofjaPAkGON8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L1zwcWxt; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=YoRBwJPos3XJTHJ46grt55lEP3Hsa+plC0tnAKrunKzpcP4UBmK21dXafHXTMahSSUOZWFDSoZbbH75sBAZue/QQ28UWNe7iVT+o/uREWSVzdEmnsCS5J2k9Dk9BLiHObCg6gO/5M9Tneb5Om8NP68JHN0xr1UfciyHHvjpBSdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EV/ilw18; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1zwcWxt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EV/ilw18"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740559324; x=1772095324;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=el2Chi1RxV7Fdr3nSH2E5NsfD+R/cCUTfEjUkbNAreo=;
-  b=L1zwcWxtWWdXDqMr1ScgFhutoMmFJqnk297trysJma45fDkDEUYe1v8L
-   NVEZA0zbye2H3rgb+0OfYcF70vQGcCWtBBQLswOkF5fdjxcaxIOB6L7vJ
-   5ebmvvtR8KUMkrcVhsYp6EBYolObK+tXJHeCnnDdryHM6V2ADt75IIqVJ
-   RGMAaeGgiDsu7MeZ5Us/x2CWOSdRr9SXiR+cPjBQGQ1ms8I8eGOnZXQyQ
-   nbyxhmsnceQ5iLLvLSimc3BCbVaASjvauskVnglaM7ARnxraSM5SOS+tF
-   UEjQDIA6JFvE3RSIvEBsAtMhbK5a/xR68fYunXpBfuuSrxJ2ISpJx7RFU
-   Q==;
-X-CSE-ConnectionGUID: T+/5WLtGRXO3tgSD0yV60A==
-X-CSE-MsgGUID: 6fEaLUo/SfG8bTstmGfIsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="58815687"
+  t=1740561156; x=1772097156;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CpIR0NJnHdXi9gzfcb1sxnR+G02fPwBiijjT1hJl9Vc=;
+  b=EV/ilw18/ABtT3ujNFqfxbRQRJVCu85Dg5LdP1eJo2TIKKbR6cme+Hzd
+   SYHSdjU1Vr6ovhpOhqB+pN9vNvRdeQ8nTzuURSvzLJyFbYfRG4Ci1QLok
+   u3o5iF1C0DnXhMx7QHU0epa7KimgqoCVJ3GCDIHIpI3VwHpD1rcxAosx8
+   i6otv65vZBZVtNSR5lOfdx7JJnbqYGgWBrqvcdMtvjOrCc8N0M2I07dI7
+   jOYCihyHgaIusqcldIGHeVySJiDnJj+W0wDNpgsBR8dLwPkNzKH2BGTe1
+   w2QlS0XjYLlCf4mnZ74zMpMzrqFkudwfsHh55Gl/Slke+oyvGcgZpKB2E
+   A==;
+X-CSE-ConnectionGUID: HO//rHv6R4aiXbBj6vqt+g==
+X-CSE-MsgGUID: +xcwzKhWQoiJDZ5P4STMSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="45048178"
 X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="58815687"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 00:42:03 -0800
-X-CSE-ConnectionGUID: zNhLdZoGThGRi9ezslsfEg==
-X-CSE-MsgGUID: zMqkW0WFT+Ofl8aAKJhq4A==
+   d="scan'208";a="45048178"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 01:12:35 -0800
+X-CSE-ConnectionGUID: qEaQhkCfT5aD86RnYhFiIA==
+X-CSE-MsgGUID: VVIOIiu2Rx6pgR8ad2QgbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120757290"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="116657294"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Feb 2025 00:42:02 -0800
+  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 01:12:35 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnCzQ-000BPz-0T;
-	Wed, 26 Feb 2025 08:42:00 +0000
-Date: Wed, 26 Feb 2025 16:41:14 +0800
+	id 1tnDSy-000BRr-0t;
+	Wed, 26 Feb 2025 09:12:32 +0000
+Date: Wed, 26 Feb 2025 17:11:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Wanner <Ryan.Wanner@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: [linux-next:master 5770/6192]
- arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb:
- /soc/chipid@e0020000: failed to match any schema with compatible:
- ['microchip,sama7d65-chipid']
-Message-ID: <202502261654.My9aOdzk-lkp@intel.com>
+To: Aditya Garg <85610623+AdityaGarg8@users.noreply.github.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:pr/372 1/1] drivers/hid/hid-apple.c:706:44: error:
+ 'apple_fn_keys_mbp13' undeclared; did you mean 'apple_fn_keys_spi'?
+Message-ID: <202502261717.MzYQP5uv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0226d0ce98a477937ed295fb7df4cc30b46fc304
-commit: 64382432013dff7642aaab4201c8bd4ad8118753 [5770/6192] ARM: dts: microchip: sama7d65: Add chipID for sama7d65
-config: arm-randconfig-052-20250225 (https://download.01.org/0day-ci/archive/20250226/202502261654.My9aOdzk-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux pr/372
+head:   0ce68966540e787e080a3bafdecd863469693b09
+commit: 0ce68966540e787e080a3bafdecd863469693b09 [1/1] HID: apple: remove duplicated table used for 13 inch MacBook Pros with touchbar
+config: arm-randconfig-001-20250226 (https://download.01.org/0day-ci/archive/20250226/202502261717.MzYQP5uv-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261654.My9aOdzk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502261717.MzYQP5uv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502261654.My9aOdzk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502261717.MzYQP5uv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
->> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/chipid@e0020000: failed to match any schema with compatible: ['microchip,sama7d65-chipid']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: flexcom@e2020000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sama7d65-flexcom', 'atmel,sama5d2-flexcom'] is too long
-   	'atmel,sama5d2-flexcom' was expected
-   	'microchip,sam9x7-flexcom' was expected
-   	'microchip,sama7g5-flexcom' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/atmel,sama5d2-flexcom.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/hid/hid-apple.c: In function 'apple_setup_input':
+>> drivers/hid/hid-apple.c:706:44: error: 'apple_fn_keys_mbp13' undeclared (first use in this function); did you mean 'apple_fn_keys_spi'?
+     706 |         apple_setup_key_translation(input, apple_fn_keys_mbp13);
+         |                                            ^~~~~~~~~~~~~~~~~~~
+         |                                            apple_fn_keys_spi
+   drivers/hid/hid-apple.c:706:44: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +706 drivers/hid/hid-apple.c
+
+8c19a51591d06f Jiri Slaby    2008-06-18  698  
+8c19a51591d06f Jiri Slaby    2008-06-18  699  static void apple_setup_input(struct input_dev *input)
+8c19a51591d06f Jiri Slaby    2008-06-18  700  {
+8c19a51591d06f Jiri Slaby    2008-06-18  701  	set_bit(KEY_NUMLOCK, input->keybit);
+8c19a51591d06f Jiri Slaby    2008-06-18  702  
+8c19a51591d06f Jiri Slaby    2008-06-18  703  	/* Enable all needed keys */
+f1d1b3a9b41125 José Expósito 2022-02-08  704  	apple_setup_key_translation(input, apple_fn_keys);
+9b8df1c76e1d6a Janne Grunau  2021-12-19  705  	apple_setup_key_translation(input, apple_fn_keys_spi);
+77280a39c0c29e Janne Grunau  2022-01-05 @706  	apple_setup_key_translation(input, apple_fn_keys_mbp13);
+f1d1b3a9b41125 José Expósito 2022-02-08  707  	apple_setup_key_translation(input, powerbook_fn_keys);
+f1d1b3a9b41125 José Expósito 2022-02-08  708  	apple_setup_key_translation(input, powerbook_numlock_keys);
+f1d1b3a9b41125 José Expósito 2022-02-08  709  	apple_setup_key_translation(input, apple_iso_keyboard);
+0fea6fe7d5ef1b José Expósito 2022-02-08  710  	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
+250b369ed2380b José Expósito 2022-02-08  711  	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
+f1d1b3a9b41125 José Expósito 2022-02-08  712  	apple_setup_key_translation(input, apple2021_fn_keys);
+c5f09b1b45cbb9 Aditya Garg   2022-02-03  713  	apple_setup_key_translation(input, macbookpro_no_esc_fn_keys);
+c5f09b1b45cbb9 Aditya Garg   2022-02-03  714  	apple_setup_key_translation(input, macbookpro_dedicated_esc_fn_keys);
+8c19a51591d06f Jiri Slaby    2008-06-18  715  }
+8c19a51591d06f Jiri Slaby    2008-06-18  716  
+
+:::::: The code at line 706 was first introduced by commit
+:::::: 77280a39c0c29eec0c58e4aa6db7abb459b25228 HID: apple: add Fn key mapping for Macbook Pro with touchbar
+
+:::::: TO: Janne Grunau <j@jannau.net>
+:::::: CC: Janne Grunau <j@jannau.net>
 
 -- 
 0-DAY CI Kernel Test Service
