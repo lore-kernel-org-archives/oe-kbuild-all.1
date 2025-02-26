@@ -1,99 +1,181 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B555F25CC6D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 22:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFCE25CC61
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 22:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740608357; cv=none; b=AntCevCDsd6W3PhhwawipEGenPFMQ+WNVzvyWueu8rlRAiff4n5HHNfcMwFRJ5x/7riJJZtG+9FP9Djk453RTTjSN+sexVkmodaZvYUd1DbOJXaELRHLEq3mMA1DtAF39JxRE8/loFYr7GDXhuoaoSgfO8Ej1HZIwP/E6Zl8Jqc=
+	t=1740608405; cv=none; b=DEpovP+vlymb9LyfqTGkmDji4KODWWDNoIYPa25TNHpggIsJxZIZyGQ36dbteL6fZB/ciz6vFPLvc5wnzJCfvTMcVjkywz2LcgaaRkgYaCq7gUOV8cfz7aFMOee6QI8DtzBPyERZqAydWAN0vv2JPPDZ0zVdN8kiHus/2m5o7WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740608357; c=relaxed/simple;
-	bh=MpSKsO7Wz80UJ2k67q5x+6+O4yXkYiiUwsiakU4YqgU=;
+	s=arc-20240116; t=1740608405; c=relaxed/simple;
+	bh=2R3jk3LWIuwwEVPnk835IzI/96JL1vWLEUpvSgCyDOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=je6ZR21tw6szGj/5XYr2a7dOpRP9LuMhBIs5xfd9XPVXouZTwcSHHC9kVwodtPXUbhy00uJqNmcLvqojH/fLFfuuB8bneKHcuW1eADJjTQipbGnT8FlhxYfAuFGGiYiJzofqTOKrPUXmt7TZgifdmPbeHdHngZwCzZLiLgy7/YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JZ0sE+VK; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=GfD935BVzQPNDooHYmc0ETTLk6HRm/sb5t823VdCxHzwXeuNTe7b8QzNUdA2IIy8B2zo51BXNcek6D15LTSXAA4sLbI/oGW4pPUsumwtNaySRuv9r0mIKvxgUYHDwKkpGifbQuhq9n6CAGqVsDTo4aS0FdHmVOsaN2DVfNs+Sqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjpmShBT; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JZ0sE+VK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjpmShBT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740608356; x=1772144356;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MpSKsO7Wz80UJ2k67q5x+6+O4yXkYiiUwsiakU4YqgU=;
-  b=JZ0sE+VKCfxzjQWNtXiGgguDP/yTGtGywNUkxBb0x7tWx8sSwWlCUKp3
-   tfcCoZ96QrOC/vyr5OeH0zQdc63oNvoFOWz63JHO/JzH29NSrREjtBMc3
-   dSjjIXtwWhgcWeHFO1HrBeSrJzVqVBVgfqHl7TNofEgFgVvAGWkcphYTJ
-   nAt7Mp+QR7Gj+OvFDJBjQsWJeKi1P9EShtBzPFpMf86+QRfaaHHclJN88
-   GGeXvaZ6CvmLD3fmrhwrRXxmWCPzlCgRmlrzfRevRa2Jhr4lc/RCDJ9vk
-   jgqwZatGhSLDx0YMe6Xi3isjB4Bpb057e70ebj8iGDIjEo+jpqd0STj4F
-   w==;
-X-CSE-ConnectionGUID: pI9KX0SqRvmR0ZAzgWMJcg==
-X-CSE-MsgGUID: zvgPYPE5SEu8iFrSjjlAPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41181836"
+  t=1740608402; x=1772144402;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2R3jk3LWIuwwEVPnk835IzI/96JL1vWLEUpvSgCyDOg=;
+  b=VjpmShBTi+LwC7z6tEP5r8bc7we8uyf3W9jQuSsjKFgjbPM3Q+lG74BU
+   4Z45m0lEgMk4/X2wvNgwJ+1gPTN8hdgaw7ME7YIqdf0xot9/y7jwAqWWX
+   5P55N8AqeO2M26iFjLETciL/4aj3aajsmOsLz2puQJW5cXYnKNO/Q+IjN
+   +9NR9lFFCFJzZ8Qr8E+g3cI4dC4962AFevXeDIL8sOTtnwWu1x+XOZ555
+   TFvOqWMFdEI9sQNZueAC9cJ0UOHqaaDwNAH7n3wWcg2+GZlTOGmNZHXt2
+   miNmrr12ud0gvN75SSF5EcmO5hsK5BJD1UyDf53n7WqzZ9tgDhAnw3228
+   g==;
+X-CSE-ConnectionGUID: uAWL4qhTSTiwsZIFatdohg==
+X-CSE-MsgGUID: p0sq/34uQ+e1W93C+PqA3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52875887"
 X-IronPort-AV: E=Sophos;i="6.13,318,1732608000"; 
-   d="scan'208";a="41181836"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 14:19:16 -0800
-X-CSE-ConnectionGUID: /EVeCsPZR5a08I3f5f/dLg==
-X-CSE-MsgGUID: lqFW1vX8STuCVPHcR8OSww==
+   d="scan'208";a="52875887"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 14:20:02 -0800
+X-CSE-ConnectionGUID: jjqWLe81Q7Ge0C4qbP3HDg==
+X-CSE-MsgGUID: epAsV+qiRpy2wpsDCO+b+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="154016828"
+   d="scan'208";a="122095666"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 26 Feb 2025 14:19:14 -0800
+  by orviesa005.jf.intel.com with ESMTP; 26 Feb 2025 14:20:00 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnPkA-000CXa-1b;
-	Wed, 26 Feb 2025 22:19:09 +0000
-Date: Thu, 27 Feb 2025 06:17:59 +0800
+	id 1tnPkG-000CXd-02;
+	Wed, 26 Feb 2025 22:19:25 +0000
+Date: Thu, 27 Feb 2025 06:17:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlelli:upstream/deadline/domains-suspend 3/4]
- kernel/sched/topology.c:2796: undefined reference to
- `dl_rebuild_rd_accounting'
-Message-ID: <202502270602.2gkcu0Y8-lkp@intel.com>
+To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>
+Subject: drivers/firmware/turris-mox-rwtm.c:249:90: warning: '%08x' directive
+ writing 8 bytes into a region of size between 7 and 9
+Message-ID: <202502270657.cNsilu1y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/jlelli/linux.git upstream/deadline/domains-suspend
-head:   78c2e4083eeedc3526f07bedfca514eefbe45e38
-commit: 2d96e08126551c9773a9c9854d08c7559c9c90e6 [3/4] sched/deadline: Rebuild root domain accounting after every update
-config: i386-buildonly-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502270602.2gkcu0Y8-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502270602.2gkcu0Y8-lkp@intel.com/reproduce)
+Hi Marek,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7
+commit: e34e60253d9272311831daed8a2d967cf80ca3dc firmware: turris-mox-rwtm: fix reply status decoding function
+date:   3 years, 8 months ago
+config: arm-randconfig-r002-20220811 (https://download.01.org/0day-ci/archive/20250227/202502270657.cNsilu1y-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502270657.cNsilu1y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502270602.2gkcu0Y8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502270657.cNsilu1y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: kernel/sched/build_utility.o: in function `partition_sched_domains':
->> kernel/sched/topology.c:2796: undefined reference to `dl_rebuild_rd_accounting'
->> ld: kernel/sched/topology.c:2796: undefined reference to `dl_rebuild_rd_accounting'
+   drivers/firmware/turris-mox-rwtm.c: In function 'mox_get_board_info':
+>> drivers/firmware/turris-mox-rwtm.c:249:90: warning: '%08x' directive writing 8 bytes into a region of size between 7 and 9 [-Wformat-overflow=]
+     249 |                         "%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
+         |                                                                                          ^~~~
+   drivers/firmware/turris-mox-rwtm.c:248:17: note: 'sprintf' output between 135 and 137 bytes into a destination of size 135
+     248 |                 sprintf(rwtm->pubkey,
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+     249 |                         "%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     250 |                         ret, s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     251 |                         s[8], s[9], s[10], s[11], s[12], s[13], s[14], s[15]);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2796 kernel/sched/topology.c
+vim +249 drivers/firmware/turris-mox-rwtm.c
 
-  2787	
-  2788	/*
-  2789	 * Call with hotplug lock held
-  2790	 */
-  2791	void partition_sched_domains(int ndoms_new, cpumask_var_t doms_new[],
-  2792				     struct sched_domain_attr *dattr_new)
-  2793	{
-  2794		mutex_lock(&sched_domains_mutex);
-  2795		partition_sched_domains_locked(ndoms_new, doms_new, dattr_new);
-> 2796		dl_rebuild_rd_accounting();
+389711b3749399 Marek Behún 2019-08-22  190  
+389711b3749399 Marek Behún 2019-08-22  191  static int mox_get_board_info(struct mox_rwtm *rwtm)
+389711b3749399 Marek Behún 2019-08-22  192  {
+389711b3749399 Marek Behún 2019-08-22  193  	struct armada_37xx_rwtm_tx_msg msg;
+389711b3749399 Marek Behún 2019-08-22  194  	struct armada_37xx_rwtm_rx_msg *reply = &rwtm->reply;
+389711b3749399 Marek Behún 2019-08-22  195  	int ret;
+389711b3749399 Marek Behún 2019-08-22  196  
+389711b3749399 Marek Behún 2019-08-22  197  	msg.command = MBOX_CMD_BOARD_INFO;
+389711b3749399 Marek Behún 2019-08-22  198  	ret = mbox_send_message(rwtm->mbox, &msg);
+389711b3749399 Marek Behún 2019-08-22  199  	if (ret < 0)
+389711b3749399 Marek Behún 2019-08-22  200  		return ret;
+389711b3749399 Marek Behún 2019-08-22  201  
+389711b3749399 Marek Behún 2019-08-22  202  	ret = wait_for_completion_timeout(&rwtm->cmd_done, HZ / 2);
+389711b3749399 Marek Behún 2019-08-22  203  	if (ret < 0)
+389711b3749399 Marek Behún 2019-08-22  204  		return ret;
+389711b3749399 Marek Behún 2019-08-22  205  
+389711b3749399 Marek Behún 2019-08-22  206  	ret = mox_get_status(MBOX_CMD_BOARD_INFO, reply->retval);
+389711b3749399 Marek Behún 2019-08-22  207  	if (ret < 0 && ret != -ENODATA) {
+389711b3749399 Marek Behún 2019-08-22  208  		return ret;
+389711b3749399 Marek Behún 2019-08-22  209  	} else if (ret == -ENODATA) {
+389711b3749399 Marek Behún 2019-08-22  210  		dev_warn(rwtm->dev,
+389711b3749399 Marek Behún 2019-08-22  211  			 "Board does not have manufacturing information burned!\n");
+389711b3749399 Marek Behún 2019-08-22  212  	} else {
+389711b3749399 Marek Behún 2019-08-22  213  		rwtm->serial_number = reply->status[1];
+389711b3749399 Marek Behún 2019-08-22  214  		rwtm->serial_number <<= 32;
+389711b3749399 Marek Behún 2019-08-22  215  		rwtm->serial_number |= reply->status[0];
+389711b3749399 Marek Behún 2019-08-22  216  		rwtm->board_version = reply->status[2];
+389711b3749399 Marek Behún 2019-08-22  217  		rwtm->ram_size = reply->status[3];
+389711b3749399 Marek Behún 2019-08-22  218  		reply_to_mac_addr(rwtm->mac_address1, reply->status[4],
+389711b3749399 Marek Behún 2019-08-22  219  				  reply->status[5]);
+389711b3749399 Marek Behún 2019-08-22  220  		reply_to_mac_addr(rwtm->mac_address2, reply->status[6],
+389711b3749399 Marek Behún 2019-08-22  221  				  reply->status[7]);
+389711b3749399 Marek Behún 2019-08-22  222  		rwtm->has_board_info = 1;
+389711b3749399 Marek Behún 2019-08-22  223  
+389711b3749399 Marek Behún 2019-08-22  224  		pr_info("Turris Mox serial number %016llX\n",
+389711b3749399 Marek Behún 2019-08-22  225  			rwtm->serial_number);
+389711b3749399 Marek Behún 2019-08-22  226  		pr_info("           board version %i\n", rwtm->board_version);
+389711b3749399 Marek Behún 2019-08-22  227  		pr_info("           burned RAM size %i MiB\n", rwtm->ram_size);
+389711b3749399 Marek Behún 2019-08-22  228  	}
+389711b3749399 Marek Behún 2019-08-22  229  
+389711b3749399 Marek Behún 2019-08-22  230  	msg.command = MBOX_CMD_ECDSA_PUB_KEY;
+389711b3749399 Marek Behún 2019-08-22  231  	ret = mbox_send_message(rwtm->mbox, &msg);
+389711b3749399 Marek Behún 2019-08-22  232  	if (ret < 0)
+389711b3749399 Marek Behún 2019-08-22  233  		return ret;
+389711b3749399 Marek Behún 2019-08-22  234  
+389711b3749399 Marek Behún 2019-08-22  235  	ret = wait_for_completion_timeout(&rwtm->cmd_done, HZ / 2);
+389711b3749399 Marek Behún 2019-08-22  236  	if (ret < 0)
+389711b3749399 Marek Behún 2019-08-22  237  		return ret;
+389711b3749399 Marek Behún 2019-08-22  238  
+389711b3749399 Marek Behún 2019-08-22  239  	ret = mox_get_status(MBOX_CMD_ECDSA_PUB_KEY, reply->retval);
+389711b3749399 Marek Behún 2019-08-22  240  	if (ret < 0 && ret != -ENODATA) {
+389711b3749399 Marek Behún 2019-08-22  241  		return ret;
+389711b3749399 Marek Behún 2019-08-22  242  	} else if (ret == -ENODATA) {
+389711b3749399 Marek Behún 2019-08-22  243  		dev_warn(rwtm->dev, "Board has no public key burned!\n");
+389711b3749399 Marek Behún 2019-08-22  244  	} else {
+389711b3749399 Marek Behún 2019-08-22  245  		u32 *s = reply->status;
+389711b3749399 Marek Behún 2019-08-22  246  
+389711b3749399 Marek Behún 2019-08-22  247  		rwtm->has_pubkey = 1;
+389711b3749399 Marek Behún 2019-08-22  248  		sprintf(rwtm->pubkey,
+389711b3749399 Marek Behún 2019-08-22 @249  			"%06x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x%08x",
+389711b3749399 Marek Behún 2019-08-22  250  			ret, s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
+389711b3749399 Marek Behún 2019-08-22  251  			s[8], s[9], s[10], s[11], s[12], s[13], s[14], s[15]);
+389711b3749399 Marek Behún 2019-08-22  252  	}
+389711b3749399 Marek Behún 2019-08-22  253  
+389711b3749399 Marek Behún 2019-08-22  254  	return 0;
+389711b3749399 Marek Behún 2019-08-22  255  }
+389711b3749399 Marek Behún 2019-08-22  256  
+
+:::::: The code at line 249 was first introduced by commit
+:::::: 389711b374939968d2d0adede01b9e1f3bb4f531 firmware: Add Turris Mox rWTM firmware driver
+
+:::::: TO: Marek Behún <marek.behun@nic.cz>
+:::::: CC: Arnd Bergmann <arnd@arndb.de>
 
 -- 
 0-DAY CI Kernel Test Service
