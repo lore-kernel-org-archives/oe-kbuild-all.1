@@ -1,95 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5335C84A2B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 13:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1422157B;
+	Wed, 26 Feb 2025 14:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740578210; cv=none; b=uRRbqzi6OsnFFkeadM4bQ+K1+wzu9tK2sMSMB/ZyObzWSTTxxtcUb7zKwzDWvt4HTjlXPADqXUG/l7tVhJV/7Ow7t6P5xy0QSv6J9ZOquwSd8uMBNubeQVpzqQio95B4FSV94fLrLSy1n1iCntUMVGES9ry2/A7Nksc24oCDGDg=
+	t=1740579058; cv=none; b=mpO4P0Kfz2zBpoCBmhELiXTJCm2tPrmEwqmJbhz+JjPjsOked1DF0JZGXYHleU1v/45QgzyLgxE1h+GLJwdh8Y8AB3wnh/2hMzgextMT3oChLxSZMczzv1tdG2VLUWlU2SOKJGUBgU6GPmim0Cn57bpc8DbP4Gu2J91RwEaM+QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740578210; c=relaxed/simple;
-	bh=nrWBQGCp+3ch0t/k21Dr53sLmxacv0ekbKNz4YVuujY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lxaZxVsCQhB0ofMrDbxlhnFbHjKZqItVSUEGmnr70daBKTubReEsgM2UaFwGQ2OIIZkTd2ZT8wPU5ykwGOXpJOGpR3nhfjx0rMha/WTdvNQIFrde8rtlCVzkxHwsmfFLKwJUMgcewtsBdojWZOPyEKj9MU+rOYOGSAxn3VjQ/k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URIXfWGP; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740579058; c=relaxed/simple;
+	bh=p5A0b2LNIs2e7VqlDBvGFZUAT3KK/Kubd4zTeAjO6xw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ILVhmDEY08BYJP5yg/QLZ+1duo7OM5ZvyAlGIq8Y3yI3KVvzas2WjV+rT4YDqvwe75y9NPGLbu34f8OAG5CLI8RUgTxTmHg4m0QTU7FQDYZp/+c/54vZ+wakPoV2g1b9h6B1AkotFzelWkYJiCo0Md3kXCM7GWRvloBtyx3Ie2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FiNy0np4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JYo75WUQ; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URIXfWGP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740578207; x=1772114207;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nrWBQGCp+3ch0t/k21Dr53sLmxacv0ekbKNz4YVuujY=;
-  b=URIXfWGPHB2W7zWSHBSRkGpuBciqZ61+r3MdtcxP485Ve+YczfXAYm3c
-   22A9dpyCIKwZM8IqyQ1ZxfLYL+ZAbQ60/sd4WgvbNHa0KrpCVRFiDXKtp
-   SBXiZUh8uxJflO1n7s+c6abcjRfQh5Q+IEUmDKea7jyNz+BEe0ToiSUZe
-   8RBWGO25NpOma9BQV5mM2z7wxDjsPud+lEaP9yZ9RLaRNiuRhpWmH/P2R
-   WPs+6QULXbAgLzuvs1sWgnFfDex74yM/MXiRM5kfp7W3xiXBumEcQrdhY
-   FBR47P6Mt9jhaKNTpaq2PkmhqbcJ933XWvW8iBlFfAj1Y7OJl07kIU3Kl
-   A==;
-X-CSE-ConnectionGUID: h3UH4f83R52B1SlXoeT1MA==
-X-CSE-MsgGUID: xYth7QWHSImNKQwbTAa1gg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="58841400"
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="58841400"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 05:56:47 -0800
-X-CSE-ConnectionGUID: Hb+bRrHgSAmaDfuCSRpw2w==
-X-CSE-MsgGUID: sa7NZll7Q1WUhdGcO7DKEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="116896198"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Feb 2025 05:56:47 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnHtX-000Blv-11;
-	Wed, 26 Feb 2025 13:56:20 +0000
-Date: Wed, 26 Feb 2025 21:55:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1974/1974] drivers/cpufreq/acpi-cpufreq.c:638:13:
- warning: 'sched_set_itmt' defined but not used
-Message-ID: <202502262126.WKwzRa2g-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FiNy0np4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JYo75WUQ"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id DCCFA11401EB;
+	Wed, 26 Feb 2025 09:10:55 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-11.internal (MEProxy); Wed, 26 Feb 2025 09:10:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1740579055;
+	 x=1740665455; bh=RHF2v90/WPwkBiriaV+tfj8UBdDPgzDA3SHp2udOdmk=; b=
+	FiNy0np4HzyxE3Xxpzbx37k8YOMet7eFJ2A7Oiv3CtQ/3V1Q+ArsE/RoYZQbLqkD
+	iF2UHEAuDkBdy1WeL58XnBhxzqUYA9XzhSUzs9eKPYC1ytI9tKIRvKk51OcnL8zj
+	AH/vAj+MaHWRTnNtOqhVIrP4n+HBtiSjRC6Z55k9wqp7HtD/UDGwMcmo1/+Atu+/
+	s9PFKN0SgsGwv5kwPderH+3kpAgQQnnIEetpn2sQ7iz6kadXV4X7ki/RqD1ZGpA+
+	H5B7g8RtiQ6mAtY4f2l31lgbYDp0XiP68LDmoEUOeF8Y8oJ7URl+1OzaecO3H9s5
+	tkZ1wfKI0vZEssji5WnbRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740579055; x=
+	1740665455; bh=RHF2v90/WPwkBiriaV+tfj8UBdDPgzDA3SHp2udOdmk=; b=J
+	Yo75WUQCjCOoHU5pA4+bhBP9UDoEyEuJIybnRYTTJl+HJa/AT/B2awi5TQSJlcM9
+	kQVq7OQ6F0L1LcCJN6IDVdycHokr9HpnsFcqODxOMhlFX1616J3HPmMEBSymtk1c
+	znBxZRPncAHn7878ZzYdLXzyt8OGJEolt1n7Qvm03TJAbr8p1e46GmlpakC4yl4M
+	3OtMld1iQqfcrfqxCgEw0EhID2lqS50p+9kcSVrMt1XHXDtyLqUixjVsVSmPL3Od
+	SEKU47PYKb2P9s2jA/8D79ffTX5YTOmF8nfNz5acdya4G2gkji87y4FQfV92KmW2
+	4DwgLprLF5r2ZkX/Byh+w==
+X-ME-Sender: <xms:7yC_Z71xRHbYoSkBJqaJthnP-p8bcrcETBIX16jv-jegGgs4I7FZ0w>
+    <xme:7yC_Z6FXhuFgNDk9yzHmm1OPBjX4tRVyKcRgag0nGhIRdeE3fZKXqLipx1MqJY-b0
+    hTGIG6lJPAvtuMyDv0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekgeejkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpd
+    hrtghpthhtoheplhhinhhugidqmhhmsehkvhgrtghkrdhorhhgpdhrtghpthhtoheprghk
+    phhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehllhhvmh
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgr
+    lhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhuihiitggrphesrh
+    gvughhrghtrdgtohhm
+X-ME-Proxy: <xmx:7yC_Z75NuhYUCwlL6q8oNAtfjPXTa2SLHQad8_2addzX9hEPets0uw>
+    <xmx:7yC_Zw06N8MBPovAceOvQ1xAl_-Heqgz2hSV0fG2e2iKVsEsfROk5A>
+    <xmx:7yC_Z-Ep68I9plZYGHnOJ3jFaAf7YbSCg0wnJQE0zEI5vHO-ZcuCzA>
+    <xmx:7yC_Zx-XE4C7eY6dqUsO0M-8tQB1uChqzoaMFVIBGXeIMdpPKjU3RQ>
+    <xmx:7yC_Z7MdLMF11HBAc-0z-pg-K6twoeJE_SI3iaiJGePXBNp4qGTJnn-E>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 06D872220072; Wed, 26 Feb 2025 09:10:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Wed, 26 Feb 2025 15:10:32 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>,
+ "Luiz Capitulino" <luizcap@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Linux Memory Management List" <linux-mm@kvack.org>
+Message-Id: <e5aec89c-a7d5-453a-8883-e3c025db2e5b@app.fastmail.com>
+In-Reply-To: <202502261733.Ma0eUGKJ-lkp@intel.com>
+References: <202502261733.Ma0eUGKJ-lkp@intel.com>
+Subject: Re: [linux-next:master 5933/6583] include/linux/page_ext.h:131:20: error: call
+ to undeclared function 'page_to_section'; ISO C99 and later do not support
+ implicit function declarations
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   2a45fac1ca21c05d0e90f3177c4856bd0fffd363
-commit: 06ee47aa957617950ebf29f2a9dbb5682233ba4e [1974/1974] cpufreq: ACPI: add ITMT support when CPPC enabled
-config: x86_64-buildonly-randconfig-005-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262126.WKwzRa2g-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502262126.WKwzRa2g-lkp@intel.com/reproduce)
+On Wed, Feb 26, 2025, at 10:46, kernel test robot wrote:
+> commit: a2d6e9c1a867bb9f13943cb8483e2ab85b630bcd [5933/6583] mm: 
+> page_ext: add an iteration API for page extensions
+> config: i386-buildonly-randconfig-004-20250226 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502262126.WKwzRa2g-lkp@intel.com/
+>
+>    In file included from arch/x86/kernel/asm-offsets.c:14:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:21:
+>    In file included from include/linux/mm.h:8:
+>    In file included from include/linux/pgalloc_tag.h:12:
+>>> include/linux/page_ext.h:131:20: error: call to undeclared function 'page_to_section'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>      131 |         iter->start_pfn = page_to_pfn(page);
+>          |                           ^
+>    include/asm-generic/memory_model.h:64:21: note: expanded from macro 
+> 'page_to_pfn'
+>       64 | #define page_to_pfn __page_to_pfn
 
-All warnings (new ones prefixed by >>):
+I'm getting this on all configurations that set CONFIG_SPARSEMEM
+but not CONFIG_SPARSEMEM_VMMEMMAP.
 
->> drivers/cpufreq/acpi-cpufreq.c:638:13: warning: 'sched_set_itmt' defined but not used [-Wunused-function]
-     638 | static void sched_set_itmt(void)
-         |             ^~~~~~~~~~~~~~
+There is also a possible problem with linux/page_ext.h
+including pgtable.h and mmzone.h, which I think can lead
+to circular header inclusions with linux/mm.h.
 
-
-vim +/sched_set_itmt +638 drivers/cpufreq/acpi-cpufreq.c
-
-   637	
- > 638	static void sched_set_itmt(void)
-   639	{
-   640		schedule_work(&sched_itmt_work);
-   641	}
-   642	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
