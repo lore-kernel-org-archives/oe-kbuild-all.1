@@ -1,104 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C1A275602
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 20:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F51238D34;
+	Wed, 26 Feb 2025 20:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740600632; cv=none; b=cTI3BBphBZxn80lQlpfj5+CKpz1HKDWaC7b/BmX6jq5vgH3rsaNJk5aC4dV1qnsjnuwB+rOXs7bIKdOdp7H+eKytgkRugKysyq0OmZiyghALty5pB21m6Zz+M3A8XoCONoEFEZP+WskkIYnTmsVbWlytGFBdUEQifgt5MFuzVJg=
+	t=1740601882; cv=none; b=u3a5GdbxDiAYsz3DXlXN+IOXLpnU2UuH6rLa30bptywP8cLtDE3uAUweWXXyK0EtEMNxCDqgeTwRBNq9/oQrjsf5Ur/kTX0KPBL0fpwR6CjrNehLtU9O5gqfHYv4wKCd4/Z0gcq1tQJN3c0ebJZ+bFmiQ7137jFhmgC9RtT/voA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740600632; c=relaxed/simple;
-	bh=pRkW/VIXj51Wpqa2lHCdRQt7BxvlMUEfWFcI2BvH9tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PZ3a8WOf85bTvh72W3UTkZtEhE9bGaZ7rI6ha+cOa+FF2UjQUMuVKUbWY/Dztf8rnZ1zrFtlp2682aFt1LkpSwCZd+es2VSx5dJUGFl8QE7fTVko6//Zao2fqsgl7V9jPvKPPEh/PLWd+3vaL3PPAByCYCpnkeD9hscD+eOg6lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHEo+UvO; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740601882; c=relaxed/simple;
+	bh=RAbuoXYPpmrnMks9N3pxYV6F3ohXfRXUBzabXxlTH0Y=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=eBFHJdAG6n67TzXnLLiBxUeY0ucMNKySf6NUrr7DVYC8t5tqlkSyxUFdBoEA8Cb7BApnK/3viULov6KRDveTdoYzr22kAt6mG+B3szAlL1eLz/0pY30sQ8efMWTld4RY/4KSPFINd08J+wzVZQZk+fLK7e93qngwxBv3Zt1Ugqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=x0ryAPcH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHEo+UvO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740600630; x=1772136630;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pRkW/VIXj51Wpqa2lHCdRQt7BxvlMUEfWFcI2BvH9tc=;
-  b=VHEo+UvOMthkFk1sgsR2+I2logeqy9LG3Mb/lfkWsfz9sXWtks7xgd5R
-   v7Eo82EvCmYw3A+BC9WG8OrLmCkXn09s8xc+qLNaU+XChhWe5L3lQ3Rfi
-   O6bi+3rk7T2dKKhucddEj+Qdoox+bpSfyQ/4hB6w2DxtVGWCZzpgBL/43
-   sK5oiFqviERxl5fYWNpIlH1oKq+6z5sNrubMgZFNfdtN6u6pKfOmW3maf
-   g6dSsuJBztYDGpzpHFW5npIrUHEs046ZfnPMbAA1+6MnzkUqErrPPmEip
-   svnxZWFyN4aR3yqbLL6dIqhYgrengKf94vaqnAfrrEsWJg0BTUv7vSJ0e
-   g==;
-X-CSE-ConnectionGUID: BgoOblg8RDWkbKouJzAgRA==
-X-CSE-MsgGUID: LA7iUH9lSPmpLiKO+j3Yng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52883794"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52883794"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 12:10:29 -0800
-X-CSE-ConnectionGUID: hZBtLdHrSbyQgkziMvPTXA==
-X-CSE-MsgGUID: 1LyqnwCrToWJA1VNfGBMqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,318,1732608000"; 
-   d="scan'208";a="140027255"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Feb 2025 12:10:28 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnNj9-000CPE-1l;
-	Wed, 26 Feb 2025 20:10:15 +0000
-Date: Thu, 27 Feb 2025 04:09:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [pci:controller/dwc 6/8]
- drivers/pci/controller/dwc/pcie-designware-debugfs.c:561:undefined reference
- to `dw_ltssm_sts_string'
-Message-ID: <202502270336.4xpaTVPE-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="x0ryAPcH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5EAFC4CEE7;
+	Wed, 26 Feb 2025 20:31:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1740601881;
+	bh=RAbuoXYPpmrnMks9N3pxYV6F3ohXfRXUBzabXxlTH0Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=x0ryAPcHpupE8ubA0OBX4SesVJFdPurl+ucslP35eEseLhSREtmdpFua5QA62m1Fy
+	 jYkMdKC+jOFl+BfO67ZbIhNh6XVMznza35fui3FWO80LrE5f6xCweTHtFFRGFQvPBj
+	 GFSykfU4jQLw1PAGJ4YQJLDB1sRaM91p09YZ9MfA=
+Date: Wed, 26 Feb 2025 12:31:21 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Luiz Capitulino <luizcap@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Linux Memory
+ Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 5933/6583] include/linux/page_ext.h:131:20:
+ error: call to undeclared function 'page_to_section'; ISO C99 and later do
+ not support implicit function declarations
+Message-Id: <20250226123121.e316cfde42712338d70c9701@linux-foundation.org>
+In-Reply-To: <8cece92a-6ad0-43fe-9916-eeb850c039e1@redhat.com>
+References: <202502261733.Ma0eUGKJ-lkp@intel.com>
+	<e5aec89c-a7d5-453a-8883-e3c025db2e5b@app.fastmail.com>
+	<8cece92a-6ad0-43fe-9916-eeb850c039e1@redhat.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc
-head:   b9d6619b0c3ef6ac25764ff29b08e8c1953ea83f
-commit: d4dc748566221bfdd0345c282ec82d3eee457f39 [6/8] PCI: dwc: Add debugfs property to provide LTSSM status of the PCIe link
-config: sparc64-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502270336.4xpaTVPE-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502270336.4xpaTVPE-lkp@intel.com/reproduce)
+On Wed, 26 Feb 2025 09:24:11 -0500 Luiz Capitulino <luizcap@redhat.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502270336.4xpaTVPE-lkp@intel.com/
+> Andrew, I think you'll have to drop this for now. I may not
+> have the time to look into this this week.
 
-All errors (new ones prefixed by >>):
-
-   sparc64-linux-ld: drivers/pci/controller/dwc/pcie-designware-debugfs.o: in function `dwc_pcie_ltssm_status_show':
->> drivers/pci/controller/dwc/pcie-designware-debugfs.c:561:(.text+0x125c): undefined reference to `dw_ltssm_sts_string'
->> sparc64-linux-ld: drivers/pci/controller/dwc/pcie-designware-debugfs.c:561:(.text+0x12c4): undefined reference to `dw_ltssm_sts_string'
-
-
-vim +561 drivers/pci/controller/dwc/pcie-designware-debugfs.c
-
-   554	
-   555	static int dwc_pcie_ltssm_status_show(struct seq_file *s, void *v)
-   556	{
-   557		struct dw_pcie *pci = s->private;
-   558		enum dw_pcie_ltssm val;
-   559	
-   560		val = dw_pcie_get_ltssm(pci);
- > 561		seq_printf(s, "%s (0x%02x)\n", dw_ltssm_sts_string(val), val);
-   562	
-   563		return 0;
-   564	}
-   565	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Done, thanks.
