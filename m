@@ -1,221 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B7721CC48;
-	Wed, 26 Feb 2025 14:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F66C221D8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 15:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740581248; cv=none; b=aaX03DB3CdWuCHCoBg4GYuZyLHcEYR6+5kSplqI4B+OxhE7Zfhri9ktyZDBliteVGAEMKRP+cI3g82of7PKLv6a3vH1SsHeBuRjUHH84bkFHL1OfpzlddU7rYha/PIB8K4muGaHiomL95on5zwJ+uvGCrZzJQHFaVocbjd2ZaeU=
+	t=1740582506; cv=none; b=UNAcS9u6iwckZHxJgNufBxn47mxUPDXrYPQx3tkWRa7r52Rc5wfhbuderx42IWPqZffcXTsU44fWyYcAMnzwTMYLcoAKqYMrJLRhAC26vjgLGfOnTuZ5MHiCU1y0atLaqZbjMxnfNK8Av+OBbr0/biSU0vlIAdVEaxGFe3UiE/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740581248; c=relaxed/simple;
-	bh=fj/pxG/hebcoqskP0oILWQtHjXvrqoQmjtoeB7U6aac=;
+	s=arc-20240116; t=1740582506; c=relaxed/simple;
+	bh=dquW1CRkHxUf9858+uZH9ZEns6kHNXc/+hyfXAFNNBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FTuFTFhC3JQNpUb6ou4CPwb1511XI3d1bUHeWR57Ut8PlgctLptpaLXKgf9SBWG5Uu2JrUt6uzKxLvZLnsAKKjDwO3q1qLoE4KqnVnkTEtudQxsgCwxZSyXXKwuHtYFe4lIXdLOkNVMkJ84ekoVrDPSIvVzVSWFXi2TVXHXHjMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZr8Vvur; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=O9woLXTqFX9mu6AuhtCegZUAjyJmsFno6kgt/z+a0gWpAmdQO2xKbzDFxSHCib7fPTBx3HChd54YKPeFEslqJNKh1fSBcgQwG9KRDBDmNzTkQn4K/kisysiWO52DDY3w9bKW8ecEdAKlh1eLdIY8/7l1SJUTk/NFpYOMlaqU2w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kGjgx5ID; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZr8Vvur"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kGjgx5ID"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740581247; x=1772117247;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=fj/pxG/hebcoqskP0oILWQtHjXvrqoQmjtoeB7U6aac=;
-  b=cZr8VvurryNvfiyu+ge7MtPNlTf01xu+jTBB5EATXGiAF2kPwa8132ar
-   9P+ByDNgu2O1waRSyGcchNPnBf9aHD4AkI0uzpydF5cpq49OYsoFXIeoF
-   zEhusx3/Gspvw13YStV8yfnUXrt56g/NcC//j/qyMh+lQDuI+BxmAcGMD
-   BthdYqbErrSMfKn+HorD+hts0RKra0FoZ+g5CqZU8REfPbyhRP8Y/gwZb
-   mk2FIhG/KxFXyU2PNeqPQCn8XHu2Z774jrU25zx9fYnvnUnYQ/Dv33RUj
-   m1TVjwOlcYAf0gkdyRfcGr68P5poScAZH8Igay7S2Z+1mNkwA6XKXOA8+
-   g==;
-X-CSE-ConnectionGUID: fdP4jqinTg29I7bGseeDlw==
-X-CSE-MsgGUID: 8c249w0bShq4di3Qpt3Veg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="58967640"
+  t=1740582505; x=1772118505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dquW1CRkHxUf9858+uZH9ZEns6kHNXc/+hyfXAFNNBo=;
+  b=kGjgx5IDERg3mPbAqv06G3uF0B1UTdKqU8MiVr19Yy1AnLFE0b5Sc8aE
+   L/ViZZOiQjLayXq6DSfCEfHHrgLEj0P3Bw23/u6LLxWOXdmtuN9j6h11/
+   9GPslLUCQH3X+pTqakx3qMmE1EFg47ENIHhttGLxK6yhcg3+c9Jrc6ciD
+   WTqN22FMfoPF8Nr5nJCfBIEK81RdumgKEU+B5zfkdaefb3wEtoI/0lbKY
+   cYbD1PpSw3p0uSXi0ikYy2Umeiwg7PX07SuZisAdZzrH6i+reY7zkJNUI
+   ig1OR3/EL9K/aS4lXEIInTKMJU2y9tMX6fyIfSjTAUQtCv/Ckf7O7/Uh/
+   Q==;
+X-CSE-ConnectionGUID: AH8l/iomQgKq71tqPnz+zQ==
+X-CSE-MsgGUID: srLUSJOxQ5iFVzBsOOBRMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52070926"
 X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="58967640"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 06:47:25 -0800
-X-CSE-ConnectionGUID: BeaxIHGbR/WySYPWhwr1Lw==
-X-CSE-MsgGUID: SCqz823jTS2OLYoFCBZ6sQ==
+   d="scan'208";a="52070926"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 07:08:09 -0800
+X-CSE-ConnectionGUID: VuemhsurRui6ldHwxby8Tw==
+X-CSE-MsgGUID: 3N94XQBAR1mjWtity0wuFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="117210065"
+   d="scan'208";a="117354442"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 26 Feb 2025 06:47:23 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 26 Feb 2025 07:08:08 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnIgz-000Bpf-2j;
-	Wed, 26 Feb 2025 14:47:21 +0000
-Date: Wed, 26 Feb 2025 22:46:27 +0800
+	id 1tnJ0l-000BrH-34;
+	Wed, 26 Feb 2025 15:07:58 +0000
+Date: Wed, 26 Feb 2025 23:07:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditya Garg <85610623+AdityaGarg8@users.noreply.github.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:pr/372 1/1] drivers/hid/hid-apple.c:706:37: error: use
- of undeclared identifier 'apple_fn_keys_mbp13'; did you mean
- 'apple_fn_keys_spi'?
-Message-ID: <202502262216.dbk84JaG-lkp@intel.com>
+To: Eric Sandeen <sandeen@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>
+Subject: [linux-next:master 5403/6583] fs/ext2/super.c:421:32: sparse:
+ sparse: symbol 'ext2_param_spec' was not declared. Should it be static?
+Message-ID: <202502262322.VgqxHPxD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux pr/372
-head:   0ce68966540e787e080a3bafdecd863469693b09
-commit: 0ce68966540e787e080a3bafdecd863469693b09 [1/1] HID: apple: remove duplicated table used for 13 inch MacBook Pros with touchbar
-config: riscv-randconfig-001-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262216.dbk84JaG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250226/202502262216.dbk84JaG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+commit: eab61d3260d76b3e58888bd685734d0858f83aa3 [5403/6583] ext2: convert to the new mount API
+config: alpha-randconfig-r112-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262322.VgqxHPxD-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250226/202502262322.VgqxHPxD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502262216.dbk84JaG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502262322.VgqxHPxD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ext2/super.c:421:32: sparse: sparse: symbol 'ext2_param_spec' was not declared. Should it be static?
 
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/hid/hid-apple.c:21:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     820 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/hid/hid-apple.c:21:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     829 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/hid/hid-apple.c:21:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     838 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/hid/hid-apple.c:21:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     847 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/hid/hid-apple.c:21:
-   In file included from include/linux/hid.h:29:
-   In file included from include/linux/hid_bpf.h:6:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/hid/hid-apple.c:706:37: error: use of undeclared identifier 'apple_fn_keys_mbp13'; did you mean 'apple_fn_keys_spi'?
-     706 |         apple_setup_key_translation(input, apple_fn_keys_mbp13);
-         |                                            ^~~~~~~~~~~~~~~~~~~
-         |                                            apple_fn_keys_spi
-   drivers/hid/hid-apple.c:279:43: note: 'apple_fn_keys_spi' declared here
-     279 | static const struct apple_key_translation apple_fn_keys_spi[] = {
-         |                                           ^
-   7 warnings and 1 error generated.
+vim +/ext2_param_spec +421 fs/ext2/super.c
 
-
-vim +706 drivers/hid/hid-apple.c
-
-8c19a51591d06f5 Jiri Slaby    2008-06-18  698  
-8c19a51591d06f5 Jiri Slaby    2008-06-18  699  static void apple_setup_input(struct input_dev *input)
-8c19a51591d06f5 Jiri Slaby    2008-06-18  700  {
-8c19a51591d06f5 Jiri Slaby    2008-06-18  701  	set_bit(KEY_NUMLOCK, input->keybit);
-8c19a51591d06f5 Jiri Slaby    2008-06-18  702  
-8c19a51591d06f5 Jiri Slaby    2008-06-18  703  	/* Enable all needed keys */
-f1d1b3a9b41125d José Expósito 2022-02-08  704  	apple_setup_key_translation(input, apple_fn_keys);
-9b8df1c76e1d6ac Janne Grunau  2021-12-19  705  	apple_setup_key_translation(input, apple_fn_keys_spi);
-77280a39c0c29ee Janne Grunau  2022-01-05 @706  	apple_setup_key_translation(input, apple_fn_keys_mbp13);
-f1d1b3a9b41125d José Expósito 2022-02-08  707  	apple_setup_key_translation(input, powerbook_fn_keys);
-f1d1b3a9b41125d José Expósito 2022-02-08  708  	apple_setup_key_translation(input, powerbook_numlock_keys);
-f1d1b3a9b41125d José Expósito 2022-02-08  709  	apple_setup_key_translation(input, apple_iso_keyboard);
-0fea6fe7d5ef1b5 José Expósito 2022-02-08  710  	apple_setup_key_translation(input, magic_keyboard_alu_fn_keys);
-250b369ed2380ba José Expósito 2022-02-08  711  	apple_setup_key_translation(input, magic_keyboard_2015_fn_keys);
-f1d1b3a9b41125d José Expósito 2022-02-08  712  	apple_setup_key_translation(input, apple2021_fn_keys);
-c5f09b1b45cbb90 Aditya Garg   2022-02-03  713  	apple_setup_key_translation(input, macbookpro_no_esc_fn_keys);
-c5f09b1b45cbb90 Aditya Garg   2022-02-03  714  	apple_setup_key_translation(input, macbookpro_dedicated_esc_fn_keys);
-8c19a51591d06f5 Jiri Slaby    2008-06-18  715  }
-8c19a51591d06f5 Jiri Slaby    2008-06-18  716  
-
-:::::: The code at line 706 was first introduced by commit
-:::::: 77280a39c0c29eec0c58e4aa6db7abb459b25228 HID: apple: add Fn key mapping for Macbook Pro with touchbar
-
-:::::: TO: Janne Grunau <j@jannau.net>
-:::::: CC: Janne Grunau <j@jannau.net>
+   420	
+ > 421	const struct fs_parameter_spec ext2_param_spec[] = {
+   422		fsparam_flag	("bsddf", Opt_bsd_df),
+   423		fsparam_flag	("minixdf", Opt_minix_df),
+   424		fsparam_flag	("grpid", Opt_grpid),
+   425		fsparam_flag	("bsdgroups", Opt_grpid),
+   426		fsparam_flag	("nogrpid", Opt_nogrpid),
+   427		fsparam_flag	("sysvgroups", Opt_nogrpid),
+   428		fsparam_gid	("resgid", Opt_resgid),
+   429		fsparam_uid	("resuid", Opt_resuid),
+   430		fsparam_u32	("sb", Opt_sb),
+   431		fsparam_enum	("errors", Opt_errors, ext2_param_errors),
+   432		fsparam_flag	("nouid32", Opt_nouid32),
+   433		fsparam_flag	("debug", Opt_debug),
+   434		fsparam_flag	("oldalloc", Opt_oldalloc),
+   435		fsparam_flag	("orlov", Opt_orlov),
+   436		fsparam_flag	("nobh", Opt_nobh),
+   437		fsparam_flag_no	("user_xattr", Opt_user_xattr),
+   438		fsparam_flag_no	("acl", Opt_acl),
+   439		fsparam_flag	("xip", Opt_xip),
+   440		fsparam_flag	("dax", Opt_dax),
+   441		fsparam_flag	("grpquota", Opt_grpquota),
+   442		fsparam_flag	("noquota", Opt_ignore),
+   443		fsparam_flag	("quota", Opt_quota),
+   444		fsparam_flag	("usrquota", Opt_usrquota),
+   445		fsparam_flag_no	("reservation", Opt_reservation),
+   446		{}
+   447	};
+   448	
 
 -- 
 0-DAY CI Kernel Test Service
