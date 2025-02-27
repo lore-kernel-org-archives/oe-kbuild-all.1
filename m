@@ -1,59 +1,73 @@
-Received: from out-15.pe-b.jellyfish.systems (out-15.pe-b.jellyfish.systems [198.54.127.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667711E51D;
-	Thu, 27 Feb 2025 21:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8647E2777EC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 22:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740691257; cv=none; b=VU8kftKsbeiRA1T5ehUnmTO2ctQPHyfofaxNusAaeCoJDnv1y1cRegHngN6owPddG8h0slMoGYN+jmQeWYTGheYWLUEQrz2Z3xMcyAYKRMOQQWovf8wZ6E1H+6H+9WiQooo6hrfEmzyLB5SOKSl9GPdG3xGGEgkNuWDkDaNr/Ks=
+	t=1740695360; cv=none; b=C4I2h6QtWulYwHXbDTWpxzbROr8Bj0aehkbmrK6VtJcdlJLIbTw4Fla7m/kYgUKHpAI4j//5wcyo81D1CX48VsmXWFNzIwi2hz7oHxdP9nJ93Ldtl+vXXIMm/fRsEW6G3YPuHgPIRZzfVR5FhPAq+3Gi3TiMRKefjHR99fJufw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740691257; c=relaxed/simple;
-	bh=CHpD4CPGPUIyS+PYE6bP5+7Njrc+9jjZ0GXIxK4trAM=;
+	s=arc-20240116; t=1740695360; c=relaxed/simple;
+	bh=f85n7tc+0wiWu3oJu/ES9vHS7UtP8IVdMUZqaI8+ROI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cc4lXEOggwrv4Bk5kNpXsRgvy6PsLAAPzrqX7RlzAOVN5wQW1o6zJIv7Sr5ulRGpq0pNeBWYGLky1upi/1YG8gu327BC30QleCzTH1bsnXP6AsuZ9GePqMIH8jsNR15C0rHxcnxH4/jMM/pJJUje39WbgDxhIr16f+hxXh7Nqo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=framepointer.org; spf=pass smtp.mailfrom=framepointer.org; dkim=pass (2048-bit key) header.d=framepointer.org header.i=@framepointer.org header.b=PEcFMusR; arc=none smtp.client-ip=198.54.127.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=framepointer.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=framepointer.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=AtfIlaxIPFk7W6HxLjiQ1i/UrS2Bwn7Rb/9oGZ1UaGfM3ZcYO9maqwEeujJ7r4nQtYEDZC9vxRdlJTfIA6fz4MV2/2NQb9grK1gKYo50x+GFFJ7tfG4RgvilmZ0w40WT4y92hUAbDClh17d9Rq1hSZ01HfKH/v6vGiJ6b/Xz0XM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfjTynVC; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=framepointer.org header.i=@framepointer.org header.b="PEcFMusR"
-Received: from prod-lbout-phx.jellyfish.systems (new-01.privateemail.com [198.54.118.220])
-	by pe-b.jellyfish.systems (Postfix) with ESMTPA id 4Z3klf69lGzDqT2;
-	Thu, 27 Feb 2025 21:20:46 +0000 (UTC)
-Received: from MTA-15.privateemail.com (unknown [10.50.14.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by NEW-01.privateemail.com (Postfix) with ESMTPS id 4Z3klf5SD3z3hhVZ;
-	Thu, 27 Feb 2025 16:20:46 -0500 (EST)
-Received: from mta-15.privateemail.com (localhost [127.0.0.1])
-	by mta-15.privateemail.com (Postfix) with ESMTP id 4Z3klf43fVz3hhS0;
-	Thu, 27 Feb 2025 16:20:46 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=framepointer.org;
-	s=default; t=1740691246;
-	bh=CHpD4CPGPUIyS+PYE6bP5+7Njrc+9jjZ0GXIxK4trAM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PEcFMusR7Av/fBAh0iIF2lhfbzHlHQtD3NkN/RlBSlUmYl90jbF9TvPVxFRswj7mA
-	 o1g5wawkWUU+Nbeb3b+Y55iM3yJguGuKZUwziHM7Cx3jnBxg4yh9E4fCYMyWRfpCf0
-	 hRkhS0j74yLX599z6rDhbUv40926SwowNtLBUJm5cVjxvHPPo+mwRUlMMhOqr22tXC
-	 jD90iIUmbzqSBg/8ITp9dbmkEAwLBOTYR+CrAfoAv8C1nuSei/R2MNrrv9Z7sR8EZ1
-	 4KN4/Awne+vKQKgtoMoUBPxIObgQVuM7Pjv7sGpTQHnMHH22cRsOetE8ObNoEtUuu0
-	 TBTfF4Ekjqrtw==
-Received: from 65YTFL3.secure.tethers.com (unknown [152.44.190.141])
-	by mta-15.privateemail.com (Postfix) with ESMTPA;
-	Thu, 27 Feb 2025 16:20:31 -0500 (EST)
-Date: Thu, 27 Feb 2025 16:20:32 -0500
-From: Sam Winchenbach <sam.winchenbach@framepointer.org>
-To: kernel test robot <lkp@intel.com>
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, lars@metafoo.de,
-	Michael.Hennerich@analog.com, antoniu.miclaus@analog.com,
-	jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] iio: filter: admv8818: fix range calculation
-Message-ID: <Z8DXIGxA5mJK0oPN@65YTFL3.secure.tethers.com>
-References: <20250225134612.577022-1-sam.winchenbach@framepointer.org>
- <202502280434.DHtcsf7x-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfjTynVC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740695358; x=1772231358;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f85n7tc+0wiWu3oJu/ES9vHS7UtP8IVdMUZqaI8+ROI=;
+  b=MfjTynVC7i36pBiQmf2zzVYWy/T9mfEMdrmTg6j0wdb7MuVjEj5cJ6wF
+   s4b8nr3sZuLRfDCG/QpAHRTyp5PbvRzI4s74/kyyCb1LmnZOPq4LFRM4t
+   LalBEXxU42j3pDNL3ZfT9Q3b7Q17iuIZwY2wo6U+joL/0DMsxMlypG+38
+   xZ7E5pd/UN3QCeCum4F+TJUBMv/JhUUKbhIk2NyGLM59pJBZwfHGYw0rc
+   zVwm+SsOStQS7fmnUd8kKE5ofIcwyyvOFiahuvYxCW3HYnT1fLsRU9gfP
+   dDDwRAx2HQRaJyUURec0DnPpu0WM6dHavZG8jUTXmkFBZ5+xb2zUAA6yS
+   Q==;
+X-CSE-ConnectionGUID: zc/plHUFQnOjtm5f0V+FPA==
+X-CSE-MsgGUID: 6zghNHc6TDi4HOJcrjBevw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41864930"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="41864930"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 14:29:17 -0800
+X-CSE-ConnectionGUID: +N3OgpXOSFCJZp0mQYC0mQ==
+X-CSE-MsgGUID: 35+uvpQmRF+NuNMZNKwxzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="117654814"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 27 Feb 2025 14:29:14 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnmNT-000E6g-2Y;
+	Thu, 27 Feb 2025 22:29:11 +0000
+Date: Fri, 28 Feb 2025 06:28:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	tomm.merciai@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 17/17] media: rzg2l-cru: Add support for RZ/G3E SoC
+Message-ID: <202502280652.KV7uk1gP-lkp@intel.com>
+References: <20250226152418.1132337-18-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +76,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202502280434.DHtcsf7x-lkp@intel.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+In-Reply-To: <20250226152418.1132337-18-tommaso.merciai.xr@bp.renesas.com>
 
-On Fri, Feb 28, 2025 at 04:23:44AM +0800, kernel test robot wrote:
-> Hi Sam,
-> 
-> kernel test robot noticed the following build errors:
-> 
---- snip ---
-> >> drivers/iio/filter/admv8818.c:304:34: error: use of undeclared identifier 'lfp_corner_target'; did you mean 'lpf_corner_target'?
->      304 |         ret = __admv8818_lpf_select(st, lfp_corner_target);
->          |                                         ^~~~~~~~~~~~~~~~~
->          |                                         lpf_corner_target
->    drivers/iio/filter/admv8818.c:283:25: note: 'lpf_corner_target' declared here
->      283 |         u64 hpf_corner_target, lpf_corner_target;
->          |                                ^
->    12 warnings and 1 error generated.
+Hi Tommaso,
 
-Well this is embarassing. I must have have had a fat-finger accident when
-inspecting the result of applying the patch to torvalds/master.
+kernel test robot noticed the following build warnings:
 
-I will fix this in v5 once we come to a concensus on the DTS changes.
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.14-rc4 next-20250227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---- snip ---
->    303	
->  > 304		ret = __admv8818_lpf_select(st, lfp_corner_target);
->    305	exit:
->    306		mutex_unlock(&st->lock);
->    307		return ret;
->    308	}
->    309	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/media-dt-bindings-renesas-rzg2l-csi2-Document-Renesas-RZ-V2H-P-SoC/20250226-233919
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250226152418.1132337-18-tommaso.merciai.xr%40bp.renesas.com
+patch subject: [PATCH v3 17/17] media: rzg2l-cru: Add support for RZ/G3E SoC
+config: arm-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280652.KV7uk1gP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280652.KV7uk1gP-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280652.KV7uk1gP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c: In function 'rzg3e_cru_get_current_slot':
+>> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:677:65: warning: left shift count >= width of type [-Wshift-count-overflow]
+     677 |         amnmadrs |= ((dma_addr_t)rzg2l_cru_read(cru, AMnMADRSH) << 32);
+         |                                                                 ^~
+   In file included from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:16:
+>> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:685:27: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     685 |         dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:685:9: note: in expansion of macro 'dev_err'
+     685 |         dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+         |         ^~~~~~~
+   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:685:52: note: format string is defined here
+     685 |         dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+         |                                                 ~~~^
+         |                                                    |
+         |                                                    long long unsigned int
+         |                                                 %x
+
+
+vim +677 drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+
+   664	
+   665	static int rzg3e_cru_get_current_slot(struct rzg2l_cru_dev *cru)
+   666	{
+   667		dma_addr_t amnmadrs;
+   668		unsigned int slot;
+   669	
+   670		/*
+   671		 * When AMnMADRSL is read, AMnMADRSH of the higher-order
+   672		 * address also latches the address.
+   673		 *
+   674		 * AMnMADRSH must be read after AMnMADRSL has been read.
+   675		 */
+   676		amnmadrs = rzg2l_cru_read(cru, AMnMADRSL);
+ > 677		amnmadrs |= ((dma_addr_t)rzg2l_cru_read(cru, AMnMADRSH) << 32);
+   678	
+   679		/* Ensure amnmadrs is within this buffer range */
+   680		for (slot = 0; slot < cru->num_buf; slot++)
+   681			if (amnmadrs >= cru->buf_addr[slot] &&
+   682			    amnmadrs < cru->buf_addr[slot] + cru->format.sizeimage)
+   683				return slot;
+   684	
+ > 685		dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+   686		return -EINVAL;
+   687	}
+   688	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
