@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F691EB194
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 07:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1842F2222B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 07:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740641698; cv=none; b=rypTuwwHeBhCHCFGuFLQ+5CfNZnnqk7+rr/D20C1+YwKF3WxB5EBzAYPn8h9S5mlX+xhdjV8We6+k+fqUVyJ/IWtrIAOZFdX/DqXD1EhwnQoPQseQN0l+ICAOfgIl0KVz7x0quXgszasZ1kTrBrx1JIDCiLDV7OX9wwststqUgQ=
+	t=1740642520; cv=none; b=H5fjRDiAcHoLlaowPE3xOAWCeDIewvvcjA7LAVCRgkcixMJZR+Tg6zoAtYBTU1DycCrBqBtt+WQZzkcWNkSAvSKIUNFmwLF9LcOSUbhYm+eTyawtERBleCdyYocVry4CDCSl94mw6/gBG70kQ2khAi5+j2mkxhloA+MDGh+poEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740641698; c=relaxed/simple;
-	bh=uC3Dh9dmQKs9E+4iiCtR6XjfqmBPEs526BYOEl0TT5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iV7w1PMSWh8Z9ubtaf/qqoQLHKzque3n785xQn3CdDbCxVyQ37fYlVcIsAh6nyuYIN5cjCWo+mnZz+sCEAS2naLCd+9aKeKsHeUQuem9hh9Taubjn3uFL/nX7ol21imGWyt39dPkobJT+ffZk2APE5x6wVLUCCbrgarDkWNBe8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K55k0/r+; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1740642520; c=relaxed/simple;
+	bh=zVv3lwoQypP9GhGsEWRbM2RS3LTiYuyDpjvImkENqgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WZzocETWeYzjFzBhMsdQSok2d4HHjnTeO8rTXXRFoZK3nYD1X5p302Lz7ZIfIMKnmkAkgyymSb8S37T7UmThiCH1sEX8+BIJKWhfqpPNDqJ0VhvAeBK15Y6WAN0sMcASKd7MndYLTLqN11zDxIIwpVx3OFg7CY2IVc5ijwXL7pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TORUDQ8Y; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K55k0/r+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TORUDQ8Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740641696; x=1772177696;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uC3Dh9dmQKs9E+4iiCtR6XjfqmBPEs526BYOEl0TT5Y=;
-  b=K55k0/r+SJDEbqmlyEkkOSqTMWT+ZYH9gZ8h3dl9FDmO7yTp+8t7kLH1
-   Np0/5IRZP2arLQQYKmBV51habgNu5I6IGeutzWXdDFgrMRuaUPRR5hAUb
-   Pi2T7x26JvV8tuVAH59MRYNSiCPdDpsrcxjvVo1cys213U4my6FmP7toJ
-   6LXdoDnlHTAnVWk6PMM4z5OJjQh0pIaMpHxh67jYI2QJIjuXDixzTYtml
-   m8Yh2ckYmZhNfoucTeZtv4gDXrVgnLSw1AXmWeo0e+7OQx1WBGJptaTFM
-   yips1894ay+e033c5hZTbMpj2C6ibnFT7T3rchpmRxLw6f0KosvsK/ymN
+  t=1740642519; x=1772178519;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zVv3lwoQypP9GhGsEWRbM2RS3LTiYuyDpjvImkENqgg=;
+  b=TORUDQ8YSTthpNI42W9143q9DbQN1v2eIbL1f69doprSj3ozlW2rd4Sl
+   tP/zBhQnDCA15j5uKropRbqdsOI/I86rxYi097Y08T/Z9OzmVEpJHCWoW
+   MQ+GOLc/CV2aitT0KOn3/46zu5veRxYkrARES1SrxnNLsQf/QnogKvNtl
+   SRUIxbR/eYhXyItb1i6cckFbg7AR6EjwUz68wdLn3Z4hNYXg1flbxEoz7
+   2/aUtLHxMiaXK2cWAA93/OuEmRlXW4EJJAbs6v7VQ1j5tuR3En73dhAld
+   ujtQOf71d+DziyuQHKIX5GJN9WLOZVFyyphwlkARBt6mcvy51V87UICzg
    Q==;
-X-CSE-ConnectionGUID: 0bToSHWoRvW7dLlWteFHhw==
-X-CSE-MsgGUID: uX3NGz3nSSyLILeEnGVMtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45297406"
+X-CSE-ConnectionGUID: Xn+HYfrXSRy+oqcpD31KLA==
+X-CSE-MsgGUID: hJfpWUdTQqWNVcqSOTy0sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41402198"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="45297406"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 23:34:56 -0800
-X-CSE-ConnectionGUID: nTSCnof1Qj+orK4cMzkzTA==
-X-CSE-MsgGUID: Yx0WR3poS7OCRYiMgyUXKQ==
+   d="scan'208";a="41402198"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 23:48:38 -0800
+X-CSE-ConnectionGUID: Hx67Dpd8TlCI+6q2ns7Lsw==
+X-CSE-MsgGUID: pILmId1eSASgc4RrSxsUQA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121069787"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="117123532"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Feb 2025 23:34:54 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 26 Feb 2025 23:48:35 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnYPw-000D1g-2V;
-	Thu, 27 Feb 2025 07:34:49 +0000
-Date: Thu, 27 Feb 2025 15:34:01 +0800
+	id 1tnYdF-000D2S-0D;
+	Thu, 27 Feb 2025 07:48:33 +0000
+Date: Thu, 27 Feb 2025 15:48:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Quinn Tran <qutran@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Himanshu Madhani <himanshu.madhani@oracle.com>,
-	Nilesh Javali <njavali@marvell.com>
-Subject: drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or
- struct member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
-Message-ID: <202502271559.52dHARae-lkp@intel.com>
+To: Gabriele Monaco <gmonaco@redhat.com>, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v10 2/3] sched: Move task_mm_cid_work to mm work_struct
+Message-ID: <202502271546.WRb9VN4H-lkp@intel.com>
+References: <20250226070202.95062-3-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,78 +70,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250226070202.95062-3-gmonaco@redhat.com>
 
-Hi Quinn,
+Hi Gabriele,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd83757f6e686a2188997cb58b5975f744bb7786
-commit: c019cd656e717349ff22d0c41d6fbfc773f48c52 scsi: qla2xxx: edif: Fix dropped IKE message
-date:   2 years, 7 months ago
-config: i386-randconfig-011-20240921 (https://download.01.org/0day-ci/archive/20250227/202502271559.52dHARae-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271559.52dHARae-lkp@intel.com/reproduce)
+[auto build test ERROR on ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gabriele-Monaco/sched-Add-prev_sum_exec_runtime-support-for-RT-DL-and-SCX-classes/20250226-150508
+base:   ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7
+patch link:    https://lore.kernel.org/r/20250226070202.95062-3-gmonaco%40redhat.com
+patch subject: [PATCH v10 2/3] sched: Move task_mm_cid_work to mm work_struct
+config: arc-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271546.WRb9VN4H-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271546.WRb9VN4H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271559.52dHARae-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271546.WRb9VN4H-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/scsi/qla2xxx/qla_isr.c:3724: warning: Function parameter or struct member 'rsp_q_in' not described in 'qla_chk_cont_iocb_avail'
+   kernel/sched/core.c: In function 'sched_tick':
+>> kernel/sched/core.c:5667:21: error: 'RSEQ_UNPREEMPTED_THRESHOLD' undeclared (first use in this function)
+    5667 |         if (rtime > RSEQ_UNPREEMPTED_THRESHOLD)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5667:21: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +3724 drivers/scsi/qla2xxx/qla_isr.c
+vim +/RSEQ_UNPREEMPTED_THRESHOLD +5667 kernel/sched/core.c
 
-e84067d7430107 Duane Grigsby 2017-06-21  3713  
-fac2807946c10b Quinn Tran    2021-06-23  3714  /**
-fac2807946c10b Quinn Tran    2021-06-23  3715   * qla_chk_cont_iocb_avail - check for all continuation iocbs are available
-fac2807946c10b Quinn Tran    2021-06-23  3716   *   before iocb processing can start.
-fac2807946c10b Quinn Tran    2021-06-23  3717   * @vha: host adapter pointer
-fac2807946c10b Quinn Tran    2021-06-23  3718   * @rsp: respond queue
-fac2807946c10b Quinn Tran    2021-06-23  3719   * @pkt: head iocb describing how many continuation iocb
-fac2807946c10b Quinn Tran    2021-06-23  3720   * Return: 0 all iocbs has arrived, xx- all iocbs have not arrived.
-fac2807946c10b Quinn Tran    2021-06-23  3721   */
-fac2807946c10b Quinn Tran    2021-06-23  3722  static int qla_chk_cont_iocb_avail(struct scsi_qla_host *vha,
-c019cd656e7173 Quinn Tran    2022-07-12  3723  	struct rsp_que *rsp, response_t *pkt, u32 rsp_q_in)
-fac2807946c10b Quinn Tran    2021-06-23 @3724  {
-c019cd656e7173 Quinn Tran    2022-07-12  3725  	int start_pkt_ring_index;
-c019cd656e7173 Quinn Tran    2022-07-12  3726  	u32 iocb_cnt = 0;
-fac2807946c10b Quinn Tran    2021-06-23  3727  	int rc = 0;
-fac2807946c10b Quinn Tran    2021-06-23  3728  
-fac2807946c10b Quinn Tran    2021-06-23  3729  	if (pkt->entry_count == 1)
-fac2807946c10b Quinn Tran    2021-06-23  3730  		return rc;
-fac2807946c10b Quinn Tran    2021-06-23  3731  
-fac2807946c10b Quinn Tran    2021-06-23  3732  	/* ring_index was pre-increment. set it back to current pkt */
-fac2807946c10b Quinn Tran    2021-06-23  3733  	if (rsp->ring_index == 0)
-fac2807946c10b Quinn Tran    2021-06-23  3734  		start_pkt_ring_index = rsp->length - 1;
-fac2807946c10b Quinn Tran    2021-06-23  3735  	else
-fac2807946c10b Quinn Tran    2021-06-23  3736  		start_pkt_ring_index = rsp->ring_index - 1;
-fac2807946c10b Quinn Tran    2021-06-23  3737  
-c019cd656e7173 Quinn Tran    2022-07-12  3738  	if (rsp_q_in < start_pkt_ring_index)
-c019cd656e7173 Quinn Tran    2022-07-12  3739  		/* q in ptr is wrapped */
-c019cd656e7173 Quinn Tran    2022-07-12  3740  		iocb_cnt = rsp->length - start_pkt_ring_index + rsp_q_in;
-fac2807946c10b Quinn Tran    2021-06-23  3741  	else
-c019cd656e7173 Quinn Tran    2022-07-12  3742  		iocb_cnt = rsp_q_in - start_pkt_ring_index;
-fac2807946c10b Quinn Tran    2021-06-23  3743  
-c019cd656e7173 Quinn Tran    2022-07-12  3744  	if (iocb_cnt < pkt->entry_count)
-fac2807946c10b Quinn Tran    2021-06-23  3745  		rc = -EIO;
-fac2807946c10b Quinn Tran    2021-06-23  3746  
-c019cd656e7173 Quinn Tran    2022-07-12  3747  	ql_dbg(ql_dbg_init, vha, 0x5091,
-c019cd656e7173 Quinn Tran    2022-07-12  3748  	       "%s - ring %p pkt %p entry count %d iocb_cnt %d rsp_q_in %d rc %d\n",
-c019cd656e7173 Quinn Tran    2022-07-12  3749  	       __func__, rsp->ring, pkt, pkt->entry_count, iocb_cnt, rsp_q_in, rc);
-fac2807946c10b Quinn Tran    2021-06-23  3750  
-fac2807946c10b Quinn Tran    2021-06-23  3751  	return rc;
-fac2807946c10b Quinn Tran    2021-06-23  3752  }
-fac2807946c10b Quinn Tran    2021-06-23  3753  
-
-:::::: The code at line 3724 was first introduced by commit
-:::::: fac2807946c10b9a509b9c348afd442fa823c5f7 scsi: qla2xxx: edif: Add extraction of auth_els from the wire
-
-:::::: TO: Quinn Tran <qutran@marvell.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+  5629	
+  5630	/*
+  5631	 * This function gets called by the timer code, with HZ frequency.
+  5632	 * We call it with interrupts disabled.
+  5633	 */
+  5634	void sched_tick(void)
+  5635	{
+  5636		int cpu = smp_processor_id();
+  5637		struct rq *rq = cpu_rq(cpu);
+  5638		/* accounting goes to the donor task */
+  5639		struct task_struct *donor;
+  5640		struct rq_flags rf;
+  5641		unsigned long hw_pressure;
+  5642		u64 resched_latency, rtime;
+  5643	
+  5644		if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
+  5645			arch_scale_freq_tick();
+  5646	
+  5647		sched_clock_tick();
+  5648	
+  5649		rq_lock(rq, &rf);
+  5650		donor = rq->donor;
+  5651		rtime = donor->se.sum_exec_runtime - donor->se.prev_sum_exec_runtime;
+  5652	
+  5653		psi_account_irqtime(rq, donor, NULL);
+  5654	
+  5655		update_rq_clock(rq);
+  5656		hw_pressure = arch_scale_hw_pressure(cpu_of(rq));
+  5657		update_hw_load_avg(rq_clock_task(rq), rq, hw_pressure);
+  5658	
+  5659		if (dynamic_preempt_lazy() && tif_test_bit(TIF_NEED_RESCHED_LAZY))
+  5660			resched_curr(rq);
+  5661	
+  5662		donor->sched_class->task_tick(rq, donor, 0);
+  5663		if (sched_feat(LATENCY_WARN))
+  5664			resched_latency = cpu_resched_latency(rq);
+  5665		calc_global_load_tick(rq);
+  5666		sched_core_tick(rq);
+> 5667		if (rtime > RSEQ_UNPREEMPTED_THRESHOLD)
+  5668			rseq_preempt(donor);
+  5669		scx_tick(rq);
+  5670	
+  5671		rq_unlock(rq, &rf);
+  5672	
+  5673		if (sched_feat(LATENCY_WARN) && resched_latency)
+  5674			resched_latency_warn(cpu, resched_latency);
+  5675	
+  5676		perf_event_task_tick();
+  5677	
+  5678		if (donor->flags & PF_WQ_WORKER)
+  5679			wq_worker_tick(donor);
+  5680	
 
 -- 
 0-DAY CI Kernel Test Service
