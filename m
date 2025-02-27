@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9784220687
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 07:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F342248AC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 07:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740640355; cv=none; b=MyQW+KoEXEW59PXCWW+mqChoounRVJZc4x8Q1e9BQQmL9HjaFlo9z2IQeSy/bgq+8QTMFaI0MdEy0YxFIOYQSAUzLBlfBZAqdPp8VOiMTrkQuKAXUk69wZ+AI4zBAk+bHeIe64jsmdXFUWCVH9tqHWRvC2ZGB2wWGZ1xsNVOHzo=
+	t=1740641694; cv=none; b=t0mwYkvm4O3pECKpn4rO7mSvNmLjtsCe6HS5Ax0oNb1nmIRzNYEKMq+7pn61arvjY86FfW6dOqCiMwFoQHFYrTGVjvnWcN++EISyjgKzXXf6/QSX+a6EymV7UOGVzv7PKJBOH9FsACpxuIB6Lc9DjFWojwCttSJH63OOT97kwpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740640355; c=relaxed/simple;
-	bh=FaoIA+OH25vgQ8qslW3rWB2y5JSP9LCRRi1ooCUsD1g=;
+	s=arc-20240116; t=1740641694; c=relaxed/simple;
+	bh=H+1QdFAllBrTGdnKX8x+l0yxCH0Wd7NbCVIHk5wj/3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q7D56+Ck0qVoH8X/8yThXrJtqNdM35Y+4xJh2sVfJMeqwgHZ0eQzHA9HsISEAYR1V2uClWNGtlL1yZ50fHKJtyYBJxBT7uEaU0/rFtTIAvGB4kvmCj8HCPkPmTse+5iQYbcVkq5Q/ECJpZoyyNB4a2ucGE3H2Bpe28YycsD8/sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8/WEWN7; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=nz2L4RT9WIphkHQyUpIVxfju7YAIo5WoGuBx9Ez2W4o/TOGvhELTIPMxnFcK2stxXQ08m/SgMPZ12adMXEuxGCDIEa9tz7qyTXHTZDu60Y1Xgd6VzxT5wIduq+A2Pi/lGDFrFEOTUI1RYohYwzultO9I+7DUYekm+5wtnwKuRP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhYosmso; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8/WEWN7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhYosmso"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740640353; x=1772176353;
+  t=1740641693; x=1772177693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FaoIA+OH25vgQ8qslW3rWB2y5JSP9LCRRi1ooCUsD1g=;
-  b=Y8/WEWN7Xj6GneSPi4w2B6ENCMSpJgX57zqzXFdXQOAICffASw1M7hvp
-   Ed0UInlTtyMjOfDML21r+Xv24oliCdvLicdyyKY0ajDFAeD7NCIrag4B8
-   7fIpJCwN0XkWKiay3eZgI25cWxcPdqr60aaB/YV6xyAXfpxRRBn33AiKX
-   /7T/Lmb6ICC1d0DuSMj7FUGYT7AiJuebNkbKy4wL+8cDnXpmH21y5GpSc
-   Q8ASgbdrcrFMFBjVMaSf1BuwiCAqdoyoul1fb4nVnufyQ9o5jYvKP1eFe
-   31NXfz4hpm+Y6HjU1vJMgC5pAh8J6enVGcn1Nf1x+0riH4zS4DBPmKMoO
-   w==;
-X-CSE-ConnectionGUID: XVW05mm6Sq+eQoLK8yuTfQ==
-X-CSE-MsgGUID: CZe2w+WVSzeZyt+bprTObw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45171060"
+  bh=H+1QdFAllBrTGdnKX8x+l0yxCH0Wd7NbCVIHk5wj/3o=;
+  b=OhYosmsoWFBf1uDtY+s2iH9gSdWVOXjIg9BSVdZACrFQHgBqpBauZrpv
+   ZGyv8sATTLMUe03Cpgo8Ro0tWRxXW8WDAyYX+hpQyTmlALs5Scm/967NQ
+   ZZ8OHDDPMo2GOuHDDtfxoU62Lxmg8/9Kag6+lBNhfwQG/c4ztSyw0sCmM
+   Oibwau9pj14AyA+3awpfHCUlxgNHiJUZA6pQL8K7nX7QbV4+emRaD1A5N
+   xJ/rm/WaJLhzceyEu/OFHTkZ9fKGOV+ZIossRGBxLZJTAbPph8tqBQXEZ
+   VIz576751/8BpXF0xQSetxTKNpiBdajQHBtqmx07xC9AGL7KwJxs+qZT3
+   Q==;
+X-CSE-ConnectionGUID: CtTtdZH2TImP/Gcbw5Bu6w==
+X-CSE-MsgGUID: 1xw+TCkuQWiyUIdPZGZ0XA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45297388"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="45171060"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 23:12:32 -0800
-X-CSE-ConnectionGUID: Q4cy0qY6Q8mWfHGNHCwtzw==
-X-CSE-MsgGUID: t0t6hSLjQlunuBV40vqzmg==
+   d="scan'208";a="45297388"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 23:34:52 -0800
+X-CSE-ConnectionGUID: k/5buOWsSTmbwhL7po41dA==
+X-CSE-MsgGUID: ECxmdXjyQa2g3mBqB3qwIg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="140167500"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121069784"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Feb 2025 23:12:32 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 26 Feb 2025 23:34:51 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnY4H-000D0h-2D;
-	Thu, 27 Feb 2025 07:12:27 +0000
-Date: Thu, 27 Feb 2025 15:11:41 +0800
+	id 1tnYPu-000D1e-0t;
+	Thu, 27 Feb 2025 07:34:46 +0000
+Date: Thu, 27 Feb 2025 15:34:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1327/1327] mm/vmscan.c:3257:21: error:
- implicit declaration of function 'kernel_swap_enabled'
-Message-ID: <202502271519.xkL4Djqh-lkp@intel.com>
+Subject: [morimoto:sound-str-2025-02-26 47/47] drivers/fsi/fsi-core.c:286:17:
+ error: implicit declaration of function 'str_write_read'
+Message-ID: <202502271500.WMVb7B2E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +62,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi liubo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   33c097cb0d6c8c1dcf8cde0f66b1c6c907ee2740
-commit: 44983705e56ab22fda801d66e2a6bd0d1be7ca0b [1327/1327] etmem: add original kernel swap enabled options
-config: x86_64-buildonly-randconfig-005-20241216 (https://download.01.org/0day-ci/archive/20250227/202502271519.xkL4Djqh-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271519.xkL4Djqh-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-str-2025-02-26
+head:   7f39dbcead9f7b6498531131dce3ce435fbfc915
+commit: 7f39dbcead9f7b6498531131dce3ce435fbfc915 [47/47] ALSA: Use str_yes_no() helper in core
+config: sh-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271500.WMVb7B2E-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271500.WMVb7B2E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271519.xkL4Djqh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271500.WMVb7B2E-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from mm/vmscan.c:23:
-   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
-     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmscan.c:33:
-   include/linux/mm_inline.h:32:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      32 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:34:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      34 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:350:64: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     350 |                 lru_size = node_page_state(lruvec_pgdat(lruvec), NR_LRU_BASE + lru);
-         |                                                                  ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:240:60: note: expanded from macro 'node_page_state'
-     240 | #define node_page_state(node, item) global_node_page_state(item)
-         |                                                            ^~~~
-   mm/vmscan.c:363:29: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     363 |                                        NR_ZONE_LRU_BASE + lru);
-         |                                        ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:1776:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    1776 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:127:34: note: expanded from macro '__count_zid_vm_events'
-     127 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:2734:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
-    2734 |                 unsigned long node_lru_pages = 0;
-         |                               ^
-   mm/vmscan.c:3066:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    3066 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:127:34: note: expanded from macro '__count_zid_vm_events'
-     127 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
->> mm/vmscan.c:3257:21: error: implicit declaration of function 'kernel_swap_enabled' [-Werror,-Wimplicit-function-declaration]
-    3257 |         if (sc != NULL && !kernel_swap_enabled())
-         |                            ^
-   mm/vmscan.c:3257:21: note: did you mean 'kernfs_ns_enabled'?
-   include/linux/kernfs.h:309:20: note: 'kernfs_ns_enabled' declared here
-     309 | static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
-         |                    ^
-   8 warnings and 1 error generated.
+   In file included from include/linux/printk.h:610,
+                    from include/asm-generic/bug.h:22,
+                    from arch/sh/include/asm/bug.h:112,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/sh/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/fsi/fsi-core.c:14:
+   drivers/fsi/fsi-core.c: In function 'fsi_slave_handle_error':
+>> drivers/fsi/fsi-core.c:286:17: error: implicit declaration of function 'str_write_read' [-Wimplicit-function-declaration]
+     286 |                 str_write_read(write), addr, size);
+         |                 ^~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/fsi/fsi-core.c:285:9: note: in expansion of macro 'dev_dbg'
+     285 |         dev_dbg(&slave->dev, "handling error on %s to 0x%08x[%zd]",
+         |         ^~~~~~~
+>> drivers/fsi/fsi-core.c:285:30: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
+     285 |         dev_dbg(&slave->dev, "handling error on %s to 0x%08x[%zd]",
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/fsi/fsi-core.c:285:9: note: in expansion of macro 'dev_dbg'
+     285 |         dev_dbg(&slave->dev, "handling error on %s to 0x%08x[%zd]",
+         |         ^~~~~~~
+   drivers/fsi/fsi-core.c:285:50: note: format string is defined here
+     285 |         dev_dbg(&slave->dev, "handling error on %s to 0x%08x[%zd]",
+         |                                                 ~^
+         |                                                  |
+         |                                                  char *
+         |                                                 %d
 
 
-vim +/kernel_swap_enabled +3257 mm/vmscan.c
+vim +/str_write_read +286 drivers/fsi/fsi-core.c
 
-  3250	
-  3251	/*
-  3252	 * Check if original kernel swap is enabled
-  3253	 * turn off kernel swap,but leave page cache reclaim on
-  3254	 */
-  3255	static inline void kernel_swap_check(struct scan_control *sc)
-  3256	{
-> 3257		if (sc != NULL && !kernel_swap_enabled())
-  3258			sc->may_swap = 0;
-  3259	}
-  3260	
+   270	
+   271	static int fsi_slave_handle_error(struct fsi_slave *slave, bool write,
+   272					  uint32_t addr, size_t size)
+   273	{
+   274		struct fsi_master *master = slave->master;
+   275		int rc, link;
+   276		uint32_t reg;
+   277		uint8_t id, send_delay, echo_delay;
+   278	
+   279		if (discard_errors)
+   280			return -1;
+   281	
+   282		link = slave->link;
+   283		id = slave->id;
+   284	
+ > 285		dev_dbg(&slave->dev, "handling error on %s to 0x%08x[%zd]",
+ > 286			str_write_read(write), addr, size);
+   287	
+   288		/* try a simple clear of error conditions, which may fail if we've lost
+   289		 * communication with the slave
+   290		 */
+   291		rc = fsi_slave_report_and_clear_errors(slave);
+   292		if (!rc)
+   293			return 0;
+   294	
+   295		/* send a TERM and retry */
+   296		if (master->term) {
+   297			rc = master->term(master, link, id);
+   298			if (!rc) {
+   299				rc = fsi_master_read(master, link, id, 0,
+   300						&reg, sizeof(reg));
+   301				if (!rc)
+   302					rc = fsi_slave_report_and_clear_errors(slave);
+   303				if (!rc)
+   304					return 0;
+   305			}
+   306		}
+   307	
+   308		send_delay = slave->t_send_delay;
+   309		echo_delay = slave->t_echo_delay;
+   310	
+   311		/* getting serious, reset the slave via BREAK */
+   312		rc = fsi_master_break(master, link);
+   313		if (rc)
+   314			return rc;
+   315	
+   316		slave->t_send_delay = send_delay;
+   317		slave->t_echo_delay = echo_delay;
+   318	
+   319		rc = fsi_slave_set_smode(slave);
+   320		if (rc)
+   321			return rc;
+   322	
+   323		if (master->link_config)
+   324			master->link_config(master, link,
+   325					    slave->t_send_delay,
+   326					    slave->t_echo_delay);
+   327	
+   328		return fsi_slave_report_and_clear_errors(slave);
+   329	}
+   330	
 
 -- 
 0-DAY CI Kernel Test Service
