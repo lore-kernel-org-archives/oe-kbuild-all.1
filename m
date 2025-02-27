@@ -1,68 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5EE270054
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 19:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7E025D911
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 19:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740684004; cv=none; b=mMTY6GWpsxdW9NlRpOzC+rbo3xZaS2eaCeQcqXhPCVvAjW20KdZqRdbg4j+5FgU6s0/ZZmA3uCgH9eAhu/8n1QKzBhlms5I3rRkp3eulMl8p9CmwvHK1Ge4dE2VFNZDtotiQ6xalbB95Atop59lSgflN06Mpe8ZchnnTAR+c3vI=
+	t=1740684572; cv=none; b=PcSgzgZ4prpApqMDNfHv/B5uA+QRHdq20U1DbThCVywCwr4BkOhwZvTieiqjdedR4fdeg0Jc5KVArc910ZA98HF4Y/mEQnQDy6l37UiyV3JyZKbZJZvf0PCsJnCfLcqfIMu+Xidlo1Bo0PsL5N82hTqc+VVyDGXYWTWMG9RFcAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740684004; c=relaxed/simple;
-	bh=VofQ0MMFNn/3/peulSddBz10VHBiuJCK5GWnGS+Q5H0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=smphBKyOhojQke2mDsVJAu//ipwrrFgzkYxexyN0RfX7MwoBzJ1uvYPJmb1TgarQdjOTuA6P+IiO1mCCuPj9ngrIO9VeHX4eg6mXZ6Hx1lESX7OthwcqgdSbGyxY+T7ExYdTz9kc0ods+0tmf8njr6UcgMNZiNVP02S88R4OhEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HywPJddl; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1740684572; c=relaxed/simple;
+	bh=Bvt95BdrszbNgiCMSYv1BayE2wntJ5DbfRVpHM1eGwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uVRMsOuA+OnudDimY45/kxQQq7mBCiJOviEoFiEXAJlsf8iQsWFz22A4eDIefHDzwd3Cd8K8ZWTb2D+2oAT96gQq9jTUiHHpJRyuDnrFIOM/8M4jP0syGj2HcRmCSefygffcaz9k7fbT8E2siwSTncALTnKHKFi3x0wGtpIM5oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3aUWd8z; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HywPJddl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3aUWd8z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740684003; x=1772220003;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VofQ0MMFNn/3/peulSddBz10VHBiuJCK5GWnGS+Q5H0=;
-  b=HywPJddlA+U6nzQQ5A+inwEcbxHwNm+oHlVNdAjby5pj+HBsQZj+QcXQ
-   f4N5XLy+1bqEA25KnK6qlTzYfvAg97g620bhEOvRorP4esvPX7oARwgo8
-   9zGl0xB2xZnOtg+NxyslYpyu1KgzQeSPPH6ARQBPt/P2RQSxRjorV6ctf
-   0mfM5WiDEdhyZa0xf928Q0qbr0XBwRpeMfPKfRfyYs9+kHY2Vm4x3eDUl
-   BUq9EHK58CRmS4UOqBm1gMb4KHil9IPGGVsmj4zeg7BkToKb05eFo5dmH
-   MbFxdqxF5RHZlYOpX1M8ChO3jPqJNh8YcX3tgKwtkhYzbVCuzcZlZwsf8
+  t=1740684570; x=1772220570;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bvt95BdrszbNgiCMSYv1BayE2wntJ5DbfRVpHM1eGwg=;
+  b=K3aUWd8z7H4AB6x6cwI0zr0dwo/PCqhJ2odQML63T3e7I5GspSN1PNgW
+   iBK+IYVNoqJY0MA1C9Y+bGZGPetfWqmuR9D5jrMFRkiBg6PweMaz4tvQT
+   KTD/sLSJXfXmllaGX2FC1XkoxSQwS9iT6zL72QbWqcR5VU6dePIalEZ/C
+   UQjjVhc6lrYpNmdAgVbt+E7SyrR1gnyk5x+KsdgPBGj7TLsnjLkFLRhdt
+   ndwLVOXbC5Y+x/roLZLfix083onv350gNDupWId2bA7Z++sdrLTrUp6v5
+   GEnBC9GrzFpispB7XBi8lD69jCafGuf+LPKR/yKOzjVx92+t5xKQOuI0Y
    A==;
-X-CSE-ConnectionGUID: kfjp7cskRIWy4tJwFjFfrg==
-X-CSE-MsgGUID: ZicCmq+WQh+LW1AiHDhPBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52228388"
+X-CSE-ConnectionGUID: hScJVQZYTeqm6LbTS4mN+Q==
+X-CSE-MsgGUID: ZFSTvrCaSkSzbKIXuNmpAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45244923"
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="52228388"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 11:20:02 -0800
-X-CSE-ConnectionGUID: lbJBhQv4TaKW+I2N+pzi/w==
-X-CSE-MsgGUID: UG5ljOKTSPyONnpcqJOy5Q==
+   d="scan'208";a="45244923"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 11:29:30 -0800
+X-CSE-ConnectionGUID: DnjC9vREQwCSKLxnYHPqxQ==
+X-CSE-MsgGUID: 43bmVcXUQsq3+lH5wmg6iA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118042917"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="117115877"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 27 Feb 2025 11:19:59 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 27 Feb 2025 11:29:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnjQK-000Dvm-2O;
-	Thu, 27 Feb 2025 19:19:56 +0000
-Date: Fri, 28 Feb 2025 03:19:00 +0800
+	id 1tnjZW-000DwW-1P;
+	Thu, 27 Feb 2025 19:29:26 +0000
+Date: Fri, 28 Feb 2025 03:29:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raj Kumar Bhagat <quic_rajkbhag@quicinc.com>,
-	ath12k@lists.infradead.org
+To: Ryan Wanner <Ryan.Wanner@microchip.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jeff Johnson <jjohnson@kernel.org>, linux-wireless@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Raj Kumar Bhagat <quic_rajkbhag@quicinc.com>
-Subject: Re: [PATCH v6 07/13] wifi: ath12k: add support for fixed QMI
- firmware memory
-Message-ID: <202502280215.J3T7EWeY-lkp@intel.com>
-References: <20250225064834.2002499-8-quic_rajkbhag@quicinc.com>
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: [linux-next:master 5341/6583]
+ arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb:
+ dma-controller@e1200000: compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202502280334.b95KXhoC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,209 +64,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225064834.2002499-8-quic_rajkbhag@quicinc.com>
 
-Hi Raj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 13a84b4e7dd5d843dfaa54283adb4bbbe0adee15]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raj-Kumar-Bhagat/dt-bindings-net-wireless-describe-the-ath12k-AHB-module-for-IPQ5332/20250225-145536
-base:   13a84b4e7dd5d843dfaa54283adb4bbbe0adee15
-patch link:    https://lore.kernel.org/r/20250225064834.2002499-8-quic_rajkbhag%40quicinc.com
-patch subject: [PATCH v6 07/13] wifi: ath12k: add support for fixed QMI firmware memory
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502280215.J3T7EWeY-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280215.J3T7EWeY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+commit: 094002ce2768893efc4b1ccb62eaf645f72d115d [5341/6583] ARM: dts: microchip: sama7d65: Add DMAs to sama7d65 SoC
+config: arm-randconfig-052-20250225 (https://download.01.org/0day-ci/archive/20250228/202502280334.b95KXhoC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280334.b95KXhoC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280215.J3T7EWeY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280334.b95KXhoC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/wireless/ath/ath12k/qmi.c:11:
-   drivers/net/wireless/ath/ath12k/qmi.c: In function 'ath12k_qmi_assign_target_mem_chunk':
->> drivers/net/wireless/ath/ath12k/qmi.c:2677:44: warning: format '%lld' expects argument of type 'long long int', but argument 6 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
-    2677 |                                            "failed to assign mem type %d req size %d avail size %lld\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ......
-    2680 |                                            rmem->size);
-         |                                            ~~~~~~~~~~
-         |                                                |
-         |                                                phys_addr_t {aka unsigned int}
-   drivers/net/wireless/ath/ath12k/debug.h:69:40: note: in definition of macro 'ath12k_dbg'
-      69 |                 __ath12k_dbg(ab, mask, fmt, ##__VA_ARGS__);     \
-         |                                        ^~~
-   drivers/net/wireless/ath/ath12k/qmi.c:2677:100: note: format string is defined here
-    2677 |                                            "failed to assign mem type %d req size %d avail size %lld\n",
-         |                                                                                                 ~~~^
-         |                                                                                                    |
-         |                                                                                                    long long int
-         |                                                                                                 %d
-   drivers/net/wireless/ath/ath12k/qmi.c:2707:44: warning: format '%lld' expects argument of type 'long long int', but argument 6 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
-    2707 |                                            "failed to assign mem type %d req size %d avail size %lld\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ......
-    2710 |                                            bdf_size);
-         |                                            ~~~~~~~~
-         |                                            |
-         |                                            phys_addr_t {aka unsigned int}
-   drivers/net/wireless/ath/ath12k/debug.h:69:40: note: in definition of macro 'ath12k_dbg'
-      69 |                 __ath12k_dbg(ab, mask, fmt, ##__VA_ARGS__);     \
-         |                                        ^~~
-   drivers/net/wireless/ath/ath12k/qmi.c:2707:100: note: format string is defined here
-    2707 |                                            "failed to assign mem type %d req size %d avail size %lld\n",
-         |                                                                                                 ~~~^
-         |                                                                                                    |
-         |                                                                                                    long long int
-         |                                                                                                 %d
-   drivers/net/wireless/ath/ath12k/qmi.c:2748:44: warning: format '%lld' expects argument of type 'long long int', but argument 6 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
-    2748 |                                            "failed to assign mem type %d req size %d avail size %lld\n",
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ......
-    2751 |                                            rmem->size);
-         |                                            ~~~~~~~~~~
-         |                                                |
-         |                                                phys_addr_t {aka unsigned int}
-   drivers/net/wireless/ath/ath12k/debug.h:69:40: note: in definition of macro 'ath12k_dbg'
-      69 |                 __ath12k_dbg(ab, mask, fmt, ##__VA_ARGS__);     \
-         |                                        ^~~
-   drivers/net/wireless/ath/ath12k/qmi.c:2748:100: note: format string is defined here
-    2748 |                                            "failed to assign mem type %d req size %d avail size %lld\n",
-         |                                                                                                 ~~~^
-         |                                                                                                    |
-         |                                                                                                    long long int
-         |                                                                                                 %d
-
-
-vim +2677 drivers/net/wireless/ath/ath12k/qmi.c
-
-  2659	
-  2660	static int ath12k_qmi_assign_target_mem_chunk(struct ath12k_base *ab)
-  2661	{
-  2662		struct reserved_mem *rmem;
-  2663		phys_addr_t bdf_size;
-  2664		int i, idx, ret;
-  2665	
-  2666		for (i = 0, idx = 0; i < ab->qmi.mem_seg_count; i++) {
-  2667			switch (ab->qmi.target_mem[i].type) {
-  2668			case HOST_DDR_REGION_TYPE:
-  2669				rmem = ath12k_core_get_reserved_mem(ab, 0);
-  2670				if (!rmem) {
-  2671					ret = -ENODEV;
-  2672					goto out;
-  2673				}
-  2674	
-  2675				if (rmem->size < ab->qmi.target_mem[i].size) {
-  2676					ath12k_dbg(ab, ATH12K_DBG_QMI,
-> 2677						   "failed to assign mem type %d req size %d avail size %lld\n",
-  2678						   ab->qmi.target_mem[i].type,
-  2679						   ab->qmi.target_mem[i].size,
-  2680						   rmem->size);
-  2681					ret = -EINVAL;
-  2682					goto out;
-  2683				}
-  2684	
-  2685				ab->qmi.target_mem[idx].paddr = rmem->base;
-  2686				ab->qmi.target_mem[idx].v.ioaddr =
-  2687					ioremap(ab->qmi.target_mem[idx].paddr,
-  2688						ab->qmi.target_mem[i].size);
-  2689				if (!ab->qmi.target_mem[idx].v.ioaddr) {
-  2690					ret = -EIO;
-  2691					goto out;
-  2692				}
-  2693				ab->qmi.target_mem[idx].size = ab->qmi.target_mem[i].size;
-  2694				ab->qmi.target_mem[idx].type = ab->qmi.target_mem[i].type;
-  2695				idx++;
-  2696				break;
-  2697			case BDF_MEM_REGION_TYPE:
-  2698				rmem = ath12k_core_get_reserved_mem(ab, 0);
-  2699				if (!rmem) {
-  2700					ret = -ENODEV;
-  2701					goto out;
-  2702				}
-  2703	
-  2704				bdf_size = rmem->size - ab->hw_params->bdf_addr_offset;
-  2705				if (bdf_size < ab->qmi.target_mem[i].size) {
-  2706					ath12k_dbg(ab, ATH12K_DBG_QMI,
-  2707						   "failed to assign mem type %d req size %d avail size %lld\n",
-  2708						   ab->qmi.target_mem[i].type,
-  2709						   ab->qmi.target_mem[i].size,
-  2710						   bdf_size);
-  2711					ret = -EINVAL;
-  2712					goto out;
-  2713				}
-  2714				ab->qmi.target_mem[idx].paddr =
-  2715					rmem->base + ab->hw_params->bdf_addr_offset;
-  2716				ab->qmi.target_mem[idx].v.ioaddr =
-  2717					ioremap(ab->qmi.target_mem[idx].paddr,
-  2718						ab->qmi.target_mem[i].size);
-  2719				if (!ab->qmi.target_mem[idx].v.ioaddr) {
-  2720					ret = -EIO;
-  2721					goto out;
-  2722				}
-  2723				ab->qmi.target_mem[idx].size = ab->qmi.target_mem[i].size;
-  2724				ab->qmi.target_mem[idx].type = ab->qmi.target_mem[i].type;
-  2725				idx++;
-  2726				break;
-  2727			case CALDB_MEM_REGION_TYPE:
-  2728				/* Cold boot calibration is not enabled in Ath12k. Hence,
-  2729				 * assign paddr = 0.
-  2730				 * Once cold boot calibration is enabled add support to
-  2731				 * assign reserved memory from DT.
-  2732				 */
-  2733				ab->qmi.target_mem[idx].paddr = 0;
-  2734				ab->qmi.target_mem[idx].v.ioaddr = NULL;
-  2735				ab->qmi.target_mem[idx].size = ab->qmi.target_mem[i].size;
-  2736				ab->qmi.target_mem[idx].type = ab->qmi.target_mem[i].type;
-  2737				idx++;
-  2738				break;
-  2739			case M3_DUMP_REGION_TYPE:
-  2740				rmem = ath12k_core_get_reserved_mem(ab, 1);
-  2741				if (!rmem) {
-  2742					ret = -EINVAL;
-  2743					goto out;
-  2744				}
-  2745	
-  2746				if (rmem->size < ab->qmi.target_mem[i].size) {
-  2747					ath12k_dbg(ab, ATH12K_DBG_QMI,
-  2748						   "failed to assign mem type %d req size %d avail size %lld\n",
-  2749						   ab->qmi.target_mem[i].type,
-  2750						   ab->qmi.target_mem[i].size,
-  2751						   rmem->size);
-  2752					ret = -EINVAL;
-  2753					goto out;
-  2754				}
-  2755	
-  2756				ab->qmi.target_mem[idx].paddr = rmem->base;
-  2757				ab->qmi.target_mem[idx].v.ioaddr =
-  2758					ioremap(ab->qmi.target_mem[idx].paddr,
-  2759						ab->qmi.target_mem[i].size);
-  2760				if (!ab->qmi.target_mem[idx].v.ioaddr) {
-  2761					ret = -EIO;
-  2762					goto out;
-  2763				}
-  2764				ab->qmi.target_mem[idx].size = ab->qmi.target_mem[i].size;
-  2765				ab->qmi.target_mem[idx].type = ab->qmi.target_mem[i].type;
-  2766				idx++;
-  2767				break;
-  2768			default:
-  2769				ath12k_warn(ab, "qmi ignore invalid mem req type %d\n",
-  2770					    ab->qmi.target_mem[i].type);
-  2771				break;
-  2772			}
-  2773		}
-  2774		ab->qmi.mem_seg_count = idx;
-  2775	
-  2776		return 0;
-  2777	out:
-  2778		ath12k_qmi_free_target_mem_chunk(ab);
-  2779		return ret;
-  2780	}
-  2781	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/chipid@e0020000: failed to match any schema with compatible: ['microchip,sama7d65-chipid']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: dma-controller@e1200000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-dma', 'microchip,sama7g5-dma'] is too long
+   	'microchip,sama7d65-dma' is not one of ['atmel,sama5d4-dma', 'microchip,sama7g5-dma']
+   	'microchip,sama7d65-dma' is not one of ['microchip,sam9x60-dma', 'microchip,sam9x7-dma']
+   	'atmel,sama5d4-dma' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/atmel,sama5d4-dma.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/dma-controller@e1200000: failed to match any schema with compatible: ['microchip,sama7d65-dma', 'microchip,sama7g5-dma']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: dma-controller@e1610000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-dma', 'microchip,sama7g5-dma'] is too long
+   	'microchip,sama7d65-dma' is not one of ['atmel,sama5d4-dma', 'microchip,sama7g5-dma']
+   	'microchip,sama7d65-dma' is not one of ['microchip,sam9x60-dma', 'microchip,sam9x7-dma']
+   	'atmel,sama5d4-dma' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/atmel,sama5d4-dma.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/dma-controller@e1610000: failed to match any schema with compatible: ['microchip,sama7d65-dma', 'microchip,sama7g5-dma']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: dma-controller@e1614000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-dma', 'microchip,sama7g5-dma'] is too long
+   	'microchip,sama7d65-dma' is not one of ['atmel,sama5d4-dma', 'microchip,sama7g5-dma']
+   	'microchip,sama7d65-dma' is not one of ['microchip,sam9x60-dma', 'microchip,sam9x7-dma']
+   	'atmel,sama5d4-dma' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/atmel,sama5d4-dma.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/dma-controller@e1614000: failed to match any schema with compatible: ['microchip,sama7d65-dma', 'microchip,sama7g5-dma']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1800000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/timer@e1804000: failed to match any schema with compatible: ['microchip,sama7d65-pit64b', 'microchip,sam9x60-pit64b']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: flexcom@e2020000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-flexcom', 'atmel,sama5d2-flexcom'] is too long
+   	'atmel,sama5d2-flexcom' was expected
+   	'microchip,sam9x7-flexcom' was expected
+   	'microchip,sama7g5-flexcom' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/atmel,sama5d2-flexcom.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
