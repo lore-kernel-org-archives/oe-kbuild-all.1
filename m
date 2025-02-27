@@ -1,105 +1,118 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744A52376E6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BCC22FF44
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740665925; cv=none; b=lgctWXlmeISTUPE0UvNpiiuXh3tAcHMhbrVa6XXT14xvGaZTFOx2RKHTx7KTvHdz8uYLmNA9X2wqH0RWVJPyS1LIp4RHciAXrXDn0Yf1LrusEichS8CpLfipEmZzfA4jcihq/tnc1PnJFkrvjKz/PK4jza+QBOtxjPbnnMAc9bg=
+	t=1740665945; cv=none; b=Q57it1XMw3G25SeoczpiVExRkKyDyFnM6ecgvIWMUYxVexJOrhvJA1Fnk704SkHSooxLY/LfwR2vcsITg42XsG/MOCPC3+u0GNFMRhsahzdkrP8Hz8b2sLFszAabFPGXoBRp48mX0pXv1fnXr885b9S/CYNb2+1FVS0hsqu2w74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740665925; c=relaxed/simple;
-	bh=r8S7xG/GXaPn5Om2tkbwP+KT4PKKlCCa4/xSKilbANM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fA4iqP7LnlO8oNRSuhBitKNGmP2OGZascuYpOAtf2bzFuYYuV02/zPhbMm3ofiGXLKUdEZZSDzhik8DbmsaiEHJzfNtAa75GtxQCNhIfKbj3NhKp6nS1/4hrs30Iz2NKlMfcDwvewnfX4xtJQZvUIbdsZgC9MYw/UQx/LwNfquo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=nZCHrVLg; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1740665945; c=relaxed/simple;
+	bh=bfYW3LHwMOMgvcuWqLOaQFxhtTvpWF53uj1Tq7lCn7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ABcteqXDU1l0KJhc0xsLJSIS84t/J9Zl+L7LDcGHiSSaC8blPhHgeEnzBLwPjfoNvj51kKh1xNzLJbqtlS6eRuT/2R9bn9R2Oo+RVOsZpFHzExVJHWjdS9vkMUNjOKKVUr49QwhctV41Gbd9p0Xt1WtmsJhNy/wYI4aqNJydMzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoI8ujis; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="nZCHrVLg"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3d3e00676fdso1994745ab.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 06:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740665921; x=1741270721; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NNJanwav3a8wFADrKZ+oCG5dk4BZX7AUlFcgnar0a5o=;
-        b=nZCHrVLgE2EHsVzHP410cgPh7BELnDbi3vgc/8U749+hlZPD52PBD717/k9NXF+KM8
-         v2+woO6eFYiE8Knns2vcZ25+TKTro79/mxoPntISgcn2+xluWjRvbkIIr3HUsdmIPhQM
-         771iGs0rUtPBHVWNxcVevG8knYJIt+9aYrwdTLvZh9MVdvEihewMHey1bPaNfTg3B7o1
-         dnacqOjkALWCz1SPkLlpKaJZCvp3/05WL5Qu441LFSsbJWDrhwEisdU+z+yn/Ri4p3aL
-         ItZaNUHhdstxv8oS7hfrZa8QF2+94McK4mt0xYEJ5jNXsBpmVMJNsz2cr4JcwCo2MsZT
-         LpjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740665921; x=1741270721;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NNJanwav3a8wFADrKZ+oCG5dk4BZX7AUlFcgnar0a5o=;
-        b=NRQqIMtZZzTik0sqLTOK/zCAGaVGTfqOy5ZPiJqfPxTns9qTThqGffCYffrUqkhV6Z
-         a1xh1GzmeDjHQR/soE1I/8IIQ+3zAi1YhPtO7HLl0BTUKZ47Opu7nuAcP0RJ3/CHFdcG
-         cJIDx2W+RZwqwsc51JjmgFUf/nyji6fPDMc5Z48G9eke0EnB0PWDEjBCinzv0BT60Ay4
-         5X88XtgYX5+Lcxn4QaTUQtMFp5RFej1EjJItIPRFCCuttauKYbNYXRlASh7Ee9NknTTh
-         YIA9cgGju8g8lMkF9h9jNa62+MUlxPNjOhcSNC+vrRWSwGILGHiaNdWeixkIPF5GBPmC
-         7w3w==
-X-Forwarded-Encrypted: i=1; AJvYcCUcfUSMmQ+smWa3oCLjEzBiyt6YX126hSbYAlAMPGrPpsT1/xZwbCjASEme1eA+8BPj4ItM4GRI1k1mBMFr@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdZL6jQC1crf2dRY7E2LlQsQYn2OQgbsywhlrqLr8pB69Vb40F
-	odHF88aBNzlb9hptOxZtzkY5ptjHBQA4k+Sga2SKWKIyEMCj+JjnIKYDGVvLP4U=
-X-Gm-Gg: ASbGncsXyREvIWJrs7gn6n6jEhdyVizLSIi0FGPANg4IhkrrQQ3KYjN+2PyjrgBQ+sB
-	cDBWaXYOmGVEu/BeJbxbL7yrt7DvHeDZP2kCr8FEbs6oDF1kcbjDKZDFBif1VnJ/DHDWGBz/7gg
-	8H3sLsHquoMcjOOyGtm70ecJbxtdNGEsFvZ1mwpibDmhpCFaR/5qmIKQE+yjTJbecbyGbjW707n
-	TDHEauAarCcxs8OBI/qBMgAgImEi8Tq3Am1mjGwga6OV+fmsxmgAuznpt+weQshMAF5tx8AWfdT
-	H33zdhkHaMIlRpLb3Ai8DQ==
-X-Google-Smtp-Source: AGHT+IFaqZ3whCItmy6RW103VrhoKk3IQiM/Mvv8AZZcmFo8vP/FBPn1in3bLWUleZWrKCTF237izA==
-X-Received: by 2002:a05:6e02:491b:b0:3d3:ced4:db9b with SMTP id e9e14a558f8ab-3d3ced4de09mr93462075ab.5.1740665921305;
-        Thu, 27 Feb 2025 06:18:41 -0800 (PST)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d3dedbaf03sm3437855ab.0.2025.02.27.06.18.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 06:18:40 -0800 (PST)
-Message-ID: <5ec35d4b-bf0f-4dcc-876a-40c64793d25a@kernel.dk>
-Date: Thu, 27 Feb 2025 07:18:39 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoI8ujis"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740665944; x=1772201944;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bfYW3LHwMOMgvcuWqLOaQFxhtTvpWF53uj1Tq7lCn7A=;
+  b=QoI8ujisM8V80lI3w+Xk31nyOAeIoGzRWYuGOY7mR8YWmpFKFpb1uqzm
+   ccoT9Im8qq27KIov8HtkuPmLpz/RCz4fIBKhUgVo1V4eEKkJ4jN+6i6XH
+   wbbb9ROde2lD9UJzgAYksqqH13qmX0jr75+nPmLxk4uGdSzhzGta4kqNK
+   uH0Vf/fq2OspgfTO4NsLRTFChT4wpmE2KXSo9Y+LJzRZxt+KhppNF8Lcd
+   gS8pLzKthewnDpS2KkWBZdnlWNvLnYupi86QsL6ZwOtx2OyHOFtOHUZLA
+   HIcRZNlnR7CWuCCdLlt9vdxvoOy1k/RJt6WVpkdpYr5in9kgHDW7Xanc/
+   Q==;
+X-CSE-ConnectionGUID: iBl5h/tHSa2nb1jYm9oCRw==
+X-CSE-MsgGUID: goAUfpG6TOKhhZJggIOmXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52543184"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="52543184"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:19:03 -0800
+X-CSE-ConnectionGUID: 1x2Rj4zmTJuMrUEbdFhdRg==
+X-CSE-MsgGUID: 3bHSuuctQEKD3UopNX7e+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="140269609"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2025 06:19:01 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnein-000DTW-0L;
+	Thu, 27 Feb 2025 14:18:53 +0000
+Date: Thu, 27 Feb 2025 22:18:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] power: supply: Add support for Maxim MAX8971
+ charger
+Message-ID: <202502272232.bykWJmpq-lkp@intel.com>
+References: <20250226093700.44726-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [axboe-block:for-6.15/io_uring 43/57] io_uring/rw.c:299
- io_prep_rw() error: uninitialized symbol 'ret'.
-To: Pavel Begunkov <asml.silence@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <e14911d2-c648-4738-84e4-48af3fcfdd9c@stanley.mountain>
- <56e35d8d-b102-430a-8c94-dbc14b8fb9ae@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <56e35d8d-b102-430a-8c94-dbc14b8fb9ae@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226093700.44726-3-clamor95@gmail.com>
 
-On 2/27/25 3:08 AM, Pavel Begunkov wrote:
-> On 2/27/25 05:56, Dan Carpenter wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/io_uring
->> head:   047fa0ba8f1bed6b1c5d88e31c4fd187de16dbc1
->> commit: 61ed48b5fc63d1c6d9c3eb59ed2b46a2cbfc6039 [43/57] io_uring/rw: open code io_prep_rw_setup()
->> config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271201.3Eaa0Ych-lkp@intel.com/config)
->> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->> | Closes: https://lore.kernel.org/r/202502271201.3Eaa0Ych-lkp@intel.com/
->>
->> smatch warnings:
->> io_uring/rw.c:299 io_prep_rw() error: uninitialized symbol 'ret'.
-> 
-> Thanks for letting know
+Hi Svyatoslav,
 
-Folded in a fix.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sre-power-supply/for-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.14-rc4 next-20250227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/dt-bindings-power-supply-Document-Maxim-MAX8971-charger/20250226-174046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20250226093700.44726-3-clamor95%40gmail.com
+patch subject: [PATCH v2 2/2] power: supply: Add support for Maxim MAX8971 charger
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250227/202502272232.bykWJmpq-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272232.bykWJmpq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272232.bykWJmpq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/power/supply/max8971_charger.c:653:12: warning: 'max8971_resume' defined but not used [-Wunused-function]
+     653 | static int max8971_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+
+
+vim +/max8971_resume +653 drivers/power/supply/max8971_charger.c
+
+   652	
+ > 653	static int max8971_resume(struct device *dev)
+   654	{
+   655		struct i2c_client *client = to_i2c_client(dev);
+   656		struct max8971_data *priv = i2c_get_clientdata(client);
+   657	
+   658		irq_wake_thread(client->irq, priv);
+   659	
+   660		return 0;
+   661	}
+   662	
 
 -- 
-Jens Axboe
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
