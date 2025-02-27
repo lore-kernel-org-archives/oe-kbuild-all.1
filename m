@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F40D25EFA7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE61231A55
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 15:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740668173; cv=none; b=Rfa1qLpIZkFx7f+A2CiWi6y0PUxQV8DbVCcsWnv7d3ep8B6JnlBoCuDguewWJndf94mIq1hfys9HluH0pgbfz01Fe4glavz7H5rVMQ8+kOtR/sn3BpXIMjzcYOo6WqmfJLfDq6Vg2luZHNxHz1t2tqvAlP+1kMKVkq2iMaipHDA=
+	t=1740668932; cv=none; b=jBHAEglaxuYEObSBqIOQKBqBpgK1wXjentVSvfGuZE0fAygL12XsKR73cQXV53RIApEqq8rXqLAHAxeTh4hpZE6CL+fM6h3dTp2otnT/j+z8/Xji6hXX4qM627S3Y3TgPFFiC8OK9zi4FJuoJCPmtifrqlgkZXp4rv0kB8tu8sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740668173; c=relaxed/simple;
-	bh=9pifnqqy4pSoozn+ghyHOYktagFezR8KmfqYwHLFwpU=;
+	s=arc-20240116; t=1740668932; c=relaxed/simple;
+	bh=VTYx76++dzcn8BzXVhqS4x1bVjLz23b5NeDAfO0U3KQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LnYtgfwsfVB79uR/tT6zl8F8YcLQxHmBN5vAxndUnw/QeE7legP3+Im2pEauPIHyRVVBRGYQmjdmjl0u3RkpCpZ6RhFPXL9PAPQsMnwrxZPddniwidFLZMQOkBTIfaEXE6MxwBD5kMnFuwCx3Ik5VJYJ1z5O16KfRin2xAItG/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWA/wIbR; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=p07nCKydG5dXwBqqgeh+COuiAaRJpThypwtzd05pCTeoxCD0uI+01cjMrvc8jqPnCOUTacZyX0439JrBubfAwFFAEmOCi8nNUwxsLR1iyUnwN6Kw6D8RmkqUvIjHUILvN9hsTm1ln0G+5SWWvooRpOeJoFwZGkApQSI1KegSuyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYqTzljC; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWA/wIbR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYqTzljC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740668171; x=1772204171;
+  t=1740668931; x=1772204931;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9pifnqqy4pSoozn+ghyHOYktagFezR8KmfqYwHLFwpU=;
-  b=UWA/wIbRhOKodLCu61MnZ8ZMPBxhb5fz63i5nLsQrfZ+c9mSPMq9Y3s9
-   bfuKhPBd4uXnWicE4KlBGGgj2y++xgl4hPKZ7fbfQ/rH8F+9yYBPNjuT4
-   N6FNOvtRejYCm8yAdpXPRhyu2axDLP8xNsoYhqrSsFPvyMjfO23+9uGJ7
-   uaKNJVxXaUu8g1f11BTlZuEZ6JTTLTSQq5vs5uu/vL+X1CW5K4wmvcbLC
-   a+t6ry6oLe1eifhUZFNS1hmXBOwW4Ephtt+D9F/R9ydPbKqezE9VGS+W3
-   SG0v9Qu5qdVUEXaMbNnfu5BvUiEYIJLZGrOBaa5xL4z5jlqDN/cne3p3Q
-   Q==;
-X-CSE-ConnectionGUID: mkZzkjHDRk+eNuY7aQRWNg==
-X-CSE-MsgGUID: 6YvYp+I7T622Q9aTHraFqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41760505"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="41760505"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:56:11 -0800
-X-CSE-ConnectionGUID: rLfBfA0CQbGjXLAIO8Oe6Q==
-X-CSE-MsgGUID: yNl376CETuGLw2RzZA4V/g==
+  bh=VTYx76++dzcn8BzXVhqS4x1bVjLz23b5NeDAfO0U3KQ=;
+  b=eYqTzljCupWijmM7Vrs/1fpuZ2o85ibL3uyNG8+amYZWfOyYXer+nsoy
+   anRLkOpO+iQ3t8de8w05IygDjY+B5lmsrIXYFiXgTyxCIeS6xEwDkMES0
+   5ww0+4sXh9qKbiOolYlw7KQeucozWOKXzphtetQpVDSlEL8JoZtN9dS0a
+   VVeNd70hsQ7dE3xs0G2yxQ0Fg4V/GAhPqpmh0+XxjUKGHnEJ4Ow9IOL8J
+   Z3J2Fd6bhDi/dFChn4nsAV+dThDgB4qmhJXlUnYwPoSBH98rl298ewpDb
+   33ZmFeQRcnOPHwbWzyecCHS8LRMYbZjDs00KeiavPLEtcrgU/g/PQIRzG
+   g==;
+X-CSE-ConnectionGUID: 7Q6acW41TJKvMb3e74dYPQ==
+X-CSE-MsgGUID: 2tcpS9b9SjSARNURYboxvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40739975"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="40739975"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:08:50 -0800
+X-CSE-ConnectionGUID: lzSmMiRCQsSr1Xkh9GBnZg==
+X-CSE-MsgGUID: 4C9V2n+WRe6ipXkVa7j12g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="147963548"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="116823280"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Feb 2025 06:56:10 -0800
+  by orviesa009.jf.intel.com with ESMTP; 27 Feb 2025 07:08:47 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnfJ0-000DWc-2e;
-	Thu, 27 Feb 2025 14:56:06 +0000
-Date: Thu, 27 Feb 2025 22:55:58 +0800
+	id 1tnfV5-000DXa-0O;
+	Thu, 27 Feb 2025 15:08:36 +0000
+Date: Thu, 27 Feb 2025 23:07:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	thierry.bultel@linatsea.fr
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3 06/13] clk: renesas: Add support for R9A09G077 SoC
-Message-ID: <202502272238.ZwLcNFEr-lkp@intel.com>
-References: <20250226130935.3029927-7-thierry.bultel.yh@bp.renesas.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org, pavel@ucw.cz,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 08/11] backlight: lcd: Replace fb events with a
+ dedicated function call
+Message-ID: <202502272207.A1uo13Zf-lkp@intel.com>
+References: <20250226093456.147402-9-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,54 +67,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250226130935.3029927-7-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250226093456.147402-9-tzimmermann@suse.de>
 
-Hi Thierry,
+Hi Thomas,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus geert-renesas-devel/next linus/master v6.14-rc4 next-20250227]
-[cannot apply to geert-renesas-drivers/renesas-clk]
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master v6.14-rc4 next-20250227]
+[cannot apply to lee-backlight/for-backlight-fixes]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Bultel/dt-bindings-clock-Add-cpg-for-the-Renesas-RZ-T2H-SoC/20250226-221033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250226130935.3029927-7-thierry.bultel.yh%40bp.renesas.com
-patch subject: [PATCH v3 06/13] clk: renesas: Add support for R9A09G077 SoC
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250227/202502272238.ZwLcNFEr-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272238.ZwLcNFEr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Rework-fb_blank/20250226-174013
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20250226093456.147402-9-tzimmermann%40suse.de
+patch subject: [PATCH v2 08/11] backlight: lcd: Replace fb events with a dedicated function call
+config: i386-buildonly-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272207.A1uo13Zf-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272207.A1uo13Zf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272238.ZwLcNFEr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272207.A1uo13Zf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/clk/renesas/r9a09g077-cpg-mssr.c:9:
-   drivers/clk/renesas/r9a09g077-cpg-mssr.c: In function 'r9a09g077_cpg_div_clk_register':
->> drivers/clk/renesas/r9a09g077-cpg-mssr.c:72:33: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-      72 | #define GET_REG_OFFSET(val)     FIELD_GET(GENMASK(31, 20), val)
-         |                                 ^~~~~~~~~
-   include/linux/clk-provider.h:869:51: note: in definition of macro 'clk_hw_register_divider_table'
-     869 |                                   NULL, (flags), (reg), (shift), (width),     \
-         |                                                   ^~~
-   drivers/clk/renesas/r9a09g077-cpg-mssr.c:166:63: note: in expansion of macro 'GET_REG_OFFSET'
-     166 |                                                        base + GET_REG_OFFSET(core->conf),
-         |                                                               ^~~~~~~~~~~~~~
-
-
-vim +/FIELD_GET +72 drivers/clk/renesas/r9a09g077-cpg-mssr.c
-
-    69	
-    70	#define GET_SHIFT(val)		FIELD_GET(GENMASK(19, 12), val)
-    71	#define GET_WIDTH(val)		FIELD_GET(GENMASK(11, 8), val)
-  > 72	#define GET_REG_OFFSET(val)	FIELD_GET(GENMASK(31, 20), val)
-    73	
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/exportfs/exportfs.o
+>> ERROR: modpost: "lcd_notify_mode_change_all" [drivers/video/fbdev/core/fb.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
