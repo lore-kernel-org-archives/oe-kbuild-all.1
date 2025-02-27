@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2400A1BCA05
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 16:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBF71DDC29;
+	Thu, 27 Feb 2025 17:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740675289; cv=none; b=irVR0z+wcZtpTz06ArNPMUBlVV/TniIdCx9/anShwx4wFsSclLMGtTNHDnlomeBXjnsQ4BFjwi2qc7aBduO7KUn6NSn/3Y+kjKV3zeE8QDPYRfN+zLjEXMu1NH1c78uqtTG4G8OWpzdjFjpDW1lAEPUara42YAldav4AZTbmdtQ=
+	t=1740677210; cv=none; b=ZNd0nfyWujRCW13X2TqISBECw8kuvn3d6t9jVu+K7ReKRscwS+UEw0CVWVABmlqmYiRYq6Qc6yWOVkPnkWBW9XF6X7m+RdvIWgd9jXhioRMoUQq4FXfKwYgemc5IZikMCCx3uDUid3B2I6sWaLvyHO/UOVUyBWuwjpzT7k9lhXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740675289; c=relaxed/simple;
-	bh=iHxrFhFny83WmNWdCod6QcehhB4oKb3HS0mSV0lvjsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gVDky1A2o3c0nSp+30jbm9xqo699ieqjgS14A2KMCDNNjw75Lx6UWKawFAXrILk4goBxzEEhuBkBkaJk22g9Wa5yhzRhPmxuQ2DdalObO7PU19RggIWGmJKEsT3CsolhG7Q2eQRYploPH186FyQjLUo7ZkW8Yqd+ZsiUuSNuGXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BEl7AAL1; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1740677210; c=relaxed/simple;
+	bh=UlCHsIoNcKx1GuLIYqnfOsbcySaw5M6mE/h3V3NPy1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X97v7d9pQqORqlQbU790UOq9joznhAblmnpxE76pnaGB6yVteShSuhS9wPun3Ac8XA4NyWt8BaoR1arTPe9+i9TO0c0sf6AcLadq6YmP+0GflCdQfhWjNt2PQvMxa89uitg93P9PsopY9PTi1mXng2B93zwknfauyb3drn/rct0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNNvFh2v; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEl7AAL1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNNvFh2v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740675286; x=1772211286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iHxrFhFny83WmNWdCod6QcehhB4oKb3HS0mSV0lvjsM=;
-  b=BEl7AAL1re9gHMoSE4aVXDiL+2DSvjxw3jkeixiSVvyuA/GOa6zz739a
-   I4uCjpH5rImLmNE5bA99yAX5WBGHw6QUSqfG0Nb4jNBufL33z2+Y3NcTI
-   //xLvbq6yeJ3uYV5z/tHpF05dMEUEwQVl8Ft5uDmFfvOk5NPNzSk0y+qH
-   Vqg8h2Z+6enMYxchZE/pa6KtsO/ZLfFLWaE5WuBX614EJDYDj3/r0XN91
-   rx4e7t3U8xLkXTYAwEM6wLb7+nfy4EnEEO1zLbfnYkzQFei370xwholX1
-   Ec+promj48pGqwrSKMjPikqZPrmrk8iKj3GOZr66N8YDKy4zfwUlwNbnK
+  t=1740677208; x=1772213208;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UlCHsIoNcKx1GuLIYqnfOsbcySaw5M6mE/h3V3NPy1w=;
+  b=bNNvFh2vnh8oN4YdrY5IQHEnrrJuDb1uyGy2d2rlQZUw1pRh1N49ZQY6
+   WctbnDTHScOuti+5GAmtMu7tmmqEG5XDXRJwwTtjZfyfMtMo6ddDQWKsn
+   OXJKpziD/9Ii0XRZRBrgb44YIR/xpb0FFGJE6g/dV0h5Tf+xDEH8SwXSH
+   8iAK3r1MwqnPECU5AnJQbqWGiapSgMUXt6+TlzCmNrfJGjHLhvHYKsqnm
+   MMGojqQz8NuRtni2z/sf9gh+47D0D90TMrOZVQPwGlrGFfpCDzwTarHyw
+   tsLBDrDnlLzpWYi/Pxn+XRw1eJLPzKkL9oapPrG2f93qRM4Rlx28T0z4S
    w==;
-X-CSE-ConnectionGUID: Z6f5InMtTkusGjcMnvfkwg==
-X-CSE-MsgGUID: gJOYJCnbRnuifXXk4Ke7kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45491725"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="45491725"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 08:54:45 -0800
-X-CSE-ConnectionGUID: 9TW28CJ7SrCShaLWzmAKWQ==
-X-CSE-MsgGUID: SsDBisBgTp2P76hZoAwH/A==
+X-CSE-ConnectionGUID: EIs3lcqNTIyVaSdPBlF5jg==
+X-CSE-MsgGUID: tsnY2VUnRoqXAi2ahfKFIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52992718"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52992718"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 09:26:48 -0800
+X-CSE-ConnectionGUID: mU4qMKsvR2G74F3NXFpd0g==
+X-CSE-MsgGUID: 8rcMGU12Sj6c6pZVb7WdZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="117106485"
+   d="scan'208";a="116850151"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2025 08:54:42 -0800
+  by orviesa009.jf.intel.com with ESMTP; 27 Feb 2025 09:26:46 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnh9j-000Dja-39;
-	Thu, 27 Feb 2025 16:54:39 +0000
-Date: Fri, 28 Feb 2025 00:54:15 +0800
+	id 1tnhel-000Dlq-2H;
+	Thu, 27 Feb 2025 17:26:43 +0000
+Date: Fri, 28 Feb 2025 01:25:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gerhard Engleder <gerhard@engleder-embedded.com>, andrew@lunn.ch,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Gerhard Engleder <gerhard@engleder-embedded.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH net-next v8 6/8] net: selftests: Support selftest sets
-Message-ID: <202502280012.b32B74S1-lkp@intel.com>
-References: <20250224211531.115980-7-gerhard@engleder-embedded.com>
+To: Juri Lelli <juri.lelli@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlelli:upstream/deadline/domains-suspend 2/5]
+ kernel/sched/topology.c:10:30: error: a function declaration without a
+ prototype is deprecated in all versions of C
+Message-ID: <202502280152.nid5detJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,45 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250224211531.115980-7-gerhard@engleder-embedded.com>
 
-Hi Gerhard,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/net-phy-Allow-loopback-speed-selection-for-PHY-drivers/20250225-103125
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250224211531.115980-7-gerhard%40engleder-embedded.com
-patch subject: [PATCH net-next v8 6/8] net: selftests: Support selftest sets
-config: mips-randconfig-r064-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280012.b32B74S1-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280012.b32B74S1-lkp@intel.com/reproduce)
+tree:   https://github.com/jlelli/linux.git upstream/deadline/domains-suspend
+head:   e3512fbbdb36ba3f8f172d4119f73a6de351bd08
+commit: af2ae36d96f2d8bf61feebc9df76f0616793c272 [2/5] sched/topology: Wrappers for sched_domains_mutex
+config: i386-buildonly-randconfig-003-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280152.nid5detJ-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280152.nid5detJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280012.b32B74S1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280152.nid5detJ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/usb/smsc95xx.c:25:
->> include/net/selftests.h:48:59: error: 'void' must be the first and only parameter if specified
-      48 | static inline int net_selftest_set_get_count(int set, void)
-         |                                                           ^
->> include/net/selftests.h:48:59: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-   1 warning and 1 error generated.
+   In file included from kernel/sched/build_utility.c:15:
+   In file included from include/linux/sched/isolation.h:5:
+   In file included from include/linux/cpuset.h:17:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/sched/build_utility.c:88:
+>> kernel/sched/topology.c:10:30: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      10 | void sched_domains_mutex_lock() {
+         |                              ^
+         |                               void
+   kernel/sched/topology.c:13:32: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+      13 | void sched_domains_mutex_unlock() {
+         |                                ^
+         |                                 void
+   2 warnings and 2 errors generated.
 
 
-vim +/void +48 include/net/selftests.h
+vim +10 kernel/sched/topology.c
 
-    47	
-  > 48	static inline int net_selftest_set_get_count(int set, void)
-    49	{
-    50		return 0;
-    51	}
-    52	
+     7	
+     8	DEFINE_MUTEX(sched_domains_mutex);
+     9	#ifdef CONFIG_SMP
+  > 10	void sched_domains_mutex_lock() {
+    11		mutex_lock(&sched_domains_mutex);
+    12	}
+    13	void sched_domains_mutex_unlock() {
+    14		mutex_unlock(&sched_domains_mutex);
+    15	}
+    16	#else
+    17	void sched_domains_mutex_lock() { }
+    18	void sched_domains_mutex_unlock() { }
+    19	#endif
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
