@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA29723315A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9025B2356C9;
+	Thu, 27 Feb 2025 14:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740666811; cv=none; b=llHDUgJspxyfTHsZTRheJxWeCZjL0koG+ugYg5uwzaiq5rlvGdUNS0rI56czu5yIwDUX2A63TLcB5dAQbmPuPz+QzT8mMsyujiaex4x6Rw8fDiKibvNQpNZZFPXaVmphP4w5fSqEI2rH/0F0qb5/QhK5ncRA6MtNjvJMYotiuxs=
+	t=1740666827; cv=none; b=IdO/0M85mxhkbyG/KDU1aRUMqEpG0pKvWc4AWnk4snhCOneJGVihYmSIl2oKWsLRJameJIkll+RmHO1kUDrzLApTpIKzwariUd9ZAybbtm0OicX0FC507kywb08B0Z+OyoNBr8kIlpL3R7HjUncw1Y6ir3IlQC7DPKBc460t9cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740666811; c=relaxed/simple;
-	bh=/7TkpyI/3xJq4/KdGM0zlJYPHWAZBK9m2KiQsivk40g=;
+	s=arc-20240116; t=1740666827; c=relaxed/simple;
+	bh=ix+N2Wxtfqde7gfW+kSRYjbGZltIvKj4UMMv7v9T3nk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kbXAogrt8UhrS07iloYSjHG34EU+e9Wcg4awDhlhp5Fogjotr+CjqHlL1leqEIj5nZYVRirnYV61fS1NHyZIJf91FwLxrQPZdXhW9yzvhDb0xEAcV2XWR6UUt4Ip9bkHvEcEGONRJ7QbaDDtfirNz4YpgemHGXT81OZd2Yh0eBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0XfCSEy; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=RocjYN1ML2VRfEG3dWJFp3ANhOmYl+NzIGv3BWJUFgOZYZeP2Lfq+3Cwnc93ak2dg5BxS9JNLbG0+5iBVIij4bskbRPQMeeBIFlhC/fbEwlpk7YrkTxGHBQ1iNEFnnO7ZzEaPvhDOAQJzPqYpCI6KHyNDZtMLIvBPI8CLhWYCrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBr5FY4e; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0XfCSEy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBr5FY4e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740666810; x=1772202810;
+  t=1740666825; x=1772202825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/7TkpyI/3xJq4/KdGM0zlJYPHWAZBK9m2KiQsivk40g=;
-  b=T0XfCSEy9i0oFeB29wB6seddl+uSaOhTDs/zr/wVXdETjFqrdWXHButQ
-   b8yf9OD1yc5lFlFqeJddlInEITJ2HsK3anJi/Go1jddzZ5jmL9g+7IOSk
-   nyvR02GLC3Ia1ye/mfRQdOSKu4jm8yCiy01D/7q+IELWa03fbZI0ej9V2
-   X0udravFQkRnLYiG56DkbxitNuAExGlQv26Xs6tDdYaOFbmf0YLe275MK
-   BobwEPX5RggZdtCf0DMmf4rPflMPrnQ+On7sWG2a8aPF6cZypKnluURRG
-   SnPcog+iX1OERlOI3F7Ot5TWhPl5MHo7i5ojxG70iz5nI3W/vFqPn9bPh
-   Q==;
-X-CSE-ConnectionGUID: laFvwIkoS6qOn972icLotA==
-X-CSE-MsgGUID: TwbICwtATGudayTjU9SNcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45209775"
+  bh=ix+N2Wxtfqde7gfW+kSRYjbGZltIvKj4UMMv7v9T3nk=;
+  b=YBr5FY4e3tZRiVc4GRtSrEMsGNHIB3LtKQFeNf8HKLwk6p+xCX+cwXBn
+   n4rQsDtGWMpNuglUfOhLHemv0DYarB0ufYeKkqOfe+fNL5jxfHeqEEenB
+   sa+tybMorVmZGh/VAVsdtcOBSGsA7h7DDpa3K+qrCm3mgu5GG4MFLrs4/
+   3q15vjE/AnoCEbT9jUVrpUoeniQi3IMwX86LJOhsWm6ziuW2dz+vk3h10
+   b+yNPh9qSikKircPhg9rXqnxbGcOThmYd8tXfdHRTj5/mqeFg20cnOLZt
+   RUkdQHSGdh7ED3HTjaSwj2UMtxRbXFybOlac2au6vWzrhhfMEQCkbla0c
+   g==;
+X-CSE-ConnectionGUID: 8W7bIdvYT9uLZvnznSgz6w==
+X-CSE-MsgGUID: m6htzhyCQWKoE+6yNjCmSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52198679"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="45209775"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:33:29 -0800
-X-CSE-ConnectionGUID: G3v7KnSIQEC/dmTT5Z7lFA==
-X-CSE-MsgGUID: 4Ir4CB8fTfeMpV9AdEk7Qw==
+   d="scan'208";a="52198679"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:33:45 -0800
+X-CSE-ConnectionGUID: TAV0VCpRQ++2o6hVM5p10w==
+X-CSE-MsgGUID: sfbU298BSEqcygfd779uvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122281388"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="122162601"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 27 Feb 2025 06:33:28 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2025 06:33:28 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnex3-000DUU-2R;
+	id 1tnex3-000DUe-2l;
 	Thu, 27 Feb 2025 14:33:25 +0000
-Date: Thu, 27 Feb 2025 22:30:28 +0800
+Date: Thu, 27 Feb 2025 22:31:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-riscv64 2/2]
- kernel/sched/core.c:6861:4: error: call to undeclared function
- 'stack_trace_save_tsk'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202502272242.HMnIRB86-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:svm/sev_cache_opts 3/8] drivers/gpu/drm/drm_cache.c:96:2:
+ error: statement requires expression of scalar type ('void' invalid)
+Message-ID: <202502272232.xwSh2xAq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,84 +62,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
-head:   1f36e6de55f3acb717f090d6aa7ab10240b9a2a2
-commit: 45072073741a05cd16f4c1f65c647c90c1ed4446 [2/2] ANDROID: Fix invalid caller output in trace_sched_blocked_reason
-config: arm-mps2_defconfig (https://download.01.org/0day-ci/archive/20250227/202502272242.HMnIRB86-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272242.HMnIRB86-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux svm/sev_cache_opts
+head:   0abca5ad72cf2bc8ebbb6b93be9a5c768f463d48
+commit: b22d24de1a0c63c93b5f8d0b2971fe73a2c7a7de [3/8] x86, lib: Drop the unused return value from wbinvd_on_all_cpus()
+config: i386-buildonly-randconfig-003-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272232.xwSh2xAq-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272232.xwSh2xAq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272242.HMnIRB86-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272232.xwSh2xAq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/core.c:6861:4: error: call to undeclared function 'stack_trace_save_tsk'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           stack_trace_save_tsk(prev, &blocked_func, 1, 0);
-                           ^
-   1 error generated.
+   In file included from drivers/gpu/drm/drm_cache.c:32:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_cache.c:96:2: error: statement requires expression of scalar type ('void' invalid)
+      96 |         if (wbinvd_on_all_cpus())
+         |         ^   ~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_cache.c:142:2: error: statement requires expression of scalar type ('void' invalid)
+     142 |         if (wbinvd_on_all_cpus())
+         |         ^   ~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_cache.c:175:2: error: statement requires expression of scalar type ('void' invalid)
+     175 |         if (wbinvd_on_all_cpus())
+         |         ^   ~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 3 errors generated.
 
 
-vim +/stack_trace_save_tsk +6861 kernel/sched/core.c
+vim +96 drivers/gpu/drm/drm_cache.c
 
-  6818	
-  6819		trace_android_rvh_schedule(prev, next, rq);
-  6820		if (likely(prev != next)) {
-  6821			rq->nr_switches++;
-  6822			/*
-  6823			 * RCU users of rcu_dereference(rq->curr) may not see
-  6824			 * changes to task_struct made by pick_next_task().
-  6825			 */
-  6826			RCU_INIT_POINTER(rq->curr, next);
-  6827			/*
-  6828			 * The membarrier system call requires each architecture
-  6829			 * to have a full memory barrier after updating
-  6830			 * rq->curr, before returning to user-space.
-  6831			 *
-  6832			 * Here are the schemes providing that barrier on the
-  6833			 * various architectures:
-  6834			 * - mm ? switch_mm() : mmdrop() for x86, s390, sparc, PowerPC,
-  6835			 *   RISC-V.  switch_mm() relies on membarrier_arch_switch_mm()
-  6836			 *   on PowerPC and on RISC-V.
-  6837			 * - finish_lock_switch() for weakly-ordered
-  6838			 *   architectures where spin_unlock is a full barrier,
-  6839			 * - switch_to() for arm64 (weakly-ordered, spin_unlock
-  6840			 *   is a RELEASE barrier),
-  6841			 *
-  6842			 * The barrier matches a full barrier in the proximity of
-  6843			 * the membarrier system call entry.
-  6844			 *
-  6845			 * On RISC-V, this barrier pairing is also needed for the
-  6846			 * SYNC_CORE command when switching between processes, cf.
-  6847			 * the inline comments in membarrier_arch_switch_mm().
-  6848			 */
-  6849			++*switch_count;
-  6850	
-  6851			migrate_disable_switch(rq, prev);
-  6852			psi_account_irqtime(rq, prev, next);
-  6853			psi_sched_switch(prev, next, block);
-  6854	
-  6855			trace_sched_switch(preempt, prev, next, prev_state);
-  6856	
-  6857			if (block && (prev_state & TASK_UNINTERRUPTIBLE)
-  6858				&& trace_sched_blocked_reason_enabled()) {
-  6859				unsigned long blocked_func = 0;
-  6860	
-> 6861				stack_trace_save_tsk(prev, &blocked_func, 1, 0);
-  6862				trace_sched_blocked_reason(prev, (void *)blocked_func);
-  6863			}
-  6864	
-  6865			/* Also unlocks the rq: */
-  6866			rq = context_switch(rq, prev, next, &rf);
-  6867		} else {
-  6868			rq_unpin_lock(rq, &rf);
-  6869			__balance_callbacks(rq);
-  6870			raw_spin_rq_unlock_irq(rq);
-  6871		}
-  6872	}
-  6873	
+c9c97b8c750198 Dave Airlie     2009-08-27  89  
+c9c97b8c750198 Dave Airlie     2009-08-27  90  #if defined(CONFIG_X86)
+906bf7fda2c9cf Borislav Petkov 2016-03-29  91  	if (static_cpu_has(X86_FEATURE_CLFLUSH)) {
+c9c97b8c750198 Dave Airlie     2009-08-27  92  		drm_cache_flush_clflush(pages, num_pages);
+673a394b1e3b69 Eric Anholt     2008-07-30  93  		return;
+673a394b1e3b69 Eric Anholt     2008-07-30  94  	}
+673a394b1e3b69 Eric Anholt     2008-07-30  95  
+b04d4a38c0691e Ben Widawsky    2014-12-15 @96  	if (wbinvd_on_all_cpus())
+499447db0ebf43 Joe Perches     2017-02-28  97  		pr_err("Timed out waiting for cache flush\n");
+c9c97b8c750198 Dave Airlie     2009-08-27  98  
+
+:::::: The code at line 96 was first introduced by commit
+:::::: b04d4a38c0691e4467fa2988b6fe481bf759daaf drm/cache: Use wbinvd helpers
+
+:::::: TO: Ben Widawsky <ben@bwidawsk.net>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
