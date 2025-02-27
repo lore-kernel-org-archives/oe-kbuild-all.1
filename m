@@ -1,78 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379741862A;
-	Thu, 27 Feb 2025 06:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF902165F1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 07:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740637840; cv=none; b=iIT4vl1KxD1QI1kQGbYnp+O8Ox5S57xgjwNadC0hDEU1CfdLZqBHGg+KS4U5tDHPVd0Q6keKDv9LdH3onCuQ06ru2hCTOVv/cVvUq4Bo6n7GKWWS4/za3ewqw8xYcUAOv3AiWwqeUHFxVjXeJXUXAKVg6pdB/Lg+tXPc4PaNVc8=
+	t=1740639735; cv=none; b=RNSQA5cMGFyRKX5axgEh4cJgILnoe6mR3HE/bynPMTHxN6VtVifSxeiP5XS14zLjbxq6KrQ9qCWN4uG0ZymeTTSJ8mUl5gf94KRsKvrwWSq37QrLJhmd/C213DYUuiW9Q/O8IXB9akMvh8kHlSXs2hI9BAPckekFg0v5T1eSNIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740637840; c=relaxed/simple;
-	bh=cDXogVH7qIKQIn5aWp/tZGtaiEXuiVz5z4jfmzCT9t8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fF2nGk9bfE74ARUvNONxrw1jKjvkwVt787x3afxRqNb4ls7cC02Sz1xlggDpTtrbgen1YyT7OSqbPY++lTIPQ9ftOX1e1Y8UDhkGvrAR/JUvMKPekTOoT0F3TAEwA7fIfKQ9F0NTXtkDFNBbxyutm7zREEYHAeaNej8xVHjkHZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLcK+e0G; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740639735; c=relaxed/simple;
+	bh=1VQKSHbB56NTrKI9rhK1gz3w3fRv4eTAztp7gty4Ydo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Dkh4bXQsYHyBPSHxoX6dhZinqUoWO/E+fQhPAlRHL1td0jnCP+bfNFEn8jMqaMTOE8WlhXXt61gq78fkui4mcQTyFXLMjkusiBqPTYbUENmV0Ow+q5RrSE6VvzejDUuFazxZGLFr9hmihVISO6Zsfx3wuYOeQhCdL4nm1QsCHW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ix7j4BW1; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLcK+e0G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740637839; x=1772173839;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cDXogVH7qIKQIn5aWp/tZGtaiEXuiVz5z4jfmzCT9t8=;
-  b=BLcK+e0GbQtcytAr9YBPdYhXUwpnVdxZtlISZQVvlvzEjiiXNv1jL+4W
-   PlS2QSY5d77/q4ZmKVZqHkhm1+DpLzr2zgabFNQ878x1c69He3btGanLR
-   mKj9ShXYO1ZvcJScSpPmdOIdIjfd/dzE6VyUngRvtohhA7Qc16tkWz54R
-   80Luxh/8Afy91bl995iatc5b7AwSVaUVDG8Y5ZZ6JUTsTWgi8m8VP6A3E
-   2L7CwGy2Td1ykgl2R+RLtwSBVeYy7QDoAnVHO8HQ6HtLYlTVoozve62tC
-   PXO3oFX77NZjvrJUeLTWipJX8h6PUZQHSsuskTn81CeCkQ9AJn6V1XWe2
-   w==;
-X-CSE-ConnectionGUID: qPeese09SBmp3koi/ASSPg==
-X-CSE-MsgGUID: xs6MkPuIR66yATrhpQFbHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="29116584"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="29116584"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 22:30:38 -0800
-X-CSE-ConnectionGUID: gI0PRdtTSVu6czkCzvpurA==
-X-CSE-MsgGUID: +Fof8z9QS42eu8Wf1ufG6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="116959206"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 22:30:33 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnXP7-000Cxq-2t;
-	Thu, 27 Feb 2025 06:30:23 +0000
-Date: Thu, 27 Feb 2025 14:29:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-	Arnd Bergmann <arnd@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Will Deacon <will@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Holger Dengler <dengler@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Eric Biggers <ebiggers@google.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>, linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-s390@vger.kernel.org
-Subject: Re: [PATCH] crypto: lib/Kconfig - Select and hide arch options
-Message-ID: <202502271449.k2LZdEgF-lkp@intel.com>
-References: <Z76aUfPIbhPAsHbv@gondor.apana.org.au>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ix7j4BW1"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5ded6c31344so693525a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 23:02:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740639731; x=1741244531; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Bo13w7x737OdjbLPlzuZ5GFRTZoG+8uVoqfsoKMASiY=;
+        b=Ix7j4BW1oCwbrqr2cWIY409dm3g8+bMydOk4MJ8P7sGnvcd0nfAnc45vuop4jID5m3
+         jq5u7mdcwL102QPhWqVQCY0gjEPWxSG9pOvtLpOx+YfCtjFaEwqz4ssSZGvzM2+9BEz+
+         U/wZ1eLfh3Aqy5BSbpzqptvEyvPpQtto357JL/2MSfE3H7iT2okNOHuQuDTypy/WJnC/
+         /rZz1oH9dftB0l+ltTuj6WL5HR/vcIinHS52A0ktLPcV/JMFj8Mqaph5YiJfNcDj2hu6
+         RKe+cSeeEidarDaAOxcNc5A1WFE9e/jpFWGOuBUFjgT4ChFdwOyK5HS/oJS44wLIlYXr
+         6Ptw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740639731; x=1741244531;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bo13w7x737OdjbLPlzuZ5GFRTZoG+8uVoqfsoKMASiY=;
+        b=AORshk/P41ht27CQT3RMGV6digz3esF7JJoVcBT8jxBrbxEJ/aXfziETqEPK8bmUXO
+         +9q61AO6LUqW7C42xjQAFptOnTafoaDiO+PmWWLTYfNQ/GUS2C1l1I1sM8umeQ7SeQNM
+         r0A9BlmyRHs3zQPETRqZqSDTU6+xSKnd8QHzJaPbvUeKHOGaEEXoiKRVP2Jvun4RWHuC
+         ZvewOHFSFAecZDw4B64JHrkm1ELiYcHD/LGRhpmnko/iijK+RJZuEMrO4kHyD1ATPKNE
+         LViQvHJwCizcqfoy+/x3FGetFXkqBLVZ6qxa5i9EQR97ZMvJB3IH5T+iKBOUCjVx/T9U
+         hqyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNfpHDtm5etUwLBFkkPUl5RIBwfSNrYveUfSluU5a5+Tm3EV8TMG1OZj06Q10YcT9STQNFXfrDFBdMlF48@lists.linux.dev
+X-Gm-Message-State: AOJu0YysNnvv5V71xprtzdFnJrlokcHAxTQGxt9LXwbgzEW9CJX5C4f0
+	XSWBh2TCPH+otLWr+P2V++HQ7duoYAs1OeSedFjjWmeA5H+SGoC1lviBSiSSTek=
+X-Gm-Gg: ASbGncvZ9aR9UHd7fWWEKZC8UOwoPJCJvAJkJmI3SgFTtAwbOrBKsHJY6GNXsCz70V9
+	yT7GIJKqJxZzRd1GDTCoyZmHVaKjWfQCMfEGh8XvWkM3HQDy6VgyQWu5oN7vCtyzdWql2US6Eez
+	K8fMN8SevFkhf0B/SsCII9zwsu9xq7AHRXPHFxZsA52lhbXWqoCYXi0ai+wn//5jf+nQ6e/vmMU
+	tq6fuIGpFAWcPg0X5CAeZFUllZ1gjDoYbYhx4sTfh7+vOBoBONRubGDKgVjsJUvnN6gGmmgT2mA
+	F0upPHnExPd0h43wSWF/0+wxT2N335k=
+X-Google-Smtp-Source: AGHT+IG8/trVIvT9OAnzIkJD18llR8tc6FVRTdKhsOlGZ5chkknGa49/r/KHdA2+qcmDHsdJRdHF2Q==
+X-Received: by 2002:a05:6402:2812:b0:5df:25e8:26d2 with SMTP id 4fb4d7f45d1cf-5e444853ee3mr26222525a12.5.1740639731365;
+        Wed, 26 Feb 2025 23:02:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5e4c3bb733asm645217a12.38.2025.02.26.23.02.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 23:02:10 -0800 (PST)
+Date: Thu, 27 Feb 2025 10:02:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: [linux-next:master 4924/6583] drivers/iommu/iommufd/device.c:327
+ iommufd_sw_msi_get_map() error: 'cur' dereferencing possible ERR_PTR()
+Message-ID: <8aafd350-322b-4ce7-b228-ccf2c36e0333@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,42 +71,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z76aUfPIbhPAsHbv@gondor.apana.org.au>
 
-Hi Herbert,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[cannot apply to soc/for-next linus/master v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-lib-Kconfig-Select-and-hide-arch-options/20250226-125220
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/Z76aUfPIbhPAsHbv%40gondor.apana.org.au
-patch subject: [PATCH] crypto: lib/Kconfig - Select and hide arch options
-config: x86_64-buildonly-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271449.k2LZdEgF-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+commit: 598749522d4254afb33b8a6c1bea614a95896868 [4924/6583] iommufd: Implement sw_msi support natively
+config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271339.a2nWr9UA-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271449.k2LZdEgF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271449.k2LZdEgF-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502271339.a2nWr9UA-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+New smatch warnings:
+drivers/iommu/iommufd/device.c:327 iommufd_sw_msi_get_map() error: 'cur' dereferencing possible ERR_PTR()
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
->> ERROR: modpost: "curve25519_generic" [arch/x86/crypto/curve25519-x86_64.ko] undefined!
->> ERROR: modpost: "curve25519_base_point" [arch/x86/crypto/curve25519-x86_64.ko] undefined!
->> ERROR: modpost: "curve25519_null_point" [arch/x86/crypto/curve25519-x86_64.ko] undefined!
->> ERROR: modpost: "curve25519_null_point" [lib/crypto/libcurve25519.ko] undefined!
->> ERROR: modpost: "curve25519_generic" [lib/crypto/libcurve25519.ko] undefined!
+vim +/cur +327 drivers/iommu/iommufd/device.c
+
+598749522d4254 Jason Gunthorpe 2025-02-19  303  static __maybe_unused struct iommufd_sw_msi_map *
+598749522d4254 Jason Gunthorpe 2025-02-19  304  iommufd_sw_msi_get_map(struct iommufd_ctx *ictx, phys_addr_t msi_addr,
+598749522d4254 Jason Gunthorpe 2025-02-19  305  		       phys_addr_t sw_msi_start)
+598749522d4254 Jason Gunthorpe 2025-02-19  306  {
+598749522d4254 Jason Gunthorpe 2025-02-19  307  	struct iommufd_sw_msi_map *cur;
+598749522d4254 Jason Gunthorpe 2025-02-19  308  	unsigned int max_pgoff = 0;
+598749522d4254 Jason Gunthorpe 2025-02-19  309  
+598749522d4254 Jason Gunthorpe 2025-02-19  310  	lockdep_assert_held(&ictx->sw_msi_lock);
+598749522d4254 Jason Gunthorpe 2025-02-19  311  
+598749522d4254 Jason Gunthorpe 2025-02-19  312  	list_for_each_entry(cur, &ictx->sw_msi_list, sw_msi_item) {
+598749522d4254 Jason Gunthorpe 2025-02-19  313  		if (cur->sw_msi_start != sw_msi_start)
+598749522d4254 Jason Gunthorpe 2025-02-19  314  			continue;
+598749522d4254 Jason Gunthorpe 2025-02-19  315  		max_pgoff = max(max_pgoff, cur->pgoff + 1);
+598749522d4254 Jason Gunthorpe 2025-02-19  316  		if (cur->msi_addr == msi_addr)
+598749522d4254 Jason Gunthorpe 2025-02-19  317  			return cur;
+598749522d4254 Jason Gunthorpe 2025-02-19  318  	}
+598749522d4254 Jason Gunthorpe 2025-02-19  319  
+598749522d4254 Jason Gunthorpe 2025-02-19  320  	if (ictx->sw_msi_id >=
+598749522d4254 Jason Gunthorpe 2025-02-19  321  	    BITS_PER_BYTE * sizeof_field(struct iommufd_sw_msi_maps, bitmap))
+598749522d4254 Jason Gunthorpe 2025-02-19  322  		return ERR_PTR(-EOVERFLOW);
+598749522d4254 Jason Gunthorpe 2025-02-19  323  
+598749522d4254 Jason Gunthorpe 2025-02-19  324  	cur = kzalloc(sizeof(*cur), GFP_KERNEL);
+598749522d4254 Jason Gunthorpe 2025-02-19  325  	if (!cur)
+598749522d4254 Jason Gunthorpe 2025-02-19  326  		cur = ERR_PTR(-ENOMEM);
+
+return ERR_PTR(-ENOMEM);
+
+598749522d4254 Jason Gunthorpe 2025-02-19 @327  	cur->sw_msi_start = sw_msi_start;
+598749522d4254 Jason Gunthorpe 2025-02-19  328  	cur->msi_addr = msi_addr;
+598749522d4254 Jason Gunthorpe 2025-02-19  329  	cur->pgoff = max_pgoff;
+598749522d4254 Jason Gunthorpe 2025-02-19  330  	cur->id = ictx->sw_msi_id++;
+598749522d4254 Jason Gunthorpe 2025-02-19  331  	list_add_tail(&cur->sw_msi_item, &ictx->sw_msi_list);
+598749522d4254 Jason Gunthorpe 2025-02-19  332  	return cur;
+598749522d4254 Jason Gunthorpe 2025-02-19  333  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
