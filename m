@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94317232395
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 13:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE66270040
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740662732; cv=none; b=lih/Eod6qwjzNVKdtb2UJerLwWCVWL3GAyC4M01Ik2Dx540QY3rBvcmpqS6uNM+p1kWSsg4dlTlOewZPWLAzU00TCUVf+HCsQI3t5vCBeEo78rnV5JImqIewG5CRlUVL3SLfrqQ1CB+GOxYiWu6nhL8lNgg2MU7LeGPW9JTH5+E=
+	t=1740664855; cv=none; b=dyHWsQBgGm0FTZbCFeIa5dAgc6WuLiVoDohtPWmJiPyWVX3Ws45jpSrfx0hvUtwd+44OcFKAnPiEITUZ9Sf05E+vVGKl0YBNPVECXxnMfgt2E72ZR9jynPLne3IkUNl7fQ/hE6WRw2MIvEKKKn6O7XENKXiIQmOPUyF11ZFKmy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740662732; c=relaxed/simple;
-	bh=R7HdUcnOTt/2wh73KtqBgEVWzQHX0ZPmSSjMNqsZdCo=;
+	s=arc-20240116; t=1740664855; c=relaxed/simple;
+	bh=0IFFRcCIA9o5W1r/VAQg8KaFaAP5YPoAio6VfDzmMEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lqlj1sK+CF5cPta9F1LMUuIFvfOdbOQI0VrYllC6Fqdvp/SuRbr230syeWxG2bWhraShgYyBjtme+l0zw75XkahdTqv0aCGaLRizWIEwxc+FUFRoQP6/ZtKEXIuA9NjcbEXPgeBs4TfIhJ8e0P25ntIMgk1Aw/xVTEPuPhOBWr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwgaE8Yb; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=PPNgiCWT0piSKsG1No0NN0If6nQrYpr/nxWP7GIfYTj6VYKRA+XVzJMW5HXtMuPrAwd0trLc8P/T73bsp3qyXnjJciTTF+99Ejo3eujuc6TGIJ9/yKLNBymTmIHRr9Ww3dnGcN9/Ge92UcXLiy2Wgd7khJHQSpwKTa0+a0tI1jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRM7vFxR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwgaE8Yb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRM7vFxR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740662731; x=1772198731;
+  t=1740664853; x=1772200853;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R7HdUcnOTt/2wh73KtqBgEVWzQHX0ZPmSSjMNqsZdCo=;
-  b=gwgaE8YbnpiVxbjXkrQ20k1Wt5arYTNZQGBKA3/ZFIz375S6eUxpp//L
-   GWUfcHRCPYWWbsjsmvgkA3TQkCneLThZFZnHeGnUyI1zCfmaXeDrc4gWw
-   TtDzFwRuLUMgZ5RUKxbyHWOFNjChDOOi6idTPfGCso02NY5qS0dZzVljG
-   SEmFdZk+P5V5PCIDP/5G3zdXpG48iTSIRFHfB1IjllKUzPkukmRxN/uLn
-   Fmt9Et994bC3pEyUtfzy6LLi+VJyYpLKIXeWTyuybZsZfWg/gZUoRFL1p
-   G5vPDEQ6EUUMJDkTfdlaDI6oKqJjtQ7DnwDng4WahsB2j36sJ759LNxkx
-   Q==;
-X-CSE-ConnectionGUID: 1lFQ7RTvQ+eKK6NL6dXRzw==
-X-CSE-MsgGUID: z69Im/ZNQeqYr2B0Gq0Guw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41399340"
+  bh=0IFFRcCIA9o5W1r/VAQg8KaFaAP5YPoAio6VfDzmMEs=;
+  b=BRM7vFxRXuZjWsO+CtdJ0feQ9rwM36jYaJU69Au+Xq6cRXRIGW7b+xIp
+   tya4/CtPdiDrBPxttRVAC/5W4Pi/4yKcFrDO5iSIPahbniS7uZ6I4R1GP
+   5rUAT7etrH+1uQY+66HAG8oHFShWfRCn5ulTniccY+cszWu6k56l2gULI
+   zWdG4t1tTR6kZj6i1+SjVxT6+6OwEqdZdEGMb29TGTOgExud87wVwgrx7
+   xvLwP4UUkUSAhR7F3Dd0T9oo7F8AQbFQbeTs+DjTmV1GCRx6pLYFnEHkP
+   QxVoTntTHfidAVximJ6TDmtSav3q/+lE80E2BGzKoarQf1Lhl6gC+q7vB
+   w==;
+X-CSE-ConnectionGUID: nY7rCe0/R42Gf7S/kR5RMA==
+X-CSE-MsgGUID: UBK/x08yT/eEUWGpJkwS/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40793038"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="41399340"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 05:25:31 -0800
-X-CSE-ConnectionGUID: o9Pt060WT4Oy8oGnVKBMlA==
-X-CSE-MsgGUID: 0dzrNjEJSE+sDVwDXV7LVg==
+   d="scan'208";a="40793038"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:00:52 -0800
+X-CSE-ConnectionGUID: a4tw/TRjRdeX58h4CDKVCw==
+X-CSE-MsgGUID: SF1pfHurSdqtSPaTJkrFFg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116894762"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="121976536"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 27 Feb 2025 05:25:28 -0800
+  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2025 06:00:51 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tndsO-000DP8-0A;
-	Thu, 27 Feb 2025 13:24:44 +0000
-Date: Thu, 27 Feb 2025 21:23:46 +0800
+	id 1tneRU-000DRw-2u;
+	Thu, 27 Feb 2025 14:00:48 +0000
+Date: Thu, 27 Feb 2025 22:00:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	thierry.bultel@linatsea.fr
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
-	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
-Subject: Re: [PATCH v3 09/13] serial: sh-sci: Introduced sci_of_data
-Message-ID: <202502272137.JyS2vQml-lkp@intel.com>
-References: <20250226130935.3029927-10-thierry.bultel.yh@bp.renesas.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/4] ftrace: Add support for function argument to
+ graph tracer
+Message-ID: <202502272155.zS8WsTRz-lkp@intel.com>
+References: <20250225222653.724198940@goodmis.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,67 +63,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250226130935.3029927-10-thierry.bultel.yh@bp.renesas.com>
+In-Reply-To: <20250225222653.724198940@goodmis.org>
 
-Hi Thierry,
+Hi Steven,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next next-20250227]
-[cannot apply to geert-renesas-drivers/renesas-clk tty/tty-linus geert-renesas-devel/next linus/master v6.14-rc4]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc4 next-20250227]
+[cannot apply to trace/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Bultel/dt-bindings-clock-Add-cpg-for-the-Renesas-RZ-T2H-SoC/20250226-221033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250226130935.3029927-10-thierry.bultel.yh%40bp.renesas.com
-patch subject: [PATCH v3 09/13] serial: sh-sci: Introduced sci_of_data
-config: sh-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272137.JyS2vQml-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272137.JyS2vQml-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/ftrace-Add-print_function_args/20250226-063252
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250225222653.724198940%40goodmis.org
+patch subject: [PATCH v3 2/4] ftrace: Add support for function argument to graph tracer
+config: arm-socfpga_defconfig (https://download.01.org/0day-ci/archive/20250227/202502272155.zS8WsTRz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272155.zS8WsTRz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272137.JyS2vQml-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272155.zS8WsTRz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/sh-sci.c: In function 'sci_probe_earlyprintk':
->> drivers/tty/serial/sh-sci.c:3249:31: error: initialization of 'struct sci_port *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    3249 |         struct sci_port *sp = pdev->id;
-         |                               ^~~~
+   In file included from include/linux/ftrace.h:115,
+                    from kernel/trace/trace_functions_graph.c:11:
+   kernel/trace/trace_functions_graph.c: In function '__graph_entry':
+>> include/linux/ftrace_regs.h:22:9: error: implicit declaration of function 'regs_get_kernel_argument'; did you mean 'regs_get_kernel_stack_nth'? [-Wimplicit-function-declaration]
+      22 |         regs_get_kernel_argument(&arch_ftrace_regs(fregs)->regs, n)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_functions_graph.c:137:42: note: in expansion of macro 'ftrace_regs_get_argument'
+     137 |                         entry->args[i] = ftrace_regs_get_argument(fregs, i);
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_functions_graph.c: In function 'print_graph_entry_leaf':
+   kernel/trace/trace_functions_graph.c:901:23: warning: variable 'func' set but not used [-Wunused-but-set-variable]
+     901 |         unsigned long func;
+         |                       ^~~~
 
 
-vim +3249 drivers/tty/serial/sh-sci.c
+vim +22 include/linux/ftrace_regs.h
 
-  3245	
-  3246	static int sci_probe_earlyprintk(struct platform_device *pdev)
-  3247	{
-  3248		const struct plat_sci_port *cfg = dev_get_platdata(&pdev->dev);
-> 3249		struct sci_port *sp = pdev->id;
-  3250	
-  3251		if (early_serial_console.data)
-  3252			return -EEXIST;
-  3253	
-  3254		early_serial_console.index = pdev->id;
-  3255	
-  3256		sp->params = sci_probe_regmap(cfg, sp);
-  3257		if (!sp->params)
-  3258			return -ENODEV;
-  3259	
-  3260		sci_init_single(pdev, &sci_ports[pdev->id], pdev->id, cfg, true);
-  3261	
-  3262		if (!strstr(early_serial_buf, "keep"))
-  3263			early_serial_console.flags |= CON_BOOT;
-  3264	
-  3265		register_console(&early_serial_console);
-  3266		return 0;
-  3267	}
-  3268	#endif
-  3269	
+e4cf33ca48128d Steven Rostedt            2024-10-10  18  
+e4cf33ca48128d Steven Rostedt            2024-10-10  19  #define ftrace_regs_get_instruction_pointer(fregs) \
+0b582611a8f427 Masami Hiramatsu (Google  2024-10-15  20) 	instruction_pointer(&arch_ftrace_regs(fregs)->regs)
+e4cf33ca48128d Steven Rostedt            2024-10-10  21  #define ftrace_regs_get_argument(fregs, n) \
+0b582611a8f427 Masami Hiramatsu (Google  2024-10-15 @22) 	regs_get_kernel_argument(&arch_ftrace_regs(fregs)->regs, n)
+e4cf33ca48128d Steven Rostedt            2024-10-10  23  #define ftrace_regs_get_stack_pointer(fregs) \
+0b582611a8f427 Masami Hiramatsu (Google  2024-10-15  24) 	kernel_stack_pointer(&arch_ftrace_regs(fregs)->regs)
+2d17932da44fdc Masami Hiramatsu (Google  2024-10-15  25) #define ftrace_regs_get_return_value(fregs) \
+0b582611a8f427 Masami Hiramatsu (Google  2024-10-15  26) 	regs_return_value(&arch_ftrace_regs(fregs)->regs)
+e4cf33ca48128d Steven Rostedt            2024-10-10  27  #define ftrace_regs_set_return_value(fregs, ret) \
+0b582611a8f427 Masami Hiramatsu (Google  2024-10-15  28) 	regs_set_return_value(&arch_ftrace_regs(fregs)->regs, ret)
+e4cf33ca48128d Steven Rostedt            2024-10-10  29  #define ftrace_override_function_with_return(fregs) \
+0b582611a8f427 Masami Hiramatsu (Google  2024-10-15  30) 	override_function_with_return(&arch_ftrace_regs(fregs)->regs)
+e4cf33ca48128d Steven Rostedt            2024-10-10  31  #define ftrace_regs_query_register_offset(name) \
+e4cf33ca48128d Steven Rostedt            2024-10-10  32  	regs_query_register_offset(name)
+a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  33) #define ftrace_regs_get_frame_pointer(fregs) \
+a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  34) 	frame_pointer(&arch_ftrace_regs(fregs)->regs)
+e4cf33ca48128d Steven Rostedt            2024-10-10  35  
 
 -- 
 0-DAY CI Kernel Test Service
