@@ -1,106 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA30224246
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 13:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94317232395
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 13:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740661876; cv=none; b=F4s9EpXBN4Qh77MZeO4IZVB3GHifElG48c9gNz7rH1CfVP92LyJ0zgHKNmwxn6lYNYCAAiIiMT0r2KVtSzz1LGMc7DVorpXsbtf00AbiNiyHq/CYYYAuhDDNAQCody4NlP4pgV9WQxDbfQhTesPS9KLQe5sd1DEGMexS5VySotQ=
+	t=1740662732; cv=none; b=lih/Eod6qwjzNVKdtb2UJerLwWCVWL3GAyC4M01Ik2Dx540QY3rBvcmpqS6uNM+p1kWSsg4dlTlOewZPWLAzU00TCUVf+HCsQI3t5vCBeEo78rnV5JImqIewG5CRlUVL3SLfrqQ1CB+GOxYiWu6nhL8lNgg2MU7LeGPW9JTH5+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740661876; c=relaxed/simple;
-	bh=V/pUxgT+Vht4GXGhv/7+4ABfo2gbm6GzpoHQLy2bYws=;
+	s=arc-20240116; t=1740662732; c=relaxed/simple;
+	bh=R7HdUcnOTt/2wh73KtqBgEVWzQHX0ZPmSSjMNqsZdCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T2TIhlUvNa/Qp9G23ce6uayIdaK6hpw9j2RK6ey7Y05JaBMRxKLnxGxZhpH2X03T96y8/VsEiZSZctsH8FfJe4PhhNAvH6/U19/QKYNNOBprAgwhOxfHNZ14oprXO3ixSgsZp8PIm+AQ4WNfs5UFI9cuVJ3n7wyx9sZIBWzWrLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR1W0HlF; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lqlj1sK+CF5cPta9F1LMUuIFvfOdbOQI0VrYllC6Fqdvp/SuRbr230syeWxG2bWhraShgYyBjtme+l0zw75XkahdTqv0aCGaLRizWIEwxc+FUFRoQP6/ZtKEXIuA9NjcbEXPgeBs4TfIhJ8e0P25ntIMgk1Aw/xVTEPuPhOBWr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gwgaE8Yb; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR1W0HlF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gwgaE8Yb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740661875; x=1772197875;
+  t=1740662731; x=1772198731;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=V/pUxgT+Vht4GXGhv/7+4ABfo2gbm6GzpoHQLy2bYws=;
-  b=lR1W0HlFJqJSz62mDLAeT31grP/v/2yyqyHuMUu4p+tBh9R1cz+PpG15
-   NsjEL26Cc+JW56a/WQbBqvriGpcpwBVuutHciMDzwwO7y0BAOzUcp+N/a
-   tRnZW627wDiEKUeayVu7+lceakOxO1dhwOygymKbP5jGvo+gBpf0M3A3O
-   OC1f9LGTfP+Ge+mOlHaZQHQEGY0EU8fbjeSK7F9Tv/9lUIedOVQWba5Oy
-   P3TFgjsTRI8mvRydSg1Bv5hpBXHmT/p87v/oUqh3f1jqyRIS9S+J+P5t/
-   6gVuoRj8ROByjxAc17LBadZ2PwtofGpzAoxYgC2nOT8t+vQowE07eIHbb
-   w==;
-X-CSE-ConnectionGUID: OshrvpE1S1yAeVoj8eAc8w==
-X-CSE-MsgGUID: wTgm9JUbS/qJ0vSfEyzXVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41680684"
+   mime-version:in-reply-to;
+  bh=R7HdUcnOTt/2wh73KtqBgEVWzQHX0ZPmSSjMNqsZdCo=;
+  b=gwgaE8YbnpiVxbjXkrQ20k1Wt5arYTNZQGBKA3/ZFIz375S6eUxpp//L
+   GWUfcHRCPYWWbsjsmvgkA3TQkCneLThZFZnHeGnUyI1zCfmaXeDrc4gWw
+   TtDzFwRuLUMgZ5RUKxbyHWOFNjChDOOi6idTPfGCso02NY5qS0dZzVljG
+   SEmFdZk+P5V5PCIDP/5G3zdXpG48iTSIRFHfB1IjllKUzPkukmRxN/uLn
+   Fmt9Et994bC3pEyUtfzy6LLi+VJyYpLKIXeWTyuybZsZfWg/gZUoRFL1p
+   G5vPDEQ6EUUMJDkTfdlaDI6oKqJjtQ7DnwDng4WahsB2j36sJ759LNxkx
+   Q==;
+X-CSE-ConnectionGUID: 1lFQ7RTvQ+eKK6NL6dXRzw==
+X-CSE-MsgGUID: z69Im/ZNQeqYr2B0Gq0Guw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41399340"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="41680684"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 05:11:14 -0800
-X-CSE-ConnectionGUID: 4FlIhckrROSowiQsyIKYWA==
-X-CSE-MsgGUID: ahgclakuSvmWi4Ul3UEvZw==
+   d="scan'208";a="41399340"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 05:25:31 -0800
+X-CSE-ConnectionGUID: o9Pt060WT4Oy8oGnVKBMlA==
+X-CSE-MsgGUID: 0dzrNjEJSE+sDVwDXV7LVg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="117667489"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116894762"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Feb 2025 05:11:10 -0800
+  by orviesa010.jf.intel.com with ESMTP; 27 Feb 2025 05:25:28 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tndfQ-000DO4-06;
-	Thu, 27 Feb 2025 13:11:08 +0000
-Date: Thu, 27 Feb 2025 21:10:09 +0800
+	id 1tndsO-000DP8-0A;
+	Thu, 27 Feb 2025 13:24:44 +0000
+Date: Thu, 27 Feb 2025 21:23:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?J=2E_Neusch=E4fer?= via B4 Relay <devnull+j.ne.posteo.net@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?J=2E_Neusch=E4fer?= <j.ne@posteo.net>
-Subject: Re: [PATCH 3/3] dt-bindings: net: Convert fsl,gianfar to YAML
-Message-ID: <202502272036.FSFdbXEm-lkp@intel.com>
-References: <20250220-gianfar-yaml-v1-3-0ba97fd1ef92@posteo.net>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	thierry.bultel@linatsea.fr
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v3 09/13] serial: sh-sci: Introduced sci_of_data
+Message-ID: <202502272137.JyS2vQml-lkp@intel.com>
+References: <20250226130935.3029927-10-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250220-gianfar-yaml-v1-3-0ba97fd1ef92@posteo.net>
+In-Reply-To: <20250226130935.3029927-10-thierry.bultel.yh@bp.renesas.com>
 
-Hi Neuschäfer,
+Hi Thierry,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next next-20250227]
+[cannot apply to geert-renesas-drivers/renesas-clk tty/tty-linus geert-renesas-devel/next linus/master v6.14-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/J-Neusch-fer-via-B4-Relay/dt-bindings-net-Convert-fsl-gianfar-mdio-tbi-to-YAML/20250221-013202
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250220-gianfar-yaml-v1-3-0ba97fd1ef92%40posteo.net
-patch subject: [PATCH 3/3] dt-bindings: net: Convert fsl,gianfar to YAML
-config: csky-randconfig-051-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272036.FSFdbXEm-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272036.FSFdbXEm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Bultel/dt-bindings-clock-Add-cpg-for-the-Renesas-RZ-T2H-SoC/20250226-221033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20250226130935.3029927-10-thierry.bultel.yh%40bp.renesas.com
+patch subject: [PATCH v3 09/13] serial: sh-sci: Introduced sci_of_data
+config: sh-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272137.JyS2vQml-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272137.JyS2vQml-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272036.FSFdbXEm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272137.JyS2vQml-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
->> Warning: Duplicate compatible "gianfar" found in schemas matching "$id":
-   	http://devicetree.org/schemas/net/fsl,gianfar-mdio.yaml#
-   	http://devicetree.org/schemas/net/fsl,gianfar.yaml#
+   drivers/tty/serial/sh-sci.c: In function 'sci_probe_earlyprintk':
+>> drivers/tty/serial/sh-sci.c:3249:31: error: initialization of 'struct sci_port *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    3249 |         struct sci_port *sp = pdev->id;
+         |                               ^~~~
+
+
+vim +3249 drivers/tty/serial/sh-sci.c
+
+  3245	
+  3246	static int sci_probe_earlyprintk(struct platform_device *pdev)
+  3247	{
+  3248		const struct plat_sci_port *cfg = dev_get_platdata(&pdev->dev);
+> 3249		struct sci_port *sp = pdev->id;
+  3250	
+  3251		if (early_serial_console.data)
+  3252			return -EEXIST;
+  3253	
+  3254		early_serial_console.index = pdev->id;
+  3255	
+  3256		sp->params = sci_probe_regmap(cfg, sp);
+  3257		if (!sp->params)
+  3258			return -ENODEV;
+  3259	
+  3260		sci_init_single(pdev, &sci_ports[pdev->id], pdev->id, cfg, true);
+  3261	
+  3262		if (!strstr(early_serial_buf, "keep"))
+  3263			early_serial_console.flags |= CON_BOOT;
+  3264	
+  3265		register_console(&early_serial_console);
+  3266		return 0;
+  3267	}
+  3268	#endif
+  3269	
 
 -- 
 0-DAY CI Kernel Test Service
