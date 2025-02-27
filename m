@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C4E23FC7D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F40D25EFA7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740667568; cv=none; b=XZt5opNR4/HmoRzU9ZzyFusqW9x89AqsBnI9RxfPtgpc09pc1sMxm1+qkCpcVBZuzTkpa1zhYx8lpgm78YSoxsc1VW57Ppta1oc+/uVbRnPZvelrKtX8YwwDcR6R56mmj5zSGjkM1KJX1wo5iYi2fFZdSMfd8IFzarh2xDOYfpE=
+	t=1740668173; cv=none; b=Rfa1qLpIZkFx7f+A2CiWi6y0PUxQV8DbVCcsWnv7d3ep8B6JnlBoCuDguewWJndf94mIq1hfys9HluH0pgbfz01Fe4glavz7H5rVMQ8+kOtR/sn3BpXIMjzcYOo6WqmfJLfDq6Vg2luZHNxHz1t2tqvAlP+1kMKVkq2iMaipHDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740667568; c=relaxed/simple;
-	bh=4PdarZtMXrFMo7Bv8e/WQbRPR4IbruYueiy2EIEQaK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ASySW8VkdlpbqNp4GlVyOzOd97rNxiHFRZzrtUiFqC7jMoB2WINk3MMqxRK1Em7NUhSSPkC68OGnpasBFr+5LPD/+uYCEtj+NfgEiqAK2QqOQQx09YSwyBLhYqdB75Ug7Rx9vxA7bhfucuoW8G3nlYNUsv8iFKLmgJBZLcKG86k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2/qDRbj; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1740668173; c=relaxed/simple;
+	bh=9pifnqqy4pSoozn+ghyHOYktagFezR8KmfqYwHLFwpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LnYtgfwsfVB79uR/tT6zl8F8YcLQxHmBN5vAxndUnw/QeE7legP3+Im2pEauPIHyRVVBRGYQmjdmjl0u3RkpCpZ6RhFPXL9PAPQsMnwrxZPddniwidFLZMQOkBTIfaEXE6MxwBD5kMnFuwCx3Ik5VJYJ1z5O16KfRin2xAItG/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWA/wIbR; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2/qDRbj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWA/wIbR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740667566; x=1772203566;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4PdarZtMXrFMo7Bv8e/WQbRPR4IbruYueiy2EIEQaK8=;
-  b=H2/qDRbjkPf5E8ywX8xsDxRH37yPX1F+TUV4RY5DD4Yjs/Jf6SXCre/+
-   JXKRT4Y6YOoyz5yBVm8P2MbOTAYeWKVUplPDEczpOl/jvgx6dDijczAFX
-   PgfDXURlbGTijlt1Xo5aa6QAxdRjPKwX4JaxE8V2PPXkg3/dZAPtRYgRs
-   iKm5PprQXU6UDhngnVaaGPY9GOqO+pBBbmaKXqpJqY8f1ClV5J9k7h9P9
-   1scmk1jouyat+n0GPqi20QKAhyX4NGefrUFcNRou0kiowInhsW01jzLm8
-   nnAnAOgm1MrLpeS41uVz40b4yRdSRVVztFD9JNGYDq5XEWTgLks4M/1S0
+  t=1740668171; x=1772204171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9pifnqqy4pSoozn+ghyHOYktagFezR8KmfqYwHLFwpU=;
+  b=UWA/wIbRhOKodLCu61MnZ8ZMPBxhb5fz63i5nLsQrfZ+c9mSPMq9Y3s9
+   bfuKhPBd4uXnWicE4KlBGGgj2y++xgl4hPKZ7fbfQ/rH8F+9yYBPNjuT4
+   N6FNOvtRejYCm8yAdpXPRhyu2axDLP8xNsoYhqrSsFPvyMjfO23+9uGJ7
+   uaKNJVxXaUu8g1f11BTlZuEZ6JTTLTSQq5vs5uu/vL+X1CW5K4wmvcbLC
+   a+t6ry6oLe1eifhUZFNS1hmXBOwW4Ephtt+D9F/R9ydPbKqezE9VGS+W3
+   SG0v9Qu5qdVUEXaMbNnfu5BvUiEYIJLZGrOBaa5xL4z5jlqDN/cne3p3Q
    Q==;
-X-CSE-ConnectionGUID: +lJTJVoFQOKxz2K0+WgoXA==
-X-CSE-MsgGUID: +p6naQpHSsCgBq5CBOhaYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="29160337"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="29160337"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:46:05 -0800
-X-CSE-ConnectionGUID: V/XrdIpbTpmzMrlhR1H+pg==
-X-CSE-MsgGUID: ITLfEbcxTSmkEyvFEMmEEg==
+X-CSE-ConnectionGUID: mkZzkjHDRk+eNuY7aQRWNg==
+X-CSE-MsgGUID: 6YvYp+I7T622Q9aTHraFqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41760505"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41760505"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:56:11 -0800
+X-CSE-ConnectionGUID: rLfBfA0CQbGjXLAIO8Oe6Q==
+X-CSE-MsgGUID: yNl376CETuGLw2RzZA4V/g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="122058260"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="147963548"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 27 Feb 2025 06:46:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 27 Feb 2025 06:56:10 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnf9F-000DVq-24;
-	Thu, 27 Feb 2025 14:46:01 +0000
-Date: Thu, 27 Feb 2025 22:45:33 +0800
+	id 1tnfJ0-000DWc-2e;
+	Thu, 27 Feb 2025 14:56:06 +0000
+Date: Thu, 27 Feb 2025 22:55:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asad Kamal <asad.kamal@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Lijo Lazar <lijo.lazar@amd.com>,
-	Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: [linux-next:master 5837/6931]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_12_ppt.c:464
- smu_v13_0_12_get_gpu_metrics() warn: inconsistent indenting
-Message-ID: <202502272246.OISqUnC1-lkp@intel.com>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	thierry.bultel@linatsea.fr
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v3 06/13] clk: renesas: Add support for R9A09G077 SoC
+Message-ID: <202502272238.ZwLcNFEr-lkp@intel.com>
+References: <20250226130935.3029927-7-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,157 +66,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250226130935.3029927-7-thierry.bultel.yh@bp.renesas.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   be5c7bbb3a64baf884481a1ba0c2f8fb2f93f7c3
-commit: 0b4119d54b17618c2ddb04a2af5bf5ebe24121e3 [5837/6931] drm/amd/pm: Use separate metrics table for smu_v13_0_12
-config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502272246.OISqUnC1-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+Hi Thierry,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus geert-renesas-devel/next linus/master v6.14-rc4 next-20250227]
+[cannot apply to geert-renesas-drivers/renesas-clk]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Bultel/dt-bindings-clock-Add-cpg-for-the-Renesas-RZ-T2H-SoC/20250226-221033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20250226130935.3029927-7-thierry.bultel.yh%40bp.renesas.com
+patch subject: [PATCH v3 06/13] clk: renesas: Add support for R9A09G077 SoC
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250227/202502272238.ZwLcNFEr-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272238.ZwLcNFEr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272246.OISqUnC1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272238.ZwLcNFEr-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_12_ppt.c:464 smu_v13_0_12_get_gpu_metrics() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +464 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu13/smu_v13_0_12_ppt.c
+   In file included from drivers/clk/renesas/r9a09g077-cpg-mssr.c:9:
+   drivers/clk/renesas/r9a09g077-cpg-mssr.c: In function 'r9a09g077_cpg_div_clk_register':
+>> drivers/clk/renesas/r9a09g077-cpg-mssr.c:72:33: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      72 | #define GET_REG_OFFSET(val)     FIELD_GET(GENMASK(31, 20), val)
+         |                                 ^~~~~~~~~
+   include/linux/clk-provider.h:869:51: note: in definition of macro 'clk_hw_register_divider_table'
+     869 |                                   NULL, (flags), (reg), (shift), (width),     \
+         |                                                   ^~~
+   drivers/clk/renesas/r9a09g077-cpg-mssr.c:166:63: note: in expansion of macro 'GET_REG_OFFSET'
+     166 |                                                        base + GET_REG_OFFSET(core->conf),
+         |                                                               ^~~~~~~~~~~~~~
 
-   331	
-   332	ssize_t smu_v13_0_12_get_gpu_metrics(struct smu_context *smu, void **table)
-   333	{
-   334		struct smu_table_context *smu_table = &smu->smu_table;
-   335		struct gpu_metrics_v1_7 *gpu_metrics =
-   336			(struct gpu_metrics_v1_7 *)smu_table->gpu_metrics_table;
-   337		int ret = 0, xcc_id, inst, i, j, k, idx;
-   338		struct amdgpu_device *adev = smu->adev;
-   339		u8 num_jpeg_rings_gpu_metrics;
-   340		MetricsTable_t *metrics;
-   341		struct amdgpu_xcp *xcp;
-   342		u32 inst_mask;
-   343	
-   344		metrics = kzalloc(sizeof(MetricsTable_t), GFP_KERNEL);
-   345		memcpy(metrics, smu_table->metrics_table, sizeof(MetricsTable_t));
-   346	
-   347		smu_cmn_init_soft_gpu_metrics(gpu_metrics, 1, 7);
-   348	
-   349		gpu_metrics->temperature_hotspot =
-   350			SMUQ10_ROUND(metrics->MaxSocketTemperature);
-   351		/* Individual HBM stack temperature is not reported */
-   352		gpu_metrics->temperature_mem =
-   353			SMUQ10_ROUND(metrics->MaxHbmTemperature);
-   354		/* Reports max temperature of all voltage rails */
-   355		gpu_metrics->temperature_vrsoc =
-   356			SMUQ10_ROUND(metrics->MaxVrTemperature);
-   357	
-   358		gpu_metrics->average_gfx_activity =
-   359			SMUQ10_ROUND(metrics->SocketGfxBusy);
-   360		gpu_metrics->average_umc_activity =
-   361			SMUQ10_ROUND(metrics->DramBandwidthUtilization);
-   362	
-   363		gpu_metrics->mem_max_bandwidth =
-   364			SMUQ10_ROUND(metrics->MaxDramBandwidth);
-   365	
-   366		gpu_metrics->curr_socket_power =
-   367			SMUQ10_ROUND(metrics->SocketPower);
-   368		/* Energy counter reported in 15.259uJ (2^-16) units */
-   369		gpu_metrics->energy_accumulator = metrics->SocketEnergyAcc;
-   370	
-   371		for (i = 0; i < MAX_GFX_CLKS; i++) {
-   372			xcc_id = GET_INST(GC, i);
-   373			if (xcc_id >= 0)
-   374				gpu_metrics->current_gfxclk[i] =
-   375					SMUQ10_ROUND(metrics->GfxclkFrequency[xcc_id]);
-   376	
-   377			if (i < MAX_CLKS) {
-   378				gpu_metrics->current_socclk[i] =
-   379					SMUQ10_ROUND(metrics->SocclkFrequency[i]);
-   380				inst = GET_INST(VCN, i);
-   381				if (inst >= 0) {
-   382					gpu_metrics->current_vclk0[i] =
-   383						SMUQ10_ROUND(metrics->VclkFrequency[inst]);
-   384					gpu_metrics->current_dclk0[i] =
-   385						SMUQ10_ROUND(metrics->DclkFrequency[inst]);
-   386				}
-   387			}
-   388		}
-   389	
-   390		gpu_metrics->current_uclk = SMUQ10_ROUND(metrics->UclkFrequency);
-   391	
-   392		/* Total accumulated cycle counter */
-   393		gpu_metrics->accumulation_counter = metrics->AccumulationCounter;
-   394	
-   395		/* Accumulated throttler residencies */
-   396		gpu_metrics->prochot_residency_acc = metrics->ProchotResidencyAcc;
-   397		gpu_metrics->ppt_residency_acc = metrics->PptResidencyAcc;
-   398		gpu_metrics->socket_thm_residency_acc = metrics->SocketThmResidencyAcc;
-   399		gpu_metrics->vr_thm_residency_acc = metrics->VrThmResidencyAcc;
-   400		gpu_metrics->hbm_thm_residency_acc = metrics->HbmThmResidencyAcc;
-   401	
-   402		/* Clock Lock Status. Each bit corresponds to each GFXCLK instance */
-   403		gpu_metrics->gfxclk_lock_status = metrics->GfxLockXCDMak >> GET_INST(GC, 0);
-   404	
-   405		gpu_metrics->pcie_link_width = metrics->PCIeLinkWidth;
-   406		gpu_metrics->pcie_link_speed =
-   407			pcie_gen_to_speed(metrics->PCIeLinkSpeed);
-   408		gpu_metrics->pcie_bandwidth_acc =
-   409			SMUQ10_ROUND(metrics->PcieBandwidthAcc[0]);
-   410		gpu_metrics->pcie_bandwidth_inst =
-   411			SMUQ10_ROUND(metrics->PcieBandwidth[0]);
-   412		gpu_metrics->pcie_l0_to_recov_count_acc = metrics->PCIeL0ToRecoveryCountAcc;
-   413		gpu_metrics->pcie_replay_count_acc = metrics->PCIenReplayAAcc;
-   414		gpu_metrics->pcie_replay_rover_count_acc =
-   415			metrics->PCIenReplayARolloverCountAcc;
-   416		gpu_metrics->pcie_nak_sent_count_acc = metrics->PCIeNAKSentCountAcc;
-   417		gpu_metrics->pcie_nak_rcvd_count_acc = metrics->PCIeNAKReceivedCountAcc;
-   418		gpu_metrics->pcie_lc_perf_other_end_recovery = metrics->PCIeOtherEndRecoveryAcc;
-   419	
-   420		gpu_metrics->system_clock_counter = ktime_get_boottime_ns();
-   421	
-   422		gpu_metrics->gfx_activity_acc = SMUQ10_ROUND(metrics->SocketGfxBusyAcc);
-   423		gpu_metrics->mem_activity_acc = SMUQ10_ROUND(metrics->DramBandwidthUtilizationAcc);
-   424	
-   425		for (i = 0; i < NUM_XGMI_LINKS; i++) {
-   426			gpu_metrics->xgmi_read_data_acc[i] =
-   427				SMUQ10_ROUND(metrics->XgmiReadDataSizeAcc[i]);
-   428			gpu_metrics->xgmi_write_data_acc[i] =
-   429				SMUQ10_ROUND(metrics->XgmiWriteDataSizeAcc[i]);
-   430			ret = amdgpu_get_xgmi_link_status(adev, i);
-   431			if (ret >= 0)
-   432				gpu_metrics->xgmi_link_status[i] = ret;
-   433		}
-   434	
-   435		gpu_metrics->num_partition = adev->xcp_mgr->num_xcps;
-   436	
-   437		num_jpeg_rings_gpu_metrics = NUM_JPEG_RINGS_GPU_METRICS(gpu_metrics);
-   438		for_each_xcp(adev->xcp_mgr, xcp, i) {
-   439			amdgpu_xcp_get_inst_details(xcp, AMDGPU_XCP_VCN, &inst_mask);
-   440			idx = 0;
-   441			for_each_inst(k, inst_mask) {
-   442				/* Both JPEG and VCN has same instances */
-   443				inst = GET_INST(VCN, k);
-   444	
-   445				for (j = 0; j < num_jpeg_rings_gpu_metrics; ++j) {
-   446					gpu_metrics->xcp_stats[i].jpeg_busy
-   447						[(idx * num_jpeg_rings_gpu_metrics) + j] =
-   448						SMUQ10_ROUND(metrics->JpegBusy
-   449								[(inst * NUM_JPEG_RINGS_FW) + j]);
-   450				}
-   451				gpu_metrics->xcp_stats[i].vcn_busy[idx] =
-   452				       SMUQ10_ROUND(metrics->VcnBusy[inst]);
-   453				idx++;
-   454			}
-   455	
-   456			amdgpu_xcp_get_inst_details(xcp, AMDGPU_XCP_GFX, &inst_mask);
-   457			idx = 0;
-   458			for_each_inst(k, inst_mask) {
-   459				inst = GET_INST(GC, k);
-   460				gpu_metrics->xcp_stats[i].gfx_busy_inst[idx] =
-   461					SMUQ10_ROUND(metrics->GfxBusy[inst]);
-   462				gpu_metrics->xcp_stats[i].gfx_busy_acc[idx] =
-   463					SMUQ10_ROUND(metrics->GfxBusyAcc[inst]);
- > 464					idx++;
+
+vim +/FIELD_GET +72 drivers/clk/renesas/r9a09g077-cpg-mssr.c
+
+    69	
+    70	#define GET_SHIFT(val)		FIELD_GET(GENMASK(19, 12), val)
+    71	#define GET_WIDTH(val)		FIELD_GET(GENMASK(11, 8), val)
+  > 72	#define GET_REG_OFFSET(val)	FIELD_GET(GENMASK(31, 20), val)
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
