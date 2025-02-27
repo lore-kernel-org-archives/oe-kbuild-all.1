@@ -1,101 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76BC822FF44;
-	Thu, 27 Feb 2025 14:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744A52376E6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740665809; cv=none; b=Fp17dlJvntD9BBttcOlYn/L1CNmAUnE//VxsRxPed9C1aNDuuaAk7tBMMVsY7zfMOgfBQCFXC9PAyirCeF7UN2eHXepbSZxL8077X1lrRITcTg83StcDmZvmMMOxtdoDwsRNTVOByDtmAuY3nOMy429V1ew1uU7ac9n74E3kuK4=
+	t=1740665925; cv=none; b=lgctWXlmeISTUPE0UvNpiiuXh3tAcHMhbrVa6XXT14xvGaZTFOx2RKHTx7KTvHdz8uYLmNA9X2wqH0RWVJPyS1LIp4RHciAXrXDn0Yf1LrusEichS8CpLfipEmZzfA4jcihq/tnc1PnJFkrvjKz/PK4jza+QBOtxjPbnnMAc9bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740665809; c=relaxed/simple;
-	bh=NSlGgDaQ6OTrGCsU4w8SbDFK25aIamxIlg7Tnk5mVsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fE1rTJiVJjFrsGzKk/NXeG4qHaRWgNRSnRmVFQCqYzbD4BQ8d7LGgYe89wB1o6P2S3gxoqajSUzqP7OcmIGv4W3S/adezr3vbHPHcay+126lejysfbj/J75YNCLEBRTrPsybAJgrU1FWAfIuMb5sH0h1YzR4SxjY56K+VO0cWIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8efGPCj; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740665925; c=relaxed/simple;
+	bh=r8S7xG/GXaPn5Om2tkbwP+KT4PKKlCCa4/xSKilbANM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fA4iqP7LnlO8oNRSuhBitKNGmP2OGZascuYpOAtf2bzFuYYuV02/zPhbMm3ofiGXLKUdEZZSDzhik8DbmsaiEHJzfNtAa75GtxQCNhIfKbj3NhKp6nS1/4hrs30Iz2NKlMfcDwvewnfX4xtJQZvUIbdsZgC9MYw/UQx/LwNfquo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=nZCHrVLg; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8efGPCj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740665808; x=1772201808;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NSlGgDaQ6OTrGCsU4w8SbDFK25aIamxIlg7Tnk5mVsU=;
-  b=K8efGPCjZpTwWrGkzn4UVS1BK4wJVHuItYPpeElWkfojiXwdpHTv7GCJ
-   eHDJ0pzX9YqoNU449qjhMbl7lEwUsOx9QxsK9s5e3pSiKGMxBewpgCPc1
-   QmTEO7HpKxUOuy/KydwErQFj7ewUI8ZbuGoYQsZgB5XuvtjTgskULHzL9
-   J3IsCvsxetYNW+TP7FcnameocQrDt/wj/BNuL480MiWfAbQUwVLmiMpwI
-   bHLJ/Vkuqa4W/CSdGlpSXYBt8/md8wiJJtZpUFSY7HXCmx7SA03xFFAZg
-   r9psidS4hJgK8/6eflrL153nY+IGVo29cEr5Vdl0N+Q3Azh3ji8lWtY+M
-   w==;
-X-CSE-ConnectionGUID: Jab76QjISfCXEfPG4nNK1Q==
-X-CSE-MsgGUID: lSnHk1RiQDaTh+xcXMqWfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40794900"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="40794900"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:16:47 -0800
-X-CSE-ConnectionGUID: tuuZ2fsPQG6JM1/5Dk3Efg==
-X-CSE-MsgGUID: zKSUO7C1R86uTKVnbJAegA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="121980714"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2025 06:16:44 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnegq-000DT4-2n;
-	Thu, 27 Feb 2025 14:16:40 +0000
-Date: Thu, 27 Feb 2025 22:16:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Brian Gerst <brgerst@gmail.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ingo Molnar <mingo@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>, Ard Biesheuvel <ardb@kernel.org>,
-	Uros Bizjak <ubizjak@gmail.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Brian Gerst <brgerst@gmail.com>
-Subject: Re: [PATCH v2 01/11] percpu: Introduce percpu hot section
-Message-ID: <202502272142.2EFoWquv-lkp@intel.com>
-References: <20250226180531.1242429-2-brgerst@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="nZCHrVLg"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3d3e00676fdso1994745ab.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 06:18:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1740665921; x=1741270721; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NNJanwav3a8wFADrKZ+oCG5dk4BZX7AUlFcgnar0a5o=;
+        b=nZCHrVLgE2EHsVzHP410cgPh7BELnDbi3vgc/8U749+hlZPD52PBD717/k9NXF+KM8
+         v2+woO6eFYiE8Knns2vcZ25+TKTro79/mxoPntISgcn2+xluWjRvbkIIr3HUsdmIPhQM
+         771iGs0rUtPBHVWNxcVevG8knYJIt+9aYrwdTLvZh9MVdvEihewMHey1bPaNfTg3B7o1
+         dnacqOjkALWCz1SPkLlpKaJZCvp3/05WL5Qu441LFSsbJWDrhwEisdU+z+yn/Ri4p3aL
+         ItZaNUHhdstxv8oS7hfrZa8QF2+94McK4mt0xYEJ5jNXsBpmVMJNsz2cr4JcwCo2MsZT
+         LpjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740665921; x=1741270721;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NNJanwav3a8wFADrKZ+oCG5dk4BZX7AUlFcgnar0a5o=;
+        b=NRQqIMtZZzTik0sqLTOK/zCAGaVGTfqOy5ZPiJqfPxTns9qTThqGffCYffrUqkhV6Z
+         a1xh1GzmeDjHQR/soE1I/8IIQ+3zAi1YhPtO7HLl0BTUKZ47Opu7nuAcP0RJ3/CHFdcG
+         cJIDx2W+RZwqwsc51JjmgFUf/nyji6fPDMc5Z48G9eke0EnB0PWDEjBCinzv0BT60Ay4
+         5X88XtgYX5+Lcxn4QaTUQtMFp5RFej1EjJItIPRFCCuttauKYbNYXRlASh7Ee9NknTTh
+         YIA9cgGju8g8lMkF9h9jNa62+MUlxPNjOhcSNC+vrRWSwGILGHiaNdWeixkIPF5GBPmC
+         7w3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUcfUSMmQ+smWa3oCLjEzBiyt6YX126hSbYAlAMPGrPpsT1/xZwbCjASEme1eA+8BPj4ItM4GRI1k1mBMFr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdZL6jQC1crf2dRY7E2LlQsQYn2OQgbsywhlrqLr8pB69Vb40F
+	odHF88aBNzlb9hptOxZtzkY5ptjHBQA4k+Sga2SKWKIyEMCj+JjnIKYDGVvLP4U=
+X-Gm-Gg: ASbGncsXyREvIWJrs7gn6n6jEhdyVizLSIi0FGPANg4IhkrrQQ3KYjN+2PyjrgBQ+sB
+	cDBWaXYOmGVEu/BeJbxbL7yrt7DvHeDZP2kCr8FEbs6oDF1kcbjDKZDFBif1VnJ/DHDWGBz/7gg
+	8H3sLsHquoMcjOOyGtm70ecJbxtdNGEsFvZ1mwpibDmhpCFaR/5qmIKQE+yjTJbecbyGbjW707n
+	TDHEauAarCcxs8OBI/qBMgAgImEi8Tq3Am1mjGwga6OV+fmsxmgAuznpt+weQshMAF5tx8AWfdT
+	H33zdhkHaMIlRpLb3Ai8DQ==
+X-Google-Smtp-Source: AGHT+IFaqZ3whCItmy6RW103VrhoKk3IQiM/Mvv8AZZcmFo8vP/FBPn1in3bLWUleZWrKCTF237izA==
+X-Received: by 2002:a05:6e02:491b:b0:3d3:ced4:db9b with SMTP id e9e14a558f8ab-3d3ced4de09mr93462075ab.5.1740665921305;
+        Thu, 27 Feb 2025 06:18:41 -0800 (PST)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d3dedbaf03sm3437855ab.0.2025.02.27.06.18.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Feb 2025 06:18:40 -0800 (PST)
+Message-ID: <5ec35d4b-bf0f-4dcc-876a-40c64793d25a@kernel.dk>
+Date: Thu, 27 Feb 2025 07:18:39 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226180531.1242429-2-brgerst@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe-block:for-6.15/io_uring 43/57] io_uring/rw.c:299
+ io_prep_rw() error: uninitialized symbol 'ret'.
+To: Pavel Begunkov <asml.silence@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <e14911d2-c648-4738-84e4-48af3fcfdd9c@stanley.mountain>
+ <56e35d8d-b102-430a-8c94-dbc14b8fb9ae@gmail.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <56e35d8d-b102-430a-8c94-dbc14b8fb9ae@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Brian,
+On 2/27/25 3:08 AM, Pavel Begunkov wrote:
+> On 2/27/25 05:56, Dan Carpenter wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/io_uring
+>> head:   047fa0ba8f1bed6b1c5d88e31c4fd187de16dbc1
+>> commit: 61ed48b5fc63d1c6d9c3eb59ed2b46a2cbfc6039 [43/57] io_uring/rw: open code io_prep_rw_setup()
+>> config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271201.3Eaa0Ych-lkp@intel.com/config)
+>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> | Closes: https://lore.kernel.org/r/202502271201.3Eaa0Ych-lkp@intel.com/
+>>
+>> smatch warnings:
+>> io_uring/rw.c:299 io_prep_rw() error: uninitialized symbol 'ret'.
+> 
+> Thanks for letting know
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 79165720f31868d9a9f7e5a50a09d5fe510d1822]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Gerst/percpu-Introduce-percpu-hot-section/20250227-021212
-base:   79165720f31868d9a9f7e5a50a09d5fe510d1822
-patch link:    https://lore.kernel.org/r/20250226180531.1242429-2-brgerst%40gmail.com
-patch subject: [PATCH v2 01/11] percpu: Introduce percpu hot section
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20250227/202502272142.2EFoWquv-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272142.2EFoWquv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272142.2EFoWquv-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> s390x-linux-ld: cannot find CACLE_HOT_DATA: No such file or directory
+Folded in a fix.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
+
