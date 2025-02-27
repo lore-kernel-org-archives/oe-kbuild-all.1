@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D31E189F57;
-	Thu, 27 Feb 2025 04:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ECC17A5A4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 04:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740629385; cv=none; b=jdp+G9VC1GoBLWbwGdDsOz0qFPpG3Y7vKN+Hncasf20hWhL38wsynlFbbIHerenoLCZiRZv8jC9Q9ZV7+xKImvf8gWAYC+bcxzlYg+NQOBqYOZl/f/njkripEVZbBAcIYrSkxoXWtxY+yaG4YCjTOsoR+GvxBjx8u3JaxXGQ1K0=
+	t=1740631347; cv=none; b=qaLrElFumoXgp2XY0JiKona/LaPdliPCCox5P06wxX5djUYUdVT0ppn02WRINfx0gysQNY830fH3FuxvNdo0vETGfOoPzsd5eimN7yVyWot+e6+mXbauALMdrzj7/DoPbS09PMU99WjYrLoEiLiZX1qXpD9yv+EaivmgJWUNso8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740629385; c=relaxed/simple;
-	bh=18P8pM1UXEaH7+Bj3hADkd+I+7nEBiD0/wNZBgoZWyY=;
+	s=arc-20240116; t=1740631347; c=relaxed/simple;
+	bh=JYhl5UOB072beA10VY5B3cNosqJERuq6ujMGudN/19E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TNhbp8UWo4tKIa2pfe6Y34/k+IS99DS4TYTM6DOs0wwezWrBP110byCTwS6jNtIz+DQWgzPRUxJvoMWiZ5N0QFQoj3YKJWrKw3+sSOSrw1mLRXMrZLRtsNT5YfFOcGvqvw+WguOW6VI4Raz5zd9GPeI3W55y//10CVnMBgHGe44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fsYozpOl; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=AkOaxEfl4V6A3563tovU7hRRabjfwzwVXoxxzWSbjuJ8zeH/WWqbZ6hHGYsgwocrouRyaAT3kXDrxTrYhRg0Fb25E1hXx3WZl+I/8eOe0icmKBmscmjjLJK0FBSi1GUChuvuM8+TpgZmlTGmeLemgjNFJisQCf73toznxI4qmCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CUdXhhR7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fsYozpOl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CUdXhhR7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740629383; x=1772165383;
+  t=1740631346; x=1772167346;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=18P8pM1UXEaH7+Bj3hADkd+I+7nEBiD0/wNZBgoZWyY=;
-  b=fsYozpOlW4lB875/MqeUGyoI5/jyOFkK48jPxvjRJ27tZKjps0znsgWn
-   Vjkfkst4hTOacRQVBC+VycT9n1QU0DMzUyx4lVJucQZeQwM62v+iYKwHe
-   HeCQiyVGyVclDY4TXfwbhS22lelgo1yt5wRliY/2eMi2BRbSD/i0R89xS
-   ha1E7Ll1p2Ybyku+Qb4Dttt3thkmcygMd/5vVLQyE7RHOQCmkl5laZ56z
-   mTkUTEH0r5DwCiWLA7+982JgN+6pWuyLdGFNol0THdKeOg1gwfjdQaU3F
-   UxUj+18d17dVtQ0RhJBNv9IJcEob1Gkhyxv5U3IrkvDA7/z/PllcK8kYp
-   Q==;
-X-CSE-ConnectionGUID: CnYKmxLiQyWkjApxlGDphw==
-X-CSE-MsgGUID: u3tibEMWTUCx7p3tR2vhlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52141711"
+  bh=JYhl5UOB072beA10VY5B3cNosqJERuq6ujMGudN/19E=;
+  b=CUdXhhR7YfyY0P9Mzq5CtHN6JftwEML0Zo3Nh+P4DUcDB5m8/33hfvYQ
+   6EfgpAnogyilgCLih+OkNgPLRkGvzQTAFixsAZPLVNpgn8wKNc8a6aFit
+   JT0VNP6YbOr6xRYE/pp3zDq0AjVSL8eKYlpZAMrkdp5mVU+Woy0tQaKkz
+   wfzzCLCWkcdXnYCD+oxcltUuDaKELWttxdDO8cd8ErCIZRblwzzTwxet/
+   ne4zYgdkqKeGMWy6xmuLsvHX+UgtzMgkDLCKceExSjuOEqZVtMYry8vbE
+   cjwccXASPta4W89G9EumqIRXkDeG64FRedwc//xiI1gKEXVshvyXg+ENW
+   A==;
+X-CSE-ConnectionGUID: TTu5mB/MSlCwwENtu++TFQ==
+X-CSE-MsgGUID: wQSeb3+IRbGF+ckK+9y9kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="44332898"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="52141711"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 20:09:40 -0800
-X-CSE-ConnectionGUID: tNe30W6pRL6xLHmUS1ts/g==
-X-CSE-MsgGUID: cy9WGmTvSQ26zSazyOfoAA==
+   d="scan'208";a="44332898"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 20:42:25 -0800
+X-CSE-ConnectionGUID: a3ETDYPmSTuV1YooSAwKcw==
+X-CSE-MsgGUID: rEJ7oRWsQtq9nMx2UCRhxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="147728651"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116783993"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 26 Feb 2025 20:09:39 -0800
+  by orviesa010.jf.intel.com with ESMTP; 26 Feb 2025 20:42:25 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnVDM-000CpM-1R;
-	Thu, 27 Feb 2025 04:09:36 +0000
-Date: Thu, 27 Feb 2025 12:09:06 +0800
+	id 1tnVhz-000Cqw-2A;
+	Thu, 27 Feb 2025 04:41:39 +0000
+Date: Thu, 27 Feb 2025 12:40:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [koverstreet-bcachefs:bcachefs-dir-i-size 123/123]
- fs/bcachefs/fs-ioctl.c:72:40: error: use of undeclared identifier
- 'bcachefs_metadata_version_casefolding'
-Message-ID: <202502271256.bF2uoveR-lkp@intel.com>
+ fs/bcachefs/fs-ioctl.c:72:54: error: 'bcachefs_metadata_version_casefolding'
+ undeclared; did you mean 'bcachefs_metadata_version_major_minor'?
+Message-ID: <202502271209.OUuNyZC0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,34 +66,26 @@ Content-Disposition: inline
 tree:   https://github.com/koverstreet/bcachefs bcachefs-dir-i-size
 head:   559ae9ec988de991142b6a067c313aeb530c2b11
 commit: 559ae9ec988de991142b6a067c313aeb530c2b11 [123/123] bcachefs: bcachefs_metadata_version_directory_size_v2
-config: s390-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271256.bF2uoveR-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271256.bF2uoveR-lkp@intel.com/reproduce)
+config: um-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271209.OUuNyZC0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271209.OUuNyZC0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271256.bF2uoveR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271209.OUuNyZC0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/fs-ioctl.c:4:
-   In file included from fs/bcachefs/bcachefs.h:208:
-   In file included from fs/bcachefs/bcachefs_format.h:502:
-   fs/bcachefs/extents_format.h:219:10: error: width of bit-field 'flags' (76 bits) exceeds the width of its type (64 bits)
-     219 |         __u64                   flags:76
-         |                                 ^
-   fs/bcachefs/extents_format.h:219:18: error: expected ';' at end of declaration list
-     219 |         __u64                   flags:76
-         |                                         ^
-         |                                         ;
->> fs/bcachefs/fs-ioctl.c:72:40: error: use of undeclared identifier 'bcachefs_metadata_version_casefolding'
+   fs/bcachefs/fs-ioctl.c: In function 'bch2_inode_flags_set':
+>> fs/bcachefs/fs-ioctl.c:72:54: error: 'bcachefs_metadata_version_casefolding' undeclared (first use in this function); did you mean 'bcachefs_metadata_version_major_minor'?
       72 |                 if (!bch2_request_incompat_feature(c,bcachefs_metadata_version_casefolding))
-         |                                                      ^
-   3 errors generated.
+         |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                      bcachefs_metadata_version_major_minor
+   fs/bcachefs/fs-ioctl.c:72:54: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/bcachefs_metadata_version_casefolding +72 fs/bcachefs/fs-ioctl.c
+vim +72 fs/bcachefs/fs-ioctl.c
 
 1c6fdbd8f2465d Kent Overstreet 2017-03-16  33  
 791236b85c2dfd Joshua Ashton   2023-08-12  34  static int bch2_inode_flags_set(struct btree_trans *trans,
