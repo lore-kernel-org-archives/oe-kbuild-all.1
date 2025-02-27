@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2A01A841B;
-	Thu, 27 Feb 2025 16:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BB51B21B8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 16:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740673983; cv=none; b=VC/4jn5PlbKND6qOmJB6SIWxMG7zGoy7NHwLJimPcYGIKWAzS7AiXv0QqvHSfOuoJP7Rw2ZVwB8W5zG07yM68cNfQDjSIV5VHltcOtuKjyJ6mVArnEgj+LpFvcOqSGu5uc+zzJOBUhmOEnYzaNiOJ/ehQyZNYaKHWI523Usp3MI=
+	t=1740673985; cv=none; b=cxbOYtm1knEGe4+x6d9oupqvUjKteiz5hqR92q3p3dUKWfel/J7F8OB+Hn6x6t8YEpfK1RAm4PF+h1v6ujFucBK0eNvdavJj89OM00kd214U2nyYbyLCu6X+V2z3krZSh0JCiaiWBUQwmP+gyNzwayhwGCB1BrUHY5d7d90ZRNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740673983; c=relaxed/simple;
-	bh=PxRMUeFEamREPmtQZc3fxutf2JnTd8UN84HgX0/6asw=;
+	s=arc-20240116; t=1740673985; c=relaxed/simple;
+	bh=xZAGtiBsGVxjIe3gDGDtguAEm32g2nHJ2cV0VNCaCc0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oVdBEw2G+mq81idUExGThuxESa7+l+tib2NPCahxFdWFe8K1Jhor4T9Ywp66puyECRHUksbLfxrUw7ro8oDU+oZbEhjpSsCvur+//dZe35iFNlYQpu/+elnqA3+J5oJPNIIU95DQS/wr6+SCb3kyIXNOaHbDYPQ672hETpaJnxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VTZEPKmo; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=GyolzF8weV5g/WPVHiNMukyrTkJpnU9FXo/m8owOa6wSrJ7rz5yBVjyEzS7qqhHqTut2CxxSdYuO3NekSTdhWXmS6gdbnxA8LGq6Fzri4Wp0XWZ7HqTtw1Hw/Z1XS+fimvF4fZfpE3qYWHVmQEVFECqm2ZgLydrU4swYc8laAaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=njrCKKoh; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VTZEPKmo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="njrCKKoh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740673982; x=1772209982;
+  t=1740673984; x=1772209984;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PxRMUeFEamREPmtQZc3fxutf2JnTd8UN84HgX0/6asw=;
-  b=VTZEPKmohrqovlHcRZNtx8/sTcUIBQwmfJOn73xT7no1IHOp7i8ubi8a
-   3uxqOS9Js5+hShGpmFfZANsZJa2o5/9hsKVlOuyDhMEgD518Hzb1kcyo3
-   Uwkzo8M9TsgaAoXPXcA2s6d7xhC89tqNrqhY4r110FzlVL8oy7a8pD8G2
-   c+wBM9wvyHLtbil3umqBB3cK5Xof9FChj0sIVCpPnyhEON03w07xK83gt
-   ld5knG1wDfCyB9KsGGpKl/w9bS7JdsoSz+S6HwjVyGfoCOhYO6yj0W3OM
-   /uT/ygO+r4mnWbu5NI0U6juZQ7IyhGkdsVQqrMgx7yn8FyarPSLJFQWSg
-   A==;
-X-CSE-ConnectionGUID: bHVndROHRpaSjBcKgC/1YA==
-X-CSE-MsgGUID: oHQazHRGQxijnPmMZSFKcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52985955"
+  bh=xZAGtiBsGVxjIe3gDGDtguAEm32g2nHJ2cV0VNCaCc0=;
+  b=njrCKKoh7A+VHBDxz28kzSlmPHNXleLuxqNsK1zKrWIBrY/tlF3G7mfx
+   AKUJm4FsRymtmVCEU8IedUidPzY6tzvd9ikXqPVCjqItFTudvUnlDNxSZ
+   qJIePsnWitUhJKD5UeRiYohQMkuJkfBFI8Y2dOJiOMl25k2H9fQWdCfAh
+   iQXgAz+OH8de8o8aO1gUaasaIawgQOie9BoZybMTEEteJA0RMdNPnKRX8
+   22VtEG5xQlMfrD/QsljphqT4AWynDOybDZjsBpdrImwhCcVf2g7PuUtEp
+   E+wZX+obUAwe7TJWpGTH/G3WpymM3IO1kt1mQ1/5SovZlS4q8jf5nGdvp
+   g==;
+X-CSE-ConnectionGUID: frRCZtmWT223dN9U28OXqQ==
+X-CSE-MsgGUID: NgJTFX2OTWaf543Z5HAKiA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52985964"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="52985955"
+   d="scan'208";a="52985964"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 08:33:01 -0800
-X-CSE-ConnectionGUID: P9PzRs9xQmGfB9QwTupwow==
-X-CSE-MsgGUID: vC1SwDCjTRm0YBeAWIdMZQ==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 08:33:02 -0800
+X-CSE-ConnectionGUID: sPldEseqQBCwTkBow3WKPA==
+X-CSE-MsgGUID: T61cUxiFTMaOxWwXeT1zTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="140303905"
+   d="scan'208";a="140303904"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2025 08:33:00 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tngoj-000Dhq-2K;
+	id 1tngoj-000Dho-2G;
 	Thu, 27 Feb 2025 16:32:57 +0000
-Date: Fri, 28 Feb 2025 00:32:35 +0800
+Date: Fri, 28 Feb 2025 00:32:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 4/4] ftrace: Add arguments to function tracer
-Message-ID: <202502280024.KCZLllFN-lkp@intel.com>
-References: <20250225222654.069143074@goodmis.org>
+To: Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	thierry.bultel@linatsea.fr
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	geert@linux-m68k.org, paul.barker.ct@bp.renesas.com,
+	Thierry Bultel <thierry.bultel.yh@bp.renesas.com>,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v3 06/13] clk: renesas: Add support for R9A09G077 SoC
+Message-ID: <202502280006.8lJfdpzm-lkp@intel.com>
+References: <20250226130935.3029927-7-thierry.bultel.yh@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +66,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225222654.069143074@goodmis.org>
+In-Reply-To: <20250226130935.3029927-7-thierry.bultel.yh@bp.renesas.com>
 
-Hi Steven,
+Hi Thierry,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.14-rc4 next-20250227]
-[cannot apply to trace/for-next]
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus geert-renesas-devel/next linus/master v6.14-rc4 next-20250227]
+[cannot apply to geert-renesas-drivers/renesas-clk]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/ftrace-Add-print_function_args/20250226-063252
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250225222654.069143074%40goodmis.org
-patch subject: [PATCH v3 4/4] ftrace: Add arguments to function tracer
-config: i386-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280024.KCZLllFN-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280024.KCZLllFN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thierry-Bultel/dt-bindings-clock-Add-cpg-for-the-Renesas-RZ-T2H-SoC/20250226-221033
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20250226130935.3029927-7-thierry.bultel.yh%40bp.renesas.com
+patch subject: [PATCH v3 06/13] clk: renesas: Add support for R9A09G077 SoC
+config: arc-randconfig-r122-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280006.8lJfdpzm-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250228/202502280006.8lJfdpzm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280024.KCZLllFN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280006.8lJfdpzm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/renesas/renesas-cpg-mssr.c:216:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/clk/renesas/renesas-cpg-mssr.c:216:49: sparse:     expected void *base
+   drivers/clk/renesas/renesas-cpg-mssr.c:216:49: sparse:     got void [noderef] __iomem *
+>> drivers/clk/renesas/renesas-cpg-mssr.c:294:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
+   drivers/clk/renesas/renesas-cpg-mssr.c:294:51: sparse:     expected void [noderef] __iomem *addr
+   drivers/clk/renesas/renesas-cpg-mssr.c:294:51: sparse:     got void *
 
->> kernel/trace/trace_output.c:1121:19: error: use of undeclared identifier 'FTRACE_REGS_MAX_ARGS'
-    1121 |         if (args_size >= FTRACE_REGS_MAX_ARGS * sizeof(long))
-         |                          ^
-   1 error generated.
---
->> kernel/trace/trace.c:2888:10: error: use of undeclared identifier 'FTRACE_REGS_MAX_ARGS'
-    2888 |         size += FTRACE_REGS_MAX_ARGS * !!fregs * sizeof(long);
-         |                 ^
-   kernel/trace/trace.c:2899:23: error: use of undeclared identifier 'FTRACE_REGS_MAX_ARGS'
-    2899 |                 for (int i = 0; i < FTRACE_REGS_MAX_ARGS; i++)
-         |                                     ^
->> kernel/trace/trace.c:2900:21: error: call to undeclared function 'ftrace_regs_get_argument'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2900 |                         entry->args[i] = ftrace_regs_get_argument(fregs, i);
-         |                                          ^
-   3 errors generated.
+vim +216 drivers/clk/renesas/renesas-cpg-mssr.c
 
-
-vim +/FTRACE_REGS_MAX_ARGS +1121 kernel/trace/trace_output.c
-
-  1108	
-  1109	/* TRACE_FN */
-  1110	static enum print_line_t trace_fn_trace(struct trace_iterator *iter, int flags,
-  1111						struct trace_event *event)
-  1112	{
-  1113		struct ftrace_entry *field;
-  1114		struct trace_seq *s = &iter->seq;
-  1115		unsigned long *args;
-  1116		int args_size;
-  1117	
-  1118		trace_assign_type(field, iter->ent);
-  1119	
-  1120		args_size = iter->ent_size - offsetof(struct ftrace_entry, args);
-> 1121		if (args_size >= FTRACE_REGS_MAX_ARGS * sizeof(long))
-  1122			args = field->args;
-  1123		else
-  1124			args = NULL;
-  1125	
-  1126		print_fn_trace(s, field->ip, field->parent_ip, iter->tr->text_delta,
-  1127			       args, flags);
-  1128		trace_seq_putc(s, '\n');
-  1129	
-  1130		return trace_handle_return(s);
-  1131	}
-  1132	
+   211	
+   212	static void *cpg_rzt2h_addr_from_offset(struct clk_hw *hw, u16 offset)
+   213	{
+   214		struct mstp_clock *clock = to_mstp_clock(hw);
+   215		struct cpg_mssr_priv *priv = clock->priv;
+ > 216		void *base = RZT2H_MSTPCR_BLOCK(offset) ? priv->pub.base1 : priv->pub.base0;
+   217	
+   218		return base + RZT2H_MSTPCR_OFFSET(offset);
+   219	}
+   220	
+   221	static int cpg_mstp_clock_endisable(struct clk_hw *hw, bool enable)
+   222	{
+   223		struct mstp_clock *clock = to_mstp_clock(hw);
+   224		struct cpg_mssr_priv *priv = clock->priv;
+   225		unsigned int reg = clock->index / 32;
+   226		unsigned int bit = clock->index % 32;
+   227		struct device *dev = priv->dev;
+   228		u32 bitmask = BIT(bit);
+   229		unsigned long flags;
+   230		u32 value;
+   231		int error;
+   232	
+   233		dev_dbg(dev, "MSTP %u%02u/%pC %s\n", reg, bit, hw->clk,
+   234			enable ? "ON" : "OFF");
+   235		spin_lock_irqsave(&priv->pub.rmw_lock, flags);
+   236	
+   237		if (priv->reg_layout == CLK_REG_LAYOUT_RZ_A) {
+   238			value = readb(priv->pub.base0 + priv->control_regs[reg]);
+   239			if (enable)
+   240				value &= ~bitmask;
+   241			else
+   242				value |= bitmask;
+   243			writeb(value, priv->pub.base0 + priv->control_regs[reg]);
+   244	
+   245			/* dummy read to ensure write has completed */
+   246			readb(priv->pub.base0 + priv->control_regs[reg]);
+   247			barrier_data(priv->pub.base0 + priv->control_regs[reg]);
+   248	
+   249		} else {
+   250			value = readl(priv->pub.base0 + priv->control_regs[reg]);
+   251			if (enable)
+   252				value &= ~bitmask;
+   253			else
+   254				value |= bitmask;
+   255			writel(value, priv->pub.base0 + priv->control_regs[reg]);
+   256		}
+   257	
+   258		spin_unlock_irqrestore(&priv->pub.rmw_lock, flags);
+   259	
+   260		if (!enable || priv->reg_layout == CLK_REG_LAYOUT_RZ_A ||
+   261			priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H)
+   262			return 0;
+   263	
+   264		error = readl_poll_timeout_atomic(priv->pub.base0 + priv->status_regs[reg],
+   265						  value, !(value & bitmask), 0, 10);
+   266		if (error)
+   267			dev_err(dev, "Failed to enable SMSTP %p[%d]\n",
+   268				priv->pub.base0 + priv->control_regs[reg], bit);
+   269	
+   270		return error;
+   271	}
+   272	
+   273	static int cpg_mstp_clock_enable(struct clk_hw *hw)
+   274	{
+   275		return cpg_mstp_clock_endisable(hw, true);
+   276	}
+   277	
+   278	static void cpg_mstp_clock_disable(struct clk_hw *hw)
+   279	{
+   280		cpg_mstp_clock_endisable(hw, false);
+   281	}
+   282	
+   283	static int cpg_mstp_clock_is_enabled(struct clk_hw *hw)
+   284	{
+   285		struct mstp_clock *clock = to_mstp_clock(hw);
+   286		struct cpg_mssr_priv *priv = clock->priv;
+   287		unsigned int reg = clock->index / 32;
+   288		u32 value;
+   289	
+   290		if (priv->reg_layout == CLK_REG_LAYOUT_RZ_A)
+   291			value = readb(priv->pub.base0 + priv->control_regs[reg]);
+   292		else if (priv->reg_layout == CLK_REG_LAYOUT_RZ_T2H) {
+   293			void __iomem *addr =
+ > 294				cpg_rzt2h_addr_from_offset(hw,
+   295							   priv->control_regs[reg]);
+   296			value = readw(addr);
+   297		}
+   298		else
+   299			value = readl(priv->pub.base0 + priv->status_regs[reg]);
+   300	
+   301		return !(value & BIT(clock->index % 32));
+   302	}
+   303	
 
 -- 
 0-DAY CI Kernel Test Service
