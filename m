@@ -1,68 +1,62 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF902165F1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 07:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B8322068A;
+	Thu, 27 Feb 2025 07:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740639735; cv=none; b=RNSQA5cMGFyRKX5axgEh4cJgILnoe6mR3HE/bynPMTHxN6VtVifSxeiP5XS14zLjbxq6KrQ9qCWN4uG0ZymeTTSJ8mUl5gf94KRsKvrwWSq37QrLJhmd/C213DYUuiW9Q/O8IXB9akMvh8kHlSXs2hI9BAPckekFg0v5T1eSNIo=
+	t=1740640349; cv=none; b=lRchN/1Wz1h6MMDTLIYrN5OK/vxO1nW30GfNTXVfh7GSCo4aWRFLBS3fXO9SSxFB3IirdVflt0nZN+36ZdENqf8F+jh4lxnBWK19jwVztROsJmVJUDYlo8Kqunuh2Pxc5EJgcrs0zWdVdBkyZn15GsueHM5PFfyh3OLFWz6TyIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740639735; c=relaxed/simple;
-	bh=1VQKSHbB56NTrKI9rhK1gz3w3fRv4eTAztp7gty4Ydo=;
+	s=arc-20240116; t=1740640349; c=relaxed/simple;
+	bh=EHkwOsTi98TGffo/fQE6AQx6mmSwXjwpLNRKCm7qY9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dkh4bXQsYHyBPSHxoX6dhZinqUoWO/E+fQhPAlRHL1td0jnCP+bfNFEn8jMqaMTOE8WlhXXt61gq78fkui4mcQTyFXLMjkusiBqPTYbUENmV0Ow+q5RrSE6VvzejDUuFazxZGLFr9hmihVISO6Zsfx3wuYOeQhCdL4nm1QsCHW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ix7j4BW1; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=NOmVg5FH2C9DyX/Gn7AOnwA16m0gSb267RZz7Dy5r2BbfJ0P6VBtS6xThBV2kBAOtIa19eMHhYnIWWz12e9wSOQc3LZ8voT7kv3mZZAcEe5s0olIynEb8IqnAMu15EkB0/o6hKay1aaWoHC5lvg0u71W1c4slMaMXR5H2jN3I9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T1QGVuce; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ix7j4BW1"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5ded6c31344so693525a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 23:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740639731; x=1741244531; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo13w7x737OdjbLPlzuZ5GFRTZoG+8uVoqfsoKMASiY=;
-        b=Ix7j4BW1oCwbrqr2cWIY409dm3g8+bMydOk4MJ8P7sGnvcd0nfAnc45vuop4jID5m3
-         jq5u7mdcwL102QPhWqVQCY0gjEPWxSG9pOvtLpOx+YfCtjFaEwqz4ssSZGvzM2+9BEz+
-         U/wZ1eLfh3Aqy5BSbpzqptvEyvPpQtto357JL/2MSfE3H7iT2okNOHuQuDTypy/WJnC/
-         /rZz1oH9dftB0l+ltTuj6WL5HR/vcIinHS52A0ktLPcV/JMFj8Mqaph5YiJfNcDj2hu6
-         RKe+cSeeEidarDaAOxcNc5A1WFE9e/jpFWGOuBUFjgT4ChFdwOyK5HS/oJS44wLIlYXr
-         6Ptw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740639731; x=1741244531;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo13w7x737OdjbLPlzuZ5GFRTZoG+8uVoqfsoKMASiY=;
-        b=AORshk/P41ht27CQT3RMGV6digz3esF7JJoVcBT8jxBrbxEJ/aXfziETqEPK8bmUXO
-         +9q61AO6LUqW7C42xjQAFptOnTafoaDiO+PmWWLTYfNQ/GUS2C1l1I1sM8umeQ7SeQNM
-         r0A9BlmyRHs3zQPETRqZqSDTU6+xSKnd8QHzJaPbvUeKHOGaEEXoiKRVP2Jvun4RWHuC
-         ZvewOHFSFAecZDw4B64JHrkm1ELiYcHD/LGRhpmnko/iijK+RJZuEMrO4kHyD1ATPKNE
-         LViQvHJwCizcqfoy+/x3FGetFXkqBLVZ6qxa5i9EQR97ZMvJB3IH5T+iKBOUCjVx/T9U
-         hqyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNfpHDtm5etUwLBFkkPUl5RIBwfSNrYveUfSluU5a5+Tm3EV8TMG1OZj06Q10YcT9STQNFXfrDFBdMlF48@lists.linux.dev
-X-Gm-Message-State: AOJu0YysNnvv5V71xprtzdFnJrlokcHAxTQGxt9LXwbgzEW9CJX5C4f0
-	XSWBh2TCPH+otLWr+P2V++HQ7duoYAs1OeSedFjjWmeA5H+SGoC1lviBSiSSTek=
-X-Gm-Gg: ASbGncvZ9aR9UHd7fWWEKZC8UOwoPJCJvAJkJmI3SgFTtAwbOrBKsHJY6GNXsCz70V9
-	yT7GIJKqJxZzRd1GDTCoyZmHVaKjWfQCMfEGh8XvWkM3HQDy6VgyQWu5oN7vCtyzdWql2US6Eez
-	K8fMN8SevFkhf0B/SsCII9zwsu9xq7AHRXPHFxZsA52lhbXWqoCYXi0ai+wn//5jf+nQ6e/vmMU
-	tq6fuIGpFAWcPg0X5CAeZFUllZ1gjDoYbYhx4sTfh7+vOBoBONRubGDKgVjsJUvnN6gGmmgT2mA
-	F0upPHnExPd0h43wSWF/0+wxT2N335k=
-X-Google-Smtp-Source: AGHT+IG8/trVIvT9OAnzIkJD18llR8tc6FVRTdKhsOlGZ5chkknGa49/r/KHdA2+qcmDHsdJRdHF2Q==
-X-Received: by 2002:a05:6402:2812:b0:5df:25e8:26d2 with SMTP id 4fb4d7f45d1cf-5e444853ee3mr26222525a12.5.1740639731365;
-        Wed, 26 Feb 2025 23:02:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5e4c3bb733asm645217a12.38.2025.02.26.23.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 23:02:10 -0800 (PST)
-Date: Thu, 27 Feb 2025 10:02:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: [linux-next:master 4924/6583] drivers/iommu/iommufd/device.c:327
- iommufd_sw_msi_get_map() error: 'cur' dereferencing possible ERR_PTR()
-Message-ID: <8aafd350-322b-4ce7-b228-ccf2c36e0333@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T1QGVuce"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740640348; x=1772176348;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EHkwOsTi98TGffo/fQE6AQx6mmSwXjwpLNRKCm7qY9o=;
+  b=T1QGVucecsv+XCESVt9j2ml/LUQSZlDSI/eu1EvdVNwuCxfv3OdYVZ1u
+   Htghu8eYWQBkYL82EpBPPm7PMubyfAk/67XdmQhkYJQeX/CBqPJfkwGlJ
+   XylpwawSn//CpP+xxRNX/9bxUQdGj0YGhiEdmVpiLOYZw17sJFPMLcPzE
+   zSO/kwfOPsgTf2CzcifCw+GAJ4Rgosq/WP/rGjoLy5BVBCJN7ax82AY7u
+   oEuzb+8yJyhhRWgDCoTbm+RQt7Q1J0TU3t1IvkdCyF/tE9s26QftkTQ2K
+   qd1lAnXZYiODmhEskA3X/QpuiQTbCUv8OcmmglsmdwLejlBJoFMvUcBwj
+   w==;
+X-CSE-ConnectionGUID: rT8jOZzaRMmx1Z8WrWv9gQ==
+X-CSE-MsgGUID: cdIBSqPBSI+RYPF4bB3Cug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41648690"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="41648690"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 23:12:27 -0800
+X-CSE-ConnectionGUID: ZEqPPcfkTWOPddNawts56Q==
+X-CSE-MsgGUID: V957D0BuTy2LAuHJLiqBDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="121954904"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 26 Feb 2025 23:12:24 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnY4B-000D0b-1r;
+	Thu, 27 Feb 2025 07:12:20 +0000
+Date: Thu, 27 Feb 2025 15:11:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kiran K <kiran.k@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Vijay Satija <vijay.satija@intel.com>
+Subject: [bluetooth-next:master 28/29]
+ drivers/bluetooth/btintel_pcie.c:134:58: warning: shift count >= width of
+ type
+Message-ID: <202502271502.37Q8TE9Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,59 +66,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-commit: 598749522d4254afb33b8a6c1bea614a95896868 [4924/6583] iommufd: Implement sw_msi support natively
-config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271339.a2nWr9UA-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   978777bfa2d88998f2ffa2d3405ee20b7276890a
+commit: 3104ae5ad1b732140847f1f29534a448b6804d8e [28/29] Bluetooth: btintel_pcie: Setup buffers for firmware traces
+config: powerpc-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271502.37Q8TE9Q-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271502.37Q8TE9Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502271339.a2nWr9UA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271502.37Q8TE9Q-lkp@intel.com/
 
-New smatch warnings:
-drivers/iommu/iommufd/device.c:327 iommufd_sw_msi_get_map() error: 'cur' dereferencing possible ERR_PTR()
+All warnings (new ones prefixed by >>):
 
-vim +/cur +327 drivers/iommu/iommufd/device.c
+>> drivers/bluetooth/btintel_pcie.c:134:58: warning: shift count >= width of type [-Wshift-count-overflow]
+     134 |                 db_frag.bufs[i].buf_addr_msb = (u32)((buf->data_p_addr >> 32) & 0xffffffff);
+         |                                                                        ^  ~~
+   drivers/bluetooth/btintel_pcie.c:419:20: warning: unused function 'btintel_pcie_in_rom' [-Wunused-function]
+     419 | static inline bool btintel_pcie_in_rom(struct btintel_pcie_data *data)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
-598749522d4254 Jason Gunthorpe 2025-02-19  303  static __maybe_unused struct iommufd_sw_msi_map *
-598749522d4254 Jason Gunthorpe 2025-02-19  304  iommufd_sw_msi_get_map(struct iommufd_ctx *ictx, phys_addr_t msi_addr,
-598749522d4254 Jason Gunthorpe 2025-02-19  305  		       phys_addr_t sw_msi_start)
-598749522d4254 Jason Gunthorpe 2025-02-19  306  {
-598749522d4254 Jason Gunthorpe 2025-02-19  307  	struct iommufd_sw_msi_map *cur;
-598749522d4254 Jason Gunthorpe 2025-02-19  308  	unsigned int max_pgoff = 0;
-598749522d4254 Jason Gunthorpe 2025-02-19  309  
-598749522d4254 Jason Gunthorpe 2025-02-19  310  	lockdep_assert_held(&ictx->sw_msi_lock);
-598749522d4254 Jason Gunthorpe 2025-02-19  311  
-598749522d4254 Jason Gunthorpe 2025-02-19  312  	list_for_each_entry(cur, &ictx->sw_msi_list, sw_msi_item) {
-598749522d4254 Jason Gunthorpe 2025-02-19  313  		if (cur->sw_msi_start != sw_msi_start)
-598749522d4254 Jason Gunthorpe 2025-02-19  314  			continue;
-598749522d4254 Jason Gunthorpe 2025-02-19  315  		max_pgoff = max(max_pgoff, cur->pgoff + 1);
-598749522d4254 Jason Gunthorpe 2025-02-19  316  		if (cur->msi_addr == msi_addr)
-598749522d4254 Jason Gunthorpe 2025-02-19  317  			return cur;
-598749522d4254 Jason Gunthorpe 2025-02-19  318  	}
-598749522d4254 Jason Gunthorpe 2025-02-19  319  
-598749522d4254 Jason Gunthorpe 2025-02-19  320  	if (ictx->sw_msi_id >=
-598749522d4254 Jason Gunthorpe 2025-02-19  321  	    BITS_PER_BYTE * sizeof_field(struct iommufd_sw_msi_maps, bitmap))
-598749522d4254 Jason Gunthorpe 2025-02-19  322  		return ERR_PTR(-EOVERFLOW);
-598749522d4254 Jason Gunthorpe 2025-02-19  323  
-598749522d4254 Jason Gunthorpe 2025-02-19  324  	cur = kzalloc(sizeof(*cur), GFP_KERNEL);
-598749522d4254 Jason Gunthorpe 2025-02-19  325  	if (!cur)
-598749522d4254 Jason Gunthorpe 2025-02-19  326  		cur = ERR_PTR(-ENOMEM);
 
-return ERR_PTR(-ENOMEM);
+vim +134 drivers/bluetooth/btintel_pcie.c
 
-598749522d4254 Jason Gunthorpe 2025-02-19 @327  	cur->sw_msi_start = sw_msi_start;
-598749522d4254 Jason Gunthorpe 2025-02-19  328  	cur->msi_addr = msi_addr;
-598749522d4254 Jason Gunthorpe 2025-02-19  329  	cur->pgoff = max_pgoff;
-598749522d4254 Jason Gunthorpe 2025-02-19  330  	cur->id = ictx->sw_msi_id++;
-598749522d4254 Jason Gunthorpe 2025-02-19  331  	list_add_tail(&cur->sw_msi_item, &ictx->sw_msi_list);
-598749522d4254 Jason Gunthorpe 2025-02-19  332  	return cur;
-598749522d4254 Jason Gunthorpe 2025-02-19  333  }
+    90	
+    91	/* This function initializes the memory for DBGC buffers and formats the
+    92	 * DBGC fragment which consists header info and DBGC buffer's LSB, MSB and
+    93	 * size as the payload
+    94	 */
+    95	static int btintel_pcie_setup_dbgc(struct btintel_pcie_data *data)
+    96	{
+    97		struct btintel_pcie_dbgc_ctxt db_frag;
+    98		struct data_buf *buf;
+    99		int i;
+   100	
+   101		data->dbgc.count = BTINTEL_PCIE_DBGC_BUFFER_COUNT;
+   102		data->dbgc.bufs = devm_kcalloc(&data->pdev->dev, data->dbgc.count,
+   103					       sizeof(*buf), GFP_KERNEL);
+   104		if (!data->dbgc.bufs)
+   105			return -ENOMEM;
+   106	
+   107		data->dbgc.buf_v_addr = dmam_alloc_coherent(&data->pdev->dev,
+   108							    data->dbgc.count *
+   109							    BTINTEL_PCIE_DBGC_BUFFER_SIZE,
+   110							    &data->dbgc.buf_p_addr,
+   111							    GFP_KERNEL | __GFP_NOWARN);
+   112		if (!data->dbgc.buf_v_addr)
+   113			return -ENOMEM;
+   114	
+   115		data->dbgc.frag_v_addr = dmam_alloc_coherent(&data->pdev->dev,
+   116							     sizeof(struct btintel_pcie_dbgc_ctxt),
+   117							     &data->dbgc.frag_p_addr,
+   118							     GFP_KERNEL | __GFP_NOWARN);
+   119		if (!data->dbgc.frag_v_addr)
+   120			return -ENOMEM;
+   121	
+   122		data->dbgc.frag_size = sizeof(struct btintel_pcie_dbgc_ctxt);
+   123	
+   124		db_frag.magic_num = BTINTEL_PCIE_MAGIC_NUM;
+   125		db_frag.ver = BTINTEL_PCIE_DBGC_FRAG_VERSION;
+   126		db_frag.total_size = BTINTEL_PCIE_DBGC_FRAG_PAYLOAD_SIZE;
+   127		db_frag.num_buf = BTINTEL_PCIE_DBGC_FRAG_BUFFER_COUNT;
+   128	
+   129		for (i = 0; i < data->dbgc.count; i++) {
+   130			buf = &data->dbgc.bufs[i];
+   131			buf->data_p_addr = data->dbgc.buf_p_addr + i * BTINTEL_PCIE_DBGC_BUFFER_SIZE;
+   132			buf->data = data->dbgc.buf_v_addr + i * BTINTEL_PCIE_DBGC_BUFFER_SIZE;
+   133			db_frag.bufs[i].buf_addr_lsb = (u32)(buf->data_p_addr & 0xffffffff);
+ > 134			db_frag.bufs[i].buf_addr_msb = (u32)((buf->data_p_addr >> 32) & 0xffffffff);
+   135			db_frag.bufs[i].buf_size = BTINTEL_PCIE_DBGC_BUFFER_SIZE;
+   136		}
+   137	
+   138		memcpy(data->dbgc.frag_v_addr, &db_frag, sizeof(db_frag));
+   139		return 0;
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
