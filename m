@@ -1,101 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A3826E956
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 19:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42D31F582C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 19:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740684573; cv=none; b=bxKxTBgWzXAexsVf94lU/c96X7kBYywnnrkakqd70EMnbH0plcvOF/QWeEiMaV3Xp6QlbsD77QG6jVhjSWsuBWj8JNyCNeM4DxyYN5a3ecHm/cxB2xioAaYhiJpcpRlOxwWcEZ0Lyev29kb7pmSMC+L1UYYzONn21rAuuP10KN0=
+	t=1740684642; cv=none; b=bFyr9i2JshlXsxpYuQ4ZUha7kx9eAHWs7BjHbuU0sSGcCoUx5pJBPZEqVUiSkSjscTnyKWg78auqr3yIcL+AMD+ZoPC99avqH5OtQY848WHD/SvM1AMdn5xkiCGoPHOD6odxS/QniOWBM0EVVRG9paPAKj4OZOOiF46jg+2mjA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740684573; c=relaxed/simple;
-	bh=23SsvAKulhP3ALEN2HoH/NuLHmKdlVV6mEe7MxtqadE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xy4s9noj0grCMD/LixsOq8Lr5I6VZMThKZmY+60VcwC1HF/8dPD2pHO1KDjMxab9k/LZ04pSkqWYPmVPmQ3oGE3ELELw1NxsuEhKjWCVzcn5YKRqvGPZSxsgd+5FGujrT+gAthgTVAqq0vcVm8vYdfFbMy46OFa5M3BMfKs0AQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cj5H6TeP; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740684642; c=relaxed/simple;
+	bh=8UOZQyyIStF2th0oM905lNc0OKLXsfylKuIzCLeIfU0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EBJqLarDQO56RLcrzShKPw29nAv/x9x6JPjnnosvhY9UI94G4kfVZXOthwvRWqUWT5ZdH6A7BPZYxiR9k6clCrJuHJFSilGTmSJO6qe+sGvNfCoI506Ux90ZzYQoYlJ+ldIpLMM4o6THpELjWNiRngw1C76RGkFAcp0joQZiHbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aK74Z20Z; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cj5H6TeP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740684572; x=1772220572;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=23SsvAKulhP3ALEN2HoH/NuLHmKdlVV6mEe7MxtqadE=;
-  b=cj5H6TePeQ2n+hoysDMduZOvSg1zb1+Vo0hpS5P9grs+C/500IScQbgh
-   xqtFDmqXzLYr2BX6QdvM7I76C9zhdUtGzGCuyQlcSIm3cndTgUl5hp5FD
-   ReeAzbGmDJl2fE9f8iv6O+b9FDUNd7d+vUU3yUT562JsPvn17fNDzL4OB
-   8XE33Z1Jhp/kJvM3+uzwLutlxkEtsaWSLfquUyXsfOc6IdxVN76spBWZt
-   uoWNAWYd3OreyZOdq8x185ygbq2RFPKzXI54jexv3qoz/PIwT8Um3A299
-   qnLY3gmEnaNYLHAUTAtl2AuScpPGVLowyfamWQ7uHwosDCf4J5GpwoRti
-   Q==;
-X-CSE-ConnectionGUID: ie0IPiA9Q9m66eSNFLik5g==
-X-CSE-MsgGUID: Y4ShSmP0RuK9Qs6i6s2VVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="40838922"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="40838922"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 11:29:31 -0800
-X-CSE-ConnectionGUID: tLpF088yT0iVP2nsVhccvQ==
-X-CSE-MsgGUID: bHzAPuuESwGQqYABbxzfCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="117303290"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Feb 2025 11:29:28 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnjZW-000DwU-1L;
-	Thu, 27 Feb 2025 19:29:26 +0000
-Date: Fri, 28 Feb 2025 03:29:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Brian Gerst <brgerst@gmail.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>, Ard Biesheuvel <ardb@kernel.org>,
-	Uros Bizjak <ubizjak@gmail.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Brian Gerst <brgerst@gmail.com>
-Subject: Re: [PATCH v2 01/11] percpu: Introduce percpu hot section
-Message-ID: <202502280328.SFEgOJ50-lkp@intel.com>
-References: <20250226180531.1242429-2-brgerst@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aK74Z20Z"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-544043a21eeso1216e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 11:30:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740684639; x=1741289439; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mxUdrSt37LrgTdQsNrS2fDoFyqBqPlpse33rB5xti5s=;
+        b=aK74Z20ZRPe11yPA0NgCOTluSLt2smDkJMVYoUEJqmjNhc1OgNpW9Mf9p3cKcQy6w0
+         nw44nrgLw0VZ84c5649p56HC4NjDP9FY0MdUQTx1q66raPe2Gm41Tbb0ow6HExBDSoLW
+         lgXZo8efXAhM1c+y8hTY49Gb+xC5iFbdBPtTyZFEk4f7B2C/QGnuNhW0l97vDO4d0zjX
+         R5keRpdNmLPFU/gzmqJdrkZUyvvB0Av8oMoqgjQlh+k7lf4SM+7o5CxkltDQZZ3ohUp3
+         dqubPxSXpt5oagrVIm1B9gq6aKzzXmvwgiLeUlpbQhEHB9vnIPh3/6TYTvpfilWfx+OS
+         WQfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740684639; x=1741289439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mxUdrSt37LrgTdQsNrS2fDoFyqBqPlpse33rB5xti5s=;
+        b=mVl1usbY6zmfGRMrfFjRobJYZ5XrBpKmhn3s/2AC/MWfVKxbmVBtWFIbwPVa2oFEY8
+         KAn3J9WVK4guGTaMb0u9DQGeWd0c87UobGtZNprbfwdJYtvATxdHZaJdLn2p3vEygaXp
+         tPq1KxZ/T86F1Yst371Q9VXiMKsGjx6Tqd9BBfs9C+7AkRhW7cazLwb99IwLA6av9ulb
+         m5l6trR6doUnIAHnn9YxVurkxtsDtoHbMXGSkfklz6QQikbg6xPVLW+OB8ZeheM2LbfJ
+         uDqrj6f5kkcgJuff38q11jjFAfi9roR0Yl330+JfINmk/IuikBjUpnprG5ib2vHeDMLo
+         A7hA==
+X-Forwarded-Encrypted: i=1; AJvYcCUU6SBduNj1Eda/y9ZdTQDWw9kJBAqMEmCyam+3gppKOTwvHnWD6yaM3YI/9ugbqQfwUALpjJlww0O1ZxyE@lists.linux.dev
+X-Gm-Message-State: AOJu0YyS1iZWWFuCOXYz0gkhY/N0oKPQkCYuY4dXG+ss7zQa2Htz6F1y
+	yNpuXqQAS4gu/ilqGHTE8nhJMUSVqyzkCWeZPBO7yc+AEJzvk+crWC8/op0/QBOn1MEmeTiVw1V
+	X8sFCFTRrVXkGR0DL/iBbFR6TT1XhZPXN165K
+X-Gm-Gg: ASbGnctYHaEJEuawUqaXa/z/Id7biiE/59pzWth5b6M6DjhaDOUiEg7csrPedGQX5RG
+	5W12hJn/M70uyWurOaUdEOHJC4SzJysJX7cKQn3YfeXh3++AMYcq9NQ5uCuULMf/b7JoAzFNTOW
+	RFCMQWJuGelSzqThSrEyK6LcZW+jChPBQo6Y8i6dBG
+X-Google-Smtp-Source: AGHT+IGeAWqnGUQpzKOe+zSYlqhnj7nPf3RxfEHYv8obi8+zQSmDCtjuRvMXctYHZHy0zrx21F7TOUJhLatVjAxZhyM=
+X-Received: by 2002:a05:6512:e8c:b0:545:23b0:4247 with SMTP id
+ 2adb3069b0e04-5494d733e9emr31508e87.2.1740684638497; Thu, 27 Feb 2025
+ 11:30:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226180531.1242429-2-brgerst@gmail.com>
+References: <20250225004704.603652-3-vannapurve@google.com> <202502272346.iiQ6Dptt-lkp@intel.com>
+In-Reply-To: <202502272346.iiQ6Dptt-lkp@intel.com>
+From: Vishal Annapurve <vannapurve@google.com>
+Date: Thu, 27 Feb 2025 11:30:26 -0800
+X-Gm-Features: AQ5f1JpO7zRYi6DzcSKnE4B4trMunnGetNndbYlpp3x9XD6ERrRXOsIOqVyyKTY
+Message-ID: <CAGtprH_+GAVd1UmeCvT-JHq3OCn_3aTqwyjTRWNtLpoJPPfLPQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/3] x86/tdx: Fix arch_safe_halt() execution for TDX VMs
+To: kernel test robot <lkp@intel.com>
+Cc: dave.hansen@linux.intel.com, kirill.shutemov@linux.intel.com, 
+	jgross@suse.com, ajay.kaher@broadcom.com, ak@linux.intel.com, 
+	tony.luck@intel.com, thomas.lendacky@amd.com, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, hpa@zytor.com, pbonzini@redhat.com, seanjc@google.com, 
+	kai.huang@intel.com, chao.p.peng@linux.intel.com, isaku.yamahata@gmail.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, erdemaktas@google.com, 
+	ackerleytng@google.com, jxgao@google.com, sagis@google.com, 
+	afranji@google.com, kees@kernel.org, jikos@kernel.org, peterz@infradead.org, 
+	x86@kernel.org, linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, 
+	virtualization@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Brian,
+On Thu, Feb 27, 2025 at 8:25=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Vishal,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on tip/x86/core]
+> [also build test ERROR on tip/master linus/master v6.14-rc4 next-20250227=
+]
+> [cannot apply to tip/x86/tdx tip/auto-latest]
+> ...
+> All errors (new ones prefixed by >>):
+>
+>    In file included from arch/x86/kernel/process.c:6:
+>    In file included from include/linux/mm.h:2224:
+>    include/linux/vmstat.h:504:43: warning: arithmetic between different e=
+numeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-=
+enum-conversion]
+>      504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      505 |                            item];
+>          |                            ~~~~
+>    include/linux/vmstat.h:511:43: warning: arithmetic between different e=
+numeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-=
+enum-conversion]
+>      511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      512 |                            NR_VM_NUMA_EVENT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~~
+> >> arch/x86/kernel/process.c:937:32: error: use of undeclared identifier =
+'tdx_halt'; did you mean 'tdx_init'?
+>      937 |                 static_call_update(x86_idle, tdx_halt);
+>          |                                              ^~~~~~~~
+>          |                                              tdx_init
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 79165720f31868d9a9f7e5a50a09d5fe510d1822]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Gerst/percpu-Introduce-percpu-hot-section/20250227-021212
-base:   79165720f31868d9a9f7e5a50a09d5fe510d1822
-patch link:    https://lore.kernel.org/r/20250226180531.1242429-2-brgerst%40gmail.com
-patch subject: [PATCH v2 01/11] percpu: Introduce percpu hot section
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250228/202502280328.SFEgOJ50-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280328.SFEgOJ50-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280328.SFEgOJ50-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> aarch64-linux-ld:./arch/arm64/kernel/vmlinux.lds:107: syntax error
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Will fix this in the next version.
