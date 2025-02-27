@@ -1,105 +1,171 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C735226D06
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 11:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D89227BB6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 11:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740655709; cv=none; b=kzB3m8tD9dGp9GmFYhcoH5ALJ1ET/5mcJ7AWm+KCx9V2p9AsB4lc6I5C2/wCbXFxMbQsm7tIeIGqJb6usCymAao7mUOXYeX7oEaxbcRh4t2OQz3BfxTtNCEnP6nuAsyQeVQz57yzTnYe7CWa2itT7KJpc+0hwCjBRe+R1Kbntnw=
+	t=1740656606; cv=none; b=WiYIRTQ2JdV8w61ff8tQfHS4Eem5XTVWcJ9iaBGuL5H84HjCil+5uTTQFevQZJi4vBU3NlF6b9yQXAUBvSQ0kruuolXMy5WjhNromaC1gy+P3o87Ni61UpXC76/KSzW+VjsM8TkUbiOzmPFknCyJ2uRHj1VBpuDUFxduN0bU/+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740655709; c=relaxed/simple;
-	bh=hgOUu+hwfPUwrE8bf6Cn+W3DtZIUgNbom/7FIvUh/WE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XoETydugY6WkEr9ux95fsFDFsFzfeJubowlSwovk6oHCD9hHa3tXmxADvBeDS7ZzNI6x3qjVvn8X5lgZYst1e823sksAtpTn3Q2vnXw/cvDC+QrsS4b/4F08Pym5caf+/66N4EbI/i4i76vno+RkFqtZfX3vIDVCpRyjz9c/u/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Im31ySNg; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1740656606; c=relaxed/simple;
+	bh=jfD1xzbIAseHmcXVa7MNKzSlnr4yWjTir2dWuJpqANk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JMT7SA6mX8/DFY1iYbHwN+gFQ9xdjLyY5Med/c/r0nvNNSZVJV/ZddazhvlEyooxJeG6a3ABA6rQhsAgbC8AeugEc1wB9enOoSQS4Fvt7kcD0yMUGic0aIck6CmcQ5kQEArZwyms2CiNgH8jOJEOEj3W4ZkjUYVxn8GQL/HEzGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrEYdE7Q; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Im31ySNg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
-	Content-Type; bh=aMYpwAV9uQZP+b5vW/oY9Ei+f0+Zf16jcX4P6SaKGF8=;
-	b=Im31ySNgLPYkWU/wuRqo/HP1Lhhj1ojh94WfqbTnWo43ksHY/mndFaV170nRkb
-	9OFB4Z0yMct3CVujWDXgZ1PVT4MwhUuoYmhgRxO7UDGdU8Y0hAKqImckAF6byDKQ
-	n6MbOtpMOOOt7pO8k4bkW+Cyg6Cn3a8pcim34/IZimwbQ=
-Received: from [192.168.34.52] (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wC3_0Y7TMBn6N8wOg--.3582S2;
-	Thu, 27 Feb 2025 19:27:56 +0800 (CST)
-Message-ID: <38057c44-dee4-4acc-aa3f-01e9616fca6a@163.com>
-Date: Thu, 27 Feb 2025 19:27:54 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrEYdE7Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740656604; x=1772192604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jfD1xzbIAseHmcXVa7MNKzSlnr4yWjTir2dWuJpqANk=;
+  b=LrEYdE7QzHJGVbjSCDjJB37sJTNkS7h+CeStUSvygGfM4RErgSrPnhSV
+   NF/ggziXsxV8TQvEZrj6DrAqIxr8PGenbrDSiVCD0Vw9gY59uId7NQwiC
+   gzVCsMyNEnxMMiVwdcG0JxNOmRgCkPd7TFuOblVrPSzLmgk1HK5X/8QrT
+   187oUvB8yUjXJUYIFLArkwKAQ5FXxa2WJIX3+XmgDDmzzWz0MlFuP8g0k
+   5J5yZNlTI2Dh9IULtYF+G73GnhF/pm6p62rGx4b3ll1I9csdLtQTVm46A
+   kFP3k4oPwi0hBRc10/litZz++cAZd/nZWvnMGSvbzFJw+fmedjpNvlD48
+   Q==;
+X-CSE-ConnectionGUID: h7M0KbMYRNubUBfWuP8p+g==
+X-CSE-MsgGUID: n6Nw5AwcS7unp+cvdMSvuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41671687"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="41671687"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 03:43:23 -0800
+X-CSE-ConnectionGUID: Z1OI2PlpQk+QlNvSMzuJYw==
+X-CSE-MsgGUID: oVzuM2KTQSeVmxwP1ZFcdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="121940371"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2025 03:43:20 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tncIQ-000DIs-09;
+	Thu, 27 Feb 2025 11:43:18 +0000
+Date: Thu, 27 Feb 2025 19:42:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org, pavel@ucw.cz,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 06/11] backlight: Replace fb events with a dedicated
+ function call
+Message-ID: <202502271951.iaH6W6q1-lkp@intel.com>
+References: <20250226093456.147402-7-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [pci:controller/dwc 6/8]
- drivers/pci/controller/dwc/pcie-designware-debugfs.c:561:undefined reference
- to `dw_ltssm_sts_string'
-To: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-pci@vger.kernel.org,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-References: <202502270336.4xpaTVPE-lkp@intel.com>
- <ef04f32a-593f-437d-8465-1634c12567ae@163.com>
- <20250227104353.GA961034@rocinante>
-Content-Language: en-US
-From: Hans Zhang <18255117159@163.com>
-In-Reply-To: <20250227104353.GA961034@rocinante>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wC3_0Y7TMBn6N8wOg--.3582S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJr4UZFWrJr4kXF15XFWDArb_yoW8Gw1Dpa
-	y0ya18AFW8tw4SyayIvrsY9F1ftanrJr17WrZ8Gr1UurW2vFZ7GFn5tr43GFy7Xr1vkw4j
-	ya18ZF15ta1qyaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRNeOXUUUUU=
-X-CM-SenderInfo: rpryjkyvrrlimvzbiqqrwthudrp/1tbiWxUBo2fAPGGB4wABs1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226093456.147402-7-tzimmermann@suse.de>
 
+Hi Thomas,
 
+kernel test robot noticed the following build errors:
 
-On 2025/2/27 18:43, Krzysztof Wilczyński wrote:
-> Hello,
-> 
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc
->>> head:   b9d6619b0c3ef6ac25764ff29b08e8c1953ea83f
->>> commit: d4dc748566221bfdd0345c282ec82d3eee457f39 [6/8] PCI: dwc: Add debugfs property to provide LTSSM status of the PCIe link
->>> config: sparc64-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502270336.4xpaTVPE-lkp@intel.com/config)
-> [...]
->> sparc64-randconfig-001-20250227:
->>
->> #
->> # DesignWare-based PCIe controllers
->> #
->> CONFIG_PCIE_DW=y
->> CONFIG_PCIE_DW_DEBUGFS=y
->> CONFIG_PCIE_DW_EP=y
->>
->>
->> Since this config is not configured with CONFIG_PCIE_DW_HOST, and the
->> dw_ltssm_sts_string function is in the pci-designware-host.c, the following
->> compilation error occurs.
-> 
-> No worries.  Thank you for having a look!
-> 
->> Can you help move the dw_ltssm_sts_string function to pci-designware.c or
->> pci-designware-debugfs.c?
-> 
-> Have a look at the following:
-> 
->    https://web.git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?h=controller/dwc&id=02001ce4ff42bd85be3ed8b4a0a2580156f032a0
-> 
-> And let me know if this is OK with you.
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master lee-backlight/for-backlight-fixes v6.14-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I couldn't agree more. Thank you very much Krzysztof.
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Rework-fb_blank/20250226-174013
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20250226093456.147402-7-tzimmermann%40suse.de
+patch subject: [PATCH v2 06/11] backlight: Replace fb events with a dedicated function call
+config: arc-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271951.iaH6W6q1-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271951.iaH6W6q1-lkp@intel.com/reproduce)
 
-Best regards
-Hans
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271951.iaH6W6q1-lkp@intel.com/
 
->   
->> Or should I resubmit v6 patch?
-> 
-> No, need.  Thank you anyway, though.
-> 
-> 	Krzysztof
+All error/warnings (new ones prefixed by >>):
 
+   In file included from drivers/video/cmdline.c:19:
+>> include/linux/fb.h:767:6: warning: no previous prototype for 'fb_bl_notify_blank' [-Wmissing-prototypes]
+     767 | void fb_bl_notify_blank(struct fb_info *info, int old_blank)
+         |      ^~~~~~~~~~~~~~~~~~
+--
+   arc-elf-ld: drivers/video/cmdline.o: in function `fb_bl_notify_blank':
+>> cmdline.c:(.text+0x9c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/adp8860_bl.o: in function `fb_bl_notify_blank':
+   adp8860_bl.c:(.text+0xefc): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/as3711_bl.o: in function `fb_bl_notify_blank':
+   as3711_bl.c:(.text+0x85c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/backlight.o: in function `fb_bl_notify_blank':
+   backlight.c:(.text+0xa34): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/da9052_bl.o: in function `fb_bl_notify_blank':
+   da9052_bl.c:(.text+0x20c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/ktd253-backlight.o: in function `fb_bl_notify_blank':
+   ktd253-backlight.c:(.text+0x36c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/lv5207lp.o: in function `fb_bl_notify_blank':
+   lv5207lp.c:(.text+0x224): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/max8925_bl.o: in function `fb_bl_notify_blank':
+   max8925_bl.c:(.text+0x3c8): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/mp3309c.o: in function `fb_bl_notify_blank':
+   mp3309c.c:(.text+0x730): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/pandora_bl.o: in function `fb_bl_notify_blank':
+   pandora_bl.c:(.text+0x294): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/pwm_bl.o: in function `fb_bl_notify_blank':
+   pwm_bl.c:(.text+0xd08): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/video/backlight/qcom-wled.o: in function `fb_bl_notify_blank':
+   qcom-wled.c:(.text+0x1f34): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/regulator/rpi-panel-attiny-regulator.o: in function `fb_bl_notify_blank':
+   rpi-panel-attiny-regulator.c:(.text+0x5f4): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_edid.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_file.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_modes.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/drm_panel.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/display/drm_dp_helper.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.o: in function `fb_bl_notify_blank':
+   panel-asus-z00t-tm5p5-n35596.c:(.text+0x654): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-jdi-lpm102a188a.o: in function `fb_bl_notify_blank':
+   panel-jdi-lpm102a188a.c:(.text+0x9c4): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-lg-sw43408.o: in function `fb_bl_notify_blank':
+   panel-lg-sw43408.c:(.text+0x4ec): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-novatek-nt35560.o: in function `fb_bl_notify_blank':
+   panel-novatek-nt35560.c:(.text+0x784): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-raydium-rm69380.o: in function `fb_bl_notify_blank':
+   panel-raydium-rm69380.c:(.text+0x59c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-samsung-s6d7aa0.o: in function `fb_bl_notify_blank':
+   panel-samsung-s6d7aa0.c:(.text+0x92c): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-samsung-sofef00.o: in function `fb_bl_notify_blank':
+   panel-samsung-sofef00.c:(.text+0x4f8): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-sony-tulip-truly-nt35521.o: in function `fb_bl_notify_blank':
+   panel-sony-tulip-truly-nt35521.c:(.text+0xf38): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-truly-nt35597.o: in function `fb_bl_notify_blank':
+   panel-truly-nt35597.c:(.text+0x7c8): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/panel/panel-visionox-r66451.o: in function `fb_bl_notify_blank':
+   panel-visionox-r66451.c:(.text+0x704): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/gpu/drm/bridge/parade-ps8622.o: in function `fb_bl_notify_blank':
+   parade-ps8622.c:(.text+0x7e0): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/hid/hid-picolcd_core.o: in function `fb_bl_notify_blank':
+   hid-picolcd_core.c:(.text+0xca4): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/hid/hid-picolcd_backlight.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/hid/hid-picolcd_debugfs.o: in function `fb_bl_notify_blank':
+   include/linux/fb.h:768: multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
+   arc-elf-ld: drivers/of/platform.o: in function `fb_bl_notify_blank':
+   platform.c:(.text+0xb10): multiple definition of `fb_bl_notify_blank'; drivers/video/aperture.o:include/linux/fb.h:768: first defined here
 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
