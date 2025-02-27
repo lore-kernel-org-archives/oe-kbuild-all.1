@@ -1,98 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB7A22425A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 15:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A1724DFF8;
+	Thu, 27 Feb 2025 15:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740669197; cv=none; b=e3AtmAs/Z51zw5NscBXoOgL+GUXvcG2OHA3l+z38kL7j3kuFVvVkzSKudVW4uYc0pL89QRYLsp+4eNyNIoQUOUMhTB+9LtpASgMIt+17I2oAyYVvRugRG4YX1y+AYEyOh6uF8ipGf24+nDMzvP/6CXyIYrSguKGjuR9KC2SmKdI=
+	t=1740669633; cv=none; b=jb8Oxn53nDYaejo7hrnKJVBW5ClqmtjUEm+ztHVxz8VprJQ6Njt1v7b7a5tdC80h8REsZjMppGZb9X7tx70upt/Hqr+Jh9sUhXW3ww4YVwNtNryF6tf9zpC73q/xKsWBm0iNp+Pa8gS9ESEQeKFWSaa6n8e1AR1wgs9MMfzprZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740669197; c=relaxed/simple;
-	bh=vMEk5Bq2l5NCiQAsjD/Fcj4VJmiaGl688KuZCrT6Uas=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aq4xTu2AeKRvrsX3g/B0MafPceU1DsGyydhPTvumINbIsds4CBXq1FGuwTvzzOtzDdNYkCUQeoE+Tvaohlcwoigw5ZKxWhLG3S6gPxorD4Nh+DtyuuDWGaMpeF3sYe2sqCeZ+DJ6a5C4BJBYL/ltUK621pjSnkQ48qyvtpNTrKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3E7EC4CEDD;
-	Thu, 27 Feb 2025 15:13:15 +0000 (UTC)
-Date: Thu, 27 Feb 2025 10:13:58 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/4] ftrace: Add support for function argument to
- graph tracer
-Message-ID: <20250227101358.1d22099f@gandalf.local.home>
-In-Reply-To: <202502272155.zS8WsTRz-lkp@intel.com>
-References: <20250225222653.724198940@goodmis.org>
-	<202502272155.zS8WsTRz-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1740669633; c=relaxed/simple;
+	bh=O2RSGihEUeZucdzzlTWlLZ5f5Ojwj25KIj+Cw9BroWs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4MucIfRhXq1Owm3jBW0t8CBIXM/zbTpRf57TuT4EOOYYsUieEYskb+FPLnMGfZYxXFTJ8l4sts0/hlHn4nOThWXysHDH4HuXaKpIk4o/m5N2iFxYuqDUJA2QH6RKs2XoUdgpCxKQ9BJwS0R2tf99ibwKLIQu+dkVVuFbxSfPZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKLV04MR; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKLV04MR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740669632; x=1772205632;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O2RSGihEUeZucdzzlTWlLZ5f5Ojwj25KIj+Cw9BroWs=;
+  b=FKLV04MRYYb7b6aXwpHrfElsZjmra+KifLCD9npobdPcD6XJ+PTnz8f8
+   BRO0ec2GprKE4W+RlWeca1D1GXHrG+Mb1pwyqk8LQr694wRmx+VPzISLD
+   A/CHUEwzfLQWIx7jZH59NOq3+pEME+lINtvK9p6WV3mvkSaFDt2UedETM
+   iNL9zLs3oJ8AO2e4NHxSuAnozxtNelGgeqATD9UOcg87aqtrTGZWOui+0
+   t1C1+zxPB2j5gqAEnywl962TNVD+upBjEuAr3d2KAoDiMcIfc7j63A9zw
+   HGYQxK3OQ5gr2IG5noLmRg9N61wc4V9WrBfeUvzRGocDyx6ZWz+mpNW+9
+   g==;
+X-CSE-ConnectionGUID: ncI1kcLKRs6RBhOhhu0FQg==
+X-CSE-MsgGUID: 24n45jvMQVyHQDyW28He+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="59100824"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="59100824"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:20:31 -0800
+X-CSE-ConnectionGUID: tghChrLAT3uZcFB1OG6MDw==
+X-CSE-MsgGUID: fJ23NbXIRqK8v79NrO9hEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="121177193"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2025 07:20:25 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnfgR-000DYs-2D;
+	Thu, 27 Feb 2025 15:20:23 +0000
+Date: Thu, 27 Feb 2025 23:18:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Menglong Dong <menglong8.dong@gmail.com>, rostedt@goodmis.org,
+	mark.rutland@arm.com, alexei.starovoitov@gmail.com
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, catalin.marinas@arm.com,
+	will@kernel.org, mhiramat@kernel.org, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, mathieu.desnoyers@efficios.com,
+	nathan@kernel.org, ndesaulniers@google.com, morbo@google.com,
+	justinstitt@google.com, dongml2@chinatelecom.cn,
+	akpm@linux-foundation.org, rppt@kernel.org, graf@amazon.com,
+	dan.j.williams@intel.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH bpf-next v2] add function metadata support
+Message-ID: <202502272339.DtueAali-lkp@intel.com>
+References: <20250226121537.752241-1-dongml2@chinatelecom.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226121537.752241-1-dongml2@chinatelecom.cn>
 
-On Thu, 27 Feb 2025 22:00:05 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Menglong,
 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/linux/ftrace.h:115,
->                     from kernel/trace/trace_functions_graph.c:11:
->    kernel/trace/trace_functions_graph.c: In function '__graph_entry':
-> >> include/linux/ftrace_regs.h:22:9: error: implicit declaration of function 'regs_get_kernel_argument'; did you mean 'regs_get_kernel_stack_nth'? [-Wimplicit-function-declaration]  
->       22 |         regs_get_kernel_argument(&arch_ftrace_regs(fregs)->regs, n)
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~
->    kernel/trace/trace_functions_graph.c:137:42: note: in expansion of macro 'ftrace_regs_get_argument'
->      137 |                         entry->args[i] = ftrace_regs_get_argument(fregs, i);
->          |                                          ^~~~~~~~~~~~~~~~~~~~~~~~
->    kernel/trace/trace_functions_graph.c: In function 'print_graph_entry_leaf':
->    kernel/trace/trace_functions_graph.c:901:23: warning: variable 'func' set but not used [-Wunused-but-set-variable]
->      901 |         unsigned long func;
->          |                       ^~~~
-> 
+kernel test robot noticed the following build warnings:
 
-Thanks, looks like I need this:
+[auto build test WARNING on bpf-next/master]
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 86d828b9dc7c..cb13c88abfd6 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -2895,10 +2895,12 @@ trace_function(struct trace_array *tr, unsigned long ip, unsigned long
- 	entry->ip			= ip;
- 	entry->parent_ip		= parent_ip;
- 
-+#ifdef CONFIG_HAVE_FUNCTION_ARG_ACCESS_API
- 	if (fregs) {
- 		for (int i = 0; i < FTRACE_REGS_MAX_ARGS; i++)
- 			entry->args[i] = ftrace_regs_get_argument(fregs, i);
- 	}
-+#endif
- 
- 	if (static_branch_unlikely(&trace_function_exports_enabled))
- 		ftrace_exports(event, TRACE_EXPORT_FUNCTION);
-diff --git a/kernel/trace/trace_functions_graph.c b/kernel/trace/trace_functions_graph.c
-index 49fcf665cb58..71b2fb068b6b 100644
---- a/kernel/trace/trace_functions_graph.c
-+++ b/kernel/trace/trace_functions_graph.c
-@@ -132,10 +132,12 @@ static int __graph_entry(struct trace_array *tr, struct ftrace_graph_ent *trace,
- 	entry = ring_buffer_event_data(event);
- 	entry->graph_ent = *trace;
- 
-+#ifdef CONFIG_HAVE_FUNCTION_ARG_ACCESS_API
- 	if (fregs) {
- 		for (int i = 0; i < FTRACE_REGS_MAX_ARGS; i++)
- 			entry->args[i] = ftrace_regs_get_argument(fregs, i);
- 	}
-+#endif
- 
- 	trace_buffer_unlock_commit_nostack(buffer, event);
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/add-function-metadata-support/20250226-202312
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250226121537.752241-1-dongml2%40chinatelecom.cn
+patch subject: [PATCH bpf-next v2] add function metadata support
+config: i386-kismet-CONFIG_CALL_PADDING-CONFIG_FUNCTION_METADATA-0-0 (https://download.01.org/0day-ci/archive/20250227/202502272339.DtueAali-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250227/202502272339.DtueAali-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272339.DtueAali-lkp@intel.com/
 
-I'll compile this tree against all the archs I'm able to compile against
-before sending out v4. 
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CALL_PADDING when selected by FUNCTION_METADATA
+   WARNING: unmet direct dependencies detected for CALL_PADDING
+     Depends on [n]: CC_HAS_ENTRY_PADDING [=y] && OBJTOOL [=n]
+     Selected by [y]:
+     - FUNCTION_METADATA [=y]
 
--- Steve
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
