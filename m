@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B4B60DCF;
-	Thu, 27 Feb 2025 02:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A952B9B7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 02:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740623828; cv=none; b=F4kFIyfbcz/aCuOZKD+OHFF7T+rMndB29u43iy4rCcLpN1Knf2GQuqoqCOv7gL3U/VRKKA3/kknYtAm2NkHkrmDfne+lHhR6QQ4FxduUs1w6+goeI9lr9f7j5QWuU9tlEORY8vwl/+1d/2QckwW5w8eFYVVi3/cbaVyIoAmeUlM=
+	t=1740625039; cv=none; b=nhhNCeJ3wCQgnjDRdlxkAfRpWRfA/IEf0feQTZLb13vdRGnMTKphdQ+/A0Kf/dPcZEy2lTuUkokHhphK9xStMH0RWGSRkQXk2TFf08ukS6yZzIMaYVGYQAJ8USRTb+UyapaYlqaqcitlHpTWSsgMicMKG2ugtYqW8cLTJs8Itgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740623828; c=relaxed/simple;
-	bh=WHMi6LGNT8va9hoBVA6YvjNYhXhJ3jYhOqYG7oiKxbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K3/4+R3BmE0SOvYfiRQG0AMqWATg/Zz7a5MEVO7kvHMoVR2Rbd2POZC13FYkTzG+6G5Pi18QizitU0QBSeWPfe4iYdXpKUITPDhMRxEGevSCuY3p4JhMEtX0tM+uookmwTTvldxeH1nM9zKXMwmPE615iKyl6mLigBh9qoCkVZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2FdZlqS; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1740625039; c=relaxed/simple;
+	bh=JTRIgRfCzvV/T28LQkIN1UCXqLi2mL4MLhGPu5wRyaQ=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c5kzDb8xF7Qlr4dw9nVWfHinwz726eIiO3E5tMMCxjBE0cb8If9dkgEGNCJNEwOHqKgXGwODvVoBla9eGd4CqTx9sqwlaSTMF7c46/9WjTMlAwFhI+3JbAG8kp2hbnf04cPQnA5BF70EVQRnZTAr+rllMhvBJ2y/Jx5VEOhmZm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnqkP41O; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2FdZlqS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnqkP41O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740623826; x=1772159826;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WHMi6LGNT8va9hoBVA6YvjNYhXhJ3jYhOqYG7oiKxbI=;
-  b=Z2FdZlqSXYECltuD+TbvPKVPSIjZ7hxLnrODHWFPv53wJE5wui+0gc3y
-   Dhmpn6FR+T7jcF8fTQW7MGTBDgGq/97CihEP+PMqo0CIH6KSInrZan0Nh
-   mcFibNdRKIiFD3NPm9TWKJGapLto1up75Aug0V7VtKDOAn1KI3fPQFjHO
-   AEgMAnXcrEmbaNq0LjpMOTZz6uMdc7GtEiLdimWIfH0IU+THFX2pA7NlH
-   4OjgRopfVB5jJZ1vC0TEUqWWzXfouByH3TLwhs5+EgTW3iJmuxYlDYyRH
-   9CWBJBVnUXKYrRwpK5xCuSOj6kV/o/4j/vptQetaSSm7iN8D7ZBUDhlkV
-   w==;
-X-CSE-ConnectionGUID: qE6xuoXAR8KSWindV3tmVg==
-X-CSE-MsgGUID: zHvUjZSxQbyZAlHbVEyjuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="63966075"
+  t=1740625037; x=1772161037;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=JTRIgRfCzvV/T28LQkIN1UCXqLi2mL4MLhGPu5wRyaQ=;
+  b=SnqkP41OpbEMbKCW3rt68KDQxPfVQAGqfZ0NfUvXVdKhUBzrZ+1Vz0Db
+   C+CZN+YiOf/ZrE8QRAmAfKzJP6rWc3/CCsZtDCLsl9WlMS0UYTj34cf58
+   beuo+R4dz2Lp+HcrN4qSwqBtItl5OBicE8nasarJOH7dGPYtUT2VRATlV
+   fFE0+BnyvZwE9MR+PAElODeRW//SvSv91trnz2Jpg7IaES0Wj1th0kf1W
+   Lrb9vm5MIMqkQoQ9HK6EbxwNqRxIRodVk+Q87KiYPkPyOmNqwOcNMl5Vi
+   1ayqGiCvW5l0876hAy24RB4DkLt6ZGWPC9VKNTnOExjFsu1ISvrzZt3Ep
+   A==;
+X-CSE-ConnectionGUID: dIN18OmPTP6DOWuxRuqVpQ==
+X-CSE-MsgGUID: lLl8B3V4QRmseQrNfblfdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45412295"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="63966075"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 18:37:05 -0800
-X-CSE-ConnectionGUID: cAPCEPPdRvWuJkuM7CVX1w==
-X-CSE-MsgGUID: Dntb8cdETPWhN0cz1LQHJQ==
+   d="scan'208";a="45412295"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 18:57:15 -0800
+X-CSE-ConnectionGUID: ljEvFjKARvipyQNr+sddnA==
+X-CSE-MsgGUID: M9HRAgKvTUCsPzSgZtsnaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117806392"
+   d="scan'208";a="122147586"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 Feb 2025 18:37:03 -0800
+  by orviesa005.jf.intel.com with ESMTP; 26 Feb 2025 18:57:14 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnTlk-000CkE-16;
-	Thu, 27 Feb 2025 02:37:00 +0000
-Date: Thu, 27 Feb 2025 10:36:46 +0800
+	id 1tnU5H-000ClO-1f
+	for oe-kbuild-all@lists.linux.dev;
+	Thu, 27 Feb 2025 02:57:11 +0000
+Date: Thu, 27 Feb 2025 10:57:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	saurabhg.gupta@intel.com, alex.zuo@intel.com,
-	jonathan.cavitt@intel.com, joonas.lahtinen@linux.intel.com,
-	matthew.brost@intel.com, jianxun.zhang@intel.com,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Message-ID: <202502271029.67aYhWm6-lkp@intel.com>
-References: <20250226225557.133076-7-jonathan.cavitt@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/69 1/1]
+ drivers/net/ethernet/mellanox/mlxsw/i2c.c:49:19: warning:
+ 'mlxsw_i2c_driver_name' defined but not used
+Message-ID: <202502271024.BXrq2403-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,81 +62,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250226225557.133076-7-jonathan.cavitt@intel.com>
 
-Hi Jonathan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20250226]
-[cannot apply to linus/master v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_gt_pagefault-Migrate-lookup_vma-to-xe_vm-h/20250227-070008
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250226225557.133076-7-jonathan.cavitt%40intel.com
-patch subject: [PATCH 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-config: s390-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271029.67aYhWm6-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271029.67aYhWm6-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/69
+head:   f36ea6678b4077d9bbb4644e73977fb91d187ab7
+commit: 8122e08b1d876b9af605db5ad351961c5ea276ed [1/1] Allow Mellanox switch devices to be configured if only I2C bus is set
+config: powerpc64-randconfig-002-20250224 (https://download.01.org/0day-ci/archive/20250227/202502271024.BXrq2403-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271024.BXrq2403-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271029.67aYhWm6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271024.BXrq2403-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/xe/xe_vm.c:3288:2: error: use of undeclared identifier 'vma'; did you mean 'vm'?
-    3288 |         vma = lookup_vma(vm, pf->page_addr);
-         |         ^~~
-         |         vm
-   drivers/gpu/drm/xe/xe_vm.c:3283:56: note: 'vm' declared here
-    3283 | xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-         |                                                        ^
->> drivers/gpu/drm/xe/xe_vm.c:3288:8: error: call to undeclared function 'lookup_vma'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3288 |         vma = lookup_vma(vm, pf->page_addr);
-         |               ^
->> drivers/gpu/drm/xe/xe_vm.c:3288:6: error: incompatible integer to pointer conversion assigning to 'struct xe_vm *' from 'int' [-Wint-conversion]
-    3288 |         vma = lookup_vma(vm, pf->page_addr);
-         |             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_vm.c:3289:7: error: use of undeclared identifier 'vma'; did you mean 'vm'?
-    3289 |         if (!vma)
-         |              ^~~
-         |              vm
-   drivers/gpu/drm/xe/xe_vm.c:3283:56: note: 'vm' declared here
-    3283 | xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-         |                                                        ^
-   drivers/gpu/drm/xe/xe_vm.c:3291:23: error: use of undeclared identifier 'vma'; did you mean 'vm'?
-    3291 |         if (xe_vma_read_only(vma) && pf->access_type != XE_PAGEFAULT_ACCESS_TYPE_READ)
-         |                              ^~~
-         |                              vm
-   drivers/gpu/drm/xe/xe_vm.c:3283:56: note: 'vm' declared here
-    3283 | xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-         |                                                        ^
-   5 errors generated.
+>> drivers/net/ethernet/mellanox/mlxsw/i2c.c:49:19: warning: 'mlxsw_i2c_driver_name' defined but not used [-Wunused-const-variable=]
+    static const char mlxsw_i2c_driver_name[] = "mlxsw_i2c";
+                      ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +3288 drivers/gpu/drm/xe/xe_vm.c
+vim +/mlxsw_i2c_driver_name +49 drivers/net/ethernet/mellanox/mlxsw/i2c.c
 
-  3281	
-  3282	static enum drm_xe_fault_address_type
-  3283	xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
-  3284	{
-  3285		if (!pf)
-  3286			return 0;
-  3287	
-> 3288		vma = lookup_vma(vm, pf->page_addr);
-  3289		if (!vma)
-  3290			return DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT;
-  3291		if (xe_vma_read_only(vma) && pf->access_type != XE_PAGEFAULT_ACCESS_TYPE_READ)
-  3292			return DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT;
-  3293		return 0;
-  3294	}
-  3295	
+6882b0aee180f2 Vadim Pasternak 2016-11-16  48  
+6882b0aee180f2 Vadim Pasternak 2016-11-16 @49  static const char mlxsw_i2c_driver_name[] = "mlxsw_i2c";
+6882b0aee180f2 Vadim Pasternak 2016-11-16  50  
+
+:::::: The code at line 49 was first introduced by commit
+:::::: 6882b0aee180f2797b8803bdf699aa45c2e5f2d6 mlxsw: Introduce support for I2C bus
+
+:::::: TO: Vadim Pasternak <vadimp@mellanox.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
