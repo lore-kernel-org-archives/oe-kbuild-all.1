@@ -1,71 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A1724DFF8;
-	Thu, 27 Feb 2025 15:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A732117A2F7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 15:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740669633; cv=none; b=jb8Oxn53nDYaejo7hrnKJVBW5ClqmtjUEm+ztHVxz8VprJQ6Njt1v7b7a5tdC80h8REsZjMppGZb9X7tx70upt/Hqr+Jh9sUhXW3ww4YVwNtNryF6tf9zpC73q/xKsWBm0iNp+Pa8gS9ESEQeKFWSaa6n8e1AR1wgs9MMfzprZk=
+	t=1740670281; cv=none; b=tdyOJAKR6cg56KdhjLDA77qzBno/PQb1dGlBZ9VyKShIBeGRsos97R80UiCLnDB5syHquCSRf+MNZmWK6SIKeTNqENmMGxgKpaYQuIMPQcUIbNj60342/4OQxNaI1/MzF5jZka5qCG52HaNZmq+tVTM0Ad0XtG5v2QRiuMT90bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740669633; c=relaxed/simple;
-	bh=O2RSGihEUeZucdzzlTWlLZ5f5Ojwj25KIj+Cw9BroWs=;
+	s=arc-20240116; t=1740670281; c=relaxed/simple;
+	bh=8nn4JeTVgl99RbEnJwQaRq9PrAd4wl3f/dCMNIpJdpI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4MucIfRhXq1Owm3jBW0t8CBIXM/zbTpRf57TuT4EOOYYsUieEYskb+FPLnMGfZYxXFTJ8l4sts0/hlHn4nOThWXysHDH4HuXaKpIk4o/m5N2iFxYuqDUJA2QH6RKs2XoUdgpCxKQ9BJwS0R2tf99ibwKLIQu+dkVVuFbxSfPZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKLV04MR; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=rRyt6BnkgqhWj80pkH4SVAAUStmtWQQ1eX0PY7t0+WjJ+U72Dfw/NerXLnFmAkC8ylIpGi8oFCECGUScTf7DnQifKwinFxYBXbAM3jYZD+SG3QCD8KCThIq62myUmkb7Qpay1R+05JDGHPQgyuuKKI6RIvwuI7RIwC8iS4hWuDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7o5+hwe; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKLV04MR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7o5+hwe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740669632; x=1772205632;
+  t=1740670279; x=1772206279;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=O2RSGihEUeZucdzzlTWlLZ5f5Ojwj25KIj+Cw9BroWs=;
-  b=FKLV04MRYYb7b6aXwpHrfElsZjmra+KifLCD9npobdPcD6XJ+PTnz8f8
-   BRO0ec2GprKE4W+RlWeca1D1GXHrG+Mb1pwyqk8LQr694wRmx+VPzISLD
-   A/CHUEwzfLQWIx7jZH59NOq3+pEME+lINtvK9p6WV3mvkSaFDt2UedETM
-   iNL9zLs3oJ8AO2e4NHxSuAnozxtNelGgeqATD9UOcg87aqtrTGZWOui+0
-   t1C1+zxPB2j5gqAEnywl962TNVD+upBjEuAr3d2KAoDiMcIfc7j63A9zw
-   HGYQxK3OQ5gr2IG5noLmRg9N61wc4V9WrBfeUvzRGocDyx6ZWz+mpNW+9
+  bh=8nn4JeTVgl99RbEnJwQaRq9PrAd4wl3f/dCMNIpJdpI=;
+  b=H7o5+hwekUKfwSh5mZdkjmxsDObVLT0dMTHB2lG2Fh+TptC2A8eSbiPT
+   h9PFRNVZZ4JX26SSDX7MK3vz1d2fhQnWiTVz7IZdnpH8rQBEWY7ImFI5A
+   9vUwBW1FFZABIVJGWy5HCtcZKuyU7qSPn5R3q2WtDF94BIg699TNoj6m3
+   1zfCc1WUYxF2cVD30a482o6qef/hlHrqNvuJQ8kEaDbFlQsH3WJfXwVkP
+   +rUguZPcqfXMh8rmz7brUxf+Ob3Yfva+YDDv0jrKU36DqvS9l4AmSBtiY
+   jHa0PHRaixSCgKEWVoNUOTLnibfvagxGsWoLWlKeZPK2Xtw1QGWqa5q9g
    g==;
-X-CSE-ConnectionGUID: ncI1kcLKRs6RBhOhhu0FQg==
-X-CSE-MsgGUID: 24n45jvMQVyHQDyW28He+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="59100824"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="59100824"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:20:31 -0800
-X-CSE-ConnectionGUID: tghChrLAT3uZcFB1OG6MDw==
-X-CSE-MsgGUID: fJ23NbXIRqK8v79NrO9hEw==
+X-CSE-ConnectionGUID: 9LTTn2GzQGK1ztjN1COFGQ==
+X-CSE-MsgGUID: hTY7RlIBRW2jBzbtXTLWxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52976756"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52976756"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 07:31:18 -0800
+X-CSE-ConnectionGUID: 4IoEK63oQZW6Il8nQ7dNTQ==
+X-CSE-MsgGUID: AH6evKc0SPmSI3MQqOVYLg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121177193"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="117079478"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2025 07:20:25 -0800
+  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2025 07:31:16 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnfgR-000DYs-2D;
-	Thu, 27 Feb 2025 15:20:23 +0000
-Date: Thu, 27 Feb 2025 23:18:40 +0800
+	id 1tnfqy-000DaW-2Q;
+	Thu, 27 Feb 2025 15:31:12 +0000
+Date: Thu, 27 Feb 2025 23:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, rostedt@goodmis.org,
-	mark.rutland@arm.com, alexei.starovoitov@gmail.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, catalin.marinas@arm.com,
-	will@kernel.org, mhiramat@kernel.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, mathieu.desnoyers@efficios.com,
-	nathan@kernel.org, ndesaulniers@google.com, morbo@google.com,
-	justinstitt@google.com, dongml2@chinatelecom.cn,
-	akpm@linux-foundation.org, rppt@kernel.org, graf@amazon.com,
-	dan.j.williams@intel.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v2] add function metadata support
-Message-ID: <202502272339.DtueAali-lkp@intel.com>
-References: <20250226121537.752241-1-dongml2@chinatelecom.cn>
+To: Gerhard Engleder <gerhard@engleder-embedded.com>, andrew@lunn.ch,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Gerhard Engleder <gerhard@engleder-embedded.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next v8 6/8] net: selftests: Support selftest sets
+Message-ID: <202502272355.8SzfMboW-lkp@intel.com>
+References: <20250224211531.115980-7-gerhard@engleder-embedded.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,32 +66,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250226121537.752241-1-dongml2@chinatelecom.cn>
+In-Reply-To: <20250224211531.115980-7-gerhard@engleder-embedded.com>
 
-Hi Menglong,
+Hi Gerhard,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/add-function-metadata-support/20250226-202312
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250226121537.752241-1-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next v2] add function metadata support
-config: i386-kismet-CONFIG_CALL_PADDING-CONFIG_FUNCTION_METADATA-0-0 (https://download.01.org/0day-ci/archive/20250227/202502272339.DtueAali-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250227/202502272339.DtueAali-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gerhard-Engleder/net-phy-Allow-loopback-speed-selection-for-PHY-drivers/20250225-103125
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250224211531.115980-7-gerhard%40engleder-embedded.com
+patch subject: [PATCH net-next v8 6/8] net: selftests: Support selftest sets
+config: sh-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502272355.8SzfMboW-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272355.8SzfMboW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502272339.DtueAali-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272355.8SzfMboW-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CALL_PADDING when selected by FUNCTION_METADATA
-   WARNING: unmet direct dependencies detected for CALL_PADDING
-     Depends on [n]: CC_HAS_ENTRY_PADDING [=y] && OBJTOOL [=n]
-     Selected by [y]:
-     - FUNCTION_METADATA [=y]
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/net/usb/smsc95xx.c:25:
+>> include/net/selftests.h:48:55: error: 'void' must be the only parameter
+      48 | static inline int net_selftest_set_get_count(int set, void)
+         |                                                       ^~~~
+
+
+vim +/void +48 include/net/selftests.h
+
+    47	
+  > 48	static inline int net_selftest_set_get_count(int set, void)
+    49	{
+    50		return 0;
+    51	}
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
