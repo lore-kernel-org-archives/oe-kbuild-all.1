@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098591E5210
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 04:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A00270022
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 04:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740632056; cv=none; b=Fp8CfGoGk9YnQKbfcRnL7JLk1V784Rf/bK1jjSCjbPZsQHnwhp2JAyAnbax5PBoXf7lgUNuCNs9UM+GHufvnwrv5W4eCXGtg4VA67iMTD4oPVT8v2FCM+R3lrs+7i3UmaXOKPuO9WzxGwJ/dSA+vkSUqGpHr/mn5j6+97HrUOZg=
+	t=1740632057; cv=none; b=r2GzfFLLX5a/fIv8yqycHTZm3bHvOsmIla2LHCVFJqvtGZn1H5p7CdoEFp7nGgh/Wa/zHqOAQJlDAies1SH4gK8nWltsNqNeTCj5ba2284YUE9llTnEmoT88wbw3nTgWhG4wstIkS06BLSDnme5+peOMBEA4XQOykHHRgTL2yQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740632056; c=relaxed/simple;
-	bh=9isQjf7Df6eP9/Ga8LmRbE7aA6sfe0WuwJvWZ8ApWiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A1EA0dL/SARB6jgp5Sqmv6fQxMEfCtc5guAkYimpAGMpwfxZi36guNfE3sgAC7QnEAI7G3D1ElDaQID/X5kxnYsON7S8Jjx6NSAk8dXLMHiZmvCTQt2oXJJSRT8paXQsw/B8i8wff2dFB5O05SjHaZdGS1hGSJTqRz7CexBRSOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n/3pPGKD; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1740632057; c=relaxed/simple;
+	bh=NQl3Kropd5OekMlh1r+3EeI5CMMdc9zeGRnG8UmjcIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHzUeTyhQe777CuplX6pOBe6JO0zKgSGAmQIURGzd9r4QE25wBuuS0aDwmGYwiKU9MZhvbmzpb4brl7Fcw2WOs5srH6gnrSmMR1yElraIAaXT991X8kfIf4pebCaXNwpYGfD+/FjxdbGvJscfSGcewNJut2PG0xf0521RKTlT00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gz22PiZj; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n/3pPGKD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gz22PiZj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740632055; x=1772168055;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9isQjf7Df6eP9/Ga8LmRbE7aA6sfe0WuwJvWZ8ApWiw=;
-  b=n/3pPGKDMy9oc9vkLWgwunTxjmEIpz9z63Xa+Ktvkh1hi5+yGrkBerOd
-   pIxN1tLoc5SYxTp2Nu9QP12hxOWE4hH2qVtLr/bG7J3Bxf69L4P8ySZmp
-   CCdxdSAhdEZ9ehIWjDdLv8wxcN4FvNo1MSjCuXjJ6o81xOF0Awn9KYS0V
-   4s0rYYxxu4dRwAWLRaCqiWJjSINvXidPRQOB12qD6yhQO5LYmwV4Uk2rx
-   0FNHW4yvTBwVO0PevINVv4FcD5XsOwYDbVRaKz0wXk88GxHCxUBouGYWL
-   cuy/fVyUTmtVUNL9/yuCPJGDCodIdBhhpQh8eg0LgP11nTkUC/Mvmegyt
+  t=1740632056; x=1772168056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NQl3Kropd5OekMlh1r+3EeI5CMMdc9zeGRnG8UmjcIk=;
+  b=Gz22PiZj8BHc3UtHbX9pGocxUK0aY7vC60G3QHE4iNbUNONXpgj2x6/u
+   xm+BlUqFda/14cXwmzq55Tca1xj12+UcLZuV1jJjYE5NRlWXdFgBW2viq
+   4RresKLZqlDD9er5Mtnj7IpKptFRj9ARJfGstxAQXHZ7gTfrzwOQq1eRD
+   T5zmDS6nsF1C5rgmOw1SYDtMN/fbBsarS9TfS45etWsTUZxhaaiUfhNs6
+   0UHjoYR6MFWf80aryQn/lLBpcWzcm9Ul4OsxAZEVEGd6KH8XOt+JPLwig
+   DbhzLWJ1nRbnxQoAasw0/ozt2KG3iYJQluZ0weC9HCqAFnJAdKuvnKOuW
    Q==;
-X-CSE-ConnectionGUID: wjcz/iMuTh2cWT9onDdsnQ==
-X-CSE-MsgGUID: M1T6PCIFRqanCbuO9lj5UQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41527839"
+X-CSE-ConnectionGUID: coch11hCTrSfCFWMK6hF5g==
+X-CSE-MsgGUID: 5yy6KPbcRFOvqmTrTUbGtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="40747909"
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="41527839"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 20:54:12 -0800
-X-CSE-ConnectionGUID: kOlgBsFpQZ6AKU0yjfxNHQ==
-X-CSE-MsgGUID: sfX7wCwNSQGYc6lZGr7d2Q==
+   d="scan'208";a="40747909"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 20:54:14 -0800
+X-CSE-ConnectionGUID: g0+f+jFrTBCBy3FZz0evSA==
+X-CSE-MsgGUID: NWB5NZXkR5eKpZmGLK4J/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="117085437"
+   d="scan'208";a="116940829"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 26 Feb 2025 20:54:11 -0800
+  by orviesa006.jf.intel.com with ESMTP; 26 Feb 2025 20:54:11 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnVuS-000Crg-2g;
+	id 1tnVuS-000Cre-2c;
 	Thu, 27 Feb 2025 04:54:08 +0000
-Date: Thu, 27 Feb 2025 12:53:28 +0800
+Date: Thu, 27 Feb 2025 12:53:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Burri <markus.burri@mt.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Manuel Traut <manuel.traut@mt.com>
-Subject: [linux-next:master 6261/6583]
- arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: matrix-keypad: 'gpio-activelow',
- 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202502271244.EFaKXnxb-lkp@intel.com>
+To: zhongjinji@honor.com, akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, yuzhao@google.com,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	rientjes@google.com, vbabka@suse.cz, zhongjinji@honor.com,
+	yipengxiang@honor.com, liulu.liu@honor.com, feng.han@honor.com
+Subject: Re: [PATCH] mm/page_alloc: make the maximum number of highatomic
+ pageblocks resizable
+Message-ID: <202502271248.bHUExwvw-lkp@intel.com>
+References: <20250226024126.3718-1-zhongjinji@honor.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,33 +66,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250226024126.3718-1-zhongjinji@honor.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-commit: e51cb50f0bc0724634369e42a826dd302aae787c [6261/6583] dt-bindings: input: matrix_keypad: convert to YAML
-config: arm-randconfig-051-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271244.EFaKXnxb-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 204dcafec0ecf0db81d420d2de57b02ada6b09ec)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271244.EFaKXnxb-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhongjinji-honor-com/mm-page_alloc-make-the-maximum-number-of-highatomic-pageblocks-resizable/20250226-121712
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250226024126.3718-1-zhongjinji%40honor.com
+patch subject: [PATCH] mm/page_alloc: make the maximum number of highatomic pageblocks resizable
+config: x86_64-buildonly-randconfig-006-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271248.bHUExwvw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271248.bHUExwvw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271244.EFaKXnxb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271248.bHUExwvw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/display/fsl,lcdif.yaml#
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /apb@80000000/apbx-bus@80040000/lradc@80050000: failed to match any schema with compatible: ['fsl,imx28-lradc']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /apb@80000000/apbx-bus@80040000/i2c@80058000/edt-ft5x06@38: failed to match any schema with compatible: ['edt,edt-ft5x06']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /apb@80000000/apbx-bus@80040000/i2c@80058000/tsc2007@48: failed to match any schema with compatible: ['ti,tsc2007']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /apb@80000000/apbx-bus@80040000/timrot@80068000: failed to match any schema with compatible: ['fsl,imx28-timrot', 'fsl,timrot']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /apb@80000000/apbx-bus@80040000/timrot@80068000: failed to match any schema with compatible: ['fsl,imx28-timrot', 'fsl,timrot']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /sound: failed to match any schema with compatible: ['fsl,imx28-tx28-sgtl5000', 'fsl,mxs-audio-sgtl5000']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: /sound: failed to match any schema with compatible: ['fsl,imx28-tx28-sgtl5000', 'fsl,mxs-audio-sgtl5000']
-   arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: leds: 'user' does not match any of the regexes: '(^led-[0-9a-f]$|led)', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
->> arch/arm/boot/dts/nxp/mxs/imx28-tx28.dtb: matrix-keypad: 'gpio-activelow', 'wakeup-source' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-matrix-keypad.yaml#
+All warnings (new ones prefixed by >>):
+
+   mm/page_alloc.c:6262:17: error: field name not in record or union initializer
+    6262 |                 .procname       = "highatomic_reserve_ratio",
+         |                 ^
+   mm/page_alloc.c:6262:17: note: (near initialization for 'page_alloc_sysctl_table')
+   mm/page_alloc.c:6263:17: error: field name not in record or union initializer
+    6263 |                 .data           = &highatomic_reserve_ratio,
+         |                 ^
+   mm/page_alloc.c:6263:17: note: (near initialization for 'page_alloc_sysctl_table')
+   mm/page_alloc.c:6263:35: error: initialization of 'const char *' from incompatible pointer type 'int *' [-Werror=incompatible-pointer-types]
+    6263 |                 .data           = &highatomic_reserve_ratio,
+         |                                   ^
+   mm/page_alloc.c:6263:35: note: (near initialization for 'page_alloc_sysctl_table[5].procname')
+   mm/page_alloc.c:6264:17: error: field name not in record or union initializer
+    6264 |                 .maxlen         = sizeof(highatomic_reserve_ratio),
+         |                 ^
+   mm/page_alloc.c:6264:17: note: (near initialization for 'page_alloc_sysctl_table')
+>> mm/page_alloc.c:6264:35: warning: initialization of 'const char *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+    6264 |                 .maxlen         = sizeof(highatomic_reserve_ratio),
+         |                                   ^~~~~~
+   mm/page_alloc.c:6264:35: note: (near initialization for 'page_alloc_sysctl_table[6].procname')
+   mm/page_alloc.c:6265:17: error: field name not in record or union initializer
+    6265 |                 .mode           = 0644,
+         |                 ^
+   mm/page_alloc.c:6265:17: note: (near initialization for 'page_alloc_sysctl_table')
+>> mm/page_alloc.c:6265:35: warning: initialization of 'const char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    6265 |                 .mode           = 0644,
+         |                                   ^~~~
+   mm/page_alloc.c:6265:35: note: (near initialization for 'page_alloc_sysctl_table[7].procname')
+   mm/page_alloc.c:6266:17: error: field name not in record or union initializer
+    6266 |                 .proc_handler   = proc_dointvec_minmax,
+         |                 ^
+   mm/page_alloc.c:6266:17: note: (near initialization for 'page_alloc_sysctl_table')
+   mm/page_alloc.c:6266:35: error: initialization of 'const char *' from incompatible pointer type 'int (*)(const struct ctl_table *, int,  void *, size_t *, loff_t *)' {aka 'int (*)(const struct ctl_table *, int,  void *, long unsigned int *, long long int *)'} [-Werror=incompatible-pointer-types]
+    6266 |                 .proc_handler   = proc_dointvec_minmax,
+         |                                   ^~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:6266:35: note: (near initialization for 'page_alloc_sysctl_table[8].procname')
+   mm/page_alloc.c:6267:17: error: field name not in record or union initializer
+    6267 |                 .extra1         = SYSCTL_ZERO,
+         |                 ^
+   mm/page_alloc.c:6267:17: note: (near initialization for 'page_alloc_sysctl_table')
+   mm/page_alloc.c:6228:59: warning: missing braces around initializer [-Wmissing-braces]
+    6228 | static const struct ctl_table page_alloc_sysctl_table[] = {
+         |                                                           ^
+   mm/page_alloc.c:6269:9: error: expected identifier or '(' before '{' token
+    6269 |         {
+         |         ^
+   mm/page_alloc.c:6275:10: error: expected identifier or '(' before ',' token
+    6275 |         },
+         |          ^
+   mm/page_alloc.c:6174:12: warning: 'lowmem_reserve_ratio_sysctl_handler' defined but not used [-Wunused-function]
+    6174 | static int lowmem_reserve_ratio_sysctl_handler(const struct ctl_table *table,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/suspend.h:5,
+                    from mm/page_alloc.c:28:
+   include/linux/swap.h:590:12: warning: 'folio_alloc_swap' defined but not used [-Wunused-function]
+     590 | static int folio_alloc_swap(struct folio *folio, gfp_t gfp_mask)
+         |            ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +6264 mm/page_alloc.c
+
+  6227	
+  6228	static const struct ctl_table page_alloc_sysctl_table[] = {
+  6229		{
+  6230			.procname	= "min_free_kbytes",
+  6231			.data		= &min_free_kbytes,
+  6232			.maxlen		= sizeof(min_free_kbytes),
+  6233			.mode		= 0644,
+  6234			.proc_handler	= min_free_kbytes_sysctl_handler,
+  6235			.extra1		= SYSCTL_ZERO,
+  6236		},
+  6237		{
+  6238			.procname	= "watermark_boost_factor",
+  6239			.data		= &watermark_boost_factor,
+  6240			.maxlen		= sizeof(watermark_boost_factor),
+  6241			.mode		= 0644,
+  6242			.proc_handler	= proc_dointvec_minmax,
+  6243			.extra1		= SYSCTL_ZERO,
+  6244		},
+  6245		{
+  6246			.procname	= "watermark_scale_factor",
+  6247			.data		= &watermark_scale_factor,
+  6248			.maxlen		= sizeof(watermark_scale_factor),
+  6249			.mode		= 0644,
+  6250			.proc_handler	= watermark_scale_factor_sysctl_handler,
+  6251			.extra1		= SYSCTL_ONE,
+  6252			.extra2		= SYSCTL_THREE_THOUSAND,
+  6253		},
+  6254		{
+  6255			.procname	= "percpu_pagelist_high_fraction",
+  6256			.data		= &percpu_pagelist_high_fraction,
+  6257			.maxlen		= sizeof(percpu_pagelist_high_fraction),
+  6258			.mode		= 0644,
+  6259			.proc_handler	= percpu_pagelist_high_fraction_sysctl_handler,
+  6260			.extra1		= SYSCTL_ZERO,
+  6261		},
+  6262			.procname	= "highatomic_reserve_ratio",
+> 6263			.data		= &highatomic_reserve_ratio,
+> 6264			.maxlen		= sizeof(highatomic_reserve_ratio),
+> 6265			.mode		= 0644,
+  6266			.proc_handler	= proc_dointvec_minmax,
+  6267			.extra1		= SYSCTL_ZERO,
+  6268		},
+  6269		{
+  6270			.procname	= "lowmem_reserve_ratio",
+  6271			.data		= &sysctl_lowmem_reserve_ratio,
+  6272			.maxlen		= sizeof(sysctl_lowmem_reserve_ratio),
+  6273			.mode		= 0644,
+  6274			.proc_handler	= lowmem_reserve_ratio_sysctl_handler,
+  6275		},
+  6276	#ifdef CONFIG_NUMA
+  6277		{
+  6278			.procname	= "numa_zonelist_order",
+  6279			.data		= &numa_zonelist_order,
+  6280			.maxlen		= NUMA_ZONELIST_ORDER_LEN,
+  6281			.mode		= 0644,
+  6282			.proc_handler	= numa_zonelist_order_handler,
+  6283		},
+  6284		{
+  6285			.procname	= "min_unmapped_ratio",
+  6286			.data		= &sysctl_min_unmapped_ratio,
+  6287			.maxlen		= sizeof(sysctl_min_unmapped_ratio),
+  6288			.mode		= 0644,
+  6289			.proc_handler	= sysctl_min_unmapped_ratio_sysctl_handler,
+  6290			.extra1		= SYSCTL_ZERO,
+  6291			.extra2		= SYSCTL_ONE_HUNDRED,
+  6292		},
+  6293		{
+  6294			.procname	= "min_slab_ratio",
+  6295			.data		= &sysctl_min_slab_ratio,
+  6296			.maxlen		= sizeof(sysctl_min_slab_ratio),
+  6297			.mode		= 0644,
+  6298			.proc_handler	= sysctl_min_slab_ratio_sysctl_handler,
+  6299			.extra1		= SYSCTL_ZERO,
+  6300			.extra2		= SYSCTL_ONE_HUNDRED,
+  6301		},
+  6302	#endif
+  6303	};
+  6304	
 
 -- 
 0-DAY CI Kernel Test Service
