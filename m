@@ -1,149 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8788A225779
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 08:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15A71E833A;
+	Thu, 27 Feb 2025 10:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740646696; cv=none; b=L6yNCk9umWzCfYcvNiWoFHpYCcHZDEWeS+vUEIYhmSgc1q6DqE8aWPolJEGlvl9+p78AB+rIQMzHrfW6B8ahosHrb6UxkUjCxhvnB2f/kUHTQ2zLw9hZp9CYcJbkbcODUMXVlsqc3iVKkg5vovPQbOKwiQTJ3wcePrwy3Oqhv2Y=
+	t=1740650780; cv=none; b=VIO+flqEqPy9DXkJFe+ukK8Bihl6717dK+nVkMl5O0sSmTarVHroiKrpwGs3YeAhjD4jzTBeraWNri35LdH3CVgvWGH8HAp4Gx3J8QapCOfJAnzYPl1XM76iTzmc5beM7jqz4NJdpnmSF6rKKZy+HdCJ7IFS7PpkzabJWeLG1AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740646696; c=relaxed/simple;
-	bh=mRCwYdhDdjfT1ryuXbi5zx1t+2TvkYj+V5CHntnFZQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XcYXd7DQnjNkdGrf2pr2Xo3uScvLutNUCrQflcS0L8GdVoRUuoU5TWXF3NQPbk4eAuPa14/T1BPtzq77FK1cXxcrm5tGimzcUSRsYdTToGteofhEEq6eUKrmRJa8eHyakYOrqaSz+IV4X95PaOOB5RiYAbYnUKNOG6hna9C50Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NR0EdkVF; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740650780; c=relaxed/simple;
+	bh=pEP+vhbhTTs4L+MB01lcliTsLO1SSLw/IdC11pBqmGM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=If0kN3gNJMq2KNEVFckEX/og+PANNImeSTs88P4EcEOTbHEs1VWxtv98u3nUXLfQ8nIUmVszgt68JI8y3U7Z/J8yK0z8oiIwFLfM7DLMojuyqRbrQuvn/OSQAbWdNBDUortfaxOsZSHa6TkCDr0C9Bh6uff4oSIAoBUWLInK4vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7POdo74; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NR0EdkVF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740646695; x=1772182695;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mRCwYdhDdjfT1ryuXbi5zx1t+2TvkYj+V5CHntnFZQ8=;
-  b=NR0EdkVFYp8UcGAaxW219Oxe+M7RPkds0dbzwEzZtWVImTbNyqxCaRO5
-   iNQdVZapFZg3t4AvaqE6LMCwE3/jbbMFb4WyCuxYuS1nBqKBkcmt1U2kk
-   iE/8FWuunQPX+0yeZjh2aInURSdzJdhcBSI5HH5I1DnLW+fy4/UgTnCHT
-   LsXhN147kpSD1B59Ney4HCsnSvwnwPOo6QeoFrLcNy3uMQveHGX/JOjjm
-   L9k5A8+9vNJggelcl6+DZXmUEA+twAbEyTzddEd1omJhTHIWGUOZH28a9
-   6p9mkQLb4XtryLu0zjGq9v6Lkfh8DaeGmYb5kQ8xnscT77yv3GknUDtkU
-   w==;
-X-CSE-ConnectionGUID: QcTX9bunSkmFPPh5AIMRRQ==
-X-CSE-MsgGUID: 0bdCB2AaRJ+4RiGqXFLMzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45179083"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="45179083"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 00:58:15 -0800
-X-CSE-ConnectionGUID: qWue2tijSk2NplSDvMcZ8Q==
-X-CSE-MsgGUID: qqmTMjZ2Q4aqEghxTsrESA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="116738627"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 27 Feb 2025 00:58:13 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnZib-000D84-2V;
-	Thu, 27 Feb 2025 08:58:09 +0000
-Date: Thu, 27 Feb 2025 16:57:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Piotr Kwapulinski <piotr.kwapulinski@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: drivers/net/ethernet/intel/i40e/i40e_ptp.c:1375:27: warning: '%s'
- directive output may be truncated writing up to 287 bytes into a region of
- size 64
-Message-ID: <202502271608.TTHgj7OB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7POdo74"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-abb7a6ee2deso110102166b.0;
+        Thu, 27 Feb 2025 02:06:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740650777; x=1741255577; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=y5mvrEbwu4TOisLOydnd4/CSlfw2DVpwzEYHRajJrJE=;
+        b=c7POdo74yjmXhkxAZXxg3REZRZp4STF8WJO9CyMGthVd/iZ6fwW4hg710WlmXf6chC
+         gnvCYTCkYLPPwpEGGGXbb+KaV5jrs0JLy15CezuUf3bYxyOROkhkMTf6GW9o/xYtBk+a
+         MI2JvQc0rAf+Uef/CE0nZDhaHMX4cnMkUmtLlT7qRWTRe98pSDQGF6dvE8Cn0h/dpHJr
+         MXQluYJp6T/0SEL7GAbYES/m+hz9X7y3xWCHbnFz+M2s/r4LTFvgfqGRsn5hmRLXUlHr
+         aJUuKkL/I7etNHZ2KN/dcOHxCX4PDURIu+77pxWuk3cOMh+I3vNEwp5FD+P8pL5z5WwA
+         Fncg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740650777; x=1741255577;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y5mvrEbwu4TOisLOydnd4/CSlfw2DVpwzEYHRajJrJE=;
+        b=xFRUhyVqFG82I9Fdo2mrHTWm6bH6QUt4fYhTNB8PMbi0qctAsbzybs8MWa/KMqJgUw
+         35RvrtIkpreW15YsDrWiuQN0v8AyaMchXU4ShqtKseOEbVZLHfxMrjhdcKsLWihgGRI6
+         u6bKEaGUBOQ+hA3lY5zkrpVUuWf49zfCdLSOTbhQJhhd56E5FrsnTwna7Ij209eChATn
+         vKKSzG0JPtwKiUTKIzdC8iQjEK+tBC6oMXlj7uJkPrUSRbRh71lCRKFyQuBCiP/vMCAf
+         Y9XI1ciDtEK0O28acBkXDUv8MBl6xbjd+mh3of2WRqgEb+8fvwk/Xjsy0c9CU2RH3wOC
+         dObg==
+X-Forwarded-Encrypted: i=1; AJvYcCXyZVH6z1XsO/n966tjQ/FO+GaYXIaSUsSUxazcfJwDMLX1LSn3CBVZo7XaN9U9c6mRlCR8sYoj8SeVYwHE@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx53vYkPIUsxQYWN/VJ0zsBFkKeyRReMWTGMsSum4nyN6i/NPYq
+	HbymwBm25CVIZcjNEM0BzP94BRZj2vgFYlpbPLfOVKE92jeKsktsiBNX8w==
+X-Gm-Gg: ASbGnctt/wZZrVXs+KYdL5Ekq8EdWVb7UqoWq2XLGv7+LLK0amWJP0fFzflRlaraG0a
+	ATwLwaGeK3czXw6OPBXiTY6KbuVVeUNL31uNS2SsRrcMSZK+kOkLp7tqNrPlW+oVpamlTfFlneD
+	cDBi4LwsOiPhgRsOhQBvgW+v/ujpu8fvcVE8J05BdfxOTGN3QfvksKPAs412o2agA0fmKIXlL0G
+	7doI1XDK7+YKgn8peDcOYAqCmfBNZ9CUhK9cf1odz76p7VShc/6niNgVZ6D6Z3P+DXMj7NUkAMv
+	0gub+GRxC0Wn/PElW49WgUs8t6WEO7UmjyKCvyts0ABLcdu+1YXAVSunQSk=
+X-Google-Smtp-Source: AGHT+IGgKopderXuTIKklUyo7qkm1wHvlawkRYBo5ORJ/9cId56FxoxDQ0r23w1fGtBvZj+xtfHziw==
+X-Received: by 2002:a17:906:6185:b0:aa6:832b:8d76 with SMTP id a640c23a62f3a-abeeecf50f0mr885964066b.12.1740650776746;
+        Thu, 27 Feb 2025 02:06:16 -0800 (PST)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:4215])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf0c0dc240sm98204766b.59.2025.02.27.02.06.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Feb 2025 02:06:16 -0800 (PST)
+Message-ID: <5f2ede96-183a-4dc7-94b5-d4ec00d38c08@gmail.com>
+Date: Thu, 27 Feb 2025 10:07:13 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe-block:for-6.15/io_uring 55/56] io_uring/net.c:719:6:
+ warning: variable 'ret' is used uninitialized whenever 'if' condition is true
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>
+References: <202502270853.xYltEB97-lkp@intel.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <202502270853.xYltEB97-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Piotr,
+On 2/27/25 00:12, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/io_uring
+> head:   7eb5bb749ed945ead6a089e18e1d1da74523ac9a
+> commit: 68525267875757520752ff1abbda0af58fc172b9 [55/56] io_uring/net: unify *mshot_prep calls with compat
+> config: um-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502270853.xYltEB97-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502270853.xYltEB97-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202502270853.xYltEB97-lkp@intel.com/
 
-FYI, the error/warning still remains.
+Not a real problem, it's just the compiler (understandably) can't
+derive that the block is only empty IFF io_is_compat() is a
+constant false.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd83757f6e686a2188997cb58b5975f744bb7786
-commit: 1050713026a08d605b61f039700b67aab646371f i40e: add support for PTP external synchronization clock
-date:   3 years, 7 months ago
-config: alpha-randconfig-p001-20211207 (https://download.01.org/0day-ci/archive/20250227/202502271608.TTHgj7OB-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271608.TTHgj7OB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271608.TTHgj7OB-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/i40e/i40e_ptp.c: In function 'i40e_ptp_init':
->> drivers/net/ethernet/intel/i40e/i40e_ptp.c:1375:27: warning: '%s' directive output may be truncated writing up to 287 bytes into a region of size 64 [-Wformat-truncation=]
-    1375 |                          "%s", sdp_desc[i].name);
-         |                           ^~
-   In function 'i40e_init_pin_config',
-       inlined from 'i40e_ptp_create_clock' at drivers/net/ethernet/intel/i40e/i40e_ptp.c:1414:13,
-       inlined from 'i40e_ptp_init' at drivers/net/ethernet/intel/i40e/i40e_ptp.c:1519:8:
-   drivers/net/ethernet/intel/i40e/i40e_ptp.c:1373:17: note: 'snprintf' output between 1 and 288 bytes into a destination of size 64
-    1373 |                 snprintf(pf->ptp_caps.pin_config[i].name,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1374 |                          sizeof(pf->ptp_caps.pin_config[i].name),
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1375 |                          "%s", sdp_desc[i].name);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1375 drivers/net/ethernet/intel/i40e/i40e_ptp.c
-
-  1349	
-  1350	/**
-  1351	 * i40e_init_pin_config - initialize pins.
-  1352	 * @pf: private board structure
-  1353	 *
-  1354	 * Initialize pins for external clock source.
-  1355	 * Return 0 on success or error code on failure.
-  1356	 **/
-  1357	static int i40e_init_pin_config(struct i40e_pf *pf)
-  1358	{
-  1359		int i;
-  1360	
-  1361		pf->ptp_caps.n_pins = 3;
-  1362		pf->ptp_caps.n_ext_ts = 2;
-  1363		pf->ptp_caps.pps = 1;
-  1364		pf->ptp_caps.n_per_out = 2;
-  1365	
-  1366		pf->ptp_caps.pin_config = kcalloc(pf->ptp_caps.n_pins,
-  1367						  sizeof(*pf->ptp_caps.pin_config),
-  1368						  GFP_KERNEL);
-  1369		if (!pf->ptp_caps.pin_config)
-  1370			return -ENOMEM;
-  1371	
-  1372		for (i = 0; i < pf->ptp_caps.n_pins; i++) {
-  1373			snprintf(pf->ptp_caps.pin_config[i].name,
-  1374				 sizeof(pf->ptp_caps.pin_config[i].name),
-> 1375				 "%s", sdp_desc[i].name);
-  1376			pf->ptp_caps.pin_config[i].index = sdp_desc[i].index;
-  1377			pf->ptp_caps.pin_config[i].func = PTP_PF_NONE;
-  1378			pf->ptp_caps.pin_config[i].chan = sdp_desc[i].chan;
-  1379		}
-  1380	
-  1381		pf->ptp_caps.verify = i40e_ptp_verify;
-  1382		pf->ptp_caps.enable = i40e_ptp_feature_enable;
-  1383	
-  1384		pf->ptp_caps.pps = 1;
-  1385	
-  1386		return 0;
-  1387	}
-  1388	
+We can initialise the var and let the compiler optimise it to
+silence the warning.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pavel Begunkov
+
