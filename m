@@ -1,120 +1,148 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB56127003D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA29723315A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 14:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740666199; cv=none; b=q/0uGRAU51nmmYEGddrxdpOh/WNPRQ03EkdtdsSoHCBUPnYJ2rheTPKtjkm0v4+e4SCJHTyO6QYu2LaTBQJODtTerDsgUxdbQofxHwZIn7GYg2oCBslcAs2xPAGQ2iMF44Uex26/WsDVVwP2odeDP1AXKGtCX/2ua4n9mQoWJUU=
+	t=1740666811; cv=none; b=llHDUgJspxyfTHsZTRheJxWeCZjL0koG+ugYg5uwzaiq5rlvGdUNS0rI56czu5yIwDUX2A63TLcB5dAQbmPuPz+QzT8mMsyujiaex4x6Rw8fDiKibvNQpNZZFPXaVmphP4w5fSqEI2rH/0F0qb5/QhK5ncRA6MtNjvJMYotiuxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740666199; c=relaxed/simple;
-	bh=anZg3Yuere6hsPT2KpIgR69wncRg12py2Kyn2hsJAg8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EAS5chxkHW/F/QCKjyIeaNRY3ClDKY8sHdS47CeSEXm3yNwIV66LXy/8JAsyAe/4DCDjwrdWOvwkPOeFm+jWRqGPhThD5e1hSGTWwnCVxK7ILZNBlIhJW4Ai1MhRZADNQ8Lbs6g/QwxeWOqnDRvaGE3oYPOMxChskAEuMhtzfOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k3pAZW9S; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740666811; c=relaxed/simple;
+	bh=/7TkpyI/3xJq4/KdGM0zlJYPHWAZBK9m2KiQsivk40g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kbXAogrt8UhrS07iloYSjHG34EU+e9Wcg4awDhlhp5Fogjotr+CjqHlL1leqEIj5nZYVRirnYV61fS1NHyZIJf91FwLxrQPZdXhW9yzvhDb0xEAcV2XWR6UUt4Ip9bkHvEcEGONRJ7QbaDDtfirNz4YpgemHGXT81OZd2Yh0eBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0XfCSEy; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k3pAZW9S"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-abec8c122e4so149732166b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 06:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740666194; x=1741270994; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cbaW9nOcqUIy8DAvgrKnn7FzoZ7FC9CoGBlSZiwKRHQ=;
-        b=k3pAZW9S0PXD04fKPs6agJo0HwEa8S7gbaF/1hbdJeMR+xf+MYb8w+A/AVUOjK70V8
-         5i377/Y3xrdMPaujVzbhkZLcoTxaYzifb/1JdiBAZHIjFjKyP/irZEAz8waiFDotrHj2
-         bNgpHLEhT67HWPMlHOpQWgJv6skaE5nAWLWuW9XXlsKrn14jiQL2RWHJcDCMvYyPBdQv
-         gtlkH3yTPEEtzLOh9PmHV+Lzo+hHdLkJHRvBfCiGAJzihBfX1C0nc8HCtOJQJqg/UzwR
-         eFjvlpzhm3cvz570ExWEap1wTy8t0YVCEsueWvDLJE1Z5BJRzMZz1zuJkDGyWwYs+kBn
-         ij+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740666194; x=1741270994;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cbaW9nOcqUIy8DAvgrKnn7FzoZ7FC9CoGBlSZiwKRHQ=;
-        b=pobmxG3LMrNDzadpYwZQmrMpFqayj3OWB3OXBg/qem+u7N3wpn7QIJXeMHFp245K/5
-         RhhyfzDtq6PdOIDMR3s9tKPDmJluiIalSBCm2HJzq3+3apzGKr7apfdzMSXypO4UU6ro
-         //wyq0tnaK3Qd9InvZa7XTYZgw9wImvwODbW4GiyL6v3CEG02mjhH+dLCj3eyeEmk3aQ
-         uaqhwzzcP8YQzVCFqneY1oOY4jpOMGwmzU6fD75558ncYK5jxD78FPf6IyBxzZHnEh6y
-         MWl9kmEaOJ/HnzBUNUSUAaUc92wiyT2DvHIIgnsyVfjzgLqrnrZ42UAwm8H9MJ6m+mhI
-         4eRQ==
-X-Gm-Message-State: AOJu0YxbTnBm5iMXzeB1sztkyIK4yJCT+68Y8wu4zLpHnV5NkWmh+xHX
-	DeBDFsKWs2n6czI0aWGJOHNuUxoc1vFKbWoijKmI1OsFCa1af6vTdifsqA==
-X-Gm-Gg: ASbGnctOxKRrCa9KTPvLHdm9QfsOH6/SRPGSZJ42NfJfsRXVeBpHcz+FR1/WR8Q72Ut
-	svtZJLxPMyaF9vmnLENUMQ8lcHlzpvXehhrwT41VjQ+iIUHtUrCi1fwxDAj42SJyK3rw4LEDktT
-	6sCvMXfmqvL/Siwvw4lHMt0SYGVH3OoK/JlqhoOxMAtvbXYHBh1zezGZ9XXoJ/0WeaxuRDt/3Gm
-	m9UAcnld0nogKnEk9YNDDQdseyTzGpWIPEmGt2tVDfTj6JBFS69tzr/MIc8a+qneQaV9IwwimMX
-	2Qf0/BQKmDOCJ4X562XG3VKK/pIV338e/nS0WOUn0NpdyGre2jkE1hg6VP8=
-X-Google-Smtp-Source: AGHT+IE+7y5+t9Q/GNCtRe/3zeNUR8WLZQvpC6aT568z7tLzcQS7Wi1s0/ZFTK2EOgJznPsL8NunkA==
-X-Received: by 2002:a17:907:760c:b0:abf:1e70:f408 with SMTP id a640c23a62f3a-abf1e70f4f3mr120373166b.5.1740666193222;
-        Thu, 27 Feb 2025 06:23:13 -0800 (PST)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:4215])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abf0c6ed7f1sm128738766b.120.2025.02.27.06.23.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Feb 2025 06:23:12 -0800 (PST)
-Message-ID: <93f80c4d-960c-41d0-8fec-87b3b5b53bb0@gmail.com>
-Date: Thu, 27 Feb 2025 14:24:10 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0XfCSEy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740666810; x=1772202810;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/7TkpyI/3xJq4/KdGM0zlJYPHWAZBK9m2KiQsivk40g=;
+  b=T0XfCSEy9i0oFeB29wB6seddl+uSaOhTDs/zr/wVXdETjFqrdWXHButQ
+   b8yf9OD1yc5lFlFqeJddlInEITJ2HsK3anJi/Go1jddzZ5jmL9g+7IOSk
+   nyvR02GLC3Ia1ye/mfRQdOSKu4jm8yCiy01D/7q+IELWa03fbZI0ej9V2
+   X0udravFQkRnLYiG56DkbxitNuAExGlQv26Xs6tDdYaOFbmf0YLe275MK
+   BobwEPX5RggZdtCf0DMmf4rPflMPrnQ+On7sWG2a8aPF6cZypKnluURRG
+   SnPcog+iX1OERlOI3F7Ot5TWhPl5MHo7i5ojxG70iz5nI3W/vFqPn9bPh
+   Q==;
+X-CSE-ConnectionGUID: laFvwIkoS6qOn972icLotA==
+X-CSE-MsgGUID: TwbICwtATGudayTjU9SNcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45209775"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="45209775"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 06:33:29 -0800
+X-CSE-ConnectionGUID: G3v7KnSIQEC/dmTT5Z7lFA==
+X-CSE-MsgGUID: 4Ir4CB8fTfeMpV9AdEk7Qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="122281388"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 27 Feb 2025 06:33:28 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnex3-000DUU-2R;
+	Thu, 27 Feb 2025 14:33:25 +0000
+Date: Thu, 27 Feb 2025 22:30:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-riscv64 2/2]
+ kernel/sched/core.c:6861:4: error: call to undeclared function
+ 'stack_trace_save_tsk'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202502272242.HMnIRB86-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 6649/6931] io_uring/net.c:228
- io_compat_msg_copy_hdr() warn: unsigned 'tmp_iov.iov_len' is never less than
- zero.
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-References: <202502272105.kjTlPxVq-lkp@intel.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <202502272105.kjTlPxVq-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/27/25 14:00, kernel test robot wrote:
-...
->     216		uiov = compat_ptr(msg->msg_iov);
->     217		if (req->flags & REQ_F_BUFFER_SELECT) {
->     218			if (msg->msg_iovlen == 0) {
->     219				sr->len = iov->iov_len = 0;
->     220				iov->iov_base = NULL;
->     221			} else if (msg->msg_iovlen > 1) {
->     222				return -EINVAL;
->     223			} else {
->     224				struct compat_iovec tmp_iov;
->     225	
->     226				if (copy_from_user(&tmp_iov, uiov, sizeof(tmp_iov)))
->     227					return -EFAULT;
->   > 228				if (tmp_iov.iov_len < 0)
+tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
+head:   1f36e6de55f3acb717f090d6aa7ab10240b9a2a2
+commit: 45072073741a05cd16f4c1f65c647c90c1ed4446 [2/2] ANDROID: Fix invalid caller output in trace_sched_blocked_reason
+config: arm-mps2_defconfig (https://download.01.org/0day-ci/archive/20250227/202502272242.HMnIRB86-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502272242.HMnIRB86-lkp@intel.com/reproduce)
 
-This one we can just kill, !COMPAT path doesn't do it,
-import_ubuf takes care of sanitisation.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502272242.HMnIRB86-lkp@intel.com/
 
->     229					return -EINVAL;
->     230				sr->len = tmp_iov.iov_len;
->     231			}
->     232	
->     233			return 0;
->     234		}
->     235	
->     236		ret = __import_iovec(ddir, (struct iovec __user *)uiov, msg->msg_iovlen,
->     237					nr_segs, &iov, &iomsg->msg.msg_iter, true);
->     238		if (unlikely(ret < 0))
->     239			return ret;
->     240	
->     241		io_net_vec_assign(req, iomsg, iov);
->     242		return 0;
->     243	}
->     244	#endif
->     245	
-> 
+All errors (new ones prefixed by >>):
+
+>> kernel/sched/core.c:6861:4: error: call to undeclared function 'stack_trace_save_tsk'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           stack_trace_save_tsk(prev, &blocked_func, 1, 0);
+                           ^
+   1 error generated.
+
+
+vim +/stack_trace_save_tsk +6861 kernel/sched/core.c
+
+  6818	
+  6819		trace_android_rvh_schedule(prev, next, rq);
+  6820		if (likely(prev != next)) {
+  6821			rq->nr_switches++;
+  6822			/*
+  6823			 * RCU users of rcu_dereference(rq->curr) may not see
+  6824			 * changes to task_struct made by pick_next_task().
+  6825			 */
+  6826			RCU_INIT_POINTER(rq->curr, next);
+  6827			/*
+  6828			 * The membarrier system call requires each architecture
+  6829			 * to have a full memory barrier after updating
+  6830			 * rq->curr, before returning to user-space.
+  6831			 *
+  6832			 * Here are the schemes providing that barrier on the
+  6833			 * various architectures:
+  6834			 * - mm ? switch_mm() : mmdrop() for x86, s390, sparc, PowerPC,
+  6835			 *   RISC-V.  switch_mm() relies on membarrier_arch_switch_mm()
+  6836			 *   on PowerPC and on RISC-V.
+  6837			 * - finish_lock_switch() for weakly-ordered
+  6838			 *   architectures where spin_unlock is a full barrier,
+  6839			 * - switch_to() for arm64 (weakly-ordered, spin_unlock
+  6840			 *   is a RELEASE barrier),
+  6841			 *
+  6842			 * The barrier matches a full barrier in the proximity of
+  6843			 * the membarrier system call entry.
+  6844			 *
+  6845			 * On RISC-V, this barrier pairing is also needed for the
+  6846			 * SYNC_CORE command when switching between processes, cf.
+  6847			 * the inline comments in membarrier_arch_switch_mm().
+  6848			 */
+  6849			++*switch_count;
+  6850	
+  6851			migrate_disable_switch(rq, prev);
+  6852			psi_account_irqtime(rq, prev, next);
+  6853			psi_sched_switch(prev, next, block);
+  6854	
+  6855			trace_sched_switch(preempt, prev, next, prev_state);
+  6856	
+  6857			if (block && (prev_state & TASK_UNINTERRUPTIBLE)
+  6858				&& trace_sched_blocked_reason_enabled()) {
+  6859				unsigned long blocked_func = 0;
+  6860	
+> 6861				stack_trace_save_tsk(prev, &blocked_func, 1, 0);
+  6862				trace_sched_blocked_reason(prev, (void *)blocked_func);
+  6863			}
+  6864	
+  6865			/* Also unlocks the rq: */
+  6866			rq = context_switch(rq, prev, next, &rf);
+  6867		} else {
+  6868			rq_unpin_lock(rq, &rf);
+  6869			__balance_callbacks(rq);
+  6870			raw_spin_rq_unlock_irq(rq);
+  6871		}
+  6872	}
+  6873	
 
 -- 
-Pavel Begunkov
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
