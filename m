@@ -1,143 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDCE1F9F5C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 08:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0844A59;
+	Thu, 27 Feb 2025 08:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740643895; cv=none; b=VxL+lq8vnkRAlO9HRxUUSWLemFDDhmfWuYhcQjqKd9fsUYJRH1dFWuhh+EDjI8c1bMS9tdgwrsLgv5+bsbR0JWuHHzlWtPN9ndjoHIpOqWUXAUZZZVWupNb8ig/ujTJX1rHC7xQNOT0Hbjo9IgvIvtBbsN7Y1e25JMMwhmjEpM0=
+	t=1740644535; cv=none; b=JQ2YJ5JVAsx2D8CEGwVg7ADLe8E7S5wE9ca7BENE7ZLx6etrpze5Mic9ZNbSOrn6l7Mc/3yqeD8akGM6OoSx6urh1eBaXh49DmD4arHumQk7xNL/ifGXzDaSrieEByxHjX6+qgpB4CTh4IsFa3VY0RtxFqCPGZV2fTI8Qr3qFpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740643895; c=relaxed/simple;
-	bh=IdCm04ZJ5+6kP/DdU6oVxNDhEQ69k1U/iHKNasH+QxI=;
+	s=arc-20240116; t=1740644535; c=relaxed/simple;
+	bh=i1tZQ1KuwXwY1mpyJhajQ5uEpeTFDlu9mBg1cydprLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tHECf1HDjrGF3RnuXdnuVhUIOPMZbB8ln5eFE3pkOa1wEsYnTJlm5J2WizzwKEvAYPvfDOvR47JoCj/cxNfDtuN3vVB+2ryrJqd2Ajh8QhQ3795+efAvsAP6F5sM5kH5UM2XbUO8sX9wrOVQ2cLcK74732Yri4G/jOEM0GTvaQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egKs6a1z; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HjczjP9g7BSQr2Qst7lzvE0ILN5Zmygh69R3df29GmC1EqanR+7pSYzX4D9kCZ2QH1DuJk22MKEPk0Mrnffzyt5kxcKuEBP6GmlfRK2GBEshN/fIX8IwTqaDSIe1UbkfZsxUXnUIEnwaBGQR01g14hZI3zIStDT1sW/Mqhz+pLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gghl67Az; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egKs6a1z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740643894; x=1772179894;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IdCm04ZJ5+6kP/DdU6oVxNDhEQ69k1U/iHKNasH+QxI=;
-  b=egKs6a1zj0UxWAiy1d3NYG9gPRNHNKAMWt595clTRECfaYOQznyA7zbm
-   YQdUZt9ncsUWMX3kNuzMf7oT0F8D6Mz9wWn1u1sswAWbJI6qDkjssCQJh
-   TdnHqmw4TzahmxJNDztXRl3OVxq8J+HJjDXKf1XavG9wgN9ABK3AZgK4n
-   j2PqSnwFDuyJkvCrkNomYUKfxV29a9KwvmCFU7wk6OiRWfoFWNu15aBVW
-   pq6oQ0yknt5LmEhrG/KPIc6G+mal4ZugL3aXdw/l7FeALBOLNxnqvarvm
-   5xo8RFas2U8MRg+0jNdEm00538jkeQ9ct7SSmHsi/J/fu9FaUE6nrGfsK
-   Q==;
-X-CSE-ConnectionGUID: 5iasbKsgSfmW15xggmIIWw==
-X-CSE-MsgGUID: 5bghXYIMRlyWMY9MjgHwPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="63989827"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="63989827"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 00:11:33 -0800
-X-CSE-ConnectionGUID: KtBs/9o6T2u55FQRHBb1vg==
-X-CSE-MsgGUID: lMWsWV+kTYSd39whBQRkhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117864502"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 27 Feb 2025 00:11:30 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnYzP-000D4E-22;
-	Thu, 27 Feb 2025 08:11:27 +0000
-Date: Thu, 27 Feb 2025 16:10:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pawel Laszczak <pawell@cadence.com>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
-	"javier.carrasco@wolfvision.net" <javier.carrasco@wolfvision.net>,
-	"make_ruc2021@163.com" <make_ruc2021@163.com>,
-	"peter.chen@nxp.com" <peter.chen@nxp.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pawel Eichler <peichler@cadence.com>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v2] usb: xhci: lack of clearing xHC resources
-Message-ID: <202502271523.jt3l4VVu-lkp@intel.com>
-References: <PH7PR07MB95385E2766D01F3741D418ABDDC22@PH7PR07MB9538.namprd07.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gghl67Az"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BFD1C4CEDD;
+	Thu, 27 Feb 2025 08:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740644534;
+	bh=i1tZQ1KuwXwY1mpyJhajQ5uEpeTFDlu9mBg1cydprLo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Gghl67AzbmKpCkocUr8laoREpRbdf3xbUGqpQbmD9LiVxM8Ta4DE+dn3Waf9A1uL2
+	 obHEK6FpIKDtwBtfa5pPqPOKUGlWn2cj5yNI7xjb5lsYZY7038bm0qP+SIc2KOs4Ad
+	 gTNFz3mgPBf/Q0dgnjs5oIt9BqilMGT3WDQT9byfm8CXUijw8X5CMRWJulBI10XWzR
+	 bvFzXpJx5FaheXQjGCNPzDA9X/BgEqG7FiGtGSDfIeIR5UlorXrBa8fkNhZBSsg0Ay
+	 OBWVLpMfxrPKHMtc0J3Gl/MLC4Z9LPdULO4y7zIFBkl6Xk3oDmb8CkH9viRo9UDsV8
+	 x3RVOy76qqHXA==
+Date: Thu, 27 Feb 2025 09:22:10 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 6012/6583] fs/namespace.c:4442
+ __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+Message-ID: <20250227-fortgehen-kaleidoskop-53bbd5f32e71@brauner>
+References: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <PH7PR07MB95385E2766D01F3741D418ABDDC22@PH7PR07MB9538.namprd07.prod.outlook.com>
+In-Reply-To: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
 
-Hi Pawel,
+On Wed, Feb 26, 2025 at 03:24:12PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
+> commit: b1e9423d65e330346f9e80e819872ab66f1e35b6 [6012/6583] fs: support getname_maybe_null() in move_mount()
+> config: x86_64-randconfig-161-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262044.uRrhoaDw-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202502262044.uRrhoaDw-lkp@intel.com/
+> 
+> New smatch warnings:
+> fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+> fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
+> 
+> vim +/uflags +4442 fs/namespace.c
 
-kernel test robot noticed the following build warnings:
+Thanks for the report, Dan!
+I've already accepted a patch that fixes this issue!
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Laszczak/usb-xhci-lack-of-clearing-xHC-resources/20250226-153837
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/PH7PR07MB95385E2766D01F3741D418ABDDC22%40PH7PR07MB9538.namprd07.prod.outlook.com
-patch subject: [PATCH v2] usb: xhci: lack of clearing xHC resources
-config: i386-buildonly-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271523.jt3l4VVu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271523.jt3l4VVu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271523.jt3l4VVu-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/usb/core/hub.c:6084: warning: Function parameter or struct member 'udev' not described in 'hub_hc_release_resources'
->> drivers/usb/core/hub.c:6084: warning: Excess function parameter 'pdev' description in 'hub_hc_release_resources'
-
-
-vim +6084 drivers/usb/core/hub.c
-
-  6067	
-  6068	/**
-  6069	 * hub_hc_release_resources - clear resources used by host controller
-  6070	 * @pdev: pointer to device being released
-  6071	 *
-  6072	 * Context: task context, might sleep
-  6073	 *
-  6074	 * Function releases the host controller resources in correct order before
-  6075	 * making any operation on resuming usb device. The host controller resources
-  6076	 * allocated for devices in tree should be released starting from the last
-  6077	 * usb device in tree toward the root hub. This function is used only during
-  6078	 * resuming device when usb device require reinitialization - that is, when
-  6079	 * flag udev->reset_resume is set.
-  6080	 *
-  6081	 * This call is synchronous, and may not be used in an interrupt context.
-  6082	 */
-  6083	static void hub_hc_release_resources(struct usb_device *udev)
-> 6084	{
-  6085		struct usb_hub *hub = usb_hub_to_struct_hub(udev);
-  6086		struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-  6087		int i;
-  6088	
-  6089		/* Release up resources for all children before this device */
-  6090		for (i = 0; i < udev->maxchild; i++)
-  6091			if (hub->ports[i]->child)
-  6092				hub_hc_release_resources(hub->ports[i]->child);
-  6093	
-  6094		if (hcd->driver->reset_device)
-  6095			hcd->driver->reset_device(hcd, udev);
-  6096	}
-  6097	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 2db154b3ea8e14 David Howells     2018-11-05  4412  SYSCALL_DEFINE5(move_mount,
+> 2658ce095df583 Ben Dooks         2019-10-15  4413  		int, from_dfd, const char __user *, from_pathname,
+> 2658ce095df583 Ben Dooks         2019-10-15  4414  		int, to_dfd, const char __user *, to_pathname,
+> 2db154b3ea8e14 David Howells     2018-11-05  4415  		unsigned int, flags)
+> 2db154b3ea8e14 David Howells     2018-11-05  4416  {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4417  	struct path to_path __free(path_put) = {};
+> b1e9423d65e330 Christian Brauner 2025-02-21  4418  	struct path from_path __free(path_put) = {};
+> b1e9423d65e330 Christian Brauner 2025-02-21  4419  	struct filename *to_name __free(putname) = NULL;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4420  	struct filename *from_name __free(putname) = NULL;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4421  	unsigned int lflags, uflags;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4422  	enum mnt_tree_flags_t mflags = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4423  	int ret = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4424  
+> 2db154b3ea8e14 David Howells     2018-11-05  4425  	if (!may_mount())
+> 2db154b3ea8e14 David Howells     2018-11-05  4426  		return -EPERM;
+> 2db154b3ea8e14 David Howells     2018-11-05  4427  
+> 2db154b3ea8e14 David Howells     2018-11-05  4428  	if (flags & ~MOVE_MOUNT__MASK)
+> 2db154b3ea8e14 David Howells     2018-11-05  4429  		return -EINVAL;
+> 2db154b3ea8e14 David Howells     2018-11-05  4430  
+> 6ac392815628f3 Christian Brauner 2023-05-03  4431  	if ((flags & (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP)) ==
+> 6ac392815628f3 Christian Brauner 2023-05-03  4432  	    (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP))
+> 6ac392815628f3 Christian Brauner 2023-05-03  4433  		return -EINVAL;
+> 6ac392815628f3 Christian Brauner 2023-05-03  4434  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4435  	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4436  	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4437  
+> 2db154b3ea8e14 David Howells     2018-11-05  4438  	lflags = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4439  	if (flags & MOVE_MOUNT_F_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
+> 2db154b3ea8e14 David Howells     2018-11-05  4440  	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4441  	if (flags & MOVE_MOUNT_F_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
+> 
+> uflags is uninitialized on the else path.
+> 
+> b1e9423d65e330 Christian Brauner 2025-02-21 @4442  	from_name = getname_maybe_null(from_pathname, uflags);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4443  	if (IS_ERR(from_name))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4444  		return PTR_ERR(from_name);
+> 2db154b3ea8e14 David Howells     2018-11-05  4445  
+> 2db154b3ea8e14 David Howells     2018-11-05  4446  	lflags = 0;
+> 2db154b3ea8e14 David Howells     2018-11-05  4447  	if (flags & MOVE_MOUNT_T_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
+> 2db154b3ea8e14 David Howells     2018-11-05  4448  	if (flags & MOVE_MOUNT_T_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4449  	if (flags & MOVE_MOUNT_T_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4450  	to_name = getname_maybe_null(to_pathname, uflags);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4451  	if (IS_ERR(to_name))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4452  		return PTR_ERR(to_name);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4453  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4454  	if (!to_name && to_dfd >= 0) {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4455  		CLASS(fd_raw, f_to)(to_dfd);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4456  		if (fd_empty(f_to))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4457  			return -EBADF;
+> 2db154b3ea8e14 David Howells     2018-11-05  4458  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4459  		to_path = fd_file(f_to)->f_path;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4460  		path_get(&to_path);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4461  	} else {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4462  		ret = filename_lookup(to_dfd, to_name, lflags, &to_path, NULL);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4463  		if (ret)
+> b1e9423d65e330 Christian Brauner 2025-02-21  4464  			return ret;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4465  	}
+> 2db154b3ea8e14 David Howells     2018-11-05  4466  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4467  	if (!from_name && from_dfd >= 0) {
+> b1e9423d65e330 Christian Brauner 2025-02-21  4468  		CLASS(fd_raw, f_from)(from_dfd);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4469  		if (fd_empty(f_from))
+> b1e9423d65e330 Christian Brauner 2025-02-21  4470  			return -EBADF;
+> 2db154b3ea8e14 David Howells     2018-11-05  4471  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4472  		return vfs_move_mount(&fd_file(f_from)->f_path, &to_path, mflags);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4473  	}
+> 2db154b3ea8e14 David Howells     2018-11-05  4474  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4475  	ret = filename_lookup(from_dfd, from_name, lflags, &from_path, NULL);
+> b1e9423d65e330 Christian Brauner 2025-02-21  4476  	if (ret)
+> 2db154b3ea8e14 David Howells     2018-11-05  4477  		return ret;
+> b1e9423d65e330 Christian Brauner 2025-02-21  4478  
+> b1e9423d65e330 Christian Brauner 2025-02-21  4479  	return vfs_move_mount(&from_path, &to_path, mflags);
+> 2db154b3ea8e14 David Howells     2018-11-05  4480  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
