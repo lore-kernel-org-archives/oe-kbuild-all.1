@@ -1,63 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA131E521E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 05:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386821C5D6E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 05:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740634593; cv=none; b=VNr8r7MpVBlVx8fg0p9jEIPtq38ZWfyKO8f+T1eDBlzfq2LpDW0AaPaoLbGSK4cmRmFH2iF9YOGrofO1i/wvdyk7yysSE9kL/C+IWAWdMJ722VHBpMfVnKbGFqXIQykmPkIkjGXbQdlbh/u2eoD2+18Hu8SvcHbHJpUdym5Gq7I=
+	t=1740635811; cv=none; b=eeqDb6SWyTRCtOJg4+uqkjpCCETCJZUo8B6llOQyMDmbsc8t+zckqVWFkrfRuKKgTPweoFOQS4YrvXXZ2ILVlxVoLkG43xXmn8uXLpdE73VAt1Wmedk9MTk+OE016e9gKn32OsjkZyz7nQTAwaBd76HpAoWfL3Deaa9uK2xf62w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740634593; c=relaxed/simple;
-	bh=qycoDyCUUnRt1gaExP3+q5vKy6BHJkpQXoGJM1YDQCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MOgedVjLjkkY3LZdlJeVwJ1j9X7npwCUYhitdD/gzaXEnlW2wVB+0pZqkYIw/huKRNkgJyyxQ59a/1uozjbTdRNi4nYs/UBpjqTBQqVapvxs0Z1zb1N8pUERncd0CuERAHYZzlNMtdu0L2yU7k1sFiRkslExszpNBBUC/uCEKGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN2ZrDA7; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740635811; c=relaxed/simple;
+	bh=MiyddU2tgNTmDEbaDTCguJiyNGY3QxY6d6ri7PWBSSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aydnw7N0GRcxN7CBQ6MFpFrcFlenuvbZq7lBZFgvJs4ibT0i3Mor9Ptnk4S5jmKM0tKk4nAQfA9aNICXPO/CSmu6huAnNvjvbani5r5g9sYmUwJ09fXOydV7e+PAu7fOfmYIGR33E9anTo3EmpwjRkun0k6pEvuA/TK4nHImNDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H96N1OsN; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN2ZrDA7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740634592; x=1772170592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qycoDyCUUnRt1gaExP3+q5vKy6BHJkpQXoGJM1YDQCI=;
-  b=FN2ZrDA7kgI8d/cAL2QMlluR9Jxw1WuO4ADJtWRv8EIct5B9+xwfj9/Z
-   CpxKA3SWaTRNqVkk2reAlM5gx9ezCrYr6SKRKosyhkUSXY0o+SC2u4bs5
-   OlllBI3OvkEHCRe7titFwIK2LS0r557Y4j0o3wK5AsnnIftG2qiRGG15v
-   DAW+fUASAGkn2pY0n8wCuqD+GshKRl63kc0yKBAvqD6jkHaqs/qo/PvFv
-   mOkoVgOMSN/ACwAw65rNmzwm1kDM6QtjvnfFzeDAa5wJDmDpheTs232Vg
-   tuWrrZL9yfVdZzCWdOWeojeNVhyKvskOsvpAFa6tnkgK/pSPIaTJIx/c7
-   A==;
-X-CSE-ConnectionGUID: WUqyve8NReGD2SRv3uuaGw==
-X-CSE-MsgGUID: emxSKeLfR4mGGyWv4xRG3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41530293"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="41530293"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 21:36:31 -0800
-X-CSE-ConnectionGUID: +vykHYAPTAWfDOyvQRSYwA==
-X-CSE-MsgGUID: GhhMyq7sRECdG3AyF9xi9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="121932813"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 26 Feb 2025 21:36:28 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tnWZO-000Cty-0L;
-	Thu, 27 Feb 2025 05:36:26 +0000
-Date: Thu, 27 Feb 2025 13:35:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: zhongjinji@honor.com, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, yuzhao@google.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	rientjes@google.com, vbabka@suse.cz, zhongjinji@honor.com,
-	yipengxiang@honor.com, liulu.liu@honor.com, feng.han@honor.com
-Subject: Re: [PATCH] mm/page_alloc: make the maximum number of highatomic
- pageblocks resizable
-Message-ID: <202502271338.7VyyFcoF-lkp@intel.com>
-References: <20250226024126.3718-1-zhongjinji@honor.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H96N1OsN"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-abbd96bef64so91786766b.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Feb 2025 21:56:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740635807; x=1741240607; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZXLQxXcuCf57XEtDqs12ZZ6d38hjRE+HBHVkPeO7MEM=;
+        b=H96N1OsNvNRZz12ffofQcuq/uCUYFbD9aMozBv787wXu/scXjByM7x4QAtK1SiUjDk
+         hqpnhDOzuGcZp732SODD5o2yoO8zUukKXztx4ERB6KLNf5ciSwcSkvbST4WSCxxgGuH3
+         GoDBriQpsRT7NVBGz3bGShEvTQueA9oqXnAt84o08BMdvWG6LgQ28iizFFCubWvwPG0H
+         AouMz6uVQTFAhTvuw+KQgpfKrSblaB5/dq7RkYA0O9p/rjCiOvLS6k6q6hYrzVIhLnHs
+         CqgZ41HQMSby85ELDJteDUh5Mx3N0VU6/LokU5x4LYrgLEhqX5iosOcBj7IsH6qbO9xt
+         T+yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740635807; x=1741240607;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZXLQxXcuCf57XEtDqs12ZZ6d38hjRE+HBHVkPeO7MEM=;
+        b=BwtJri6EaVAHn/TfedFFosqM60BFf7H+/obivMS2DyeL/R0l0CNk4VQMt4XATLwXCU
+         RZFrBYFGiGG/0hNYbljL/0ztsZqHRLAcngkqTVEdc1IDyvPJ67IScwvi1c907JoBq9RU
+         c7rYhe2W0G7m1VoMGLpUyRaXRGlYJuJpDFyXz4pxULNUoEH6vAzHbk08HG72ta23R7qP
+         CqPuxT/VN6JyPOojvcoiVANdjGdhyHipVwLzloY6d8z6vIHPpc9gJ+Kuwg5uWt/uZUK9
+         68JWr6P7D7V79cDH53nAIsSWJa6jdICgpSEdy4cwLHU1m4CrmdKIcit9g0hGXXEqtSsz
+         kOWw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7d71/MIsfCmBzuxJK60I5p04OmGX05nq5HYUs8eiQ+x3JDxPxtblLMA6HDrYKn/9RSmV7so37Bb6kZelU@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTvT8baeTXhOYoRjrb0Bi7EZlbDzQRAA5M9Vew164uB81z6Yde
+	BerQ53/GvGpnttEmYbBryMmhkFuKOzg/3xoAGKu5RNAJzLa2iWNNg+lALbhPshk=
+X-Gm-Gg: ASbGncs3OY6CnxA9883FfhDtD7H4C5ya2XghdPsxtuUWSqBEQ4tDNp0Qy5NPexW7buZ
+	OBpPb2JsaCnsim0YT16l+l3xZqkSvSp4MWuzs84QGpkGsXBrC7Qm+oiHw97Kn0lDKPTS8hjnWSX
+	lhA/J3kZQ6qiZ9mAuQiMEpe0CsihJ2790EVbHtOJiIxoy97Ngd39TuWbrtCQM+3lFH+HRrB/mfK
+	eaWD/yPpsb3QSHKT6gkFv+wY2fZcdJQBRuSTkRnXrTnQLIWFfQAwsqYU9cJnGhrYUD67+xrCos9
+	svd9OCTCTOmscniMaZ76PwWa4QPUeGg=
+X-Google-Smtp-Source: AGHT+IFVZa3lS8MmqYUlhtMpkkd+H56ifZixSk6eTaLvSx0RJHjbWK905sFTsmzA3RLqW3w5yo8AOQ==
+X-Received: by 2002:a17:906:3109:b0:aa6:7091:1e91 with SMTP id a640c23a62f3a-abed0c66947mr1116813366b.11.1740635807423;
+        Wed, 26 Feb 2025 21:56:47 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abf17fa4a4asm20390166b.92.2025.02.26.21.56.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Feb 2025 21:56:47 -0800 (PST)
+Date: Thu, 27 Feb 2025 08:56:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>
+Subject: [axboe-block:for-6.15/io_uring 43/57] io_uring/rw.c:299 io_prep_rw()
+ error: uninitialized symbol 'ret'.
+Message-ID: <e14911d2-c648-4738-84e4-48af3fcfdd9c@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,254 +71,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250226024126.3718-1-zhongjinji@honor.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zhongjinji-honor-com/mm-page_alloc-make-the-maximum-number-of-highatomic-pageblocks-resizable/20250226-121712
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250226024126.3718-1-zhongjinji%40honor.com
-patch subject: [PATCH] mm/page_alloc: make the maximum number of highatomic pageblocks resizable
-config: x86_64-buildonly-randconfig-003-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271338.7VyyFcoF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271338.7VyyFcoF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/io_uring
+head:   047fa0ba8f1bed6b1c5d88e31c4fd187de16dbc1
+commit: 61ed48b5fc63d1c6d9c3eb59ed2b46a2cbfc6039 [43/57] io_uring/rw: open code io_prep_rw_setup()
+config: i386-randconfig-141-20250226 (https://download.01.org/0day-ci/archive/20250227/202502271201.3Eaa0Ych-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271338.7VyyFcoF-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202502271201.3Eaa0Ych-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+io_uring/rw.c:299 io_prep_rw() error: uninitialized symbol 'ret'.
 
->> mm/page_alloc.c:6262:17: error: field name not in record or union initializer
-    6262 |                 .procname       = "highatomic_reserve_ratio",
-         |                 ^
-   mm/page_alloc.c:6262:17: note: (near initialization for 'page_alloc_sysctl_table')
->> mm/page_alloc.c:6262:35: error: invalid initializer
-    6262 |                 .procname       = "highatomic_reserve_ratio",
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:6262:35: note: (near initialization for 'page_alloc_sysctl_table[4].<anonymous>')
-   mm/page_alloc.c:6263:17: error: field name not in record or union initializer
-    6263 |                 .data           = &highatomic_reserve_ratio,
-         |                 ^
-   mm/page_alloc.c:6263:17: note: (near initialization for 'page_alloc_sysctl_table')
-   mm/page_alloc.c:6263:35: error: invalid initializer
-    6263 |                 .data           = &highatomic_reserve_ratio,
-         |                                   ^
-   mm/page_alloc.c:6263:35: note: (near initialization for 'page_alloc_sysctl_table[5].<anonymous>')
-   mm/page_alloc.c:6264:17: error: field name not in record or union initializer
-    6264 |                 .maxlen         = sizeof(highatomic_reserve_ratio),
-         |                 ^
-   mm/page_alloc.c:6264:17: note: (near initialization for 'page_alloc_sysctl_table')
-   mm/page_alloc.c:6264:35: error: invalid initializer
-    6264 |                 .maxlen         = sizeof(highatomic_reserve_ratio),
-         |                                   ^~~~~~
-   mm/page_alloc.c:6264:35: note: (near initialization for 'page_alloc_sysctl_table[6].<anonymous>')
-   mm/page_alloc.c:6265:17: error: field name not in record or union initializer
-    6265 |                 .mode           = 0644,
-         |                 ^
-   mm/page_alloc.c:6265:17: note: (near initialization for 'page_alloc_sysctl_table')
-   mm/page_alloc.c:6265:35: error: invalid initializer
-    6265 |                 .mode           = 0644,
-         |                                   ^~~~
-   mm/page_alloc.c:6265:35: note: (near initialization for 'page_alloc_sysctl_table[7].<anonymous>')
-   mm/page_alloc.c:6266:17: error: field name not in record or union initializer
-    6266 |                 .proc_handler   = proc_dointvec_minmax,
-         |                 ^
-   mm/page_alloc.c:6266:17: note: (near initialization for 'page_alloc_sysctl_table')
-   mm/page_alloc.c:6266:35: error: invalid initializer
-    6266 |                 .proc_handler   = proc_dointvec_minmax,
-         |                                   ^~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:6266:35: note: (near initialization for 'page_alloc_sysctl_table[8].<anonymous>')
-   mm/page_alloc.c:6267:17: error: field name not in record or union initializer
-    6267 |                 .extra1         = SYSCTL_ZERO,
-         |                 ^
-   mm/page_alloc.c:6267:17: note: (near initialization for 'page_alloc_sysctl_table')
-   In file included from include/linux/key.h:17,
-                    from include/linux/cred.h:13,
-                    from include/linux/sched/signal.h:10,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/mm.h:35,
-                    from mm/page_alloc.c:19:
->> include/linux/sysctl.h:41:41: error: invalid initializer
-      41 | #define SYSCTL_ZERO                     ((void *)&sysctl_vals[0])
-         |                                         ^
-   mm/page_alloc.c:6267:35: note: in expansion of macro 'SYSCTL_ZERO'
-    6267 |                 .extra1         = SYSCTL_ZERO,
-         |                                   ^~~~~~~~~~~
-   include/linux/sysctl.h:41:41: note: (near initialization for 'page_alloc_sysctl_table[9].<anonymous>')
-      41 | #define SYSCTL_ZERO                     ((void *)&sysctl_vals[0])
-         |                                         ^
-   mm/page_alloc.c:6267:35: note: in expansion of macro 'SYSCTL_ZERO'
-    6267 |                 .extra1         = SYSCTL_ZERO,
-         |                                   ^~~~~~~~~~~
->> mm/page_alloc.c:6228:59: warning: missing braces around initializer [-Wmissing-braces]
-    6228 | static const struct ctl_table page_alloc_sysctl_table[] = {
-         |                                                           ^
->> mm/page_alloc.c:6269:9: error: expected identifier or '(' before '{' token
-    6269 |         {
-         |         ^
-   mm/page_alloc.c:6275:10: error: expected identifier or '(' before ',' token
-    6275 |         },
-         |          ^
->> mm/page_alloc.c:6174:12: warning: 'lowmem_reserve_ratio_sysctl_handler' defined but not used [-Wunused-function]
-    6174 | static int lowmem_reserve_ratio_sysctl_handler(const struct ctl_table *table,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/suspend.h:5,
-                    from mm/page_alloc.c:28:
-   include/linux/swap.h:590:12: warning: 'folio_alloc_swap' defined but not used [-Wunused-function]
-     590 | static int folio_alloc_swap(struct folio *folio, gfp_t gfp_mask)
-         |            ^~~~~~~~~~~~~~~~
+vim +/ret +299 io_uring/rw.c
 
+a9165b83c1937e Jens Axboe        2024-03-18  248  static int io_prep_rw(struct io_kiocb *req, const struct io_uring_sqe *sqe,
+a9165b83c1937e Jens Axboe        2024-03-18  249  		      int ddir, bool do_import)
+f3b44f92e59a80 Jens Axboe        2022-06-13  250  {
+f2ccb5aed7bce1 Stefan Metzmacher 2022-08-11  251  	struct io_rw *rw = io_kiocb_to_cmd(req, struct io_rw);
+f3b44f92e59a80 Jens Axboe        2022-06-13  252  	unsigned ioprio;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  253  	u64 attr_type_mask;
+f3b44f92e59a80 Jens Axboe        2022-06-13  254  	int ret;
+f3b44f92e59a80 Jens Axboe        2022-06-13  255  
+c72282dd865ee6 Pavel Begunkov    2025-02-24  256  	if (io_rw_alloc_async(req))
+c72282dd865ee6 Pavel Begunkov    2025-02-24  257  		return -ENOMEM;
+c72282dd865ee6 Pavel Begunkov    2025-02-24  258  
+f3b44f92e59a80 Jens Axboe        2022-06-13  259  	rw->kiocb.ki_pos = READ_ONCE(sqe->off);
+f3b44f92e59a80 Jens Axboe        2022-06-13  260  	/* used for fixed read/write too - just read unconditionally */
+f3b44f92e59a80 Jens Axboe        2022-06-13  261  	req->buf_index = READ_ONCE(sqe->buf_index);
+f3b44f92e59a80 Jens Axboe        2022-06-13  262  
+f3b44f92e59a80 Jens Axboe        2022-06-13  263  	ioprio = READ_ONCE(sqe->ioprio);
+f3b44f92e59a80 Jens Axboe        2022-06-13  264  	if (ioprio) {
+f3b44f92e59a80 Jens Axboe        2022-06-13  265  		ret = ioprio_check_cap(ioprio);
+f3b44f92e59a80 Jens Axboe        2022-06-13  266  		if (ret)
+f3b44f92e59a80 Jens Axboe        2022-06-13  267  			return ret;
+f3b44f92e59a80 Jens Axboe        2022-06-13  268  
+f3b44f92e59a80 Jens Axboe        2022-06-13  269  		rw->kiocb.ki_ioprio = ioprio;
+f3b44f92e59a80 Jens Axboe        2022-06-13  270  	} else {
+f3b44f92e59a80 Jens Axboe        2022-06-13  271  		rw->kiocb.ki_ioprio = get_current_ioprio();
+f3b44f92e59a80 Jens Axboe        2022-06-13  272  	}
+099ada2c87260e Jens Axboe        2023-07-08  273  	rw->kiocb.dio_complete = NULL;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  274  	rw->kiocb.ki_flags = 0;
+f3b44f92e59a80 Jens Axboe        2022-06-13  275  
+f3b44f92e59a80 Jens Axboe        2022-06-13  276  	rw->addr = READ_ONCE(sqe->addr);
+f3b44f92e59a80 Jens Axboe        2022-06-13  277  	rw->len = READ_ONCE(sqe->len);
+f3b44f92e59a80 Jens Axboe        2022-06-13  278  	rw->flags = READ_ONCE(sqe->rw_flags);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  279  
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  280  	if (do_import && !io_do_buffer_select(req)) {
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  281  		struct io_async_rw *io = req->async_data;
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  282  
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  283  		ret = io_import_rw_buffer(ddir, req, io, 0);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  284  		if (unlikely(ret))
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  285  			return ret;
+61ed48b5fc63d1 Pavel Begunkov    2025-02-24  286  	}
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  287  
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  288  	attr_type_mask = READ_ONCE(sqe->attr_type_mask);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  289  	if (attr_type_mask) {
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  290  		u64 attr_ptr;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  291  
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  292  		/* only PI attribute is supported currently */
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  293  		if (attr_type_mask != IORING_RW_ATTR_FLAG_PI)
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  294  			return -EINVAL;
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  295  
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  296  		attr_ptr = READ_ONCE(sqe->attr_ptr);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  297  		ret = io_prep_rw_pi(req, rw, ddir, attr_ptr, attr_type_mask);
+59a7d12a7fb5ab Anuj Gupta        2024-11-28  298  	}
+59a7d12a7fb5ab Anuj Gupta        2024-11-28 @299  	return ret;
 
-vim +6262 mm/page_alloc.c
+Smatch is concerned that we could hit all three else statements.
 
-  6164	
-  6165	/*
-  6166	 * lowmem_reserve_ratio_sysctl_handler - just a wrapper around
-  6167	 *	proc_dointvec() so that we can call setup_per_zone_lowmem_reserve()
-  6168	 *	whenever sysctl_lowmem_reserve_ratio changes.
-  6169	 *
-  6170	 * The reserve ratio obviously has absolutely no relation with the
-  6171	 * minimum watermarks. The lowmem reserve ratio can only make sense
-  6172	 * if in function of the boot time zone sizes.
-  6173	 */
-> 6174	static int lowmem_reserve_ratio_sysctl_handler(const struct ctl_table *table,
-  6175			int write, void *buffer, size_t *length, loff_t *ppos)
-  6176	{
-  6177		int i;
-  6178	
-  6179		proc_dointvec_minmax(table, write, buffer, length, ppos);
-  6180	
-  6181		for (i = 0; i < MAX_NR_ZONES; i++) {
-  6182			if (sysctl_lowmem_reserve_ratio[i] < 1)
-  6183				sysctl_lowmem_reserve_ratio[i] = 0;
-  6184		}
-  6185	
-  6186		setup_per_zone_lowmem_reserve();
-  6187		return 0;
-  6188	}
-  6189	
-  6190	/*
-  6191	 * percpu_pagelist_high_fraction - changes the pcp->high for each zone on each
-  6192	 * cpu. It is the fraction of total pages in each zone that a hot per cpu
-  6193	 * pagelist can have before it gets flushed back to buddy allocator.
-  6194	 */
-  6195	static int percpu_pagelist_high_fraction_sysctl_handler(const struct ctl_table *table,
-  6196			int write, void *buffer, size_t *length, loff_t *ppos)
-  6197	{
-  6198		struct zone *zone;
-  6199		int old_percpu_pagelist_high_fraction;
-  6200		int ret;
-  6201	
-  6202		mutex_lock(&pcp_batch_high_lock);
-  6203		old_percpu_pagelist_high_fraction = percpu_pagelist_high_fraction;
-  6204	
-  6205		ret = proc_dointvec_minmax(table, write, buffer, length, ppos);
-  6206		if (!write || ret < 0)
-  6207			goto out;
-  6208	
-  6209		/* Sanity checking to avoid pcp imbalance */
-  6210		if (percpu_pagelist_high_fraction &&
-  6211		    percpu_pagelist_high_fraction < MIN_PERCPU_PAGELIST_HIGH_FRACTION) {
-  6212			percpu_pagelist_high_fraction = old_percpu_pagelist_high_fraction;
-  6213			ret = -EINVAL;
-  6214			goto out;
-  6215		}
-  6216	
-  6217		/* No change? */
-  6218		if (percpu_pagelist_high_fraction == old_percpu_pagelist_high_fraction)
-  6219			goto out;
-  6220	
-  6221		for_each_populated_zone(zone)
-  6222			zone_set_pageset_high_and_batch(zone, 0);
-  6223	out:
-  6224		mutex_unlock(&pcp_batch_high_lock);
-  6225		return ret;
-  6226	}
-  6227	
-> 6228	static const struct ctl_table page_alloc_sysctl_table[] = {
-  6229		{
-  6230			.procname	= "min_free_kbytes",
-  6231			.data		= &min_free_kbytes,
-  6232			.maxlen		= sizeof(min_free_kbytes),
-  6233			.mode		= 0644,
-  6234			.proc_handler	= min_free_kbytes_sysctl_handler,
-  6235			.extra1		= SYSCTL_ZERO,
-  6236		},
-  6237		{
-  6238			.procname	= "watermark_boost_factor",
-  6239			.data		= &watermark_boost_factor,
-  6240			.maxlen		= sizeof(watermark_boost_factor),
-  6241			.mode		= 0644,
-  6242			.proc_handler	= proc_dointvec_minmax,
-  6243			.extra1		= SYSCTL_ZERO,
-  6244		},
-  6245		{
-  6246			.procname	= "watermark_scale_factor",
-  6247			.data		= &watermark_scale_factor,
-  6248			.maxlen		= sizeof(watermark_scale_factor),
-  6249			.mode		= 0644,
-  6250			.proc_handler	= watermark_scale_factor_sysctl_handler,
-  6251			.extra1		= SYSCTL_ONE,
-  6252			.extra2		= SYSCTL_THREE_THOUSAND,
-  6253		},
-  6254		{
-  6255			.procname	= "percpu_pagelist_high_fraction",
-  6256			.data		= &percpu_pagelist_high_fraction,
-  6257			.maxlen		= sizeof(percpu_pagelist_high_fraction),
-  6258			.mode		= 0644,
-  6259			.proc_handler	= percpu_pagelist_high_fraction_sysctl_handler,
-  6260			.extra1		= SYSCTL_ZERO,
-  6261		},
-> 6262			.procname	= "highatomic_reserve_ratio",
-  6263			.data		= &highatomic_reserve_ratio,
-  6264			.maxlen		= sizeof(highatomic_reserve_ratio),
-  6265			.mode		= 0644,
-  6266			.proc_handler	= proc_dointvec_minmax,
-  6267			.extra1		= SYSCTL_ZERO,
-  6268		},
-> 6269		{
-  6270			.procname	= "lowmem_reserve_ratio",
-  6271			.data		= &sysctl_lowmem_reserve_ratio,
-  6272			.maxlen		= sizeof(sysctl_lowmem_reserve_ratio),
-  6273			.mode		= 0644,
-  6274			.proc_handler	= lowmem_reserve_ratio_sysctl_handler,
-  6275		},
-  6276	#ifdef CONFIG_NUMA
-  6277		{
-  6278			.procname	= "numa_zonelist_order",
-  6279			.data		= &numa_zonelist_order,
-  6280			.maxlen		= NUMA_ZONELIST_ORDER_LEN,
-  6281			.mode		= 0644,
-  6282			.proc_handler	= numa_zonelist_order_handler,
-  6283		},
-  6284		{
-  6285			.procname	= "min_unmapped_ratio",
-  6286			.data		= &sysctl_min_unmapped_ratio,
-  6287			.maxlen		= sizeof(sysctl_min_unmapped_ratio),
-  6288			.mode		= 0644,
-  6289			.proc_handler	= sysctl_min_unmapped_ratio_sysctl_handler,
-  6290			.extra1		= SYSCTL_ZERO,
-  6291			.extra2		= SYSCTL_ONE_HUNDRED,
-  6292		},
-  6293		{
-  6294			.procname	= "min_slab_ratio",
-  6295			.data		= &sysctl_min_slab_ratio,
-  6296			.maxlen		= sizeof(sysctl_min_slab_ratio),
-  6297			.mode		= 0644,
-  6298			.proc_handler	= sysctl_min_slab_ratio_sysctl_handler,
-  6299			.extra1		= SYSCTL_ZERO,
-  6300			.extra2		= SYSCTL_ONE_HUNDRED,
-  6301		},
-  6302	#endif
-  6303	};
-  6304	
+a9165b83c1937e Jens Axboe        2024-03-18  300  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
