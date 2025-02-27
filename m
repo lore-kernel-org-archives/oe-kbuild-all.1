@@ -1,64 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A289023E339
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 23:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54440272918
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 23:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740700773; cv=none; b=tgkuQim2d4KMMUJmpvSEqKKB9yzd0YTZ2qOgfarF5QpkwMQhkU0C8YMo0r3By2yuB9l3l5vojdTqVu48JWVbhlNuXLT/FGYBOic3IOd5QwgOZKIdLsXNqo++XeIDzXWaC9SG/Yaqbfbkmw78JTDLIvo5E1G4KYBpq4IMZYwsAIY=
+	t=1740700774; cv=none; b=Sv0BDPj6hPnkpbfIR5hfyWcEv39HHy06Ya+FpitJKMm9puxeM63eVgLOcywa4z6rgQu7myCmSWIUbadJJivvfB1c4sICWTXwcV8I5GW5EnDuu1PVxUN9SVDRQ3FgjCbH1BhWeXHqXCvBAwwTKo9dfslPkkf7oo9V4QMliKwFnns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740700773; c=relaxed/simple;
-	bh=ITy8k5jUfknq+Y5v4tUBpidCS7oTrz86FIfjVJcACKU=;
+	s=arc-20240116; t=1740700774; c=relaxed/simple;
+	bh=/agnUZDgWlxSvKeQY3JUoMYzB/+byrjfvzVqkXRYtNQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KQKOS67Mkal3MBma1ccIYiYnea/Bc7U4ETGKu7USkVV6tlGwmwcMboZ3LJpmBJotI+MbSTSpWu2drKuOnPHDAjbknUiwOaXFcxXXqgwzFJW4D0kbY/6cdGwvFspQ5N/xfKDHQGyzyWNIsEfNlA0wzXKcMPdBNKfpD7Dmb5ETAi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XaFGytgA; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8Uc4STyQ7ueAHXecV70ynQYZxJs8DbaYmbqEYn/dRK5yQqMSGVYJv5NW2DBO+zv9rbjsLIpAT8JPWekpX8J3eUAWzlrkLzc8vb0j/jWhb5nBc/kUiACl9RfTzY2p0rNTVNbMnTYAklrzvYZX7wH0YkdFnvRBS9PIxSyEM5iv8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKFi+JY4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XaFGytgA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKFi+JY4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740700772; x=1772236772;
+  t=1740700774; x=1772236774;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ITy8k5jUfknq+Y5v4tUBpidCS7oTrz86FIfjVJcACKU=;
-  b=XaFGytgA/48qWXO0SM8c/F87B2t12jjCYvWu/LgWEeVdGTCvQWdhsrPZ
-   oSPBYHnf7THtFIwUT/GLLpUidBT8x3gcIypWTb1OHPwcrjJvGrOCUf6ye
-   6sKo6mBLyWnGKw/PJPZPfrTlid9a9Wt/wMr4LH5mvX1a2rU5ezRZYXxQO
-   JaOsg7A7slM81jPBoF3FzwS9Sb40VaEOCdobD7PnRc5evww1t5utrUgRz
-   lUGhlFPEwtchQbAM9WCj3cDZqcBCyDwXXBoXHVjGD7l9Wu/33grUnVBXn
-   f5xUnCUSYnHCxQYhiA97frl5xeWRJ4Plz6kC11TrNYLrSEp7Bfq2gceOd
-   Q==;
-X-CSE-ConnectionGUID: vl5iSqxLQsGN0dFUd+E7Jw==
-X-CSE-MsgGUID: grVsbaESQ/ua6hzM0DuK1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45398269"
+  bh=/agnUZDgWlxSvKeQY3JUoMYzB/+byrjfvzVqkXRYtNQ=;
+  b=UKFi+JY4TyRG1oQcXDmdWWfcQUP8LmvSs3mQ6eTn7Eli1EpCDQhMDFn+
+   WeCAS7qhhDp490epeqzP7Yx6VtLuL25BoASyEGysCcyXErxBKPJ0/Klya
+   HbyfDt9GK5QohdXgK19OvPY73vJObHkxaEn2Gyb55vTRMYm7Gkh3ngJ4O
+   bJk+QVwTWE4v0Ktoez3Sw6AivLTWFhq2QGbrNFUFhOj1nhnt0l/FH1Vm1
+   tRGb6QH/P3G4+peskiuVf0VDMXb0IF+6k1SiKcg7Zhk4qwe/VWhc5sWPq
+   UhJxD3VdcY0i/wbM1xxHyr2utPgOeGIY5CFG2A1Cn6ueIDwwSU+AelhGk
+   A==;
+X-CSE-ConnectionGUID: 5K7D60QhRO+gxI1GxKLsSQ==
+X-CSE-MsgGUID: FJzKVhiPRxeqMirn2yqsIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45398271"
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="45398269"
+   d="scan'208";a="45398271"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 15:59:32 -0800
-X-CSE-ConnectionGUID: +Ahx6WEjSRaEDcBG/RNCiQ==
-X-CSE-MsgGUID: GY0i+d0FSDeSq2ehKcH3mw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 15:59:33 -0800
+X-CSE-ConnectionGUID: ojAs1k/MS9SEC9VHc3zyCA==
+X-CSE-MsgGUID: Z4S+jU04ThCLAbI6XFSa+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="140399641"
+   d="scan'208";a="140399632"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2025 15:59:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnnmo-000ECs-38;
+	id 1tnnmo-000ECu-3C;
 	Thu, 27 Feb 2025 23:59:26 +0000
-Date: Fri, 28 Feb 2025 07:59:01 +0800
+Date: Fri, 28 Feb 2025 07:59:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Subject: Re: [Intel-wired-lan] [PATCH iwl-next v1] idpf: assign extracted
- ptype to struct libeth_rqe_info field
-Message-ID: <202502280724.aEP7VGSr-lkp@intel.com>
-References: <20250227123837.547053-1-mateusz.polchlopek@intel.com>
+To: Aditya Garg <gargaditya08@live.com>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kerem Karabay <kekrby@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <202502280748.oNKTNuMK-lkp@intel.com>
+References: <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,54 +73,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227123837.547053-1-mateusz.polchlopek@intel.com>
+In-Reply-To: <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
 
-Hi Mateusz,
+Hi Aditya,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tnguy-next-queue/dev-queue]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.14-rc4 next-20250227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Polchlopek/idpf-assign-extracted-ptype-to-struct-libeth_rqe_info-field/20250227-214755
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20250227123837.547053-1-mateusz.polchlopek%40intel.com
-patch subject: [Intel-wired-lan] [PATCH iwl-next v1] idpf: assign extracted ptype to struct libeth_rqe_info field
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502280724.aEP7VGSr-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280724.aEP7VGSr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Garg/drm-format-helper-Add-conversion-from-XRGB8888-to-BGR888/20250224-214352
+base:   linus/master
+patch link:    https://lore.kernel.org/r/844C1D39-4891-4DC2-8458-F46FA1B59FA0%40live.com
+patch subject: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86 Macs
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502280748.oNKTNuMK-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280748.oNKTNuMK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280724.aEP7VGSr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280748.oNKTNuMK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:946: warning: Excess function parameter 'ptype' description in 'idpf_rx_singleq_extract_fields'
+   drivers/gpu/drm/tiny/appletbdrm.c: In function 'appletbdrm_primary_plane_duplicate_state':
+>> drivers/gpu/drm/tiny/appletbdrm.c:524:40: warning: variable 'old_appletbdrm_state' set but not used [-Wunused-but-set-variable]
+     524 |         struct appletbdrm_plane_state *old_appletbdrm_state;
+         |                                        ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +946 drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c
+vim +/old_appletbdrm_state +524 drivers/gpu/drm/tiny/appletbdrm.c
 
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  933  
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  934  /**
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  935   * idpf_rx_singleq_extract_fields - Extract fields from the Rx descriptor
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  936   * @rx_q: Rx descriptor queue
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  937   * @rx_desc: the descriptor to process
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  938   * @fields: storage for extracted values
-ce5cf4af7ceb6c Mateusz Polchlopek 2024-11-06  939   * @ptype: pointer that will store packet type
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  940   *
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  941   */
-e4891e4687c8dd Alexander Lobakin  2024-06-20  942  static void
-e4891e4687c8dd Alexander Lobakin  2024-06-20  943  idpf_rx_singleq_extract_fields(const struct idpf_rx_queue *rx_q,
-e4891e4687c8dd Alexander Lobakin  2024-06-20  944  			       const union virtchnl2_rx_desc *rx_desc,
-45cbbcb40f4efc Mateusz Polchlopek 2025-02-27  945  			       struct libeth_rqe_info *fields)
-a5ab9ee0df0be8 Joshua Hay         2023-08-07 @946  {
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  947  	if (rx_q->rxdids == VIRTCHNL2_RXDID_1_32B_BASE_M)
-45cbbcb40f4efc Mateusz Polchlopek 2025-02-27  948  		idpf_rx_singleq_extract_base_fields(rx_desc, fields);
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  949  	else
-45cbbcb40f4efc Mateusz Polchlopek 2025-02-27  950  		idpf_rx_singleq_extract_flex_fields(rx_desc, fields);
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  951  }
-a5ab9ee0df0be8 Joshua Hay         2023-08-07  952  
+   520	
+   521	static struct drm_plane_state *appletbdrm_primary_plane_duplicate_state(struct drm_plane *plane)
+   522	{
+   523		struct drm_shadow_plane_state *new_shadow_plane_state;
+ > 524		struct appletbdrm_plane_state *old_appletbdrm_state;
+   525		struct appletbdrm_plane_state *appletbdrm_state;
+   526	
+   527		if (WARN_ON(!plane->state))
+   528			return NULL;
+   529	
+   530		old_appletbdrm_state = to_appletbdrm_plane_state(plane->state);
+   531		appletbdrm_state = kzalloc(sizeof(*appletbdrm_state), GFP_KERNEL);
+   532		if (!appletbdrm_state)
+   533			return NULL;
+   534	
+   535		/* Request and response are not duplicated and are allocated in .atomic_check */
+   536		appletbdrm_state->request = NULL;
+   537		appletbdrm_state->response = NULL;
+   538	
+   539		appletbdrm_state->request_size = 0;
+   540		appletbdrm_state->frames_size = 0;
+   541	
+   542		new_shadow_plane_state = &appletbdrm_state->base;
+   543	
+   544		__drm_gem_duplicate_shadow_plane_state(plane, new_shadow_plane_state);
+   545	
+   546		return &new_shadow_plane_state->base;
+   547	}
+   548	
 
 -- 
 0-DAY CI Kernel Test Service
