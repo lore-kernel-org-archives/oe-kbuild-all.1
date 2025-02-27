@@ -1,147 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0844A59;
-	Thu, 27 Feb 2025 08:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C436225797
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 08:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740644535; cv=none; b=JQ2YJ5JVAsx2D8CEGwVg7ADLe8E7S5wE9ca7BENE7ZLx6etrpze5Mic9ZNbSOrn6l7Mc/3yqeD8akGM6OoSx6urh1eBaXh49DmD4arHumQk7xNL/ifGXzDaSrieEByxHjX6+qgpB4CTh4IsFa3VY0RtxFqCPGZV2fTI8Qr3qFpc=
+	t=1740644799; cv=none; b=pMCB9+PfIyGMzTwWTOhzyMjv97uPx/z4N0a5Xe8kc34kypqUzqorXnar/CL0vsvf1TyYYP+Z0hSfk1L5/s6FqTTmH97iNJ5s5LUKcudbqUnXOTCCh/HqR66sOhJP2bLnrAmFU5aiifdQxNOlR7f4PIJdwHAz4R7RU6scV4ycjg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740644535; c=relaxed/simple;
-	bh=i1tZQ1KuwXwY1mpyJhajQ5uEpeTFDlu9mBg1cydprLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HjczjP9g7BSQr2Qst7lzvE0ILN5Zmygh69R3df29GmC1EqanR+7pSYzX4D9kCZ2QH1DuJk22MKEPk0Mrnffzyt5kxcKuEBP6GmlfRK2GBEshN/fIX8IwTqaDSIe1UbkfZsxUXnUIEnwaBGQR01g14hZI3zIStDT1sW/Mqhz+pLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gghl67Az; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1740644799; c=relaxed/simple;
+	bh=Bfsotl/g+K1sagBba/gfPIWuqgEuo6lc2qA2Yi1caEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RSElvwn7YzrwfTRN5Z4SGbjxyOWgg0Dk2bQ92gtwcNN4XnF8bP1aanurzUa8htqirO/LDTXIhCG+PoqefYN/q1gzzwm9Kld2DS3ic7IzWqFw+Iq+h+6FGIuHdnJahgJYV1Yy1m6UVTyLxcej7LATcjdJ2jkC1yZRrmtCCzLmtVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d9S3H1L7; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gghl67Az"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BFD1C4CEDD;
-	Thu, 27 Feb 2025 08:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740644534;
-	bh=i1tZQ1KuwXwY1mpyJhajQ5uEpeTFDlu9mBg1cydprLo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gghl67AzbmKpCkocUr8laoREpRbdf3xbUGqpQbmD9LiVxM8Ta4DE+dn3Waf9A1uL2
-	 obHEK6FpIKDtwBtfa5pPqPOKUGlWn2cj5yNI7xjb5lsYZY7038bm0qP+SIc2KOs4Ad
-	 gTNFz3mgPBf/Q0dgnjs5oIt9BqilMGT3WDQT9byfm8CXUijw8X5CMRWJulBI10XWzR
-	 bvFzXpJx5FaheXQjGCNPzDA9X/BgEqG7FiGtGSDfIeIR5UlorXrBa8fkNhZBSsg0Ay
-	 OBWVLpMfxrPKHMtc0J3Gl/MLC4Z9LPdULO4y7zIFBkl6Xk3oDmb8CkH9viRo9UDsV8
-	 x3RVOy76qqHXA==
-Date: Thu, 27 Feb 2025 09:22:10 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 6012/6583] fs/namespace.c:4442
- __do_sys_move_mount() error: uninitialized symbol 'uflags'.
-Message-ID: <20250227-fortgehen-kaleidoskop-53bbd5f32e71@brauner>
-References: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9S3H1L7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740644796; x=1772180796;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Bfsotl/g+K1sagBba/gfPIWuqgEuo6lc2qA2Yi1caEo=;
+  b=d9S3H1L7pYGf3F4ql8HhkT0C+ks6ZvHLcGtNivjsJUqAJiI6HUx6Kyzp
+   D4ga7PMiIbwu/+CUyqD2PLYhoG0D2wuy3Pud6q6PyJRV3V503HWHc3F6d
+   LPNdIsgV5MnTwYJDeSSBjEGRe16SsIpu/yBvpjBAaMBSgXYmbwAlNdrj6
+   T8BMCi/7OdRFGQSO0/q3gZZnp7U4eEFpdCnemGSLtVurKGGtz7d5YUqQd
+   N4eegsceV8sgC2oLr5/dL/AWjCjj79qKrqCmkSFmiKcyA18QCj2t9sO5n
+   3UX2S1PnwROg2jJdFvgxFcTiUNi14sCz6JDtEIZKbtjv/Dsf5f9VtEcpu
+   w==;
+X-CSE-ConnectionGUID: K1Q3mcgCRXm+UDNgwG6zOA==
+X-CSE-MsgGUID: NHJB7IB8ThGqXwcR4Q4TqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41225080"
+X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
+   d="scan'208";a="41225080"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 00:26:36 -0800
+X-CSE-ConnectionGUID: pr1VZOybSlKRo7Gtg48mIg==
+X-CSE-MsgGUID: qmL+961KSG+OBUdpNCmbGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="122203566"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 27 Feb 2025 00:26:35 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnZDx-000D5m-2C;
+	Thu, 27 Feb 2025 08:26:30 +0000
+Date: Thu, 27 Feb 2025 16:26:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1334/1334] kernel/hung_task.c:148:7:
+ error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
+Message-ID: <202502271605.5iiFNfaf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3908ce12-4db7-4408-9d5e-98ad94c141dd@stanley.mountain>
 
-On Wed, Feb 26, 2025 at 03:24:12PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   8433c776e1eb1371f5cd40b5fd3a61f9c7b7f3ad
-> commit: b1e9423d65e330346f9e80e819872ab66f1e35b6 [6012/6583] fs: support getname_maybe_null() in move_mount()
-> config: x86_64-randconfig-161-20250226 (https://download.01.org/0day-ci/archive/20250226/202502262044.uRrhoaDw-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202502262044.uRrhoaDw-lkp@intel.com/
-> 
-> New smatch warnings:
-> fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
-> fs/namespace.c:4442 __do_sys_move_mount() error: uninitialized symbol 'uflags'.
-> 
-> vim +/uflags +4442 fs/namespace.c
+Hi Guilherme,
 
-Thanks for the report, Dan!
-I've already accepted a patch that fixes this issue!
+FYI, the error/warning still remains.
 
-> 
-> 2db154b3ea8e14 David Howells     2018-11-05  4412  SYSCALL_DEFINE5(move_mount,
-> 2658ce095df583 Ben Dooks         2019-10-15  4413  		int, from_dfd, const char __user *, from_pathname,
-> 2658ce095df583 Ben Dooks         2019-10-15  4414  		int, to_dfd, const char __user *, to_pathname,
-> 2db154b3ea8e14 David Howells     2018-11-05  4415  		unsigned int, flags)
-> 2db154b3ea8e14 David Howells     2018-11-05  4416  {
-> b1e9423d65e330 Christian Brauner 2025-02-21  4417  	struct path to_path __free(path_put) = {};
-> b1e9423d65e330 Christian Brauner 2025-02-21  4418  	struct path from_path __free(path_put) = {};
-> b1e9423d65e330 Christian Brauner 2025-02-21  4419  	struct filename *to_name __free(putname) = NULL;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4420  	struct filename *from_name __free(putname) = NULL;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4421  	unsigned int lflags, uflags;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4422  	enum mnt_tree_flags_t mflags = 0;
-> 2db154b3ea8e14 David Howells     2018-11-05  4423  	int ret = 0;
-> 2db154b3ea8e14 David Howells     2018-11-05  4424  
-> 2db154b3ea8e14 David Howells     2018-11-05  4425  	if (!may_mount())
-> 2db154b3ea8e14 David Howells     2018-11-05  4426  		return -EPERM;
-> 2db154b3ea8e14 David Howells     2018-11-05  4427  
-> 2db154b3ea8e14 David Howells     2018-11-05  4428  	if (flags & ~MOVE_MOUNT__MASK)
-> 2db154b3ea8e14 David Howells     2018-11-05  4429  		return -EINVAL;
-> 2db154b3ea8e14 David Howells     2018-11-05  4430  
-> 6ac392815628f3 Christian Brauner 2023-05-03  4431  	if ((flags & (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP)) ==
-> 6ac392815628f3 Christian Brauner 2023-05-03  4432  	    (MOVE_MOUNT_BENEATH | MOVE_MOUNT_SET_GROUP))
-> 6ac392815628f3 Christian Brauner 2023-05-03  4433  		return -EINVAL;
-> 6ac392815628f3 Christian Brauner 2023-05-03  4434  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4435  	if (flags & MOVE_MOUNT_SET_GROUP)	mflags |= MNT_TREE_PROPAGATION;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4436  	if (flags & MOVE_MOUNT_BENEATH)		mflags |= MNT_TREE_BENEATH;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4437  
-> 2db154b3ea8e14 David Howells     2018-11-05  4438  	lflags = 0;
-> 2db154b3ea8e14 David Howells     2018-11-05  4439  	if (flags & MOVE_MOUNT_F_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
-> 2db154b3ea8e14 David Howells     2018-11-05  4440  	if (flags & MOVE_MOUNT_F_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4441  	if (flags & MOVE_MOUNT_F_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
-> 
-> uflags is uninitialized on the else path.
-> 
-> b1e9423d65e330 Christian Brauner 2025-02-21 @4442  	from_name = getname_maybe_null(from_pathname, uflags);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4443  	if (IS_ERR(from_name))
-> b1e9423d65e330 Christian Brauner 2025-02-21  4444  		return PTR_ERR(from_name);
-> 2db154b3ea8e14 David Howells     2018-11-05  4445  
-> 2db154b3ea8e14 David Howells     2018-11-05  4446  	lflags = 0;
-> 2db154b3ea8e14 David Howells     2018-11-05  4447  	if (flags & MOVE_MOUNT_T_SYMLINKS)	lflags |= LOOKUP_FOLLOW;
-> 2db154b3ea8e14 David Howells     2018-11-05  4448  	if (flags & MOVE_MOUNT_T_AUTOMOUNTS)	lflags |= LOOKUP_AUTOMOUNT;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4449  	if (flags & MOVE_MOUNT_T_EMPTY_PATH)	uflags = AT_EMPTY_PATH;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4450  	to_name = getname_maybe_null(to_pathname, uflags);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4451  	if (IS_ERR(to_name))
-> b1e9423d65e330 Christian Brauner 2025-02-21  4452  		return PTR_ERR(to_name);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4453  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4454  	if (!to_name && to_dfd >= 0) {
-> b1e9423d65e330 Christian Brauner 2025-02-21  4455  		CLASS(fd_raw, f_to)(to_dfd);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4456  		if (fd_empty(f_to))
-> b1e9423d65e330 Christian Brauner 2025-02-21  4457  			return -EBADF;
-> 2db154b3ea8e14 David Howells     2018-11-05  4458  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4459  		to_path = fd_file(f_to)->f_path;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4460  		path_get(&to_path);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4461  	} else {
-> b1e9423d65e330 Christian Brauner 2025-02-21  4462  		ret = filename_lookup(to_dfd, to_name, lflags, &to_path, NULL);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4463  		if (ret)
-> b1e9423d65e330 Christian Brauner 2025-02-21  4464  			return ret;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4465  	}
-> 2db154b3ea8e14 David Howells     2018-11-05  4466  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4467  	if (!from_name && from_dfd >= 0) {
-> b1e9423d65e330 Christian Brauner 2025-02-21  4468  		CLASS(fd_raw, f_from)(from_dfd);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4469  		if (fd_empty(f_from))
-> b1e9423d65e330 Christian Brauner 2025-02-21  4470  			return -EBADF;
-> 2db154b3ea8e14 David Howells     2018-11-05  4471  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4472  		return vfs_move_mount(&fd_file(f_from)->f_path, &to_path, mflags);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4473  	}
-> 2db154b3ea8e14 David Howells     2018-11-05  4474  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4475  	ret = filename_lookup(from_dfd, from_name, lflags, &from_path, NULL);
-> b1e9423d65e330 Christian Brauner 2025-02-21  4476  	if (ret)
-> 2db154b3ea8e14 David Howells     2018-11-05  4477  		return ret;
-> b1e9423d65e330 Christian Brauner 2025-02-21  4478  
-> b1e9423d65e330 Christian Brauner 2025-02-21  4479  	return vfs_move_mount(&from_path, &to_path, mflags);
-> 2db154b3ea8e14 David Howells     2018-11-05  4480  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   33c097cb0d6c8c1dcf8cde0f66b1c6c907ee2740
+commit: 190aae97bcddbed131a203f829257b168f5058ce [1334/1334] kernel/hung_task.c: introduce sysctl to print all traces when a hung task is detected
+config: x86_64-randconfig-103-20241218 (https://download.01.org/0day-ci/archive/20250227/202502271605.5iiFNfaf-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271605.5iiFNfaf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271605.5iiFNfaf-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/hung_task.c:148:7: error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
+     148 |                 if (sysctl_hung_task_all_cpu_backtrace)
+         |                     ^
+   kernel/hung_task.c:235:5: warning: no previous prototype for function 'proc_dohung_task_timeout_secs' [-Wmissing-prototypes]
+     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
+         |     ^
+   kernel/hung_task.c:235:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
+         | ^
+         | static 
+   1 warning and 1 error generated.
+
+
+vim +/sysctl_hung_task_all_cpu_backtrace +148 kernel/hung_task.c
+
+    94	
+    95	static void check_hung_task(struct task_struct *t, unsigned long timeout)
+    96	{
+    97		unsigned long switch_count = t->nvcsw + t->nivcsw;
+    98	
+    99		/*
+   100		 * Ensure the task is not frozen.
+   101		 * Also, skip vfork and any other user process that freezer should skip.
+   102		 */
+   103		if (unlikely(t->flags & (PF_FROZEN | PF_FREEZER_SKIP)))
+   104		    return;
+   105	
+   106		/*
+   107		 * When a freshly created task is scheduled once, changes its state to
+   108		 * TASK_UNINTERRUPTIBLE without having ever been switched out once, it
+   109		 * musn't be checked.
+   110		 */
+   111		if (unlikely(!switch_count))
+   112			return;
+   113	
+   114		if (switch_count != t->last_switch_count) {
+   115			t->last_switch_count = switch_count;
+   116			t->last_switch_time = jiffies;
+   117			return;
+   118		}
+   119		if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
+   120			return;
+   121	
+   122		trace_sched_process_hang(t);
+   123	
+   124		if (sysctl_hung_task_panic) {
+   125			console_verbose();
+   126			hung_task_show_lock = true;
+   127			hung_task_call_panic = true;
+   128		}
+   129	
+   130		/*
+   131		 * Ok, the task did not get scheduled for more than 2 minutes,
+   132		 * complain:
+   133		 */
+   134		if (sysctl_hung_task_warnings) {
+   135			if (sysctl_hung_task_warnings > 0)
+   136				sysctl_hung_task_warnings--;
+   137			pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
+   138				t->comm, t->pid, timeout);
+   139			pr_err("      %s %s %.*s\n",
+   140				print_tainted(), init_utsname()->release,
+   141				(int)strcspn(init_utsname()->version, " "),
+   142				init_utsname()->version);
+   143			pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
+   144				" disables this message.\n");
+   145			sched_show_task(t);
+   146			hung_task_show_lock = true;
+   147	
+ > 148			if (sysctl_hung_task_all_cpu_backtrace)
+   149				hung_task_show_all_bt = true;
+   150		}
+   151	
+   152		touch_nmi_watchdog();
+   153	}
+   154	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
