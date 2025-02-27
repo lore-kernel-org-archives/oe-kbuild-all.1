@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98CD3209
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 05:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6603E270026
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 05:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740632714; cv=none; b=B9gf8MuoOU12vnlibh9xU2QyNqkYlGYKO0XgDpDChdBr2YZEpIKpdZCQ9782Mj/w0PHTfG9bASLJM+apBmSvRyuGyLSYnheeBc+A81Ikir0A4pcvCUzZauKmFIhycn40EsHdmuYYt5cxfM50G9NbZ08vk7lqdcZxjGeFS4WOpXQ=
+	t=1740633321; cv=none; b=pzD6Sct/O6wux5jip8tCaw17GbcgO5lHZwfF/1n7gxJm4ICxBF2Gn4fY6IqUgX6AI3eejvYRksb/cdeVH9ZYp62bZYuHD9XgX04+9CDiaLTZUWmJlXHsFScxWYogFKWiO3sD9EH0v5h02ZPgvwtnwXYqnHymdsAwwmJDwOBJIwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740632714; c=relaxed/simple;
-	bh=RsoNroxM2DafA6mz0RBqoNlpCry1fREsn/rDn7cSpQ8=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d8Pq+wreoA74WyHQ2nMwM3M7ATBf2+Wxp4xkVVE1uS2LkmCcCplHubLugeRE718xkI4MUi5pdcvwdmqvCGhSJF0oDjdRqXH6yuTLkzpqfm7GSekGaTsQsM3d4d/zA26bq85C1fnvG1ibchBzt83nZVjleGKqFnLWUEyE+XLmH64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vjri2gqX; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1740633321; c=relaxed/simple;
+	bh=Uwmrl+1S0SHW5qTEFMHOYvQXcCHiR8luylF2Z/RlQqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YvufkZHlIwk0FGOr7yh0o6QuL1tu1J4lOYZVaekvqlHvS6WS+O8LHmUO6NwvRJN+sNQVc6MHVMoMW39Xdwx0lq+QKHOEk+TpCj5Gcdig47jCv4bKO8Pfn3QekNnx4f1+P+I1x7R2IdAb9sytnleJPDp7nu/RtlRYYBKQ8M5AWTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BCfo3HIP; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vjri2gqX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCfo3HIP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740632713; x=1772168713;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=RsoNroxM2DafA6mz0RBqoNlpCry1fREsn/rDn7cSpQ8=;
-  b=Vjri2gqX95mvbJawtwy4C8JbfIq+iejlzwvspU3H0F4WseZNQPOW0snR
-   z0IB/5od5ud16uD2uiCz+6FBaBJBnUjpp1ZfTslBSBBiuupWu4SXqU/6+
-   UxvWlVOwWU6fVoxr6xYG6OMoZEtymC9cAF5YJhXWqliTOxu92vdeq51cs
-   8Qca4SnKj9qWZMHu/DA4Scr1+99kKIZRXJj86MaIqkF+hfNPLs4GiGijS
-   BX2lTc6BNaXclU4Ps3kWbFBhSCKoqJQw+oKlK12EJXOpL5g6rFvnxnIWv
-   W9yrISJdPa5MhUihjsSlNSn0dppxOnlpwz9pzd4KvGop6vJdmOQ08EP2i
+  t=1740633320; x=1772169320;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Uwmrl+1S0SHW5qTEFMHOYvQXcCHiR8luylF2Z/RlQqI=;
+  b=BCfo3HIPJWaqumqN3qhxwQgEnXNTNIj70cxu0i4kUZEbhBkeXtdMsuPX
+   UdFfDl5ukmzwN3EM2pMHTMY656y2bfCiW1V33OEwGge3TbhYbI6cWWN0e
+   4LP6z+siXJMPnH/HaqSpqiGSOYUAzKnYlB8Om3MpSdlT6FFZqAqb3MO5g
+   58m2SjSqvkvjOdh8+nK3CW58WFy+Imt2nZ/gCgauk1JLya3HD0SgTUQEn
+   p1rLf/ejTGoAmWrFeyOm4V1eFQBU6fPNVGk/JouXIiKyRdW77TMTOVASd
+   zPKSSFT0OhMTo4x0TA11FGy2o6hW+q/uoTOHc3W9eP3fcse0+ohjS/ki8
    g==;
-X-CSE-ConnectionGUID: teOwp/kjQUy6aoVA8/qW9Q==
-X-CSE-MsgGUID: uTRC6S0BQL2qyZnhOlRsqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="40684277"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="40684277"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 21:05:12 -0800
-X-CSE-ConnectionGUID: cAVRzbUqSl2xQHqFh4gbkA==
-X-CSE-MsgGUID: g2tfhxyIQp2k6nPufVyN+g==
+X-CSE-ConnectionGUID: MRpkwDU4Q1WjDa1fzPHOPw==
+X-CSE-MsgGUID: PgJ/5Lt0Q8uKWr6BpCPqfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41707759"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41707759"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 21:15:18 -0800
+X-CSE-ConnectionGUID: OTpZKtnmQMmmRZ6REjSwuw==
+X-CSE-MsgGUID: pZY1eDfFQ7ylcf7NTa8SCA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="116709680"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="147838913"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Feb 2025 21:05:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 26 Feb 2025 21:15:15 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnW57-000Cs6-24
-	for oe-kbuild-all@lists.linux.dev;
-	Thu, 27 Feb 2025 05:05:09 +0000
-Date: Thu, 27 Feb 2025 13:04:36 +0800
+	id 1tnWEo-000Csg-1O;
+	Thu, 27 Feb 2025 05:15:11 +0000
+Date: Thu, 27 Feb 2025 13:14:59 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/59 1/1] net/sched/cls_u32.c: linux/netdevice.h is
- included more than once.
-Message-ID: <202502271244.63vk6x3c-lkp@intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, saurabhg.gupta@intel.com,
+	alex.zuo@intel.com, jonathan.cavitt@intel.com,
+	joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+	jianxun.zhang@intel.com, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Message-ID: <202502271226.qHKoHhA5-lkp@intel.com>
+References: <20250226225557.133076-7-jonathan.cavitt@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +66,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250226225557.133076-7-jonathan.cavitt@intel.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/59
-head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
-commit: 3cd904ecbb5d0bcf36dfca7e726bdfd6d3644334 [1/1] net_sched: kill u32_node pointer in Qdisc
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+Hi Jonathan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20250226]
+[cannot apply to linus/master v6.14-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cavitt/drm-xe-xe_gt_pagefault-Migrate-lookup_vma-to-xe_vm-h/20250227-070008
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250226225557.133076-7-jonathan.cavitt%40intel.com
+patch subject: [PATCH 6/6] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+config: i386-buildonly-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250227/202502271226.qHKoHhA5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250227/202502271226.qHKoHhA5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502271244.63vk6x3c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502271226.qHKoHhA5-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> net/sched/cls_u32.c: linux/netdevice.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +43 net/sched/cls_u32.c
+   drivers/gpu/drm/xe/xe_vm.c: In function 'xe_pagefault_access_type_to_address_type':
+>> drivers/gpu/drm/xe/xe_vm.c:3288:9: error: 'vma' undeclared (first use in this function); did you mean 'vm'?
+    3288 |         vma = lookup_vma(vm, pf->page_addr);
+         |         ^~~
+         |         vm
+   drivers/gpu/drm/xe/xe_vm.c:3288:9: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/xe/xe_vm.c:3288:15: error: implicit declaration of function 'lookup_vma' [-Werror=implicit-function-declaration]
+    3288 |         vma = lookup_vma(vm, pf->page_addr);
+         |               ^~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-  > 43	#include <linux/netdevice.h>
-    44	#include <linux/hash.h>
-    45	#include <net/netlink.h>
-    46	#include <net/act_api.h>
-    47	#include <net/pkt_cls.h>
-  > 48	#include <linux/netdevice.h>
-    49	
+
+vim +3288 drivers/gpu/drm/xe/xe_vm.c
+
+  3281	
+  3282	static enum drm_xe_fault_address_type
+  3283	xe_pagefault_access_type_to_address_type(struct xe_vm *vm, struct xe_pagefault *pf)
+  3284	{
+  3285		if (!pf)
+  3286			return 0;
+  3287	
+> 3288		vma = lookup_vma(vm, pf->page_addr);
+  3289		if (!vma)
+  3290			return DRM_XE_FAULT_ADDRESS_TYPE_NONE_EXT;
+  3291		if (xe_vma_read_only(vma) && pf->access_type != XE_PAGEFAULT_ACCESS_TYPE_READ)
+  3292			return DRM_XE_FAULT_ADDRESS_TYPE_WRITE_INVALID_EXT;
+  3293		return 0;
+  3294	}
+  3295	
 
 -- 
 0-DAY CI Kernel Test Service
