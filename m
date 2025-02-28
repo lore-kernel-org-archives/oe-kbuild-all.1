@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9C61DEFF9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 23:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BAB23F380
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 23:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740786216; cv=none; b=aN9WPFLdVDGL9icyuYYIOEyci4RAgZNcFbeabg2ytsnSJC0k04KOPexmhP7BiiFOi9jne2BLZnuCZMT3mL8AMqkEjaH77HPCRspO9Or8o07l82ye8Z5TL8Ihp5EOY7Z+GHaY9Wq9GPFr2i6E1qYibfp9OePfBlq/jEYcsa6Hg/M=
+	t=1740786815; cv=none; b=hwXCdTFj4iMnfgqF8VAiqpdn3eiWABhdRb/eNq4h360Ge1ytaEsipYMNLyEoNw14Xk4p8uOSjxn3m8vYIxIiqvIccbcpqds+GXPbF4O+agf7HctNlERE34kMsKUClC8liqVHMiUZD1c5VNFEufIpCEmJWqEhO2nVmDNpU+2duzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740786216; c=relaxed/simple;
-	bh=2VZtFRkJEsSMsYwyW5YkrmvG6ytxtG4N7R9LLuWDglc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tf/lX4SOJH6AfOh2ggBJA0KLRUTe52Rd/QPl1G8jOKjePFW7odQ3jgWBwCPida6Lf12ZmJdzHd+J+tQ/mUwIYUdgB0MRBhgNrB9i/OzchgkfCZcGFFIQsrGMDEgFi+r/nOKzhlFvIMBOQT5Z1HQjW6U4z+Tj5eHiRWExeB+QKU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nj/SMvmr; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1740786815; c=relaxed/simple;
+	bh=VG0tnK+mYDLeTKu5WOfoF3o0n09G0RCGsDRRW1QbTFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LXnG2yh14ZO6H3KNFiaymRQYicXLkEXXr2dDyLQc7xAX8YB9nXTnr+SfUwog3v1FD4mXzjWHFpAoqx/ZiKMI27jmmyU0Hf5fLp8Ydu05paG20NXlJjj5CQdaEFFw0Gspnordlp4+/Vm294e17p5uQ1dKN+m662KMX3f7QHxSHFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwhArhY5; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nj/SMvmr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwhArhY5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740786214; x=1772322214;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2VZtFRkJEsSMsYwyW5YkrmvG6ytxtG4N7R9LLuWDglc=;
-  b=nj/SMvmrzyf7k4jCwxWwQdb/W1I5GBm83ZqZ07zCIMgUkpiVxB0NfWQl
-   SVBwHWN4Q6ZbYFnGAsAmymnKC7zMHTIzcTiIl8Jin6PSHD8ZdFJBdTuUy
-   IaNBYtqyjEa9lyy/tAHawLYuB3iKYKZo6zLWxkTJyy3j/bfcSshkWzJK1
-   D6AqDN/IG5dRTnLRnNYy+dOfahi76B7Y3LkMeK2HRwghckYlXCkKgUE/9
-   9ArVlis8uWWQrMvVloQHlg+YA1ujgxRKurVIS2TsV4IXKQFtuVLq6uh8X
-   WZGqp2G41IRUGnzinTni/KGZFmRIxp0jIbP7rzad9nP9wxPwNZ4UBnwr6
-   w==;
-X-CSE-ConnectionGUID: rh4pPRQFTtKhagQOMTMWDw==
-X-CSE-MsgGUID: CmlZkaRQRiC+d9rCnzZN3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="59142065"
+  t=1740786813; x=1772322813;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VG0tnK+mYDLeTKu5WOfoF3o0n09G0RCGsDRRW1QbTFs=;
+  b=WwhArhY5UcNd0LZL0l4SZdAG3pmy5KqvUL7ufnyvT4TBftdpCdmC2nQc
+   GVxC4gHkZSiuSCWO/NfSSD1bj9rPgk2EQwzOTAVoKOVO4UIRtT5rs1zdL
+   DM0ZkI/xPa7IfW2E0A8MabKfKViCUgRUgt9nc2JHeuymAfz0kqDcZfvWw
+   HHFr1YtU++P4/rNuyijn/mAs7QYtBvaX2xhQI3HhDoRN0qbRz5cHYRjtB
+   048VPkNYS9fTi9a23OlXBBuEuy5fKKA+9mgyjUzYim5QQs14qj3n6YPLM
+   QNlffLnjQMwSOIui6uHtwbgKlGnuFeeAop/b24c7AepbhAz/Ceqpns6H5
+   Q==;
+X-CSE-ConnectionGUID: HDURSq5ORhyYUGZrvJVxqA==
+X-CSE-MsgGUID: ZcOfDfQSRYSSGDSv4ySZ0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="59266698"
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="59142065"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 15:43:34 -0800
-X-CSE-ConnectionGUID: z9ZvOejSREuBdpyqCCxU2g==
-X-CSE-MsgGUID: G+wmTntjQ9y/SfxpQxI0yw==
+   d="scan'208";a="59266698"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 15:53:32 -0800
+X-CSE-ConnectionGUID: l5g31aUWS2Wp5dP1FZrLFA==
+X-CSE-MsgGUID: U7tEcT6xQe6RkYCIrrLc8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118372589"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
+   d="scan'208";a="148284889"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 28 Feb 2025 15:43:30 -0800
+  by orviesa002.jf.intel.com with ESMTP; 28 Feb 2025 15:53:32 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toA0u-000Fdg-1N;
-	Fri, 28 Feb 2025 23:43:28 +0000
-Date: Sat, 1 Mar 2025 07:42:41 +0800
+	id 1toAAb-000FeC-0z;
+	Fri, 28 Feb 2025 23:53:29 +0000
+Date: Sat, 1 Mar 2025 07:53:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brendan Jackman <jackmanb@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
-	Brendan Jackman <jackmanb@google.com>
-Subject: Re: [PATCH] mm/page_alloc: Add lockdep assertion for pageblock type
- change
-Message-ID: <202503010632.CEkonAAQ-lkp@intel.com>
-References: <20250227-pageblock-lockdep-v1-1-3701efb331bb@google.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/1] include/linux/iommu.h:1152:17:
+ warning: 'iommu_get_pasid_from_domain' defined but not used
+Message-ID: <202503010727.9vc1AgYl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,67 +61,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227-pageblock-lockdep-v1-1-3701efb331bb@google.com>
 
-Hi Brendan,
+Hi Jacob,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on d58172d128acbafa2295aa17cc96e28260da9a86]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brendan-Jackman/mm-page_alloc-Add-lockdep-assertion-for-pageblock-type-change/20250228-002107
-base:   d58172d128acbafa2295aa17cc96e28260da9a86
-patch link:    https://lore.kernel.org/r/20250227-pageblock-lockdep-v1-1-3701efb331bb%40google.com
-patch subject: [PATCH] mm/page_alloc: Add lockdep assertion for pageblock type change
-config: i386-buildonly-randconfig-005-20250301 (https://download.01.org/0day-ci/archive/20250301/202503010632.CEkonAAQ-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   b546d9695894905e1bc9de7646f89b06dbeae968
+commit: ae98886a907851615758c891a5e488f1add0c69d [0/1] iommu: Add a helper to do PASID lookup from domain
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250301/202503010727.9vc1AgYl-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010632.CEkonAAQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010727.9vc1AgYl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503010632.CEkonAAQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010727.9vc1AgYl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/page_alloc.c:19:
-   mm/page_alloc.c: In function 'set_pageblock_migratetype':
->> mm/page_alloc.c:421:17: error: implicit declaration of function 'in_mem_hotplug' [-Werror=implicit-function-declaration]
-     421 |                 in_mem_hotplug() ||
-         |                 ^~~~~~~~~~~~~~
-   include/asm-generic/bug.h:171:32: note: in definition of macro 'WARN_ON'
-     171 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/lockdep.h:282:14: note: in expansion of macro 'WARN_ON_ONCE'
-     282 |         do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
-         |              ^~~~~~~~~~~~
-   mm/page_alloc.c:420:9: note: in expansion of macro 'lockdep_assert_once'
-     420 |         lockdep_assert_once(system_state == SYSTEM_BOOTING ||
-         |         ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/x86/kernel/pci-dma.c:4:
+>> include/linux/iommu.h:1152:17: warning: 'iommu_get_pasid_from_domain' defined but not used [-Wunused-function]
+    1152 | static ioasid_t iommu_get_pasid_from_domain(struct device *dev,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/in_mem_hotplug +421 mm/page_alloc.c
+vim +/iommu_get_pasid_from_domain +1152 include/linux/iommu.h
 
-   417	
-   418	void set_pageblock_migratetype(struct page *page, int migratetype)
-   419	{
-   420		lockdep_assert_once(system_state == SYSTEM_BOOTING ||
- > 421			in_mem_hotplug() ||
-   422			lockdep_is_held(&page_zone(page)->lock));
-   423	
-   424		if (unlikely(page_group_by_mobility_disabled &&
-   425			     migratetype < MIGRATE_PCPTYPES))
-   426			migratetype = MIGRATE_UNMOVABLE;
-   427	
-   428		set_pfnblock_flags_mask(page, (unsigned long)migratetype,
-   429					page_to_pfn(page), MIGRATETYPE_MASK);
-   430	}
-   431	
+  1147	
+  1148	static inline void iommu_detach_device_pasid(struct iommu_domain *domain,
+  1149						     struct device *dev, ioasid_t pasid)
+  1150	{
+  1151	}
+> 1152	static ioasid_t iommu_get_pasid_from_domain(struct device *dev,
+  1153						    struct iommu_domain *domain)
+  1154	{
+  1155		return INVALID_IOASID;
+  1156	}
+  1157	#endif /* CONFIG_IOMMU_API */
+  1158	
 
 -- 
 0-DAY CI Kernel Test Service
