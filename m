@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B82F819;
-	Fri, 28 Feb 2025 04:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77721A4F22
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 05:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740717515; cv=none; b=sbytv6Jyyz+neNlOkYpUH80cI05MnQe1u2ikx63qU0JCTmT/aAlAVsfdWmyG1W/efD6B8VLymz5STbFfoIFJJoD6MM8psPSG69SUpRp0Ogmc6TGYYbPwBEiyhxqOu9Om7/yHqBOZTgcP4C3dT2lfK2eDfxk5+FdzF5aOoMxqPXs=
+	t=1740720049; cv=none; b=rNehvXz5+F5ayUCyKWIpvR9sgooaKZxkjdesCx4Iykx5u+i2vLMtqe1xSk78nULsfT/Ip74RP4kKEpUx+bDWuLJAq4IFT8irRhZ3fQvmjJ4TgQhA+HABiAbbcTTqps/0sa2PXYR8K1oiy5OCdi7IxWWqi7LPrKMOY51QJoDOB6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740717515; c=relaxed/simple;
-	bh=F4h6uqLQf88ZF0CcTF2u793SdiYR3nlpxj5BCH2s6UE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1MsCFPQGNjHnTGecM2vCwLWXNv32bsTNqAh2wAt8Eh753xOMAp7s4+GG5CPlsefNkn+Bq+snWN6P5ueZ41yzpdpkd2e/7moQ6mCH7zkE+DgaC6ncbjY4PZfcJPgxRFoehd5VZl0mn3avFekXlNVbGkwKHzReTZoJiXUfkR1wQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQ2x7Ang; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1740720049; c=relaxed/simple;
+	bh=aPoJF0hbZz8XyewNwqunIbkZBehdNSL3Tc9e9NeOK84=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jHBV42+QUZEK3aBwJaFNdWphMp6FyVphVjWCEtoeF5ytg8Jru7GPjj8RapBN/XZ1nA5GQ/76lgrnKok5oyDtBcX2lMCubjBe2epNqJ3as+FY4scMJViR6Gxr0D8oKEfZEhDE7+BkzZ6kVT+OIX028yGUsm2vj66lB0agpvcxH9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5N/LTn9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQ2x7Ang"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5N/LTn9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740717513; x=1772253513;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F4h6uqLQf88ZF0CcTF2u793SdiYR3nlpxj5BCH2s6UE=;
-  b=bQ2x7AngBe+MAd2XDZzA/iTKwO9MOE5/FdXqiWZbUpuRxvyWlKeaIceU
-   amb7a4QJgHBp87lJ86tvjwjmzBHnKxLOlUiKFls1FlScSMH5ZCnumGiiU
-   NZ0IpJ1dl3vWZnoNh52yBkIIV+JgIXkEXVtPey1KF/m19SLxYZG/l8H4/
-   TOgMOau5ibymMCilnAMkqfpoHhL6ZYHEA4D54DFEB6kvcBKXShlpdITkk
-   PJDQmvAB9hI1rThhBVP11pRli/9kthTMQoAyKTjpt8O9yIlZiP1gohGEi
-   ejXO/LrYG5Bu/vhLO8WFA6nI0ybBs6gD8FFNe4ceV4bvU7MrfoeR/9KeL
-   g==;
-X-CSE-ConnectionGUID: Tzvr2NheQMWvVuyepqQp4Q==
-X-CSE-MsgGUID: Ifo1UQxlQa2km3Q/2mY3cA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41484322"
+  t=1740720047; x=1772256047;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aPoJF0hbZz8XyewNwqunIbkZBehdNSL3Tc9e9NeOK84=;
+  b=d5N/LTn971Q8dS84CLk6CvKNf6v9NvaYr2fIQJfMubOCaSW5zhLgiY4V
+   WvVUYKqr+sylsOSQt+qVjYrxyi3a9j8iYt1STZF1Z2jHQTciHOBw5NMNV
+   zQPmFE5NYSvgvs6UWbeSOVKb5iwoj2Hco0eOiPSLXwxQakulwsGrUptq6
+   ij4hKLsV3oa/pKvq24/HOL1+cwtOC0F7akqC+m0zoHsn6nb/wQ92TtHqY
+   zFbeWgMY1/soTwf+g4q3GDVI8NDg4kyAMq/8aZKZPUI1ylFkdVG3rZoYg
+   gNibqIbK80cJpPIvjw0RBBlLLjB2UCtcHTfcbykZhjECGfknsjrOKztnj
+   w==;
+X-CSE-ConnectionGUID: rROymeeeRQO86e2MB+mcRA==
+X-CSE-MsgGUID: ILg9KuAHQfKd34ZailxGsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41892159"
 X-IronPort-AV: E=Sophos;i="6.13,321,1732608000"; 
-   d="scan'208";a="41484322"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 20:38:33 -0800
-X-CSE-ConnectionGUID: RTsMSm40QyyDs/YUauQc/g==
-X-CSE-MsgGUID: jOuaaF4oSF6qKGbvabxZDw==
+   d="scan'208";a="41892159"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 21:20:46 -0800
+X-CSE-ConnectionGUID: HTglwK4uRquAb9pPMsXe0g==
+X-CSE-MsgGUID: xYsfWWiNR4OFhDlhjZGsqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121354165"
+X-IronPort-AV: E=Sophos;i="6.13,321,1732608000"; 
+   d="scan'208";a="117267400"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2025 20:38:29 -0800
+  by orviesa006.jf.intel.com with ESMTP; 27 Feb 2025 21:20:45 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tns8p-000EQ6-0I;
-	Fri, 28 Feb 2025 04:38:27 +0000
-Date: Fri, 28 Feb 2025 12:38:01 +0800
+	id 1tnsnC-000ES2-2q;
+	Fri, 28 Feb 2025 05:20:26 +0000
+Date: Fri, 28 Feb 2025 13:19:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-	daxing.li@intel.com, dongcheng.yan@linux.intel.com,
-	ong.hock.yu@intel.com, balamurugan.c@intel.com, wei.a.fu@intel.com,
-	xiaohong.zou@intel.com
-Subject: Re: [PATCH v6] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <202502281242.hJEk5bLj-lkp@intel.com>
-References: <20250227061641.499763-1-dongcheng.yan@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 2/2] net/smc/smc_sysctl.c:27:18:
+ warning: 'net_smc_rmem_init' defined but not used
+Message-ID: <202502281319.af2bmYMw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,71 +61,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227061641.499763-1-dongcheng.yan@intel.com>
 
-Hi Dongcheng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-add-lt6911uxe-hdmi-bridge-driver/20250227-141956
-base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-patch link:    https://lore.kernel.org/r/20250227061641.499763-1-dongcheng.yan%40intel.com
-patch subject: [PATCH v6] media: i2c: add lt6911uxe hdmi bridge driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250228/202502281242.hJEk5bLj-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502281242.hJEk5bLj-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   3f4a1c56702ff1c8fc29efeaf5b07b6e9821f19a
+commit: 4df7307b00f1f9f9872662927bee77ff0a82688d [2/2] anolis: net/smc: Unbind {w|r}mem from TCP and change the default values
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20250228/202502281319.af2bmYMw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502281319.af2bmYMw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502281242.hJEk5bLj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502281319.af2bmYMw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/i2c/lt6911uxe.c:46:2: error: initialization of non-aggregate type '__u32' (aka 'unsigned int') with a designated initializer list
-      46 |         V4L2_INIT_BT_TIMINGS(160, 3840,                 /* min/max width */
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      47 |                              120, 2160,                 /* min/max height */
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      48 |                              50000000, 594000000,       /* min/max pixelclock */
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      49 |                              V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      50 |                              V4L2_DV_BT_STD_CVT,
-         |                              ~~~~~~~~~~~~~~~~~~~
-      51 |                              V4L2_DV_BT_CAP_PROGRESSIVE |
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      52 |                              V4L2_DV_BT_CAP_CUSTOM |
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~
-      53 |                              V4L2_DV_BT_CAP_REDUCED_BLANKING)
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/v4l2-dv-timings.h:17:2: note: expanded from macro 'V4L2_INIT_BT_TIMINGS'
-      17 |         { .bt = { _width , ## args } }
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/lt6911uxe.c:426:7: error: no member named 'link_freq' in 'struct v4l2_mbus_config'
-     426 |         cfg->link_freq = lt6911uxe->cur_mode.link_freq;
-         |         ~~~  ^
-   2 errors generated.
+>> net/smc/smc_sysctl.c:27:18: warning: 'net_smc_rmem_init' defined but not used [-Wunused-const-variable=]
+      27 | static const int net_smc_rmem_init = (64 * 1024);
+         |                  ^~~~~~~~~~~~~~~~~
+>> net/smc/smc_sysctl.c:26:18: warning: 'net_smc_wmem_init' defined but not used [-Wunused-const-variable=]
+      26 | static const int net_smc_wmem_init = (64 * 1024);
+         |                  ^~~~~~~~~~~~~~~~~
 
 
-vim +46 drivers/media/i2c/lt6911uxe.c
+vim +/net_smc_rmem_init +27 net/smc/smc_sysctl.c
 
-    42	
-    43	static const struct v4l2_dv_timings_cap lt6911uxe_timings_cap_4kp30 = {
-    44		.type = V4L2_DV_BT_656_1120,
-    45		/* Pixel clock from REF_01 p. 20. Min/max height/width are unknown */
-  > 46		V4L2_INIT_BT_TIMINGS(160, 3840,			/* min/max width */
-    47				     120, 2160,			/* min/max height */
-    48				     50000000, 594000000,	/* min/max pixelclock */
-    49				     V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-    50				     V4L2_DV_BT_STD_CVT,
-    51				     V4L2_DV_BT_CAP_PROGRESSIVE |
-    52				     V4L2_DV_BT_CAP_CUSTOM |
-    53				     V4L2_DV_BT_CAP_REDUCED_BLANKING)
-    54	};
-    55	
+462791bbfa3501 Dust Li        2022-03-01  21  
+0227f058aa29f5 Tony Lu        2022-09-20  22  static int min_sndbuf = SMC_BUF_MIN_SIZE;
+0227f058aa29f5 Tony Lu        2022-09-20  23  static int min_rcvbuf = SMC_BUF_MIN_SIZE;
+833bac7ec392bf Gerd Bayer     2023-08-04  24  static int max_sndbuf = INT_MAX / 2;
+833bac7ec392bf Gerd Bayer     2023-08-04  25  static int max_rcvbuf = INT_MAX / 2;
+833bac7ec392bf Gerd Bayer     2023-08-04 @26  static const int net_smc_wmem_init = (64 * 1024);
+833bac7ec392bf Gerd Bayer     2023-08-04 @27  static const int net_smc_rmem_init = (64 * 1024);
+f8e4a5b883c7b5 Guangguan Wang 2023-11-22  28  static int links_per_lgr_min = SMC_LINKS_ADD_LNK_MIN;
+f8e4a5b883c7b5 Guangguan Wang 2023-11-22  29  static int links_per_lgr_max = SMC_LINKS_ADD_LNK_MAX;
+acc27019c3a219 Guangguan Wang 2023-11-22  30  static int conns_per_lgr_min = SMC_CONN_PER_LGR_MIN;
+acc27019c3a219 Guangguan Wang 2023-11-22  31  static int conns_per_lgr_max = SMC_CONN_PER_LGR_MAX;
+0227f058aa29f5 Tony Lu        2022-09-20  32  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: 833bac7ec392bf75053c8a4fa4c36d4148dac77d net/smc: Fix setsockopt and sysctl to specify same buffer size again
+
+:::::: TO: Gerd Bayer <gbayer@linux.ibm.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
