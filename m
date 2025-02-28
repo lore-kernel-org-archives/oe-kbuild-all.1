@@ -1,99 +1,96 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A891F4C90
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 17:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D62381724
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 17:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740763438; cv=none; b=s1oe1VYmX+XCRSBhJM5zTwgcLTpJPIY2qLtLsGC6PPm2l+M6L8FnuyPN9+ZheWBXRmAtB5Uc9sPVxAOcW+m+dYSQdu7JN4AYYh69dzYLxpqeMmPePZVYGXEjx6bdMfL3795GgDCxDRTLshi4BcBXvUK2WcMBDpSbV0bFH6vXmy8=
+	t=1740763939; cv=none; b=i2s4SMZrFVzXQlR0RYkuIeHHZBo75kk715LxKTbS8kjTdpmJPcHAckIpATTFfJAbMLLt8Rg1pGzSe+BThDM39C9xUnTHnOHGixemR5LZEfhahAINFs6KiVXQ7N6sLaclLza3e/znBGyoLb407i1YDii5X1daZPkx0+jqveVS/VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740763438; c=relaxed/simple;
-	bh=qMgsQJzzJwhdfIm2FuoGlewapCBjicP9eHbxEMGbN7M=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Dssc2rVT80ZfWbeo8g9p8VWZ+6XDJJ2NBexDxygVlieIInvzOXmQiRKb4Z830kancohsgUPLO55Lk5vCmr4NyvSZYRfsY+j+pUy3DlKb9F9FyjqaBGk/IXXylhGSbljf9jnjn6xtdBz7kW6nEsGtq4ehTe4Pd48PIr4/3DN1CIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=oP3njEla; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XNujEEcy; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1740763939; c=relaxed/simple;
+	bh=K7ev2F94z1DrO4TNLZtjY+mf1xwi+9x2/bBwwbvDb1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q7vLnkDpu1I0xazyk2Ut9LLb9jKnJEZrj50L6C0B3Mbo31qFIi+oqLhzkqc4KOZdwEVAmI+o+f4GguyT1hX3SPSxlTmGdj2LtvJO/nBCkzrS5XRiXG9xCncYUT1k3T70P8H8o6CZi+yVu6MUt6RydFz9/cfdjG2HE8PvjQ6/RJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i5coGEde; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="oP3njEla";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XNujEEcy"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4036F1140132;
-	Fri, 28 Feb 2025 12:23:56 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-09.internal (MEProxy); Fri, 28 Feb 2025 12:23:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1740763436;
-	 x=1740849836; bh=KsNT0kZqfkthh/tOPMer9CehQgHH2fLyt/p8C55R7rA=; b=
-	oP3njEla0tk+bqYgwkn7VGyjMvw/Hcjr/w6X2zvCGS1Av5xoVObmcC0mJ+OzFIPw
-	/ofM7r+OdBGz9CSvgZqff/seBIl12tg4xfYlzwucd8nJtE9M97PT3mUDrq/fMiLI
-	G9vBg4Ng+ep6TeKVqwB/BuyRr+28VyqHMJYiYoWF8yOyMXuSfXj5/lKyTeSvC7G6
-	Z2riHIwpv2tZ4NjC0Sdz1lZD1jeJU1i1GLbhydIKZ5/lGzs077EWimNkXmqpmzKq
-	TFKWIS9sUzSDpfqDznuSup+j42PttaS2QZPyW7tIotRzttu1suueSl/PhW7e56MX
-	UEK1fk+ABFkzHSG6K5mhng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740763436; x=
-	1740849836; bh=KsNT0kZqfkthh/tOPMer9CehQgHH2fLyt/p8C55R7rA=; b=X
-	NujEEcyNeyhsO0LazG8expBEo8Ukm9Osa7Ig5n3fHEEOuHVtLCkJ1ftcU18t/PpN
-	Cjreu+ObgYtsMytVxuDgN4/wIsdlarLIAkOUnrJTEawU26mnDSCVy6JGFHdIVOt1
-	qyvsO97DeWhCjJ3eKKWQ1k7I7mt91ivBoonN8IkL6v+mX7+EGBpmrLNtIMxUNYN5
-	+96Fzv/QHqPLCTHmxKQG22yCxSjogHjH/bCf82XQn6IOa39Pw9bT6fP95sIWb8ub
-	BSw71Z6lkeuyQdiBgJ+GEFZsd6uLMlJMYM+Kg7B4fDpqx56O5kLECB18538CqpQk
-	LCBY0go7/mqO/K/GGoJBg==
-X-ME-Sender: <xms:K_HBZ3V58SEBJ25F0dT_lzHrFM3ntyR5qEMcsk5JJbdVIFz10qggRw>
-    <xme:K_HBZ_nwwRzjQ0lYoSAWS2f0uPe3o08QV14z3Gzz3xlXslDOoTy3tVUe8rN98VQA-
-    Jb1O4_VGSM_P9Kvib0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeltdellecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhepofggff
-    fhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhguuceuvghrghhm
-    rghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnhephfdthf
-    dvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdeinecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnug
-    gsrdguvgdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    oheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlh
-    hlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqrghrtghh
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:K_HBZzao_4eALlgdwdV5nqGd8VzqF10_AjzJVyeEWZTo9PMj7UgKKQ>
-    <xmx:K_HBZyWPpsO1zGDS1pyiCpodv0McSv8kXOfI1EXj8Pz5esNn8HF2CQ>
-    <xmx:K_HBZxn15TpG46VNQfA1MQaTHVWZgznO8YXel6Se5XnCnYUc40zwpg>
-    <xmx:K_HBZ_dtENARofFDFJALLncVnsKwKFA2Vg_epsmc00zMunRXH9RZAw>
-    <xmx:LPHBZ2wsRxtsc-AAdXVe0g_KGJqrrSGIzfoSeTp8ZMr4zC50vInOpVuN>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id ADD572220073; Fri, 28 Feb 2025 12:23:55 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i5coGEde"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740763937; x=1772299937;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K7ev2F94z1DrO4TNLZtjY+mf1xwi+9x2/bBwwbvDb1s=;
+  b=i5coGEdegMMtnFL+N8NkSGjfV94dSMLZ6zSPPcYLJ9Nk1tBtNDPfuO7Z
+   u6Y2e66Xt2pNSbL4SQqaeVUOoJBwl1GKvq4cUnRGuGb6xT+W8LhKknSt8
+   ULJ7CgHUy4QBVnNxi7Lf7elJhErfE0wL+RX88NBHT7xjKlEH8c+AZznyk
+   ThTD8g6csOlpzqV14fqM4O9l0n7sPaOwJGUHYDPdOP0zKckIwhYJHqIZ2
+   nh8fU3qfVEDBgPewVJqk/EAunl/9akKR+Dpmp01SqaX8Efo4BLMRR1VUd
+   zoCwA286V/63967djTJKs84/Vwy6Dq50wg5KhzHBaoSXCPe6yvC+0pVe+
+   Q==;
+X-CSE-ConnectionGUID: yMN5xUgqQmm0m9RMvj5WjA==
+X-CSE-MsgGUID: s09aGk9US1Wb7Sv28HemBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="59239441"
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
+   d="scan'208";a="59239441"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 09:32:16 -0800
+X-CSE-ConnectionGUID: dxuj0hxVT6mxGdFvTzNoUQ==
+X-CSE-MsgGUID: SziPm5pcRuCOY3soJG5MQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="148305363"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Feb 2025 09:32:15 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1to4Dc-000FHY-38;
+	Fri, 28 Feb 2025 17:32:12 +0000
+Date: Sat, 1 Mar 2025 01:31:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/1] htmldocs: Warning:
+ anolis/changelog/changelog.5.10.134-17 references a file that doesn't exist:
+ Documentation/dax
+Message-ID: <202503010146.iSXRUuNE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 28 Feb 2025 18:23:34 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>
-Message-Id: <57aadd72-e3a4-4ae2-ba94-4f0d397787b4@app.fastmail.com>
-In-Reply-To: <202502280814.ATzYxKLc-lkp@intel.com>
-References: <202502280814.ATzYxKLc-lkp@intel.com>
-Subject: Re: [arnd-asm-generic:master 1/3]
- include/linux/io-64-nonatomic-lo-hi.h:132:21: error: implicit declaration of
- function '__iowrite64be_lo_hi'; did you mean 'iowrite64be_lo_hi'?
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Feb 28, 2025, at 01:10, kernel test robot wrote:
->
->    In file included from drivers/vfio/pci/vfio_pci_rdwr.c:19:
->    drivers/vfio/pci/vfio_pci_rdwr.c: In function 'vfio_pci_core_iowrite64':
->>> include/linux/io-64-nonatomic-lo-hi.h:132:21: error: implicit declaration of function '__iowrite64be_lo_hi'; did you mean 'iowrite64be_lo_hi'? [-Wimplicit-function-declaration]
+Hi Qinyun,
 
-I had a typo in the patch, fixed it up now. Thanks for the report!
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-      Arnd
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   33e283448f335063aab245460a2d3b85ac627b9d
+commit: fe8f11ee359281843344fa5de03bb89360319831 [0/1] anolis: sync changelog from release branch.
+reproduce: (https://download.01.org/0day-ci/archive/20250301/202503010146.iSXRUuNE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010146.iSXRUuNE-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/networking/device_drivers/ethernet/wangxun/ngbe.rst
+   Warning: anolis/changelog/000-changelog.base references a file that doesn't exist: Documentation/filesystem/dax
+>> Warning: anolis/changelog/changelog.5.10.134-17 references a file that doesn't exist: Documentation/dax
+   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+   Warning: drivers/irqchip/Kconfig references a file that doesn't exist: Documentation/loongarch/irq-chip-model.rst
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:394  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
