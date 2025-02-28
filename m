@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE25227CCD4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 18:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE0D27703A;
+	Fri, 28 Feb 2025 19:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740768087; cv=none; b=Qz1xwTJ8rViT28k6cB7JInW89BBO3lz5cxtXQbJ/9GBO2E0mSzrcQ5Q6BroDDv40WN9gfkrUZ60DITKKxygEjb3fK6L0U1/XH92RwFOjas1QQ4PBqIhT0KxLGkwy5C1VvnbkWofr2UPCHI9EPEWaq9A52GTsI0mcvIh1jnScvzw=
+	t=1740769347; cv=none; b=Aq7hreNKyXWE17XHCQuVgIgOgN7pXS4QCnyfiowkDcxqWe+zHhdovq6DVN9cGEi9YbE/wYEJSLC+jXFE1Bx6l9mnFz+eUYfURe0XUgcvCq2FheZj6dM2JUuqC0yheKjWOBK9/BqjZCxKPTPZqrjk3108TOEq4DbJWdDzpObq3oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740768087; c=relaxed/simple;
-	bh=HyYq5+WPQHIAqD/uRShn+IZJOeDm70UzO90j8DDy47k=;
+	s=arc-20240116; t=1740769347; c=relaxed/simple;
+	bh=d4oay2GgTodlNOGqjIq78mWWypMWMFnKxf3KxwKxBjA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jl2ZnliQvp/2sgJBj8gpIM+AzetT/jraseXkLRb7N6r36xV/OPUq51/8tSM0bF6MdR5RzCiKKMLX6B2nPYbYDE45u6JCFaE60fuXCNNMbeIkBovkjfPaK6YhGrsshTMHb8tE+bssyhNKpP/xDkM3f/rDpGKjHCx/xAYn+vt0R/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WbhjapWX; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=DwTqRuo9e8r7OxZTQGwWiwH1GsQpeDPESOGpp/r9qYoAX5Gbri7Fi5M+jcstopFcNZDIvasI2tO8a/KJewYw6G6PIdE93say0HBVuXp0Kyyj4n8OvLvwLJuR8uhlVoqw+DHaDXf/xHkOyW8EJ/ZV6/6Zt5J+zOZ6QFn2kaMqOMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQFO3Daa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WbhjapWX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQFO3Daa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740768086; x=1772304086;
+  t=1740769346; x=1772305346;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HyYq5+WPQHIAqD/uRShn+IZJOeDm70UzO90j8DDy47k=;
-  b=WbhjapWXFVJy3cF1gu8K4VZCWn+NSpSZNDGCHC+Ax3A/evBrafMcsKXQ
-   dmBftz+UUyLgoEP0ZHGgS3kGuDgdG+/W5UeUnxqOTXQAHegQoVizPz+Nj
-   KL1sKcshC4C8vpnggXrCUJTFV/4yD5svmACDRoX2a0FL0a/0Vlco1j2aV
-   YT+9w+vrkwjfAxJPkru9bFVuJNCPzsRU1+bQ7IrHsUci4p8go0J+1Tprk
-   HNp9cwNch/2cMK96nd4TmMoYOrBuYTQvEUtdYQSGGB66Jv7uvZ99J1M6C
-   bWa4fJ62IatXAB92tBbdt8f2B1bfyH+LRsY9rNMSd9nlPk+7fSnAhOIUQ
-   g==;
-X-CSE-ConnectionGUID: a2yBCJVOSlCAkeHUqRmuOQ==
-X-CSE-MsgGUID: EphDLb6QR1iKIf/NmZWIKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41410280"
+  bh=d4oay2GgTodlNOGqjIq78mWWypMWMFnKxf3KxwKxBjA=;
+  b=JQFO3DaaecaNofTnGtzNdfqDcenWkHXnwuZhqAFjcM6wLvjSffO1dACS
+   gctFTkNR6rQpdDD4XQDjwf/rJItEvnB4KLthiBm3VqSicP7AOZ34xmtEl
+   fx0fmBOe56iMNx4f5blxJhx7OVPrZe9v75BQa25D3RHRkxpa60nVSCuij
+   TFIFnc96YohFIr5hrmY/T849wfXNVYcTDL0ILN39z/Rkbg6JOZtUVvKmR
+   xt6Pb5dyYwAETmEpZJpfS6WrI91OEUXUnigRWmF3iMFuZu3wxKkItnMNW
+   4JF2XvVv2lQjlZw4rZRuxs/xp0CEccoRnvTpIycH7IRhd+DXOqV2aB/KI
+   w==;
+X-CSE-ConnectionGUID: rZ8Cj4jxRkua5/87z7E7Yg==
+X-CSE-MsgGUID: vVRJUJXZTIerYxGjGO83Og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="29299852"
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="41410280"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 10:41:25 -0800
-X-CSE-ConnectionGUID: ZVtmxtDXSsKgK+t95w6CGw==
-X-CSE-MsgGUID: ATBey/VWSy++ZN1egZBgrA==
+   d="scan'208";a="29299852"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 11:02:25 -0800
+X-CSE-ConnectionGUID: AHAMnL0ERJapFb7B72cvzw==
+X-CSE-MsgGUID: ebSgc/H9Ru6pX0TLlvdtZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122646152"
+X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
+   d="scan'208";a="117402413"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 28 Feb 2025 10:41:22 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 28 Feb 2025 11:02:24 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1to5Hr-000FMM-0H;
-	Fri, 28 Feb 2025 18:40:56 +0000
-Date: Sat, 1 Mar 2025 02:38:29 +0800
+	id 1to5cH-000FNK-1V;
+	Fri, 28 Feb 2025 19:01:58 +0000
+Date: Sat, 1 Mar 2025 03:00:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Li Ming <ming.li@zohomail.com>,
-	Alison Schofield <alison.schofield@intel.com>
-Subject: [linux-next:master 6260/7423] drivers/cxl/core/region.c:3263:26:
- warning: format '%lld' expects argument of type 'long long int', but
- argument 3 has type 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202503010252.mIDhZ5kY-lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Sterba <dsterba@suse.com>
+Subject: [linux-next:master 6787/7423] fs/btrfs/extent_io.c:2497:13: error:
+ call to '__compiletime_assert_745' declared with 'error' attribute:
+ min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
+Message-ID: <202503010248.V4jXOhgM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,138 +66,123 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   c0eb65494e59d9834af7cbad983629e9017b25a1
-commit: 0ec9849b63338da7883440ed3f52757cd8c847b1 [6260/7423] acpi/hmat / cxl: Add extended linear cache support for CXL
-config: arm-randconfig-001-20250301 (https://download.01.org/0day-ci/archive/20250301/202503010252.mIDhZ5kY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010252.mIDhZ5kY-lkp@intel.com/reproduce)
+commit: 60ee7393a44c3feb91962dc08c3a3c1f11252982 [6787/7423] btrfs: prepare extent_io.c for future larger folio support
+config: i386-buildonly-randconfig-004-20250228 (https://download.01.org/0day-ci/archive/20250301/202503010248.V4jXOhgM-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010248.V4jXOhgM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503010252.mIDhZ5kY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010248.V4jXOhgM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from drivers/cxl/core/region.c:5:
-   drivers/cxl/core/region.c: In function 'cxl_extended_linear_cache_resize':
-   drivers/cxl/core/region.c:3263:26: warning: '#' flag used with '%d' gnu_printf format [-Wformat=]
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/cxl/core/region.c:3262:17: note: in expansion of macro 'dev_warn'
-    3262 |                 dev_warn(&cxlr->dev,
-         |                 ^~~~~~~~
-   drivers/cxl/core/region.c:3263:58: note: format string is defined here
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                                                          ^
->> drivers/cxl/core/region.c:3263:26: warning: format '%lld' expects argument of type 'long long int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/cxl/core/region.c:3262:17: note: in expansion of macro 'dev_warn'
-    3262 |                 dev_warn(&cxlr->dev,
-         |                 ^~~~~~~~
-   drivers/cxl/core/region.c:3263:58: note: format string is defined here
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                                                      ~~~~^
-         |                                                          |
-         |                                                          long long int
-         |                                                      %#d
-   drivers/cxl/core/region.c:3263:26: warning: '#' flag used with '%d' gnu_printf format [-Wformat=]
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/cxl/core/region.c:3262:17: note: in expansion of macro 'dev_warn'
-    3262 |                 dev_warn(&cxlr->dev,
-         |                 ^~~~~~~~
-   drivers/cxl/core/region.c:3263:76: note: format string is defined here
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                                                                            ^
-   drivers/cxl/core/region.c:3263:26: warning: format '%lld' expects argument of type 'long long int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/cxl/core/region.c:3262:17: note: in expansion of macro 'dev_warn'
-    3262 |                 dev_warn(&cxlr->dev,
-         |                 ^~~~~~~~
-   drivers/cxl/core/region.c:3263:76: note: format string is defined here
-    3263 |                          "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-         |                                                                        ~~~~^
-         |                                                                            |
-         |                                                                            long long int
-         |                                                                        %#d
+>> fs/btrfs/extent_io.c:2497:13: error: call to '__compiletime_assert_745' declared with 'error' attribute: min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
+    2497 |                 cur_end = min(folio_pos(folio) + folio_size(folio) - 1, end);
+         |                           ^
+   include/linux/minmax.h:105:19: note: expanded from macro 'min'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:530:2: note: expanded from macro '_compiletime_assert'
+     530 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:523:4: note: expanded from macro '__compiletime_assert'
+     523 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:24:1: note: expanded from here
+      24 | __compiletime_assert_745
+         | ^
+   1 error generated.
 
 
-vim +3263 drivers/cxl/core/region.c
+vim +2497 fs/btrfs/extent_io.c
 
-  3240	
-  3241	static int cxl_extended_linear_cache_resize(struct cxl_region *cxlr,
-  3242						    struct resource *res)
-  3243	{
-  3244		struct cxl_root_decoder *cxlrd = to_cxl_root_decoder(cxlr->dev.parent);
-  3245		struct cxl_region_params *p = &cxlr->params;
-  3246		int nid = phys_to_target_node(res->start);
-  3247		resource_size_t size, cache_size, start;
-  3248		int rc;
-  3249	
-  3250		size = resource_size(res);
-  3251		if (!size)
-  3252			return -EINVAL;
-  3253	
-  3254		rc = cxl_acpi_get_extended_linear_cache_size(res, nid, &cache_size);
-  3255		if (rc)
-  3256			return rc;
-  3257	
-  3258		if (!cache_size)
-  3259			return 0;
-  3260	
-  3261		if (size != cache_size) {
-> 3262			dev_warn(&cxlr->dev,
-> 3263				 "Extended Linear Cache size %#lld != CXL size %#lld. No Support!",
-  3264				 cache_size, size);
-  3265			return -EOPNOTSUPP;
-  3266		}
-  3267	
-  3268		/*
-  3269		 * Move the start of the range to where the cache range starts. The
-  3270		 * implementation assumes that the cache range is in front of the
-  3271		 * CXL range. This is not dictated by the HMAT spec but is how the
-  3272		 * current known implementation is configured.
-  3273		 *
-  3274		 * The cache range is expected to be within the CFMWS. The adjusted
-  3275		 * res->start should not be less than cxlrd->res->start.
-  3276		 */
-  3277		start = res->start - cache_size;
-  3278		if (start < cxlrd->res->start)
-  3279			return -ENXIO;
-  3280	
-  3281		res->start = start;
-  3282		p->cache_size = cache_size;
-  3283	
-  3284		return 0;
-  3285	}
-  3286	
+  2449	
+  2450	/*
+  2451	 * Submit the pages in the range to bio for call sites which delalloc range has
+  2452	 * already been ran (aka, ordered extent inserted) and all pages are still
+  2453	 * locked.
+  2454	 */
+  2455	void extent_write_locked_range(struct inode *inode, const struct folio *locked_folio,
+  2456				       u64 start, u64 end, struct writeback_control *wbc,
+  2457				       bool pages_dirty)
+  2458	{
+  2459		bool found_error = false;
+  2460		int ret = 0;
+  2461		struct address_space *mapping = inode->i_mapping;
+  2462		struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
+  2463		const u32 sectorsize = fs_info->sectorsize;
+  2464		loff_t i_size = i_size_read(inode);
+  2465		u64 cur = start;
+  2466		struct btrfs_bio_ctrl bio_ctrl = {
+  2467			.wbc = wbc,
+  2468			.opf = REQ_OP_WRITE | wbc_to_write_flags(wbc),
+  2469		};
+  2470	
+  2471		if (wbc->no_cgroup_owner)
+  2472			bio_ctrl.opf |= REQ_BTRFS_CGROUP_PUNT;
+  2473	
+  2474		ASSERT(IS_ALIGNED(start, sectorsize) && IS_ALIGNED(end + 1, sectorsize));
+  2475	
+  2476		while (cur <= end) {
+  2477			u64 cur_end;
+  2478			u32 cur_len;
+  2479			struct folio *folio;
+  2480	
+  2481			folio = filemap_get_folio(mapping, cur >> PAGE_SHIFT);
+  2482	
+  2483			/*
+  2484			 * This shouldn't happen, the pages are pinned and locked, this
+  2485			 * code is just in case, but shouldn't actually be run.
+  2486			 */
+  2487			if (IS_ERR(folio)) {
+  2488				cur_end = min(round_down(cur, PAGE_SIZE) + PAGE_SIZE - 1, end);
+  2489				cur_len = cur_end + 1 - cur;
+  2490				btrfs_mark_ordered_io_finished(BTRFS_I(inode), NULL,
+  2491							       cur, cur_len, false);
+  2492				mapping_set_error(mapping, PTR_ERR(folio));
+  2493				cur = cur_end;
+  2494				continue;
+  2495			}
+  2496	
+> 2497			cur_end = min(folio_pos(folio) + folio_size(folio) - 1, end);
+  2498			cur_len = cur_end + 1 - cur;
+  2499	
+  2500			ASSERT(folio_test_locked(folio));
+  2501			if (pages_dirty && folio != locked_folio)
+  2502				ASSERT(folio_test_dirty(folio));
+  2503	
+  2504			/*
+  2505			 * Set the submission bitmap to submit all sectors.
+  2506			 * extent_writepage_io() will do the truncation correctly.
+  2507			 */
+  2508			bio_ctrl.submit_bitmap = (unsigned long)-1;
+  2509			ret = extent_writepage_io(BTRFS_I(inode), folio, cur, cur_len,
+  2510						  &bio_ctrl, i_size);
+  2511			if (ret == 1)
+  2512				goto next_page;
+  2513	
+  2514			if (ret)
+  2515				mapping_set_error(mapping, ret);
+  2516			btrfs_folio_end_lock(fs_info, folio, cur, cur_len);
+  2517			if (ret < 0)
+  2518				found_error = true;
+  2519	next_page:
+  2520			folio_put(folio);
+  2521			cur = cur_end + 1;
+  2522		}
+  2523	
+  2524		submit_write_bio(&bio_ctrl, found_error ? ret : 0);
+  2525	}
+  2526	
 
 -- 
 0-DAY CI Kernel Test Service
