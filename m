@@ -1,87 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DBA7E1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 05:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DED849C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 06:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740721351; cv=none; b=pCRvKAMUVzs9eJgwQmkcdrK83w40BZEliesy25HYdeYXDHWXQfWDBrpWPw5j4YRCzCiH/CHewPCBR09lJcWW5nGKbu10LD6z7/DEH3rTMb1ZcPAGMq5fXCGwlzJr+Um/37PgfnXopawa6YFgyWvbV82WyZE7QsbSCp0AMGraZ2Y=
+	t=1740723279; cv=none; b=R+NxnLeGwqFvcSxV9v85xCQZlx7o0BY2Lav+EyX56Zff+gmAq8ym/+FPxQ4vSJTfHiVSvF/zx/GRns2BTyVSMe4oAsNiLR0OhnMSnQ42RvzmRgEhDrCwybarAyjqAJBRZlKnUevZqX3DT0SHVmAm6FBs+lEBM5EMQjL4hqbwhxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740721351; c=relaxed/simple;
-	bh=zNx+SAVmWl6G57S0BW/rprzaLtw/CePJbtO+ocA/I10=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sJrD06HuswMkhK6t8Q5E0eh1+c7e8Q5GMiyc+IvUW1VIcLoKY5xr2hm7PTgj/xFwQqVmCHsTk3mOyg29tgDJBT9RqXiPi4YDrmGtimER0m4IFXTWY2+olc+lTdzRkAaF6TvJJIaJAzuHghaftZIPc50ESnHeG8mHscwPiatSvOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MdiEh/0e; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1740723279; c=relaxed/simple;
+	bh=H2XroP2jLLzd5oDPLy4zQD9RNULqRrxyr6M9eJepVkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=anpi6AdjEn5zW00z+hLZkWv52e7Y780uit+Jh4wlr+hOw3jrJkePxbQbDLOtVuMIMVt84Jqiw04ylYU5rySZbDUiTR/HIZvkkm+RG4TKmErn2UTxtqjWae+xGmQUjNzaGmBiUGkeIxpu2xj6OLe+YY9ArIea03L7vJJgfUS6JKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dd8IXa1a; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdiEh/0e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dd8IXa1a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740721350; x=1772257350;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zNx+SAVmWl6G57S0BW/rprzaLtw/CePJbtO+ocA/I10=;
-  b=MdiEh/0eUvURpiAf2LdYl/tKObIu3Noepp7tTMBpewjhR8cUnSOCConE
-   Ix3lMaEYK0XGInW6RMQ/aqmfY7zKySAMGoSuiB1JNwOU2U91jQhwGdmLH
-   a4PtApUnSsYgu7MTk+t1E23ARzcpA0OhCaoGsK1Gpqvc9UY3wu+uVG+Xr
-   3qcaPCnM9xj8ASKf7/DuAovievjLnB5jpQ6fkv3wP4zgrUnHhCeI7q2V3
-   9olHJZ66yQKhdQm1JoI69z+xilyc/TczpXqalk+E6ffdrIVfdxD3pgR2f
-   2WgjaMwGifpQrf9+Fkg4FzuX2nduk+10vQJNCNxyJGarMkrbJ9guXfHL5
-   Q==;
-X-CSE-ConnectionGUID: VWAfegzWS6eNDwgzs6Z5EA==
-X-CSE-MsgGUID: xkhY2F+IRbyEtxQv+QuDVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="53031988"
+  t=1740723278; x=1772259278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H2XroP2jLLzd5oDPLy4zQD9RNULqRrxyr6M9eJepVkQ=;
+  b=Dd8IXa1a/QgapbOZVSpQe4z1Ty9Mvv/dN7+b2ZWFk5QQv7tki9UyJ8ME
+   U1FfLrc4KEqYjF9bdpo/j/shWOknBoC7qHqWGfrRg8121ScqKsOJ4BB4E
+   2hYjgXBNkt0YV8NW7rvaOX16mbGHooiEnVPWU/GRjK7EnNg+CrtWEJcBY
+   RUTWp+CM0oDp5rtryWsCCxWZIyu2z+IxZDre4T4bTM/vVfo/4IDunGrf/
+   lLsMFcmVhYVQ67jYWjoLWKSpOHEQOp3g1ygGklBGo9gZ1YdA7UNPfwPd6
+   yDFjxbuz6i78XNoCIdxyGSDnKvCA2HsVWf5kRVcXLnkfBm+NgzL7Vc85U
+   w==;
+X-CSE-ConnectionGUID: TMGiNKuBSKuQXgoODTQP+A==
+X-CSE-MsgGUID: 0ln4oynpRraLkbQXAOqfOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41489712"
 X-IronPort-AV: E=Sophos;i="6.13,321,1732608000"; 
-   d="scan'208";a="53031988"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 21:42:29 -0800
-X-CSE-ConnectionGUID: UxLnlRBsS26MDSkQZhyITg==
-X-CSE-MsgGUID: UqhdZc/BTZWSOKHIKeIXlw==
+   d="scan'208";a="41489712"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 22:14:35 -0800
+X-CSE-ConnectionGUID: bd3bX78CRfGAu7dtcEB6/A==
+X-CSE-MsgGUID: Vb5S6eBWSF2QGfLjz6by2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,321,1732608000"; 
-   d="scan'208";a="122369778"
+   d="scan'208";a="148065199"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Feb 2025 21:42:20 -0800
+  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2025 22:14:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnt8c-000ETK-24;
-	Fri, 28 Feb 2025 05:42:18 +0000
-Date: Fri, 28 Feb 2025 13:41:17 +0800
+	id 1tntdc-000EUs-0t;
+	Fri, 28 Feb 2025 06:14:24 +0000
+Date: Fri, 28 Feb 2025 14:13:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
-	Guillaume Stols <gstols@baylibre.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Dumitru Ceclan <mitrutzceclan@gmail.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Alisa-Dariana Roman <alisadariana@gmail.com>,
-	Ramona Alexandra Nechita <ramona.nechita@analog.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v4 02/10] property: Add
- device_get_child_node_count_named()
-Message-ID: <202502281336.CipGtKOJ-lkp@intel.com>
-References: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 2/2] drivers/cxl/aliscm.c:513:5:
+ warning: no previous prototype for 'cxl_aliscm_send_cmd'
+Message-ID: <202502281408.qABDZGVF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -90,63 +61,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount@gmail.com>
 
-Hi Matti,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0ad2507d5d93f39619fc42372c347d6006b64319]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/dt-bindings-ROHM-BD79124-ADC-GPO/20250225-063520
-base:   0ad2507d5d93f39619fc42372c347d6006b64319
-patch link:    https://lore.kernel.org/r/29ec24f1498392cafbecc0e0c0e23e1ce3289565.1740421248.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v4 02/10] property: Add device_get_child_node_count_named()
-config: i386-buildonly-randconfig-002-20250227 (https://download.01.org/0day-ci/archive/20250228/202502281336.CipGtKOJ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502281336.CipGtKOJ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   3f4a1c56702ff1c8fc29efeaf5b07b6e9821f19a
+commit: 0570776059de9549b00ed0b0d2ffc7807f1c6688 [2/2] anolis: driver/cxl: Add a custom module for AliSCM
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20250228/202502281408.qABDZGVF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502281408.qABDZGVF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502281336.CipGtKOJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502281408.qABDZGVF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/base/property.c:964: warning: Function parameter or struct member 'name' not described in 'device_get_child_node_count_named'
+>> drivers/cxl/aliscm.c:513:5: warning: no previous prototype for 'cxl_aliscm_send_cmd' [-Wmissing-prototypes]
+     513 | int cxl_aliscm_send_cmd(struct cxl_aliscm_dev *aliscm, struct cxl_send_command __user *s)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/cxl/aliscm.c:607:24: warning: no previous prototype for 'devm_cxl_add_aliscm' [-Wmissing-prototypes]
+     607 | struct cxl_aliscm_dev *devm_cxl_add_aliscm(struct device *host)
+         |                        ^~~~~~~~~~~~~~~~~~~
 
 
-vim +964 drivers/base/property.c
+vim +/cxl_aliscm_send_cmd +513 drivers/cxl/aliscm.c
 
-   947	
-   948	/**
-   949	 * device_get_child_node_count_named - number of child nodes with given name
-   950	 *
-   951	 * Scan device's child nodes and find all the nodes with a specific name and
-   952	 * return the number of found nodes. Potential '@number' -ending for scanned
-   953	 * names is ignored. Eg,
-   954	 * device_get_child_node_count(dev, "channel");
-   955	 * would match all the nodes:
-   956	 * channel { }, channel@0 {}, channel@0xabba {}...
-   957	 *
-   958	 * @dev: Device to count the child nodes for
-   959	 *
-   960	 * Return: the number of child nodes with a matching name for a given device.
-   961	 */
-   962	unsigned int device_get_child_node_count_named(const struct device *dev,
-   963						       const char *name)
- > 964	{
-   965		struct fwnode_handle *child;
-   966		unsigned int count = 0;
-   967	
-   968		device_for_each_child_node(dev, child)
-   969			if (fwnode_name_eq(child, "channel"))
-   970				count++;
-   971	
-   972		return count;
-   973	}
-   974	EXPORT_SYMBOL_GPL(device_get_child_node_count_named);
-   975	
+   512	
+ > 513	int cxl_aliscm_send_cmd(struct cxl_aliscm_dev *aliscm, struct cxl_send_command __user *s)
+   514	{
+   515		struct device *dev = &aliscm->dev;
+   516		struct cxl_send_command send;
+   517		struct aliscm_cmd cmd;
+   518		int rc;
+   519	
+   520		dev_dbg(dev, "Send IOCTL to AliSCM\n");
+   521	
+   522		if (copy_from_user(&send, s, sizeof(send)))
+   523			return -EFAULT;
+   524	
+   525		if (send.rsvd == ALISCM_DOE_ID) {
+   526			rc = doe_validate_cmd_from_user(&cmd, aliscm, &send);
+   527			if (rc)
+   528				return rc;
+   529	
+   530			rc = handle_aliscm_doe_cmd_from_user(aliscm, &cmd, send.out.payload,
+   531								&send.out.size, &send.retval);
+   532			if (rc)
+   533				return rc;
+   534		} else if (send.rsvd == ALISCM_GET_CXL_REG_ID) {
+   535			rc = get_cxl_reg_validate_cmd_from_user(&cmd, aliscm, &send);
+   536			if (rc)
+   537				return rc;
+   538	
+   539			rc = handle_aliscm_get_cxl_reg_cmd_from_user(aliscm, &cmd, send.out.payload,
+   540								&send.out.size, &send.retval);
+   541			if (rc)
+   542				return rc;
+   543		} else {
+   544			dev_warn(dev, "Unsupported command type: %x\n", send.rsvd);
+   545			return -EINVAL;
+   546		}
+   547	
+   548		if (copy_to_user(s, &send, sizeof(send)))
+   549			return -EFAULT;
+   550	
+   551		return 0;
+   552	}
+   553	
+   554	static long __cxl_aliscm_ioctl(struct cxl_aliscm_dev *aliscm, unsigned int cmd,
+   555					   unsigned long arg)
+   556	{
+   557		switch (cmd) {
+   558		case CXL_MEM_SEND_COMMAND:
+   559			return cxl_aliscm_send_cmd(aliscm, (void __user *)arg);
+   560		default:
+   561			return -ENOTTY;
+   562		}
+   563	}
+   564	
+   565	static long cxl_aliscm_ioctl(struct file *file, unsigned int cmd,
+   566					 unsigned long arg)
+   567	{
+   568		struct cxl_aliscm_dev *aliscm = file->private_data;
+   569		int rc = -ENXIO;
+   570	
+   571		down_read(&cxl_aliscm_rwsem);
+   572		if (aliscm)
+   573			rc = __cxl_aliscm_ioctl(aliscm, cmd, arg);
+   574		up_read(&cxl_aliscm_rwsem);
+   575	
+   576		return rc;
+   577	}
+   578	
+   579	static int cxl_aliscm_open(struct inode *inode, struct file *file)
+   580	{
+   581		struct cxl_aliscm_dev *aliscm =
+   582			container_of(inode->i_cdev, typeof(*aliscm), cdev);
+   583	
+   584		get_device(&aliscm->dev);
+   585		file->private_data = aliscm;
+   586	
+   587		return 0;
+   588	}
+   589	
+   590	static int cxl_aliscm_release_file(struct inode *inode, struct file *file)
+   591	{
+   592		struct cxl_aliscm_dev *aliscm =
+   593			container_of(inode->i_cdev, typeof(*aliscm), cdev);
+   594	
+   595		put_device(&aliscm->dev);
+   596	
+   597		return 0;
+   598	}
+   599	
+   600	static const struct file_operations cxl_aliscm_fops = {
+   601		.owner = THIS_MODULE,
+   602		.unlocked_ioctl = cxl_aliscm_ioctl,
+   603		.open = cxl_aliscm_open,
+   604		.release = cxl_aliscm_release_file,
+   605	};
+   606	
+ > 607	struct cxl_aliscm_dev *devm_cxl_add_aliscm(struct device *host)
+   608	{
+   609		struct cxl_aliscm_dev *aliscm;
+   610		struct device *dev;
+   611		struct cdev *cdev;
+   612		int rc;
+   613	
+   614		aliscm = cxl_aliscm_alloc(host, &cxl_aliscm_fops);
+   615		if (IS_ERR(aliscm)) {
+   616			dev_warn(host, "cxl_aliscm_alloc failed\n");
+   617			return NULL;
+   618		}
+   619	
+   620		dev = &aliscm->dev;
+   621		rc = dev_set_name(dev, "aliscm%d", aliscm->id);
+   622		if (rc)
+   623			goto err;
+   624	
+   625		cdev = &aliscm->cdev;
+   626		rc = cdev_device_add(cdev, dev);
+   627		if (rc) {
+   628			dev_dbg(host, "cdev_device_add failed\n");
+   629			goto err;
+   630		}
+   631	
+   632		dev_set_drvdata(host, aliscm);
+   633	
+   634		return aliscm;
+   635	
+   636	err:
+   637		put_device(dev);
+   638		return NULL;
+   639	}
+   640	
 
 -- 
 0-DAY CI Kernel Test Service
