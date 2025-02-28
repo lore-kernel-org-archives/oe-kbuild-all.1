@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348371DED73
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 22:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ABC1957FF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 23:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740783124; cv=none; b=YcOukw+MXUCi/lcmzfyr6FivYUVDUuXJ6/J75QQSZ4jWmgVccfBfM7PHNNoSAr51YKVoIXBSQSqQqMZCwoqKiPvDcBnOx4Iw53vN13t+66OFwkLEAdMjMOt8k+tUwNAgIZsujmVvjK+MUdevuzHJMCcUswk1ZvKzWmzfANGXbF4=
+	t=1740786215; cv=none; b=ncLmAlJj6/0ojH2iWbKmtj9cx11Q42NiHHBS7bQ6xJXUdJT25ioqv1Y5k/54DoIXj3MstU3r4OojO+V7+pwxdNA7ksOmqiHB3rQGSSi9I7+Bxbyr7uxHIMz7Ed9DW1AtkX6ozQo8scgIU8htAtAxXOgop5svwEXe3yug717cZ1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740783124; c=relaxed/simple;
-	bh=dRpj+l9v3cUD/5QdVug3/CCYYHU7qC+XEOOSgCDQTtI=;
+	s=arc-20240116; t=1740786215; c=relaxed/simple;
+	bh=r4tR+amP7rqHwdIw4ETWY99bGMM8iAb5qO4vyxrRVIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R77YiymDPbUsqgomUknpRIKKphILAT6acUSOvut9D1Za0kL/5RGVVGj+qfwKM0rOVgHj0b1GgWjrdCr0PEP9An44aG6PNYTv60jw/U/KAQkzJqV/1Rvac98HtY+9Oj6n2zjGXHnJFgc346i3f1GZNDOfLpQZpaepHNOsdtdIxI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVR7/x2f; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=bHHRUSAxQkuQy8Gp7oTVf5N8G7NN80iimXVvEH0a/rjyKDrZ3d9+ZVsT32UtMbICajuvfp/9qbSuPN+Dk1PzRe52q/yvwcDHBBQT+AIN/XacFLDKm8m4tI1C6Prl3jEL9kFUBCtoOshRv+T8rU6A/hLjux9tieVAanl2DyGkv9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+uy4o/X; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVR7/x2f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+uy4o/X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740783122; x=1772319122;
+  t=1740786213; x=1772322213;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dRpj+l9v3cUD/5QdVug3/CCYYHU7qC+XEOOSgCDQTtI=;
-  b=fVR7/x2fWQha2kWGbQxuihD6Ab3HHDwwy+Xr34MDnBr1d39TQ9d5YMwG
-   JeXMb2MbWFy21ZHhOKhoRLSQ1skOcPF4b0NdC2iHNkFfDgqzWNnsl4d5A
-   0BHkMtkBr7F9TATcffM39Y3Wk/YaGybpn7ML5nvjskrgwrXra5E+z8B3Q
-   81WZuu++zP53/h554ZUxyObSM3rpEw5/YyPkExuKMa6eZjAHrfBEp/0wh
-   3iO4mJxYkAGM+oEJwZQHyTusTW+8Tvy+jmrhncwakG5TnEBcAS9fPhjbL
-   mJxUgxfjv5fQ4JGxRUEt9/9M97C9e4b9+g3wcaby7aetRQX3YnnjPWnqO
-   A==;
-X-CSE-ConnectionGUID: tjIG5CKlRm662QnsgeeIkg==
-X-CSE-MsgGUID: M5U9vhK1RT+v6LKSpJjv9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="67097767"
+  bh=r4tR+amP7rqHwdIw4ETWY99bGMM8iAb5qO4vyxrRVIg=;
+  b=K+uy4o/XMEpRB1Lh5PXjYySfnIY52U1LjaowizlHzfygSvpVAONKFtZv
+   amCcfbo3CP8H1ow0PnJVxTa9Hv5zd7ZSQATRJBFyotPIfWo+JFfQVir3j
+   onW2NTm+/G0BDLHA7iZKth9NQ/m86Pf3uUp5GUKFyIfqgxi40PWMi/5xm
+   Bh+lsdTuXiHA9qqJTfshOh4zgf3KBh9RmNuVqNXCpsP5EdiMyRfddlwUa
+   uBBmVdlHczOcdViLL1FmxYkQtU6gztX+mLO2FKKX7dFMu1I5xyZJEkgyF
+   J+e2OcJtAvL/H7zcV8GjiaDXHDilchRi1uv0kEeOD9nBIeIQYVU1eEa42
+   w==;
+X-CSE-ConnectionGUID: OeynMPRGSZuxNqBe7vUVVA==
+X-CSE-MsgGUID: eVe1HsBOS9GU+xHm5YeLoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="40902057"
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="67097767"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 14:52:01 -0800
-X-CSE-ConnectionGUID: WgV0pbUxQYKkYpzNjeYUtg==
-X-CSE-MsgGUID: A99RggSOQcu66A6nj6WIyg==
+   d="scan'208";a="40902057"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 15:43:32 -0800
+X-CSE-ConnectionGUID: kdRaaFnIRVOTV5c5UlRCLg==
+X-CSE-MsgGUID: 8jD+3bmdTa2VHpadVfml5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="117248039"
+   d="scan'208";a="122470707"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Feb 2025 14:52:00 -0800
+  by orviesa004.jf.intel.com with ESMTP; 28 Feb 2025 15:43:31 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1to9D3-000FbO-1t;
-	Fri, 28 Feb 2025 22:51:57 +0000
-Date: Sat, 1 Mar 2025 06:51:43 +0800
+	id 1toA0u-000Fdi-1S;
+	Fri, 28 Feb 2025 23:43:28 +0000
+Date: Sat, 1 Mar 2025 07:42:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Pitre <npitre@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: security/keys/proc.c:211:40: warning: '%llu' directive writing
- between 1 and 18 bytes into a region of size 16
-Message-ID: <202503010638.lMdz5xwN-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-desktop 0/1]
+ mm/kasan/kasan_test_c.c:48:6: sparse: sparse: symbol 'kasan_ptr_result' was
+ not declared. Should it be static?
+Message-ID: <202503010739.VvEtlzuJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,133 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Nicolas,
+Hi Matthew,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   276f98efb64a2c31c099465ace78d3054c662a0f
-commit: 00a31dd3acea0f88f947fc71e268ebb34b59f218 asm-generic/div64: optimize/simplify __div64_const32()
-date:   4 months ago
-config: arm-randconfig-r002-20220811 (https://download.01.org/0day-ci/archive/20250301/202503010638.lMdz5xwN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010638.lMdz5xwN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   0f76c0730afab52b8c89c218219f5d7acc2f3048
+commit: a2f11547052001bd448ccec81dd1e68409078fbb [0/1] kasan: rust: Add KASAN smoke test via UAF
+config: x86_64-randconfig-122-20250301 (https://download.01.org/0day-ci/archive/20250301/202503010739.VvEtlzuJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010739.VvEtlzuJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503010638.lMdz5xwN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010739.VvEtlzuJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/kasan/kasan_test_c.c:48:6: sparse: sparse: symbol 'kasan_ptr_result' was not declared. Should it be static?
+>> mm/kasan/kasan_test_c.c:49:5: sparse: sparse: symbol 'kasan_int_result' was not declared. Should it be static?
 
-   security/keys/proc.c: In function 'proc_keys_show':
-   security/keys/proc.c:217:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     217 |                         sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-         |                                             ^
-   security/keys/proc.c:217:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
-     217 |                         sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:215:45: warning: 'sprintf' may write a terminating nul past the end of the destination [-Wformat-overflow=]
-     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-         |                                             ^
-   security/keys/proc.c:215:25: note: 'sprintf' output between 3 and 17 bytes into a destination of size 16
-     215 |                         sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/keys/proc.c:213:44: warning: 'h' directive writing 1 byte into a region of size between 0 and 15 [-Wformat-overflow=]
-     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-         |                                            ^
-   security/keys/proc.c:213:25: note: 'sprintf' output between 3 and 18 bytes into a destination of size 16
-     213 |                         sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> security/keys/proc.c:211:40: warning: '%llu' directive writing between 1 and 18 bytes into a region of size 16 [-Wformat-overflow=]
-     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
-         |                                        ^~~~
-   security/keys/proc.c:211:39: note: directive argument in the range [0, 576460752303423487]
-     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
-         |                                       ^~~~~~~
-   security/keys/proc.c:211:25: note: 'sprintf' output between 3 and 20 bytes into a destination of size 16
-     211 |                         sprintf(xbuf, "%llum", div_u64(timo, 60));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/kasan_ptr_result +48 mm/kasan/kasan_test_c.c
 
+7ce0ea19d50e4e mm/kasan/kasan_test.c Andrey Konovalov 2022-09-27  43  
+adb72ae1915db2 lib/test_kasan.c      Daniel Axtens    2020-06-03  44  /*
+0fd379253691e7 lib/test_kasan.c      Andrey Konovalov 2021-02-24  45   * Some tests use these global variables to store return values from function
+0fd379253691e7 lib/test_kasan.c      Andrey Konovalov 2021-02-24  46   * calls that could otherwise be eliminated by the compiler as dead code.
+adb72ae1915db2 lib/test_kasan.c      Daniel Axtens    2020-06-03  47   */
+adb72ae1915db2 lib/test_kasan.c      Daniel Axtens    2020-06-03 @48  void *kasan_ptr_result;
+83c4e7a0363bdb lib/test_kasan.c      Patricia Alfonso 2020-10-13 @49  int kasan_int_result;
+83c4e7a0363bdb lib/test_kasan.c      Patricia Alfonso 2020-10-13  50  
 
-vim +211 security/keys/proc.c
+:::::: The code at line 48 was first introduced by commit
+:::::: adb72ae1915db28f934e9e02c18bfcea2f3ed3b7 kasan: stop tests being eliminated as dead code with FORTIFY_SOURCE
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  152  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  153  static int proc_keys_show(struct seq_file *m, void *v)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  154  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  155  	struct rb_node *_p = v;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  156  	struct key *key = rb_entry(_p, struct key, serial_node);
-ab5c69f01313c8 Eric Biggers   2017-09-27  157  	unsigned long flags;
-927942aabbbe50 David Howells  2010-06-11  158  	key_ref_t key_ref, skey_ref;
-074d58989569b3 Baolin Wang    2017-11-15  159  	time64_t now, expiry;
-03dab869b7b239 David Howells  2016-10-26  160  	char xbuf[16];
-363b02dab09b32 David Howells  2017-10-04  161  	short state;
-074d58989569b3 Baolin Wang    2017-11-15  162  	u64 timo;
-06ec7be557a125 Michael LeMay  2006-06-26  163  	int rc;
-06ec7be557a125 Michael LeMay  2006-06-26  164  
-4bdf0bc3003141 David Howells  2013-09-24  165  	struct keyring_search_context ctx = {
-ede0fa98a900e6 Eric Biggers   2019-02-22  166  		.index_key		= key->index_key,
-4aa68e07d84556 Eric Biggers   2017-09-18  167  		.cred			= m->file->f_cred,
-462919591a1791 David Howells  2014-09-16  168  		.match_data.cmp		= lookup_user_key_possessed,
-462919591a1791 David Howells  2014-09-16  169  		.match_data.raw_data	= key,
-462919591a1791 David Howells  2014-09-16  170  		.match_data.lookup_type	= KEYRING_SEARCH_LOOKUP_DIRECT,
-dcf49dbc8077e2 David Howells  2019-06-26  171  		.flags			= (KEYRING_SEARCH_NO_STATE_CHECK |
-dcf49dbc8077e2 David Howells  2019-06-26  172  					   KEYRING_SEARCH_RECURSE),
-4bdf0bc3003141 David Howells  2013-09-24  173  	};
-4bdf0bc3003141 David Howells  2013-09-24  174  
-028db3e290f15a Linus Torvalds 2019-07-10  175  	key_ref = make_key_ref(key, 0);
-927942aabbbe50 David Howells  2010-06-11  176  
-927942aabbbe50 David Howells  2010-06-11  177  	/* determine if the key is possessed by this process (a test we can
-927942aabbbe50 David Howells  2010-06-11  178  	 * skip if the key does not indicate the possessor can view it
-927942aabbbe50 David Howells  2010-06-11  179  	 */
-028db3e290f15a Linus Torvalds 2019-07-10  180  	if (key->perm & KEY_POS_VIEW) {
-028db3e290f15a Linus Torvalds 2019-07-10  181  		rcu_read_lock();
-e59428f721ee09 David Howells  2019-06-19  182  		skey_ref = search_cred_keyrings_rcu(&ctx);
-028db3e290f15a Linus Torvalds 2019-07-10  183  		rcu_read_unlock();
-927942aabbbe50 David Howells  2010-06-11  184  		if (!IS_ERR(skey_ref)) {
-927942aabbbe50 David Howells  2010-06-11  185  			key_ref_put(skey_ref);
-927942aabbbe50 David Howells  2010-06-11  186  			key_ref = make_key_ref(key, 1);
-927942aabbbe50 David Howells  2010-06-11  187  		}
-927942aabbbe50 David Howells  2010-06-11  188  	}
-927942aabbbe50 David Howells  2010-06-11  189  
-4aa68e07d84556 Eric Biggers   2017-09-18  190  	/* check whether the current task is allowed to view the key */
-f5895943d91b41 David Howells  2014-03-14  191  	rc = key_task_permission(key_ref, ctx.cred, KEY_NEED_VIEW);
-06ec7be557a125 Michael LeMay  2006-06-26  192  	if (rc < 0)
-028db3e290f15a Linus Torvalds 2019-07-10  193  		return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  194  
-074d58989569b3 Baolin Wang    2017-11-15  195  	now = ktime_get_real_seconds();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  196  
-028db3e290f15a Linus Torvalds 2019-07-10  197  	rcu_read_lock();
-028db3e290f15a Linus Torvalds 2019-07-10  198  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  199  	/* come up with a suitable timeout value */
-ab5c69f01313c8 Eric Biggers   2017-09-27  200  	expiry = READ_ONCE(key->expiry);
-39299bdd254668 David Howells  2023-12-09  201  	if (expiry == TIME64_MAX) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  202  		memcpy(xbuf, "perm", 5);
-074d58989569b3 Baolin Wang    2017-11-15  203  	} else if (now >= expiry) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  204  		memcpy(xbuf, "expd", 5);
-7b1b9164598286 David Howells  2009-09-02  205  	} else {
-074d58989569b3 Baolin Wang    2017-11-15  206  		timo = expiry - now;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  207  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  208  		if (timo < 60)
-074d58989569b3 Baolin Wang    2017-11-15  209  			sprintf(xbuf, "%llus", timo);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  210  		else if (timo < 60*60)
-074d58989569b3 Baolin Wang    2017-11-15 @211  			sprintf(xbuf, "%llum", div_u64(timo, 60));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  212  		else if (timo < 60*60*24)
-074d58989569b3 Baolin Wang    2017-11-15  213  			sprintf(xbuf, "%lluh", div_u64(timo, 60 * 60));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  214  		else if (timo < 60*60*24*7)
-074d58989569b3 Baolin Wang    2017-11-15 @215  			sprintf(xbuf, "%llud", div_u64(timo, 60 * 60 * 24));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  216  		else
-074d58989569b3 Baolin Wang    2017-11-15  217  			sprintf(xbuf, "%lluw", div_u64(timo, 60 * 60 * 24 * 7));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  218  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  219  
-363b02dab09b32 David Howells  2017-10-04  220  	state = key_read_state(key);
-363b02dab09b32 David Howells  2017-10-04  221  
-
-:::::: The code at line 211 was first introduced by commit
-:::::: 074d58989569b39f04294c90ef36dd82b8c2cc1a security: keys: Replace time_t/timespec with time64_t
-
-:::::: TO: Baolin Wang <baolin.wang@linaro.org>
-:::::: CC: David Howells <dhowells@redhat.com>
+:::::: TO: Daniel Axtens <dja@axtens.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
