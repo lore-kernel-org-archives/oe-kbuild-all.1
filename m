@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64A923F38E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 20:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF7623F38A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 21:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740775775; cv=none; b=AQ8z/+TUzoAwHC6QjDoxNUpJNIWrsGluL/ujXK6RFJONi99egGQeDouZSqhJz3P+QorGVGyk8RwCb9etTlG6cmfH5TncpvC4pnOkDJQYg3wse9KSCq1vPiNxvB7noTMQhGgURfOHbOiYForjoTVS2s5WVq08FWiEpttkfjGzRWU=
+	t=1740778796; cv=none; b=ZAQ1APWoWCARqeksxRN0fDfOf6WGvIqf0+SfvBeg/09TbQJKcTNZQKCO8oHbOXBFk5beM/bl5PkBi74nhvaYvXxurQD83NQLjsSFcjQ26DjcpzRNh3MtOTTEIAIejZhXbaZHE7up0Z31GUcxXrbC3thmzx8tjvegt49hU7kEnhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740775775; c=relaxed/simple;
-	bh=zkXVGkVrpsDAcei3ubhvZoUQlpvIbOP/dtO/0SVTUmc=;
+	s=arc-20240116; t=1740778796; c=relaxed/simple;
+	bh=N+LAKMFwGFE8Qvlo5zO4KhMjc9Syf2RW0t+yPMtoZUA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z2Xt2X+2zPsJA9xX6BSMuZPO6i5OpUmbIXfG5uAkRSGzd7kV3U/GZGG4Sy69Pg68S3wf3Ng5jn2/N//nli2x5iTsK1fxtSHJTG/b/FuT9soCtal1ssKPDzD5ZuLZkhpuZlSHJSKeOSoL5NzSNC7gdv05Y3DMgG9p03xNYomWuK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S7sirNY1; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=n8txCzQbNvQxd7QX6uEjWfFIbl4lvCHai5ZhIb2JBA3O/kHhLxYQc2mtPbWMjLEv4VcENQE1p+45FGYR2xc2YCCFyo/8KxwAtE2kdb4NlEp5i1rBF+DnJvhHTxzQ2mLd+3+g8M0Pk0YH5+pFF7Z6ZTu1yAmZnjydzkSDD5fZVZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZWagaAwt; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S7sirNY1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZWagaAwt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740775774; x=1772311774;
+  t=1740778795; x=1772314795;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zkXVGkVrpsDAcei3ubhvZoUQlpvIbOP/dtO/0SVTUmc=;
-  b=S7sirNY1pycY8VofXQDZk2D3pWj8gtlODTNdV/+PaQMrYIeTX3wMkdGT
-   1JfohPlJxdRuAWML5IdYjoKwSmdQPqxEIJjtre13doMDTTnWusQGyj+zj
-   CAkr/grVhtFYCvpgteeqiStKOrhmIKT3bSXXWT4JTXzQYTCBgNEFSVTz0
-   NNH3MUn7hDgO1rFJK/TB4DeXnUbnraAl0nxZ3mHlA6f7JNNuOx59jfCiw
-   tsiBzkRb7na99x/c4jG+8RDoGMlMO76eQi0MpuxeJ3sx7512H1TBQD0aw
-   9xk90tSsr2KerjcStGQiTnWfrthv0a1gz2BcrtIdl1KffUhlfBRgRJ7lJ
-   w==;
-X-CSE-ConnectionGUID: rsDRfTE1QcmzEpTukdm8iw==
-X-CSE-MsgGUID: TVAFTKnRSCCyoLZ3+Vj2Lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="45368346"
+  bh=N+LAKMFwGFE8Qvlo5zO4KhMjc9Syf2RW0t+yPMtoZUA=;
+  b=ZWagaAwtoSWgd35bKf0dM8T3OQuM1CwFe6TXlQX61XWWfA2uiqGKO6pj
+   q28KFP/58jPMPb0I83aA+0nTVh4v1Y5TStG664yUhlq2WDeYtrMmfYQfw
+   O0TNXtSU7MjjPzddSeLXidxxcmm7g1SlZeP9ze2a2iqpAGp00xQaOmTVB
+   Ro6cZEtRNCayuVZtS2Y1TuwHGp0tHpFpWBMzDX+z3lqNSYojlir0ZCozq
+   lC3FJh86VnItwmUbIaeUvp2o16f1prG35YGew6dhNPiFFDDHx2cw60jhZ
+   4Th5ukcA+mTlBXKPBs92GxEvUFt9JoYNTEJ9oy0R3w8YVZsvMGp9ZWNAd
+   Q==;
+X-CSE-ConnectionGUID: IjkTySq6TRSeksnZy67alg==
+X-CSE-MsgGUID: uGF5cdTcTb+bt2C0Iz069A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52354513"
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="45368346"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 12:49:34 -0800
-X-CSE-ConnectionGUID: hhVUkCXKT7O6pfQg0y9N0Q==
-X-CSE-MsgGUID: DyRhmPc8SVOanC/bEGxlNg==
+   d="scan'208";a="52354513"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 13:39:54 -0800
+X-CSE-ConnectionGUID: hlWihSY1SO+CQQwyNLHMtw==
+X-CSE-MsgGUID: 9Tm8Dc3KRoK9n5zO64c4qQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="122396174"
+   d="scan'208";a="122581027"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 28 Feb 2025 12:49:32 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Feb 2025 13:39:53 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1to7IX-000FV6-24;
-	Fri, 28 Feb 2025 20:49:29 +0000
-Date: Sat, 1 Mar 2025 04:48:31 +0800
+	id 1to85H-000FXi-12;
+	Fri, 28 Feb 2025 21:39:51 +0000
+Date: Sat, 1 Mar 2025 05:39:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Necip Fazil Yildiran <fazilyildiran@gmail.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rich Felker <dalias@libc.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for G2_DMA when
- selected by SND_AICA
-Message-ID: <202503010458.iZun3bkL-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/1] mm/unevictable.c:501:30:
+ warning: 'del_proc_fops' defined but not used
+Message-ID: <202503010508.5b7c8Vxt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,24 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   276f98efb64a2c31c099465ace78d3054c662a0f
-commit: f477a538c14d07f8c45e554c8c5208d588514e98 sh: dma: fix kconfig dependency for G2_DMA
-date:   4 years, 2 months ago
-config: sh-kismet-CONFIG_G2_DMA-CONFIG_SND_AICA-0-0 (https://download.01.org/0day-ci/archive/20250301/202503010458.iZun3bkL-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250301/202503010458.iZun3bkL-lkp@intel.com/reproduce)
+Hi Xunlei,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   b546d9695894905e1bc9de7646f89b06dbeae968
+commit: 9eee07ca21b4bcb78a9e0092696f13a0b3db291a [0/1] ck: mm: Pin code section of process in memory
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250301/202503010508.5b7c8Vxt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010508.5b7c8Vxt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503010458.iZun3bkL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010508.5b7c8Vxt-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for G2_DMA when selected by SND_AICA
-   WARNING: unmet direct dependencies detected for G2_DMA
-     Depends on [n]: SH_DREAMCAST [=y] && SH_DMA_API [=n]
-     Selected by [y]:
-     - SND_AICA [=y] && SOUND [=y] && !UML && SND [=y] && SND_SUPERH [=y] && SH_DREAMCAST [=y]
+All warnings (new ones prefixed by >>):
+
+   mm/unevictable.c:496:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     496 | const static struct proc_ops add_proc_fops = {
+         | ^~~~~
+   mm/unevictable.c:501:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     501 | const static struct proc_ops del_proc_fops = {
+         | ^~~~~
+>> mm/unevictable.c:501:30: warning: 'del_proc_fops' defined but not used [-Wunused-const-variable=]
+     501 | const static struct proc_ops del_proc_fops = {
+         |                              ^~~~~~~~~~~~~
+>> mm/unevictable.c:496:30: warning: 'add_proc_fops' defined but not used [-Wunused-const-variable=]
+     496 | const static struct proc_ops add_proc_fops = {
+         |                              ^~~~~~~~~~~~~
+
+
+vim +/del_proc_fops +501 mm/unevictable.c
+
+   495	
+ > 496	const static struct proc_ops add_proc_fops = {
+   497		.proc_read  = proc_read_add_pid,
+   498		.proc_write = proc_write_add_pid,
+   499	};
+   500	
+ > 501	const static struct proc_ops del_proc_fops = {
+   502		.proc_write = proc_write_del_pid,
+   503	};
+   504	
 
 -- 
 0-DAY CI Kernel Test Service
