@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE0D27703A;
-	Fri, 28 Feb 2025 19:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEAC1C54B3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 19:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740769347; cv=none; b=Aq7hreNKyXWE17XHCQuVgIgOgN7pXS4QCnyfiowkDcxqWe+zHhdovq6DVN9cGEi9YbE/wYEJSLC+jXFE1Bx6l9mnFz+eUYfURe0XUgcvCq2FheZj6dM2JUuqC0yheKjWOBK9/BqjZCxKPTPZqrjk3108TOEq4DbJWdDzpObq3oE=
+	t=1740769390; cv=none; b=Ndo95PGojZ6E1rAjTQs8T1UVBBcJ5a6DuL1DFrSqvGpmtiSsQHvwNfhzvzd3PtQssn9Q0Tbhp2cEztKyi763tFwTdjcnQA7wfJrLaYqEpqvBujBQQJh3IHWZaDnNPpdH+J3bvPa2oW9g0/Ib4mn5jGwFQbGYKrYOveqqz9WW7CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740769347; c=relaxed/simple;
-	bh=d4oay2GgTodlNOGqjIq78mWWypMWMFnKxf3KxwKxBjA=;
+	s=arc-20240116; t=1740769390; c=relaxed/simple;
+	bh=MIdpC/CK8b30LYwX0EhQaH93AfE9i1Ps5U+OeVTddQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DwTqRuo9e8r7OxZTQGwWiwH1GsQpeDPESOGpp/r9qYoAX5Gbri7Fi5M+jcstopFcNZDIvasI2tO8a/KJewYw6G6PIdE93say0HBVuXp0Kyyj4n8OvLvwLJuR8uhlVoqw+DHaDXf/xHkOyW8EJ/ZV6/6Zt5J+zOZ6QFn2kaMqOMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQFO3Daa; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=cV9ljSA/NQ3S3PkmSPoc/QKoaWAWY3EuUrLDgnS5cOL8toGLswXa1z3H2xZ/BhFi/mPJ4RJpGalEvJagAcvMWMWsJo7tOWadLJQakySo6Ky0Gpjt13bD13zVWMdAh2PvSDsbBW4r6B7Z5Ro18B6dIFJIVxPBpxUo6cRgAd9+TkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIsucuYb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQFO3Daa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIsucuYb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740769346; x=1772305346;
+  t=1740769389; x=1772305389;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d4oay2GgTodlNOGqjIq78mWWypMWMFnKxf3KxwKxBjA=;
-  b=JQFO3DaaecaNofTnGtzNdfqDcenWkHXnwuZhqAFjcM6wLvjSffO1dACS
-   gctFTkNR6rQpdDD4XQDjwf/rJItEvnB4KLthiBm3VqSicP7AOZ34xmtEl
-   fx0fmBOe56iMNx4f5blxJhx7OVPrZe9v75BQa25D3RHRkxpa60nVSCuij
-   TFIFnc96YohFIr5hrmY/T849wfXNVYcTDL0ILN39z/Rkbg6JOZtUVvKmR
-   xt6Pb5dyYwAETmEpZJpfS6WrI91OEUXUnigRWmF3iMFuZu3wxKkItnMNW
-   4JF2XvVv2lQjlZw4rZRuxs/xp0CEccoRnvTpIycH7IRhd+DXOqV2aB/KI
-   w==;
-X-CSE-ConnectionGUID: rZ8Cj4jxRkua5/87z7E7Yg==
-X-CSE-MsgGUID: vVRJUJXZTIerYxGjGO83Og==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="29299852"
+  bh=MIdpC/CK8b30LYwX0EhQaH93AfE9i1Ps5U+OeVTddQc=;
+  b=LIsucuYbGYGVEzOS4PTMSYq+KrtruN6aUQ5SUPNDLkuQkBi5bZbMze0D
+   vJf98yp3uZbmWPNhyWfhpD5pjtKh38IvnxkrYkQRHcUKlL+tfOONC8fpx
+   3NtdWk+rGdH6LBxArhGhVLOUVc0i+vmq92lSMSMow5gEectq80fharcJe
+   qG9ePIZk0UNlfIaPvRsjRmIIomP17axJrJVRzogtO3Ii6hkF4enOJ8nLK
+   AuuOGiIvrVzrnqJmdQoWTcmGYwDWAtRxAQ8B/i3wq9nVsUKqg1fw68sfX
+   J1e7gq4igYC2eS4XLY/HdE3SjMeDItM3xbYF2rzvEdTen6z1XT47IuH7h
+   g==;
+X-CSE-ConnectionGUID: RR7/6UsbT7eXJcWvT1x5Cw==
+X-CSE-MsgGUID: 41HmD086RKOtRZ4rh4GIWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41594646"
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="29299852"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 11:02:25 -0800
-X-CSE-ConnectionGUID: AHAMnL0ERJapFb7B72cvzw==
-X-CSE-MsgGUID: ebSgc/H9Ru6pX0TLlvdtZA==
+   d="scan'208";a="41594646"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 11:03:08 -0800
+X-CSE-ConnectionGUID: pvRauEkKRVaGf7BlZLkLIg==
+X-CSE-MsgGUID: O2bSWsdLQrugdULZlgz2nA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="117402413"
+   d="scan'208";a="122550279"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Feb 2025 11:02:24 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Feb 2025 11:03:07 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1to5cH-000FNK-1V;
-	Fri, 28 Feb 2025 19:01:58 +0000
-Date: Sat, 1 Mar 2025 03:00:33 +0800
+	id 1to5cr-000FNM-1C;
+	Fri, 28 Feb 2025 19:02:40 +0000
+Date: Sat, 1 Mar 2025 03:00:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Qu Wenruo <wqu@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	David Sterba <dsterba@suse.com>
-Subject: [linux-next:master 6787/7423] fs/btrfs/extent_io.c:2497:13: error:
- call to '__compiletime_assert_745' declared with 'error' attribute:
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: [linux-next:master 6787/7423] include/linux/compiler_types.h:542:45:
+ error: call to '__compiletime_assert_416' declared with attribute error:
  min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
-Message-ID: <202503010248.V4jXOhgM-lkp@intel.com>
+Message-ID: <202503010236.Qn8S2j6G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,122 +66,69 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   c0eb65494e59d9834af7cbad983629e9017b25a1
 commit: 60ee7393a44c3feb91962dc08c3a3c1f11252982 [6787/7423] btrfs: prepare extent_io.c for future larger folio support
-config: i386-buildonly-randconfig-004-20250228 (https://download.01.org/0day-ci/archive/20250301/202503010248.V4jXOhgM-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010248.V4jXOhgM-lkp@intel.com/reproduce)
+config: xtensa-randconfig-001-20250228 (https://download.01.org/0day-ci/archive/20250301/202503010236.Qn8S2j6G-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010236.Qn8S2j6G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503010248.V4jXOhgM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010236.Qn8S2j6G-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/btrfs/extent_io.c:2497:13: error: call to '__compiletime_assert_745' declared with 'error' attribute: min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
-    2497 |                 cur_end = min(folio_pos(folio) + folio_size(folio) - 1, end);
-         |                           ^
-   include/linux/minmax.h:105:19: note: expanded from macro 'min'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^
-   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^
-   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:530:2: note: expanded from macro '_compiletime_assert'
-     530 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:523:4: note: expanded from macro '__compiletime_assert'
+   In file included from <command-line>:
+   fs/btrfs/extent_io.c: In function 'extent_write_locked_range':
+>> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_416' declared with attribute error: min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
      523 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:24:1: note: expanded from here
-      24 | __compiletime_assert_745
-         | ^
-   1 error generated.
+         |                         ^~~~~~
+   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
+     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:2497:27: note: in expansion of macro 'min'
+    2497 |                 cur_end = min(folio_pos(folio) + folio_size(folio) - 1, end);
+         |                           ^~~
 
 
-vim +2497 fs/btrfs/extent_io.c
+vim +/__compiletime_assert_416 +542 include/linux/compiler_types.h
 
-  2449	
-  2450	/*
-  2451	 * Submit the pages in the range to bio for call sites which delalloc range has
-  2452	 * already been ran (aka, ordered extent inserted) and all pages are still
-  2453	 * locked.
-  2454	 */
-  2455	void extent_write_locked_range(struct inode *inode, const struct folio *locked_folio,
-  2456				       u64 start, u64 end, struct writeback_control *wbc,
-  2457				       bool pages_dirty)
-  2458	{
-  2459		bool found_error = false;
-  2460		int ret = 0;
-  2461		struct address_space *mapping = inode->i_mapping;
-  2462		struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
-  2463		const u32 sectorsize = fs_info->sectorsize;
-  2464		loff_t i_size = i_size_read(inode);
-  2465		u64 cur = start;
-  2466		struct btrfs_bio_ctrl bio_ctrl = {
-  2467			.wbc = wbc,
-  2468			.opf = REQ_OP_WRITE | wbc_to_write_flags(wbc),
-  2469		};
-  2470	
-  2471		if (wbc->no_cgroup_owner)
-  2472			bio_ctrl.opf |= REQ_BTRFS_CGROUP_PUNT;
-  2473	
-  2474		ASSERT(IS_ALIGNED(start, sectorsize) && IS_ALIGNED(end + 1, sectorsize));
-  2475	
-  2476		while (cur <= end) {
-  2477			u64 cur_end;
-  2478			u32 cur_len;
-  2479			struct folio *folio;
-  2480	
-  2481			folio = filemap_get_folio(mapping, cur >> PAGE_SHIFT);
-  2482	
-  2483			/*
-  2484			 * This shouldn't happen, the pages are pinned and locked, this
-  2485			 * code is just in case, but shouldn't actually be run.
-  2486			 */
-  2487			if (IS_ERR(folio)) {
-  2488				cur_end = min(round_down(cur, PAGE_SIZE) + PAGE_SIZE - 1, end);
-  2489				cur_len = cur_end + 1 - cur;
-  2490				btrfs_mark_ordered_io_finished(BTRFS_I(inode), NULL,
-  2491							       cur, cur_len, false);
-  2492				mapping_set_error(mapping, PTR_ERR(folio));
-  2493				cur = cur_end;
-  2494				continue;
-  2495			}
-  2496	
-> 2497			cur_end = min(folio_pos(folio) + folio_size(folio) - 1, end);
-  2498			cur_len = cur_end + 1 - cur;
-  2499	
-  2500			ASSERT(folio_test_locked(folio));
-  2501			if (pages_dirty && folio != locked_folio)
-  2502				ASSERT(folio_test_dirty(folio));
-  2503	
-  2504			/*
-  2505			 * Set the submission bitmap to submit all sectors.
-  2506			 * extent_writepage_io() will do the truncation correctly.
-  2507			 */
-  2508			bio_ctrl.submit_bitmap = (unsigned long)-1;
-  2509			ret = extent_writepage_io(BTRFS_I(inode), folio, cur, cur_len,
-  2510						  &bio_ctrl, i_size);
-  2511			if (ret == 1)
-  2512				goto next_page;
-  2513	
-  2514			if (ret)
-  2515				mapping_set_error(mapping, ret);
-  2516			btrfs_folio_end_lock(fs_info, folio, cur, cur_len);
-  2517			if (ret < 0)
-  2518				found_error = true;
-  2519	next_page:
-  2520			folio_put(folio);
-  2521			cur = cur_end + 1;
-  2522		}
-  2523	
-  2524		submit_write_bio(&bio_ctrl, found_error ? ret : 0);
-  2525	}
-  2526	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  528  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  531  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  532  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  536   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  539   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  540   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  543  
+
+:::::: The code at line 542 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
