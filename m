@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEA144C77;
-	Fri, 28 Feb 2025 13:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E5E26E158
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 14:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740750643; cv=none; b=H9gJP3YR9UxPWIFmDzB7Ls3VYnQy6SrcLqPVDAVXHHbrUOOtKNTQcPSXb5ms76jJ94apCQzUolmTood+xQldqlXIdXMMSNW3n737LbZIHgrfllETbB2z3uWGw8VkGzKfj92E+SNSZU7O4i1nOfn7liwofhgXMyOZZDG1WgTRfxg=
+	t=1740751976; cv=none; b=BSOX2Oq45q7adQXL3+XZkMRsM5z8RiZ9t1SH9rRZCVcTi4jPptok5Ciu20ne1lBUI1ys9yjsryf2tOIRzfzbYsgqusf1ikUTwKvweqm7aLS1e+m8HqXDMnUBOlFQDaH5cI+aeVqAtNhH/3VswoK6Fe9+1yfhkuQwkoMiO83eYdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740750643; c=relaxed/simple;
-	bh=NGl0Zkwq9VSN1Kmx59JZ8JzRul7rEm+x6m3hNpywht4=;
+	s=arc-20240116; t=1740751976; c=relaxed/simple;
+	bh=SQF9avSnUuSJL7xiAZA9FIkv2PILbwUQKCpXO7QX+xk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A0HaPTzFHNQBoYmqakpYftBQ4VTkvr0ateqaiXKBKKdle0e3T7Ex2zNmHwNkp9FiX2+WnUOTy60StUhEU4tm/CDy7u1CPwyZLMYvYGi1OFSwrvnhG//3brf9vsyovPVGE2OTzZjPqWoNziTprxsgA6+crsCd51Awcmh2QcGiY6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kiEuhMFW; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=sP0+EK++aNf+Nfhi5wS+r9yQNFr3Sz+iR+7yI0w23fFC90jypyArGfTpKOqZW2EWF3Y2ocL1J4kS+RjKDO/SWlmGpLNdXsFPf7Qlxn+QQUatLgugbWJgqYzy/8oeP49+hbicmjxP0VDzMLAQph7MMEvYcTHdq1To+r00h/8hnTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IAG3sMrz; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kiEuhMFW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IAG3sMrz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740750642; x=1772286642;
+  t=1740751974; x=1772287974;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NGl0Zkwq9VSN1Kmx59JZ8JzRul7rEm+x6m3hNpywht4=;
-  b=kiEuhMFWyTBhDTzir0R4Qk+LKbc0HB4PzvjBYpKUb2svveLzZkfQuqni
-   xDsI7pHBMSBYLhE6eWrL1hxokcYTMeLjcJmxFfA2iGv5e5XuZ97rbUL32
-   OC3sxlQCtBVMu9uEjlpSJB9QX3/mInua1JdICoDB+5/YDr0KB2G7AZdzS
-   jYZOVJ2VJd4rxygv+e+U6TjLEnys5oQ5U3dC5SmPuIwULRVUcm88HNHrL
-   GaiHoJVyC3/STg6LjruYzP56CS8hNZmHHUhVT2T4bTI+HJ0U5obIL4//w
-   nH3huzJkhsmi+y0+q4Dcs1QW5jrt4dxKlcxlmRleO7fzsopYC0nblAxoj
-   g==;
-X-CSE-ConnectionGUID: QbADWgjKQoiKGw/xL7p6Hw==
-X-CSE-MsgGUID: e09ucTUUQfmaVSa/Hxwgqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="52321665"
+  bh=SQF9avSnUuSJL7xiAZA9FIkv2PILbwUQKCpXO7QX+xk=;
+  b=IAG3sMrzpmbc4W0xXCuSC9C9GbTc2I+6vjwHJO6M+WOOw6SouUhtxgbq
+   F7VYujoPOHPQetS8mEyJVcQkUSpqI8IrBS7bfzfWO8nyHZzhk5+fGIHWd
+   50LB1UY3Jy428f4tiH5qQTfEZng1CcDc6rC7xyyTL3moJ3Xb5FI+bpXzB
+   2JEjBy0myIa0G/Zz3viX7xkZFCYwcF7eCHibbNy5BQkpny0atoHKmX1We
+   lI8dThu0ojVDCxnyRRMMO3nOgiOsYHtbPfrZvzfq6hitgoSOM1K4zbXZM
+   WVmrmiAlbUR2mt34mRWSvQoGtTybLva6CNY3+NOprP4nv40fRsNKNlY4W
+   w==;
+X-CSE-ConnectionGUID: 6MjIAkBqRNygGeEP75/ZHQ==
+X-CSE-MsgGUID: OTVvpXyNQFijPdg4rJKbAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="45331831"
 X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
-   d="scan'208";a="52321665"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 05:50:40 -0800
-X-CSE-ConnectionGUID: QyyrJWIWTLiFMuDfrXiigA==
-X-CSE-MsgGUID: KfI/LFPeSjOsm1sO+0uufw==
+   d="scan'208";a="45331831"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 06:12:54 -0800
+X-CSE-ConnectionGUID: 3up8wMcXTpmytEV9ecDhLw==
+X-CSE-MsgGUID: xq4LN4sITSaeQO1MZZEZOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
-   d="scan'208";a="122294068"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="122580357"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 28 Feb 2025 05:50:38 -0800
+  by orviesa005.jf.intel.com with ESMTP; 28 Feb 2025 06:12:53 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1to0lA-000Ey0-0c;
-	Fri, 28 Feb 2025 13:50:36 +0000
-Date: Fri, 28 Feb 2025 21:49:45 +0800
+	id 1to16Z-000Ezu-2z;
+	Fri, 28 Feb 2025 14:12:48 +0000
+Date: Fri, 28 Feb 2025 22:12:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:asm-call-constraint-fix 4/5] mm/slub.c:3573:9: error:
- expected ')'
-Message-ID: <202502282103.R6IWsNEA-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 39/39] fs/ceph/crypto.c:657:56: error:
+ passing argument 6 of 'ceph_calc_file_object_mapping' from incompatible
+ pointer type
+Message-ID: <202502282208.WBPV6eL7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +63,170 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git asm-call-constraint-fix
-head:   a882d0410fb655d41b5c5158dcd1a720275cf505
-commit: 8f0a744bb81e98286456e1f433565240cd66e440 [4/5] x86: Convert ASM_CALL_CONSTRAINT to input constraint
-config: i386-buildonly-randconfig-002-20250228 (https://download.01.org/0day-ci/archive/20250228/202502282103.R6IWsNEA-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502282103.R6IWsNEA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   7ae75822a29ea06bba2be34563c5c915bfa0e79b
+commit: 7ae75822a29ea06bba2be34563c5c915bfa0e79b [39/39] ceph: Use netfslib
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502282208.WBPV6eL7-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502282208.WBPV6eL7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502282103.R6IWsNEA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502282208.WBPV6eL7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/slub.c:49:
-   In file included from mm/internal.h:13:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/slub.c:3573:9: error: expected ')'
-    3573 |         return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
-         |                ^
-   mm/slab.h:31:39: note: expanded from macro 'this_cpu_try_cmpxchg_freelist'
-      31 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg64
-         |                                         ^
-   arch/x86/include/asm/percpu.h:368:50: note: expanded from macro 'this_cpu_try_cmpxchg64'
-     368 | #define this_cpu_try_cmpxchg64(pcp, ovalp, nval)        percpu_try_cmpxchg64_op(8, volatile, pcp, ovalp, nval)
-         |                                                         ^
-   arch/x86/include/asm/percpu.h:359:5: note: expanded from macro 'percpu_try_cmpxchg64_op'
-     359 |                   COMMA_ASM_CALL_CONSTRAINT)                            \
-         |                   ^
->> mm/slub.c:3573:9: error: expected expression
-   mm/slab.h:31:39: note: expanded from macro 'this_cpu_try_cmpxchg_freelist'
-      31 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg64
-         |                                         ^
-   arch/x86/include/asm/percpu.h:368:50: note: expanded from macro 'this_cpu_try_cmpxchg64'
-     368 | #define this_cpu_try_cmpxchg64(pcp, ovalp, nval)        percpu_try_cmpxchg64_op(8, volatile, pcp, ovalp, nval)
-         |                                                         ^
-   arch/x86/include/asm/percpu.h:360:3: note: expanded from macro 'percpu_try_cmpxchg64_op'
-     360 |                 : "memory");                                            \
-         |                 ^
->> mm/slub.c:3573:9: error: expected expression
-   mm/slab.h:31:39: note: expanded from macro 'this_cpu_try_cmpxchg_freelist'
-      31 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg64
-         |                                         ^
-   arch/x86/include/asm/percpu.h:368:50: note: expanded from macro 'this_cpu_try_cmpxchg64'
-     368 | #define this_cpu_try_cmpxchg64(pcp, ovalp, nval)        percpu_try_cmpxchg64_op(8, volatile, pcp, ovalp, nval)
-         |                                                         ^
-   arch/x86/include/asm/percpu.h:360:13: note: expanded from macro 'percpu_try_cmpxchg64_op'
-     360 |                 : "memory");                                            \
-         |                           ^
-   2 warnings and 3 errors generated.
+   fs/ceph/crypto.c:639:5: warning: no previous prototype for 'ceph_decrypt_block' [-Wmissing-prototypes]
+     639 | int ceph_decrypt_block(struct netfs_io_request *rreq, loff_t pos, size_t len,
+         |     ^~~~~~~~~~~~~~~~~~
+   fs/ceph/crypto.c: In function 'ceph_decrypt_block':
+   fs/ceph/crypto.c:643:42: error: 'op' undeclared (first use in this function); did you mean 'up'?
+     643 |         struct ceph_sparse_extent *map = op->extent.sparse_ext;
+         |                                          ^~
+         |                                          up
+   fs/ceph/crypto.c:643:42: note: each undeclared identifier is reported only once for each function it appears in
+   fs/ceph/crypto.c:644:49: error: 'inode' undeclared (first use in this function)
+     644 |         struct ceph_inode_info *ci = ceph_inode(inode);
+         |                                                 ^~~~~
+>> fs/ceph/crypto.c:657:56: error: passing argument 6 of 'ceph_calc_file_object_mapping' from incompatible pointer type [-Wincompatible-pointer-types]
+     657 |                                       &objno, &objoff, &xlen);
+         |                                                        ^~~~~
+         |                                                        |
+         |                                                        u32 * {aka unsigned int *}
+   In file included from fs/ceph/crypto.c:12:
+   include/linux/ceph/striper.h:13:69: note: expected 'size_t *' {aka 'long unsigned int *'} but argument is of type 'u32 *' {aka 'unsigned int *'}
+      13 |                                    u64 *objno, u64 *objoff, size_t *xlen);
+         |                                                             ~~~~~~~~^~~~
+   fs/ceph/crypto.c:670:59: error: 'page' undeclared (first use in this function)
+     670 |                 fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+         |                                                           ^~~~
+   fs/ceph/crypto.c:671:50: error: 'off' undeclared (first use in this function)
+     671 |                                                  off + pgsoff, ext->len);
+         |                                                  ^~~
+   fs/ceph/crypto.c:662:21: warning: variable 'pgidx' set but not used [-Wunused-but-set-variable]
+     662 |                 int pgidx = pgsoff >> PAGE_SHIFT;
+         |                     ^~~~~
+   fs/ceph/crypto.c: At top level:
+   fs/ceph/crypto.c:685:5: warning: no previous prototype for 'ceph_encrypt_block' [-Wmissing-prototypes]
+     685 | int ceph_encrypt_block(struct netfs_io_request *wreq, loff_t pos, size_t len,
+         |     ^~~~~~~~~~~~~~~~~~
+   fs/ceph/crypto.c: In function 'ceph_encrypt_block':
+   fs/ceph/crypto.c:689:1: warning: control reaches end of non-void function [-Wreturn-type]
+     689 | }
+         | ^
 
 
-vim +3573 mm/slub.c
+vim +/ceph_calc_file_object_mapping +657 fs/ceph/crypto.c
 
-0b303fb402862dc Vlastimil Babka 2021-05-08  3563  
-0af8489b0216fa1 Vlastimil Babka 2022-11-15  3564  #ifndef CONFIG_SLUB_TINY
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3565  static inline bool
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3566  __update_cpu_freelist_fast(struct kmem_cache *s,
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3567  			   void *freelist_old, void *freelist_new,
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3568  			   unsigned long tid)
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3569  {
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3570  	freelist_aba_t old = { .freelist = freelist_old, .counter = tid };
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3571  	freelist_aba_t new = { .freelist = freelist_new, .counter = next_tid(tid) };
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3572  
-6801be4f2653e5f Peter Zijlstra  2023-05-31 @3573  	return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid.full,
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3574  					     &old.full, new.full);
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3575  }
-6801be4f2653e5f Peter Zijlstra  2023-05-31  3576  
-
-:::::: The code at line 3573 was first introduced by commit
-:::::: 6801be4f2653e5fdddca73b527cf0728284ba8a3 slub: Replace cmpxchg_double()
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+   577	
+   578	/**
+   579	 * ceph_fscrypt_decrypt_extents: decrypt received extents in given buffer
+   580	 * @inode: inode associated with pages being decrypted
+   581	 * @page: pointer to page array
+   582	 * @off: offset into the file that the data in page[0] starts
+   583	 * @map: pointer to extent array
+   584	 * @ext_cnt: length of extent array
+   585	 *
+   586	 * Given an extent map and a page array, decrypt the received data in-place,
+   587	 * skipping holes. Returns the offset into buffer of end of last decrypted
+   588	 * block.
+   589	 */
+   590	int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
+   591					 u64 off, struct ceph_sparse_extent *map,
+   592					 u32 ext_cnt)
+   593	{
+   594		struct ceph_client *cl = ceph_inode_to_client(inode);
+   595		int i, ret = 0;
+   596		struct ceph_inode_info *ci = ceph_inode(inode);
+   597		size_t xlen;
+   598		u64 objno, objoff;
+   599	
+   600		/* Nothing to do for empty array */
+   601		if (ext_cnt == 0) {
+   602			doutc(cl, "%p %llx.%llx empty array, ret 0\n", inode,
+   603			      ceph_vinop(inode));
+   604			return 0;
+   605		}
+   606	
+   607		ceph_calc_file_object_mapping(&ci->i_layout, off, map[0].len,
+   608					      &objno, &objoff, &xlen);
+   609	
+   610		for (i = 0; i < ext_cnt; ++i) {
+   611			struct ceph_sparse_extent *ext = &map[i];
+   612			int pgsoff = ext->off - objoff;
+   613			int pgidx = pgsoff >> PAGE_SHIFT;
+   614			int fret;
+   615	
+   616			if ((ext->off | ext->len) & ~CEPH_FSCRYPT_BLOCK_MASK) {
+   617				pr_warn_client(cl,
+   618					"%p %llx.%llx bad encrypted sparse extent "
+   619					"idx %d off %llx len %llx\n",
+   620					inode, ceph_vinop(inode), i, ext->off,
+   621					ext->len);
+   622				return -EIO;
+   623			}
+   624			fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+   625							 off + pgsoff, ext->len);
+   626			doutc(cl, "%p %llx.%llx [%d] 0x%llx~0x%llx fret %d\n", inode,
+   627			      ceph_vinop(inode), i, ext->off, ext->len, fret);
+   628			if (fret < 0) {
+   629				if (ret == 0)
+   630					ret = fret;
+   631				break;
+   632			}
+   633			ret = pgsoff + fret;
+   634		}
+   635		doutc(cl, "ret %d\n", ret);
+   636		return ret;
+   637	}
+   638	 
+   639	int ceph_decrypt_block(struct netfs_io_request *rreq, loff_t pos, size_t len,
+   640			       struct scatterlist *source_sg, unsigned int n_source,
+   641			       struct scatterlist *dest_sg, unsigned int n_dest)
+   642	{
+ > 643		struct ceph_sparse_extent *map = op->extent.sparse_ext;
+   644		struct ceph_inode_info *ci = ceph_inode(inode);
+   645		u64 objno, objoff;
+   646		u32 ext_cnt = op->extent.sparse_ext_cnt;
+   647		u32 xlen;
+   648		int i, ret = 0;
+   649	
+   650		/* Nothing to do for empty array */
+   651		if (ext_cnt == 0) {
+   652			dout("%s: empty array, ret 0\n", __func__);
+   653			return 0;
+   654		}
+   655	
+   656		ceph_calc_file_object_mapping(&ci->i_layout, pos, map[0].len,
+ > 657					      &objno, &objoff, &xlen);
+   658	
+   659		for (i = 0; i < ext_cnt; ++i) {
+   660			struct ceph_sparse_extent *ext = &map[i];
+   661			int pgsoff = ext->off - objoff;
+   662			int pgidx = pgsoff >> PAGE_SHIFT;
+   663			int fret;
+   664	
+   665			if ((ext->off | ext->len) & ~CEPH_FSCRYPT_BLOCK_MASK) {
+   666				pr_warn("%s: bad encrypted sparse extent idx %d off %llx len %llx\n",
+   667					__func__, i, ext->off, ext->len);
+   668				return -EIO;
+   669			}
+   670			fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+   671							 off + pgsoff, ext->len);
+   672			dout("%s: [%d] 0x%llx~0x%llx fret %d\n", __func__, i,
+   673					ext->off, ext->len, fret);
+   674			if (fret < 0) {
+   675				if (ret == 0)
+   676					ret = fret;
+   677				break;
+   678			}
+   679			ret = pgsoff + fret;
+   680		}
+   681		dout("%s: ret %d\n", __func__, ret);
+   682		return ret;
+   683	}
+   684	
 
 -- 
 0-DAY CI Kernel Test Service
