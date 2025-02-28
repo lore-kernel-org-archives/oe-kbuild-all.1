@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54440272918
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Feb 2025 23:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A705182
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 00:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740700774; cv=none; b=Sv0BDPj6hPnkpbfIR5hfyWcEv39HHy06Ya+FpitJKMm9puxeM63eVgLOcywa4z6rgQu7myCmSWIUbadJJivvfB1c4sICWTXwcV8I5GW5EnDuu1PVxUN9SVDRQ3FgjCbH1BhWeXHqXCvBAwwTKo9dfslPkkf7oo9V4QMliKwFnns=
+	t=1740701445; cv=none; b=kE/n18dxVgjRapUQ8j4CQLctDLjq08TqPUs9mJNdVA8FDdVjzVn5RQ6V/gzdyaf4sm8Bz1wHamNRnYNW3tgLIWy/yp9KsSfSVwDPP+0HgzUJYEFi0SDh1Kensimu0+jT5dbL/kKz4Rv6cMk2J9HtJR7g0MxjPi7iQT1v9lJp7F0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740700774; c=relaxed/simple;
-	bh=/agnUZDgWlxSvKeQY3JUoMYzB/+byrjfvzVqkXRYtNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O8Uc4STyQ7ueAHXecV70ynQYZxJs8DbaYmbqEYn/dRK5yQqMSGVYJv5NW2DBO+zv9rbjsLIpAT8JPWekpX8J3eUAWzlrkLzc8vb0j/jWhb5nBc/kUiACl9RfTzY2p0rNTVNbMnTYAklrzvYZX7wH0YkdFnvRBS9PIxSyEM5iv8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKFi+JY4; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1740701445; c=relaxed/simple;
+	bh=CEd+M6a4jHwfX0vrUsL0cFl4jGpd9GqL4nZj6CZNx1o=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sjM/wCbGbZXSODaXLMltrzm+Qp/BJ03I1F39LPOMjNdYAu29AycLDEOE36hdMjOujPAMC0yDa4p8EsrNQBSf2yzi7qMZxwjovTB/Y5ZNM3AGOm9sb65mYJYX0cw5s8tkrapotp9cBCwSheNbkiNNpwSDCuXwGnD/ntcrqIDJaTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ni+vQ2sm; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKFi+JY4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ni+vQ2sm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740700774; x=1772236774;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/agnUZDgWlxSvKeQY3JUoMYzB/+byrjfvzVqkXRYtNQ=;
-  b=UKFi+JY4TyRG1oQcXDmdWWfcQUP8LmvSs3mQ6eTn7Eli1EpCDQhMDFn+
-   WeCAS7qhhDp490epeqzP7Yx6VtLuL25BoASyEGysCcyXErxBKPJ0/Klya
-   HbyfDt9GK5QohdXgK19OvPY73vJObHkxaEn2Gyb55vTRMYm7Gkh3ngJ4O
-   bJk+QVwTWE4v0Ktoez3Sw6AivLTWFhq2QGbrNFUFhOj1nhnt0l/FH1Vm1
-   tRGb6QH/P3G4+peskiuVf0VDMXb0IF+6k1SiKcg7Zhk4qwe/VWhc5sWPq
-   UhJxD3VdcY0i/wbM1xxHyr2utPgOeGIY5CFG2A1Cn6ueIDwwSU+AelhGk
-   A==;
-X-CSE-ConnectionGUID: 5K7D60QhRO+gxI1GxKLsSQ==
-X-CSE-MsgGUID: FJzKVhiPRxeqMirn2yqsIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="45398271"
+  t=1740701444; x=1772237444;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=CEd+M6a4jHwfX0vrUsL0cFl4jGpd9GqL4nZj6CZNx1o=;
+  b=Ni+vQ2smxT3VoMmsKa7CT5wcgF4LzPGW7J+O+oAWmHDfJiSNVny5dIKn
+   DE/jfwRuCvSwxS40LfCZ2NkmOg2pgAZNuxhN1sqK+oxCOAksd5Vjln9EM
+   tSzSATm91qxlOVsZdu4Ln5JOY3MqrLC+2ZieoambJYfBRAJ5mP48s30oM
+   j7uqJ9TsgpdQwYH2PvHUvRF4z61dpA9K8NG2NpWvyYRzdft5hy+KaOmGQ
+   jldDCjHaem3RkDeHkTs3h5Bu9RVcv6B6fabi4HY7y7zsAnhfQZQDQjkXW
+   Q8thZk8YbSjdt7kH5ynUhzWcE0zvlabpjkeAiyLknJZoXLCMOdFb2LWCK
+   g==;
+X-CSE-ConnectionGUID: Guc0PbIsQbGHVaS6zcfYoA==
+X-CSE-MsgGUID: vGtkEWgKS06izKke+HJ5VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52251651"
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="45398271"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 15:59:33 -0800
-X-CSE-ConnectionGUID: ojAs1k/MS9SEC9VHc3zyCA==
-X-CSE-MsgGUID: Z4S+jU04ThCLAbI6XFSa+Q==
+   d="scan'208";a="52251651"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 16:10:43 -0800
+X-CSE-ConnectionGUID: xr4Vo/qLTMWAjo9PgfYhHw==
+X-CSE-MsgGUID: +aGG7+oDTH+HdesqUz/nUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="140399632"
+   d="scan'208";a="117843899"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2025 15:59:29 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 27 Feb 2025 16:10:42 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnnmo-000ECu-3C;
-	Thu, 27 Feb 2025 23:59:26 +0000
-Date: Fri, 28 Feb 2025 07:59:00 +0800
+	id 1tnnxg-000EDk-0P;
+	Fri, 28 Feb 2025 00:10:40 +0000
+Date: Fri, 28 Feb 2025 08:10:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aditya Garg <gargaditya08@live.com>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>,
-	"tzimmermann@suse.de" <tzimmermann@suse.de>,
-	"airlied@gmail.com" <airlied@gmail.com>,
-	"simona@ffwll.ch" <simona@ffwll.ch>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kerem Karabay <kekrby@gmail.com>,
-	Atharva Tiwari <evepolonium@gmail.com>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86
- Macs
-Message-ID: <202502280748.oNKTNuMK-lkp@intel.com>
-References: <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
+Cc: oe-kbuild-all@lists.linux.dev, Zhou Furong <furong.zhou@intel.com>,
+	Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@intel.com>
+Subject: [intel-lts:pr/59 1/1] drivers/net/wireless/bcmdhd/include/wlioctl.h:
+ proto/bcmip.h is included more than once.
+Message-ID: <202502280830.uSHq5EVX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,70 +61,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <844C1D39-4891-4DC2-8458-F46FA1B59FA0@live.com>
 
-Hi Aditya,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.14-rc4 next-20250227]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Garg/drm-format-helper-Add-conversion-from-XRGB8888-to-BGR888/20250224-214352
-base:   linus/master
-patch link:    https://lore.kernel.org/r/844C1D39-4891-4DC2-8458-F46FA1B59FA0%40live.com
-patch subject: [PATCH v4 2/2] drm/tiny: add driver for Apple Touch Bars in x86 Macs
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502280748.oNKTNuMK-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280748.oNKTNuMK-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/59
+head:   19ae9bc73680fd6c1c95edb5b7e2aaa790e7f011
+commit: 36100482e8bdc4b5c45f6db9f8f5023422674528 [1/1] VENDOR: broadcom: bcmdhd: support the wifi module on kylin board
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280748.oNKTNuMK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280830.uSHq5EVX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/bcmdhd/include/wlioctl.h: proto/bcmip.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/wl_cfg80211.h: linux/wireless.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/bcmxtlv.c: stdlib.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/wl_cfg80211.c: proto/ethernet.h is included more than once.
+>> drivers/net/wireless/bcmdhd/wl_cfg80211.c: linux/kernel.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/include/linuxver.h: linux/sched.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/dhd_linux.c: linux/notifier.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/include/linux_osl.h: linux/kernel.h is included more than once.
+>> drivers/net/wireless/bcmdhd/include/linux_osl.h: linuxver.h is included more than once.
+>> drivers/net/wireless/bcmdhd/include/linux_osl.h: linux/string.h is included more than once.
+--
+>> drivers/net/wireless/bcmdhd/wl_cfgvendor.c: proto/ethernet.h is included more than once.
+>> drivers/net/wireless/bcmdhd/wl_cfgvendor.c: linux/kernel.h is included more than once.
 
-   drivers/gpu/drm/tiny/appletbdrm.c: In function 'appletbdrm_primary_plane_duplicate_state':
->> drivers/gpu/drm/tiny/appletbdrm.c:524:40: warning: variable 'old_appletbdrm_state' set but not used [-Wunused-but-set-variable]
-     524 |         struct appletbdrm_plane_state *old_appletbdrm_state;
-         |                                        ^~~~~~~~~~~~~~~~~~~~
+vim +38 drivers/net/wireless/bcmdhd/include/wlioctl.h
 
-
-vim +/old_appletbdrm_state +524 drivers/gpu/drm/tiny/appletbdrm.c
-
-   520	
-   521	static struct drm_plane_state *appletbdrm_primary_plane_duplicate_state(struct drm_plane *plane)
-   522	{
-   523		struct drm_shadow_plane_state *new_shadow_plane_state;
- > 524		struct appletbdrm_plane_state *old_appletbdrm_state;
-   525		struct appletbdrm_plane_state *appletbdrm_state;
-   526	
-   527		if (WARN_ON(!plane->state))
-   528			return NULL;
-   529	
-   530		old_appletbdrm_state = to_appletbdrm_plane_state(plane->state);
-   531		appletbdrm_state = kzalloc(sizeof(*appletbdrm_state), GFP_KERNEL);
-   532		if (!appletbdrm_state)
-   533			return NULL;
-   534	
-   535		/* Request and response are not duplicated and are allocated in .atomic_check */
-   536		appletbdrm_state->request = NULL;
-   537		appletbdrm_state->response = NULL;
-   538	
-   539		appletbdrm_state->request_size = 0;
-   540		appletbdrm_state->frames_size = 0;
-   541	
-   542		new_shadow_plane_state = &appletbdrm_state->base;
-   543	
-   544		__drm_gem_duplicate_shadow_plane_state(plane, new_shadow_plane_state);
-   545	
-   546		return &new_shadow_plane_state->base;
-   547	}
-   548	
+    35	
+    36	#include <typedefs.h>
+    37	#include <proto/ethernet.h>
+  > 38	#include <proto/bcmip.h>
+    39	#include <proto/bcmeth.h>
+  > 40	#include <proto/bcmip.h>
+    41	#include <proto/bcmevent.h>
+    42	#include <proto/802.11.h>
+    43	#include <proto/802.1d.h>
+    44	#include <bcmwifi_channels.h>
+    45	#include <bcmwifi_rates.h>
+    46	#include <devctrl_if/wlioctl_defs.h>
+    47	#include <proto/bcmipv6.h>
+    48	
 
 -- 
 0-DAY CI Kernel Test Service
