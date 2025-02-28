@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FA912B71
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 01:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7034F155393
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 02:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740706240; cv=none; b=Ar1dkrWF/2deLd4kGXjy2sxPDHHYY8/5NIRJ2cVH08MKTyO0uJJNhYRfYfrU6XTesJFCYLhYCnEkmD8D+eGkJf+KO6oejHT6A8JqXxxMO1J4dgJ2riZqGQwXn2XIky69A4EBt86ttwhSncAoKugJiIrEgCbciaFHtfnqLsj2o30=
+	t=1740711167; cv=none; b=lcH8i/2OnJdm4VWVIF9ElgvIDuxSeamVEXzDjkvt1mdj+P8vKpewOYpq7cc4WmrbMCQ2qRKxpNNW969uG+5eZMy2VEmYVteLTonidrSV3HjFcnl0WiSKRBxpguZTz7kdCHmnvyYkiN8faNf12qnbqS0RKrg/w2e5RTbOU17R308=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740706240; c=relaxed/simple;
-	bh=k+4vK6X/IiogbvcCp/NeCROi/RFkOBFSa1EyHhtEuYg=;
+	s=arc-20240116; t=1740711167; c=relaxed/simple;
+	bh=I53fqGcUIJ6gvB96GP3o7/mIt+L7sVPvDLYZzp8EEm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IsC8GARTMzqkr9dVlkz6m6FEtQWFWk8kdqve273wor4mcHo9TN5i8Hok/60Avqe5MuAaHduif7hmhFS8g3FqKh20P01GX62ap6LjV6e9lRFi7G4rXJN7KlQ6vbvzeugAPXvX9fnSrhkeVEpqLET40YRWnR1vx4n6CBA6DtZCQGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G1Uv3zvq; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=POBAokYfcdK7ABKfRl9Z0sbhRr+m/wAp15mPj6Dgu9BOwOq5A58e2d3W5AU68JEpYbsV2qUyLw0MDnyKhALBsRwZ6Lg80NBe1W+K9uy4S4syS7dFCREog7LBW7+2kAUsG/DF9TdzfKRkYfCrTYQ00JoXktIq5t2OfhXz/eVefeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wzhbu5IY; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G1Uv3zvq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wzhbu5IY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740706238; x=1772242238;
+  t=1740711166; x=1772247166;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k+4vK6X/IiogbvcCp/NeCROi/RFkOBFSa1EyHhtEuYg=;
-  b=G1Uv3zvqBVLwLA19X8pwGwJ+TRPpe/oUfubJUd0/CQAD3Uas4D+wtMsu
-   CYBHSASdgQYxAeHq1QKyYbEJcdQszxGwqncUKDusLhIkcB4/JPY2+55Iy
-   dH0Z7v58eo1C0RYvveTbJrvB4KnHmhkv5Rtv1PWZ4hQeBoILsvIi0HmtL
-   ypAy4cMjdbL5AKr+9HkBmwxLWTdBy1TJTdrmo0BRXbnXHriiLllGWsTe4
-   SxP5mVPfxkyy61OhgZUXOxI0TAsd8MFViWkhXzhB9SYz8kzmODx0cAR6g
-   +BwFZ3TknQphR7DWGHXDQov41KJJxYaMvsZ9fpPWvWpEpO1GW4xqnbLgi
+  bh=I53fqGcUIJ6gvB96GP3o7/mIt+L7sVPvDLYZzp8EEm4=;
+  b=Wzhbu5IYzjbA/L/cGk+xEY5toj5u8mrcyfq7rj1yZJoOgXdWJknDyrFw
+   /WWHQJygEBPtVsN3JHQ/SRjYt7WI/u8+J+Z13OqVKaILb2cXLkxd3OrWO
+   ZFBz/ZCZ+iREZZI7TTFO7JxW1jSYk1heE32DKwZ4fGg9P1CEovtE7aQFR
+   h661Ry/LUFI6L3idxRxfUgMXVhE5Q7ZO1XymI4TA68gIyTWJNii7SZrPB
+   8w+qKrhMmJETIc2+YgfT49GkcMuh+Dp2aDVICBFe/m3p77hazqKfbRG/O
+   /HQvje81CFY5suGBTXpou3uf0LUsUGHQUpHHCB/D22H4KnFFExtqFWobp
    w==;
-X-CSE-ConnectionGUID: pUgF2lGqSvm6EaJ06QUEfw==
-X-CSE-MsgGUID: 7+F8sWpSRmqDX3+LMzimhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41753232"
-X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
-   d="scan'208";a="41753232"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 17:30:38 -0800
-X-CSE-ConnectionGUID: O+fpAYSkR6WEbxolFIEXdg==
-X-CSE-MsgGUID: fHCt3Q2aT7ehP2QuX+1u3w==
+X-CSE-ConnectionGUID: btFk04+CRuKo0croxwUBjQ==
+X-CSE-MsgGUID: VJ0Gej6NT225YhfYULnXCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="52272784"
+X-IronPort-AV: E=Sophos;i="6.13,321,1732608000"; 
+   d="scan'208";a="52272784"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 18:52:45 -0800
+X-CSE-ConnectionGUID: 0PfeEvpIRXivWPyKTxbZsg==
+X-CSE-MsgGUID: EzcsVsiSRpq1XACLvzwlIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="154378275"
+X-IronPort-AV: E=Sophos;i="6.13,321,1732608000"; 
+   d="scan'208";a="122153544"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 27 Feb 2025 17:30:37 -0800
+  by orviesa003.jf.intel.com with ESMTP; 27 Feb 2025 18:52:44 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tnpCx-000EH8-08;
-	Fri, 28 Feb 2025 01:30:31 +0000
-Date: Fri, 28 Feb 2025 09:29:29 +0800
+	id 1tnqTw-000ELC-0o;
+	Fri, 28 Feb 2025 02:52:20 +0000
+Date: Fri, 28 Feb 2025 10:52:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 2/2] mm/slab_common.c:1214:7: warning:
- no previous prototype for 'oot___kmalloc_node_0'
-Message-ID: <202502280933.cLVVRGes-lkp@intel.com>
+Subject: [android-common:android15-6.6-lts 1/1]
+ arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb:
+ /soc@0/remoteproc@b300000: failed to match any schema with compatible:
+ ['qcom,sm6375-cdsp-pas']
+Message-ID: <202502281054.NpVTFuQ5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,254 +64,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   3f4a1c56702ff1c8fc29efeaf5b07b6e9821f19a
-commit: 10af277c1ccfac6e17e07db7ccc22f9de6248b80 [2/2] anolis: mm: introduce per module slab for oot memory isolation
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20250228/202502280933.cLVVRGes-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280933.cLVVRGes-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-lts
+head:   55feac40a34bcfe859c424b95f79b24810fddec8
+commit: 91ed86aa8c8a2626c8b64a4548d1dd6a2b41e0df [1/1] arm64: dts: qcom: sm6375: Fix CDSP memory base and length
+config: arm64-randconfig-052-20250227 (https://download.01.org/0day-ci/archive/20250228/202502281054.NpVTFuQ5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502281054.NpVTFuQ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502280933.cLVVRGes-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502281054.NpVTFuQ5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_0' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1220:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1220 | DEFINE_OOT_FUNC___kmalloc_node(0);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_1' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1221:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1221 | DEFINE_OOT_FUNC___kmalloc_node(1);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_2' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1222:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1222 | DEFINE_OOT_FUNC___kmalloc_node(2);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_3' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1223:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1223 | DEFINE_OOT_FUNC___kmalloc_node(3);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_4' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1224:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1224 | DEFINE_OOT_FUNC___kmalloc_node(4);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_5' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1225:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1225 | DEFINE_OOT_FUNC___kmalloc_node(5);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_6' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1226:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1226 | DEFINE_OOT_FUNC___kmalloc_node(6);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_7' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1227:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1227 | DEFINE_OOT_FUNC___kmalloc_node(7);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_8' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1228:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1228 | DEFINE_OOT_FUNC___kmalloc_node(8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_9' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1229:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1229 | DEFINE_OOT_FUNC___kmalloc_node(9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_10' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1230:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1230 | DEFINE_OOT_FUNC___kmalloc_node(10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_11' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1231:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1231 | DEFINE_OOT_FUNC___kmalloc_node(11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_12' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1232:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1232 | DEFINE_OOT_FUNC___kmalloc_node(12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_13' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1233:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1233 | DEFINE_OOT_FUNC___kmalloc_node(13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_14' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1234:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1234 | DEFINE_OOT_FUNC___kmalloc_node(14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_15' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1235:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1235 | DEFINE_OOT_FUNC___kmalloc_node(15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_0' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1250:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1250 | DEFINE_OOT_FUNC___kmalloc(0);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_1' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1251:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1251 | DEFINE_OOT_FUNC___kmalloc(1);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_2' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1252:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1252 | DEFINE_OOT_FUNC___kmalloc(2);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_3' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1253:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1253 | DEFINE_OOT_FUNC___kmalloc(3);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_4' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1254:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1254 | DEFINE_OOT_FUNC___kmalloc(4);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_5' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1255:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1255 | DEFINE_OOT_FUNC___kmalloc(5);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_6' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1256:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1256 | DEFINE_OOT_FUNC___kmalloc(6);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_7' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1257:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1257 | DEFINE_OOT_FUNC___kmalloc(7);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_8' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1258:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1258 | DEFINE_OOT_FUNC___kmalloc(8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_9' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1259:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1259 | DEFINE_OOT_FUNC___kmalloc(9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_10' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1260:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1260 | DEFINE_OOT_FUNC___kmalloc(10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_11' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1261:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1261 | DEFINE_OOT_FUNC___kmalloc(11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_12' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1262:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1262 | DEFINE_OOT_FUNC___kmalloc(12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_13' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1263:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1263 | DEFINE_OOT_FUNC___kmalloc(13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_14' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1264:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1264 | DEFINE_OOT_FUNC___kmalloc(14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_15' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1265:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1265 | DEFINE_OOT_FUNC___kmalloc(15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/oot___kmalloc_node_0 +1214 mm/slab_common.c
-
-  1212	
-  1213	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
-> 1214	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
-  1215	{									\
-  1216		return oot__do_kmalloc_node(index, size, flags, node, _RET_IP_);;	\
-  1217	}									\
-  1218	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
-  1219	
-  1220	DEFINE_OOT_FUNC___kmalloc_node(0);
-  1221	DEFINE_OOT_FUNC___kmalloc_node(1);
-  1222	DEFINE_OOT_FUNC___kmalloc_node(2);
-  1223	DEFINE_OOT_FUNC___kmalloc_node(3);
-  1224	DEFINE_OOT_FUNC___kmalloc_node(4);
-  1225	DEFINE_OOT_FUNC___kmalloc_node(5);
-  1226	DEFINE_OOT_FUNC___kmalloc_node(6);
-  1227	DEFINE_OOT_FUNC___kmalloc_node(7);
-  1228	DEFINE_OOT_FUNC___kmalloc_node(8);
-  1229	DEFINE_OOT_FUNC___kmalloc_node(9);
-  1230	DEFINE_OOT_FUNC___kmalloc_node(10);
-  1231	DEFINE_OOT_FUNC___kmalloc_node(11);
-  1232	DEFINE_OOT_FUNC___kmalloc_node(12);
-  1233	DEFINE_OOT_FUNC___kmalloc_node(13);
-  1234	DEFINE_OOT_FUNC___kmalloc_node(14);
-  1235	DEFINE_OOT_FUNC___kmalloc_node(15);
-  1236	
-  1237	void *__kmalloc(size_t size, gfp_t flags)
-  1238	{
-  1239		return __do_kmalloc_node(size, flags, NUMA_NO_NODE, _RET_IP_);
-  1240	}
-  1241	EXPORT_SYMBOL(__kmalloc);
-  1242	
-  1243	#define DEFINE_OOT_FUNC___kmalloc(index)				\
-> 1244	void *oot___kmalloc_ ## index(size_t size, gfp_t flags)			\
-  1245	{									\
-  1246		return oot__do_kmalloc_node(index, size, flags, NUMA_NO_NODE, _RET_IP_);  \
-  1247	}									\
-  1248	EXPORT_SYMBOL(oot___kmalloc_ ## index)
-  1249	
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,mpm.yaml#
+   arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: phy@162b000: 'vdda-pll-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,usb-snps-femto-v2.yaml#
+   arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: phy@162b000: 'vdda18-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,usb-snps-femto-v2.yaml#
+   arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: phy@162b000: 'vdda33-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,usb-snps-femto-v2.yaml#
+   arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: /soc@0/geniqup@4cc0000/i2c@4c88000/touchscreen@48: failed to match any schema with compatible: ['samsung,s6sy761']
+   arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: /soc@0/remoteproc@6000000: failed to match any schema with compatible: ['qcom,sm6375-mpss-pas']
+   arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: /soc@0/remoteproc@a400000: failed to match any schema with compatible: ['qcom,sm6375-adsp-pas']
+>> arch/arm64/boot/dts/qcom/sm6375-sony-xperia-murray-pdx225.dtb: /soc@0/remoteproc@b300000: failed to match any schema with compatible: ['qcom,sm6375-cdsp-pas']
 
 -- 
 0-DAY CI Kernel Test Service
