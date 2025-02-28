@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEAC1C54B3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Feb 2025 19:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB25B1BD9C6;
+	Fri, 28 Feb 2025 19:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740769390; cv=none; b=Ndo95PGojZ6E1rAjTQs8T1UVBBcJ5a6DuL1DFrSqvGpmtiSsQHvwNfhzvzd3PtQssn9Q0Tbhp2cEztKyi763tFwTdjcnQA7wfJrLaYqEpqvBujBQQJh3IHWZaDnNPpdH+J3bvPa2oW9g0/Ib4mn5jGwFQbGYKrYOveqqz9WW7CA=
+	t=1740770232; cv=none; b=s+SyR2BdGKXLImq3OgbpHui+lhakRxfBB4lhv1BUVHofPd8LJZ1BXcV/BHfJwpYG1vsIHX/9JesttF5PQocQyIADQEUnRcwe32Y69ubTWEaPPJtO6s5z2OmEjCztMKv5BtFrM03vHT+Y+N35THXtIOI9i7gTVGGB1NPEvau7JEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740769390; c=relaxed/simple;
-	bh=MIdpC/CK8b30LYwX0EhQaH93AfE9i1Ps5U+OeVTddQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cV9ljSA/NQ3S3PkmSPoc/QKoaWAWY3EuUrLDgnS5cOL8toGLswXa1z3H2xZ/BhFi/mPJ4RJpGalEvJagAcvMWMWsJo7tOWadLJQakySo6Ky0Gpjt13bD13zVWMdAh2PvSDsbBW4r6B7Z5Ro18B6dIFJIVxPBpxUo6cRgAd9+TkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIsucuYb; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1740770232; c=relaxed/simple;
+	bh=ho390CTLxLWLxYMiAF4hzlPShqSSY9DuYIYOssywjhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kp7PktnJkcexolpCwKe9qp0H3SFJr5Lc8na08ikDzjCW0ArKkDNMwsx+0VrE85mDRrBB/zlmfrScQ7vW+YzwiE0klHMhnjETMLKfE27/leIjds3Ku7O8n2xlFlrCg1xxer7YDI60HUFG3CxUyPblriWRXpCo/solLjzk6kvjWq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qn2bf91J; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIsucuYb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qn2bf91J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740769389; x=1772305389;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MIdpC/CK8b30LYwX0EhQaH93AfE9i1Ps5U+OeVTddQc=;
-  b=LIsucuYbGYGVEzOS4PTMSYq+KrtruN6aUQ5SUPNDLkuQkBi5bZbMze0D
-   vJf98yp3uZbmWPNhyWfhpD5pjtKh38IvnxkrYkQRHcUKlL+tfOONC8fpx
-   3NtdWk+rGdH6LBxArhGhVLOUVc0i+vmq92lSMSMow5gEectq80fharcJe
-   qG9ePIZk0UNlfIaPvRsjRmIIomP17axJrJVRzogtO3Ii6hkF4enOJ8nLK
-   AuuOGiIvrVzrnqJmdQoWTcmGYwDWAtRxAQ8B/i3wq9nVsUKqg1fw68sfX
-   J1e7gq4igYC2eS4XLY/HdE3SjMeDItM3xbYF2rzvEdTen6z1XT47IuH7h
-   g==;
-X-CSE-ConnectionGUID: RR7/6UsbT7eXJcWvT1x5Cw==
-X-CSE-MsgGUID: 41HmD086RKOtRZ4rh4GIWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41594646"
+  t=1740770227; x=1772306227;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ho390CTLxLWLxYMiAF4hzlPShqSSY9DuYIYOssywjhQ=;
+  b=Qn2bf91JADKHs9bpy+rEFmUrI6x9IS4iAE5LZNW/qyaHvgdxBqdi5Hv7
+   y2eoHTWBpYJO02cMel5vE76i/HmIddBZRCRu+ZbXDWOFhdhxUiP+ggfTH
+   v6p8P6ly+zygcZ1FoBtgr4udvOKxlrUbey93JFpizLlJ+v1Yjb2smzSwO
+   9/j42KIV+4LLQaz/loynyGjs8PJ9BoChg3iERLhV6leY9pN5IoBh6Fc5X
+   QW0pjecLXfpWl7aJxfvKL2Jgwy+eDFl8XbFZlhhHXmf6OoN6rqkhkb+/1
+   U7XEbUGq+iyHyQuecl6QAn7iPwi+JBkMbYSgSYSk7w0VOfyF9mRxTP6Gh
+   A==;
+X-CSE-ConnectionGUID: vjnnHylQR/G9gHFlhyk56A==
+X-CSE-MsgGUID: KHmirVKGSa2JbSNPxHTHMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41839353"
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="41594646"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 11:03:08 -0800
-X-CSE-ConnectionGUID: pvRauEkKRVaGf7BlZLkLIg==
-X-CSE-MsgGUID: O2bSWsdLQrugdULZlgz2nA==
+   d="scan'208";a="41839353"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 11:17:07 -0800
+X-CSE-ConnectionGUID: HLl12xToTn60MEvK22YrTg==
+X-CSE-MsgGUID: q1o6TiMqSVeJ46KC9IyXQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,323,1732608000"; 
-   d="scan'208";a="122550279"
+   d="scan'208";a="118087580"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Feb 2025 11:03:07 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 28 Feb 2025 11:17:05 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1to5cr-000FNM-1C;
-	Fri, 28 Feb 2025 19:02:40 +0000
-Date: Sat, 1 Mar 2025 03:00:08 +0800
+	id 1to5r5-000FOQ-1U;
+	Fri, 28 Feb 2025 19:17:03 +0000
+Date: Sat, 1 Mar 2025 03:16:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
-Subject: [linux-next:master 6787/7423] include/linux/compiler_types.h:542:45:
- error: call to '__compiletime_assert_416' declared with attribute error:
- min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
-Message-ID: <202503010236.Qn8S2j6G-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	jani.nikula@intel.com
+Subject: Re: [PATCH 1/2] drm/xe/compat: refactor compat i915_drv.h
+Message-ID: <202503010231.ZOOOjLUU-lkp@intel.com>
+References: <20250228142539.3216960-1-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +64,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250228142539.3216960-1-jani.nikula@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c0eb65494e59d9834af7cbad983629e9017b25a1
-commit: 60ee7393a44c3feb91962dc08c3a3c1f11252982 [6787/7423] btrfs: prepare extent_io.c for future larger folio support
-config: xtensa-randconfig-001-20250228 (https://download.01.org/0day-ci/archive/20250301/202503010236.Qn8S2j6G-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010236.Qn8S2j6G-lkp@intel.com/reproduce)
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250228]
+[also build test WARNING on linus/master v6.14-rc4]
+[cannot apply to drm-xe/drm-xe-next v6.14-rc4 v6.14-rc3 v6.14-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-plane-convert-intel_atomic_plane-ch-to-struct-intel_display/20250228-222835
+base:   next-20250228
+patch link:    https://lore.kernel.org/r/20250228142539.3216960-1-jani.nikula%40intel.com
+patch subject: [PATCH 1/2] drm/xe/compat: refactor compat i915_drv.h
+config: arm-randconfig-003-20250301 (https://download.01.org/0day-ci/archive/20250301/202503010231.ZOOOjLUU-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503010231.ZOOOjLUU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503010236.Qn8S2j6G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503010231.ZOOOjLUU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/btrfs/extent_io.c: In function 'extent_write_locked_range':
->> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_416' declared with attribute error: min(folio_pos(folio) + folio_size(folio) - 1, end) signedness error
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   fs/btrfs/extent_io.c:2497:27: note: in expansion of macro 'min'
-    2497 |                 cur_end = min(folio_pos(folio) + folio_size(folio) - 1, end);
-         |                           ^~~
+   In file included from drivers/gpu/drm/i915/display/intel_atomic_plane.c:37:
+   In file included from include/drm/drm_atomic_helper.h:31:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2287:
+   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/gpu/drm/i915/display/intel_atomic_plane.c:43:
+>> drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:4:9: warning: '__I915_GEM_OBJECT_H__' is used as a header guard here, followed by #define of a different macro [-Wheader-guard]
+       4 | #ifndef __I915_GEM_OBJECT_H__
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h:5:9: note: '__i915_GEM_OBJECT_H__' is defined here; did you mean '__I915_GEM_OBJECT_H__'?
+       5 | #define __i915_GEM_OBJECT_H__
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         __I915_GEM_OBJECT_H__
+   2 warnings generated.
 
 
-vim +/__compiletime_assert_416 +542 include/linux/compiler_types.h
+vim +/__I915_GEM_OBJECT_H__ +4 drivers/gpu/drm/xe/compat-i915-headers/gem/i915_gem_object.h
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  528  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  531  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  532  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  536   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  539   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  540   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  543  
-
-:::::: The code at line 542 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+     3	
+   > 4	#ifndef __I915_GEM_OBJECT_H__
+     5	#define __i915_GEM_OBJECT_H__
+     6	
 
 -- 
 0-DAY CI Kernel Test Service
