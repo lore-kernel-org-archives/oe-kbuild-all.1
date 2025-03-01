@@ -1,63 +1,74 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443D41B414F;
-	Sat,  1 Mar 2025 20:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D084E5258
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 20:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740860424; cv=none; b=aZ0r0bUN+lIAuIKF/Y/Hy/Z2LeB0SNY4W0s0eEHO7GRfYLaCxCZjM8VMTFX7Kv047Zg4fWBoCZi40r+ji2qFyx0T9OSx8ux7W9c3MA4QjfgdoCrX6VfPffEm2u0wyvWuop1li4OBlan3gwWg3iPi3zQPrTWzgJpIZToNb2RQk/o=
+	t=1740860433; cv=none; b=E98zZ3HGjwSHM95vPGI+vocWvj2LPPCQVTEpJEd7rmfMz0Jz1RUAo11gQQaz0HnEoYEiw/pzh2TQAmkjebeklp1SknoPzPDfoN5idIF284o/Kv+/q4859F6Zl7+3j1oKnUgWIjD6P9VexYVUDU7yiHkZ6bL1rqo4OYQhW3KHqH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740860424; c=relaxed/simple;
-	bh=8ROBKw30EjUc/+X+mVyqk68aM0a7JOfRmZ9KbnzYzwU=;
+	s=arc-20240116; t=1740860433; c=relaxed/simple;
+	bh=rrQ//fnypHMrN3fd4zsduRE3QZa4hstc4Z87aOa0Lpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NyZWfAIr3nm2nXnAIWnQo5vIkfW5HWY9nVBi91MLAnqPjYCStmUPlEl8FVx/pFccKqRBiQUiyechWAL0svLp9R+R3PlF0ser7SNQKeGWMjBkai0QxzhzHkE/CfwpJrBDzmSAcBLSzRKkr6ZtqiJxqDKB1Ia0MYHRbSP6hT06i5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e9hKi0gX; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=iqUNZzEOlRjTMAopSdFaaXFaielDTAliDVIv8BIMeeXQEWVjtVHkT2vnTFLxCbsQjgn0ucciPMzJ9lPzA5jV0s41doPxp3ryTTkORpM7AxlQipKeGMCayfAkUOQ3p9UG023u/c46etirfZqjeGPr0kvDw7a0faUhsVTEAuu8HLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApgyKAAk; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9hKi0gX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApgyKAAk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740860422; x=1772396422;
+  t=1740860432; x=1772396432;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8ROBKw30EjUc/+X+mVyqk68aM0a7JOfRmZ9KbnzYzwU=;
-  b=e9hKi0gXGeYNfhsHSHrd7r4nu3b/owghra6fY5rM+uexTWS3awQmT4UB
-   EqidRV9pCvRNPE8CF3wOoTwZlRshzqtlPKHbppt+k88OrJuB7cD7WFxa9
-   wFSrDtkzypCJGMz/no+ZpsUU5Dlefr+t29cn0tf4/oSDYqRAzH4JPvmf9
-   Fj/hob6GMQkSHMPWyI8JLF1VhcEkCCn3Jm1xAxxu09LdU1l2MXiBHRQAK
-   8aMCXai2uChoZXnA6uvOObdbqSnZFm267k6hEjonzB/xdnujviRHQ7lW8
-   bdejnG9TCYPCcwh5qY7+Q22Dp4HdJ0ovczKPNrTBXU2s2puMl0v5uFz8u
+  bh=rrQ//fnypHMrN3fd4zsduRE3QZa4hstc4Z87aOa0Lpo=;
+  b=ApgyKAAkZ7pfHEANNffFgrj7ZnGAWxXnIL1VwYXYAIfwsA0zgAESsLdM
+   2v6KmEO4NK9820gHXVCv27pO9r2K3PhPMvuH1Gt3PZePWrgAeUzRYeUJI
+   qIm0zzXl3IRhk0cu5V2h5UCt2OzeSvHwTCkqaXBa2gJKqitRf79OTOLa6
+   LZMX9w5I/OpODZacL5xH7915NCZpuUFO4Yi5dPKPX1WHa351TPEmBlMNL
+   O4eaI5ojnGyxy/YxTAPIIzX823wLDxp4qu1M7eP4xRODR5cwKhv78Y1mA
+   NPm2H0CYIiBpTv2vJ7h0tZ8PwShUqcnzJTH3y9J5qlIcFbiQz1caiJis+
    g==;
-X-CSE-ConnectionGUID: yzlur2vcTwKu6A8xQ8JouQ==
-X-CSE-MsgGUID: wD3RY7CxQd6XPGM3BVUqXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="52411931"
+X-CSE-ConnectionGUID: LtFpLUonSgG+0e56oBAesg==
+X-CSE-MsgGUID: gT2oJhkJTQSR4oWjQRXoBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="52411942"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="52411931"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:20:21 -0800
-X-CSE-ConnectionGUID: Vrq4h9hFRiewzVzLJWCzKQ==
-X-CSE-MsgGUID: 6Mdxhje5Q46laCrsGGIymw==
+   d="scan'208";a="52411942"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:20:31 -0800
+X-CSE-ConnectionGUID: xuVHpwFRQROXxCZ9NKWMIg==
+X-CSE-MsgGUID: 2Mf5tN2yQliX1ZcvqY3OdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="117389237"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="117501197"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2025 12:20:18 -0800
+  by orviesa010.jf.intel.com with ESMTP; 01 Mar 2025 12:20:26 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toTJl-000Gf8-0w;
-	Sat, 01 Mar 2025 20:20:13 +0000
-Date: Sun, 2 Mar 2025 04:19:59 +0800
+	id 1toTJs-000GfD-1E;
+	Sat, 01 Mar 2025 20:20:22 +0000
+Date: Sun, 2 Mar 2025 04:19:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: zihan zhou <15645113830zzh@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bsegall@google.com,
-	dietmar.eggemann@arm.com, juri.lelli@redhat.com,
-	linux-kernel@vger.kernel.org, mgorman@suse.de, mingo@redhat.com,
-	peterz@infradead.org, rostedt@goodmis.org,
-	vincent.guittot@linaro.org, vschneid@redhat.com
-Subject: Re: [PATCH V1 2/4] sched: Do predict load
-Message-ID: <202503020410.hBcraNw8-lkp@intel.com>
-References: <20250221085051.32468-1-15645113830zzh@gmail.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Russell King - ARM Linux <linux@armlinux.org.uk>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	David Miller <davem@davemloft.net>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Qingfang Deng <dqfext@gmail.com>,
+	SkyLake Huang <SkyLake.Huang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Richard Cochran <richardcochran@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	Robert Marko <robimarko@gmail.com>,
+	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
+Subject: Re: [PATCH net-next v2 8/8] net: phy: remove remaining PHY package
+ related definitions from phy.h
+Message-ID: <202503020420.v2TkGxj1-lkp@intel.com>
+References: <6ad490fa-61ad-48b8-9660-bb525f756f41@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,38 +77,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221085051.32468-1-15645113830zzh@gmail.com>
+In-Reply-To: <6ad490fa-61ad-48b8-9660-bb525f756f41@gmail.com>
 
-Hi zihan,
+Hi Heiner,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on akpm-mm/mm-nonmm-unstable brauner-vfs/vfs.all peterz-queue/sched/core linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/zihan-zhou/sched-Add-kconfig-of-predict-load/20250221-165850
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250221085051.32468-1-15645113830zzh%40gmail.com
-patch subject: [PATCH V1 2/4] sched: Do predict load
-config: x86_64-randconfig-076-20250301 (https://download.01.org/0day-ci/archive/20250302/202503020410.hBcraNw8-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020410.hBcraNw8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/net-phy-move-PHY-package-code-from-phy_device-c-to-own-source-file/20250301-055302
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/6ad490fa-61ad-48b8-9660-bb525f756f41%40gmail.com
+patch subject: [PATCH net-next v2 8/8] net: phy: remove remaining PHY package related definitions from phy.h
+config: arc-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020420.v2TkGxj1-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020420.v2TkGxj1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020410.hBcraNw8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020420.v2TkGxj1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: set_in_predict_no_preempt
-   >>> referenced by fair.c:5628 (kernel/sched/fair.c:5628)
-   >>>               vmlinux.o:(dequeue_entity)
-   >>> referenced by fair.c:5767 (kernel/sched/fair.c:5767)
-   >>>               vmlinux.o:(put_prev_entity)
+   drivers/net/phy/bcm54140.c: In function 'bcm54140_base_read_rdb':
+   drivers/net/phy/bcm54140.c:436:15: error: implicit declaration of function '__phy_package_write'; did you mean '__phy_package_write_mmd'? [-Werror=implicit-function-declaration]
+     436 |         ret = __phy_package_write(phydev, BCM54140_BASE_ADDR,
+         |               ^~~~~~~~~~~~~~~~~~~
+         |               __phy_package_write_mmd
+   drivers/net/phy/bcm54140.c:441:15: error: implicit declaration of function '__phy_package_read'; did you mean '__phy_package_read_mmd'? [-Werror=implicit-function-declaration]
+     441 |         ret = __phy_package_read(phydev, BCM54140_BASE_ADDR,
+         |               ^~~~~~~~~~~~~~~~~~
+         |               __phy_package_read_mmd
+   drivers/net/phy/bcm54140.c: In function 'bcm54140_probe':
+>> drivers/net/phy/bcm54140.c:594:9: error: implicit declaration of function 'devm_phy_package_join' [-Werror=implicit-function-declaration]
+     594 |         devm_phy_package_join(&phydev->mdio.dev, phydev, priv->base_addr, 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/devm_phy_package_join +594 drivers/net/phy/bcm54140.c
+
+6937602ed3f9eb Michael Walle 2020-04-20  578  
+6937602ed3f9eb Michael Walle 2020-04-20  579  static int bcm54140_probe(struct phy_device *phydev)
+6937602ed3f9eb Michael Walle 2020-04-20  580  {
+6937602ed3f9eb Michael Walle 2020-04-20  581  	struct bcm54140_priv *priv;
+6937602ed3f9eb Michael Walle 2020-04-20  582  	int ret;
+6937602ed3f9eb Michael Walle 2020-04-20  583  
+6937602ed3f9eb Michael Walle 2020-04-20  584  	priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
+6937602ed3f9eb Michael Walle 2020-04-20  585  	if (!priv)
+6937602ed3f9eb Michael Walle 2020-04-20  586  		return -ENOMEM;
+6937602ed3f9eb Michael Walle 2020-04-20  587  
+6937602ed3f9eb Michael Walle 2020-04-20  588  	phydev->priv = priv;
+6937602ed3f9eb Michael Walle 2020-04-20  589  
+6937602ed3f9eb Michael Walle 2020-04-20  590  	ret = bcm54140_get_base_addr_and_port(phydev);
+6937602ed3f9eb Michael Walle 2020-04-20  591  	if (ret)
+6937602ed3f9eb Michael Walle 2020-04-20  592  		return ret;
+6937602ed3f9eb Michael Walle 2020-04-20  593  
+dc9989f173289f Michael Walle 2020-05-06 @594  	devm_phy_package_join(&phydev->mdio.dev, phydev, priv->base_addr, 0);
+dc9989f173289f Michael Walle 2020-05-06  595  
 
 -- 
 0-DAY CI Kernel Test Service
