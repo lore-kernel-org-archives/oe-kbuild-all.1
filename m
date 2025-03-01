@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439431C3BEB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 22:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0281C5485
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 22:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740868808; cv=none; b=mQg+FYl5eI49xsDvhjibMnEtB5bY18RD9JR1kdJL7xOaI9cWhLD36nq0wATdNpGEJi8rl5d9YjPCu+RzO3cpyoig6e8xXdXJ/fNU07YxX/ijBZneOWw1qresZ9V7H0KlKiG56OmPkvg1B1wi6sjpbVmqVZetHc//Y2/aIek7xt0=
+	t=1740868808; cv=none; b=quIVNAaocrWD6gtz2/vJbvgq9scLM72Cqh+ihvs4VG6cridzfrkMBYwZ9KYJwkyyf25/DnCcpfZ7CD1GHTR8WxEsBekkkNbqKv3rJEf5T1DcyBjfUC5TK69I1phdcjl+Nt/n0q/HP+hxn9H1kQg2zLJxJ4BiSUAqHtcHlQg5KKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740868808; c=relaxed/simple;
-	bh=PdK1UUaMuAxvtbgNcZVnxIgrqPGUxF/T632/5X+Ktd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BJ2NqpyBrlkLrePpIfPMVJCV526/S7AaQCs4rGD6IfuVA1qzCIHZhu/v22gLwhrJnxyJM7tRZwmDuvV+o5XkijZv0WQFsetDfFIL+MEmRRe78C2UVRLtJ6/FBApFjwS/GRknz/NgLppt24kaA9c7dZ5D2Mg0KDm8nLm8xtDhMag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUczk/Wy; arc=none smtp.client-ip=198.175.65.9
+	bh=y0F8MI/v8YlG9W2t12I2GwuvK0EPiEmfFG5Th2Yxkc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WRctLIjfbeni4iIBon335vQZ+j7/InW5qz5emTH5CCOSVgIxgGx/FiUvc4P5DzXvPMvUAATXhZcRAbVJLdM3eCENP/0TSZGElWiL5FJkEeObX2WdfzTOJqLDnShXbbv+bUQRV2PdGYlaR1pphLB7stSE4uPeH5CYnviNwBw4gek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4yaNff9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUczk/Wy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4yaNff9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740868806; x=1772404806;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PdK1UUaMuAxvtbgNcZVnxIgrqPGUxF/T632/5X+Ktd8=;
-  b=jUczk/WywEz1j71kdWBLF9+UVkTTy2ef55m1wD5dfmmllYDSWCrshSeI
-   Mw5YTvVYpi87XFdYTumnRX6TyypFXfjOo1pSDJBm2cSYdM4cg1XKBPtCv
-   gI2ZxgizznhwGmIaP7/wzFRPb82/z0FtBlaFb6N1oCj78hJuN7nee9+cT
-   wl7WmnPhF0lYCYZbccMBsHEzwbPSd6YAmR7xHcEgRZsBr1Q7C+7BxEHJC
-   hRNSaldNRFS7y9o9AflLpAzZVuZaFBmT9fhVJ+1bXVWDvCFk/QXLxks4V
-   8E2cifCzN1gUxLNml3xsm2OwPXRoutmyFjhWAN0kGAnH213L5UZTL4VMG
-   g==;
-X-CSE-ConnectionGUID: ObMPwaIPTha0HfCMHjqfDw==
-X-CSE-MsgGUID: cZskfzXdS3amnKS1jbD+Tw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="64233318"
+  t=1740868807; x=1772404807;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y0F8MI/v8YlG9W2t12I2GwuvK0EPiEmfFG5Th2Yxkc8=;
+  b=P4yaNff9O05mrKFyqc9gr51hCV8ZwK/NWh3riLfPwL34pWGFtK8XTe/W
+   PTlh86xNBqNvTqP03kZ29RwJGkhpalC94JfKO776by7JlbBMFrLAdwQ5X
+   J+t4DwNKIKyndl1igNG04PU5+fySCRFu9IdoUOhkVUg36mpUcb0R+oOK2
+   6nOLp4ixL3wFYVUpUHMWaF5nXFXx6ZaK2bUD6TC/75FlwikcNrGZYRr09
+   96Mg03zHihDBJgl7+w6/bn5d7okfRGYI8l9dfIzEX+Iy8YoarnPo2hnKq
+   GTXs9cD1rEPMmrq9zLMXDCt5MfCuQyGHeM2BXGawRzBD/GlZTxc5ek0n9
+   Q==;
+X-CSE-ConnectionGUID: VZySIknsQ/eznExYE8vRdQ==
+X-CSE-MsgGUID: K00u3zMoRAu5Yn+XYfumrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="51975893"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="64233318"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 14:40:05 -0800
-X-CSE-ConnectionGUID: o5+aKWqLSJ+OcsnFNTzKaw==
-X-CSE-MsgGUID: iu9ZKw4mQXuUas8x8WYiOQ==
+   d="scan'208";a="51975893"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 14:40:06 -0800
+X-CSE-ConnectionGUID: GK7pxahfSKW7YLVUgunXMA==
+X-CSE-MsgGUID: Opy6ub6oRVOWyEmF7f9nHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="117406932"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="148567097"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2025 14:40:05 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2025 14:40:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toVV4-000Gmy-1B;
+	id 1toVV4-000Gmw-17;
 	Sat, 01 Mar 2025 22:40:02 +0000
-Date: Sun, 2 Mar 2025 06:39:04 +0800
+Date: Sun, 2 Mar 2025 06:39:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 4/5] fs/ceph/debugfs.c:512:21: warning:
- unused variable 'idx'
-Message-ID: <202503020611.ushnPNHC-lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+	Basavaraj.Natikar@amd.com, Shyam-sundar.S-k@amd.com,
+	linus.walleij@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
+Message-ID: <202503020616.j6juZTqH-lkp@intel.com>
+References: <20250227205049.765309-3-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,86 +64,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250227205049.765309-3-superm1@kernel.org>
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   b980c3ea5fcc54aa543fd5e96212b7fb892d42a5
-commit: 284eb81c9d23609f54d9e015ce2c40076e8d8a87 [4/5] TLS logger
-config: arc-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020611.ushnPNHC-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020611.ushnPNHC-lkp@intel.com/reproduce)
+Hi Mario,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-Add-missing-prototype-for-non-CONFIG_SUSPEND-CONFIG_X86-case/20250228-045242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20250227205049.765309-3-superm1%40kernel.org
+patch subject: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250302/202503020616.j6juZTqH-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020616.j6juZTqH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020611.ushnPNHC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020616.j6juZTqH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ceph/debugfs.c: In function 'ceph_san_tls_show':
->> fs/ceph/debugfs.c:512:21: warning: unused variable 'idx' [-Wunused-variable]
-     512 |                 int idx = 0;
-         |                     ^~~
+   drivers/pinctrl/pinctrl-amd.c:933:15: error: variable 'pinctrl_amd_s2idle_dev_ops' has initializer but incomplete type
+     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
+         |               ^~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c:934:10: error: 'struct acpi_s2idle_dev_ops' has no member named 'check'
+     934 |         .check = amd_gpio_check_pending,
+         |          ^~~~~
+>> drivers/pinctrl/pinctrl-amd.c:934:18: warning: excess elements in struct initializer
+     934 |         .check = amd_gpio_check_pending,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c:934:18: note: (near initialization for 'pinctrl_amd_s2idle_dev_ops')
+   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_probe':
+   drivers/pinctrl/pinctrl-amd.c:1210:9: error: implicit declaration of function 'acpi_register_lps0_dev' [-Wimplicit-function-declaration]
+    1210 |         acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_remove':
+   drivers/pinctrl/pinctrl-amd.c:1229:9: error: implicit declaration of function 'acpi_unregister_lps0_dev' [-Wimplicit-function-declaration]
+    1229 |         acpi_unregister_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c: At top level:
+   drivers/pinctrl/pinctrl-amd.c:933:35: error: storage size of 'pinctrl_amd_s2idle_dev_ops' isn't known
+     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/idx +512 fs/ceph/debugfs.c
+vim +934 drivers/pinctrl/pinctrl-amd.c
 
-   490	
-   491	static int ceph_san_tls_show(struct seq_file *s, void *p)
-   492	{
-   493		struct tls_ceph_san_context *ctx;
-   494		struct ceph_san_tls_logger *logger;
-   495		struct ceph_san_log_entry_tls *entry;
-   496		unsigned long flags;
-   497		int count = 0;
-   498	
-   499		seq_printf(s, "All Ceph SAN TLS logs from all contexts:\n");
-   500		seq_printf(s, "%-8s %-16s %-20s %-8s %-s\n",
-   501				   "PID", "Task", "Timestamp", "Index", "Log Message");
-   502		seq_printf(s, "-------------------------------------------------------------------------\n");
-   503	
-   504		spin_lock_irqsave(&g_ceph_san_contexts_lock, flags);
-   505	
-   506		list_for_each_entry(ctx, &g_ceph_san_contexts, list) {
-   507			logger = &ctx->logger;
-   508			count++;
-   509	
-   510			seq_printf(s, "\n=== Context for PID %d ===\n", logger->pid);
-   511	
- > 512			int idx = 0;
-   513			int head_idx = logger->head_idx & (CEPH_SAN_MAX_LOGS - 1);
-   514			int tail_idx = (head_idx + 1) & (CEPH_SAN_MAX_LOGS - 1);
-   515	
-   516			for (int i = tail_idx; (i & (CEPH_SAN_MAX_LOGS - 1)) != head_idx; i++) {
-   517				struct timespec64 ts;
-   518				entry = &logger->logs[i & (CEPH_SAN_MAX_LOGS - 1)];
-   519	
-   520				if (entry->ts == 0 || !entry->buf) {
-   521					continue;
-   522				}
-   523	
-   524				jiffies_to_timespec64(entry->ts, &ts);
-   525	
-   526				seq_printf(s, "%-8d %-16s %lld.%09ld\n",
-   527						  logger->pid,
-   528						  logger->comm,
-   529						  (long long)ts.tv_sec,
-   530						  ts.tv_nsec);
-   531			}
-   532	
-   533			seq_printf(s, "\n");
-   534		}
-   535	
-   536		spin_unlock_irqrestore(&g_ceph_san_contexts_lock, flags);
-   537	
-   538		if (count == 0) {
-   539			seq_printf(s, "No TLS contexts found.\n");
-   540		} else {
-   541			seq_printf(s, "\nTotal contexts: %d\n", count);
-   542		}
-   543	
-   544		return 0;
-   545	}
-   546	
+   932	
+   933	static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
+ > 934		.check = amd_gpio_check_pending,
+   935	};
+   936	
 
 -- 
 0-DAY CI Kernel Test Service
