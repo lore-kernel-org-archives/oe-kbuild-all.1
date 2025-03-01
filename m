@@ -1,74 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D084E5258
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 20:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678821D63D9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 20:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740860433; cv=none; b=E98zZ3HGjwSHM95vPGI+vocWvj2LPPCQVTEpJEd7rmfMz0Jz1RUAo11gQQaz0HnEoYEiw/pzh2TQAmkjebeklp1SknoPzPDfoN5idIF284o/Kv+/q4859F6Zl7+3j1oKnUgWIjD6P9VexYVUDU7yiHkZ6bL1rqo4OYQhW3KHqH4=
+	t=1740860445; cv=none; b=hWoWyrluFhg1BI2MvQuqNoajpOXBq9FBOV460OKOH4AQ/Py00UIIMQDVOyvHypGxv6jjSSEUbYecZvpincDSneiZdcaBoA7hsh7ao4n3m2sgKoox49AKxXBYqG/yckJKN+U226+zv905GG0pifk37CDt85DbpYlhyFNq3S8dJIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740860433; c=relaxed/simple;
-	bh=rrQ//fnypHMrN3fd4zsduRE3QZa4hstc4Z87aOa0Lpo=;
+	s=arc-20240116; t=1740860445; c=relaxed/simple;
+	bh=6vIeTwmtJ1CsQjKzPDtsmgP96gOLvVQrci7HtsL6z3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iqUNZzEOlRjTMAopSdFaaXFaielDTAliDVIv8BIMeeXQEWVjtVHkT2vnTFLxCbsQjgn0ucciPMzJ9lPzA5jV0s41doPxp3ryTTkORpM7AxlQipKeGMCayfAkUOQ3p9UG023u/c46etirfZqjeGPr0kvDw7a0faUhsVTEAuu8HLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApgyKAAk; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=SiOd53XM3ecL53Pmg3wWupQqjJ2DmYI93Pe+C7v1jvwAF9Mj9AHvfhgVWKMdtso4fcjP6x4Vytt5HLI0druOMsmyV9hKEztI5Pa0DKyNWs6v9aEH0+4JhEfA8R9+ka7fST8myKTw3fgDnPHF//ZJ488LTh7lvrfvDoLshA289ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1APRIuW; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApgyKAAk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1APRIuW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740860432; x=1772396432;
+  t=1740860445; x=1772396445;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rrQ//fnypHMrN3fd4zsduRE3QZa4hstc4Z87aOa0Lpo=;
-  b=ApgyKAAkZ7pfHEANNffFgrj7ZnGAWxXnIL1VwYXYAIfwsA0zgAESsLdM
-   2v6KmEO4NK9820gHXVCv27pO9r2K3PhPMvuH1Gt3PZePWrgAeUzRYeUJI
-   qIm0zzXl3IRhk0cu5V2h5UCt2OzeSvHwTCkqaXBa2gJKqitRf79OTOLa6
-   LZMX9w5I/OpODZacL5xH7915NCZpuUFO4Yi5dPKPX1WHa351TPEmBlMNL
-   O4eaI5ojnGyxy/YxTAPIIzX823wLDxp4qu1M7eP4xRODR5cwKhv78Y1mA
-   NPm2H0CYIiBpTv2vJ7h0tZ8PwShUqcnzJTH3y9J5qlIcFbiQz1caiJis+
-   g==;
-X-CSE-ConnectionGUID: LtFpLUonSgG+0e56oBAesg==
-X-CSE-MsgGUID: gT2oJhkJTQSR4oWjQRXoBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="52411942"
+  bh=6vIeTwmtJ1CsQjKzPDtsmgP96gOLvVQrci7HtsL6z3Y=;
+  b=m1APRIuWocVTXMoFCi/zqGW0ald4hOCoM2pxAF09uJRyHDwkA4l8ea/F
+   0TDpDGy+r+GpsYHeC15fNSgOV40a05SHKAOGyQakcy+gqQX+RGPdu91PH
+   p10Cz9AnACnzXL9pnVil+LXT9ZPin/mUr6D6lEI0Qku9+ypCpbHUwqFir
+   R7BJ1PwByD6Jvo37L5/ZQFnPW3d6zimmL2IWdidzpwjcUd1H3ua6gv1g7
+   j/mOXtzB+wFb8JRCv5ax0uee4VRO71TJyMgB96TzmOMHAokaYxezdUMq6
+   1oxEWJ4vs7Ij7emIRtAST2tgH9PcAVxlPO84wxkKyuSyYKlnfLSnxCgH4
+   A==;
+X-CSE-ConnectionGUID: a7+yII9STLqX3/nCfm6ELA==
+X-CSE-MsgGUID: 5fn07DoxQSGvIO9q4ICy7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="42018043"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="52411942"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:20:31 -0800
-X-CSE-ConnectionGUID: xuVHpwFRQROXxCZ9NKWMIg==
-X-CSE-MsgGUID: 2Mf5tN2yQliX1ZcvqY3OdQ==
+   d="scan'208";a="42018043"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:20:44 -0800
+X-CSE-ConnectionGUID: 7u6lqpU+RrmQYuAah9RXNg==
+X-CSE-MsgGUID: t3rt7YX3TOKeoGdVfb5V+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117501197"
+X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
+   d="scan'208";a="122774739"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 01 Mar 2025 12:20:26 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Mar 2025 12:20:37 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toTJs-000GfD-1E;
-	Sat, 01 Mar 2025 20:20:22 +0000
-Date: Sun, 2 Mar 2025 04:19:55 +0800
+	id 1toTK1-000GfL-2p;
+	Sat, 01 Mar 2025 20:20:31 +0000
+Date: Sun, 2 Mar 2025 04:19:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Russell King - ARM Linux <linux@armlinux.org.uk>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	David Miller <davem@davemloft.net>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Qingfang Deng <dqfext@gmail.com>,
-	SkyLake Huang <SkyLake.Huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Richard Cochran <richardcochran@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Robert Marko <robimarko@gmail.com>,
-	=?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
-Subject: Re: [PATCH net-next v2 8/8] net: phy: remove remaining PHY package
- related definitions from phy.h
-Message-ID: <202503020420.v2TkGxj1-lkp@intel.com>
-References: <6ad490fa-61ad-48b8-9660-bb525f756f41@gmail.com>
+To: Lyude Paul <lyude@redhat.com>, rust-for-linux@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	David Woodhouse <dwmw@amazon.co.uk>, Arnd Bergmann <arnd@arndb.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	NeilBrown <neilb@suse.de>, Zqiang <qiang.zhang1211@gmail.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 3/9] irq & spin_lock: Add counted interrupt
+ disabling/enabling
+Message-ID: <202503020344.HCIfRKwM-lkp@intel.com>
+References: <20250227221924.265259-4-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,65 +85,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6ad490fa-61ad-48b8-9660-bb525f756f41@gmail.com>
+In-Reply-To: <20250227221924.265259-4-lyude@redhat.com>
 
-Hi Heiner,
+Hi Lyude,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on 2014c95afecee3e76ca4a56956a936e23283f05b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiner-Kallweit/net-phy-move-PHY-package-code-from-phy_device-c-to-own-source-file/20250301-055302
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/6ad490fa-61ad-48b8-9660-bb525f756f41%40gmail.com
-patch subject: [PATCH net-next v2 8/8] net: phy: remove remaining PHY package related definitions from phy.h
-config: arc-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020420.v2TkGxj1-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020420.v2TkGxj1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lyude-Paul/preempt-Introduce-HARDIRQ_DISABLE_BITS/20250228-062508
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250227221924.265259-4-lyude%40redhat.com
+patch subject: [PATCH v9 3/9] irq & spin_lock: Add counted interrupt disabling/enabling
+config: sparc-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020344.HCIfRKwM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020344.HCIfRKwM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020420.v2TkGxj1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020344.HCIfRKwM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/phy/bcm54140.c: In function 'bcm54140_base_read_rdb':
-   drivers/net/phy/bcm54140.c:436:15: error: implicit declaration of function '__phy_package_write'; did you mean '__phy_package_write_mmd'? [-Werror=implicit-function-declaration]
-     436 |         ret = __phy_package_write(phydev, BCM54140_BASE_ADDR,
-         |               ^~~~~~~~~~~~~~~~~~~
-         |               __phy_package_write_mmd
-   drivers/net/phy/bcm54140.c:441:15: error: implicit declaration of function '__phy_package_read'; did you mean '__phy_package_read_mmd'? [-Werror=implicit-function-declaration]
-     441 |         ret = __phy_package_read(phydev, BCM54140_BASE_ADDR,
-         |               ^~~~~~~~~~~~~~~~~~
-         |               __phy_package_read_mmd
-   drivers/net/phy/bcm54140.c: In function 'bcm54140_probe':
->> drivers/net/phy/bcm54140.c:594:9: error: implicit declaration of function 'devm_phy_package_join' [-Werror=implicit-function-declaration]
-     594 |         devm_phy_package_join(&phydev->mdio.dev, phydev, priv->base_addr, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   kernel/locking/spinlock.c: In function '_raw_spin_lock_irq_disable':
+>> kernel/locking/spinlock.c:178:9: error: implicit declaration of function '__raw_spin_lock_irq_disable'; did you mean '_raw_spin_lock_irq_disable'? [-Wimplicit-function-declaration]
+     178 |         __raw_spin_lock_irq_disable(lock);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         _raw_spin_lock_irq_disable
 
 
-vim +/devm_phy_package_join +594 drivers/net/phy/bcm54140.c
+vim +178 kernel/locking/spinlock.c
 
-6937602ed3f9eb Michael Walle 2020-04-20  578  
-6937602ed3f9eb Michael Walle 2020-04-20  579  static int bcm54140_probe(struct phy_device *phydev)
-6937602ed3f9eb Michael Walle 2020-04-20  580  {
-6937602ed3f9eb Michael Walle 2020-04-20  581  	struct bcm54140_priv *priv;
-6937602ed3f9eb Michael Walle 2020-04-20  582  	int ret;
-6937602ed3f9eb Michael Walle 2020-04-20  583  
-6937602ed3f9eb Michael Walle 2020-04-20  584  	priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
-6937602ed3f9eb Michael Walle 2020-04-20  585  	if (!priv)
-6937602ed3f9eb Michael Walle 2020-04-20  586  		return -ENOMEM;
-6937602ed3f9eb Michael Walle 2020-04-20  587  
-6937602ed3f9eb Michael Walle 2020-04-20  588  	phydev->priv = priv;
-6937602ed3f9eb Michael Walle 2020-04-20  589  
-6937602ed3f9eb Michael Walle 2020-04-20  590  	ret = bcm54140_get_base_addr_and_port(phydev);
-6937602ed3f9eb Michael Walle 2020-04-20  591  	if (ret)
-6937602ed3f9eb Michael Walle 2020-04-20  592  		return ret;
-6937602ed3f9eb Michael Walle 2020-04-20  593  
-dc9989f173289f Michael Walle 2020-05-06 @594  	devm_phy_package_join(&phydev->mdio.dev, phydev, priv->base_addr, 0);
-dc9989f173289f Michael Walle 2020-05-06  595  
+   174	
+   175	#ifndef CONFIG_INLINE_SPIN_LOCK_IRQ
+   176	noinline void __lockfunc _raw_spin_lock_irq_disable(raw_spinlock_t *lock)
+   177	{
+ > 178		__raw_spin_lock_irq_disable(lock);
+   179	}
+   180	EXPORT_SYMBOL_GPL(_raw_spin_lock_irq_disable);
+   181	#endif
+   182	
 
 -- 
 0-DAY CI Kernel Test Service
