@@ -1,60 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029951DED79
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 15:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336D1D90B3;
+	Sat,  1 Mar 2025 16:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740843831; cv=none; b=t0A+XctMWfu25r4ibFmAYzxgGOhHPcg3ZcuD8aNgGjpPJUnQhMFyCpnFumndIgcI6Nz6aEzRXnLEjGeNuTLV2dCOTx4dQCoHc35rrBL3/wqZAq8la/+YydF3aA8iOPwtAy6e4e/9E5zDYwUKyX38e5dyxOBrD75jfyGIbX/D5E0=
+	t=1740845762; cv=none; b=BJQ4Ezjx12xdv/HNiBiFjCzt6Zv2N5+lWY/QY69MRMXLsJVd2c5t+upAl3NenuipFDvBZ/9NdGQOuHWgBQZDQu811dSseWbRNQxdpSi1O1Doh9g4k5L8rUYs5LMSm9ZTx/N95k56uilCMKL3Xj+TljNo4gYRiA9lzV+qa1lNGjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740843831; c=relaxed/simple;
-	bh=5RFCfPVrVeLBD69g1m4SZtIVTe36YezRd1+9UEqPYOg=;
+	s=arc-20240116; t=1740845762; c=relaxed/simple;
+	bh=60MHNXWMx76GDBQsFqvK/tov8tN6UhpUoBlyfNEAoRU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZV2dvFO07kcmIu97Ip35GHtcwGCR63/ehUJZvHrPrCLGHH3zchw83B2y40QHF7LRmvmuBy23Es3bTzQ+U2xXWPJyWs6ccIx8zw1SbuT8zXfE2Z0U0cLcDlK8mC30/48Zhk8sxYeGljo6HgRra/vcvRoooDBELJiTU0fC+QxynYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jntYeYPa; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GpE/w0XyHPOZUJ0u4MtbGHlsGakGbHtYO95G8KEqkw5T7B0jHtLI2CfTGPjHgj3pqx/kTslarQcCenmLJB+Sh4GIPQfKTVlMBaU+HY2HrGTSg2DtO9X7QbS5vEYRF6xqeNxV4xBVFVHwa2oFYlDROW+xRJTScWQIjOLqFGUUO0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=KqwC7HEA; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jntYeYPa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740843830; x=1772379830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5RFCfPVrVeLBD69g1m4SZtIVTe36YezRd1+9UEqPYOg=;
-  b=jntYeYPaTOQjqPAeJX5T15aJGkaDAGtkQ4eGgksbVBiwSykCUaLTgVRr
-   FNgApxFzSkiUVDxiJTcOL3Di7g8Peo1fysc5YfzPIzl8YTQO+h19Omfx7
-   qKxI2wrsDdsh8az+Kl9siUemFtZs90IRkmmFs19PtgO60X2RHyOS2GGV8
-   eBIe6sEh7Xi5rYoddSe1KJQNGjGqSR3IyMPqpUJ1G15zMPKHT1pAmAqZ2
-   g3x2S1Ij7ApAfnhWDPRtq/F3nlLhdaizMvEvJIGQNuZfCYUVddsZbK3Qi
-   jDVTrS/bPgOMFn7wTBCvtFAlYpqfNB42WopDhhuM/8vrKtbGqMX5Jtrga
-   w==;
-X-CSE-ConnectionGUID: pRIC7fQ1Qw24ow+YaD8/iQ==
-X-CSE-MsgGUID: 3PNcm4GdTrmS/SWQi43Z+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="45410414"
-X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="45410414"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 07:43:50 -0800
-X-CSE-ConnectionGUID: Z4Z9D3WNSSqGtVDp/VqlKA==
-X-CSE-MsgGUID: qvNvoEz9Toy3bqcXXPgDrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="140831011"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 07:43:48 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1toP0D-000GOQ-2R;
-	Sat, 01 Mar 2025 15:43:45 +0000
-Date: Sat, 1 Mar 2025 23:43:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/7 v3] sched/fair: Rework feec() to use cost instead of
- spare capacity
-Message-ID: <202503012301.MFboCLGE-lkp@intel.com>
-References: <20250228134000.1226665-4-vincent.guittot@linaro.org>
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="KqwC7HEA"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4Z4qts6vDJz9sWm;
+	Sat,  1 Mar 2025 17:15:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1740845750;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ul8bZXenFHpg9BMoi4vIqA5nMxGKbbJQpmgRbcz2gwo=;
+	b=KqwC7HEAT8RbXUBixSyliTh0U//W3DZZEx+D2nVX8qesV/S/tnm8Hx0KJST4zoQCzSyvs+
+	JRm9AgdnWARLf8ujpDpLyJ5Wac9cJqNGvbQ+xaz8EVNZQ0rSHrIJfvmC3dWcjbnms7qnyT
+	cEq+l7n4lj+OYyCw43Orhvin0hU+i/j6Oi33T90EQw0M/Y8QWtETiQ2/WMklPYuPPN7wuM
+	Q/UOKHxIQAZ2XKL271Z/WWOCAmlbHBK9MTFTOMJWDAJBMAzGmofYzFdlHPtfxrGzZyp2My
+	UtutLfRv62NY6SQppih0vN73gmZHtLUg1nFC5vQF6LJGA2op72gpzWxBy1VAIg==
+Date: Sat, 1 Mar 2025 11:15:46 -0500
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Jakub Kicinski <kuba@kernel.org>, Dan Carpenter <error27@gmail.com>
+Subject: Re: [linux-next:master 2357/7423] drivers/bluetooth/hci_vhci.o:
+ warning: objtool: .text: unexpected end of section
+Message-ID: <5jkf4f2bqmomecoxzzdyhdo2qg7dso2jihzwcox6zufnurrwtm@o5gqbsgmpldy>
+References: <202503011220.Y2e5vz4w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +50,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228134000.1226665-4-vincent.guittot@linaro.org>
+In-Reply-To: <202503011220.Y2e5vz4w-lkp@intel.com>
+X-Rspamd-Queue-Id: 4Z4qts6vDJz9sWm
 
-Hi Vincent,
+On 25/03/01 12:30PM, kernel test robot wrote:
+> Hi Ethan,
+> 
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+> 
 
-kernel test robot noticed the following build errors:
+Thanks for the email, kernel test bot. I'm not sure my patch would be
+the cause of this error, especially since my patch did not touch
+bluetooth at all. Only the ham radio driver. 
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I did find an email [0] from a year ago with the exact same error in
+the same file.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/sched-fair-Filter-false-overloaded_group-case-for-EAS/20250228-214408
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250228134000.1226665-4-vincent.guittot%40linaro.org
-patch subject: [PATCH 3/7 v3] sched/fair: Rework feec() to use cost instead of spare capacity
-config: s390-randconfig-002-20250301 (https://download.01.org/0day-ci/archive/20250301/202503012301.MFboCLGE-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503012301.MFboCLGE-lkp@intel.com/reproduce)
+Dan, what your thoughts?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503012301.MFboCLGE-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   c0eb65494e59d9834af7cbad983629e9017b25a1
+> commit: 3b147be9ef08247bb74a801b4e95f9a626a27322 [2357/7423] hamradio: baycom: replace strcpy() with strscpy()
+> config: x86_64-buildonly-randconfig-006-20250301 (https://download.01.org/0day-ci/archive/20250301/202503011220.Y2e5vz4w-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503011220.Y2e5vz4w-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503011220.Y2e5vz4w-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/bluetooth/hci_vhci.o: warning: objtool: .text: unexpected end of section
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-All errors (new ones prefixed by >>):
+Thanks,
+Ethan
 
-   kernel/sched/fair.c: In function 'find_pd_cost':
->> kernel/sched/fair.c:8301:55: error: passing argument 2 of 'em_pd_get_previous_state' makes integer from pointer without a cast [-Wint-conversion]
-    8301 |         i = em_pd_get_previous_state(em_table->state, pd, i);
-         |                                                       ^~
-         |                                                       |
-         |                                                       struct em_perf_domain *
-   In file included from kernel/sched/fair.c:23:
-   include/linux/energy_model.h:393:59: note: expected 'int' but argument is of type 'struct em_perf_domain *'
-     393 | em_pd_get_previous_state(struct em_perf_state *table, int nr_perf_states,
-         |                                                       ~~~~^~~~~~~~~~~~~~
->> kernel/sched/fair.c:8301:13: error: too few arguments to function 'em_pd_get_previous_state'
-    8301 |         i = em_pd_get_previous_state(em_table->state, pd, i);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/energy_model.h:393:1: note: declared here
-     393 | em_pd_get_previous_state(struct em_perf_state *table, int nr_perf_states,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/em_pd_get_previous_state +8301 kernel/sched/fair.c
-
-  8280	
-  8281	/* Find the cost of a performance domain for the estimated utilization */
-  8282	static inline void find_pd_cost(struct em_perf_domain *pd,
-  8283					unsigned long max_util,
-  8284					struct energy_cpu_stat *stat)
-  8285	{
-  8286		struct em_perf_table *em_table;
-  8287		struct em_perf_state *ps;
-  8288		int i;
-  8289	
-  8290		/*
-  8291		 * Find the lowest performance state of the Energy Model above the
-  8292		 * requested performance.
-  8293		 */
-  8294		em_table = rcu_dereference(pd->em_table);
-  8295		i = em_pd_get_efficient_state(em_table->state, pd, max_util);
-  8296		ps = &em_table->state[i];
-  8297	
-  8298		/* Save the cost and performance range of the OPP */
-  8299		stat->max_perf = ps->performance;
-  8300		stat->cost = ps->cost;
-> 8301		i = em_pd_get_previous_state(em_table->state, pd, i);
-  8302		if (i < 0)
-  8303			stat->min_perf = 0;
-  8304		else {
-  8305			ps = &em_table->state[i];
-  8306			stat->min_perf = ps->performance;
-  8307		}
-  8308	}
-  8309	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[0]: https://lore.kernel.org/llvm/202401250927.1poZERd6-lkp@intel.com/
