@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0281C5485
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 22:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5581D20EB;
+	Sat,  1 Mar 2025 23:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740868808; cv=none; b=quIVNAaocrWD6gtz2/vJbvgq9scLM72Cqh+ihvs4VG6cridzfrkMBYwZ9KYJwkyyf25/DnCcpfZ7CD1GHTR8WxEsBekkkNbqKv3rJEf5T1DcyBjfUC5TK69I1phdcjl+Nt/n0q/HP+hxn9H1kQg2zLJxJ4BiSUAqHtcHlQg5KKM=
+	t=1740870074; cv=none; b=lrI1L0lqrWAjftATpqJ304hgNEXSkbsnIT1o5vVv9cJ5yZ8SFBJnN0dj0IzrewHeg51ea2PEZf/AfABjkE7JmewCCtPcp4CSTWeWkqLZKUqAvqJ7Fk3eR5MSZumYbyZhFftyOucr8UTlp7T+M7Y3k67ACnwcgsG9OjG5ryQx8HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740868808; c=relaxed/simple;
-	bh=y0F8MI/v8YlG9W2t12I2GwuvK0EPiEmfFG5Th2Yxkc8=;
+	s=arc-20240116; t=1740870074; c=relaxed/simple;
+	bh=7w2CX1Ue6tyDuYsaxdofmnT+sluFZwvTVHk4Da0sm+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRctLIjfbeni4iIBon335vQZ+j7/InW5qz5emTH5CCOSVgIxgGx/FiUvc4P5DzXvPMvUAATXhZcRAbVJLdM3eCENP/0TSZGElWiL5FJkEeObX2WdfzTOJqLDnShXbbv+bUQRV2PdGYlaR1pphLB7stSE4uPeH5CYnviNwBw4gek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4yaNff9; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=PD1597ZkhKKCdZofPXD10/viDyIsLXVHxbX2UTo15cE7C8trVqR4rkdJDNFr0qJiLoPlJixAC2VKaQ15CcQahS3HM3adP3z4auXKELqopwUJuvlWpsOk0k+VDAfCwJYRwNvkH7AB0nqcoQ8V6I0ssEzYcVTWzvrneWSs8YfQDZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hbePXwdE; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4yaNff9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbePXwdE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740868807; x=1772404807;
+  t=1740870073; x=1772406073;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y0F8MI/v8YlG9W2t12I2GwuvK0EPiEmfFG5Th2Yxkc8=;
-  b=P4yaNff9O05mrKFyqc9gr51hCV8ZwK/NWh3riLfPwL34pWGFtK8XTe/W
-   PTlh86xNBqNvTqP03kZ29RwJGkhpalC94JfKO776by7JlbBMFrLAdwQ5X
-   J+t4DwNKIKyndl1igNG04PU5+fySCRFu9IdoUOhkVUg36mpUcb0R+oOK2
-   6nOLp4ixL3wFYVUpUHMWaF5nXFXx6ZaK2bUD6TC/75FlwikcNrGZYRr09
-   96Mg03zHihDBJgl7+w6/bn5d7okfRGYI8l9dfIzEX+Iy8YoarnPo2hnKq
-   GTXs9cD1rEPMmrq9zLMXDCt5MfCuQyGHeM2BXGawRzBD/GlZTxc5ek0n9
-   Q==;
-X-CSE-ConnectionGUID: VZySIknsQ/eznExYE8vRdQ==
-X-CSE-MsgGUID: K00u3zMoRAu5Yn+XYfumrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="51975893"
+  bh=7w2CX1Ue6tyDuYsaxdofmnT+sluFZwvTVHk4Da0sm+I=;
+  b=hbePXwdEUVVVv4FycDCFaln6W9VzNu06sKpwjNNMt8KiXtSyG5FbJ9g6
+   m5KNQof9zWiLfd0NMKTAUWv4gpAG0UuSZDvgxJWGWxIXCDsEflRPLbcxD
+   8+MHwa9EUqei2X+qOQrlSZqRL2vV2oXsYRGnDcrXt0aTRT1SLZIaKFR4u
+   Ti2ezgkStFdRMHXrsvy0ebFFlJAVySG41MxO7OCCZTN+CiI9vSG48dwYs
+   N2LzD635+ebndMMCcfW8JibwGi8UkXdOq/NJiuvrFFp5p1GzFfd1sreHB
+   RT81nb8iYmoUV9/71zvRQOZquKLcxTjt4OLUjy7Ovof8xD9kv7oUqUkkO
+   g==;
+X-CSE-ConnectionGUID: +vQ5g6q4TN2zFWaJ20EoLw==
+X-CSE-MsgGUID: EYhyfRlVSmqn+Z3rjrmK/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41895969"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="51975893"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 14:40:06 -0800
-X-CSE-ConnectionGUID: GK7pxahfSKW7YLVUgunXMA==
-X-CSE-MsgGUID: Opy6ub6oRVOWyEmF7f9nHA==
+   d="scan'208";a="41895969"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 15:01:12 -0800
+X-CSE-ConnectionGUID: 3MvU6VudQkqtGj/otM+KYg==
+X-CSE-MsgGUID: 8qNv6xtxTou9EF4gBFQ4/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148567097"
+   d="scan'208";a="121772219"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2025 14:40:04 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 01 Mar 2025 15:01:09 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toVV4-000Gmw-17;
-	Sat, 01 Mar 2025 22:40:02 +0000
-Date: Sun, 2 Mar 2025 06:39:03 +0800
+	id 1toVpP-000GnW-2y;
+	Sat, 01 Mar 2025 23:01:04 +0000
+Date: Sun, 2 Mar 2025 07:00:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
-	Basavaraj.Natikar@amd.com, Shyam-sundar.S-k@amd.com,
-	linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
-Message-ID: <202503020616.j6juZTqH-lkp@intel.com>
-References: <20250227205049.765309-3-superm1@kernel.org>
+To: inwardvessel <inwardvessel@gmail.com>, tj@kernel.org,
+	shakeel.butt@linux.dev, yosryahmed@google.com, mhocko@kernel.org,
+	hannes@cmpxchg.org, akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 3/4 v2] cgroup: separate rstat locks for subsystems
+Message-ID: <202503020616.SJVwhuOV-lkp@intel.com>
+References: <20250227215543.49928-4-inwardvessel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +65,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227205049.765309-3-superm1@kernel.org>
+In-Reply-To: <20250227215543.49928-4-inwardvessel@gmail.com>
 
-Hi Mario,
+Hi inwardvessel,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
+[auto build test ERROR on bpf-next/net]
+[also build test ERROR on bpf-next/master bpf/master linus/master v6.14-rc4]
+[cannot apply to tj-cgroup/for-next next-20250228]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-Add-missing-prototype-for-non-CONFIG_SUSPEND-CONFIG_X86-case/20250228-045242
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20250227205049.765309-3-superm1%40kernel.org
-patch subject: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250302/202503020616.j6juZTqH-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020616.j6juZTqH-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/inwardvessel/cgroup-move-cgroup_rstat-from-cgroup-to-cgroup_subsys_state/20250228-055819
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20250227215543.49928-4-inwardvessel%40gmail.com
+patch subject: [PATCH 3/4 v2] cgroup: separate rstat locks for subsystems
+config: hexagon-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020616.SJVwhuOV-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020616.SJVwhuOV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020616.j6juZTqH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020616.SJVwhuOV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pinctrl/pinctrl-amd.c:933:15: error: variable 'pinctrl_amd_s2idle_dev_ops' has initializer but incomplete type
-     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
-         |               ^~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c:934:10: error: 'struct acpi_s2idle_dev_ops' has no member named 'check'
-     934 |         .check = amd_gpio_check_pending,
-         |          ^~~~~
->> drivers/pinctrl/pinctrl-amd.c:934:18: warning: excess elements in struct initializer
-     934 |         .check = amd_gpio_check_pending,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c:934:18: note: (near initialization for 'pinctrl_amd_s2idle_dev_ops')
-   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_probe':
-   drivers/pinctrl/pinctrl-amd.c:1210:9: error: implicit declaration of function 'acpi_register_lps0_dev' [-Wimplicit-function-declaration]
-    1210 |         acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_remove':
-   drivers/pinctrl/pinctrl-amd.c:1229:9: error: implicit declaration of function 'acpi_unregister_lps0_dev' [-Wimplicit-function-declaration]
-    1229 |         acpi_unregister_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c: At top level:
-   drivers/pinctrl/pinctrl-amd.c:933:35: error: storage size of 'pinctrl_amd_s2idle_dev_ops' isn't known
-     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/cgroup/rstat.c:339:2: error: member reference base type 'spinlock_t *' (aka 'struct spinlock *') is not a structure or union
+     339 |         lockdep_assert_held(&lock);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:17: note: expanded from macro 'lockdep_assert_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:52: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                             ^ ~~~~~~~
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   1 error generated.
 
 
-vim +934 drivers/pinctrl/pinctrl-amd.c
+vim +339 kernel/cgroup/rstat.c
 
-   932	
-   933	static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
- > 934		.check = amd_gpio_check_pending,
-   935	};
-   936	
+   330	
+   331	/* see cgroup_rstat_flush() */
+   332	static void cgroup_rstat_flush_locked(struct cgroup_subsys_state *css,
+   333			spinlock_t *lock)
+   334		__releases(lock) __acquires(lock)
+   335	{
+   336		struct cgroup *cgrp = css->cgroup;
+   337		int cpu;
+   338	
+ > 339		lockdep_assert_held(&lock);
+   340	
+   341		for_each_possible_cpu(cpu) {
+   342			struct cgroup_subsys_state *pos;
+   343	
+   344			pos = cgroup_rstat_updated_list(css, cpu);
+   345			for (; pos; pos = pos->rstat_flush_next) {
+   346				if (!pos->ss)
+   347					cgroup_base_stat_flush(pos->cgroup, cpu);
+   348				else
+   349					pos->ss->css_rstat_flush(pos, cpu);
+   350	
+   351				bpf_rstat_flush(pos->cgroup, cgroup_parent(pos->cgroup), cpu);
+   352			}
+   353	
+   354			/* play nice and yield if necessary */
+   355			if (need_resched() || spin_needbreak(lock)) {
+   356				__cgroup_rstat_unlock(lock, cgrp, cpu);
+   357				if (!cond_resched())
+   358					cpu_relax();
+   359				__cgroup_rstat_lock(lock, cgrp, cpu);
+   360			}
+   361		}
+   362	}
+   363	
 
 -- 
 0-DAY CI Kernel Test Service
