@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE2C1C5D77
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 21:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8790AB664
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 21:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740864267; cv=none; b=BZM2+YHGXUtkZGfWmqwwYYgwVjG9Q+nDkfF+tLYP2GwgdByZsFKsKU6B3lybGoaTSHs1LFgRXDxn6tGK4DxOVZLGEsZa5XL0JYsTHtzoLqF5iD2nj93Hf/ZBAB33hCQmkpnUnFd/Y+lqXL773FWRrYzxLlZqHYJ1I6ANPLEeIWI=
+	t=1740865590; cv=none; b=Jq+mNSXW9cYLXIxnJl5H1WMpd+JJ54JSxNMo7vHeAusEqOJcQS6dwyzdHvGMTUrAkZvbyuvc4eQDSfjKTLNi7QIgPGQYvm440jwNFntq4Jt7Nx+JwXzBdPVlwUG7T9Hr+eBtdKTyPF/H+g5e0svtS8CTTlI/1KjA5owY1F9FBFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740864267; c=relaxed/simple;
-	bh=EywiEp6ove7hJgbPS5v48hgV5tjtUBFLS2ed7i3khQA=;
+	s=arc-20240116; t=1740865590; c=relaxed/simple;
+	bh=ZHRzPYbNyOaEwvK4L61V0ecYgUrBdK26kUlSSt7ERpw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PAgIr3Z7cpPSM2q8MkisQaceKbhhap1luvoIQxJEFxNn6LaVK4po91C4HlYl0cb/l83BfBJUJxeRzHiDBsEb12dUaC5q+h4b/9aqfMTsYz5NUOhtmYtckDxLicLuuIL3axhxMvY2wnaMXFUs7sVRfZq/W4URUMLGjACg+79viWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NitKJ9ps; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=VxfmriQgVUyIzIGopOEiNsUam77em1/tCpIjMvyq+XUX0ZlYS5+AFnyFlxOclaJ+1OfkoG8Zv3BdduCL4Xw0qq8hL+OLHY1nvlYb8dDgY5KnBieSle2HfS1SH4HL5ugh1wiMkiOtiNXtu8kXKJVwjXZDLZACp7EQp/oePvfE6J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8QreZQp; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NitKJ9ps"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8QreZQp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740864265; x=1772400265;
+  t=1740865589; x=1772401589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EywiEp6ove7hJgbPS5v48hgV5tjtUBFLS2ed7i3khQA=;
-  b=NitKJ9pswr+PNIyx1TUJDUXQ/hTGjkY1PbAAZoJ5PfqJiUSfKN49Jz5t
-   Y98uYyxh+NUaMmTbJ6k9PyysFQdtKRRGg35txgi9eQd1S7s781/0xM86U
-   sy51ATG25QiOiWhVg98rnyeCqd+9QLWE0YgxZ5El3IP1BPfEoPFDOVn92
-   vqzq5GcIvg5qmBXTqctHxNvcfoRwv26rJ83TD+df9Pu10dvVknFugdhqx
-   biyNFT+QkPPgbJRyILhXmg7QrZOiBPTFGxV4AJvw6n77SoRO1SzWGpS5w
-   rmVPdtv+BnqLx+sGUr4nr7IbmVp1rRF9eDcGqVZ+PkzXjMmWb8swjjdL1
-   w==;
-X-CSE-ConnectionGUID: 6bzAwuQeSmCTN63KKuQCug==
-X-CSE-MsgGUID: UoWv9D3MQ3SUJilKQTWtjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="45552577"
+  bh=ZHRzPYbNyOaEwvK4L61V0ecYgUrBdK26kUlSSt7ERpw=;
+  b=O8QreZQp3lsh3qAQtJBwdJbopU39+K6TulOFFOiDf73C+wlPb1HBAXJl
+   heCApItRoNtLJNE7dbx7JLRi74zDhaFyEsqQ2p0f06WHXtc8eDSndy1xb
+   XPItelS06rvAK2feRoNTucBmx3zbwR6sIf6sUsR1Qxx9Kqmfxjhb1LqmL
+   pnEh4cEZ3cKMKBwwSnVBfaiuHH2SY/ke1VH/bZAZpQFtuBvCu4mF7P1G5
+   XzM4m+gPEgW4kzLoN+1J+5fs2uOTiSg89K2fT0vSlJIrlG+9uSq1pQTHp
+   P61smpLn1mANPpF/0eUDvHQm4nsmDTpqI+6O6CFr7+OSlfdCPee70kVwO
+   A==;
+X-CSE-ConnectionGUID: 7XmlLCvER/qcAJw040z5jA==
+X-CSE-MsgGUID: Z8UU0zABTuesVVDUkeHb+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="59316330"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="45552577"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:24:25 -0800
-X-CSE-ConnectionGUID: HTG6eEGYSU6ImIcb9xgJ+Q==
-X-CSE-MsgGUID: JluZ0US+Qdy2mGAcwWQgnA==
+   d="scan'208";a="59316330"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:46:28 -0800
+X-CSE-ConnectionGUID: CigTiMXRTSq7A30JpOJ2Xg==
+X-CSE-MsgGUID: tkGgxKVyQ0eBUJTxHaY7aA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="154815488"
+X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
+   d="scan'208";a="148453164"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 01 Mar 2025 13:24:23 -0800
+  by orviesa002.jf.intel.com with ESMTP; 01 Mar 2025 13:46:26 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toUJp-000Gio-0o;
-	Sat, 01 Mar 2025 21:24:21 +0000
-Date: Sun, 2 Mar 2025 05:23:40 +0800
+	id 1toUfA-000Gje-0K;
+	Sat, 01 Mar 2025 21:46:24 +0000
+Date: Sun, 2 Mar 2025 05:45:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 3/5] net/ceph/ceph_san.c:29:34: warning:
- suggest parentheses around '+' in operand of '&'
-Message-ID: <202503020506.Qrxa9ubO-lkp@intel.com>
+To: Paul Mackerras <paulus@ozlabs.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Madhavan Srinivasan <maddy@linux.ibm.com>
+Subject: [linuxppc:next-test 54/55] kismet: WARNING: unmet direct
+ dependencies detected for PPC_RADIX_BROADCAST_TLBIE when selected by
+ PPC_POWERNV
+Message-ID: <202503020537.XJHtwWK6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +66,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   b980c3ea5fcc54aa543fd5e96212b7fb892d42a5
-commit: 764e50ba296da76e7332d2d08223d3e484aea2b3 [3/5] tls: adding an allocation histogram
-config: arc-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020506.Qrxa9ubO-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020506.Qrxa9ubO-lkp@intel.com/reproduce)
+tree:   https://github.com/linuxppc/linux next-test
+head:   aca95fb6bb572a77f39d42d83ab72a965026577d
+commit: 3d45a3d0d2e6b5cf47c6f0ab890f6ce762d9fd23 [54/55] powerpc: Define config option for processors with broadcast TLBIE
+config: powerpc-kismet-CONFIG_PPC_RADIX_BROADCAST_TLBIE-CONFIG_PPC_POWERNV-0-0 (https://download.01.org/0day-ci/archive/20250302/202503020537.XJHtwWK6-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250302/202503020537.XJHtwWK6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020506.Qrxa9ubO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020537.XJHtwWK6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   net/ceph/ceph_san.c: In function 'log_cephsan':
->> net/ceph/ceph_san.c:29:34: warning: suggest parentheses around '+' in operand of '&' [-Wparentheses]
-      29 |     int head_idx = tls->head_idx + 1 & (CEPH_SAN_MAX_LOGS - 1);
-         |                    ~~~~~~~~~~~~~~^~~
-
-
-vim +29 net/ceph/ceph_san.c
-
-    15	
-    16	
-    17	static inline void *cephsan_pagefrag_get_ptr(struct cephsan_pagefrag *pf, u64 val);
-    18	/* The definitions for struct ceph_san_log_entry and struct ceph_san_tls_logger
-    19	 * have been moved to cephsan.h (under CONFIG_DEBUG_FS) to avoid duplication.
-    20	 */
-    21	
-    22	void log_cephsan(char *buf) {
-    23	    /* Use the per-core TLS logger */
-    24	    u64 buf_idx;
-    25	    int len = strlen(buf);
-    26	    struct ceph_san_tls_logger *tls = this_cpu_ptr(&ceph_san_tls);
-    27	    struct cephsan_pagefrag *pf = this_cpu_ptr(&ceph_san_pagefrag);
-    28	
-  > 29	    int head_idx = tls->head_idx + 1 & (CEPH_SAN_MAX_LOGS - 1);
-    30	    int pre_len = tls->logs[head_idx].len;
-    31	
-    32	    buf[len-1] = '\0';
-    33	    tls->logs[head_idx].pid = current->pid;
-    34	    tls->logs[head_idx].ts = jiffies;
-    35	    memcpy(tls->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-    36	
-    37	    cephsan_pagefrag_free(pf, pre_len);
-    38	    tls->logs[head_idx].len = 0;
-    39	
-    40	    buf_idx = cephsan_pagefrag_alloc(pf, len);
-    41	    if (buf_idx) {
-    42			tls->head_idx = head_idx;
-    43			tls->histogram.counters[len >> 3]++;
-    44			tls->logs[head_idx].len = len;
-    45	        tls->logs[head_idx].buf = cephsan_pagefrag_get_ptr(pf, buf_idx);
-    46			memcpy(tls->logs[head_idx].buf, buf, len);
-    47	    }
-    48	}
-    49	EXPORT_SYMBOL(log_cephsan);
-    50	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PPC_RADIX_BROADCAST_TLBIE when selected by PPC_POWERNV
+   WARNING: unmet direct dependencies detected for PPC_RADIX_BROADCAST_TLBIE
+     Depends on [n]: PPC_RADIX_MMU [=n]
+     Selected by [y]:
+     - PPC_POWERNV [=y] && PPC64 [=y] && PPC_BOOK3S [=y]
+     - PPC_PSERIES [=y] && PPC64 [=y] && PPC_BOOK3S [=y]
 
 -- 
 0-DAY CI Kernel Test Service
