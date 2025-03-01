@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299E1487D1;
-	Sat,  1 Mar 2025 15:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029951DED79
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 15:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740843235; cv=none; b=OHC31a0x7B8Hp+/G7iqVANk/ho9fQfVGwO0sRti2FpKLs3rjW7dAH18GuY6GXnU3XXsZfwEUCa+O92E0v1BeQYRdDS93BAvkwdOG9sUzS+B5Xv4na8hXe+AdlWypp0Dv9zKvv2U09/fMgNz6n+67ghyLle/1OueYwOj8sf4gmfQ=
+	t=1740843831; cv=none; b=t0A+XctMWfu25r4ibFmAYzxgGOhHPcg3ZcuD8aNgGjpPJUnQhMFyCpnFumndIgcI6Nz6aEzRXnLEjGeNuTLV2dCOTx4dQCoHc35rrBL3/wqZAq8la/+YydF3aA8iOPwtAy6e4e/9E5zDYwUKyX38e5dyxOBrD75jfyGIbX/D5E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740843235; c=relaxed/simple;
-	bh=/Wa82sRIS4meqVQ0zPKfnmjCvc3iD/6q5M3ZuhuebJU=;
+	s=arc-20240116; t=1740843831; c=relaxed/simple;
+	bh=5RFCfPVrVeLBD69g1m4SZtIVTe36YezRd1+9UEqPYOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q/DbPZhQmFmvly/yb00BuIPU8rRyZQRpu91Jnphws63mmA2mQkZxfcQQx9e6sj98WMlhFrOUFY6SUe+52+xHfAbNy+jMIBewwXxx/cfo72pWMDgkIgO6yDntB7r7jCiwIP2FzwTlVHquKv8RBMtb3ywQN7OfG4b9tz/GFoYI9Tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgO+8i/j; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZV2dvFO07kcmIu97Ip35GHtcwGCR63/ehUJZvHrPrCLGHH3zchw83B2y40QHF7LRmvmuBy23Es3bTzQ+U2xXWPJyWs6ccIx8zw1SbuT8zXfE2Z0U0cLcDlK8mC30/48Zhk8sxYeGljo6HgRra/vcvRoooDBELJiTU0fC+QxynYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jntYeYPa; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgO+8i/j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jntYeYPa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740843232; x=1772379232;
+  t=1740843830; x=1772379830;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/Wa82sRIS4meqVQ0zPKfnmjCvc3iD/6q5M3ZuhuebJU=;
-  b=YgO+8i/jmvkXfBml1iM7G0xh47RKKkVYVzIeiOdM/tT0/fMku+/TiLEH
-   wCgu2ZXlmG1hk03ds6Vwtdr604/1j3yDpNnFB8H83FyVLddNdEUdgtPBf
-   1HFUSrj53KU+DD5IV0nEswVtM95BQdo6GHfiDMWosIsEO1vRvtiokfvqw
-   zDY+DcxNk+1kmdVcAVEGNQjuOeW3+iMFcKPJ9ndPCyOxNsQI0dAcEkWXW
-   3JN0NYfDipe5dH37QvdhKbwxD3nfnqY9wAfe63YKGbQB/1ELgy7Sl7I3f
-   IOb3TeYBUN1KkYN2yOSsTjvH0bEHm5Pj2Ra4V/sdviIpfFxYXzF6SHDxr
-   A==;
-X-CSE-ConnectionGUID: xS5vxnEDQgu1tOEHrDkk0A==
-X-CSE-MsgGUID: 9O4/yWSzRZK4Dr48JTZdBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41608111"
+  bh=5RFCfPVrVeLBD69g1m4SZtIVTe36YezRd1+9UEqPYOg=;
+  b=jntYeYPaTOQjqPAeJX5T15aJGkaDAGtkQ4eGgksbVBiwSykCUaLTgVRr
+   FNgApxFzSkiUVDxiJTcOL3Di7g8Peo1fysc5YfzPIzl8YTQO+h19Omfx7
+   qKxI2wrsDdsh8az+Kl9siUemFtZs90IRkmmFs19PtgO60X2RHyOS2GGV8
+   eBIe6sEh7Xi5rYoddSe1KJQNGjGqSR3IyMPqpUJ1G15zMPKHT1pAmAqZ2
+   g3x2S1Ij7ApAfnhWDPRtq/F3nlLhdaizMvEvJIGQNuZfCYUVddsZbK3Qi
+   jDVTrS/bPgOMFn7wTBCvtFAlYpqfNB42WopDhhuM/8vrKtbGqMX5Jtrga
+   w==;
+X-CSE-ConnectionGUID: pRIC7fQ1Qw24ow+YaD8/iQ==
+X-CSE-MsgGUID: 3PNcm4GdTrmS/SWQi43Z+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="45410414"
 X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="41608111"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 07:33:51 -0800
-X-CSE-ConnectionGUID: wE4e8c/HR3ugNf1atDH9DA==
-X-CSE-MsgGUID: ++mvu00YTHyVfeNGYEsx6A==
+   d="scan'208";a="45410414"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 07:43:50 -0800
+X-CSE-ConnectionGUID: Z4Z9D3WNSSqGtVDp/VqlKA==
+X-CSE-MsgGUID: qvNvoEz9Toy3bqcXXPgDrg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148519588"
+X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
+   d="scan'208";a="140831011"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2025 07:33:47 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 07:43:48 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toOqW-000GNo-2e;
-	Sat, 01 Mar 2025 15:33:44 +0000
-Date: Sat, 1 Mar 2025 23:33:07 +0800
+	id 1toP0D-000GOQ-2R;
+	Sat, 01 Mar 2025 15:43:45 +0000
+Date: Sat, 1 Mar 2025 23:43:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, lukasz.luba@arm.com,
-	rafael.j.wysocki@intel.com, pierre.gondois@arm.com,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	qyousef@layalina.io, hongyan.xia2@arm.com, christian.loehle@arm.com,
-	luis.machado@arm.com, qperret@google.com,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: Re: [PATCH 5/7 v3] sched/fair: Add push task mechanism for EAS
-Message-ID: <202503012344.WKL9UWX1-lkp@intel.com>
-References: <20250228134000.1226665-6-vincent.guittot@linaro.org>
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/7 v3] sched/fair: Rework feec() to use cost instead of
+ spare capacity
+Message-ID: <202503012301.MFboCLGE-lkp@intel.com>
+References: <20250228134000.1226665-4-vincent.guittot@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,7 +63,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228134000.1226665-6-vincent.guittot@linaro.org>
+In-Reply-To: <20250228134000.1226665-4-vincent.guittot@linaro.org>
 
 Hi Vincent,
 
@@ -84,287 +77,69 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/sched-fair-Filter-false-overloaded_group-case-for-EAS/20250228-214408
 base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250228134000.1226665-6-vincent.guittot%40linaro.org
-patch subject: [PATCH 5/7 v3] sched/fair: Add push task mechanism for EAS
-config: i386-buildonly-randconfig-001-20250301 (https://download.01.org/0day-ci/archive/20250301/202503012344.WKL9UWX1-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503012344.WKL9UWX1-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250228134000.1226665-4-vincent.guittot%40linaro.org
+patch subject: [PATCH 3/7 v3] sched/fair: Rework feec() to use cost instead of spare capacity
+config: s390-randconfig-002-20250301 (https://download.01.org/0day-ci/archive/20250301/202503012301.MFboCLGE-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503012301.MFboCLGE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503012344.WKL9UWX1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503012301.MFboCLGE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:8957:13: error: conflicting types for 'fair_remove_pushable_task'
-    8957 | static void fair_remove_pushable_task(struct cfs_rq *cfs_rq, struct task_struct *p) {}
-         |             ^
-   kernel/sched/fair.c:7054:13: note: previous declaration is here
-    7054 | static void fair_remove_pushable_task(struct rq *rq, struct task_struct *p);
-         |             ^
->> kernel/sched/fair.c:9152:26: error: incompatible pointer types passing 'struct rq *' to parameter of type 'struct cfs_rq *' [-Werror,-Wincompatible-pointer-types]
-    9152 |                 fair_add_pushable_task(rq, prev);
-         |                                        ^~
-   kernel/sched/fair.c:8958:58: note: passing argument to parameter 'cfs_rq' here
-    8958 | static inline void fair_add_pushable_task(struct cfs_rq *cfs_rq, struct task_struct *p) {}
-         |                                                          ^
-   kernel/sched/fair.c:9231:25: error: incompatible pointer types passing 'struct rq *' to parameter of type 'struct cfs_rq *' [-Werror,-Wincompatible-pointer-types]
-    9231 |         fair_add_pushable_task(rq, prev);
-         |                                ^~
-   kernel/sched/fair.c:8958:58: note: passing argument to parameter 'cfs_rq' here
-    8958 | static inline void fair_add_pushable_task(struct cfs_rq *cfs_rq, struct task_struct *p) {}
-         |                                                          ^
-   3 errors generated.
+   kernel/sched/fair.c: In function 'find_pd_cost':
+>> kernel/sched/fair.c:8301:55: error: passing argument 2 of 'em_pd_get_previous_state' makes integer from pointer without a cast [-Wint-conversion]
+    8301 |         i = em_pd_get_previous_state(em_table->state, pd, i);
+         |                                                       ^~
+         |                                                       |
+         |                                                       struct em_perf_domain *
+   In file included from kernel/sched/fair.c:23:
+   include/linux/energy_model.h:393:59: note: expected 'int' but argument is of type 'struct em_perf_domain *'
+     393 | em_pd_get_previous_state(struct em_perf_state *table, int nr_perf_states,
+         |                                                       ~~~~^~~~~~~~~~~~~~
+>> kernel/sched/fair.c:8301:13: error: too few arguments to function 'em_pd_get_previous_state'
+    8301 |         i = em_pd_get_previous_state(em_table->state, pd, i);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/energy_model.h:393:1: note: declared here
+     393 | em_pd_get_previous_state(struct em_perf_state *table, int nr_perf_states,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/fair_remove_pushable_task +8957 kernel/sched/fair.c
+vim +/em_pd_get_previous_state +8301 kernel/sched/fair.c
 
-  8945	
-  8946	static int
-  8947	balance_fair(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-  8948	{
-  8949		if (sched_fair_runnable(rq))
-  8950			return 1;
-  8951	
-  8952		return sched_balance_newidle(rq, rf) != 0;
-  8953	}
-  8954	#else
-  8955	static inline void check_pushable_task(struct task_struct *p, struct rq *rq) {}
-  8956	static inline void fair_queue_pushable_tasks(struct rq *rq) {}
-> 8957	static void fair_remove_pushable_task(struct cfs_rq *cfs_rq, struct task_struct *p) {}
-  8958	static inline void fair_add_pushable_task(struct cfs_rq *cfs_rq, struct task_struct *p) {}
-  8959	static inline void set_task_max_allowed_capacity(struct task_struct *p) {}
-  8960	#endif /* CONFIG_SMP */
-  8961	
-  8962	static void set_next_buddy(struct sched_entity *se)
-  8963	{
-  8964		for_each_sched_entity(se) {
-  8965			if (SCHED_WARN_ON(!se->on_rq))
-  8966				return;
-  8967			if (se_is_idle(se))
-  8968				return;
-  8969			cfs_rq_of(se)->next = se;
-  8970		}
-  8971	}
-  8972	
-  8973	/*
-  8974	 * Preempt the current task with a newly woken task if needed:
-  8975	 */
-  8976	static void check_preempt_wakeup_fair(struct rq *rq, struct task_struct *p, int wake_flags)
-  8977	{
-  8978		struct task_struct *donor = rq->donor;
-  8979		struct sched_entity *se = &donor->se, *pse = &p->se;
-  8980		struct cfs_rq *cfs_rq = task_cfs_rq(donor);
-  8981		int cse_is_idle, pse_is_idle;
-  8982	
-  8983		if (unlikely(se == pse))
-  8984			return;
-  8985	
-  8986		/*
-  8987		 * This is possible from callers such as attach_tasks(), in which we
-  8988		 * unconditionally wakeup_preempt() after an enqueue (which may have
-  8989		 * lead to a throttle).  This both saves work and prevents false
-  8990		 * next-buddy nomination below.
-  8991		 */
-  8992		if (unlikely(throttled_hierarchy(cfs_rq_of(pse))))
-  8993			return;
-  8994	
-  8995		if (sched_feat(NEXT_BUDDY) && !(wake_flags & WF_FORK) && !pse->sched_delayed) {
-  8996			set_next_buddy(pse);
-  8997		}
-  8998	
-  8999		/*
-  9000		 * We can come here with TIF_NEED_RESCHED already set from new task
-  9001		 * wake up path.
-  9002		 *
-  9003		 * Note: this also catches the edge-case of curr being in a throttled
-  9004		 * group (e.g. via set_curr_task), since update_curr() (in the
-  9005		 * enqueue of curr) will have resulted in resched being set.  This
-  9006		 * prevents us from potentially nominating it as a false LAST_BUDDY
-  9007		 * below.
-  9008		 */
-  9009		if (test_tsk_need_resched(rq->curr))
-  9010			return;
-  9011	
-  9012		if (!sched_feat(WAKEUP_PREEMPTION))
-  9013			return;
-  9014	
-  9015		find_matching_se(&se, &pse);
-  9016		WARN_ON_ONCE(!pse);
-  9017	
-  9018		cse_is_idle = se_is_idle(se);
-  9019		pse_is_idle = se_is_idle(pse);
-  9020	
-  9021		/*
-  9022		 * Preempt an idle entity in favor of a non-idle entity (and don't preempt
-  9023		 * in the inverse case).
-  9024		 */
-  9025		if (cse_is_idle && !pse_is_idle) {
-  9026			/*
-  9027			 * When non-idle entity preempt an idle entity,
-  9028			 * don't give idle entity slice protection.
-  9029			 */
-  9030			cancel_protect_slice(se);
-  9031			goto preempt;
-  9032		}
-  9033	
-  9034		if (cse_is_idle != pse_is_idle)
-  9035			return;
-  9036	
-  9037		/*
-  9038		 * BATCH and IDLE tasks do not preempt others.
-  9039		 */
-  9040		if (unlikely(!normal_policy(p->policy)))
-  9041			return;
-  9042	
-  9043		cfs_rq = cfs_rq_of(se);
-  9044		update_curr(cfs_rq);
-  9045		/*
-  9046		 * If @p has a shorter slice than current and @p is eligible, override
-  9047		 * current's slice protection in order to allow preemption.
-  9048		 *
-  9049		 * Note that even if @p does not turn out to be the most eligible
-  9050		 * task at this moment, current's slice protection will be lost.
-  9051		 */
-  9052		if (do_preempt_short(cfs_rq, pse, se))
-  9053			cancel_protect_slice(se);
-  9054	
-  9055		/*
-  9056		 * If @p has become the most eligible task, force preemption.
-  9057		 */
-  9058		if (pick_eevdf(cfs_rq) == pse)
-  9059			goto preempt;
-  9060	
-  9061		return;
-  9062	
-  9063	preempt:
-  9064		resched_curr_lazy(rq);
-  9065	}
-  9066	
-  9067	static struct task_struct *pick_task_fair(struct rq *rq)
-  9068	{
-  9069		struct sched_entity *se;
-  9070		struct cfs_rq *cfs_rq;
-  9071	
-  9072	again:
-  9073		cfs_rq = &rq->cfs;
-  9074		if (!cfs_rq->nr_queued)
-  9075			return NULL;
-  9076	
-  9077		do {
-  9078			/* Might not have done put_prev_entity() */
-  9079			if (cfs_rq->curr && cfs_rq->curr->on_rq)
-  9080				update_curr(cfs_rq);
-  9081	
-  9082			if (unlikely(check_cfs_rq_runtime(cfs_rq)))
-  9083				goto again;
-  9084	
-  9085			se = pick_next_entity(rq, cfs_rq);
-  9086			if (!se)
-  9087				goto again;
-  9088			cfs_rq = group_cfs_rq(se);
-  9089		} while (cfs_rq);
-  9090	
-  9091		return task_of(se);
-  9092	}
-  9093	
-  9094	static void __set_next_task_fair(struct rq *rq, struct task_struct *p, bool first);
-  9095	static void set_next_task_fair(struct rq *rq, struct task_struct *p, bool first);
-  9096	
-  9097	struct task_struct *
-  9098	pick_next_task_fair(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
-  9099	{
-  9100		struct sched_entity *se;
-  9101		struct task_struct *p;
-  9102		int new_tasks;
-  9103	
-  9104	again:
-  9105		p = pick_task_fair(rq);
-  9106		if (!p)
-  9107			goto idle;
-  9108		se = &p->se;
-  9109	
-  9110	#ifdef CONFIG_FAIR_GROUP_SCHED
-  9111		if (prev->sched_class != &fair_sched_class)
-  9112			goto simple;
-  9113	
-  9114		__put_prev_set_next_dl_server(rq, prev, p);
-  9115	
-  9116		/*
-  9117		 * Because of the set_next_buddy() in dequeue_task_fair() it is rather
-  9118		 * likely that a next task is from the same cgroup as the current.
-  9119		 *
-  9120		 * Therefore attempt to avoid putting and setting the entire cgroup
-  9121		 * hierarchy, only change the part that actually changes.
-  9122		 *
-  9123		 * Since we haven't yet done put_prev_entity and if the selected task
-  9124		 * is a different task than we started out with, try and touch the
-  9125		 * least amount of cfs_rqs.
-  9126		 */
-  9127		if (prev != p) {
-  9128			struct sched_entity *pse = &prev->se;
-  9129			struct cfs_rq *cfs_rq;
-  9130	
-  9131			while (!(cfs_rq = is_same_group(se, pse))) {
-  9132				int se_depth = se->depth;
-  9133				int pse_depth = pse->depth;
-  9134	
-  9135				if (se_depth <= pse_depth) {
-  9136					put_prev_entity(cfs_rq_of(pse), pse);
-  9137					pse = parent_entity(pse);
-  9138				}
-  9139				if (se_depth >= pse_depth) {
-  9140					set_next_entity(cfs_rq_of(se), se);
-  9141					se = parent_entity(se);
-  9142				}
-  9143			}
-  9144	
-  9145			put_prev_entity(cfs_rq, pse);
-  9146			set_next_entity(cfs_rq, se);
-  9147	
-  9148			/*
-  9149			 * The previous task might be eligible for being pushed on
-  9150			 * another cpu if it is still active.
-  9151			 */
-> 9152			fair_add_pushable_task(rq, prev);
-  9153	
-  9154			__set_next_task_fair(rq, p, true);
-  9155		}
-  9156	
-  9157		return p;
-  9158	
-  9159	simple:
-  9160	#endif
-  9161		put_prev_set_next_task(rq, prev, p);
-  9162		return p;
-  9163	
-  9164	idle:
-  9165		if (!rf)
-  9166			return NULL;
-  9167	
-  9168		new_tasks = sched_balance_newidle(rq, rf);
-  9169	
-  9170		/*
-  9171		 * Because sched_balance_newidle() releases (and re-acquires) rq->lock, it is
-  9172		 * possible for any higher priority task to appear. In that case we
-  9173		 * must re-start the pick_next_entity() loop.
-  9174		 */
-  9175		if (new_tasks < 0)
-  9176			return RETRY_TASK;
-  9177	
-  9178		if (new_tasks > 0)
-  9179			goto again;
-  9180	
-  9181		/*
-  9182		 * rq is about to be idle, check if we need to update the
-  9183		 * lost_idle_time of clock_pelt
-  9184		 */
-  9185		update_idle_rq_clock_pelt(rq);
-  9186	
-  9187		return NULL;
-  9188	}
-  9189	
+  8280	
+  8281	/* Find the cost of a performance domain for the estimated utilization */
+  8282	static inline void find_pd_cost(struct em_perf_domain *pd,
+  8283					unsigned long max_util,
+  8284					struct energy_cpu_stat *stat)
+  8285	{
+  8286		struct em_perf_table *em_table;
+  8287		struct em_perf_state *ps;
+  8288		int i;
+  8289	
+  8290		/*
+  8291		 * Find the lowest performance state of the Energy Model above the
+  8292		 * requested performance.
+  8293		 */
+  8294		em_table = rcu_dereference(pd->em_table);
+  8295		i = em_pd_get_efficient_state(em_table->state, pd, max_util);
+  8296		ps = &em_table->state[i];
+  8297	
+  8298		/* Save the cost and performance range of the OPP */
+  8299		stat->max_perf = ps->performance;
+  8300		stat->cost = ps->cost;
+> 8301		i = em_pd_get_previous_state(em_table->state, pd, i);
+  8302		if (i < 0)
+  8303			stat->min_perf = 0;
+  8304		else {
+  8305			ps = &em_table->state[i];
+  8306			stat->min_perf = ps->performance;
+  8307		}
+  8308	}
+  8309	
 
 -- 
 0-DAY CI Kernel Test Service
