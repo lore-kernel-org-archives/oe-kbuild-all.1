@@ -1,60 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2781C3BE9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 20:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCC01C3BE9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 20:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740859808; cv=none; b=AcPpA+iRAoEv9WpC4rRMwyqHfLaTEwsQgTshyRqvShNnFY+JLSsPMOXPqcDd7wafl8JhzUehbOAUQSEwETHZYjAq4stkGIK8t65JAbeULlMQnA5p0OY9Wv3lHI4RJ8ublkdF1mFpxCgQtOZrvhldpGxYs1YEPwQOLLPviFEuKlU=
+	t=1740859811; cv=none; b=f3NCNU8noBCAKi8yt62H19+Nsgi/2zM8GpBKELH3X8/Ia6a9X8j+P6BErmakP0CHNygieIRYdZRTCscpS6rYx1AMMbnakxBZixLvQMEtN7fYJJPy/9GSvc+Ev/+JaBFHhULJzPt4B4PeDCSuW1ATOmAuBWMvrIzh9Ny0E3/+2QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740859808; c=relaxed/simple;
-	bh=ZfGj1VvKOCNm7vTywX/xNLIbng1hIS9ksg3oRkOji3M=;
+	s=arc-20240116; t=1740859811; c=relaxed/simple;
+	bh=FBynrjpYhkx1HFfcCPVjap8bi0l955UavvMGpYL9ArM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mdHIRCu3ZpySTIMmDA5BXyZ9niOJu1xqCix/T6Fdr82iS9bLBgDVWQ5SOLGOVBaMXoWlQQtvFnCFK8XowuaMwXrTyhFAQHiBwQGNE7PTE3bt0gReUuoJa1Xhye0ZA2ThDrBt+2SyWEfnCWO2z/7yUwm0VbX1iTFZasNFB6kXFpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGMWoBQD; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=l++qq2jKq8UcAPOKtwZD3NhHRvM6wh7KGTsI/aZzgaHowDh70fdHLW8WVieQ8FAeCe6aOkhJPobfbSjrBtej31Tf1FiBAF7/XEPPtABUo764q7iUgtBVnYZpe70HtawR9YX3w4QQ/XG0WIg3Tbsh0Msk26iBED5i6E8ycJH32p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnepYlJR; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGMWoBQD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnepYlJR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740859807; x=1772395807;
+  t=1740859809; x=1772395809;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZfGj1VvKOCNm7vTywX/xNLIbng1hIS9ksg3oRkOji3M=;
-  b=UGMWoBQD+CSk+GBeis0ixrdBsFvcjQy8tu89Pc/776lqhDOPuHndxIW5
-   Hy1R5W8uSFZ/Pbg8ZYEKkVnJOV3XfHXNng3obG8BBX4KZg3NP/Smmauj/
-   /tkBpycNylYBWPqtGcy0jbFn0a2oHWqPGOL1Q6lIxeh+IpHK8b2PyFp1r
-   80PB5fhxDwZWVv24g7/XID0zn/XOxdQAHN1pg/U531UxymX/mPzSLRJVO
-   XvRdoOMfvcQeUVHq9TECovKboGDSfnUrsFRoMfBAR6Q3gw93/RCTmiUXl
-   FaQGSm5ZB6Mdq1coqTfHu03Klp+4Zsoj6xVdbgAxJUgkBhHiMvJFzgeEM
+  bh=FBynrjpYhkx1HFfcCPVjap8bi0l955UavvMGpYL9ArM=;
+  b=WnepYlJRour3igiD5MgngcJoUABG0ykOEY8upEARjdLHtQ9Crhkg7qwl
+   x91i/rl/JgNunkpn+4mj4YOHy7K8TtaJQ3+XBzcVp9xCFH+79BYa05nM8
+   cd55mmrT4phnr0JMObqCfydYkjveP8k1rWczc/29Hvhm3TdZniXjZRtgp
+   zMqmkwEI7yTjoAUzK5Khd1KyCTIebc7+2/TXsb77/ZlFtknj3JaSNInC+
+   BbeY1tY1eqCDYUYUEUvIZ+ic+BsB5vnHbH/bWJ4rjV9sTlJEgex1fhZCO
+   YvypL03EXoCSQ967RGp/yIAaobe8v7L7M01VYQcgjPtkZL9MkXYVXJYdG
    w==;
-X-CSE-ConnectionGUID: rYO/Tnf5QbmVKD9Ps+qOdw==
-X-CSE-MsgGUID: VaW0t2p4TAuFIA2sivhLbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41959944"
+X-CSE-ConnectionGUID: xcMurnTjRYKEWhp203Oc8A==
+X-CSE-MsgGUID: D66+jmdzSvaPKxClfCwivA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41959949"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="41959944"
+   d="scan'208";a="41959949"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:10:06 -0800
-X-CSE-ConnectionGUID: n9ipID95TjqGXZ0wuii2jQ==
-X-CSE-MsgGUID: c981CLrzROeKm6mC/sKYEw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:10:08 -0800
+X-CSE-ConnectionGUID: gzFfgN1jRIuUQbHQm7LDzA==
+X-CSE-MsgGUID: cDEiiL2+Q7q6mvz25U0Awg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="117626585"
+   d="scan'208";a="117626677"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by fmviesa007.fm.intel.com with ESMTP; 01 Mar 2025 12:10:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toT9u-000Gek-19;
+	id 1toT9u-000Gem-1E;
 	Sat, 01 Mar 2025 20:10:02 +0000
-Date: Sun, 2 Mar 2025 04:09:16 +0800
+Date: Sun, 2 Mar 2025 04:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>, vkoul@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] dmaengine: Add Arm DMA-350 driver
-Message-ID: <202503020324.hFtOv6c7-lkp@intel.com>
-References: <55e084dd2b5720bdddf503ffac560d111032aa96.1740762136.git.robin.murphy@arm.com>
+To: Su Hui <suhui@nfschina.com>, lucas.demarchi@intel.com,
+	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Su Hui <suhui@nfschina.com>,
+	ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	michael.j.ruhl@intel.com, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+Message-ID: <202503020347.z00djbJE-lkp@intel.com>
+References: <20250227073205.1248282-1-suhui@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +71,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <55e084dd2b5720bdddf503ffac560d111032aa96.1740762136.git.robin.murphy@arm.com>
+In-Reply-To: <20250227073205.1248282-1-suhui@nfschina.com>
 
-Hi Robin,
+Hi Su,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on vkoul-dmaengine/next]
+[auto build test WARNING on drm-xe/drm-xe-next]
 [also build test WARNING on linus/master v6.14-rc4 next-20250228]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/dt-bindings-dma-Add-Arm-DMA-350/20250301-012733
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/55e084dd2b5720bdddf503ffac560d111032aa96.1740762136.git.robin.murphy%40arm.com
-patch subject: [PATCH 2/2] dmaengine: Add Arm DMA-350 driver
-config: parisc-randconfig-002-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020324.hFtOv6c7-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020324.hFtOv6c7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Su-Hui/drm-xe-Select-INTEL_VSEC-to-fix-build-dependency/20250227-153437
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250227073205.1248282-1-suhui%40nfschina.com
+patch subject: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+config: x86_64-kismet-CONFIG_INTEL_VSEC-CONFIG_DRM_XE-0-0 (https://download.01.org/0day-ci/archive/20250302/202503020347.z00djbJE-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250302/202503020347.z00djbJE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020324.hFtOv6c7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020347.z00djbJE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/dma/arm-dma350.c:641:34: warning: 'd350_of_match' defined but not used [-Wunused-const-variable=]
-     641 | static const struct of_device_id d350_of_match[] = {
-         |                                  ^~~~~~~~~~~~~
-
-
-vim +/d350_of_match +641 drivers/dma/arm-dma350.c
-
-   640	
- > 641	static const struct of_device_id d350_of_match[] = {
-   642		{ .compatible = "arm,dma-350" },
-   643		{}
-   644	};
-   645	MODULE_DEVICE_TABLE(of, d350_of_match);
-   646	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_VSEC when selected by DRM_XE
+   WARNING: unmet direct dependencies detected for INTEL_VSEC
+     Depends on [n]: X86_PLATFORM_DEVICES [=n] && PCI [=y]
+     Selected by [y]:
+     - DRM_XE [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=y]=y [=y])
 
 -- 
 0-DAY CI Kernel Test Service
