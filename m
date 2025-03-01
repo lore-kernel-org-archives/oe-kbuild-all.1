@@ -1,78 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0B81E4929;
-	Sat,  1 Mar 2025 21:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862031DED79
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 21:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740865593; cv=none; b=rqSQfTKhuqAMAU0fg8OnHd89XjoDWt7cLG9hiz21QWZSddoRiCvSBMxIoeRF85j1QuKIe7t68dyA0ZpagPRahZOA85euruAc4vi+JGSHyEuhGnl8G281ioC1v1uXsv7+gAlgGAm/Byrtk5Mrvbwbn/mrcMlAALRWUllQrycFRow=
+	t=1740866281; cv=none; b=RRW3DAxTgqmtpxsHrDUpuafwD4QuTS+WQ6VJO3mhPKQmRAJfh8ze96cuKgh25rNkQfpTKkp8lpZPToBeXYDm7Edsqjb8Y4WAQm1xuNbU3mIYiKvQkGkWWR0yZkHOuR28M6Y2mnD8RaXxPGbXozR3FeXZkc71EJKqwEunpRLeqOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740865593; c=relaxed/simple;
-	bh=6l1uC5pceOA+uIFkP/26PTWpP7l3GTDpEwiEC3W1O4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TjGMIEB0DJ5LD2A0+qIZydyGv0QYUdls8XcILqnOXiOYNxM2LYnZ4wsWhEViw6SEd7tQ2uWQo8nMlLDXel7cMpPHS77lhdKuQIUWuD49rGQtcXiW7PUfyRt7DMYU5CGzHhofAPI+WMl96gOFDxsO3S4W+rNlA9+D2YrhK0bksxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJj9+dme; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1740866281; c=relaxed/simple;
+	bh=ojFzulCXDEMly9qyeJY7C4BCPM7vNvCVev0pov5Clfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uV9dHXrunB4Bc4M7oJAOCTf/3ljJjBVaxSRQ/rptv2veWNztFv65d1PbiWi2HUXokNMt662nU5V91DDu4ixn7b6zGfOVhOdt5OqwHtma9JE1Q7LKz1kXXPrQiTbe/WA5v2UZcMVnoOLS+nwuXJ8bLGeesc2txy30wW/ga+nRkyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNdmf4Zc; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJj9+dme"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNdmf4Zc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740865593; x=1772401593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6l1uC5pceOA+uIFkP/26PTWpP7l3GTDpEwiEC3W1O4E=;
-  b=fJj9+dmeXPNTyDpF34nYK/fdU8ZWUM62y3TF0YxEv0IOoZUZnDQoJkWU
-   PhlUxGdwpOmcAKY+sva15PvYa+yAPOu4l6QaHW4k02PM0FRoDTUGNO81D
-   lLY9mLbKZit05OBOPpE90j57tpoObOyaDfXgtDJNHiIWoDF+V1zR5IF98
-   ut8SOcNI5GrNDa9ydWJ4z6zDmM5m7pWy8xRltUVxSC6OjeRweVblJd5pA
-   Y/MwFozBpKRuHI4GuNPbF8Cq4cyfwpgjRRhkZ6+6dwZ3nba3bF9nM9p+0
-   6mo+hTWW+QUxzSg5SkLG+BjT5YXWeZ71czaEgllwOzG8cgd11R2WCBklJ
-   g==;
-X-CSE-ConnectionGUID: PGvc/Ph8RQWQ6I3FnwlwYw==
-X-CSE-MsgGUID: FU6/8+v4R5+mqf1Ax1kUdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="59316344"
+  t=1740866280; x=1772402280;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ojFzulCXDEMly9qyeJY7C4BCPM7vNvCVev0pov5Clfo=;
+  b=hNdmf4Zc8lxE+GFqXjyjSBpmIHxCQSunV7t/SWhSf0m+6rPgjEo+p2TV
+   C1OvwUMT5DxiAgnB8i+vFP0PoW9RI0jT32TWA7l7EYTZldBR/Vi9Si/I4
+   LMWft6khfv94jt+8Hu21JBC5NwWYb5mFOcTyKZHdU1Cf+aK6vvlse7Gf+
+   EWCTUoKe8dhH7QKZ0f/s8qJrFdf4S13CB3lucseEpHFfTWqZKL1Rc1e+p
+   eTq1gPS86SLWeolvhQdLLJpWklhxaYLgt2b40XC/0XQKmWhbHY0JMQLRe
+   ZCoFhzmyOWQoiBr6UiEFXfj5+0MuocVGfCzX5Jtn3aMMjnKBOngMJsvop
+   A==;
+X-CSE-ConnectionGUID: edx2bN5iS62ZrknrxXGreg==
+X-CSE-MsgGUID: dsHwpdqQTTe+aSqotZOjoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41799354"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="59316344"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:46:32 -0800
-X-CSE-ConnectionGUID: 7J9dfahmT5WnwjSLafCx7Q==
-X-CSE-MsgGUID: YQEx4K2USDqm09yvEVjOqA==
+   d="scan'208";a="41799354"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:57:59 -0800
+X-CSE-ConnectionGUID: 6vw+F3jjQqmaKPZdwK/CGQ==
+X-CSE-MsgGUID: r7mjrjYOR2aeNdzhepfSww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="148453162"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118543134"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Mar 2025 13:46:26 -0800
+  by orviesa008.jf.intel.com with ESMTP; 01 Mar 2025 13:57:57 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toUfA-000GjY-01;
-	Sat, 01 Mar 2025 21:46:24 +0000
-Date: Sun, 2 Mar 2025 05:45:30 +0800
+	id 1toUqC-000GkQ-2k;
+	Sat, 01 Mar 2025 21:57:50 +0000
+Date: Sun, 2 Mar 2025 05:56:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marex@denx.de>, linux-arm-kernel@lists.infradead.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Marek Vasut <marex@denx.de>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Price <steven.price@arm.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: Re: [PATCH 4/9] drm/panthor: Implement optional reset
-Message-ID: <202503020521.MBUsoVte-lkp@intel.com>
-References: <20250227170012.124768-5-marex@denx.de>
+To: Finley Xiao <finley.xiao@rock-chips.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	Heiko Stuebner <heiko@sntech.de>,
+	Tao Huang <huangtao@rock-chips.com>,
+	Sugar Zhang <sugar.zhang@rock-chips.com>,
+	Kever Yang <kever.yang@rock-chips.com>
+Subject: [rockchip:v6.15-clk/next 10/10]
+ drivers/clk/rockchip/clk-rk3562.c:1081:38: error: invalid use of undefined
+ type 'struct platform_device'
+Message-ID: <202503020525.AVLjosKr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,36 +67,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227170012.124768-5-marex@denx.de>
 
-Hi Marek,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on robh/for-next arm64/for-next/core kvmarm/next rockchip/for-next soc/for-next linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/dt-bindings-reset-imx95-gpu-blk-ctrl-Document-Freescale-i-MX95-GPU-reset/20250228-011031
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250227170012.124768-5-marex%40denx.de
-patch subject: [PATCH 4/9] drm/panthor: Implement optional reset
-config: x86_64-kismet-CONFIG_RESET_SIMPLE-CONFIG_DRM_PANTHOR-0-0 (https://download.01.org/0day-ci/archive/20250302/202503020521.MBUsoVte-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250302/202503020521.MBUsoVte-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-clk/next
+head:   36c7fdc8f585acbf11c8e5bc112fa9d8ef75146a
+commit: 36c7fdc8f585acbf11c8e5bc112fa9d8ef75146a [10/10] clk: rockchip: Add clock controller for the RK3562
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250302/202503020525.AVLjosKr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020525.AVLjosKr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020521.MBUsoVte-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020525.AVLjosKr-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for RESET_SIMPLE when selected by DRM_PANTHOR
-   WARNING: unmet direct dependencies detected for RESET_SIMPLE
-     Depends on [n]: RESET_CONTROLLER [=n] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - DRM_PANTHOR [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n] && MMU [=y] && SOC_IMX9 [=y]
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/clk/rockchip/clk-rk3562.c:1079:36: warning: 'struct platform_device' declared inside parameter list will not be visible outside of this definition or declaration
+    1079 | static int clk_rk3562_probe(struct platform_device *pdev)
+         |                                    ^~~~~~~~~~~~~~~
+   drivers/clk/rockchip/clk-rk3562.c: In function 'clk_rk3562_probe':
+>> drivers/clk/rockchip/clk-rk3562.c:1081:38: error: invalid use of undefined type 'struct platform_device'
+    1081 |         struct device_node *np = pdev->dev.of_node;
+         |                                      ^~
+   drivers/clk/rockchip/clk-rk3562.c:1085:62: error: invalid use of undefined type 'struct platform_device'
+    1085 |         match = of_match_device(clk_rk3562_match_table, &pdev->dev);
+         |                                                              ^~
+   drivers/clk/rockchip/clk-rk3562.c: At top level:
+>> drivers/clk/rockchip/clk-rk3562.c:1096:15: error: variable 'clk_rk3562_driver' has initializer but incomplete type
+    1096 | static struct platform_driver clk_rk3562_driver = {
+         |               ^~~~~~~~~~~~~~~
+>> drivers/clk/rockchip/clk-rk3562.c:1097:10: error: 'struct platform_driver' has no member named 'probe'
+    1097 |         .probe          = clk_rk3562_probe,
+         |          ^~~~~
+>> drivers/clk/rockchip/clk-rk3562.c:1097:27: warning: excess elements in struct initializer
+    1097 |         .probe          = clk_rk3562_probe,
+         |                           ^~~~~~~~~~~~~~~~
+   drivers/clk/rockchip/clk-rk3562.c:1097:27: note: (near initialization for 'clk_rk3562_driver')
+>> drivers/clk/rockchip/clk-rk3562.c:1098:10: error: 'struct platform_driver' has no member named 'driver'
+    1098 |         .driver         = {
+         |          ^~~~~~
+>> drivers/clk/rockchip/clk-rk3562.c:1098:27: error: extra brace group at end of initializer
+    1098 |         .driver         = {
+         |                           ^
+   drivers/clk/rockchip/clk-rk3562.c:1098:27: note: (near initialization for 'clk_rk3562_driver')
+   drivers/clk/rockchip/clk-rk3562.c:1098:27: warning: excess elements in struct initializer
+   drivers/clk/rockchip/clk-rk3562.c:1098:27: note: (near initialization for 'clk_rk3562_driver')
+>> drivers/clk/rockchip/clk-rk3562.c:1104:1: warning: data definition has no type or storage class
+    1104 | module_platform_driver(clk_rk3562_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/rockchip/clk-rk3562.c:1104:1: error: type defaults to 'int' in declaration of 'module_platform_driver' [-Wimplicit-int]
+>> drivers/clk/rockchip/clk-rk3562.c:1104:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>> drivers/clk/rockchip/clk-rk3562.c:1096:31: error: storage size of 'clk_rk3562_driver' isn't known
+    1096 | static struct platform_driver clk_rk3562_driver = {
+         |                               ^~~~~~~~~~~~~~~~~
+>> drivers/clk/rockchip/clk-rk3562.c:1096:31: warning: 'clk_rk3562_driver' defined but not used [-Wunused-variable]
+
+
+vim +1081 drivers/clk/rockchip/clk-rk3562.c
+
+  1078	
+> 1079	static int clk_rk3562_probe(struct platform_device *pdev)
+  1080	{
+> 1081		struct device_node *np = pdev->dev.of_node;
+  1082		const struct of_device_id *match;
+  1083		const struct clk_rk3562_inits *init_data;
+  1084	
+> 1085		match = of_match_device(clk_rk3562_match_table, &pdev->dev);
+  1086		if (!match || !match->data)
+  1087			return -EINVAL;
+  1088	
+  1089		init_data = match->data;
+  1090		if (init_data->inits)
+  1091			init_data->inits(np);
+  1092	
+  1093		return 0;
+  1094	}
+  1095	
+> 1096	static struct platform_driver clk_rk3562_driver = {
+> 1097		.probe		= clk_rk3562_probe,
+> 1098		.driver		= {
+  1099			.name	= "clk-rk3562",
+  1100			.of_match_table = clk_rk3562_match_table,
+  1101			.suppress_bind_attrs = true,
+  1102		},
+  1103	};
+> 1104	module_platform_driver(clk_rk3562_driver);
+  1105	
 
 -- 
 0-DAY CI Kernel Test Service
