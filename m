@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862031DED79
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 21:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5631CB51B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 22:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740866281; cv=none; b=RRW3DAxTgqmtpxsHrDUpuafwD4QuTS+WQ6VJO3mhPKQmRAJfh8ze96cuKgh25rNkQfpTKkp8lpZPToBeXYDm7Edsqjb8Y4WAQm1xuNbU3mIYiKvQkGkWWR0yZkHOuR28M6Y2mnD8RaXxPGbXozR3FeXZkc71EJKqwEunpRLeqOM=
+	t=1740866959; cv=none; b=rXr8XgViBldUJoPyAlgYRka8mXLjzBMIHTplnKdlHw332qv7vhG2t2jHGABnfvCYkbUPMR1a69g+QPQJVc38jUmdQD4I2Vg8GircAoRn+lq8EFg2zdjbyG5cIVMcdN99NAYQRECUBGuyvwr7rjNBj++1tN4PnDWMI/QzI5yTqeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740866281; c=relaxed/simple;
-	bh=ojFzulCXDEMly9qyeJY7C4BCPM7vNvCVev0pov5Clfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uV9dHXrunB4Bc4M7oJAOCTf/3ljJjBVaxSRQ/rptv2veWNztFv65d1PbiWi2HUXokNMt662nU5V91DDu4ixn7b6zGfOVhOdt5OqwHtma9JE1Q7LKz1kXXPrQiTbe/WA5v2UZcMVnoOLS+nwuXJ8bLGeesc2txy30wW/ga+nRkyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNdmf4Zc; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1740866959; c=relaxed/simple;
+	bh=uHtN/VWPtcnOkEo25Y7vtTV3AjhF+AbqcDWtH/62Pyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQ22+wPyX1AdqwaGUi5u2+qShZ8wfUyZZ9Ru6LACM2yBy8soa7UM0W9cRQp8Z0TBSaZQlSM/sqr1RwMAnSVtxv3C1bXqxFIax8lk6ji9kaagXKOG7yRek0CNCnU21CEPn3AerMKHYiSCuw9ApQt1BaaygGT9pbvuAzZG6xyajdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hma9DBHL; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNdmf4Zc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hma9DBHL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740866280; x=1772402280;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ojFzulCXDEMly9qyeJY7C4BCPM7vNvCVev0pov5Clfo=;
-  b=hNdmf4Zc8lxE+GFqXjyjSBpmIHxCQSunV7t/SWhSf0m+6rPgjEo+p2TV
-   C1OvwUMT5DxiAgnB8i+vFP0PoW9RI0jT32TWA7l7EYTZldBR/Vi9Si/I4
-   LMWft6khfv94jt+8Hu21JBC5NwWYb5mFOcTyKZHdU1Cf+aK6vvlse7Gf+
-   EWCTUoKe8dhH7QKZ0f/s8qJrFdf4S13CB3lucseEpHFfTWqZKL1Rc1e+p
-   eTq1gPS86SLWeolvhQdLLJpWklhxaYLgt2b40XC/0XQKmWhbHY0JMQLRe
-   ZCoFhzmyOWQoiBr6UiEFXfj5+0MuocVGfCzX5Jtn3aMMjnKBOngMJsvop
-   A==;
-X-CSE-ConnectionGUID: edx2bN5iS62ZrknrxXGreg==
-X-CSE-MsgGUID: dsHwpdqQTTe+aSqotZOjoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41799354"
+  t=1740866956; x=1772402956;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uHtN/VWPtcnOkEo25Y7vtTV3AjhF+AbqcDWtH/62Pyc=;
+  b=Hma9DBHL2gHR01zanHENH9r4wuo6ke49pYw15ToBOhPtuYX8IxwMprc4
+   oto9zn2kyhHXqt7he4s52qzjYvHPcFYk6sIl1JdvHucJZOwRtQUPe6KPO
+   YpXpLZkKSnj0olaIN6Bpqcsq4NH27JPR7+ysOiVdpPVQ5ABPBORnrXF+v
+   lVR/gl8ROGd06r7JyO1qmiBIM13YT4XjYwVJXLhIyBe37Dz98Qqxuyt80
+   dADrEHHUcvx06bDAOUcLyqjCHTmh8+1GwqtLFVgnqI4rIWRZs9TZ+euT3
+   hlBLFBrUGvqKO+U2M0eY8bQ+eCcIGlQJky1UhbtPBNjFHx0Ze4Gl+gRdv
+   Q==;
+X-CSE-ConnectionGUID: ulPfks7GR4ubgij82sCmpA==
+X-CSE-MsgGUID: ICMwVp33Ti+nzYde4vrfzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="59185854"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="41799354"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:57:59 -0800
-X-CSE-ConnectionGUID: 6vw+F3jjQqmaKPZdwK/CGQ==
-X-CSE-MsgGUID: r7mjrjYOR2aeNdzhepfSww==
+   d="scan'208";a="59185854"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 14:09:16 -0800
+X-CSE-ConnectionGUID: joFekOF/Tw+4gQQOZiONUA==
+X-CSE-MsgGUID: /My03QWvQ/eg9mZBHYEqZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118543134"
+   d="scan'208";a="154820830"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 01 Mar 2025 13:57:57 -0800
+  by orviesa001.jf.intel.com with ESMTP; 01 Mar 2025 14:09:14 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toUqC-000GkQ-2k;
-	Sat, 01 Mar 2025 21:57:50 +0000
-Date: Sun, 2 Mar 2025 05:56:57 +0800
+	id 1toV1E-000GlW-10;
+	Sat, 01 Mar 2025 22:09:12 +0000
+Date: Sun, 2 Mar 2025 06:08:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Finley Xiao <finley.xiao@rock-chips.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Heiko Stuebner <heiko@sntech.de>,
-	Tao Huang <huangtao@rock-chips.com>,
-	Sugar Zhang <sugar.zhang@rock-chips.com>,
-	Kever Yang <kever.yang@rock-chips.com>
-Subject: [rockchip:v6.15-clk/next 10/10]
- drivers/clk/rockchip/clk-rk3562.c:1081:38: error: invalid use of undefined
- type 'struct platform_device'
-Message-ID: <202503020525.AVLjosKr-lkp@intel.com>
+To: Pratap Nirujogi <pratap.nirujogi@amd.com>, linus.walleij@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, benjamin.chan@amd.com,
+	Pratap Nirujogi <pratap.nirujogi@amd.com>
+Subject: Re: [PATCH] pinctrl: amd: isp411: Add amdisp GPIO pinctrl
+Message-ID: <202503020508.tSquVmjP-lkp@intel.com>
+References: <20250228165749.3476210-1-pratap.nirujogi@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,92 +64,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250228165749.3476210-1-pratap.nirujogi@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.15-clk/next
-head:   36c7fdc8f585acbf11c8e5bc112fa9d8ef75146a
-commit: 36c7fdc8f585acbf11c8e5bc112fa9d8ef75146a [10/10] clk: rockchip: Add clock controller for the RK3562
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250302/202503020525.AVLjosKr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020525.AVLjosKr-lkp@intel.com/reproduce)
+Hi Pratap,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pratap-Nirujogi/pinctrl-amd-isp411-Add-amdisp-GPIO-pinctrl/20250301-011050
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20250228165749.3476210-1-pratap.nirujogi%40amd.com
+patch subject: [PATCH] pinctrl: amd: isp411: Add amdisp GPIO pinctrl
+config: arc-randconfig-002-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020508.tSquVmjP-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020508.tSquVmjP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020525.AVLjosKr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020508.tSquVmjP-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> drivers/clk/rockchip/clk-rk3562.c:1079:36: warning: 'struct platform_device' declared inside parameter list will not be visible outside of this definition or declaration
-    1079 | static int clk_rk3562_probe(struct platform_device *pdev)
-         |                                    ^~~~~~~~~~~~~~~
-   drivers/clk/rockchip/clk-rk3562.c: In function 'clk_rk3562_probe':
->> drivers/clk/rockchip/clk-rk3562.c:1081:38: error: invalid use of undefined type 'struct platform_device'
-    1081 |         struct device_node *np = pdev->dev.of_node;
-         |                                      ^~
-   drivers/clk/rockchip/clk-rk3562.c:1085:62: error: invalid use of undefined type 'struct platform_device'
-    1085 |         match = of_match_device(clk_rk3562_match_table, &pdev->dev);
-         |                                                              ^~
-   drivers/clk/rockchip/clk-rk3562.c: At top level:
->> drivers/clk/rockchip/clk-rk3562.c:1096:15: error: variable 'clk_rk3562_driver' has initializer but incomplete type
-    1096 | static struct platform_driver clk_rk3562_driver = {
-         |               ^~~~~~~~~~~~~~~
->> drivers/clk/rockchip/clk-rk3562.c:1097:10: error: 'struct platform_driver' has no member named 'probe'
-    1097 |         .probe          = clk_rk3562_probe,
-         |          ^~~~~
->> drivers/clk/rockchip/clk-rk3562.c:1097:27: warning: excess elements in struct initializer
-    1097 |         .probe          = clk_rk3562_probe,
-         |                           ^~~~~~~~~~~~~~~~
-   drivers/clk/rockchip/clk-rk3562.c:1097:27: note: (near initialization for 'clk_rk3562_driver')
->> drivers/clk/rockchip/clk-rk3562.c:1098:10: error: 'struct platform_driver' has no member named 'driver'
-    1098 |         .driver         = {
-         |          ^~~~~~
->> drivers/clk/rockchip/clk-rk3562.c:1098:27: error: extra brace group at end of initializer
-    1098 |         .driver         = {
-         |                           ^
-   drivers/clk/rockchip/clk-rk3562.c:1098:27: note: (near initialization for 'clk_rk3562_driver')
-   drivers/clk/rockchip/clk-rk3562.c:1098:27: warning: excess elements in struct initializer
-   drivers/clk/rockchip/clk-rk3562.c:1098:27: note: (near initialization for 'clk_rk3562_driver')
->> drivers/clk/rockchip/clk-rk3562.c:1104:1: warning: data definition has no type or storage class
-    1104 | module_platform_driver(clk_rk3562_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/rockchip/clk-rk3562.c:1104:1: error: type defaults to 'int' in declaration of 'module_platform_driver' [-Wimplicit-int]
->> drivers/clk/rockchip/clk-rk3562.c:1104:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->> drivers/clk/rockchip/clk-rk3562.c:1096:31: error: storage size of 'clk_rk3562_driver' isn't known
-    1096 | static struct platform_driver clk_rk3562_driver = {
-         |                               ^~~~~~~~~~~~~~~~~
->> drivers/clk/rockchip/clk-rk3562.c:1096:31: warning: 'clk_rk3562_driver' defined but not used [-Wunused-variable]
+   drivers/pinctrl/pinctrl-amdisp.c: In function 'amdisp_gpiochip_add':
+>> drivers/pinctrl/pinctrl-amdisp.c:196:13: error: 'struct gpio_chip' has no member named 'of_node'; did you mean 'fwnode'?
+     196 |         gc->of_node             = pdev->dev.of_node;
+         |             ^~~~~~~
+         |             fwnode
+   In file included from drivers/pinctrl/pinctrl-amdisp.c:42:
+   drivers/pinctrl/pinctrl-amd.h: At top level:
+>> drivers/pinctrl/pinctrl-amd.h:1478:34: warning: 'pmx_functions' defined but not used [-Wunused-const-variable=]
+    1478 | static const struct amd_function pmx_functions[] = {
+         |                                  ^~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-amd.h:882:30: warning: 'kerncz_groups' defined but not used [-Wunused-const-variable=]
+     882 | static const struct pingroup kerncz_groups[] = {
+         |                              ^~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-amd.h:111:38: warning: 'kerncz_pins' defined but not used [-Wunused-const-variable=]
+     111 | static const struct pinctrl_pin_desc kerncz_pins[] = {
+         |                                      ^~~~~~~~~~~
 
 
-vim +1081 drivers/clk/rockchip/clk-rk3562.c
+vim +196 drivers/pinctrl/pinctrl-amdisp.c
 
-  1078	
-> 1079	static int clk_rk3562_probe(struct platform_device *pdev)
-  1080	{
-> 1081		struct device_node *np = pdev->dev.of_node;
-  1082		const struct of_device_id *match;
-  1083		const struct clk_rk3562_inits *init_data;
-  1084	
-> 1085		match = of_match_device(clk_rk3562_match_table, &pdev->dev);
-  1086		if (!match || !match->data)
-  1087			return -EINVAL;
-  1088	
-  1089		init_data = match->data;
-  1090		if (init_data->inits)
-  1091			init_data->inits(np);
-  1092	
-  1093		return 0;
-  1094	}
-  1095	
-> 1096	static struct platform_driver clk_rk3562_driver = {
-> 1097		.probe		= clk_rk3562_probe,
-> 1098		.driver		= {
-  1099			.name	= "clk-rk3562",
-  1100			.of_match_table = clk_rk3562_match_table,
-  1101			.suppress_bind_attrs = true,
-  1102		},
-  1103	};
-> 1104	module_platform_driver(clk_rk3562_driver);
-  1105	
+   173	
+   174	static int amdisp_gpiochip_add(struct platform_device *pdev,
+   175				       struct amdisp_pinctrl *pctrl)
+   176	{
+   177		struct gpio_chip *gc = &pctrl->gc;
+   178		struct pinctrl_gpio_range *grange = &pctrl->gpio_range;
+   179		int ret;
+   180	
+   181		gc->label		= dev_name(pctrl->dev);
+   182		gc->owner		= THIS_MODULE;
+   183		gc->parent		= &pdev->dev;
+   184		gc->names		= amdisp_range_pins_name;
+   185		gc->request		= gpiochip_generic_request;
+   186		gc->free		= gpiochip_generic_free;
+   187		gc->get_direction	= amdisp_gpio_get_direction;
+   188		gc->direction_input	= amdisp_gpio_direction_input;
+   189		gc->direction_output	= amdisp_gpio_direction_output;
+   190		gc->get			= amdisp_gpio_get;
+   191		gc->set			= amdisp_gpio_set;
+   192		gc->set_config		= amdisp_gpio_set_config;
+   193		gc->base		= -1;
+   194		gc->ngpio		= ARRAY_SIZE(amdisp_range_pins);
+   195	#if defined(CONFIG_OF_GPIO)
+ > 196		gc->of_node		= pdev->dev.of_node;
+   197		gc->of_gpio_n_cells	= 2;
+   198	#endif
+   199	
+   200		grange->id		= 0;
+   201		grange->pin_base	= 0;
+   202		grange->base		= 0;
+   203		grange->pins		= amdisp_range_pins;
+   204		grange->npins		= ARRAY_SIZE(amdisp_range_pins);
+   205		grange->name		= gc->label;
+   206		grange->gc		= gc;
+   207	
+   208		ret = devm_gpiochip_add_data(&pdev->dev, gc, pctrl);
+   209		if (ret)
+   210			return ret;
+   211	
+   212		pinctrl_add_gpio_range(pctrl->pctrl, grange);
+   213	
+   214		dev_info(&pdev->dev, "register amdisp gpio controller\n");
+   215		return 0;
+   216	}
+   217	#endif
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
