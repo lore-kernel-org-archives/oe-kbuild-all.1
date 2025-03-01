@@ -1,65 +1,78 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9555A1E3DC4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 21:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0B81E4929;
+	Sat,  1 Mar 2025 21:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740865592; cv=none; b=nhqzHI/5muyQn5jWUTAnj8dpUp2yiV/NQ78/90rWD5vfMQcD2xJVw3Do8kDu4wi1/RGBgfItpqBLivrlBh6Ttxv6MZkOJGIaYbPLPncEVafi3zmaWNMwWTnrsxGdh+0L47X2iKHpjvW+Vb6/Qftfk0zWTC0RehBkBYwM/ReuAZw=
+	t=1740865593; cv=none; b=rqSQfTKhuqAMAU0fg8OnHd89XjoDWt7cLG9hiz21QWZSddoRiCvSBMxIoeRF85j1QuKIe7t68dyA0ZpagPRahZOA85euruAc4vi+JGSHyEuhGnl8G281ioC1v1uXsv7+gAlgGAm/Byrtk5Mrvbwbn/mrcMlAALRWUllQrycFRow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740865592; c=relaxed/simple;
-	bh=RgENAaaQzSjYluJV2j458ER4MjJTkcFoOP18LUUpMLA=;
+	s=arc-20240116; t=1740865593; c=relaxed/simple;
+	bh=6l1uC5pceOA+uIFkP/26PTWpP7l3GTDpEwiEC3W1O4E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMVHn2SXV52OJMichrauAROhRU30USRpRdIe8zSh5afLCTCqjjqR0GLzhAs2mkSY4zWo7uCNlgsew3LaR27ilvB0M0c2S0eW4q4Z207Wz86JCb1jOtvQL+vIa2rCa117WS1lGkVq3x76Msc8M5zBNNsAtc7WO4KO17txaI8netY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ix2RECGU; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=TjGMIEB0DJ5LD2A0+qIZydyGv0QYUdls8XcILqnOXiOYNxM2LYnZ4wsWhEViw6SEd7tQ2uWQo8nMlLDXel7cMpPHS77lhdKuQIUWuD49rGQtcXiW7PUfyRt7DMYU5CGzHhofAPI+WMl96gOFDxsO3S4W+rNlA9+D2YrhK0bksxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJj9+dme; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ix2RECGU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJj9+dme"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740865591; x=1772401591;
+  t=1740865593; x=1772401593;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RgENAaaQzSjYluJV2j458ER4MjJTkcFoOP18LUUpMLA=;
-  b=ix2RECGU8dQfQ6mPfi5I2Z3oLiVR76bbzIUxet4HKw7UtLaGzBT3C+aa
-   jO264MqIegJeXvPUoXPt5tFT7wO6tm4g1N+scBlYX5v0IywHmzHT2XGU4
-   g7bUx9tEQpmKDOkHRr1vS7uxJgG5BQuEngSk952zmi7dz6jR0maqniUaf
-   xV3LSXpW8SkJlzxNW8CytOoxXXwkTCMyfEIUQGbGF9QSlaShiymjrh6wc
-   ny1iHmOigcRPlhBUIh0uvzM/VJc/lakgT6omZb4cXPzZrtOLo5BCXDZPw
-   HNYJJzvN3Th9rhwuryCkJZ7aWTSQwHLbfCbbXB9C4bpFfpkZIHsrbMBqo
-   w==;
-X-CSE-ConnectionGUID: E1kotu8wRgCRTkjW0agxTQ==
-X-CSE-MsgGUID: GSPAXTGvTzyNMW4+laSiaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="59316333"
+  bh=6l1uC5pceOA+uIFkP/26PTWpP7l3GTDpEwiEC3W1O4E=;
+  b=fJj9+dmeXPNTyDpF34nYK/fdU8ZWUM62y3TF0YxEv0IOoZUZnDQoJkWU
+   PhlUxGdwpOmcAKY+sva15PvYa+yAPOu4l6QaHW4k02PM0FRoDTUGNO81D
+   lLY9mLbKZit05OBOPpE90j57tpoObOyaDfXgtDJNHiIWoDF+V1zR5IF98
+   ut8SOcNI5GrNDa9ydWJ4z6zDmM5m7pWy8xRltUVxSC6OjeRweVblJd5pA
+   Y/MwFozBpKRuHI4GuNPbF8Cq4cyfwpgjRRhkZ6+6dwZ3nba3bF9nM9p+0
+   6mo+hTWW+QUxzSg5SkLG+BjT5YXWeZ71czaEgllwOzG8cgd11R2WCBklJ
+   g==;
+X-CSE-ConnectionGUID: PGvc/Ph8RQWQ6I3FnwlwYw==
+X-CSE-MsgGUID: FU6/8+v4R5+mqf1Ax1kUdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="59316344"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="59316333"
+   d="scan'208";a="59316344"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:46:29 -0800
-X-CSE-ConnectionGUID: SqPsYZo4QTOnH/rIJds/rw==
-X-CSE-MsgGUID: TYqwkLJtQou03mQIShDSPw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 13:46:32 -0800
+X-CSE-ConnectionGUID: 7J9dfahmT5WnwjSLafCx7Q==
+X-CSE-MsgGUID: YQEx4K2USDqm09yvEVjOqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="148453165"
+   d="scan'208";a="148453162"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 01 Mar 2025 13:46:26 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toUfA-000Gjb-0F;
+	id 1toUfA-000GjY-01;
 	Sat, 01 Mar 2025 21:46:24 +0000
-Date: Sun, 2 Mar 2025 05:45:31 +0800
+Date: Sun, 2 Mar 2025 05:45:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
+To: Marek Vasut <marex@denx.de>, linux-arm-kernel@lists.infradead.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Marek Vasut <marex@denx.de>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 7/8] memory: renesas-rpc-if: Add RZ/G3E xSPI support
-Message-ID: <202503020521.ZJBds3LY-lkp@intel.com>
-References: <20250228160810.171413-8-biju.das.jz@bp.renesas.com>
+	Rob Herring <robh@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Price <steven.price@arm.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+Subject: Re: [PATCH 4/9] drm/panthor: Implement optional reset
+Message-ID: <202503020521.MBUsoVte-lkp@intel.com>
+References: <20250227170012.124768-5-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,34 +81,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228160810.171413-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20250227170012.124768-5-marex@denx.de>
 
-Hi Biju,
+Hi Marek,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on broonie-spi/for-next krzk-dt/for-next linus/master v6.14-rc4 next-20250228]
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on robh/for-next arm64/for-next/core kvmarm/next rockchip/for-next soc/for-next linus/master v6.14-rc4 next-20250228]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-memory-Document-RZ-G3E-support/20250301-041012
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250228160810.171413-8-biju.das.jz%40bp.renesas.com
-patch subject: [PATCH 7/8] memory: renesas-rpc-if: Add RZ/G3E xSPI support
-config: sparc64-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020521.ZJBds3LY-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020521.ZJBds3LY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/dt-bindings-reset-imx95-gpu-blk-ctrl-Document-Freescale-i-MX95-GPU-reset/20250228-011031
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250227170012.124768-5-marex%40denx.de
+patch subject: [PATCH 4/9] drm/panthor: Implement optional reset
+config: x86_64-kismet-CONFIG_RESET_SIMPLE-CONFIG_DRM_PANTHOR-0-0 (https://download.01.org/0day-ci/archive/20250302/202503020521.MBUsoVte-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250302/202503020521.MBUsoVte-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020521.ZJBds3LY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020521.MBUsoVte-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: drivers/memory/renesas-rpc-if: local symbol 'xspi_dirmap_read' was exported
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for RESET_SIMPLE when selected by DRM_PANTHOR
+   WARNING: unmet direct dependencies detected for RESET_SIMPLE
+     Depends on [n]: RESET_CONTROLLER [=n] && HAS_IOMEM [=y]
+     Selected by [y]:
+     - DRM_PANTHOR [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARM || ARM64 || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n] && MMU [=y] && SOC_IMX9 [=y]
 
 -- 
 0-DAY CI Kernel Test Service
