@@ -1,79 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5948D1C3BF1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 19:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2781C3BE9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 20:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740859088; cv=none; b=eIjpZiVLxfH9kAH99CpNBxFMVJB+gVmpr+FkJIjP2jUeRPbTZiKouiNQX92QWFXyda5NzBuu5vsOsaLU40PK+zVhyDfTYQwqx7ZGplQ2ygrAAftM0wQdRdocQkmj8YktkU/N0o/R/gfz/9Iakzf2XoeTcOHES6KqmQfNNaG0TF0=
+	t=1740859808; cv=none; b=AcPpA+iRAoEv9WpC4rRMwyqHfLaTEwsQgTshyRqvShNnFY+JLSsPMOXPqcDd7wafl8JhzUehbOAUQSEwETHZYjAq4stkGIK8t65JAbeULlMQnA5p0OY9Wv3lHI4RJ8ublkdF1mFpxCgQtOZrvhldpGxYs1YEPwQOLLPviFEuKlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740859088; c=relaxed/simple;
-	bh=1kXOODhLAUkS5r63DpG3FgIzbhFGutGGj4xV09heVMQ=;
+	s=arc-20240116; t=1740859808; c=relaxed/simple;
+	bh=ZfGj1VvKOCNm7vTywX/xNLIbng1hIS9ksg3oRkOji3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fErPSXPiRmzBgmEfAdOLF4M0IXlvjzi3vQvUpUnwdnMbQakq8f2p0exfQJ66oVHx+q9XGqhMaufM8bh6GrXq+BFjKHaOcw0bIisjQQHJI+j+Sb893KnTEQ/0GZ76wSfuRn1C6z4yXZzfGnz2GZZTwHGpdl93q60D1M4X9uhcAQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7Q4Iht7; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=mdHIRCu3ZpySTIMmDA5BXyZ9niOJu1xqCix/T6Fdr82iS9bLBgDVWQ5SOLGOVBaMXoWlQQtvFnCFK8XowuaMwXrTyhFAQHiBwQGNE7PTE3bt0gReUuoJa1Xhye0ZA2ThDrBt+2SyWEfnCWO2z/7yUwm0VbX1iTFZasNFB6kXFpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGMWoBQD; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7Q4Iht7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGMWoBQD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740859088; x=1772395088;
+  t=1740859807; x=1772395807;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1kXOODhLAUkS5r63DpG3FgIzbhFGutGGj4xV09heVMQ=;
-  b=n7Q4Iht7QMXxRTuAIcruC829f+i/+mXMFQp+dcycIp6xWJMXvZlNpXgn
-   hE/+ELCHWjAIbft91gxLCXQgqzN+50vBpA/MpH3j2ndG1x5V7SHsDciHc
-   2/yY+F34o6HfgbC2eGVsojuCZQGzOzmcTTL91ug9pNRNgzq96gB4zARdZ
-   OEhEz1CbnlmDvzUKEMRNnVVu1qCcp2fUsKaYI6SIbF01g2H45KHes+L7R
-   JK8BZnlESR2omxbRN8ltCduEiEIUXo1wN6V6UBGYaA+RNyX4mMfR8jazf
-   9RrtynWp6+YQK5MU/TCuKH2s1sBC8hGwfQvU1p8D0Y7xJRSXMgm3YiUKZ
-   A==;
-X-CSE-ConnectionGUID: nOJtU9E8RjqvprosD06k5Q==
-X-CSE-MsgGUID: t/ybJb4QSvqg8bKateZDdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="52411192"
-X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="52411192"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 11:58:07 -0800
-X-CSE-ConnectionGUID: 11KgZ0uWQ3mXA8i98mh4BA==
-X-CSE-MsgGUID: 4zNv8ckBSLmocB33IVeD2g==
+  bh=ZfGj1VvKOCNm7vTywX/xNLIbng1hIS9ksg3oRkOji3M=;
+  b=UGMWoBQD+CSk+GBeis0ixrdBsFvcjQy8tu89Pc/776lqhDOPuHndxIW5
+   Hy1R5W8uSFZ/Pbg8ZYEKkVnJOV3XfHXNng3obG8BBX4KZg3NP/Smmauj/
+   /tkBpycNylYBWPqtGcy0jbFn0a2oHWqPGOL1Q6lIxeh+IpHK8b2PyFp1r
+   80PB5fhxDwZWVv24g7/XID0zn/XOxdQAHN1pg/U531UxymX/mPzSLRJVO
+   XvRdoOMfvcQeUVHq9TECovKboGDSfnUrsFRoMfBAR6Q3gw93/RCTmiUXl
+   FaQGSm5ZB6Mdq1coqTfHu03Klp+4Zsoj6xVdbgAxJUgkBhHiMvJFzgeEM
+   w==;
+X-CSE-ConnectionGUID: rYO/Tnf5QbmVKD9Ps+qOdw==
+X-CSE-MsgGUID: VaW0t2p4TAuFIA2sivhLbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41959944"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41959944"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:10:06 -0800
+X-CSE-ConnectionGUID: n9ipID95TjqGXZ0wuii2jQ==
+X-CSE-MsgGUID: c981CLrzROeKm6mC/sKYEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="140859471"
+   d="scan'208";a="117626585"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 11:58:02 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 01 Mar 2025 12:10:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toSy7-000Gdy-1N;
-	Sat, 01 Mar 2025 19:57:56 +0000
-Date: Sun, 2 Mar 2025 03:57:49 +0800
+	id 1toT9u-000Gek-19;
+	Sat, 01 Mar 2025 20:10:02 +0000
+Date: Sun, 2 Mar 2025 04:09:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Romain Gantois <romain.gantois@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Romain Gantois <romain.gantois@bootlin.com>
-Subject: Re: [PATCH v8 9/9] misc: add FPC202 dual port controller driver
-Message-ID: <202503020332.nNQ19b98-lkp@intel.com>
-References: <20250227-fpc202-v8-9-b7994117fbe2@bootlin.com>
+To: Robin Murphy <robin.murphy@arm.com>, vkoul@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] dmaengine: Add Arm DMA-350 driver
+Message-ID: <202503020324.hFtOv6c7-lkp@intel.com>
+References: <55e084dd2b5720bdddf503ffac560d111032aa96.1740762136.git.robin.murphy@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,32 +63,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227-fpc202-v8-9-b7994117fbe2@bootlin.com>
+In-Reply-To: <55e084dd2b5720bdddf503ffac560d111032aa96.1740762136.git.robin.murphy@arm.com>
 
-Hi Romain,
+Hi Robin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-misc-Describe-TI-FPC202-dual-port-controller/20250227-182532
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250227-fpc202-v8-9-b7994117fbe2%40bootlin.com
-patch subject: [PATCH v8 9/9] misc: add FPC202 dual port controller driver
-config: nios2-kismet-CONFIG_I2C_ATR-CONFIG_TI_FPC202-0-0 (https://download.01.org/0day-ci/archive/20250302/202503020332.nNQ19b98-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250302/202503020332.nNQ19b98-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/dt-bindings-dma-Add-Arm-DMA-350/20250301-012733
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/55e084dd2b5720bdddf503ffac560d111032aa96.1740762136.git.robin.murphy%40arm.com
+patch subject: [PATCH 2/2] dmaengine: Add Arm DMA-350 driver
+config: parisc-randconfig-002-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020324.hFtOv6c7-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020324.hFtOv6c7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020332.nNQ19b98-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020324.hFtOv6c7-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for I2C_ATR when selected by TI_FPC202
-   WARNING: unmet direct dependencies detected for I2C_ATR
-     Depends on [n]: I2C [=n]
-     Selected by [y]:
-     - TI_FPC202 [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/dma/arm-dma350.c:641:34: warning: 'd350_of_match' defined but not used [-Wunused-const-variable=]
+     641 | static const struct of_device_id d350_of_match[] = {
+         |                                  ^~~~~~~~~~~~~
+
+
+vim +/d350_of_match +641 drivers/dma/arm-dma350.c
+
+   640	
+ > 641	static const struct of_device_id d350_of_match[] = {
+   642		{ .compatible = "arm,dma-350" },
+   643		{}
+   644	};
+   645	MODULE_DEVICE_TABLE(of, d350_of_match);
+   646	
 
 -- 
 0-DAY CI Kernel Test Service
