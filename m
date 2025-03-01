@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613CF1D5AB6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 12:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090A117580
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 13:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740831466; cv=none; b=E9hRJqGggfZpp3fZh+Bc7A2jQKkaIVoQDCZ+NrRcUB6+eCu4COswJRB99HOF5iTjty7cxRz3dUyGMIeHsdksfZEK68eiwwh0J7kYbXu7qCzYEoFc36Z2ubUnc6WI6NcZCfRILaS1d/JG2FX2OTU40AdFz/bNO0UjEVq2+G6pFK0=
+	t=1740836426; cv=none; b=K7o2BBVoFxHF0xsktd4bwrladLomjIZmd1hhRG9q7gYcqUOp7S4Clip58fDVux5dN+A2QK4o2RgZ6NJAgHifzlc/423nA5Ck1cJH25I3pOUkAnJazafUhbiB/pctdFkmzm51jee0MdtElkcTD9M0fxxUiHK9Ir2lbp9E2sQ9XDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740831466; c=relaxed/simple;
-	bh=i1lk9xKe/JXz4c6AB/M8fEa5DbGBkJjeN3ZRRa0J1/8=;
+	s=arc-20240116; t=1740836426; c=relaxed/simple;
+	bh=lvoEqAKzLzOQjgOayDCSdJlfrSTv34eEdMq2H1RRLHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z8DwUIKlCetAhGvEmXQlK6Q4D7f5C7AwxDkuV72c1zluTdHaF4UqynTD7Cuhe4SD5bLv+cW7fLaQid8L8AIgHuvv0YSG9s4KKDUQxwuEXK2n47GwKwq/Oqdr0gSxO7SfTbcT6+EY0pmRmnDAfnLhMpcnDnrCaiCSxYVxh7n4HA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb559znq; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=TkuxSKe6ZFx9ZFVs1Q+NgIY9Ls3cp1YrwSf0AekyG3XEhVLpfa4bBU69XmCjpf1wujBKYHp9+eInUFUsD69lBy2lhe86ZGvycAwcM8i2KkDRCNqzrZMF+GtunRADacEE9eXiz56qWx9uVhozB/XU7wsCGKnTPduJOn6CeVGjmqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kmc5tvne; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb559znq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kmc5tvne"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740831464; x=1772367464;
+  t=1740836424; x=1772372424;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i1lk9xKe/JXz4c6AB/M8fEa5DbGBkJjeN3ZRRa0J1/8=;
-  b=Hb559znqEF4qF0I9UVp/1Nw/gkp04XN6v2hIlkkTSEc/BcA0MVfwvzSY
-   +nomLMxeUE1WcDMJAcAUhty8n8Tp0YrMndddO1O/hWLMzRAAmoWmLfvpT
-   onNafvj/RiAY2Siq9MWTwiIv8xOZvR6qkBKpKJCjH12Sv7xB5Yncc0qpQ
-   2RjYAgCOm+AOkTk0H4Jn0F8sgWjtZ2oMgQlHKt1lbqoLiZChUpdUNkPDu
-   OIfsL+bp5ONw5yRalLEn+Ro+5qZoOYzLZFNfpVVXUlFVZDxWqcGIDM199
-   x0HecLIavmE8bR7PXpe+4QwKqbEnt31P7qIGpM+p6hU8u2xt+z2wzvZPd
-   w==;
-X-CSE-ConnectionGUID: pAZKPkWPStK+w1oIVc7Szw==
-X-CSE-MsgGUID: 0c1k6hfHRpuV8jYQ2xQdTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="45537170"
+  bh=lvoEqAKzLzOQjgOayDCSdJlfrSTv34eEdMq2H1RRLHY=;
+  b=Kmc5tvne+cmXh+r5f4fDs+CGoXZY1K1lyGoggbI59rD4KGqYy5ReDqRN
+   DhDx6PgLOUTEZleK1o6AjmBvl7CDQ5BnInUBzRjKpLajUkdM5ZeuGGZoa
+   weP4DI98xljDJ6tFEh1ILsbQgn4vT0vcFPEDqUJBx/g0ggktBqic5DS31
+   kyxMd3Lw/JttuP022yOQpQTMKyJhmaKOfs6D7d9Hdb+ACSyx3BS/I/uhy
+   m9sWbGFWpzU7V5NF/P/wXH2bTs2lGj8e/QrzXy0AKSUYwNgHYADspQM+x
+   lkYeed5QgMGdHdXKsz57RAD/JvS2tQ8OTwe5wfEeVJsPJ3sQPzHrH85xw
+   A==;
+X-CSE-ConnectionGUID: fpb1PCQ3SIylM1xWdGAkWg==
+X-CSE-MsgGUID: BrkNdhWATYmbl/xIMvalPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41455389"
 X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="45537170"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 04:17:44 -0800
-X-CSE-ConnectionGUID: nC1fbvG+Qoa80CvOsJCgNA==
-X-CSE-MsgGUID: 6I3/OGJFQb2QAeAFikkCNw==
+   d="scan'208";a="41455389"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 05:40:23 -0800
+X-CSE-ConnectionGUID: 4WI7DZfPTRuDDA1wFxNpOA==
+X-CSE-MsgGUID: zJvXT/evS7GnR+4i7IeemA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
-   d="scan'208";a="122574664"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="148504551"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 01 Mar 2025 04:17:43 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2025 05:40:22 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toLmh-000GEM-0H;
-	Sat, 01 Mar 2025 12:17:36 +0000
-Date: Sat, 1 Mar 2025 20:17:02 +0800
+	id 1toN4m-000GHW-0D;
+	Sat, 01 Mar 2025 13:40:20 +0000
+Date: Sat, 1 Mar 2025 21:40:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: arch/powerpc/boot/decompress.c:132:15: error: implicit declaration
- of function '__decompress'
-Message-ID: <202503012033.HCudrbsD-lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 59/86] drivers/mfd/88pm860x-core.c:627:9: error:
+ implicit declaration of function 'irq_domain_add_legacy_of_node'; did you
+ mean 'irq_domain_add_legacy'?
+Message-ID: <202503012157.svJctukP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,75 +63,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
+Hi Jiri,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   03d38806a902b36bf364cae8de6f1183c0a35a67
-commit: 45cfade303335c486300b81e62caefffa843f585 drm/xe/xe2: fix 64-bit division in pte_update_size
-date:   12 months ago
-config: powerpc-randconfig-r132-20250301 (https://download.01.org/0day-ci/archive/20250301/202503012033.HCudrbsD-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250301/202503012033.HCudrbsD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   6a5773ba87efb03d0d268aa0936b43196309cbb6
+commit: 8ae34066ab729cbc83be795387f0677fe126cc5f [59/86] irqdomain: Rename _add functions to _add_*_of_node
+config: arc-randconfig-002-20250301 (https://download.01.org/0day-ci/archive/20250301/202503012157.svJctukP-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503012157.svJctukP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503012033.HCudrbsD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503012157.svJctukP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/powerpc/boot/decompress.c: In function 'partial_decompress':
->> arch/powerpc/boot/decompress.c:132:15: error: implicit declaration of function '__decompress' [-Wimplicit-function-declaration]
-     132 |         ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-         |               ^~~~~~~~~~~~
+   drivers/mfd/88pm860x-core.c: In function 'device_irq_init':
+>> drivers/mfd/88pm860x-core.c:627:9: error: implicit declaration of function 'irq_domain_add_legacy_of_node'; did you mean 'irq_domain_add_legacy'? [-Werror=implicit-function-declaration]
+     627 |         irq_domain_add_legacy_of_node(node, nr_irqs, chip->irq_base, 0,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         irq_domain_add_legacy
+   cc1: some warnings being treated as errors
+--
+   drivers/mfd/max8925-core.c: In function 'max8925_irq_init':
+>> drivers/mfd/max8925-core.c:685:9: error: implicit declaration of function 'irq_domain_add_legacy_of_node'; did you mean 'irq_domain_add_legacy'? [-Werror=implicit-function-declaration]
+     685 |         irq_domain_add_legacy_of_node(node, MAX8925_NR_IRQS, chip->irq_base, 0,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         irq_domain_add_legacy
+   cc1: some warnings being treated as errors
 
 
-vim +/__decompress +132 arch/powerpc/boot/decompress.c
+vim +627 drivers/mfd/88pm860x-core.c
 
-1b7898ee276b39e Oliver O'Halloran 2016-09-22   97  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22   98  /**
-1b7898ee276b39e Oliver O'Halloran 2016-09-22   99   * partial_decompress - decompresses part or all of a compressed buffer
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  100   * @inbuf:       input buffer
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  101   * @input_size:  length of the input buffer
-930a77c3ad79c30 Zhang Jianhua     2021-05-10  102   * @outbuf:      output buffer
-930a77c3ad79c30 Zhang Jianhua     2021-05-10  103   * @output_size: length of the output buffer
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  104   * @skip         number of output bytes to ignore
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  105   *
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  106   * This function takes compressed data from inbuf, decompresses and write it to
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  107   * outbuf. Once output_size bytes are written to the output buffer, or the
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  108   * stream is exhausted the function will return the number of bytes that were
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  109   * decompressed. Otherwise it will return whatever error code the decompressor
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  110   * reported (NB: This is specific to each decompressor type).
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  111   *
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  112   * The skip functionality is mainly there so the program and discover
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  113   * the size of the compressed image so that it can ask firmware (if present)
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  114   * for an appropriately sized buffer.
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  115   */
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  116  long partial_decompress(void *inbuf, unsigned long input_size,
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  117  	void *outbuf, unsigned long output_size, unsigned long _skip)
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  118  {
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  119  	int ret;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  120  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  121  	/*
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  122  	 * The skipped bytes needs to be included in the size of data we want
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  123  	 * to decompress.
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  124  	 */
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  125  	output_size += _skip;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  126  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  127  	decompressed_bytes = 0;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  128  	output_buffer = outbuf;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  129  	limit = output_size;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  130  	skip = _skip;
-1b7898ee276b39e Oliver O'Halloran 2016-09-22  131  
-1b7898ee276b39e Oliver O'Halloran 2016-09-22 @132  	ret = __decompress(inbuf, input_size, NULL, flush, outbuf,
-
-:::::: The code at line 132 was first introduced by commit
-:::::: 1b7898ee276b39e54d870dc4ef3374f663d0b426 powerpc/boot: Use the pre-boot decompression API
-
-:::::: TO: Oliver O'Halloran <oohall@gmail.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+   566	
+   567	static int device_irq_init(struct pm860x_chip *chip,
+   568					     struct pm860x_platform_data *pdata)
+   569	{
+   570		struct i2c_client *i2c = (chip->id == CHIP_PM8607) ?
+   571			chip->client : chip->companion;
+   572		unsigned char status_buf[INT_STATUS_NUM];
+   573		unsigned long flags = IRQF_TRIGGER_FALLING | IRQF_ONESHOT;
+   574		int data, mask, ret = -EINVAL;
+   575		int nr_irqs, irq_base = -1;
+   576		struct device_node *node = i2c->dev.of_node;
+   577	
+   578		mask = PM8607_B0_MISC1_INV_INT | PM8607_B0_MISC1_INT_CLEAR
+   579			| PM8607_B0_MISC1_INT_MASK;
+   580		data = 0;
+   581		chip->irq_mode = 0;
+   582		if (pdata && pdata->irq_mode) {
+   583			/*
+   584			 * irq_mode defines the way of clearing interrupt. If it's 1,
+   585			 * clear IRQ by write. Otherwise, clear it by read.
+   586			 * This control bit is valid from 88PM8607 B0 steping.
+   587			 */
+   588			data |= PM8607_B0_MISC1_INT_CLEAR;
+   589			chip->irq_mode = 1;
+   590		}
+   591		ret = pm860x_set_bits(i2c, PM8607_B0_MISC1, mask, data);
+   592		if (ret < 0)
+   593			goto out;
+   594	
+   595		/* mask all IRQs */
+   596		memset(status_buf, 0, INT_STATUS_NUM);
+   597		ret = pm860x_bulk_write(i2c, PM8607_INT_MASK_1,
+   598					INT_STATUS_NUM, status_buf);
+   599		if (ret < 0)
+   600			goto out;
+   601	
+   602		if (chip->irq_mode) {
+   603			/* clear interrupt status by write */
+   604			memset(status_buf, 0xFF, INT_STATUS_NUM);
+   605			ret = pm860x_bulk_write(i2c, PM8607_INT_STATUS1,
+   606						INT_STATUS_NUM, status_buf);
+   607		} else {
+   608			/* clear interrupt status by read */
+   609			ret = pm860x_bulk_read(i2c, PM8607_INT_STATUS1,
+   610						INT_STATUS_NUM, status_buf);
+   611		}
+   612		if (ret < 0)
+   613			goto out;
+   614	
+   615		mutex_init(&chip->irq_lock);
+   616	
+   617		if (pdata && pdata->irq_base)
+   618			irq_base = pdata->irq_base;
+   619		nr_irqs = ARRAY_SIZE(pm860x_irqs);
+   620		chip->irq_base = irq_alloc_descs(irq_base, 0, nr_irqs, 0);
+   621		if (chip->irq_base < 0) {
+   622			dev_err(&i2c->dev, "Failed to allocate interrupts, ret:%d\n",
+   623				chip->irq_base);
+   624			ret = -EBUSY;
+   625			goto out;
+   626		}
+ > 627		irq_domain_add_legacy_of_node(node, nr_irqs, chip->irq_base, 0,
+   628				      &pm860x_irq_domain_ops, chip);
+   629		chip->core_irq = i2c->irq;
+   630		if (!chip->core_irq)
+   631			goto out;
+   632	
+   633		ret = request_threaded_irq(chip->core_irq, NULL, pm860x_irq,
+   634					   flags | IRQF_ONESHOT, "88pm860x", chip);
+   635		if (ret) {
+   636			dev_err(chip->dev, "Failed to request IRQ: %d\n", ret);
+   637			chip->core_irq = 0;
+   638		}
+   639	
+   640		return 0;
+   641	out:
+   642		chip->core_irq = 0;
+   643		return ret;
+   644	}
+   645	
 
 -- 
 0-DAY CI Kernel Test Service
