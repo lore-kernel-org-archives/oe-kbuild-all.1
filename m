@@ -1,64 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327041C3BF9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Mar 2025 08:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB821C1AD4;
+	Sat,  1 Mar 2025 09:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740818222; cv=none; b=qwWe5gqi83ZN0UxqgPRlUtQSWD4OtCw58Es77p9+nw8sUI496U6SUO/15Jq8iP5tr9Ff9Kos4O5LKIR9gB147yTVyEbWPj+ATcKuZQLx33GtYQ4pWoG1cyYFG6B8FP4WTdm79x9kRMMIBl6rsacQzeyrUvbkAg/+afWed0c+Kx4=
+	t=1740820107; cv=none; b=UbXWS9t0laG9s5JAm9JDTaUzVdMvSNSFx0CvP0lTXo7ZLElWlNLnfahRZPQrTknnxCk3mJ6dscl+4nk+MUHuYbHAkZQcHwfiLY4iZVnZPx9HZzwciGuZeH6nPzfcLXWkPGEHzrvrECGS2E12Dhf2PuoEtRPM1hx6ngpsoIlQ5do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740818222; c=relaxed/simple;
-	bh=ILiRyf+7LGFCo6GR2fvwMOED+UnCtYqI6Fm7BMRzSQ0=;
+	s=arc-20240116; t=1740820107; c=relaxed/simple;
+	bh=bQUvH/LR1KxS95c+RJnGjDSETbksb7G0/CS5aZy0gsA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqkAgEVcYvWLfCIUKjt5vj5WOnWnv37btqVYw074/IC2XXW4nHLZOHyN84it1H5dry0w1qInfbXGw6hqxoqXbDBQ+FeCEBxXrLireuDtR/s96aanpdecnggICm1eg7Rskt+QjTZYSbc6kOqUMrGaXJy3uYygqmHUWWyBjxFtiIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiD2yQP4; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wsx1lNBYinqUi17L9eS6aZiC6q6APBFha/U99VJD+QbpuDeGq8/v9FXMnIDHl1FU+8By/pzdoUKXVdZdUIyXa3djFDZXmg7Fis9xo/9woNaV9W5f6fi/MKV4rqW9244Ft00bNgmV1AFhGBdi5ZVq5G0oceFqoyAZr6ePda7j0dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eS66Wmqz; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiD2yQP4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eS66Wmqz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740818220; x=1772354220;
+  t=1740820106; x=1772356106;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ILiRyf+7LGFCo6GR2fvwMOED+UnCtYqI6Fm7BMRzSQ0=;
-  b=BiD2yQP4hUZTLZSFhAnB4j0vIdNtvMfDaF9jdejvt3eNnFVbqenp5a6T
-   gxVabXNDXssVUZW0E7Ni8WCMKyWLBOWYhWVu/9uNgHCRl9hm9OGg+JiKD
-   JiVXnVByRFP7fbMq4sAker7b46ldjXRNyw9L77bSuPCMzobHJlZB652Qc
-   Fz0gr6voSGhJKLC751bmtrDUaV1zty054NkLfBrNpLl1ijNrnI5Wc8oSd
-   gEQZzTmzcAprLKmyULp639C24b9nXzVX8b7qbAmIFuFw4BoJeqgURyDx4
-   nwO4zoJJt3Xa0mgc9SMXFr2yZbkq9+L3ZQcoF1mekjcfmUuZoBVkTMGEw
-   g==;
-X-CSE-ConnectionGUID: 5WoSnVSJQqKAn+W50vy8xw==
-X-CSE-MsgGUID: X0Yj2c7FRIyDQSGnK/jMxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41632187"
-X-IronPort-AV: E=Sophos;i="6.13,324,1732608000"; 
-   d="scan'208";a="41632187"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 00:36:59 -0800
-X-CSE-ConnectionGUID: lW8G4db8QjWNavqxlTHDNg==
-X-CSE-MsgGUID: 48i6mZFCSCmI1LJ6hl7Sqg==
+  bh=bQUvH/LR1KxS95c+RJnGjDSETbksb7G0/CS5aZy0gsA=;
+  b=eS66WmqzNQGui6u5SSmjvn/tGera2jVFrNENpiAUILwc+JVTBr+C7woa
+   ViojhBWaUltF3RAoSHW/SNxVN+694OvExiC8ayJ5eJ0+7DyD7uzHA/lyl
+   NFO+NHQnDh9QwwVT77818rsKQRqGD2K2CU1ZDic65gvLvJVhsEsuB4k7y
+   +En5No2sKJKV/gU6hfzpBs7vHi1I2/JLe4VlXvgJx739571qR5zPJsGSm
+   S9gzqks8yYCWgOf7kd8qaP8GjtkWx/7PWrsU2L5J+mjW5tV8k9y0LkN9O
+   0nes7JiWy0T6CCVhovyfmbGti/cmUQ7BmHyDV0+LiCggK/pKBwQUmWdPw
+   A==;
+X-CSE-ConnectionGUID: ssfTDbvZTi2fxyGZtdQn0A==
+X-CSE-MsgGUID: qcOJNxKrSnagIld59edgqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11359"; a="41596830"
+X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
+   d="scan'208";a="41596830"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 01:08:25 -0800
+X-CSE-ConnectionGUID: hUwnSczhT5aCxc0MFFZ1sQ==
+X-CSE-MsgGUID: 4nOe0TxbSYe4812Pe2RycA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148458821"
+X-IronPort-AV: E=Sophos;i="6.13,325,1732608000"; 
+   d="scan'208";a="117564427"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Mar 2025 00:36:57 -0800
+  by orviesa006.jf.intel.com with ESMTP; 01 Mar 2025 01:08:22 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toIL8-000G3C-2o;
-	Sat, 01 Mar 2025 08:36:54 +0000
-Date: Sat, 1 Mar 2025 16:36:51 +0800
+	id 1toIpX-000G4Q-2G;
+	Sat, 01 Mar 2025 09:08:19 +0000
+Date: Sat, 1 Mar 2025 17:07:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leilk Liu <leilk.liu@mediatek.com>, Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Leilk Liu <leilk.liu@mediatek.com>
-Subject: Re: [PATCH v1] spi: mt65xx: add PM QoS support
-Message-ID: <202503011637.9HYajsft-lkp@intel.com>
-References: <20250228062246.24186-1-leilk.liu@mediatek.com>
+To: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] arm64: dts: exynos: add initial support for
+ Samsung Galaxy S22+
+Message-ID: <202503011651.Vto3vDw7-lkp@intel.com>
+References: <20250223123044.725493-4-ivo.ivanov.ivanov1@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,85 +69,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228062246.24186-1-leilk.liu@mediatek.com>
+In-Reply-To: <20250223123044.725493-4-ivo.ivanov.ivanov1@gmail.com>
 
-Hi Leilk,
+Hi Ivaylo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on linus/master v6.14-rc4 next-20250228]
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on robh/for-next krzk-dt/for-next pinctrl-samsung/for-next linus/master v6.14-rc4 next-20250228]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Leilk-Liu/spi-mt65xx-add-PM-QoS-support/20250228-142359
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20250228062246.24186-1-leilk.liu%40mediatek.com
-patch subject: [PATCH v1] spi: mt65xx: add PM QoS support
-config: sh-randconfig-002-20250301 (https://download.01.org/0day-ci/archive/20250301/202503011637.9HYajsft-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503011637.9HYajsft-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivaylo-Ivanov/dt-bindings-arm-samsung-document-g0s-board-binding/20250223-203243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250223123044.725493-4-ivo.ivanov.ivanov1%40gmail.com
+patch subject: [PATCH v2 3/4] arm64: dts: exynos: add initial support for Samsung Galaxy S22+
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250301/202503011651.Vto3vDw7-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250301/202503011651.Vto3vDw7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503011637.9HYajsft-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503011651.Vto3vDw7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/spi/spi-mt65xx.c:177: warning: Function parameter or struct member 'qos_request' not described in 'mtk_spi'
+   In file included from arch/arm64/boot/dts/exynos/exynos2200-g0s.dts:9:
+>> arch/arm64/boot/dts/exynos/exynos2200.dtsi:8:10: fatal error: 'dt-bindings/clock/samsung,exynos2200-cmu.h' file not found
+       8 | #include <dt-bindings/clock/samsung,exynos2200-cmu.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +177 drivers/spi/spi-mt65xx.c
+vim +8 arch/arm64/boot/dts/exynos/exynos2200.dtsi
 
-a568231f463225 Leilk Liu                  2015-08-07  132  
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  133  /**
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  134   * struct mtk_spi - SPI driver instance
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  135   * @base:		Start address of the SPI controller registers
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  136   * @state:		SPI controller state
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  137   * @pad_num:		Number of pad_sel entries
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  138   * @pad_sel:		Groups of pins to select
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  139   * @parent_clk:		Parent of sel_clk
-cae1578847e60a Yang Yingliang             2023-08-23  140   * @sel_clk:		SPI host mux clock
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  141   * @spi_clk:		Peripheral clock
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  142   * @spi_hclk:		AHB bus clock
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  143   * @cur_transfer:	Currently processed SPI transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  144   * @xfer_len:		Number of bytes to transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  145   * @num_xfered:		Number of transferred bytes
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  146   * @tx_sgl:		TX transfer scatterlist
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  147   * @rx_sgl:		RX transfer scatterlist
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  148   * @tx_sgl_len:		Size of TX DMA transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  149   * @rx_sgl_len:		Size of RX DMA transfer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  150   * @dev_comp:		Device data structure
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  151   * @spi_clk_hz:		Current SPI clock in Hz
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  152   * @spimem_done:	SPI-MEM operation completion
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  153   * @use_spimem:		Enables SPI-MEM
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  154   * @dev:		Device pointer
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  155   * @tx_dma:		DMA start for SPI-MEM TX
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  156   * @rx_dma:		DMA start for SPI-MEM RX
-3c5cd2e23fe4c8 AngeloGioacchino Del Regno 2022-04-07  157   */
-a568231f463225 Leilk Liu                  2015-08-07  158  struct mtk_spi {
-a568231f463225 Leilk Liu                  2015-08-07  159  	void __iomem *base;
-a568231f463225 Leilk Liu                  2015-08-07  160  	u32 state;
-37457607ecaffe Leilk Liu                  2015-10-26  161  	int pad_num;
-37457607ecaffe Leilk Liu                  2015-10-26  162  	u32 *pad_sel;
-a740f4e684c020 Leilk Liu                  2022-03-21  163  	struct clk *parent_clk, *sel_clk, *spi_clk, *spi_hclk;
-a568231f463225 Leilk Liu                  2015-08-07  164  	struct spi_transfer *cur_transfer;
-a568231f463225 Leilk Liu                  2015-08-07  165  	u32 xfer_len;
-00bca73bfca4fb Peter Shih                 2018-09-10  166  	u32 num_xfered;
-a568231f463225 Leilk Liu                  2015-08-07  167  	struct scatterlist *tx_sgl, *rx_sgl;
-a568231f463225 Leilk Liu                  2015-08-07  168  	u32 tx_sgl_len, rx_sgl_len;
-a568231f463225 Leilk Liu                  2015-08-07  169  	const struct mtk_spi_compatible *dev_comp;
-b0677bc0b5f41e Leilk Liu                  2025-02-28  170  	struct pm_qos_request qos_request;
-162a31effc4182 Mason Zhang                2021-06-29  171  	u32 spi_clk_hz;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  172  	struct completion spimem_done;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  173  	bool use_spimem;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  174  	struct device *dev;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  175  	dma_addr_t tx_dma;
-9f763fd20da7d8 Leilk Liu                  2022-03-21  176  	dma_addr_t rx_dma;
-a568231f463225 Leilk Liu                  2015-08-07 @177  };
-a568231f463225 Leilk Liu                  2015-08-07  178  
+b661f5fc96c5e9 Ivaylo Ivanov 2025-02-23  @8  #include <dt-bindings/clock/samsung,exynos2200-cmu.h>
+b661f5fc96c5e9 Ivaylo Ivanov 2025-02-23   9  #include <dt-bindings/interrupt-controller/arm-gic.h>
+b661f5fc96c5e9 Ivaylo Ivanov 2025-02-23  10  
 
 -- 
 0-DAY CI Kernel Test Service
