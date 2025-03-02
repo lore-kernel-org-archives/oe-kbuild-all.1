@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC381BE238
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 04:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C304C81
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 05:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740890362; cv=none; b=bB2J86DKb6zTzDK7mpOeFuTl+Q37mqpIzO4yqJ+32IZYeInL9RFvMVjc7j0s3fd3hsnfuWij2vKaZPpPGXlDijGul7f+jToMjo7WVGZ+X+Dnej53K6IlF66nVyfsAHkOVa/ECJyT4GSS0t8l0fOFWeJ4b642BFXBzs5ehK30u5E=
+	t=1740891663; cv=none; b=TZ5YmycvyaeyWgHay2o3l+nqvLmDYb7DHMGC1wMu6jZufCGXzDs9VenmnS/tCfiXYy0h/CzCg6K2HeOvutLJVHIViV+uUQkrH5j9Q+niwYKJGFbaATMsg9VNiedAQdzyHP+6huETYFXwOP/EUYoWMqq/g2sQxfsbma651anMNO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740890362; c=relaxed/simple;
-	bh=9PhrIp9yv02RWqI/rCYrohMCSsLmzPYpYHEMpgzUTzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmqtILJphnP0HC+/OcWt8r0gJH36d93ckElooNzbL65/jq1RA9LBZKpZdAo2RM4jk7NEUHOo8Sk3N46xzgMh2PS8pb3wiFRJ/7MT1k0IywBjhavjCx/vua5nT+7lx3jhFXFboLn+QvXy04We7VoK8WjJTUtZ529F86B6UsCCcOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eDf6v3Cd; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1740891663; c=relaxed/simple;
+	bh=cgzvNCMs/mdtsziqu6XWRi5dd5OkhstH4KvgAj7tNI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aZ4Q6ZhRb1DeYDPXTDiTGQoSN9Im/e+N/O615k0cRG7Zieggk03W+eduIIw19nU380BbJKaU+SJhNOUi9Iy9QPOiVO/1qy5+5iyPOtrG/cn/wppqU0TbJUYnOgD0zoO1745fZH/6PALXO7xBh0AHn3lcuDEJ+tKLjysj/0+6gPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYznB5CI; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eDf6v3Cd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYznB5CI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740890361; x=1772426361;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9PhrIp9yv02RWqI/rCYrohMCSsLmzPYpYHEMpgzUTzg=;
-  b=eDf6v3Cd76+9mCD2hLMV5w1t2NQAMhrJqok96bP6s6wo3y8b24J9LTXP
-   JxB8e5SgAuJbHYLEuuJ/96GpnWJyZ1boP0WRVbYrExiWSR1SNdEXGqZ5n
-   JegM6OukeBYmq9+bU3gp1S35WGx+D9fmc019ABh7q/w5WJWIF46rjMNqA
-   8se9Bc2d9YIXHKTKrlqVJG8dsQper0uuOUI6SaB6nKZiB8zL5X7wSGFm/
-   gKheks1cZSeX1C1vkYILGS8QXi745uQGTpsFQSmaIcsrEEBsZUdrkpSDb
-   yt0LOhwbauU1/1rPe5GClWxs8pO9xhIxXgAlt+U+B5OFrzW9M88qNuJfo
-   g==;
-X-CSE-ConnectionGUID: LNW1ywOPQCaySPM4TDCTeA==
-X-CSE-MsgGUID: 5mTw5YAeSPuluBVvAbiJbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41972368"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="41972368"
+  t=1740891660; x=1772427660;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cgzvNCMs/mdtsziqu6XWRi5dd5OkhstH4KvgAj7tNI8=;
+  b=VYznB5CIBRQUyLMW73VJYsp9Gom8G/hUYHmNod76f6gRcgFFn5AUFqsu
+   zDjkOHErkOM5I8m7Nej4q3sGZbVOCCc63RMIbPc/DVfSBfy8J6GNrm6vF
+   CHl/XPnjvlX8owvNlgoFEUGwB7OTXL0PMEQ1ztxcLk6oteBeoQgcyC2VF
+   rGo6MY2d1q3axpeYfPNJUr30/LiHyUg+a1CodeZvMEQJRJdimMkkkwJIn
+   fSgI4Uy/grH8Wg2QjiLV0Bdy53XfAdD7UQDrHMr2ZJC9b8VIc+IZtd/kU
+   Qy9rtW3hoVzRAsU1/pDwjZm98tRoSdHknwpI0mRZRhMcFUSCQjz6D960r
+   A==;
+X-CSE-ConnectionGUID: nvZy8Lf7T163J3euDac86Q==
+X-CSE-MsgGUID: D4WQ2KYBTDST/E5CXQj9OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="51989158"
+X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
+   d="scan'208";a="51989158"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 20:39:18 -0800
-X-CSE-ConnectionGUID: rIHpzWWYSsGmjxlQ73kKAw==
-X-CSE-MsgGUID: SWt4Nsu8T2igf8jTX7YjWA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 21:00:59 -0800
+X-CSE-ConnectionGUID: VcKzaB7FSIGkr3REDvOzdA==
+X-CSE-MsgGUID: YoTqYMCcQOa/JCL9uVAZZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="140922587"
+   d="scan'208";a="140925397"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 20:39:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 21:00:58 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tob6f-000H3m-2t;
-	Sun, 02 Mar 2025 04:39:13 +0000
-Date: Sun, 2 Mar 2025 12:38:39 +0800
+	id 1tobRf-000H4s-39;
+	Sun, 02 Mar 2025 05:00:55 +0000
+Date: Sun, 2 Mar 2025 13:00:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: mpagano@gentoo.org, linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robert.moore@intel.com,
-	rafael.j.wysocki@intel.com, Mike Pagano <mpagano@gentoo.org>
-Subject: Re: [PATCH] ACPICA: fix build with GCC 15 due to
- -Werror=unterminated-string-initialization
-Message-ID: <202503021209.06wcSVPg-lkp@intel.com>
-References: <20250228210834.811164-1-mpagano@gentoo.org>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 1/1] kernel/sched/cpuacct.c:974:5:
+ warning: no previous prototype for 'load_calc_func'
+Message-ID: <202503021220.NUwpylpo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,73 +61,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228210834.811164-1-mpagano@gentoo.org>
 
-Hi,
+Hi Michael,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mpagano-gentoo-org/ACPICA-fix-build-with-GCC-15-due-to-Werror-unterminated-string-initialization/20250301-051004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250228210834.811164-1-mpagano%40gentoo.org
-patch subject: [PATCH] ACPICA: fix build with GCC 15 due to -Werror=unterminated-string-initialization
-config: x86_64-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021209.06wcSVPg-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   b546d9695894905e1bc9de7646f89b06dbeae968
+commit: 72138c49ff07bddef1c2f042528863f81189c6ce [1/1] ck: sched: introduce asynchronous cgroup load calculation.
+config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250302/202503021220.NUwpylpo-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021209.06wcSVPg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021220.NUwpylpo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021209.06wcSVPg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021220.NUwpylpo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/acpi/nfit/core.c: In function 'nfit_init':
->> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_1081' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct acpi_table_nfit) != 40
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/acpi/nfit/core.c:3489:9: note: in expansion of macro 'BUILD_BUG_ON'
-    3489 |         BUILD_BUG_ON(sizeof(struct acpi_table_nfit) != 40);
-         |         ^~~~~~~~~~~~
+>> kernel/sched/cpuacct.c:974:5: warning: no previous prototype for 'load_calc_func' [-Wmissing-prototypes]
+     974 | int load_calc_func(void *unsed)
+         |     ^~~~~~~~~~~~~~
 
 
-vim +/__compiletime_assert_1081 +542 include/linux/compiler_types.h
+vim +/load_calc_func +974 kernel/sched/cpuacct.c
 
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  528  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  531  
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  532  /**
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  536   *
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  539   * compiler has support to do so.
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  540   */
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2d Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2d Will Deacon 2020-07-21  543  
+   973	
+ > 974	int load_calc_func(void *unsed)
+   975	{
+   976		unsigned long next_update = jiffies + LOAD_FREQ;
+   977	
+   978		while (!kthread_should_stop()) {
+   979			set_current_state(TASK_UNINTERRUPTIBLE);
+   980			schedule_timeout(HZ/5);
+   981			set_current_state(TASK_RUNNING);
+   982	
+   983			if (time_before(jiffies, next_update + 10))
+   984				continue;
+   985	
+   986			async_calc_cgroup_load();
+   987			next_update += LOAD_FREQ;
+   988		}
+   989	
+   990		return 0;
+   991	}
+   992	
 
 -- 
 0-DAY CI Kernel Test Service
