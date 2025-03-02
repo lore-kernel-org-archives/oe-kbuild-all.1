@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2407815C158
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 07:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D693FAD39
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 10:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740901184; cv=none; b=qBU7mQhXZkx0B55YAYyQSp2I7M2W7DjDaVTn+kY0mUiR5ybe5JI6kham9E7JlaN/l82/0LrsX1PyC0HBhLbBYJah6HuIe3LzYlL2ypD+YTCXahFADK3hFp9q/zcelJKV5isyej7idIZT0c2JU8axBHfDHEDfLV9zp6EwlqyD0kg=
+	t=1740909804; cv=none; b=CoGkzMbHYnVCz53R6OzF3DqR58sKhArSHh6NRIXY87GF9FyO3Hh2GtO/XbJb8NHEDMSdTX+YFux67nOhg6jNGdU/EKQDdQ5GMRUw5uvlpl8ZjkpoPPep4Z8tJuqCnhcKcTaNJfPwso1P//tzMtiHulNULPAGtSVYl0NmyBICfFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740901184; c=relaxed/simple;
-	bh=ijo9OIoH6dzlMuCZ+eQsjv98zX5Ty83nYhmkCbZ5pDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tYaEQ+puWQWR8nfAHXnRqeB3o6180YOH6C7FfSXS8Lvn3tFIDwdGAHYiTZurRUwelk5NiDJ17ulbXsaYo6jrnY+yXB8eLAjNnnn+1+bUEfVL/tiNOGteO7gBApVxQcDsf1DgmtVoQ1XjDPOJ/Eokp3oHKwCi4vWBQfNcrPQ4kYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lmjYNhkH; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1740909804; c=relaxed/simple;
+	bh=qkiG6gq/gUK5HOJ1OiRbl8+BqMrnUIlRfC4kO/jChpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HP5sR7UQCwrWxBOLGUmtcYbXZ25blrrH6uErYE72ixaxZCNoYWAZS25caQ4drWaC0xLP4voZMSnuStw7iBKIhCiTlO9hsOIxKqyvoUP44gicMVNJ1UtqYPn4YgzCrja0wDsak4Ij03AUpror5Ea6wRpYLXl++BvmQmfF2sXSPKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceyK0VAL; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lmjYNhkH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceyK0VAL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740901183; x=1772437183;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ijo9OIoH6dzlMuCZ+eQsjv98zX5Ty83nYhmkCbZ5pDk=;
-  b=lmjYNhkHXRWiJ5v9QKt2BGFJkMEB88aX1iNJIXbfQDHCFsv9SXDDnjF1
-   E026RwPvhpjmjvexuz0tMIV3/Ds8LihbTG994aMNCLliYLolGdrS0dYQg
-   DSg5RP2g9eU9rLmHDnT8U6eLNsNQpSDLhquHMoxx+q2cOblJrY/w2myPt
-   er466cvRcMUZgQbcF+3AUVs5AoTA2HvcNokNmDRV7uKygt62FxIUf8co2
-   QiGB9Xj9619dKOBRWBrpwin3C2LZ8bMDWJEd73XhxHljZVqrwxTOEjrit
-   kiNejD3tPnnyp6C9bXiia50JPrLdwMlF3Ccg8NU3KOK6aeA4+7kvGX9kv
-   g==;
-X-CSE-ConnectionGUID: HlSSYv0PTF6LHxJn1zXsZQ==
-X-CSE-MsgGUID: Kmlv29dwT+OkjaOY4TOjMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="45568126"
+  t=1740909801; x=1772445801;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qkiG6gq/gUK5HOJ1OiRbl8+BqMrnUIlRfC4kO/jChpQ=;
+  b=ceyK0VALY+0cRSl00K/0UQwuWVA4pWIpd56QzcD2B+F0BIqxueVyrLT6
+   GXKYiXdqX+n2at8MZZtsZxg48uS6/DbJbMtYXgPkVFJBMhmcXC3XTAAs3
+   0wQ5C3tC3C8pPBd9OApzDCxZimGgUgUEsbuEuUexcaV3eVNNyBlVm2Zbv
+   tJNPwSzqzPGKXLaS6Tq/WJAJWxSV4cXKRFmTaxTjGORZnmcZe5CtnkE2u
+   fhoBw/70jS6i9P6WJaA5hxOzYyfSH54CG9+i2s3ka6G5hAvtP7iOSujUB
+   JLlCUi7xm0QkwS0aexQdvhE09qu/niFezkgAmGn1RApAj0MxIhPPCM5kC
+   Q==;
+X-CSE-ConnectionGUID: kkum7S4fTRmE3lLOjYhJEg==
+X-CSE-MsgGUID: PqI59jOFTB+Vwr7QwsT6Hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41036291"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="45568126"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 23:39:42 -0800
-X-CSE-ConnectionGUID: 8UGSvqJpTKy8oOIY0vPdDQ==
-X-CSE-MsgGUID: gHksGNsXTWyNV1i/eE661g==
+   d="scan'208";a="41036291"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 02:03:20 -0800
+X-CSE-ConnectionGUID: dNJr6+OQRa2i9eJkg2dtZw==
+X-CSE-MsgGUID: I5mepTOASsCIBNiMk4MhQQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="117473383"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118642152"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Mar 2025 23:39:35 -0800
+  by orviesa008.jf.intel.com with ESMTP; 02 Mar 2025 02:03:18 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1todvA-000HAU-1e;
-	Sun, 02 Mar 2025 07:39:32 +0000
-Date: Sun, 2 Mar 2025 15:39:18 +0800
+	id 1togAG-000HEY-1O;
+	Sun, 02 Mar 2025 10:03:16 +0000
+Date: Sun, 2 Mar 2025 18:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
-	eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 18/18] bitops: Add parity() macro for automatic
- type-based selection
-Message-ID: <202503021526.S9ZVzkRV-lkp@intel.com>
-References: <20250301142409.2513835-19-visitorckw@gmail.com>
+To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrzej Hajda <a.hajda@samsung.com>
+Subject: drivers/video/fbdev/mmp/hw/mmp_spi.c:31: warning: expecting
+ prototype for spi_write(). Prototype was for lcd_spi_write() instead
+Message-ID: <202503021738.nUmNW1Ny-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,75 +62,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250301142409.2513835-19-visitorckw@gmail.com>
 
-Hi Kuan-Wei,
+Hi Bartlomiej,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on next-20250228]
-[cannot apply to akpm-mm/mm-nonmm-unstable dtor-input/next dtor-input/for-linus tty/tty-testing tty/tty-next tty/tty-linus wireless-next/main wireless/main mtd/mtd/next mtd/mtd/fixes linus/master v6.14-rc4 v6.14-rc3 v6.14-rc2 v6.14-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuan-Wei-Chiu/lib-parity-Add-__builtin_parity-fallback-implementations/20250301-222957
-base:   next-20250228
-patch link:    https://lore.kernel.org/r/20250301142409.2513835-19-visitorckw%40gmail.com
-patch subject: [PATCH v2 18/18] bitops: Add parity() macro for automatic type-based selection
-config: powerpc64-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021526.S9ZVzkRV-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021526.S9ZVzkRV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ece144f151ac7bf8bb5b98f7d4aeeda7a2eed02a
+commit: dd90e9ae55a1e7efd3ac036afe9f7ae7bb64d39d video: fbdev: mmp: add COMPILE_TEST support
+date:   5 years ago
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250302/202503021738.nUmNW1Ny-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021738.nUmNW1Ny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021526.S9ZVzkRV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021738.nUmNW1Ny-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c:7:
->> include/linux/bitops.h:343:2: error: expected identifier or '(' before '{' token
-     343 | ({                                      \
-         |  ^
-   drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c:173:12: note: in expansion of macro 'parity'
-     173 | static u32 parity(u32 sample)
-         |            ^~~~~~
---
-   In file included from dw-hdmi-ahb-audio.c:7:
->> include/linux/bitops.h:343:2: error: expected identifier or '(' before '{' token
-     343 | ({                                      \
-         |  ^
-   dw-hdmi-ahb-audio.c:173:12: note: in expansion of macro 'parity'
-     173 | static u32 parity(u32 sample)
-         |            ^~~~~~
+   drivers/video/fbdev/mmp/hw/mmp_spi.c:31: warning: Function parameter or struct member 'spi' not described in 'lcd_spi_write'
+>> drivers/video/fbdev/mmp/hw/mmp_spi.c:31: warning: expecting prototype for spi_write(). Prototype was for lcd_spi_write() instead
 
 
-vim +343 include/linux/bitops.h
+vim +31 drivers/video/fbdev/mmp/hw/mmp_spi.c
 
-   341	
-   342	#define parity(val)			\
- > 343	({					\
-   344		int __ret;			\
-   345		switch (BITS_PER_TYPE(val)) {	\
-   346		case 64:			\
-   347			__ret = parity64(val);	\
-   348			break;			\
-   349		case 32:			\
-   350			__ret = parity32(val);	\
-   351			break;			\
-   352		case 16:			\
-   353			__ret = parity16(val);	\
-   354			break;			\
-   355		case 8:				\
-   356			__ret = parity8(val);	\
-   357			break;			\
-   358		default:			\
-   359			BUILD_BUG();		\
-   360		}				\
-   361		__ret;				\
-   362	})
-   363	
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  17  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  18  /**
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  19   * spi_write - write command to the SPI port
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  20   * @data: can be 8/16/32-bit, MSB justified data to write.
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  21   * @len:  data length.
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  22   *
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  23   * Wait bus transfer complete IRQ.
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  24   * The caller is expected to perform the necessary locking.
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  25   *
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  26   * Returns:
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  27   *   %-ETIMEDOUT	timeout occurred
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  28   *   0			success
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  29   */
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  30  static inline int lcd_spi_write(struct spi_device *spi, u32 data)
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21 @31  {
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  32  	int timeout = 100000, isr, ret = 0;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  33  	u32 tmp;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  34  	void *reg_base =
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  35  		*(void **)spi_master_get_devdata(spi->master);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  36  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  37  	/* clear ISR */
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  38  	writel_relaxed(~SPI_IRQ_MASK, reg_base + SPU_IRQ_ISR);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  39  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  40  	switch (spi->bits_per_word) {
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  41  	case 8:
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  42  		writel_relaxed((u8)data, reg_base + LCD_SPU_SPI_TXDATA);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  43  		break;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  44  	case 16:
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  45  		writel_relaxed((u16)data, reg_base + LCD_SPU_SPI_TXDATA);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  46  		break;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  47  	case 32:
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  48  		writel_relaxed((u32)data, reg_base + LCD_SPU_SPI_TXDATA);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  49  		break;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  50  	default:
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  51  		dev_err(&spi->dev, "Wrong spi bit length\n");
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  52  	}
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  53  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  54  	/* SPI start to send command */
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  55  	tmp = readl_relaxed(reg_base + LCD_SPU_SPI_CTRL);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  56  	tmp &= ~CFG_SPI_START_MASK;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  57  	tmp |= CFG_SPI_START(1);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  58  	writel(tmp, reg_base + LCD_SPU_SPI_CTRL);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  59  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  60  	isr = readl_relaxed(reg_base + SPU_IRQ_ISR);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  61  	while (!(isr & SPI_IRQ_ENA_MASK)) {
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  62  		udelay(100);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  63  		isr = readl_relaxed(reg_base + SPU_IRQ_ISR);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  64  		if (!--timeout) {
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  65  			ret = -ETIMEDOUT;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  66  			dev_err(&spi->dev, "spi cmd send time out\n");
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  67  			break;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  68  		}
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  69  	}
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  70  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  71  	tmp = readl_relaxed(reg_base + LCD_SPU_SPI_CTRL);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  72  	tmp &= ~CFG_SPI_START_MASK;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  73  	tmp |= CFG_SPI_START(0);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  74  	writel_relaxed(tmp, reg_base + LCD_SPU_SPI_CTRL);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  75  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  76  	writel_relaxed(~SPI_IRQ_MASK, reg_base + SPU_IRQ_ISR);
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  77  
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  78  	return ret;
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  79  }
+641b4b1b6a7cb4 drivers/video/mmp/hw/mmp_spi.c Zhou Zhu 2013-02-21  80  
+
+:::::: The code at line 31 was first introduced by commit
+:::::: 641b4b1b6a7cb4ab21cfd9dd7b93a1162eae4501 video: mmpdisp: add spi port in display controller
+
+:::::: TO: Zhou Zhu <zzhu3@marvell.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
