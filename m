@@ -1,128 +1,198 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEFA1D7E26
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 10:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD561D7E26
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 10:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740912204; cv=none; b=Fn46tPjMDo81mYhzzVvZF39kkcfVynZFETWRA2N069obMMrvScJm5FtlXbtHT49WjEeFfkf+vOcWf3ePvKR1HGiDDPymFPyOGEwI6HLhfDyPT09sK950jSGA77l6YCNCmCz0NTZwMazZnS7/swvBDi0wabdQVxlAzn583Nun2vI=
+	t=1740912280; cv=none; b=hMp+8uAlAVKub0EVu17NSL5aMVqIomAxMW+JNmqs6U6l62VmEYHfcGPew3zZNUQm3gX26C1wSVco6zKE7bM1OAoyojUfDNL498Cjm8hUIvpiwkafxSudTCMMVvJtvsldCV/hpofKx/pa1qnlgFMNxyX0Hu7ilDYyETFiJbUDyeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740912204; c=relaxed/simple;
-	bh=SMf/useHHf1YMvHuunXb88SljOIu1qy0owYLKdn1GPA=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZczYyWfn7bA6WHYyJV9zFFgZukvo7LoTWhGYWl/moDvgVRnaWI6k38gN0mXOBNv+qONJaBjTm44RJdMh4CFaACyPa/ve9EoZhhQDPdCR+Lsl9PvNhsGxVnZUG32Bn8SR+mBz8oyqBqmQab3t0fZbcifnw5dSYS4Kb0IANXA1dt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=mz6Nbgec; arc=none smtp.client-ip=192.134.164.83
+	s=arc-20240116; t=1740912280; c=relaxed/simple;
+	bh=JZcS/dfDHs8BK3SuZZhwRawDXjzK/bMHDHACUlf9zek=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=GDmwCKGNurrwUNtYVMx5QenU3whImeqRw2n3RGStH0tzR6EdW56lMf9lmetaByTpOWbFO18vHZ5jJJGAZzWG5b/R+su3rUqauPnLUhQXwuXE/I0AYv0S/LDpS4wOxDv7DJoJcujgrAh97cVVGO9EQVCdinydrtTrkPBx2vAflt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=KHrNOj7Z; arc=none smtp.client-ip=192.134.164.104
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="mz6Nbgec"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="KHrNOj7Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T4q9NpZeM/ZlPGNhbv28c1M44w3nObBptqjTGFpYdu4=;
-  b=mz6Nbgecxg9eTwXzfNEcQcbPWbNguWJpb06WvEINpfNWY1Ic349jzcRv
-   K1xwAkFlCgQVwyyCXqJ8RJAwFZVIesXNcYWRVRmghELbeEXzvDdjITAnG
-   xb+rjKzmnOlLWZtLHzcYr+qkaE/AXPzFEA3j6HfHkQ6DBgk0oo/p897Ms
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+  bh=LQvvSAfClQxQS3OXN/wRKyr4X8vmwB6Lk7tLree07v4=;
+  b=KHrNOj7ZGlaTm1kKM4499QECxOFwGyxNjiKgbjpfcptIiYduLcNAJH5F
+   5TTB7wEtMdd6llOXtB0gc/zKHlpuVFKTsJTS8VOIaHunFk2MdfT1nI9il
+   MzIkals4perNLUjScE05imm1MzC31K6WerkxdKINqYGudMGn3kb5EKOt2
+   M=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.13,327,1732575600"; 
-   d="scan'208";a="210730154"
+   d="scan'208";a="110421708"
 Received: from unknown (HELO hadrien) ([50.225.219.62])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 11:42:09 +0100
-Date: Sun, 2 Mar 2025 05:42:08 -0500 (EST)
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 11:43:24 +0100
+Date: Sun, 2 Mar 2025 05:43:22 -0500 (EST)
 From: Julia Lawall <julia.lawall@inria.fr>
-To: Robert Budai <robert.budai@analog.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
 cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-    Ramona Gradinariu <ramona.gradinariu@analog.com>, 
-    Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-    =?ISO-8859-15?Q?Nuno_S=E1?= <nuno.sa@analog.com>, 
     oe-kbuild-all@lists.linux.dev
-Subject: [jic23-iio:testing 131/172] drivers/iio/imu/adis16550.c:1029:22-52:
- duplicated argument to & or | (fwd)
-Message-ID: <597fff55-e92b-8dc-d75-384b3b9a903f@inria.fr>
+Subject: [jic23-iio:testing 82/172] drivers/iio/adc/ad4851.c:581:6-7: WARNING:
+ Unsigned expression compared with zero: c < 0 (fwd)
+Message-ID: <106a76ae-19b8-fa72-38fa-c82125552efc@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1515898418-1740912130=:3240"
+Content-Type: text/plain; charset=US-ASCII
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On line 581, c is unsigned, so it is not less than 0.
 
---8323329-1515898418-1740912130=:3240
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
-
-ADIS16550_STATUS_CRC_CODE is used twice
+julia
 
 ---------- Forwarded message ----------
-Date: Sun, 2 Mar 2025 15:17:56 +0800
+Date: Sun, 2 Mar 2025 14:24:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [jic23-iio:testing 131/172] drivers/iio/imu/adis16550.c:1029:22-52:
-    duplicated argument to & or |
+Subject: [jic23-iio:testing 82/172] drivers/iio/adc/ad4851.c:581:6-7: WARNING:
+    Unsigned expression compared with zero: c < 0
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Robert Budai <robert.budai@analog.com>
+TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
 CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Ramona Gradinariu <ramona.gradinariu@analog.com>
-CC: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: "Nuno Sá" <nuno.sa@analog.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
 head:   bd9ffb54e566ad6f94ec4293f82f06d417b6cfc8
-commit: 55be950cfc6031263d6dd3d6518a5a934ae414cd [131/172] iio: imu: adis16550: add adis16550 support
-:::::: branch date: 28 hours ago
-:::::: commit date: 8 days ago
-config: m68k-randconfig-r064-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021535.37zbQXIZ-lkp@intel.com/config)
+commit: 6250803fe2ec92be32a4df1c3a39c4a460d5bd58 [82/172] iio: adc: ad4851: add ad485x driver
+:::::: branch date: 27 hours ago
+:::::: commit date: 2 weeks ago
+config: m68k-randconfig-r064-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021430.iImts3C4-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202503021535.37zbQXIZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503021430.iImts3C4-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/iio/imu/adis16550.c:1029:22-52: duplicated argument to & or |
+>> drivers/iio/adc/ad4851.c:581:6-7: WARNING: Unsigned expression compared with zero: c < 0
 
-vim +1029 drivers/iio/imu/adis16550.c
+vim +581 drivers/iio/adc/ad4851.c
 
-55be950cfc6031 Robert Budai 2025-02-17  1018
-55be950cfc6031 Robert Budai 2025-02-17  1019  static const struct adis_data adis16550_data = {
-55be950cfc6031 Robert Budai 2025-02-17  1020  	.diag_stat_reg = ADIS16550_REG_STATUS,
-55be950cfc6031 Robert Budai 2025-02-17  1021  	.diag_stat_size = 4,
-55be950cfc6031 Robert Budai 2025-02-17  1022  	.prod_id_reg = ADIS16550_REG_PROD_ID,
-55be950cfc6031 Robert Budai 2025-02-17  1023  	.prod_id = 16550,
-55be950cfc6031 Robert Budai 2025-02-17  1024  	.self_test_mask = BIT(1),
-55be950cfc6031 Robert Budai 2025-02-17  1025  	.self_test_reg = ADIS16550_REG_COMMAND,
-55be950cfc6031 Robert Budai 2025-02-17  1026  	.cs_change_delay = 5,
-55be950cfc6031 Robert Budai 2025-02-17  1027  	.unmasked_drdy = true,
-55be950cfc6031 Robert Budai 2025-02-17  1028  	.status_error_msgs = adis16550_status_error_msgs,
-55be950cfc6031 Robert Budai 2025-02-17 @1029  	.status_error_mask = BIT(ADIS16550_STATUS_CRC_CODE) |
-55be950cfc6031 Robert Budai 2025-02-17  1030  			BIT(ADIS16550_STATUS_CRC_CONFIG) |
-55be950cfc6031 Robert Budai 2025-02-17  1031  			BIT(ADIS16550_STATUS_FLASH_UPDATE) |
-55be950cfc6031 Robert Budai 2025-02-17  1032  			BIT(ADIS16550_STATUS_INERIAL) |
-55be950cfc6031 Robert Budai 2025-02-17  1033  			BIT(ADIS16550_STATUS_SENSOR) |
-55be950cfc6031 Robert Budai 2025-02-17  1034  			BIT(ADIS16550_STATUS_TEMPERATURE) |
-55be950cfc6031 Robert Budai 2025-02-17  1035  			BIT(ADIS16550_STATUS_SPI) |
-55be950cfc6031 Robert Budai 2025-02-17  1036  			BIT(ADIS16550_STATUS_PROCESSING) |
-55be950cfc6031 Robert Budai 2025-02-17  1037  			BIT(ADIS16550_STATUS_POWER) |
-55be950cfc6031 Robert Budai 2025-02-17  1038  			BIT(ADIS16550_STATUS_BOOT) |
-55be950cfc6031 Robert Budai 2025-02-17  1039  			BIT(ADIS16550_STATUS_WATCHDOG) |
-55be950cfc6031 Robert Budai 2025-02-17  1040  			BIT(ADIS16550_STATUS_REGULATOR) |
-55be950cfc6031 Robert Budai 2025-02-17  1041  			BIT(ADIS16550_STATUS_SENSOR_SUPPLY) |
-55be950cfc6031 Robert Budai 2025-02-17  1042  			BIT(ADIS16550_STATUS_CPU_SUPPLY) |
-55be950cfc6031 Robert Budai 2025-02-17  1043  			BIT(ADIS16550_STATUS_5V_SUPPLY) |
-55be950cfc6031 Robert Budai 2025-02-17  1044  			BIT(ADIS16550_STATUS_CRC_CODE),
-55be950cfc6031 Robert Budai 2025-02-17  1045  	.timeouts = &adis16550_timeouts,
-55be950cfc6031 Robert Budai 2025-02-17  1046  };
-55be950cfc6031 Robert Budai 2025-02-17  1047
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  491
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  492  static int ad4851_calibrate(struct iio_dev *indio_dev)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  493  {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  494  	struct ad4851_state *st = iio_priv(indio_dev);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  495  	unsigned int opt_delay, num_lanes, delay, i, s, c;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  496  	enum iio_backend_interface_type interface_type;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  497  	DECLARE_BITMAP(pn_status, AD4851_MAX_LANES * AD4851_MAX_IODELAY);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  498  	bool status;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  499  	int ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  500
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  501  	ret = iio_backend_interface_type_get(st->back, &interface_type);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  502  	if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  503  		return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  504
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  505  	switch (interface_type) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  506  	case IIO_BACKEND_INTERFACE_SERIAL_CMOS:
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  507  		num_lanes = indio_dev->num_channels;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  508  		break;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  509  	case IIO_BACKEND_INTERFACE_SERIAL_LVDS:
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  510  		num_lanes = 1;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  511  		break;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  512  	default:
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  513  		return -EINVAL;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  514  	}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  515
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  516  	if (st->info->resolution == 16) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  517  		ret = iio_backend_data_size_set(st->back, 24);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  518  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  519  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  520
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  521  		ret = regmap_write(st->regmap, AD4851_REG_PACKET,
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  522  				   AD4851_TEST_PAT | AD4857_PACKET_SIZE_24);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  523  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  524  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  525  	} else {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  526  		ret = iio_backend_data_size_set(st->back, 32);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  527  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  528  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  529
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  530  		ret = regmap_write(st->regmap, AD4851_REG_PACKET,
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  531  				   AD4851_TEST_PAT | AD4858_PACKET_SIZE_32);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  532  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  533  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  534  	}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  535
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  536  	for (i = 0; i < indio_dev->num_channels; i++) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  537  		ret = regmap_write(st->regmap, AD4851_REG_TESTPAT_0(i),
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  538  				   AD4851_TESTPAT_0_DEFAULT);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  539  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  540  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  541
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  542  		ret = regmap_write(st->regmap, AD4851_REG_TESTPAT_1(i),
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  543  				   AD4851_TESTPAT_1_DEFAULT);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  544  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  545  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  546
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  547  		ret = regmap_write(st->regmap, AD4851_REG_TESTPAT_2(i),
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  548  				   AD4851_TESTPAT_2_DEFAULT);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  549  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  550  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  551
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  552  		ret = regmap_write(st->regmap, AD4851_REG_TESTPAT_3(i),
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  553  				   AD4851_TESTPAT_3_DEFAULT(i));
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  554  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  555  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  556
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  557  		ret = iio_backend_chan_enable(st->back,
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  558  					      indio_dev->channels[i].channel);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  559  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  560  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  561  	}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  562
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  563  	for (i = 0; i < num_lanes; i++) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  564  		for (delay = 0; delay < AD4851_MAX_IODELAY; delay++) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  565  			ret = iio_backend_iodelay_set(st->back, i, delay);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  566  			if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  567  				return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  568
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  569  			ret = iio_backend_chan_status(st->back, i, &status);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  570  			if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  571  				return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  572
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  573  			__assign_bit(i * AD4851_MAX_IODELAY + delay, pn_status,
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  574  				     status);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  575  		}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  576  	}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  577
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  578  	for (i = 0; i < num_lanes; i++) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  579  		c = ad4851_find_opt(pn_status, i * AD4851_MAX_IODELAY,
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  580  				    AD4851_MAX_IODELAY, &s);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14 @581  		if (c < 0)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  582  			return c;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  583
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  584  		opt_delay = s + c / 2;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  585  		ret = iio_backend_iodelay_set(st->back, i, opt_delay);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  586  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  587  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  588  	}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  589
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  590  	for (i = 0; i < indio_dev->num_channels; i++) {
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  591  		ret = iio_backend_chan_disable(st->back, i);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  592  		if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  593  			return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  594  	}
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  595
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  596  	ret = iio_backend_data_size_set(st->back, 20);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  597  	if (ret)
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  598  		return ret;
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  599
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  600  	return regmap_write(st->regmap, AD4851_REG_PACKET, 0);
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  601  }
+6250803fe2ec92 Antoniu Miclaus 2025-02-14  602
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
---8323329-1515898418-1740912130=:3240--
