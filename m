@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697AE2F5E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A45FA94A
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 00:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740875320; cv=none; b=sOkd3IgfZ5zPuVT86vuD0wWHnTahTWVKzspGuXSgHzT4AcBy+TRmG4/fTeAPnbl4LpXukDdY6N3bxIpjdbPfa+2S9M96t0To1WAX1PvLt9Kf2nWn0hNgkT3MNms3w2pycWCMHWjQUGEP5lQOvZvqGE3GAoDMmKXKHD2Zyf4Qj3U=
+	t=1740875320; cv=none; b=aXTU7XTyxSrXgKhM+mWtQlxf5VHJlvn+w1+Nw/RWkYgn4vI/eQcSe67CGVzwAhfNs9MsxdE+RoWOfFHoePhK+81oe5Dvl4Hf0L4x5KVD/0U48NK+Zanf0J12yuAtU1Vn6aBk0csb3oGFoBuN5mcpQXHYGRHiklJZlPuwoXYFebI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1740875320; c=relaxed/simple;
-	bh=7vZwj35QFra0RPLpXA0mlMG/BnwsXWStgQC6dVZIZbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QjC2Y9WseU5pR5Ida7fo1lqTcROgjUEa0eR1vkrB2H+muur28a/wNNpetj9crOEZKJsruzqdC5bN93BqEas5Drh8/lPm7Jz9Ti1PXtG1dX9Iob1cwWflkugCxBew9nOgj7GEoKtQOjxc5HkOjGlZD6zc+H5JSzP9mneVlmYvru8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtAPLc2a; arc=none smtp.client-ip=198.175.65.11
+	bh=coxWUmmNx97w4l33J/Yb+7uJfTmL1Yv3/UE1VvBSjgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L/aRAAyB1wij1gyR72YuXslzHjUqe+7truYX60+0opY1wnoIm6oF66byoFT8Ix4oDFmRI5zeVUxvy4P8cGZIJLwcV3p8Ih54kyiCR2u0/qW4pxwN9ZQXuo/U5YiEuRhSqdW9GV6DUhqvBAAYmzH28vr5UpD3vlxnwKR4+EZkNUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RpkKSyOX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtAPLc2a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RpkKSyOX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740875318; x=1772411318;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7vZwj35QFra0RPLpXA0mlMG/BnwsXWStgQC6dVZIZbI=;
-  b=mtAPLc2aUUCmdtQcEBSVUUqAceo+5fNhV3NyEPnm2Fag3pC/QB6ko0+D
-   eefEs0s05bSy7SrrKL/madW7nR/FUFWtHqlmNJ7TpLJQg4WSh09mVtuSy
-   tJPdZ5Dh5OkpGNpUL5ABggnCP7aWX4dSFNZcmC7zl1EyDLhC6/rMqJDTs
-   rvQD7GSONAKRMArR22u1xc6mj7a7grt3xPsXsYfIYc1tqq+b9Y4YsRANH
-   scbX9JgrtmWoEOn8Ej7UVXNyWupZTwxTY9SitB7g4FD23AXthxXaVbpHe
-   fiofn+dTkExhkfgvQFwl63iEHJHJT43JD7aHLO2vAjXTrTLX6iF9pI3dm
+  t=1740875319; x=1772411319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=coxWUmmNx97w4l33J/Yb+7uJfTmL1Yv3/UE1VvBSjgY=;
+  b=RpkKSyOXArvd4zTvPGiDbnTbMFykSQhka2PKNOkdC5g7OlTmmOkSRBr5
+   57HP3GCO1XhfdOLeEEfdJdD4qPFaWj+SslVz8MhzxgzYJ/51yQLJtPGlS
+   WTAQPsTVtCpT6F4sLM7g2yZlA9a2C1re4kNI0HBvBZ3z7o4uzBsa7ikvi
+   kRZF67larLV0w2x2hfFAciE12FKqiPailONSEJjBLhUzwU++szl844jm0
+   YNgqVvDXaO2io0hM4I7XGgZqoyuQY9anjwpO2hl8T4dlAx7pD7XWtELhp
+   cah2hz6fZRDVlfM00jrTiGEeLl55qb3XKz/8rkPljJjs9qbQAiTh83qZ4
    Q==;
-X-CSE-ConnectionGUID: iIR/TCD0Tq+gKH3Bu8PFWg==
-X-CSE-MsgGUID: CxMdpMY1Qv6hTsKd+rJ7kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="51979796"
+X-CSE-ConnectionGUID: gpM4DJfXSzGVP+xSeQpO6g==
+X-CSE-MsgGUID: +sD6kgrUSzqk6fz/FIXMjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="29361462"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="51979796"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 16:28:38 -0800
-X-CSE-ConnectionGUID: dadTO6cbRdO2cEmpUpup7g==
-X-CSE-MsgGUID: JOOfu4/PS8SqxXAiPsudWQ==
+   d="scan'208";a="29361462"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 16:28:39 -0800
+X-CSE-ConnectionGUID: oXG5t3tdT0ioO23T9sNliw==
+X-CSE-MsgGUID: CXjXPWKDQJetiY6G8nrucQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="148470670"
+   d="scan'208";a="140888793"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Mar 2025 16:28:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 16:28:36 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toXC6-000GtC-2E;
+	id 1toXC6-000Gt4-21;
 	Sun, 02 Mar 2025 00:28:34 +0000
-Date: Sun, 2 Mar 2025 08:28:09 +0800
+Date: Sun, 2 Mar 2025 08:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:locking/futex 21/21] kernel/futex/core.c:328:19:
- error: 'struct vm_area_struct' has no member named 'vm_policy'
-Message-ID: <202503020836.CZ3LaPLw-lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+	Basavaraj.Natikar@amd.com, Shyam-sundar.S-k@amd.com,
+	linus.walleij@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
+Message-ID: <202503020849.ZhLZ4W63-lkp@intel.com>
+References: <20250227205049.765309-3-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,78 +64,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250227205049.765309-3-superm1@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/futex
-head:   49fd6b8f5d595592bab59b1fd2bfa57d1bd8c767
-commit: 49fd6b8f5d595592bab59b1fd2bfa57d1bd8c767 [21/21] futex: Implement FUTEX2_MPOL
-config: x86_64-buildonly-randconfig-004-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020836.CZ3LaPLw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020836.CZ3LaPLw-lkp@intel.com/reproduce)
+Hi Mario,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-Add-missing-prototype-for-non-CONFIG_SUSPEND-CONFIG_X86-case/20250228-045242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20250227205049.765309-3-superm1%40kernel.org
+patch subject: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
+config: hexagon-randconfig-r062-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020849.ZhLZ4W63-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020849.ZhLZ4W63-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020836.CZ3LaPLw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020849.ZhLZ4W63-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/futex/core.c: In function '__futex_key_to_node':
->> kernel/futex/core.c:328:19: error: 'struct vm_area_struct' has no member named 'vm_policy'
-     328 |         mpol = vma->vm_policy;
-         |                   ^~
->> kernel/futex/core.c:332:21: error: 'struct mempolicy' has no member named 'mode'
-     332 |         switch (mpol->mode) {
-         |                     ^~
-   In file included from include/linux/list_lru.h:12,
-                    from include/linux/fs.h:13,
-                    from include/linux/compat.h:17,
-                    from kernel/futex/core.c:34:
->> kernel/futex/core.c:334:39: error: 'struct mempolicy' has no member named 'nodes'
-     334 |                 node = first_node(mpol->nodes);
-         |                                       ^~
-   include/linux/nodemask.h:263:40: note: in definition of macro 'first_node'
-     263 | #define first_node(src) __first_node(&(src))
-         |                                        ^~~
->> kernel/futex/core.c:338:25: error: 'struct mempolicy' has no member named 'home_node'
-     338 |                 if (mpol->home_node != NUMA_NO_NODE)
-         |                         ^~
-   kernel/futex/core.c:339:36: error: 'struct mempolicy' has no member named 'home_node'
-     339 |                         node = mpol->home_node;
-         |                                    ^~
+   drivers/pinctrl/pinctrl-amd.c:1210:2: error: call to undeclared function 'acpi_register_lps0_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1210 |         acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |         ^
+>> drivers/pinctrl/pinctrl-amd.c:1210:26: error: use of undeclared identifier 'pinctrl_amd_s2idle_dev_ops'
+    1210 |         acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |                                 ^
+   drivers/pinctrl/pinctrl-amd.c:1229:2: error: call to undeclared function 'acpi_unregister_lps0_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1229 |         acpi_unregister_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |         ^
+   drivers/pinctrl/pinctrl-amd.c:1229:28: error: use of undeclared identifier 'pinctrl_amd_s2idle_dev_ops'
+    1229 |         acpi_unregister_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |                                   ^
+   4 errors generated.
 
 
-vim +328 kernel/futex/core.c
+vim +/pinctrl_amd_s2idle_dev_ops +1210 drivers/pinctrl/pinctrl-amd.c
 
-   318	
-   319	static int __futex_key_to_node(struct mm_struct *mm, unsigned long addr)
-   320	{
-   321		struct vm_area_struct *vma = vma_lookup(mm, addr);
-   322		struct mempolicy *mpol;
-   323		int node = FUTEX_NO_NODE;
-   324	
-   325		if (!vma)
-   326			return FUTEX_NO_NODE;
-   327	
- > 328		mpol = vma->vm_policy;
-   329		if (!mpol)
-   330			return FUTEX_NO_NODE;
-   331	
- > 332		switch (mpol->mode) {
-   333		case MPOL_PREFERRED:
- > 334			node = first_node(mpol->nodes);
-   335			break;
-   336		case MPOL_PREFERRED_MANY:
-   337		case MPOL_BIND:
- > 338			if (mpol->home_node != NUMA_NO_NODE)
-   339				node = mpol->home_node;
-   340			break;
-   341		default:
-   342			break;
-   343		}
-   344	
-   345		return node;
-   346	}
-   347	
+  1151	
+  1152		gpio_dev->pdev = pdev;
+  1153		gpio_dev->gc.get_direction	= amd_gpio_get_direction;
+  1154		gpio_dev->gc.direction_input	= amd_gpio_direction_input;
+  1155		gpio_dev->gc.direction_output	= amd_gpio_direction_output;
+  1156		gpio_dev->gc.get			= amd_gpio_get_value;
+  1157		gpio_dev->gc.set			= amd_gpio_set_value;
+  1158		gpio_dev->gc.set_config		= amd_gpio_set_config;
+  1159		gpio_dev->gc.dbg_show		= amd_gpio_dbg_show;
+  1160	
+  1161		gpio_dev->gc.base		= -1;
+  1162		gpio_dev->gc.label			= pdev->name;
+  1163		gpio_dev->gc.owner			= THIS_MODULE;
+  1164		gpio_dev->gc.parent			= &pdev->dev;
+  1165		gpio_dev->gc.ngpio			= resource_size(res) / 4;
+  1166	
+  1167		gpio_dev->hwbank_num = gpio_dev->gc.ngpio / 64;
+  1168		gpio_dev->groups = kerncz_groups;
+  1169		gpio_dev->ngroups = ARRAY_SIZE(kerncz_groups);
+  1170	
+  1171		amd_pinctrl_desc.name = dev_name(&pdev->dev);
+  1172		amd_get_iomux_res(gpio_dev);
+  1173		gpio_dev->pctrl = devm_pinctrl_register(&pdev->dev, &amd_pinctrl_desc,
+  1174							gpio_dev);
+  1175		if (IS_ERR(gpio_dev->pctrl)) {
+  1176			dev_err(&pdev->dev, "Couldn't register pinctrl driver\n");
+  1177			return PTR_ERR(gpio_dev->pctrl);
+  1178		}
+  1179	
+  1180		/* Disable and mask interrupts */
+  1181		amd_gpio_irq_init(gpio_dev);
+  1182	
+  1183		girq = &gpio_dev->gc.irq;
+  1184		gpio_irq_chip_set_chip(girq, &amd_gpio_irqchip);
+  1185		/* This will let us handle the parent IRQ in the driver */
+  1186		girq->parent_handler = NULL;
+  1187		girq->num_parents = 0;
+  1188		girq->parents = NULL;
+  1189		girq->default_type = IRQ_TYPE_NONE;
+  1190		girq->handler = handle_simple_irq;
+  1191	
+  1192		ret = gpiochip_add_data(&gpio_dev->gc, gpio_dev);
+  1193		if (ret)
+  1194			return ret;
+  1195	
+  1196		ret = gpiochip_add_pin_range(&gpio_dev->gc, dev_name(&pdev->dev),
+  1197					0, 0, gpio_dev->gc.ngpio);
+  1198		if (ret) {
+  1199			dev_err(&pdev->dev, "Failed to add pin range\n");
+  1200			goto out2;
+  1201		}
+  1202	
+  1203		ret = devm_request_irq(&pdev->dev, gpio_dev->irq, amd_gpio_irq_handler,
+  1204				       IRQF_SHARED | IRQF_COND_ONESHOT, KBUILD_MODNAME, gpio_dev);
+  1205		if (ret)
+  1206			goto out2;
+  1207	
+  1208		platform_set_drvdata(pdev, gpio_dev);
+  1209		acpi_register_wakeup_handler(gpio_dev->irq, amd_gpio_check_wake, gpio_dev);
+> 1210		acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+  1211	
+  1212		dev_dbg(&pdev->dev, "amd gpio driver loaded\n");
+  1213		return ret;
+  1214	
+  1215	out2:
+  1216		gpiochip_remove(&gpio_dev->gc);
+  1217	
+  1218		return ret;
+  1219	}
+  1220	
 
 -- 
 0-DAY CI Kernel Test Service
