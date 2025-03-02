@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486331C5F14
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 07:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647EC1E51F8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 07:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740899252; cv=none; b=cNk2zT4i+FNqgLHNEFJbjuO/xc31vSj8g180yH1DiOnZggfdLeEd4gpESvku5C1aqEfBbkftm81JRp1MsywypexWNQzDmmDNnyf6CjcVbh4Z4NjZx7bfEP1rKEmxxKFqQkDqxj8xaPy5EAOIvth5XDTCQJ+FuUQqn+O2TlylwY0=
+	t=1740899915; cv=none; b=A+xLj4GsxVhDKUCqGS4CDmLpI6gE7PPOOHL7ZByOJRZvqjTwpX2fjY45WIsgQjx6eXxTJDvrtX6g4sckZc0sU0Fp0uaDPNryDhVpAmwGMOPBoqEdo0mnHtf0e2Ey0GEOtj9vsQBc5FaTBAuvxowHL7/YZHxPBQhPBekCeo1NbkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740899252; c=relaxed/simple;
-	bh=pCTyOMsoLM1diGY0FwhWjKVCKVR5YkUhbs4Z1PoxRDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tkXczsZbbVo0ANmTZQtszBfr/sp6T6TQPEbFFHwPhPuLZU1xu1jgOkFzXjrbUEwaNN6EhVoh6NwIoy/EOiFur10MUZyxaulurbZcilygmgelht+NqZdPNAO4x5Ax7vWSNfqCur5eSDLL0PACqvdzi0qiZcfyp5LOV+dLxphMh+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcgO3KAy; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1740899915; c=relaxed/simple;
+	bh=L+vDpjXvQclL3CYsmA4255gksPu8SdNEWNsgFuTfsqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X5ZaOSo2cOtdKkyS1zDnBGa2DkDI6prGjZmf+4gqnbZCr/1ImGk/6wlOclc/st9TyjyOtAy1z2O+ON7fCWKqvDVD9GjgQerLIm/77U74snhyIhJMK1elChjP9f7NbgZsD3pal/VC4tEPV7FHj/2PwiiaZQLkO/i3gOG/jRHbVzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4ztqwPh; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcgO3KAy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4ztqwPh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740899250; x=1772435250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pCTyOMsoLM1diGY0FwhWjKVCKVR5YkUhbs4Z1PoxRDI=;
-  b=EcgO3KAyUAvcxj2yuPRBWXKcdc+vylCFtgtSf+Cuvo0L77+yh74mr4ma
-   l4NQlqjyXVJ+LEDHe7BJFEzwSqDxuGJDZMgyB/MUl9/xDh5WCN83yzQfk
-   xSTES9QvSt0Fbmf/dOKzjlkf5m0rx0KjH9VYNi1BeYcsmGH6unRP3CKU7
-   xyKXunJa1/nh+qQBQrrODHTXPBPmCeAsTzHNsbj+g/4fRuPScn3EhXoE7
-   8FJhAVJ2SQ5zp+d5KCAaH0dGAJ69oTLGNGPclhmATSWXn0rOP6KWW7G8u
-   B8TlwsCZW/sEmiqo3B3h0yFzHV0ifHrCbXtX4H6wChaW64tVtjIVdyOky
+  t=1740899913; x=1772435913;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=L+vDpjXvQclL3CYsmA4255gksPu8SdNEWNsgFuTfsqc=;
+  b=I4ztqwPhwh/MHNFEedMVuuI7N0ktXs+DANnRYBQrUhIfVsNjm92RU+B1
+   fMndl0xSvUHoXQ0Zd9C9H70xhwx/NWtWAUk8kXS7m4e2dD17p/FRNKu1C
+   +6kNPzae1QCichuqWPKWIhpiLuTkjp8/PiK/hG0E3MFnqCIpEEYGHeScG
+   pQKoLCxCZ52oPBhcXqLveKzcshYR8WE3PZC8Xzxz77wJFuDkXfjjpWofh
+   8KcaddM3zxJyEEyA2ONwo7wFVwf6Xdmc7km2cb2vdFPmTxb0mFACvQvkq
+   Hc+lJdyLqLfQHs2Oc0mmr8G5S9qjqIOwj4PB9hRMUdB9rS68VTx913+Jp
    g==;
-X-CSE-ConnectionGUID: RVMA62eTTbKqaZzukuvDkA==
-X-CSE-MsgGUID: VCwFEg2MT4O0l2ljdX+iaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="29373201"
+X-CSE-ConnectionGUID: I2iyIfXxT6CsUnLtQFJB+Q==
+X-CSE-MsgGUID: ccrgAWsfT3ixAEO3M+TtRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="40963345"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="29373201"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 23:07:30 -0800
-X-CSE-ConnectionGUID: eUgCW2+0Sx6w24nsHwf49Q==
-X-CSE-MsgGUID: 74x5j4XhRLqqhgF+bz8IRQ==
+   d="scan'208";a="40963345"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 23:18:31 -0800
+X-CSE-ConnectionGUID: J8hgU2qxTL2jBD4aJTlhig==
+X-CSE-MsgGUID: gA/VuyIwTXSrzub3af0WDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118612695"
+   d="scan'208";a="122957653"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 01 Mar 2025 23:07:28 -0800
+  by orviesa005.jf.intel.com with ESMTP; 01 Mar 2025 23:18:29 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1todQ5-000H9c-2b;
-	Sun, 02 Mar 2025 07:07:25 +0000
-Date: Sun, 2 Mar 2025 15:06:41 +0800
+	id 1todak-000H9q-1f;
+	Sun, 02 Mar 2025 07:18:26 +0000
+Date: Sun, 2 Mar 2025 15:17:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Sakai <msakai@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mikulas Patocka <mpatocka@redhat.com>
-Subject: drivers/md/dm-vdo/recovery-journal.c:1369: warning: Function
- parameter or struct member 'context' not described in 'write_block'
-Message-ID: <202503021428.HHj7BiAW-lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+	Basavaraj.Natikar@amd.com, Shyam-sundar.S-k@amd.com,
+	linus.walleij@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
+Message-ID: <202503021444.b3oW30XQ-lkp@intel.com>
+References: <20250227205049.765309-3-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +64,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250227205049.765309-3-superm1@kernel.org>
 
-Hi Matthew,
+Hi Mario,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ece144f151ac7bf8bb5b98f7d4aeeda7a2eed02a
-commit: 19ac19e02ffa318e77f6b086b8fb3917da0aa893 dm vdo: fix function doc comment formatting
-date:   3 months ago
-config: x86_64-randconfig-161-20241019 (https://download.01.org/0day-ci/archive/20250302/202503021428.HHj7BiAW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021428.HHj7BiAW-lkp@intel.com/reproduce)
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-Add-missing-prototype-for-non-CONFIG_SUSPEND-CONFIG_X86-case/20250228-045242
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20250227205049.765309-3-superm1%40kernel.org
+patch subject: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250302/202503021444.b3oW30XQ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021444.b3oW30XQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021428.HHj7BiAW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021444.b3oW30XQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/md/dm-vdo/recovery-journal.c:268: warning: Function parameter or struct member 'waiter' not described in 'continue_waiter'
-   drivers/md/dm-vdo/recovery-journal.c:268: warning: Function parameter or struct member 'context' not described in 'continue_waiter'
-   drivers/md/dm-vdo/recovery-journal.c:1085: warning: Function parameter or struct member 'waiter' not described in 'assign_entry'
-   drivers/md/dm-vdo/recovery-journal.c:1085: warning: Function parameter or struct member 'context' not described in 'assign_entry'
-   drivers/md/dm-vdo/recovery-journal.c:1172: warning: Function parameter or struct member 'waiter' not described in 'continue_committed_waiter'
-   drivers/md/dm-vdo/recovery-journal.c:1172: warning: Function parameter or struct member 'context' not described in 'continue_committed_waiter'
-   drivers/md/dm-vdo/recovery-journal.c:1369: warning: Function parameter or struct member 'waiter' not described in 'write_block'
->> drivers/md/dm-vdo/recovery-journal.c:1369: warning: Function parameter or struct member 'context' not described in 'write_block'
-   drivers/md/dm-vdo/recovery-journal.c:1620: warning: Function parameter or struct member 'state' not described in 'initiate_drain'
+>> drivers/pinctrl/pinctrl-amd.c:933:15: error: variable 'pinctrl_amd_s2idle_dev_ops' has initializer but incomplete type
+     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
+         |               ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-amd.c:934:10: error: 'struct acpi_s2idle_dev_ops' has no member named 'check'
+     934 |         .check = amd_gpio_check_pending,
+         |          ^~~~~
+   drivers/pinctrl/pinctrl-amd.c:934:18: warning: excess elements in struct initializer
+     934 |         .check = amd_gpio_check_pending,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c:934:18: note: (near initialization for 'pinctrl_amd_s2idle_dev_ops')
+   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_probe':
+   drivers/pinctrl/pinctrl-amd.c:1210:9: error: implicit declaration of function 'acpi_register_lps0_dev' [-Wimplicit-function-declaration]
+    1210 |         acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_remove':
+   drivers/pinctrl/pinctrl-amd.c:1229:9: error: implicit declaration of function 'acpi_unregister_lps0_dev' [-Wimplicit-function-declaration]
+    1229 |         acpi_unregister_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-amd.c: At top level:
+>> drivers/pinctrl/pinctrl-amd.c:933:35: error: storage size of 'pinctrl_amd_s2idle_dev_ops' isn't known
+     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1369 drivers/md/dm-vdo/recovery-journal.c
+vim +/pinctrl_amd_s2idle_dev_ops +933 drivers/pinctrl/pinctrl-amd.c
 
-95a72357688803 Matthew Sakai 2023-11-16  1362  
-95a72357688803 Matthew Sakai 2023-11-16  1363  /**
-95a72357688803 Matthew Sakai 2023-11-16  1364   * write_block() - Issue a block for writing.
-95a72357688803 Matthew Sakai 2023-11-16  1365   *
-95a72357688803 Matthew Sakai 2023-11-16  1366   * Implements waiter_callback_fn.
-95a72357688803 Matthew Sakai 2023-11-16  1367   */
-19ac19e02ffa31 Matthew Sakai 2024-10-02  1368  static void write_block(struct vdo_waiter *waiter, void __always_unused *context)
-95a72357688803 Matthew Sakai 2023-11-16 @1369  {
-95a72357688803 Matthew Sakai 2023-11-16  1370  	struct recovery_journal_block *block =
-95a72357688803 Matthew Sakai 2023-11-16  1371  		container_of(waiter, struct recovery_journal_block, write_waiter);
-95a72357688803 Matthew Sakai 2023-11-16  1372  	struct recovery_journal *journal = block->journal;
-95a72357688803 Matthew Sakai 2023-11-16  1373  	struct packed_journal_header *header = get_block_header(block);
-95a72357688803 Matthew Sakai 2023-11-16  1374  
-d6e260cc426164 Mike Snitzer  2023-11-20  1375  	if (block->committing || !vdo_waitq_has_waiters(&block->entry_waiters) ||
-d6e260cc426164 Mike Snitzer  2023-11-20  1376  	    is_read_only(journal))
-95a72357688803 Matthew Sakai 2023-11-16  1377  		return;
-95a72357688803 Matthew Sakai 2023-11-16  1378  
-d6e260cc426164 Mike Snitzer  2023-11-20  1379  	block->entries_in_commit = vdo_waitq_num_waiters(&block->entry_waiters);
-95a72357688803 Matthew Sakai 2023-11-16  1380  	add_queued_recovery_entries(block);
-95a72357688803 Matthew Sakai 2023-11-16  1381  
-95a72357688803 Matthew Sakai 2023-11-16  1382  	journal->pending_write_count += 1;
-95a72357688803 Matthew Sakai 2023-11-16  1383  	journal->events.blocks.written += 1;
-95a72357688803 Matthew Sakai 2023-11-16  1384  	journal->events.entries.written += block->entries_in_commit;
-95a72357688803 Matthew Sakai 2023-11-16  1385  
-95a72357688803 Matthew Sakai 2023-11-16  1386  	header->block_map_head = __cpu_to_le64(journal->block_map_head);
-95a72357688803 Matthew Sakai 2023-11-16  1387  	header->slab_journal_head = __cpu_to_le64(journal->slab_journal_head);
-95a72357688803 Matthew Sakai 2023-11-16  1388  	header->entry_count = __cpu_to_le16(block->entry_count);
-95a72357688803 Matthew Sakai 2023-11-16  1389  
-95a72357688803 Matthew Sakai 2023-11-16  1390  	block->committing = true;
-95a72357688803 Matthew Sakai 2023-11-16  1391  
-95a72357688803 Matthew Sakai 2023-11-16  1392  	/*
-95a72357688803 Matthew Sakai 2023-11-16  1393  	 * We must issue a flush and a FUA for every commit. The flush is necessary to ensure that
-95a72357688803 Matthew Sakai 2023-11-16  1394  	 * the data being referenced is stable. The FUA is necessary to ensure that the journal
-95a72357688803 Matthew Sakai 2023-11-16  1395  	 * block itself is stable before allowing overwrites of the lbn's previous data.
-95a72357688803 Matthew Sakai 2023-11-16  1396  	 */
-f7f46761ccd9b4 Mike Snitzer  2023-08-25  1397  	vdo_submit_metadata_vio(&block->vio, journal->origin + block->block_number,
-b863d7f7503c42 Mike Snitzer  2024-02-05  1398  				complete_write_endio, handle_write_error,
-b863d7f7503c42 Mike Snitzer  2024-02-05  1399  				REQ_OP_WRITE | REQ_PRIO | REQ_PREFLUSH | REQ_SYNC | REQ_FUA);
-95a72357688803 Matthew Sakai 2023-11-16  1400  }
-95a72357688803 Matthew Sakai 2023-11-16  1401  
-
-:::::: The code at line 1369 was first introduced by commit
-:::::: 95a72357688803736bf60db973cbf94c0ff3a6da dm vdo: add the recovery journal
-
-:::::: TO: Matthew Sakai <msakai@redhat.com>
-:::::: CC: Mike Snitzer <snitzer@kernel.org>
+   932	
+ > 933	static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
+ > 934		.check = amd_gpio_check_pending,
+   935	};
+   936	
 
 -- 
 0-DAY CI Kernel Test Service
