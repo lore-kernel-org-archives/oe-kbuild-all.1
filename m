@@ -1,72 +1,59 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DA711CA9
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 12:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C68C7E110;
+	Sun,  2 Mar 2025 13:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740918908; cv=none; b=R5XmmMYfLKwgpkaT2gdydLddCF6mRTNSuND9ItvKcEm05rsRtN95Mj693oyG5khmTXe39Y9yzVyPxJvlyhDeNxh4m/zn94IMXAzbFzcu669jPQU5XCWIW8S0d+cgu49ML+i8hypwO7u6WbE0/0egjCdzXrRDTDdgAiVPRucCcyQ=
+	t=1740921958; cv=none; b=o0mhBEBKYyjfCSNasN2TqPrqCSB4fXc33cIx8DAI1cHKsLKQ3bC0UN9MFgmMEsZ1enVv5R4Bh/Gzm1W7qyhJj03gROiXWKskIqJ2jEd7GUtUoO0gQYIOv0yCVSb5r0nCXJjnTh5dqhfMSL4mdiUhMwzdiUZrLJ9OIDXlNmb8wqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740918908; c=relaxed/simple;
-	bh=WVV53O4G4AQkDwByqkbjtuuQX8Evj7GgwGkRnE+c62k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YiPlzvm7U/HLEIP3SjnCeIwYtJDNQyUtPQktog9xkiaUhX7SbwJuwf4HvT631/6reXzelwOZvqnBFinIVvRME/1cpmgP1Pp2xlf9NAMOt9odxlFhev1o2BnQ7H5r1rmxoQgo0pK7kaFL8nksq0wJ4rBeWJixsXcmzk9ZkoWTRUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=On8zcWcJ; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740921958; c=relaxed/simple;
+	bh=ARbbwpIdpbqahwftCs4PJ277+932Zlpgmu9DKAHOPDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kTsXu8dRAI3iRKbCd/EXigawre8Vw2P/OdnGE9+XS9i/JLIXy+G+x7RlHxKNvFh4+hedsdJvdDMo1q6Qp+famQ3xQYY0LnD/A36IjAu/7gEh+PtvKcr4kLV1Anc7R+PLfG4jLyt5QxlexORE92JJPqqAR2bPdoF68Qa/AU8RwM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsaqlZ7B; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="On8zcWcJ"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5e4dc3d22b8so4312175a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Mar 2025 04:35:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740918905; x=1741523705; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TSlBNjxFdfPRWaRfE5Fsi1hiMnyGQ/3j+AOhQpdfvzA=;
-        b=On8zcWcJPa5VN/KwPysSs3z+OfGtbJ/kXFrVHxH0M4c8UGhmTGdGjfOo91xEo9QUuE
-         gUiXhzW6PMgr/UoVtA7MzFiIsd0aCzJfoquUPCL6dpLjltw1LW2JfCe2wAb9SZC6Byf6
-         al/OCwkMZCGzhmd9LjiNySTo8zslv7pfz0/4QtP+ZmVflcIEegVCKPzMWyhVfASJAXU1
-         yF/uMKTNhljJUStAq0XbTQ9WcjBuFGmfWGpLKtkTz+kcgcaTnubZMBo+Q96ieLaQCikn
-         0Wm8/+jPOsA7/DAYrB8nLLHpoaNAFpWPb9Z8dBH2VTdeydop2+W/mkL2INSVpfw5D+mu
-         mNEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740918905; x=1741523705;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TSlBNjxFdfPRWaRfE5Fsi1hiMnyGQ/3j+AOhQpdfvzA=;
-        b=msCfM81S8am6itMhIqrrLEMP39T1e+Roi5X5VlbSR5HyotjDu+pzFq08uc3Mazp+8S
-         Hbcu8MzVSPN/vDJZh9yclEAl3j7LfoNfd0TLK3lZEiL5j+guvO7O32qMULtizO5RoMTC
-         DwSf83YD/Zh3AirAdFdNnFSzL2OSYJZjx8W387+4lCEBUFgWtHzatWWZZymQ6p359yIA
-         ciEZvJGpo0QMrg4QbbNA+q/Nb3wtA8aG0/e1Vr+JblbEY3XF8lZ7K8IPvWT5pf1Uq/ID
-         XQXteMHC4lGlMmfo5bMJ4DjdpvhPkllKhEDpttZH4hITPP8TKS6iVvWFldy08x8uvHyE
-         JYZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUakia+Dl5Q95OonT1MDpEwXdSFc/4D1odmeK2igFdQBQ+MmNBdny3lbGJ1baiFxEeGH4iEFPF5yT3u61v8@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoeUvmOm2Omwcp92ktrr6lX40FQ+GMvHa8yTx6kenH+BW4x73W
-	M/e8V5kIrzUT05s3up42wJeE2dr9QbuxfIKkMyWeq2c8S3ABQVmug9pQIqJSLzE=
-X-Gm-Gg: ASbGncuYAS7LnjEWtYpW8peMZGTPCYm6T4KJr++W6tZYiYeB7kX5MSQIOiqNWdo0zDw
-	vJSVVse3VUHYkboeAm/Uk2sixKIU2QU3Xc/x0x54Z6pjHFqBewsADH0e+aq9HHa6bg/mQfpDF/4
-	fFxEpidVyk1A3SaMbD8dhpF/htV12OOjNvO/sQQnxT9uwyXVWlu5M6Gsueo4GeS1its8uUzM+Ov
-	zY/FaLYKJt++bEheUzsnV+f5ZKwLAVkVHEvKWK4vceysOD7DosQT1/VUWi9LoCIEehenBKVzNFu
-	AMq/1Szo3nI7+bTfAVXu2fw7HKhxauoXzJzXrhFC/Jn567KTMg==
-X-Google-Smtp-Source: AGHT+IFiul2Tnx/EbL5rX0pJA7tJd3ph0juB1ESj98roRTzavKY7yv/JOP1AJN9p5S1c8eGoz6o87g==
-X-Received: by 2002:a17:907:6e87:b0:abf:56ba:d225 with SMTP id a640c23a62f3a-abf56bad60dmr613425066b.14.1740918905310;
-        Sun, 02 Mar 2025 04:35:05 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abf6f85ea15sm97345166b.111.2025.03.02.04.35.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Mar 2025 04:35:04 -0800 (PST)
-Date: Sun, 2 Mar 2025 15:35:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [linux-next:master 2357/7423] drivers/bluetooth/hci_vhci.o:
- warning: objtool: .text: unexpected end of section
-Message-ID: <dc1b62ed-8a86-4424-8a1d-bc20866fb4d9@stanley.mountain>
-References: <202503011220.Y2e5vz4w-lkp@intel.com>
- <5jkf4f2bqmomecoxzzdyhdo2qg7dso2jihzwcox6zufnurrwtm@o5gqbsgmpldy>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsaqlZ7B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740921956; x=1772457956;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ARbbwpIdpbqahwftCs4PJ277+932Zlpgmu9DKAHOPDQ=;
+  b=TsaqlZ7Bli1jLZB+ogPezrP+W/+0/ou2j0pYSo8Uvx4OqCWd8IAbvxfn
+   7qD4wP1qPJw8EwsYYzptm1pWXB6GlRENaIKIBOWv3C6Mh+qGGCTr9JvYG
+   qJ1UVawrlZmisyLwxpG8h6s27/pWSRFfozodcBS7BUdds3hNJEGNXAP3U
+   Vi6S+sybPy/qNIrMDPJw+F5KqZVoCLsn8M8xF9vIV+1Ies6ex0azNBsE7
+   Mc9Mpf5hALQBW0TP44O21rxWc30vJVruWYZPCgS9vBtzqw0kQ9R2bS/Gb
+   sewQQH7r6GMX5DtFmBXjK4KmMujUbpELbwQwcFvTnW75YC4YuYCBSLPYJ
+   Q==;
+X-CSE-ConnectionGUID: CcTgn0dlTtmkVAyPjJaN1A==
+X-CSE-MsgGUID: u2GyRdjARuWYwyLwNollfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="53189632"
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
+   d="scan'208";a="53189632"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 05:25:56 -0800
+X-CSE-ConnectionGUID: R0L0yt2fTb+Hn+S+zFwAVg==
+X-CSE-MsgGUID: TO8WH1QASGGxQHCNA+Qeng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
+   d="scan'208";a="122365340"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 02 Mar 2025 05:25:55 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tojKA-000HL4-2J;
+	Sun, 02 Mar 2025 13:25:44 +0000
+Date: Sun, 2 Mar 2025 21:24:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-crypto@vger.kernel.org
+Subject: [herbert-cryptodev-2.6:master 80/80] ld.lld: error: undefined
+ symbol: chacha_crypt_generic
+Message-ID: <202503022113.79uEtUuy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,31 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5jkf4f2bqmomecoxzzdyhdo2qg7dso2jihzwcox6zufnurrwtm@o5gqbsgmpldy>
 
-On Sat, Mar 01, 2025 at 11:15:46AM -0500, Ethan Carter Edwards wrote:
-> On 25/03/01 12:30PM, kernel test robot wrote:
-> > Hi Ethan,
-> > 
-> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> > 
-> 
-> Thanks for the email, kernel test bot. I'm not sure my patch would be
-> the cause of this error, especially since my patch did not touch
-> bluetooth at all. Only the ham radio driver. 
-> 
-> I did find an email [0] from a year ago with the exact same error in
-> the same file.
-> 
-> Dan, what your thoughts?
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+head:   17ec3e71ba797cdb62164fea9532c81b60f47167
+commit: 17ec3e71ba797cdb62164fea9532c81b60f47167 [80/80] crypto: lib/Kconfig - Hide arch options from user
+config: arm-randconfig-002-20250302 (https://download.01.org/0day-ci/archive/20250302/202503022113.79uEtUuy-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503022113.79uEtUuy-lkp@intel.com/reproduce)
 
-Is this a Clang bug?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503022113.79uEtUuy-lkp@intel.com/
 
-I can't imagine what's going on here.  I didn't try the reproducer, but I
-I downloaded the .config and did a clang19 build and it worked for me.  I
-wouldn't worry about it.
+All errors (new ones prefixed by >>):
 
-regards,
-dan carpenter
+>> ld.lld: error: undefined symbol: chacha_crypt_generic
+   >>> referenced by chacha_generic.c:32 (crypto/chacha_generic.c:32)
+   >>>               crypto/chacha_generic.o:(chacha_stream_xor) in archive vmlinux.a
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
