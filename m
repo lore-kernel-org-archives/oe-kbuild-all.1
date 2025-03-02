@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7148D1C3BE9
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 21:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B871E4A9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 22:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740952350; cv=none; b=OpSGH0RTXxAvoXKuw5ATOgr/CpwTT9Mxt0c9rK1/Bj8odpT79FkqYc3WsP5FCbVyp3FbE8lXag8Cx4fBzsg0fh05he/9AaurklLX1v+BDWxsHI2JIKlF1JSiI1MSdBb8/UjkKmVc0Pf9lK3h+Dmj6E1VCiyEZajQJ9+NstmYIg8=
+	t=1740953612; cv=none; b=fu/Qc7ao3S3ou4r6qKcc3IWZfV9jMPb3NJocKxwn1Wzmg+PSQbYrC/tIiO/iWBekUO8gm1cvA5JEuOv6aB2LXPkeps4ASUgAh6Bw5FS1dq0k0CTedER6wHdCoAm8CV0K847XWhcO4+E92ahH5wPrBTWjF2/F8lgS68bREGMOQ80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740952350; c=relaxed/simple;
-	bh=qVf9ajUSSG/SzLlPpmv5ZFOTPOvtRi/G33Nxmrs1kcY=;
+	s=arc-20240116; t=1740953612; c=relaxed/simple;
+	bh=KdtmMnWj9wDsuuAWQKLIYRCbpSrQhjXktecit3fnr+U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MyiQxI7U4jk7eAOOI0RF/1m5L52qydkomVjglvA5P52gL6uHP+VnGA8t4IhzXBkXv4toXV2CXDv7KYpq+mV++CpxSVqHSLwtq6M8IVMwgCRKIKqS1hNOQYTID0CZ0TBkP8gn+VlBXvgCLhZsVke8zVxgwhFmox7wvoZlgtSAEIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DypyCu9z; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=rh32hQAosyiW1HoJkj7eVSYKQr8x7PaUgi1Bhe0+8PowhmGkufegSEUgiKHZ9z2V6/E2a0k5+vHCU4UxObRis5kRiobqcAf4KRUOSHxz6AfMQCTV5BEnNfIbvK2rMHC9j5JMLbu+MCpCt70iM1Hyla6VIvBbmCF4Z2zToVT4dSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AeRMD2Xr; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DypyCu9z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AeRMD2Xr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740952349; x=1772488349;
+  t=1740953611; x=1772489611;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qVf9ajUSSG/SzLlPpmv5ZFOTPOvtRi/G33Nxmrs1kcY=;
-  b=DypyCu9z1MQ/pgH7cB07qbw3CTq34Us4c4BSi2DROVvgWnWMLsbpioKw
-   CXW/djC1MR+G+pPZ2G/b7/EAct87TeyeTefzhDEaLlfwRLVR4KJBofQBx
-   jQlmUTjwrLiclKCLwPZUn0CN+xOoPolFKKfFVESrIUEi8aRd5ibORmbtY
-   iz4+QPHIKMT3B97FNi8OkWY20hZClqNXtzTVL9Vvj+T7Slw0E5tzAsBJh
-   62I9hWwfz4scJNqdimGxhQqLDjR0YnggrYNh+SSb6QghuqIHmv05TEepc
-   Ti9lkdIPeH4nvYMkWs6oBSZYIbptB53cTh1MCE94YZ8myCkB9fwZ6HP9Q
-   Q==;
-X-CSE-ConnectionGUID: CL8poOycR7+7t/L1DtSDog==
-X-CSE-MsgGUID: j7pHHYN1Sx+LwS8CM0mlfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="52803258"
+  bh=KdtmMnWj9wDsuuAWQKLIYRCbpSrQhjXktecit3fnr+U=;
+  b=AeRMD2Xr1ZCRnT6iZxrPmT3vviR3G6H1CpAHeyCc0xaCclwLmfD8n9O+
+   rUJfms6+dIB0ClAKO6AjC1nD83AJnWnwsKxxhNt/Lsl0xAVmmH//8DwTg
+   uZUwlKcuHIfwMbc0ptcPcgbe7dsd6vVKrJBl8n/mDDUa/w/74HGNraZ17
+   yUkCwDvzDQmjgFHwcIY6e+gDmt4jxul4t492gMDa5HnsUYWQ3KK+pMlB3
+   BXmNzHrtJgcz3M+WPHuBMDVmGJX3sYxOG2oeihWG5lts9CXZi7VRdSAeD
+   R+T0esBuAeArDQVRC4TSHydzNc8OraOzWIUK9HoEgHy8krwJ/P9KI87Dz
+   A==;
+X-CSE-ConnectionGUID: 2PVpWgxYR3GK3NoK1Dzpow==
+X-CSE-MsgGUID: GG/LkToaS+2JMP2VYX5QUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="64278401"
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="52803258"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 13:52:29 -0800
-X-CSE-ConnectionGUID: BoazgMfMSPSuwB18ugnfKg==
-X-CSE-MsgGUID: 9bU7dJczSiW/Q+l/X6spjw==
+   d="scan'208";a="64278401"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 14:13:30 -0800
+X-CSE-ConnectionGUID: JStixVH2TjSNBxHxRwqjOA==
+X-CSE-MsgGUID: LEIdxmAFRXWGKvwObiB8GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="141055126"
+   d="scan'208";a="122433879"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Mar 2025 13:52:27 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Mar 2025 14:13:28 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1torEW-000HfK-2F;
-	Sun, 02 Mar 2025 21:52:24 +0000
-Date: Mon, 3 Mar 2025 05:52:12 +0800
+	id 1torYs-000Hg6-1X;
+	Sun, 02 Mar 2025 22:13:26 +0000
+Date: Mon, 3 Mar 2025 06:12:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
-Subject: [peterz-queue:futex/scope 12/18] kernel/futex/core.c:1504:58:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202503030522.Ogx0fFgZ-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_6 10/19]
+ arch/x86/kernel/uprobes.c:797:5-26: WARNING: atomic_dec_and_test variation
+ before object free at line 798.
+Message-ID: <202503030629.Yx6ukR6F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +63,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git futex/scope
-head:   b37932a2988afdd932334774c6e7536f5f5e1f70
-commit: 83d48a9734a39cb50e09755ee421e16b86a64a7e [12/18] futex: Allow to re-allocate the private local hash.
-config: arc-randconfig-r111-20250303 (https://download.01.org/0day-ci/archive/20250303/202503030522.Ogx0fFgZ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250303/202503030522.Ogx0fFgZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_6
+head:   803241e40f9cc1123e8ea3c206caa2321853e456
+commit: 5e326c47ceeb2f2e3a2db16f7cffea77ea1cc1a2 [10/19] uprobes/x86: Add mapping for optimized uprobe trampolines
+config: x86_64-randconfig-102-20250303 (https://download.01.org/0day-ci/archive/20250303/202503030629.Yx6ukR6F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503030522.Ogx0fFgZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503030629.Yx6ukR6F-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/futex/core.c:1504:58: sparse: sparse: Using plain integer as NULL pointer
-   kernel/futex/core.c:814:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/uprobes.c:797:5-26: WARNING: atomic_dec_and_test variation before object free at line 798.
 
-vim +1504 kernel/futex/core.c
+vim +797 arch/x86/kernel/uprobes.c
 
-  1496	
-  1497		futex_queues = alloc_large_system_hash("futex", sizeof(*futex_queues),
-  1498						       hashsize, 0, 0,
-  1499						       &futex_shift, NULL,
-  1500						       hashsize, hashsize);
-  1501		hashsize = 1UL << futex_shift;
-  1502	
-  1503		for (i = 0; i < hashsize; i++)
-> 1504			futex_hash_bucket_init(&futex_queues[i], 0);
+   791	
+   792	static __maybe_unused void uprobe_trampoline_put(struct uprobe_trampoline *tramp)
+   793	{
+   794		if (tramp == NULL)
+   795			return;
+   796	
+ > 797		if (atomic64_dec_and_test(&tramp->ref))
+ > 798			destroy_uprobe_trampoline(tramp);
+   799	}
+   800	
 
 -- 
 0-DAY CI Kernel Test Service
