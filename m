@@ -1,116 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965F723F362
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 11:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3DE78F52
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 12:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740916196; cv=none; b=EBe0TwAfg+mpADRHWeCpedFU73qtvVt63XYGwnWvi2pt7MybGf5/GxeFWByEzrwvvlUGaEtpZ7Rd6XWVrOrD4DA9jAqY2nRdbaSYH30/FoDx0Ct9xPPeXUpXDBCgwmoDgQ0iGGkptGzGEC6Mu1f9Mha1FWRbkiwcC2uVjtSiruA=
+	t=1740916946; cv=none; b=cA7V/H/9wA90I0HTzgFEzVphmfBhtO0BwGfgQqXjxAqqQp6XqR+8FuISPaimzYD4nGayPZn7WFogMrGEjl86NMA0/acITucRZR4LlXEqbMoVGWeKuygtQcakg0v1I/gn99L1GWFZ9GsZ1WDwKcW5RmL7oOCWx5/Lugk45MJpUYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740916196; c=relaxed/simple;
-	bh=MtvXPfYUEsuxZNsXtgyJ1YpV2uHuWHcgR1znV7/bRr4=;
+	s=arc-20240116; t=1740916946; c=relaxed/simple;
+	bh=37WM6Z2mVMtulPp6MzNCmjXYgAVTDLKXbVg/H/b2WPM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q1UwbXNMKDPvMKxyBWT4V8oGFXMw/Y8QUxKkEJMK9nlqn4vTPbX+ZDpEELiu92cxpZGD7smNeKe9kc7ZatUt7Hvyi0vjT0c0TKS+Kfqqh/aggalTQit4+2s1WJSD5oI3w0wRJg5B7mO58v3hE7V4kwJuw15/rMQPmEDa26YCn6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFcVFopr; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Jv7Fl+Xzc7VGPYsPEu0ftgpckLqeIp1KRmUlRW50H+2zj0SD1xAvoxtB3Q0dbCjNZgNCh46IZxGFUc9WRbOg4lSdop2yFbVIYKkSXt+zNZ+SCqxyl4jp7pi4IYp0lqja7mc/sAPI5KT7dTsydU0731c6uaUkK6nT0JCR29c7dPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gI4R1ku9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFcVFopr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gI4R1ku9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740916195; x=1772452195;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MtvXPfYUEsuxZNsXtgyJ1YpV2uHuWHcgR1znV7/bRr4=;
-  b=RFcVFoprlUXvv1H9jYteD8zmIl6X5uY0qDgMC0MeV0cl5Lnhzmwj0ghv
-   DUTkRcIEm8vphit1HTD2bHPyf5C6w0tCY/XeMnYwGIkxcK+oC6zgJBRpU
-   e5fG4wmrJe03dKiNmKCrKKm0gQGkVJkobigWWNLUwO6ZXmuqAL3k2tD13
-   XCIdKLLyGJmu+AzUrnVudq2Hf9JNh+p88MNAeB3I3prWHgZ1LWs9oIWpQ
-   xTOColk5qjHyPryuTksKQnmS10A73in2Fsq6qIkfRpwa9zlR7Bn3mS4ne
-   k4b5a1wYW5k9f2ojCb9Ao/kxbUWUk+uPmBPI1dM8F/YSNKJy5Lsv0N6LH
+  t=1740916944; x=1772452944;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=37WM6Z2mVMtulPp6MzNCmjXYgAVTDLKXbVg/H/b2WPM=;
+  b=gI4R1ku9BXnBocX68/aRTgUn6QLL/XiX/xsyPR+deQ7Uy4pKG1R2WwwL
+   2gm/CB9dEEu/eIGDL22gOdhdxC+4HNdpt6tbXIi9qLVYjB+IUfcwiVZxY
+   +Bgy7U+nF/8Kbzoou7uKyeJ5Vk6Gwyd+8sTux4PkRpC1gHW+wNnr6uliW
+   fT2mrNVxeQyN2lg5WC1ARKB7/+GTGkJLen/lxxHFHWXuzWpIxOVnrrGGy
+   nLMxJO6Tu7cpIMGjniIkkElOjJXzjJp3AtFrVdHS+0hzBohmlMlJcqeTj
+   r32ip06GsKZLresTvKzWd7Zmhd1ijNHreOxtPnr2xVmrX8Fm/6RkolFTm
    Q==;
-X-CSE-ConnectionGUID: OFR4EByCRuKBxNvIUarCMQ==
-X-CSE-MsgGUID: uGEFOBXhQEKOJKh48LVPgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41919713"
+X-CSE-ConnectionGUID: YFMpiuSQQ7mTAz42yXqGCg==
+X-CSE-MsgGUID: F0OVNb/IS76jpG4Mbr+dFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="40972355"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="41919713"
+   d="scan'208";a="40972355"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 03:49:54 -0800
-X-CSE-ConnectionGUID: /kWvElUHR7aB4xvk61ESVA==
-X-CSE-MsgGUID: GkXPlz6zTLGfp9Pjg8CkkA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 04:02:23 -0800
+X-CSE-ConnectionGUID: YTyT9f/yTw+MgXOCdGfwjw==
+X-CSE-MsgGUID: xpCzyotBRlyVBxhNxsrG+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="117509758"
+   d="scan'208";a="117512538"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Mar 2025 03:49:52 -0800
+  by orviesa009.jf.intel.com with ESMTP; 02 Mar 2025 04:02:22 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tohpJ-000HIQ-05;
-	Sun, 02 Mar 2025 11:49:47 +0000
-Date: Sun, 2 Mar 2025 19:48:53 +0800
+	id 1toi1G-000HIu-14;
+	Sun, 02 Mar 2025 12:02:09 +0000
+Date: Sun, 2 Mar 2025 20:00:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: [drm-xe:drm-xe-next 6/6] include/drm/drm_print.h:228:31: warning:
- '%s' directive argument is null
-Message-ID: <202503021906.P2MwAvyK-lkp@intel.com>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] drivers/hwtracing/intel_th/msu.c:792:28:
+ warning: unused variable 'i'
+Message-ID: <202503021957.27nJN5n7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-head:   067a974fd8a9ea43f97ca184e2768b583f2f8c44
-commit: 067a974fd8a9ea43f97ca184e2768b583f2f8c44 [6/6] drm/xe: Add performance tunings to debugfs
-config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20250302/202503021906.P2MwAvyK-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021906.P2MwAvyK-lkp@intel.com/reproduce)
+Hi Alexander,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: ba39bd8306057fb343dfb75d93a76d824b625236 [1/1] intel_th: msu: Switch over to scatterlist
+config: s390-randconfig-001-20250217 (https://download.01.org/0day-ci/archive/20250302/202503021957.27nJN5n7-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021957.27nJN5n7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021906.P2MwAvyK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021957.27nJN5n7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/drm/ttm/ttm_resource.h:34,
-                    from include/drm/ttm/ttm_device.h:30,
-                    from drivers/gpu/drm/xe/xe_device_types.h:13,
-                    from drivers/gpu/drm/xe/xe_gt_types.h:9,
-                    from drivers/gpu/drm/xe/xe_tuning.c:13:
-   drivers/gpu/drm/xe/xe_tuning.c: In function 'xe_tuning_dump':
->> include/drm/drm_print.h:228:31: warning: '%s' directive argument is null [-Wformat-overflow=]
-     228 |         drm_printf((printer), "%.*s" fmt, (indent), "\t\t\t\t\tX", ##__VA_ARGS__)
-         |                               ^~~~~~
-   drivers/gpu/drm/xe/xe_tuning.c:226:17: note: in expansion of macro 'drm_printf_indent'
-     226 |                 drm_printf_indent(p, 1, "%s\n", engine_tunings[idx].name);
-         |                 ^~~~~~~~~~~~~~~~~
+   drivers/hwtracing/intel_th/msu.c: In function 'msc_buffer_win_alloc':
+>> drivers/hwtracing/intel_th/msu.c:792:28: warning: unused variable 'i' [-Wunused-variable]
+     792 |         int ret = -ENOMEM, i;
+         |                            ^
+   drivers/hwtracing/intel_th/msu.c: In function 'msc_buffer_win_free':
+   drivers/hwtracing/intel_th/msu.c:871:13: warning: unused variable 'i' [-Wunused-variable]
+     871 |         int i;
+         |             ^
 
 
-vim +228 include/drm/drm_print.h
+vim +/i +792 drivers/hwtracing/intel_th/msu.c
 
-e2b155e9924c39 Chris Wilson   2017-11-23  220  
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  221  /**
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  222   * drm_printf_indent - Print to a &drm_printer stream with indentation
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  223   * @printer: DRM printer
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  224   * @indent: Tab indentation level (max 5)
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  225   * @fmt: Format string
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  226   */
-bf6234a294c5b8 Noralf Trønnes 2017-11-07  227  #define drm_printf_indent(printer, indent, fmt, ...) \
-bf6234a294c5b8 Noralf Trønnes 2017-11-07 @228  	drm_printf((printer), "%.*s" fmt, (indent), "\t\t\t\t\tX", ##__VA_ARGS__)
-d8187177b0b195 Rob Clark      2016-11-05  229  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: bf6234a294c5b8bcc6f47ecdb646f41ad5efddd3 drm/print: Add drm_printf_indent()
-
-:::::: TO: Noralf Trønnes <noralf@tronnes.org>
-:::::: CC: Noralf Trønnes <noralf@tronnes.org>
+   778	
+   779	/**
+   780	 * msc_buffer_win_alloc() - alloc a window for a multiblock mode
+   781	 * @msc:	MSC device
+   782	 * @nr_blocks:	number of pages in this window
+   783	 *
+   784	 * This modifies msc::win_list and msc::base, which requires msc::buf_mutex
+   785	 * to serialize, so the caller is expected to hold it.
+   786	 *
+   787	 * Return:	0 on success, -errno otherwise.
+   788	 */
+   789	static int msc_buffer_win_alloc(struct msc *msc, unsigned int nr_blocks)
+   790	{
+   791		struct msc_window *win;
+ > 792		int ret = -ENOMEM, i;
+   793	
+   794		if (!nr_blocks)
+   795			return 0;
+   796	
+   797		/*
+   798		 * This limitation hold as long as we need random access to the
+   799		 * block. When that changes, this can go away.
+   800		 */
+   801		if (nr_blocks > SG_MAX_SINGLE_ALLOC)
+   802			return -EINVAL;
+   803	
+   804		win = kzalloc(sizeof(*win), GFP_KERNEL);
+   805		if (!win)
+   806			return -ENOMEM;
+   807	
+   808		win->msc = msc;
+   809	
+   810		if (!list_empty(&msc->win_list)) {
+   811			struct msc_window *prev = list_last_entry(&msc->win_list,
+   812								  struct msc_window,
+   813								  entry);
+   814	
+   815			/* This works as long as blocks are page-sized */
+   816			win->pgoff = prev->pgoff + prev->nr_blocks;
+   817		}
+   818	
+   819		ret = __msc_buffer_win_alloc(win, nr_blocks);
+   820		if (ret < 0)
+   821			goto err_nomem;
+   822	
 
 -- 
 0-DAY CI Kernel Test Service
