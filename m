@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9008821;
-	Sun,  2 Mar 2025 00:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92758494
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 01:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740876595; cv=none; b=iyjjJpQ8NOzfpVl1IDw2PDRG9UUB2Oa+qjAqbiQXzSmIRifR8arJSfSv/v0c+a+Gp2SyVQAOGwaVkxIChSL9WApE5FnXqTkaCCpFvbqTmqhSBJAwcAWDLlkBhfE4MDjDui0xEqLfH0EDBk4D7A8CVJHYo6NDsXSAg0FkR2K9r5s=
+	t=1740877957; cv=none; b=ZknO9u89GguYiwEwa2mAxezSTDhogzMadiDMZJZi+84wcDDOq2AHbic2aF0DRzQVnY5mTNQHdwTtyebCEQ1KTcp+HtNlf+Opo/gzCwrM5XXboBZUIWFajtytlilQ1V/0/c4eVJIERFO/OTKExNoV2Btzrz79ooINms7E0MSJkQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740876595; c=relaxed/simple;
-	bh=wjvC5JVeLCm7mRY1FCm89QWf17Vp7bI4rkc2iS+w8Lc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E6NwTeLt2tR2uAi8QhSrK+c15+4k7L6zhMNU19rc95sfZ/gbJaAsUx/0nC4jBqH+csr/edwkwcc9hv+y5gh6Nu4B9nqMuPNBpie3rIuJUCh7tl1CVbzAgmodj1Xn5TQ/H9XRoKCOJE79sr6dy63cqwAzN+J6KydG7iK7p9h7Vi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUjOIQ6v; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1740877957; c=relaxed/simple;
+	bh=8PzwIU+pVqzFTXdCsd9e9LKK4yEitdocKyokMp8dNUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ow3xyp6Y6MnChgn1Gu1IBwDet0T0SLewkMyLM+NNKTDwym7PQ4KBjXevNJGF/GMAnuDowB3B6GeRVfrujFIDWAdyEYhxhcvdd9B/RUqM7s8X3eTZ45bqJ+Z2f6Cy7afMiBd8KMPdLx+LLpmBI0yGsl33xJVg5EgsrrfEspn+NCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRA38Wnt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUjOIQ6v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRA38Wnt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740876594; x=1772412594;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wjvC5JVeLCm7mRY1FCm89QWf17Vp7bI4rkc2iS+w8Lc=;
-  b=jUjOIQ6vrw19aRihRQ0RMqMz4Wz/eaVG23OJHGMrI8LA/VrUwvjLiMyG
-   ZMJObU+yFHkFKUdYDI92c4MWWtSaU7Nx67Xxnlw9NHgjjgCY0MNuQh8x7
-   T3VvjNqNlVA6GRU56oxaEN2ntQ8pP0G70iDrK6W0mXkajB9rTWm3QMJSP
-   VNroeXThLGkVkwRIwdv9ruExq9PdmS4jU2Oodg9cdCSP1vh6c2w+0FkxT
-   V5FNUbliCaFz3+v78ZtSHy/eJ1rJUQ4m+7QQ7DcE44yTfyfbHolA/Oa2s
-   BquxFM/ndC6EgUrYWwnxCIhKlPAMbi7NPOqaJYBys0B9vvkH7qDKJZJp0
+  t=1740877956; x=1772413956;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8PzwIU+pVqzFTXdCsd9e9LKK4yEitdocKyokMp8dNUA=;
+  b=BRA38Wnt3uW2kr2JviGrAjjQ7PHwWLluBBmy4o7kDVaO4eqeOSpmpMKK
+   3oYH2rGn40T2+WzFS3C1421t9x+B0256qftquCz80R0LwrgOau7CtJvbg
+   6bQImtYYjFX8H5qXoFrGeEVw/QVy3hpR2nwJxdmZcBD1Fj8xkSqYpIkYq
+   o6wVYKaiOHPK7l4kNRKQpVp4ep7VxvAiHjFPE/3oNK9wY1SJ37YtgTpiK
+   o3kTgNxy6vCa7EKcSlb08gqXw0I530EOfMqK9q6jeRmz/2THFqLcWCxLE
+   +wHNQiS0QDUtqEcc5sZiJUCkEgUaUyoA+H3Q4y0KNItzTIF5eIfXsI6Rm
    Q==;
-X-CSE-ConnectionGUID: a8fVfzcATNSgRi+FGhLWuw==
-X-CSE-MsgGUID: CuT7LTGuR/G2bE5hU6sQ9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="52407281"
+X-CSE-ConnectionGUID: zG4tHxR2QDafXwgQzHdi0A==
+X-CSE-MsgGUID: OWNNSOcKQae0aEOINE/FvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41475819"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="52407281"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 16:49:52 -0800
-X-CSE-ConnectionGUID: gcZUPiVmSbmpCpc709LhPw==
-X-CSE-MsgGUID: Pas+vbcvTFOUrE+3YcW6qA==
+   d="scan'208";a="41475819"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 17:12:36 -0800
+X-CSE-ConnectionGUID: 3AoXPGBfSM6CPJJeptimzw==
+X-CSE-MsgGUID: 4VqIWQJnRzmD25mMZRw+nA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="148472887"
+   d="scan'208";a="122278012"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Mar 2025 16:49:51 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 01 Mar 2025 17:12:32 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toXWe-000GuA-1U;
-	Sun, 02 Mar 2025 00:49:48 +0000
-Date: Sun, 2 Mar 2025 08:49:27 +0800
+	id 1toXsc-000GvC-1r;
+	Sun, 02 Mar 2025 01:12:30 +0000
+Date: Sun, 2 Mar 2025 09:12:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:locking/futex 21/21] kernel/futex/core.c:328:14:
- error: no member named 'vm_policy' in 'struct vm_area_struct'
-Message-ID: <202503020814.w50SUTno-lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, manivannan.sadhasivam@linaro.org,
+	kw@linux.com, kwilczynski@kernel.org, bhelgaas@google.com,
+	Frank.Li@nxp.com, cassel@kernel.org, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [v2] genirq/msi: Add the address and data that show MSI/MSIX
+Message-ID: <202503020812.PKZf7JBa-lkp@intel.com>
+References: <20250301123953.291675-1-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,74 +65,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250301123953.291675-1-18255117159@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/futex
-head:   49fd6b8f5d595592bab59b1fd2bfa57d1bd8c767
-commit: 49fd6b8f5d595592bab59b1fd2bfa57d1bd8c767 [21/21] futex: Implement FUTEX2_MPOL
-config: x86_64-buildonly-randconfig-002-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020814.w50SUTno-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020814.w50SUTno-lkp@intel.com/reproduce)
+Hi Hans,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 76544811c850a1f4c055aa182b513b7a843868ea]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/genirq-msi-Add-the-address-and-data-that-show-MSI-MSIX/20250301-204332
+base:   76544811c850a1f4c055aa182b513b7a843868ea
+patch link:    https://lore.kernel.org/r/20250301123953.291675-1-18255117159%40163.com
+patch subject: [v2] genirq/msi: Add the address and data that show MSI/MSIX
+config: arm-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020812.PKZf7JBa-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020812.PKZf7JBa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020814.w50SUTno-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503020812.PKZf7JBa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/futex/core.c:328:14: error: no member named 'vm_policy' in 'struct vm_area_struct'
-     328 |         mpol = vma->vm_policy;
-         |                ~~~  ^
->> kernel/futex/core.c:332:16: error: no member named 'mode' in 'struct mempolicy'
-     332 |         switch (mpol->mode) {
-         |                 ~~~~  ^
->> kernel/futex/core.c:334:27: error: no member named 'nodes' in 'struct mempolicy'
-     334 |                 node = first_node(mpol->nodes);
-         |                                   ~~~~  ^
-   include/linux/nodemask.h:263:40: note: expanded from macro 'first_node'
-     263 | #define first_node(src) __first_node(&(src))
-         |                                        ^~~
->> kernel/futex/core.c:338:13: error: no member named 'home_node' in 'struct mempolicy'
-     338 |                 if (mpol->home_node != NUMA_NO_NODE)
-         |                     ~~~~  ^
-   kernel/futex/core.c:339:17: error: no member named 'home_node' in 'struct mempolicy'
-     339 |                         node = mpol->home_node;
-         |                                ~~~~  ^
-   5 errors generated.
+   kernel/irq/msi.c: In function 'msi_domain_debug_show':
+   kernel/irq/msi.c:770:9: error: implicit declaration of function 'seq_printf'; did you mean 'bstr_printf'? [-Wimplicit-function-declaration]
+     770 |         seq_printf(m, "%*s%s:", ind, "", is_msix ? "msix" : "msi");
+         |         ^~~~~~~~~~
+         |         bstr_printf
+   kernel/irq/msi.c: At top level:
+   kernel/irq/msi.c:782:10: error: 'const struct irq_domain_ops' has no member named 'debug_show'
+     782 |         .debug_show     = msi_domain_debug_show,
+         |          ^~~~~~~~~~
+>> kernel/irq/msi.c:782:27: warning: excess elements in struct initializer
+     782 |         .debug_show     = msi_domain_debug_show,
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/msi.c:782:27: note: (near initialization for 'msi_domain_ops')
 
 
-vim +328 kernel/futex/core.c
+vim +782 kernel/irq/msi.c
 
-   318	
-   319	static int __futex_key_to_node(struct mm_struct *mm, unsigned long addr)
-   320	{
-   321		struct vm_area_struct *vma = vma_lookup(mm, addr);
-   322		struct mempolicy *mpol;
-   323		int node = FUTEX_NO_NODE;
-   324	
-   325		if (!vma)
-   326			return FUTEX_NO_NODE;
-   327	
- > 328		mpol = vma->vm_policy;
-   329		if (!mpol)
-   330			return FUTEX_NO_NODE;
-   331	
- > 332		switch (mpol->mode) {
-   333		case MPOL_PREFERRED:
- > 334			node = first_node(mpol->nodes);
-   335			break;
-   336		case MPOL_PREFERRED_MANY:
-   337		case MPOL_BIND:
- > 338			if (mpol->home_node != NUMA_NO_NODE)
-   339				node = mpol->home_node;
-   340			break;
-   341		default:
-   342			break;
-   343		}
-   344	
-   345		return node;
-   346	}
-   347	
+   775	
+   776	static const struct irq_domain_ops msi_domain_ops = {
+   777		.alloc		= msi_domain_alloc,
+   778		.free		= msi_domain_free,
+   779		.activate	= msi_domain_activate,
+   780		.deactivate	= msi_domain_deactivate,
+   781		.translate	= msi_domain_translate,
+ > 782		.debug_show     = msi_domain_debug_show,
+   783	};
+   784	
 
 -- 
 0-DAY CI Kernel Test Service
