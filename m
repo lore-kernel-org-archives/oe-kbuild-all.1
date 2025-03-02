@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45F81E0B9C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 14:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B031E7C10;
+	Sun,  2 Mar 2025 15:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740924507; cv=none; b=ncAvE0Dn8vLJBSOUNd/vyJHT8ojxWfFmTCi0dimYBtthSzCoWP7HfcyU1+lPT0BHkXFQpjuoZV9zN58mesnOwa63v/B9kFuIaoihgbXuev6B8Rp8KdnQbHfN/cEogeLCvJ0ujxfHlTPvKuyQc6RtPMKWlbx3FB3WGq5eFBNp+VM=
+	t=1740930202; cv=none; b=s/HKsvu+IZgiwNwGoX8PMU1wtF0Uho8GBrGBfSkNgaTqKNQLMOYwjV2Yk01r3ey0H2Aaihr+a78R3yqJmkKUqDBuRIlI1t3ZXqOKTLHrE5WFAibPAvtlzkPnNnez8dB5exKvXEtbbC5+cPMCWGeaf6ta8XaOB8fj7FbM+c/qKWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740924507; c=relaxed/simple;
-	bh=oCyr+D5Blas8C+KLmqrJU17YKLr/+xJXZkHcNZU+LVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YUNjDXd2qkHfVQOBnWR6svZKtNTkI3yof0ZCkUBT2QYHCmfYktpUeOwdvQkrglomSp97S3Gxw8/tBF/+AwO+cKApbFgkT1zp8Nj4BAtjh3Mbhy3PC4QpuHA/ftubMdVDVPt090qHdT/LifhF8rLtUbn5uWEEilnvXW5P35XvJl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BobkPRpi; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1740930202; c=relaxed/simple;
+	bh=9XbyGeWO1nJrQsLW+70EZoa3AEwvGwi4vSRwenMVI20=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TCSEu+3pt83HQTp5R3jh++KE3juRZT3MuH1qlhnf0gxeEuF7Bh260dfCPSFibxE7yfY9IwgdmUBSyN1z6S+RrH63vzPNYaQffnGvLuDBBA+kVd31OjrcShZYqED8vYZHQMe584ZlEm6QXRaRKzXfv11kyf67k6ORmyeRg8C2Fz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IxzH9qgZ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BobkPRpi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IxzH9qgZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740924506; x=1772460506;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oCyr+D5Blas8C+KLmqrJU17YKLr/+xJXZkHcNZU+LVE=;
-  b=BobkPRpi3sosYnMdOxh7wxBCXcZRIR2xBfwIA8VuwXrUsCknpBCymyKY
-   3MrQ6rOH/ccf3TQLbJfyFfdlGpFsHXLl0h+Tkx0/4754JHFyn37DBbYou
-   QtY3ZkUyyuwBiZgoE6U4aAwQAAtSLhgVG9Eb+T2UMRa9vghHlG4iS8KJ/
-   af3AnKrumuJTDLvWjenkNuFQI44pqCfgVzlIJjhyK843gKIz44q9tXHLL
-   OBjx6Q4f3/7iLb5rMjF3YYI6b0C6TDs/XgJzr2K0MdgbBh9QO1D5Ta+FM
-   6KmYFQ68DwFk6B3NYVHrHeJaM/kkV7+imyVbTnNweeE2HfHoC5V9VqWfr
-   Q==;
-X-CSE-ConnectionGUID: lPG5Sl0mTg+BJyb9D757lQ==
-X-CSE-MsgGUID: Tk9zMo9qQNu1Q4sumdrlCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="29389121"
+  t=1740930200; x=1772466200;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=9XbyGeWO1nJrQsLW+70EZoa3AEwvGwi4vSRwenMVI20=;
+  b=IxzH9qgZHABR1502karywdY1mwwInu0stRn5gbBXjYztTv+Cgs5Zsa7y
+   hnGZYt8CQBY8zoDuDKqRrh4+Ev+jLDQviLoRhoFZv4uC/wDvxsG9JzolS
+   eNqQpuv582RE9km9OmAiMKzrYq+pzmW8CrjYWfP9NvT0ylj7i+6HD8E8/
+   Vxuw0ZmzimyXkrphPuyCgBteOGB/OjSoKFR4xOZMo7hHTzBc0cUXWx0jh
+   ClzdgUplIN+hhehlrfCqvXELttnv1g2waLvMuzjbbeWtkCD58HX0MGzKx
+   1D8tUy+ozXRkKWdRhAIrqyVFixAL7VYJVFs6iS6NBxyQcY6T1pZbMfaMO
+   A==;
+X-CSE-ConnectionGUID: KGwDPOTrRMi9P7myP7QGTA==
+X-CSE-MsgGUID: djQ1OaJCSRWsupss3BtHYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41837100"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="29389121"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 06:08:25 -0800
-X-CSE-ConnectionGUID: uAodgfEOSPqDcnnZ1xrBNA==
-X-CSE-MsgGUID: /VFYMCalS72M+0O4mOrVUQ==
+   d="scan'208";a="41837100"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 07:43:20 -0800
+X-CSE-ConnectionGUID: SgqJld32SIOGXrEslmmRjw==
+X-CSE-MsgGUID: 8KHvNC9OR9SW0YQ2OOaClA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="121903863"
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
+   d="scan'208";a="122747268"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2025 06:08:23 -0800
+  by orviesa003.jf.intel.com with ESMTP; 02 Mar 2025 07:43:18 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tojzM-000HMI-3C;
-	Sun, 02 Mar 2025 14:08:18 +0000
-Date: Sun, 2 Mar 2025 22:07:41 +0800
+	id 1tolTI-000HQ6-1C;
+	Sun, 02 Mar 2025 15:43:16 +0000
+Date: Sun, 2 Mar 2025 23:42:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	CK Hu <ck.hu@mediatek.com>
-Subject: [chunkuang-hu:mediatek-drm-next 18/18]
- drivers/gpu/drm/mediatek/mtk_dpi.c:662:52: error: 'DPI_OUTPUT_1T1P_EN'
- undeclared
-Message-ID: <202503022243.w1kEmvNM-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: fs/bcachefs/quota.c:130:15: warning: arithmetic between different
+ enumeration types ('enum quota_types' and 'enum quota_counters')
+Message-ID: <202503022349.eydi1bf1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,125 +61,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git mediatek-drm-next
-head:   3b746eb11a87018ef92a292bba63921edb4e85fd
-commit: 3b746eb11a87018ef92a292bba63921edb4e85fd [18/18] drm/mediatek: mtk_dpi: Support AFIFO 1T1P output and conversion
-config: arm-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503022243.w1kEmvNM-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503022243.w1kEmvNM-lkp@intel.com/reproduce)
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
+
+Hi Kent,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1973160c90d7886c523e52e1f56164e6a74f0474
+commit: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+date:   1 year, 4 months ago
+config: x86_64-buildonly-randconfig-004-20241224 (https://download.01.org/0day-ci/archive/20250302/202503022349.eydi1bf1-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503022349.eydi1bf1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503022243.w1kEmvNM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503022349.eydi1bf1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/mediatek/mtk_dpi.c: In function 'mtk_dpi_set_display_mode':
->> drivers/gpu/drm/mediatek/mtk_dpi.c:662:52: error: 'DPI_OUTPUT_1T1P_EN' undeclared (first use in this function)
-     662 |                         mtk_dpi_mask(dpi, DPI_CON, DPI_OUTPUT_1T1P_EN, DPI_OUTPUT_1T1P_EN);
-         |                                                    ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_dpi.c:662:52: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from fs/bcachefs/quota.c:2:
+   In file included from fs/bcachefs/bcachefs.h:184:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/quota.c:25:24: warning: variable 'dq' set but not used [-Wunused-but-set-variable]
+      25 |         struct bkey_s_c_quota dq;
+         |                               ^
+>> fs/bcachefs/quota.c:130:15: warning: arithmetic between different enumeration types ('enum quota_types' and 'enum quota_counters') [-Wenum-enum-conversion]
+     130 |         }               m[QTYP_NR * Q_COUNTERS];
+         |                           ~~~~~~~ ^ ~~~~~~~~~~
+   fs/bcachefs/quota.c:612:28: warning: variable 'q' set but not used [-Wunused-but-set-variable]
+     612 |         struct bch_memquota_type *q;
+         |                                   ^
+   7 warnings generated.
 
 
-vim +/DPI_OUTPUT_1T1P_EN +662 drivers/gpu/drm/mediatek/mtk_dpi.c
+vim +130 fs/bcachefs/quota.c
 
-   581	
-   582	static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
-   583					    struct drm_display_mode *mode)
-   584	{
-   585		struct mtk_dpi_polarities dpi_pol;
-   586		struct mtk_dpi_sync_param hsync;
-   587		struct mtk_dpi_sync_param vsync_lodd = { 0 };
-   588		struct mtk_dpi_sync_param vsync_leven = { 0 };
-   589		struct mtk_dpi_sync_param vsync_rodd = { 0 };
-   590		struct mtk_dpi_sync_param vsync_reven = { 0 };
-   591		struct videomode vm = { 0 };
-   592	
-   593		drm_display_mode_to_videomode(mode, &vm);
-   594	
-   595		if (!dpi->conf->clocked_by_hdmi)
-   596			mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
-   597	
-   598		dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
-   599		dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
-   600		dpi_pol.hsync_pol = vm.flags & DISPLAY_FLAGS_HSYNC_HIGH ?
-   601				    MTK_DPI_POLARITY_FALLING : MTK_DPI_POLARITY_RISING;
-   602		dpi_pol.vsync_pol = vm.flags & DISPLAY_FLAGS_VSYNC_HIGH ?
-   603				    MTK_DPI_POLARITY_FALLING : MTK_DPI_POLARITY_RISING;
-   604	
-   605		/*
-   606		 * Depending on the IP version, we may output a different amount of
-   607		 * pixels for each iteration: divide the clock by this number and
-   608		 * adjust the display porches accordingly.
-   609		 */
-   610		hsync.sync_width = vm.hsync_len / dpi->conf->pixels_per_iter;
-   611		hsync.back_porch = vm.hback_porch / dpi->conf->pixels_per_iter;
-   612		hsync.front_porch = vm.hfront_porch / dpi->conf->pixels_per_iter;
-   613	
-   614		hsync.shift_half_line = false;
-   615		vsync_lodd.sync_width = vm.vsync_len;
-   616		vsync_lodd.back_porch = vm.vback_porch;
-   617		vsync_lodd.front_porch = vm.vfront_porch;
-   618		vsync_lodd.shift_half_line = false;
-   619	
-   620		if (vm.flags & DISPLAY_FLAGS_INTERLACED &&
-   621		    mode->flags & DRM_MODE_FLAG_3D_MASK) {
-   622			vsync_leven = vsync_lodd;
-   623			vsync_rodd = vsync_lodd;
-   624			vsync_reven = vsync_lodd;
-   625			vsync_leven.shift_half_line = true;
-   626			vsync_reven.shift_half_line = true;
-   627		} else if (vm.flags & DISPLAY_FLAGS_INTERLACED &&
-   628			   !(mode->flags & DRM_MODE_FLAG_3D_MASK)) {
-   629			vsync_leven = vsync_lodd;
-   630			vsync_leven.shift_half_line = true;
-   631		} else if (!(vm.flags & DISPLAY_FLAGS_INTERLACED) &&
-   632			   mode->flags & DRM_MODE_FLAG_3D_MASK) {
-   633			vsync_rodd = vsync_lodd;
-   634		}
-   635		mtk_dpi_sw_reset(dpi, true);
-   636		mtk_dpi_config_pol(dpi, &dpi_pol);
-   637	
-   638		mtk_dpi_config_hsync(dpi, &hsync);
-   639		mtk_dpi_config_vsync_lodd(dpi, &vsync_lodd);
-   640		mtk_dpi_config_vsync_rodd(dpi, &vsync_rodd);
-   641		mtk_dpi_config_vsync_leven(dpi, &vsync_leven);
-   642		mtk_dpi_config_vsync_reven(dpi, &vsync_reven);
-   643	
-   644		mtk_dpi_config_3d(dpi, !!(mode->flags & DRM_MODE_FLAG_3D_MASK));
-   645		mtk_dpi_config_interface(dpi, !!(vm.flags &
-   646						 DISPLAY_FLAGS_INTERLACED));
-   647		if (vm.flags & DISPLAY_FLAGS_INTERLACED)
-   648			mtk_dpi_config_fb_size(dpi, vm.hactive, vm.vactive >> 1);
-   649		else
-   650			mtk_dpi_config_fb_size(dpi, vm.hactive, vm.vactive);
-   651	
-   652		mtk_dpi_config_channel_limit(dpi);
-   653		mtk_dpi_config_bit_num(dpi, dpi->bit_num);
-   654		mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
-   655		mtk_dpi_config_color_format(dpi, dpi->color_format);
-   656		if (dpi->conf->support_direct_pin) {
-   657			mtk_dpi_config_yc_map(dpi, dpi->yc_map);
-   658			mtk_dpi_config_2n_h_fre(dpi);
-   659	
-   660			/* DPI can connect to either an external bridge or the internal HDMI encoder */
-   661			if (dpi->conf->output_1pixel)
- > 662				mtk_dpi_mask(dpi, DPI_CON, DPI_OUTPUT_1T1P_EN, DPI_OUTPUT_1T1P_EN);
-   663			else
-   664				mtk_dpi_dual_edge(dpi);
-   665	
-   666			mtk_dpi_config_disable_edge(dpi);
-   667		}
-   668		if (dpi->conf->input_2p_en_bit) {
-   669			mtk_dpi_mask(dpi, DPI_CON, dpi->conf->input_2p_en_bit,
-   670				     dpi->conf->input_2p_en_bit);
-   671		}
-   672		mtk_dpi_sw_reset(dpi, false);
-   673	
-   674		return 0;
-   675	}
-   676	
+    22	
+    23	const char *bch2_quota_invalid(const struct bch_fs *c, struct bkey_s_c k)
+    24	{
+  > 25		struct bkey_s_c_quota dq;
+    26	
+    27		if (k.k->p.inode >= QTYP_NR)
+    28			return "invalid quota type";
+    29	
+    30		switch (k.k->type) {
+    31		case BCH_QUOTA: {
+    32			dq = bkey_s_c_to_quota(k);
+    33	
+    34			if (bkey_val_bytes(k.k) != sizeof(struct bch_quota))
+    35				return "incorrect value size";
+    36	
+    37			return NULL;
+    38		}
+    39		default:
+    40			return "invalid type";
+    41		}
+    42	}
+    43	
+    44	static const char * const bch2_quota_counters[] = {
+    45		"space",
+    46		"inodes",
+    47	};
+    48	
+    49	void bch2_quota_to_text(struct bch_fs *c, char *buf,
+    50				size_t size, struct bkey_s_c k)
+    51	{
+    52		char *out = buf, *end= buf + size;
+    53		struct bkey_s_c_quota dq;
+    54		unsigned i;
+    55	
+    56		switch (k.k->type) {
+    57		case BCH_QUOTA:
+    58			dq = bkey_s_c_to_quota(k);
+    59	
+    60			for (i = 0; i < Q_COUNTERS; i++)
+    61				out += scnprintf(out, end - out, "%s hardlimit %llu softlimit %llu",
+    62						 bch2_quota_counters[i],
+    63						 le64_to_cpu(dq.v->c[i].hardlimit),
+    64						 le64_to_cpu(dq.v->c[i].softlimit));
+    65			break;
+    66		}
+    67	}
+    68	
+    69	#ifdef CONFIG_BCACHEFS_QUOTA
+    70	
+    71	#include <linux/cred.h>
+    72	#include <linux/fs.h>
+    73	#include <linux/quota.h>
+    74	
+    75	static inline unsigned __next_qtype(unsigned i, unsigned qtypes)
+    76	{
+    77		qtypes >>= i;
+    78		return qtypes ? i + __ffs(qtypes) : QTYP_NR;
+    79	}
+    80	
+    81	#define for_each_set_qtype(_c, _i, _q, _qtypes)				\
+    82		for (_i = 0;							\
+    83		     (_i = __next_qtype(_i, _qtypes),				\
+    84		      _q = &(_c)->quotas[_i],					\
+    85		      _i < QTYP_NR);						\
+    86		     _i++)
+    87	
+    88	static bool ignore_hardlimit(struct bch_memquota_type *q)
+    89	{
+    90		if (capable(CAP_SYS_RESOURCE))
+    91			return true;
+    92	#if 0
+    93		struct mem_dqinfo *info = &sb_dqopt(dquot->dq_sb)->info[dquot->dq_id.type];
+    94	
+    95		return capable(CAP_SYS_RESOURCE) &&
+    96		       (info->dqi_format->qf_fmt_id != QFMT_VFS_OLD ||
+    97			!(info->dqi_flags & DQF_ROOT_SQUASH));
+    98	#endif
+    99		return false;
+   100	}
+   101	
+   102	enum quota_msg {
+   103		SOFTWARN,	/* Softlimit reached */
+   104		SOFTLONGWARN,	/* Grace time expired */
+   105		HARDWARN,	/* Hardlimit reached */
+   106	
+   107		HARDBELOW,	/* Usage got below inode hardlimit */
+   108		SOFTBELOW,	/* Usage got below inode softlimit */
+   109	};
+   110	
+   111	static int quota_nl[][Q_COUNTERS] = {
+   112		[HARDWARN][Q_SPC]	= QUOTA_NL_BHARDWARN,
+   113		[SOFTLONGWARN][Q_SPC]	= QUOTA_NL_BSOFTLONGWARN,
+   114		[SOFTWARN][Q_SPC]	= QUOTA_NL_BSOFTWARN,
+   115		[HARDBELOW][Q_SPC]	= QUOTA_NL_BHARDBELOW,
+   116		[SOFTBELOW][Q_SPC]	= QUOTA_NL_BSOFTBELOW,
+   117	
+   118		[HARDWARN][Q_INO]	= QUOTA_NL_IHARDWARN,
+   119		[SOFTLONGWARN][Q_INO]	= QUOTA_NL_ISOFTLONGWARN,
+   120		[SOFTWARN][Q_INO]	= QUOTA_NL_ISOFTWARN,
+   121		[HARDBELOW][Q_INO]	= QUOTA_NL_IHARDBELOW,
+   122		[SOFTBELOW][Q_INO]	= QUOTA_NL_ISOFTBELOW,
+   123	};
+   124	
+   125	struct quota_msgs {
+   126		u8		nr;
+   127		struct {
+   128			u8	qtype;
+   129			u8	msg;
+ > 130		}		m[QTYP_NR * Q_COUNTERS];
+   131	};
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
