@@ -1,145 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E6423F362
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 10:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEFA1D7E26
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 10:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740910465; cv=none; b=ug72H2Oamq4QISt6O/9TsUm5PR6naM4H8S38QdgGKC2f0ZbdLTC5MBFeQTYa3MTINMiYySya+fyEflEsemd6e/stxRnBhWg0F9zhcPiMWOH9xOUQaFTT2MYQa1E+t6mhPGo9O+gfSNxZ69TqfD2HO+lllcGPEII8uU/jOdi9j4c=
+	t=1740912204; cv=none; b=Fn46tPjMDo81mYhzzVvZF39kkcfVynZFETWRA2N069obMMrvScJm5FtlXbtHT49WjEeFfkf+vOcWf3ePvKR1HGiDDPymFPyOGEwI6HLhfDyPT09sK950jSGA77l6YCNCmCz0NTZwMazZnS7/swvBDi0wabdQVxlAzn583Nun2vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740910465; c=relaxed/simple;
-	bh=JdTNwd1U8jreQAVVLAvpSDE+3S5NhoVQU4glg3o7XwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DcdrOsjpA8FwgjmexLOgILOnjM1r/l2INehY3hzo5siY9LydRIXjjS1HFXB+C2ID4TpnwJae0f2l2klSUvERB0IJy3xYKupWwMvzufNye0M/hdDWXUPDb7wxz4xDlSlQ7Hy3CjgpAyGa92/tsYJa50Bnksy5hI7IupXfO5JqMSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NUQ8PHjT; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740912204; c=relaxed/simple;
+	bh=SMf/useHHf1YMvHuunXb88SljOIu1qy0owYLKdn1GPA=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZczYyWfn7bA6WHYyJV9zFFgZukvo7LoTWhGYWl/moDvgVRnaWI6k38gN0mXOBNv+qONJaBjTm44RJdMh4CFaACyPa/ve9EoZhhQDPdCR+Lsl9PvNhsGxVnZUG32Bn8SR+mBz8oyqBqmQab3t0fZbcifnw5dSYS4Kb0IANXA1dt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=mz6Nbgec; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NUQ8PHjT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740910463; x=1772446463;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JdTNwd1U8jreQAVVLAvpSDE+3S5NhoVQU4glg3o7XwQ=;
-  b=NUQ8PHjTRXu1iFmRMS4RcdDkm0sRZHTZoD09tZv5R9Oqr5OW7pa/z99o
-   5DVmICjBuJMjFcc+t0ubVyBAzTCYfKXBckNxokQint7a0r6NkbJalTVcQ
-   dqgts/iZwfmtz0CsaZiZ+Y4mI7DQ+BCntkVGL/UWrRfeixS6LZ9qa7Hsy
-   tXRbsBDhUwWThOdErxFzUm3jDsOVHwn4jQwnPXgVFLtHwf4ysi2z5cJhl
-   6VLpJRvhuqZYY3NgULKflrRxf/iOd325M8izAUEjiTXFMaDnitsYDPkD7
-   dWvMDKUy1EpHg6T/dsHmqn2yc7aQcN8tM/41niokB9Lti5imgJnuqSBG/
-   w==;
-X-CSE-ConnectionGUID: mUmSybLgRJS7ZoroKFiCgQ==
-X-CSE-MsgGUID: 4ogmwxtgR+qF0LicxoCRBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41036622"
-X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="41036622"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 02:14:22 -0800
-X-CSE-ConnectionGUID: Ysau1Y99QEugJM8OB4AptQ==
-X-CSE-MsgGUID: nRMYbUFGSWalvFl0NVpWFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118643300"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Mar 2025 02:14:20 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1togKv-000HEo-2s;
-	Sun, 02 Mar 2025 10:14:17 +0000
-Date: Sun, 2 Mar 2025 18:13:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Madhavan Srinivasan <maddy@linux.ibm.com>, mpe@ellerman.id.au,
-	npiggin@gmail.com, christophe.leroy@csgroup.eu
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>
-Subject: Re: [PATCH v2 1/4] powerpc/perf/core-book3s: Avoid loading platform
- pmu driver during dump kernel
-Message-ID: <202503021712.eVdjymsT-lkp@intel.com>
-References: <20250301182310.6832-1-maddy@linux.ibm.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="mz6Nbgec"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=T4q9NpZeM/ZlPGNhbv28c1M44w3nObBptqjTGFpYdu4=;
+  b=mz6Nbgecxg9eTwXzfNEcQcbPWbNguWJpb06WvEINpfNWY1Ic349jzcRv
+   K1xwAkFlCgQVwyyCXqJ8RJAwFZVIesXNcYWRVRmghELbeEXzvDdjITAnG
+   xb+rjKzmnOlLWZtLHzcYr+qkaE/AXPzFEA3j6HfHkQ6DBgk0oo/p897Ms
+   s=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.13,327,1732575600"; 
+   d="scan'208";a="210730154"
+Received: from unknown (HELO hadrien) ([50.225.219.62])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 11:42:09 +0100
+Date: Sun, 2 Mar 2025 05:42:08 -0500 (EST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Robert Budai <robert.budai@analog.com>
+cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+    Ramona Gradinariu <ramona.gradinariu@analog.com>, 
+    Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+    =?ISO-8859-15?Q?Nuno_S=E1?= <nuno.sa@analog.com>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: [jic23-iio:testing 131/172] drivers/iio/imu/adis16550.c:1029:22-52:
+ duplicated argument to & or | (fwd)
+Message-ID: <597fff55-e92b-8dc-d75-384b3b9a903f@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250301182310.6832-1-maddy@linux.ibm.com>
+Content-Type: multipart/mixed; boundary="8323329-1515898418-1740912130=:3240"
 
-Hi Madhavan,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-kernel test robot noticed the following build errors:
+--8323329-1515898418-1740912130=:3240
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ADIS16550_STATUS_CRC_CODE is used twice
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Madhavan-Srinivasan/powerpc-perf-hv-24x7-Avoid-loading-hv-24x7-during-dump-kernel/20250302-022531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20250301182310.6832-1-maddy%40linux.ibm.com
-patch subject: [PATCH v2 1/4] powerpc/perf/core-book3s: Avoid loading platform pmu driver during dump kernel
-config: powerpc64-randconfig-001-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021712.eVdjymsT-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021712.eVdjymsT-lkp@intel.com/reproduce)
+---------- Forwarded message ----------
+Date: Sun, 2 Mar 2025 15:17:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [jic23-iio:testing 131/172] drivers/iio/imu/adis16550.c:1029:22-52:
+    duplicated argument to & or |
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Robert Budai <robert.budai@analog.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Ramona Gradinariu <ramona.gradinariu@analog.com>
+CC: Antoniu Miclaus <antoniu.miclaus@analog.com>
+CC: "Nuno Sá" <nuno.sa@analog.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   bd9ffb54e566ad6f94ec4293f82f06d417b6cfc8
+commit: 55be950cfc6031263d6dd3d6518a5a934ae414cd [131/172] iio: imu: adis16550: add adis16550 support
+:::::: branch date: 28 hours ago
+:::::: commit date: 8 days ago
+config: m68k-randconfig-r064-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021535.37zbQXIZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021712.eVdjymsT-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503021535.37zbQXIZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iio/imu/adis16550.c:1029:22-52: duplicated argument to & or |
 
-   arch/powerpc/perf/core-book3s.c: In function 'init_ppc64_pmu':
->> arch/powerpc/perf/core-book3s.c:2599:13: error: implicit declaration of function 'is_kdump_kernel' [-Wimplicit-function-declaration]
-    2599 |         if (is_kdump_kernel() || is_fadump_active())
-         |             ^~~~~~~~~~~~~~~
+vim +1029 drivers/iio/imu/adis16550.c
 
-
-vim +/is_kdump_kernel +2599 arch/powerpc/perf/core-book3s.c
-
-  2587	
-  2588	static int __init init_ppc64_pmu(void)
-  2589	{
-  2590		if (cpu_has_feature(CPU_FTR_HVMODE) && pmu_override) {
-  2591			pr_warn("disabling perf due to pmu_override= command line option.\n");
-  2592			on_each_cpu(do_pmu_override, NULL, 1);
-  2593			return 0;
-  2594		}
-  2595	
-  2596		/*
-  2597		 * If the dump kernel is active, skip loading these drivers
-  2598		 */
-> 2599		if (is_kdump_kernel() || is_fadump_active())
-  2600			return 0;
-  2601	
-  2602		/* run through all the pmu drivers one at a time */
-  2603		if (!init_power5_pmu())
-  2604			return 0;
-  2605		else if (!init_power5p_pmu())
-  2606			return 0;
-  2607		else if (!init_power6_pmu())
-  2608			return 0;
-  2609		else if (!init_power7_pmu())
-  2610			return 0;
-  2611		else if (!init_power8_pmu())
-  2612			return 0;
-  2613		else if (!init_power9_pmu())
-  2614			return 0;
-  2615		else if (!init_power10_pmu())
-  2616			return 0;
-  2617		else if (!init_power11_pmu())
-  2618			return 0;
-  2619		else if (!init_ppc970_pmu())
-  2620			return 0;
-  2621		else
-  2622			return init_generic_compat_pmu();
-  2623	}
-  2624	early_initcall(init_ppc64_pmu);
-  2625	
+55be950cfc6031 Robert Budai 2025-02-17  1018
+55be950cfc6031 Robert Budai 2025-02-17  1019  static const struct adis_data adis16550_data = {
+55be950cfc6031 Robert Budai 2025-02-17  1020  	.diag_stat_reg = ADIS16550_REG_STATUS,
+55be950cfc6031 Robert Budai 2025-02-17  1021  	.diag_stat_size = 4,
+55be950cfc6031 Robert Budai 2025-02-17  1022  	.prod_id_reg = ADIS16550_REG_PROD_ID,
+55be950cfc6031 Robert Budai 2025-02-17  1023  	.prod_id = 16550,
+55be950cfc6031 Robert Budai 2025-02-17  1024  	.self_test_mask = BIT(1),
+55be950cfc6031 Robert Budai 2025-02-17  1025  	.self_test_reg = ADIS16550_REG_COMMAND,
+55be950cfc6031 Robert Budai 2025-02-17  1026  	.cs_change_delay = 5,
+55be950cfc6031 Robert Budai 2025-02-17  1027  	.unmasked_drdy = true,
+55be950cfc6031 Robert Budai 2025-02-17  1028  	.status_error_msgs = adis16550_status_error_msgs,
+55be950cfc6031 Robert Budai 2025-02-17 @1029  	.status_error_mask = BIT(ADIS16550_STATUS_CRC_CODE) |
+55be950cfc6031 Robert Budai 2025-02-17  1030  			BIT(ADIS16550_STATUS_CRC_CONFIG) |
+55be950cfc6031 Robert Budai 2025-02-17  1031  			BIT(ADIS16550_STATUS_FLASH_UPDATE) |
+55be950cfc6031 Robert Budai 2025-02-17  1032  			BIT(ADIS16550_STATUS_INERIAL) |
+55be950cfc6031 Robert Budai 2025-02-17  1033  			BIT(ADIS16550_STATUS_SENSOR) |
+55be950cfc6031 Robert Budai 2025-02-17  1034  			BIT(ADIS16550_STATUS_TEMPERATURE) |
+55be950cfc6031 Robert Budai 2025-02-17  1035  			BIT(ADIS16550_STATUS_SPI) |
+55be950cfc6031 Robert Budai 2025-02-17  1036  			BIT(ADIS16550_STATUS_PROCESSING) |
+55be950cfc6031 Robert Budai 2025-02-17  1037  			BIT(ADIS16550_STATUS_POWER) |
+55be950cfc6031 Robert Budai 2025-02-17  1038  			BIT(ADIS16550_STATUS_BOOT) |
+55be950cfc6031 Robert Budai 2025-02-17  1039  			BIT(ADIS16550_STATUS_WATCHDOG) |
+55be950cfc6031 Robert Budai 2025-02-17  1040  			BIT(ADIS16550_STATUS_REGULATOR) |
+55be950cfc6031 Robert Budai 2025-02-17  1041  			BIT(ADIS16550_STATUS_SENSOR_SUPPLY) |
+55be950cfc6031 Robert Budai 2025-02-17  1042  			BIT(ADIS16550_STATUS_CPU_SUPPLY) |
+55be950cfc6031 Robert Budai 2025-02-17  1043  			BIT(ADIS16550_STATUS_5V_SUPPLY) |
+55be950cfc6031 Robert Budai 2025-02-17  1044  			BIT(ADIS16550_STATUS_CRC_CODE),
+55be950cfc6031 Robert Budai 2025-02-17  1045  	.timeouts = &adis16550_timeouts,
+55be950cfc6031 Robert Budai 2025-02-17  1046  };
+55be950cfc6031 Robert Budai 2025-02-17  1047
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+--8323329-1515898418-1740912130=:3240--
