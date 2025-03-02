@@ -1,197 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82145258
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 02:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C16A1DA21
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 02:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740881346; cv=none; b=TS6f+umKwfvtS12ErMyp3YDf72uYRbjqMXj3pUzjv5Zt7QSsn8ZmhTCAw/JbELzTyHP9OTq80sNs3m4AyfBk6y/0VidTAFIMg0LfZWkm4FSTaGUnni/Lm7rtJEEbPHyHcdorOgQL+PohfGXkkDtEHkZh4C4z7gk2WJJidYtA34g=
+	t=1740882006; cv=none; b=rXmyqKmu+8A9oiipEUaWDXG75+nFuQXXd+ZZ8fMkRog53czOeQJWhnXFy2/JbiFggBxYKNanTGLPeGiAblszMnoTnU81nfaf8Yy72c0e2TVa7RYHAuayYg3qYhUBD9paesq9O/PjLPzlfDCZECv+mjDFCcc+k/RYvw94jBNVwCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740881346; c=relaxed/simple;
-	bh=N6bdO5ufvOU4UlMfcbW1V2iVFg9S7pViFB0B1Dp885U=;
+	s=arc-20240116; t=1740882006; c=relaxed/simple;
+	bh=ygGOXZz3q74B49XoCo/bcdvVVY8y617VZkDMUPN6Nh4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TTySZq4jiQbUDh00nXqwqwnrpLuVRaQ3YNR0kuaQQUIMSlZKEAGgTpLI9wK+HHtwrBAHOOvqrcKx09bzEvNK0SnrMj1cxyFCEo688YiXvud4r4vK0N2xlmnZatccMU3RVk+mfUaLAAeAOeMMal8kmEFAVrGWWhJucUIRT6/hb7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtK3+Hr6; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8ghSy980Vn0TRiLsOznqKhi2zGn1+BM5xqVVXcfyh4AfW2TKAS74WtcarObuMxVDnyfZMD5t4xM/+QXcTaGT0xbxkqEkjxfOX1sF+oLqvzvJ8rMY/VU4SVVRMEOvlWXqqBKzdDnBJRDjvY0qC1H4m8vDt0+Iou7F53JmucTYqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWNxaO/S; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtK3+Hr6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWNxaO/S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740881345; x=1772417345;
+  t=1740882004; x=1772418004;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N6bdO5ufvOU4UlMfcbW1V2iVFg9S7pViFB0B1Dp885U=;
-  b=VtK3+Hr6GoB1APXb8wX6bO63AhRY6CZQrgfh2SRMToX2nLi5wRuXPPFP
-   cxsYaH6aUkh19WXgCC7jeUEu/M9zUNUlei9KSnc9E8z9cCPHGiIVZ3BZZ
-   9LrolL3jTZZ0nYL5mLh20ifASIsS4/DMGRljwjVcfbBNS7fP1R0tmdW/0
-   Gy6C+/vJHnKJJfuHHM5wmESDznZmuIOvVqbMmBei1WW9s7DCtC/R3uKxv
-   EObSEc4IdvznWoNOlpiEblrvYrAGgweEoZAvN/tcSbNWYT9GpkMG9IScz
-   pEoEvnBZeJ8iv66P5iB2LkSwa1WDdbOYT9YoCupOYyiBO9GPEofxWFTHA
-   g==;
-X-CSE-ConnectionGUID: cqVeSTXUSf+CfCLx1e3zMA==
-X-CSE-MsgGUID: fOjmTWXSRdmxInkP4BZGXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="44596032"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ygGOXZz3q74B49XoCo/bcdvVVY8y617VZkDMUPN6Nh4=;
+  b=jWNxaO/SlvDWqpB5MauRn8NzqbcyFfWFMEkyIcJxuuC67/kWsk/kNosl
+   e6kv1dtsGT+Eun4hLt1uMprnfkzgsVsOllDkPqRag0jtdFqE9TGd80D5U
+   3xyrON7Eie3Xj1gHxyIvvGr5aUSevqbNM+MmbDUypZBhA3oSQfhRvzeL6
+   CBjmWrORRnPSDt65v9Cyi907Hsof5g/Ow6Lpl3Sa35s07qrGIdDK0FyAq
+   3YCI5o7tKzppYOQ2XLJRf9h4cjqORZhg71Wg5sOHRl9Nq7NNyJriqfFgW
+   BYzW7F7MHM/akwX+0szFVQCOhj1ulmFk+xUlDE+ZMBitYCBsNC4Anj+Z9
+   Q==;
+X-CSE-ConnectionGUID: eP8xlSqhTuCQscz9o20ShQ==
+X-CSE-MsgGUID: IsDU431SQ+eAgIHAudd8GA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41901085"
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="44596032"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 18:09:04 -0800
-X-CSE-ConnectionGUID: kJyzAyBiQCmiU86YmGf5mA==
-X-CSE-MsgGUID: EX0HUutsR06iMNtitEBQkg==
+   d="scan'208";a="41901085"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 18:20:03 -0800
+X-CSE-ConnectionGUID: K2tkNldLTlC47VSuYZL5OA==
+X-CSE-MsgGUID: W0Bq2vvfQbWf6HYe9gVDFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="117696253"
+   d="scan'208";a="122285997"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Mar 2025 18:09:00 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 01 Mar 2025 18:20:01 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toYlF-000GxG-1r;
-	Sun, 02 Mar 2025 02:08:57 +0000
-Date: Sun, 2 Mar 2025 10:08:48 +0800
+	id 1toYvv-000Gxm-1w;
+	Sun, 02 Mar 2025 02:19:59 +0000
+Date: Sun, 2 Mar 2025 10:19:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Abel Vesa <abel.vesa@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] phy: phy-snps-eusb2: make repeater optional
-Message-ID: <202503020920.Kw0H8Acs-lkp@intel.com>
-References: <20250223122227.725233-6-ivo.ivanov.ivanov1@gmail.com>
+To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
+	linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kalle Valo <kvalo@kernel.org>, linux-devel@silabs.com,
+	=?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>
+Subject: Re: [PATCH 2/5] wifi: wfx: declare support for WoWLAN
+Message-ID: <202503021057.5qCOqraa-lkp@intel.com>
+References: <20250228171441.109321-3-jerome.pouiller@silabs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250223122227.725233-6-ivo.ivanov.ivanov1@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250228171441.109321-3-jerome.pouiller@silabs.com>
 
-Hi Ivaylo,
+Hi Jérôme,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.14-rc4 next-20250228]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.14-rc4 next-20250228]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivaylo-Ivanov/dt-bindings-phy-rename-qcom-snps-eusb2-phy-binding-to-snps-eusb2-phy/20250223-202709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250223122227.725233-6-ivo.ivanov.ivanov1%40gmail.com
-patch subject: [PATCH v2 5/8] phy: phy-snps-eusb2: make repeater optional
-config: microblaze-randconfig-r123-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020920.Kw0H8Acs-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250302/202503020920.Kw0H8Acs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/J-r-me-Pouiller/wifi-wfx-align-declarations-between-bus_spi-c-and-bus_sdio-c/20250301-022722
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250228171441.109321-3-jerome.pouiller%40silabs.com
+patch subject: [PATCH 2/5] wifi: wfx: declare support for WoWLAN
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250302/202503021057.5qCOqraa-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021057.5qCOqraa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020920.Kw0H8Acs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021057.5qCOqraa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/phy/phy-snps-eusb2.c:464:59: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +464 drivers/phy/phy-snps-eusb2.c
+   drivers/net/wireless/silabs/wfx/main.c: In function 'wfx_init_common':
+>> drivers/net/wireless/silabs/wfx/main.c:300:18: error: 'struct wiphy' has no member named 'wowlan'
+     300 |         hw->wiphy->wowlan = &wfx_wowlan_support;
+         |                  ^~
 
-   398	
-   399	static int snps_eusb2_hsphy_probe(struct platform_device *pdev)
-   400	{
-   401		struct device *dev = &pdev->dev;
-   402		struct device_node *np = dev->of_node;
-   403		struct snps_eusb2_hsphy *phy;
-   404		struct phy_provider *phy_provider;
-   405		struct phy *generic_phy;
-   406		const struct snps_eusb2_phy_drvdata *drv_data;
-   407		int ret, i;
-   408		int num;
-   409	
-   410		phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-   411		if (!phy)
-   412			return -ENOMEM;
-   413	
-   414		drv_data = of_device_get_match_data(dev);
-   415		if (!drv_data)
-   416			return -EINVAL;
-   417		phy->data = drv_data;
-   418	
-   419		phy->base = devm_platform_ioremap_resource(pdev, 0);
-   420		if (IS_ERR(phy->base))
-   421			return PTR_ERR(phy->base);
-   422	
-   423		phy->phy_reset = devm_reset_control_get_exclusive(dev, NULL);
-   424		if (IS_ERR(phy->phy_reset))
-   425			return PTR_ERR(phy->phy_reset);
-   426	
-   427		phy->clks = devm_kcalloc(dev,
-   428					 phy->data->num_clks,
-   429					 sizeof(*phy->clks),
-   430					 GFP_KERNEL);
-   431		if (!phy->clks)
-   432			return -ENOMEM;
-   433	
-   434		for (int i = 0; i < phy->data->num_clks; ++i)
-   435			phy->clks[i].id = phy->data->clk_names[i];
-   436	
-   437		ret = devm_clk_bulk_get(dev, phy->data->num_clks,
-   438					phy->clks);
-   439		if (ret)
-   440			return dev_err_probe(dev, ret,
-   441					     "failed to get phy clock(s)\n");
-   442	
-   443		phy->ref_clk = NULL;
-   444		for (int i = 0; i < phy->data->num_clks; ++i) {
-   445			if (!strcmp(phy->clks[i].id, "ref")) {
-   446				phy->ref_clk = phy->clks[i].clk;
-   447				break;
-   448			}
-   449		}
-   450	
-   451		if (IS_ERR_OR_NULL(phy->ref_clk))
-   452			return dev_err_probe(dev, PTR_ERR(phy->ref_clk),
-   453					     "failed to get ref clk\n");
-   454	
-   455		num = ARRAY_SIZE(phy->vregs);
-   456		for (i = 0; i < num; i++)
-   457			phy->vregs[i].supply = eusb2_hsphy_vreg_names[i];
-   458	
-   459		ret = devm_regulator_bulk_get(dev, num, phy->vregs);
-   460		if (ret)
-   461			return dev_err_probe(dev, ret,
-   462					     "failed to get regulator supplies\n");
-   463	
- > 464		phy->repeater = devm_of_phy_optional_get(dev, np, 0);
-   465		if (IS_ERR(phy->repeater))
-   466			return dev_err_probe(dev, PTR_ERR(phy->repeater),
-   467					     "failed to get repeater\n");
-   468	
-   469		generic_phy = devm_phy_create(dev, NULL, &snps_eusb2_hsphy_ops);
-   470		if (IS_ERR(generic_phy)) {
-   471			dev_err(dev, "failed to create phy %d\n", ret);
-   472			return PTR_ERR(generic_phy);
-   473		}
-   474	
-   475		dev_set_drvdata(dev, phy);
-   476		phy_set_drvdata(generic_phy, phy);
-   477	
-   478		phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
-   479		if (IS_ERR(phy_provider))
-   480			return PTR_ERR(phy_provider);
-   481	
-   482		dev_info(dev, "Registered Snps-eUSB2 phy\n");
-   483	
-   484		return 0;
-   485	}
-   486	
+
+vim +300 drivers/net/wireless/silabs/wfx/main.c
+
+   263	
+   264	struct wfx_dev *wfx_init_common(struct device *dev, const struct wfx_platform_data *pdata,
+   265					const struct wfx_hwbus_ops *hwbus_ops, void *hwbus_priv)
+   266	{
+   267		struct ieee80211_hw *hw;
+   268		struct wfx_dev *wdev;
+   269	
+   270		hw = ieee80211_alloc_hw(sizeof(struct wfx_dev), &wfx_ops);
+   271		if (!hw)
+   272			return NULL;
+   273	
+   274		SET_IEEE80211_DEV(hw, dev);
+   275	
+   276		ieee80211_hw_set(hw, TX_AMPDU_SETUP_IN_HW);
+   277		ieee80211_hw_set(hw, AMPDU_AGGREGATION);
+   278		ieee80211_hw_set(hw, CONNECTION_MONITOR);
+   279		ieee80211_hw_set(hw, REPORTS_TX_ACK_STATUS);
+   280		ieee80211_hw_set(hw, SUPPORTS_DYNAMIC_PS);
+   281		ieee80211_hw_set(hw, SIGNAL_DBM);
+   282		ieee80211_hw_set(hw, SUPPORTS_PS);
+   283		ieee80211_hw_set(hw, MFP_CAPABLE);
+   284	
+   285		hw->vif_data_size = sizeof(struct wfx_vif);
+   286		hw->sta_data_size = sizeof(struct wfx_sta_priv);
+   287		hw->queues = 4;
+   288		hw->max_rates = 8;
+   289		hw->max_rate_tries = 8;
+   290		hw->extra_tx_headroom = sizeof(struct wfx_hif_msg) + sizeof(struct wfx_hif_req_tx) +
+   291					4 /* alignment */ + 8 /* TKIP IV */;
+   292		hw->wiphy->interface_modes = BIT(NL80211_IFTYPE_STATION) |
+   293					     BIT(NL80211_IFTYPE_ADHOC) |
+   294					     BIT(NL80211_IFTYPE_AP);
+   295		hw->wiphy->probe_resp_offload = NL80211_PROBE_RESP_OFFLOAD_SUPPORT_WPS |
+   296						NL80211_PROBE_RESP_OFFLOAD_SUPPORT_WPS2 |
+   297						NL80211_PROBE_RESP_OFFLOAD_SUPPORT_P2P |
+   298						NL80211_PROBE_RESP_OFFLOAD_SUPPORT_80211U;
+   299		hw->wiphy->features |= NL80211_FEATURE_AP_SCAN;
+ > 300		hw->wiphy->wowlan = &wfx_wowlan_support;
+   301		hw->wiphy->flags |= WIPHY_FLAG_AP_PROBE_RESP_OFFLOAD;
+   302		hw->wiphy->flags |= WIPHY_FLAG_AP_UAPSD;
+   303		hw->wiphy->max_remain_on_channel_duration = 5000;
+   304		hw->wiphy->max_ap_assoc_sta = HIF_LINK_ID_MAX;
+   305		hw->wiphy->max_scan_ssids = 2;
+   306		hw->wiphy->max_scan_ie_len = IEEE80211_MAX_DATA_LEN;
+   307		hw->wiphy->n_iface_combinations = ARRAY_SIZE(wfx_iface_combinations);
+   308		hw->wiphy->iface_combinations = wfx_iface_combinations;
+   309		/* FIXME: also copy wfx_rates and wfx_2ghz_chantable */
+   310		hw->wiphy->bands[NL80211_BAND_2GHZ] = devm_kmemdup(dev, &wfx_band_2ghz,
+   311								   sizeof(wfx_band_2ghz), GFP_KERNEL);
+   312		if (!hw->wiphy->bands[NL80211_BAND_2GHZ])
+   313			goto err;
+   314	
+   315		wdev = hw->priv;
+   316		wdev->hw = hw;
+   317		wdev->dev = dev;
+   318		wdev->hwbus_ops = hwbus_ops;
+   319		wdev->hwbus_priv = hwbus_priv;
+   320		memcpy(&wdev->pdata, pdata, sizeof(*pdata));
+   321		of_property_read_string(dev->of_node, "silabs,antenna-config-file", &wdev->pdata.file_pds);
+   322		wdev->pdata.gpio_wakeup = devm_gpiod_get_optional(dev, "wakeup", GPIOD_OUT_LOW);
+   323		if (IS_ERR(wdev->pdata.gpio_wakeup))
+   324			goto err;
+   325	
+   326		if (wdev->pdata.gpio_wakeup)
+   327			gpiod_set_consumer_name(wdev->pdata.gpio_wakeup, "wfx wakeup");
+   328	
+   329		mutex_init(&wdev->conf_mutex);
+   330		mutex_init(&wdev->scan_lock);
+   331		mutex_init(&wdev->rx_stats_lock);
+   332		mutex_init(&wdev->tx_power_loop_info_lock);
+   333		init_completion(&wdev->firmware_ready);
+   334		INIT_DELAYED_WORK(&wdev->cooling_timeout_work, wfx_cooling_timeout_work);
+   335		skb_queue_head_init(&wdev->tx_pending);
+   336		init_waitqueue_head(&wdev->tx_dequeue);
+   337		wfx_init_hif_cmd(&wdev->hif_cmd);
+   338	
+   339		if (devm_add_action_or_reset(dev, wfx_free_common, wdev))
+   340			return NULL;
+   341	
+   342		return wdev;
+   343	
+   344	err:
+   345		ieee80211_free_hw(hw);
+   346		return NULL;
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
