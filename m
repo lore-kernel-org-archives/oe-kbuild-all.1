@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647EC1E51F8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 07:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADD615C158
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 07:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740899915; cv=none; b=A+xLj4GsxVhDKUCqGS4CDmLpI6gE7PPOOHL7ZByOJRZvqjTwpX2fjY45WIsgQjx6eXxTJDvrtX6g4sckZc0sU0Fp0uaDPNryDhVpAmwGMOPBoqEdo0mnHtf0e2Ey0GEOtj9vsQBc5FaTBAuvxowHL7/YZHxPBQhPBekCeo1NbkQ=
+	t=1740901178; cv=none; b=fooJuOi+anZfiZkA8O7wAyM6w23wm+3WGlhSV35GWeardoBTXj08GC0xY9coVxEDzrhoAL5oJWCaG4OwvVMy/l8vsrbIzy4c9Zu7EIXrB363GGWTUQKMWunpP3dXiV03P08AilIKg1UXwKdGG8MsL6gFo3mHUH7B8B7wRJqONKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740899915; c=relaxed/simple;
-	bh=L+vDpjXvQclL3CYsmA4255gksPu8SdNEWNsgFuTfsqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X5ZaOSo2cOtdKkyS1zDnBGa2DkDI6prGjZmf+4gqnbZCr/1ImGk/6wlOclc/st9TyjyOtAy1z2O+ON7fCWKqvDVD9GjgQerLIm/77U74snhyIhJMK1elChjP9f7NbgZsD3pal/VC4tEPV7FHj/2PwiiaZQLkO/i3gOG/jRHbVzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4ztqwPh; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1740901178; c=relaxed/simple;
+	bh=+WEedLhIjdQI9usctHWz/eeHtOKJlD6iojCVVj0sCYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fYuDIUa+Yx0egkRVvrFDCVUrl1Kh7IDw4FK70PkhhlV1lPwgb82RGhC3ISPYcXwMwA0nEIRtq6Y0HYkrvupnPcVL8RYzbAhEE3jaOKz7xVz7KJrOoGqIX047ekh0WYOL1Nkn53KrnKHKVpVrrVp//XGwHKDDSDYWLrvzLK23A5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kbnj/O1t; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4ztqwPh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kbnj/O1t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740899913; x=1772435913;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L+vDpjXvQclL3CYsmA4255gksPu8SdNEWNsgFuTfsqc=;
-  b=I4ztqwPhwh/MHNFEedMVuuI7N0ktXs+DANnRYBQrUhIfVsNjm92RU+B1
-   fMndl0xSvUHoXQ0Zd9C9H70xhwx/NWtWAUk8kXS7m4e2dD17p/FRNKu1C
-   +6kNPzae1QCichuqWPKWIhpiLuTkjp8/PiK/hG0E3MFnqCIpEEYGHeScG
-   pQKoLCxCZ52oPBhcXqLveKzcshYR8WE3PZC8Xzxz77wJFuDkXfjjpWofh
-   8KcaddM3zxJyEEyA2ONwo7wFVwf6Xdmc7km2cb2vdFPmTxb0mFACvQvkq
-   Hc+lJdyLqLfQHs2Oc0mmr8G5S9qjqIOwj4PB9hRMUdB9rS68VTx913+Jp
-   g==;
-X-CSE-ConnectionGUID: I2iyIfXxT6CsUnLtQFJB+Q==
-X-CSE-MsgGUID: ccrgAWsfT3ixAEO3M+TtRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="40963345"
+  t=1740901176; x=1772437176;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+WEedLhIjdQI9usctHWz/eeHtOKJlD6iojCVVj0sCYg=;
+  b=Kbnj/O1tEbJ+Pd5zg3JczHPj1eWRm7hAFkLHNCFtLZHcd1EEmLb3xlZy
+   zbVhDpdZj/Y7bkM3hwFAfT8DgfGVsrhNe3chxzNt2GaomVxKjIowKjZLN
+   Zq5pVgzkVGSo1NmqMuqSGA8ZwXBr6HHjy2VUo/8O19JGbLZb67Hzdd20f
+   +qE6eYEuXgWUysWMydSTH+jmSolXlpPvml5hPW5B/J7PfFJHvb/62bO4Q
+   hZIm/Y1bi3yDcU6UOSNHXW8hff15+eo3tEMCcDCU5tSQTSRZfEilHa7lT
+   GCM2TWuBR3eomsVTTpcZ2b4TrDDnLk20aSTYMi0srKSS255jyuc8s4TCQ
+   w==;
+X-CSE-ConnectionGUID: 7ic6Fk2xTA2GdY3DAChnSA==
+X-CSE-MsgGUID: bFro58TnRaKeKXC9xPoXRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="51995286"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="40963345"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 23:18:31 -0800
-X-CSE-ConnectionGUID: J8hgU2qxTL2jBD4aJTlhig==
-X-CSE-MsgGUID: gA/VuyIwTXSrzub3af0WDw==
+   d="scan'208";a="51995286"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 23:39:35 -0800
+X-CSE-ConnectionGUID: w9Euhj12TpWUiYJtP1Nc3A==
+X-CSE-MsgGUID: WWfEB0jeQ3io4mpqLgaj4g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122957653"
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
+   d="scan'208";a="140940861"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 01 Mar 2025 23:18:29 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 01 Mar 2025 23:39:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1todak-000H9q-1f;
-	Sun, 02 Mar 2025 07:18:26 +0000
-Date: Sun, 2 Mar 2025 15:17:55 +0800
+	id 1todvA-000HAW-1j;
+	Sun, 02 Mar 2025 07:39:32 +0000
+Date: Sun, 2 Mar 2025 15:39:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
-	Basavaraj.Natikar@amd.com, Shyam-sundar.S-k@amd.com,
-	linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
-Message-ID: <202503021444.b3oW30XQ-lkp@intel.com>
-References: <20250227205049.765309-3-superm1@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/1] error[E0425]: cannot
+ find function `size_of` in this scope
+Message-ID: <202503021531.9UDfUpvq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +61,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227205049.765309-3-superm1@kernel.org>
 
-Hi Mario,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next rafael-pm/linux-next rafael-pm/bleeding-edge linus/master v6.14-rc4 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-Add-missing-prototype-for-non-CONFIG_SUSPEND-CONFIG_X86-case/20250228-045242
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20250227205049.765309-3-superm1%40kernel.org
-patch subject: [PATCH v3 2/2] pinctrl: amd: Add an LPS0 check() callback
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250302/202503021444.b3oW30XQ-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021444.b3oW30XQ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   05d6c71423601e74cd1ec7ec5a977263fc97ad23
+commit: 5e60c4805013d43492c922f537a63cd3e7e743c9 [0/1] ANDROID: ashmem_rust: add toggle for ASHMEM_UNPIN
+config: x86_64-randconfig-121-20250302 (https://download.01.org/0day-ci/archive/20250302/202503021531.9UDfUpvq-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021531.9UDfUpvq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021444.b3oW30XQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021531.9UDfUpvq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinctrl-amd.c:933:15: error: variable 'pinctrl_amd_s2idle_dev_ops' has initializer but incomplete type
-     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
-         |               ^~~~~~~~~~~~~~~~~~~
->> drivers/pinctrl/pinctrl-amd.c:934:10: error: 'struct acpi_s2idle_dev_ops' has no member named 'check'
-     934 |         .check = amd_gpio_check_pending,
-         |          ^~~~~
-   drivers/pinctrl/pinctrl-amd.c:934:18: warning: excess elements in struct initializer
-     934 |         .check = amd_gpio_check_pending,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c:934:18: note: (near initialization for 'pinctrl_amd_s2idle_dev_ops')
-   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_probe':
-   drivers/pinctrl/pinctrl-amd.c:1210:9: error: implicit declaration of function 'acpi_register_lps0_dev' [-Wimplicit-function-declaration]
-    1210 |         acpi_register_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c: In function 'amd_gpio_remove':
-   drivers/pinctrl/pinctrl-amd.c:1229:9: error: implicit declaration of function 'acpi_unregister_lps0_dev' [-Wimplicit-function-declaration]
-    1229 |         acpi_unregister_lps0_dev(&pinctrl_amd_s2idle_dev_ops);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-amd.c: At top level:
->> drivers/pinctrl/pinctrl-amd.c:933:35: error: storage size of 'pinctrl_amd_s2idle_dev_ops' isn't known
-     933 | static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/pinctrl_amd_s2idle_dev_ops +933 drivers/pinctrl/pinctrl-amd.c
-
-   932	
- > 933	static struct acpi_s2idle_dev_ops pinctrl_amd_s2idle_dev_ops = {
- > 934		.check = amd_gpio_check_pending,
-   935	};
-   936	
+>> error[E0425]: cannot find function `size_of` in this scope
+   --> rust/kernel/miscdevice.rs:264:19
+   |
+   264 |         let len = size_of::<T>();
+   |                   ^^^^^^^ not found in this scope
+   |
+   help: consider importing this function
+   |
+   11  + use core::mem::size_of;
+   |
 
 -- 
 0-DAY CI Kernel Test Service
