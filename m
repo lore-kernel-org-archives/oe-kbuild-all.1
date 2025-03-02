@@ -1,125 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6CA1D5CF2;
-	Sun,  2 Mar 2025 11:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965F723F362
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 11:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740914329; cv=none; b=BWqDKf2QUxJZoVSFVIzp9O6i2BgWwXe3i7V+LJjZtxbeBhU70HAteorPzCeT6elGeqwIWPrXHEDEYBQwDgDWuqjh+NXaWFVVr3/cyr4mMGyqqEcZ/HPBqM7vL0wT2DWOod7JXunDc3V5h/QgEJ7EmXzigYON4o6WtMWD3hkeVoU=
+	t=1740916196; cv=none; b=EBe0TwAfg+mpADRHWeCpedFU73qtvVt63XYGwnWvi2pt7MybGf5/GxeFWByEzrwvvlUGaEtpZ7Rd6XWVrOrD4DA9jAqY2nRdbaSYH30/FoDx0Ct9xPPeXUpXDBCgwmoDgQ0iGGkptGzGEC6Mu1f9Mha1FWRbkiwcC2uVjtSiruA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740914329; c=relaxed/simple;
-	bh=MZzFYQuosliF1iyzElLVnlzpUwr2kwZXUyaXkHxYMig=;
+	s=arc-20240116; t=1740916196; c=relaxed/simple;
+	bh=MtvXPfYUEsuxZNsXtgyJ1YpV2uHuWHcgR1znV7/bRr4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ii21qnoxnrXSmlmOjnOQq+YAHsS9sIT5SBtv5Ap/VxEmhPL0CklbjCgRB5nTcTVDhZ6lH5udVWtyCbRyls6ereumA4cDsSVfjY99CqspYBM2B1GiGqOZ/fCKcqk74kvFY99ijYV2OPAxpk/TBoLvpWIRhiGBNyAJEp7L2HSfT04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2euvqAU; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Q1UwbXNMKDPvMKxyBWT4V8oGFXMw/Y8QUxKkEJMK9nlqn4vTPbX+ZDpEELiu92cxpZGD7smNeKe9kc7ZatUt7Hvyi0vjT0c0TKS+Kfqqh/aggalTQit4+2s1WJSD5oI3w0wRJg5B7mO58v3hE7V4kwJuw15/rMQPmEDa26YCn6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFcVFopr; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2euvqAU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFcVFopr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740914327; x=1772450327;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MZzFYQuosliF1iyzElLVnlzpUwr2kwZXUyaXkHxYMig=;
-  b=X2euvqAUr9pTTafyGQeFVaCTaofJxOrViHXc70mOK24LnrflkpCH9KGO
-   TwjCS8l3KTGz7jjx7uKV5InAaVkAXxR8eylWXSA4Jwy+FPuoEBC+WqCoJ
-   VPwzNp9XjPc1W9TzY0QF9KouhLnKO9ZxET21iComKIhWKfo/LDVw13kpk
-   cCckX0ErTb8jSxsUT+aZmFT9uyWCi1LLA4qC1KZh4V+1sXeJ2GhEGkPqQ
-   WMIYMHB0WUcp46QEKa/W1u3mGfi4ejC21OENaajxr+vyaBc/M2PVehwKh
-   XDz1WU67wgm05GKK1hRL3Aj+p8rtNTUShJDVifu/dt6GEuQjd8g/YYGlm
+  t=1740916195; x=1772452195;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MtvXPfYUEsuxZNsXtgyJ1YpV2uHuWHcgR1znV7/bRr4=;
+  b=RFcVFoprlUXvv1H9jYteD8zmIl6X5uY0qDgMC0MeV0cl5Lnhzmwj0ghv
+   DUTkRcIEm8vphit1HTD2bHPyf5C6w0tCY/XeMnYwGIkxcK+oC6zgJBRpU
+   e5fG4wmrJe03dKiNmKCrKKm0gQGkVJkobigWWNLUwO6ZXmuqAL3k2tD13
+   XCIdKLLyGJmu+AzUrnVudq2Hf9JNh+p88MNAeB3I3prWHgZ1LWs9oIWpQ
+   xTOColk5qjHyPryuTksKQnmS10A73in2Fsq6qIkfRpwa9zlR7Bn3mS4ne
+   k4b5a1wYW5k9f2ojCb9Ao/kxbUWUk+uPmBPI1dM8F/YSNKJy5Lsv0N6LH
    Q==;
-X-CSE-ConnectionGUID: V26HBXrTTJqc9EquJYQgOw==
-X-CSE-MsgGUID: wVvJRJoxTwqZUHHPzDEO9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41496327"
+X-CSE-ConnectionGUID: OFR4EByCRuKBxNvIUarCMQ==
+X-CSE-MsgGUID: uGEFOBXhQEKOJKh48LVPgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41919713"
 X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
-   d="scan'208";a="41496327"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 03:18:46 -0800
-X-CSE-ConnectionGUID: Qx5FlSpeS5KsKDR155XR5Q==
-X-CSE-MsgGUID: IiidHD+rSGCyF81i/2LEUQ==
+   d="scan'208";a="41919713"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 03:49:54 -0800
+X-CSE-ConnectionGUID: /kWvElUHR7aB4xvk61ESVA==
+X-CSE-MsgGUID: GkXPlz6zTLGfp9Pjg8CkkA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118293338"
+X-IronPort-AV: E=Sophos;i="6.13,327,1732608000"; 
+   d="scan'208";a="117509758"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Mar 2025 03:18:44 -0800
+  by orviesa009.jf.intel.com with ESMTP; 02 Mar 2025 03:49:52 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tohL4-000HH8-2N;
-	Sun, 02 Mar 2025 11:18:35 +0000
-Date: Sun, 2 Mar 2025 19:18:08 +0800
+	id 1tohpJ-000HIQ-05;
+	Sun, 02 Mar 2025 11:49:47 +0000
+Date: Sun, 2 Mar 2025 19:48:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saurabh Sengar <ssengar@linux.microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: drivers/hv/channel.c:597: warning: Function parameter or struct
- member 'size' not described in 'request_arr_init'
-Message-ID: <202503021934.wH1BERla-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [drm-xe:drm-xe-next 6/6] include/drm/drm_print.h:228:31: warning:
+ '%s' directive argument is null
+Message-ID: <202503021906.P2MwAvyK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Saurabh,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ece144f151ac7bf8bb5b98f7d4aeeda7a2eed02a
-commit: f83705a51275ed29117d46e1d68e8b16dcb40507 Driver: VMBus: Add Devicetree support
-date:   1 year, 11 months ago
-config: x86_64-buildonly-randconfig-004-20241224 (https://download.01.org/0day-ci/archive/20250302/202503021934.wH1BERla-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021934.wH1BERla-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   067a974fd8a9ea43f97ca184e2768b583f2f8c44
+commit: 067a974fd8a9ea43f97ca184e2768b583f2f8c44 [6/6] drm/xe: Add performance tunings to debugfs
+config: microblaze-allmodconfig (https://download.01.org/0day-ci/archive/20250302/202503021906.P2MwAvyK-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503021906.P2MwAvyK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503021934.wH1BERla-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503021906.P2MwAvyK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hv/channel.c:597: warning: Function parameter or struct member 'size' not described in 'request_arr_init'
+   In file included from include/drm/ttm/ttm_resource.h:34,
+                    from include/drm/ttm/ttm_device.h:30,
+                    from drivers/gpu/drm/xe/xe_device_types.h:13,
+                    from drivers/gpu/drm/xe/xe_gt_types.h:9,
+                    from drivers/gpu/drm/xe/xe_tuning.c:13:
+   drivers/gpu/drm/xe/xe_tuning.c: In function 'xe_tuning_dump':
+>> include/drm/drm_print.h:228:31: warning: '%s' directive argument is null [-Wformat-overflow=]
+     228 |         drm_printf((printer), "%.*s" fmt, (indent), "\t\t\t\t\tX", ##__VA_ARGS__)
+         |                               ^~~~~~
+   drivers/gpu/drm/xe/xe_tuning.c:226:17: note: in expansion of macro 'drm_printf_indent'
+     226 |                 drm_printf_indent(p, 1, "%s\n", engine_tunings[idx].name);
+         |                 ^~~~~~~~~~~~~~~~~
 
 
-vim +597 drivers/hv/channel.c
+vim +228 include/drm/drm_print.h
 
-3e7ee4902fe6996 drivers/staging/hv/Channel.c Hank Janssen   2009-07-13  588  
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  589  /**
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  590   * request_arr_init - Allocates memory for the requestor array. Each slot
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  591   * keeps track of the next available slot in the array. Initially, each
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  592   * slot points to the next one (as in a Linked List). The last slot
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  593   * does not point to anything, so its value is U64_MAX by default.
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  594   * @size The size of the array
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  595   */
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  596  static u64 *request_arr_init(u32 size)
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09 @597  {
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  598  	int i;
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  599  	u64 *req_arr;
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  600  
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  601  	req_arr = kcalloc(size, sizeof(u64), GFP_KERNEL);
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  602  	if (!req_arr)
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  603  		return NULL;
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  604  
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  605  	for (i = 0; i < size - 1; i++)
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  606  		req_arr[i] = i + 1;
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  607  
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  608  	/* Last slot (no more available slots) */
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  609  	req_arr[i] = U64_MAX;
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  610  
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  611  	return req_arr;
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  612  }
-e8b7db38449ac5b drivers/hv/channel.c         Andres Beltran 2020-11-09  613  
+e2b155e9924c39 Chris Wilson   2017-11-23  220  
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  221  /**
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  222   * drm_printf_indent - Print to a &drm_printer stream with indentation
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  223   * @printer: DRM printer
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  224   * @indent: Tab indentation level (max 5)
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  225   * @fmt: Format string
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  226   */
+bf6234a294c5b8 Noralf Trønnes 2017-11-07  227  #define drm_printf_indent(printer, indent, fmt, ...) \
+bf6234a294c5b8 Noralf Trønnes 2017-11-07 @228  	drm_printf((printer), "%.*s" fmt, (indent), "\t\t\t\t\tX", ##__VA_ARGS__)
+d8187177b0b195 Rob Clark      2016-11-05  229  
 
-:::::: The code at line 597 was first introduced by commit
-:::::: e8b7db38449ac5b950a3f00519171c4be3e226ff Drivers: hv: vmbus: Add vmbus_requestor data structure for VMBus hardening
+:::::: The code at line 228 was first introduced by commit
+:::::: bf6234a294c5b8bcc6f47ecdb646f41ad5efddd3 drm/print: Add drm_printf_indent()
 
-:::::: TO: Andres Beltran <lkmlabelt@gmail.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+:::::: TO: Noralf Trønnes <noralf@tronnes.org>
+:::::: CC: Noralf Trønnes <noralf@tronnes.org>
 
 -- 
 0-DAY CI Kernel Test Service
