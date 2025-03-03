@@ -1,67 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C6E1552E0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 02:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532EA7083C;
+	Mon,  3 Mar 2025 02:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740968873; cv=none; b=SV4RCgTgec4/wEJdSimow7DxDpXdbWDRRo1pp5jBHz+OYuUZEqSLr/AjH4GXk41OnsLvCClyFNPqJiVGXEuYS0FIOBUPnIHq6w+Agb8lv4oz3q4Ep7l4969hKhIq98Pb/Kcd3YD7sdSU8P1eYtmn8PEU4bTGt8Z22r3QaeVA1/o=
+	t=1740970741; cv=none; b=EeU9mqMcH6jkwhuJhbvlvTtODU151QFnfRHLR/7C+oNNu0SGBXOdzqzqeUuuUg0sRhZQg9IfgSKfNo5o0vbxUdo5Sz1rRqqozLom9ygDxEHm5jIwbOUBdAr/pv1cOK7Ui+OMQaBNAE8ISgfbmom1Wl+CeN23QgkqFboE4jGkXQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740968873; c=relaxed/simple;
-	bh=+yaRIRHwJhYD80ovU3oLHy/7gA+I7If+Tf09MlnOGsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOz7iE2D5Mt91FqHigXonhhfdFngGdPzyKbTCiKrYPehfe7MVuJbyH2c6Gf8Zdr34ZLGek2vjXFw5BmBmOSyduRcwkS6oHPOa5iGCpxe+r+qk+4jd20R94DqJEBh3sJbvHej+NXcZ7TXnDO6u+rmv6SR60wilfuugsGF9vdC6KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ng57cnXk; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1740970741; c=relaxed/simple;
+	bh=Luqld3AfInH59ustwtHCslDoPNlUnD9gFCk9KkHinLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mBJw4fCcSd34nvnpMD/yEW+HKaWsqE/30GeMPSbQn3fI7maflCOO+fgKuptmR31FLhvY7wsl71isQtd5MlJIv7X0/G41nGlgEAIxHfNUFIDjihRgdrNA0jhWQeUaze7s++hTjVMvexxBwdyLYnqeNfuTXAkykM/5Rn62+UW8AWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ICpVZoFa; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ng57cnXk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ICpVZoFa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740968872; x=1772504872;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+yaRIRHwJhYD80ovU3oLHy/7gA+I7If+Tf09MlnOGsY=;
-  b=Ng57cnXkWjd5OIHs5bdagTHvli0sv+pqFWkSDrn6B4t0lBzT8NJh/p9O
-   RMiQvG1sRxFawQdB5ublclZxXk39esnpOFtvmj/hpEQfRXv3E0DLeM3U3
-   hCS3YfWrCnca+6AT9TU92sh+fDI5ChtzZB+EC+BQodeVQzWVoIegsA9on
-   TnEAcgGH1NjYpmXzdF6KAg72XM4UDhZs2HxWzCQVhRChnkmt3UgspREAq
-   f5lJ/3Nv4LOLmUsibBAkIDK9Bkui5tsHWPYTo77bV/JHfeiL+lv/HtMpy
-   G852AlQjp0mRc67oC/McJTFBVBxbp3ThEs7DXlNvmVhxfUkaT4Yoq73n6
-   Q==;
-X-CSE-ConnectionGUID: kyFv/0Z1SQGPlNeDhIg7ww==
-X-CSE-MsgGUID: GGXnS/dlREy0lno5EIQJtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="42021540"
+  t=1740970741; x=1772506741;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Luqld3AfInH59ustwtHCslDoPNlUnD9gFCk9KkHinLo=;
+  b=ICpVZoFaJSSValarftZHC5RQVQjhvEf5S4tcIZ6aGdhSqp9A/sR2CNZS
+   ku3ePSyD0FLB6ucqv07P7neRSasQQhwb4uE/whmTM/fXmpurfNVxWE3qP
+   6suLfxpPLCc+mPRh641aBxdNEue8f7DTtyneriNtL1bSY9hv/uYaH55sy
+   bOTW4c+ezO3jgP4F4loAuOk9P9aRUSn7MPUZ/Je/Ij2tIvMWIpmSfC8Q2
+   Tlyx+uizIR4kbB7mTkJK36zu6pnQC1FXFL3PH9hwxumWD7dURB9nNX7Oa
+   8amwFcJU6oJCuwDO0rp8eJ3HYHNSqKvc0+EI1w8FkFvttNWgHCH9prBh7
+   A==;
+X-CSE-ConnectionGUID: /WabJj5tQUGMUnCJ04NSxA==
+X-CSE-MsgGUID: UYSTprCQQDKnvxC7z8ZlFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="53239884"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="42021540"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 18:27:51 -0800
-X-CSE-ConnectionGUID: RH2BbcC4ScmT23C5Uvymig==
-X-CSE-MsgGUID: iW+f1ZttQMCM6AwXUt/Sqw==
+   d="scan'208";a="53239884"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 18:59:00 -0800
+X-CSE-ConnectionGUID: AhuoRWYgSo2WE34JLwOQDA==
+X-CSE-MsgGUID: 2SibpFiUQB6gBhlgPYM3ug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="117871253"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118787836"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Mar 2025 18:27:48 -0800
+  by orviesa008.jf.intel.com with ESMTP; 02 Mar 2025 18:58:57 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tovWz-000Hpj-23;
-	Mon, 03 Mar 2025 02:27:45 +0000
-Date: Mon, 3 Mar 2025 10:27:30 +0800
+	id 1tow19-000HrP-03;
+	Mon, 03 Mar 2025 02:58:55 +0000
+Date: Mon, 3 Mar 2025 10:57:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saeed Mahameed <saeed@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
-	Vlad Dumitrescu <vdumitrescu@nvidia.com>
-Subject: Re: [PATCH net-next 04/14] net/mlx5: Implement devlink enable_sriov
- parameter
-Message-ID: <202503030926.KNBxmdVW-lkp@intel.com>
-References: <20250228021227.871993-5-saeed@kernel.org>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kvm@vger.kernel.org, Farrah Chen <farrah.chen@intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Yan Zhao <yan.y.zhao@intel.com>
+Subject: [kvm:kvm-coco-queue 60/127] ERROR: modpost:
+ "tdx_disable_virtualization_cpu" [arch/x86/kvm/kvm-intel.ko] undefined!
+Message-ID: <202503031010.ev5TpPSM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,41 +65,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228021227.871993-5-saeed@kernel.org>
 
-Hi Saeed,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Saeed-Mahameed/devlink-define-enum-for-attr-types-of-dynamic-attributes/20250228-101818
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250228021227.871993-5-saeed%40kernel.org
-patch subject: [PATCH net-next 04/14] net/mlx5: Implement devlink enable_sriov parameter
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
+head:   9fe4541afcfad987d39790f0a40527af190bf0dd
+commit: 0a930010a3d3bb8b04824ee083b51be313b939f1 [60/127] KVM: TDX: Handle vCPU dissociation
+config: x86_64-randconfig-077-20250302 (https://download.01.org/0day-ci/archive/20250303/202503031010.ev5TpPSM-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031010.ev5TpPSM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503030926.KNBxmdVW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031010.ev5TpPSM-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/mellanox/mlx5/core/devlink.c: lib/nv_param.h is included more than once.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +11 drivers/net/ethernet/mellanox/mlx5/core/devlink.c
-
-     5	
-     6	#include "mlx5_core.h"
-     7	#include "fw_reset.h"
-     8	#include "fs_core.h"
-     9	#include "eswitch.h"
-    10	#include "esw/qos.h"
-  > 11	#include "lib/nv_param.h"
-    12	#include "sf/dev/dev.h"
-    13	#include "sf/sf.h"
-  > 14	#include "lib/nv_param.h"
-    15	
+ERROR: modpost: "enable_tdx" [arch/x86/kvm/kvm-intel.ko] undefined!
+>> ERROR: modpost: "tdx_disable_virtualization_cpu" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_vm_init" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_vm_destroy" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_mmu_release_hkid" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_vcpu_create" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_vcpu_free" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_vcpu_load" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_flush_tlb_all" [arch/x86/kvm/kvm-intel.ko] undefined!
+ERROR: modpost: "tdx_flush_tlb_current" [arch/x86/kvm/kvm-intel.ko] undefined!
+WARNING: modpost: suppressed 10 unresolved symbol warnings because there were too many)
 
 -- 
 0-DAY CI Kernel Test Service
