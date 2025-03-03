@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688481DDA3C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 05:40:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B21618FC75
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 06:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740980413; cv=none; b=Iw2KDt+K42MD78o6HDAGbsn0ges4nOa6fWsqey7cpeuuGZMG3VzSLB3wluNt6hY5j6U3Q+eYdbAGfpmZEK8CeaEE0IPyfywVaekLOCX3iqMFZHgX14HtvAlyW8N5Bz67ge4W9W2PwKn1VlTzeqTSR2Ujr+LlMZwZesW/i97oPTw=
+	t=1740983492; cv=none; b=RdD0+QTXMzQvxET685fXI62hkW8FPnHLrc8EX+LFIGueklzoDACPOsXOOWVY/Q0DXxftpMhGLnKErsxD0lKfH3SxtTrdMQkNRf3Ll8cms3xHKVWHvwe4iJz8Gj+negqjcpJ3aGoXELt9tvsab+48qjBR6K5PrTj00GXjS0LOg/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740980413; c=relaxed/simple;
-	bh=rYFtMHdDDHL+kxEWQoMx6d5+TFdJmIa6taOb/Vd500E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kvOqDbyYvec2aNFxhZRNPIiBPcVcpgVgZ3x5tiR+V9Qyi+q6e+LW38tLPdcEdLTyauwg/WwBFdSLYDnS646YrohFAtJoWNANEBBYzKjIZfBXis4eo5RZ7BVVdPoOBjHe3mPZuWvA+q3i7yyKsSWTQcc1pgFQJRlV41voufSm26s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcpZ2diE; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1740983492; c=relaxed/simple;
+	bh=CaReUaDnQroimNpgBqlYq+TP76juSYIfetTs2GwL4P0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qMwj0NVvbGnYlOvM91t1yviX2KbOm4qqnlXQT1NHfKDP+qWDpdSjYhhyqWg54qMklEGKOKV5gt14v5dxoyqWsR9AkpK3n/87N1d0tbT1hLYgBT5pJt/742LNiPq2IG7HkzySxJWxqgH9ECQJGFUDqg95iErZVMYZ/+xK+JVi6tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEHIwAyw; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcpZ2diE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEHIwAyw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740980412; x=1772516412;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rYFtMHdDDHL+kxEWQoMx6d5+TFdJmIa6taOb/Vd500E=;
-  b=BcpZ2diEQcipl6iKFhZdpbdfZrfIG/YSI4GC2OjnmqWB8vszzWAQ1dQu
-   8gdBgGfh0Imyfx0nxh2kjcUd6QKG3i8z7nW9CcfHlzzkLRVY9H8QvWpNx
-   cJsgZyL1uICqoghSAQcQS52dQO6v55CHdzf+yy08P25RfiOdSqkFCH8SB
-   7IglmQUcWNT97zPJm4EoOVy677sHUj0/oefSxFc9XZShMuDO4ETtlCool
-   2g2IOVjK0K/MzUcVhakm2jDGDavYyhjgQkerFlg6ItN45m6NJKo8uP1tf
-   S+G8WX8GiCvmb3jc80dpK5KILcOHA6qj/f1Snckpc/Q20cU8kyfPUWtYK
-   A==;
-X-CSE-ConnectionGUID: P85jaaTRT/GYBCvxB+G0cQ==
-X-CSE-MsgGUID: 0qNqm6ufQpiyfimvoFaKxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="52823200"
-X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="52823200"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 21:40:11 -0800
-X-CSE-ConnectionGUID: qEUPki0gQbWoM43etF31zQ==
-X-CSE-MsgGUID: LZIDrA3cSQqI3de1WCM0sQ==
+  t=1740983491; x=1772519491;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CaReUaDnQroimNpgBqlYq+TP76juSYIfetTs2GwL4P0=;
+  b=TEHIwAywimoX4qkmWEy9ht0/e+Krs7OplRr7FBoW9wEk4tbhmbouS7mb
+   c07e5k57sBKewlIwe6X0E704b1vjshpfRHzE/0dZWVhIlOnZ0lEIERrwZ
+   8pufNjUDOR2ieOqIiVJsNPddnc8nD9H7yWBP+5UkEARDJW12EGkxWFJD+
+   NOcj0vtCMlJTbJ5ZGJI73dDB3lkAYCHGqeAEVBmW54r7a1aE+5Z9n+j+u
+   NCEcJxxS3jjtAK7Al1x5QTaUqjBL1QWHp52hy2tYMMLDGPp1dmzs2tAMO
+   wnw1Oc2H7ZYwE2VjB9BsE5qRojRyL1L3piJ5YVSMDTPPF3KiKZnwfkm1e
+   g==;
+X-CSE-ConnectionGUID: AiSxBpLtRYq3n3Dx+lXswA==
+X-CSE-MsgGUID: TB3EmWDDRrKQg76P7qbL0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41967130"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
+   d="scan'208";a="41967130"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 22:31:28 -0800
+X-CSE-ConnectionGUID: ODqJKfcBSXeXt7fDvGqY6w==
+X-CSE-MsgGUID: tO4IvErCSz6Bbvds153k9A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148816293"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
+   d="scan'208";a="123065930"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2025 21:40:09 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 02 Mar 2025 22:31:27 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1toyWZ-000Hyn-1F;
-	Mon, 03 Mar 2025 05:39:53 +0000
-Date: Mon, 3 Mar 2025 13:37:55 +0800
+	id 1tozKn-000I1F-0Q;
+	Mon, 03 Mar 2025 06:31:25 +0000
+Date: Mon, 3 Mar 2025 14:31:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: wang wei <a929244872@163.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:futex/scope 18/18] kernel/futex/core.c:1478:21:
- sparse: sparse: incorrect type in assignment (different address spaces)
-Message-ID: <202503031355.JHQnrBwe-lkp@intel.com>
+Subject: Re: [RFC v1] mm/page cache: A method to drop one-read page cache
+Message-ID: <202503031422.vK2Dy5D8-lkp@intel.com>
+References: <20250302061427.33455-1-a929244872@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,129 +62,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250302061427.33455-1-a929244872@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git futex/scope
-head:   b37932a2988afdd932334774c6e7536f5f5e1f70
-commit: b37932a2988afdd932334774c6e7536f5f5e1f70 [18/18] futex: Rework SET_SLOTS
-config: arc-randconfig-r111-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031355.JHQnrBwe-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250303/202503031355.JHQnrBwe-lkp@intel.com/reproduce)
+Hi wang,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wang-wei/mm-page-cache-A-method-to-drop-one-read-page-cache/20250302-141715
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250302061427.33455-1-a929244872%40163.com
+patch subject: [RFC v1] mm/page cache: A method to drop one-read page cache
+config: x86_64-randconfig-161-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031422.vK2Dy5D8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031355.JHQnrBwe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031422.vK2Dy5D8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/futex/core.c:195:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct futex_private_hash *fph @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:195:13: sparse:     expected struct futex_private_hash *fph
-   kernel/futex/core.c:195:13: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
-   kernel/futex/core.c:1396:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *addr @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:1396:18: sparse:     expected void const *addr
-   kernel/futex/core.c:1396:18: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
-   kernel/futex/core.c:1406:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcuref_t [usertype] *ref @@     got struct rcuref_t [noderef] __rcu * @@
-   kernel/futex/core.c:1406:32: sparse:     expected struct rcuref_t [usertype] *ref
-   kernel/futex/core.c:1406:32: sparse:     got struct rcuref_t [noderef] __rcu *
->> kernel/futex/core.c:1478:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct futex_private_hash *cur @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:1478:21: sparse:     expected struct futex_private_hash *cur
-   kernel/futex/core.c:1478:21: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
-   kernel/futex/core.c:1489:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct futex_private_hash *fph @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:1489:58: sparse:     expected struct futex_private_hash *fph
-   kernel/futex/core.c:1489:58: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
-   kernel/futex/core.c:1617:58: sparse: sparse: Using plain integer as NULL pointer
-   kernel/futex/core.c:832:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
->> kernel/futex/core.c:1447:31: sparse: sparse: dereference of noderef expression
+smatch warnings:
+mm/workingset.c:570 workingset_refault() warn: inconsistent indenting
 
-vim +1478 kernel/futex/core.c
+vim +570 mm/workingset.c
 
-  1432	
-  1433	static int futex_hash_allocate(unsigned int hash_slots, bool custom)
-  1434	{
-  1435		struct mm_struct *mm = current->mm;
-  1436		struct futex_private_hash *fph;
-  1437		int i;
-  1438	
-  1439		if (hash_slots && (hash_slots == 1 || !is_power_of_2(hash_slots)))
-  1440			return -EINVAL;
-  1441	
-  1442		/*
-  1443		 * Once we've disabled the global hash there is no way back.
-  1444		 */
-  1445		scoped_guard (rcu) {
-  1446			fph = rcu_dereference(mm->futex_phash);
-> 1447			if (fph && !mm->futex_phash->hash_mask) {
-  1448				if (custom)
-  1449					return -EBUSY;
-  1450				return 0;
-  1451			}
-  1452		}
-  1453	
-  1454		fph = kvzalloc(struct_size(fph, queues, hash_slots), GFP_KERNEL_ACCOUNT);
-  1455		if (!fph)
-  1456			return -ENOMEM;
-  1457	
-  1458		rcuref_init(&fph->users, 1);
-  1459		fph->hash_mask = hash_slots ? hash_slots - 1 : 0;
-  1460		fph->custom = custom;
-  1461		fph->mm = mm;
-  1462	
-  1463		for (i = 0; i < hash_slots; i++)
-  1464			futex_hash_bucket_init(&fph->queues[i], fph);
-  1465	
-  1466		if (custom) {
-  1467			/*
-  1468			 * Only let prctl() wait / retry; don't unduly delay clone().
-  1469			 */
-  1470	again:
-  1471			wait_var_event(mm, futex_pivot_pending(mm));
-  1472		}
-  1473	
-  1474		scoped_guard(mutex, &mm->futex_hash_lock) {
-  1475			struct futex_private_hash *free __free(kvfree) = NULL;
-  1476			struct futex_private_hash *cur, *new;
-  1477	
-> 1478			cur = mm->futex_phash;
-  1479			new = mm->futex_phash_new;
-  1480			mm->futex_phash_new = NULL;
-  1481	
-  1482			if (fph) {
-  1483				if (cur && !new) {
-  1484					/*
-  1485					 * If we have an existing hash, but do not yet have
-  1486					 * allocated a replacement hash, drop the initial
-  1487					 * reference on the existing hash.
-  1488					 */
-  1489					futex_private_hash_put(mm->futex_phash);
-  1490				}
-  1491	
-  1492				if (new) {
-  1493					/*
-  1494					 * Two updates raced; throw out the lesser one.
-  1495					 */
-  1496					if (futex_hash_less(new, fph)) {
-  1497						free = new;
-  1498						new = fph;
-  1499					} else {
-  1500						free = fph;
-  1501					}
-  1502				} else {
-  1503					new = fph;
-  1504				}
-  1505				fph = NULL;
-  1506			}
-  1507	
-  1508			if (new) {
-  1509				/*
-  1510				 * Will set mm->futex_phash_new on failure;
-  1511				 * futex_get_private_hash() will try again.
-  1512				 */
-  1513				if (!__futex_pivot_hash(mm, new) && custom)
-  1514					goto again;
-  1515			}
-  1516		}
-  1517		return 0;
-  1518	}
-  1519	
+ffcb5f5262b756 Nhat Pham               2023-05-02  524  
+ffcb5f5262b756 Nhat Pham               2023-05-02  525  /**
+ffcb5f5262b756 Nhat Pham               2023-05-02  526   * workingset_refault - Evaluate the refault of a previously evicted folio.
+ffcb5f5262b756 Nhat Pham               2023-05-02  527   * @folio: The freshly allocated replacement folio.
+ffcb5f5262b756 Nhat Pham               2023-05-02  528   * @shadow: Shadow entry of the evicted folio.
+ffcb5f5262b756 Nhat Pham               2023-05-02  529   *
+ffcb5f5262b756 Nhat Pham               2023-05-02  530   * Calculates and evaluates the refault distance of the previously
+ffcb5f5262b756 Nhat Pham               2023-05-02  531   * evicted folio in the context of the node and the memcg whose memory
+ffcb5f5262b756 Nhat Pham               2023-05-02  532   * pressure caused the eviction.
+ffcb5f5262b756 Nhat Pham               2023-05-02  533   */
+ffcb5f5262b756 Nhat Pham               2023-05-02  534  void workingset_refault(struct folio *folio, void *shadow)
+ffcb5f5262b756 Nhat Pham               2023-05-02  535  {
+ffcb5f5262b756 Nhat Pham               2023-05-02  536  	bool file = folio_is_file_lru(folio);
+ffcb5f5262b756 Nhat Pham               2023-05-02  537  	struct pglist_data *pgdat;
+ffcb5f5262b756 Nhat Pham               2023-05-02  538  	struct mem_cgroup *memcg;
+ffcb5f5262b756 Nhat Pham               2023-05-02  539  	struct lruvec *lruvec;
+ffcb5f5262b756 Nhat Pham               2023-05-02  540  	bool workingset;
+ffcb5f5262b756 Nhat Pham               2023-05-02  541  	long nr;
+ffcb5f5262b756 Nhat Pham               2023-05-02  542  
+9cbfd1c3c83b62 Yu Zhao                 2024-12-30  543  	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+9cbfd1c3c83b62 Yu Zhao                 2024-12-30  544  
+ffcb5f5262b756 Nhat Pham               2023-05-02  545  	if (lru_gen_enabled()) {
+ffcb5f5262b756 Nhat Pham               2023-05-02  546  		lru_gen_refault(folio, shadow);
+ffcb5f5262b756 Nhat Pham               2023-05-02  547  		return;
+ffcb5f5262b756 Nhat Pham               2023-05-02  548  	}
+ffcb5f5262b756 Nhat Pham               2023-05-02  549  
+ffcb5f5262b756 Nhat Pham               2023-05-02  550  	/*
+ffcb5f5262b756 Nhat Pham               2023-05-02  551  	 * The activation decision for this folio is made at the level
+ffcb5f5262b756 Nhat Pham               2023-05-02  552  	 * where the eviction occurred, as that is where the LRU order
+ffcb5f5262b756 Nhat Pham               2023-05-02  553  	 * during folio reclaim is being determined.
+ffcb5f5262b756 Nhat Pham               2023-05-02  554  	 *
+ffcb5f5262b756 Nhat Pham               2023-05-02  555  	 * However, the cgroup that will own the folio is the one that
+b006847222623a Yosry Ahmed             2023-11-29  556  	 * is actually experiencing the refault event. Make sure the folio is
+b006847222623a Yosry Ahmed             2023-11-29  557  	 * locked to guarantee folio_memcg() stability throughout.
+ffcb5f5262b756 Nhat Pham               2023-05-02  558  	 */
+ffcb5f5262b756 Nhat Pham               2023-05-02  559  	nr = folio_nr_pages(folio);
+ffcb5f5262b756 Nhat Pham               2023-05-02  560  	memcg = folio_memcg(folio);
+ffcb5f5262b756 Nhat Pham               2023-05-02  561  	pgdat = folio_pgdat(folio);
+ffcb5f5262b756 Nhat Pham               2023-05-02  562  	lruvec = mem_cgroup_lruvec(memcg, pgdat);
+ffcb5f5262b756 Nhat Pham               2023-05-02  563  
+ffcb5f5262b756 Nhat Pham               2023-05-02  564  	mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
+ffcb5f5262b756 Nhat Pham               2023-05-02  565  
+93d762f0f33206 wang wei                2025-03-02  566  	if (!workingset_test_recent(shadow, file, &workingset, true)) {
+93d762f0f33206 wang wei                2025-03-02  567  		if (file && folio->mapping)
+93d762f0f33206 wang wei                2025-03-02  568  			__folio_set_dropbehind(folio);
+93d762f0f33206 wang wei                2025-03-02  569  	}
+b006847222623a Yosry Ahmed             2023-11-29 @570  		return;
+1899ad18c6072d Johannes Weiner         2018-10-26  571  
+0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  572) 	folio_set_active(folio);
+0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  573) 	workingset_age_nonresident(lruvec, nr);
+0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  574) 	mod_lruvec_state(lruvec, WORKINGSET_ACTIVATE_BASE + file, nr);
+1899ad18c6072d Johannes Weiner         2018-10-26  575  
+0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  576) 	/* Folio was active prior to eviction */
+1899ad18c6072d Johannes Weiner         2018-10-26  577  	if (workingset) {
+0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  578) 		folio_set_workingset(folio);
+6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  579) 		/*
+6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  580) 		 * XXX: Move to folio_add_lru() when it supports new vs
+6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  581) 		 * putback
+6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  582) 		 */
+0538a82c39e94d Johannes Weiner         2022-10-13  583  		lru_note_cost_refault(folio);
+0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  584) 		mod_lruvec_state(lruvec, WORKINGSET_RESTORE_BASE + file, nr);
+a528910e12ec7e Johannes Weiner         2014-04-03  585  	}
+a528910e12ec7e Johannes Weiner         2014-04-03  586  }
+a528910e12ec7e Johannes Weiner         2014-04-03  587  
 
 -- 
 0-DAY CI Kernel Test Service
