@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94A8156237;
-	Mon,  3 Mar 2025 03:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C946D13D539
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 03:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740971956; cv=none; b=SAQZny/ctNV9GNpr0cl+HXgCKxjA1NhharvvlR+IQJBmdGqkxMUjozvjh8sR53D9IwVPUBhiaAZbAAMKp3wmV9vcjGgxwwMgGx+lGRni1AfStdaweyJz9f8t4pZjImbreL9rISeZh77E7A8vNdGaQkX9lc93dGYnW3sc4aaKF7E=
+	t=1740974251; cv=none; b=ZnUe4W8UHc4BcODp5h4JLj8iw0fM+Vz01xo3zrEmQnhpaxoOFo7PeCpQQhOkGfhpKCfnhlzLy3r+ir1mRN91qOV6pAAVC5Ac3wQ7BGWA2aMGbJrccTqUjo/6SATrfWcRtK3F4inbK68iTWfjoxk8+WP0fRy+NuYmNQzzTPpHcMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740971956; c=relaxed/simple;
-	bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rzdjnoj9ZcGl8gtT9gutwYvAjhl0IL8EeGG1o9SbkzARLAg9bB+I6CjamqOMIzPBJ0r4oNmQKnZO03Z4Gd1cH4pB+0wAJhU27Fwaa4EkN76nBvXFNmKerrBoySDQ4/Zsulmwo1uYEiWMFcyXZtDSp0WV1JrPaMc2nJ8Iowo9r1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkQaCxBB; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1740974251; c=relaxed/simple;
+	bh=avz4Txll5aI7rHkpGekpZJMvQ/BiqVqw88lLLhtPMWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=INYXot7rAt0/qO0s+o10jk82pyONFJH258kee8nZpkVCDNYIjjnQSky+DdFUU42zJwXTboyxbd0LahLvIsbIPcFr5mbuEtlWTQkptAr3nwxIBybKofO1pbJi6+2L7RS0mqJeIQwTBieTpdLYsqf9pQg/Jdoekuns4J53OPJwYyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpWuXZB5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkQaCxBB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpWuXZB5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740971954; x=1772507954;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
-  b=JkQaCxBBHYIVC45+g18FmZOdDnXEsgXy5pu0TwGjzw00jcU0vVLVvu1F
-   fui3IsdBWcOgxf985TT1kEdykPDGJQkckYqS8ux9hvo1RbmwgY6oFV5Ug
-   A9o7zVGfU7S3sBuTI82SrwD+hsarvFm6Mmh85P4IhloXNULa47UYvNmm1
-   R7XcqomMDfsuj9bW5nEapviiHHgqXKgfAONtLpZXzraYSTwb64w1gkbYR
-   QKwbzgsbr5XuSZyb5KeHHGrUcUlsUgzyu4oZ76c9EgjBH0uLv9p4LBfs1
-   xTkPks25p6ffmu8nVLQyU3AiZQeDyZNap+w6nlt6WhZ6IGPje5gYHLLzd
-   g==;
-X-CSE-ConnectionGUID: i2PPGNDESciMCllAQlBPOQ==
-X-CSE-MsgGUID: NOYno1H0Qo2NgHp1faMWgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="45761602"
+  t=1740974249; x=1772510249;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=avz4Txll5aI7rHkpGekpZJMvQ/BiqVqw88lLLhtPMWA=;
+  b=fpWuXZB5/UjmqPu5oxfkB/eHPq44KM9OXxoXmuAYEfkBLDZtylj/mzYY
+   NDFVU4KRPSm0PLiOOhrF++Bq91LN9/5SIbzabvWpEynMxQQ/Ba5KfCFtU
+   B49jdIdU81PKYyJZCIns3XTeX3+d5KTIViaaCt78KlpCsWtSsDHXLbVbO
+   EkKDXKZev6hhM+vu+uyrX4dl/cB7SzgdToUmT7H2SMahQnfxSrjVO11KJ
+   fTZQpJ71JiZ4EW1VFl/ru3w4xcqQTtnPN4rPjPzPFGnylc7P3wzWN0oKH
+   Ut7KGediL5u22aXyFT4llTvZC7/11fcQsq7rRY3KKIuG4+HcCnCvDUBWY
+   Q==;
+X-CSE-ConnectionGUID: bvWNVTKMQ1yMrSjGaU2hRg==
+X-CSE-MsgGUID: 207qGwWYSVK+K0x2p2p8Hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41685272"
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="45761602"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 19:19:13 -0800
-X-CSE-ConnectionGUID: K6c59+FjQxiurRjuHKDVCw==
-X-CSE-MsgGUID: nL3hLtZISvanyYlJjmZreQ==
+   d="scan'208";a="41685272"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 19:57:28 -0800
+X-CSE-ConnectionGUID: /bAHI5jZQCSJHNYEwt8Z9w==
+X-CSE-MsgGUID: sXRT/24XQ0K/jpmynuEHCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122012073"
+   d="scan'208";a="148795203"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2025 19:19:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2025 19:57:26 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1towKi-000HsF-2X;
-	Mon, 03 Mar 2025 03:19:08 +0000
-Date: Mon, 3 Mar 2025 11:19:02 +0800
+	id 1towv1-000Huc-2c;
+	Mon, 03 Mar 2025 03:56:46 +0000
+Date: Mon, 3 Mar 2025 11:51:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
-	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: Re: [PATCH] staging: most: Remove unused spinlock from most_video_dev
-Message-ID: <202503031028.7ZRlzYcI-lkp@intel.com>
-References: <20250221163444.57492-3-kumarkairiravi@gmail.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1424/1424] mm/page_alloc.c:3005:
+ warning: Function parameter or member 'mt' not described in
+ '__putback_isolated_page'
+Message-ID: <202503031153.NCtb0XuW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,109 +62,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221163444.57492-3-kumarkairiravi@gmail.com>
 
-Hi Ravi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-spinlock-from-most_video_dev/20250222-004552
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250221163444.57492-3-kumarkairiravi%40gmail.com
-patch subject: [PATCH] staging: most: Remove unused spinlock from most_video_dev
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   df3541670ca99b09f2f70d1733516ef7a2289b29
+commit: 91bac2310ae7eca9d9869222c96fcc3d02851eea [1424/1424] mm: add function __putback_isolated_page
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250303/202503031153.NCtb0XuW-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031153.NCtb0XuW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031028.7ZRlzYcI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031153.NCtb0XuW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/most/video/video.c:130:23: error: no member named 'list_lock' in 'struct most_video_dev'
-     130 |         spin_lock_irq(&mdev->list_lock);
-         |                        ~~~~  ^
-   drivers/staging/most/video/video.c:134:26: error: no member named 'list_lock' in 'struct most_video_dev'
-     134 |                 spin_unlock_irq(&mdev->list_lock);
-         |                                  ~~~~  ^
-   drivers/staging/most/video/video.c:136:24: error: no member named 'list_lock' in 'struct most_video_dev'
-     136 |                 spin_lock_irq(&mdev->list_lock);
-         |                                ~~~~  ^
-   drivers/staging/most/video/video.c:138:25: error: no member named 'list_lock' in 'struct most_video_dev'
-     138 |         spin_unlock_irq(&mdev->list_lock);
-         |                          ~~~~  ^
-   drivers/staging/most/video/video.c:191:25: error: no member named 'list_lock' in 'struct most_video_dev'
-     191 |                         spin_lock_irq(&mdev->list_lock);
-         |                                        ~~~~  ^
-   drivers/staging/most/video/video.c:193:27: error: no member named 'list_lock' in 'struct most_video_dev'
-     193 |                         spin_unlock_irq(&mdev->list_lock);
-         |                                          ~~~~  ^
-   drivers/staging/most/video/video.c:392:27: error: no member named 'list_lock' in 'struct most_video_dev'
-     392 |         spin_lock_irqsave(&mdev->list_lock, flags);
-         |                            ~~~~  ^
-   include/linux/spinlock.h:381:39: note: expanded from macro 'spin_lock_irqsave'
-     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |                                              ^~~~
-   include/linux/spinlock.h:244:34: note: expanded from macro 'raw_spin_lock_irqsave'
-     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   drivers/staging/most/video/video.c:394:33: error: no member named 'list_lock' in 'struct most_video_dev'
-     394 |                 spin_unlock_irqrestore(&mdev->list_lock, flags);
-         |                                         ~~~~  ^
-   drivers/staging/most/video/video.c:399:32: error: no member named 'list_lock' in 'struct most_video_dev'
-     399 |         spin_unlock_irqrestore(&mdev->list_lock, flags);
-         |                                 ~~~~  ^
-   drivers/staging/most/video/video.c:477:24: error: no member named 'list_lock' in 'struct most_video_dev'
-     477 |         spin_lock_init(&mdev->list_lock);
-         |                         ~~~~  ^
-   include/linux/spinlock.h:335:38: note: expanded from macro 'spin_lock_init'
-     335 |         __raw_spin_lock_init(spinlock_check(lock),              \
-         |                                             ^~~~
-   10 errors generated.
+   In file included from mm/page_alloc.c:21:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/page_alloc.c:58:
+   include/linux/mm_inline.h:32:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      32 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:34:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      34 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/page_alloc.c:1419:6: warning: no previous prototype for function 'set_zone_contiguous' [-Wmissing-prototypes]
+    1419 | void set_zone_contiguous(struct zone *zone)
+         |      ^
+   mm/page_alloc.c:1419:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1419 | void set_zone_contiguous(struct zone *zone)
+         | ^
+         | static 
+   mm/page_alloc.c:1441:6: warning: no previous prototype for function 'clear_zone_contiguous' [-Wmissing-prototypes]
+    1441 | void clear_zone_contiguous(struct zone *zone)
+         |      ^
+   mm/page_alloc.c:1441:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1441 | void clear_zone_contiguous(struct zone *zone)
+         | ^
+         | static 
+   mm/page_alloc.c:2304:5: warning: no previous prototype for function 'find_suitable_fallback' [-Wmissing-prototypes]
+    2304 | int find_suitable_fallback(struct free_area *area, unsigned int order,
+         |     ^
+   mm/page_alloc.c:2304:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2304 | int find_suitable_fallback(struct free_area *area, unsigned int order,
+         | ^
+         | static 
+   mm/page_alloc.c:3081:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3081 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:127:34: note: expanded from macro '__count_zid_vm_events'
+     127 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:3129:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    3129 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:127:34: note: expanded from macro '__count_zid_vm_events'
+     127 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   8 warnings generated.
+>> mm/page_alloc.c:3005: warning: Function parameter or member 'mt' not described in '__putback_isolated_page'
+   mm/page_alloc.o: warning: objtool: missing symbol for section .ref.text
 
 
-vim +130 drivers/staging/most/video/video.c
+vim +3005 mm/page_alloc.c
 
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  114  
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  115  static int comp_vdev_close(struct file *filp)
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  116  {
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  117  	struct comp_fh *fh = filp->private_data;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  118  	struct most_video_dev *mdev = fh->mdev;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  119  	struct mbo *mbo, *tmp;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  120  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  121  	/*
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  122  	 * We need to put MBOs back before we call most_stop_channel()
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  123  	 * to deallocate MBOs.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  124  	 * From the other hand mostcore still calling rx_completion()
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  125  	 * to deliver MBOs until most_stop_channel() is called.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  126  	 * Use mute to work around this issue.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  127  	 * This must be implemented in core.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  128  	 */
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  129  
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06 @130  	spin_lock_irq(&mdev->list_lock);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  131  	mdev->mute = true;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  132  	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  133  		list_del(&mbo->list);
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  134  		spin_unlock_irq(&mdev->list_lock);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  135  		most_put_mbo(mbo);
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  136  		spin_lock_irq(&mdev->list_lock);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  137  	}
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  138  	spin_unlock_irq(&mdev->list_lock);
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  139  	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  140  	mdev->mute = false;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  141  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  142  	v4l2_fh_del(&fh->fh);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  143  	v4l2_fh_exit(&fh->fh);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  144  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  145  	atomic_dec(&mdev->access_ref);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  146  	kfree(fh);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  147  	return 0;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  148  }
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  149  
+  2995	
+  2996	/**
+  2997	 * __putback_isolated_page - Return a now-isolated page back where we got it
+  2998	 * @page: Page that was isolated
+  2999	 * @order: Order of the isolated page
+  3000	 *
+  3001	 * This function is meant to return a page pulled from the free lists via
+  3002	 * __isolate_free_page back to the free lists they were pulled from.
+  3003	 */
+  3004	void __putback_isolated_page(struct page *page, unsigned int order, int mt)
+> 3005	{
+  3006		struct zone *zone = page_zone(page);
+  3007	
+  3008		/* zone lock should be held when this function is called */
+  3009		lockdep_assert_held(&zone->lock);
+  3010	
+  3011		/* Return isolated page to tail of freelist. */
+  3012		__free_one_page(page, page_to_pfn(page), zone, order, mt);
+  3013	}
+  3014	
 
 -- 
 0-DAY CI Kernel Test Service
