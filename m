@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FCE1F12F6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 19:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD80230BEB;
+	Mon,  3 Mar 2025 19:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741030729; cv=none; b=XT5c8rdgWrH+LtMuYIujPkLLgNsJc9bO4g/J6uAa4M2/xANcz/atSS7BdNeJQIXqWFtGYZj+dI2VJ9MwvgpXAFtBpU/SHKWCunoBFE8wo3UEHPsIyDfPHE5v1hCuz6M4sL3DrwZHtbu5alHdWbq5mwbvcdtQqJZnDqtV7HtffVo=
+	t=1741031333; cv=none; b=r3rGxN3RSEnAPKRGvL/JlECbt0YlueyMoxyx9vGpT1rCcSHNyX3sv7YAxm+5cJViUSkP7rwGSlAv105mRO0b04J1ZxJT01WrneD7k0U0Tu94lJL0mUIK8BTJ7hM/bXksro0Z5rGM/PZTY/LMPcK+4OTHT0tsZYDejF7bHBWwb7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741030729; c=relaxed/simple;
-	bh=hl92goR7DAmvjKNXhNfaGMRwKAnWSGDtCDRIavYpLbE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k7GLcjWewaGBePHkMC/ZKeRWbbZaKC4oOGzZB/rDXjpPypLJ+ch+ppr0JxELjutP+l9RVg4RFwW7DD435K2EmpH85QR4WJIVnITFHZ2JVRlM2AdPn2IxuZrB29U5njLujJxFEfjLwC7LgsgX9tD/5oHodZAnz2ABMlzaQ9gwZNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mRLKi54v; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1741031333; c=relaxed/simple;
+	bh=lBzLxz9LoAQhSV4qYBwW+SfQKCXYH6lsg4FbRLNjFV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=di87V0KUQGOV6y9XFPVZOvkLMahkIUbLpuw9NjpF8NagKugm+Kg4cvxasDCPDJvyQcAzNE/8ZUNchanMpD08J81Uh92LdrV2zhy1gdUBkm+Uxc+13MAYUKS8+wehGFd/axi7+n/YmQFDPTzqx0lUs56SPpm+HQ6wfCTIQuJDq2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/EvZNex; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRLKi54v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/EvZNex"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741030728; x=1772566728;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hl92goR7DAmvjKNXhNfaGMRwKAnWSGDtCDRIavYpLbE=;
-  b=mRLKi54vVmJTdEUbWgX2UT3yn/oFSD8UZxOaY3ximLnulLWQP48H/OTL
-   LY3PXUwgZJckpkUhYQZdJcuemhEBqBGroOe94xWubOK6a5bheQ3YeYf9B
-   brEd5HEtiMi3nxHRACOz2c9SFs5ja6Kw2RyTCkWMgrXImNfCY+vvrbgbi
-   5g9Q4/HLk1X5HsuZ7sApCQRNLFwdla8YRQtLGTHxa+7h8jqvfOxDxQJif
-   1fw21RezxA8SZG1VH6gp4rkwc6Tz5lETCSluPj9EAUQK+FGAFshW6C9U4
-   8ZYgKMe3iBXkMci5BnD8VY34NTgOkHWRBZmtCJhDiF3yCR+ox4fowxbOZ
+  t=1741031331; x=1772567331;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lBzLxz9LoAQhSV4qYBwW+SfQKCXYH6lsg4FbRLNjFV8=;
+  b=X/EvZNexwEYWSYVX+BU+pWcGo20q9FsbxjsrLKb6QIbVOvlCxIVTnxNX
+   u1W12iJHaMTTP7IZAITSXFqHp6PY8R0VpC2N35+f+5HvcA7I1yKHKHJG6
+   pk2eyBE2zXd4DDzSH3CBO2+Z/tu1L84ghZIMg+v5En9151xNT9A4771kU
+   dL4lEMlkM/u7j1k6+zHwlcZjC1N0MqJlKzJNkS8J5HX/x81q1D2UeeiT3
+   KbbaHUCQ3oXpjLEKG4DFHUBF5qrMe8JruftINYNdtkYzrVtYcbKxLGaA7
+   D5axlfHG0cHRwJ1HxgyJ0X5o+R08zVAGe2pAYjkuchScsWjWVanznNcFp
    w==;
-X-CSE-ConnectionGUID: jgvlHPanTjOV6a10h3uSXg==
-X-CSE-MsgGUID: OaNB6F1tSsKS5Auv7eOnvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="59335998"
+X-CSE-ConnectionGUID: ZtzGIrdOTkyl5Ojhvg+jSQ==
+X-CSE-MsgGUID: g8JAhuh7Rx+dJa9LWjNwgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="53329440"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="59335998"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 11:38:47 -0800
-X-CSE-ConnectionGUID: IVBxjoSQSz6FxFsEUfZvcg==
-X-CSE-MsgGUID: eTzaA4t/Qhm/aXA4K0+Rfg==
+   d="scan'208";a="53329440"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 11:48:50 -0800
+X-CSE-ConnectionGUID: f0lih0fqSzWhfKMbfsMU2A==
+X-CSE-MsgGUID: QIYx0h9mR3CtXinwurqg0A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123367459"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="118135060"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 03 Mar 2025 11:38:46 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Mar 2025 11:48:48 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpBch-000Is6-2f;
-	Mon, 03 Mar 2025 19:38:43 +0000
-Date: Tue, 4 Mar 2025 03:37:54 +0800
+	id 1tpBmQ-000Isc-0p;
+	Mon, 03 Mar 2025 19:48:46 +0000
+Date: Tue, 4 Mar 2025 03:48:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] mm/memblock.c:2327:28: warning:
- cast to pointer from integer of different size
-Message-ID: <202503040354.WeWHGh5i-lkp@intel.com>
+To: Nam Tran <trannamatk@gmail.com>, pavel@kernel.org, lee@kernel.org,
+	krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nam Tran <trannamatk@gmail.com>
+Subject: Re: [PATCH v2 2/2] leds: add new LED driver for TI LP5812
+Message-ID: <202503040306.gen0Ui0l-lkp@intel.com>
+References: <20250225170601.21334-3-trannamatk@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,74 +65,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250225170601.21334-3-trannamatk@gmail.com>
 
-Hi Jaewon,
+Hi Nam,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   ccc8abc3d9b0666f197fbf34ccd72be2a6d2ea1c
-commit: 3368d09174c6e8f3759bd201dbe6ca20ed0cd0e0 [1/1] FROMLIST: memblock: introduce memsize showing reserved memory
-config: arm-randconfig-004-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040354.WeWHGh5i-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040354.WeWHGh5i-lkp@intel.com/reproduce)
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on robh/for-next linus/master v6.14-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-Add-LP5812-LED-driver-bindings/20250226-011634
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20250225170601.21334-3-trannamatk%40gmail.com
+patch subject: [PATCH v2 2/2] leds: add new LED driver for TI LP5812
+config: x86_64-randconfig-006-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040306.gen0Ui0l-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040306.gen0Ui0l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503040354.WeWHGh5i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503040306.gen0Ui0l-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/memblock.c: In function 'memblock_memsize_show':
->> mm/memblock.c:2327:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2327 |                            (void *)base, (void *)end,
-         |                            ^
-   mm/memblock.c:2327:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    2327 |                            (void *)base, (void *)end,
-         |                                          ^
-
-
-vim +2327 mm/memblock.c
-
-  2308	
-  2309	static int memblock_memsize_show(struct seq_file *m, void *private)
-  2310	{
-  2311		int i;
-  2312		struct memsize_rgn_struct *rgn;
-  2313		unsigned long reserved = 0, reusable = 0;
-  2314	
-  2315		sort(memsize_rgn, memsize_rgn_count,
-  2316		     sizeof(memsize_rgn[0]), memsize_rgn_cmp, NULL);
-  2317		for (i = 0; i < memsize_rgn_count; i++) {
-  2318			phys_addr_t base, end;
-  2319			long size;
-  2320	
-  2321			rgn = &memsize_rgn[i];
-  2322			base = rgn->base;
-  2323			size = rgn->size;
-  2324			end = base + size;
-  2325	
-  2326			seq_printf(m, "0x%pK-0x%pK 0x%08lx ( %7lu KB ) %s %s %s\n",
-> 2327				   (void *)base, (void *)end,
-  2328				   size, DIV_ROUND_UP(size, SZ_1K),
-  2329				   rgn->nomap ? "nomap" : "  map",
-  2330				   rgn->reusable ? "reusable" : "unusable",
-  2331				   rgn->name);
-  2332			if (rgn->reusable)
-  2333				reusable += (unsigned long)rgn->size;
-  2334			else
-  2335				reserved += (unsigned long)rgn->size;
-  2336		}
-  2337	
-  2338		seq_puts(m, "\n");
-  2339		seq_printf(m, " .unusable  : %7lu KB\n",
-  2340			   DIV_ROUND_UP(reserved, SZ_1K));
-  2341		seq_printf(m, " .reusable  : %7lu KB\n",
-  2342			   DIV_ROUND_UP(reusable, SZ_1K));
-  2343		return 0;
-  2344	}
-  2345	
+>> ld.lld: error: undefined symbol: i2c_register_driver
+   >>> referenced by leds-lp5812.c:2313 (drivers/leds/leds-lp5812.c:2313)
+   >>>               vmlinux.o:(lp5812_driver_init)
+--
+>> ld.lld: error: undefined symbol: i2c_del_driver
+   >>> referenced by leds-lp5812.c:2313 (drivers/leds/leds-lp5812.c:2313)
+   >>>               vmlinux.o:(lp5812_driver_exit)
 
 -- 
 0-DAY CI Kernel Test Service
