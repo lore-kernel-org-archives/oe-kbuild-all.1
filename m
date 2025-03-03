@@ -1,44 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9626033F6;
-	Mon,  3 Mar 2025 19:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FCE1F12F6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 19:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741028993; cv=none; b=aewLHxbFl4GHWJYZGzov6U/Y7E2n4vNzq2UGdQs0bVqdApQ8o3bjG6f8+mqnWHTVa+KyIu5WW9ba2qQoIoqcu0+v77Ohi7OqB/ykWNWB7xstDLWJmkC6pX2hgeuVrZhytLmKQLGk3/cz9qPHNWgkESK2RAITwnwXKUCph4+cgOs=
+	t=1741030729; cv=none; b=XT5c8rdgWrH+LtMuYIujPkLLgNsJc9bO4g/J6uAa4M2/xANcz/atSS7BdNeJQIXqWFtGYZj+dI2VJ9MwvgpXAFtBpU/SHKWCunoBFE8wo3UEHPsIyDfPHE5v1hCuz6M4sL3DrwZHtbu5alHdWbq5mwbvcdtQqJZnDqtV7HtffVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741028993; c=relaxed/simple;
-	bh=GRkTGlXTl9EsGkbV++PQV+IY4wEzGFdbTYXI3amD37Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hxyueTBl0/r1lQAyEXSt4TwGDviKwslbPxYm+AsN7131Sb6QI1rej8v+o5ES0RO6Yr74mVxD6tBBo0H+LxPKsv27e19XKOmRs6fTKNHxDgoaP1mpPd+QK1y0p/KUGup0SJv2Akai7UTklEGMaEXGG+p7GRy8prrKqJ5uf/MLVsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHYR8bWA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741030729; c=relaxed/simple;
+	bh=hl92goR7DAmvjKNXhNfaGMRwKAnWSGDtCDRIavYpLbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k7GLcjWewaGBePHkMC/ZKeRWbbZaKC4oOGzZB/rDXjpPypLJ+ch+ppr0JxELjutP+l9RVg4RFwW7DD435K2EmpH85QR4WJIVnITFHZ2JVRlM2AdPn2IxuZrB29U5njLujJxFEfjLwC7LgsgX9tD/5oHodZAnz2ABMlzaQ9gwZNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mRLKi54v; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHYR8bWA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBF9C4CED6;
-	Mon,  3 Mar 2025 19:09:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741028993;
-	bh=GRkTGlXTl9EsGkbV++PQV+IY4wEzGFdbTYXI3amD37Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LHYR8bWAZC6eLKSKGjUIFCeSYu41CF6ijSSVCVrBbVcAkFUXrrBDvkiVmjD02ThS7
-	 taahy85hooUcalCU7bDTOnnwKEyERYxdiYYlPOWteD/lNpBPQpZvPP+62eQfZlLO7B
-	 XChINU6Mq8XGH0AYC62OF0NtA6frGRPph9mqOWEBC/F1OSOyBx84JhgVOjJqNyhx0W
-	 5FHC9VXAAIzzwdUdUTxnOpUB2zV9YOa2I+SBf/7Aau2hT6/EE/0f/gJY7n4HQxLYT8
-	 2wrDYsUrk2IwUwEtKE+tl0z7HUkvNR+MRXOZK+12f9c3lFcZP6u6MWQ7KepR3I+Opo
-	 e+2lOtZgf4rqQ==
-Date: Mon, 3 Mar 2025 11:09:50 -0800
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: Re: [tip:x86/core 16/17] vmlinux.o: warning: objtool: do_jit+0x276:
- relocation to !ENDBR: .noinstr.text+0x6a60
-Message-ID: <202503031109.2D9F1CD@keescook>
-References: <202503030704.H9KFysNS-lkp@intel.com>
- <20250303092459.GI5880@noisy.programming.kicks-ass.net>
- <202503030910.55EBC9A76@keescook>
- <20250303185748.GC15322@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRLKi54v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741030728; x=1772566728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hl92goR7DAmvjKNXhNfaGMRwKAnWSGDtCDRIavYpLbE=;
+  b=mRLKi54vVmJTdEUbWgX2UT3yn/oFSD8UZxOaY3ximLnulLWQP48H/OTL
+   LY3PXUwgZJckpkUhYQZdJcuemhEBqBGroOe94xWubOK6a5bheQ3YeYf9B
+   brEd5HEtiMi3nxHRACOz2c9SFs5ja6Kw2RyTCkWMgrXImNfCY+vvrbgbi
+   5g9Q4/HLk1X5HsuZ7sApCQRNLFwdla8YRQtLGTHxa+7h8jqvfOxDxQJif
+   1fw21RezxA8SZG1VH6gp4rkwc6Tz5lETCSluPj9EAUQK+FGAFshW6C9U4
+   8ZYgKMe3iBXkMci5BnD8VY34NTgOkHWRBZmtCJhDiF3yCR+ox4fowxbOZ
+   w==;
+X-CSE-ConnectionGUID: jgvlHPanTjOV6a10h3uSXg==
+X-CSE-MsgGUID: OaNB6F1tSsKS5Auv7eOnvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="59335998"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="59335998"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 11:38:47 -0800
+X-CSE-ConnectionGUID: IVBxjoSQSz6FxFsEUfZvcg==
+X-CSE-MsgGUID: eTzaA4t/Qhm/aXA4K0+Rfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="123367459"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 03 Mar 2025 11:38:46 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpBch-000Is6-2f;
+	Mon, 03 Mar 2025 19:38:43 +0000
+Date: Tue, 4 Mar 2025 03:37:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] mm/memblock.c:2327:28: warning:
+ cast to pointer from integer of different size
+Message-ID: <202503040354.WeWHGh5i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,45 +61,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303185748.GC15322@noisy.programming.kicks-ass.net>
 
-On Mon, Mar 03, 2025 at 07:57:48PM +0100, Peter Zijlstra wrote:
-> On Mon, Mar 03, 2025 at 09:11:54AM -0800, Kees Cook wrote:
-> > On Mon, Mar 03, 2025 at 10:24:59AM +0100, Peter Zijlstra wrote:
-> 
-> > > > >> vmlinux.o: warning: objtool: do_jit+0x276: relocation to !ENDBR: .noinstr.text+0x6a60
-> 
-> > Just for my own curiosity, how did you track this down? (The
-> > relationship between cfi_bhi and do_jit is not immediately obvious to
-> > me. Or rather, what was needing DCE?)
-> 
-> If you build dfebe7362f6f461d771cdb9ac2c5172a4721f064 (tip/x86/core^2 so
-> as to not have the fix) and build a FINEIBT=y kernel with clang-19 (so
-> as not to have support for kcfi-ariry) then:
-> 
-> $ ./scripts/objdump-func tmp-build/vmlinux.o do_jit
-> ...
-> 0267    6a2a7:  48 c1 e9 20             shr    $0x20,%rcx
-> 026b    6a2ab:  0f 85 16 39 00 00       jne    6dbc7 <do_jit+0x3b87>
-> 0271    6a2b1:  48 8b 44 24 20          mov    0x20(%rsp),%rax
-> 0276    6a2b6:  48 c7 c1 00 00 00 00    mov    $0x0,%rcx        6a2b9: R_X86_64_32S     __bhi_args+0x20
-> 027d    6a2bd:  c6 43 0b e8             movb   $0xe8,0xb(%rbx)
-> 0281    6a2c1:  48 83 c0 10             add    $0x10,%rax
-> 0285    6a2c5:  29 c1                   sub    %eax,%ecx
-> 0287    6a2c7:  89 4b 0c                mov    %ecx,0xc(%rbx)
-> ...
-> 
-> 
-> So the reference is to __bhi_args[1], this is the result of
-> emit_fineibt(.arity=1).
-> 
-> Anyway, the point is that for FINEIBT_BHI=n the __bhi_args[]
-> array is 'empty' and the +0x20 thing points into random.
-> 
-> What needs DCE is the whole if (cfi_bhi) branch in emit_fineibt(),
-> making that whole __bhi_args[] reference go away.
+Hi Jaewon,
 
-AH! Yes, that does stand out. :) Thanks!
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   ccc8abc3d9b0666f197fbf34ccd72be2a6d2ea1c
+commit: 3368d09174c6e8f3759bd201dbe6ca20ed0cd0e0 [1/1] FROMLIST: memblock: introduce memsize showing reserved memory
+config: arm-randconfig-004-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040354.WeWHGh5i-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040354.WeWHGh5i-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503040354.WeWHGh5i-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   mm/memblock.c: In function 'memblock_memsize_show':
+>> mm/memblock.c:2327:28: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2327 |                            (void *)base, (void *)end,
+         |                            ^
+   mm/memblock.c:2327:42: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    2327 |                            (void *)base, (void *)end,
+         |                                          ^
+
+
+vim +2327 mm/memblock.c
+
+  2308	
+  2309	static int memblock_memsize_show(struct seq_file *m, void *private)
+  2310	{
+  2311		int i;
+  2312		struct memsize_rgn_struct *rgn;
+  2313		unsigned long reserved = 0, reusable = 0;
+  2314	
+  2315		sort(memsize_rgn, memsize_rgn_count,
+  2316		     sizeof(memsize_rgn[0]), memsize_rgn_cmp, NULL);
+  2317		for (i = 0; i < memsize_rgn_count; i++) {
+  2318			phys_addr_t base, end;
+  2319			long size;
+  2320	
+  2321			rgn = &memsize_rgn[i];
+  2322			base = rgn->base;
+  2323			size = rgn->size;
+  2324			end = base + size;
+  2325	
+  2326			seq_printf(m, "0x%pK-0x%pK 0x%08lx ( %7lu KB ) %s %s %s\n",
+> 2327				   (void *)base, (void *)end,
+  2328				   size, DIV_ROUND_UP(size, SZ_1K),
+  2329				   rgn->nomap ? "nomap" : "  map",
+  2330				   rgn->reusable ? "reusable" : "unusable",
+  2331				   rgn->name);
+  2332			if (rgn->reusable)
+  2333				reusable += (unsigned long)rgn->size;
+  2334			else
+  2335				reserved += (unsigned long)rgn->size;
+  2336		}
+  2337	
+  2338		seq_puts(m, "\n");
+  2339		seq_printf(m, " .unusable  : %7lu KB\n",
+  2340			   DIV_ROUND_UP(reserved, SZ_1K));
+  2341		seq_printf(m, " .reusable  : %7lu KB\n",
+  2342			   DIV_ROUND_UP(reusable, SZ_1K));
+  2343		return 0;
+  2344	}
+  2345	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
