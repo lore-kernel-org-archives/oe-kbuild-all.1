@@ -1,83 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588531F03D3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 08:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA351F03EA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 09:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740992124; cv=none; b=UN/zJClGueakL+mXayz8zIveNeqqfpnD9uKT3K3zSWrIbLT2elQnAI1+pQjIf7EeuSrSvIw6KbcARGu8+BBv3xI1dRsgRZFKdSvF1VzCF09FLSEGSHuwFGARMOEjADnK46FjFnnHi7OCBTbE6TXkN/yyUzFCjOuGlnior1aHzaI=
+	t=1740993027; cv=none; b=lQOZJ0x5X9+eVPnrkle1aoUdJAQHAn9hXJZFxtlPIWBIh/w5FaEUagP2fR2arkCOD3HzCQ4Aq4fA0Bbb8U7dVVuNVlPPJqRICEEpJcUJy+nGcQkEt7iZ3PIvsvwNyYIB2Rd55GMgLeDw/GpwScN9VWpCLKLGxJeTTEqbof66qus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740992124; c=relaxed/simple;
-	bh=qHRcyUI3/hi2BGAUKUDSudJssxHgKVCe/F4h7QO/AU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ix7XvHCskwd/zZQ9DQkK8I/Nh2nJko/LPbTFyZEpWdn6BRTAvYcVTNlRWmyaRt/VS4UEGSQRun5WCmNXF0QnjjxKsKwp+YrJ7KIzm2QUcMf7hjLDpLakFEq+7Lb0PBQfJpshvsMrL+huDBXyDiN2t2D+uoFYDgnvQxKs8EX5sj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djcHB5pk; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1740993027; c=relaxed/simple;
+	bh=NNB0/+xd2F+ywniPlCdjkD+pEk62hmacpCM4V1nknAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=EuwGlzGwI3A6sAlNPjB6fRZ9s42Os2K30kiV+5CZJN3ZcezeHC2gnlb0ZlUP5E65FA649pGd9PM42hngHUesRVo2qkiZAgKU06q2bMD7YUe9xhfGdezKsvmoim3WdsWrsrW41HQ6/qVWdIWiS+wWMFWlzJdiyS4AbZLOPlDkwAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e68S1B8i; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djcHB5pk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e68S1B8i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740992122; x=1772528122;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qHRcyUI3/hi2BGAUKUDSudJssxHgKVCe/F4h7QO/AU8=;
-  b=djcHB5pkHUkv5irudZLbazaVEWqfPGjglRYxqgAaOUOOdKz+44aWPBok
-   8DDPDfS94hBsH6iZp6ty1+TcRG3cnZ8hUKFDfRP6WipY2wo+0CdNG6iXG
-   dCokSoq+GIFhsFPpJqQZkst2C1C8SS/9hSbrYZuveUXThsHIplIfc4eA+
-   0jtG9i06HZn1pPfZWynGzsBba0aQiSkdaHypN06nLOqxgZiQ+7Vc/S/sy
-   zS2EROR1IDHnurFGRfA9tRChHcfNvWBj5UQn+iFJjJd4Bz7gYf5NHOtJH
-   xeErtRvO5nLTxMim/PPZuktZKcZeUkkNUZZiTSLfIhDcnoMG+FYLvlAWD
-   Q==;
-X-CSE-ConnectionGUID: kKrBXGNSRnGHKnM5kKgi7w==
-X-CSE-MsgGUID: V88jycX/SEKzGEpsTVpJ8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41744997"
+  t=1740993026; x=1772529026;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=NNB0/+xd2F+ywniPlCdjkD+pEk62hmacpCM4V1nknAw=;
+  b=e68S1B8ifj90iLPLbOKp9oMnkn24sHt6/BwV1FvWLIrIRZEpcVDMK6C3
+   OJ+Hj7uoSkZeVfEHja3N26FAf+onEwsbi4A8gYqRCXbxy6Fkqfee/JDD1
+   PSBeJ2OHig6NzD3z3mGs7Z8KI3h/pYwwp8+9Q1ppLVRgUQJnmZ743tmkc
+   nCibR3QzDkI2KqG+hB1Q1qmD2I4SIa/Fs37Gx+iri1xQhrovb97qLiPol
+   M1Fr5Bv92yd2YsMQ94cKQtM0EUTXS8u3BduY22mnBiSS9XTyg9NzNRmlq
+   lyykxCeWIeqIXTQ2QXB8pu9WsayJXC5se1rBJ/Pt5CiNkh7DTQWrOcGJu
+   g==;
+X-CSE-ConnectionGUID: 9kHcEsDsTsSmWBbxisTS9A==
+X-CSE-MsgGUID: ksZR+dodRWG+lA2nFQS/3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41033221"
 X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="41744997"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 00:55:21 -0800
-X-CSE-ConnectionGUID: y+w4sugQRWKpajzmYyVbLA==
-X-CSE-MsgGUID: jEP1RSSlThqTB8fpBFAwUg==
+   d="scan'208";a="41033221"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 01:10:25 -0800
+X-CSE-ConnectionGUID: W2sCFRNtRuOFLAGNJ2xz5Q==
+X-CSE-MsgGUID: 9ET04r+WT/6/bFWagjYJ9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="123095271"
+   d="scan'208";a="118132055"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Mar 2025 00:55:14 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 03 Mar 2025 01:10:24 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tp1Zv-000IES-2O;
-	Mon, 03 Mar 2025 08:55:11 +0000
-Date: Mon, 3 Mar 2025 16:55:03 +0800
+	id 1tp1oc-000IFn-2W;
+	Mon, 03 Mar 2025 09:10:22 +0000
+Date: Mon, 3 Mar 2025 17:10:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peilin Ye <yepeilin@google.com>, bpf@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Peilin Ye <yepeilin@google.com>,
-	bpf@ietf.org, Alexei Starovoitov <ast@kernel.org>,
-	Xu Kuohai <xukuohai@huaweicloud.com>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	David Vernet <void@manifault.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Puranjay Mohan <puranjay@kernel.org>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Quentin Monnet <qmo@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>
-Subject: Re: [PATCH bpf-next v4 04/10] bpf: Introduce load-acquire and
- store-release instructions
-Message-ID: <202503031631.OeUhVRHz-lkp@intel.com>
-References: <2c82b29f3530b961b41f94a4942e490ab35a31c8.1740978603.git.yepeilin@google.com>
+To: Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1] remoteproc: Add device awake calls in rproc boot and
+ shutdown path
+Message-ID: <Z8Vx7bh7y__AxcPG@aca137f0053c>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,100 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2c82b29f3530b961b41f94a4942e490ab35a31c8.1740978603.git.yepeilin@google.com>
+In-Reply-To: <20250303090852.301720-1-quic_schowdhu@quicinc.com>
 
-Hi Peilin,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on bpf-next/master]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Peilin-Ye/bpf-verifier-Factor-out-atomic_ptr_type_ok/20250303-134110
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/2c82b29f3530b961b41f94a4942e490ab35a31c8.1740978603.git.yepeilin%40google.com
-patch subject: [PATCH bpf-next v4 04/10] bpf: Introduce load-acquire and store-release instructions
-config: arc-randconfig-002-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031631.OeUhVRHz-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031631.OeUhVRHz-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031631.OeUhVRHz-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   kernel/bpf/core.c: In function '___bpf_prog_run':
->> include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_459' declared with attribute error: Need native word sized stores/loads for atomicity.
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:545:9: note: in expansion of macro 'compiletime_assert'
-     545 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:151:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-     151 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:176:29: note: in expansion of macro '__smp_load_acquire'
-     176 | #define smp_load_acquire(p) __smp_load_acquire(p)
-         |                             ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2222:45: note: in expansion of macro 'smp_load_acquire'
-    2222 |                                 DST = (SIZE)smp_load_acquire(   \
-         |                                             ^~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2228:25: note: in expansion of macro 'LOAD_ACQUIRE'
-    2228 |                         LOAD_ACQUIRE(DW, u64)
-         |                         ^~~~~~~~~~~~
-   include/linux/compiler_types.h:542:45: error: call to '__compiletime_assert_466' declared with attribute error: Need native word sized stores/loads for atomicity.
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:523:25: note: in definition of macro '__compiletime_assert'
-     523 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:542:9: note: in expansion of macro '_compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:545:9: note: in expansion of macro 'compiletime_assert'
-     545 |         compiletime_assert(__native_word(t),                            \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:141:9: note: in expansion of macro 'compiletime_assert_atomic_type'
-     141 |         compiletime_assert_atomic_type(*p);                             \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
-     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
-         |                                                       ^~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2238:33: note: in expansion of macro 'smp_store_release'
-    2238 |                                 smp_store_release(      \
-         |                                 ^~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2244:25: note: in expansion of macro 'STORE_RELEASE'
-    2244 |                         STORE_RELEASE(DW, u64)
-         |                         ^~~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_459 +542 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  528  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  529  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  530  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  531  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  532  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  533   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  534   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  535   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  536   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  537   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  538   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  539   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  540   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  541  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @542  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v1] remoteproc: Add device awake calls in rproc boot and shutdown path
+Link: https://lore.kernel.org/stable/20250303090852.301720-1-quic_schowdhu%40quicinc.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
