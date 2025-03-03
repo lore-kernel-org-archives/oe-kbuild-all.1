@@ -1,136 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1DE2135C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 22:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F7B1EEA2A;
+	Mon,  3 Mar 2025 23:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741042070; cv=none; b=OzUr/qrQjjOo4fKY442s5zjQZau90ltK0/CVGoVDMjb3styxOHHSwsggnTOwIunrf8lD5c5NI5RACCk2SApWzSaKLyREgYddjKP1lpz85eK4UxztjCZ8qYc/2NoXz71xB8NYZYTsrSloBmLRU9MLcGSsPyg9lcBT36MtgGX7+Eo=
+	t=1741043645; cv=none; b=o2q+ZMKj7bF/wu0b4SW7PXRMNxrnh4uxeLpXZWvCosI+rBgEbKCu3SV+jGr2x1rYjY0M7zL/QQn0cW7qj26OP5Wt/TvMJefQrdCMp9tYUdFk24sS8kw6qjdxGrMB7dWWAzHqZEXse0IHFcFtw/+o9SyReAjAENAZHRJyhxCFSn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741042070; c=relaxed/simple;
-	bh=9wo96Ra9WkhBxX9Cl81hQX4xX84qosveYc3tFx/uiPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dWTCSHB5l+huSp7wEZHGQ3cwE/5/f2J/HEYvEVkhqxr+SgmPokc4EUdLqYE+bmgNyHMvuppmhkKfUT4PwzxTbSoVrwzBkj7zIPP2AJT6uDtLwZfh3Jqt2b44hNmURwMkatIBi2tkJTfuqW1ViwV8q14vjy01Td5wesw4lVEr9YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IWmagQ0Q; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741043645; c=relaxed/simple;
+	bh=ksQKGGa9kQgqkg5ODjySLSS1WpbS/XcqzJBdz1UwtRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kBAaeqL7n+bWrsT9451JdfYyRrjKnJixPuVv2+fqrwGT3W5rStWbVFq6qamdL9dYN8MI6r+wIrPiZ4Rq34oTQg1qCxqv1ZCnXfT8ODJdZp0UXXuPkENAYHVjyWmG14enODRCTG+5H67rSj/uPOKnRHsez1jcZrxB+72IAP5LYGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=qA7uTYMk; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IWmagQ0Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741042068; x=1772578068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9wo96Ra9WkhBxX9Cl81hQX4xX84qosveYc3tFx/uiPs=;
-  b=IWmagQ0QqKnK9EYegy3i6PvW8Uffrrur/noyw0udRTbJ/rI7hKyqQlVX
-   pmUiQWw1rbSA3pKc2XhoZuPp40lffYVKa2fvNZPk8dZzVRAUer6x3nuca
-   gyCut/kpjak6q4+8fa/ty4D0/o96H5n2vUBE+kZSq2dzQImmFY8OIxPTI
-   8KNIuVBKAW4GNPiNTzfQBY4ZJecCUDvfI4+Fo5u47qOoKrm52PHNKyKqB
-   LAdbHr7CspiakJz/WnPnimi9S5h9cdCjQXCLQ5DjMBhOA/htnzG1H2oeX
-   YeiV7G+Ynh/u0p6f67lMDcCstIIKgy5vXuoKi37+s8u/+hbabD2442FG0
-   Q==;
-X-CSE-ConnectionGUID: zb1amS3aTvesYTLIhPzwRQ==
-X-CSE-MsgGUID: BBCI8Vy2RPOr7aDvuMgObg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="42058932"
-X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="42058932"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 14:47:46 -0800
-X-CSE-ConnectionGUID: mjHB1TkZSJ2ajbpPU0LkYg==
-X-CSE-MsgGUID: YEdtcWWvR3u4TuoRPByG7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149096995"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Mar 2025 14:47:44 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tpEZZ-000J0M-35;
-	Mon, 03 Mar 2025 22:47:41 +0000
-Date: Tue, 4 Mar 2025 06:46:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 2492/7719] drivers/media/cec/i2c/tda9950.c:92:8:
- error: call to undeclared function 'i2c_transfer'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202503040620.vGidTXb4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="qA7uTYMk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+	s=201702; t=1741043640;
+	bh=c06IwIafGujtJ/Kas9O7TJpHAAgll/CuyLRgEjfHugs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qA7uTYMkLIPYFCo8o3p8HzFqNGRJGG1rFKmM49NfYb7DWkTXM8xBReM0JY9FaDWHM
+	 Dvm40Q6hRt2obXuQ4ROPplCnfmCnRudSrqqWm8AmGrLfdzWRYeyBcRsXGwYXmO0No9
+	 mQ3Dt5v5NlGcQb+JwMyjbFgbWPdfTSJyOKe3M8AVaIK5sJAbGjujzY3uIoOjNH2j4x
+	 JO8n0bWgcDeZhZzEM9okQjPCJIwbOmvvY5yzxVRYHUy0BSfY8ylbeEhPv5+RF9xzl9
+	 H8CeJ4dlxabFB4oRQ7UJYcQspw7rTFzAoT/uoxz20oBnHpcLYJKv6fkVLRgRoy+Ez0
+	 wneFlgpE7IZWg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Z6F4Q3RBzz4x3S;
+	Tue,  4 Mar 2025 10:13:58 +1100 (AEDT)
+Date: Tue, 4 Mar 2025 10:13:57 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, kernel test robot <lkp@intel.com>,
+ Brendan Jackman <jackmanb@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Oscar
+ Salvador <osalvador@suse.de>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Vlastimil Babka <vbabka@suse.cz>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/page_alloc: Add lockdep assertion for pageblock type
+ change
+Message-ID: <20250304101357.66067dd3@canb.auug.org.au>
+In-Reply-To: <Z8WQEpv7BNtDDoH3@black.fi.intel.com>
+References: <20250227-pageblock-lockdep-v1-1-3701efb331bb@google.com>
+	<202503010129.rJvGqZN1-lkp@intel.com>
+	<20250228182804.GB120597@cmpxchg.org>
+	<Z8WQEpv7BNtDDoH3@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/ZeuLQSGosGcBcpXwHeZ1evo";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   cd3215bbcb9d4321def93fea6cfad4d5b42b9d1d
-commit: caa6f4a75e9f8eaebd814a9c2d1602e0926f473d [2492/7719] media: cec: move driver for TDA9950 from drm/i2c
-config: powerpc-randconfig-r113-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040620.vGidTXb4-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce: (https://download.01.org/0day-ci/archive/20250304/202503040620.vGidTXb4-lkp@intel.com/reproduce)
+--Sig_/ZeuLQSGosGcBcpXwHeZ1evo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503040620.vGidTXb4-lkp@intel.com/
+Hi Andy,
 
-All errors (new ones prefixed by >>):
+On Mon, 3 Mar 2025 13:18:42 +0200 Andy Shevchenko <andriy.shevchenko@intel.=
+com> wrote:
+>
+> On Fri, Feb 28, 2025 at 01:28:04PM -0500, Johannes Weiner wrote:
+> > On Sat, Mar 01, 2025 at 01:31:30AM +0800, kernel test robot wrote: =20
+>=20
+> > The patch is missing a dummy in_mem_hotplug() in the
+> > !CONFIG_MEMORY_HOTPLUG section of <linux/memory_hotplug.h>. =20
+>=20
+> +1, I just stumbled over and this is not fixed in today's Linux Next. I'm
+> wondering how this was missed during merge into Linux Next. Stephen?
 
->> drivers/media/cec/i2c/tda9950.c:92:8: error: call to undeclared function 'i2c_transfer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ret = i2c_transfer(client->adapter, &msg, 1);
-                 ^
-   drivers/media/cec/i2c/tda9950.c:117:8: error: call to undeclared function 'i2c_transfer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ret = i2c_transfer(client->adapter, msg, 2);
-                 ^
->> drivers/media/cec/i2c/tda9950.c:391:7: error: call to undeclared function 'i2c_check_functionality'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-                ^
->> drivers/media/cec/i2c/tda9950.c:503:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-   module_i2c_driver(tda9950_driver);
-   ^
-   int
->> drivers/media/cec/i2c/tda9950.c:503:19: error: a parameter list without types is only allowed in a function definition
-   module_i2c_driver(tda9950_driver);
-                     ^
-   5 errors generated.
+I just get what people put in their trees.  There are no conflicts
+around this and none of my builds failed, so I didn't see the problem.
+Has someone sent a fix patch to Andrew?  If so, if you forward it to
+me, I will add it to linux-next today.
 
+--=20
+Cheers,
+Stephen Rothwell
 
-vim +/i2c_transfer +92 drivers/media/cec/i2c/tda9950.c
+--Sig_/ZeuLQSGosGcBcpXwHeZ1evo
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  72  
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  73  static int tda9950_write_range(struct i2c_client *client, u8 addr, u8 *p, int cnt)
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  74  {
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  75  	struct i2c_msg msg;
-699112f5e831c0 drivers/gpu/drm/i2c/tda9950.c Kees Cook    2018-06-19  76  	u8 buf[CEC_MAX_MSG_SIZE + 3];
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  77  	int ret;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  78  
-699112f5e831c0 drivers/gpu/drm/i2c/tda9950.c Kees Cook    2018-06-19  79  	if (WARN_ON(cnt > sizeof(buf) - 1))
-699112f5e831c0 drivers/gpu/drm/i2c/tda9950.c Kees Cook    2018-06-19  80  		return -EINVAL;
-699112f5e831c0 drivers/gpu/drm/i2c/tda9950.c Kees Cook    2018-06-19  81  
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  82  	buf[0] = addr;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  83  	memcpy(buf + 1, p, cnt);
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  84  
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  85  	msg.addr = client->addr;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  86  	msg.flags = 0;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  87  	msg.len = cnt + 1;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  88  	msg.buf = buf;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  89  
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  90  	dev_dbg(&client->dev, "wr 0x%02x: %*ph\n", addr, cnt, p);
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  91  
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05 @92  	ret = i2c_transfer(client->adapter, &msg, 1);
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  93  	if (ret < 0)
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  94  		dev_err(&client->dev, "Error %d writing to cec:0x%x\n", ret, addr);
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  95  	return ret < 0 ? ret : 0;
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  96  }
-f0316f93897c4c drivers/gpu/drm/i2c/tda9950.c Russell King 2015-12-05  97  
+-----BEGIN PGP SIGNATURE-----
 
-:::::: The code at line 92 was first introduced by commit
-:::::: f0316f93897c4c4e67278b175bfbfd3a95ba650a drm/i2c: tda9950: add CEC driver
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmfGN7UACgkQAVBC80lX
+0Gx9MQf+MIPUXZ445QXq8nD8kEGdAATVDoiwm2KZJnqzIHW6/h7P81s60M1tl97F
+qyQWDc2auW3QKvim2HiMionWAZ8paCV7538ZeXtUOa0oiLffZYhUutci0QjLN9wh
+qgyxpW+tfdGolwstw/xSqaOh2SRyBe9FpqnBJ6JOKeGtVGfLBfWu3dNWs3ktHddr
+vZZKm6mI58JzkRbp70YvkWY9aSQGUFo3zx3GzhaIyPWg5QgvWH/IZl+JjtRMrQ+B
+smEDQHhBcvANUzEjbWJzkQrsEQYdhuvjx/Xe14XTibwC1aNPH79FrcIqtN54aC0V
+11+SnhPHeTwb4hUUzBZ6eypNlaNk8Q==
+=C4Si
+-----END PGP SIGNATURE-----
 
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--Sig_/ZeuLQSGosGcBcpXwHeZ1evo--
