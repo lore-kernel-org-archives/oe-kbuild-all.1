@@ -1,112 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DF921323F;
-	Mon,  3 Mar 2025 15:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48BC23F36F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 15:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741014367; cv=none; b=OVkqe5lh7++fDTTX3j+EymnuEZz3fp80OMPFSRXIxTHRzOMy5l8XV6pSdMX4VB37Jzz11ArFbkpAdSM+5wUWxgqcURi1gfxUBgXQsxHoJJKgYBp3JHYA0vbs7Y1SqMdfOvNOoNlkA1CdhEsVbB7f9NvuIAdzP7i5PUePysmmXAI=
+	t=1741016235; cv=none; b=jGejmK1XtASKMVWnJXd7aFte86mcFBp+JxoX5ctcvwN2Vn+jLccmbZ0xGk5En3+2ES3w7mjLIasCxhmj7gsR/2TX8YH/8438TNwPyoqIUoDfAy0NNKtBAhIS7Caxj6Dd7U1wjqVeIvYplwgmogki1OZB/rictQMkROi5dG8hoB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741014367; c=relaxed/simple;
-	bh=disuNk2jqDN9ewEpsE1y/bJZDemQDRRzm/NUW3oa98k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BUwFDLt5X4JT8Mdc3ueM9jh14GjPs+dA7bMrDfpz+4iLo6wgRFPfPYsQnZ0z+nppS8pU+6rplZinGNq9U7zfLdTHwQeqtOjlFvx/RL+bPGxrveT46iqaBK1sVW288cepIbzmKIuRSwK48u/UjDnLmg7OS+l2nsdkTy9SZnIMWFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N1N/zcAR; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1741016235; c=relaxed/simple;
+	bh=01ZwcJT/hHs79VvHA4XGQryE44OE0fLv1sNfvcdGzW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qxa4NCcr58DFphRU7g4kCMBAnw4xxzs5AXb5MO5Cg8vSbcTBPmymY1NGX9e97JIJGEYSck26O/C8rocHnEU8hNVgEHWXJXURo+nZ843SJbS0/92TM40WnXeLBYoSYuvYLOmjgYf2MC0tbNYDPqewEITIicm7HpScP1J62JWFAx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FmkeehCL; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N1N/zcAR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FmkeehCL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741014365; x=1772550365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=disuNk2jqDN9ewEpsE1y/bJZDemQDRRzm/NUW3oa98k=;
-  b=N1N/zcARdEDk6p/3um/+tRFrD5DAzsJM1NM/iuD9lAndLYPCuopO11Bl
-   Sg7xoxi3Kqph1YIlSqNADrn+ovhyjol5Z3pE3E+kB0TPWo3hCdVt/ZFRO
-   HPA8hktMyup3WfEWzt9m+cJ1oFgyrWIydSPLvrbWTRVBWwJKgUBIPxGh/
-   L+L6v6MwAmFaWczRct1DKUJYDjsNNieBbfb6DyrHSyaSk01SoTOAWYTSg
-   cd0sluRgIfShf8GHSoE9qeHUSaee5q+tY8CzqMSETc93TVeFvGS1xpbU2
-   WkquFefALeK7DxKl3tzu1QfFLgDsXj4uoas4YAyXfIIyoz8sfaj4+i+t6
-   w==;
-X-CSE-ConnectionGUID: cvJQdCZeTJ2q7TI6Y8NLhQ==
-X-CSE-MsgGUID: cG4rknbqS/KvsAvaAny7Ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="52530134"
+  t=1741016233; x=1772552233;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=01ZwcJT/hHs79VvHA4XGQryE44OE0fLv1sNfvcdGzW8=;
+  b=FmkeehCLik0qdUWAWglzrwB4P3eYvz249D9cVfJ123wzDJRs01fJ3kNB
+   /lfz0uSDwCM5l6I9NhhMjEwZDOMBuXDw/9k69CVxcasGiXYyc+An5UIDg
+   06qe0H1VTRKdAbAoII/qeMrECWXiQHOLpUWf0qgUlFFuR7jta/070DYZ7
+   wayMKmAcqCR6006xFqx912ilcGMs8NEjuBqZeI0oyrJgehj8IyNU6aJw+
+   YcpTOOWzxkwvOAytb7+pELNA3gp0DaazcMYzrib5qmQQoT7JxbOcGoPKH
+   HAmSTqhlaDbhPErEpNraNB2RPryy/MFnxvYW4NPbOWkVWKXmt6ArQ2F4F
+   Q==;
+X-CSE-ConnectionGUID: JkfttNNaRky/GV7umKm/oQ==
+X-CSE-MsgGUID: 2bB6lXKzQOCtA3yMelxo2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41786675"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="52530134"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 07:06:04 -0800
-X-CSE-ConnectionGUID: 1/GrhkcFRDSDSEtYNt/n8A==
-X-CSE-MsgGUID: Hsr/re+LR2utUfDgB/YJWg==
+   d="scan'208";a="41786675"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 07:37:07 -0800
+X-CSE-ConnectionGUID: GU+guan1QJCu+8XtyZQlbg==
+X-CSE-MsgGUID: fdO+aiQORg2PefZCADJCYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122176463"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="148871741"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Mar 2025 07:06:03 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Mar 2025 07:37:06 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tp7Mm-000Id1-1y;
-	Mon, 03 Mar 2025 15:06:00 +0000
-Date: Mon, 3 Mar 2025 23:05:54 +0800
+	id 1tp7qp-000Iel-2p;
+	Mon, 03 Mar 2025 15:37:03 +0000
+Date: Mon, 3 Mar 2025 23:36:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>,
-	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
-	linux-devel@silabs.com,
-	=?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>
-Subject: Re: [PATCH v2 2/5] wifi: wfx: declare support for WoWLAN
-Message-ID: <202503032232.o7HgZDMO-lkp@intel.com>
-References: <20250302144731.117409-3-jerome.pouiller@silabs.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 2/2] kismet: WARNING: unmet direct
+ dependencies detected for RESCTRL_FS_PSEUDO_LOCK when selected by
+ X86_CPU_RESCTRL
+Message-ID: <202503032332.kRDjrdBI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250302144731.117409-3-jerome.pouiller@silabs.com>
 
-Hi Jérôme,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.14-rc5 next-20250303]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/J-r-me-Pouiller/wifi-wfx-align-declarations-between-bus_spi-c-and-bus_sdio-c/20250302-231700
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20250302144731.117409-3-jerome.pouiller%40silabs.com
-patch subject: [PATCH v2 2/5] wifi: wfx: declare support for WoWLAN
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503032232.o7HgZDMO-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503032232.o7HgZDMO-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   413645820de6d715e23ec6200a3e5a469ec69672
+commit: 6a17ffc470497d45d1824185813aecdb8fcf9062 [2/2] fs/resctrl: Add boiler plate for external resctrl code
+config: x86_64-kismet-CONFIG_RESCTRL_FS_PSEUDO_LOCK-CONFIG_X86_CPU_RESCTRL-0-0 (https://download.01.org/0day-ci/archive/20250303/202503032332.kRDjrdBI-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250303/202503032332.kRDjrdBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503032232.o7HgZDMO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503032332.kRDjrdBI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/net/wireless/silabs/wfx/main.c:124:42: warning: unused variable 'wfx_wowlan_support' [-Wunused-const-variable]
-     124 | static const struct wiphy_wowlan_support wfx_wowlan_support = {
-         |                                          ^~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/wfx_wowlan_support +124 drivers/net/wireless/silabs/wfx/main.c
-
-   123	
- > 124	static const struct wiphy_wowlan_support wfx_wowlan_support = {
-   125		.flags = WIPHY_WOWLAN_ANY | WIPHY_WOWLAN_DISCONNECT,
-   126	};
-   127	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for RESCTRL_FS_PSEUDO_LOCK when selected by X86_CPU_RESCTRL
+   WARNING: unmet direct dependencies detected for IMS_MSI_ARRAY
+     Depends on [n]: PCI [=n]
+     Selected by [y]:
+     - VFIO_MDEV_IDXD [=y] && VFIO [=y] && VFIO_MDEV [=y] && X86_64 [=y]
+   
+   WARNING: unmet direct dependencies detected for RESCTRL_FS_PSEUDO_LOCK
+     Depends on [n]: MISC_FILESYSTEMS [=n]
+     Selected by [y]:
+     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
+   
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+     Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+     Selected by [y]:
+     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
 
 -- 
 0-DAY CI Kernel Test Service
