@@ -1,42 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82DF253335;
-	Mon,  3 Mar 2025 17:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5189D1DA61B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 17:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741021918; cv=none; b=StPgmKIHMFTa44YbXBXryTwiEo7pLlBHRzOYylH1hhTMwQP9QsWZVHEZ6r4V0gdjd0Mckdm6u3xoTSxT7Xy9bs/pojZGVASJ8Nv3NI2quc2Z6w7pXqIAN25tGhygS15B+e56uEKu66B/zglDQ7yZwdFtwngjG5esLIRK9xmiEd0=
+	t=1741022481; cv=none; b=B9VSYmxM9KEaZaAaQGFmPxtyAn9eCVHBm6H1v1mEI9GO+0g+S6MYEbDw+jBZxq8VUjNjjc6oYu52b9r7+3LasC22j2LxqfsctYth8SBi20KSA+G/3oAVzgJRVdj51IAQHQnuWfxRet6wvecUpEdcYN5KsceIyNwATayUJFDpsCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741021918; c=relaxed/simple;
-	bh=OLWjZZWB4HXHmwUAJi1MwCJ/ZF5m6XWgpdEW5VZnb2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PckztqfqifuH2kEM15isATosnY9MUDDu0Fy3uvUvJvvO2X1aAWzrT38DT9ZiglLro7wfc0pr4JpBhCIVe05qcq/n3CfOcFCACPjFEN7Z+ShNavJYIurIvFSEYTb3s1J4gl9VOplEiBK0fTXSUdzXRV1O3MfhGhZx63TuRL9FcH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lSqw7faB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741022481; c=relaxed/simple;
+	bh=4LgqAewOhzP903G36iiZrEpFqkBOe8ciCUUcZsWmje4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TOFDfSwKS7fr8klx3vIk8IggkNrES8Kt8sZg2OyECAZyKTovnC4wJpAz6pjCfByrqQr0bqCEERDuVHkw479atv2+tGe4F+ElFcX8Z4kRoHDOfxgLQNNgVnl9oasjVoUFtZma8OzIvol6jccCifNn924n51MfiovCR3fbNWr+IfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=htxJ1qVC; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lSqw7faB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 566CBC4CED6;
-	Mon,  3 Mar 2025 17:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741021917;
-	bh=OLWjZZWB4HXHmwUAJi1MwCJ/ZF5m6XWgpdEW5VZnb2o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lSqw7faBJGHdNV2g/xhp0qxwaF8Qtw3yYTHtSPsC67F8VGkAuh/W8/Vd9qicZbqkl
-	 aSxklh24ugiGnQNvJ/re21TMQfNnC/9NM1K1JvY+LYPSe7rZH6dEf/Zm+xJcAK3Ckj
-	 OrhNHzrbUFgPxX4UcBm4u4m4JF4tdPCkYzfdPqjdck993/J2aqaLIGHlcmxvT2HMho
-	 IMSffHFsDwcGjsXBq9R2AxMIG3tQD1VTdTHizpKM22miSv3goi5jp2HAIMf2qqEi0o
-	 aaBNzMq/b9F5zopz5xQGY0DsdNDS9SokuUDcJqd2aw8QaG3DHepuhM/R141wkvqcDV
-	 nz7+E10L+c55Q==
-Date: Mon, 3 Mar 2025 09:11:54 -0800
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: Re: [tip:x86/core 16/17] vmlinux.o: warning: objtool: do_jit+0x276:
- relocation to !ENDBR: .noinstr.text+0x6a60
-Message-ID: <202503030910.55EBC9A76@keescook>
-References: <202503030704.H9KFysNS-lkp@intel.com>
- <20250303092459.GI5880@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="htxJ1qVC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741022479; x=1772558479;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4LgqAewOhzP903G36iiZrEpFqkBOe8ciCUUcZsWmje4=;
+  b=htxJ1qVCfb/sd4k6JzM2nZoTddoATVsSyigK+67TTjGuIi97/Zxhk9SB
+   Q8Hx6gBcmFYk58CwT6AZD2kutzWrXSAhdc/8oVs2sI4XhuCIz9IuWm9sL
+   ImQEFOUdXnmPYtiTdXW1Y2efVOIXY/tJdpU2opy9TG5jQiT7912suM38M
+   MN4b+O4c0epzzrrop4YD6pGypv4+20fGyGrx5uORNP7bo2gsnMrFcF6zx
+   2F7KC0T+VrMbArDcy4PCjPO7Mw2AC8UpwSwqwnbPRHwR0zbL716sTFGMG
+   AwM/w8Hi3PXAw2tfjyuRCea4nGgQ+EMvX3JzZm0bWXADUvkBt85Btyi1P
+   g==;
+X-CSE-ConnectionGUID: wO1jZUUuQkOvEa78BMD9AA==
+X-CSE-MsgGUID: boM6uLMPRr2QIe9YLIjihw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="45559097"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="45559097"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 09:20:55 -0800
+X-CSE-ConnectionGUID: rUh/F0BxTEmwEHjcsyNv1Q==
+X-CSE-MsgGUID: X7Da9GlOQ7eVTO1FMn9jIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="118586339"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 03 Mar 2025 09:20:54 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tp9T8-000Il7-0N;
+	Mon, 03 Mar 2025 17:20:43 +0000
+Date: Tue, 4 Mar 2025 01:20:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rik van Riel <riel@surriel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Borislav Petkov (AMD)" <bp@alien8.de>,
+	Nadav Amit <nadav.amit@gmail.com>
+Subject: [bp:tip-x86-cpu-tlbi 15/18] arch/x86/mm/tlb.c:492:9: error: implicit
+ declaration of function 'mm_clear_asid_transition'; did you mean
+ 'mm_in_asid_transition'?
+Message-ID: <202503040152.dseREtIX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,67 +63,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303092459.GI5880@noisy.programming.kicks-ass.net>
 
-On Mon, Mar 03, 2025 at 10:24:59AM +0100, Peter Zijlstra wrote:
-> On Mon, Mar 03, 2025 at 07:47:57AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/core
-> > head:   dfebe7362f6f461d771cdb9ac2c5172a4721f064
-> > commit: 0c92385dc05ee9637c04372ea95a11bbf6e010ff [16/17] x86/ibt: Implement FineIBT-BHI mitigation
-> > config: x86_64-randconfig-071-20250303 (https://download.01.org/0day-ci/archive/20250303/202503030704.H9KFysNS-lkp@intel.com/config)
-> > compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503030704.H9KFysNS-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202503030704.H9KFysNS-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> vmlinux.o: warning: objtool: do_jit+0x276: relocation to !ENDBR: .noinstr.text+0x6a60
-> 
-> Thanks, below seems to cure it for me.
-> 
-> ---
-> Subject: x86/ibt: Make cfi_bhi a constant for FINEIBT_BHI=n
-> From: Peter Zijlstra <peterz@infradead.org>
-> Date: Mon Mar 3 10:21:47 CET 2025
-> 
-> Robot yielded a .config that tripped:
-> 
->   vmlinux.o: warning: objtool: do_jit+0x276: relocation to !ENDBR: .noinstr.text+0x6a60
-> 
-> This is the result of using __bhi_args[1] in unreachable code; make
-> sure the compiler is able to determine this is unreachable and trigger
-> DCE.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202503030704.H9KFysNS-lkp@intel.com/
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/x86/include/asm/cfi.h    |    5 +++++
->  arch/x86/kernel/alternative.c |    3 +++
->  2 files changed, 8 insertions(+)
-> 
-> --- a/arch/x86/include/asm/cfi.h
-> +++ b/arch/x86/include/asm/cfi.h
-> @@ -100,7 +100,12 @@ enum cfi_mode {
->  };
->  
->  extern enum cfi_mode cfi_mode;
-> +
-> +#ifdef CONFIG_FINEIBT_BHI
->  extern bool cfi_bhi;
-> +#else
-> +#define cfi_bhi (0)
-> +#endif
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git tip-x86-cpu-tlbi
+head:   8dce44810022279f97780a5eadda766a6f4017a3
+commit: a05a1e35e67bfe03704633c51ca9b03e16fffd06 [15/18] x86/mm: Enable broadcast TLB invalidation for multi-threaded processes
+config: i386-buildonly-randconfig-004-20250303 (https://download.01.org/0day-ci/archive/20250304/202503040152.dseREtIX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040152.dseREtIX-lkp@intel.com/reproduce)
 
-Just for my own curiosity, how did you track this down? (The
-relationship between cfi_bhi and do_jit is not immediately obvious to
-me. Or rather, what was needing DCE?)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503040152.dseREtIX-lkp@intel.com/
 
--Kees
+All errors (new ones prefixed by >>):
+
+   arch/x86/mm/tlb.c: In function 'finish_asid_transition':
+>> arch/x86/mm/tlb.c:492:9: error: implicit declaration of function 'mm_clear_asid_transition'; did you mean 'mm_in_asid_transition'? [-Werror=implicit-function-declaration]
+     492 |         mm_clear_asid_transition(mm);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         mm_in_asid_transition
+   cc1: some warnings being treated as errors
+
+
+vim +492 arch/x86/mm/tlb.c
+
+   455	
+   456	static void finish_asid_transition(struct flush_tlb_info *info)
+   457	{
+   458		struct mm_struct *mm = info->mm;
+   459		int bc_asid = mm_global_asid(mm);
+   460		int cpu;
+   461	
+   462		if (!mm_in_asid_transition(mm))
+   463			return;
+   464	
+   465		for_each_cpu(cpu, mm_cpumask(mm)) {
+   466			/*
+   467			 * The remote CPU is context switching. Wait for that to
+   468			 * finish, to catch the unlikely case of it switching to
+   469			 * the target mm with an out of date ASID.
+   470			 */
+   471			while (READ_ONCE(per_cpu(cpu_tlbstate.loaded_mm, cpu)) == LOADED_MM_SWITCHING)
+   472				cpu_relax();
+   473	
+   474			if (READ_ONCE(per_cpu(cpu_tlbstate.loaded_mm, cpu)) != mm)
+   475				continue;
+   476	
+   477			/*
+   478			 * If at least one CPU is not using the global ASID yet,
+   479			 * send a TLB flush IPI. The IPI should cause stragglers
+   480			 * to transition soon.
+   481			 *
+   482			 * This can race with the CPU switching to another task;
+   483			 * that results in a (harmless) extra IPI.
+   484			 */
+   485			if (READ_ONCE(per_cpu(cpu_tlbstate.loaded_mm_asid, cpu)) != bc_asid) {
+   486				flush_tlb_multi(mm_cpumask(info->mm), info);
+   487				return;
+   488			}
+   489		}
+   490	
+   491		/* All the CPUs running this process are using the global ASID. */
+ > 492		mm_clear_asid_transition(mm);
+   493	}
+   494	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
