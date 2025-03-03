@@ -1,73 +1,63 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EC04C85
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 07:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDB2188CDB;
+	Mon,  3 Mar 2025 07:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740985809; cv=none; b=qqzZTmnVlrgi8RDuC0oinsS5IkxktwhRGw+oPY//kvv/RqbIi0TZrl1jpBCTQgrPPy4+usR/ohiKL5s3Eh1DVMZ3F18M3JFno1X468jxlA7FH8+p6PaFQZPxO+Bxo3jYiPk2JGqcmAO1cky0rkL2P8MxA+earcfRa635Z8VLfNQ=
+	t=1740985967; cv=none; b=Ft/ZK3Q3DqlsYdTDdpV5V4P80zu+8DmrQZljl2tT5deSNrdCV6U6CHUTTv9TpAzhJqh9KZ1Wx0c1jLyDvDyxVbbjcY1KeCjT3TeFXp87XildisBR6M8PqPHnCBgkxrEL29R5F6+TbB5ZyX4oZfrWYbW3iosQhBJf37KFNV9+6pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740985809; c=relaxed/simple;
-	bh=W2Vj39751Bhjtkz/CVuLaVLdqFoOBBQpqm1/ISMyOt4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ATjaSYiSzwrdJp0015PMKd8S+Hv9xUyXfWCOlVgNiygE+OoYuC00o52gZXTD9xq5aZ5ManjX6RwALzAFM0XilWZgEsLQltB3c1BxqRN33N5I3tMagj0xn45ZNZ8y9QX2mi/8jbpwow23N4nl3TzdHtMIXg//TqO6B+8DBPaGMeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DWw3z+wz; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740985967; c=relaxed/simple;
+	bh=Bm40aZPKh+7xNA+sXqZ7uh5Cs/1UdisbSRks9+IkP4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGHNdZLf+dQLcC38Vlm6UCVjI5L0purlKmt9BfbWstUglBb9+bfJfYnEXfPcVeBmifZ29+jjVwSiJJi4v8vnj/iEjAoktJgXVk8QQlUJw7Rk0xNJpbe980XyzSsKy9sHYjDS9UHpSjl9p+H+H6L9sQJp36Qdnu22OeNZSvibaQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLWznx9Z; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DWw3z+wz"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abf64aa2a80so218228866b.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Mar 2025 23:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740985805; x=1741590605; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fpWKkfL+fl8msV0fvERh8Rvd4rH1OW4GUOLjUnGu4fw=;
-        b=DWw3z+wzG6C54NUPvkfJo05LLDFQgvEir+fiOMor7R3ybfa9c0YCCJEe8sHaCvRN1a
-         BkTJmxbto+Eyu7rIStkUp0G4g8B+t9pcnYg2dKI//jv8ZM4nVGqYHjQejj4Eha0qrgAs
-         lXc7ZuUi8AJfbjsYr9TMAcaAU5+YR+LjoFcATT7lBm+q+j4tEqoZjvfinaY29dC+udJg
-         wzO6lKuePVeLlAfNbQ0HWbeHJsrkYk1LIye8IdzzpZkJME6FLPw8FsCVirJSzmsln0CB
-         mZDSuOOTzzSW1JPpp4XkzX4gwOfogzRVFOMC+8MlzhX2YuBb19lkruU80LLcSVoelBuF
-         /x2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740985805; x=1741590605;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fpWKkfL+fl8msV0fvERh8Rvd4rH1OW4GUOLjUnGu4fw=;
-        b=w3Dhdrnx7blq9Bbf/oQ/bveL5PkKI3gQnHrOqzSt3uKAkIHlnCRwNrYu6Vw4ZGF5nn
-         isycoUJPICGAdKR6uc2SxSByW/7qM0t5XbZhP5V6428YDINRkGKdqvxl1b0ewWicFp/+
-         /uS1M5V7CJkr3tvNF6Pc5FeOZ7ErKr03rMulqrGxohEQ6dwfVXzn0KzKXpKU4mFV9aSY
-         CpNBZDFcIhuRPrLkDmuHRqg+7QqNYwflfpd1ASV7DvnpplfF+BXQ3hmbfk90o8hoklrW
-         a6Vfgi3I+xC6rzoaod2nyQ/aRdr2SsBUmt3/gOzKF7ANOhNbo6pQrqkauCXx2p8FFIoz
-         gaaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUhOGgnLCWu10BTFFLYdILR2XKG1odWb85OT0RvEhrH/erOIOfgg6GVHuso+UKSJqu9P7cn7y93FzQn8Y0P@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx36bV01V2YnXkG1Hubxlhf1/rOlXXDksS0YPVL+W8fibbRRggI
-	fALvus4fLNlXrM5jO78TBQsr6MhO9TAXfNtriu69RWCb6BNbp1FQYxXkHLHjcPIr5oW0Yk18PIw
-	h
-X-Gm-Gg: ASbGncsJ+9e/oArH3BgIYBWwEukhtuDLOMbRIlgdzA02u222ZBt2hND4v5Zc6bSd+tI
-	dC1tkRoikllsM7nWJXhQlP97lz+sNllJ4iO8kxPXh/lKZ2Jqs+F6tiH4k4aZvv9XGZK4myn+zkV
-	aU66b2rBslLpYjeBbwcnCN1+ppp214jhnuyi75AL154An4qLiCQGMHqdiKEXJE9eIRR/7l7S340
-	Cx4F3lZbUoQTqsVYKA6hkLu+DauoimjqKttwEyeQtuWTZtX3fbDyo54039phdRbEGXvZNzd0Rd+
-	q4XaRxKPcuz6NFj4L9pvBITqV/lWoQgmPo8Ip04yFb4LOdidJg==
-X-Google-Smtp-Source: AGHT+IGu7WB+BBuNdB0Gl8etcZ8tx1a35hIS/Ur49IC/bSwNk6QJEaciA0rEzNztLVjNeIARFIoN0Q==
-X-Received: by 2002:a17:907:7ea5:b0:ab8:c215:fd27 with SMTP id a640c23a62f3a-abf25fa8e4fmr1344109066b.14.1740985804710;
-        Sun, 02 Mar 2025 23:10:04 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ac104bbbd2csm93483366b.175.2025.03.02.23.10.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Mar 2025 23:10:04 -0800 (PST)
-Date: Mon, 3 Mar 2025 10:10:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Kiran K <kiran.k@intel.com>,
-	linux-bluetooth@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	ravishankar.srivatsa@intel.com, chethan.tumkur.narayan@intel.com,
-	chandrashekar.devegowda@intel.com, vijay.satija@intel.com,
-	Kiran K <kiran.k@intel.com>
-Subject: Re: [PATCH v1] Bluetooth: btintel_pcie: Add support for device
- coredump
-Message-ID: <d61fe144-b47c-4e60-a95e-26522792dd50@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLWznx9Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740985965; x=1772521965;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bm40aZPKh+7xNA+sXqZ7uh5Cs/1UdisbSRks9+IkP4U=;
+  b=mLWznx9ZFnk1ReyXCsXUOsL3/M38sP1C0dZr55Gfs3ZVjd6qLjPiH/TN
+   ZeGM2Y3f3nqJ9K2xRN0wIQ2H1YCM6MMsKdllc0EkiApFjbLEzH+OyD2fv
+   AAqNRfFGTSRjbOurLfVUR8TfFL2ThwaYk+I0eOKy1TIUTzj/TgCvDnu86
+   n2VpSdXe46TGU5LQGyLdKGXFvGcYKtCvDQ20n94iTEawW/ZbOn6uRaZO1
+   BViZWkILXs0yKVIlsMajwPd0D9zbfUM2+VNEiqsorFR5zgxE1xP52miPm
+   mDKU3iTFCUjwZhMckWGZl8zVHxvZ55PtILLtKDPreQdQyXOwClgrfv/+W
+   A==;
+X-CSE-ConnectionGUID: jH6DQMdTSVSH6ldjLZHvHQ==
+X-CSE-MsgGUID: Ubcf7ChEQEmTfeMinakgvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="59262032"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
+   d="scan'208";a="59262032"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:12:45 -0800
+X-CSE-ConnectionGUID: eH7cdqHvTBCEWqu9TnH3Cw==
+X-CSE-MsgGUID: JnDxc/ChS9+imSM3RQ0Pmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118467223"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 02 Mar 2025 23:12:43 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tozyi-000I8v-2A;
+	Mon, 03 Mar 2025 07:12:40 +0000
+Date: Mon, 3 Mar 2025 15:12:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
+	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+Subject: Re: [PATCH] staging: most: Remove unused mutex from most_video_dev
+Message-ID: <202503031448.eqB11EdG-lkp@intel.com>
+References: <20250221163444.57492-2-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,153 +66,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227102625.20642-1-kiran.k@intel.com>
+In-Reply-To: <20250221163444.57492-2-kumarkairiravi@gmail.com>
 
-Hi Kiran,
+Hi Ravi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kiran-K/Bluetooth-btintel_pcie-Add-support-for-device-coredump/20250227-181131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20250227102625.20642-1-kiran.k%40intel.com
-patch subject: [PATCH v1] Bluetooth: btintel_pcie: Add support for device coredump
-config: sparc-randconfig-r071-20250302 (https://download.01.org/0day-ci/archive/20250302/202503022332.biRVCDMP-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-mutex-from-most_video_dev/20250222-004322
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250221163444.57492-2-kumarkairiravi%40gmail.com
+patch subject: [PATCH] staging: most: Remove unused mutex from most_video_dev
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031448.eqB11EdG-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031448.eqB11EdG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503022332.biRVCDMP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031448.eqB11EdG-lkp@intel.com/
 
-New smatch warnings:
-drivers/bluetooth/btintel_pcie.c:493 btintel_pcie_read_dram_buffers() error: snprintf() is printing too much 100 vs 70
+All errors (new ones prefixed by >>):
 
-vim +493 drivers/bluetooth/btintel_pcie.c
+>> drivers/staging/most/video/video.c:417:28: error: no member named 'lock' in 'struct most_video_dev'
+     417 |         mdev->vdev->lock = &mdev->lock;
+         |                             ~~~~  ^
+   drivers/staging/most/video/video.c:474:20: error: no member named 'lock' in 'struct most_video_dev'
+     474 |         mutex_init(&mdev->lock);
+         |                     ~~~~  ^
+   include/linux/mutex.h:64:16: note: expanded from macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
+   2 errors generated.
 
-b8cc1a1cce30cc Kiran K 2025-02-27  454  static int btintel_pcie_read_dram_buffers(struct btintel_pcie_data *data)
-b8cc1a1cce30cc Kiran K 2025-02-27  455  {
-b8cc1a1cce30cc Kiran K 2025-02-27  456  	u32 offset, prev_size, wr_ptr_status, dump_size, i;
-b8cc1a1cce30cc Kiran K 2025-02-27  457  	struct btintel_pcie_dbgc *dbgc = &data->dbgc;
-b8cc1a1cce30cc Kiran K 2025-02-27  458  	u8 buf_idx, dump_time_len, fw_build;
-b8cc1a1cce30cc Kiran K 2025-02-27  459  	struct hci_dev *hdev = data->hdev;
-b8cc1a1cce30cc Kiran K 2025-02-27  460  	struct intel_tlv *tlv;
-b8cc1a1cce30cc Kiran K 2025-02-27  461  	struct timespec64 now;
-b8cc1a1cce30cc Kiran K 2025-02-27  462  	struct sk_buff *skb;
-b8cc1a1cce30cc Kiran K 2025-02-27  463  	struct tm tm_now;
-b8cc1a1cce30cc Kiran K 2025-02-27  464  	char buf[100];
-b8cc1a1cce30cc Kiran K 2025-02-27  465  	u16 hdr_len;
-b8cc1a1cce30cc Kiran K 2025-02-27  466  	int ret;
-b8cc1a1cce30cc Kiran K 2025-02-27  467  
-b8cc1a1cce30cc Kiran K 2025-02-27  468  	wr_ptr_status = btintel_pcie_rd_dev_mem(data, BTINTEL_PCIE_DBGC_CUR_DBGBUFF_STATUS);
-b8cc1a1cce30cc Kiran K 2025-02-27  469  	offset = wr_ptr_status & BTINTEL_PCIE_DBG_OFFSET_BIT_MASK;
-b8cc1a1cce30cc Kiran K 2025-02-27  470  
-b8cc1a1cce30cc Kiran K 2025-02-27  471  	buf_idx = BTINTEL_PCIE_DBGC_DBG_BUF_IDX(wr_ptr_status);
-b8cc1a1cce30cc Kiran K 2025-02-27  472  	if (buf_idx > dbgc->count) {
-b8cc1a1cce30cc Kiran K 2025-02-27  473  		bt_dev_warn(hdev, "Buffer index is invalid");
-b8cc1a1cce30cc Kiran K 2025-02-27  474  		return -EINVAL;
-b8cc1a1cce30cc Kiran K 2025-02-27  475  	}
-b8cc1a1cce30cc Kiran K 2025-02-27  476  
-b8cc1a1cce30cc Kiran K 2025-02-27  477  	prev_size = buf_idx * BTINTEL_PCIE_DBGC_BUFFER_SIZE;
-b8cc1a1cce30cc Kiran K 2025-02-27  478  	if (prev_size + offset >= prev_size)
-b8cc1a1cce30cc Kiran K 2025-02-27  479  		data->dmp_hdr.write_ptr = prev_size + offset;
-b8cc1a1cce30cc Kiran K 2025-02-27  480  	else
-b8cc1a1cce30cc Kiran K 2025-02-27  481  		return -EINVAL;
-b8cc1a1cce30cc Kiran K 2025-02-27  482  
-b8cc1a1cce30cc Kiran K 2025-02-27  483  	ktime_get_real_ts64(&now);
-b8cc1a1cce30cc Kiran K 2025-02-27  484  	time64_to_tm(now.tv_sec, 0, &tm_now);
-b8cc1a1cce30cc Kiran K 2025-02-27  485  	dump_time_len = snprintf(buf, sizeof(buf), "Dump Time: %02d-%02d-%04ld %02d:%02d:%02d",
-b8cc1a1cce30cc Kiran K 2025-02-27  486  				 tm_now.tm_mday, tm_now.tm_mon + 1, tm_now.tm_year + 1900,
-b8cc1a1cce30cc Kiran K 2025-02-27  487  				 tm_now.tm_hour, tm_now.tm_min, tm_now.tm_sec);
-b8cc1a1cce30cc Kiran K 2025-02-27  488  
-b8cc1a1cce30cc Kiran K 2025-02-27  489  	fw_build = snprintf(buf + dump_time_len, sizeof(buf),
-                                                                                         ^^^^^^^^^^^
 
-This size should be "sizeof(buf) - dump_time_len".  It's better to
-use scnprintf() here vs snprintf().  The scnprintf() function returns
-the number of bytes which were actually printed vs the number which
-were printed if there was enough space.
+vim +417 drivers/staging/most/video/video.c
 
-b8cc1a1cce30cc Kiran K 2025-02-27  490  			    "Firmware Timestamp: Year %u WW %02u buildtype %u build %u",
-b8cc1a1cce30cc Kiran K 2025-02-27  491  			    2000 + (data->dmp_hdr.fw_timestamp >> 8),
-b8cc1a1cce30cc Kiran K 2025-02-27  492  			    data->dmp_hdr.fw_timestamp & 0xff, data->dmp_hdr.fw_build_type,
-b8cc1a1cce30cc Kiran K 2025-02-27 @493  			    data->dmp_hdr.fw_build_num);
-b8cc1a1cce30cc Kiran K 2025-02-27  494  
-b8cc1a1cce30cc Kiran K 2025-02-27  495  	hdr_len = sizeof(*tlv) + sizeof(data->dmp_hdr.cnvi_bt) +
-b8cc1a1cce30cc Kiran K 2025-02-27  496  		  sizeof(*tlv) + sizeof(data->dmp_hdr.write_ptr) +
-b8cc1a1cce30cc Kiran K 2025-02-27  497  		  sizeof(*tlv) + sizeof(data->dmp_hdr.wrap_ctr) +
-b8cc1a1cce30cc Kiran K 2025-02-27  498  		  sizeof(*tlv) + sizeof(data->dmp_hdr.trigger_reason) +
-b8cc1a1cce30cc Kiran K 2025-02-27  499  		  sizeof(*tlv) + sizeof(data->dmp_hdr.fw_git_sha1) +
-b8cc1a1cce30cc Kiran K 2025-02-27  500  		  sizeof(*tlv) + sizeof(data->dmp_hdr.cnvr_top) +
-b8cc1a1cce30cc Kiran K 2025-02-27  501  		  sizeof(*tlv) + sizeof(data->dmp_hdr.cnvi_top) +
-b8cc1a1cce30cc Kiran K 2025-02-27  502  		  sizeof(*tlv) + dump_time_len +
-b8cc1a1cce30cc Kiran K 2025-02-27  503  		  sizeof(*tlv) + fw_build;
-b8cc1a1cce30cc Kiran K 2025-02-27  504  
-b8cc1a1cce30cc Kiran K 2025-02-27  505  	dump_size = hdr_len + sizeof(hdr_len);
-b8cc1a1cce30cc Kiran K 2025-02-27  506  
-b8cc1a1cce30cc Kiran K 2025-02-27  507  	skb = alloc_skb(dump_size, GFP_KERNEL);
-b8cc1a1cce30cc Kiran K 2025-02-27  508  	if (!skb)
-b8cc1a1cce30cc Kiran K 2025-02-27  509  		return -ENOMEM;
-b8cc1a1cce30cc Kiran K 2025-02-27  510  
-b8cc1a1cce30cc Kiran K 2025-02-27  511  	/* Add debug buffers data length to dump size */
-b8cc1a1cce30cc Kiran K 2025-02-27  512  	dump_size += BTINTEL_PCIE_DBGC_BUFFER_SIZE * dbgc->count;
-b8cc1a1cce30cc Kiran K 2025-02-27  513  
-b8cc1a1cce30cc Kiran K 2025-02-27  514  	ret = hci_devcd_init(hdev, dump_size);
-b8cc1a1cce30cc Kiran K 2025-02-27  515  	if (ret) {
-b8cc1a1cce30cc Kiran K 2025-02-27  516  		bt_dev_err(hdev, "Failed to init devcoredump, err %d", ret);
-b8cc1a1cce30cc Kiran K 2025-02-27  517  		kfree_skb(skb);
-b8cc1a1cce30cc Kiran K 2025-02-27  518  		return ret;
-b8cc1a1cce30cc Kiran K 2025-02-27  519  	}
-b8cc1a1cce30cc Kiran K 2025-02-27  520  
-b8cc1a1cce30cc Kiran K 2025-02-27  521  	skb_put_data(skb, &hdr_len, sizeof(hdr_len));
-b8cc1a1cce30cc Kiran K 2025-02-27  522  
-b8cc1a1cce30cc Kiran K 2025-02-27  523  	btintel_pcie_copy_tlv(skb, BTINTEL_CNVI_BT, &data->dmp_hdr.cnvi_bt,
-b8cc1a1cce30cc Kiran K 2025-02-27  524  			      sizeof(data->dmp_hdr.cnvi_bt));
-b8cc1a1cce30cc Kiran K 2025-02-27  525  
-b8cc1a1cce30cc Kiran K 2025-02-27  526  	btintel_pcie_copy_tlv(skb, BTINTEL_WRITE_PTR, &data->dmp_hdr.write_ptr,
-b8cc1a1cce30cc Kiran K 2025-02-27  527  			      sizeof(data->dmp_hdr.write_ptr));
-b8cc1a1cce30cc Kiran K 2025-02-27  528  
-b8cc1a1cce30cc Kiran K 2025-02-27  529  	data->dmp_hdr.wrap_ctr = btintel_pcie_rd_dev_mem(data,
-b8cc1a1cce30cc Kiran K 2025-02-27  530  							 BTINTEL_PCIE_DBGC_DBGBUFF_WRAP_ARND);
-b8cc1a1cce30cc Kiran K 2025-02-27  531  
-b8cc1a1cce30cc Kiran K 2025-02-27  532  	btintel_pcie_copy_tlv(skb, BTINTEL_WRAP_CTR, &data->dmp_hdr.wrap_ctr,
-b8cc1a1cce30cc Kiran K 2025-02-27  533  			      sizeof(data->dmp_hdr.wrap_ctr));
-b8cc1a1cce30cc Kiran K 2025-02-27  534  
-b8cc1a1cce30cc Kiran K 2025-02-27  535  	btintel_pcie_copy_tlv(skb, BTINTEL_TRIGGER_REASON, &data->dmp_hdr.trigger_reason,
-b8cc1a1cce30cc Kiran K 2025-02-27  536  			      sizeof(data->dmp_hdr.trigger_reason));
-b8cc1a1cce30cc Kiran K 2025-02-27  537  
-b8cc1a1cce30cc Kiran K 2025-02-27  538  	btintel_pcie_copy_tlv(skb, BTINTEL_FW_SHA, &data->dmp_hdr.fw_git_sha1,
-b8cc1a1cce30cc Kiran K 2025-02-27  539  			      sizeof(data->dmp_hdr.fw_git_sha1));
-b8cc1a1cce30cc Kiran K 2025-02-27  540  
-b8cc1a1cce30cc Kiran K 2025-02-27  541  	btintel_pcie_copy_tlv(skb, BTINTEL_CNVR_TOP, &data->dmp_hdr.cnvr_top,
-b8cc1a1cce30cc Kiran K 2025-02-27  542  			      sizeof(data->dmp_hdr.cnvr_top));
-b8cc1a1cce30cc Kiran K 2025-02-27  543  
-b8cc1a1cce30cc Kiran K 2025-02-27  544  	btintel_pcie_copy_tlv(skb, BTINTEL_CNVI_TOP, &data->dmp_hdr.cnvi_top,
-b8cc1a1cce30cc Kiran K 2025-02-27  545  			      sizeof(data->dmp_hdr.cnvi_top));
-b8cc1a1cce30cc Kiran K 2025-02-27  546  
-b8cc1a1cce30cc Kiran K 2025-02-27  547  	btintel_pcie_copy_tlv(skb, BTINTEL_DUMP_TIME, buf, dump_time_len);
-b8cc1a1cce30cc Kiran K 2025-02-27  548  
-b8cc1a1cce30cc Kiran K 2025-02-27  549  	btintel_pcie_copy_tlv(skb, BTINTEL_FW_BUILD, buf + dump_time_len, fw_build);
-b8cc1a1cce30cc Kiran K 2025-02-27  550  
-b8cc1a1cce30cc Kiran K 2025-02-27  551  	ret = hci_devcd_append(hdev, skb);
-b8cc1a1cce30cc Kiran K 2025-02-27  552  	if (ret)
-b8cc1a1cce30cc Kiran K 2025-02-27  553  		goto exit_err;
-b8cc1a1cce30cc Kiran K 2025-02-27  554  
-b8cc1a1cce30cc Kiran K 2025-02-27  555  	for (i = 0; i < dbgc->count; i++) {
-b8cc1a1cce30cc Kiran K 2025-02-27  556  		ret = btintel_pcie_add_dmp_data(hdev, dbgc->bufs[i].data,
-b8cc1a1cce30cc Kiran K 2025-02-27  557  						BTINTEL_PCIE_DBGC_BUFFER_SIZE);
-b8cc1a1cce30cc Kiran K 2025-02-27  558  		if (ret)
-b8cc1a1cce30cc Kiran K 2025-02-27  559  			break;
-b8cc1a1cce30cc Kiran K 2025-02-27  560  	}
-b8cc1a1cce30cc Kiran K 2025-02-27  561  
-b8cc1a1cce30cc Kiran K 2025-02-27  562  exit_err:
-b8cc1a1cce30cc Kiran K 2025-02-27  563  	hci_devcd_complete(hdev);
-b8cc1a1cce30cc Kiran K 2025-02-27  564  	return ret;
-b8cc1a1cce30cc Kiran K 2025-02-27  565  }
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  402  
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  403  static int comp_register_videodev(struct most_video_dev *mdev)
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  404  {
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  405  	int ret;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  406  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  407  	init_waitqueue_head(&mdev->wait_data);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  408  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  409  	/* allocate and fill v4l2 video struct */
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  410  	mdev->vdev = video_device_alloc();
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  411  	if (!mdev->vdev)
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  412  		return -ENOMEM;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  413  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  414  	/* Fill the video capture device struct */
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  415  	*mdev->vdev = comp_videodev_template;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  416  	mdev->vdev->v4l2_dev = &mdev->v4l2_dev;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24 @417  	mdev->vdev->lock = &mdev->lock;
+323977d5d33a8d drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  418  	snprintf(mdev->vdev->name, sizeof(mdev->vdev->name), "MOST: %s",
+323977d5d33a8d drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  419  		 mdev->v4l2_dev.name);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  420  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  421  	/* Register the v4l2 device */
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  422  	video_set_drvdata(mdev->vdev, mdev);
+e653614ee1832c drivers/staging/most/video/video.c    Hans Verkuil    2020-02-03  423  	ret = video_register_device(mdev->vdev, VFL_TYPE_VIDEO, -1);
+b23e8e51e6dc40 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  424  	if (ret) {
+8f6f9ed15d679a drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  425  		v4l2_err(&mdev->v4l2_dev, "video_register_device failed (%d)\n",
+b23e8e51e6dc40 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  426  			 ret);
+eab231c0398a91 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  427  		video_device_release(mdev->vdev);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  428  	}
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  429  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  430  	return ret;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  431  }
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  432  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
