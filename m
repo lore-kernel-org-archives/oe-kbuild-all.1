@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B21618FC75
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 06:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA4D41D6DDC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 07:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740983492; cv=none; b=RdD0+QTXMzQvxET685fXI62hkW8FPnHLrc8EX+LFIGueklzoDACPOsXOOWVY/Q0DXxftpMhGLnKErsxD0lKfH3SxtTrdMQkNRf3Ll8cms3xHKVWHvwe4iJz8Gj+negqjcpJ3aGoXELt9tvsab+48qjBR6K5PrTj00GXjS0LOg/I=
+	t=1740985577; cv=none; b=GsgLLquosxeJ85F8mhaXDnj4d6rxNbNaGN++ifFADqGHl+YUwtohxwMqhxHkELU+H1V9EyzAAJjPaEUcRURBoJqGACF1JWdmrjcHZTNWEyaTgcBm9hURzLURxPZhzq9aDw9atagvuzIsefOJzm8UFCQuBg+3jjKF79Bji4cEh1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740983492; c=relaxed/simple;
-	bh=CaReUaDnQroimNpgBqlYq+TP76juSYIfetTs2GwL4P0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qMwj0NVvbGnYlOvM91t1yviX2KbOm4qqnlXQT1NHfKDP+qWDpdSjYhhyqWg54qMklEGKOKV5gt14v5dxoyqWsR9AkpK3n/87N1d0tbT1hLYgBT5pJt/742LNiPq2IG7HkzySxJWxqgH9ECQJGFUDqg95iErZVMYZ/+xK+JVi6tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEHIwAyw; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1740985577; c=relaxed/simple;
+	bh=Rka7/Rx/UAJwBcyQ1ctL/DACSoeBVpoGCkrLxyEqkDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=WQwhx4eJTDrAW6cWHVLXeNjzk8yQ9Jx73LzBYz4qzZzra7ddZ1yxh+gtm9w/+VMtA9vDwYEBB8bT8Fs1HSs0/Ns/ieveuQPC0UPH3QB1tIhxOIt3jmwytVHxIFNmFmQkukelEVMO6JQUdLL5erAK86w/A2NpY4O83sl+hgGNsEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kl5pV1lZ; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEHIwAyw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740983491; x=1772519491;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CaReUaDnQroimNpgBqlYq+TP76juSYIfetTs2GwL4P0=;
-  b=TEHIwAywimoX4qkmWEy9ht0/e+Krs7OplRr7FBoW9wEk4tbhmbouS7mb
-   c07e5k57sBKewlIwe6X0E704b1vjshpfRHzE/0dZWVhIlOnZ0lEIERrwZ
-   8pufNjUDOR2ieOqIiVJsNPddnc8nD9H7yWBP+5UkEARDJW12EGkxWFJD+
-   NOcj0vtCMlJTbJ5ZGJI73dDB3lkAYCHGqeAEVBmW54r7a1aE+5Z9n+j+u
-   NCEcJxxS3jjtAK7Al1x5QTaUqjBL1QWHp52hy2tYMMLDGPp1dmzs2tAMO
-   wnw1Oc2H7ZYwE2VjB9BsE5qRojRyL1L3piJ5YVSMDTPPF3KiKZnwfkm1e
-   g==;
-X-CSE-ConnectionGUID: AiSxBpLtRYq3n3Dx+lXswA==
-X-CSE-MsgGUID: TB3EmWDDRrKQg76P7qbL0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41967130"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="41967130"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 22:31:28 -0800
-X-CSE-ConnectionGUID: ODqJKfcBSXeXt7fDvGqY6w==
-X-CSE-MsgGUID: tO4IvErCSz6Bbvds153k9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="123065930"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Mar 2025 22:31:27 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tozKn-000I1F-0Q;
-	Mon, 03 Mar 2025 06:31:25 +0000
-Date: Mon, 3 Mar 2025 14:31:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: wang wei <a929244872@163.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v1] mm/page cache: A method to drop one-read page cache
-Message-ID: <202503031422.vK2Dy5D8-lkp@intel.com>
-References: <20250302061427.33455-1-a929244872@163.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kl5pV1lZ"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaecf50578eso775759966b.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 02 Mar 2025 23:06:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740985574; x=1741590374; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WvEeRk3M8QKrsU6ZWqi+zoW7rNpMcZv1dlxRGclyC7A=;
+        b=Kl5pV1lZqVgkMe+jGhvHbwVmdhvJ4/uSaHS2RE08X/aWL9zYaXBFhMEKM3DA+m1VVI
+         2OBD+cElAKZnS4srt8pWsiYr7hfYboGY5Hhanltu5dSEMFWIePqZjrcq4o1s1LOYGDWb
+         xd8QwVJ3/f2cxazJA8tWQZb2gLkbJ24uyZOB2+TkISzbrhwWK+kAj0qJQdYkPMptMRDe
+         hDSmzbZDsFTkssiVqdI5Nyh4bdT5ZocZ0YLwFRqPgvLfAvoKXPORLMHz2t+//FzcdOwY
+         l2DG0NIkyQk4XAlXnVGv+pY+pmKWJhAAxwH21PC8YFSOKm/j+1jOQN99N72pscV2s2Bb
+         RaxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740985574; x=1741590374;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WvEeRk3M8QKrsU6ZWqi+zoW7rNpMcZv1dlxRGclyC7A=;
+        b=Cp8z/DHFUI0YLrwixcDvkHsKfCSXVe+MTTw2n28JMAlFPXwoI0P2Qcx+2eQ7bkTpoD
+         SsVO1I/KCVPu+Jx+f4mS39CGWgVdDgaNIaNU/s5N0gktabRTu4HI/q3dbQ3En6FmIemt
+         qfKypVxpVdzvOegfVxEzzCIAdIKnu1l0w4J6nzG0jlOW4Yv52BSd+ACGrfO3CWd5SEIw
+         1WL0jt1ECvZzTqcgOMhiNZ7X2Ym8txX3aHgZWz4sU5vOp5YK9+pCd50ZMaKgpXcrmWWX
+         B3t55NR1yIRM0xXqP/PuGOeEEXMLEMsN2COTVOlO00V2P45PkVyPocpQVKIDajZghlVY
+         3f2w==
+X-Forwarded-Encrypted: i=1; AJvYcCW25m1PDnZONKexMx24R3mpbylsnNPyrWbC6jjDQKgDbL2e6daNzCbXGQTtSO74raEvzbi9oh4JQXmn6loZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/kKGnnLvRoierEgQu7hRnqXktzeGfC/pHgg0MroO8PTXBhp7Q
+	iXXzZEMItsQfAx3PdzGoxja+JBypQIEWLS27CIMdsQDsF1tutIn8yzwE5TQtxu8=
+X-Gm-Gg: ASbGncvedka7BZQDK9I5yxShD6Ys/q5m5ULlflt47WSkWLfntxV0pBi7eYfOY+YIF88
+	KBivSHknqk61hEgdWo9nTL5T52AlXsLICZB5Vr6GawxsZCDUfwxp/7RonejcAJpDh3vi/KQLR0x
+	ynDwpZN6JEY7MtRIBA3JS4rwroxO/UPcZ2X4Q1l8YR1dE2a2pmFu2JAJF5eBCzYMC2Rs96MJsC8
+	XUQdRoITqGGwI3bCLx6P74GyfG2rgZwjF5skhjnXYHjRNo5ZSkGwzmc3YRp+x1gWWT/ZuTT5uWg
+	9KbdwZsPR33my8PPhbIu/YcUw/XTllDOH9ttRkXadhOkZy27Xg==
+X-Google-Smtp-Source: AGHT+IE9RaG3JnTWQBOFC+cG5oJLPzGegDPF8j6pgIAxLmaI3dzluH6lmpvCgAJRjLW14fgB2O0LwQ==
+X-Received: by 2002:a17:907:9728:b0:abe:e814:ecb4 with SMTP id a640c23a62f3a-abf25f8dd35mr1474577666b.4.1740985572603;
+        Sun, 02 Mar 2025 23:06:12 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abf0c0b9cbfsm769454866b.14.2025.03.02.23.06.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Mar 2025 23:06:12 -0800 (PST)
+Date: Mon, 3 Mar 2025 10:06:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Saeed Mahameed <saeed@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+Subject: Re: [PATCH net-next 12/14] devlink: Throw extack messages on param
+ value validation error
+Message-ID: <838b1bb7-776f-481a-bda0-015368012040@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +77,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250302061427.33455-1-a929244872@163.com>
+In-Reply-To: <20250228021227.871993-13-saeed@kernel.org>
 
-Hi wang,
+Hi Saeed,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wang-wei/mm-page-cache-A-method-to-drop-one-read-page-cache/20250302-141715
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250302061427.33455-1-a929244872%40163.com
-patch subject: [RFC v1] mm/page cache: A method to drop one-read page cache
-config: x86_64-randconfig-161-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031422.vK2Dy5D8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Saeed-Mahameed/devlink-define-enum-for-attr-types-of-dynamic-attributes/20250228-101818
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250228021227.871993-13-saeed%40kernel.org
+patch subject: [PATCH net-next 12/14] devlink: Throw extack messages on param value validation error
+config: sparc-randconfig-r071-20250302 (https://download.01.org/0day-ci/archive/20250302/202503022006.eOu80RMF-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031422.vK2Dy5D8-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503022006.eOu80RMF-lkp@intel.com/
 
 smatch warnings:
-mm/workingset.c:570 workingset_refault() warn: inconsistent indenting
+net/devlink/param.c:498 devlink_param_value_validate() error: we previously assumed 'param_data' could be null (see line 475)
 
-vim +570 mm/workingset.c
+vim +/param_data +498 net/devlink/param.c
 
-ffcb5f5262b756 Nhat Pham               2023-05-02  524  
-ffcb5f5262b756 Nhat Pham               2023-05-02  525  /**
-ffcb5f5262b756 Nhat Pham               2023-05-02  526   * workingset_refault - Evaluate the refault of a previously evicted folio.
-ffcb5f5262b756 Nhat Pham               2023-05-02  527   * @folio: The freshly allocated replacement folio.
-ffcb5f5262b756 Nhat Pham               2023-05-02  528   * @shadow: Shadow entry of the evicted folio.
-ffcb5f5262b756 Nhat Pham               2023-05-02  529   *
-ffcb5f5262b756 Nhat Pham               2023-05-02  530   * Calculates and evaluates the refault distance of the previously
-ffcb5f5262b756 Nhat Pham               2023-05-02  531   * evicted folio in the context of the node and the memcg whose memory
-ffcb5f5262b756 Nhat Pham               2023-05-02  532   * pressure caused the eviction.
-ffcb5f5262b756 Nhat Pham               2023-05-02  533   */
-ffcb5f5262b756 Nhat Pham               2023-05-02  534  void workingset_refault(struct folio *folio, void *shadow)
-ffcb5f5262b756 Nhat Pham               2023-05-02  535  {
-ffcb5f5262b756 Nhat Pham               2023-05-02  536  	bool file = folio_is_file_lru(folio);
-ffcb5f5262b756 Nhat Pham               2023-05-02  537  	struct pglist_data *pgdat;
-ffcb5f5262b756 Nhat Pham               2023-05-02  538  	struct mem_cgroup *memcg;
-ffcb5f5262b756 Nhat Pham               2023-05-02  539  	struct lruvec *lruvec;
-ffcb5f5262b756 Nhat Pham               2023-05-02  540  	bool workingset;
-ffcb5f5262b756 Nhat Pham               2023-05-02  541  	long nr;
-ffcb5f5262b756 Nhat Pham               2023-05-02  542  
-9cbfd1c3c83b62 Yu Zhao                 2024-12-30  543  	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
-9cbfd1c3c83b62 Yu Zhao                 2024-12-30  544  
-ffcb5f5262b756 Nhat Pham               2023-05-02  545  	if (lru_gen_enabled()) {
-ffcb5f5262b756 Nhat Pham               2023-05-02  546  		lru_gen_refault(folio, shadow);
-ffcb5f5262b756 Nhat Pham               2023-05-02  547  		return;
-ffcb5f5262b756 Nhat Pham               2023-05-02  548  	}
-ffcb5f5262b756 Nhat Pham               2023-05-02  549  
-ffcb5f5262b756 Nhat Pham               2023-05-02  550  	/*
-ffcb5f5262b756 Nhat Pham               2023-05-02  551  	 * The activation decision for this folio is made at the level
-ffcb5f5262b756 Nhat Pham               2023-05-02  552  	 * where the eviction occurred, as that is where the LRU order
-ffcb5f5262b756 Nhat Pham               2023-05-02  553  	 * during folio reclaim is being determined.
-ffcb5f5262b756 Nhat Pham               2023-05-02  554  	 *
-ffcb5f5262b756 Nhat Pham               2023-05-02  555  	 * However, the cgroup that will own the folio is the one that
-b006847222623a Yosry Ahmed             2023-11-29  556  	 * is actually experiencing the refault event. Make sure the folio is
-b006847222623a Yosry Ahmed             2023-11-29  557  	 * locked to guarantee folio_memcg() stability throughout.
-ffcb5f5262b756 Nhat Pham               2023-05-02  558  	 */
-ffcb5f5262b756 Nhat Pham               2023-05-02  559  	nr = folio_nr_pages(folio);
-ffcb5f5262b756 Nhat Pham               2023-05-02  560  	memcg = folio_memcg(folio);
-ffcb5f5262b756 Nhat Pham               2023-05-02  561  	pgdat = folio_pgdat(folio);
-ffcb5f5262b756 Nhat Pham               2023-05-02  562  	lruvec = mem_cgroup_lruvec(memcg, pgdat);
-ffcb5f5262b756 Nhat Pham               2023-05-02  563  
-ffcb5f5262b756 Nhat Pham               2023-05-02  564  	mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
-ffcb5f5262b756 Nhat Pham               2023-05-02  565  
-93d762f0f33206 wang wei                2025-03-02  566  	if (!workingset_test_recent(shadow, file, &workingset, true)) {
-93d762f0f33206 wang wei                2025-03-02  567  		if (file && folio->mapping)
-93d762f0f33206 wang wei                2025-03-02  568  			__folio_set_dropbehind(folio);
-93d762f0f33206 wang wei                2025-03-02  569  	}
-b006847222623a Yosry Ahmed             2023-11-29 @570  		return;
-1899ad18c6072d Johannes Weiner         2018-10-26  571  
-0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  572) 	folio_set_active(folio);
-0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  573) 	workingset_age_nonresident(lruvec, nr);
-0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  574) 	mod_lruvec_state(lruvec, WORKINGSET_ACTIVATE_BASE + file, nr);
-1899ad18c6072d Johannes Weiner         2018-10-26  575  
-0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  576) 	/* Folio was active prior to eviction */
-1899ad18c6072d Johannes Weiner         2018-10-26  577  	if (workingset) {
-0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  578) 		folio_set_workingset(folio);
-6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  579) 		/*
-6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  580) 		 * XXX: Move to folio_add_lru() when it supports new vs
-6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  581) 		 * putback
-6e1ca48d0669b0 Vishal Moola (Oracle    2022-11-01  582) 		 */
-0538a82c39e94d Johannes Weiner         2022-10-13  583  		lru_note_cost_refault(folio);
-0995d7e5681412 Matthew Wilcox (Oracle  2021-04-29  584) 		mod_lruvec_state(lruvec, WORKINGSET_RESTORE_BASE + file, nr);
-a528910e12ec7e Johannes Weiner         2014-04-03  585  	}
-a528910e12ec7e Johannes Weiner         2014-04-03  586  }
-a528910e12ec7e Johannes Weiner         2014-04-03  587  
+ca557d9df319fed Saeed Mahameed 2025-02-27  461  static int
+ca557d9df319fed Saeed Mahameed 2025-02-27  462  devlink_param_value_validate(struct genl_info *info,
+ca557d9df319fed Saeed Mahameed 2025-02-27  463  			     enum devlink_param_type type)
+ca557d9df319fed Saeed Mahameed 2025-02-27  464  {
+ca557d9df319fed Saeed Mahameed 2025-02-27  465  	struct netlink_ext_ack *extack = info->extack;
+ca557d9df319fed Saeed Mahameed 2025-02-27  466  	struct nlattr *param_data;
+ca557d9df319fed Saeed Mahameed 2025-02-27  467  	int len = 0;
+ca557d9df319fed Saeed Mahameed 2025-02-27  468  
+ca557d9df319fed Saeed Mahameed 2025-02-27  469  	if (type != DEVLINK_PARAM_TYPE_BOOL &&
+ca557d9df319fed Saeed Mahameed 2025-02-27  470  	    GENL_REQ_ATTR_CHECK(info, DEVLINK_ATTR_PARAM_VALUE_DATA))
+ca557d9df319fed Saeed Mahameed 2025-02-27  471  		return -EINVAL;
+ca557d9df319fed Saeed Mahameed 2025-02-27  472  
+ca557d9df319fed Saeed Mahameed 2025-02-27  473  	param_data = info->attrs[DEVLINK_ATTR_PARAM_VALUE_DATA];
+ca557d9df319fed Saeed Mahameed 2025-02-27  474  
+ca557d9df319fed Saeed Mahameed 2025-02-27 @475  	if (param_data)
+
+This assumes param_data can be NULL
+
+ca557d9df319fed Saeed Mahameed 2025-02-27  476  		len = nla_len(param_data);
+ca557d9df319fed Saeed Mahameed 2025-02-27  477  
+ca557d9df319fed Saeed Mahameed 2025-02-27  478  	switch (type) {
+ca557d9df319fed Saeed Mahameed 2025-02-27  479  	case DEVLINK_PARAM_TYPE_U8:
+ca557d9df319fed Saeed Mahameed 2025-02-27  480  		if (len == sizeof(u8))
+ca557d9df319fed Saeed Mahameed 2025-02-27  481  			return 0;
+ca557d9df319fed Saeed Mahameed 2025-02-27  482  		NL_SET_ERR_MSG_FMT_MOD(extack,
+ca557d9df319fed Saeed Mahameed 2025-02-27  483  				       "Expected uint8, got %d bytes", len);
+ca557d9df319fed Saeed Mahameed 2025-02-27  484  		break;
+ca557d9df319fed Saeed Mahameed 2025-02-27  485  	case DEVLINK_PARAM_TYPE_U16:
+ca557d9df319fed Saeed Mahameed 2025-02-27  486  		if (len == sizeof(u16))
+ca557d9df319fed Saeed Mahameed 2025-02-27  487  			return 0;
+ca557d9df319fed Saeed Mahameed 2025-02-27  488  		NL_SET_ERR_MSG_FMT_MOD(extack,
+ca557d9df319fed Saeed Mahameed 2025-02-27  489  				       "Expected uint16, got %d bytes", len);
+ca557d9df319fed Saeed Mahameed 2025-02-27  490  		break;
+ca557d9df319fed Saeed Mahameed 2025-02-27  491  	case DEVLINK_PARAM_TYPE_U32:
+ca557d9df319fed Saeed Mahameed 2025-02-27  492  		if (len == sizeof(u32))
+ca557d9df319fed Saeed Mahameed 2025-02-27  493  			return 0;
+ca557d9df319fed Saeed Mahameed 2025-02-27  494  		NL_SET_ERR_MSG_FMT_MOD(extack,
+ca557d9df319fed Saeed Mahameed 2025-02-27  495  				       "Expected uint32, got %d bytes", len);
+ca557d9df319fed Saeed Mahameed 2025-02-27  496  		break;
+ca557d9df319fed Saeed Mahameed 2025-02-27  497  	case DEVLINK_PARAM_TYPE_STRING:
+ca557d9df319fed Saeed Mahameed 2025-02-27 @498  		len = strnlen(nla_data(param_data), nla_len(param_data));
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereferences
+
+ca557d9df319fed Saeed Mahameed 2025-02-27  499  
+ca557d9df319fed Saeed Mahameed 2025-02-27  500  		if (len < nla_len(param_data) &&
+ca557d9df319fed Saeed Mahameed 2025-02-27  501  		    len < __DEVLINK_PARAM_MAX_STRING_VALUE)
+ca557d9df319fed Saeed Mahameed 2025-02-27  502  			return 0;
+ca557d9df319fed Saeed Mahameed 2025-02-27  503  		NL_SET_ERR_MSG_MOD(extack, "String too long");
+ca557d9df319fed Saeed Mahameed 2025-02-27  504  		break;
+ca557d9df319fed Saeed Mahameed 2025-02-27  505  	case DEVLINK_PARAM_TYPE_BOOL:
+ca557d9df319fed Saeed Mahameed 2025-02-27  506  		if (!len)
+ca557d9df319fed Saeed Mahameed 2025-02-27  507  			return 0;
+ca557d9df319fed Saeed Mahameed 2025-02-27  508  		NL_SET_ERR_MSG_MOD(extack, "Expected flag, got data");
+ca557d9df319fed Saeed Mahameed 2025-02-27  509  		break;
+ca557d9df319fed Saeed Mahameed 2025-02-27  510  	default:
+ca557d9df319fed Saeed Mahameed 2025-02-27  511  		NL_SET_ERR_MSG_FMT_MOD(extack,
+ca557d9df319fed Saeed Mahameed 2025-02-27  512  				       "Not supported value type %d", type);
+ca557d9df319fed Saeed Mahameed 2025-02-27  513  		break;
+ca557d9df319fed Saeed Mahameed 2025-02-27  514  	}
+ca557d9df319fed Saeed Mahameed 2025-02-27  515  	return -EINVAL;
+ca557d9df319fed Saeed Mahameed 2025-02-27  516  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
