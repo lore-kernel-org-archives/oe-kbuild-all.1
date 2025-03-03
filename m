@@ -1,64 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C0D238D2E;
-	Mon,  3 Mar 2025 23:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49731BEF6D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 23:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741043877; cv=none; b=V40LhqKFOC0pOQRhMUCrVR3+rIC/CysWsQiIhpeXnbkHg1huvyYT9Vu8xxnDzr+gSEkiVpbFw5fGCEX92D518maAUYtG26XQ9HD161pd0atAWuBBxJ19sFad9itV1rH6eqVvJ/uqzTOXs+qd1BcPtRzs2zenrmN3QwwP1qpTcts=
+	t=1741044659; cv=none; b=FZ5bEMM7SFvfKb12GniN0NQ4koeIOh1A/yrLVfZUpQIUJZPooIN9YUB4s1iBl2T4+hEK4ohBGrmYhJ+BT3bUzp0X0f45lLnURfaSRoniLAbVCME+ivjCvqwiw8vdRqf/mZqB7ti7ZYUGdeHLeDzkNF5gBwyszc8l6hfrcJHdUG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741043877; c=relaxed/simple;
-	bh=SFd9xqY4gRWrEeaGvoL5BbS0dlM1B0xqzUuSgE6I/jU=;
+	s=arc-20240116; t=1741044659; c=relaxed/simple;
+	bh=jxbIi6utBMKjNCeA4xWPxd8lFamZ4p1d6PoAjO1pqIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BgN9Hl3gxO+C9ImEhw6E6F/WbjXYUjldQ8r5cj3SzDxNulwdqSZDLuEBAqwZohSj6WUIkTonX/v81HgZdOiCryTVAuCAEEa8PqsSU8oECr0zzD2xwQM1g/BJeU9KoKPFKRcFswa/OP3nGomsiU2Mhk7AlstHEXQy0hks9y6uROQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jucf/9/P; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=PuB9kTL5kJFQwn6astfoD37OV7xKZ6+lyHM9zd4x/2bg2mBdm0WbQF0mApJzlv7J0pq9obEsrcXlYplIcUnaBI3AeOu0l4kPEwFRA4RPnJjFFS1zWkI8UjqcCZ4pohGkIfgcx3GWkwG3b7uer7SG6/bdAoAJimtTLZk+R6jR0r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivlyt4av; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jucf/9/P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivlyt4av"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741043876; x=1772579876;
+  t=1741044657; x=1772580657;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SFd9xqY4gRWrEeaGvoL5BbS0dlM1B0xqzUuSgE6I/jU=;
-  b=Jucf/9/PDtqTOrha5QPHUWsBRNSj+R7AkUPnU39UXdJJ6iB28mrPLJBv
-   LW4SJ78ZWkuzWGD6/wxi0rwKr5f2Y7TZ8ejiSBMw59s20kf+n1grVi/gr
-   cI08Q5wmsGaftp7XviwQ0bpJChWBFP7DFxfI8OPiUwULUET2lwFViqcrT
-   UOJjKFFnxjr7nxlRUp1a7+G0iXOEYxnq9GYd7pE4qI+2IK9oBqbw9OnMw
-   RVAJedwUabKdp/aMgzVU+0TjMRNVksO3/oWWyZufZ+qOOMTeqtfQR5N/O
-   pbqAvySp14X0JuD0CIc4P2QBhvGvZAY29M9uQwjil2cOMyZzKrjMuTYmr
-   Q==;
-X-CSE-ConnectionGUID: HHtEc7fOQ8CFbC+12vYrDg==
-X-CSE-MsgGUID: zrDJ4mhGT5ay5CitroWKhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41793235"
+  bh=jxbIi6utBMKjNCeA4xWPxd8lFamZ4p1d6PoAjO1pqIU=;
+  b=ivlyt4avv9r9sp73bCYgTQ5vghZd9BqO/75YGtMnBzDzleifT4/3FVzj
+   JDyC2uY29euaevix9yobB5EiZfLlNqIs0v6ZkqJDNk+f+T7Ei46ZpFCx8
+   i+bGAlhIB0lgiU22hBzVG02ZGHwyCW/6OIiA7OdpnnlsdclT3fIZ8OOKx
+   7aXVj4HrgmRCrVjZ6fIPSBGO1MOHOYYEU02zW/BHe4gMuxAMzNLjOp2rV
+   J5S0knSccs3SelG8tQ6ry/Fe6En496eXO6aPqpYAXEW/4IxhxxY3L4Tfd
+   Bx+wvencF6EuXY5Yyy6zDVupa8ywggjKOt5P/xJdl5Ab7reqsT42LjRAD
+   g==;
+X-CSE-ConnectionGUID: bNoJ9YwDTbW3GuBEbRhM2w==
+X-CSE-MsgGUID: usVDdoyETz6XuBsX0ZBSqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41835546"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="41793235"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 15:17:55 -0800
-X-CSE-ConnectionGUID: sEVzVHs+QoeNAc8uMv0Xmw==
-X-CSE-MsgGUID: WUITPo2qQcmI9dGrnWUvPQ==
+   d="scan'208";a="41835546"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 15:30:56 -0800
+X-CSE-ConnectionGUID: l0hflE1hSkitjuc8EeEKFw==
+X-CSE-MsgGUID: T7+sTy/8RxynuCDRXcPWig==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118717350"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="117981115"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 03 Mar 2025 15:17:53 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 03 Mar 2025 15:30:54 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpF2k-000J1o-1t;
-	Mon, 03 Mar 2025 23:17:50 +0000
-Date: Tue, 4 Mar 2025 07:17:30 +0800
+	id 1tpFFL-000J2U-2R;
+	Mon, 03 Mar 2025 23:30:51 +0000
+Date: Tue, 4 Mar 2025 07:30:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 7/7] mm/mremap: thread state through move page table
  operation
-Message-ID: <202503040721.0r47FGNO-lkp@intel.com>
+Message-ID: <202503040759.5zpJdC2i-lkp@intel.com>
 References: <4cc18ebfc0cb32e9e42d86503cef3265108343e4.1740911247.git.lorenzo.stoakes@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -72,10 +72,10 @@ In-Reply-To: <4cc18ebfc0cb32e9e42d86503cef3265108343e4.1740911247.git.lorenzo.st
 
 Hi Lorenzo,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.14-rc5 next-20250303]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.14-rc5 next-20250303]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -84,41 +84,52 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-mremap
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/4cc18ebfc0cb32e9e42d86503cef3265108343e4.1740911247.git.lorenzo.stoakes%40oracle.com
 patch subject: [PATCH 7/7] mm/mremap: thread state through move page table operation
-config: x86_64-buildonly-randconfig-001-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040721.0r47FGNO-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040721.0r47FGNO-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-005-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040759.5zpJdC2i-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040759.5zpJdC2i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503040721.0r47FGNO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503040759.5zpJdC2i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/mremap.c:11:
-   In file included from include/linux/mm.h:2302:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/mremap.c:12:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/mremap.c:581:43: error: too few arguments to function call, expected 5, have 3
+   mm/mremap.c: In function 'move_pgt_entry':
+   mm/mremap.c:581:39: error: passing argument 1 of 'move_huge_pud' from incompatible pointer type [-Werror=incompatible-pointer-types]
      581 |                         move_huge_pud(pmc, old_entry, new_entry);
-         |                         ~~~~~~~~~~~~~                          ^
-   mm/mremap.c:478:13: note: 'move_huge_pud' declared here
+         |                                       ^~~
+         |                                       |
+         |                                       struct pagetable_move_control *
+   mm/mremap.c:478:50: note: expected 'struct vm_area_struct *' but argument is of type 'struct pagetable_move_control *'
      478 | static bool move_huge_pud(struct vm_area_struct *vma, unsigned long old_addr,
-         |             ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> mm/mremap.c:581:44: warning: passing argument 2 of 'move_huge_pud' makes integer from pointer without a cast [-Wint-conversion]
+     581 |                         move_huge_pud(pmc, old_entry, new_entry);
+         |                                            ^~~~~~~~~
+         |                                            |
+         |                                            void *
+   mm/mremap.c:478:69: note: expected 'long unsigned int' but argument is of type 'void *'
+     478 | static bool move_huge_pud(struct vm_area_struct *vma, unsigned long old_addr,
+         |                                                       ~~~~~~~~~~~~~~^~~~~~~~
+   mm/mremap.c:581:55: warning: passing argument 3 of 'move_huge_pud' makes integer from pointer without a cast [-Wint-conversion]
+     581 |                         move_huge_pud(pmc, old_entry, new_entry);
+         |                                                       ^~~~~~~~~
+         |                                                       |
+         |                                                       void *
+   mm/mremap.c:479:41: note: expected 'long unsigned int' but argument is of type 'void *'
      479 |                           unsigned long new_addr, pud_t *old_pud, pud_t *new_pud)
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings and 1 error generated.
+         |                           ~~~~~~~~~~~~~~^~~~~~~~
+   mm/mremap.c:581:25: error: too few arguments to function 'move_huge_pud'
+     581 |                         move_huge_pud(pmc, old_entry, new_entry);
+         |                         ^~~~~~~~~~~~~
+   mm/mremap.c:478:13: note: declared here
+     478 | static bool move_huge_pud(struct vm_area_struct *vma, unsigned long old_addr,
+         |             ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +581 mm/mremap.c
+vim +/move_huge_pud +581 mm/mremap.c
 
    552	
    553	/*
