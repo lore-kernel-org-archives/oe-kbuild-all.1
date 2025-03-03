@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D379A1DF968
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Mar 2025 23:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDBBEC4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 00:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740959332; cv=none; b=S/F7Vzc5HLENKcxUo4xzGeF+qByWAANH4NPnIcneOSK3+iAovX6BgGOg84nrOXPdaw2+nULl+J/fvQwe2yiwsuK3ldjQn0sbQ8rkB362xk+NX0uektX8Z9wmenx1WfMUI7q2D+w1jgK9ymniE1nUrmvpylbL6nkO3tP15mmR6Go=
+	t=1740960472; cv=none; b=j0Y7j7Hwm7Ox/xIu+3eZhTN2m3Ozfv5LOKLfFPAOUTTSZmSxdQPRLTtQ+BRniyWw2c1Y2q0Qhs7z9EW/yaiE7h+SzINq+ybtWUMTCVlu8QKMiDXNaMQ7BslcvACsKDLxQAJFOYSOhrbjOFhjRaZIrBKaTdeA4JM2fGzaVgYCCas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740959332; c=relaxed/simple;
-	bh=3FkocbcX2Ju5O6PPmkKHuxxs0BTs8xhC1jngGk6qxmA=;
+	s=arc-20240116; t=1740960472; c=relaxed/simple;
+	bh=yxggTVee9oB7EncBvRhtNqNAB1WMGp1j+Rw4J8Ciw9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MKR4K94zd4dVO2GTO+MmAbzm6WWgHuMMDnjcV1xF9zUWaVwzBCM0R9ztEAe3GAF/RfU8TrdXhPMJM+vryYUIEdChybGrSdKaogjV3J2a3ssq4o6xwltX4VRU6iAB/Sh4fAT007y8gA5oeGnlB9+xjTmz87Buq8ir77AVmO9dL4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBYdXikd; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=t4lz89UL3Id99iTSH5KNOSs0UXiigbUeJVG5PFAxtcYAmOrZk7aTOeJMAraa5Zl6Z8IEfHtYbUVssGS5W9tua7l8+Bi+gygFCx3hkAGpJye2UPeQ3SZutQP/sao+hypR+W8JFiCgIvfyDnu4CfpZSq4Y+t3rHkAePmKXgufUsuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYtNqSPS; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBYdXikd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYtNqSPS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740959331; x=1772495331;
+  t=1740960470; x=1772496470;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3FkocbcX2Ju5O6PPmkKHuxxs0BTs8xhC1jngGk6qxmA=;
-  b=mBYdXikdLZNCiV6GnFnyicnbyqmy/Xs/ceb0cmH3atXfS4Ij/B2SBT51
-   n0HlpCykv0cwF4QrJH3Rh4TlYbmOZdtrSpkwNtDuvoX9qfPwEgvnS27+h
-   5St/NiEIh+FDYs8AQYpQprYUUb0graRHLnjjNRyHYMIV4A2duxYbYkfAl
-   jQ1ExZAFyWnMRrNQ3bcZUCxh5vouu1nHfvvh0Ku7m31kWM1O7sPX11cOK
-   BxTr6Cx05TY2KpdnLgMfs6fsxYXc41cd3LO1BnjjwebupIxHScDTxqGGo
-   BRY7J3D0wOsqHVylT4OGpV7HVZ2Ibq73iwBC9lZgcfEPXitwFGWOIkvlr
+  bh=yxggTVee9oB7EncBvRhtNqNAB1WMGp1j+Rw4J8Ciw9s=;
+  b=eYtNqSPSu/WvQX032LYR216RFhXyYLxvaGS74Arl25hub4RkmcROdynK
+   EoiDcGNtaaaI/E4691l0mdE9Ebcw4591vQwIbVVCwdsKWGudQuq7xfKg1
+   azZ+YxOLUBCcHCvqm9h5bSf7iMlk5esqtpY26IxxVCdBxA5jdlcG8yRjb
+   9jkVkl5OMGdhGapEy38nvjJPQ93w/AEUESjrzi2iRT+dQuOXAZZbmH97/
+   G+zuymUg4Zbk560EtAtNRiFAcdngPBP+cH/eJtfoEOXUWCXzroPGEWH7B
+   Kwkxoe181kSS226opp5Qa6407NxaSzkrUoOGp5eMgKyqaXDlfCUv9VN1u
    w==;
-X-CSE-ConnectionGUID: 9zKdshFzSJSGOnhYTF0fVg==
-X-CSE-MsgGUID: t3PipEhpRUayN/npMkbauQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41711358"
+X-CSE-ConnectionGUID: 96Kg3knNQ/SEWofObcWmcQ==
+X-CSE-MsgGUID: pokCzv62Qkq3USyEio67Zw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="59368568"
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="41711358"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 15:48:48 -0800
-X-CSE-ConnectionGUID: uxw0jbt1SYaxFKdF9WIjpQ==
-X-CSE-MsgGUID: 9YcKVBX2Tw2FF3ppow4s8A==
+   d="scan'208";a="59368568"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 16:07:49 -0800
+X-CSE-ConnectionGUID: FuOZQzvISN6/14r9NVN6rA==
+X-CSE-MsgGUID: AD8ERwa5TLapL+zlfRud6w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="118542824"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="155034245"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Mar 2025 15:48:46 -0800
+  by orviesa001.jf.intel.com with ESMTP; 02 Mar 2025 16:07:47 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tot35-000HjL-2t;
-	Sun, 02 Mar 2025 23:48:43 +0000
-Date: Mon, 3 Mar 2025 07:47:55 +0800
+	id 1totLV-000Hjs-1l;
+	Mon, 03 Mar 2025 00:07:45 +0000
+Date: Mon, 3 Mar 2025 08:07:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Potapenko <glider@google.com>
-Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
- '__user' of expression
-Message-ID: <202503030742.0cGEybrx-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:futex/scope 16/18] kernel/futex/core.c:184:13: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202503030701.HtiCnva1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,82 +62,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ilya,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7eb172143d5508b4da468ed59ee857c6e5e01da6
-commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
-date:   8 months ago
-config: s390-randconfig-r122-20250303 (https://download.01.org/0day-ci/archive/20250303/202503030742.0cGEybrx-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce: (https://download.01.org/0day-ci/archive/20250303/202503030742.0cGEybrx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git futex/scope
+head:   b37932a2988afdd932334774c6e7536f5f5e1f70
+commit: f6f798343bebd692a667531bf0c1ceed46126354 [16/18] futex: Remove superfluous state
+config: arc-randconfig-r111-20250303 (https://download.01.org/0day-ci/archive/20250303/202503030701.HtiCnva1-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250303/202503030701.HtiCnva1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503030742.0cGEybrx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503030701.HtiCnva1-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
-   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
-   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
-   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
-   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
-   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
+>> kernel/futex/core.c:184:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct futex_private_hash *fph @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
+   kernel/futex/core.c:184:13: sparse:     expected struct futex_private_hash *fph
+   kernel/futex/core.c:184:13: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
+>> kernel/futex/core.c:1374:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *addr @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
+   kernel/futex/core.c:1374:18: sparse:     expected void const *addr
+   kernel/futex/core.c:1374:18: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
+>> kernel/futex/core.c:1418:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rcuref_t [usertype] *ref @@     got struct rcuref_t [noderef] __rcu * @@
+   kernel/futex/core.c:1418:45: sparse:     expected struct rcuref_t [usertype] *ref
+   kernel/futex/core.c:1418:45: sparse:     got struct rcuref_t [noderef] __rcu *
+   kernel/futex/core.c:1535:58: sparse: sparse: Using plain integer as NULL pointer
+   kernel/futex/core.c:807:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
 
-vim +/__user +269 mm/kmsan/hooks.c
+vim +184 kernel/futex/core.c
 
-b073d7f8aee4eb Alexander Potapenko 2022-09-15  247  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
-75cf0290271bf6 Alexander Potapenko 2022-09-15  249  			size_t left)
-75cf0290271bf6 Alexander Potapenko 2022-09-15  250  {
-75cf0290271bf6 Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  252  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
-75cf0290271bf6 Alexander Potapenko 2022-09-15  254  		return;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  255  	/*
-75cf0290271bf6 Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
-75cf0290271bf6 Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
-75cf0290271bf6 Alexander Potapenko 2022-09-15  258  	 */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  259  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  261  	if (!to_copy)
-75cf0290271bf6 Alexander Potapenko 2022-09-15  262  		return;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
-75cf0290271bf6 Alexander Potapenko 2022-09-15  265  		return;
-75cf0290271bf6 Alexander Potapenko 2022-09-15  266  
-75cf0290271bf6 Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
-f926e9326f3a79 Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
-f926e9326f3a79 Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
-75cf0290271bf6 Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
-75cf0290271bf6 Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  273  	} else {
-75cf0290271bf6 Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
-75cf0290271bf6 Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
-75cf0290271bf6 Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
-75cf0290271bf6 Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
-75cf0290271bf6 Alexander Potapenko 2022-09-15  278  		 * bytes.
-75cf0290271bf6 Alexander Potapenko 2022-09-15  279  		 */
-75cf0290271bf6 Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
-75cf0290271bf6 Alexander Potapenko 2022-09-15  281  						to_copy - left);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  282  	}
-75cf0290271bf6 Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  284  }
-75cf0290271bf6 Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
-75cf0290271bf6 Alexander Potapenko 2022-09-15  286  
-
-:::::: The code at line 269 was first introduced by commit
-:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
-
-:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   175	
+   176	static bool futex_assign_new_hash(struct mm_struct *mm,
+   177					  struct futex_private_hash *new)
+   178	{
+   179		struct futex_private_hash *fph;
+   180	
+   181		lockdep_assert_held(&mm->futex_hash_lock);
+   182		WARN_ON_ONCE(mm->futex_phash_new);
+   183	
+ > 184		fph = mm->futex_phash;
+   185		if (fph) {
+   186			if (fph->hash_mask >= new->hash_mask) {
+   187				/* It was increased again while we were waiting */
+   188				kvfree(new);
+   189				return true;
+   190			}
+   191	
+   192			if (rcuref_read(&fph->users) != 0) {
+   193				mm->futex_phash_new = new;
+   194				return false;
+   195			}
+   196	
+   197			futex_rehash_current_users(fph, new);
+   198		}
+   199		rcu_assign_pointer(mm->futex_phash, new);
+   200		kvfree_rcu(fph, rcu);
+   201		return true;
+   202	}
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
