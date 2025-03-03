@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48BC23F36F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 15:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A3122DF8D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 16:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741016235; cv=none; b=jGejmK1XtASKMVWnJXd7aFte86mcFBp+JxoX5ctcvwN2Vn+jLccmbZ0xGk5En3+2ES3w7mjLIasCxhmj7gsR/2TX8YH/8438TNwPyoqIUoDfAy0NNKtBAhIS7Caxj6Dd7U1wjqVeIvYplwgmogki1OZB/rictQMkROi5dG8hoB4=
+	t=1741018109; cv=none; b=HETLgQLzKS2OB+1YnXkMKNe6Mbn9aVLsPJgvA0MoNdw2SsQOKP4iTp4PqgjKPtXhvdxDlCpzqWrTzbLEvvtD9oaORMo+9EVT839XXi9D+mndeqBEZ43WX7ysLAOchkdS3yEIUwMdUrHJK9b37V/FKjXouSplN7IslUpD5KZ4/lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741016235; c=relaxed/simple;
-	bh=01ZwcJT/hHs79VvHA4XGQryE44OE0fLv1sNfvcdGzW8=;
+	s=arc-20240116; t=1741018109; c=relaxed/simple;
+	bh=kc4cED8BkpIe6+ORUtgVH1zeDWEgNJCwiCF9QSupIgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qxa4NCcr58DFphRU7g4kCMBAnw4xxzs5AXb5MO5Cg8vSbcTBPmymY1NGX9e97JIJGEYSck26O/C8rocHnEU8hNVgEHWXJXURo+nZ843SJbS0/92TM40WnXeLBYoSYuvYLOmjgYf2MC0tbNYDPqewEITIicm7HpScP1J62JWFAx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FmkeehCL; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition:In-Reply-To; b=Ep2Eza8lmY2yAyQcmrC0MQeyAr7/RQvhn9JpaILXylvAfGbW4csb2u9EbG4QAJqPhWLfA8GeYrPvMLzfIGsq/n7+wIZ1Js8BkjIDrBuvOLrUzMNP4eWyOC1Tg2F633kLEwqDRTu8iDlgYFCAKPg88t5AICMDGEULoGRB9vDNAC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7xBYlF4; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FmkeehCL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7xBYlF4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741016233; x=1772552233;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=01ZwcJT/hHs79VvHA4XGQryE44OE0fLv1sNfvcdGzW8=;
-  b=FmkeehCLik0qdUWAWglzrwB4P3eYvz249D9cVfJ123wzDJRs01fJ3kNB
-   /lfz0uSDwCM5l6I9NhhMjEwZDOMBuXDw/9k69CVxcasGiXYyc+An5UIDg
-   06qe0H1VTRKdAbAoII/qeMrECWXiQHOLpUWf0qgUlFFuR7jta/070DYZ7
-   wayMKmAcqCR6006xFqx912ilcGMs8NEjuBqZeI0oyrJgehj8IyNU6aJw+
-   YcpTOOWzxkwvOAytb7+pELNA3gp0DaazcMYzrib5qmQQoT7JxbOcGoPKH
-   HAmSTqhlaDbhPErEpNraNB2RPryy/MFnxvYW4NPbOWkVWKXmt6ArQ2F4F
-   Q==;
-X-CSE-ConnectionGUID: JkfttNNaRky/GV7umKm/oQ==
-X-CSE-MsgGUID: 2bB6lXKzQOCtA3yMelxo2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41786675"
+  t=1741018108; x=1772554108;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=kc4cED8BkpIe6+ORUtgVH1zeDWEgNJCwiCF9QSupIgI=;
+  b=E7xBYlF4NbH3hZ+vLKq0Vnv6l252a3XFm/BTA32Qc8YIXeohnLu6BJgo
+   Bx4fgeMuAYgMiFcGVL+dbvYJIeF4e16kIkbjLQ56t07XHcHu7Yw+s1aG0
+   1UjMjfAMx+1UML+sqU8s8xJZxeQz1RlV3sgy27kMVIp69iHSDHXOG8kn3
+   HebVslWAcmX5jVQgjHToSbgxGjxwKdVAU2fHeiEQUVZUi7aHPLTP5KjGO
+   MdwOeRutalEoKWl7E8KlM4oohajTF9pcTIoDt4X+P+gYpLYBW3hLisdHU
+   grdryH7Lv/2c+i6ZlC0ZFfzmdyrwtUtn79YtH4Fxf1ScliNU1dlA1k1tM
+   w==;
+X-CSE-ConnectionGUID: rIVX8pLaRBO6/1grplWe1A==
+X-CSE-MsgGUID: wtGGOK70RdimnGIOQiMvWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="52106642"
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="41786675"
+   d="scan'208";a="52106642"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 07:37:07 -0800
-X-CSE-ConnectionGUID: GU+guan1QJCu+8XtyZQlbg==
-X-CSE-MsgGUID: fdO+aiQORg2PefZCADJCYg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 08:08:27 -0800
+X-CSE-ConnectionGUID: +fGqiv2xSSS3jadHWaUzIQ==
+X-CSE-MsgGUID: 2KET8S0ITiCVLocNvDJ8NQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
-   d="scan'208";a="148871741"
+   d="scan'208";a="148884876"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 03 Mar 2025 07:37:06 -0800
+  by orviesa002.jf.intel.com with ESMTP; 03 Mar 2025 08:08:27 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tp7qp-000Iel-2p;
-	Mon, 03 Mar 2025 15:37:03 +0000
-Date: Mon, 3 Mar 2025 23:36:46 +0800
+	id 1tp8L0-000IgR-0y;
+	Mon, 03 Mar 2025 16:08:20 +0000
+Date: Tue, 4 Mar 2025 00:08:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 2/2] kismet: WARNING: unmet direct
- dependencies detected for RESCTRL_FS_PSEUDO_LOCK when selected by
- X86_CPU_RESCTRL
-Message-ID: <202503032332.kRDjrdBI-lkp@intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 01/19] media: i2c: ds90ub953: Fix error prints
+Message-ID: <Z8XT7d3Q0dc4ygN9@aca137f0053c>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250303-b4-ub9xx-err-handling-v3-1-7d178796a2b9@ideasonboard.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   413645820de6d715e23ec6200a3e5a469ec69672
-commit: 6a17ffc470497d45d1824185813aecdb8fcf9062 [2/2] fs/resctrl: Add boiler plate for external resctrl code
-config: x86_64-kismet-CONFIG_RESCTRL_FS_PSEUDO_LOCK-CONFIG_X86_CPU_RESCTRL-0-0 (https://download.01.org/0day-ci/archive/20250303/202503032332.kRDjrdBI-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250303/202503032332.kRDjrdBI-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503032332.kRDjrdBI-lkp@intel.com/
+Thanks for your patch.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for RESCTRL_FS_PSEUDO_LOCK when selected by X86_CPU_RESCTRL
-   WARNING: unmet direct dependencies detected for IMS_MSI_ARRAY
-     Depends on [n]: PCI [=n]
-     Selected by [y]:
-     - VFIO_MDEV_IDXD [=y] && VFIO [=y] && VFIO_MDEV [=y] && X86_64 [=y]
-   
-   WARNING: unmet direct dependencies detected for RESCTRL_FS_PSEUDO_LOCK
-     Depends on [n]: MISC_FILESYSTEMS [=n]
-     Selected by [y]:
-     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
-   
-   WARNING: unmet direct dependencies detected for RESCTRL_FS
-     Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
-     Selected by [y]:
-     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v3 01/19] media: i2c: ds90ub953: Fix error prints
+Link: https://lore.kernel.org/stable/20250303-b4-ub9xx-err-handling-v3-1-7d178796a2b9%40ideasonboard.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
