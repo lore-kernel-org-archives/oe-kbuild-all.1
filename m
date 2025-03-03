@@ -1,114 +1,312 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2074.outbound.protection.outlook.com [40.107.22.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9989318B494
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 04:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740974677; cv=none; b=r0H4CJzfg6M4uQ/wmDqElsfVTMcdE/hJ98/XyQImCgpVzXTjAK97wahHRTnix9FOnbUPGMS2Bsj62v5kcPSdZFQ7l4/Hdcm0LAoOBoZHw5PNjPlo6eLYbH+6DwjFiQ/QbUH2IQbNyp9UJ1IVGpUE1TZJUs6+Uhc15pcdkrQcPWE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740974677; c=relaxed/simple;
-	bh=O8t81v+t3zErdDVgznqw67w5wP0XZ7VK+m02m3rJd4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uJOX5xYRJquB7UrBEnf6pVe2bEZX5WYIQlANhaLfar2/x8E7I4EUXlj74NLo8DCltXKIt9HcSQt1P5SxABOp5kBsmoc3zhA9MbOTrxCzuA3FJofFTlSRwArByQT9hRTHjX0MjpRcsAEMDtMwzLYvuiWyqpQ3tC4aCHAvaj3E7Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0KXU4wt; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1422013B29B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 05:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740978430; cv=fail; b=QSJ/5xrG2Rc08iCdgiN/79Jz+sMCI6qnEahenrulOhU99IujWZH+IhuaWOxVvMmrUVtUZPCP+HsA5Nn/s1jClzTWsHO1M/9F60iQScxIbjivo9u4vCWzlQj58JRe2/bEdNby6gr+G3a5qDcsTJSuW/G5NxnxeHlOQd9/RM4lFHQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740978430; c=relaxed/simple;
+	bh=nUkS7KdM/AnSdyptZRAxBLPd6M+hx8dyXDihZFKf688=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=J9Saqc14L3uFAUH3q1hzigPSXD1BP5BhN+6NJPn6m+ZLvgp39RvIiSLbao8tCt8lsMAguCm13qzmpDor+CXzmimxzR7jG6Vovcv9JSbmF/IVd7jIXpwlow0k8A5LSlvCCM5P6/1Ey0wqlvOyrge6MstYC7mZE2Mbro9WKz9xWrk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=X1tkI8U5; arc=fail smtp.client-ip=40.107.22.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0KXU4wt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740974676; x=1772510676;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O8t81v+t3zErdDVgznqw67w5wP0XZ7VK+m02m3rJd4U=;
-  b=H0KXU4wt3vzAJ+NGqPBpsxejeFuJC5RMNSMpMTMmGD3naPsudqM4AgA+
-   GoheYhmRoVBKAv2cROW+DlfucWNMKD1pqmt423ajhx4Oddoh1O/67ZYuT
-   X8t3j3pqv4gIU6Bd17aG5ZNpr2LbcQvp5o+iOjQvPYNl6TWx84Ec0uRKt
-   gVGxNBW3VYPrCuTennroCDgZL4aD51Djvq0BCVDRsySjInanQ8pAGLI+Y
-   hdwTo0Wn7PGtAGwBkz22EtohkAQS6h4By+MmIo9xlRywmQzkyTvrCMGCn
-   GB0dlWnCEXjFJK8x7xM8eq06WOtOHb/wuxlkbEgbK5tJfcD+IxgLmV8+n
-   g==;
-X-CSE-ConnectionGUID: ywsi2X2NQAyhK44mkqRpmg==
-X-CSE-MsgGUID: o/5L6gmYQymjzDYCjbMGqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41011326"
-X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="41011326"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 20:04:35 -0800
-X-CSE-ConnectionGUID: cVDUIX6RQIibMFpct89eDw==
-X-CSE-MsgGUID: b49+Xso8QlWBClxDUz2uaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="117634927"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Mar 2025 20:04:33 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tox2H-000Hv3-2I;
-	Mon, 03 Mar 2025 04:04:17 +0000
-Date: Mon, 3 Mar 2025 12:03:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 1/1] kernel/sched/fair.c:1679:22:
- warning: no previous prototype for '__pick_first_entity'
-Message-ID: <202503031113.ykXCnEMv-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="X1tkI8U5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uoQyy9+XsuPWny3QD1KRJm6PlYvnChUC/CHBis3wmSlpGR6yKZhsPNaTV0BeYr98FeXAv7Ca8RjkaBzGGoZ1+hWTRSBsdzkA8YJlbjMgwYAU2XQLJZBtVQJpc7HQoHZ8/++sBEzeHliDnydzV8X0Ym2YoqhMFtCSO3P/r4UQ4yp3HGOKv2X7LKRs4fkRb/A+gME8LDHaIE9K60i9lggCCf6Lp132YcuMBU8cpgqIiPIhnIvNj++Q7cKkj8phI6xu5SgRz2zK8/jyO9PImoGu6NwM+QHE7MsS+wT84UjzT47Txt3wioouCNG9MhwM2BTowZ8dROpUH1FqSHtychzU5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1674ICgVE/zEsY9kaoK7VO7PWMsvOK2wAkhT/fB9Ulc=;
+ b=ZfZ93Vf1AezhGaFopm4adXOh5gcfEVHsILZFaUdF2wE3C5OMBfHJDi7hbVTa7TV3sl2vTZDU44e4J6orUpfA0klDSI0pGKyy92DeR9YtfU28Slt1JMA9aZYVKVNEzMoNKhfDe0ldYuO7dl3pw1VHcXAj2lyEJ+O7+hH/0ZS4RsVIQ1vhBS2kBShoVz0tvLv6optYs2u3/43WqMhmBCYkvtA8PO16n9rSHVFcpiBoCggeMw+06jcDOhYSaG4DeQWqrLGfHSN95xkMlpQb969V1xCpyzYI1j5gNnrOToYbIeuuca0eWbOXuAXX0O+uEM92maeNfdQMIiSOkhBnXcRIig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1674ICgVE/zEsY9kaoK7VO7PWMsvOK2wAkhT/fB9Ulc=;
+ b=X1tkI8U5ZyAWzcw1XB3HDv73w6NDFnU/JlXffOfHfaC2WUr9wQluJn9LcnwgMOwUmNsgoAUkoBXncusoju4Ttxb03wTzJdTrdodCr0nii8vewsl60E2uEL5rEYvYs8nEWFKzSbdEX/dD3ZVDMGTMGcUSjAS/fT2bXFwWsqfjc99R9mVOPvWbQRYd68mmfGhlPT+CZHUWhQofqPxsB7S8bP5c+YSZpZ6MEYLrKYSRMwpcpzd5uNH6wYFMva0BTsMazs7kMHDmMViqfhs+AXqozuW3dCERbN4VmPXuuLuHKd6W7DppCAddkMGC5VJruFD66XozZS3Mo6Al9n6WLxYz0g==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by VI1PR04MB7184.eurprd04.prod.outlook.com (2603:10a6:800:125::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8489.28; Mon, 3 Mar
+ 2025 05:07:04 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%4]) with mapi id 15.20.8489.025; Mon, 3 Mar 2025
+ 05:07:03 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: kernel test robot <lkp@intel.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Mathieu Poirier
+	<mathieu.poirier@linaro.org>
+Subject: RE: drivers/remoteproc/omap_remoteproc.c:732: warning: Function
+ parameter or struct member 'is_iomem' not described in 'omap_rproc_da_to_va'
+Thread-Topic: drivers/remoteproc/omap_remoteproc.c:732: warning: Function
+ parameter or struct member 'is_iomem' not described in 'omap_rproc_da_to_va'
+Thread-Index: AQHbivhIKfgrboY4KUaSYYetbjTpHrNg3fcw
+Date: Mon, 3 Mar 2025 05:07:03 +0000
+Message-ID:
+ <PAXPR04MB84590CDADF15777AF08B426288C92@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <202503020637.6SBId7IR-lkp@intel.com>
+In-Reply-To: <202503020637.6SBId7IR-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|VI1PR04MB7184:EE_
+x-ms-office365-filtering-correlation-id: f040afde-bdc5-4d5e-4c84-08dd5a113cc6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700018|13003099007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?xiFnAQS3sJ7+Xh9KOB3ftMrjUaEixLUq4vP0nKwrvYjiz6NI6wsPuvEJ8NQM?=
+ =?us-ascii?Q?negoQ17O4SsQJhs3uUOiKwMnbSFlG49si/cGOyf063mtMU9E4vgM+2XqaAGz?=
+ =?us-ascii?Q?ceyJC+wVjWZ6uwTASMzn6ZnQ6vXETyu7YK/C84YivQ+2/h4Sdw9B9b7rZwuZ?=
+ =?us-ascii?Q?VkoBnqMlbb+K7Q+triccBn8NPcm3+lv846Ht1nCnaSRLB5kiT24Zzdh2TLCQ?=
+ =?us-ascii?Q?m7psXam7stNRVAvQvjNEC+bVqkMLJgiGLYV23wDJMb4UOMTgNWSPOLpB8k+m?=
+ =?us-ascii?Q?akTRJmli53UbT44uXusj3nmoeHvPXPlTMb16llT5efBctAFXL+Rn6wTP7m9C?=
+ =?us-ascii?Q?UmoN0ytoX3bkUfhP062fuPdY69KFB96hbhzvPHola4t+Xhh+v9mC6zI6LtO5?=
+ =?us-ascii?Q?8Ik9bSpc0SibhnoaAVrHZg/gP7gwhDmljAFRz7f9TjmhS0c+RU7hhtd5uNtX?=
+ =?us-ascii?Q?0Vo9PFgzTSwLiksmnpxaF2K9uLYqn0z7lApzrB3onuzyt8MtvsfV5qMqaSVg?=
+ =?us-ascii?Q?M8j7oUkFt+8uQihZaCYOIvDXloI+tGSqgmiPgQ4b7Xsv09tAJoUnLLm1Pb7h?=
+ =?us-ascii?Q?GD6gb1MkIX52LpiZoG5DhKzDbRi+D0590dHes8bVJcJUTFglaAMGcrOufmfc?=
+ =?us-ascii?Q?Idn+DAdUWic4GQb1gFtv4aKxYJL1wWDtV0r6YJqPH8jvKpXNfbzgrdbN5YB4?=
+ =?us-ascii?Q?iku6Npft596wWL9EhOV+MC61J8eyNi4jNAv95p6zS+kiNFKAIEGRg7a6B0lM?=
+ =?us-ascii?Q?V3blm6+/nZwRJKpGDXoCOqbu+MkqZUVPCr3dsjuEJikrSdH6LxRhxGlfbTBW?=
+ =?us-ascii?Q?K1Z+u4Z9Qy2rGhEu3XGebJ+Ng+dT4eMUACtS2mPL5BPqw3I8F320YJVnAH10?=
+ =?us-ascii?Q?Iqt7SNv06RJeSdQ4T7/iYswaM07tWYTna5OP1WBFbd7DiHuPknrRv2u88zY5?=
+ =?us-ascii?Q?DhvoOWeONjflCx8jVXCDWN3N7RbefCK2KCvGOJ6FDzly5DiCDMyY7ASWTqCf?=
+ =?us-ascii?Q?oosirGb2EeLhcJzLcwB3Xw/8v9iZ3LrtBiFM3Zy+XO0c1W3qT5J2CpaOiqT0?=
+ =?us-ascii?Q?oegx0QX6B1LDLD+wgbQOwRkhoZ5OFmSiDLLwIUVVNu9bdIASs5CAaTec0yiZ?=
+ =?us-ascii?Q?C2x2lZMxXVAzOJcdjPu+jpZqAVJ4HbzipcvLFaK8C3qCW6t3c9Hga+k4WPuq?=
+ =?us-ascii?Q?4IEr7db5q0xmn8Zd1Ja9SqaN0usHqJw/1C/dr8Ugdpz3mmpsDtXUHLzv0vbL?=
+ =?us-ascii?Q?D9NZutbrP5RCiZd6rTerTJcCYVlDOOqJhcS0sXzwIQUKaoQq0bQaVDJZRljU?=
+ =?us-ascii?Q?vppjUIULFOKsjFoFtiZiTFVtzqfIcyzZWqoAbLPuELTf+yHe43yEuUTyNrxr?=
+ =?us-ascii?Q?7aftBqP19HnW2n5OoVHqq0qn/k9u?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018)(13003099007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?fVJFJ0AUBMS/lu15fiTOu1/dADd1LITghQsS+rscIxGvPwlJ22e7jTtYOG1N?=
+ =?us-ascii?Q?ddp7OINxlflM/GRzKGFzn01kRwiUBN1jYf2xrySipDwRswJYWgDXAdaHZnv+?=
+ =?us-ascii?Q?OAMPzYSlE0gmL3qYH5hDMOEJlUa4c8L4h35uOgHn9wGVQi66KI5rfhNSb/gP?=
+ =?us-ascii?Q?op5aUNi5mg1jYPjNfCsa95bP2quTo0WbOCGK6jg60GNhbFU1Wgj05L1cneiJ?=
+ =?us-ascii?Q?TNtNW9MfsUY+3ZUpvD3LL2l/s2+jfSWLcvjmyYiqddS0i+umr/ngDoWaISdg?=
+ =?us-ascii?Q?tUtADs+VxoKXisBA1I3PXxylizmFtjmHmYVqEeVtbva+gy6z0XUHUe+ZNJ+J?=
+ =?us-ascii?Q?qosStvvYyCOBEOqRLpkR9z1z/LrKoW7ju8++fBtxyiXEWHvKgrKalVqkHijJ?=
+ =?us-ascii?Q?tSR0jnDlp2Yk6Cdmfy2raYbAebhCinVITbTLJQlXHHxiS0KqFXTUgrMTevZz?=
+ =?us-ascii?Q?NIttU7yzP3jz+obTCeBuDUVyi3z8z12+DqferNlIM1Z+I7jHS4tLEMtq2ivy?=
+ =?us-ascii?Q?cAjppCSHCJMV1ow4uUkpJiAsJOCRIqTSvOs2WnRm1C03ZqYTVW0QJDftmAQw?=
+ =?us-ascii?Q?mEj1CepjpqKbEicS005syaT13SP93DD+QL+IW1H+tTa1la8B1dxVdyXH7Lpl?=
+ =?us-ascii?Q?Y1+wokDMhZ7mtxROWAY7HcAdSfFrPU1G3MNWbedW+zKs+ssY37v1j57uC+fx?=
+ =?us-ascii?Q?0O5giVUIy2Hvz4ftp9NZOuDDCsAqR6oDp7bBMa5QC1O4XnbFa25PCt3uYk9W?=
+ =?us-ascii?Q?g6D3oPtYKNrQWiIu9M7QK4b0JYViluiI9OCAnP6j3MSwiHpx53/TN/9ohJR1?=
+ =?us-ascii?Q?cjCFeqlqGL6MfqaIQgjhwycQc6bmdb9HME+Nm5tBvVzBb/Ssg6wg6k3N6Lu7?=
+ =?us-ascii?Q?Joo+7b50vEM0PYRG9iHsjDqmqP9zsJkbuiDUvJLFFVrIppyo4sL2LaTQ/eIC?=
+ =?us-ascii?Q?Cgwwuq78rmGIGeKG/rZlXOn9jxffsNlqYojk/vf6UUQlsAmpBS1wTVDLtNqZ?=
+ =?us-ascii?Q?TSAC1dchwvNGxdMjc7ASgGME8sYvD1fL5Rp4A2hMey2VtZUqGX6CWJAUt9uC?=
+ =?us-ascii?Q?9GvoMm/m0f4pgYOM99Va8p4LApG1sPiDQfCGs96FzAvIUzU28Lpgcu8HK4Jv?=
+ =?us-ascii?Q?UL/FMWIk7t/gZ1tz+sCSfRIfVYekSzurlcDkS/VBcbF+QltJXHiXTDrPxYHk?=
+ =?us-ascii?Q?18HFNYFn8I+XweCSIbfz1NR5b2ESnKWFkuIn88IAb2iJJ4Q4/RxfxOCp7g9y?=
+ =?us-ascii?Q?8qWH0eN9YuYwBv/qQEIROUzhOmSG3mOXUFilJp+qsNcabIGDFesAHC9L+5OA?=
+ =?us-ascii?Q?6VPqcSBf2n/i7/jv21BQJrpoabRGCfp5+OifPT9N7CJL8ueH156o4PWpTxRl?=
+ =?us-ascii?Q?8MGa+oWX3spFS5dfhoC0i69fiv4TMjff5G6eX1nuuaViobo2SD/KQ2JdKwPu?=
+ =?us-ascii?Q?O5q2jWK4Ne+gVYSc761qf+wo9FcZD+QGlOdbZxs9DskoytVihHCaI8U6YaPk?=
+ =?us-ascii?Q?ZGC7kFnKAB3EHf1oD2hAGDmnlGjV7Kca8/0wVcqFQqW7IWHRdl6v4zvpKofh?=
+ =?us-ascii?Q?yB74MA1+o1MGhCWQlYU=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f040afde-bdc5-4d5e-4c84-08dd5a113cc6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Mar 2025 05:07:03.6793
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3YaBtPZH8zglFqNqQiqd41iYpJD5iANZZqJCEjQqx2DmqltSWY6RlQxgSlEsm18QM4CMAYmd1lBHddKfjD0L2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7184
 
-Hi Michael,
+> Subject: drivers/remoteproc/omap_remoteproc.c:732: warning:
+> Function parameter or struct member 'is_iomem' not described in
+> 'omap_rproc_da_to_va'
 
-FYI, the error/warning still remains.
+Please drop this warning, Fix has been picked up, see
+https://lore.kernel.org/all/Z7yc4vxYkTMhSWni@p14s/
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   413645820de6d715e23ec6200a3e5a469ec69672
-commit: 9372f9beab4213be5b70136fe15a6cdc3b034be3 [1/1] ck: sched: introduce group identity 'smt expeller'
-config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250303/202503031113.ykXCnEMv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031113.ykXCnEMv-lkp@intel.com/reproduce)
+Thanks,
+Peng
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031113.ykXCnEMv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/sched/fair.c:1679:22: warning: no previous prototype for '__pick_first_entity' [-Wmissing-prototypes]
-    1679 | struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
-         |                      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'migrate_task_rq_fair':
-   kernel/sched/fair.c:8052:21: warning: variable 'min_vruntime' set but not used [-Wunused-but-set-variable]
-    8052 |                 u64 min_vruntime;
-         |                     ^~~~~~~~~~~~
-
-
-vim +/__pick_first_entity +1679 kernel/sched/fair.c
-
-9372f9beab4213 kernel/sched/fair.c Michael Wang   2020-08-05  1678  
-029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra 2011-10-25 @1679  struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1680  {
-b37e67a6c64803 kernel/sched/fair.c Michael Wang   2020-08-04  1681  	struct rb_node *left = id_rb_first_cached(cfs_rq);
-f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1682  
-f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1683  	if (!left)
-f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1684  		return NULL;
-f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1685  
-1e922847e9c480 kernel/sched/fair.c Peter Zijlstra 2021-05-31  1686  	return __node_2_se(left);
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1687  }
-bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1688  
-
-:::::: The code at line 1679 was first introduced by commit
-:::::: 029632fbb7b7c9d85063cc9eb470de6c54873df3 sched: Make separate sched*.c translation units
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>=20
+> Hi Peng,
+>=20
+> FYI, the error/warning still remains.
+>=20
+> tree:
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> git.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2
+> Flinux.git&data=3D05%7C02%7Cpeng.fan%40nxp.com%7C50009dcabea4
+> 4860b0c008dd590f683f%7C686ea1d3bc2b4c6fa92cd99c5c301635%7
+> C0%7C0%7C638764644912563206%7CUnknown%7CTWFpbGZsb3d8e
+> yJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsI
+> kFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DqoPgVy
+> Jgg36vRNE5HECHYX%2FpAc0T471cj5162D7pc0o%3D&reserved=3D0
+> master
+> head:   df87d843c6eb4dad31b7bf63614549dd3521fe71
+> commit: 40df0a91b2a5228ded8e5f75b80d28c96c6831cd remoteproc:
+> add is_iomem to da_to_va
+> date:   4 years ago
+> config: arm-randconfig-c041-20230507
+> (https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2
+> Fdownload.01.org%2F0day-
+> ci%2Farchive%2F20250302%2F202503020637.6SBId7IR-
+> lkp%40intel.com%2Fconfig&data=3D05%7C02%7Cpeng.fan%40nxp.com
+> %7C50009dcabea44860b0c008dd590f683f%7C686ea1d3bc2b4c6fa92
+> cd99c5c301635%7C0%7C0%7C638764644912581628%7CUnknown%
+> 7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMC
+> IsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C
+> %7C&sdata=3DFEvXgw%2BRm6Io1k9t9QKIdZwSqOgoQDtX9XPZtQLaWO
+> M%3D&reserved=3D0)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0 reproduce (this is a W=3D1
+> build):
+> (https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2
+> Fdownload.01.org%2F0day-
+> ci%2Farchive%2F20250302%2F202503020637.6SBId7IR-
+> lkp%40intel.com%2Freproduce&data=3D05%7C02%7Cpeng.fan%40nxp.c
+> om%7C50009dcabea44860b0c008dd590f683f%7C686ea1d3bc2b4c6f
+> a92cd99c5c301635%7C0%7C0%7C638764644912593266%7CUnknow
+> n%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAw
+> MCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%
+> 7C%7C&sdata=3DiDgsV8XXWjRwQftnAuBAzWJFZDAzZyfGcwgXitoHYao%3
+> D&reserved=3D0)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new
+> version of the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:
+> |
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> lore
+> | .kernel.org%2Foe-kbuild-all%2F202503020637.6SBId7IR-
+> lkp%40intel.com%2F
+> |
+> &data=3D05%7C02%7Cpeng.fan%40nxp.com%7C50009dcabea44860b0c
+> 008dd590f683f%
+> |
+> 7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C6387646449
+> 12604520%7CUnkn
+> |
+> own%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMD
+> AwMCIsIlAiOiJX
+> |
+> aW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdat
+> a=3DOOJ0eCr4Co
+> | iX2DC3nTDyKIKUGLIS8Z7Lbnm140ZB7uk%3D&reserved=3D0
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+> >> drivers/remoteproc/omap_remoteproc.c:732: warning: Function
+> parameter or struct member 'is_iomem' not described in
+> 'omap_rproc_da_to_va'
+>=20
+>=20
+> vim +732 drivers/remoteproc/omap_remoteproc.c
+>=20
+> 34ed5a33b1218e Ohad Ben-Cohen 2011-10-20  716
+> 530a1b57e8590f Suman Anna     2020-03-24  717  /**
+> 530a1b57e8590f Suman Anna     2020-03-24  718   *
+> omap_rproc_da_to_va() - internal memory translation helper
+> 530a1b57e8590f Suman Anna     2020-03-24  719   * @rproc: remote
+> processor to apply the address translation for
+> 530a1b57e8590f Suman Anna     2020-03-24  720   * @da: device
+> address to translate
+> 530a1b57e8590f Suman Anna     2020-03-24  721   * @len: length of
+> the memory buffer
+> 530a1b57e8590f Suman Anna     2020-03-24  722   *
+> 530a1b57e8590f Suman Anna     2020-03-24  723   * Custom function
+> implementing the rproc .da_to_va ops to provide address
+> 530a1b57e8590f Suman Anna     2020-03-24  724   * translation
+> (device address to kernel virtual address) for internal RAMs
+> 530a1b57e8590f Suman Anna     2020-03-24  725   * present in a DSP
+> or IPU device). The translated addresses can be used
+> 530a1b57e8590f Suman Anna     2020-03-24  726   * either by the
+> remoteproc core for loading, or by any rpmsg bus drivers.
+> 530a1b57e8590f Suman Anna     2020-03-24  727   *
+> 530a1b57e8590f Suman Anna     2020-03-24  728   * Return:
+> translated virtual address in kernel memory space on success,
+> 530a1b57e8590f Suman Anna     2020-03-24  729   *         or NULL on
+> failure.
+> 530a1b57e8590f Suman Anna     2020-03-24  730   */
+> 40df0a91b2a522 Peng Fan       2021-03-06  731  static void
+> *omap_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len, bool
+> *is_iomem)
+> 530a1b57e8590f Suman Anna     2020-03-24 @732  {
+> 530a1b57e8590f Suman Anna     2020-03-24  733  	struct
+> omap_rproc *oproc =3D rproc->priv;
+> 530a1b57e8590f Suman Anna     2020-03-24  734  	int i;
+> 530a1b57e8590f Suman Anna     2020-03-24  735  	u32 offset;
+> 530a1b57e8590f Suman Anna     2020-03-24  736
+> 530a1b57e8590f Suman Anna     2020-03-24  737  	if (len <=3D 0)
+> 530a1b57e8590f Suman Anna     2020-03-24  738
+> 	return NULL;
+> 530a1b57e8590f Suman Anna     2020-03-24  739
+> 530a1b57e8590f Suman Anna     2020-03-24  740  	if (!oproc-
+> >num_mems)
+> 530a1b57e8590f Suman Anna     2020-03-24  741
+> 	return NULL;
+> 530a1b57e8590f Suman Anna     2020-03-24  742
+> 530a1b57e8590f Suman Anna     2020-03-24  743  	for (i =3D 0; i <
+> oproc->num_mems; i++) {
+> 530a1b57e8590f Suman Anna     2020-03-24  744  		if
+> (da >=3D oproc->mem[i].dev_addr && da + len <=3D
+> 530a1b57e8590f Suman Anna     2020-03-24  745
+> oproc->mem[i].dev_addr + oproc->mem[i].size) {
+> 530a1b57e8590f Suman Anna     2020-03-24  746
+> 	offset =3D da - oproc->mem[i].dev_addr;
+> 530a1b57e8590f Suman Anna     2020-03-24  747
+> 	/* __force to make sparse happy with type conversion */
+> 530a1b57e8590f Suman Anna     2020-03-24  748
+> 	return (__force void *)(oproc->mem[i].cpu_addr +
+> 530a1b57e8590f Suman Anna     2020-03-24  749
+> 				offset);
+> 530a1b57e8590f Suman Anna     2020-03-24  750  		}
+> 530a1b57e8590f Suman Anna     2020-03-24  751  	}
+> 530a1b57e8590f Suman Anna     2020-03-24  752
+> 530a1b57e8590f Suman Anna     2020-03-24  753  	return NULL;
+> 530a1b57e8590f Suman Anna     2020-03-24  754  }
+> 530a1b57e8590f Suman Anna     2020-03-24  755
+>=20
+> :::::: The code at line 732 was first introduced by commit
+> :::::: 530a1b57e8590f2ebbb6a35effa0efa988aabf6c remoteproc/omap:
+> Add the rproc ops .da_to_va() implementation
+>=20
+> :::::: TO: Suman Anna <s-anna@ti.com>
+> :::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F
+> github.com%2Fintel%2Flkp-
+> tests%2Fwiki&data=3D05%7C02%7Cpeng.fan%40nxp.com%7C50009dcab
+> ea44860b0c008dd590f683f%7C686ea1d3bc2b4c6fa92cd99c5c30163
+> 5%7C0%7C0%7C638764644912615595%7CUnknown%7CTWFpbGZsb
+> 3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4z
+> MiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Dhtf
+> oNpSwSE0sF4eFyya%2FIWJTpP3HrMDmELJYuTCRiVA%3D&reserved=3D0
