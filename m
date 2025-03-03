@@ -1,72 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1FC78F29
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 04:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9989318B494
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 04:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740974660; cv=none; b=h2MrtdoDS/aCrvq8mSyfg85hFVp5fnYt+GIMDCk77D7lCy9ZQRzdo9zZWfo/HoEYMPsE0gyXgYN+8t14iMHLXgU9MrIbNlg3W8epjA21veAEi3eGzS8WGk5qgLiIEg8KabC7vztfqJ4dZ+m8a49IKPuxr37J459i+rjnpFHAYKM=
+	t=1740974677; cv=none; b=r0H4CJzfg6M4uQ/wmDqElsfVTMcdE/hJ98/XyQImCgpVzXTjAK97wahHRTnix9FOnbUPGMS2Bsj62v5kcPSdZFQ7l4/Hdcm0LAoOBoZHw5PNjPlo6eLYbH+6DwjFiQ/QbUH2IQbNyp9UJ1IVGpUE1TZJUs6+Uhc15pcdkrQcPWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740974660; c=relaxed/simple;
-	bh=xTmsFFTPMW7yzBZ6opQWKAOUqr75ygkyYcYdzns8jNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkFc5GNpMWdwpU0Owh0hl4n3AZbLQk/bqVo4c7qgB8aUNmwQygaZ2rb4b/RIMi6weaIzmnID42CafM2U8jJjD0e6CqvrQX06TSYj95tGJfw/+sF6o2pChPQG/Ti/cX1dD5OELrgoHvSOS2jGUkJ3H4XBMCkhVF2ctqzalUCgPNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eaD08hZJ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1740974677; c=relaxed/simple;
+	bh=O8t81v+t3zErdDVgznqw67w5wP0XZ7VK+m02m3rJd4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uJOX5xYRJquB7UrBEnf6pVe2bEZX5WYIQlANhaLfar2/x8E7I4EUXlj74NLo8DCltXKIt9HcSQt1P5SxABOp5kBsmoc3zhA9MbOTrxCzuA3FJofFTlSRwArByQT9hRTHjX0MjpRcsAEMDtMwzLYvuiWyqpQ3tC4aCHAvaj3E7Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0KXU4wt; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eaD08hZJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0KXU4wt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740974658; x=1772510658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xTmsFFTPMW7yzBZ6opQWKAOUqr75ygkyYcYdzns8jNc=;
-  b=eaD08hZJJv7CzvjouPfDJfyolXEb4yLzAp/NoMrZ8T4SSnjYDBovpNe5
-   ocUtqI6lwPq6RGq5xOxBfRheQ8qjRA89uabwrFXQiRw4el8hKrqd+8F0N
-   ebpEXHwRkx346TZul+aVTogT/xELmso1wfwwjptkBQpolYnnUe9G5IXv/
-   nOxp3Dhi3RcT/PWgGO3in7XqZVImYcHCjDhwJf1uew/1xyVLwGV6lOJg4
-   9hmSkXfa7Zp1Gz2zBTYDx+KPWZo5MRXu166jo1ajHLoi3RPBn/wOy8w5M
-   XRPf/wmEY+z0GjX9Wb4b3RMVAIUXZZ/FlJeKaSVhpfAGtYSsCenaPsqpQ
-   A==;
-X-CSE-ConnectionGUID: L7tlCu4BQ+GNERZs5CJlOg==
-X-CSE-MsgGUID: jLxFG+WZRyettHQM7yd0xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41685673"
+  t=1740974676; x=1772510676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O8t81v+t3zErdDVgznqw67w5wP0XZ7VK+m02m3rJd4U=;
+  b=H0KXU4wt3vzAJ+NGqPBpsxejeFuJC5RMNSMpMTMmGD3naPsudqM4AgA+
+   GoheYhmRoVBKAv2cROW+DlfucWNMKD1pqmt423ajhx4Oddoh1O/67ZYuT
+   X8t3j3pqv4gIU6Bd17aG5ZNpr2LbcQvp5o+iOjQvPYNl6TWx84Ec0uRKt
+   gVGxNBW3VYPrCuTennroCDgZL4aD51Djvq0BCVDRsySjInanQ8pAGLI+Y
+   hdwTo0Wn7PGtAGwBkz22EtohkAQS6h4By+MmIo9xlRywmQzkyTvrCMGCn
+   GB0dlWnCEXjFJK8x7xM8eq06WOtOHb/wuxlkbEgbK5tJfcD+IxgLmV8+n
+   g==;
+X-CSE-ConnectionGUID: ywsi2X2NQAyhK44mkqRpmg==
+X-CSE-MsgGUID: o/5L6gmYQymjzDYCjbMGqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41011326"
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="41685673"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 20:04:17 -0800
-X-CSE-ConnectionGUID: xzikrXRvS8urZUNFUpH6Og==
-X-CSE-MsgGUID: tAMCDCDwQs6CqFpdO85Eow==
+   d="scan'208";a="41011326"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 20:04:35 -0800
+X-CSE-ConnectionGUID: cVDUIX6RQIibMFpct89eDw==
+X-CSE-MsgGUID: b49+Xso8QlWBClxDUz2uaw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="148796755"
+X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
+   d="scan'208";a="117634927"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Mar 2025 20:04:12 -0800
+  by orviesa009.jf.intel.com with ESMTP; 02 Mar 2025 20:04:33 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tox1f-000Hv1-2t;
-	Mon, 03 Mar 2025 04:03:46 +0000
-Date: Mon, 3 Mar 2025 12:03:10 +0800
+	id 1tox2H-000Hv3-2I;
+	Mon, 03 Mar 2025 04:04:17 +0000
+Date: Mon, 3 Mar 2025 12:03:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Armin Wolf <W_Armin@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mario Limonciello <superm1@kernel.org>,
-	Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
-	Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	"Cody T . -H . Chiu" <codyit@gmail.com>,
-	John Martens <johnfanv2@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] platform/x86: Add Lenovo Gamezone WMI Driver
-Message-ID: <202503031157.JXItpvLX-lkp@intel.com>
-References: <20250225220037.16073-3-derekjohn.clark@gmail.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 1/1] kernel/sched/fair.c:1679:22:
+ warning: no previous prototype for '__pick_first_entity'
+Message-ID: <202503031113.ykXCnEMv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,60 +61,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250225220037.16073-3-derekjohn.clark@gmail.com>
 
-Hi Derek,
+Hi Michael,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on amd-pstate/linux-next]
-[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.14-rc5 next-20250228]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-Add-lenovo-wmi-drivers-Documentation/20250226-060548
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
-patch link:    https://lore.kernel.org/r/20250225220037.16073-3-derekjohn.clark%40gmail.com
-patch subject: [PATCH v3 2/4] platform/x86: Add Lenovo Gamezone WMI Driver
-config: x86_64-randconfig-101-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031157.JXItpvLX-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031157.JXItpvLX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   413645820de6d715e23ec6200a3e5a469ec69672
+commit: 9372f9beab4213be5b70136fe15a6cdc3b034be3 [1/1] ck: sched: introduce group identity 'smt expeller'
+config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250303/202503031113.ykXCnEMv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031113.ykXCnEMv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031157.JXItpvLX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031113.ykXCnEMv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/platform/x86/lenovo-wmi.c:20:
->> drivers/platform/x86/lenovo-wmi.h:21:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-      21 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |         ^
-   include/linux/printk.h:391:9: note: previous definition is here
-     391 | #define pr_fmt(fmt) fmt
-         |         ^
-   1 warning generated.
---
-   In file included from drivers/platform/x86/lenovo-wmi-gamezone.c:20:
->> drivers/platform/x86/lenovo-wmi.h:21:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-      21 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-         |         ^
-   include/linux/printk.h:391:9: note: previous definition is here
-     391 | #define pr_fmt(fmt) fmt
-         |         ^
->> drivers/platform/x86/lenovo-wmi-gamezone.c:205:31: warning: unused variable 'profile' [-Wunused-variable]
-     205 |         enum platform_profile_option profile;
-         |                                      ^~~~~~~
-   2 warnings generated.
+>> kernel/sched/fair.c:1679:22: warning: no previous prototype for '__pick_first_entity' [-Wmissing-prototypes]
+    1679 | struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
+         |                      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'migrate_task_rq_fair':
+   kernel/sched/fair.c:8052:21: warning: variable 'min_vruntime' set but not used [-Wunused-but-set-variable]
+    8052 |                 u64 min_vruntime;
+         |                     ^~~~~~~~~~~~
 
 
-vim +/pr_fmt +21 drivers/platform/x86/lenovo-wmi.h
+vim +/__pick_first_entity +1679 kernel/sched/fair.c
 
-    20	
-  > 21	#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-    22	
+9372f9beab4213 kernel/sched/fair.c Michael Wang   2020-08-05  1678  
+029632fbb7b7c9 kernel/sched_fair.c Peter Zijlstra 2011-10-25 @1679  struct sched_entity *__pick_first_entity(struct cfs_rq *cfs_rq)
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1680  {
+b37e67a6c64803 kernel/sched/fair.c Michael Wang   2020-08-04  1681  	struct rb_node *left = id_rb_first_cached(cfs_rq);
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1682  
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1683  	if (!left)
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1684  		return NULL;
+f4b6755fb37595 kernel/sched_fair.c Peter Zijlstra 2008-11-04  1685  
+1e922847e9c480 kernel/sched/fair.c Peter Zijlstra 2021-05-31  1686  	return __node_2_se(left);
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1687  }
+bf0f6f24a1ece8 kernel/sched_fair.c Ingo Molnar    2007-07-09  1688  
+
+:::::: The code at line 1679 was first introduced by commit
+:::::: 029632fbb7b7c9d85063cc9eb470de6c54873df3 sched: Make separate sched*.c translation units
+
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
