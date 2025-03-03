@@ -1,95 +1,59 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000991EDA22
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 22:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7571EEA2A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 22:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741040226; cv=none; b=iCYkz7L7cdUu3BKFjsHOPeIRlf8g3kdcy0y68GLS14zdboc6NvZ0+Qeg4PiefgAVwWwCQSBMy65BCnGirkbJCoR8jipqlbwNd3Sg4vxTZtTw1uIDmx+NrEFHMAzOXWXmBUch6bLZre56ql8rY9C0lwwVJWhHj4EQqxoM2acQrVo=
+	t=1741042068; cv=none; b=WCANnOIj2du+4dVvmWdnjHpnZQwQFt+hu0zWV6FeNbsH7TAwRbpz832ak02zMhE6QUXpZiAYJ7lnD4myD1BGrRxb6RFd1n4XRVUM2fOtIW37bmnotX+Gdw+6Gyb3KutFseFLDh0410+h0kT2IUqEWUR+l5I5mpGUy++jAHbVTfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741040226; c=relaxed/simple;
-	bh=Pu+2gPAMyjcIfhSxV1ioycn2jbZK7PVy105ahAQg0Aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TkdqtR1IO4IgqYAiWpgPM4OyvELVUlvida8e+C1j3qkkYwDr2tbhOhOOd0wEB4pAqj+aAJtrztIiA8wddIIiu8gA7sghPdLQL+xnS++PB5/1IQgDBshCYwCejFIiYOvyPgXT3wZ0U3FtsJf6JHN4tWA41CnBssYnIntiZkINohE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zbw3Z71u; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741042068; c=relaxed/simple;
+	bh=em8abUujTT2dmvVmxpFVeiQbJ4Mx4F4GYkhSH97xz/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FZ5ZV6jhMXXh/p33VfC1nUD6uBcxxshel98Ukt9htNv2hQuHPmfMKEg2wh+LX2RMVFMEq4SaI87VXQSG3NYsKVaRkHplJoJ86IE5Qit9fGYhhmCxVG0O1qzv5q58tTWBNxDrR5E4GW91MVCCLAhl0hSG1AB0xvK3RnmBIFnIPZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdHwE3y9; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zbw3Z71u"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-223722270b7so20585ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 03 Mar 2025 14:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741040224; x=1741645024; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y2g5LjnoCgSVPYj+V0KyZ1ldqlVr5HdI2cHTBekjJ8s=;
-        b=zbw3Z71uE+CEr7M3DwIuw3c5BYMPx+sZWiWYcFjf3AhGgc0mVLZT7KLBHm5COJrntf
-         uK8bfmR6zsbw2khRxAeeIT0ljATVOOoJjo3n/dSoA0wN0OXmc5YnI7zVIwbqxc9zalb1
-         qcOBjPuWU8F6Vbs+6IKgHvZ2mJKS+FOel0ut4HBc24qNcH7MkJhX68+e0nfxo+K2ChdE
-         /wIVU8TF/Gg7V0CaGsLAcx0cXx2afVD1viTS4WvqlESlf1QMFqzRhInRNApwyqRIFy6f
-         L8NaTdJFNpG2+W9m3nmHBBsW0KoZNWDjtBMyEb6ZR/4+Zsqa+xHUeikQ2xZpmNsxpUVA
-         4gnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741040224; x=1741645024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y2g5LjnoCgSVPYj+V0KyZ1ldqlVr5HdI2cHTBekjJ8s=;
-        b=LmbzSh95Wyr/hS08Au25JjDHDaa3rou/qfz6LXryB8SOYX5fO1gbsFxNIIasEkohR7
-         ykyYeHTTwbW82BmGvtCrwfXbIYQckn75tw1pGuZn+cknDEnMmLgcEOASP8ZHbVNi+Np9
-         z44vbNmTA+fhhsN9ecWclVir1IfUutcXal2qTITJSyCU0s7eBFFNOVrknSeoGgQxUmGP
-         PVQF0fp9HLGXSOg+ZtkU7fzA0yWp+f+6SKBom6zoFkrNZPa0vXeab/8pEHDV09t9Pwkj
-         RyfC6KM3dRCkWQoiB2dkrGAOGKGcZmm0oubPAgP06a3IXuIY6RyG720APlacSOJ9l5S4
-         ESJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0D1rgI6Jkqtgi0CMrYfVI2+in02keuHtXO0tGSk28mDMs+28QI2KcX1QqY96JlEsueC/3+vU/bOQVV18w@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5tB4qyhci/szUYOJOCeSyJ0A1BrAEe8L94rkBzzNmPOnTtBxz
-	rvXOPh+wSjcQkn3fEM1Z9SDsEvXL8aMFeYDTjTARkvlKXHuCzoyZh5mFsd7K6Q==
-X-Gm-Gg: ASbGncspQ2bg54y5EAr5yM7dI/0quIgEKy1Nj/sYJ25RRDlP7+gVPR2QR0XFvMEON2U
-	woQe7otGMhKFfCDiCBXjkoiLIHsLc5E+p4WWeA0tiHjs+WnQPuO8uouoxTHozfLbBMBGbGI3ki5
-	E7lJw+/yKraF/YcFZZqMTPc4nG6tkkBiwmTokhka20LlWLp6LCyHwEPXc2gGDSVFeFP/7KZprcK
-	AgOONsUq+Io4ZDsWxGAwL/wKHLfIWcnfU4UBPCoJauL0DtduOQmewTCRXEJIFpASV4DTgjDaMRT
-	err7dkoekhb226N/be0O5yxeTYZ9eP6HF4IuPg9ZqI3uyzIg0i5VXgZh8qyWtRDmmlrSXAqPi+h
-	SE0wNCKc=
-X-Google-Smtp-Source: AGHT+IEoTfo4TNw4P4ewmD3fmkA6z28ycidagkXgXZhflGUxyOEfcxd5Zz7ComAIMQ04cJm1JLLsvw==
-X-Received: by 2002:a17:902:f7d2:b0:20c:f40e:6ec3 with SMTP id d9443c01a7336-223d9e6616cmr720025ad.22.1741040224035;
-        Mon, 03 Mar 2025 14:17:04 -0800 (PST)
-Received: from google.com (147.141.16.34.bc.googleusercontent.com. [34.16.141.147])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-734d444a9fasm7386454b3a.60.2025.03.03.14.17.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 14:17:03 -0800 (PST)
-Date: Mon, 3 Mar 2025 22:16:57 +0000
-From: Peilin Ye <yepeilin@google.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	oe-kbuild-all@lists.linux.dev, bpf@ietf.org,
-	Alexei Starovoitov <ast@kernel.org>,
-	Xu Kuohai <xukuohai@huaweicloud.com>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	David Vernet <void@manifault.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Puranjay Mohan <puranjay@kernel.org>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Quentin Monnet <qmo@kernel.org>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>
-Subject: Re: [PATCH bpf-next v4 04/10] bpf: Introduce load-acquire and
- store-release instructions
-Message-ID: <Z8YqWQuyArxCQWeD@google.com>
-References: <2c82b29f3530b961b41f94a4942e490ab35a31c8.1740978603.git.yepeilin@google.com>
- <202503031631.OeUhVRHz-lkp@intel.com>
- <CAADnVQLLhNRmpjwDYHB0-59TDrGcgXzqSkop+-5eHYsG-Ws08Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdHwE3y9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741042066; x=1772578066;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=em8abUujTT2dmvVmxpFVeiQbJ4Mx4F4GYkhSH97xz/c=;
+  b=CdHwE3y9Gb2PMwHtWPNPbZibii0F/3NROCSktidIhacppnrYyK3AkEEB
+   gYV5A5A1UazosnvSgzIwANpJqsMNPcBeF8WIzg3AOQqY1Krok2v95tlvc
+   5p7oc49ArUpdMQOI45LiXkOqx0L1gG9+6suZYJLz0upuqRVGD4xfZC9Qb
+   fugC8lGgGAW30RJP+KXiBA3JKIKOv/Dn1zKCdpU0ZSanfGq9uSgCFdFrK
+   VR6VPdWkUP0KhycKTpMRaIw5+hZrAFlX5xRX0BukRKc1zJAIDumCXZwiL
+   XFh756JSDyb0Ak75gtpiecVBy+cQt2ZmkNVa1sdhmNu6k7vpFc8DQd0Yu
+   A==;
+X-CSE-ConnectionGUID: Y6vsxRAVTneuH6BrZQOwFA==
+X-CSE-MsgGUID: v/P+NA41Q6CQwFJl5/iZcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="42058930"
+X-IronPort-AV: E=Sophos;i="6.13,330,1732608000"; 
+   d="scan'208";a="42058930"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 14:47:45 -0800
+X-CSE-ConnectionGUID: DaY/GhiPRoSuPRsytY7oTA==
+X-CSE-MsgGUID: Qh3MUMtOQASPfguyhsJyqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149096996"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 03 Mar 2025 14:47:44 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpEZZ-000J0K-32;
+	Mon, 03 Mar 2025 22:47:41 +0000
+Date: Tue, 4 Mar 2025 06:46:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 59/89] drivers/irqchip/irq-renesas-rzg2l.c:578:47:
+ error: passing argument 4 of 'irq_domain_create_hierarchy' from incompatible
+ pointer type
+Message-ID: <202503040638.Z7Qq1VS5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -98,75 +62,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAADnVQLLhNRmpjwDYHB0-59TDrGcgXzqSkop+-5eHYsG-Ws08Q@mail.gmail.com>
 
-On Mon, Mar 03, 2025 at 10:43:07AM -0800, Alexei Starovoitov wrote:
-> > compiler: arc-elf-gcc (GCC) 13.2.0
-> 
-> ...
-> 
-> >    kernel/bpf/core.c:2228:25: note: in expansion of macro 'LOAD_ACQUIRE'
-> >     2228 |                         LOAD_ACQUIRE(DW, u64)
-> >          |                         ^~~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   2e34f839068291b65952cdcabb82b977d40d165c
+commit: d6c501a336104227712b722d4549298e70ea8b02 [59/89] drop irq_domain_add_hierarchy
+config: x86_64-buildonly-randconfig-003-20250304 (https://download.01.org/0day-ci/archive/20250304/202503040638.Z7Qq1VS5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040638.Z7Qq1VS5-lkp@intel.com/reproduce)
 
-*facepalm*
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503040638.Z7Qq1VS5-lkp@intel.com/
 
-> Peilin,
-> 
-> how do you plan on fixing this?
-> So far I could only think of making compilation conditional for CONFIG_64BIT
-> and let the verifier reject these insns on 32-bit arches.
+All errors (new ones prefixed by >>):
 
-Agreed - after searching for "Need native word sized stores/loads for
-atomicity." on lore, it appears that we can't have 64-bit
-smp_{load_acquire,store_release}() on 32-bit arches.  My draft fix is:
+   drivers/irqchip/irq-renesas-rzg2l.c: In function 'rzg2l_irqc_common_init':
+>> drivers/irqchip/irq-renesas-rzg2l.c:578:47: error: passing argument 4 of 'irq_domain_create_hierarchy' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     578 |                                               node, &rzg2l_irqc_domain_ops,
+         |                                               ^~~~
+         |                                               |
+         |                                               struct device_node *
+   In file included from include/linux/of_irq.h:8,
+                    from include/linux/irqchip.h:17,
+                    from drivers/irqchip/irq-renesas-rzg2l.c:15:
+   include/linux/irqdomain.h:595:67: note: expected 'struct fwnode_handle *' but argument is of type 'struct device_node *'
+     595 |                                             struct fwnode_handle *fwnode,
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   cc1: some warnings being treated as errors
 
-diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
-index 323af18d7d49..6df1d3e379a4 100644
---- a/kernel/bpf/core.c
-+++ b/kernel/bpf/core.c
-@@ -2225,7 +2225,9 @@ static u64 ___bpf_prog_run(u64 *regs, const struct bpf_insn *insn)
-                        LOAD_ACQUIRE(B,   u8)
-                        LOAD_ACQUIRE(H,  u16)
-                        LOAD_ACQUIRE(W,  u32)
-+#ifdef CONFIG_64BIT
-                        LOAD_ACQUIRE(DW, u64)
-+#endif
- #undef LOAD_ACQUIRE
-                        default:
-                                goto default_label;
-@@ -2241,7 +2243,9 @@ static u64 ___bpf_prog_run(u64 *regs, const struct bpf_insn *insn)
-                        STORE_RELEASE(B,   u8)
-                        STORE_RELEASE(H,  u16)
-                        STORE_RELEASE(W,  u32)
-+#ifdef CONFIG_64BIT
-                        STORE_RELEASE(DW, u64)
-+#endif
- #undef STORE_RELEASE
-                        default:
-                                goto default_label;
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index dac7af73ac8a..d0e4c6bab37d 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -7814,8 +7814,16 @@ static int check_atomic(struct bpf_verifier_env *env, struct bpf_insn *insn)
-        case BPF_CMPXCHG:
-                return check_atomic_rmw(env, insn);
-        case BPF_LOAD_ACQ:
-+               if (BPF_SIZE(insn->code) == BPF_DW && BITS_PER_LONG != 64) {
-+                       verbose(env, "64-bit load-acquire is only supported on 64-bit arches\n");
-+                       return -ENOTSUPP;
-+               }
-                return check_atomic_load(env, insn);
-        case BPF_STORE_REL:
-+               if (BPF_SIZE(insn->code) == BPF_DW && BITS_PER_LONG != 64) {
-+                       verbose(env, "64-bit store-release is only supported on 64-bit arches\n");
-+                       return -ENOTSUPP;
-+               }
-                return check_atomic_store(env, insn);
-        default:
-                verbose(env, "BPF_ATOMIC uses invalid atomic opcode %02x\n",
 
-Thanks,
-Peilin Ye
+vim +/irq_domain_create_hierarchy +578 drivers/irqchip/irq-renesas-rzg2l.c
 
+3fed09559cd8be Lad Prabhakar     2022-07-07  530  
+d011c022efe275 Lad Prabhakar     2024-06-04  531  static int rzg2l_irqc_common_init(struct device_node *node, struct device_node *parent,
+d011c022efe275 Lad Prabhakar     2024-06-04  532  				  const struct irq_chip *irq_chip)
+3fed09559cd8be Lad Prabhakar     2022-07-07  533  {
+d038109ac1c6bf Fabrizio Castro   2024-10-11  534  	struct platform_device *pdev = of_find_device_by_node(node);
+d038109ac1c6bf Fabrizio Castro   2024-10-11  535  	struct device *dev __free(put_device) = pdev ? &pdev->dev : NULL;
+3fed09559cd8be Lad Prabhakar     2022-07-07  536  	struct irq_domain *irq_domain, *parent_domain;
+3fed09559cd8be Lad Prabhakar     2022-07-07  537  	struct reset_control *resetn;
+3fed09559cd8be Lad Prabhakar     2022-07-07  538  	int ret;
+3fed09559cd8be Lad Prabhakar     2022-07-07  539  
+3fed09559cd8be Lad Prabhakar     2022-07-07  540  	if (!pdev)
+3fed09559cd8be Lad Prabhakar     2022-07-07  541  		return -ENODEV;
+3fed09559cd8be Lad Prabhakar     2022-07-07  542  
+3fed09559cd8be Lad Prabhakar     2022-07-07  543  	parent_domain = irq_find_host(parent);
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  544  	if (!parent_domain)
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  545  		return dev_err_probe(dev, -ENODEV, "cannot find parent domain\n");
+3fed09559cd8be Lad Prabhakar     2022-07-07  546  
+dd4e17c309445e Fabrizio Castro   2025-02-12  547  	rzg2l_irqc_data = devm_kzalloc(dev, sizeof(*rzg2l_irqc_data), GFP_KERNEL);
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  548  	if (!rzg2l_irqc_data)
+3fed09559cd8be Lad Prabhakar     2022-07-07  549  		return -ENOMEM;
+3fed09559cd8be Lad Prabhakar     2022-07-07  550  
+d011c022efe275 Lad Prabhakar     2024-06-04  551  	rzg2l_irqc_data->irqchip = irq_chip;
+d011c022efe275 Lad Prabhakar     2024-06-04  552  
+dd4e17c309445e Fabrizio Castro   2025-02-12  553  	rzg2l_irqc_data->base = devm_of_iomap(dev, dev->of_node, 0, NULL);
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  554  	if (IS_ERR(rzg2l_irqc_data->base))
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  555  		return PTR_ERR(rzg2l_irqc_data->base);
+3fed09559cd8be Lad Prabhakar     2022-07-07  556  
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  557  	ret = rzg2l_irqc_parse_interrupts(rzg2l_irqc_data, node);
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  558  	if (ret)
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  559  		return dev_err_probe(dev, ret, "cannot parse interrupts: %d\n", ret);
+3fed09559cd8be Lad Prabhakar     2022-07-07  560  
+78f384dad082af Fabrizio Castro   2025-02-12  561  	resetn = devm_reset_control_get_exclusive_deasserted(dev, NULL);
+78f384dad082af Fabrizio Castro   2025-02-12  562  	if (IS_ERR(resetn)) {
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  563  		return dev_err_probe(dev, PTR_ERR(resetn),
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  564  				     "failed to acquire deasserted reset: %d\n", ret);
+3fed09559cd8be Lad Prabhakar     2022-07-07  565  	}
+3fed09559cd8be Lad Prabhakar     2022-07-07  566  
+7de11369ef3037 Fabrizio Castro   2025-02-12  567  	ret = devm_pm_runtime_enable(dev);
+0699e578e27910 Fabrizio Castro   2025-02-12  568  	if (ret)
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  569  		return dev_err_probe(dev, ret, "devm_pm_runtime_enable failed: %d\n", ret);
+7de11369ef3037 Fabrizio Castro   2025-02-12  570  
+dd4e17c309445e Fabrizio Castro   2025-02-12  571  	ret = pm_runtime_resume_and_get(dev);
+0699e578e27910 Fabrizio Castro   2025-02-12  572  	if (ret)
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  573  		return dev_err_probe(dev, ret, "pm_runtime_resume_and_get failed: %d\n", ret);
+3fed09559cd8be Lad Prabhakar     2022-07-07  574  
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  575  	raw_spin_lock_init(&rzg2l_irqc_data->lock);
+3fed09559cd8be Lad Prabhakar     2022-07-07  576  
+d6c501a3361042 Jiri Slaby (SUSE  2025-03-03  577) 	irq_domain = irq_domain_create_hierarchy(of_fwnode_handle(parent_domain), 0, IRQC_NUM_IRQ,
+3fed09559cd8be Lad Prabhakar     2022-07-07 @578  					      node, &rzg2l_irqc_domain_ops,
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  579  					      rzg2l_irqc_data);
+3fed09559cd8be Lad Prabhakar     2022-07-07  580  	if (!irq_domain) {
+bec8a371294328 Fabrizio Castro   2025-02-12  581  		pm_runtime_put(dev);
+4bd0317ce63c26 Fabrizio Castro   2025-02-12  582  		return dev_err_probe(dev, -ENOMEM, "failed to add irq domain\n");
+3fed09559cd8be Lad Prabhakar     2022-07-07  583  	}
+3fed09559cd8be Lad Prabhakar     2022-07-07  584  
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  585  	register_syscore_ops(&rzg2l_irqc_syscore_ops);
+74d2ef5f6f4b24 Claudiu Beznea    2023-11-20  586  
+d038109ac1c6bf Fabrizio Castro   2024-10-11  587  	/*
+d038109ac1c6bf Fabrizio Castro   2024-10-11  588  	 * Prevent the cleanup function from invoking put_device by assigning
+d038109ac1c6bf Fabrizio Castro   2024-10-11  589  	 * NULL to dev.
+d038109ac1c6bf Fabrizio Castro   2024-10-11  590  	 *
+d038109ac1c6bf Fabrizio Castro   2024-10-11  591  	 * make coccicheck will complain about missing put_device calls, but
+d038109ac1c6bf Fabrizio Castro   2024-10-11  592  	 * those are false positives, as dev will be automatically "put" via
+d038109ac1c6bf Fabrizio Castro   2024-10-11  593  	 * __free_put_device on the failing path.
+d038109ac1c6bf Fabrizio Castro   2024-10-11  594  	 * On the successful path we don't actually want to "put" dev.
+d038109ac1c6bf Fabrizio Castro   2024-10-11  595  	 */
+d038109ac1c6bf Fabrizio Castro   2024-10-11  596  	dev = NULL;
+d038109ac1c6bf Fabrizio Castro   2024-10-11  597  
+3fed09559cd8be Lad Prabhakar     2022-07-07  598  	return 0;
+3fed09559cd8be Lad Prabhakar     2022-07-07  599  }
+3fed09559cd8be Lad Prabhakar     2022-07-07  600  
+
+:::::: The code at line 578 was first introduced by commit
+:::::: 3fed09559cd8be79568d368ce02bf7f2d56259b6 irqchip: Add RZ/G2L IA55 Interrupt Controller driver
+
+:::::: TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+:::::: CC: Marc Zyngier <maz@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
