@@ -1,58 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A9F13A3F7
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Mar 2025 03:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94A8156237;
+	Mon,  3 Mar 2025 03:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740971954; cv=none; b=kMc6HD4KgyMA0v4u9SZB/xkqehuPhBrbYfWkv/tbnhn4Meuq+vbwPQ9nQ0VHyD7gmI4nXlYhqdPJFKbJZsh4haTbwyzGk2pe/yXY7Z/6H3F2AwlNKQO7Tf/97VCKs/Y1N5n9CHyNlicJdkxG48+TFUV+LMH7ifUcZ/2tY9QweIs=
+	t=1740971956; cv=none; b=SAQZny/ctNV9GNpr0cl+HXgCKxjA1NhharvvlR+IQJBmdGqkxMUjozvjh8sR53D9IwVPUBhiaAZbAAMKp3wmV9vcjGgxwwMgGx+lGRni1AfStdaweyJz9f8t4pZjImbreL9rISeZh77E7A8vNdGaQkX9lc93dGYnW3sc4aaKF7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740971954; c=relaxed/simple;
-	bh=bGekzdwqgPEk5zrUQRIWHjCZAMNx+sOVBFYRtSMmbmA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MaeUrZIyVcomreC1p89ynNhhpoPp7NEqJwb3J+55+aJBV3prKDB97McVoMqZ8Ip46VlSI9DM9lQAUx1wU3YOsp+i9BmDvJdLdM347Pl2cGUSiqRPnpO+hU1x62rvW8s5gw4gFJykXB0JxhlabRUrW21TnnqCQFKgeFzoUec3sq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXFLbUDr; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1740971956; c=relaxed/simple;
+	bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rzdjnoj9ZcGl8gtT9gutwYvAjhl0IL8EeGG1o9SbkzARLAg9bB+I6CjamqOMIzPBJ0r4oNmQKnZO03Z4Gd1cH4pB+0wAJhU27Fwaa4EkN76nBvXFNmKerrBoySDQ4/Zsulmwo1uYEiWMFcyXZtDSp0WV1JrPaMc2nJ8Iowo9r1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkQaCxBB; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXFLbUDr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkQaCxBB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740971953; x=1772507953;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bGekzdwqgPEk5zrUQRIWHjCZAMNx+sOVBFYRtSMmbmA=;
-  b=KXFLbUDrrcAGT/54TpAAALGyPudwfe69gJbE/d4sFkqpsv8i5VVkS0Tk
-   BP7y4FKrBrCoVcZKpLkgyFChGTKe9+S1Q+vC5W7qqGXwz/Pps3pWUkPbn
-   qRkX0NzAyEZjRTeSksYOoFUFlc9+afLm/LNf7/w+FZ9+RVeWjLz3ysdK5
-   Bn63DHgNReHLqVa8iuS4A7sO8gCXWdpebnTbMobNorC6JQ983ggDgL00S
-   pn1IFtR/K2MMQ3KkIpxIkoltjyBHM2X9E0PRHtNFZaRq7+Oq0ExwmBUe5
-   SCbWU6xS1reG044zWuOKZP0guGLWJxv2MIxkYyejR7gIl2Xsw3lOy9pE/
+  t=1740971954; x=1772507954;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
+  b=JkQaCxBBHYIVC45+g18FmZOdDnXEsgXy5pu0TwGjzw00jcU0vVLVvu1F
+   fui3IsdBWcOgxf985TT1kEdykPDGJQkckYqS8ux9hvo1RbmwgY6oFV5Ug
+   A9o7zVGfU7S3sBuTI82SrwD+hsarvFm6Mmh85P4IhloXNULa47UYvNmm1
+   R7XcqomMDfsuj9bW5nEapviiHHgqXKgfAONtLpZXzraYSTwb64w1gkbYR
+   QKwbzgsbr5XuSZyb5KeHHGrUcUlsUgzyu4oZ76c9EgjBH0uLv9p4LBfs1
+   xTkPks25p6ffmu8nVLQyU3AiZQeDyZNap+w6nlt6WhZ6IGPje5gYHLLzd
    g==;
-X-CSE-ConnectionGUID: YO0E1EStTqmfIMHb9HNd1w==
-X-CSE-MsgGUID: oaU+x07vQViK+hVvKizykw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="45761591"
+X-CSE-ConnectionGUID: i2PPGNDESciMCllAQlBPOQ==
+X-CSE-MsgGUID: NOYno1H0Qo2NgHp1faMWgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="45761602"
 X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="45761591"
+   d="scan'208";a="45761602"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 19:19:12 -0800
-X-CSE-ConnectionGUID: b6Sno7zqRTaeJNYQ4MaOkw==
-X-CSE-MsgGUID: s04uI0F7RrKWt2yEQJs0WQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 19:19:13 -0800
+X-CSE-ConnectionGUID: K6c59+FjQxiurRjuHKDVCw==
+X-CSE-MsgGUID: nL3hLtZISvanyYlJjmZreQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122012074"
+   d="scan'208";a="122012073"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2025 19:19:11 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1towKi-000HsH-2c;
+	id 1towKi-000HsF-2X;
 	Mon, 03 Mar 2025 03:19:08 +0000
-Date: Mon, 3 Mar 2025 11:19:00 +0800
+Date: Mon, 3 Mar 2025 11:19:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:futex/scope 17/18] kernel/futex/core.c:1446:50:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202503031149.k8qLAZoI-lkp@intel.com>
+To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
+	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+Subject: Re: [PATCH] staging: most: Remove unused spinlock from most_video_dev
+Message-ID: <202503031028.7ZRlzYcI-lkp@intel.com>
+References: <20250221163444.57492-3-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,103 +66,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250221163444.57492-3-kumarkairiravi@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git futex/scope
-head:   b37932a2988afdd932334774c6e7536f5f5e1f70
-commit: 44bcbe5284e76b0a4b74d43190d136d0ec0cb471 [17/18] futex: Untangle and naming
-config: arc-randconfig-r111-20250303 (https://download.01.org/0day-ci/archive/20250303/202503031149.k8qLAZoI-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250303/202503031149.k8qLAZoI-lkp@intel.com/reproduce)
+Hi Ravi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-spinlock-from-most_video_dev/20250222-004552
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250221163444.57492-3-kumarkairiravi%40gmail.com
+patch subject: [PATCH] staging: most: Remove unused spinlock from most_video_dev
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031149.k8qLAZoI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031028.7ZRlzYcI-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/futex/core.c:193:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct futex_private_hash *fph @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:193:13: sparse:     expected struct futex_private_hash *fph
-   kernel/futex/core.c:193:13: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
-   kernel/futex/core.c:1402:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *addr @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:1402:18: sparse:     expected void const *addr
-   kernel/futex/core.c:1402:18: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
->> kernel/futex/core.c:1446:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct futex_private_hash *fph @@     got struct futex_private_hash [noderef] __rcu *futex_phash @@
-   kernel/futex/core.c:1446:50: sparse:     expected struct futex_private_hash *fph
-   kernel/futex/core.c:1446:50: sparse:     got struct futex_private_hash [noderef] __rcu *futex_phash
-   kernel/futex/core.c:1563:58: sparse: sparse: Using plain integer as NULL pointer
-   kernel/futex/core.c:838:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
+All errors (new ones prefixed by >>):
 
-vim +1446 kernel/futex/core.c
+>> drivers/staging/most/video/video.c:130:23: error: no member named 'list_lock' in 'struct most_video_dev'
+     130 |         spin_lock_irq(&mdev->list_lock);
+         |                        ~~~~  ^
+   drivers/staging/most/video/video.c:134:26: error: no member named 'list_lock' in 'struct most_video_dev'
+     134 |                 spin_unlock_irq(&mdev->list_lock);
+         |                                  ~~~~  ^
+   drivers/staging/most/video/video.c:136:24: error: no member named 'list_lock' in 'struct most_video_dev'
+     136 |                 spin_lock_irq(&mdev->list_lock);
+         |                                ~~~~  ^
+   drivers/staging/most/video/video.c:138:25: error: no member named 'list_lock' in 'struct most_video_dev'
+     138 |         spin_unlock_irq(&mdev->list_lock);
+         |                          ~~~~  ^
+   drivers/staging/most/video/video.c:191:25: error: no member named 'list_lock' in 'struct most_video_dev'
+     191 |                         spin_lock_irq(&mdev->list_lock);
+         |                                        ~~~~  ^
+   drivers/staging/most/video/video.c:193:27: error: no member named 'list_lock' in 'struct most_video_dev'
+     193 |                         spin_unlock_irq(&mdev->list_lock);
+         |                                          ~~~~  ^
+   drivers/staging/most/video/video.c:392:27: error: no member named 'list_lock' in 'struct most_video_dev'
+     392 |         spin_lock_irqsave(&mdev->list_lock, flags);
+         |                            ~~~~  ^
+   include/linux/spinlock.h:381:39: note: expanded from macro 'spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |                                              ^~~~
+   include/linux/spinlock.h:244:34: note: expanded from macro 'raw_spin_lock_irqsave'
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                                                ^~~~
+   drivers/staging/most/video/video.c:394:33: error: no member named 'list_lock' in 'struct most_video_dev'
+     394 |                 spin_unlock_irqrestore(&mdev->list_lock, flags);
+         |                                         ~~~~  ^
+   drivers/staging/most/video/video.c:399:32: error: no member named 'list_lock' in 'struct most_video_dev'
+     399 |         spin_unlock_irqrestore(&mdev->list_lock, flags);
+         |                                 ~~~~  ^
+   drivers/staging/most/video/video.c:477:24: error: no member named 'list_lock' in 'struct most_video_dev'
+     477 |         spin_lock_init(&mdev->list_lock);
+         |                         ~~~~  ^
+   include/linux/spinlock.h:335:38: note: expanded from macro 'spin_lock_init'
+     335 |         __raw_spin_lock_init(spinlock_check(lock),              \
+         |                                             ^~~~
+   10 errors generated.
 
-  1404	
-  1405	static int futex_hash_allocate(unsigned int hash_slots)
-  1406	{
-  1407		struct futex_private_hash *fph, *hb_tofree = NULL;
-  1408		struct mm_struct *mm = current->mm;
-  1409		size_t alloc_size;
-  1410		int i;
-  1411	
-  1412		if (hash_slots == 0)
-  1413			hash_slots = 16;
-  1414		hash_slots = clamp(hash_slots, 2, futex_hashmask + 1);
-  1415		if (!is_power_of_2(hash_slots))
-  1416			hash_slots = rounddown_pow_of_two(hash_slots);
-  1417	
-  1418		if (unlikely(check_mul_overflow(hash_slots, sizeof(struct futex_hash_bucket),
-  1419						&alloc_size)))
-  1420			return -ENOMEM;
-  1421	
-  1422		if (unlikely(check_add_overflow(alloc_size, sizeof(struct futex_private_hash),
-  1423						&alloc_size)))
-  1424			return -ENOMEM;
-  1425	
-  1426		fph = kvmalloc(alloc_size, GFP_KERNEL_ACCOUNT);
-  1427		if (!fph)
-  1428			return -ENOMEM;
-  1429	
-  1430		rcuref_init(&fph->users, 1);
-  1431		fph->hash_mask = hash_slots - 1;
-  1432	
-  1433		for (i = 0; i < hash_slots; i++)
-  1434			futex_hash_bucket_init(&fph->queues[i], fph);
-  1435	
-  1436		scoped_guard(mutex, &mm->futex_hash_lock) {
-  1437			if (mm->futex_phash && !mm->futex_phash_new) {
-  1438				/*
-  1439				 * If we have an existing hash, but do not yet have
-  1440				 * allocated a replacement hash, drop the initial
-  1441				 * reference on the existing hash.
-  1442				 *
-  1443				 * Ignore the return value; removal is serialized by
-  1444				 * mm->futex_hash_lock which we currently hold.
-  1445				 */
-> 1446				futex_private_hash_put(mm->futex_phash);
-  1447			}
-  1448	
-  1449			if (mm->futex_phash_new) {
-  1450				/*
-  1451				 * If we already have a replacement hash pending;
-  1452				 * keep the larger hash.
-  1453				 */
-  1454				if (mm->futex_phash_new->hash_mask <= fph->hash_mask) {
-  1455					hb_tofree = mm->futex_phash_new;
-  1456				} else {
-  1457					hb_tofree = fph;
-  1458					fph = mm->futex_phash_new;
-  1459				}
-  1460				mm->futex_phash_new = NULL;
-  1461			}
-  1462	
-  1463			/*
-  1464			 * Will set mm->futex_phash_new on failure;
-  1465			 * futex_get_private_hash() will try again.
-  1466			 */
-  1467			__futex_pivot_hash(mm, fph);
-  1468		}
-  1469		kvfree(hb_tofree);
-  1470		return 0;
-  1471	}
-  1472	
+
+vim +130 drivers/staging/most/video/video.c
+
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  114  
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  115  static int comp_vdev_close(struct file *filp)
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  116  {
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  117  	struct comp_fh *fh = filp->private_data;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  118  	struct most_video_dev *mdev = fh->mdev;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  119  	struct mbo *mbo, *tmp;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  120  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  121  	/*
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  122  	 * We need to put MBOs back before we call most_stop_channel()
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  123  	 * to deallocate MBOs.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  124  	 * From the other hand mostcore still calling rx_completion()
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  125  	 * to deliver MBOs until most_stop_channel() is called.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  126  	 * Use mute to work around this issue.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  127  	 * This must be implemented in core.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  128  	 */
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  129  
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06 @130  	spin_lock_irq(&mdev->list_lock);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  131  	mdev->mute = true;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  132  	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  133  		list_del(&mbo->list);
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  134  		spin_unlock_irq(&mdev->list_lock);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  135  		most_put_mbo(mbo);
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  136  		spin_lock_irq(&mdev->list_lock);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  137  	}
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  138  	spin_unlock_irq(&mdev->list_lock);
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  139  	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  140  	mdev->mute = false;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  141  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  142  	v4l2_fh_del(&fh->fh);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  143  	v4l2_fh_exit(&fh->fh);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  144  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  145  	atomic_dec(&mdev->access_ref);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  146  	kfree(fh);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  147  	return 0;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  148  }
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  149  
 
 -- 
 0-DAY CI Kernel Test Service
