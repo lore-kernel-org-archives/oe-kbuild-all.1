@@ -1,208 +1,173 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0AC1FDE2F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680861FCF72
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741084295; cv=none; b=P0VwqtQRm2h5fDiNTxHLXRSgbAJ3ciKiee2Rju61ev3cOAKhaZUeKwFwqc4X+HH2ZiVomb8pmatwuYndCCFDfdV7rhIgDn+DXeCLa7g3qhp//g2rLq+k25tP3TFpVx2sQj6cGNRWkoaiZRQD0au8SZSAfSZQB5JEO423N1iagJk=
+	t=1741084980; cv=none; b=BT4gpMjhjusA2o1lb10yGzYSCIUmWwwbojphMJiEiCamJmoFB/v+WocTC3/EttygXYL29NNz7kXtQ1zpsMeujsxihwndA2aJCaHQchcbpSaUS/3JKxv8EgP+sVr9JoR20rzDqrcvfi4lHPJetwqlxVspOtihHoHG63OxtouPAPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741084295; c=relaxed/simple;
-	bh=rF2C6auBgJV7AjRE3Ax6vB5itQvl59SYFnbvSxRyHyM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hPHAsfFiLLDuspZvlEr5Neon3Z80QAC9Fb49c6S9gbtLAyWCQF4OvqwAwN1fCT4HQeB4+2sUQ8RVEuEyQrfBt7XOnooExdqiAwV93S1aDeqQRvLeV7o44gT9G9FcEihnyY6BGTPGOKScF5sbCZ9HbINVIpEvj7S+RzRZhfPYAJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LyQ5M6fk; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1741084980; c=relaxed/simple;
+	bh=c3TOkH6uh02rmb5l2+h82PafOh0VyOZdkMSc/8+K4f0=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eUBtHQWX3D+KnWOqvimH198cxHJbCOlBcn709UXHdob5AomrVSH75i8DW05XV6NK/l5unXVHBNINCnUrPBqSy+HNV/hT0s3UCKcn3RmI+zFVTNPU83oJs98Nfk+J1QhAcVtQLufhPJT1a/LB7JtVnWnHD1UGuRJD3V4YcxyV7Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oxl/sycy; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LyQ5M6fk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741084292;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=2tz6TMyA0N6NCq2/rWH70WazKmLg2E3Dc/ghxOZlw10=;
-	b=LyQ5M6fkSH1P7bvodTzlaePRYbKx1SP7enICTwIqpWwHqRlRgrUkl5+NGB2ruZCKD7zvkk
-	czhZyGLyIGVVgDDowWmUT+vBYkiaw1ok+DHil8mTvXbLXfNC7fAnEABV+nzTgrn1sCUUuX
-	VcyzXWHj/UBIY3qdVh8l9TrqA4QxNyA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-451-DhJOZYUMN4SU7qJjr282ig-1; Tue, 04 Mar 2025 05:31:31 -0500
-X-MC-Unique: DhJOZYUMN4SU7qJjr282ig-1
-X-Mimecast-MFC-AGG-ID: DhJOZYUMN4SU7qJjr282ig_1741084290
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43bcddbe609so3867835e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Mar 2025 02:31:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741084290; x=1741689090;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=2tz6TMyA0N6NCq2/rWH70WazKmLg2E3Dc/ghxOZlw10=;
-        b=nBE9YukJZnjvCIH6Pta2uz27JVJQItweZ96Mhp/kIxkil5jWWsdFn3g+0ctMBbRMTR
-         9sbmpQC2mgUjfceB1UagDhi5wc4fXNDjl345G0jgiydxskmBoMw54xkbvow9TBm100vE
-         EHvAFFI6+2Lo7HuWutPlfMVnUIqREaOXfOIPHciukuZdBQeOW8lXnTJgcy8xpDCdnKMM
-         68Hu7vw5fpYFelLi1kVfsjNNcwqWpjRKPeV6E6QGNdEF0i3I7BgK4vH6X44NE/B/tftD
-         bBlEDDS+PbsgPhTfRphybulsIyZHzzAD0Tx+pO7quqeYUJPnxrRZGya3G4fNWbm1+w49
-         MEEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVH6oPTgIvVRbuiMUHqbaEoQdSJKwD4AZDovAlqe8dtZKcWIbtMwtZFX9I9v378ztZXcF2YxBCC2ckP3tOP@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGN5fniXgzCb2Xa6jPgS2KoHq3bT675jVJSAytXtUtCsl9gzrE
-	WTVeEo0Z6ADG7RJDEQv1k/Imh+ywqajFJO1zQxGt0a7LlWvzwjGtkaWFnACE/Z5nnB+HxeUeyhP
-	T9Mt854z/bOP44WQMlsdyqWXtLBb4MxJnTE0Yi2v7BSoxkgnROAxZc5q5IUKFmPk=
-X-Gm-Gg: ASbGncs6Fn61NpK5X0ckaE6ddfT+Q0nb+Ym62od3dn89Ah1F79JypJfcdjexkhQyNBv
-	P/Qc0odmVPd6iuxjL3o08Fe/SZnHacF/KEFH4vap+ukRH3oQs0KffthyfNZte4KT948X3IAvtFN
-	T2htvieHMvcNWwRfOsy9Oftm3v++Se2uLjvBpkdvwQuYIRZnCHrHJuHC990N4ceKEQuSBWdCq/G
-	DfaA6TN9DDSvg5ButjpAN3W+vjYF0ZzrRxcGQsEWmuCqt9CtjKtbd/EdxNAoaWWULv4eggOaIQ9
-	lUtYS2aV5Cq1Nbs8807FOwfEwdVUV8jumDGdX5Xlyb4F2kXTwurVlOtU1gqdvW0sCTsrk49LUYH
-	Honw2ky3NlU2PXaURSj8MCKGYo2QmXOa16E9pe+vzYio=
-X-Received: by 2002:a05:600c:5246:b0:439:9a40:aa0b with SMTP id 5b1f17b1804b1-43bb64f1ce8mr77803365e9.25.1741084289805;
-        Tue, 04 Mar 2025 02:31:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGhx5a9icImnaIF02Wt+xXg7Hoa/VrMyDHYHv0PDJMMH5f23r/G82MrmbS+Q6U0/3D+w+AJVQ==
-X-Received: by 2002:a05:600c:5246:b0:439:9a40:aa0b with SMTP id 5b1f17b1804b1-43bb64f1ce8mr77803095e9.25.1741084289437;
-        Tue, 04 Mar 2025 02:31:29 -0800 (PST)
-Received: from ?IPV6:2003:cb:c736:1000:9e30:2a8a:cd3d:419c? (p200300cbc73610009e302a8acd3d419c.dip0.t-ipconnect.de. [2003:cb:c736:1000:9e30:2a8a:cd3d:419c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bcf9c7ac3sm512645e9.13.2025.03.04.02.31.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 02:31:29 -0800 (PST)
-Message-ID: <4dee3069-e782-4e37-a46a-ac3a9abb82fa@redhat.com>
-Date: Tue, 4 Mar 2025 11:31:27 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oxl/sycy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741084978; x=1772620978;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=c3TOkH6uh02rmb5l2+h82PafOh0VyOZdkMSc/8+K4f0=;
+  b=Oxl/sycyhCNHo9FuEl7QitfLiWdUWv9eIVqAZqsoMkTpC59mjPHLPN+7
+   Sj2czIIz1xHdnyM3w3fEaSw69Fp/lAdXXjJ882MP62xosvY+o8akE+O8r
+   5krDh0q3cyRRdksrQ+JCu0iGEqBi8C7BdP2OWqVbRacaEQTw938Mwuwz8
+   MYNJdQdqOcwie8t1pL4GLUinpNac/T+krUg1A+FMlXR854BxiklkJjyWL
+   +UeJMpfMU0TlWFi/jRfoa3als/MOx3kpA6pSYEfEVck/q9nbf/S1+hKdH
+   Dghq17OJmncXh9KCefzgufwqfUOZJsjuWOhpaAe7SQR6AYo6eziVx5kuQ
+   w==;
+X-CSE-ConnectionGUID: GlmoOOUeSXy+tFRHMQQUZg==
+X-CSE-MsgGUID: usr7QbUORgWh9MF7Af9eOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="53390792"
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="53390792"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 02:42:57 -0800
+X-CSE-ConnectionGUID: ttOvi9R7Swi558D9eBbZuQ==
+X-CSE-MsgGUID: sGeRI5zSSEaZfhUkdu5zlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="119028093"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Mar 2025 02:42:56 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpPjh-000JcQ-2H
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 04 Mar 2025 10:42:53 +0000
+Date: Tue, 4 Mar 2025 18:42:35 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] fs/cifs/smb2ops.c:1826: Error: unrecognized
+ opcode `csrs sstatus,a3', extension `zicsr' required
+Message-ID: <202503041857.mHsL0fyU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/page_alloc: Add lockdep assertion for pageblock type
- change
-To: Brendan Jackman <jackmanb@google.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>, kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
- <osalvador@suse.de>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org
-References: <20250227-pageblock-lockdep-v1-1-3701efb331bb@google.com>
- <202503010129.rJvGqZN1-lkp@intel.com> <20250228182804.GB120597@cmpxchg.org>
- <Z8WQEpv7BNtDDoH3@black.fi.intel.com>
- <20250304101357.66067dd3@canb.auug.org.au> <Z8bTZVYd0fJLbgl7@google.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <Z8bTZVYd0fJLbgl7@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RTUShZw-91A_AbzTqg-BWLFCjYcqW80MXVzFKbhmgPo_1741084290
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 04.03.25 11:18, Brendan Jackman wrote:
-> On Tue, Mar 04, 2025 at 10:13:57AM +1100, Stephen Rothwell wrote:
->> Hi Andy,
->>
->> On Mon, 3 Mar 2025 13:18:42 +0200 Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
->>>
->>> On Fri, Feb 28, 2025 at 01:28:04PM -0500, Johannes Weiner wrote:
->>>> On Sat, Mar 01, 2025 at 01:31:30AM +0800, kernel test robot wrote:
->>>
->>>> The patch is missing a dummy in_mem_hotplug() in the
->>>> !CONFIG_MEMORY_HOTPLUG section of <linux/memory_hotplug.h>.
->>>
->>> +1, I just stumbled over and this is not fixed in today's Linux Next. I'm
->>> wondering how this was missed during merge into Linux Next. Stephen?
->>
->> I just get what people put in their trees.  There are no conflicts
->> around this and none of my builds failed, so I didn't see the problem.
->> Has someone sent a fix patch to Andrew?  If so, if you forward it to
->> me, I will add it to linux-next today.
-> 
-> Andrew has backed it out of mm-unstable now. There's a v2 [0] which
-> still has runtime issues but AFAIK it's not in any tree yet.
-> 
-> [0] https://lore.kernel.org/linux-mm/20250303-pageblock-lockdep-v2-1-3fc0c37e9532@google.com/
-> 
-> In case it helps calibrate expectations: I think this particular patch
-> had been reviewed but in general some patches get into mm-unstable
-> without any review being recorded at all. My understanding is that
-> Andrew squints at it and goes "that looks like it will probably
-> eventually get merged" and puts it in so that people get a view of
-> likely upcoming changes.
-> 
-> So if an issue like this reaching linux-next is a big problem then I
-> think the solution is not to merge mm-unstable. I'm not sure how
-> high the bar is supposed to be for feeding into linux-next.
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 153322f7536a181e4d1b288aa6f01c0ce65f5c7c [1/1] smb3: Fix enumerating snapshots to Azure
+config: riscv-randconfig-001-20250217 (https://download.01.org/0day-ci/archive/20250304/202503041857.mHsL0fyU-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041857.mHsL0fyU-lkp@intel.com/reproduce)
 
-Last year at LSF/MM I raised that maybe we should have something 
-in-between mm-unstable and mm-stable that would get merged into -next. ( 
-"mm-almost-stable" / "mm-for-next" ;) )
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503041857.mHsL0fyU-lkp@intel.com/
 
-Alternatively, we could add something like "mm-staging" before 
-"mm-unstable" and "mm-stable", whereby only "mm-unstable" would get 
-merged into -next.
+All errors (new ones prefixed by >>):
 
-Ideally, we'd have at least build-bots and some basic sanity checks 
-going on on such a staging environment. After a couple of days (not 
-more) of survival in such an environment, it could be moved to the tree 
-that gets exposed to -next/
+   fs/cifs/smb2ops.c: In function 'smb3_punch_hole':
+   fs/cifs/smb2ops.c:2727:31: warning: variable 'cifsi' set but not used [-Wunused-but-set-variable]
+    2727 |         struct cifsInodeInfo *cifsi;
+         |                               ^~~~~
+   fs/cifs/smb2ops.c: Assembler messages:
+>> fs/cifs/smb2ops.c:1826: Error: unrecognized opcode `csrs sstatus,a3', extension `zicsr' required
+>> fs/cifs/smb2ops.c:1826: Error: unrecognized opcode `csrc sstatus,a3', extension `zicsr' required
 
-I guess the downside is that it's "yet another branch" and "yet more 
-build+testing" effort; in particular, if build+testing doesn't happen it 
-will be worthless. And likely, a lot of build+testing is happening on 
-linux-next only.
 
-I have pretty good results with build bots going crazy on my branches, 
-so most stuff that I send (after letting is rest for a couple of days on 
-a public branch) doesn't really result in build issues.
+vim +1826 fs/cifs/smb2ops.c
+
+  1811	
+  1812	/*
+  1813	 * Input buffer contains (empty) struct smb_snapshot array with size filled in
+  1814	 * For output see struct SRV_SNAPSHOT_ARRAY in MS-SMB2 section 2.2.32.2
+  1815	 */
+  1816	static int
+  1817	smb3_enum_snapshots(const unsigned int xid, struct cifs_tcon *tcon,
+  1818			   struct cifsFileInfo *cfile, void __user *ioc_buf)
+  1819	{
+  1820		char *retbuf = NULL;
+  1821		unsigned int ret_data_len = 0;
+  1822		int rc;
+  1823		u32 max_response_size;
+  1824		struct smb_snapshot_array snapshot_in;
+  1825	
+> 1826		if (get_user(ret_data_len, (unsigned int __user *)ioc_buf))
+  1827			return -EFAULT;
+  1828	
+  1829		/*
+  1830		 * Note that for snapshot queries that servers like Azure expect that
+  1831		 * the first query be minimal size (and just used to get the number/size
+  1832		 * of previous versions) so response size must be specified as EXACTLY
+  1833		 * sizeof(struct snapshot_array) which is 16 when rounded up to multiple
+  1834		 * of eight bytes.
+  1835		 */
+  1836		if (ret_data_len == 0)
+  1837			max_response_size = MIN_SNAPSHOT_ARRAY_SIZE;
+  1838		else
+  1839			max_response_size = CIFSMaxBufSize;
+  1840	
+  1841		rc = SMB2_ioctl(xid, tcon, cfile->fid.persistent_fid,
+  1842				cfile->fid.volatile_fid,
+  1843				FSCTL_SRV_ENUMERATE_SNAPSHOTS,
+  1844				true /* is_fsctl */,
+  1845				NULL, 0 /* no input data */, max_response_size,
+  1846				(char **)&retbuf,
+  1847				&ret_data_len);
+  1848		cifs_dbg(FYI, "enum snaphots ioctl returned %d and ret buflen is %d\n",
+  1849				rc, ret_data_len);
+  1850		if (rc)
+  1851			return rc;
+  1852	
+  1853		if (ret_data_len && (ioc_buf != NULL) && (retbuf != NULL)) {
+  1854			/* Fixup buffer */
+  1855			if (copy_from_user(&snapshot_in, ioc_buf,
+  1856			    sizeof(struct smb_snapshot_array))) {
+  1857				rc = -EFAULT;
+  1858				kfree(retbuf);
+  1859				return rc;
+  1860			}
+  1861	
+  1862			/*
+  1863			 * Check for min size, ie not large enough to fit even one GMT
+  1864			 * token (snapshot).  On the first ioctl some users may pass in
+  1865			 * smaller size (or zero) to simply get the size of the array
+  1866			 * so the user space caller can allocate sufficient memory
+  1867			 * and retry the ioctl again with larger array size sufficient
+  1868			 * to hold all of the snapshot GMT tokens on the second try.
+  1869			 */
+  1870			if (snapshot_in.snapshot_array_size < GMT_TOKEN_SIZE)
+  1871				ret_data_len = sizeof(struct smb_snapshot_array);
+  1872	
+  1873			/*
+  1874			 * We return struct SRV_SNAPSHOT_ARRAY, followed by
+  1875			 * the snapshot array (of 50 byte GMT tokens) each
+  1876			 * representing an available previous version of the data
+  1877			 */
+  1878			if (ret_data_len > (snapshot_in.snapshot_array_size +
+  1879						sizeof(struct smb_snapshot_array)))
+  1880				ret_data_len = snapshot_in.snapshot_array_size +
+  1881						sizeof(struct smb_snapshot_array);
+  1882	
+  1883			if (copy_to_user(ioc_buf, retbuf, ret_data_len))
+  1884				rc = -EFAULT;
+  1885		}
+  1886	
+  1887		kfree(retbuf);
+  1888		return rc;
+  1889	}
+  1890	
 
 -- 
-Cheers,
-
-David / dhildenb
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
