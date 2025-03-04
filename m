@@ -1,82 +1,58 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB061F8720
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606F61FC7CA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741083501; cv=none; b=S0eS+LFhectr29JQhOIGNg6EFI0J9OO/B4OkbwRDFHp/v4gwg71CIfL/k+T/sYC6pivsgOScnF+kdClQeTncGkPLyWFMPYQV3t3Z6I00OninybJ91HWSVZzsPvfzx0xeZc9uxHYdLw2OGlmFseX0iSgpXrU6mjpN2QA57+JTZss=
+	t=1741083696; cv=none; b=qpCnRWEtY0nupzeCflDE/T9+j8vqx/YGEdMbi5/BfHe2zIjJRRPp3xNONfWDwqriL3XW9EK/cb4zec9sFs7I310re29nDI3+mh8iAHgSlq7XoS/bSCLfMugfEjQfs90RtSmhBP/LBiW4WsakOduZHaCxhjcaCdorp8XUK/xGyCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741083501; c=relaxed/simple;
-	bh=Bfnzv1Cy+QaLm5BRN0VgsvZutnU9et4W4XCIe4/LVvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HE/52gMYb/+PO9RqDXuT0Fu6nPwfUD3P34/Be1zXrWasxfx5uMhirlTTVco6X/Zrs1yop9fdAdHmronpy2UaJmxC4E6SOZ7sNxhEoFcbZj/M3Mvbdew4+lL5/c3AUYaw/HyA00umSZTAHUY3kPY3Pl5CcqB17Pol43ZUdbwexSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ajKHvtec; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741083696; c=relaxed/simple;
+	bh=eRmKs/KA5t2czXG5JRwEy8ZVXDjGdUOsM9uvoq6t7cc=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AMXxHX2g6Vl/G27JjdvXUOc5y9lTno4bbixsoW1UGRUSdeaR4Bf1GX7qvCjIB7BxvL0xI1RtTwph7vX9jI5Ox9XrOs+fHWraSPUHhQcLPh6aXHMdQK4PaQnPcBrS3OXFFFXykCcK0Jy2Rdd1UrPs2ckfz45BixMe+NmxOuUcIOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdNqy69a; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ajKHvtec"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-438d9c391fcso47155e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Mar 2025 02:18:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741083498; x=1741688298; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cHHGVIwYUugRFpPbUWW4QxwSvbgE0LZxVDWqc5K4qXA=;
-        b=ajKHvtecmxAE+txSy1J51hbQlVeVgG+IWkY9SCpbiLOpOZRB6kcGAyH4/4oDZslkaE
-         pGwqI3YybLgMd4iw7xk7iKohY06O8kYEWOkQzCEHe3Y7ETEVYm0JhsOcf0LNNsjDlNRG
-         hjZLVaHyp4zfIcNZT3C75p9p62VgghN1fxnope4XwZ/ui69RwXep8vgqIZBCJ6zT5llp
-         0tGAmhB/yW/5ky0wS1KTVmaabHksejejCASL96tzmOi9b7IFDQwWY1iSt8KdPiKnKqAo
-         /UrPvkfJs+wmCTAvrKLZ/SZ9khWWKp+bqyuyW6mRWKfABtXEHPWxNzZ6r8s/jbN0Lv9G
-         loNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741083498; x=1741688298;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cHHGVIwYUugRFpPbUWW4QxwSvbgE0LZxVDWqc5K4qXA=;
-        b=CZFxxTJximXKzfHapKXIqzHK+U+pdrg5RlqeqeNiVuBVkeWw+oAr4SlLtCFWA92VyX
-         qKcRunYTM4VfivfTpSPGbEwa1v65t8nKxi9QAgSLl2NVrz8GpLEsbhSm5f3PDhhWgshA
-         EJDc09eRL8of4pVd2r1YZBMT4Va2OEJ++/+yi9/RdtMKBKjUbUkJCX/ugyw/9L59JOka
-         DK6UrzkHyFmQ5kXku4by5/vCgiHdS9Qk2KJ0/uC6bgYSXpu4q9/eDdjDVuZCaVU/mu+V
-         VQ+Ncp8TZXiNTevPM60owkykN5YjMU2HkZd2N6GU77jrnqRw7VdPsLiPaKPiJS+5OD52
-         jpmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhdVvwFEDR+1uSbZOv+QNaxRqEhakAstn6tmcrYozAn4/Yg5UPVhIJN8D1CdcfKa+nVx4LO1QQfyV95JiT@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvyugmBx17nDsIVbbOgaFLiBqHjq4Ynk6CIvMulgWi2Dj4ucB+
-	JjzrrBbR16Cbbc+cpEJO3Sr4ftmlUuEoO/RnSnQ0b184kZ/MP9+V/rdLIhwGPQ==
-X-Gm-Gg: ASbGncuJSClkwj9zwCS+jISx07x+/nsrbQuu6zwlJxc5RT+5qt5qjtWx590y1vle6EH
-	gGe5rk0/+0V8+rXuN+zTGQUhTZKB71Nmpff/Uq+Ag9Jbr/aNLUt6DPkZxIoQlAqQGD1T5D4MBS3
-	TB1NK8hDzTRceTWGeqZHEkaQI7QpCqw1pXh0KfIBh8Wsw0wPtf31H+wy4AX3dwfTKuBtYrErTLC
-	4e64i3QnsTSRcYwjX1Jk9gteMwEgGVcbovcehPg3d3TVRsGdZuCvJ/RuGQ6rzzlbvZhJUQtbk0M
-	wu/d6nckyHp0gE8v6nouAOY3XBNlQjkKauwvhrf6KsmEf3jCc6dcunhHxZpoku4SbTLoBAMxq4T
-	Lq8P+
-X-Google-Smtp-Source: AGHT+IF1PXtKs5JYeKClxwK1lAzDe1Sy+Hic0+WUm5WKWP2ZPJezaTOmzVJ6ghefB6dnk3leGQIlaw==
-X-Received: by 2002:a05:600c:43d4:b0:439:9434:1b66 with SMTP id 5b1f17b1804b1-43bcbe262d7mr789425e9.1.1741083497923;
-        Tue, 04 Mar 2025 02:18:17 -0800 (PST)
-Received: from google.com (44.232.78.34.bc.googleusercontent.com. [34.78.232.44])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47b7dcfsm17460567f8f.55.2025.03.04.02.18.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 02:18:17 -0800 (PST)
-Date: Tue, 4 Mar 2025 10:18:13 +0000
-From: Brendan Jackman <jackmanb@google.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	kernel test robot <lkp@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/page_alloc: Add lockdep assertion for pageblock type
- change
-Message-ID: <Z8bTZVYd0fJLbgl7@google.com>
-References: <20250227-pageblock-lockdep-v1-1-3701efb331bb@google.com>
- <202503010129.rJvGqZN1-lkp@intel.com>
- <20250228182804.GB120597@cmpxchg.org>
- <Z8WQEpv7BNtDDoH3@black.fi.intel.com>
- <20250304101357.66067dd3@canb.auug.org.au>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdNqy69a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741083695; x=1772619695;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=eRmKs/KA5t2czXG5JRwEy8ZVXDjGdUOsM9uvoq6t7cc=;
+  b=LdNqy69aRdtO4Q89BHsnx4HnAvWHaQ4Q/cZkYyLnfCRC4mVRx1N8Hj3H
+   zC5OpIvBldvfMrnT1U2IptmDFWAJ0zgYKDXugfMGNNWr6N+3jAH3bXjm3
+   XM2KKjVKlg8KJ8q2lHn7hLkT8IU0tgGURsO6Qr3mxaSjhybS5mwhPbP42
+   2enrwtuJWQVwpTwuoF+4PB/KvuBnKqZ9Wtqkl1SiEdLqdOsORDFWO3lkj
+   rrDlZF9V27LqF2NDM6u2rPsPXOntDYqyIDw+upAkMxcmTtymkQQZUYW+0
+   6XS377zwoVYage93ipS7+mdUmtVZdPysComcr+j+P0FsZD+Z4H8PVYfH1
+   g==;
+X-CSE-ConnectionGUID: EECaOhzIR/WWOeZtgI18fw==
+X-CSE-MsgGUID: iEhHJmewRKqfaugPVhT5+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41706107"
+X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
+   d="scan'208";a="41706107"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 02:21:34 -0800
+X-CSE-ConnectionGUID: uCKql8lqQcuRNrOTAUIaIQ==
+X-CSE-MsgGUID: XSrKT2JCQyakIyC0NHMQqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149264140"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Mar 2025 02:21:33 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpPP0-000Jal-2d
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 04 Mar 2025 10:21:30 +0000
+Date: Tue, 4 Mar 2025 18:20:57 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] net/netfilter/nf_conntrack_core.o: warning:
+ objtool: __nf_conntrack_confirm()+0x17f3: unreachable instruction
+Message-ID: <202503041805.MvzIbjnv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,39 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250304101357.66067dd3@canb.auug.org.au>
 
-On Tue, Mar 04, 2025 at 10:13:57AM +1100, Stephen Rothwell wrote:
-> Hi Andy,
-> 
-> On Mon, 3 Mar 2025 13:18:42 +0200 Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-> >
-> > On Fri, Feb 28, 2025 at 01:28:04PM -0500, Johannes Weiner wrote:
-> > > On Sat, Mar 01, 2025 at 01:31:30AM +0800, kernel test robot wrote:  
-> > 
-> > > The patch is missing a dummy in_mem_hotplug() in the
-> > > !CONFIG_MEMORY_HOTPLUG section of <linux/memory_hotplug.h>.  
-> > 
-> > +1, I just stumbled over and this is not fixed in today's Linux Next. I'm
-> > wondering how this was missed during merge into Linux Next. Stephen?
-> 
-> I just get what people put in their trees.  There are no conflicts
-> around this and none of my builds failed, so I didn't see the problem.
-> Has someone sent a fix patch to Andrew?  If so, if you forward it to
-> me, I will add it to linux-next today.
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 13f5251fd17088170c18844534682d9cab5ff5aa [1/1] netfilter: conntrack: fix cloned unconfirmed skb->_nfct race in __nf_conntrack_confirm
+config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250304/202503041805.MvzIbjnv-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041805.MvzIbjnv-lkp@intel.com/reproduce)
 
-Andrew has backed it out of mm-unstable now. There's a v2 [0] which
-still has runtime issues but AFAIK it's not in any tree yet.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503041805.MvzIbjnv-lkp@intel.com/
 
-[0] https://lore.kernel.org/linux-mm/20250303-pageblock-lockdep-v2-1-3fc0c37e9532@google.com/
+All warnings (new ones prefixed by >>):
 
-In case it helps calibrate expectations: I think this particular patch
-had been reviewed but in general some patches get into mm-unstable
-without any review being recorded at all. My understanding is that
-Andrew squints at it and goes "that looks like it will probably
-eventually get merged" and puts it in so that people get a view of
-likely upcoming changes.
+>> net/netfilter/nf_conntrack_core.o: warning: objtool: __nf_conntrack_confirm()+0x17f3: unreachable instruction
 
-So if an issue like this reaching linux-next is a big problem then I
-think the solution is not to merge mm-unstable. I'm not sure how
-high the bar is supposed to be for feeding into linux-next.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
