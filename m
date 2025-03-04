@@ -1,59 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7831F8BCB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 09:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB061F8720
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741081219; cv=none; b=BxMkqPnOhPhaRH7GL/0zlKYZtubAkS+Y5ra9EhDYwYdNA5dl0X/VMVwi/3S2kcfJH3NhwA+JG5ExVoxSq+SNFXO/kXybferc/6XpuLRDVY1sfSBTlVkqfIyR5aDXQ8xzjr2NUGqXj/oRFaRaLEniCTm6aFpBGdKKhF0hrZxHdj0=
+	t=1741083501; cv=none; b=S0eS+LFhectr29JQhOIGNg6EFI0J9OO/B4OkbwRDFHp/v4gwg71CIfL/k+T/sYC6pivsgOScnF+kdClQeTncGkPLyWFMPYQV3t3Z6I00OninybJ91HWSVZzsPvfzx0xeZc9uxHYdLw2OGlmFseX0iSgpXrU6mjpN2QA57+JTZss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741081219; c=relaxed/simple;
-	bh=Ss3tRI0thfXUnLZxwpDKulKoIglU0kIIVlEMgPNE0L4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nr5GcILdcPdq/+rgzdN2VUKmdySZX8NVqty9APWSJbawRunuH/DHSwDxopWrZdfOMB4rgYm4FfaP9kehauKo7vagKkekiMfpal8vLSIuCi9wxJKVvwfLf1MXL8aUt0pxknzatGbAvsoClaMgw4zKMSgfjVY/VrWIGkQfyv2NtSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWYEzOVY; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741083501; c=relaxed/simple;
+	bh=Bfnzv1Cy+QaLm5BRN0VgsvZutnU9et4W4XCIe4/LVvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HE/52gMYb/+PO9RqDXuT0Fu6nPwfUD3P34/Be1zXrWasxfx5uMhirlTTVco6X/Zrs1yop9fdAdHmronpy2UaJmxC4E6SOZ7sNxhEoFcbZj/M3Mvbdew4+lL5/c3AUYaw/HyA00umSZTAHUY3kPY3Pl5CcqB17Pol43ZUdbwexSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ajKHvtec; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWYEzOVY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741081218; x=1772617218;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ss3tRI0thfXUnLZxwpDKulKoIglU0kIIVlEMgPNE0L4=;
-  b=EWYEzOVYrDvQT6nWbbs+fHOKBqXHkTFk6JSV0TSiTwGq8lvff0NjOD0u
-   GMDpkyac0Z4GGnHzYM5oFEF1WHEW7DMYRvVusmrxx6j5k4Tc3ty7HmQhv
-   GQ7IvO5lviJxwj2Q4fL36DQDH6kwT7J8WE4KRZEDqgGAkqVGhtI3BlbMq
-   pMeykyrTsX0BCdRyalZQm9uSAmi7QuOeaOzhMGMIZ3Oj8dz4t0+zp0NTf
-   eu07K62pCiSKXVwXVqFi01BWDK0pXkBrmdaIZII1TCJh/sRCgdwiWTTad
-   Mmmx/ffpxDhmTrB5NPwz6WaceJh436ZXuUmFpq1frTK95hXmZffhBHDjO
-   A==;
-X-CSE-ConnectionGUID: zgLBXTPGRe2wDvrKS10bdA==
-X-CSE-MsgGUID: cFL/Nip+RIm2VYw5n6ki2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="45638906"
-X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="45638906"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 01:40:16 -0800
-X-CSE-ConnectionGUID: D5L1j+v9Q52g+qStmcjMbw==
-X-CSE-MsgGUID: nQPBPJ+LTKyu7k+dFhehcg==
-X-Ironport-Invalid-End-Of-Message: True
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="123265062"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2025 01:40:15 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tpOl2-000JYi-2i;
-	Tue, 04 Mar 2025 09:40:12 +0000
-Date: Tue, 4 Mar 2025 17:39:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 7/7] include/trace/stages/init.h:2:23:
- warning: 'str__swapfile__trace_system_name' defined but not used
-Message-ID: <202503041726.Ii1lFzgu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ajKHvtec"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-438d9c391fcso47155e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Mar 2025 02:18:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1741083498; x=1741688298; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cHHGVIwYUugRFpPbUWW4QxwSvbgE0LZxVDWqc5K4qXA=;
+        b=ajKHvtecmxAE+txSy1J51hbQlVeVgG+IWkY9SCpbiLOpOZRB6kcGAyH4/4oDZslkaE
+         pGwqI3YybLgMd4iw7xk7iKohY06O8kYEWOkQzCEHe3Y7ETEVYm0JhsOcf0LNNsjDlNRG
+         hjZLVaHyp4zfIcNZT3C75p9p62VgghN1fxnope4XwZ/ui69RwXep8vgqIZBCJ6zT5llp
+         0tGAmhB/yW/5ky0wS1KTVmaabHksejejCASL96tzmOi9b7IFDQwWY1iSt8KdPiKnKqAo
+         /UrPvkfJs+wmCTAvrKLZ/SZ9khWWKp+bqyuyW6mRWKfABtXEHPWxNzZ6r8s/jbN0Lv9G
+         loNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741083498; x=1741688298;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cHHGVIwYUugRFpPbUWW4QxwSvbgE0LZxVDWqc5K4qXA=;
+        b=CZFxxTJximXKzfHapKXIqzHK+U+pdrg5RlqeqeNiVuBVkeWw+oAr4SlLtCFWA92VyX
+         qKcRunYTM4VfivfTpSPGbEwa1v65t8nKxi9QAgSLl2NVrz8GpLEsbhSm5f3PDhhWgshA
+         EJDc09eRL8of4pVd2r1YZBMT4Va2OEJ++/+yi9/RdtMKBKjUbUkJCX/ugyw/9L59JOka
+         DK6UrzkHyFmQ5kXku4by5/vCgiHdS9Qk2KJ0/uC6bgYSXpu4q9/eDdjDVuZCaVU/mu+V
+         VQ+Ncp8TZXiNTevPM60owkykN5YjMU2HkZd2N6GU77jrnqRw7VdPsLiPaKPiJS+5OD52
+         jpmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUhdVvwFEDR+1uSbZOv+QNaxRqEhakAstn6tmcrYozAn4/Yg5UPVhIJN8D1CdcfKa+nVx4LO1QQfyV95JiT@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvyugmBx17nDsIVbbOgaFLiBqHjq4Ynk6CIvMulgWi2Dj4ucB+
+	JjzrrBbR16Cbbc+cpEJO3Sr4ftmlUuEoO/RnSnQ0b184kZ/MP9+V/rdLIhwGPQ==
+X-Gm-Gg: ASbGncuJSClkwj9zwCS+jISx07x+/nsrbQuu6zwlJxc5RT+5qt5qjtWx590y1vle6EH
+	gGe5rk0/+0V8+rXuN+zTGQUhTZKB71Nmpff/Uq+Ag9Jbr/aNLUt6DPkZxIoQlAqQGD1T5D4MBS3
+	TB1NK8hDzTRceTWGeqZHEkaQI7QpCqw1pXh0KfIBh8Wsw0wPtf31H+wy4AX3dwfTKuBtYrErTLC
+	4e64i3QnsTSRcYwjX1Jk9gteMwEgGVcbovcehPg3d3TVRsGdZuCvJ/RuGQ6rzzlbvZhJUQtbk0M
+	wu/d6nckyHp0gE8v6nouAOY3XBNlQjkKauwvhrf6KsmEf3jCc6dcunhHxZpoku4SbTLoBAMxq4T
+	Lq8P+
+X-Google-Smtp-Source: AGHT+IF1PXtKs5JYeKClxwK1lAzDe1Sy+Hic0+WUm5WKWP2ZPJezaTOmzVJ6ghefB6dnk3leGQIlaw==
+X-Received: by 2002:a05:600c:43d4:b0:439:9434:1b66 with SMTP id 5b1f17b1804b1-43bcbe262d7mr789425e9.1.1741083497923;
+        Tue, 04 Mar 2025 02:18:17 -0800 (PST)
+Received: from google.com (44.232.78.34.bc.googleusercontent.com. [34.78.232.44])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47b7dcfsm17460567f8f.55.2025.03.04.02.18.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 02:18:17 -0800 (PST)
+Date: Tue, 4 Mar 2025 10:18:13 +0000
+From: Brendan Jackman <jackmanb@google.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	kernel test robot <lkp@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Oscar Salvador <osalvador@suse.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/page_alloc: Add lockdep assertion for pageblock type
+ change
+Message-ID: <Z8bTZVYd0fJLbgl7@google.com>
+References: <20250227-pageblock-lockdep-v1-1-3701efb331bb@google.com>
+ <202503010129.rJvGqZN1-lkp@intel.com>
+ <20250228182804.GB120597@cmpxchg.org>
+ <Z8WQEpv7BNtDDoH3@black.fi.intel.com>
+ <20250304101357.66067dd3@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,166 +85,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250304101357.66067dd3@canb.auug.org.au>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   46d2359d75bd941964a80569e952827904b763fa
-commit: 58aa298d671081bcef5cd6f245c7ee1f1a414d00 [7/7] ANDROID: vendor_hooks: Add hooks to enhance mTHP functionality
-config: x86_64-buildonly-randconfig-004-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041726.Ii1lFzgu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041726.Ii1lFzgu-lkp@intel.com/reproduce)
+On Tue, Mar 04, 2025 at 10:13:57AM +1100, Stephen Rothwell wrote:
+> Hi Andy,
+> 
+> On Mon, 3 Mar 2025 13:18:42 +0200 Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> >
+> > On Fri, Feb 28, 2025 at 01:28:04PM -0500, Johannes Weiner wrote:
+> > > On Sat, Mar 01, 2025 at 01:31:30AM +0800, kernel test robot wrote:  
+> > 
+> > > The patch is missing a dummy in_mem_hotplug() in the
+> > > !CONFIG_MEMORY_HOTPLUG section of <linux/memory_hotplug.h>.  
+> > 
+> > +1, I just stumbled over and this is not fixed in today's Linux Next. I'm
+> > wondering how this was missed during merge into Linux Next. Stephen?
+> 
+> I just get what people put in their trees.  There are no conflicts
+> around this and none of my builds failed, so I didn't see the problem.
+> Has someone sent a fix patch to Andrew?  If so, if you forward it to
+> me, I will add it to linux-next today.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503041726.Ii1lFzgu-lkp@intel.com/
+Andrew has backed it out of mm-unstable now. There's a v2 [0] which
+still has runtime issues but AFAIK it's not in any tree yet.
 
-All warnings (new ones prefixed by >>):
+[0] https://lore.kernel.org/linux-mm/20250303-pageblock-lockdep-v2-1-3fc0c37e9532@google.com/
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/swapfile.h:19,
-                    from drivers/android/vendor_hooks.c:86:
->> include/trace/stages/init.h:2:23: warning: 'str__swapfile__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/typec.h:24,
-                    from drivers/android/vendor_hooks.c:84:
-   include/trace/stages/init.h:2:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/xhci.h:25,
-                    from drivers/android/vendor_hooks.c:83:
-   include/trace/stages/init.h:2:23: warning: 'str__xhci__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dmabuf.h:34,
-                    from drivers/android/vendor_hooks.c:82:
-   include/trace/stages/init.h:2:23: warning: 'str__dmabuf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/perf.h:24,
-                    from drivers/android/vendor_hooks.c:81:
-   include/trace/stages/init.h:2:23: warning: 'str__perf__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fsnotify.h:22,
-                    from drivers/android/vendor_hooks.c:80:
-   include/trace/stages/init.h:2:23: warning: 'str__fsnotify__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:2:23: note: in definition of macro '__app__'
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
+In case it helps calibrate expectations: I think this particular patch
+had been reviewed but in general some patches get into mm-unstable
+without any review being recorded at all. My understanding is that
+Andrew squints at it and goes "that looks like it will probably
+eventually get merged" and puts it in so that people get a view of
+likely upcoming changes.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
-
-
-vim +/str__swapfile__trace_system_name +2 include/trace/stages/init.h
-
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So if an issue like this reaching linux-next is a big problem then I
+think the solution is not to merge mm-unstable. I'm not sure how
+high the bar is supposed to be for feeding into linux-next.
