@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182E1200B99
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142C31FF1D6;
+	Tue,  4 Mar 2025 11:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741084982; cv=none; b=pNTNIEcUYP80SV/M/2/FCwKcCgK7BQhnz3jNem6K4q+wB+V6WBEKVClMxwfanjwMeVANFPWNmSUswov0bgFrx7rvWikUpbpwg/7hBTN+TTNxp8rjGpKQ+lZ0VoGW6vm7t2I0y04K37fxAwaEgUW5f/H07nBdlW9bPcUOu51xVuQ=
+	t=1741087480; cv=none; b=nnRJ2xFVo67mTYBrwm+TyjO5QV1GPAuCEZcXHmuKN6f4xShcDqS7BRRANUFFNSQmu4pFiuZb9OqzV8PIHHBL1pGNChTjKU0onoAkumX8vsaTx/dX0KfnswzXPJ4bapUdqpkJBUVpL0kpeSVNNFQrcJzl/SJ3Kq60ySvYsZYLepE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741084982; c=relaxed/simple;
-	bh=AAUmVn2f+OJGl5++4TDAcy/d2xI+fSp6H+1SWf1N1kE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ilXc/MjXaYQKDWpol+tD3SgF8l0V4Xkzw9a7kL0BwbWlnO5A09nxTY9PdSi9OnUXpZqTonNpcatqMczmpqSWr3LqhaTOO/jrhElnMqrISaxHgOWTzg2rN7FB968yB4hQZZcjf1HXegGvRV5v+OLw16L3Aos2bcus/ScW58NVDZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3N0Pn0T; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1741087480; c=relaxed/simple;
+	bh=e8xAFzSOyEmR1JJktVOqZSTe9qvmMkeaXJerupWRRU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RI/H4EL5tOCfCarSNpcyiUmo3j+BGE3pvLNt14bbPGEicyi1knpQX8Xkfk6KoHt57UPm1PEvnB5ka5tKT3IR4/BZNm4Z4QotaOAnA8vdjU++h7QwttqmocMnSIEuO/ZIgj5S3kOdv2Ir8CJSUT1PlVmUIOJRAavgO4tI5Ntb5U4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iolnmcAy; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3N0Pn0T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iolnmcAy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741084980; x=1772620980;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AAUmVn2f+OJGl5++4TDAcy/d2xI+fSp6H+1SWf1N1kE=;
-  b=N3N0Pn0ThMUJYITdmWg/cwJajIkkIT1XVQKsGBEhHqEq2DieQnZ9Dx5C
-   gpKQqKHG8DLx5CE1OzldQtFYArhnmBCPD4HnDjrZzP2mTmAHTHRedlAxy
-   vleDbp0o4ABzZkcZerrQHOzHK4dzoCgHI7aSkQBslZ7N/o/mImR+b50TZ
-   N20yvujAs1MrU1/mXFYzz7wHZtdqZmVP64c2Q5YO7KQ+XUyeTFBGmukTZ
-   P67jiKiq5BuBI0ziuI4tZ4zy+4MDowbiCVBiOm5oG0J6GM03IIobRzWJM
-   CWINWzqXBYY9mXm7CVXu/lBSTBFVj8GW5Cq/4znpxu+QKbjJ+Dt0yND9B
-   Q==;
-X-CSE-ConnectionGUID: Wt2TgIYCTnqubg3jNlm5Dg==
-X-CSE-MsgGUID: HV6iMM9TTwmhvrAnjU/oCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="53390794"
+  t=1741087479; x=1772623479;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e8xAFzSOyEmR1JJktVOqZSTe9qvmMkeaXJerupWRRU8=;
+  b=iolnmcAygEZ6uLjyly1hmHvjEZdbFVoduHZFI3yYhEaScVDCwSqFXEIu
+   hAPmR2ec3doz5nEIu2preLTxxAq8iTFkGleGoMni93g8FKHuqqz/G/ZiM
+   XCeTW0daKiIjVs+iHTDfxUwaJdBcejvkGgTgDj5yw86LgVuozW6o3Q9OD
+   9y/YDz1IMxsQvYyCGSEy4XOOOleiIXXSHoARHoDpsRaA+tS+ZW651aL9R
+   lu+R0eUT22VyvluOalEf2Pgiqce60x5GUwrnSnY/IZzI0Fg5B2gQtuujd
+   uawur5oNmbDgHM4ynHB2QYt/KV2jO8rcfqfPkqBddd+v0glHr8ctpseFD
+   g==;
+X-CSE-ConnectionGUID: r7sJsuQFRtenq6Rs6iRk0w==
+X-CSE-MsgGUID: D4gLnUBgRL+D0Izhd8LSDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="45925576"
 X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="53390794"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 02:42:58 -0800
-X-CSE-ConnectionGUID: RRpphfkFQdaIgE+9o57zZA==
-X-CSE-MsgGUID: CKZ0dbezRhiyjX2wyXbDEA==
+   d="scan'208";a="45925576"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 03:24:38 -0800
+X-CSE-ConnectionGUID: lAkXDvqMSwmcIaS7Nwzq+A==
+X-CSE-MsgGUID: xCV705m/SdKj7H3VTZxEqw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="119028097"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="122475846"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Mar 2025 02:42:56 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 04 Mar 2025 03:24:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpPjh-000JcV-2P;
-	Tue, 04 Mar 2025 10:42:53 +0000
-Date: Tue, 4 Mar 2025 18:42:16 +0800
+	id 1tpQO0-000JhS-08;
+	Tue, 04 Mar 2025 11:24:32 +0000
+Date: Tue, 4 Mar 2025 19:24:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: mm/gup.c:778:15: sparse: sparse: cast to non-scalar
-Message-ID: <202503041858.tK5Q1vkP-lkp@intel.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+Message-ID: <202503041913.hIveXcmc-lkp@intel.com>
+References: <20250303101533.31462-3-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +69,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250303101533.31462-3-zhangtianyang@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   99fa936e8e4f117d62f229003c9799686f74cebc
-commit: e6fd5564c07c3c749ff3d1b2aa35540b4047e395 mm/gup: cache p4d in follow_p4d_mask()
-date:   10 months ago
-config: alpha-randconfig-r123-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041858.tK5Q1vkP-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250304/202503041858.tK5Q1vkP-lkp@intel.com/reproduce)
+Hi Tianyang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on lwn/docs-next linus/master v6.14-rc5 next-20250303]
+[cannot apply to tip/smp/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20250303-181832
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20250303101533.31462-3-zhangtianyang%40loongson.cn
+patch subject: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+config: loongarch-randconfig-002-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041913.hIveXcmc-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041913.hIveXcmc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503041858.tK5Q1vkP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503041913.hIveXcmc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/gup.c:778:15: sparse: sparse: cast to non-scalar
->> mm/gup.c:778:15: sparse: sparse: cast from non-scalar
-   mm/gup.c: note: in included file (through include/linux/mm.h):
-   include/linux/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   mm/gup.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:241:46: sparse: sparse: self-comparison always evaluates to false
-   mm/gup.c:682:9: sparse: sparse: context imbalance in 'follow_page_pte' - unexpected unlock
-   mm/gup.c: note: in included file (through include/linux/mm.h):
-   include/linux/pgtable.h:322:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:322:16: sparse: sparse: cast from non-scalar
-   include/linux/pgtable.h:315:16: sparse: sparse: cast to non-scalar
-   include/linux/pgtable.h:315:16: sparse: sparse: cast from non-scalar
-   mm/gup.c:911:18: sparse: sparse: context imbalance in 'get_gate_page' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +778 mm/gup.c
+   drivers/irqchip/irq-loongarch-ir.c: In function 'loongarch_irq_redirect_alloc':
+>> drivers/irqchip/irq-loongarch-ir.c:352:52: error: 'struct device' has no member named 'numa_node'
+     352 |         node = ((msi_alloc_info_t *)arg)->desc->dev->numa_node;
+         |                                                    ^~
 
-   769	
-   770	static struct page *follow_p4d_mask(struct vm_area_struct *vma,
-   771					    unsigned long address, pgd_t *pgdp,
-   772					    unsigned int flags,
-   773					    struct follow_page_context *ctx)
-   774	{
-   775		p4d_t *p4dp, p4d;
-   776	
-   777		p4dp = p4d_offset(pgdp, address);
- > 778		p4d = READ_ONCE(*p4dp);
-   779		if (p4d_none(p4d))
-   780			return no_page_table(vma, flags);
-   781		BUILD_BUG_ON(p4d_huge(p4d));
-   782		if (unlikely(p4d_bad(p4d)))
-   783			return no_page_table(vma, flags);
-   784	
-   785		return follow_pud_mask(vma, address, p4dp, flags, ctx);
-   786	}
-   787	
+
+vim +352 drivers/irqchip/irq-loongarch-ir.c
+
+   342	
+   343	static int loongarch_irq_redirect_alloc(struct irq_domain *domain,
+   344						unsigned int virq, unsigned int nr_irqs,
+   345						 void *arg)
+   346	{
+   347		struct redirect_table *ird_table;
+   348		struct avecintc_data *avec_data;
+   349		struct irq_data *irq_data;
+   350		int ret, i, node;
+   351	
+ > 352		node = ((msi_alloc_info_t *)arg)->desc->dev->numa_node;
+   353		ird_table = &irde_descs[node].ird_table;
+   354		ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
+   355		if (ret < 0)
+   356			return ret;
+   357	
+   358		for (i = 0; i < nr_irqs; i++) {
+   359			struct redirect_item *item;
+   360	
+   361			item = kzalloc(sizeof(struct redirect_item), GFP_KERNEL);
+   362			if (!item) {
+   363				pr_err("Alloc redirect descriptor failed\n");
+   364				goto out_free_resources;
+   365			}
+   366	
+   367			irq_data = irq_domain_get_irq_data(domain, virq + i);
+   368	
+   369			avec_data = irq_data_get_avec_data(irq_data);
+   370			ret = redirect_table_alloc(item, ird_table);
+   371			if (ret) {
+   372				pr_err("Alloc redirect table entry failed\n");
+   373				goto out_free_resources;
+   374			}
+   375	
+   376			item->gpid = kzalloc_node(sizeof(struct redirect_gpid), GFP_KERNEL, node);
+   377			if (!item->gpid) {
+   378				pr_err("Alloc redirect GPID failed\n");
+   379				goto out_free_resources;
+   380			}
+   381	
+   382			irq_data->chip_data = item;
+   383			irq_data->chip = &loongarch_redirect_chip;
+   384			redirect_domain_prepare_entry(item, avec_data);
+   385		}
+   386		return 0;
+   387	
+   388	out_free_resources:
+   389		loongarch_irq_redirect_free_resources(domain, virq, nr_irqs);
+   390		irq_domain_free_irqs_common(domain, virq, nr_irqs);
+   391	
+   392		return -EINVAL;
+   393	}
+   394	
 
 -- 
 0-DAY CI Kernel Test Service
