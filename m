@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6AB2045A6;
-	Tue,  4 Mar 2025 13:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A061FDE3A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 14:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741096204; cv=none; b=Z9W2zU1qPo8Ov9qMMWJh+sHofBXNKSDVGCGTLmnfAvPlEftAEf+ygH8hDGRH0dHuYSoxonzFApLGKD26NyOkzuJP2gyg6wK9pjVkcvwgbO+9VTvuXs/mMgrnTdo9rfVjw+yhEIynqtN5RSdgPK4ETV1nw8dAK1lVkuIyLEtbYuI=
+	t=1741096935; cv=none; b=J3dDeoRjWOAsw5kGS+03QwsOFNt7xnwXiB+9qwz601kwwOgB1ynpjp1TYxtsoroLm2xPHDV2eKT0IwI3tAcqc214d9VCLrpbn0D96sPSjQsf0ElziEggPMPCKrEeQa5U/8+f2KrCMxawPNYdrsnO8KHs17N0dodgHg3Gtp0bflU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741096204; c=relaxed/simple;
-	bh=5V2n4Ol/YIaFL/sIsn93eGOv7WmD2P0SaXmJke6dwPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MeqDz5lCO9sJp0Ku+8q1B8tBDwa/gJJvQEFDzdxyOw9pMLv+1XaYs8Nz5rmHp7pyZjvFzajbf2StYcU6p+IbLnzDELX3MoM6IYowNBOqpsHfu/2Fz4SJXRyOPFvecSD/kpd4tHZY5ryyMBx5I6ryxn0xxuZ6cKhhvdhZi3hTEtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P33avndS; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1741096935; c=relaxed/simple;
+	bh=X3wVSbPdGLiyAWBYqUq06EAyrsnlLLs1nOsCTzAax4g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Tq6O7Lz8E8whfDZFGFWRf1jwifzOTi+b1kAWMIcb2TomJQ27cZvtAFWaNQvWax3/7EFZ4a8ubdVXFChvhsjC7ibDFKBTQIsvS24Bt8hQC1S+KjCYQ2bOUEArqMJVTcv3O06cHi7EedWvfHn6HgzocsEv+gSgzww4dtIMaxoMXXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwf1I0gH; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P33avndS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwf1I0gH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741096201; x=1772632201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5V2n4Ol/YIaFL/sIsn93eGOv7WmD2P0SaXmJke6dwPw=;
-  b=P33avndSnf4QQTCxtJ4/rQvEBY1MkrDn3ZRjZLSuPT2ejupU1qmnnQ+7
-   TpEmyCHnK0QirJ5uhnip13SpiGkDZ8RV/e0dgsqn4TrVhPuGTjmfeDqUe
-   ldXcBPFfoVlaGhGCi9b2ozHx1dpNpFWOHTCucqqs5hZOINtBR4DhgBbC2
-   80AgsoJQA2KNl4Olv4Unw0xv1CRsah648YWu9oGwxn3X6c/0Z50hQR/MP
-   7t+QicEU2rr5Xqb8E0TFSV3eBLb+kb63mZ6Izb1chNsTvlglNzBgKtb6O
-   mRpSSRT7U/HrJy5smsezxNyEwiVm6Rk0ORx+mf927NTB5NM2TyVQOxL2d
-   w==;
-X-CSE-ConnectionGUID: bVRBINIZSVGkKX9/GCGfkw==
-X-CSE-MsgGUID: Qp0xO/P7S0q2loL5ysuJHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="29601819"
+  t=1741096933; x=1772632933;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X3wVSbPdGLiyAWBYqUq06EAyrsnlLLs1nOsCTzAax4g=;
+  b=lwf1I0gHetN9SnjsVN4jUHBcAkMWFTbVCW2vnxDLbyLUJdsH7OaQWyTz
+   7smaxuY0omLRJMAts7Pow6LTPGBgMtLjteDalIixyr4zJKoIOdSyjeUsT
+   xliliRwGvbknQMfdjxszKNV8UyFqquLfTmSUHBA9iJdcvn+YobTGcqgn/
+   UlpGMKcnTsPL12IbI4Ol+SKqI1+9jPIzhXtc2PaXYmDWfIoTbBr6mGRMP
+   jiuTOQeRmVVw+mwkON2brAw9hB3ko6y3iPztKm6+qDK+/f+zVt59rYhzB
+   zk/hYguk3DpCN3NHGIEAL3/goBID4+NieuYoTNNTShbwmYh0bGD6HvHRf
+   A==;
+X-CSE-ConnectionGUID: AJ/tMuCJScCYNZnxJC8UzQ==
+X-CSE-MsgGUID: DqtvzF/eSPqRi8pOsx8Ymw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="45940292"
 X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
-   d="scan'208";a="29601819"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 05:50:00 -0800
-X-CSE-ConnectionGUID: NQv5HN7TQtKaJ9A2l20c7g==
-X-CSE-MsgGUID: CZMr/zzmRdmHoTwZxAX8RQ==
+   d="scan'208";a="45940292"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 06:02:11 -0800
+X-CSE-ConnectionGUID: hoxkgx5WT8ShuT5jLp3JcA==
+X-CSE-MsgGUID: eBQYa5DQRTOQGm5p+NKFCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
-   d="scan'208";a="123317663"
+   d="scan'208";a="122995077"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 04 Mar 2025 05:49:58 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 04 Mar 2025 06:02:10 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpSeh-000JpW-14;
-	Tue, 04 Mar 2025 13:49:55 +0000
-Date: Tue, 4 Mar 2025 21:49:07 +0800
+	id 1tpSqH-000JqT-1v;
+	Tue, 04 Mar 2025 14:01:57 +0000
+Date: Tue, 4 Mar 2025 21:59:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>,
-	Lukas Wunner <lukas@wunner.de>, Samuel Ortiz <sameo@rivosinc.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, gregkh@linuxfoundation.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2 09/11] PCI/IDE: Report available IDE streams
-Message-ID: <202503042126.FUEGx8dD-lkp@intel.com>
-References: <174107250696.1288555.15924775074966673629.stgit@dwillia2-xfh.jf.intel.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alice Ryhl <aliceryhl@google.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>
+Subject: rust/helpers/io.c:12:10: error: passing 'volatile void *' to
+ parameter of type 'void *' discards qualifiers
+Message-ID: <202503042137.LYjq6GwD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,50 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <174107250696.1288555.15924775074966673629.stgit@dwillia2-xfh.jf.intel.com>
 
-Hi Dan,
+Hi Danilo,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 7eb172143d5508b4da468ed59ee857c6e5e01da6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/configfs-tsm-Namespace-TSM-report-symbols/20250304-152958
-base:   7eb172143d5508b4da468ed59ee857c6e5e01da6
-patch link:    https://lore.kernel.org/r/174107250696.1288555.15924775074966673629.stgit%40dwillia2-xfh.jf.intel.com
-patch subject: [PATCH v2 09/11] PCI/IDE: Report available IDE streams
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250304/202503042126.FUEGx8dD-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503042126.FUEGx8dD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   99fa936e8e4f117d62f229003c9799686f74cebc
+commit: ce30d94e6855a4f6dc687f658e63c225fcc1d690 rust: add `io::{Io, IoRaw}` base types
+date:   2 months ago
+config: um-randconfig-r121-20250304 (https://download.01.org/0day-ci/archive/20250304/202503042137.LYjq6GwD-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503042137.LYjq6GwD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503042126.FUEGx8dD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503042137.LYjq6GwD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/ide.c:495: warning: expecting prototype for pci_init_nr_ide_streams(). Prototype was for pci_ide_init_nr_streams() instead
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 21.0.0
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/um/include/asm/cacheflush.h:4:
+   In file included from arch/um/include/asm/tlbflush.h:9:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from rust/helpers/helpers.c:17:
+>> rust/helpers/io.c:12:10: error: passing 'volatile void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      12 |         iounmap(addr);
+         |                 ^~~~
+   arch/um/include/asm/io.h:19:42: note: passing argument to parameter 'addr' here
+      19 | static inline void iounmap(void __iomem *addr)
+         |                                          ^
+   1 warning and 1 error generated.
+   make[3]: *** [scripts/Makefile.build:194: rust/helpers/helpers.o] Error 1
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>> rust/helpers/io.c:12:10: error: passing 'volatile void *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+   arch/um/include/asm/io.h:19:42: note: passing argument to parameter 'addr' here
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   make[3]: *** [rust/Makefile:330: rust/bindings/bindings_helpers_generated.rs] Error 101
+   make[3]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   make[3]: Target 'rust/' not remade because of errors.
+   make[2]: *** [Makefile:1269: prepare] Error 2
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +495 drivers/pci/ide.c
+vim +12 rust/helpers/io.c
 
-   480	
-   481	/**
-   482	 * pci_init_nr_ide_streams() - size the pool of IDE Stream resources
-   483	 * @hb: host bridge boundary for the stream pool
-   484	 * @nr: number of streams
-   485	 *
-   486	 * Enable IDE Stream establishment by setting the number of stream
-   487	 * resources available at the host bridge. Platform init code must set
-   488	 * this before the first pci_ide_stream_alloc() call.
-   489	 *
-   490	 * The "PCI_IDE" symbol namespace is required because this is typically
-   491	 * a detail that is settled in early PCI init, i.e. only an expert or
-   492	 * test module should consume this export.
-   493	 */
-   494	void pci_ide_init_nr_streams(struct pci_host_bridge *hb, int nr)
- > 495	{
+     9	
+    10	void rust_helper_iounmap(volatile void __iomem *addr)
+    11	{
+  > 12		iounmap(addr);
+    13	}
+    14	
 
 -- 
 0-DAY CI Kernel Test Service
