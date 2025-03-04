@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0F28836
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 03:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3059718A6A5
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 03:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741059386; cv=none; b=YOJoL+ov1XB6MDHVQ2sfWcFYCFAQpCaB/C1jjW5ozmzwO08nen9Lf2r9jSrUddnORylVJ3cSQzRKeYPpZIhnxr35On6xvLs0MoQd/B5jtE1xvE17HHgAe+O8mo5HPaoqKunZsJsDnTklXl8dTzC4oqXKyFXx+4kWWDNn+xWJteA=
+	t=1741059388; cv=none; b=LWHZDwNdslv2MenRfLPqKsUBeJzvH4w9BGTo0lCH2RWLWlyDCIrHWcrSi8p39BizysdzFfpKg40teyrq062c81WFLPJleWE0ch+IrxNrwKhhGxVzXko3Dr90vtkT8jEtK9axQ2d4q7GNyZHuZ70DuD6YYKF7m/py11tLzBgHJL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741059386; c=relaxed/simple;
-	bh=C/W1GyYvdYZj4wZLH3PW3LoXKDJC1fqZjRpYhfLj170=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yc/gKfvH3C5YeHz+97kC/AfLVgSSQ6kEIpIlP4FGDrYlnhk3qIKmw+s1iwliGLyP5eyg+AzLzitKJg0cSnYmI551ePYcz+U4IavdVFfw0Qtu5dnaLXkDh0XCd+tsxc71mXxE3V248eipZTv/5P1EMZ2dbUG2Z8KGI+zP51PiZx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ECgOPLZ8; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1741059388; c=relaxed/simple;
+	bh=zCg4gjw7d+J7qKHwjCgVMJEV1aJCXUZa2BZYOIr8pqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JEg73+rDhVpsw7zftvg5qg46aN8n1r9VeQh1Ef2bSFn051WRnRrpDaNCapEH/tiz/yqNi1XTA1Jr+tRqMPq5LrL7eaTpjX/2cOesMwp1Klhc1G6UBEc1uMofvL0vqKcrh4lSYJpTR7qlOgYX+Mi12RUKvCweJJejOy4qakHC3xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TyzkMGRh; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECgOPLZ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TyzkMGRh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741059384; x=1772595384;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C/W1GyYvdYZj4wZLH3PW3LoXKDJC1fqZjRpYhfLj170=;
-  b=ECgOPLZ8Th4bEk6zYuDY1Us1cT4SWH0X8bLAMdGQ/e5JshV1lfdzjluz
-   7B1G0r85o14nl+vv1O2W9KlgmqduBo7uN2CgjmubMuf3I33jsQdIpDpn4
-   Q1veTyCF7UuWVQCOer0+5Ii+HxDGnqM8d1ziy0/MfZSmedkBk1iqJQ8uj
-   BtDQc2oUtELIQ3K/fzkqk4FwYqp5Pddn0m4m1cCSf440NmE8INS5SFlt+
-   WFZvQCjBcmU/kkmoosFnOs/bgLA9PFJRvdajOsJpwDHg7ijr8ETs4jGvh
-   QvK90DL6LGwABBIEkz1sKQEgxRG/vIns2R4bvHLW8WNW6rTlWv1q703x8
-   A==;
-X-CSE-ConnectionGUID: BMufWxKGT+iie9AorCXeeg==
-X-CSE-MsgGUID: gC9su8IaQByVxHUlM2DMkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41204532"
+  t=1741059388; x=1772595388;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zCg4gjw7d+J7qKHwjCgVMJEV1aJCXUZa2BZYOIr8pqs=;
+  b=TyzkMGRhrKlOiwXCMsPdt55LR5a/IJeBe1WYDGnw83SWtYav37MKbPOG
+   nHkspBwbps38APoLVd+J72OFI6HOzTDPYLYEVIqwUXY2vI1LKSUahXbcN
+   RIYtZ4UsO9emqwUdvTDRAeZQXU7H6eyweBvF9/x063iIgvIfCWQBuv2xz
+   2kGrU5t6nQ2A9C8g7Soj6VcaUH4G2ap3JCCqRyUHm1cBVaovUzOwiWtL7
+   TFitFK7W+TfsPUe2XmcHWqA7ZbyeNkGH3Rg0tlYEzNRNkQegRkf0JBfnl
+   4nIJ6qGPTipn8jFZlEWQya4Y8RVfg4Dkg1uEoT2mavkyy3HXJZBjVA/id
+   w==;
+X-CSE-ConnectionGUID: C+wKQJyOQEaG/g1IeuRtEw==
+X-CSE-MsgGUID: eT0B+GwXSqGOkaaxS9rR5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="42149916"
 X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="41204532"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 19:36:24 -0800
-X-CSE-ConnectionGUID: SqmF7XhqQK6ZvZNRkPiPUg==
-X-CSE-MsgGUID: ab5xbJHYT/muRUFWLE62Iw==
+   d="scan'208";a="42149916"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 19:36:27 -0800
+X-CSE-ConnectionGUID: iqHCsxWDSEGfJEDbgn+hsQ==
+X-CSE-MsgGUID: b7TqvsPlR/uLYeYKDGkUVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="118726525"
+   d="scan'208";a="118247512"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Mar 2025 19:36:23 -0800
+  by orviesa006.jf.intel.com with ESMTP; 03 Mar 2025 19:36:23 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpJ4u-000JDv-2g;
+	id 1tpJ4u-000JDs-2c;
 	Tue, 04 Mar 2025 03:36:20 +0000
-Date: Tue, 4 Mar 2025 11:35:27 +0800
+Date: Tue, 4 Mar 2025 11:35:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 53/89] drivers/mfd/fsl-imx25-tsadc.c:68:29:
- warning: unused variable 'np'
-Message-ID: <202503041147.rhI02OMl-lkp@intel.com>
+To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, cgroups@vger.kernel.org
+Subject: Re: [PATCH] netfilter: Make xt_cgroup independent from net_cls
+Message-ID: <202503041133.n9Zlxnda-lkp@intel.com>
+References: <20250228165216.339407-1-mkoutny@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,59 +69,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250228165216.339407-1-mkoutny@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   2e34f839068291b65952cdcabb82b977d40d165c
-commit: 59da3790b5411205e18132392d6c8d78be1d9cd1 [53/89] irqdomain: mfd: Stop using irq_domain_add_simple()
-config: x86_64-buildonly-randconfig-002-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041147.rhI02OMl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041147.rhI02OMl-lkp@intel.com/reproduce)
+Hi Michal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on dd83757f6e686a2188997cb58b5975f744bb7786]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Koutn/netfilter-Make-xt_cgroup-independent-from-net_cls/20250301-005409
+base:   dd83757f6e686a2188997cb58b5975f744bb7786
+patch link:    https://lore.kernel.org/r/20250228165216.339407-1-mkoutny%40suse.com
+patch subject: [PATCH] netfilter: Make xt_cgroup independent from net_cls
+config: arm-omap2plus_defconfig (https://download.01.org/0day-ci/archive/20250304/202503041133.n9Zlxnda-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041133.n9Zlxnda-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503041147.rhI02OMl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503041133.n9Zlxnda-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mfd/fsl-imx25-tsadc.c: In function 'mx25_tsadc_setup_irq':
->> drivers/mfd/fsl-imx25-tsadc.c:68:29: warning: unused variable 'np' [-Wunused-variable]
-      68 |         struct device_node *np = dev->of_node;
-         |                             ^~
+   net/netfilter/xt_cgroup.c: In function 'cgroup_mt_v0':
+   net/netfilter/xt_cgroup.c:132:29: error: implicit declaration of function 'sock_cgroup_classid' [-Wimplicit-function-declaration]
+     132 |         return (info->id == sock_cgroup_classid(&skb->sk->sk_cgrp_data)) ^
+         |                             ^~~~~~~~~~~~~~~~~~~
+   net/netfilter/xt_cgroup.c: In function 'cgroup_mt_v1':
+   net/netfilter/xt_cgroup.c:147:45: error: implicit declaration of function 'sock_cgroup_ptr'; did you mean 'obj_cgroup_put'? [-Wimplicit-function-declaration]
+     147 |                 return cgroup_is_descendant(sock_cgroup_ptr(skcd), ancestor) ^
+         |                                             ^~~~~~~~~~~~~~~
+         |                                             obj_cgroup_put
+>> net/netfilter/xt_cgroup.c:147:45: error: passing argument 1 of 'cgroup_is_descendant' makes pointer from integer without a cast [-Wint-conversion]
+     147 |                 return cgroup_is_descendant(sock_cgroup_ptr(skcd), ancestor) ^
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             int
+   In file included from include/net/netprio_cgroup.h:11,
+                    from include/linux/netdevice.h:42,
+                    from include/linux/netfilter/x_tables.h:6,
+                    from net/netfilter/xt_cgroup.c:16:
+   include/linux/cgroup.h:511:56: note: expected 'struct cgroup *' but argument is of type 'int'
+     511 | static inline bool cgroup_is_descendant(struct cgroup *cgrp,
+         |                                         ~~~~~~~~~~~~~~~^~~~
+   net/netfilter/xt_cgroup.c: In function 'cgroup_mt_v2':
+   net/netfilter/xt_cgroup.c:165:45: error: passing argument 1 of 'cgroup_is_descendant' makes pointer from integer without a cast [-Wint-conversion]
+     165 |                 return cgroup_is_descendant(sock_cgroup_ptr(skcd), ancestor) ^
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             int
+   include/linux/cgroup.h:511:56: note: expected 'struct cgroup *' but argument is of type 'int'
+     511 | static inline bool cgroup_is_descendant(struct cgroup *cgrp,
+         |                                         ~~~~~~~~~~~~~~~^~~~
 
 
-vim +/np +68 drivers/mfd/fsl-imx25-tsadc.c
+vim +/cgroup_is_descendant +147 net/netfilter/xt_cgroup.c
 
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  63  
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  64  static int mx25_tsadc_setup_irq(struct platform_device *pdev,
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  65  				struct mx25_tsadc *tsadc)
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  66  {
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  67  	struct device *dev = &pdev->dev;
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14 @68  	struct device_node *np = dev->of_node;
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  69  	int irq;
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  70  
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  71  	irq = platform_get_irq(pdev, 0);
-75db7907355ca5 Dan Carpenter             2022-08-11  72  	if (irq < 0)
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  73  		return irq;
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  74  
-59da3790b54112 Jiri Slaby (SUSE          2025-02-26  75) 	tsadc->domain = irq_domain_create_simple(of_fwnode_handle(np), 2, 0,
-59da3790b54112 Jiri Slaby (SUSE          2025-02-26  76) 						 &mx25_tsadc_domain_ops, tsadc);
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  77  	if (!tsadc->domain) {
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  78  		dev_err(dev, "Failed to add irq domain\n");
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  79  		return -ENOMEM;
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  80  	}
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  81  
-f132bc3f301efa Martin Kaiser             2017-09-12  82  	irq_set_chained_handler_and_data(irq, mx25_tsadc_irq_handler, tsadc);
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  83  
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  84  	return 0;
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  85  }
-e2fccf5c151572 Markus Schneider-Pargmann 2015-12-14  86  
-
-:::::: The code at line 68 was first introduced by commit
-:::::: e2fccf5c15157218f0b6488168f98183f82c1eda mfd: fsl-imx25-tsadc: Register touchscreen ADC driver
-
-:::::: TO: Markus Pargmann <mpa@pengutronix.de>
-:::::: CC: Lee Jones <lee.jones@linaro.org>
+82a37132f300ea Daniel Borkmann 2013-12-29  135  
+c38c4597e4bf3e Tejun Heo       2015-12-07  136  static bool cgroup_mt_v1(const struct sk_buff *skb, struct xt_action_param *par)
+c38c4597e4bf3e Tejun Heo       2015-12-07  137  {
+c38c4597e4bf3e Tejun Heo       2015-12-07  138  	const struct xt_cgroup_info_v1 *info = par->matchinfo;
+c38c4597e4bf3e Tejun Heo       2015-12-07  139  	struct sock_cgroup_data *skcd = &skb->sk->sk_cgrp_data;
+c38c4597e4bf3e Tejun Heo       2015-12-07  140  	struct cgroup *ancestor = info->priv;
+f564650106a6e8 Flavio Leitner  2018-06-27  141  	struct sock *sk = skb->sk;
+c38c4597e4bf3e Tejun Heo       2015-12-07  142  
+f564650106a6e8 Flavio Leitner  2018-06-27  143  	if (!sk || !sk_fullsock(sk) || !net_eq(xt_net(par), sock_net(sk)))
+c38c4597e4bf3e Tejun Heo       2015-12-07  144  		return false;
+c38c4597e4bf3e Tejun Heo       2015-12-07  145  
+c38c4597e4bf3e Tejun Heo       2015-12-07  146  	if (ancestor)
+c38c4597e4bf3e Tejun Heo       2015-12-07 @147  		return cgroup_is_descendant(sock_cgroup_ptr(skcd), ancestor) ^
+c38c4597e4bf3e Tejun Heo       2015-12-07  148  			info->invert_path;
+c38c4597e4bf3e Tejun Heo       2015-12-07  149  	else
+c38c4597e4bf3e Tejun Heo       2015-12-07  150  		return (info->classid == sock_cgroup_classid(skcd)) ^
+c38c4597e4bf3e Tejun Heo       2015-12-07  151  			info->invert_classid;
+c38c4597e4bf3e Tejun Heo       2015-12-07  152  }
+c38c4597e4bf3e Tejun Heo       2015-12-07  153  
 
 -- 
 0-DAY CI Kernel Test Service
