@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606F61FC7CA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA691C2BD
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 10:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741083696; cv=none; b=qpCnRWEtY0nupzeCflDE/T9+j8vqx/YGEdMbi5/BfHe2zIjJRRPp3xNONfWDwqriL3XW9EK/cb4zec9sFs7I310re29nDI3+mh8iAHgSlq7XoS/bSCLfMugfEjQfs90RtSmhBP/LBiW4WsakOduZHaCxhjcaCdorp8XUK/xGyCk=
+	t=1741084093; cv=none; b=GRoP6+0URmEaexiwiQefIYo1Xo7tWa0vCopQ0daYVxgsk7hcFBYNN0tMqds5V1fFa0Px8sEQg0H2SeRvYlCw7igDXGn/ovUnkEF4tvqtr8yIQfmfDTyztdLOoggjBiKyFbizUi131Mu6DYQfFWdJCImoXpXij34udS6qZvjnFf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741083696; c=relaxed/simple;
-	bh=eRmKs/KA5t2czXG5JRwEy8ZVXDjGdUOsM9uvoq6t7cc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AMXxHX2g6Vl/G27JjdvXUOc5y9lTno4bbixsoW1UGRUSdeaR4Bf1GX7qvCjIB7BxvL0xI1RtTwph7vX9jI5Ox9XrOs+fHWraSPUHhQcLPh6aXHMdQK4PaQnPcBrS3OXFFFXykCcK0Jy2Rdd1UrPs2ckfz45BixMe+NmxOuUcIOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LdNqy69a; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741084093; c=relaxed/simple;
+	bh=97uODZjD3A4OsiJzEIFrZUGbVGhrTGa2NEDYSngpTrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=DrVmKUFYEEdf5Dm2ARC6vy9vyZT2OH0/PQUMT1Kvr3MFd4zVOV8EFI30opTULH1VA90/hg89YORpNusYX46cNKvprardoyLghCTeBJgI589tUmg2W2keUJL9Crix+ohiJNyoEvWboKbEynCopzEN239XkNBU5ZG+m+rdMQuSWus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qyp4BK08; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LdNqy69a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741083695; x=1772619695;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=eRmKs/KA5t2czXG5JRwEy8ZVXDjGdUOsM9uvoq6t7cc=;
-  b=LdNqy69aRdtO4Q89BHsnx4HnAvWHaQ4Q/cZkYyLnfCRC4mVRx1N8Hj3H
-   zC5OpIvBldvfMrnT1U2IptmDFWAJ0zgYKDXugfMGNNWr6N+3jAH3bXjm3
-   XM2KKjVKlg8KJ8q2lHn7hLkT8IU0tgGURsO6Qr3mxaSjhybS5mwhPbP42
-   2enrwtuJWQVwpTwuoF+4PB/KvuBnKqZ9Wtqkl1SiEdLqdOsORDFWO3lkj
-   rrDlZF9V27LqF2NDM6u2rPsPXOntDYqyIDw+upAkMxcmTtymkQQZUYW+0
-   6XS377zwoVYage93ipS7+mdUmtVZdPysComcr+j+P0FsZD+Z4H8PVYfH1
-   g==;
-X-CSE-ConnectionGUID: EECaOhzIR/WWOeZtgI18fw==
-X-CSE-MsgGUID: iEhHJmewRKqfaugPVhT5+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="41706107"
-X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="41706107"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 02:21:34 -0800
-X-CSE-ConnectionGUID: uCKql8lqQcuRNrOTAUIaIQ==
-X-CSE-MsgGUID: XSrKT2JCQyakIyC0NHMQqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149264140"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Mar 2025 02:21:33 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tpPP0-000Jal-2d
-	for oe-kbuild-all@lists.linux.dev;
-	Tue, 04 Mar 2025 10:21:30 +0000
-Date: Tue, 4 Mar 2025 18:20:57 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/57 1/1] net/netfilter/nf_conntrack_core.o: warning:
- objtool: __nf_conntrack_confirm()+0x17f3: unreachable instruction
-Message-ID: <202503041805.MvzIbjnv-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qyp4BK08"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43bc4b16135so11196305e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 04 Mar 2025 02:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741084089; x=1741688889; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gQ7CoGFD2iFvRPr/ZFej0po5vNDT++pElWgS74U9fxk=;
+        b=qyp4BK08Z/158HvzMub2YMzPtVriaCXsbty/IUky4nibWWrBle44iyrs+L29pnx1oz
+         4sbfbqWE1qMRHideur2tIDkv33n+c/nCeQG85VZVKiyEEXS1nU8PrQdtG4L+o2xV443n
+         W+vI1Guam+I3V6PDX58HOuYUiSCCT8+i5k+j7Hm4EBwHcc4hGIKNKh0G7piIfpghTXZL
+         W6QOyQcDD/9tAPDa928tEPCPPhOiMPBLjtEjubKzCeIdzf1skBwcggglTrXovQp7saKW
+         F7Qt3TRShdH0m90NA2u60zByNqFDtc36hteudwIMX8DKAIneHpEl7ZsHMhh16HGP2++y
+         cypg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741084089; x=1741688889;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gQ7CoGFD2iFvRPr/ZFej0po5vNDT++pElWgS74U9fxk=;
+        b=q9A23sPCnviigZOPCqRERYxvxneTxSH7rTwkyfoF0uCGFb548wV9Ncs39Ffagg/wbH
+         YqPs+oDvwg3ABaA9554X1quuyBPb7T0Qv2sn7aPGbMVOohhxP9MRiHBAcQrNW89ZOw+7
+         okoBhiHQSI4qGJf+KvpSbKzILi/Jdt+1GO6XF6Q1JHj9c9QYy/oBatF1tEE+/6llMzfW
+         ndp+GKsLb/4KccCb3LvAbvceIPfRgAH0/DETrywGTNsplIfUyfIs+VSfiQviVou3HWdw
+         MqHfhye3iGzs43xytSXqyfyn8sEEwqwJKnfUmq9JmFO6VQoc7rCGVm+syauZQMCD7bOP
+         2m8A==
+X-Forwarded-Encrypted: i=1; AJvYcCVbb2/pmKNKvr+8Md2a8c/YzcVa2UMXXBKd04Oz5MbFYDI0IlrNp/3dfnb/XFPBksYyQYK3xCrpG6FOucUU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyifXmGEAt7mSBzWNbZwqEfKY3zKzLQLCF8i4qS0P84cyb/92Je
+	vSzibzEnxAmU46mc/oxkgFXLfMTlwsGnTqn0l2NaTzlVK9w7S2lv5eOtkRYAIHw=
+X-Gm-Gg: ASbGncuX6eCCQCQI9b4zz9dDwbVXB6Fjdhw2bYZWsnPJXU+9X2V2ee9LE9FiVYydw4f
+	hzkMA9VuLXlZYKdmn1UQaZObRHW+vUWd3eR5Hdr8tUxOte8CYUxWvxaqqqyd6uqdt9B1N20/08V
+	FJolCU7JuPiWSD7feE2cxPh8kOfpp+hGGrMKcTlP3xlgnAJJjty6DTzzA9Uy/hnUg4fpYCQEMBV
+	IN2B4BjrZZv7t8kXEY+cO7BfWSZX5ZUipLZMcJqLs3g3nbAGfo27l2WPWwA/cYzme/U1yyub+vB
+	1UyJJeCa5NF9KxbS8I4A9CrCrh5CCDGSobSyK86n95XFvR0Xzg==
+X-Google-Smtp-Source: AGHT+IFJChvuv0JduXGK3MAJXNy1R0ZTDMnT9SqUSVvqelpPlcJ7SMiCGA2ATJvXIXXWQ8WjZgBb/A==
+X-Received: by 2002:a05:600c:1c1a:b0:43b:ce3d:1278 with SMTP id 5b1f17b1804b1-43bce3d1343mr7037665e9.31.1741084089273;
+        Tue, 04 Mar 2025 02:28:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43aba5710f6sm229777655e9.29.2025.03.04.02.28.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 02:28:08 -0800 (PST)
+Date: Tue, 4 Mar 2025 13:28:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, allison.henderson@oracle.com,
+	netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5/6] net/rds: rds_tcp_accept_one ought to not discard
+ messages
+Message-ID: <bcd9af0a-daf1-455c-a9b0-cbd1c2e65e4f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +72,227 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250227042638.82553-6-allison.henderson@oracle.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/57
-head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
-commit: 13f5251fd17088170c18844534682d9cab5ff5aa [1/1] netfilter: conntrack: fix cloned unconfirmed skb->_nfct race in __nf_conntrack_confirm
-config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250304/202503041805.MvzIbjnv-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041805.MvzIbjnv-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/allison-henderson-oracle-com/net-rds-Avoid-queuing-superfluous-send-and-recv-work/20250227-123038
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250227042638.82553-6-allison.henderson%40oracle.com
+patch subject: [PATCH 5/6] net/rds: rds_tcp_accept_one ought to not discard messages
+config: x86_64-randconfig-161-20250304 (https://download.01.org/0day-ci/archive/20250304/202503041749.YwkRic8W-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503041805.MvzIbjnv-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503041749.YwkRic8W-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+net/rds/tcp_listen.c:295 rds_tcp_accept_one() warn: inconsistent returns '&rtn->rds_tcp_accept_lock'.
 
->> net/netfilter/nf_conntrack_core.o: warning: objtool: __nf_conntrack_confirm()+0x17f3: unreachable instruction
+vim +/new_sock +156 net/rds/tcp_listen.c
+
+112b9a7a012048 Gerd Rausch       2025-02-26  109  int rds_tcp_accept_one(struct rds_tcp_net *rtn)
+70041088e3b976 Andy Grover       2009-08-21  110  {
+112b9a7a012048 Gerd Rausch       2025-02-26  111  	struct socket *listen_sock = rtn->rds_tcp_listen_sock;
+70041088e3b976 Andy Grover       2009-08-21  112  	struct socket *new_sock = NULL;
+70041088e3b976 Andy Grover       2009-08-21  113  	struct rds_connection *conn;
+70041088e3b976 Andy Grover       2009-08-21  114  	int ret;
+70041088e3b976 Andy Grover       2009-08-21  115  	struct inet_sock *inet;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  116  	struct rds_tcp_connection *rs_tcp = NULL;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  117  	int conn_state;
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  118  	struct rds_conn_path *cp;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  119  	struct in6_addr *my_addr, *peer_addr;
+92ef0fd55ac80d Jens Axboe        2024-05-09  120  	struct proto_accept_arg arg = {
+92ef0fd55ac80d Jens Axboe        2024-05-09  121  		.flags = O_NONBLOCK,
+92ef0fd55ac80d Jens Axboe        2024-05-09  122  		.kern = true,
+92ef0fd55ac80d Jens Axboe        2024-05-09  123  	};
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  124  #if !IS_ENABLED(CONFIG_IPV6)
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  125  	struct in6_addr saddr, daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  126  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  127  	int dev_if = 0;
+70041088e3b976 Andy Grover       2009-08-21  128  
+112b9a7a012048 Gerd Rausch       2025-02-26  129  	mutex_lock(&rtn->rds_tcp_accept_lock);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+112b9a7a012048 Gerd Rausch       2025-02-26  130  
+112b9a7a012048 Gerd Rausch       2025-02-26  131  	if (!listen_sock)
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  132  		return -ENETUNREACH;
+                                                                ^^^^^^^^^^^^^^^^^^^^
+Do this before taking the lock?
+
+37e14f4fe2991f Sowmini Varadhan  2016-05-18  133  
+112b9a7a012048 Gerd Rausch       2025-02-26  134  	new_sock = rtn->rds_tcp_accepted_sock;
+112b9a7a012048 Gerd Rausch       2025-02-26  135  	rtn->rds_tcp_accepted_sock = NULL;
+112b9a7a012048 Gerd Rausch       2025-02-26  136  
+112b9a7a012048 Gerd Rausch       2025-02-26 @137  	if (!new_sock) {
+112b9a7a012048 Gerd Rausch       2025-02-26  138  		ret = sock_create_lite(listen_sock->sk->sk_family,
+112b9a7a012048 Gerd Rausch       2025-02-26  139  				       listen_sock->sk->sk_type,
+112b9a7a012048 Gerd Rausch       2025-02-26  140  				       listen_sock->sk->sk_protocol,
+d5a8ac28a7ff2f Sowmini Varadhan  2015-08-05  141  				       &new_sock);
+70041088e3b976 Andy Grover       2009-08-21  142  		if (ret)
+70041088e3b976 Andy Grover       2009-08-21  143  			goto out;
+70041088e3b976 Andy Grover       2009-08-21  144  
+112b9a7a012048 Gerd Rausch       2025-02-26  145  		ret = listen_sock->ops->accept(listen_sock, new_sock, &arg);
+70041088e3b976 Andy Grover       2009-08-21  146  		if (ret < 0)
+70041088e3b976 Andy Grover       2009-08-21  147  			goto out;
+70041088e3b976 Andy Grover       2009-08-21  148  
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  149  		/* sock_create_lite() does not get a hold on the owner module so we
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  150  		 * need to do it here.  Note that sock_release() uses sock->ops to
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  151  		 * determine if it needs to decrement the reference count.  So set
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  152  		 * sock->ops after calling accept() in case that fails.  And there's
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  153  		 * no need to do try_module_get() as the listener should have a hold
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  154  		 * already.
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  155  		 */
+112b9a7a012048 Gerd Rausch       2025-02-26 @156  		new_sock->ops = listen_sock->ops;
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  157  		__module_get(new_sock->ops->owner);
+84eef2b2187ed7 Ka-Cheong Poon    2018-03-01  158  
+480aeb9639d6a0 Christoph Hellwig 2020-05-28  159  		rds_tcp_keepalive(new_sock);
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  160  		if (!rds_tcp_tune(new_sock)) {
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  161  			ret = -EINVAL;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  162  			goto out;
+6997fbd7a3dafa Tetsuo Handa      2022-05-05  163  		}
+70041088e3b976 Andy Grover       2009-08-21  164  
+70041088e3b976 Andy Grover       2009-08-21  165  		inet = inet_sk(new_sock->sk);
+112b9a7a012048 Gerd Rausch       2025-02-26  166  	}
+70041088e3b976 Andy Grover       2009-08-21  167  
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  168  #if IS_ENABLED(CONFIG_IPV6)
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  169  	my_addr = &new_sock->sk->sk_v6_rcv_saddr;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  170  	peer_addr = &new_sock->sk->sk_v6_daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  171  #else
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  172  	ipv6_addr_set_v4mapped(inet->inet_saddr, &saddr);
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  173  	ipv6_addr_set_v4mapped(inet->inet_daddr, &daddr);
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  174  	my_addr = &saddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  175  	peer_addr = &daddr;
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  176  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  177  	rdsdebug("accepted family %d tcp %pI6c:%u -> %pI6c:%u\n",
+112b9a7a012048 Gerd Rausch       2025-02-26  178  		 listen_sock->sk->sk_family,
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  179  		 my_addr, ntohs(inet->inet_sport),
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  180  		 peer_addr, ntohs(inet->inet_dport));
+70041088e3b976 Andy Grover       2009-08-21  181  
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  182  #if IS_ENABLED(CONFIG_IPV6)
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  183  	/* sk_bound_dev_if is not set if the peer address is not link local
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  184  	 * address.  In this case, it happens that mcast_oif is set.  So
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  185  	 * just use it.
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  186  	 */
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  187  	if ((ipv6_addr_type(my_addr) & IPV6_ADDR_LINKLOCAL) &&
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  188  	    !(ipv6_addr_type(peer_addr) & IPV6_ADDR_LINKLOCAL)) {
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  189  		struct ipv6_pinfo *inet6;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  190  
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  191  		inet6 = inet6_sk(new_sock->sk);
+d2f011a0bf28c0 Eric Dumazet      2023-12-08  192  		dev_if = READ_ONCE(inet6->mcast_oif);
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  193  	} else {
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  194  		dev_if = new_sock->sk->sk_bound_dev_if;
+1e2b44e78eead7 Ka-Cheong Poon    2018-07-23  195  	}
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  196  #endif
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  197  
+112b9a7a012048 Gerd Rausch       2025-02-26  198  	if (!rds_tcp_laddr_check(sock_net(listen_sock->sk), peer_addr, dev_if)) {
+aced3ce57cd37b Rao Shoaib        2021-05-21  199  		/* local address connection is only allowed via loopback */
+aced3ce57cd37b Rao Shoaib        2021-05-21  200  		ret = -EOPNOTSUPP;
+aced3ce57cd37b Rao Shoaib        2021-05-21  201  		goto out;
+aced3ce57cd37b Rao Shoaib        2021-05-21  202  	}
+aced3ce57cd37b Rao Shoaib        2021-05-21  203  
+112b9a7a012048 Gerd Rausch       2025-02-26  204  	conn = rds_conn_create(sock_net(listen_sock->sk),
+e65d4d96334e3f Ka-Cheong Poon    2018-07-30  205  			       my_addr, peer_addr,
+3eb450367d0823 Santosh Shilimkar 2018-10-23  206  			       &rds_tcp_transport, 0, GFP_KERNEL, dev_if);
+eee2fa6ab32251 Ka-Cheong Poon    2018-07-23  207  
+70041088e3b976 Andy Grover       2009-08-21  208  	if (IS_ERR(conn)) {
+70041088e3b976 Andy Grover       2009-08-21  209  		ret = PTR_ERR(conn);
+70041088e3b976 Andy Grover       2009-08-21  210  		goto out;
+70041088e3b976 Andy Grover       2009-08-21  211  	}
+f711a6ae062cae Sowmini Varadhan  2015-05-05  212  	/* An incoming SYN request came in, and TCP just accepted it.
+f711a6ae062cae Sowmini Varadhan  2015-05-05  213  	 *
+f711a6ae062cae Sowmini Varadhan  2015-05-05  214  	 * If the client reboots, this conn will need to be cleaned up.
+f711a6ae062cae Sowmini Varadhan  2015-05-05  215  	 * rds_tcp_state_change() will do that cleanup
+f711a6ae062cae Sowmini Varadhan  2015-05-05  216  	 */
+112b9a7a012048 Gerd Rausch       2025-02-26  217  	if (rds_addr_cmp(&conn->c_faddr, &conn->c_laddr) < 0) {
+112b9a7a012048 Gerd Rausch       2025-02-26  218  		/* Try to obtain a free connection slot.
+112b9a7a012048 Gerd Rausch       2025-02-26  219  		 * If unsuccessful, we need to preserve "new_sock"
+112b9a7a012048 Gerd Rausch       2025-02-26  220  		 * that we just accepted, since its "sk_receive_queue"
+112b9a7a012048 Gerd Rausch       2025-02-26  221  		 * may contain messages already that have been acknowledged
+112b9a7a012048 Gerd Rausch       2025-02-26  222  		 * to and discarded by the sender.
+112b9a7a012048 Gerd Rausch       2025-02-26  223  		 * We must not throw those away!
+112b9a7a012048 Gerd Rausch       2025-02-26  224  		 */
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  225  		rs_tcp = rds_tcp_accept_one_path(conn);
+112b9a7a012048 Gerd Rausch       2025-02-26  226  		if (!rs_tcp) {
+112b9a7a012048 Gerd Rausch       2025-02-26  227  			/* It's okay to stash "new_sock", since
+112b9a7a012048 Gerd Rausch       2025-02-26  228  			 * "rds_tcp_conn_slots_available" triggers "rds_tcp_accept_one"
+112b9a7a012048 Gerd Rausch       2025-02-26  229  			 * again as soon as one of the connection slots
+112b9a7a012048 Gerd Rausch       2025-02-26  230  			 * becomes available again
+112b9a7a012048 Gerd Rausch       2025-02-26  231  			 */
+112b9a7a012048 Gerd Rausch       2025-02-26  232  			rtn->rds_tcp_accepted_sock = new_sock;
+112b9a7a012048 Gerd Rausch       2025-02-26  233  			new_sock = NULL;
+112b9a7a012048 Gerd Rausch       2025-02-26  234  			ret = -ENOBUFS;
+112b9a7a012048 Gerd Rausch       2025-02-26  235  			goto out;
+112b9a7a012048 Gerd Rausch       2025-02-26  236  		}
+112b9a7a012048 Gerd Rausch       2025-02-26  237  	} else {
+112b9a7a012048 Gerd Rausch       2025-02-26  238  		/* This connection request came from a peer with
+112b9a7a012048 Gerd Rausch       2025-02-26  239  		 * a larger address.
+112b9a7a012048 Gerd Rausch       2025-02-26  240  		 * Function "rds_tcp_state_change" makes sure
+112b9a7a012048 Gerd Rausch       2025-02-26  241  		 * that the connection doesn't transition
+112b9a7a012048 Gerd Rausch       2025-02-26  242  		 * to state "RDS_CONN_UP", and therefore
+112b9a7a012048 Gerd Rausch       2025-02-26  243  		 * we should not have received any messages
+112b9a7a012048 Gerd Rausch       2025-02-26  244  		 * on this socket yet.
+112b9a7a012048 Gerd Rausch       2025-02-26  245  		 * This is the only case where it's okay to
+112b9a7a012048 Gerd Rausch       2025-02-26  246  		 * not dequeue messages from "sk_receive_queue".
+112b9a7a012048 Gerd Rausch       2025-02-26  247  		 */
+112b9a7a012048 Gerd Rausch       2025-02-26  248  		if (conn->c_npaths <= 1)
+112b9a7a012048 Gerd Rausch       2025-02-26  249  			rds_conn_path_connect_if_down(&conn->c_path[0]);
+112b9a7a012048 Gerd Rausch       2025-02-26  250  		rs_tcp = NULL;
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  251  		goto rst_nsk;
+112b9a7a012048 Gerd Rausch       2025-02-26  252  	}
+112b9a7a012048 Gerd Rausch       2025-02-26  253  
+02105b2ccdd634 Sowmini Varadhan  2016-06-30  254  	mutex_lock(&rs_tcp->t_conn_path_lock);
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  255  	cp = rs_tcp->t_cpath;
+5916e2c1554f3e Sowmini Varadhan  2016-07-14  256  	conn_state = rds_conn_path_state(cp);
+1a0e100fb2c966 Sowmini Varadhan  2016-11-16  257  	WARN_ON(conn_state == RDS_CONN_UP);
+112b9a7a012048 Gerd Rausch       2025-02-26  258  	if (conn_state != RDS_CONN_CONNECTING && conn_state != RDS_CONN_ERROR) {
+112b9a7a012048 Gerd Rausch       2025-02-26  259  		rds_conn_path_drop(cp, 0);
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  260  		goto rst_nsk;
+112b9a7a012048 Gerd Rausch       2025-02-26  261  	}
+eb192840266fab Sowmini Varadhan  2016-05-02  262  	if (rs_tcp->t_sock) {
+41500c3e2a19ff Sowmini Varadhan  2017-06-15  263  		/* Duelling SYN has been handled in rds_tcp_accept_one() */
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  264  		rds_tcp_reset_callbacks(new_sock, cp);
+9c79440e2c5e25 Sowmini Varadhan  2016-06-04  265  		/* rds_connect_path_complete() marks RDS_CONN_UP */
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  266  		rds_connect_path_complete(cp, RDS_CONN_RESETTING);
+335b48d980f631 Sowmini Varadhan  2016-06-04  267  	} else {
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  268  		rds_tcp_set_callbacks(new_sock, cp);
+ea3b1ea5393087 Sowmini Varadhan  2016-06-30  269  		rds_connect_path_complete(cp, RDS_CONN_CONNECTING);
+e70845e6ecd132 Ka-Cheong Poon    2025-02-26  270  		wake_up(&cp->cp_up_waitq);
+335b48d980f631 Sowmini Varadhan  2016-06-04  271  	}
+70041088e3b976 Andy Grover       2009-08-21  272  	new_sock = NULL;
+70041088e3b976 Andy Grover       2009-08-21  273  	ret = 0;
+69b92b5b741984 Sowmini Varadhan  2017-06-21  274  	if (conn->c_npaths == 0)
+69b92b5b741984 Sowmini Varadhan  2017-06-21  275  		rds_send_ping(cp->cp_conn, cp->cp_index);
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  276  	goto out;
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  277  rst_nsk:
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  278  	/* reset the newly returned accept sock and bail.
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  279  	 * It is safe to set linger on new_sock because the RDS connection
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  280  	 * has not been brought up on new_sock, so no RDS-level data could
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  281  	 * be pending on it. By setting linger, we achieve the side-effect
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  282  	 * of avoiding TIME_WAIT state on new_sock.
+10beea7d7408d0 Sowmini Varadhan  2017-06-15  283  	 */
+c433594c07457d Christoph Hellwig 2020-05-28  284  	sock_no_linger(new_sock->sk);
+335b48d980f631 Sowmini Varadhan  2016-06-04  285  	kernel_sock_shutdown(new_sock, SHUT_RDWR);
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  286  	ret = 0;
+70041088e3b976 Andy Grover       2009-08-21  287  out:
+bd7c5f983f3185 Sowmini Varadhan  2016-05-02  288  	if (rs_tcp)
+02105b2ccdd634 Sowmini Varadhan  2016-06-30  289  		mutex_unlock(&rs_tcp->t_conn_path_lock);
+70041088e3b976 Andy Grover       2009-08-21  290  	if (new_sock)
+70041088e3b976 Andy Grover       2009-08-21  291  		sock_release(new_sock);
+112b9a7a012048 Gerd Rausch       2025-02-26  292  
+112b9a7a012048 Gerd Rausch       2025-02-26  293  	mutex_unlock(&rtn->rds_tcp_accept_lock);
+112b9a7a012048 Gerd Rausch       2025-02-26  294  
+70041088e3b976 Andy Grover       2009-08-21 @295  	return ret;
+70041088e3b976 Andy Grover       2009-08-21  296  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
