@@ -1,71 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E890220371A;
-	Tue,  4 Mar 2025 18:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E85259C9C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 19:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741114206; cv=none; b=Pk37mbltJgQfiRETYGwk8J8K4hWieFn4xnJ84tS/D3oELxz5BwGAOn5RsoijuBJcEY2GLW6H7HrnOYqWTela6YdcBnUyer+6kK0x41pgZZc0Vb2t8jbDzX5vubPknB7iiw+e6sfj7vXpN1UZdfjsvoq1bcYYiL/ZCARFP+ufO/g=
+	t=1741116129; cv=none; b=Ckr8ld6qh5fyNW9kQMSzYdql+AkJRqAJecEv5MKDolbxCSjVZeNnUiwLZiDXCV/2s4HynmQM7CAMUFZkX7Isu7efgrmRMlOdO6sr8dBHqug45UWdtRSlzajHd/38dbzARQMVPYWpQ92KUMNDpRzfqtcTaNPBAYdaOVxCxVmckXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741114206; c=relaxed/simple;
-	bh=ERDSiQRCm2WziHCfxkR9TWnvgzH+j6+KMNNxZfF4lWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ou/dZpZEQMrP0CSoXVKRm/DqLCTk9G5ndKctTGar0vh+UAWAMFNPCW59wXDfqSnd9YA442jlXDuWsqUU+AohhQ3EQ7aeXdE6pPVWhupRiGo7z2jw48rsU3Hd4OprAQZkOSZkm15eRtdDkS1a2x6aThZ+tscRTB/YLxoaP187sXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzB3Gi66; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1741116129; c=relaxed/simple;
+	bh=sS1Jy4MZ3ULHuGCYt3nACn4VMCcZWnFa/TQI0pe2Plw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qAHZNlgxYrBuLghfXs5dAkpQxMXALqoaPkQyS7ZpDGVjQkx6DVJ4qRGDPgVTo/DFOj4yhF29PQxNN3nIoTYi5/Xv6fr0clBn/z698iFc91TW9H6gx3toXAeGiBtE/QueuYAgKm23nTbplJBhv3B314PGh3oadXNAVfTCMxwsbj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2kBPhps; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzB3Gi66"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2kBPhps"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741114205; x=1772650205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ERDSiQRCm2WziHCfxkR9TWnvgzH+j6+KMNNxZfF4lWE=;
-  b=KzB3Gi66euFArwO0URpDfCMe5BsZQdXjpdJwsO0JpSJOClHsD29xTZ05
-   YtykOXQYrE0vCOXWxYpOHkzgvCRXf4/86RbKGe4f8UtKj+qXlPi8fizDh
-   redo7fFZ0GlcuqMYkKf8gXT1pIvhy+VOZPVq74oa0i85gPjsg514ro9Jp
-   5fLrLJP4tFf0bwkDnJRiHHJTRC8wPfDXOBmFx7rBQLtKhFQZ6pjpUVq1s
-   XhK+fteVKXiYx8n1RrxwhWjCLySh8Qo5Pqd3Xm+hxb1qVH1/0XBmGwkbW
-   O3VarGZyV6vuKPjI+myqfjzyYE2OSBzhvBCXNgx2qV29wzsygB/Uqv3Uq
-   Q==;
-X-CSE-ConnectionGUID: kg6wM3udQcS8avnz0qObeg==
-X-CSE-MsgGUID: tjE8SzAQQTO6+gkrCznj7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41300919"
+  t=1741116127; x=1772652127;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sS1Jy4MZ3ULHuGCYt3nACn4VMCcZWnFa/TQI0pe2Plw=;
+  b=G2kBPhpsRDEGVwC9HmkTni0viOgu9QZBPbjyGtXM2xoIBye5xTXIZUq6
+   oDN6rGu71rsBL7BozSG07kasZizdALkrrUw4EWtnBh/KGAkNOlewRv6WF
+   v90pw8Yi3fpPa4HtxocPaoQIh+nG6AFk1PFHPSst8iPjGuYtlQXkCXs4D
+   dqlLTYlVSCPcRGS4+k8YNtEuEGilGrZUIf0IkMkBL7DOsYMeUnayZQUlA
+   AK0YaCKbzD/GRwqO/TdGjTiPuC4DXlOaKK1SIfdAsgV+7Tgz4otAuReAj
+   rJU6IGLTX/G1VzxZwOi3LIwy0bJGtHJoET4S/6o3FDDeSlZN+isbrZdr9
+   A==;
+X-CSE-ConnectionGUID: FPw6z7ekTcSQLrU2oBtURg==
+X-CSE-MsgGUID: OldCCqM2RcOnC/4ZhipL/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="67424331"
 X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
-   d="scan'208";a="41300919"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 10:50:04 -0800
-X-CSE-ConnectionGUID: L2gp5m1iTESUO//o6ZLqsw==
-X-CSE-MsgGUID: PJuqkSteSBei5ABb7SshKA==
+   d="scan'208";a="67424331"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2025 11:22:07 -0800
+X-CSE-ConnectionGUID: hT0DxdifQo6QeQkn/ygtgA==
+X-CSE-MsgGUID: bgb2E51WRXWqQIySLdsFBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,220,1736841600"; 
-   d="scan'208";a="118193970"
+   d="scan'208";a="118614670"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 04 Mar 2025 10:50:01 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 04 Mar 2025 11:22:05 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpXL4-000K9m-0h;
-	Tue, 04 Mar 2025 18:49:58 +0000
-Date: Wed, 5 Mar 2025 02:49:38 +0800
+	id 1tpXq6-000KBI-2L;
+	Tue, 04 Mar 2025 19:22:02 +0000
+Date: Wed, 5 Mar 2025 03:21:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Eggers <ceggers@arri.de>,
-	Russell King <linux@armlinux.org.uk>,
-	Yuntao Liu <liuyuntao12@huawei.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Christian Eggers <ceggers@arri.de>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 1/2] ARM: substitute OVERLAY description in linker
- script
-Message-ID: <202503050230.820w99b6-lkp@intel.com>
-References: <20250224125414.2184-1-ceggers@arri.de>
+To: David Heidelberg <david@ixit.cz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:devel 27/46] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/media/i2c/ov7670.txt
+Message-ID: <202503050359.6DYrXi6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,40 +67,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250224125414.2184-1-ceggers@arri.de>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.14-rc5 next-20250304]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Eggers/ARM-avoid-that-vectors-are-removed-during-linker-garbage-collection/20250224-210146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20250224125414.2184-1-ceggers%40arri.de
-patch subject: [PATCH v2 1/2] ARM: substitute OVERLAY description in linker script
-config: arm-milbeaut_m10v_defconfig (https://download.01.org/0day-ci/archive/20250305/202503050230.820w99b6-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 14170b16028c087ca154878f5ed93d3089a965c6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503050230.820w99b6-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git devel
+head:   d84f66b64b763277de4a99cca88cccede13ec914
+commit: bcf999e34bc7c56a4cc589a2aadfcf248bbc3f1c [27/46] media: dt-bindings: media: i2c: align filenames format with standard
+reproduce: (https://download.01.org/0day-ci/archive/20250305/202503050359.6DYrXi6o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503050230.820w99b6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503050359.6DYrXi6o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: section .vectors.bhb.bpiall virtual address range overlaps with .vectors.bhb.loop8
-   >>> .vectors.bhb.bpiall range is [0xFFFF0000, 0xFFFF001F]
-   >>> .vectors.bhb.loop8 range is [0xFFFF0000, 0xFFFF001F]
---
->> ld.lld: error: section .vectors.bhb.loop8 virtual address range overlaps with .vectors
-   >>> .vectors.bhb.loop8 range is [0xFFFF0000, 0xFFFF001F]
-   >>> .vectors range is [0xFFFF0000, 0xFFFF001F]
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov7670.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
 
 -- 
 0-DAY CI Kernel Test Service
