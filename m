@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C09E13DDAA;
-	Tue,  4 Mar 2025 01:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FA134545
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Mar 2025 02:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741051571; cv=none; b=oSh958elxWImol39EgTRT9kRJhn/O7cXdCZbTETIBK6kfVHdgYWbfZf9EhzcB+6R5/QBhrq0L4PqS8MP41Z/vQYDY69wcWs6F000cZwVGl6hwUD031iAd1AdzsETVR0lUkKklbAZy7KkE1HFbSgRmcvRcuzY55kZBQsWXlEYcIU=
+	t=1741054034; cv=none; b=Quwtb9wXRFXVpLxeJvWZYjA8mjUQ9w8qUrabd/PXGspJDjequDQ2VKZfnn9yjKLgYHB2PQGVBlTxhIZ9h4hrLNiCurP1JrMsQBNrY6N3f2VIMpfcyKhlV1K9AeUBSHsQvnFSJUdnTUIqQNjlhRwzacBfDYfX0Gaf8dJMlSLeTxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741051571; c=relaxed/simple;
-	bh=YiZaoiok5I5oPdwlFn37HPnRMfwWP7zPxdm2K7b6Fag=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DJvRjbkJC/FVqQRwDLMaBopQq3bgXLZ88SdbhIFBJfSqbOL9z631lD5mKcTY33RqpyLe2Fb7MFjREHswbjKsCCQzjeL5X3mtSEDD8GAoi3NFUEljZtflCpQUSHlvRYHzeC+OnWRnUTP7ySeJ/YIr/zJvV/tFlos8m0wuI2vVEPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eL+8r5Xy; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1741054034; c=relaxed/simple;
+	bh=diIZ4gu3Z5eYgUKkKK50smet2ls2nlkJqmc2RAJf3m8=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zgze+9mkOM/dx2fw87EANCik+3ubGyTFAZcJqdM8uAHcV0Ust9W8iRkySdtHtp24AshAkl5dVobI1lcEl4FwBAi3niSe4OI14cB09VKPH+UxUS/JV9EvSP1R5f3PL5UwuZu+TsFZED7EqoP+LS6o+fs6cy6FZsGeE/EYbTqFPw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hUr7/4ye; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eL+8r5Xy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUr7/4ye"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741051570; x=1772587570;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YiZaoiok5I5oPdwlFn37HPnRMfwWP7zPxdm2K7b6Fag=;
-  b=eL+8r5Xyqa6/orDyaIlFnC6QMjq1Xzv5CbfOCQHsuH+EbBSudPRXLeRo
-   EIT/GvRKITtGjj5QwTdCMxhjwJUPoLtZeda5nnQ0V+v9gunofqazprxus
-   H7pNrOtJbeVjoce9jrSjc3+PTgPCtUZzoCV7A8EOLrhPgF38KcNk1g4UR
-   Xkyqw2m14AYDzOG4Wu5HWCF7udH50OyZ0fd+93AQlx5zAt4NK5RTurf6O
-   xpQZuXsQFWRDgf53bG5PCyqHbY8hWDQVDI+lmsOrIQI4Q6f83bhWXhlKP
-   +gKN0gqaOkzx3YVoOQgMgVH1T3ZwfWsdnUFA4B2SY8wi8SIVgIR+L/ZdT
-   g==;
-X-CSE-ConnectionGUID: aHxsND/xRXeBER7Zl4weDw==
-X-CSE-MsgGUID: WI0iPQqvRvm+ZpemDlGTyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="53345456"
+  t=1741054032; x=1772590032;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=diIZ4gu3Z5eYgUKkKK50smet2ls2nlkJqmc2RAJf3m8=;
+  b=hUr7/4yeBGAAillbQWzMOnrLCoGRLFcJjHezWMdk3RTkPdObONrolQ1N
+   O6D4kMG2wGn0VDJsCql6fVqI2rtXJo2nqNbIul8E2BBZV5JZrHM49eUHj
+   JJ6W7/JpLBfIA573AGkr8TAg7f2Xp9OrjtwiBUw+yTQs2kkvg8s6GqIes
+   RTDlFGwu/VdF5DU99ebYI0xgHaxODZYIaXbMovn6jjPEN4HLGUHd6nAms
+   fmHNL3KGAMb2K2TXuLVUjQOqoyMQCenfJM5B66QGJomPt76KfyKPmZ5oK
+   gJlIVGcE2ks4S0tWYvI3TWK1pPfSv49wUXNAe3YfnHZEZ9x4c+6X/tvvG
+   A==;
+X-CSE-ConnectionGUID: KRRDRYSRROGH877kJ3nz6A==
+X-CSE-MsgGUID: 8jJ7dUItQLO5OUBSYZtPkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11362"; a="59501457"
 X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="53345456"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 17:26:09 -0800
-X-CSE-ConnectionGUID: VlVOrw4iS3inpz+wPeb0/A==
-X-CSE-MsgGUID: vJy85qGARLOfTxMvzsEMwQ==
+   d="scan'208";a="59501457"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2025 18:07:12 -0800
+X-CSE-ConnectionGUID: G6LQK/6ySIu8Td3sdvJGbw==
+X-CSE-MsgGUID: Bjz6GRpJSAeYbOve1CKV3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,331,1732608000"; 
-   d="scan'208";a="117953050"
+   d="scan'208";a="118916056"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 03 Mar 2025 17:26:07 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 03 Mar 2025 18:07:11 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpH2r-000J7O-0B;
-	Tue, 04 Mar 2025 01:26:05 +0000
-Date: Tue, 4 Mar 2025 09:25:22 +0800
+	id 1tpHgb-000J9u-0T
+	for oe-kbuild-all@lists.linux.dev;
+	Tue, 04 Mar 2025 02:07:09 +0000
+Date: Tue, 4 Mar 2025 10:06:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, Farrah Chen <farrah.chen@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Binbin Wu <binbin.wu@linux.intel.com>
-Subject: [kvm:kvm-coco-queue 115/127] ERROR: modpost: "tdx_has_emulated_msr"
- [arch/x86/kvm/kvm-intel.ko] undefined!
-Message-ID: <202503040911.EFn6ARad-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] include/uapi/linux/swab.h:119:9: warning:
+ array subscript i is outside array bounds of 'kgid_t[0]'
+Message-ID: <202503041014.NEMCM6qN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,31 +62,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
-head:   9fe4541afcfad987d39790f0a40527af190bf0dd
-commit: 45906ac7d5845667e6d37f2f4b86034ca1c5fbd2 [115/127] KVM: TDX: Implement callbacks for MSR operations
-config: x86_64-randconfig-077-20250302 (https://download.01.org/0day-ci/archive/20250304/202503040911.EFn6ARad-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503040911.EFn6ARad-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: e8680a24a269bd6dcb533f4e4a5faba9ae58925c [1/1] SUNRPC: Use struct xdr_stream when constructing RPC Call header
+config: riscv-randconfig-001-20250217 (https://download.01.org/0day-ci/archive/20250304/202503041014.NEMCM6qN-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250304/202503041014.NEMCM6qN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503040911.EFn6ARad-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503041014.NEMCM6qN-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: "tdx_interrupt_allowed" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "enable_tdx" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_disable_virtualization_cpu" [arch/x86/kvm/kvm-intel.ko] undefined!
->> ERROR: modpost: "tdx_has_emulated_msr" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_vm_init" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_vm_destroy" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_mmu_release_hkid" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_vcpu_create" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_vcpu_free" [arch/x86/kvm/kvm-intel.ko] undefined!
-ERROR: modpost: "tdx_vcpu_reset" [arch/x86/kvm/kvm-intel.ko] undefined!
-WARNING: modpost: suppressed 24 unresolved symbol warnings because there were too many)
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/little_endian.h:13,
+                    from include/linux/byteorder/little_endian.h:5,
+                    from arch/riscv/include/uapi/asm/byteorder.h:21,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/riscv/include/asm/bitops.h:215,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/riscv/include/asm/bug.h:75,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/gfp.h:5,
+                    from include/linux/slab.h:15,
+                    from net/sunrpc/auth_unix.c:10:
+   net/sunrpc/auth_unix.c: In function 'unx_marshal':
+>> include/uapi/linux/swab.h:119:9: warning: array subscript i is outside array bounds of 'kgid_t[0]' [-Warray-bounds=]
+     119 |         __fswab32(x))
+         |         ^~~~~~~~~~~~
+   include/uapi/linux/byteorder/little_endian.h:39:43: note: in expansion of macro '__swab32'
+      39 | #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
+         |                                           ^~~~~~~~
+   include/linux/byteorder/generic.h:94:21: note: in expansion of macro '__cpu_to_be32'
+      94 | #define cpu_to_be32 __cpu_to_be32
+         |                     ^~~~~~~~~~~~~
+   net/sunrpc/auth_unix.c:131:32: note: in expansion of macro 'cpu_to_be32'
+     131 |                         *p++ = cpu_to_be32(from_kgid(&init_user_ns,
+         |                                ^~~~~~~~~~~
+   In file included from include/linux/seq_file.h:12,
+                    from include/linux/seq_file_net.h:5,
+                    from include/net/net_namespace.h:168,
+                    from include/linux/inet.h:46,
+                    from include/linux/sunrpc/msg_prot.h:204,
+                    from include/linux/sunrpc/clnt.h:18,
+                    from net/sunrpc/auth_unix.c:15:
+   include/linux/cred.h:33:25: note: while referencing 'gid'
+      33 |         kgid_t          gid[0];
+         |                         ^~~
+
+
+vim +119 include/uapi/linux/swab.h
+
+607ca46e97a1b6 David Howells 2012-10-13  108  
+607ca46e97a1b6 David Howells 2012-10-13  109  /**
+607ca46e97a1b6 David Howells 2012-10-13  110   * __swab32 - return a byteswapped 32-bit value
+607ca46e97a1b6 David Howells 2012-10-13  111   * @x: value to byteswap
+607ca46e97a1b6 David Howells 2012-10-13  112   */
+7322dd755e7dd3 Arnd Bergmann 2016-05-05  113  #ifdef __HAVE_BUILTIN_BSWAP32__
+7322dd755e7dd3 Arnd Bergmann 2016-05-05  114  #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+7322dd755e7dd3 Arnd Bergmann 2016-05-05  115  #else
+607ca46e97a1b6 David Howells 2012-10-13  116  #define __swab32(x)				\
+607ca46e97a1b6 David Howells 2012-10-13  117  	(__builtin_constant_p((__u32)(x)) ?	\
+607ca46e97a1b6 David Howells 2012-10-13  118  	___constant_swab32(x) :			\
+607ca46e97a1b6 David Howells 2012-10-13 @119  	__fswab32(x))
+7322dd755e7dd3 Arnd Bergmann 2016-05-05  120  #endif
+607ca46e97a1b6 David Howells 2012-10-13  121  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 607ca46e97a1b6594b29647d98a32d545c24bdff UAPI: (Scripted) Disintegrate include/linux
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
