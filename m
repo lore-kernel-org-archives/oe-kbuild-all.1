@@ -1,87 +1,148 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A69686340;
-	Wed,  5 Mar 2025 10:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7CE2063C6;
+	Wed,  5 Mar 2025 10:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741169399; cv=none; b=tTevtl1BPPZPy8cuuOOO833YHRPwaA2T7Y9qFCUyLZj8F77WMmKcmEv0SQbZw4Xa47Va9yHAxZEPp8wEh1UZIcdyuvdIbRBzVO/eV3PlAGyTCFhHlHzMOcU88TsHL40dD+GCi2cLBNgyS7bIzmDs+SZBtpXG/QT7yqljJQKimIU=
+	t=1741170533; cv=none; b=oQ0v3UXB0DOEtplaCdKgyROC0B0TOcAYdyZjUpWf16FjcyniKiQoGFzsrPx9OP/XCFkMCVKoU4ozAKXa6zkESanVrxT3isjQSEN5Wxzxj6AEcNeIe4XjNEnuto9FxNe9pQ+P+QS8iMoOl11Qx32OwCHcer7OkNr8oWFD4nn2+0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741169399; c=relaxed/simple;
-	bh=JfQ0SutbZskY9uqbYKs9uq8KWISLob0b6vkzdB/aMyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iuaGT6968ML5rEva7wqjPlTdmNC3CWAj+Af0bLUDEBlW08UDhDvNWa59BLO+fhGgXGJ5AW/6C2SrTHup2tbU+jCKkW5dlqgyBsQasVPTmSg/G2AOGHUdn0xjbmmK8sAlX7o3giRF5p4iQve7+JDvsrUuGucNp2jjBZhiQWxHUXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=hQuZ3GIp; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1741170533; c=relaxed/simple;
+	bh=OpKK5OcF3YIghJMe6FXcLvbApwXLZUKwa8gH3NGHGko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mHFbSWSVYZgfXgRt5sB7UluTth/nTZYvYwuE17sI6/UBc7PoxXdIWKLP920wLEo5GikpJPxrUGSDFwV3L4/imxien7KppqNdLXsHIKa87m9NCIm6f1LF5DjbJkykmp/TMmOE/v7Pk+A0iVRFA2HQcekbk6tsqji8QqRDi0w9E70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCjjGoH2; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="hQuZ3GIp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9Z5i51/S6gqh576NW6zVOQKtK+1wAsvv9vzPvbq141I=; b=hQuZ3GIpowwBefnPXax2Ag0u15
-	Usqe0T8Z/CK1jn/tBFaek3RU3HaWDTg9qqYBlblAwof9HBrqbGVFuoVUJU8Lz6Fj4PrXnf3e2IyCQ
-	LrPZyFeQ+YW3SalvGnWFV9oYU3BAcXwKl76524FRktVisvi0OvKG2OfKfel08j1b+GIjsSHG+fXle
-	agJxLCNLzvDouy25y4oUhv49GcLGDoUecEQYKHGPmhV02NuHyiUWKe/EPGhgtGWK40TdcJJsXI9l+
-	bSymW6sZx0C8gzOCnyLG55m+fT9TmGcWeN0/BLnUEekDbuw/eK4LHoSJt8yXaeN3jiatzq6i92oyd
-	O+ORibeA==;
-Received: from i53875a38.versanet.de ([83.135.90.56] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tplhE-0001U4-J6; Wed, 05 Mar 2025 11:09:48 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Andy Yan <andy.yan@rock-chips.com>, kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject:
- Re: [linux-next:master 7259/7930]
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:833:7: error: call to undeclared
- function 'FIELD_PREP';
- ISO C99 and later do not support implicit function declarations
-Date: Wed, 05 Mar 2025 11:09:47 +0100
-Message-ID: <2901085.jE0xQCEvom@diego>
-In-Reply-To: <202503051744.a44mn4cM-lkp@intel.com>
-References: <202503051744.a44mn4cM-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCjjGoH2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741170532; x=1772706532;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OpKK5OcF3YIghJMe6FXcLvbApwXLZUKwa8gH3NGHGko=;
+  b=RCjjGoH27dnQnEyvHMQgCd5Z2eg0wl3t+z368n/uKQABOPKMrioq1HNt
+   wR5mW/rgT1sImHuWOyNBPygK6uYN6G5wvR17BniWkBPoseGdPnB1IRo+g
+   XWjYyjaeHJEph66sp2j0Ksvzqe7cxI1WoI1jRr6529hNdib8iH854YM/u
+   i/5MeGeW3XEGM7R5zlMrhowQImRjYpdw7vwxK6tB3482j7Qq1ghgSdo5P
+   1cMPq4EQ0MhL09duZowh2NF8cQ6V3OJVoZ27Ql5bHOZlQGDIbD5HpXRS1
+   D7LX54M8Oy4hK6YJS5pzGcGIP0vyDSNph4P4hL9zcIcb+zJ62fto+bBs/
+   g==;
+X-CSE-ConnectionGUID: DPgsjIg6RnGJDkBEpCSoRg==
+X-CSE-MsgGUID: EoQOURJfQPWukBC+woak2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59540312"
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
+   d="scan'208";a="59540312"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 02:28:51 -0800
+X-CSE-ConnectionGUID: 8p1v9zbjRtuJLZoKCZbe3w==
+X-CSE-MsgGUID: YDSajSqQRjKMSs1A9JRr9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149606738"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2025 02:28:48 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tplza-000KpW-0o;
+	Wed, 05 Mar 2025 10:28:46 +0000
+Date: Wed, 5 Mar 2025 18:28:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Seyediman Seyedarab <imandevel@gmail.com>, jack@suse.cz,
+	amir73il@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: Re: [PATCH] inotify: disallow watches on unsupported filesystems
+Message-ID: <202503051755.5uktuxba-lkp@intel.com>
+References: <20250304080044.7623-1-ImanDevel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250304080044.7623-1-ImanDevel@gmail.com>
 
-Am Mittwoch, 5. M=C3=A4rz 2025, 10:26:57 MEZ schrieb kernel test robot:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   20d5c66e1810e6e8805ec0d01373afb2dba9f51a
-> commit: 328e6885996ca2c6eb8b07d3c9bb1439fdcb088f [7259/7930] drm/rockchip=
-: vop2: Add platform specific callback
-> config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/202=
-50305/202503051744.a44mn4cM-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
-5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250305/202503051744.a44mn4cM-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503051744.a44mn4cM-lkp=
-@intel.com/
->=20
-> Note: the linux-next/master HEAD 20d5c66e1810e6e8805ec0d01373afb2dba9f51a=
- builds fine.
->       It may have been fixed somewhere.
+Hi Seyediman,
 
-correct ... the fixing commit is
-95a5c9d197bb ("drm/rockchip: vop2: add missing bitfield.h include")
+kernel test robot noticed the following build errors:
 
-https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/com=
-mit/?id=3D95a5c9d197bb22a506913acb330a926d4e51aa95
+[auto build test ERROR on jack-fs/fsnotify]
+[also build test ERROR on linus/master v6.14-rc5 next-20250304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Seyediman-Seyedarab/inotify-disallow-watches-on-unsupported-filesystems/20250304-160213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
+patch link:    https://lore.kernel.org/r/20250304080044.7623-1-ImanDevel%40gmail.com
+patch subject: [PATCH] inotify: disallow watches on unsupported filesystems
+config: s390-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250305/202503051755.5uktuxba-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503051755.5uktuxba-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503051755.5uktuxba-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:16,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/notify/inotify/inotify_user.c:17:
+   fs/notify/inotify/inotify_user.c: In function 'is_unwatchable_fs':
+>> fs/notify/inotify/inotify_user.c:702:40: error: 'unwatchable_fs' undeclared (first use in this function); did you mean 'is_unwatchable_fs'?
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   fs/notify/inotify/inotify_user.c:702:40: note: each undeclared identifier is reported only once for each function it appears in
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   In file included from include/linux/file.h:9,
+                    from fs/notify/inotify/inotify_user.c:16:
+   include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   fs/notify/inotify/inotify_user.c:702:29: note: in expansion of macro 'ARRAY_SIZE'
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                             ^~~~~~~~~~
 
 
+vim +702 fs/notify/inotify/inotify_user.c
+
+   698	
+   699	
+   700	static inline bool is_unwatchable_fs(struct inode *inode)
+   701	{
+ > 702		for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+   703			if (inode->i_sb->s_magic == unwatchable_fs[i])
+   704				return true;
+   705		return false;
+   706	}
+   707	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
