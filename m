@@ -1,166 +1,116 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC742475DD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Mar 2025 12:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A5B1EDA0E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Mar 2025 13:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741179393; cv=none; b=TJgXzycAqTlCZuWo/JELAAbM9vx2xDeapLd/ggh7024WMOsUWJEEP6YIdvywRbp4/XJQOpfNl8ED/zatGPml6+0skbzGnEcyNYqIDMEpiapPsEzgZTc/wwa7gri3F7d23eyU9l5ivIO/M4521UylM/Mdg3haJLRj0kWrMgiKSQE=
+	t=1741180562; cv=none; b=QT82aur0NKPMZgNyi+IsHqWUiMs4oTK9YhaqrAuFjlPEB8LAaHORKz+hwmsUOpDsx7v/aZNkZfbkqnDWA3wodypUTGkD5QiRnB36Otn8Z6JKCrwf6aQA9q4UTZ27Dd+yEXv7XapTPta7PnjCmFVPfYcoYxyfab+tv22BR7MSzcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741179393; c=relaxed/simple;
-	bh=7rP1q4sjtPGTwvZCo6TvJK937m2vMlozF4ddOFBImF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nx7F2x0B+6j6C9/PqiVeYBwg/jfMBTgKs8ypuOPOd/D8W+GoMDg9nYfqmfBq6ZNoLn8xJQycXz5z3PGg6ZhOlkjdBaZtS29hoVzqRfmvI5IN5CPDTJ9rboZYflsQDAye9zqlscwFrsPHB4v/CbcleZtz4Vm1nOq1bCYcD5g0xPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UYkk13TG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PqSWQihC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UYkk13TG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PqSWQihC; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1741180562; c=relaxed/simple;
+	bh=FSA9Ozv525IV5w6+GJaUCX1AAA/L5wOmQaWsfimaaX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rzWwIzpHahztGSNTgoNFYnVs0KXYr0bap0LiB/JPE38ZFpUiCTXmxyJPuq0e5dML2RK/lzs0nJK1A0gAVVEFMkFnLvCzsDVboDj07MfInMRLVwyhTTxe3j9yggADJdnPxcBZnCBzcJzi0tHGNFq4JptdgvMRVAM0NkUwVm9xaw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRVE3pdR; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UYkk13TG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PqSWQihC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UYkk13TG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PqSWQihC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B2571F455;
-	Wed,  5 Mar 2025 12:56:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741179389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xMTJEHhe2iHM3A9CeRbjgCSsa/If8US42GvM//vLAL0=;
-	b=UYkk13TGu+2jm/3NyxzZibOSqRhWQf8t+4AD8jm8ZVimZ8QkIitwtjI/3b+jzGuA2+Q6e7
-	FIo2XcXmMfCq3d5EQtew0gn6bGWXJ3yNMrnJ5dqM8RTOBm35NydCevbcO/lb7JjfsfmeCF
-	qgjr10iXna+luJmO+zFxwJKaeJvnm1o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741179389;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xMTJEHhe2iHM3A9CeRbjgCSsa/If8US42GvM//vLAL0=;
-	b=PqSWQihCXupiDI21nzFsmWx/KgqHMRyEaV/cbx5o/2wASBnfVi/BV+wB+ZmRhJObu1l3jo
-	7+XpL7sMQ4yMM4BQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1741179389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xMTJEHhe2iHM3A9CeRbjgCSsa/If8US42GvM//vLAL0=;
-	b=UYkk13TGu+2jm/3NyxzZibOSqRhWQf8t+4AD8jm8ZVimZ8QkIitwtjI/3b+jzGuA2+Q6e7
-	FIo2XcXmMfCq3d5EQtew0gn6bGWXJ3yNMrnJ5dqM8RTOBm35NydCevbcO/lb7JjfsfmeCF
-	qgjr10iXna+luJmO+zFxwJKaeJvnm1o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1741179389;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xMTJEHhe2iHM3A9CeRbjgCSsa/If8US42GvM//vLAL0=;
-	b=PqSWQihCXupiDI21nzFsmWx/KgqHMRyEaV/cbx5o/2wASBnfVi/BV+wB+ZmRhJObu1l3jo
-	7+XpL7sMQ4yMM4BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC91E13939;
-	Wed,  5 Mar 2025 12:56:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OE2iKPpJyGevMQAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Wed, 05 Mar 2025 12:56:26 +0000
-Date: Wed, 5 Mar 2025 23:56:01 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>, Christian Brauner
- <brauner@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [brauner-github:vfs.all 205/231] WARNING: modpost: vmlinux:
- section mismatch in reference: initramfs_test_cases+0x0 (section: .data) ->
- initramfs_test_extract (section: .init.text)
-Message-ID: <20250305235601.464f6432.ddiss@suse.de>
-In-Reply-To: <20250305114701.28c0ee0b.ddiss@suse.de>
-References: <202503050109.t5Ab93hX-lkp@intel.com>
-	<20250305114701.28c0ee0b.ddiss@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRVE3pdR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741180559; x=1772716559;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FSA9Ozv525IV5w6+GJaUCX1AAA/L5wOmQaWsfimaaX4=;
+  b=bRVE3pdRrPUhBZzx3R3IJwBuZtr0HlF07kq+erI2ly6o1hAch/0BPwOT
+   FPFnzBVMkZQjt9+99NG3Nf9rTSh0GX9yTkz9i1+Z25cumgYnsLTze01rq
+   siuMmtKvgwz5uZJEL/vSQfbIV+ve6ZAfEcbvEP3GM7YnJ1TwP14LhVc+M
+   UmaOO1LyRmNHqvRFB+VjmHAud/+he+tbkripsStcoLSCSMgs/HP6bf4rB
+   Rzf7OL1KNxUiZXp0YoNZQrM8quymt8CNpDDmCiYHe48HQN50YCziHFSJ6
+   09JMdA69WduG+Dgvm++L6JmEZxAMTQkp/t4fU9ax263pW8heiS1I0nSCl
+   w==;
+X-CSE-ConnectionGUID: sD1iUuF/S6yNPL7j2dy1Tg==
+X-CSE-MsgGUID: qfdNJulbSQqq0Nx/JC2pJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53537152"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="53537152"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 05:15:59 -0800
+X-CSE-ConnectionGUID: +qx5GYliTR65WIshKN7ndw==
+X-CSE-MsgGUID: CFm95MOBS+qd55cWAF9+lQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118610885"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 05 Mar 2025 05:15:55 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpobI-000KzO-36;
+	Wed, 05 Mar 2025 13:15:52 +0000
+Date: Wed, 5 Mar 2025 21:15:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Su Hui <suhui@nfschina.com>, lucas.demarchi@intel.com,
+	thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, Su Hui <suhui@nfschina.com>,
+	ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	michael.j.ruhl@intel.com, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+Message-ID: <202503052153.gQnXU123-lkp@intel.com>
+References: <20250227073205.1248282-1-suhui@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,lists.linux.dev,gmail.com,kernel.org,canb.auug.org.au];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250227073205.1248282-1-suhui@nfschina.com>
 
-On Wed, 5 Mar 2025 11:47:01 +1100, David Disseldorp wrote:
+Hi Su,
 
-> [cc'ing linux-kselftest and kunit-dev]
-> 
-> Hi,
-> 
-> On Wed, 5 Mar 2025 01:47:55 +0800, kernel test robot wrote:
-> 
-> > tree:   https://github.com/brauner/linux.git vfs.all
-> > head:   ea47e99a3a234837d5fea0d1a20bb2ad1eaa6dd4
-> > commit: b6736cfccb582b7c016cba6cd484fbcf30d499af [205/231] initramfs_test: kunit tests for initramfs unpacking
-> > config: x86_64-buildonly-randconfig-002-20250304 (https://download.01.org/0day-ci/archive/20250305/202503050109.t5Ab93hX-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503050109.t5Ab93hX-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202503050109.t5Ab93hX-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> >   
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x0 (section: .data) -> initramfs_test_extract (section: .init.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x30 (section: .data) -> initramfs_test_fname_overrun (section: .init.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x60 (section: .data) -> initramfs_test_data (section: .init.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x90 (section: .data) -> initramfs_test_csum (section: .init.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0xc0 (section: .data) -> initramfs_test_hardlink (section: .init.text)
-> > >> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0xf0 (section: .data) -> initramfs_test_many (section: .init.text)    
-> 
-> These new warnings are covered in the commit message. The
-> kunit_test_init_section_suites() registered tests aren't in the .init
-> section as debugfs entries are retained for results reporting (without
-> an ability to rerun them).
-> IIUC, the __kunit_init_test_suites->CONCATENATE(..., _probe) suffix is
-> intended to suppress the modpost warning - @kunit-dev: any ideas why
-> this isn't working as intended?
+kernel test robot noticed the following build errors:
 
-Stephen Rothwell (cc'ed) mentioned that we might be able to use
-__refdata for initramfs_test_cases. The __ref* description in init.h
-does indicate that it's suitable, and I now see that it's present in
-kunit-example-test.c . I'll propose a patch which can be squashed in
-with the existing commit.
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on linus/master v6.14-rc5 next-20250304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks, David
+url:    https://github.com/intel-lab-lkp/linux/commits/Su-Hui/drm-xe-Select-INTEL_VSEC-to-fix-build-dependency/20250227-153437
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250227073205.1248282-1-suhui%40nfschina.com
+patch subject: [PATCH] drm/xe: Select INTEL_VSEC to fix build dependency
+config: loongarch-randconfig-001-20250304 (https://download.01.org/0day-ci/archive/20250305/202503052153.gQnXU123-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052153.gQnXU123-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503052153.gQnXU123-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+>> ERROR: modpost: "intel_vsec_register" [drivers/gpu/drm/xe/xe.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_VSEC
+   Depends on [n]: X86_PLATFORM_DEVICES [=n] && PCI [=y]
+   Selected by [m]:
+   - DRM_XE [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && MMU [=y] && (m [=m] && MODULES [=y] || KUNIT [=y]=y [=y])
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+   Selected by [m]:
+   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m] && HAS_IOPORT [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
