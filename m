@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3347E248890;
-	Wed,  5 Mar 2025 14:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99AA24DFE7;
+	Wed,  5 Mar 2025 15:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741186075; cv=none; b=ePFq2F53wP1kGqURMNqyKW4QaTh08feRlU4+wcUA9/UHT9vvzo72kETyTHDfU+o0+wDn79C2nhbyJk01ZyFI+NDBMG9r2D4tk8gRq/Vo65dqXmZ6l2eAfB0Xe6sUH6LL4uRf3Knm80l6alnhAh4qmLqpaIeVZhUCs1EX1um3dnE=
+	t=1741187335; cv=none; b=KbH++NGijC9uo16jDdrUHUjfBXavcskwyWm031J9Plw8r7R3wopJVOFUpbu819ZU6JWq/0HcMZsBB3RygLOkqSQ9P2iX+B9x/GnRgUDkEw4HRXXpJGJ/3lCSloXAlfs1gMBeLhOOPxZb2wtmPQ3qNaw7muhOkCD1qFRpbhcQl+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741186075; c=relaxed/simple;
-	bh=joP68b7Dh0p2ZNLJiJaNW8ilprYFELiWiIzeuH6IOho=;
+	s=arc-20240116; t=1741187335; c=relaxed/simple;
+	bh=e3oBTYdyUXsbOwDIkrX87IO9OyOkNlF6VSWAGvwLoCU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n78Y6Nr2Imrge95gWa21sa2Lc74K3BkUWo6osHXCxWJu2Lk4hFsUqaAZCmHU+o4PDPeBMC5R8Awhj1E3d/AIYvWRXPiYGYJgVAuiYgGqMLTJavAxyIFFLmyZwiU4tMtaSV30q40RzqpCU/wcoAnx20rFOdRBfcS/CHq47UzuMM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dvTfGNi6; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJhU55Vfy6+j3al1kURF+zS7I/lF1bCGXRCrQbfak2BwCLI6Ekb2zDPgG8lzF3hTzFuDlJdbrjcAlnH39wnoZ/tV79fGAyPEmZlXyki5rSC150j3hQcfX5Ds2mbQAWPsDjYnGaC8oPy65aLrzVxoLBdE4Zn3r/NiYN9YaGYEFRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzU8d31u; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dvTfGNi6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzU8d31u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741186073; x=1772722073;
+  t=1741187334; x=1772723334;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=joP68b7Dh0p2ZNLJiJaNW8ilprYFELiWiIzeuH6IOho=;
-  b=dvTfGNi6TWsjW/E1sBzNxbhGfofkRP05mOufz5GWMcYy/poalsO3B+IP
-   rzlZrdLjv6RM23fxfGzGDowbujwbGOwJ0tP7UG+adVWH+wMvN9wOIEISV
-   p4Qk3z8pOVMOMiUJJkg7lZ2z1BOMeeuIagV3Ofm0ohLqEbCEPL15lF9Pv
-   t5GMDEbq2JVkMJm7sYbx3bFEGioQlIEDvqPRYKFEMB5QvTR8/TxAHPszm
-   1n6L/paOHWWiBmJ1bHuUr495CavjU1wGD137g5p3Xv32NGACdZvcUW3Nd
-   tXx8BYYOI9h3DtROoavh7c1jKJ7iloeectDxoOXzU3hC3WKpbrF73HBHy
-   g==;
-X-CSE-ConnectionGUID: 5qCcc2TzSey0RtbRsTWW+w==
-X-CSE-MsgGUID: cPsiG5uWSrSXprymf9VG6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52788464"
+  bh=e3oBTYdyUXsbOwDIkrX87IO9OyOkNlF6VSWAGvwLoCU=;
+  b=gzU8d31uRG1P1I1EkKxY0atxBlyneFkG6BH56nlJs2PRggLKWLoPbT36
+   PTpch0OuxfLmyKtsLQlXAGoTbptU6RwBj8fn9fmarwrCc2UMJmZBVJCHa
+   MzfiGaQCOiQ44IrX34XSFifwXlXCfs6BZ/ggoJMHacIldLrBydGlmLg7S
+   IO1KjK2Z8rf7jB/uXJy4Ab1qXgtgQZXlCdEGFaccf/zfb+y9a0Y8ytoQk
+   DFRPA9i5FVSPZPZXFHMEfaesjqhF18Ecqqc0InvtALelLoNzf3gTceeF2
+   rc4q4zWb+fTQsfNLm4CiG8lvMZgRh75QU2PfSYJrAc2JLyJU9Hrp9B6G9
+   Q==;
+X-CSE-ConnectionGUID: Jlpif+fHSd2fxXJzpLY+AA==
+X-CSE-MsgGUID: syWqOWLESLKEmQGXwRbu3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42293620"
 X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="52788464"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 06:47:52 -0800
-X-CSE-ConnectionGUID: vI3ceUfnRrCGa1MWYBvuaA==
-X-CSE-MsgGUID: g0XkJtvfRtWxahAhx2Iiww==
+   d="scan'208";a="42293620"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 07:08:53 -0800
+X-CSE-ConnectionGUID: Bhr/kYI6SFu0ljZczH300g==
+X-CSE-MsgGUID: yT8QzywsSYGjsQgMiXKFBw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="118421301"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="149658320"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2025 06:47:48 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 05 Mar 2025 07:08:50 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpq2D-000L5W-2p;
-	Wed, 05 Mar 2025 14:47:45 +0000
-Date: Wed, 5 Mar 2025 22:47:11 +0800
+	id 1tpqMa-000L7m-1d;
+	Wed, 05 Mar 2025 15:08:48 +0000
+Date: Wed, 5 Mar 2025 23:08:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
-	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
-	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
-	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
-	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
-	gaosong@loongson.cn, yangtiezhu@loongson.cn
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: Re: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
-Message-ID: <202503052234.SiXLJuat-lkp@intel.com>
-References: <20250303101533.31462-3-zhangtianyang@loongson.cn>
+To: Seyediman Seyedarab <imandevel@gmail.com>, jack@suse.cz,
+	amir73il@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Seyediman Seyedarab <ImanDevel@gmail.com>
+Subject: Re: [PATCH] inotify: disallow watches on unsupported filesystems
+Message-ID: <202503052203.vK0McbRm-lkp@intel.com>
+References: <20250304080044.7623-1-ImanDevel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,157 +66,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303101533.31462-3-zhangtianyang@loongson.cn>
+In-Reply-To: <20250304080044.7623-1-ImanDevel@gmail.com>
 
-Hi Tianyang,
+Hi Seyediman,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on lwn/docs-next linus/master v6.14-rc5 next-20250305]
-[cannot apply to tip/smp/core]
+[auto build test ERROR on jack-fs/fsnotify]
+[also build test ERROR on linus/master v6.14-rc5 next-20250305]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20250303-181832
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20250303101533.31462-3-zhangtianyang%40loongson.cn
-patch subject: [PATCH 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
-config: loongarch-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250305/202503052234.SiXLJuat-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052234.SiXLJuat-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Seyediman-Seyedarab/inotify-disallow-watches-on-unsupported-filesystems/20250304-160213
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
+patch link:    https://lore.kernel.org/r/20250304080044.7623-1-ImanDevel%40gmail.com
+patch subject: [PATCH] inotify: disallow watches on unsupported filesystems
+config: powerpc-randconfig-001-20250305 (https://download.01.org/0day-ci/archive/20250305/202503052203.vK0McbRm-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052203.vK0McbRm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503052234.SiXLJuat-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503052203.vK0McbRm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/context_tracking_state.h:5,
-                    from include/linux/hardirq.h:5,
-                    from include/linux/interrupt.h:11,
-                    from drivers/irqchip/irq-loongarch-ir.c:8:
-   drivers/irqchip/irq-loongarch-ir.c: In function 'redirect_queue_init':
->> drivers/irqchip/irq-loongarch-ir.c:413:62: error: 'INVALID_QUEUE_PAGE_ORDER' undeclared (first use in this function)
-     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-         |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
-     227 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/gfp.h:295:49: note: in expansion of macro 'alloc_hooks'
-     295 | #define  alloc_pages_node(...)                  alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:413:17: note: in expansion of macro 'alloc_pages_node'
-     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:413:62: note: each undeclared identifier is reported only once for each function it appears in
-     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-         |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
-     227 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/gfp.h:295:49: note: in expansion of macro 'alloc_hooks'
-     295 | #define  alloc_pages_node(...)                  alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:413:17: note: in expansion of macro 'alloc_pages_node'
-     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-         |                 ^~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:413:15: error: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     413 |         pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-         |               ^
-   drivers/irqchip/irq-loongarch-ir.c: In function 'redirect_table_init':
->> drivers/irqchip/irq-loongarch-ir.c:440:65: error: 'IRD_PAGE_ORDER' undeclared (first use in this function); did you mean 'NR_PAGE_ORDERS'?
-     440 |         pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
-         |                                                                 ^~~~~~~~~~~~~~
-   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
-     227 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/gfp.h:295:49: note: in expansion of macro 'alloc_hooks'
-     295 | #define  alloc_pages_node(...)                  alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:440:17: note: in expansion of macro 'alloc_pages_node'
-     440 |         pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:440:15: error: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     440 |         pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
-         |               ^
-   drivers/irqchip/irq-loongarch-ir.c: In function 'redirect_table_fini':
-   drivers/irqchip/irq-loongarch-ir.c:475:47: error: 'IRD_PAGE_ORDER' undeclared (first use in this function); did you mean 'NR_PAGE_ORDERS'?
-     475 |                 __free_pages(ird_table->page, IRD_PAGE_ORDER);
-         |                                               ^~~~~~~~~~~~~~
-         |                                               NR_PAGE_ORDERS
-   drivers/irqchip/irq-loongarch-ir.c:486:44: error: 'INVALID_QUEUE_PAGE_ORDER' undeclared (first use in this function)
-     486 |                 __free_pages(rqueue->page, INVALID_QUEUE_PAGE_ORDER);
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:33: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:48: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:22: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:47: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                               ^~~~~
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                                           ^
+   include/linux/compiler.h:249:65: note: expanded from macro '__must_be_array'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                                                      ^
+   include/linux/compiler_types.h:483:63: note: expanded from macro '__same_type'
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                               ^
+   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:33: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                                        ^~~~~~~~~~~~~~
+         |                                        is_unwatchable_fs
+   include/linux/array_size.h:11:75: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                                           ^
+   include/linux/compiler.h:249:71: note: expanded from macro '__must_be_array'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                                                            ^
+   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+>> fs/notify/inotify/inotify_user.c:702:22: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
+     702 |         for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:249:70: note: expanded from macro '__must_be_array'
+     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:483:74: note: expanded from macro '__same_type'
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                                                                          ^
+   include/linux/compiler.h:245:79: note: expanded from macro '__BUILD_BUG_ON_ZERO_MSG'
+     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                               ^
+   fs/notify/inotify/inotify_user.c:703:31: error: use of undeclared identifier 'unwatchable_fs'; did you mean 'is_unwatchable_fs'?
+     703 |                 if (inode->i_sb->s_magic == unwatchable_fs[i])
+         |                                             ^~~~~~~~~~~~~~
+         |                                             is_unwatchable_fs
+   fs/notify/inotify/inotify_user.c:700:20: note: 'is_unwatchable_fs' declared here
+     700 | static inline bool is_unwatchable_fs(struct inode *inode)
+         |                    ^
+   fs/notify/inotify/inotify_user.c:703:31: error: subscript of pointer to function type 'bool (struct inode *)' (aka '_Bool (struct inode *)')
+     703 |                 if (inode->i_sb->s_magic == unwatchable_fs[i])
+         |                                             ^~~~~~~~~~~~~~
+   8 errors generated.
 
 
-vim +/INVALID_QUEUE_PAGE_ORDER +413 drivers/irqchip/irq-loongarch-ir.c
+vim +702 fs/notify/inotify/inotify_user.c
 
-   407	
-   408	static int redirect_queue_init(int node)
-   409	{
-   410		struct redirect_queue *rqueue = &(irde_descs[node].inv_queue);
-   411		struct page *pages;
-   412	
- > 413		pages = alloc_pages_node(0, GFP_KERNEL | __GFP_ZERO, INVALID_QUEUE_PAGE_ORDER);
-   414		if (!pages) {
-   415			pr_err("Node [%d] Invalid Queue alloc pages failed!\n", node);
-   416			return -ENOMEM;
-   417		}
-   418	
-   419		rqueue->page = pages;
-   420		rqueue->base = (u64)page_address(pages);
-   421		rqueue->max_size = INVALID_QUEUE_SIZE;
-   422		rqueue->head = 0;
-   423		rqueue->tail = 0;
-   424		rqueue->node = node;
-   425		raw_spin_lock_init(&rqueue->lock);
-   426	
-   427		iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQH);
-   428		iocsr_write32(0, LOONGARCH_IOCSR_REDIRECT_CQT);
-   429		iocsr_write64(((rqueue->base & (CQB_ADDR_MASK << CQB_ADDR_SHIFT)) |
-   430					(CQB_SIZE_MASK << CQB_SIZE_SHIFT)), LOONGARCH_IOCSR_REDIRECT_CQB);
-   431		return 0;
-   432	}
-   433	
-   434	static int redirect_table_init(int node)
-   435	{
-   436		struct redirect_table *ird_table = &(irde_descs[node].ird_table);
-   437		struct page *pages;
-   438		unsigned long *bitmap;
-   439	
- > 440		pages = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, IRD_PAGE_ORDER);
-   441		if (!pages) {
-   442			pr_err("Node [%d] redirect table alloc pages failed!\n", node);
-   443			return -ENOMEM;
-   444		}
-   445		ird_table->page = pages;
-   446		ird_table->table = page_address(pages);
-   447	
-   448		bitmap = bitmap_zalloc(IRD_ENTRIES, GFP_KERNEL);
-   449		if (!bitmap) {
-   450			pr_err("Node [%d] redirect table bitmap alloc pages failed!\n", node);
-   451			return -ENOMEM;
-   452		}
-   453	
-   454		ird_table->bitmap = bitmap;
-   455		ird_table->nr_ird = IRD_ENTRIES;
-   456		ird_table->node = node;
-   457	
-   458		raw_spin_lock_init(&ird_table->lock);
-   459	
-   460		if (redirect_queue_init(node))
-   461			return -EINVAL;
-   462	
-   463		iocsr_write64(CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
-   464		iocsr_write64(__pa(ird_table->table), LOONGARCH_IOCSR_REDIRECT_TBR);
-   465	
-   466		return 0;
-   467	}
-   468	
+   698	
+   699	
+   700	static inline bool is_unwatchable_fs(struct inode *inode)
+   701	{
+ > 702		for (int i = 0; i < ARRAY_SIZE(unwatchable_fs); i++)
+   703			if (inode->i_sb->s_magic == unwatchable_fs[i])
+   704				return true;
+   705		return false;
+   706	}
+   707	
 
 -- 
 0-DAY CI Kernel Test Service
