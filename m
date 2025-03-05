@@ -1,136 +1,147 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E830F18DF73
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Mar 2025 20:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D27124E4B4;
+	Wed,  5 Mar 2025 20:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741208140; cv=none; b=Pr1RV1s2n0ORRlwyh08grjBBvJbgm91bam9Z0nQh+Uy+QqkPveI58kVx6ZSOA4UWPsnep8g6LIankXeKhEifJHVPEVhpnb4XyDSUMxyeq9sy44tjpyMAa2aTzOLlVHe8Euk7MjrjOIk7WE70CkjUTWNPBCWz5pVrS1mupmeLMBA=
+	t=1741208168; cv=none; b=tD/Y+jrHRhLr4TuryVXqdCjlwn1Or43ogdzxaY/lNk1p6IucaSOkwn+w/rFq0BKYEt5aSHpblyRcguKX0sFpQu+N+ryVQUbYn/YFGiffch2yhdvHnPRwe2FovRMqSofdOQP7p+OIpyaP44L7tyBofDCJtQ/GkrFwTi05M6lbvj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741208140; c=relaxed/simple;
-	bh=bSmgTlvwLJjJS9L24cNfFPZSeRDSXYM8VhcAjGh++W8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jvxW1Eob54GgaMbOtyhisVh5EA5g/FydgygVye0sTYeObSlJuvKpw5OB7R8eQejtijUMOn5tSjQgS9rPoWE03e16eL7TVLKSDy2Hk1gNutnO8NaHI9khvOGLZStS2ri9ZEMK/MfthO/DRatWy3h9cJbWKZQK6SBPBl0vJ4BGQ48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IWON9jd4; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1741208168; c=relaxed/simple;
+	bh=+k6dY/PoFWBtL569CffqKAyR6CnD1fZJpf3OX6UjG9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4olcOvul7CQljgUIq2grbVh9OWQFiKPAVBDQLYGfWI/VJP+l6cjnLdeHYrv3ydM9z7QDbcRLrqL8nNT+Nzg25VB0avM0c8B0lk5I99KaTvJ3wrbx419YRN7wg2BoIhIzSgVLSltp8cPmqNhUMZUnoygyEIy4a5Z6n92oqXt2Yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nd4afPia; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IWON9jd4"
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3d0465a8d34so63733205ab.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Mar 2025 12:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1741208138; x=1741812938; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TN8E9XEAktH2/BlknMuwwP6SKex4SrVTEApM/n+g1SI=;
-        b=IWON9jd4ss4asKb7dYYs2zAZOQBTXfjs/b/q+B77z5o/woPiS78E1fILg6mVO4jdc9
-         CWacOKsZd5uhRsvUur2cN0xnTza0Xrhx8fZS+19NqXurhVHrALcMYegqmegwWJ/HfZzn
-         XuRKx27ZxvFS4v3GN0ibAepKW5UVup/rVnbI4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741208138; x=1741812938;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TN8E9XEAktH2/BlknMuwwP6SKex4SrVTEApM/n+g1SI=;
-        b=xCnIPI7zQPdSnSjo0tXqZqGbtjK/PSZza3PKIwdu+rTuPQUhLsrtzieGBx2H3+f1cy
-         D6MCFOox5pCxz1mmC2xtMQkr7XAaPZNFc6qKuWlhWV7lPm/g+gr+bF4cIDO8XMMQYPaG
-         s+Stxx6XeI+9UINC5CCWuVXo8b2F+1e+cf34WxTxYYV/1EP4UC/xol1Y8cofAntPjbLX
-         lW/cDmCetwNOnieCrL21K5QDkgl+HIC+PnBI/F6xkatzkqZmNunwWeR0H6igPKHWLG0l
-         zhan+kRPiegJlH2jr3t93QTkHGy0f7Zz+T62T2dafHrPsH2NmPJ4bCMSdfYBtQnMd0br
-         A9Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5rb2pS2vZC2eJSoXLl45bl//Z/uHaXKKAl2oqZ6D8bU4jwahgsB6bWC7NkCAl/9vuA9b8TsVya1wSwcz9@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKfT1JYNkw6+RPrpea09uMzrfpFI7CA+oIThh7mMHXjC3ln0hI
-	N37U7eIqBnjxoVM/fTt1vfZqB7B6+k47ZzviQm1dF1/7NEOde6akQ8Pt3vrBFfE=
-X-Gm-Gg: ASbGncvhyqUgI/AHWN+/NLN2zjE8hEhBAloxJElT9/c500W+XDIQbyBgoiMFFd/cxWp
-	tSpFsDx/F1lUnWpDGEzjD+QjyLXKpkQBQsZ2TVPYJR3TWVo4Oyjwa8nK+o/gqFh0i+MazKmgtrs
-	RU12Dr018t3VXcB9bfDtMZYu0hnbLOQfZiADsiJy86EZZlXeysw94EK7rNqrPXHq8RebANzkC2T
-	Nn5v6pLaeUwKdZBTuciV3W/4lEqqhnTj6qNaDquBmS+BOrEsUhCe807psA/eK9j/02VTSFsT0IJ
-	O+3pSGkWVdtWeKjyxVEWi7/oshQOEuhmjohKDU5InhgTuc7ajF/dJmg=
-X-Google-Smtp-Source: AGHT+IFrK0wfx0wuMhLxEg3F3kYX4kOQtUjrt8xsLzF6cSSoaI3+ZeJj3tJLZ7Y1D69zwAQp2NcUtA==
-X-Received: by 2002:a05:6e02:1c25:b0:3d0:19c6:c9e1 with SMTP id e9e14a558f8ab-3d42b8bf084mr52134995ab.13.1741208137900;
-        Wed, 05 Mar 2025 12:55:37 -0800 (PST)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f086a996fesm2503730173.33.2025.03.05.12.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 12:55:37 -0800 (PST)
-Message-ID: <c82318cf-39f2-4b08-9eb9-7e7a89fbb34a@linuxfoundation.org>
-Date: Wed, 5 Mar 2025 13:55:36 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nd4afPia"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741208165; x=1772744165;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+k6dY/PoFWBtL569CffqKAyR6CnD1fZJpf3OX6UjG9s=;
+  b=nd4afPiaHKgxbuADyzOowDPFBKAkLE3H3crNqy8sgXKX77orYJYJw+Ub
+   41qXcOC0605RgumD2KCIz17n251JyyeB4rhTdMeVp1MTtDKUuiqK+1kiL
+   QWDoEthbRPwrSMa5EyS753pnWYYlx9fz1WnKfWcFIe+JyQsTMf9S/lWYD
+   +rT3c+aEJoP0iin8wp0pdAiUTDKOYbxTSimh5w6JBtJoCNhcfU8OLjaAF
+   hGSQk6pdWuiz8Nm4zSKWE+HQlR6auM4Vm2AvI/CPgVT1Dew9wmCyWTN0e
+   nvbfjrCSirJgXnoQd4Mk1Y/BxYUDDQWTtYngq0EFOGgcGuuh3/67G2Q99
+   w==;
+X-CSE-ConnectionGUID: hkIXvX5TQrag0GdKICqojg==
+X-CSE-MsgGUID: K6uxNtySTBmd4nvYMNiSxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52403797"
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; 
+   d="scan'208";a="52403797"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 12:56:05 -0800
+X-CSE-ConnectionGUID: 0CymtJysQDyEzzq+vfifDg==
+X-CSE-MsgGUID: 4l1RchMiRGiFDYfsrvSAxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; 
+   d="scan'208";a="118816241"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 05 Mar 2025 12:56:00 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpvmZ-000MBy-1M;
+	Wed, 05 Mar 2025 20:55:59 +0000
+Date: Thu, 6 Mar 2025 04:55:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ville.syrjala@linux.intel.com, harry.wentland@amd.com,
+	pekka.paalanen@haloniitty.fi, sebastian.wick@redhat.com,
+	jadahl@redhat.com, mwen@igalia.com, contact@emersion.fr,
+	naveen1.kumar@intel.com, dmitry.baryshkov@linaro.org
+Subject: Re: [v3 01/23] drm: color pipeline base work
+Message-ID: <202503060428.qINtTEJ1-lkp@intel.com>
+References: <20250305132608.2379253-2-uma.shankar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [brauner-github:vfs.all 205/231] WARNING: modpost: vmlinux:
- section mismatch in reference: initramfs_test_cases+0x0 (section: .data) ->
- initramfs_test_extract (section: .init.text)
-To: David Disseldorp <ddiss@suse.de>, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com, Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@google.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Christian Brauner <brauner@kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-References: <202503050109.t5Ab93hX-lkp@intel.com>
- <20250305114701.28c0ee0b.ddiss@suse.de>
- <20250305235601.464f6432.ddiss@suse.de>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20250305235601.464f6432.ddiss@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250305132608.2379253-2-uma.shankar@intel.com>
 
-On 3/5/25 05:56, David Disseldorp wrote:
-> On Wed, 5 Mar 2025 11:47:01 +1100, David Disseldorp wrote:
-> 
->> [cc'ing linux-kselftest and kunit-dev]
+Hi Uma,
 
-+ Adding David and Brendan
+kernel test robot noticed the following build warnings:
 
-David, Brendan, Any thoughts on how this can be fixed?
+[auto build test WARNING on next-20250305]
+[also build test WARNING on v6.14-rc5]
+[cannot apply to drm-exynos/exynos-drm-next linus/master v6.14-rc5 v6.14-rc4 v6.14-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->>
->> Hi,
->>
->> On Wed, 5 Mar 2025 01:47:55 +0800, kernel test robot wrote:
->>
->>> tree:   https://github.com/brauner/linux.git vfs.all
->>> head:   ea47e99a3a234837d5fea0d1a20bb2ad1eaa6dd4
->>> commit: b6736cfccb582b7c016cba6cd484fbcf30d499af [205/231] initramfs_test: kunit tests for initramfs unpacking
->>> config: x86_64-buildonly-randconfig-002-20250304 (https://download.01.org/0day-ci/archive/20250305/202503050109.t5Ab93hX-lkp@intel.com/config)
->>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503050109.t5Ab93hX-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202503050109.t5Ab93hX-lkp@intel.com/
->>>
->>> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->>>    
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x0 (section: .data) -> initramfs_test_extract (section: .init.text)
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x30 (section: .data) -> initramfs_test_fname_overrun (section: .init.text)
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x60 (section: .data) -> initramfs_test_data (section: .init.text)
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0x90 (section: .data) -> initramfs_test_csum (section: .init.text)
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0xc0 (section: .data) -> initramfs_test_hardlink (section: .init.text)
->>>>> WARNING: modpost: vmlinux: section mismatch in reference: initramfs_test_cases+0xf0 (section: .data) -> initramfs_test_many (section: .init.text)
->>
->> These new warnings are covered in the commit message. The
->> kunit_test_init_section_suites() registered tests aren't in the .init
->> section as debugfs entries are retained for results reporting (without
->> an ability to rerun them).
->> IIUC, the __kunit_init_test_suites->CONCATENATE(..., _probe) suffix is
->> intended to suppress the modpost warning - @kunit-dev: any ideas why
->> this isn't working as intended?
-> 
-> Stephen Rothwell (cc'ed) mentioned that we might be able to use
-> __refdata for initramfs_test_cases. The __ref* description in init.h
-> does indicate that it's suitable, and I now see that it's present in
-> kunit-example-test.c . I'll propose a patch which can be squashed in
-> with the existing commit.
-> 
-> Thanks, David
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-color-pipeline-base-work/20250306-011827
+base:   next-20250305
+patch link:    https://lore.kernel.org/r/20250305132608.2379253-2-uma.shankar%40intel.com
+patch subject: [v3 01/23] drm: color pipeline base work
+config: i386-buildonly-randconfig-003-20250306 (https://download.01.org/0day-ci/archive/20250306/202503060428.qINtTEJ1-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503060428.qINtTEJ1-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503060428.qINtTEJ1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_colorop.c:30:
+   In file included from include/drm/drm_plane.h:33:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2306:
+   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/drm_colorop.c:162:6: warning: no previous prototype for function 'drm_colorop_cleanup' [-Wmissing-prototypes]
+     162 | void drm_colorop_cleanup(struct drm_colorop *colorop)
+         |      ^
+   drivers/gpu/drm/drm_colorop.c:162:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     162 | void drm_colorop_cleanup(struct drm_colorop *colorop)
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/drm_colorop_cleanup +162 drivers/gpu/drm/drm_colorop.c
+
+   156	
+   157	/**
+   158	 * drm_colorop_cleanup - Cleanup a drm_colorop object in color_pipeline
+   159	 *
+   160	 * @colorop: The drm_colorop object to be cleaned
+   161	 */
+ > 162	void drm_colorop_cleanup(struct drm_colorop *colorop)
+   163	{
+   164		struct drm_device *dev = colorop->dev;
+   165		struct drm_mode_config *config = &dev->mode_config;
+   166	
+   167		list_del(&colorop->head);
+   168		config->num_colorop--;
+   169	
+   170		if (colorop->state && colorop->state->data) {
+   171			drm_property_blob_put(colorop->state->data);
+   172			colorop->state->data = NULL;
+   173		}
+   174	
+   175		kfree(colorop->state);
+   176		kfree(colorop);
+   177	}
+   178	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
