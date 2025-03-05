@@ -1,181 +1,137 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB97235BE4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Mar 2025 11:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD95221930D;
+	Wed,  5 Mar 2025 12:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741174605; cv=none; b=elfZQBDpw25TwZ04xwUe3Gm92/XewHggxhFZowluxQVc4MZIYrYpbWNJd5MQAUlFm6fYQYCWmURvrkdPgN6CMZuvvArS79aND7TomDxop84GQe657Vl3yZrQJGdpB/adtSZ7lX09AYj4Z/aKErlzERUZIVXoNug44kCmacZD5VA=
+	t=1741177986; cv=none; b=Y+CSUAWADU6lvGuRnC1UIIoLd3r2y0V8cIgVs9/71LMC0uhgfMSGtEwYiAq2MxuiCxWqcOBtTnbdr3y8C+/Nb8J7/nPEut7mO6lz7aY9v2BeJOsbAgkJLzf9FSvEJaXFtzILnzK9yKk7wLlbfa1A/4exW2PM7b6Gu8AgOk3Z0/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741174605; c=relaxed/simple;
-	bh=HeaLeqCxFce0lg8Om7j0ozI2Ceknv89Ds829ukrVQcI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jkmm+k3Oox6x7UYytqCB8atR0LN9kEqE+Dns+KixTi0xg1dCSQcVMgbzJGsaG3ZZipqHxzShb0IHLier7c0lJOHcxqnAmPZQGTzxiDJkse42dwZxe7v5bM0va3AHFAYGHnkQmDv7qRSmYckSXb6qFU6LH6fizAqS2YwzeXcTtek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kC6lE23z; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741177986; c=relaxed/simple;
+	bh=MY4NkJMgNuThrBNquBSiScNhOWXhVfL9Nxx5FV6sinA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hT24mxf+h+OLg+KUVK78g7gi0coR0R/D6IvmU0bGw+EqeRzqu+6bYu9jFb77S9Qw6OvWd48F7a8T9Z3y4LG0D91COi3awWro3ClM8IllzhXyhRww+hYkpcAbil/TKXsUH8XcA987WqKUM3KGiObwdI3jS9MMrI0jECNGa2H01jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBvJ8s4M; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kC6lE23z"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30b9b1979b9so56869831fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Mar 2025 03:36:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741174602; x=1741779402; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWlFdYO+U5pkyvFkJdSxJPcpii24zFkKT+mvaAzenDM=;
-        b=kC6lE23zxzB54qlZ8vYQsVKnnGo0apOGO6nsTSZzk9P+uLIkPLH4GDmrHUoQrtJtiB
-         jESKpWhXPDxNAMz1KrOqwe0ZgtzJvy05uSWE3NJ/naktltiXZtdeHE3lEQDeHXoMOLlZ
-         qQXox6DZzzDFC62GPGM51fLxV4oVErPmqiP6kIfO+70EQNKWtTqiLXds6lBzHCNclfkv
-         qE6lewNotQsNzpH39WdCxW09dv9LoB0Uw/qBndG9NA8rsuHQ9ZKvlhsnZ3rr07cdxZs3
-         opOih0SOAe+ve766AGyam12HFjbZYeWDW77fcBi6qt2/hzF+ZfhqBm1b6fiwNZsrvCHl
-         cd8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741174602; x=1741779402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWlFdYO+U5pkyvFkJdSxJPcpii24zFkKT+mvaAzenDM=;
-        b=esGr7DKm1y0HB8fb0LWgL9mEYSGhBpqLH5Pv+IftC+T1cCw9eM94JxvLceE2C5Fadl
-         5YahM2qPNTNXTdisTEq+V0E4p7l1Zt21iQ+II1g13OF+iXaHXT9TJpb2KrQzOLfTZOp1
-         cWV8x4Gum7YaJ3gIVhk3j6Zwsud7fXBbRhp3TPebEgQtLNGRs9Jj+CtKy+Np7z1/BcuK
-         t5eIX3XEK52eydH5teiNiBYeyvL4f/8RUhXDCMVCQ+ChOba7t8n5974qiX2gE1iJl1tV
-         iQx0m9vCeSkQ3yReH+ZncUfjWEhGq5244tUYDd2C0jB8Qisg0E58Z+Ome3jl/v/P4AHw
-         bZ8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXgr/F8//uxdo64aAYzySsECdB0POjKpdIWt0yCnWFduRCy+R+5HUelRbC8DfClhCDZ6v8g791wus1wm62S@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSlb/dhRswZ5ZGWSix9Npa69boukKvoDi9NWd5FVb03ko/5YdK
-	XTrzDGvg7Sm977CuUo6exqXfwlvwb8feSIuo4aNWskM9FyekX5lRLnkz4MEkOzKrrnCw9a+t2B1
-	EbdfJqu4b7226nlRjdCovCzGsVi8=
-X-Gm-Gg: ASbGncsMmMI6r9jlgNgOwsWMsKF3KRTJAIis9Diuu++vO4TeOtIacrsp930lhMeU+wf
-	wNmJ51hM6raUf+A+VfHxFlV3HhONATvgOD7WMeyVFGNzFazfXu7M4+hQ1OI2obBcuX1a7cBqkbe
-	wBv83fApBplKfjPVEqeW8ua8xYl6ReumSF8PHX9h024xjIF+OfJgtI3dPbJvHX
-X-Google-Smtp-Source: AGHT+IEoFkcbxDDv1dZPxu93WwtasiJI2Lz3qV5/cJ/6/JfY41teVTwgtDE1Riii8TG+BQq6FVk+CV4MaDNemyWbAN0=
-X-Received: by 2002:a2e:bc18:0:b0:30b:d63c:ad20 with SMTP id
- 38308e7fff4ca-30bd7af199bmr10137871fa.24.1741174601641; Wed, 05 Mar 2025
- 03:36:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBvJ8s4M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741177985; x=1772713985;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MY4NkJMgNuThrBNquBSiScNhOWXhVfL9Nxx5FV6sinA=;
+  b=PBvJ8s4Mq2HtJ9sABq0LRPdq8agKVlOF2MCInBs3fnGbQHpbtgLJZekF
+   Kax6upScB/rR+B90NeWEfr+qefOeSgaYidCRJOcl3U9VgwqQMXfdqcf1p
+   4z26da4fWSHtuYRt5wy2pNLo1YzvLCXnQL/g5i92MCRLNFgl2qvirfZSv
+   xRu/Zm/7vwYWiR5xMgmiE2mTYDaGOAdYZPJAS2vwVTB9oTxHDI7r+8HBf
+   Ar9KPAEqLHjjgwBxVHHScOYOVZk80vuHE5em+UWImmD/e0PF79wIEpmEe
+   qsHtRp0lA14SfnIaGvkQSGjb4lDJ0dWDxB43NTjXAmRnIP98vckbrALfB
+   w==;
+X-CSE-ConnectionGUID: sCLKaqSXRM69uE2N0U/0Yw==
+X-CSE-MsgGUID: 3HN3FT+oS8un4xni8XF9bQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42274287"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="42274287"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 04:33:04 -0800
+X-CSE-ConnectionGUID: M81unOAeSiCDOjADajyr1Q==
+X-CSE-MsgGUID: K+SUYzkkQAaYguIVDQXFNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="155889623"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 05 Mar 2025 04:33:01 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpnvn-000Kws-0k;
+	Wed, 05 Mar 2025 12:32:59 +0000
+Date: Wed, 5 Mar 2025 20:32:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, linux-coco@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, gregkh@linuxfoundation.org,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2 08/11] PCI/IDE: Add IDE establishment helpers
+Message-ID: <202503052042.Clxxh3ZH-lkp@intel.com>
+References: <174107250147.1288555.16948528371146013276.stgit@dwillia2-xfh.jf.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250214-scanf-kunit-convert-v8-3-5ea50f95f83c@gmail.com>
- <202502160245.KUrryBJR-lkp@intel.com> <CAJ-ks9kkigKG=Nf_mZrA5CA=SUV2sSyY51_rLef42T+ZxCmk1Q@mail.gmail.com>
- <Z8gdpSErMCMCZZNP@pathway.suse.cz>
-In-Reply-To: <Z8gdpSErMCMCZZNP@pathway.suse.cz>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 5 Mar 2025 06:36:03 -0500
-X-Gm-Features: AQ5f1JqURv3wm0FFfsHXNlwRx6ZYwKWLutLxKPRJPNR4Ik3Z-kjKd3V7yI5FsHY
-Message-ID: <CAJ-ks9mMCmD8UkT_gkiLxh3sRZkOWGVFamNnFfdVNJ__f2mfgA@mail.gmail.com>
-Subject: Re: [PATCH v8 3/4] scanf: convert self-test to KUnit
-To: Petr Mladek <pmladek@suse.com>
-Cc: kernel test robot <lkp@intel.com>, David Gow <davidgow@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <174107250147.1288555.16948528371146013276.stgit@dwillia2-xfh.jf.intel.com>
 
-On Wed, Mar 5, 2025 at 4:47=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrote=
-:
->
-> On Sat 2025-02-15 14:52:22, Tamir Duberstein wrote:
-> > On Sat, Feb 15, 2025 at 1:51=E2=80=AFPM kernel test robot <lkp@intel.co=
-m> wrote:
-> > >
-> > > Hi Tamir,
-> > >
-> > > kernel test robot noticed the following build warnings:
-> > >
-> > > [auto build test WARNING on 7b7a883c7f4de1ee5040bd1c32aabaafde54d209]
-> > >
-> > > url:
-> > https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/scanf-i=
-mplicate-test-line-in-failure-messages/20250215-002302
-> > > base:   7b7a883c7f4de1ee5040bd1c32aabaafde54d209
-> > > patch link:
-> > https://lore.kernel.org/r/20250214-scanf-kunit-convert-v8-3-5ea50f95f83=
-c%40gmail.com
-> > > patch subject: [PATCH v8 3/4] scanf: convert self-test to KUnit
-> > > config: sh-randconfig-002-20250216 (
-> > https://download.01.org/0day-ci/archive/20250216/202502160245.KUrryBJR-=
-lkp@intel.com/config
-> > )
-> > > compiler: sh4-linux-gcc (GCC) 14.2.0
-> > > reproduce (this is a W=3D1 build): (
-> > https://download.01.org/0day-ci/archive/20250216/202502160245.KUrryBJR-=
-lkp@intel.com/reproduce
-> > )
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202502160245.KUrryBJR-lkp@intel.c=
-om/
-> > >
-> > > All warnings (new ones prefixed by >>):
-> > >
-> > >    In file included from <command-line>:
-> > >    lib/tests/scanf_kunit.c: In function 'numbers_list_ll':
-> > > >> include/linux/compiler.h:197:61: warning: function 'numbers_list_l=
-l'
-> > might be a candidate for 'gnu_scanf' format attribute
-> > [-Wsuggest-attribute=3Dformat]
-> >
-> > I am not able to reproduce these warnings with clang 19.1.7. They also
-> > don't obviously make sense to me.
->
-> I have reproduced the problem with gcc:
->
-> $> gcc --version
-> gcc (SUSE Linux) 14.2.1 20250220 [revision 9ffecde121af883b60bbe60d004250=
-36bc873048]
->
-> $> make W=3D1 lib/test_scanf.ko
->   CALL    scripts/checksyscalls.sh
->   DESCEND objtool
->   INSTALL libsubcmd_headers
->   CC [M]  lib/test_scanf.o
-> In file included from <command-line>:
-> lib/test_scanf.c: In function =E2=80=98numbers_list_ll=E2=80=99:
-> ./include/linux/compiler.h:197:61: warning: function =E2=80=98numbers_lis=
-t_ll=E2=80=99 might be a candidate for =E2=80=98gnu_scanf=E2=80=99 format a=
-ttribute [-Wsuggest-attribute=3Dformat]
->   197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Sta=
-tic_assert(!(e), msg);}))
->       |                                                             ^
-> [...]
->
-> It seems that it is a regression introduced by the first
-> patch of this patch set. And the fix is:
->
-> diff --git a/lib/test_scanf.c b/lib/test_scanf.c
-> index d1664e0d0138..e65b10c3dc11 100644
-> --- a/lib/test_scanf.c
-> +++ b/lib/test_scanf.c
-> @@ -27,7 +27,7 @@ static struct rnd_state rnd_state __initdata;
->  typedef int (*check_fn)(const char *file, const int line, const void *ch=
-eck_data,
->                         const char *string, const char *fmt, int n_args, =
-va_list ap);
->
-> -static void __scanf(6, 0) __init
-> +static void __scanf(6, 8) __init
->  _test(const char *file, const int line, check_fn fn, const void *check_d=
-ata, const char *string,
->         const char *fmt, int n_args, ...)
->  {
->
-> Best Regards,
-> Petr
+Hi Dan,
 
-Thanks for the review! I'll respin later today unless you let me know other=
-wise.
+kernel test robot noticed the following build errors:
 
-Cheers.
-Tamir
+[auto build test ERROR on 7eb172143d5508b4da468ed59ee857c6e5e01da6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/configfs-tsm-Namespace-TSM-report-symbols/20250304-152958
+base:   7eb172143d5508b4da468ed59ee857c6e5e01da6
+patch link:    https://lore.kernel.org/r/174107250147.1288555.16948528371146013276.stgit%40dwillia2-xfh.jf.intel.com
+patch subject: [PATCH v2 08/11] PCI/IDE: Add IDE establishment helpers
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250305/202503052042.Clxxh3ZH-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503052042.Clxxh3ZH-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503052042.Clxxh3ZH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/pci/ide.c:322:3: error: expected expression
+                   struct pci_dev *rp = pcie_find_root_port(ide->pdev);
+                   ^
+>> drivers/pci/ide.c:326:20: error: use of undeclared identifier 'rp'
+                                         pci_name(rp));
+                                                  ^
+   2 errors generated.
+
+
+vim +322 drivers/pci/ide.c
+
+   306	
+   307	static struct pci_ide_partner *to_settings(struct pci_dev *pdev, struct pci_ide *ide)
+   308	{
+   309		if (!pci_is_pcie(pdev)) {
+   310			pci_warn_once(pdev, "not a PCIe device\n");
+   311			return NULL;
+   312		}
+   313	
+   314		switch (pci_pcie_type(pdev)) {
+   315		case PCI_EXP_TYPE_ENDPOINT:
+   316			if (pdev != ide->pdev) {
+   317				pci_warn_once(pdev, "setup expected Endpoint: %s\n", pci_name(ide->pdev));
+   318				return NULL;
+   319			}
+   320			return &ide->partner[PCI_IDE_EP];
+   321		case PCI_EXP_TYPE_ROOT_PORT:
+ > 322			struct pci_dev *rp = pcie_find_root_port(ide->pdev);
+   323	
+   324			if (pdev != pcie_find_root_port(ide->pdev)) {
+   325				pci_warn_once(pdev, "setup expected Root Port: %s\n",
+ > 326					      pci_name(rp));
+   327				return NULL;
+   328			}
+   329			return &ide->partner[PCI_IDE_RP];
+   330		default:
+   331			pci_warn_once(pdev, "invalid device type\n");
+   332			return NULL;
+   333		}
+   334	}
+   335	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
