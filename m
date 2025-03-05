@@ -1,73 +1,61 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4701FAC5C;
-	Wed,  5 Mar 2025 09:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09C52E338B;
+	Wed,  5 Mar 2025 09:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741165837; cv=none; b=cxDBdtd7Qi1A16OHqZ5RN6352VHfQRsu8xc+guYsccXE89yZB2iQ+HdTXW0I/yFk3GYi2zTfqWP2Mfn3bcbbftXwtq19cMh6r1Pmg8wwX6xBBNFmPNxMwirvHiep5Hvld3MmArzvIis8pR8FfQ6pK7+HEh50GPtBX10PkDqyIfI=
+	t=1741166857; cv=none; b=TK5OsvpBpvX/yI/2AsnycioyXtyFPw+wqzHrqnuDrn+LAOKcfQmeXTcJcXRAD9G8UTB/pxdXEEZM+tjAglpUtALUyNdqlEyGmS+FOn4fB/Iug4KvpQY+CrU7gpiwHuxcl8s0uU++/obnYueYg+jB3AfGEHbSKbLXJr71wrqhqDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741165837; c=relaxed/simple;
-	bh=EQtCo8tSKqyjMrR3Zfzl4on3sNXGuhfoyEbPQqh//RA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YEoogjXdC+UpKDGETxnF5BHHLW1vaLFJwYUy6xTJg3hAk+7k1sLCo1J91GZR+/Pp/RJNu+/dau1MWNCQT6zK2s80Rr68Ikz2GCTrepwBRHKCvmEZ2p77WUsnCEvKTMp+qpcXh67IIwfiHd9L4obmVq6kLDZfcBSPrilhG1L0BTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOMJlFzM; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741166857; c=relaxed/simple;
+	bh=P9SDvpz5ZIPILpXRvTM1MnSEDV2Szw10lkTSDsiveFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P3M0SXkFde8VngMaBSIewCPW93YAfhjKaHZv/tbw6bTru2PwQHvy5eLJW2EDXjZf9E2QqK3iIzJAbkl7ZFYxfG+ASdySzjNWyzBW5oOfoGHKhcHlnQzSekGzVu5x74doodbC/F7+cQtWddVxb+XHtInEwSMWiHOrdK5tsaJBgLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SL/nqVcd; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOMJlFzM"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5dc89df7eccso10754286a12.3;
-        Wed, 05 Mar 2025 01:10:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741165834; x=1741770634; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZhkzrvYS21LiP8zQmu1Wipl10MmV8PagJql4Vig2YQo=;
-        b=LOMJlFzMQbk7/9fWJ5HDsFnkN11atYye1WzE24/o9ja8Ap8pkwsYr0wdq6vjDPC27i
-         X06mfsIvGstjaG/+Ik5Kkh+ar5l09WAq4xobhiqbU7e8OVHTrsP1TfuIiA7Unuotgfji
-         AFwUe7uNpKaE+PxAcCOGiyXriWBkoaie3/EUxHrGNtIu94+4QB4Xfr9GT2pdVLTBbFn7
-         RB2DGSYE2cnet2d7g7xpdkuapKZa4GakBZKdPcqo93pMBSxiMXRoFcInSSL4Ljr8x9Dl
-         PF6DiVeAgAz1zbjzA8AnfRxnXmG4sYEV5QUsBqS+al1mx3dI5geuZDEr4ejgqUzcWrP4
-         sgtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741165834; x=1741770634;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZhkzrvYS21LiP8zQmu1Wipl10MmV8PagJql4Vig2YQo=;
-        b=k6PFbYCQYRxX93qqm80o9yukQ3Lo4TexJVaG56SNqB762pjm17l+phsxJ9Q3n5CO5x
-         7LJJDjFqGl8xOysENFHlpxZUsPSV+FebxZDDK8EIkomk19B0M0zudaMIVuxOUeTRdvyR
-         73ML1GnDDKYAUn9cxn1gwg8ink3myPN2z1l4tuZi8Rnbs5louAwh4GhnqRTTIT0aHH2L
-         jIzhU32D6a5Gs2V4u7jMXtcqQiU2/KunB/AWrfkN/qEj+wDeSwfnn1VQhp3b7qYywsG3
-         DQJ+UsxPC9gugJbgaIunE/YNBwRp9yksnkbH24ti/r5u5lDN+w0cFjwoW4a6xTW7Z8vv
-         XmtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVYgcmcZEHTRdFo8nXUPz1Bm7qX8ca8wz/EJQLZJHbZc5pavRm88UzAbHJ01sJjmtVAKuyKmcfadMXDu0af5Q==@lists.linux.dev, AJvYcCX6W3IAR0rlgAo+N23Qp/oVIFI77jpgk+fo8AS/clFPV76W4AyVrJXNCTdEKAjzgr0KCJT5@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywmh5y3AWRoO6WpBrLWCYERmxsRzCE8yW6caejHxgLp3nerwseX
-	45Xsk+WX+rPT/cem42FseU8Upiovf0ryiN9CzV2U6h1snBnhNDleByIaEUjl
-X-Gm-Gg: ASbGncvvDXZRx10Am3E0juj3mpQRaN3Rr1lyCshgfCu+IGkRYLK0XhtrizrBbH06yMg
-	m1D+KIbr78gGUnxUPvfYu5BrbJOlj9rU4cch5koZxrxMk+MJDySxDKyzkWZfPQNy5bFv/fiT0j1
-	adQcFTm+bTVBOOwvfC7qKx320eyLLLa9aXyKlfzdsoO4VJK+YBdZegB1hwD//Z/6zkbyChWmQoU
-	RrBgAL/bVV+2VupBns6Tf3T8uVAxrGdWA/TavSjNFggysoEXPaearSHK5SnXox8kQFgPvpKxSgq
-	bXuZPYmAxwAF/GdAvgHSNkNT5mvtVxegMYKlITN5tsyJ
-X-Google-Smtp-Source: AGHT+IGqCsXnkfC76bFXMbUjIXevmryzQgEal5+s3NWi2W3zDAzeb9s6R0Em48UhoyL87fptsSZghA==
-X-Received: by 2002:a05:6402:13ca:b0:5e4:b66f:880b with SMTP id 4fb4d7f45d1cf-5e59f36050emr2599867a12.6.1741165833326;
-        Wed, 05 Mar 2025 01:10:33 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c43a6ab7sm9344888a12.74.2025.03.05.01.10.32
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 05 Mar 2025 01:10:32 -0800 (PST)
-Date: Wed, 5 Mar 2025 09:10:32 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	willy@infradead.org, michel@lespinasse.org, linux-mm@kvack.org
-Subject: Re: [PATCH 3/7] lib/rbtree: add random seed
-Message-ID: <20250305091032.fecpecvvxravtjyp@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250304011952.29182-4-richard.weiyang@gmail.com>
- <202503051009.iTp8hlJy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SL/nqVcd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741166855; x=1772702855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P9SDvpz5ZIPILpXRvTM1MnSEDV2Szw10lkTSDsiveFY=;
+  b=SL/nqVcdnQMjgu+PqGVXuWaFjVJKVX4g/lsTny99YhO3eWO/ByTDzq9H
+   pxv6MVCKnWw2g0wGMTEezUoXHA8Ur+h9BPHR+xzYBiG8Bus4ki8R+y7w7
+   Ep6Dv92jlBPvc7AQSJJYx0tUmKNvdpcgFmWzYzXUiyCIoWy1UbZZyUFOJ
+   36iiBosjr0X2ynnC6ft6vh6KtWpppS+6sMwrV+sNwB9/taqGj/deXVDf2
+   dS0XmdYLPSqLgCbM4HHwedOg8H71u99H1DlUrAlYO7wyCmihbndTPtbnn
+   EruMk9smt7mAYkYgHMHeh+uuCWDNqcII/liqBwiTLowjRfiZ9vBuJx4mR
+   A==;
+X-CSE-ConnectionGUID: Bx+uf1/cQEOXWz6SQX91Mg==
+X-CSE-MsgGUID: 9UhUKig0Q3+ZbPkB4Ke3QA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52759032"
+X-IronPort-AV: E=Sophos;i="6.14,222,1736841600"; 
+   d="scan'208";a="52759032"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 01:27:34 -0800
+X-CSE-ConnectionGUID: 2/LH2U8TSemwGrJyqwg7yg==
+X-CSE-MsgGUID: Vvm4Su6aSkGW3MulzfIv4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="123829108"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 05 Mar 2025 01:27:33 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpl2I-000KmY-0t;
+	Wed, 05 Mar 2025 09:27:30 +0000
+Date: Wed, 5 Mar 2025 17:26:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: [linux-next:master 7259/7930]
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:833:7: error: call to
+ undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202503051744.a44mn4cM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,74 +64,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202503051009.iTp8hlJy-lkp@intel.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Wed, Mar 05, 2025 at 11:05:13AM +0800, kernel test robot wrote:
->Hi Wei,
->
->kernel test robot noticed the following build warnings:
->
->[auto build test WARNING on linus/master]
->[also build test WARNING on v6.14-rc5 next-20250304]
->[cannot apply to akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything]
->[If your patch is applied to the wrong git tree, kindly drop us a note.
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/lib-rbtree-enable-userland-test-suite-for-rbtree-related-data-structure/20250304-092345
->base:   linus/master
->patch link:    https://lore.kernel.org/r/20250304011952.29182-4-richard.weiyang%40gmail.com
->patch subject: [PATCH 3/7] lib/rbtree: add random seed
->config: i386-buildonly-randconfig-004-20250305 (https://download.01.org/0day-ci/archive/20250305/202503051009.iTp8hlJy-lkp@intel.com/config)
->compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
->reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503051009.iTp8hlJy-lkp@intel.com/reproduce)
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202503051009.iTp8hlJy-lkp@intel.com/
->
->All warnings (new ones prefixed by >>):
->
->>> lib/rbtree_test.c:17:22: warning: implicit conversion from 'unsigned long long' to 'ulong' (aka 'unsigned long') changes value from 3141592653589793238 to 2721204694 [-Wconstant-conversion]
->      17 | __param(ulong, seed, 3141592653589793238ULL, "Random seed");
->         |                ~~~~  ^~~~~~~~~~~~~~~~~~~~~~
->   lib/rbtree_test.c:10:21: note: expanded from macro '__param'
->      10 |         static type name = init;                \
->         |                     ~~~~   ^~~~
->   1 warning generated.
->--
->>> lib/interval_tree_test.c:22:22: warning: implicit conversion from 'unsigned long long' to 'ulong' (aka 'unsigned long') changes value from 3141592653589793238 to 2721204694 [-Wconstant-conversion]
->      22 | __param(ulong, seed, 3141592653589793238ULL, "Random seed");
->         |                ~~~~  ^~~~~~~~~~~~~~~~~~~~~~
->   lib/interval_tree_test.c:10:21: note: expanded from macro '__param'
->      10 |         static type name = init;                \
->         |                     ~~~~   ^~~~
->   1 warning generated.
->
->
->vim +17 lib/rbtree_test.c
->
->     8	
->     9	#define __param(type, name, init, msg)		\
->    10		static type name = init;		\
->    11		module_param(name, type, 0444);		\
->    12		MODULE_PARM_DESC(name, msg);
->    13	
->    14	__param(int, nnodes, 100, "Number of nodes in the rb-tree");
->    15	__param(int, perf_loops, 1000, "Number of iterations modifying the rb-tree");
->    16	__param(int, check_loops, 100, "Number of iterations modifying and verifying the rb-tree");
->  > 17	__param(ulong, seed, 3141592653589793238ULL, "Random seed");
->    18	
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20d5c66e1810e6e8805ec0d01373afb2dba9f51a
+commit: 328e6885996ca2c6eb8b07d3c9bb1439fdcb088f [7259/7930] drm/rockchip: vop2: Add platform specific callback
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250305/202503051744.a44mn4cM-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250305/202503051744.a44mn4cM-lkp@intel.com/reproduce)
 
-Thanks, will fix it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503051744.a44mn4cM-lkp@intel.com/
 
->
->-- 
->0-DAY CI Kernel Test Service
->https://github.com/intel/lkp-tests/wiki
+Note: the linux-next/master HEAD 20d5c66e1810e6e8805ec0d01373afb2dba9f51a builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:833:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     833 |                            FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_RGB_MUX, vp->id);
+         |                            ^
+   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:1052:15: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1052 |         vp_clk_div = FIELD_PREP(RK3588_VP_CLK_CTRL__DCLK_CORE_DIV, dclk_core_div);
+         |                      ^
+   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:1424:15: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1424 |                 port_sel |= FIELD_PREP(RK3568_OVL_PORT_SET__PORT0_MUX,
+         |                             ^
+   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:1543:12: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1543 |                         cdly |= FIELD_PREP(RK3568_CLUSTER_DLY_NUM__CLUSTER0_0, dly);
+         |                                 ^
+   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c:1609:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1609 |                     FIELD_PREP(RK3568_VP_BG_MIX_CTRL__BG_DLY, bg_dly));
+         |                     ^
+   5 errors generated.
+
+
+vim +/FIELD_PREP +833 drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+
+   819	
+   820	static unsigned long rk3568_set_intf_mux(struct vop2_video_port *vp, int id, u32 polflags)
+   821	{
+   822		struct vop2 *vop2 = vp->vop2;
+   823		struct drm_crtc *crtc = &vp->crtc;
+   824		u32 die, dip;
+   825	
+   826		die = vop2_readl(vop2, RK3568_DSP_IF_EN);
+   827		dip = vop2_readl(vop2, RK3568_DSP_IF_POL);
+   828	
+   829		switch (id) {
+   830		case ROCKCHIP_VOP2_EP_RGB0:
+   831			die &= ~RK3568_SYS_DSP_INFACE_EN_RGB_MUX;
+   832			die |= RK3568_SYS_DSP_INFACE_EN_RGB |
+ > 833				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_RGB_MUX, vp->id);
+   834			dip &= ~RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL;
+   835			dip |= FIELD_PREP(RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL, polflags);
+   836			if (polflags & POLFLAG_DCLK_INV)
+   837				regmap_write(vop2->sys_grf, RK3568_GRF_VO_CON1, BIT(3 + 16) | BIT(3));
+   838			else
+   839				regmap_write(vop2->sys_grf, RK3568_GRF_VO_CON1, BIT(3 + 16));
+   840			break;
+   841		case ROCKCHIP_VOP2_EP_HDMI0:
+   842			die &= ~RK3568_SYS_DSP_INFACE_EN_HDMI_MUX;
+   843			die |= RK3568_SYS_DSP_INFACE_EN_HDMI |
+   844				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_HDMI_MUX, vp->id);
+   845			dip &= ~RK3568_DSP_IF_POL__HDMI_PIN_POL;
+   846			dip |= FIELD_PREP(RK3568_DSP_IF_POL__HDMI_PIN_POL, polflags);
+   847			break;
+   848		case ROCKCHIP_VOP2_EP_EDP0:
+   849			die &= ~RK3568_SYS_DSP_INFACE_EN_EDP_MUX;
+   850			die |= RK3568_SYS_DSP_INFACE_EN_EDP |
+   851				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_EDP_MUX, vp->id);
+   852			dip &= ~RK3568_DSP_IF_POL__EDP_PIN_POL;
+   853			dip |= FIELD_PREP(RK3568_DSP_IF_POL__EDP_PIN_POL, polflags);
+   854			break;
+   855		case ROCKCHIP_VOP2_EP_MIPI0:
+   856			die &= ~RK3568_SYS_DSP_INFACE_EN_MIPI0_MUX;
+   857			die |= RK3568_SYS_DSP_INFACE_EN_MIPI0 |
+   858				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_MIPI0_MUX, vp->id);
+   859			dip &= ~RK3568_DSP_IF_POL__MIPI_PIN_POL;
+   860			dip |= FIELD_PREP(RK3568_DSP_IF_POL__MIPI_PIN_POL, polflags);
+   861			break;
+   862		case ROCKCHIP_VOP2_EP_MIPI1:
+   863			die &= ~RK3568_SYS_DSP_INFACE_EN_MIPI1_MUX;
+   864			die |= RK3568_SYS_DSP_INFACE_EN_MIPI1 |
+   865				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_MIPI1_MUX, vp->id);
+   866			dip &= ~RK3568_DSP_IF_POL__MIPI_PIN_POL;
+   867			dip |= FIELD_PREP(RK3568_DSP_IF_POL__MIPI_PIN_POL, polflags);
+   868			break;
+   869		case ROCKCHIP_VOP2_EP_LVDS0:
+   870			die &= ~RK3568_SYS_DSP_INFACE_EN_LVDS0_MUX;
+   871			die |= RK3568_SYS_DSP_INFACE_EN_LVDS0 |
+   872				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_LVDS0_MUX, vp->id);
+   873			dip &= ~RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL;
+   874			dip |= FIELD_PREP(RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL, polflags);
+   875			break;
+   876		case ROCKCHIP_VOP2_EP_LVDS1:
+   877			die &= ~RK3568_SYS_DSP_INFACE_EN_LVDS1_MUX;
+   878			die |= RK3568_SYS_DSP_INFACE_EN_LVDS1 |
+   879				   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_LVDS1_MUX, vp->id);
+   880			dip &= ~RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL;
+   881			dip |= FIELD_PREP(RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL, polflags);
+   882			break;
+   883		default:
+   884			drm_err(vop2->drm, "Invalid interface id %d on vp%d\n", id, vp->id);
+   885			return 0;
+   886		}
+   887	
+   888		dip |= RK3568_DSP_IF_POL__CFG_DONE_IMD;
+   889	
+   890		vop2_writel(vop2, RK3568_DSP_IF_EN, die);
+   891		vop2_writel(vop2, RK3568_DSP_IF_POL, dip);
+   892	
+   893		return crtc->state->adjusted_mode.crtc_clock  * 1000LL;
+   894	}
+   895	
 
 -- 
-Wei Yang
-Help you, Help me
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
