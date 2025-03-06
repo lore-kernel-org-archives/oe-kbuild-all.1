@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBF11993B7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 04:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C0F19ABD8
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 04:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741234481; cv=none; b=M+m9GWh0kBRLUouaB4p2pb6veCOvKSrJaBQjUCYEGKouMVGBc2t/XLQPtFzlSswT7TCJxomWuGCFWbrYSSwiY6KUIuW9GNbbuVfyOklIRJLUKYpKiocUotiGSlsu9c/+Dh0vWcqHK4rETirJCG6bWslbT5t9IrguTrManWRcbbQ=
+	t=1741235156; cv=none; b=ITyNQTC5m200oJ+c+d6swGJDFcOb+v6YBOWainDfB4GHy5u5vHidhjVswRx0oQg0HZD3u+BSGYnjgyKeW80dnmnKsqmVtrsvJtYzdkV9Htwt2XGxIdmbU1DvYKhRCAbAL/S7ho5M8hhL2AwMk95kJg6AWbM/fbOUxGwhegJzoOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741234481; c=relaxed/simple;
-	bh=b+WNPGk7J2lWZFdjFdJZsxd9df8Adu9P/W/MVBcgvKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ATLBTZWlz3GjEhLROiiHCA7WVH3/hRBlm7sFBMtKJ+e+koFkYfd/fkVSTTslYr1G+BazWoD0lY49VlabzZsqtnsG8k7iCjmcJ57fsfU75xakY8AbKgyBJqTLt9Pa/78B20zMYFYkt96jownIozU238Ngb8CsmRpbTqgjRYakVhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vtkft/1i; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1741235156; c=relaxed/simple;
+	bh=eumoPIkoZZFufH4p3hKezI4BupcvM1ZHfV2ZB9r8HvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uTagpQnnwr046L3P4SkV9K+vHogkXOg8tpTRkE6kuib9Cz3+raEXS6ny40lkP1ydeK2mCUEafWzohhoieEBPzvkDbJ/e+Fi5DpFTdwgFGgZf+a0rMCoo6kqxofmZf81lvSU2GhbQu725I3xmAAZOXqiqL5ZOSSrBNQ7U3r+0AAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJzr2KFC; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vtkft/1i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJzr2KFC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741234479; x=1772770479;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b+WNPGk7J2lWZFdjFdJZsxd9df8Adu9P/W/MVBcgvKU=;
-  b=Vtkft/1ilessF0qy6oE1D9Koc7pZ9AsHIEkXYK4D0JxYRbQKIYnLd4Ic
-   cRRIYCSbevyh1jSfsGhbKmkkAsGScDFJt84StDhTaBfas31XnGBOI4aBI
-   y2tjuV8qlCyYEcHswVjV9EB/9kLHzS7gGzsqihKAFUDXReD+eQZjJyUA2
-   J7+VNAJEVrs38Ii1kGLogZyib5kuuOwaMQMhZCrmO6RdW7UbmQ0GxxoU4
-   VAfF98lOQVGxw0Wr7T7PROEhTEGKv/HZe1EYu9nAjcQrG4jamRiIt1THy
-   OZj9syLr6bL5qCXtFzsoDN82V5Y9qXpwawgas1p/HeNYo2arTbWhvuFLa
+  t=1741235155; x=1772771155;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eumoPIkoZZFufH4p3hKezI4BupcvM1ZHfV2ZB9r8HvE=;
+  b=VJzr2KFCn9619ZNEoEUeQs626RSTkK794gwnGpQlBIhB00CwyeQjse7u
+   fxTIF+Jnin9DTE4rGcxRL47h1tlUKMv//6vYp3x2St7/vBgQ28RJbuQGR
+   KsxH3ubcaNeiASloCLqrNhYlBIrWwRq8Autoe00TD8NnP/jIVqqGkj/KJ
+   iCruYiTN17ywpzVwjOqIU+AboJ5UCuNMqMidtzjtb20iKxqr0TRBJcYfx
+   lB5n7skYOx6UkdZURWiUBEy3EW5on3j/0l3VlC9tE8+IyVBlrTFwSCuh7
+   6q0fybmRYPWuQ/JNrc7tbnVIM55PlNekXwmpD7CxIAqthzI4BTuBUBxpM
    A==;
-X-CSE-ConnectionGUID: rvSr83H/SN2aVEH8Jvuplw==
-X-CSE-MsgGUID: VIdIMovJRUy7QJ14WeDdJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41479200"
+X-CSE-ConnectionGUID: UFoTurlPRp+jpU6Q3+adZA==
+X-CSE-MsgGUID: mypQIoYyQIeZQU1hAYCpsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41404191"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="41479200"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 20:14:39 -0800
-X-CSE-ConnectionGUID: nYDiCb/gSX6tdkOgbp7GIg==
-X-CSE-MsgGUID: mg46U7V7QdOhz0Im2OCzfQ==
+   d="scan'208";a="41404191"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 20:25:54 -0800
+X-CSE-ConnectionGUID: cvRPFWjzRQGUBjVNoYONtw==
+X-CSE-MsgGUID: sKxuWj+cRP+ZobyNg4BBsg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="156115414"
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
+   d="scan'208";a="119404635"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Mar 2025 20:14:36 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 05 Mar 2025 20:25:52 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq2cz-000MVy-31;
-	Thu, 06 Mar 2025 04:14:33 +0000
-Date: Thu, 6 Mar 2025 12:14:04 +0800
+	id 1tq2nt-000MWi-37;
+	Thu, 06 Mar 2025 04:25:50 +0000
+Date: Thu, 6 Mar 2025 12:24:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: raoxu <raoxu@uniontech.com>, mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, wangyuli@uniontech.com,
-	zhanjun@uniontech.com, Xu Rao <raoxu@uniontech.com>
-Subject: Re: [PATCH V3] usb: xhci: Add debugfs support for xHCI port bandwidth
-Message-ID: <202503061205.wtVpmjvj-lkp@intel.com>
-References: <20250305085118.28826-1-raoxu@uniontech.com>
+To: Shreeya Patel <shreeya.patel@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Dingxian Wen <shawn.wen@rock-chips.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: [linuxtv-media-pending:next 3/7]
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c: media/v4l2-common.h is
+ included more than once.
+Message-ID: <202503061231.PHF6hEL2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,70 +65,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305085118.28826-1-raoxu@uniontech.com>
 
-Hi raoxu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.14-rc5 next-20250305]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/raoxu/usb-xhci-Add-debugfs-support-for-xHCI-port-bandwidth/20250305-165606
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250305085118.28826-1-raoxu%40uniontech.com
-patch subject: [PATCH V3] usb: xhci: Add debugfs support for xHCI port bandwidth
-config: arc-randconfig-002-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061205.wtVpmjvj-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061205.wtVpmjvj-lkp@intel.com/reproduce)
+tree:   https://git.linuxtv.org/media-ci/media-pending.git next
+head:   36cef585e2a31e4ddf33a004b0584a7a572246de
+commit: 7b59b132ad4398f9c13c3222e5126f5045aa5ead [3/7] media: platform: synopsys: Add support for HDMI input driver
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061205.wtVpmjvj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061231.PHF6hEL2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c: media/v4l2-common.h is included more than once.
 
-   drivers/usb/host/xhci.c: In function 'xhci_get_port_bandwidth':
->> drivers/usb/host/xhci.c:3094:41: warning: variable 'num_ports' set but not used [-Wunused-but-set-variable]
-    3094 |         unsigned int                    num_ports;
-         |                                         ^~~~~~~~~
+vim +33 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
 
-
-vim +/num_ports +3094 drivers/usb/host/xhci.c
-
-  3090	
-  3091	/* Get the available bandwidth of the ports under the xhci roothub */
-  3092	int xhci_get_port_bandwidth(struct xhci_hcd *xhci, u8 dev_speed)
-  3093	{
-> 3094		unsigned int			num_ports;
-  3095		int				ret;
-  3096		unsigned long			flags;
-  3097		struct xhci_container_ctx	*ctx;
-  3098	
-  3099		num_ports = HCS_MAX_PORTS(xhci->hcs_params1);
-  3100		ctx = xhci->get_bw_command->in_ctx;
-  3101	
-  3102		/* get xhci hub port bandwidth */
-  3103		/* refer to xhci rev1_2 protocol 4.6.15*/
-  3104		spin_lock_irqsave(&xhci->lock, flags);
-  3105		ret = xhci_queue_get_rh_port_bw(xhci, xhci->get_bw_command, ctx->dma,
-  3106						dev_speed, 0, false);
-  3107		if (ret < 0) {
-  3108			spin_unlock_irqrestore(&xhci->lock, flags);
-  3109			return ret;
-  3110		}
-  3111		xhci_ring_cmd_db(xhci);
-  3112		spin_unlock_irqrestore(&xhci->lock, flags);
-  3113	
-  3114		wait_for_completion(xhci->get_bw_command->completion);
-  3115	
-  3116		return ret;
-  3117	}
-  3118	
+    31	
+    32	#include <media/cec.h>
+  > 33	#include <media/v4l2-common.h>
+    34	#include <media/v4l2-ctrls.h>
+    35	#include <media/v4l2-device.h>
+    36	#include <media/v4l2-dv-timings.h>
+    37	#include <media/v4l2-event.h>
+    38	#include <media/v4l2-fh.h>
+    39	#include <media/v4l2-ioctl.h>
+    40	#include <media/videobuf2-dma-contig.h>
+    41	#include <media/videobuf2-v4l2.h>
+  > 42	#include <media/v4l2-common.h>
+    43	
 
 -- 
 0-DAY CI Kernel Test Service
