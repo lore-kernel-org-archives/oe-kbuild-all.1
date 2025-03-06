@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32896156F39
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 15:32:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6282B191493
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 15:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741275160; cv=none; b=QBikrc2N6lLtraupQMQzas/L3Qyb7r2dHBFanqxT54Y8yu5eOSjAa//w/3MReG2zuFyicXhrv92d2u+uDyX0ar6/QI4k3LAFgK73P0TXgeTR1oDo2izXPHSKeHHzSH78O0ZepfbDwIaaBUd6qkAKZCzUtVlKo5eHggOIQO1096s=
+	t=1741275162; cv=none; b=CcEoaLvEbciD+PmnGanFspKNQcixDm6leq4xeppvDnlKFwGvtJMKcf8W3Uy9UJzU4C6TChPIskqbEWQnzSPH7FFlGxadOf14I6VTKYkHnHuZlFdAEdfysFsB387stPPlAKlR6AoZ4YcNHrx7j9mSYQYqEJQRtJY2/ALSTBnwdO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741275160; c=relaxed/simple;
-	bh=cmBV+knUhLq1STnrEDK4j3cobraQeY9TSGPIILCMdoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q4aUMtgYNU8wia8YFIFbXAdhZcxEqz8UUVqaWa9/w0w9qwzQasDna0p+1HNze806f7wfX2cBgZDXphSHZrTswqRtUmoY/+TZajvNufMw55TNAIqelsb1KM8TgLeBZzwGQfW/6ru8eRKvh9zFvCJ8wOO/bZLt+7uZkEPuvRbbzww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gzgb55iC; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1741275162; c=relaxed/simple;
+	bh=R4kqkbUHGVxX0YtNvcw4g8rl1p2UBvScCOJwjjRVFRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFaZfpzh34ZrXMdKNVTitMbnX8vgUDlcBlhwYrx6XJUrZLiTK+TUsJHAD0xpDZ/e6rjbPcgHdKS7vt3IZYCH/pOfNsWoavNH16kuzAHAucr7jmhjvwfLWR3WQElMuC+p9Z2VhSDYy0jiy1jA/M4VAPxEReedPfop/H4BkM8tqgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUuCobz1; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gzgb55iC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUuCobz1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741275158; x=1772811158;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cmBV+knUhLq1STnrEDK4j3cobraQeY9TSGPIILCMdoc=;
-  b=Gzgb55iCVtLR9EnVL1ILbKE10oHaO9Wzvnpmiy9jmOXnfmOgilv0L3oO
-   HkXIKL9P5RC3F6JSZ0BOeI31lPihvubW0RPWjP8etoe9EfHcKWx4XtQqK
-   XJHj9owQ55H4WnCoqYU8+b/PJC91g/LkHVoMymeLO8xc4Sup2wcY75f1q
-   efihH4+GZHPRTmTMDfgFuuRi2libMsafujh+nn21uxFvi3YznuyOk8Vz9
-   Vtoc6a/V7Znu5E6d+t+yg4jIGH4cmpEZsM9apAbJo/FII2Vu72qOOnN/W
-   JWCr5wzrSLC3h9yFVCndaxWY0Haw+zosdNbOJ3sExevL4+LMibVGjveOA
-   w==;
-X-CSE-ConnectionGUID: vlwoE4xDS7GWmcWaao4VAA==
-X-CSE-MsgGUID: 4GqJf+QsQ4OpX9TfoNT3mw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41466656"
+  t=1741275160; x=1772811160;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R4kqkbUHGVxX0YtNvcw4g8rl1p2UBvScCOJwjjRVFRg=;
+  b=IUuCobz1WPsMuVOn2+S/tcfg0WO+m6tOumXMV07gfzozmDis7eOdsAfe
+   RxAVDVe0F/32KP1TDz5GsJ3yNXo+b+dk7bSL9H31/MuAqCi9wE09N+dwg
+   9iJp3O0olKDvg//cXRxKNiIdr726ky/b0btXS3PTe32fIz+tgMgwO+Ym8
+   +gb05TcH8NIuipceIO84Niz5X1rYGQBQJVqT5e/h0xpS+Qf1F+nPzXbKx
+   wUxDb2/beLMUrAEB9t0gG2aiYhM1Ba7bRkpCnDzFVPwVeEjX//zf+eBX7
+   3a2vuu9FZIQhbzycZ3/rHYL2tBO37dDPhCt/YgbPLGa96m4BZvSlzeU6R
+   g==;
+X-CSE-ConnectionGUID: yXBvOdE+QKW/84LuO8S3AA==
+X-CSE-MsgGUID: IyZ7xWjHQduYe3elQHY7ww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41466661"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="41466656"
+   d="scan'208";a="41466661"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:31:46 -0800
-X-CSE-ConnectionGUID: dwQNAH2+R5iqbRcpVdU0nw==
-X-CSE-MsgGUID: 92NEw5K3RN6GzB5qirnX8A==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:31:47 -0800
+X-CSE-ConnectionGUID: vOeELUvbTlC7e3iV1F1jnQ==
+X-CSE-MsgGUID: 7d20Q8fRQ3GMaQxo2yMI+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149986631"
+   d="scan'208";a="149986632"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2025 07:31:45 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqDCJ-000NDc-1F;
+	id 1tqDCJ-000NDa-1B;
 	Thu, 06 Mar 2025 15:31:43 +0000
-Date: Thu, 6 Mar 2025 23:30:49 +0800
+Date: Thu, 6 Mar 2025 23:31:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Demers <alexandre.f.demers@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>
-Subject: [linux-next:master 8827/9212]
- drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:1025: warning: Function parameter or
- struct member 'other_mode' not described in 'dce_v6_0_line_buffer_adjust'
-Message-ID: <202503062347.iU0DlTbl-lkp@intel.com>
+To: Julian Sun <sunjunchao2870@gmail.com>, linux-xfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, cem@kernel.org, djwong@kernel.org,
+	Julian Sun <sunjunchao2870@gmail.com>
+Subject: Re: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL
+ allocation.
+Message-ID: <202503062303.aLFvYL6o-lkp@intel.com>
+References: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,105 +64,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   565351ae7e0cee80e9b5ed84452a5b13644ffc4d
-commit: 029ab8cabd941fe0d8076ddf1e74ebfc7d3ae86c [8827/9212] drm/amdgpu: add some comments in DCE6
-config: x86_64-buildonly-randconfig-006-20250306 (https://download.01.org/0day-ci/archive/20250306/202503062347.iU0DlTbl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062347.iU0DlTbl-lkp@intel.com/reproduce)
+Hi Julian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on linus/master v6.14-rc5 next-20250306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/xfs-remove-unnecessary-checks-for-__GFP_NOFAIL-allocation/20250228-162815
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20250228082622.2638686-2-sunjunchao2870%40gmail.com
+patch subject: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL allocation.
+config: csky-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250306/202503062303.aLFvYL6o-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062303.aLFvYL6o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503062347.iU0DlTbl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503062303.aLFvYL6o-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:1025: warning: Function parameter or struct member 'other_mode' not described in 'dce_v6_0_line_buffer_adjust'
+   fs/xfs/xfs_mru_cache.c: In function 'xfs_mru_cache_create':
+>> fs/xfs/xfs_mru_cache.c:359:1: warning: label 'exit' defined but not used [-Wunused-label]
+     359 | exit:
+         | ^~~~
 
 
-vim +1025 drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+vim +/exit +359 fs/xfs/xfs_mru_cache.c
 
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1007  
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1008  /* watermark setup */
-029ab8cabd941f Alexandre Demers 2025-02-28  1009  /**
-029ab8cabd941f Alexandre Demers 2025-02-28  1010   * dce_v6_0_line_buffer_adjust - Set up the line buffer
-029ab8cabd941f Alexandre Demers 2025-02-28  1011   *
-029ab8cabd941f Alexandre Demers 2025-02-28  1012   * @adev: amdgpu_device pointer
-029ab8cabd941f Alexandre Demers 2025-02-28  1013   * @amdgpu_crtc: the selected display controller
-029ab8cabd941f Alexandre Demers 2025-02-28  1014   * @mode: the current display mode on the selected display
-029ab8cabd941f Alexandre Demers 2025-02-28  1015   * controller
-029ab8cabd941f Alexandre Demers 2025-02-28  1016   *
-029ab8cabd941f Alexandre Demers 2025-02-28  1017   * Setup up the line buffer allocation for
-029ab8cabd941f Alexandre Demers 2025-02-28  1018   * the selected display controller (CIK).
-029ab8cabd941f Alexandre Demers 2025-02-28  1019   * Returns the line buffer size in pixels.
-029ab8cabd941f Alexandre Demers 2025-02-28  1020   */
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1021  static u32 dce_v6_0_line_buffer_adjust(struct amdgpu_device *adev,
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1022  				   struct amdgpu_crtc *amdgpu_crtc,
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1023  				   struct drm_display_mode *mode,
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1024  				   struct drm_display_mode *other_mode)
-e2cdf640cbb5b7 Ken Wang         2016-01-19 @1025  {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1026  	u32 tmp, buffer_alloc, i;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1027  	u32 pipe_offset = amdgpu_crtc->crtc_id * 0x8;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1028  	/*
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1029  	 * Line Buffer Setup
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1030  	 * There are 3 line buffers, each one shared by 2 display controllers.
-b00861b98b4eed Tom St Denis     2016-11-14  1031  	 * mmDC_LB_MEMORY_SPLIT controls how that line buffer is shared between
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1032  	 * the display controllers.  The paritioning is done via one of four
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1033  	 * preset allocations specified in bits 21:20:
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1034  	 *  0 - half lb
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1035  	 *  2 - whole lb, other crtc must be disabled
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1036  	 */
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1037  	/* this can get tricky if we have two large displays on a paired group
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1038  	 * of crtcs.  Ideally for multiple large displays we'd assign them to
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1039  	 * non-linked crtcs for maximum line buffer allocation.
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1040  	 */
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1041  	if (amdgpu_crtc->base.enabled && mode) {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1042  		if (other_mode) {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1043  			tmp = 0; /* 1/2 */
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1044  			buffer_alloc = 1;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1045  		} else {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1046  			tmp = 2; /* whole */
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1047  			buffer_alloc = 2;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1048  		}
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1049  	} else {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1050  		tmp = 0;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1051  		buffer_alloc = 0;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1052  	}
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1053  
-b00861b98b4eed Tom St Denis     2016-11-14  1054  	WREG32(mmDC_LB_MEMORY_SPLIT + amdgpu_crtc->crtc_offset,
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1055  	       DC_LB_MEMORY_CONFIG(tmp));
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1056  
-b00861b98b4eed Tom St Denis     2016-11-14  1057  	WREG32(mmPIPE0_DMIF_BUFFER_CONTROL + pipe_offset,
-b00861b98b4eed Tom St Denis     2016-11-14  1058  	       (buffer_alloc << PIPE0_DMIF_BUFFER_CONTROL__DMIF_BUFFERS_ALLOCATED__SHIFT));
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1059  	for (i = 0; i < adev->usec_timeout; i++) {
-b00861b98b4eed Tom St Denis     2016-11-14  1060  		if (RREG32(mmPIPE0_DMIF_BUFFER_CONTROL + pipe_offset) &
-b00861b98b4eed Tom St Denis     2016-11-14  1061  		    PIPE0_DMIF_BUFFER_CONTROL__DMIF_BUFFERS_ALLOCATION_COMPLETED_MASK)
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1062  			break;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1063  		udelay(1);
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1064  	}
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1065  
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1066  	if (amdgpu_crtc->base.enabled && mode) {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1067  		switch (tmp) {
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1068  		case 0:
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1069  		default:
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1070  			return 4096 * 2;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1071  		case 2:
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1072  			return 8192 * 2;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1073  		}
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1074  	}
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1075  
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1076  	/* controller not enabled, so no lb used */
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1077  	return 0;
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1078  }
-e2cdf640cbb5b7 Ken Wang         2016-01-19  1079  
-
-:::::: The code at line 1025 was first introduced by commit
-:::::: e2cdf640cbb5b7d6643e1c8ad54bf3bfc99d4d48 drm/amdgpu: add display controller implementation for si v10
-
-:::::: TO: Ken Wang <Qingqing.Wang@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+2a82b8be8a8dac David Chinner     2007-07-11  307  
+2a82b8be8a8dac David Chinner     2007-07-11  308  /*
+2a82b8be8a8dac David Chinner     2007-07-11  309   * To initialise a struct xfs_mru_cache pointer, call xfs_mru_cache_create()
+2a82b8be8a8dac David Chinner     2007-07-11  310   * with the address of the pointer, a lifetime value in milliseconds, a group
+2a82b8be8a8dac David Chinner     2007-07-11  311   * count and a free function to use when deleting elements.  This function
+2a82b8be8a8dac David Chinner     2007-07-11  312   * returns 0 if the initialisation was successful.
+2a82b8be8a8dac David Chinner     2007-07-11  313   */
+2a82b8be8a8dac David Chinner     2007-07-11  314  int
+2a82b8be8a8dac David Chinner     2007-07-11  315  xfs_mru_cache_create(
+22328d712dd7fd Christoph Hellwig 2014-04-23  316  	struct xfs_mru_cache	**mrup,
+7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  317  	void			*data,
+2a82b8be8a8dac David Chinner     2007-07-11  318  	unsigned int		lifetime_ms,
+2a82b8be8a8dac David Chinner     2007-07-11  319  	unsigned int		grp_count,
+2a82b8be8a8dac David Chinner     2007-07-11  320  	xfs_mru_cache_free_func_t free_func)
+2a82b8be8a8dac David Chinner     2007-07-11  321  {
+22328d712dd7fd Christoph Hellwig 2014-04-23  322  	struct xfs_mru_cache	*mru = NULL;
+2a82b8be8a8dac David Chinner     2007-07-11  323  	int			err = 0, grp;
+2a82b8be8a8dac David Chinner     2007-07-11  324  	unsigned int		grp_time;
+2a82b8be8a8dac David Chinner     2007-07-11  325  
+2a82b8be8a8dac David Chinner     2007-07-11  326  	if (mrup)
+2a82b8be8a8dac David Chinner     2007-07-11  327  		*mrup = NULL;
+2a82b8be8a8dac David Chinner     2007-07-11  328  
+2a82b8be8a8dac David Chinner     2007-07-11  329  	if (!mrup || !grp_count || !lifetime_ms || !free_func)
+2451337dd04390 Dave Chinner      2014-06-25  330  		return -EINVAL;
+2a82b8be8a8dac David Chinner     2007-07-11  331  
+2a82b8be8a8dac David Chinner     2007-07-11  332  	if (!(grp_time = msecs_to_jiffies(lifetime_ms) / grp_count))
+2451337dd04390 Dave Chinner      2014-06-25  333  		return -EINVAL;
+2a82b8be8a8dac David Chinner     2007-07-11  334  
+10634530f7ba94 Dave Chinner      2024-01-16  335  	mru = kzalloc(sizeof(*mru), GFP_KERNEL | __GFP_NOFAIL);
+2a82b8be8a8dac David Chinner     2007-07-11  336  
+2a82b8be8a8dac David Chinner     2007-07-11  337  	/* An extra list is needed to avoid reaping up to a grp_time early. */
+2a82b8be8a8dac David Chinner     2007-07-11  338  	mru->grp_count = grp_count + 1;
+10634530f7ba94 Dave Chinner      2024-01-16  339  	mru->lists = kzalloc(mru->grp_count * sizeof(*mru->lists),
+10634530f7ba94 Dave Chinner      2024-01-16  340  				GFP_KERNEL | __GFP_NOFAIL);
+2a82b8be8a8dac David Chinner     2007-07-11  341  
+2a82b8be8a8dac David Chinner     2007-07-11  342  	for (grp = 0; grp < mru->grp_count; grp++)
+2a82b8be8a8dac David Chinner     2007-07-11  343  		INIT_LIST_HEAD(mru->lists + grp);
+2a82b8be8a8dac David Chinner     2007-07-11  344  
+2a82b8be8a8dac David Chinner     2007-07-11  345  	/*
+2a82b8be8a8dac David Chinner     2007-07-11  346  	 * We use GFP_KERNEL radix tree preload and do inserts under a
+2a82b8be8a8dac David Chinner     2007-07-11  347  	 * spinlock so GFP_ATOMIC is appropriate for the radix tree itself.
+2a82b8be8a8dac David Chinner     2007-07-11  348  	 */
+2a82b8be8a8dac David Chinner     2007-07-11  349  	INIT_RADIX_TREE(&mru->store, GFP_ATOMIC);
+2a82b8be8a8dac David Chinner     2007-07-11  350  	INIT_LIST_HEAD(&mru->reap_list);
+007c61c68640ea Eric Sandeen      2007-10-11  351  	spin_lock_init(&mru->lock);
+2a82b8be8a8dac David Chinner     2007-07-11  352  	INIT_DELAYED_WORK(&mru->work, _xfs_mru_cache_reap);
+2a82b8be8a8dac David Chinner     2007-07-11  353  
+2a82b8be8a8dac David Chinner     2007-07-11  354  	mru->grp_time  = grp_time;
+2a82b8be8a8dac David Chinner     2007-07-11  355  	mru->free_func = free_func;
+7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  356  	mru->data = data;
+2a82b8be8a8dac David Chinner     2007-07-11  357  	*mrup = mru;
+2a82b8be8a8dac David Chinner     2007-07-11  358  
+2a82b8be8a8dac David Chinner     2007-07-11 @359  exit:
+2a82b8be8a8dac David Chinner     2007-07-11  360  	if (err && mru && mru->lists)
+d4c75a1b40cd03 Dave Chinner      2024-01-16  361  		kfree(mru->lists);
+2a82b8be8a8dac David Chinner     2007-07-11  362  	if (err && mru)
+d4c75a1b40cd03 Dave Chinner      2024-01-16  363  		kfree(mru);
+2a82b8be8a8dac David Chinner     2007-07-11  364  
+2a82b8be8a8dac David Chinner     2007-07-11  365  	return err;
+2a82b8be8a8dac David Chinner     2007-07-11  366  }
+2a82b8be8a8dac David Chinner     2007-07-11  367  
 
 -- 
 0-DAY CI Kernel Test Service
