@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79787B661;
-	Thu,  6 Mar 2025 07:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF4F1DC9AC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 07:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741246372; cv=none; b=cjOY/JKl9Z2dp77RMu1vkvS9P1ChsJ/jq+UkxXLvlUrmjH/mjNaJLUfVTuH9oFy9d6pp/9+a5xZO2Zzi+yW7OvUEIyAIPu8lQMlq0d/5YScTX3iFKrKYtabQ168O7ssOwbuq36npRExnGA7vQL4mzu/m97jLMdOllPzvRwBvyTQ=
+	t=1741247711; cv=none; b=rQo6F045Ex2QrqH3Ba0zkYNfXC6MwwVcc9ALYhPwPPAHfP/L2f6j8y+HWi6/QLrzRGkbKedwr1MuP08xVGYPMdXKpcfZ5hcsXdDqawIlb30eK3S1VpFo/hFj+4rQfk1LKRn7Qo5Tz2fFK7uGw0O7wKHe/YYM7QTD2P/EYSXNbbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741246372; c=relaxed/simple;
-	bh=/yfygW4QEEAwUDbnmDSpRdaeh7sVFOcBMO70u+e9cXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kTzVVekLCOdWGhLj0oNrd7TFQKGug5MW0QnN7NFKmJBh+GtHhNCwWDnW1OiZokNs3ZTmobX5P+hyZaYAdk1E9vArB1M8OT0FmUdVivdsnfaPNIIfz1MRimw+opriG+oostIa4mQyavTjJLphzAbEo4HN2mlzL2uKm7K+r1m/My4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/UBuXaB; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1741247711; c=relaxed/simple;
+	bh=A0ylyEZSt4tfTskDEXOaB+s6R9eX48Oemn4l6IgDSD4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P60UzuRRxsU5Z79YeZ80PcIDe+lB2u5bro2axk1wGzwAtn7AHD4UVudveuSMnsv+ybtKn04lDvx1K0JqiFLOWt0hKNJ0XljV/hD6J1LJ1foDj+zIr4704gFeVD1O/xRBtRfJDiDyfsgO/L6b4xNWQpAxLMMP7s0gMZHy8VeETEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5MWJKJp; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/UBuXaB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5MWJKJp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741246370; x=1772782370;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/yfygW4QEEAwUDbnmDSpRdaeh7sVFOcBMO70u+e9cXg=;
-  b=E/UBuXaBS99CQm3YHLTgmcR3NnU7Zdxd4wDZK7ZcHXacGA7e/ayG4rIr
-   trgCdwLjG0jFjLnZ2lwuauMrjtjcQdoWw25Iv+9MqPvj/oGEBvCY4uHDK
-   ksQwUMaLHdRN5seedCFsojMGRyR5NecHFWAoSEcvquEbVhCk3Som7c3Qd
-   9oT8mo3zh5dkh3U74ujBv9JkWgTicspl3mfh3kzn0UWXqN76sVEVkL/3u
-   n+iD7A3R9yY/+xs1HwPUPBZy3atL/asAwLRSyn9QlvAMgYpEonL1UeIgE
-   pl5T+q8GLkL3XUxtlmQg8QP6JS5oj6BiKvDd19yLXXcoXBrtsx8nIlUwf
-   A==;
-X-CSE-ConnectionGUID: wX/XJ2p8Tau8OjIIjQYI2w==
-X-CSE-MsgGUID: DRgeB6JZT9KktxrWjiF2eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46165552"
+  t=1741247710; x=1772783710;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A0ylyEZSt4tfTskDEXOaB+s6R9eX48Oemn4l6IgDSD4=;
+  b=j5MWJKJpOt4LTBGHNg0mqRV73KWK8dRJczy1BhdgUPJEeK8rGxMqC8Mz
+   C+3HHD/Di2CrYN6mxRpOCW+MXBdMngbJX1LfOE2eeCgbhfxDR2MAM8aDY
+   bLnOpEb/T81iJ7mhcL+MEMEfZotuxN4dw67BSCpl9UbkXmY105cu7vsk6
+   PaWhYAZQmv8p3cL91tVgvBiq+BhPRfXgJmSbBiunNAzu6rvJDJkNwrz5A
+   sr2L5KzUzWUfJpWaqLvXB3nxCkQcCbqwLcgYAYz5/auNt3MVbCQjzAHHa
+   07SKsACEs4l71ZEFXDjoOLQsNGpoatsNhPwTaXC+brrtuQ/8U4kT/Gbqw
+   Q==;
+X-CSE-ConnectionGUID: ngtq5ZDTTzSJYVaEh2Oqjg==
+X-CSE-MsgGUID: u5ZWy/KNSPCJzdtZDxyxvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="64691544"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="46165552"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 23:32:50 -0800
-X-CSE-ConnectionGUID: U5ZV6vnXSD2z7EDi1AfTlQ==
-X-CSE-MsgGUID: 3iB3MyD9RkSwZaPmsKL43Q==
+   d="scan'208";a="64691544"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 23:55:08 -0800
+X-CSE-ConnectionGUID: VDtXCk1RQbCJchYy/0U69w==
+X-CSE-MsgGUID: zt4KIOt6Tri4+kavlfbkMQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="118670226"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="156171827"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2025 23:32:48 -0800
+  by orviesa001.jf.intel.com with ESMTP; 05 Mar 2025 23:55:04 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq5il-000Mhq-2D;
-	Thu, 06 Mar 2025 07:32:45 +0000
-Date: Thu, 6 Mar 2025 15:31:43 +0800
+	id 1tq63q-000Mj8-1I;
+	Thu, 06 Mar 2025 07:54:38 +0000
+Date: Thu, 6 Mar 2025 15:53:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 48/88] drivers/net/usb/lan78xx.c:2459:22: warning:
- variable 'of_node' set but not used
-Message-ID: <202503061520.5GrwtX36-lkp@intel.com>
+To: Sricharan R <quic_srichara@quicinc.com>, jassisinghbrar@gmail.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, manivannan.sadhasivam@linaro.org,
+	dmitry.baryshkov@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V3 2/2] mailbox: tmelite-qmp: Introduce TMEL QMP mailbox
+ driver
+Message-ID: <202503061517.ZTyZF7qx-lkp@intel.com>
+References: <20250228045356.3527662-3-quic_srichara@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,95 +68,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250228045356.3527662-3-quic_srichara@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   321d82b640b78daba94d863283761c8fe95d17d7
-commit: 9cdfa882e0196b967a675b0af9fe4c29882400a2 [48/88] irqdomain: net: Stop using irq_domain_add_simple()
-config: i386-buildonly-randconfig-006-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061520.5GrwtX36-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061520.5GrwtX36-lkp@intel.com/reproduce)
+Hi Sricharan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.14-rc5 next-20250305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sricharan-R/dt-bindings-mailbox-Document-qcom-tmel-qmp/20250228-125707
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250228045356.3527662-3-quic_srichara%40quicinc.com
+patch subject: [PATCH V3 2/2] mailbox: tmelite-qmp: Introduce TMEL QMP mailbox driver
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503061517.ZTyZF7qx-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061517.ZTyZF7qx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061520.5GrwtX36-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061517.ZTyZF7qx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/usb/lan78xx.c:6:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2287:
-   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/net/usb/lan78xx.c:2459:22: warning: variable 'of_node' set but not used [-Wunused-but-set-variable]
-    2459 |         struct device_node *of_node;
-         |                             ^
-   drivers/net/usb/lan78xx.c:2516:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    2516 |         int ret;
-         |             ^
-   3 warnings generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:5,
+                    from drivers/mailbox/qcom-tmel-qmp.c:6:
+   drivers/mailbox/qcom-tmel-qmp.c: In function 'qmp_send_data':
+>> drivers/mailbox/qcom-tmel-qmp.c:196:36: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     196 |                 dev_err(mdev->dev, "Unsupported packet size %ld\n", pkt->iov_len);
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:196:17: note: in expansion of macro 'dev_err'
+     196 |                 dev_err(mdev->dev, "Unsupported packet size %ld\n", pkt->iov_len);
+         |                 ^~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:196:63: note: format string is defined here
+     196 |                 dev_err(mdev->dev, "Unsupported packet size %ld\n", pkt->iov_len);
+         |                                                             ~~^
+         |                                                               |
+         |                                                               long int
+         |                                                             %d
+   In file included from drivers/mailbox/qcom-tmel-qmp.c:10:
+   drivers/mailbox/qcom-tmel-qmp.c: In function 'tmel_prepare_msg':
+   include/linux/mailbox/tmelcom-qmp.h:16:41: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      16 | #define TMEL_MSG_UID_MSG_TYPE(v)        FIELD_GET(GENMASK(15, 8), v)
+         |                                         ^~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:406:29: note: in expansion of macro 'TMEL_MSG_UID_MSG_TYPE'
+     406 |         msg_hdr->msg_type = TMEL_MSG_UID_MSG_TYPE(msg_uid);
+         |                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c: In function 'tmel_process_request':
+   drivers/mailbox/qcom-tmel-qmp.c:501:36: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+     501 |                 dev_err(tdev->dev, "Invalid pkt.size received size: %ld, expected: %zu\n",
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:501:17: note: in expansion of macro 'dev_err'
+     501 |                 dev_err(tdev->dev, "Invalid pkt.size received size: %ld, expected: %zu\n",
+         |                 ^~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:501:71: note: format string is defined here
+     501 |                 dev_err(tdev->dev, "Invalid pkt.size received size: %ld, expected: %zu\n",
+         |                                                                     ~~^
+         |                                                                       |
+         |                                                                       long int
+         |                                                                     %d
+   drivers/mailbox/qcom-tmel-qmp.c: In function 'tmel_secboot_sec_auth':
+   include/linux/mailbox/tmelcom-qmp.h:13:10: error: implicit declaration of function 'FIELD_PREP_CONST' [-Wimplicit-function-declaration]
+      13 |         (FIELD_PREP_CONST((0xff << 8), msg_type) | FIELD_PREP_CONST(0xff, action_id))
+         |          ^~~~~~~~~~~~~~~~
+   include/linux/mailbox/tmelcom-qmp.h:55:45: note: in expansion of macro 'TMEL_MSG_UID_CREATE'
+      55 | #define TMEL_MSG_UID_SECBOOT_SEC_AUTH       TMEL_MSG_UID_CREATE(TMEL_MSG_SECBOOT,\
+         |                                             ^~~~~~~~~~~~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:541:42: note: in expansion of macro 'TMEL_MSG_UID_SECBOOT_SEC_AUTH'
+     541 |         ret = tmel_process_request(tdev, TMEL_MSG_UID_SECBOOT_SEC_AUTH, msg,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c: In function 'tmel_qmp_send_work':
+   drivers/mailbox/qcom-tmel-qmp.c:595:9: error: case label does not reduce to an integer constant
+     595 |         case TMEL_MSG_UID_SECBOOT_SEC_AUTH:
+         |         ^~~~
+   drivers/mailbox/qcom-tmel-qmp.c:598:9: error: case label does not reduce to an integer constant
+     598 |         case TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN:
+         |         ^~~~
 
 
-vim +/of_node +2459 drivers/net/usb/lan78xx.c
+vim +196 drivers/mailbox/qcom-tmel-qmp.c
 
-cc89c323a30e73 Woojung Huh       2016-11-01  2456  
-cc89c323a30e73 Woojung Huh       2016-11-01  2457  static int lan78xx_setup_irq_domain(struct lan78xx_net *dev)
-cc89c323a30e73 Woojung Huh       2016-11-01  2458  {
-cc89c323a30e73 Woojung Huh       2016-11-01 @2459  	struct device_node *of_node;
-cc89c323a30e73 Woojung Huh       2016-11-01  2460  	struct irq_domain *irqdomain;
-cc89c323a30e73 Woojung Huh       2016-11-01  2461  	unsigned int irqmap = 0;
-cc89c323a30e73 Woojung Huh       2016-11-01  2462  	u32 buf;
-cc89c323a30e73 Woojung Huh       2016-11-01  2463  	int ret = 0;
-cc89c323a30e73 Woojung Huh       2016-11-01  2464  
-cc89c323a30e73 Woojung Huh       2016-11-01  2465  	of_node = dev->udev->dev.parent->of_node;
-cc89c323a30e73 Woojung Huh       2016-11-01  2466  
-cc89c323a30e73 Woojung Huh       2016-11-01  2467  	mutex_init(&dev->domain_data.irq_lock);
-cc89c323a30e73 Woojung Huh       2016-11-01  2468  
-d354d008255ffd Oleksij Rempel    2024-12-09  2469  	ret = lan78xx_read_reg(dev, INT_EP_CTL, &buf);
-d354d008255ffd Oleksij Rempel    2024-12-09  2470  	if (ret < 0)
-d354d008255ffd Oleksij Rempel    2024-12-09  2471  		return ret;
-d354d008255ffd Oleksij Rempel    2024-12-09  2472  
-cc89c323a30e73 Woojung Huh       2016-11-01  2473  	dev->domain_data.irqenable = buf;
-cc89c323a30e73 Woojung Huh       2016-11-01  2474  
-cc89c323a30e73 Woojung Huh       2016-11-01  2475  	dev->domain_data.irqchip = &lan78xx_irqchip;
-cc89c323a30e73 Woojung Huh       2016-11-01  2476  	dev->domain_data.irq_handler = handle_simple_irq;
-cc89c323a30e73 Woojung Huh       2016-11-01  2477  
-9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2478) 	irqdomain = irq_domain_create_simple(of_fwnode_handle(of_node),
-9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2479) 					     MAX_INT_EP, 0,
-9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2480) 					     &chip_domain_ops,
-9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2481) 					     &dev->domain_data);
-cc89c323a30e73 Woojung Huh       2016-11-01  2482  	if (irqdomain) {
-cc89c323a30e73 Woojung Huh       2016-11-01  2483  		/* create mapping for PHY interrupt */
-cc89c323a30e73 Woojung Huh       2016-11-01  2484  		irqmap = irq_create_mapping(irqdomain, INT_EP_PHY);
-cc89c323a30e73 Woojung Huh       2016-11-01  2485  		if (!irqmap) {
-cc89c323a30e73 Woojung Huh       2016-11-01  2486  			irq_domain_remove(irqdomain);
-cc89c323a30e73 Woojung Huh       2016-11-01  2487  
-cc89c323a30e73 Woojung Huh       2016-11-01  2488  			irqdomain = NULL;
-cc89c323a30e73 Woojung Huh       2016-11-01  2489  			ret = -EINVAL;
-cc89c323a30e73 Woojung Huh       2016-11-01  2490  		}
-cc89c323a30e73 Woojung Huh       2016-11-01  2491  	} else {
-cc89c323a30e73 Woojung Huh       2016-11-01  2492  		ret = -EINVAL;
-cc89c323a30e73 Woojung Huh       2016-11-01  2493  	}
-cc89c323a30e73 Woojung Huh       2016-11-01  2494  
-cc89c323a30e73 Woojung Huh       2016-11-01  2495  	dev->domain_data.irqdomain = irqdomain;
-cc89c323a30e73 Woojung Huh       2016-11-01  2496  	dev->domain_data.phyirq = irqmap;
-cc89c323a30e73 Woojung Huh       2016-11-01  2497  
-cc89c323a30e73 Woojung Huh       2016-11-01  2498  	return ret;
-cc89c323a30e73 Woojung Huh       2016-11-01  2499  }
-cc89c323a30e73 Woojung Huh       2016-11-01  2500  
-
-:::::: The code at line 2459 was first introduced by commit
-:::::: cc89c323a30e73114a21fc125d2f841658a09987 lan78xx: Use irq_domain for phy interrupt from USB Int. EP
-
-:::::: TO: Woojung Huh <woojung.huh@microchip.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   177	
+   178	/**
+   179	 * qmp_send_data() - Copy the data to the channel's mailbox and notify
+   180	 *		     remote subsystem of new data. This function will
+   181	 *		     return an error if the previous message sent has
+   182	 *		     not been read. Cannot Sleep.
+   183	 * @mdev: qmp_device to send the data to.
+   184	 * @data: Data to be sent to remote processor, should be in the format of
+   185	 *	  a kvec.
+   186	 *
+   187	 * Return: 0 on success or standard Linux error code.
+   188	 */
+   189	static int qmp_send_data(struct qmp_device *mdev, void *data)
+   190	{
+   191		struct kvec *pkt = (struct kvec *)data;
+   192		void __iomem *addr;
+   193		unsigned long flags;
+   194	
+   195		if (pkt->iov_len > QMP_MAX_PKT_SIZE) {
+ > 196			dev_err(mdev->dev, "Unsupported packet size %ld\n", pkt->iov_len);
+   197			return -EINVAL;
+   198		}
+   199	
+   200		if (atomic_read(&mdev->tx_sent))
+   201			return -EAGAIN;
+   202	
+   203		dev_dbg(mdev->dev, "%s: mcore 0x%x ucore 0x%x", __func__,
+   204			mdev->mcore.val, mdev->ucore.val);
+   205	
+   206		addr = mdev->mcore_desc + QMP_CTRL_DATA_SIZE;
+   207		memcpy_toio(addr, pkt->iov_base, pkt->iov_len);
+   208	
+   209		mdev->mcore.bits.frag_size = pkt->iov_len;
+   210		mdev->mcore.bits.rem_frag_count = 0;
+   211	
+   212		dev_dbg(mdev->dev, "Copied buffer to mbox, sz: %d",
+   213			mdev->mcore.bits.frag_size);
+   214	
+   215		atomic_set(&mdev->tx_sent, 1);
+   216	
+   217		spin_lock_irqsave(&mdev->tx_lock, flags);
+   218		mdev->mcore.bits.tx = !(mdev->mcore.bits.tx);
+   219		qmp_send_irq(mdev);
+   220		spin_unlock_irqrestore(&mdev->tx_lock, flags);
+   221	
+   222		return 0;
+   223	}
+   224	
 
 -- 
 0-DAY CI Kernel Test Service
