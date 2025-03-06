@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932851917D0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 09:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D6E1917D0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 09:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741253731; cv=none; b=rG7jh+dgzjt5I61nD25lglEYEpcWCh+9Y4dHKHPEeiHvIVdUQQuT6QTx2heGAdF9QHaIL69lSqwUeR7Q9ku1M/mb6yhjUVC8w0Ha/TSuKodvabLZqzXVjPtqUgAKBiUUqWPTYrJ5n3N2Pm2wvl9eV76CurV0r5pQ87RU+zkd+kI=
+	t=1741253792; cv=none; b=M/EZw4u1GnqwMS1uXC0oJf0c7Dx6Di5TmFCEP+WB7YbF0Fus39S5xEfZPXnwGHCE4rx6WLjMOniHjIOqroVCTQqnstRH8R/R2RzkY/pmCy/+y/psspse1ck5jvLlQ4Rr6es1WOIgN9uJOeOFRbsjHFHZWKiIRRV5GzDD7kiPRDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741253731; c=relaxed/simple;
-	bh=qHaob6+RUoWxKhb4FNc8vsDtZuqr9g2HMYSWkk0Tuig=;
+	s=arc-20240116; t=1741253792; c=relaxed/simple;
+	bh=uMcWJXnwgnYSsVinZD/hjaB8UQYCVwUpP9ZVUIKkIY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DgCGo1pNjDO7zjdAysNzVAznOCGpFGxahlyckbwn4gLjPLusORf3dPKFuCmEZsjG+zJ6F9p17LjqXrr1Tua1j87dbmbwPAkOLfwHMtxmizCtXbtL5aHRlRaQC9YMnC4tpaGwgg/vUNp8lKh//76EkN83LKXR/+Ntz46gOm3jQLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lktHa/tg; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=YpAhZI1OrCYfDgybUeGGZIZft7bebn83SqXOhdTvzcQ5xG0jD0FUQ6O9ZbZopDjh5o+htlrsf+R9FzIGkomRMD9gPJIlDEhffPCxfBRt93XD+/f72INvxmWrLKnP1zr39Rmu8nMSE/jvtriTY0ZSijHYxOoHh/UqXNXS1LMOhJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tso9imYy; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lktHa/tg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tso9imYy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741253730; x=1772789730;
+  t=1741253790; x=1772789790;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qHaob6+RUoWxKhb4FNc8vsDtZuqr9g2HMYSWkk0Tuig=;
-  b=lktHa/tgVD2G7+nmIUEeVkAjNtbAWzuatzR7JD3lKKZcr5mA4vIdmUN7
-   DQR2XmXY/QpuaXN/kc9CMg/K+0dCf8k8TEB5EtFnNySn3ym19x3+l2vD5
-   QZsaUVB6/9DNl5Xr/iO1pxVxFwGY91FgBRbDGoQ68qFCVU+KIP6tM8HZx
-   apwtRoUeiFMIwf3YSQY8U7NMxNF1TH6aNOnDbD//RVDF8x7dTvpGAvVbR
-   BzyLPBw+0dMricgxApozlE9B/fHE8zZmcFDb5ywRKsZEqmVWBJYVzPhx6
-   9nBmtarORZRZvmYM5ywjaBOZ10vNfPAk9w1sxiGBoBYokVQME5rZwkJUi
-   g==;
-X-CSE-ConnectionGUID: txPWGLwyQHuyC9KaTfij4Q==
-X-CSE-MsgGUID: B+l1a5KeRbaRhiHNQzOa3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="64700849"
+  bh=uMcWJXnwgnYSsVinZD/hjaB8UQYCVwUpP9ZVUIKkIY4=;
+  b=Tso9imYyCoinRqhkm2B75cENWWJwB78fZ/X2KaY3jgGlHRwpsNop9KG0
+   itwod1EY1sidty3C+rAS5TBHb9UEsnSh7WFOUQ65Uei8OEjXIDAWTYxRb
+   2L7bzw6DNArtoArISKJGmULuAK+rD9EogouvRM2fdH3HGijn/4ccuhkTJ
+   cMs+oQQVXNaTvyAHNYWRYq1qELzcxkoFihDmJbA1PucNam5AT2i3xO5wP
+   iaCi2UxjG9NvzScjwtmImsYOeoD81DhHiZlGuqp6WqRqw0dl+hg7kZclL
+   uY/0e94k7BsFS7dzKLfp7+JJGxq/bDIU390H8HMZpCJXGfgTgLHj/la33
+   Q==;
+X-CSE-ConnectionGUID: RVUoP0RSS6CjhhlHL8UHMQ==
+X-CSE-MsgGUID: fl5GJxgFSnKDxw4c1aDwdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46024908"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="64700849"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 01:35:29 -0800
-X-CSE-ConnectionGUID: KVXK8/L5Q6C9AYYBW4Ybrw==
-X-CSE-MsgGUID: 6zZBehwNQ5aXStKqyNM5YQ==
+   d="scan'208";a="46024908"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 01:36:30 -0800
+X-CSE-ConnectionGUID: gM2kupLGQwq/vZwhZgYW1w==
+X-CSE-MsgGUID: mbGLVEhKSd6QVKIo5eYcEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="119470466"
+   d="scan'208";a="123988804"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2025 01:35:27 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Mar 2025 01:36:28 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq7dV-000MqY-26;
-	Thu, 06 Mar 2025 09:35:25 +0000
-Date: Thu, 6 Mar 2025 17:35:24 +0800
+	id 1tq7eT-000Mqh-2V;
+	Thu, 06 Mar 2025 09:36:25 +0000
+Date: Thu, 6 Mar 2025 17:35:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: [broonie-sound:for-next 4/7] sound/soc/codecs/cs42l43.c:2405:12:
- warning: 'cs42l43_codec_runtime_force_suspend' defined but not used
-Message-ID: <202503061702.WLN1jGJb-lkp@intel.com>
+To: Etienne Carriere <etienne.carriere@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Olivier Masse <olivier.masse@nxp.com>
+Subject: [jens-wiklander-tee:testing/tuxbuild 6/10]
+ drivers/tee/tee_shm.c:59:25: warning: variable 'parent_shm' set but not used
+Message-ID: <202503061727.sjuwCOU4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +64,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-head:   989180be7182f518e3cc7c8057c6c23ffd6ddf47
-commit: 164b7dd4546b57c08b373e9e3cf315ff98cb032d [4/7] ASoC: cs42l43: Add jack delay debounce after suspend
-config: nios2-randconfig-001-20250305 (https://download.01.org/0day-ci/archive/20250306/202503061702.WLN1jGJb-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061702.WLN1jGJb-lkp@intel.com/reproduce)
+tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tuxbuild
+head:   f4198d1f9ee51430ec81d02bb21f769cb6fd14c1
+commit: 7d422f0ad0cc5ec96dae3175fe051d79aa735d16 [6/10] tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+config: csky-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250306/202503061727.sjuwCOU4-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061727.sjuwCOU4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061702.WLN1jGJb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061727.sjuwCOU4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/codecs/cs42l43.c:2405:12: warning: 'cs42l43_codec_runtime_force_suspend' defined but not used [-Wunused-function]
-    2405 | static int cs42l43_codec_runtime_force_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tee/tee_shm.c: In function 'tee_shm_release':
+>> drivers/tee/tee_shm.c:59:25: warning: variable 'parent_shm' set but not used [-Wunused-but-set-variable]
+      59 |         struct tee_shm *parent_shm = NULL;
+         |                         ^~~~~~~~~~
 
 
-vim +/cs42l43_codec_runtime_force_suspend +2405 sound/soc/codecs/cs42l43.c
+vim +/parent_shm +59 drivers/tee/tee_shm.c
 
-  2404	
-> 2405	static int cs42l43_codec_runtime_force_suspend(struct device *dev)
-  2406	{
-  2407		struct cs42l43_codec *priv = dev_get_drvdata(dev);
-  2408	
-  2409		dev_dbg(priv->dev, "Runtime suspend\n");
-  2410	
-  2411		priv->suspend_jack_debounce = true;
-  2412	
-  2413		pm_runtime_force_suspend(dev);
-  2414	
-  2415		return 0;
-  2416	}
-  2417	
+    56	
+    57	static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
+    58	{
+  > 59		struct tee_shm *parent_shm = NULL;
+    60		void *p = shm;
+    61	
+    62		if (shm->flags & TEE_SHM_DMA_BUF) {
+    63			struct tee_shm_dmabuf_ref *ref;
+    64	
+    65			ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
+    66			parent_shm = ref->parent_shm;
+    67			p = ref;
+    68			if (ref->attach) {
+    69				dma_buf_unmap_attachment(ref->attach, ref->sgt,
+    70							 DMA_BIDIRECTIONAL);
+    71	
+    72				dma_buf_detach(ref->dmabuf, ref->attach);
+    73			}
+    74			dma_buf_put(ref->dmabuf);
+    75		} else if (shm->flags & TEE_SHM_POOL) {
+    76			teedev->pool->ops->free(teedev->pool, shm);
+    77		} else if (shm->flags & TEE_SHM_DYNAMIC) {
+    78			int rc = teedev->desc->ops->shm_unregister(shm->ctx, shm);
+    79	
+    80			if (rc)
+    81				dev_err(teedev->dev.parent,
+    82					"unregister shm %p failed: %d", shm, rc);
+    83	
+    84			release_registered_pages(shm);
+    85		}
+    86	
+    87		if (shm->ctx)
+    88			teedev_ctx_put(shm->ctx);
+    89	
+    90		kfree(p);
+    91	
+    92		tee_device_put(teedev);
+    93	}
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
