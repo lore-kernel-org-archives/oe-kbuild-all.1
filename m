@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D1619ABDE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 06:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C2019ABDE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 06:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741242264; cv=none; b=UWdlbLULvs4HHc91ob7JrQrgz70EEP+YLtweD8HyCRqk7vmuYGbsumE7H+mTkzeutlzr/nUe9fDkJ8CRlhZEkM1llOENh1tDVFqFo5qyelQNegbAu54JsXGMGLoMNI5BZ+cco5d2GrGLjnyCgLv6QYc5bmueANd8J8xizo/t9dg=
+	t=1741242482; cv=none; b=DxCk/VtFaxdE65mL8YPi05M74pJ3zeibTgn7xVz2cC2hRTmeZcrnC4hdXURZa0lVff3S39D/PYF/A2OPSqnc06rwNQv3wbOxYsDw6aDdLrAyRmnTg0Adj3EMTd5mA0TOq+dZwx9+RZQ7nHeisaSHbZ4fkBBK64EfaBnNeXjWXbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741242264; c=relaxed/simple;
-	bh=8fYshAOT8M0SlNL6azI3FGyxmVaI08HBg2hvANYjPaM=;
+	s=arc-20240116; t=1741242482; c=relaxed/simple;
+	bh=jZu8yImZngJ8tnAK518etQ6TouuyjxwU5ELF924/vGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nK4e6aadQKiq72ZomEmLPKpcaXisIE+XDw7U2x7AtAKCc4OM1Z3WPqNVcvW7+MrR6oXkTJsVRSbLv1F+Y24zlzg/CpdZW1JiVYKDA3R3750fxlHqT8p2M0RXADNPS8p+ENRP3n+bXbsJ2N66mLyTodnH5O2ogduhUtRDXSAZuQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5s1hQHr; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=mwGkFJSiio+l5//019pzUerPqUSK3sUNVvCPzNA2VLqeN79uClLrm7egkOvzOXLfSlbKHErVC3A0193AlFM1annrfRwETm028bWPqNy8sa98FrvlZHjfKDqAbRf9TTYmE/+neg3epTOqKfpD7AdK3uM/VMUo5y/4JtySAFJ6ihU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IQssqMX4; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e5s1hQHr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741242263; x=1772778263;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8fYshAOT8M0SlNL6azI3FGyxmVaI08HBg2hvANYjPaM=;
-  b=e5s1hQHrXUOnILTovcXNV8WfkkTpsLQRnYQGSVCADmzSMF0fX7ye2MqH
-   Hnevoy5HofTB4Ha1/+yz7Kc2gRbaScgShvD6q3sAdUsiJHSI0Bqtgjznb
-   4NtJFK8NgwK+N0bvtfCdKHY95RB1CAFct8vjA4vst4va8ojAvnPVrDIf/
-   vteYRGT6W7pBinRQt9pXfcono/vzbR7JQt2HejEJW751dTGuZROme6OPy
-   CTJTGSN9pv4L5vBNyI7c5hdLXMgz/h8RwnwnBH3yk3+dA89wNHDMC2OVz
-   yeQ17WAecFXOaI5C3hI9j+COUNSZX4cyZi2etDiAPpidAtfaGDWj+p7Pr
-   A==;
-X-CSE-ConnectionGUID: m/mA0Ia1SWqgqATyVf9Jqg==
-X-CSE-MsgGUID: S2+L6kBuTyuyBKzHZl948w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42435980"
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="42435980"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 22:24:22 -0800
-X-CSE-ConnectionGUID: kYUdavJgSeCE171dx4oWjA==
-X-CSE-MsgGUID: jwCUfqhKR2G9v1zwnMsrLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="123849828"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 05 Mar 2025 22:24:21 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tq4eY-000Mcs-27;
-	Thu, 06 Mar 2025 06:24:18 +0000
-Date: Thu, 6 Mar 2025 14:23:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Brian Gerst <brgerst@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: [tip:x86/core 44/50] arch/x86/kernel/cpu/common.c:2083:1: sparse:
- sparse: symbol '__pcpu_scope___x86_call_depth' was not declared. Should it
- be static?
-Message-ID: <202503061407.cBrEr1Va-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IQssqMX4"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3912c09bea5so188921f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Mar 2025 22:27:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741242478; x=1741847278; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WoQpuhcBzQQEyEpQ6i53kxx1+G+OOyDqER89NtwPqvM=;
+        b=IQssqMX4hnrDwhUx525Ezl5GGoo24YSLhYi55yyx+WD8Naen1bZJPSZ1Nx74CN3mgB
+         KkwZ26fTQlv0/S2gPiLfIOPuSWo5aWwgrq1CvGwpiXDEqPkWH3r86LuDhEF5WTRcMLgy
+         PTrKc4Q3KKRQONHXi63qoW90ypNLbLopJC8tAWy1BpwhB9ZfjVmLtcntSnLOPE0GhRRp
+         T7TqHgxZaiwFVxRh73viiuzxIgRarmng5mhCToO8xnNENtBpCZGQSSfTkike2JatIO3V
+         Xh2YMheZS9cHr2F9e3+m55597YyESpRfgdLbfWpwef9wlyTwjdzWiB8/Y4gMSbnBN8SR
+         qBiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741242478; x=1741847278;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WoQpuhcBzQQEyEpQ6i53kxx1+G+OOyDqER89NtwPqvM=;
+        b=pO1CHmqeo2dG3wRjjvCi8LFMx1WIXV88NN2vmTqd86/6Nf4eJQwyeNBeEmlZs0A/JF
+         hN9pk3HJKyjEGDgAkucaHRQOINwhtsALsY/FhfNdjFLxm0NNsKw4P/GFW8MPJH3jrmjC
+         iYukbiSxygLIyu7DY1hNaG0M+2jriTCPxJNIjGsxWmj3sNGAC74KYi4BECZ9SSM0HdTZ
+         RGeRmAhNBf+hXlhFdCy9xDlYDrmPaHLiZS5sBvoh/mfosAdSiuzX0y/FXZe4mV+LMoX4
+         aXkb+j9KiBKK5NDka7/9cClUZY3bXi0bS0BAostkYQFCfO47LCsSD+/ohaGErLjQzVpO
+         Minw==
+X-Forwarded-Encrypted: i=1; AJvYcCUn2/DP+/C3TZVEM/bHVosWLSzW4IEdBuXIqdoDEEbyaDl8u6JheSrrP4qLNN/OHXP67LDnbmKnUlkHsIgC@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyME1et2owA8Vn1bvOypWaJb6XpTRuPqTWdyMfLGdZfYJD1aXR
+	JpPORrvyQ/8MiXG/Rcmq/25SGYxEc/xKQ0k1Bf03tnO+M70ZSFxECAyABqK24Ig=
+X-Gm-Gg: ASbGncsSCF7UakbIRoGIODYLRZ47074Yi8Z3XMbCefIbH3GuphVGT0EmZVW+DT0iK60
+	cklev3ZLNpX4bSz1FeOdTBpiLNYtdRT9XFdRjUENQyF5s89V8nbNxujNuabJEAn3PnmaWbHe2eU
+	Z/f/G1Ib+ZZtfvJAzcBtIS0N2rC8H1BjYfC2s+PiZhjLOwmeZ++bLrF1QDXxkPP8i2CBJ9h9eq6
+	X3TtN26rz+kOgsWJ5VN+mXBJGKHx8RgnmzRWMoIf6aFjHRlFpUxaRmKxzNa7a+mFhr+Rrs6UVdW
+	AHfLbkV//ULuhIQkp8jNus9hPl5Zuzhip+zan5HsDyfmwkK8uQ==
+X-Google-Smtp-Source: AGHT+IHfZerEp23Ioiss8qqEitU1gvzVPrnKA6NDUPcuTiOHaNhgxXRhgRuAYy61EP5QfKzHItQFAQ==
+X-Received: by 2002:a05:6000:2184:b0:391:2ba9:4c51 with SMTP id ffacd0b85a97d-3912ba959c9mr535213f8f.44.1741242478119;
+        Wed, 05 Mar 2025 22:27:58 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bd435c6ffsm38812005e9.33.2025.03.05.22.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 22:27:57 -0800 (PST)
+Date: Thu, 6 Mar 2025 09:27:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 7960/8790] mm/mremap.c:910 prep_move_vma() error:
+ uninitialized symbol 'err'.
+Message-ID: <701a7c3d-345a-4ed4-84bc-f34c5164f9ea@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,38 +73,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Brian,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/core
-head:   6d536cad0d55e71442b6d65500f74eb85544269e
-commit: bacde25dbbad6180b434332ad829b9e2f8064a56 [44/50] x86/retbleed: Move call depth to percpu hot section
-config: x86_64-randconfig-123-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061407.cBrEr1Va-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061407.cBrEr1Va-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7ec162622e66a4ff886f8f28712ea1b13069e1aa
+commit: 3129f7896afb86e411c0b59a553fbb4053db4012 [7960/8790] mm/mremap: initial refactor of move_vma()
+config: i386-randconfig-141-20250305 (https://download.01.org/0day-ci/archive/20250306/202503060404.ugZVU72k-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061407.cBrEr1Va-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503060404.ugZVU72k-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/common.c:2083:1: sparse: sparse: symbol '__pcpu_scope___x86_call_depth' was not declared. Should it be static?
+smatch warnings:
+mm/mremap.c:910 prep_move_vma() error: uninitialized symbol 'err'.
 
-vim +/__pcpu_scope___x86_call_depth +2083 arch/x86/kernel/cpu/common.c
+vim +/err +910 mm/mremap.c
 
-  2076	
-  2077	#ifdef CONFIG_X86_64
-  2078	/*
-  2079	 * Note: Do not make this dependant on CONFIG_MITIGATION_CALL_DEPTH_TRACKING
-  2080	 * so that this space is reserved in the hot cache section even when the
-  2081	 * mitigation is disabled.
-  2082	 */
-> 2083	DEFINE_PER_CPU_CACHE_HOT(u64, __x86_call_depth);
-  2084	EXPORT_PER_CPU_SYMBOL(__x86_call_depth);
-  2085	
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  892  static unsigned long prep_move_vma(struct vma_remap_struct *vrm,
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  893  				   unsigned long *vm_flags_ptr)
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  894  {
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  895  	unsigned long err;
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  896  	struct vm_area_struct *vma = vrm->vma;
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  897  	unsigned long old_addr = vrm->addr;
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  898  	unsigned long old_len = vrm->old_len;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  899  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  900  	/*
+^1da177e4c3f41 Linus Torvalds  2005-04-16  901  	 * We'd prefer to avoid failure later on in do_munmap:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  902  	 * which may split one vma into three before unmapping.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  903  	 */
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  904  	if (current->mm->map_count >= sysctl_max_map_count - 3)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  905  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  906  
+73d5e06299195f Dmitry Safonov  2020-12-14  907  	if (vma->vm_ops && vma->vm_ops->may_split) {
+73d5e06299195f Dmitry Safonov  2020-12-14  908  		if (vma->vm_start != old_addr)
+73d5e06299195f Dmitry Safonov  2020-12-14  909  			err = vma->vm_ops->may_split(vma, old_addr);
+
+Uninitialized on else path.
+
+73d5e06299195f Dmitry Safonov  2020-12-14 @910  		if (!err && vma->vm_end != old_addr + old_len)
+73d5e06299195f Dmitry Safonov  2020-12-14  911  			err = vma->vm_ops->may_split(vma, old_addr + old_len);
+73d5e06299195f Dmitry Safonov  2020-12-14  912  		if (err)
+73d5e06299195f Dmitry Safonov  2020-12-14  913  			return err;
+73d5e06299195f Dmitry Safonov  2020-12-14  914  	}
+73d5e06299195f Dmitry Safonov  2020-12-14  915  
+1ff82995731667 Hugh Dickins    2009-09-21  916  	/*
+1ff82995731667 Hugh Dickins    2009-09-21  917  	 * Advise KSM to break any KSM pages in the area to be moved:
+1ff82995731667 Hugh Dickins    2009-09-21  918  	 * it would be confusing if they were to turn up at the new
+1ff82995731667 Hugh Dickins    2009-09-21  919  	 * location, where they happen to coincide with different KSM
+1ff82995731667 Hugh Dickins    2009-09-21  920  	 * pages recently unmapped.  But leave vma->vm_flags as it was,
+1ff82995731667 Hugh Dickins    2009-09-21  921  	 * so KSM can come around to merge on vma and new_vma afterwards.
+1ff82995731667 Hugh Dickins    2009-09-21  922  	 */
+7103ad323b1ae3 Hugh Dickins    2009-09-21  923  	err = ksm_madvise(vma, old_addr, old_addr + old_len,
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  924  			  MADV_UNMERGEABLE, vm_flags_ptr);
+7103ad323b1ae3 Hugh Dickins    2009-09-21  925  	if (err)
+7103ad323b1ae3 Hugh Dickins    2009-09-21  926  		return err;
+1ff82995731667 Hugh Dickins    2009-09-21  927  
+3129f7896afb86 Lorenzo Stoakes 2025-03-03  928  	return 0;
+ad8ee77ea9db1f Dmitry Safonov  2020-12-14  929  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
