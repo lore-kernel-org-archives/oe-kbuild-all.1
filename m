@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9CE19C558
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 04:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0AB7E9
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 05:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741235162; cv=none; b=uZe2KGfiwhurL7PVr2ypf9hvfqwEg5JCOOHcJ08nZNJt5tKlD+45tVS6spZXiowq+dWBDH+xuD5dYRGM+Di1MUJg4gVhJAjPsnhys6X0sZ2t4NqLlw1q/SqqkJR19vS2iZGSDVCenLclSy3C98eb5aaEfC91SdSkSvTbCWL67sE=
+	t=1741237718; cv=none; b=O9SFgIHgHju6YDcuOB4UygfUfJXKoFG1R5ygu4sAYMSb7co01+3TEt9Jz0Wf9trMNaZojePk74H/12svExEKlOUcOkcdSW4ip9XCuQ3DgT59IJVdJbtLBaWn3m+zxdYz6aK+NZdMtyerkDDSiPJA3ZUhLPUdjK/rCyKsG57t+zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741235162; c=relaxed/simple;
-	bh=NJCVt2+YUa5c5YJ95PV1i2GlvWFyPhsZJ0jvLUACEOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h7CBKOKZFLjG4AoiIsO4I+YPIxElWTziihzfr6HGiGtYwX8E6Nf3/ZTwJOjV2braJJaPXj4UTnMlrx7xfc/rMbELIfKfjA/SQoec/4qwRrzsDbtPZiet0Kdm2bIaSNNizFAwPMhqPVcQmPHr1YFwZgiaEULMHRrK7moS419w+5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myN/k6lZ; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1741237718; c=relaxed/simple;
+	bh=oKV0DGBxIdjV2SNFMerxfwwS05Ek++8l4mSs5K7UycM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gCo25lK29bEJW3VdyAVGsQ6In0YUFBdSCaf+Dhc+61UTdl2ooTZmfr09rh9f0OhEor4d7/yDRHSZogQ6BY7Kxq7tk4q/XrLuwdKVN0ERMCfDYgZLfMvGCirJer1ThBY0kMKVdIwMMkfJn3HgTakJ4dhOtWEgCwgesMpXgjBNEgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIrkykp+; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myN/k6lZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIrkykp+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741235157; x=1772771157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NJCVt2+YUa5c5YJ95PV1i2GlvWFyPhsZJ0jvLUACEOY=;
-  b=myN/k6lZ7+uYPDMV+Oo+LtUQZTeik9LHDeunELxyNBzxDgTYoNsxcx2Z
-   WvxH8i1zsW+LyYtZ3cmjBsa07J2dSV94NyV8K7c0HJuKnoEn9ZSa2A44X
-   k96YDsv1PbemKxTRr05nSgdoW2rLxDaQHzSammjbposQKtAj9P6/KZTRD
-   nH/IJQt3cmbohFc+Rm7M/b5SJRezwILYoeT7icN9UB7TJdLhwwRL7f4/P
-   ZfJxZi9TRlbMVvd/Ukgc9+idfY4IskXWS7CrgFoyIlt0BE/GUfohZEcit
-   yRUG1HUr/Ea/+S0LXI5LRCnyWUxHc4EHRL411A487ssT1pydgAMhDONu4
-   g==;
-X-CSE-ConnectionGUID: GF5jL34KSJmO5IdDK8NgLA==
-X-CSE-MsgGUID: rjvkC3SOSPGANxu3GhW2bg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46003577"
+  t=1741237716; x=1772773716;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oKV0DGBxIdjV2SNFMerxfwwS05Ek++8l4mSs5K7UycM=;
+  b=mIrkykp+wbi3Jr4TAXKvH+prRoDAT4lomzYblmFRhrsBzr3lLdO09TWE
+   vfDFPsaElHHdWoQkB3IizIsOxi0C+/DOhM8FARQ6Al+TU2JazwErzsUf5
+   X5exkqtCj6nohPOoDBY15GNe3FPvl/dZkm9hZE2u5amcHu8jCoqxATFC2
+   WAeJ+xswFvReAZimmT6lDHB2mWsiAwIDW6RWh1ttqBlkcmOZFEIcLgzxK
+   Kpx/r9WSxDE6jRU10WVDudQRW40pAbBiD4fPbpS261jdS5zj2HNoo0O34
+   J3FCv3RDAKYKhQZHL9TE1BUoKwETq8Wy5LZEU/zjKynqwxjB05fUQ370u
+   A==;
+X-CSE-ConnectionGUID: ki2cxGLxQ8uegUZojid6FQ==
+X-CSE-MsgGUID: zwM9wu4SRmScXeEdOLKkOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53216187"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="46003577"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 20:25:57 -0800
-X-CSE-ConnectionGUID: Wox4vV5jSb64q56XBB+2rg==
-X-CSE-MsgGUID: BmO2x536SbCjV5jLKsr7Dg==
+   d="scan'208";a="53216187"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 21:08:36 -0800
+X-CSE-ConnectionGUID: R9hdC0AXTn2OKrpK9Y9ZRQ==
+X-CSE-MsgGUID: mvKzHZD/R1ykYnBUx+XBjg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="119075926"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119822473"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Mar 2025 20:25:51 -0800
+  by orviesa008.jf.intel.com with ESMTP; 05 Mar 2025 21:08:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq2ns-000MWc-2Z;
-	Thu, 06 Mar 2025 04:25:49 +0000
-Date: Thu, 6 Mar 2025 12:24:46 +0800
+	id 1tq3TD-000MYu-1i;
+	Thu, 06 Mar 2025 05:08:31 +0000
+Date: Thu, 6 Mar 2025 13:08:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, tudor.ambarus@linaro.org,
-	pratyush@kernel.org, mwalle@kernel.org, miquel.raynal@bootlin.com,
-	richard@nod.at, vigneshr@ti.com, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, manikandan.m@microchip.com,
-	Varshini Rajendran <varshini.rajendran@microchip.com>
-Subject: Re: [PATCH 1/2] mtd: spi-nor: sst: register SFDP region into NVMEM
- framework to read MAC Address
-Message-ID: <202503061244.wH2sylN8-lkp@intel.com>
-References: <20250305100134.1171124-1-manikandan.m@microchip.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [drm-msm:msm-next 6/37]
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Function parameter
+ or struct member 'old_crtc_state' not described in
+ 'dpu_crtc_check_mode_changed'
+Message-ID: <202503061218.8tHPTTgG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,75 +65,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305100134.1171124-1-manikandan.m@microchip.com>
 
-Hi Manikandan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mtd/spi-nor/next]
-[also build test WARNING on robh/for-next abelloni/rtc-next linus/master v6.14-rc5 next-20250305]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/ARM-dts-microchip-sama5d29_curiosity-Add-nvmem-layout-in-QSPI-to-describe-EUI48-MAC-address-region/20250305-180433
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-nor/next
-patch link:    https://lore.kernel.org/r/20250305100134.1171124-1-manikandan.m%40microchip.com
-patch subject: [PATCH 1/2] mtd: spi-nor: sst: register SFDP region into NVMEM framework to read MAC Address
-config: m68k-stmark2_defconfig (https://download.01.org/0day-ci/archive/20250306/202503061244.wH2sylN8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061244.wH2sylN8-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next
+head:   6d3175a72cc07e90f81fb35841048a8a9b5134cb
+commit: 20972609d12ca677b8ecf576c632bfc3cfa369b5 [6/37] drm/msm/dpu: Require modeset if clone mode status changes
+config: arm64-randconfig-002-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061218.8tHPTTgG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061218.8tHPTTgG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061244.wH2sylN8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061218.8tHPTTgG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mtd/spi-nor/sst.c:75: warning: Function parameter or struct member 'off' not described in 'sst26vf_sfdp_mac_addr_read'
->> drivers/mtd/spi-nor/sst.c:75: warning: Excess function parameter 'offset' description in 'sst26vf_sfdp_mac_addr_read'
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Function parameter or struct member 'old_crtc_state' not described in 'dpu_crtc_check_mode_changed'
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Function parameter or struct member 'new_crtc_state' not described in 'dpu_crtc_check_mode_changed'
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Excess function parameter 'crtc_state' description in 'dpu_crtc_check_mode_changed'
 
 
-vim +75 drivers/mtd/spi-nor/sst.c
+vim +1356 drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
 
-    61	
-    62	/**
-    63	 * sst26vf_sfdp_mac_addr_read() - check if the EUI-48 MAC Address is programmed
-    64	 * and read the data from the prestored SFDP data
-    65	 *
-    66	 * @priv: User context passed to read callbacks.
-    67	 * @offset: Offset within the NVMEM device.
-    68	 * @val: pointer where to fill the ethernet address
-    69	 * @bytes: Length of the NVMEM cell
-    70	 *
-    71	 * Return: 0 on success, -EINVAL  otherwise.
-    72	 */
-    73	static int sst26vf_sfdp_mac_addr_read(void *priv, unsigned int off,
-    74					      void *val, size_t bytes)
-  > 75	{
-    76		struct spi_nor *nor = priv;
-    77		struct sfdp *sfdp = nor->sfdp;
-    78		loff_t offset = off;
-    79		size_t sfdp_size;
-    80	
-    81		/*
-    82		 * Check if the EUI-48 MAC address is programmed in the next six address
-    83		 * locations.
-    84		 * @off is programmed in the DT and stores the start of MAC Address
-    85		 * byte, (off - 1) stores the bit length of the Extended Unique
-    86		 * Identifier
-    87		 */
-    88		if (SST26VF_SFDP_EUI48 != *((u8 *)sfdp->dwords + (offset - 1)))
-    89			return -EINVAL;
-    90	
-    91		sfdp_size = sfdp->num_dwords * sizeof(*sfdp->dwords);
-    92		memory_read_from_buffer(val, bytes, &offset, sfdp->dwords,
-    93					sfdp_size);
-    94		return 0;
-    95	}
-    96	
+17666e764f3892 Dmitry Baryshkov 2025-02-14  1347  
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1348  /**
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1349   * dpu_crtc_check_mode_changed: check if full modeset is required
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1350   * @crtc_state:	Corresponding CRTC state to be checked
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1351   *
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1352   * Check if the changes in the object properties demand full mode set.
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1353   */
+20972609d12ca6 Jessica Zhang    2025-02-14  1354  int dpu_crtc_check_mode_changed(struct drm_crtc_state *old_crtc_state,
+20972609d12ca6 Jessica Zhang    2025-02-14  1355  				struct drm_crtc_state *new_crtc_state)
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14 @1356  {
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1357  	struct drm_encoder *drm_enc;
+20972609d12ca6 Jessica Zhang    2025-02-14  1358  	struct drm_crtc *crtc = new_crtc_state->crtc;
+20972609d12ca6 Jessica Zhang    2025-02-14  1359  	bool clone_mode_enabled = drm_crtc_in_clone_mode(old_crtc_state);
+20972609d12ca6 Jessica Zhang    2025-02-14  1360  	bool clone_mode_requested = drm_crtc_in_clone_mode(new_crtc_state);
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1361  
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1362  	DRM_DEBUG_ATOMIC("%d\n", crtc->base.id);
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1363  
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1364  	/* there might be cases where encoder needs a modeset too */
+20972609d12ca6 Jessica Zhang    2025-02-14  1365  	drm_for_each_encoder_mask(drm_enc, crtc->dev, new_crtc_state->encoder_mask) {
+20972609d12ca6 Jessica Zhang    2025-02-14  1366  		if (dpu_encoder_needs_modeset(drm_enc, new_crtc_state->state))
+20972609d12ca6 Jessica Zhang    2025-02-14  1367  			new_crtc_state->mode_changed = true;
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1368  	}
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1369  
+20972609d12ca6 Jessica Zhang    2025-02-14  1370  	if ((clone_mode_requested && !clone_mode_enabled) ||
+20972609d12ca6 Jessica Zhang    2025-02-14  1371  	    (!clone_mode_requested && clone_mode_enabled))
+20972609d12ca6 Jessica Zhang    2025-02-14  1372  		new_crtc_state->mode_changed = true;
+20972609d12ca6 Jessica Zhang    2025-02-14  1373  
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1374  	return 0;
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1375  }
+1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1376  
+
+:::::: The code at line 1356 was first introduced by commit
+:::::: 1ce69c265a53c61c5c29f97f542ff89af3f3d7e7 drm/msm/dpu: move resource allocation to CRTC
+
+:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
