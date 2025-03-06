@@ -1,67 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53D07FD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 00:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494A9F9E8;
+	Thu,  6 Mar 2025 00:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741219674; cv=none; b=p66YRjDiD0hNTg9IOmDj5iwEYBRw+0CMeWFocAl7JqmKTqsA3CP9s/1rijP7xtPqx9zdfAY5G5YsrMuEyKL8yqr4HTUOgdeLB30pYNASD28BIl/g0u3DpdIJ6keoERX/W/r88dW+VewI3l6mW0TMQALb9UmwwHJtsFLfSnXGV5Y=
+	t=1741220846; cv=none; b=iAo+9YK5oQWXrb+RXecGgvsEb6UMHqhIsOvvvRL6a20c8tNI+KC/d9PoY56oS79sKdgrnWRvl9IYqv0rbSbUiWrP5X2P2Y8uT/hzrHE+141n9uzJLr3sKes5KS24Pjm5tUGY+3H4N/f4yhoH+HlbK+4o1rhi47wMSUCdl3tvdK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741219674; c=relaxed/simple;
-	bh=XmkEAc+/w2Dkxu/1TNTvMeosZ3tOVAg+QYljZPhFBjc=;
+	s=arc-20240116; t=1741220846; c=relaxed/simple;
+	bh=QFerc3MN+Vcg4N4CJd1sGKbxHJtzh0GIWoPMvNoGuiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iPQUBxxlNKLMdQmtDPNToBHqdkEEEYKqRSbRSABTxld5clSwWQa6XHalhInu0PUp7kS45WuwHGvLiyjN9CixFnkhqh55HEbEz5+o2dEny+56cTFqfg1LXVqr9CYvZoncJvGUN324MzCvj+TEV+D0AGQFq3+tekktzR03+mRT4O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+mQeB0B; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=EToWyKJmEYKWq0kq3PUyxYjEAi/0oA0L+QCHivSvqLWVm64YLx/Evq7RRipFFNBV/nAXYwEaR6obNu19ShwJzFEUk50nIBhXNjmqH6p3iRSJFsVQ++w9c3Uzl394fw4+J9Mu7DOUF+kBpa40NUFT0F02bhje2aXWb5+svSyV0tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gLEdmGpK; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+mQeB0B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLEdmGpK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741219673; x=1772755673;
+  t=1741220844; x=1772756844;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XmkEAc+/w2Dkxu/1TNTvMeosZ3tOVAg+QYljZPhFBjc=;
-  b=e+mQeB0BmqSbvnDT6AKxS6zzOZ6fapa21z1aLOS98wwsRCNDbL7Yyjzu
-   4oYEYEOlE7VCKD298YkI+wlGA7PKaj5ywtNfYG+xTRt10awStGE3M8FqI
-   randc8yWSaUicUwtZE4LFU2ulCI8sgqtHNqYghWsGPMKinHcau1eH/EOL
-   zv/vUolcT9AnngKl7Eti4QnqG2zgi2XXK9q6psgybNO33F9uGiQqnmYBg
-   o4ZiBYVc1HhosNS0TVMFAlFnTYtC0wBAQ7aYMPzWtmaOkGxqnYWMV76Ks
-   Sq7FKmiMUJVnjubGADJl7bMyxQMiOk4qiJmWtRticDOPzGvjzEDhCza7g
+  bh=QFerc3MN+Vcg4N4CJd1sGKbxHJtzh0GIWoPMvNoGuiU=;
+  b=gLEdmGpKVoWV4Ov3e6/juI0hmvwnvQHW5vS+q+2/PNCCJOg9263SuOzW
+   OSrYJnhOBnqH28YrGaCUifvCdav+Zn1VRjMA6NyblpjHnk/AkeGJHD3tH
+   DfYykncGGsvbdNJamTBhGptNG5RV6e4QPTGghYmSm9ybltO7+ShtruKoC
+   p6ERrCtXLC6zY7uTVe/GuS7XeWVeeLhOhIOCc9rK8bNR4maaTstsq+9tO
+   f2CG9xNRKHxGlTsHbSIqUcJkjE5UK0gJVPxdMCV0qnvnaUKi3xwkWHA57
+   vUY0CvMgnMYm3dLrzunxEPVdxF167/DIJlH0kbI6ZdRLsW06oV1/LSZ9M
    w==;
-X-CSE-ConnectionGUID: AYV+OUi5QmiMO52uIFhEVg==
-X-CSE-MsgGUID: pFa9jWMrSPCVEAx8EaBx2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42341121"
+X-CSE-ConnectionGUID: dUTM56bgQSiwSiYXUuLSOw==
+X-CSE-MsgGUID: ob8D75NjTZ26d1WFGh/Gng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52850316"
 X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; 
-   d="scan'208";a="42341121"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 16:05:55 -0800
-X-CSE-ConnectionGUID: QY7iUrB3R0C/1HrbrZxxLg==
-X-CSE-MsgGUID: 3ucTVqz5SF+bWZZ35HJ1vQ==
+   d="scan'208";a="52850316"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 16:27:23 -0800
+X-CSE-ConnectionGUID: 0ryAj4sxQ/igPnw3Nkbr7Q==
+X-CSE-MsgGUID: tHucV7FcQ9iTV6bfg7HsOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; 
-   d="scan'208";a="149619719"
+   d="scan'208";a="142078639"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2025 16:05:47 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Mar 2025 16:27:20 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tpyju-000MLA-0L;
-	Thu, 06 Mar 2025 00:05:27 +0000
-Date: Thu, 6 Mar 2025 08:04:23 +0800
+	id 1tpz54-000MLq-0N;
+	Thu, 06 Mar 2025 00:27:18 +0000
+Date: Thu, 6 Mar 2025 08:26:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com,
-	guoren@kernel.org, wefu@redhat.com, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
-	jszhang@kernel.org, ulf.hansson@linaro.org,
-	m.szyprowski@samsung.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Michal Wilczynski <m.wilczynski@samsung.com>
-Subject: Re: [PATCH v1 2/5] firmware: thead: Add AON firmware protocol driver
-Message-ID: <202503060707.a8CwuQbH-lkp@intel.com>
-References: <20250303145901.446791-3-m.wilczynski@samsung.com>
+To: Sricharan R <quic_srichara@quicinc.com>, jassisinghbrar@gmail.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, manivannan.sadhasivam@linaro.org,
+	dmitry.baryshkov@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V3 2/2] mailbox: tmelite-qmp: Introduce TMEL QMP mailbox
+ driver
+Message-ID: <202503060748.jOvlkjJf-lkp@intel.com>
+References: <20250228045356.3527662-3-quic_srichara@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,9 +68,9 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303145901.446791-3-m.wilczynski@samsung.com>
+In-Reply-To: <20250228045356.3527662-3-quic_srichara@quicinc.com>
 
-Hi Michal,
+Hi Sricharan,
 
 kernel test robot noticed the following build warnings:
 
@@ -82,81 +80,151 @@ kernel test robot noticed the following build warnings:
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/dt-bindings-firmware-thead-th1520-Add-support-for-firmware-node/20250303-230224
+url:    https://github.com/intel-lab-lkp/linux/commits/Sricharan-R/dt-bindings-mailbox-Document-qcom-tmel-qmp/20250228-125707
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250303145901.446791-3-m.wilczynski%40samsung.com
-patch subject: [PATCH v1 2/5] firmware: thead: Add AON firmware protocol driver
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20250306/202503060707.a8CwuQbH-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503060707.a8CwuQbH-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250228045356.3527662-3-quic_srichara%40quicinc.com
+patch subject: [PATCH V3 2/2] mailbox: tmelite-qmp: Introduce TMEL QMP mailbox driver
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503060748.jOvlkjJf-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503060748.jOvlkjJf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503060707.a8CwuQbH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503060748.jOvlkjJf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/thead,th1520-aon.c: In function 'th1520_aon_init':
-   drivers/firmware/thead,th1520-aon.c:206:20: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
-     206 |         aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-         |                    ^~~~~~~
->> drivers/firmware/thead,th1520-aon.c:206:18: warning: assignment to 'struct th1520_aon_chan *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     206 |         aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-         |                  ^
-   drivers/firmware/thead,th1520-aon.c:219:17: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
-     219 |                 kfree(aon_chan);
-         |                 ^~~~~
-   cc1: some warnings being treated as errors
+>> drivers/mailbox/qcom-tmel-qmp.c:196:55: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     196 |                 dev_err(mdev->dev, "Unsupported packet size %ld\n", pkt->iov_len);
+         |                                                             ~~~     ^~~~~~~~~~~~
+         |                                                             %zu
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:406:22: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     406 |         msg_hdr->msg_type = TMEL_MSG_UID_MSG_TYPE(msg_uid);
+         |                             ^
+   include/linux/mailbox/tmelcom-qmp.h:16:34: note: expanded from macro 'TMEL_MSG_UID_MSG_TYPE'
+      16 | #define TMEL_MSG_UID_MSG_TYPE(v)        FIELD_GET(GENMASK(15, 8), v)
+         |                                         ^
+   drivers/mailbox/qcom-tmel-qmp.c:502:4: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     501 |                 dev_err(tdev->dev, "Invalid pkt.size received size: %ld, expected: %zu\n",
+         |                                                                     ~~~
+         |                                                                     %zu
+     502 |                         tdev->pkt.iov_len, sizeof(struct tmel_ipc_pkt));
+         |                         ^~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:541:35: error: call to undeclared function 'FIELD_PREP_CONST'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     541 |         ret = tmel_process_request(tdev, TMEL_MSG_UID_SECBOOT_SEC_AUTH, msg,
+         |                                          ^
+   include/linux/mailbox/tmelcom-qmp.h:55:43: note: expanded from macro 'TMEL_MSG_UID_SECBOOT_SEC_AUTH'
+      55 | #define TMEL_MSG_UID_SECBOOT_SEC_AUTH       TMEL_MSG_UID_CREATE(TMEL_MSG_SECBOOT,\
+         |                                             ^
+   include/linux/mailbox/tmelcom-qmp.h:13:3: note: expanded from macro 'TMEL_MSG_UID_CREATE'
+      13 |         (FIELD_PREP_CONST((0xff << 8), msg_type) | FIELD_PREP_CONST(0xff, action_id))
+         |          ^
+   drivers/mailbox/qcom-tmel-qmp.c:572:35: error: call to undeclared function 'FIELD_PREP_CONST'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     572 |         ret = tmel_process_request(tdev, TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN,
+         |                                          ^
+   include/linux/mailbox/tmelcom-qmp.h:58:43: note: expanded from macro 'TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN'
+      58 | #define TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN       TMEL_MSG_UID_CREATE(TMEL_MSG_SECBOOT,\
+         |                                                 ^
+   include/linux/mailbox/tmelcom-qmp.h:13:3: note: expanded from macro 'TMEL_MSG_UID_CREATE'
+      13 |         (FIELD_PREP_CONST((0xff << 8), msg_type) | FIELD_PREP_CONST(0xff, action_id))
+         |          ^
+   drivers/mailbox/qcom-tmel-qmp.c:595:7: error: call to undeclared function 'FIELD_PREP_CONST'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     595 |         case TMEL_MSG_UID_SECBOOT_SEC_AUTH:
+         |              ^
+   include/linux/mailbox/tmelcom-qmp.h:55:43: note: expanded from macro 'TMEL_MSG_UID_SECBOOT_SEC_AUTH'
+      55 | #define TMEL_MSG_UID_SECBOOT_SEC_AUTH       TMEL_MSG_UID_CREATE(TMEL_MSG_SECBOOT,\
+         |                                             ^
+   include/linux/mailbox/tmelcom-qmp.h:13:3: note: expanded from macro 'TMEL_MSG_UID_CREATE'
+      13 |         (FIELD_PREP_CONST((0xff << 8), msg_type) | FIELD_PREP_CONST(0xff, action_id))
+         |          ^
+   drivers/mailbox/qcom-tmel-qmp.c:595:7: error: expression is not an integer constant expression
+     595 |         case TMEL_MSG_UID_SECBOOT_SEC_AUTH:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mailbox/tmelcom-qmp.h:55:43: note: expanded from macro 'TMEL_MSG_UID_SECBOOT_SEC_AUTH'
+      55 | #define TMEL_MSG_UID_SECBOOT_SEC_AUTH       TMEL_MSG_UID_CREATE(TMEL_MSG_SECBOOT,\
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      56 |                                             TMEL_ACTION_SECBOOT_SEC_AUTH)
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mailbox/tmelcom-qmp.h:13:3: note: expanded from macro 'TMEL_MSG_UID_CREATE'
+      13 |         (FIELD_PREP_CONST((0xff << 8), msg_type) | FIELD_PREP_CONST(0xff, action_id))
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mailbox/qcom-tmel-qmp.c:598:7: error: expression is not an integer constant expression
+     598 |         case TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mailbox/tmelcom-qmp.h:58:43: note: expanded from macro 'TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN'
+      58 | #define TMEL_MSG_UID_SECBOOT_SS_TEAR_DOWN       TMEL_MSG_UID_CREATE(TMEL_MSG_SECBOOT,\
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      59 |                                                 TMEL_ACTION_SECBOOT_SS_TEAR_DOWN)
+         |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mailbox/tmelcom-qmp.h:13:3: note: expanded from macro 'TMEL_MSG_UID_CREATE'
+      13 |         (FIELD_PREP_CONST((0xff << 8), msg_type) | FIELD_PREP_CONST(0xff, action_id))
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings and 6 errors generated.
 
 
-vim +206 drivers/firmware/thead,th1520-aon.c
+vim +196 drivers/mailbox/qcom-tmel-qmp.c
 
-   185	
-   186	/**
-   187	 * th1520_aon_init() - Initialize TH1520 AON firmware protocol interface
-   188	 * @dev: Device pointer for the AON subsystem
-   189	 *
-   190	 * This function initializes the TH1520 AON firmware protocol interface by:
-   191	 * - Allocating and initializing the AON channel structure
-   192	 * - Setting up the mailbox client
-   193	 * - Requesting the AON mailbox channel
-   194	 * - Initializing synchronization primitives
-   195	 *
-   196	 * Return:
-   197	 * * Valid pointer to th1520_aon_chan structure on success
-   198	 * * ERR_PTR(-ENOMEM) if memory allocation fails
-   199	 * * ERR_PTR() with other negative error codes from mailbox operations
-   200	 */
-   201	struct th1520_aon_chan *th1520_aon_init(struct device *dev)
-   202	{
-   203		struct th1520_aon_chan *aon_chan;
-   204		struct mbox_client *cl;
+   177	
+   178	/**
+   179	 * qmp_send_data() - Copy the data to the channel's mailbox and notify
+   180	 *		     remote subsystem of new data. This function will
+   181	 *		     return an error if the previous message sent has
+   182	 *		     not been read. Cannot Sleep.
+   183	 * @mdev: qmp_device to send the data to.
+   184	 * @data: Data to be sent to remote processor, should be in the format of
+   185	 *	  a kvec.
+   186	 *
+   187	 * Return: 0 on success or standard Linux error code.
+   188	 */
+   189	static int qmp_send_data(struct qmp_device *mdev, void *data)
+   190	{
+   191		struct kvec *pkt = (struct kvec *)data;
+   192		void __iomem *addr;
+   193		unsigned long flags;
+   194	
+   195		if (pkt->iov_len > QMP_MAX_PKT_SIZE) {
+ > 196			dev_err(mdev->dev, "Unsupported packet size %ld\n", pkt->iov_len);
+   197			return -EINVAL;
+   198		}
+   199	
+   200		if (atomic_read(&mdev->tx_sent))
+   201			return -EAGAIN;
+   202	
+   203		dev_dbg(mdev->dev, "%s: mcore 0x%x ucore 0x%x", __func__,
+   204			mdev->mcore.val, mdev->ucore.val);
    205	
- > 206		aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-   207		if (!aon_chan)
-   208			return ERR_PTR(-ENOMEM);
-   209	
-   210		cl = &aon_chan->cl;
-   211		cl->dev = dev;
-   212		cl->tx_block = true;
-   213		cl->tx_tout = MAX_TX_TIMEOUT;
-   214		cl->rx_callback = th1520_aon_rx_callback;
-   215	
-   216		aon_chan->ch = mbox_request_channel_byname(cl, "aon");
-   217		if (IS_ERR(aon_chan->ch)) {
-   218			dev_err(dev, "Failed to request aon mbox chan\n");
-   219			kfree(aon_chan);
-   220			return ERR_CAST(aon_chan->ch);
-   221		}
-   222	
-   223		mutex_init(&aon_chan->transaction_lock);
-   224		init_completion(&aon_chan->done);
-   225	
-   226		return aon_chan;
-   227	}
-   228	EXPORT_SYMBOL_GPL(th1520_aon_init);
-   229	
+   206		addr = mdev->mcore_desc + QMP_CTRL_DATA_SIZE;
+   207		memcpy_toio(addr, pkt->iov_base, pkt->iov_len);
+   208	
+   209		mdev->mcore.bits.frag_size = pkt->iov_len;
+   210		mdev->mcore.bits.rem_frag_count = 0;
+   211	
+   212		dev_dbg(mdev->dev, "Copied buffer to mbox, sz: %d",
+   213			mdev->mcore.bits.frag_size);
+   214	
+   215		atomic_set(&mdev->tx_sent, 1);
+   216	
+   217		spin_lock_irqsave(&mdev->tx_lock, flags);
+   218		mdev->mcore.bits.tx = !(mdev->mcore.bits.tx);
+   219		qmp_send_irq(mdev);
+   220		spin_unlock_irqrestore(&mdev->tx_lock, flags);
+   221	
+   222		return 0;
+   223	}
+   224	
 
 -- 
 0-DAY CI Kernel Test Service
