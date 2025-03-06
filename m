@@ -1,67 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EB9210190
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 13:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFBC4C8E;
+	Thu,  6 Mar 2025 14:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741266981; cv=none; b=ka29uVyeYZNiZ/H/n4DXVC3+ZAuIanSFegnaEr5XgYwfyypSgTl5Y3L3fE4V6WdPWWf07FnRZhgJcsfPO+a8Cst13d5l5zJ/6m23T0VPGhQonVzBLu4+cX89lLNUV9iBUuTUHMPgqdRkdZEgEV6kmJ/Ucyd9LbLIwgnKXcnuIss=
+	t=1741272486; cv=none; b=HFja16a/igqo9MpJ7XT7Eo39S9i454HwSbbVVcej2JXjIm12v6XJ5G+AKXp8Af6BX+ZmQxloPJ8+zmsptsiE3XGjRKX0+YYlfVpHGvHyC3G8KFVbVCYOffwOHGl1huDdhFR2VYd5Q4VyjMBLz5xvlSswU6oxi20xVba19hJXkoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741266981; c=relaxed/simple;
-	bh=8ZZqQrq8U/ip7fmy3k0FKs7lmTjCF1yWU9LYT4w/A+Q=;
+	s=arc-20240116; t=1741272486; c=relaxed/simple;
+	bh=bla4hIb0IkIaS1NTrqHiiXPmlh5fLuqeLRBBeaE0n+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Szp1nrxrvGQ3q9uk0m4ei7S9a/1NR9WP9pvYUPovZpkfOUXTt8ipRGcHUEKcAkpMHtZxXDRiSnlQO+hCG7s33/1iaYDfKbHBmglim0k9DpGXtMZx5hEyg02HZgefboj91C9MBURCey30kwVQ1lMa/pG9EQiN6MxG03KCdK4+JJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kMBoDsU1; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=GbG874Tj3W2yX2MT1kLIzNfJEkh7p5QTQTldSAS43xlA6JD9WwjrsuubEUhsbkXDfyfJz0SQlDVDaKaBw2dl2MSz2RDen5O9Ddy9hwAJ7NAQJ6lO5LES+8hFuhpPP2nsLyccvwUdn7PE1j5vupg6OOnEGy+uK0Ize0q3X7el8gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BVqOOTua; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kMBoDsU1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVqOOTua"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741266980; x=1772802980;
+  t=1741272484; x=1772808484;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8ZZqQrq8U/ip7fmy3k0FKs7lmTjCF1yWU9LYT4w/A+Q=;
-  b=kMBoDsU11rT28NFE2AIevDHJ3nwmNxCqvez5F87Bxmu1Wbky5U7UubjX
-   kQEuWRrQoIwzgymHCGJNQnFi7us86CXekCDZLlR3bPp3OrSoZ0WMOM2o0
-   wiZwbfGESI5X7d52Gs4OlDy4X7Z2Ja3upN2zsebbPH7PR6M5dztGx6jYC
-   s6XgTlmpLCntdjfpKi0ufe82/02O1x2F8CbuI1DSIkZxGqEiXC+pVXfPW
-   FslY9idi1I373RMvqIYjf0bLjaEjLV54kt4jSUDjyUNPaeaacyMnW13RA
-   WF1UxMyx/cMB7SLO28IG53wyhxPChvzD04i4EQS111rMVw/b945SDpMJ+
+  bh=bla4hIb0IkIaS1NTrqHiiXPmlh5fLuqeLRBBeaE0n+8=;
+  b=BVqOOTuaHTG1pbTEwEKDEotWRQ8ZoSS2AOXIEMbnvW5RUMbYip346gaM
+   XM/5xTE7oSAZ73RggYV+0t5SKzQK/THHm7WM/4aOvPCnSDJDUc7w0mfPi
+   wOOL+CiKbA4rYOyM63IqrIYvXDfxO7OtzOCHTNzWzo6sBmID8NrMIpEpC
+   Q14irORzhoF0vL0H3a9IL5rAS+1SI/4cL3My3HysHg5Ug7s43NTpCveDd
+   KWsaF67PP5M9hBB70Qd8OB+lk+Dhxd20vsmUn1WAciaYUroIlh7QfaV7O
+   GqN2ttFvuWya9MpOP75gAJqEaeGJ0VGRF+rwBIEV9/s/UGFHOSZ5q/VHU
    A==;
-X-CSE-ConnectionGUID: MgIY8QWTTG+VCR37Cp2AgA==
-X-CSE-MsgGUID: YzLYEfvrSd2BMj9LPsEpFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42188742"
+X-CSE-ConnectionGUID: 2fDBtJ9sQ9CYhHKSbu7Fgg==
+X-CSE-MsgGUID: wINkz8EtTxmAZQ5AvGaC5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59830994"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="42188742"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:16:19 -0800
-X-CSE-ConnectionGUID: +P/ybUpGQnKelY8wY6WiBg==
-X-CSE-MsgGUID: BHWOhwHVSMGSXeKOi8Dp8Q==
+   d="scan'208";a="59830994"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:48:04 -0800
+X-CSE-ConnectionGUID: o4CM4XnkTwKUZWqrou7E7A==
+X-CSE-MsgGUID: gJEqCfufS6On0GZn3XiLUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="119519929"
+   d="scan'208";a="119052400"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Mar 2025 05:16:15 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2025 06:48:00 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqB5A-000N5y-0f;
-	Thu, 06 Mar 2025 13:16:12 +0000
-Date: Thu, 6 Mar 2025 21:15:30 +0800
+	id 1tqCVx-000NAs-1f;
+	Thu, 06 Mar 2025 14:47:57 +0000
+Date: Thu, 6 Mar 2025 22:47:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com,
-	guoren@kernel.org, wefu@redhat.com, paul.walmsley@sifive.com,
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
-	jszhang@kernel.org, ulf.hansson@linaro.org,
-	m.szyprowski@samsung.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Michal Wilczynski <m.wilczynski@samsung.com>
-Subject: Re: [PATCH v1 2/5] firmware: thead: Add AON firmware protocol driver
-Message-ID: <202503062029.bHmgxF2Q-lkp@intel.com>
-References: <20250303145901.446791-3-m.wilczynski@samsung.com>
+To: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	NXP S32 Linux <s32@nxp.com>, imx@lists.linux.dev,
+	Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Bogdan Hamciuc <bogdan.hamciuc@nxp.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>
+Subject: Re: [PATCH v8 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+Message-ID: <202503062204.QeQoZBYt-lkp@intel.com>
+References: <20250228081812.3115478-3-ciprianmarian.costea@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,93 +77,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303145901.446791-3-m.wilczynski@samsung.com>
+In-Reply-To: <20250228081812.3115478-3-ciprianmarian.costea@oss.nxp.com>
 
-Hi Michal,
+Hi Ciprian,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.14-rc5 next-20250306]
+[also build test ERROR on arm64/for-next/core krzk-dt/for-next linus/master v6.14-rc5 next-20250306]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/dt-bindings-firmware-thead-th1520-Add-support-for-firmware-node/20250303-230224
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-rtc-add-schema-for-NXP-S32G2-S32G3-SoCs/20250228-162229
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250303145901.446791-3-m.wilczynski%40samsung.com
-patch subject: [PATCH v1 2/5] firmware: thead: Add AON firmware protocol driver
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503062029.bHmgxF2Q-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062029.bHmgxF2Q-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250228081812.3115478-3-ciprianmarian.costea%40oss.nxp.com
+patch subject: [PATCH v8 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503062204.QeQoZBYt-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062204.QeQoZBYt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503062029.bHmgxF2Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503062204.QeQoZBYt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/firmware/thead,th1520-aon.c: In function 'th1520_aon_init':
->> drivers/firmware/thead,th1520-aon.c:206:20: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
-     206 |         aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-         |                    ^~~~~~~
->> drivers/firmware/thead,th1520-aon.c:206:18: error: assignment to 'struct th1520_aon_chan *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     206 |         aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-         |                  ^
->> drivers/firmware/thead,th1520-aon.c:219:17: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Wimplicit-function-declaration]
-     219 |                 kfree(aon_chan);
-         |                 ^~~~~
-         |                 kvfree
+>> drivers/rtc/rtc-s32g.c:204:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     204 |         rtcc = FIELD_PREP(RTCC_CLKSEL_MASK, priv->clk_src_idx);
+         |                ^
+   1 error generated.
 
 
-vim +206 drivers/firmware/thead,th1520-aon.c
+vim +/FIELD_PREP +204 drivers/rtc/rtc-s32g.c
 
-   185	
-   186	/**
-   187	 * th1520_aon_init() - Initialize TH1520 AON firmware protocol interface
-   188	 * @dev: Device pointer for the AON subsystem
-   189	 *
-   190	 * This function initializes the TH1520 AON firmware protocol interface by:
-   191	 * - Allocating and initializing the AON channel structure
-   192	 * - Setting up the mailbox client
-   193	 * - Requesting the AON mailbox channel
-   194	 * - Initializing synchronization primitives
-   195	 *
-   196	 * Return:
-   197	 * * Valid pointer to th1520_aon_chan structure on success
-   198	 * * ERR_PTR(-ENOMEM) if memory allocation fails
-   199	 * * ERR_PTR() with other negative error codes from mailbox operations
-   200	 */
-   201	struct th1520_aon_chan *th1520_aon_init(struct device *dev)
-   202	{
-   203		struct th1520_aon_chan *aon_chan;
-   204		struct mbox_client *cl;
+   196	
+   197	static int rtc_clk_src_setup(struct rtc_priv *priv)
+   198	{
+   199		u32 rtcc;
+   200	
+   201		if (priv->rtc_data->reserved_clk_mask & (1 << priv->clk_src_idx))
+   202			return -EOPNOTSUPP;
+   203	
+ > 204		rtcc = FIELD_PREP(RTCC_CLKSEL_MASK, priv->clk_src_idx);
    205	
- > 206		aon_chan = kzalloc(sizeof(*aon_chan), GFP_KERNEL);
-   207		if (!aon_chan)
-   208			return ERR_PTR(-ENOMEM);
-   209	
-   210		cl = &aon_chan->cl;
-   211		cl->dev = dev;
-   212		cl->tx_block = true;
-   213		cl->tx_tout = MAX_TX_TIMEOUT;
-   214		cl->rx_callback = th1520_aon_rx_callback;
-   215	
-   216		aon_chan->ch = mbox_request_channel_byname(cl, "aon");
-   217		if (IS_ERR(aon_chan->ch)) {
-   218			dev_err(dev, "Failed to request aon mbox chan\n");
- > 219			kfree(aon_chan);
-   220			return ERR_CAST(aon_chan->ch);
+   206		switch (priv->rtc_data->clk_div) {
+   207		case DIV512_32:
+   208			rtcc |= RTCC_DIV512EN;
+   209			rtcc |= RTCC_DIV32EN;
+   210			break;
+   211		case DIV512:
+   212			rtcc |= RTCC_DIV512EN;
+   213			break;
+   214		case DIV32:
+   215			rtcc |= RTCC_DIV32EN;
+   216			break;
+   217		case DIV1:
+   218			break;
+   219		default:
+   220			return -EINVAL;
    221		}
    222	
-   223		mutex_init(&aon_chan->transaction_lock);
-   224		init_completion(&aon_chan->done);
-   225	
-   226		return aon_chan;
-   227	}
-   228	EXPORT_SYMBOL_GPL(th1520_aon_init);
-   229	
+   223		rtcc |= RTCC_APIEN | RTCC_APIIE;
+   224		/*
+   225		 * Make sure the CNTEN is 0 before we configure
+   226		 * the clock source and dividers.
+   227		 */
+   228		s32g_rtc_disable(priv);
+   229		writel(rtcc, priv->rtc_base + RTCC_OFFSET);
+   230		s32g_rtc_enable(priv);
+   231	
+   232		return 0;
+   233	}
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
