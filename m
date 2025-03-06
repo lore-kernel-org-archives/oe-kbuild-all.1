@@ -1,154 +1,222 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB7F207A1F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 21:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC76127183F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 21:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741296067; cv=none; b=aI3W/uzlbHchCS9o+LCixFApOdB8ADVLZfZkAa/ZPpNQ82y89pH1ebKP56jRsmBW235TnJR1Y88eUtE+SsL+03EdoIG7waOFWVnRd9aj6C6Rc3zGJ2nPKq84D8YBZX65r75iKYg1+HIFveiI9HEQ4H3UhVZekSmg3H9dcK0kPjo=
+	t=1741297901; cv=none; b=mHMTN+khx1IQuHIreNCKg3J47Pr2qfmpufy3N+UNFEgXMR9UJLH7nJxsh0sSuO0VlKxr5y+oa/xkUZiEH9V9hLrINigh8jG16lv/k7snxXR0yJlQSfGqNvLRKT/k5jzUmLNboQg9nkJ6fTqs3qahzvEmCzob1ABkB+Vbdl3LXYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741296067; c=relaxed/simple;
-	bh=QwtTDEYAnNwj0jO5A7hwwJCo0R5apTOt+3h+jokZPyU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X1dEUXV+mbRiCiMy1W+OfowGdiLCF24RnVUAtyDLB7e5XjUpCrq1BPLea0OAe2dqrf7T6gLMTnphpP7Y1HHZtXv1n9gmko98N9LC+WDRzVn6iWqyAlRpnj2YkSDWoAczIC+0M2aLx7Snc1CS19uRMybCC/nePd9U2XJPrgumiyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IdcUPmwH; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1741297901; c=relaxed/simple;
+	bh=JfRLPknr6t/lzKAO4sHgBXmNudQiAB6yND2W6g9u0FE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=joFNrlPgFeRfKUXb6ULJVmV+PAPOQKAuSPcYqyEjDphcYVNNMOAuc5r+TFLemJlXP4o0JxEobfwLgIJGUYIrGfkwtzLph0ndr1NotJGZijVe55mcxmgl6HpHI3orv3SuWOLB1fRvwQF3VGs0I1CUOlc+/2e48V69rne1Gr1EVRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UAPBjBJj; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IdcUPmwH"
-Date: Thu, 6 Mar 2025 21:20:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1741296062;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lJvaHPzJT7/lU+BeSLL68xR7OTi5kIy1KlaEzXrMnR8=;
-	b=IdcUPmwHqIZR9E0XtWbE4Ood0ckZDEBhIMJN9pQ1RPRvqJ9vkaikVt6R4REfmrV5CKak3Z
-	d6K9DcBzTHIfov1zamF+8M0YK4qS6HctAZ7eV4dt9vJbrQub1DkU1npt7k/s9zLvRLp/zW
-	tIRMiRO+jYZ+ozeKFPuHCcBlsPs/Tzg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yosry Ahmed <yosry.ahmed@linux.dev>
-To: "Sridhar, Kanchana P" <kanchana.p.sridhar@intel.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, lkp <lkp@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
-	"usamaarif642@gmail.com" <usamaarif642@gmail.com>,
-	"ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"21cnbao@gmail.com" <21cnbao@gmail.com>,
-	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-	"herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"clabbe@baylibre.com" <clabbe@baylibre.com>,
-	"ardb@kernel.org" <ardb@kernel.org>,
-	"ebiggers@google.com" <ebiggers@google.com>,
-	"surenb@google.com" <surenb@google.com>,
-	"Accardi, Kristen C" <kristen.c.accardi@intel.com>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"Feghali, Wajdi K" <wajdi.k.feghali@intel.com>,
-	"Gopal, Vinodh" <vinodh.gopal@intel.com>
-Subject: Re: [PATCH v8 14/14] mm: zswap: Compress batching with request
- chaining in zswap_store() of large folios.
-Message-ID: <Z8oRsGHmt2E4diKK@google.com>
-References: <20250303084724.6490-15-kanchana.p.sridhar@intel.com>
- <202503031847.j1iReOtf-lkp@intel.com>
- <CAKEwX=MgV22UBNi-2dNBDgNM2DRfrngk_4gO7z9t-O0KrpdPUw@mail.gmail.com>
- <SA3PR11MB8120445C8DBDBB9945231B66C9C92@SA3PR11MB8120.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UAPBjBJj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741297900; x=1772833900;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JfRLPknr6t/lzKAO4sHgBXmNudQiAB6yND2W6g9u0FE=;
+  b=UAPBjBJjQFD3/8YwO1q+gc2QvpybNfkhph/mfGVNFVOTrAT5TVSZe4MG
+   TCUAWQI6WeLaHFJZrTRF7GQh+tqIZzHAp70sgHkNgZOx8OO3R2iyE3v64
+   3nyHFaZeDPG6nqZi4dFXlF3INF1Yleps065/xO3OJRV5bo3l+VOrx9BbA
+   Tdczo/HzztxaCF+0hjEekTUm/2Um39JDTL7WdrsyVsqdt00boVJ/7jZke
+   Mx1FzXMRoVtvHlDeJwNa0jsf8x8Kj5VdZ0h9GFGFK4ar5F1qI9HcUTEXd
+   vKL5tnuRN41dOQi8Lb3VQacjnfyK0DJzthUbYqgDBz+Tpv5P/bmCkAsIT
+   Q==;
+X-CSE-ConnectionGUID: +ssakk3NRDSnNgI16+3E4A==
+X-CSE-MsgGUID: rwFYBrARSG+Hfo07l0jKPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41585486"
+X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
+   d="scan'208";a="41585486"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 13:51:39 -0800
+X-CSE-ConnectionGUID: YDUMy8//RS2tUmWuBQjw2g==
+X-CSE-MsgGUID: UPtH+EtTTQqvEScGDUejUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="150077493"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2025 13:51:37 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqJ7v-000NfS-1t;
+	Thu, 06 Mar 2025 21:51:35 +0000
+Date: Fri, 7 Mar 2025 05:50:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Greg Ungerer <gerg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: fs/binfmt_elf_fdpic.c:1024:52: warning: variable 'excess1' set but
+ not used
+Message-ID: <202503070539.bKnm5hEv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SA3PR11MB8120445C8DBDBB9945231B66C9C92@SA3PR11MB8120.namprd11.prod.outlook.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, Mar 03, 2025 at 09:34:04PM +0000, Sridhar, Kanchana P wrote:
-> 
-> > -----Original Message-----
-> > From: Nhat Pham <nphamcs@gmail.com>
-> > Sent: Monday, March 3, 2025 10:22 AM
-> > To: lkp <lkp@intel.com>
-> > Cc: Sridhar, Kanchana P <kanchana.p.sridhar@intel.com>; linux-
-> > kernel@vger.kernel.org; linux-mm@kvack.org; hannes@cmpxchg.org;
-> > yosry.ahmed@linux.dev; chengming.zhou@linux.dev;
-> > usamaarif642@gmail.com; ryan.roberts@arm.com; 21cnbao@gmail.com;
-> > ying.huang@linux.alibaba.com; akpm@linux-foundation.org; linux-
-> > crypto@vger.kernel.org; herbert@gondor.apana.org.au;
-> > davem@davemloft.net; clabbe@baylibre.com; ardb@kernel.org;
-> > ebiggers@google.com; surenb@google.com; Accardi, Kristen C
-> > <kristen.c.accardi@intel.com>; llvm@lists.linux.dev; oe-kbuild-
-> > all@lists.linux.dev; Feghali, Wajdi K <wajdi.k.feghali@intel.com>; Gopal,
-> > Vinodh <vinodh.gopal@intel.com>
-> > Subject: Re: [PATCH v8 14/14] mm: zswap: Compress batching with request
-> > chaining in zswap_store() of large folios.
-> > 
-> > On Mon, Mar 3, 2025 at 3:07 AM kernel test robot <lkp@intel.com> wrote:
-> > >
-> > > Hi Kanchana,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > > 1166                          prefetchw(entries[j]);
-> > > --
-> > 
-> > Why are we doing this anyway? Does it have a notable performance
-> > difference? At the very least, leave a comment explaining why we're
-> > prefetching this (although the build error suggests that we have to
-> > remove it anyway).
-> 
-> Hi Nhat,
-> 
-> Yes, it does. The use of prefetchw reduces sys time by ~1.5% because
-> it minimizes cache-miss latency by moving the zswap entry to the cache
-> before it is written to. 
-> 
-> This is data with kernel compilation test, v8 without prefetchw and v8 as-is:
-> 
-> --------------------------------------------------------------------------------
->  Kernel compile       v8 without               v8      v8 without              v8
->  allmodconfig          prefetchw                        prefetchw
->  2M folios
->  --------------------------------------------------------------------------------
->  zswap compressor    deflate-iaa      deflate-iaa            zstd            zstd   
->  --------------------------------------------------------------------------------
->  real_sec                 732.89           735.63          768.53          758.21
->  user_sec              15,708.37        15,699.84       15,702.64       15,678.73
->  sys_sec                4,632.58         4,563.70        5,735.06        5,635.69
->  --------------------------------------------------------------------------------
->  Max_Res_Set_Size_KB   1,874,672        1,867,516       1,874,684       1,872,888
->  --------------------------------------------------------------------------------
->  memcg_high                    0                0               0               0
->  memcg_swap_fail               0                0               0               0
->  zswpout             114,742,930      112,836,725      92,904,961      89,596,085
->  zswpin               41,184,897       39,983,793      31,018,149      29,163,932
->  pswpout                     625            1,069             558           1,059
->  pswpin                      599            1,056             540           1,051
->  thp_swpout                    1                2               1               2
->  thp_swpout_fallback      10,967           10,195           6,918           6,141
->  pgmajfault           42,588,331       41,349,069      31,931,882      30,006,422
->  ZSWPOUT-2048kB            7,661            8,710           6,799           7,480
->  SWPOUT-2048kB                 1                2               1               2
->  --------------------------------------------------------------------------------
-> 
-> 
-> Sure, I will add a comment, and also "#include <linux/prefetch.h>" in zswap.c
-> that will resolve the build error. This is similar to how these files handle prefetchw:
-> mm/vmscan.c, kernel/locking/qspinlock.c, include/asm-generic/xor.h, etc.
+Hi Greg,
 
-Please also explicitly mention that the prefetch and likely/unlikely
-annotations prevent regressions with software compression like zstd, and
-generally improve the performance with the batching code by ~1.5%.
+FYI, the error/warning still remains.
 
-> 
-> Thanks,
-> Kanchana
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1238f0af13495e14e1f40d011b9b7b414bf387fe
+commit: 9549fb354ef1a451ceddfa404ae3e943c5c803d0 riscv: support the elf-fdpic binfmt loader
+date:   1 year, 6 months ago
+config: riscv-randconfig-002-20240701 (https://download.01.org/0day-ci/archive/20250307/202503070539.bKnm5hEv-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503070539.bKnm5hEv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503070539.bKnm5hEv-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   fs/binfmt_elf_fdpic.c: In function 'elf_fdpic_map_file_by_direct_mmap':
+>> fs/binfmt_elf_fdpic.c:1024:52: warning: variable 'excess1' set but not used [-Wunused-but-set-variable]
+    1024 |                 unsigned long maddr, disp, excess, excess1;
+         |                                                    ^~~~~~~
+
+
+vim +/excess1 +1024 fs/binfmt_elf_fdpic.c
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1001  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1002  /*****************************************************************************/
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1003  /*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1004   * map a binary by direct mmap() of the individual PT_LOAD segments
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1005   */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1006  static int elf_fdpic_map_file_by_direct_mmap(struct elf_fdpic_params *params,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1007  					     struct file *file,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1008  					     struct mm_struct *mm)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1009  {
+b922bf04d2c135 Greg Ungerer      2023-07-11  1010  	struct elf_fdpic_loadseg *seg;
+b922bf04d2c135 Greg Ungerer      2023-07-11  1011  	struct elf_phdr *phdr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1012  	unsigned long load_addr, delta_vaddr;
+e30c7c3b306312 Takuya Yoshikawa  2010-06-01  1013  	int loop, dvset;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1014  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1015  	load_addr = params->load_addr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1016  	delta_vaddr = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1017  	dvset = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1018  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1019  	seg = params->loadmap->segs;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1020  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1021  	/* deal with each load segment separately */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1022  	phdr = params->phdrs;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1023  	for (loop = 0; loop < params->hdr.e_phnum; loop++, phdr++) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @1024  		unsigned long maddr, disp, excess, excess1;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1025  		int prot = 0, flags;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1026  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1027  		if (phdr->p_type != PT_LOAD)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1028  			continue;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1029  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1030  		kdebug("[LOAD] va=%lx of=%lx fs=%lx ms=%lx",
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1031  		       (unsigned long) phdr->p_vaddr,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1032  		       (unsigned long) phdr->p_offset,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1033  		       (unsigned long) phdr->p_filesz,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1034  		       (unsigned long) phdr->p_memsz);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1035  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1036  		/* determine the mapping parameters */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1037  		if (phdr->p_flags & PF_R) prot |= PROT_READ;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1038  		if (phdr->p_flags & PF_W) prot |= PROT_WRITE;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1039  		if (phdr->p_flags & PF_X) prot |= PROT_EXEC;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1040  
+4589ff7ca81516 David Hildenbrand 2021-04-23  1041  		flags = MAP_PRIVATE;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1042  		maddr = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1043  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1044  		switch (params->flags & ELF_FDPIC_FLAG_ARRANGEMENT) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1045  		case ELF_FDPIC_FLAG_INDEPENDENT:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1046  			/* PT_LOADs are independently locatable */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1047  			break;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1048  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1049  		case ELF_FDPIC_FLAG_HONOURVADDR:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1050  			/* the specified virtual address must be honoured */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1051  			maddr = phdr->p_vaddr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1052  			flags |= MAP_FIXED;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1053  			break;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1054  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1055  		case ELF_FDPIC_FLAG_CONSTDISP:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1056  			/* constant displacement
+8a2ab7f5df76b9 David Howells     2006-07-10  1057  			 * - can be mapped anywhere, but must be mapped as a
+8a2ab7f5df76b9 David Howells     2006-07-10  1058  			 *   unit
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1059  			 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1060  			if (!dvset) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1061  				maddr = load_addr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1062  				delta_vaddr = phdr->p_vaddr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1063  				dvset = 1;
+8a2ab7f5df76b9 David Howells     2006-07-10  1064  			} else {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1065  				maddr = load_addr + phdr->p_vaddr - delta_vaddr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1066  				flags |= MAP_FIXED;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1067  			}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1068  			break;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1069  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1070  		case ELF_FDPIC_FLAG_CONTIGUOUS:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1071  			/* contiguity handled later */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1072  			break;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1073  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1074  		default:
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1075  			BUG();
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1076  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1077  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1078  		maddr &= PAGE_MASK;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1079  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1080  		/* create the mapping */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1081  		disp = phdr->p_vaddr & ~PAGE_MASK;
+6be5ceb02e98ea Linus Torvalds    2012-04-20  1082  		maddr = vm_mmap(file, maddr, phdr->p_memsz + disp, prot, flags,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1083  				phdr->p_offset - disp);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1084  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1085  		kdebug("mmap[%d] <file> sz=%lx pr=%x fl=%x of=%lx --> %08lx",
+8a2ab7f5df76b9 David Howells     2006-07-10  1086  		       loop, phdr->p_memsz + disp, prot, flags,
+8a2ab7f5df76b9 David Howells     2006-07-10  1087  		       phdr->p_offset - disp, maddr);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1088  
+8a2ab7f5df76b9 David Howells     2006-07-10  1089  		if (IS_ERR_VALUE(maddr))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1090  			return (int) maddr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1091  
+8a2ab7f5df76b9 David Howells     2006-07-10  1092  		if ((params->flags & ELF_FDPIC_FLAG_ARRANGEMENT) ==
+8a2ab7f5df76b9 David Howells     2006-07-10  1093  		    ELF_FDPIC_FLAG_CONTIGUOUS)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1094  			load_addr += PAGE_ALIGN(phdr->p_memsz + disp);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1095  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1096  		seg->addr = maddr + disp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1097  		seg->p_vaddr = phdr->p_vaddr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1098  		seg->p_memsz = phdr->p_memsz;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1099  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1100  		/* map the ELF header address if in this segment */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1101  		if (phdr->p_offset == 0)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1102  			params->elfhdr_addr = seg->addr;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1103  
+8a2ab7f5df76b9 David Howells     2006-07-10  1104  		/* clear the bit between beginning of mapping and beginning of
+8a2ab7f5df76b9 David Howells     2006-07-10  1105  		 * PT_LOAD */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1106  		if (prot & PROT_WRITE && disp > 0) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1107  			kdebug("clear[%d] ad=%lx sz=%lx", loop, maddr, disp);
+e30c7c3b306312 Takuya Yoshikawa  2010-06-01  1108  			if (clear_user((void __user *) maddr, disp))
+e30c7c3b306312 Takuya Yoshikawa  2010-06-01  1109  				return -EFAULT;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1110  			maddr += disp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1111  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1112  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1113  		/* clear any space allocated but not loaded
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1114  		 * - on uClinux we can just clear the lot
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1115  		 * - on MMU linux we'll get a SIGBUS beyond the last page
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1116  		 *   extant in the file
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1117  		 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1118  		excess = phdr->p_memsz - phdr->p_filesz;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1119  		excess1 = PAGE_SIZE - ((maddr + phdr->p_filesz) & ~PAGE_MASK);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1120  
+
+:::::: The code at line 1024 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
