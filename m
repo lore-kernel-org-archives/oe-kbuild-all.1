@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1CD19B5B1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 04:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9CE19C558
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 04:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741235157; cv=none; b=Csu1YfNhSr1wY1xVTnhYl/tOpzT6VnDsTADRr6RgfNUVaP96ac8xrRFErlUggAApn7mscuxprHInsKtBJbIoFAC92KdZshlcjnwLc/CqK0pAS4+7h6NqCHpyz2Me0qkOjG0Fl/evozFjeAMXJusCTotoxU2QIAsSu7t/WSvQygk=
+	t=1741235162; cv=none; b=uZe2KGfiwhurL7PVr2ypf9hvfqwEg5JCOOHcJ08nZNJt5tKlD+45tVS6spZXiowq+dWBDH+xuD5dYRGM+Di1MUJg4gVhJAjPsnhys6X0sZ2t4NqLlw1q/SqqkJR19vS2iZGSDVCenLclSy3C98eb5aaEfC91SdSkSvTbCWL67sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741235157; c=relaxed/simple;
-	bh=ZQRetbtMH9PmPOowjjiV/1ueBKUgEylsKtX9cQioFAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jRuLhzYPbrAhCyj0TSvvuhgIq4+xsLGB/9rxrkXWYNwRz1UMhIHI06b10FhaWbX6p1kg1/bnN94JJ3Ii9UWVWr09OL2Pa2qrxm28sZ+1rZdoIvVLsdPvPq5Ro6+E24YHB3bX/VM7K4PUiLjAutRv6iXQif4Q2fGyyMOZR6rj+yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyE81dt1; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1741235162; c=relaxed/simple;
+	bh=NJCVt2+YUa5c5YJ95PV1i2GlvWFyPhsZJ0jvLUACEOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h7CBKOKZFLjG4AoiIsO4I+YPIxElWTziihzfr6HGiGtYwX8E6Nf3/ZTwJOjV2braJJaPXj4UTnMlrx7xfc/rMbELIfKfjA/SQoec/4qwRrzsDbtPZiet0Kdm2bIaSNNizFAwPMhqPVcQmPHr1YFwZgiaEULMHRrK7moS419w+5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=myN/k6lZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyE81dt1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="myN/k6lZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741235156; x=1772771156;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZQRetbtMH9PmPOowjjiV/1ueBKUgEylsKtX9cQioFAM=;
-  b=PyE81dt1dDFyWrF0+e3Wesd/5UJTr3wVD8a/hS51g4BtoihX10LK+CBF
-   hjbP7TZiFkeCA3YVZKioxCIdtPjBh1PPdaxAwUZpQmLH2lN3rBbpByFCB
-   Xq4sXHstP5gUW28rvD4UQDOkA2cTaU6cIfGhuJmZzbylOFaX3QcPoDF3R
-   rrVgLzFU1DA7vhj0WX9Cvdjs6ERR0m79q6BPY2HsCV2vXBpiQxydan19q
-   ExQBGFVmVq1qvfvqHz8gvwKOaBeT/pXv/llPYN01kHLzqkF0iOAVGe1KN
-   eGRrK9oayZI+kXZN5N856cXKIfBjkLX79ni2XRhP+M8YYya0alSc25Yja
-   A==;
-X-CSE-ConnectionGUID: c46wMMJ2S4CB+Jk7SbExuw==
-X-CSE-MsgGUID: SpGN6AvKQ6KPGThNnAqlMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="41404193"
+  t=1741235157; x=1772771157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NJCVt2+YUa5c5YJ95PV1i2GlvWFyPhsZJ0jvLUACEOY=;
+  b=myN/k6lZ7+uYPDMV+Oo+LtUQZTeik9LHDeunELxyNBzxDgTYoNsxcx2Z
+   WvxH8i1zsW+LyYtZ3cmjBsa07J2dSV94NyV8K7c0HJuKnoEn9ZSa2A44X
+   k96YDsv1PbemKxTRr05nSgdoW2rLxDaQHzSammjbposQKtAj9P6/KZTRD
+   nH/IJQt3cmbohFc+Rm7M/b5SJRezwILYoeT7icN9UB7TJdLhwwRL7f4/P
+   ZfJxZi9TRlbMVvd/Ukgc9+idfY4IskXWS7CrgFoyIlt0BE/GUfohZEcit
+   yRUG1HUr/Ea/+S0LXI5LRCnyWUxHc4EHRL411A487ssT1pydgAMhDONu4
+   g==;
+X-CSE-ConnectionGUID: GF5jL34KSJmO5IdDK8NgLA==
+X-CSE-MsgGUID: rjvkC3SOSPGANxu3GhW2bg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46003577"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="41404193"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 20:25:55 -0800
-X-CSE-ConnectionGUID: NxSvLMRfR22d2lnayIh4Ng==
-X-CSE-MsgGUID: zB/b7RMpQeu8txIbLtduVA==
+   d="scan'208";a="46003577"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 20:25:57 -0800
+X-CSE-ConnectionGUID: Wox4vV5jSb64q56XBB+2rg==
+X-CSE-MsgGUID: BmO2x536SbCjV5jLKsr7Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="119404636"
+   d="scan'208";a="119075926"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Mar 2025 20:25:53 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Mar 2025 20:25:51 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq2nu-000MWk-1U;
-	Thu, 06 Mar 2025 04:25:50 +0000
-Date: Thu, 6 Mar 2025 12:24:49 +0800
+	id 1tq2ns-000MWc-2Z;
+	Thu, 06 Mar 2025 04:25:49 +0000
+Date: Thu, 6 Mar 2025 12:24:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeson Gao <jeson.gao@unisoc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Lukasz Luba <lukasz.luba@arm.com>
-Subject: [rafael-pm:bleeding-edge 103/108] drivers/powercap/dtpm_cpu.c:83:29:
- error: implicit declaration of function 'sched_cpu_util'
-Message-ID: <202503061203.vRnwilWZ-lkp@intel.com>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev, tudor.ambarus@linaro.org,
+	pratyush@kernel.org, mwalle@kernel.org, miquel.raynal@bootlin.com,
+	richard@nod.at, vigneshr@ti.com, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, manikandan.m@microchip.com,
+	Varshini Rajendran <varshini.rajendran@microchip.com>
+Subject: Re: [PATCH 1/2] mtd: spi-nor: sst: register SFDP region into NVMEM
+ framework to read MAC Address
+Message-ID: <202503061244.wH2sylN8-lkp@intel.com>
+References: <20250305100134.1171124-1-manikandan.m@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,57 +71,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250305100134.1171124-1-manikandan.m@microchip.com>
 
-Hi Jeson,
+Hi Manikandan,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   96791086aa226b85fe090573b9e3668ac53d5364
-commit: 9144584c375e73a4fef6bde3ce399ad43e011b37 [103/108] PM: EM: Rework the depends on for CONFIG_ENERGY_MODEL
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503061203.vRnwilWZ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061203.vRnwilWZ-lkp@intel.com/reproduce)
+[auto build test WARNING on mtd/spi-nor/next]
+[also build test WARNING on robh/for-next abelloni/rtc-next linus/master v6.14-rc5 next-20250305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikandan-Muralidharan/ARM-dts-microchip-sama5d29_curiosity-Add-nvmem-layout-in-QSPI-to-describe-EUI48-MAC-address-region/20250305-180433
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-nor/next
+patch link:    https://lore.kernel.org/r/20250305100134.1171124-1-manikandan.m%40microchip.com
+patch subject: [PATCH 1/2] mtd: spi-nor: sst: register SFDP region into NVMEM framework to read MAC Address
+config: m68k-stmark2_defconfig (https://download.01.org/0day-ci/archive/20250306/202503061244.wH2sylN8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061244.wH2sylN8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061203.vRnwilWZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061244.wH2sylN8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/powercap/dtpm_cpu.c: In function 'scale_pd_power_uw':
->> drivers/powercap/dtpm_cpu.c:83:29: error: implicit declaration of function 'sched_cpu_util' [-Wimplicit-function-declaration]
-      83 |                 sum_util += sched_cpu_util(cpu);
-         |                             ^~~~~~~~~~~~~~
+>> drivers/mtd/spi-nor/sst.c:75: warning: Function parameter or struct member 'off' not described in 'sst26vf_sfdp_mac_addr_read'
+>> drivers/mtd/spi-nor/sst.c:75: warning: Excess function parameter 'offset' description in 'sst26vf_sfdp_mac_addr_read'
 
 
-vim +/sched_cpu_util +83 drivers/powercap/dtpm_cpu.c
+vim +75 drivers/mtd/spi-nor/sst.c
 
-0e8f68d7f04856 Daniel Lezcano   2020-12-08  70  
-eb82bace893169 Daniel Lezcano   2021-03-12  71  static u64 scale_pd_power_uw(struct cpumask *pd_mask, u64 power)
-eb82bace893169 Daniel Lezcano   2021-03-12  72  {
-bb4479994945e9 Dietmar Eggemann 2022-06-21  73  	unsigned long max, sum_util = 0;
-eb82bace893169 Daniel Lezcano   2021-03-12  74  	int cpu;
-eb82bace893169 Daniel Lezcano   2021-03-12  75  
-eb82bace893169 Daniel Lezcano   2021-03-12  76  	/*
-eb82bace893169 Daniel Lezcano   2021-03-12  77  	 * The capacity is the same for all CPUs belonging to
-bb4479994945e9 Dietmar Eggemann 2022-06-21  78  	 * the same perf domain.
-eb82bace893169 Daniel Lezcano   2021-03-12  79  	 */
-bb4479994945e9 Dietmar Eggemann 2022-06-21  80  	max = arch_scale_cpu_capacity(cpumask_first(pd_mask));
-eb82bace893169 Daniel Lezcano   2021-03-12  81  
-bb4479994945e9 Dietmar Eggemann 2022-06-21  82  	for_each_cpu_and(cpu, pd_mask, cpu_online_mask)
-bb4479994945e9 Dietmar Eggemann 2022-06-21 @83  		sum_util += sched_cpu_util(cpu);
-bb4479994945e9 Dietmar Eggemann 2022-06-21  84  
-bb4479994945e9 Dietmar Eggemann 2022-06-21  85  	return (power * ((sum_util << 10) / max)) >> 10;
-eb82bace893169 Daniel Lezcano   2021-03-12  86  }
-eb82bace893169 Daniel Lezcano   2021-03-12  87  
-
-:::::: The code at line 83 was first introduced by commit
-:::::: bb4479994945e9170534389a7762eb56149320ac sched, drivers: Remove max param from effective_cpu_util()/sched_cpu_util()
-
-:::::: TO: Dietmar Eggemann <dietmar.eggemann@arm.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+    61	
+    62	/**
+    63	 * sst26vf_sfdp_mac_addr_read() - check if the EUI-48 MAC Address is programmed
+    64	 * and read the data from the prestored SFDP data
+    65	 *
+    66	 * @priv: User context passed to read callbacks.
+    67	 * @offset: Offset within the NVMEM device.
+    68	 * @val: pointer where to fill the ethernet address
+    69	 * @bytes: Length of the NVMEM cell
+    70	 *
+    71	 * Return: 0 on success, -EINVAL  otherwise.
+    72	 */
+    73	static int sst26vf_sfdp_mac_addr_read(void *priv, unsigned int off,
+    74					      void *val, size_t bytes)
+  > 75	{
+    76		struct spi_nor *nor = priv;
+    77		struct sfdp *sfdp = nor->sfdp;
+    78		loff_t offset = off;
+    79		size_t sfdp_size;
+    80	
+    81		/*
+    82		 * Check if the EUI-48 MAC address is programmed in the next six address
+    83		 * locations.
+    84		 * @off is programmed in the DT and stores the start of MAC Address
+    85		 * byte, (off - 1) stores the bit length of the Extended Unique
+    86		 * Identifier
+    87		 */
+    88		if (SST26VF_SFDP_EUI48 != *((u8 *)sfdp->dwords + (offset - 1)))
+    89			return -EINVAL;
+    90	
+    91		sfdp_size = sfdp->num_dwords * sizeof(*sfdp->dwords);
+    92		memory_read_from_buffer(val, bytes, &offset, sfdp->dwords,
+    93					sfdp_size);
+    94		return 0;
+    95	}
+    96	
 
 -- 
 0-DAY CI Kernel Test Service
