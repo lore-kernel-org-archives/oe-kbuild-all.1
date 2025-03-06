@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DB020B1E3;
-	Thu,  6 Mar 2025 12:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7797D20B7F7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 12:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741262521; cv=none; b=gIvbKF1j9sI5kY/vOYaGa8e7szjiBNnKzul6vuEUk98MPeUhYocKFZWKHR8agwUvmUXaOcCxJZI9ApMboeXrM5+TExjx0m3N0XVuTj70mXdMOvrGYRIO1rqxWzLaAi9ZDVYtjsHltYS2djceGkR5cJjMxwn7CI4UqzCShOWZxH8=
+	t=1741263852; cv=none; b=uhPK5wHHuRcSensXLQxqLJSAD9BQVwUpd7bKvAau0PPuWkzXMu8NH6Zfcu6+/00Ik3g3am2HP8vLmliHyjOPXYofziAdY0/d5pfulQt+BysGTIQH32jb/IjczSj8+wEc9i5BD4shLypXjpXywv71TFvYISUU+vc/T/zCmKotFjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741262521; c=relaxed/simple;
-	bh=6A3cTKo7KUUfKHZVFVrWahz6zcmZpbwBwIgYHz5M58k=;
+	s=arc-20240116; t=1741263852; c=relaxed/simple;
+	bh=qzLIfj24eCaV6FZdSTktCdO7Ubv8artGxsJKxm1jD60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O7Gemf74Q0Gqc3oWp3w8ZKGhP5gjocRcjoo+88Vba+yQeSUlzWw2YZims0eKo/0r8wNpB7sj9tIgnNceR1srp/O2QccDdQjIsuRYhVSgXUWFBpig0KrCuzUkA9eDBANQ+S3vNvdEdaLuxOpZRrilwmvHorra1ub6QssRv9jqxVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=joMNT/6t; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXxqNY/fFvt+uWzUrFQKIJedkAYXElx0AX5WUV93i8F5bQpcO13xzMKxvruMIqZlfQLsg+TLI0kpSt+rGxdkAlBDa/GGRGi2vkGRtoBxkh3bGSYcIuPZC4sMJ/bzZjAs5FpmVQc7IBkH5r4NpkIX1b2MJBA4vJ9vv7NdsON4tQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nXDjOQrr; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="joMNT/6t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXDjOQrr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741262520; x=1772798520;
+  t=1741263851; x=1772799851;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6A3cTKo7KUUfKHZVFVrWahz6zcmZpbwBwIgYHz5M58k=;
-  b=joMNT/6tT7fJ06J2T5ATVI30e3Rl/i7bCo+4B/x5uGwuIf7gn9Ylztp7
-   2CFOLh4yaFYwEbo/l6Wmr7QgmX9Ge2bjGvORHxEshiZ2pgmHtuAsfaj5Y
-   89Wg1W8I+QgSAvkq2STAuigMUhceQ46Pw25aGINw/YjeO7pf1xVUBPbLs
-   /2lup/DtcwC4isS3us+tdo/XYrE0vQKdgt3ylNclUqw8J8GIYXiqMwLnP
-   59fNi684hjdcZxTHUOY9G3q0J8FEcq5ebCNV8fU0KVctQy9Cs9+aY5ll9
-   W4ZR+X9BgjoObcEg3NAhJN84LatN4ZekGH4UQJPMjA70BO4I57gdQl3xC
+  bh=qzLIfj24eCaV6FZdSTktCdO7Ubv8artGxsJKxm1jD60=;
+  b=nXDjOQrr8ffQdfaSbTr64OA0M9DrLpuPR/AOqs6rjHv3eph4yhPjNxX7
+   5TmtBbvT5f5lDvCRFls/jdn7s2aHoj/Dj9KnXS1A3OYBaMrwZBkjcbEZi
+   o08hNNB+MQu863uB+y4FzuiBlsCebrejyDltVcqea+hJ3MizjFufuOmG/
+   qBhGLymD5POVbaC71uBH1qrdn3k8t+ZNQ5fmnmBBZKwh7W2aYMZ2tsyPK
+   xAxIVUZYLTxl42SwUGwjA+q8cetKGuIBFTgUKsEjULmi2NakFnaRmz7KW
+   sSAlnrLtdx1LFMNtLVLryV0KcV2BMqpMqYSc+m41lqymhqQ0vwdq/Atd7
    w==;
-X-CSE-ConnectionGUID: g16JnKFTTPuq12dhMoqhsA==
-X-CSE-MsgGUID: 1ZpRzmw/RaODIzZAnZaEow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46037147"
+X-CSE-ConnectionGUID: gaRYJuMzTNG5lgXRcoAOxg==
+X-CSE-MsgGUID: QZeE/+IVRXaQhLsZCNh/tA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42406459"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="46037147"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 04:01:59 -0800
-X-CSE-ConnectionGUID: yABDaJhISi6yvIheQYBCDw==
-X-CSE-MsgGUID: B1WXS+kLSvG1e+W49kQgEQ==
+   d="scan'208";a="42406459"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 04:24:10 -0800
+X-CSE-ConnectionGUID: zrIc1M9QTtCL4OxlUvWRQw==
+X-CSE-MsgGUID: THaLNgaaRem9bfibAxoorw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="149785313"
+   d="scan'208";a="118739220"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 06 Mar 2025 04:01:58 -0800
+  by orviesa009.jf.intel.com with ESMTP; 06 Mar 2025 04:24:07 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq9vH-000N1M-1N;
-	Thu, 06 Mar 2025 12:01:55 +0000
-Date: Thu, 6 Mar 2025 20:01:54 +0800
+	id 1tqAGi-000N3C-2a;
+	Thu, 06 Mar 2025 12:24:04 +0000
+Date: Thu, 6 Mar 2025 20:23:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Melody Olvera <quic_molvera@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 6/9] phy: qcom: Add M31 based eUSB2 PHY driver
-Message-ID: <202503061951.9eCEo3hd-lkp@intel.com>
-References: <20250304-sm8750_usb_master-v2-6-a698a2e68e06@quicinc.com>
+To: Akshay Gupta <akshay.gupta@amd.com>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux@roeck-us.net,
+	gregkh@linuxfoundation.org, arnd@arndb.de, shyam-sundar.s-k@amd.com,
+	gautham.shenoy@amd.com, mario.limonciello@amd.com,
+	naveenkrishna.chatradhi@amd.com,
+	Akshay Gupta <akshay.gupta@amd.com>
+Subject: Re: [PATCH v5 02/11] misc: amd-sbi: Move protocol functionality to
+ core file
+Message-ID: <202503062020.pOZSz5ye-lkp@intel.com>
+References: <20250303105902.215009-3-akshay.gupta@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +68,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250304-sm8750_usb_master-v2-6-a698a2e68e06@quicinc.com>
+In-Reply-To: <20250303105902.215009-3-akshay.gupta@amd.com>
 
-Hi Melody,
+Hi Akshay,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 20d5c66e1810e6e8805ec0d01373afb2dba9f51a]
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus groeck-staging/hwmon-next soc/for-next linus/master v6.14-rc5 next-20250305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Melody-Olvera/dt-bindings-phy-qcom-sc8280xp-qmp-usb43dp-phy-Add-SM8750-to-QMP-PHY/20250305-060056
-base:   20d5c66e1810e6e8805ec0d01373afb2dba9f51a
-patch link:    https://lore.kernel.org/r/20250304-sm8750_usb_master-v2-6-a698a2e68e06%40quicinc.com
-patch subject: [PATCH v2 6/9] phy: qcom: Add M31 based eUSB2 PHY driver
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503061951.9eCEo3hd-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061951.9eCEo3hd-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Akshay-Gupta/hwmon-misc-amd-sbi-Move-core-sbrmi-from-hwmon-to-misc/20250303-190830
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20250303105902.215009-3-akshay.gupta%40amd.com
+patch subject: [PATCH v5 02/11] misc: amd-sbi: Move protocol functionality to core file
+config: i386-randconfig-004-20250306 (https://download.01.org/0day-ci/archive/20250306/202503062020.pOZSz5ye-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062020.pOZSz5ye-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061951.9eCEo3hd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503062020.pOZSz5ye-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/phy/qualcomm/phy-qcom-m31-eusb2.c:180:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     180 |                                      FIELD_PREP(FSEL, data->fsel));
-         |                                      ^
-   1 error generated.
-
-
-vim +/FIELD_PREP +180 drivers/phy/qualcomm/phy-qcom-m31-eusb2.c
-
-   147	
-   148	static int m31eusb2_phy_init(struct phy *uphy)
-   149	{
-   150		struct m31eusb2_phy *phy = phy_get_drvdata(uphy);
-   151		const struct m31_eusb2_priv_data *data = phy->data;
-   152		int ret;
-   153	
-   154		ret = regulator_bulk_enable(ARRAY_SIZE(phy->vregs), phy->vregs);
-   155		if (ret) {
-   156			dev_err(&uphy->dev, "failed to enable regulator, %d\n", ret);
-   157			return ret;
-   158		}
-   159	
-   160		ret = phy_init(phy->repeater);
-   161		if (ret) {
-   162			dev_err(&uphy->dev, "repeater init failed. %d\n", ret);
-   163			goto disable_vreg;
-   164		}
-   165	
-   166		ret = clk_prepare_enable(phy->clk);
-   167		if (ret) {
-   168			dev_err(&uphy->dev, "failed to enable cfg ahb clock, %d\n", ret);
-   169			goto disable_repeater;
-   170		}
-   171	
-   172		/* Perform phy reset */
-   173		reset_control_assert(phy->reset);
-   174		udelay(5);
-   175		reset_control_deassert(phy->reset);
-   176	
-   177		m31eusb2_phy_write_sequence(phy, data->setup_seq, data->setup_seq_nregs);
-   178		msm_m31_eusb2_write_readback(phy->base,
-   179					     USB_PHY_HS_PHY_CTRL_COMMON0, FSEL,
- > 180					     FIELD_PREP(FSEL, data->fsel));
-   181		m31eusb2_phy_write_sequence(phy, data->override_seq, data->override_seq_nregs);
-   182		m31eusb2_phy_write_sequence(phy, data->reset_seq, data->reset_seq_nregs);
-   183	
-   184		return 0;
-   185	
-   186	disable_repeater:
-   187		phy_exit(phy->repeater);
-   188	disable_vreg:
-   189		regulator_bulk_disable(ARRAY_SIZE(phy->vregs), phy->vregs);
-   190	
-   191		return 0;
-   192	}
-   193	
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+>> ERROR: modpost: "devm_hwmon_device_register_with_info" [drivers/misc/amd-sbi/sbrmi-i2c.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
