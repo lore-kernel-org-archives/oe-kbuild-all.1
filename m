@@ -1,74 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFBC4C8E;
-	Thu,  6 Mar 2025 14:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA7913CFA6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 14:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741272486; cv=none; b=HFja16a/igqo9MpJ7XT7Eo39S9i454HwSbbVVcej2JXjIm12v6XJ5G+AKXp8Af6BX+ZmQxloPJ8+zmsptsiE3XGjRKX0+YYlfVpHGvHyC3G8KFVbVCYOffwOHGl1huDdhFR2VYd5Q4VyjMBLz5xvlSswU6oxi20xVba19hJXkoo=
+	t=1741273144; cv=none; b=ZLW/rrZMF4eY01PLoK2z3CjmGg4jbANNHnt93HteDp749WcBrioOCwNqOo2si9xUPyDzm55oSKqeKgGE4dXRkwptp/jvtNa9L+KyewW+MRlWbJLv5ebKSqY0mAxY72AeX7+UiRKrnDYs2475zb5TdbdCp0HoAFuaArg4yO4ZSqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741272486; c=relaxed/simple;
-	bh=bla4hIb0IkIaS1NTrqHiiXPmlh5fLuqeLRBBeaE0n+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GbG874Tj3W2yX2MT1kLIzNfJEkh7p5QTQTldSAS43xlA6JD9WwjrsuubEUhsbkXDfyfJz0SQlDVDaKaBw2dl2MSz2RDen5O9Ddy9hwAJ7NAQJ6lO5LES+8hFuhpPP2nsLyccvwUdn7PE1j5vupg6OOnEGy+uK0Ize0q3X7el8gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BVqOOTua; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1741273144; c=relaxed/simple;
+	bh=eMCkshhe56U4wfg3U41c9QKmNCNp2GAre8XNQr3XSRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ef920F3sDc4fYutNjOw4j9g2irfst5ARQQMhlEcCYvtyfDWm6i3LK6VxizLc1jfpTUPX/aTLRO6fE18k3X+ObfLZggnjfrLEhvBlsK6i1H3SNSsK9ecVSLtPgt4H242bO+OYzIeeV8duL6grqHiRfiNySvShxDBrybG1XWgVOlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIhtdLsZ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BVqOOTua"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIhtdLsZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741272484; x=1772808484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bla4hIb0IkIaS1NTrqHiiXPmlh5fLuqeLRBBeaE0n+8=;
-  b=BVqOOTuaHTG1pbTEwEKDEotWRQ8ZoSS2AOXIEMbnvW5RUMbYip346gaM
-   XM/5xTE7oSAZ73RggYV+0t5SKzQK/THHm7WM/4aOvPCnSDJDUc7w0mfPi
-   wOOL+CiKbA4rYOyM63IqrIYvXDfxO7OtzOCHTNzWzo6sBmID8NrMIpEpC
-   Q14irORzhoF0vL0H3a9IL5rAS+1SI/4cL3My3HysHg5Ug7s43NTpCveDd
-   KWsaF67PP5M9hBB70Qd8OB+lk+Dhxd20vsmUn1WAciaYUroIlh7QfaV7O
-   GqN2ttFvuWya9MpOP75gAJqEaeGJ0VGRF+rwBIEV9/s/UGFHOSZ5q/VHU
-   A==;
-X-CSE-ConnectionGUID: 2fDBtJ9sQ9CYhHKSbu7Fgg==
-X-CSE-MsgGUID: wINkz8EtTxmAZQ5AvGaC5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59830994"
+  t=1741273142; x=1772809142;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eMCkshhe56U4wfg3U41c9QKmNCNp2GAre8XNQr3XSRQ=;
+  b=BIhtdLsZk97LsrePD93d80Q4eeeR8fGVA5cHCXEkzcGMKCy5I24pwyWU
+   09M85T6YyBbXjfobvDe74EiPf278+gSK37mheoaDBlftgS1e+bOmycEdZ
+   kQVIit4zipSTdP2An6tDjUswgWa1vtV/dZAsgUYSShFLfv3RFqUuRZAcJ
+   WSYPIUx5uOpUTrgawwE31wp6bd3KZdbWlUDbvtgH7gLB0cc8o1yQzHujB
+   qtFLmQY4GOYIrhGAJtOroaZUwlnAy4a/MZf5car6BF+OYnzpaFUo+64/g
+   9LiJDv359CFgJtstUInvcazfDwH0mXt6KcWdOSMJSU19eLIIXJ5/R6B/0
+   g==;
+X-CSE-ConnectionGUID: YVFrR5gaTRaes2V/dF3nSA==
+X-CSE-MsgGUID: 7hpdb9eCSfyAvXRKiHM/7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59832287"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="59830994"
+   d="scan'208";a="59832287"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:48:04 -0800
-X-CSE-ConnectionGUID: o4CM4XnkTwKUZWqrou7E7A==
-X-CSE-MsgGUID: gJEqCfufS6On0GZn3XiLUw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 06:59:02 -0800
+X-CSE-ConnectionGUID: mSZ0xvmwSFmTRfk5W4eCBQ==
+X-CSE-MsgGUID: 3LZdtYB3QLeCRR2UZmEMoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="119052400"
+   d="scan'208";a="119053451"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2025 06:48:00 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2025 06:59:00 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqCVx-000NAs-1f;
-	Thu, 06 Mar 2025 14:47:57 +0000
-Date: Thu, 6 Mar 2025 22:47:34 +0800
+	id 1tqCgc-000NBk-2Z;
+	Thu, 06 Mar 2025 14:58:58 +0000
+Date: Thu, 6 Mar 2025 22:58:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	NXP S32 Linux <s32@nxp.com>, imx@lists.linux.dev,
-	Christophe Lizzi <clizzi@redhat.com>,
-	Alberto Ruiz <aruizrui@redhat.com>,
-	Enric Balletbo <eballetb@redhat.com>,
-	Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>,
-	Bogdan Hamciuc <bogdan.hamciuc@nxp.com>,
-	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>
-Subject: Re: [PATCH v8 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
-Message-ID: <202503062204.QeQoZBYt-lkp@intel.com>
-References: <20250228081812.3115478-3-ciprianmarian.costea@oss.nxp.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 1/1] drivers/iommu/ioasid.c:527:
+ warning: Cannot understand  * @brief Free an ioasid_set if empty. Restore
+ pending notification list.
+Message-ID: <202503062241.096BOuSV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,80 +62,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228081812.3115478-3-ciprianmarian.costea@oss.nxp.com>
 
-Hi Ciprian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on arm64/for-next/core krzk-dt/for-next linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-rtc-add-schema-for-NXP-S32G2-S32G3-SoCs/20250228-162229
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250228081812.3115478-3-ciprianmarian.costea%40oss.nxp.com
-patch subject: [PATCH v8 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250306/202503062204.QeQoZBYt-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062204.QeQoZBYt-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   3c59fae63abb869e722a6b1d048bd4501e4bc5bf
+commit: 32ba18e34ef885b61c3ce41ece3205b8c30689d1 [1/1] iommu/ioasid: Redefine IOASID set and allocation APIs
+config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250306/202503062241.096BOuSV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062241.096BOuSV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503062204.QeQoZBYt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503062241.096BOuSV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/rtc/rtc-s32g.c:204:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     204 |         rtcc = FIELD_PREP(RTCC_CLKSEL_MASK, priv->clk_src_idx);
-         |                ^
-   1 error generated.
+   drivers/iommu/ioasid.c:280: warning: Cannot understand  * @brief Reserve capacity from the system pool
+    on line 280 - I thought it was a doc line
+   drivers/iommu/ioasid.c:307: warning: Cannot understand  * @brief Return capacity to the system pool
+    on line 307 - I thought it was a doc line
+>> drivers/iommu/ioasid.c:527: warning: Cannot understand  * @brief Free an ioasid_set if empty. Restore pending notification list.
+    on line 527 - I thought it was a doc line
 
 
-vim +/FIELD_PREP +204 drivers/rtc/rtc-s32g.c
+vim +527 drivers/iommu/ioasid.c
 
-   196	
-   197	static int rtc_clk_src_setup(struct rtc_priv *priv)
-   198	{
-   199		u32 rtcc;
-   200	
-   201		if (priv->rtc_data->reserved_clk_mask & (1 << priv->clk_src_idx))
-   202			return -EOPNOTSUPP;
-   203	
- > 204		rtcc = FIELD_PREP(RTCC_CLKSEL_MASK, priv->clk_src_idx);
-   205	
-   206		switch (priv->rtc_data->clk_div) {
-   207		case DIV512_32:
-   208			rtcc |= RTCC_DIV512EN;
-   209			rtcc |= RTCC_DIV32EN;
-   210			break;
-   211		case DIV512:
-   212			rtcc |= RTCC_DIV512EN;
-   213			break;
-   214		case DIV32:
-   215			rtcc |= RTCC_DIV32EN;
-   216			break;
-   217		case DIV1:
-   218			break;
-   219		default:
-   220			return -EINVAL;
-   221		}
-   222	
-   223		rtcc |= RTCC_APIEN | RTCC_APIIE;
-   224		/*
-   225		 * Make sure the CNTEN is 0 before we configure
-   226		 * the clock source and dividers.
-   227		 */
-   228		s32g_rtc_disable(priv);
-   229		writel(rtcc, priv->rtc_base + RTCC_OFFSET);
-   230		s32g_rtc_enable(priv);
-   231	
-   232		return 0;
-   233	}
-   234	
+   525	
+   526	/**
+ > 527	 * @brief Free an ioasid_set if empty. Restore pending notification list.
+   528	 *
+   529	 * @param set to be freed
+   530	 * @return
+   531	 */
+   532	int ioasid_set_free(struct ioasid_set *set)
+   533	{
+   534		int ret = 0;
+   535	
+   536		spin_lock(&ioasid_allocator_lock);
+   537		ret = ioasid_set_free_locked(set);
+   538		spin_unlock(&ioasid_allocator_lock);
+   539		return ret;
+   540	}
+   541	EXPORT_SYMBOL_GPL(ioasid_set_free);
+   542	
 
 -- 
 0-DAY CI Kernel Test Service
