@@ -1,119 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A6D2054F4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 20:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB7F207A1F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 21:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741294221; cv=none; b=Y2z/jlq6+8lSaMfkbcel7yvI5OaIB8KzFl8ugVW2tK4wTU+N5ls+EA0yzf4r5cHtwKOai73zJdr5tfPGitoooN6AK6G9H5YnCfUeNBW6oBfjqWJUeP8QCirL/gl2Nl2+7pCb4JYTUHn9eC/10HDzPXBWqw2i4hD7JuMaZs89i7o=
+	t=1741296067; cv=none; b=aI3W/uzlbHchCS9o+LCixFApOdB8ADVLZfZkAa/ZPpNQ82y89pH1ebKP56jRsmBW235TnJR1Y88eUtE+SsL+03EdoIG7waOFWVnRd9aj6C6Rc3zGJ2nPKq84D8YBZX65r75iKYg1+HIFveiI9HEQ4H3UhVZekSmg3H9dcK0kPjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741294221; c=relaxed/simple;
-	bh=cvf/ipSb+K3a68VNt2N4RXjMJlyp30yAxRniCB2UBM8=;
+	s=arc-20240116; t=1741296067; c=relaxed/simple;
+	bh=QwtTDEYAnNwj0jO5A7hwwJCo0R5apTOt+3h+jokZPyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RV4ylo8TnwBVgM1km44IbFdwY0QlziN4SZyGWaqkgDpKR1pr1lyFCGtyCwF6IQQoxRPWi8jYIcWcnbkPsOP/DIwA8ndMEe5qYm83pypp5PPHwPZCqEnx/hC5Dsf/p8cnggJi49U+1+vzxFx0BQHarftda4OFh5g6eD4RLHePdIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYLduU9d; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1dEUXV+mbRiCiMy1W+OfowGdiLCF24RnVUAtyDLB7e5XjUpCrq1BPLea0OAe2dqrf7T6gLMTnphpP7Y1HHZtXv1n9gmko98N9LC+WDRzVn6iWqyAlRpnj2YkSDWoAczIC+0M2aLx7Snc1CS19uRMybCC/nePd9U2XJPrgumiyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IdcUPmwH; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYLduU9d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741294221; x=1772830221;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=cvf/ipSb+K3a68VNt2N4RXjMJlyp30yAxRniCB2UBM8=;
-  b=IYLduU9dQn2RXRnZfTZHeIilSD0zvpt3Lw8CEWmXDR8nnBw3p3qHTJVn
-   Uclgy1gXhEORB03Tjn9sC5TqkCekrnyNZyXeJX3lUiiNhHJpWE/hqQkUu
-   3lFniyvPhKqyeSfg+e0+aSeXatD9oNPD4x2JRtOXsnnbTx+b9nG/ResCP
-   n8sQw9tJ8rDRw17gqJcPwKmhzBFWW/ycsxGCbC92eo/+SGxL9LzOWgITU
-   caOQ95ukKogQ7UOQ2Pghfj1GoGENkAX+rC2CXrVKey5WAoI3501fytPyJ
-   YswMxPJBZ2kP7w8Nu5ioyQnyuUAtdz6FkMNs4A2WZMIX/maA3HyiI7GnV
-   A==;
-X-CSE-ConnectionGUID: sR4rhFl3St6YjU1alMQUVw==
-X-CSE-MsgGUID: YD36eDuLQGGTERLMxfcNpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41502041"
-X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
-   d="scan'208";a="41502041"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 12:50:20 -0800
-X-CSE-ConnectionGUID: ZCMNw3ZDQFC0f7jhlngx6A==
-X-CSE-MsgGUID: qh4lq5bpSq+Xez7Ou7jcRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119052143"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 06 Mar 2025 12:50:09 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqIAQ-000NbS-31;
-	Thu, 06 Mar 2025 20:50:06 +0000
-Date: Fri, 7 Mar 2025 04:49:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>, Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@collabora.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Andrew Perepech <andrew.perepech@mediatek.com>
-Subject: Re: [PATCH v3 04/20] ASoC: mediatek: mt6359-accdet: Add compatible
- property
-Message-ID: <202503070421.25fbw6zg-lkp@intel.com>
-References: <20250304-mt6359-accdet-dts-v3-4-5b0eafc29f5b@collabora.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IdcUPmwH"
+Date: Thu, 6 Mar 2025 21:20:48 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1741296062;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lJvaHPzJT7/lU+BeSLL68xR7OTi5kIy1KlaEzXrMnR8=;
+	b=IdcUPmwHqIZR9E0XtWbE4Ood0ckZDEBhIMJN9pQ1RPRvqJ9vkaikVt6R4REfmrV5CKak3Z
+	d6K9DcBzTHIfov1zamF+8M0YK4qS6HctAZ7eV4dt9vJbrQub1DkU1npt7k/s9zLvRLp/zW
+	tIRMiRO+jYZ+ozeKFPuHCcBlsPs/Tzg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yosry Ahmed <yosry.ahmed@linux.dev>
+To: "Sridhar, Kanchana P" <kanchana.p.sridhar@intel.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, lkp <lkp@intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>,
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"usamaarif642@gmail.com" <usamaarif642@gmail.com>,
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+	"21cnbao@gmail.com" <21cnbao@gmail.com>,
+	"ying.huang@linux.alibaba.com" <ying.huang@linux.alibaba.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	"herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"clabbe@baylibre.com" <clabbe@baylibre.com>,
+	"ardb@kernel.org" <ardb@kernel.org>,
+	"ebiggers@google.com" <ebiggers@google.com>,
+	"surenb@google.com" <surenb@google.com>,
+	"Accardi, Kristen C" <kristen.c.accardi@intel.com>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"Feghali, Wajdi K" <wajdi.k.feghali@intel.com>,
+	"Gopal, Vinodh" <vinodh.gopal@intel.com>
+Subject: Re: [PATCH v8 14/14] mm: zswap: Compress batching with request
+ chaining in zswap_store() of large folios.
+Message-ID: <Z8oRsGHmt2E4diKK@google.com>
+References: <20250303084724.6490-15-kanchana.p.sridhar@intel.com>
+ <202503031847.j1iReOtf-lkp@intel.com>
+ <CAKEwX=MgV22UBNi-2dNBDgNM2DRfrngk_4gO7z9t-O0KrpdPUw@mail.gmail.com>
+ <SA3PR11MB8120445C8DBDBB9945231B66C9C92@SA3PR11MB8120.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250304-mt6359-accdet-dts-v3-4-5b0eafc29f5b@collabora.com>
+In-Reply-To: <SA3PR11MB8120445C8DBDBB9945231B66C9C92@SA3PR11MB8120.namprd11.prod.outlook.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Nícolas,
+On Mon, Mar 03, 2025 at 09:34:04PM +0000, Sridhar, Kanchana P wrote:
+> 
+> > -----Original Message-----
+> > From: Nhat Pham <nphamcs@gmail.com>
+> > Sent: Monday, March 3, 2025 10:22 AM
+> > To: lkp <lkp@intel.com>
+> > Cc: Sridhar, Kanchana P <kanchana.p.sridhar@intel.com>; linux-
+> > kernel@vger.kernel.org; linux-mm@kvack.org; hannes@cmpxchg.org;
+> > yosry.ahmed@linux.dev; chengming.zhou@linux.dev;
+> > usamaarif642@gmail.com; ryan.roberts@arm.com; 21cnbao@gmail.com;
+> > ying.huang@linux.alibaba.com; akpm@linux-foundation.org; linux-
+> > crypto@vger.kernel.org; herbert@gondor.apana.org.au;
+> > davem@davemloft.net; clabbe@baylibre.com; ardb@kernel.org;
+> > ebiggers@google.com; surenb@google.com; Accardi, Kristen C
+> > <kristen.c.accardi@intel.com>; llvm@lists.linux.dev; oe-kbuild-
+> > all@lists.linux.dev; Feghali, Wajdi K <wajdi.k.feghali@intel.com>; Gopal,
+> > Vinodh <vinodh.gopal@intel.com>
+> > Subject: Re: [PATCH v8 14/14] mm: zswap: Compress batching with request
+> > chaining in zswap_store() of large folios.
+> > 
+> > On Mon, Mar 3, 2025 at 3:07â€¯AM kernel test robot <lkp@intel.com> wrote:
+> > >
+> > > Hi Kanchana,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > > 1166                          prefetchw(entries[j]);
+> > > --
+> > 
+> > Why are we doing this anyway? Does it have a notable performance
+> > difference? At the very least, leave a comment explaining why we're
+> > prefetching this (although the build error suggests that we have to
+> > remove it anyway).
+> 
+> Hi Nhat,
+> 
+> Yes, it does. The use of prefetchw reduces sys time by ~1.5% because
+> it minimizes cache-miss latency by moving the zswap entry to the cache
+> before it is written to. 
+> 
+> This is data with kernel compilation test, v8 without prefetchw and v8 as-is:
+> 
+> --------------------------------------------------------------------------------
+>  Kernel compile       v8 without               v8      v8 without              v8
+>  allmodconfig          prefetchw                        prefetchw
+>  2M folios
+>  --------------------------------------------------------------------------------
+>  zswap compressor    deflate-iaa      deflate-iaa            zstd            zstd   
+>  --------------------------------------------------------------------------------
+>  real_sec                 732.89           735.63          768.53          758.21
+>  user_sec              15,708.37        15,699.84       15,702.64       15,678.73
+>  sys_sec                4,632.58         4,563.70        5,735.06        5,635.69
+>  --------------------------------------------------------------------------------
+>  Max_Res_Set_Size_KB   1,874,672        1,867,516       1,874,684       1,872,888
+>  --------------------------------------------------------------------------------
+>  memcg_high                    0                0               0               0
+>  memcg_swap_fail               0                0               0               0
+>  zswpout             114,742,930      112,836,725      92,904,961      89,596,085
+>  zswpin               41,184,897       39,983,793      31,018,149      29,163,932
+>  pswpout                     625            1,069             558           1,059
+>  pswpin                      599            1,056             540           1,051
+>  thp_swpout                    1                2               1               2
+>  thp_swpout_fallback      10,967           10,195           6,918           6,141
+>  pgmajfault           42,588,331       41,349,069      31,931,882      30,006,422
+>  ZSWPOUT-2048kB            7,661            8,710           6,799           7,480
+>  SWPOUT-2048kB                 1                2               1               2
+>  --------------------------------------------------------------------------------
+> 
+> 
+> Sure, I will add a comment, and also "#include <linux/prefetch.h>" in zswap.c
+> that will resolve the build error. This is similar to how these files handle prefetchw:
+> mm/vmscan.c, kernel/locking/qspinlock.c, include/asm-generic/xor.h, etc.
 
-kernel test robot noticed the following build warnings:
+Please also explicitly mention that the prefetch and likely/unlikely
+annotations prevent regressions with software compression like zstd, and
+generally improve the performance with the batching code by ~1.5%.
 
-[auto build test WARNING on 20d5c66e1810e6e8805ec0d01373afb2dba9f51a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/N-colas-F-R-A-Prado/ASoC-dt-bindings-Add-document-for-mt6359-accdet/20250304-233834
-base:   20d5c66e1810e6e8805ec0d01373afb2dba9f51a
-patch link:    https://lore.kernel.org/r/20250304-mt6359-accdet-dts-v3-4-5b0eafc29f5b%40collabora.com
-patch subject: [PATCH v3 04/20] ASoC: mediatek: mt6359-accdet: Add compatible property
-config: s390-randconfig-r133-20250306 (https://download.01.org/0day-ci/archive/20250307/202503070421.25fbw6zg-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20250307/202503070421.25fbw6zg-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503070421.25fbw6zg-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/codecs/mt6359-accdet.c:1050:27: sparse: sparse: symbol 'accdet_of_match' was not declared. Should it be static?
-
-vim +/accdet_of_match +1050 sound/soc/codecs/mt6359-accdet.c
-
-  1049	
-> 1050	const struct of_device_id accdet_of_match[] = {
-  1051		{ .compatible = "mediatek,mt6359-accdet", },
-  1052		{ /* sentinel */ },
-  1053	};
-  1054	MODULE_DEVICE_TABLE(of, accdet_of_match);
-  1055	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Thanks,
+> Kanchana
+> 
