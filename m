@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBB11A840E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 07:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79787B661;
+	Thu,  6 Mar 2025 07:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741245659; cv=none; b=tlDULXnv9hpvTl9UtUiC/neMBRcaqC5EPF3x5fqpuGx9wt65jcZMyGdzBNjnH3WNT6B2bWbM1Mu8YOrGDeoEiP+Xi0L1nA/kW8C2jnyD5fQXAqmYeR1w74aQo8tk/6WhhUxKG/6r3VQsnUrBSOA21RjCMsBUwMPy4PrcrsR5PYc=
+	t=1741246372; cv=none; b=cjOY/JKl9Z2dp77RMu1vkvS9P1ChsJ/jq+UkxXLvlUrmjH/mjNaJLUfVTuH9oFy9d6pp/9+a5xZO2Zzi+yW7OvUEIyAIPu8lQMlq0d/5YScTX3iFKrKYtabQ168O7ssOwbuq36npRExnGA7vQL4mzu/m97jLMdOllPzvRwBvyTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741245659; c=relaxed/simple;
-	bh=viywW8Wo5al4JNCgIcpW82I98bhli2aFf+i7vZPMZ5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sin4W/rJ7G0CjiXVCem+ex2z6awuIPFtxuhqGcbQAdViEwT911D9r6gQY6oOsCnsrC7kBpzyE8FkDekXyU2+1TILlYQLRCnmmLu6vrlcwKcwiAJQzN4fKdt+4vEFz6ZZdCZ3O1JHSc5XL7Xt4pN3UmvcY/gxzEgAJNFBf5tXUEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHHhlJVe; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1741246372; c=relaxed/simple;
+	bh=/yfygW4QEEAwUDbnmDSpRdaeh7sVFOcBMO70u+e9cXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kTzVVekLCOdWGhLj0oNrd7TFQKGug5MW0QnN7NFKmJBh+GtHhNCwWDnW1OiZokNs3ZTmobX5P+hyZaYAdk1E9vArB1M8OT0FmUdVivdsnfaPNIIfz1MRimw+opriG+oostIa4mQyavTjJLphzAbEo4HN2mlzL2uKm7K+r1m/My4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/UBuXaB; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHHhlJVe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/UBuXaB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741245658; x=1772781658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=viywW8Wo5al4JNCgIcpW82I98bhli2aFf+i7vZPMZ5I=;
-  b=HHHhlJVeMR8a408kLrhdFp6Xv12qKDEaUiBjF6vBwSA7bR+oG2ikPsjX
-   cirQClsA+eWTs5p/fkVFaEtGFiek+9NRcwJEdQOKcCSAEJ/MzEOiD1NK7
-   Sm5+zaOf1Wawn3PmOVMlQ0OeoANvaYKtW3DGhc+RCKvexI0KMAe4RAEMx
-   BJAdC/IbYYAKTEuiSRblZYPcmaayaANuTdXmLox/1y8U3w9rArDUKJTdt
-   Sqrcyf9wV18Jy1sjUXFO053w0aiIGk2wrC1V9N7J6n3ew6lg0jSfxJujn
-   SkjLgbH0ICd1hvErZh5EWna49hKnz1HlElaU5zeh0398/FfCO8PfD1Bfe
-   g==;
-X-CSE-ConnectionGUID: 8cuPn1RbQYC48PnBHYPbOQ==
-X-CSE-MsgGUID: p6gMvhPXTN2ALgSZ44Du7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53226057"
+  t=1741246370; x=1772782370;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/yfygW4QEEAwUDbnmDSpRdaeh7sVFOcBMO70u+e9cXg=;
+  b=E/UBuXaBS99CQm3YHLTgmcR3NnU7Zdxd4wDZK7ZcHXacGA7e/ayG4rIr
+   trgCdwLjG0jFjLnZ2lwuauMrjtjcQdoWw25Iv+9MqPvj/oGEBvCY4uHDK
+   ksQwUMaLHdRN5seedCFsojMGRyR5NecHFWAoSEcvquEbVhCk3Som7c3Qd
+   9oT8mo3zh5dkh3U74ujBv9JkWgTicspl3mfh3kzn0UWXqN76sVEVkL/3u
+   n+iD7A3R9yY/+xs1HwPUPBZy3atL/asAwLRSyn9QlvAMgYpEonL1UeIgE
+   pl5T+q8GLkL3XUxtlmQg8QP6JS5oj6BiKvDd19yLXXcoXBrtsx8nIlUwf
+   A==;
+X-CSE-ConnectionGUID: wX/XJ2p8Tau8OjIIjQYI2w==
+X-CSE-MsgGUID: DRgeB6JZT9KktxrWjiF2eA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="46165552"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="53226057"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 23:20:58 -0800
-X-CSE-ConnectionGUID: kE678XV/QHOHGv7r6C2NgQ==
-X-CSE-MsgGUID: fpWHKwkfRHiwo2nVkBnzvg==
+   d="scan'208";a="46165552"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 23:32:50 -0800
+X-CSE-ConnectionGUID: U5ZV6vnXSD2z7EDi1AfTlQ==
+X-CSE-MsgGUID: 3iB3MyD9RkSwZaPmsKL43Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123089173"
+X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
+   d="scan'208";a="118670226"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Mar 2025 23:20:42 -0800
+  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2025 23:32:48 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq5X6-000MhW-16;
-	Thu, 06 Mar 2025 07:20:40 +0000
-Date: Thu, 6 Mar 2025 15:20:39 +0800
+	id 1tq5il-000Mhq-2D;
+	Thu, 06 Mar 2025 07:32:45 +0000
+Date: Thu, 6 Mar 2025 15:31:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yury V. Zaytsev" <yury@shurup.com>, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, "Yury V. Zaytsev" <yury@shurup.com>
-Subject: Re: [PATCH RESEND] tty: vt: make defkeymap for shifted F-keys
- consistent with kbd
-Message-ID: <202503061554.ZQPrGM8H-lkp@intel.com>
-References: <20250301132108.62761-1-yury@shurup.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 48/88] drivers/net/usb/lan78xx.c:2459:22: warning:
+ variable 'of_node' set but not used
+Message-ID: <202503061520.5GrwtX36-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,50 +61,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250301132108.62761-1-yury@shurup.com>
 
-Hi Yury,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on linus/master v6.14-rc5 next-20250305]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yury-V-Zaytsev/tty-vt-make-defkeymap-for-shifted-F-keys-consistent-with-kbd/20250301-214942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20250301132108.62761-1-yury%40shurup.com
-patch subject: [PATCH RESEND] tty: vt: make defkeymap for shifted F-keys consistent with kbd
-config: csky-randconfig-r111-20250305 (https://download.01.org/0day-ci/archive/20250306/202503061554.ZQPrGM8H-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250306/202503061554.ZQPrGM8H-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   321d82b640b78daba94d863283761c8fe95d17d7
+commit: 9cdfa882e0196b967a675b0af9fe4c29882400a2 [48/88] irqdomain: net: Stop using irq_domain_add_simple()
+config: i386-buildonly-randconfig-006-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061520.5GrwtX36-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061520.5GrwtX36-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061554.ZQPrGM8H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061520.5GrwtX36-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tty/vt/defkeymap.c:254:42: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:255:35: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:255:38: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:256:18: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:256:21: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:256:24: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:257:25: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:260:14: sparse: sparse: symbol 'keymap_count' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:268:6: sparse: sparse: symbol 'func_buf' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:303:6: sparse: sparse: symbol 'funcbufptr' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:304:5: sparse: sparse: symbol 'funcbufsize' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:305:5: sparse: sparse: symbol 'funcbufleft' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:335:9: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:336:9: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:342:9: sparse: sparse: Using plain integer as NULL pointer
-   drivers/tty/vt/defkeymap.c:307:6: sparse: sparse: symbol 'func_table' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:345:18: sparse: sparse: symbol 'accent_table' was not declared. Should it be static?
-   drivers/tty/vt/defkeymap.c:382:14: sparse: sparse: symbol 'accent_table_size' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/net/usb/lan78xx.c:6:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2287:
+   include/linux/vmstat.h:507:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     507 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/net/usb/lan78xx.c:2459:22: warning: variable 'of_node' set but not used [-Wunused-but-set-variable]
+    2459 |         struct device_node *of_node;
+         |                             ^
+   drivers/net/usb/lan78xx.c:2516:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    2516 |         int ret;
+         |             ^
+   3 warnings generated.
+
+
+vim +/of_node +2459 drivers/net/usb/lan78xx.c
+
+cc89c323a30e73 Woojung Huh       2016-11-01  2456  
+cc89c323a30e73 Woojung Huh       2016-11-01  2457  static int lan78xx_setup_irq_domain(struct lan78xx_net *dev)
+cc89c323a30e73 Woojung Huh       2016-11-01  2458  {
+cc89c323a30e73 Woojung Huh       2016-11-01 @2459  	struct device_node *of_node;
+cc89c323a30e73 Woojung Huh       2016-11-01  2460  	struct irq_domain *irqdomain;
+cc89c323a30e73 Woojung Huh       2016-11-01  2461  	unsigned int irqmap = 0;
+cc89c323a30e73 Woojung Huh       2016-11-01  2462  	u32 buf;
+cc89c323a30e73 Woojung Huh       2016-11-01  2463  	int ret = 0;
+cc89c323a30e73 Woojung Huh       2016-11-01  2464  
+cc89c323a30e73 Woojung Huh       2016-11-01  2465  	of_node = dev->udev->dev.parent->of_node;
+cc89c323a30e73 Woojung Huh       2016-11-01  2466  
+cc89c323a30e73 Woojung Huh       2016-11-01  2467  	mutex_init(&dev->domain_data.irq_lock);
+cc89c323a30e73 Woojung Huh       2016-11-01  2468  
+d354d008255ffd Oleksij Rempel    2024-12-09  2469  	ret = lan78xx_read_reg(dev, INT_EP_CTL, &buf);
+d354d008255ffd Oleksij Rempel    2024-12-09  2470  	if (ret < 0)
+d354d008255ffd Oleksij Rempel    2024-12-09  2471  		return ret;
+d354d008255ffd Oleksij Rempel    2024-12-09  2472  
+cc89c323a30e73 Woojung Huh       2016-11-01  2473  	dev->domain_data.irqenable = buf;
+cc89c323a30e73 Woojung Huh       2016-11-01  2474  
+cc89c323a30e73 Woojung Huh       2016-11-01  2475  	dev->domain_data.irqchip = &lan78xx_irqchip;
+cc89c323a30e73 Woojung Huh       2016-11-01  2476  	dev->domain_data.irq_handler = handle_simple_irq;
+cc89c323a30e73 Woojung Huh       2016-11-01  2477  
+9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2478) 	irqdomain = irq_domain_create_simple(of_fwnode_handle(of_node),
+9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2479) 					     MAX_INT_EP, 0,
+9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2480) 					     &chip_domain_ops,
+9cdfa882e0196b Jiri Slaby (SUSE  2025-02-26  2481) 					     &dev->domain_data);
+cc89c323a30e73 Woojung Huh       2016-11-01  2482  	if (irqdomain) {
+cc89c323a30e73 Woojung Huh       2016-11-01  2483  		/* create mapping for PHY interrupt */
+cc89c323a30e73 Woojung Huh       2016-11-01  2484  		irqmap = irq_create_mapping(irqdomain, INT_EP_PHY);
+cc89c323a30e73 Woojung Huh       2016-11-01  2485  		if (!irqmap) {
+cc89c323a30e73 Woojung Huh       2016-11-01  2486  			irq_domain_remove(irqdomain);
+cc89c323a30e73 Woojung Huh       2016-11-01  2487  
+cc89c323a30e73 Woojung Huh       2016-11-01  2488  			irqdomain = NULL;
+cc89c323a30e73 Woojung Huh       2016-11-01  2489  			ret = -EINVAL;
+cc89c323a30e73 Woojung Huh       2016-11-01  2490  		}
+cc89c323a30e73 Woojung Huh       2016-11-01  2491  	} else {
+cc89c323a30e73 Woojung Huh       2016-11-01  2492  		ret = -EINVAL;
+cc89c323a30e73 Woojung Huh       2016-11-01  2493  	}
+cc89c323a30e73 Woojung Huh       2016-11-01  2494  
+cc89c323a30e73 Woojung Huh       2016-11-01  2495  	dev->domain_data.irqdomain = irqdomain;
+cc89c323a30e73 Woojung Huh       2016-11-01  2496  	dev->domain_data.phyirq = irqmap;
+cc89c323a30e73 Woojung Huh       2016-11-01  2497  
+cc89c323a30e73 Woojung Huh       2016-11-01  2498  	return ret;
+cc89c323a30e73 Woojung Huh       2016-11-01  2499  }
+cc89c323a30e73 Woojung Huh       2016-11-01  2500  
+
+:::::: The code at line 2459 was first introduced by commit
+:::::: cc89c323a30e73114a21fc125d2f841658a09987 lan78xx: Use irq_domain for phy interrupt from USB Int. EP
+
+:::::: TO: Woojung Huh <woojung.huh@microchip.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
