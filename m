@@ -1,62 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0AB7E9
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 05:08:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F697E9;
+	Thu,  6 Mar 2025 05:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741237718; cv=none; b=O9SFgIHgHju6YDcuOB4UygfUfJXKoFG1R5ygu4sAYMSb7co01+3TEt9Jz0Wf9trMNaZojePk74H/12svExEKlOUcOkcdSW4ip9XCuQ3DgT59IJVdJbtLBaWn3m+zxdYz6aK+NZdMtyerkDDSiPJA3ZUhLPUdjK/rCyKsG57t+zQ=
+	t=1741237720; cv=none; b=QsXYhkl5Gj7v7CVFCYjgbQ1M1LrTahX3Y783Ca9kMgbLDJvtQj0IEbNBRkplVg4qIAS2YUunioZSLtPPqgXuVDXPIzL4otAEMtXR2Sib7mJHTnOUxR29dJVEx9ejjMhD42kEcZNU1mW+W3XuJ6UuNW3AxIXcowwnHtwTr4WDRZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741237718; c=relaxed/simple;
-	bh=oKV0DGBxIdjV2SNFMerxfwwS05Ek++8l4mSs5K7UycM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gCo25lK29bEJW3VdyAVGsQ6In0YUFBdSCaf+Dhc+61UTdl2ooTZmfr09rh9f0OhEor4d7/yDRHSZogQ6BY7Kxq7tk4q/XrLuwdKVN0ERMCfDYgZLfMvGCirJer1ThBY0kMKVdIwMMkfJn3HgTakJ4dhOtWEgCwgesMpXgjBNEgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIrkykp+; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1741237720; c=relaxed/simple;
+	bh=+viV11nQBG/pa4OYx4X5/r1x+AdDiOmvsrgtAtgFNcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=krSaI0swqTnSAzLm7+ntcZ9luZeplDWb9lJTe08fo6SG3maMt3aq8c29Ot3D5YrkD60D/uI84CUc1rBAJVs1MGKCxlgVQ3+DviKnu+t3RApkQ5KVHAQD3+AqynS/E4WaK40f5y6XY0KJ6KNw0nTrmQW5qBJH2SKOqpJG76i365k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKASTT9E; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIrkykp+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKASTT9E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741237716; x=1772773716;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oKV0DGBxIdjV2SNFMerxfwwS05Ek++8l4mSs5K7UycM=;
-  b=mIrkykp+wbi3Jr4TAXKvH+prRoDAT4lomzYblmFRhrsBzr3lLdO09TWE
-   vfDFPsaElHHdWoQkB3IizIsOxi0C+/DOhM8FARQ6Al+TU2JazwErzsUf5
-   X5exkqtCj6nohPOoDBY15GNe3FPvl/dZkm9hZE2u5amcHu8jCoqxATFC2
-   WAeJ+xswFvReAZimmT6lDHB2mWsiAwIDW6RWh1ttqBlkcmOZFEIcLgzxK
-   Kpx/r9WSxDE6jRU10WVDudQRW40pAbBiD4fPbpS261jdS5zj2HNoo0O34
-   J3FCv3RDAKYKhQZHL9TE1BUoKwETq8Wy5LZEU/zjKynqwxjB05fUQ370u
-   A==;
-X-CSE-ConnectionGUID: ki2cxGLxQ8uegUZojid6FQ==
-X-CSE-MsgGUID: zwM9wu4SRmScXeEdOLKkOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53216187"
+  t=1741237719; x=1772773719;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+viV11nQBG/pa4OYx4X5/r1x+AdDiOmvsrgtAtgFNcs=;
+  b=XKASTT9EAdxp1XFPKhgENYlaU4XQWwa0gQW6fw95RM+7ihGGlzIqcIwx
+   kTUmF9rpfScKdATXOZnuYb3Lc7clxZo+iG/gCe8KI+Xoyr7SOvSXCQVo3
+   kDWX+vSD+ieyqLdH9y/2lhS/QSznxdCFO+8CtiDyqissFfKmU8tiErn4M
+   4WnYuArd8O/ZdUqQYyCFG2c5hOGELdNFRNIVeTtV1UTPi9/4SFeQShFRs
+   gXoyWa89W+VowEVZtvlTABiGXzhxDLjXxrfGaqJTmZU07UW8ebCLC7/mL
+   vtefeAxaFgcd0J7j00ASaZoBeSb11Zo104puNpn92kiQjdwNsHPgcaIx4
+   w==;
+X-CSE-ConnectionGUID: t7nEFGTkTnqqxMtAUD6Nhg==
+X-CSE-MsgGUID: oGYR3/euRFWvBjs16JIaYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="53216190"
 X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="53216187"
+   d="scan'208";a="53216190"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 21:08:36 -0800
-X-CSE-ConnectionGUID: R9hdC0AXTn2OKrpK9Y9ZRQ==
-X-CSE-MsgGUID: mvKzHZD/R1ykYnBUx+XBjg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 21:08:38 -0800
+X-CSE-ConnectionGUID: 3xZfakiyQbySmXPipKosRQ==
+X-CSE-MsgGUID: oTR3TydRSpSUiPDMcps1RA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119822473"
+   d="scan'208";a="119822472"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
   by orviesa008.jf.intel.com with ESMTP; 05 Mar 2025 21:08:34 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tq3TD-000MYu-1i;
+	id 1tq3TD-000MYs-1d;
 	Thu, 06 Mar 2025 05:08:31 +0000
-Date: Thu, 6 Mar 2025 13:08:15 +0800
+Date: Thu, 6 Mar 2025 13:08:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [drm-msm:msm-next 6/37]
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Function parameter
- or struct member 'old_crtc_state' not described in
- 'dpu_crtc_check_mode_changed'
-Message-ID: <202503061218.8tHPTTgG-lkp@intel.com>
+To: Ryan Roberts <ryan.roberts@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Hildenbrand <david@redhat.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Kevin Brodsky <kevin.brodsky@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/11] arm64/mm: Refactor __set_ptes() and
+ __ptep_get_and_clear()
+Message-ID: <202503061237.QurSXHSC-lkp@intel.com>
+References: <20250304150444.3788920-5-ryan.roberts@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +78,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250304150444.3788920-5-ryan.roberts@arm.com>
 
-tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next
-head:   6d3175a72cc07e90f81fb35841048a8a9b5134cb
-commit: 20972609d12ca677b8ecf576c632bfc3cfa369b5 [6/37] drm/msm/dpu: Require modeset if clone mode status changes
-config: arm64-randconfig-002-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061218.8tHPTTgG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061218.8tHPTTgG-lkp@intel.com/reproduce)
+Hi Ryan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc5 next-20250305]
+[cannot apply to arm64/for-next/core akpm-mm/mm-everything arm-perf/for-next/perf]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/arm64-hugetlb-Cleanup-huge_pte-size-discovery-mechanisms/20250304-230647
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250304150444.3788920-5-ryan.roberts%40arm.com
+patch subject: [PATCH v3 04/11] arm64/mm: Refactor __set_ptes() and __ptep_get_and_clear()
+config: arm64-randconfig-001-20250305 (https://download.01.org/0day-ci/archive/20250306/202503061237.QurSXHSC-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061237.QurSXHSC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061218.8tHPTTgG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503061237.QurSXHSC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Function parameter or struct member 'old_crtc_state' not described in 'dpu_crtc_check_mode_changed'
->> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Function parameter or struct member 'new_crtc_state' not described in 'dpu_crtc_check_mode_changed'
->> drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1356: warning: Excess function parameter 'crtc_state' description in 'dpu_crtc_check_mode_changed'
+   In file included from arch/arm64/kernel/asm-offsets.c:12:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/arm64/include/asm/hardirq.h:17:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/arm64/include/asm/io.h:12:
+   In file included from include/linux/pgtable.h:6:
+>> arch/arm64/include/asm/pgtable.h:639:7: error: duplicate case value '536870912'
+           case PUD_SIZE:
+                ^
+   include/asm-generic/pgtable-nopud.h:20:20: note: expanded from macro 'PUD_SIZE'
+   #define PUD_SIZE        (1UL << PUD_SHIFT)
+                           ^
+   arch/arm64/include/asm/pgtable.h:636:7: note: previous case defined here
+           case PMD_SIZE:
+                ^
+   include/asm-generic/pgtable-nopmd.h:22:20: note: expanded from macro 'PMD_SIZE'
+   #define PMD_SIZE        (1UL << PMD_SHIFT)
+                           ^
+   In file included from arch/arm64/kernel/asm-offsets.c:12:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/arm64/include/asm/hardirq.h:17:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/arm64/include/asm/io.h:12:
+   In file included from include/linux/pgtable.h:6:
+   arch/arm64/include/asm/pgtable.h:1303:7: error: duplicate case value '536870912'
+           case PUD_SIZE:
+                ^
+   include/asm-generic/pgtable-nopud.h:20:20: note: expanded from macro 'PUD_SIZE'
+   #define PUD_SIZE        (1UL << PUD_SHIFT)
+                           ^
+   arch/arm64/include/asm/pgtable.h:1300:7: note: previous case defined here
+           case PMD_SIZE:
+                ^
+   include/asm-generic/pgtable-nopmd.h:22:20: note: expanded from macro 'PMD_SIZE'
+   #define PMD_SIZE        (1UL << PMD_SHIFT)
+                           ^
+   2 errors generated.
+   make[3]: *** [scripts/Makefile.build:102: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=4064171735
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=4064171735
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=4064171735
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2 shuffle=4064171735
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +1356 drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+vim +/536870912 +639 arch/arm64/include/asm/pgtable.h
 
-17666e764f3892 Dmitry Baryshkov 2025-02-14  1347  
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1348  /**
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1349   * dpu_crtc_check_mode_changed: check if full modeset is required
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1350   * @crtc_state:	Corresponding CRTC state to be checked
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1351   *
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1352   * Check if the changes in the object properties demand full mode set.
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1353   */
-20972609d12ca6 Jessica Zhang    2025-02-14  1354  int dpu_crtc_check_mode_changed(struct drm_crtc_state *old_crtc_state,
-20972609d12ca6 Jessica Zhang    2025-02-14  1355  				struct drm_crtc_state *new_crtc_state)
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14 @1356  {
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1357  	struct drm_encoder *drm_enc;
-20972609d12ca6 Jessica Zhang    2025-02-14  1358  	struct drm_crtc *crtc = new_crtc_state->crtc;
-20972609d12ca6 Jessica Zhang    2025-02-14  1359  	bool clone_mode_enabled = drm_crtc_in_clone_mode(old_crtc_state);
-20972609d12ca6 Jessica Zhang    2025-02-14  1360  	bool clone_mode_requested = drm_crtc_in_clone_mode(new_crtc_state);
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1361  
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1362  	DRM_DEBUG_ATOMIC("%d\n", crtc->base.id);
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1363  
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1364  	/* there might be cases where encoder needs a modeset too */
-20972609d12ca6 Jessica Zhang    2025-02-14  1365  	drm_for_each_encoder_mask(drm_enc, crtc->dev, new_crtc_state->encoder_mask) {
-20972609d12ca6 Jessica Zhang    2025-02-14  1366  		if (dpu_encoder_needs_modeset(drm_enc, new_crtc_state->state))
-20972609d12ca6 Jessica Zhang    2025-02-14  1367  			new_crtc_state->mode_changed = true;
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1368  	}
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1369  
-20972609d12ca6 Jessica Zhang    2025-02-14  1370  	if ((clone_mode_requested && !clone_mode_enabled) ||
-20972609d12ca6 Jessica Zhang    2025-02-14  1371  	    (!clone_mode_requested && clone_mode_enabled))
-20972609d12ca6 Jessica Zhang    2025-02-14  1372  		new_crtc_state->mode_changed = true;
-20972609d12ca6 Jessica Zhang    2025-02-14  1373  
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1374  	return 0;
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1375  }
-1ce69c265a53c6 Dmitry Baryshkov 2025-02-14  1376  
-
-:::::: The code at line 1356 was first introduced by commit
-:::::: 1ce69c265a53c61c5c29f97f542ff89af3f3d7e7 drm/msm/dpu: move resource allocation to CRTC
-
-:::::: TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-:::::: CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+   626	
+   627	static inline void set_ptes_anysz(struct mm_struct *mm, pte_t *ptep, pte_t pte,
+   628					  unsigned int nr, unsigned long pgsize)
+   629	{
+   630		unsigned long stride = pgsize >> PAGE_SHIFT;
+   631	
+   632		switch (pgsize) {
+   633		case PAGE_SIZE:
+   634			page_table_check_ptes_set(mm, ptep, pte, nr);
+   635			break;
+   636		case PMD_SIZE:
+   637			page_table_check_pmds_set(mm, (pmd_t *)ptep, pte_pmd(pte), nr);
+   638			break;
+ > 639		case PUD_SIZE:
+   640			page_table_check_puds_set(mm, (pud_t *)ptep, pte_pud(pte), nr);
+   641			break;
+   642		default:
+   643			VM_WARN_ON(1);
+   644		}
+   645	
+   646		__sync_cache_and_tags(pte, nr * stride);
+   647	
+   648		for (;;) {
+   649			__check_safe_pte_update(mm, ptep, pte);
+   650			__set_pte(ptep, pte);
+   651			if (--nr == 0)
+   652				break;
+   653			ptep++;
+   654			pte = pte_advance_pfn(pte, stride);
+   655		}
+   656	}
+   657	
 
 -- 
 0-DAY CI Kernel Test Service
