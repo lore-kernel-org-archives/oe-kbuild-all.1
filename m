@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6282B191493
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 15:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3751221F34;
+	Thu,  6 Mar 2025 16:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741275162; cv=none; b=CcEoaLvEbciD+PmnGanFspKNQcixDm6leq4xeppvDnlKFwGvtJMKcf8W3Uy9UJzU4C6TChPIskqbEWQnzSPH7FFlGxadOf14I6VTKYkHnHuZlFdAEdfysFsB387stPPlAKlR6AoZ4YcNHrx7j9mSYQYqEJQRtJY2/ALSTBnwdO8=
+	t=1741279081; cv=none; b=nPttkcBBNNjR6boVpBV+TCWKGzjyM/wyomtnQorq5LpPHFHXNlk925YCrF0TB11Vold6hGRUHGcm3deAppH8TJeeJYcTal/mcgpVjm4PbqvqTCPrikT49n4cO4huM3AUOGxKyzn0U8403KW5LRYmSGVzIGUBvoYQs1/v/4Z6jr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741275162; c=relaxed/simple;
-	bh=R4kqkbUHGVxX0YtNvcw4g8rl1p2UBvScCOJwjjRVFRg=;
+	s=arc-20240116; t=1741279081; c=relaxed/simple;
+	bh=IsYlA1pLnu2lPgka8Es27hJXGLId8UclLTRhAvqtl8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFaZfpzh34ZrXMdKNVTitMbnX8vgUDlcBlhwYrx6XJUrZLiTK+TUsJHAD0xpDZ/e6rjbPcgHdKS7vt3IZYCH/pOfNsWoavNH16kuzAHAucr7jmhjvwfLWR3WQElMuC+p9Z2VhSDYy0jiy1jA/M4VAPxEReedPfop/H4BkM8tqgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IUuCobz1; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wus85pHDpkDecNJBrsMvYY7fM4cylTLuC1bLybtrsRB/XFx+ZMxWRIq7cN/C+m4uyc9SQGQyLv8B0vSQRzVzPIrq6eQDBGGgJ4q3DbAWrHDbgUiXCS6yZhIpAWYYrmnhNZukh+5qUD8IIwL9FgbgHmKrv873oLwaYqXuEGl4e1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KcIRlrAO; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IUuCobz1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KcIRlrAO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741275160; x=1772811160;
+  t=1741279080; x=1772815080;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R4kqkbUHGVxX0YtNvcw4g8rl1p2UBvScCOJwjjRVFRg=;
-  b=IUuCobz1WPsMuVOn2+S/tcfg0WO+m6tOumXMV07gfzozmDis7eOdsAfe
-   RxAVDVe0F/32KP1TDz5GsJ3yNXo+b+dk7bSL9H31/MuAqCi9wE09N+dwg
-   9iJp3O0olKDvg//cXRxKNiIdr726ky/b0btXS3PTe32fIz+tgMgwO+Ym8
-   +gb05TcH8NIuipceIO84Niz5X1rYGQBQJVqT5e/h0xpS+Qf1F+nPzXbKx
-   wUxDb2/beLMUrAEB9t0gG2aiYhM1Ba7bRkpCnDzFVPwVeEjX//zf+eBX7
-   3a2vuu9FZIQhbzycZ3/rHYL2tBO37dDPhCt/YgbPLGa96m4BZvSlzeU6R
-   g==;
-X-CSE-ConnectionGUID: yXBvOdE+QKW/84LuO8S3AA==
-X-CSE-MsgGUID: IyZ7xWjHQduYe3elQHY7ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41466661"
+  bh=IsYlA1pLnu2lPgka8Es27hJXGLId8UclLTRhAvqtl8M=;
+  b=KcIRlrAOEAZjib2uZWmpjlNsxFsU78c5/CS/1fIn6SVKVu8mwJgijPcB
+   3bDaEPDQjAZC2Bhp1p7USdcdVOfd7QwAy5j0yP6zHRDB3+BXwyEaO8dpY
+   6esWpinfhqEteN0N0uGsxp/nP8B3dFRcd5/dzGdsJpGhE+G9AYY2GeZUj
+   Mh9Is2AM5luIfqio6VsBZ5NsHUFRjwNCCfaK1x+WJcNXrFVC6j0bzVRRb
+   4lcEbVE+fFzFZZawT1EOwVHlGqbT/hlR1DlW666L2ciuEZvuUhxwTplkV
+   hnAlW0kV4NKVPg1s1Y0Csf9A2FXY7oKO33NcBRGzqXOT7MtrTz+nYDgl6
+   A==;
+X-CSE-ConnectionGUID: K6WrxjU7Q7ac27Qw+6u3Mg==
+X-CSE-MsgGUID: f9+noX1STxG+pCMse+lNJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42327333"
 X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="41466661"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 07:31:47 -0800
-X-CSE-ConnectionGUID: vOeELUvbTlC7e3iV1F1jnQ==
-X-CSE-MsgGUID: 7d20Q8fRQ3GMaQxo2yMI+w==
+   d="scan'208";a="42327333"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 08:37:59 -0800
+X-CSE-ConnectionGUID: gg3mW5X9R8iM0K5KgoVBdw==
+X-CSE-MsgGUID: MTPC3i0RR5mJXDT9hO30xg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="149986632"
+X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
+   d="scan'208";a="123659819"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2025 07:31:45 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Mar 2025 08:37:56 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqDCJ-000NDa-1B;
-	Thu, 06 Mar 2025 15:31:43 +0000
-Date: Thu, 6 Mar 2025 23:31:00 +0800
+	id 1tqEE7-000NIg-2g;
+	Thu, 06 Mar 2025 16:37:46 +0000
+Date: Fri, 7 Mar 2025 00:36:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Sun <sunjunchao2870@gmail.com>, linux-xfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, cem@kernel.org, djwong@kernel.org,
-	Julian Sun <sunjunchao2870@gmail.com>
-Subject: Re: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL
- allocation.
-Message-ID: <202503062303.aLFvYL6o-lkp@intel.com>
-References: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+	amitkumar.karwar@nxp.com, neeraj.sanjaykale@nxp.com
+Subject: Re: [PATCH v1 2/3] Bluetooth: btnxpuart: Handle bootloader error
+ during change baudrate
+Message-ID: <202503070049.8e6dNvjC-lkp@intel.com>
+References: <20250305134523.40111-2-neeraj.sanjaykale@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,102 +66,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
+In-Reply-To: <20250305134523.40111-2-neeraj.sanjaykale@nxp.com>
 
-Hi Julian,
+Hi Neeraj,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on xfs-linux/for-next]
-[also build test WARNING on linus/master v6.14-rc5 next-20250306]
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v6.14-rc5 next-20250306]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/xfs-remove-unnecessary-checks-for-__GFP_NOFAIL-allocation/20250228-162815
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20250228082622.2638686-2-sunjunchao2870%40gmail.com
-patch subject: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL allocation.
-config: csky-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250306/202503062303.aLFvYL6o-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503062303.aLFvYL6o-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Sanjay-Kale/Bluetooth-btnxpuart-Handle-bootloader-error-during-change-baudrate/20250305-214856
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20250305134523.40111-2-neeraj.sanjaykale%40nxp.com
+patch subject: [PATCH v1 2/3] Bluetooth: btnxpuart: Handle bootloader error during change baudrate
+config: i386-buildonly-randconfig-001-20250306 (https://download.01.org/0day-ci/archive/20250307/202503070049.8e6dNvjC-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503070049.8e6dNvjC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503062303.aLFvYL6o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503070049.8e6dNvjC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/xfs/xfs_mru_cache.c: In function 'xfs_mru_cache_create':
->> fs/xfs/xfs_mru_cache.c:359:1: warning: label 'exit' defined but not used [-Wunused-label]
-     359 | exit:
-         | ^~~~
+>> drivers/bluetooth/btnxpuart.c:1104:6: warning: variable 'len' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1104 |         if (!req->error) {
+         |             ^~~~~~~~~~~
+   drivers/bluetooth/btnxpuart.c:1168:28: note: uninitialized use occurs here
+    1168 |         nxpdev->fw_v3_prev_sent = len;
+         |                                   ^~~
+   drivers/bluetooth/btnxpuart.c:1104:2: note: remove the 'if' if its condition is always true
+    1104 |         if (!req->error) {
+         |         ^~~~~~~~~~~~~~~~
+    1105 |                 nxp_send_ack(NXP_ACK_V3, hdev);
+    1106 |                 if (nxpdev->timeout_changed == cmd_sent)
+    1107 |                         nxpdev->timeout_changed = changed;
+    1108 |                 if (nxpdev->baudrate_changed == cmd_sent)
+    1109 |                         nxpdev->baudrate_changed = changed;
+    1110 |         } else {
+         |           ~~~~~~
+    1111 |                 nxp_handle_fw_download_error(hdev, req);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1112 |                 if (nxpdev->timeout_changed == cmd_sent &&
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1113 |                     req->error == NXP_CRC_RX_ERROR) {
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1114 |                         nxpdev->fw_v3_offset_correction -= nxpdev->fw_v3_prev_sent;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1115 |                         nxpdev->timeout_changed = not_changed;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1116 |                 }
+         |                 ~
+    1117 |                 /* After baudrate change, it is normal to get ACK Timeout error */
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1118 |                 if (nxpdev->baudrate_changed == cmd_sent &&
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1119 |                     req->error == NXP_CRC_RX_ERROR) {
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bluetooth/btnxpuart.c:1101:6: warning: variable 'len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1101 |         if (!req || !nxpdev->fw)
+         |             ^~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/btnxpuart.c:1168:28: note: uninitialized use occurs here
+    1168 |         nxpdev->fw_v3_prev_sent = len;
+         |                                   ^~~
+   drivers/bluetooth/btnxpuart.c:1101:2: note: remove the 'if' if its condition is always false
+    1101 |         if (!req || !nxpdev->fw)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+    1102 |                 goto free_skb;
+         |                 ~~~~~~~~~~~~~
+>> drivers/bluetooth/btnxpuart.c:1101:6: warning: variable 'len' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
+    1101 |         if (!req || !nxpdev->fw)
+         |             ^~~~
+   drivers/bluetooth/btnxpuart.c:1168:28: note: uninitialized use occurs here
+    1168 |         nxpdev->fw_v3_prev_sent = len;
+         |                                   ^~~
+   drivers/bluetooth/btnxpuart.c:1101:6: note: remove the '||' if its condition is always false
+    1101 |         if (!req || !nxpdev->fw)
+         |             ^~~~~~~
+   drivers/bluetooth/btnxpuart.c:1097:6: warning: variable 'len' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1097 |         if (!process_boot_signature(nxpdev))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/btnxpuart.c:1168:28: note: uninitialized use occurs here
+    1168 |         nxpdev->fw_v3_prev_sent = len;
+         |                                   ^~~
+   drivers/bluetooth/btnxpuart.c:1097:2: note: remove the 'if' if its condition is always false
+    1097 |         if (!process_boot_signature(nxpdev))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1098 |                 goto free_skb;
+         |                 ~~~~~~~~~~~~~
+   drivers/bluetooth/btnxpuart.c:1094:11: note: initialize the variable 'len' to silence this warning
+    1094 |         __u16 len;
+         |                  ^
+         |                   = 0
+   4 warnings generated.
 
 
-vim +/exit +359 fs/xfs/xfs_mru_cache.c
+vim +1104 drivers/bluetooth/btnxpuart.c
 
-2a82b8be8a8dac David Chinner     2007-07-11  307  
-2a82b8be8a8dac David Chinner     2007-07-11  308  /*
-2a82b8be8a8dac David Chinner     2007-07-11  309   * To initialise a struct xfs_mru_cache pointer, call xfs_mru_cache_create()
-2a82b8be8a8dac David Chinner     2007-07-11  310   * with the address of the pointer, a lifetime value in milliseconds, a group
-2a82b8be8a8dac David Chinner     2007-07-11  311   * count and a free function to use when deleting elements.  This function
-2a82b8be8a8dac David Chinner     2007-07-11  312   * returns 0 if the initialisation was successful.
-2a82b8be8a8dac David Chinner     2007-07-11  313   */
-2a82b8be8a8dac David Chinner     2007-07-11  314  int
-2a82b8be8a8dac David Chinner     2007-07-11  315  xfs_mru_cache_create(
-22328d712dd7fd Christoph Hellwig 2014-04-23  316  	struct xfs_mru_cache	**mrup,
-7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  317  	void			*data,
-2a82b8be8a8dac David Chinner     2007-07-11  318  	unsigned int		lifetime_ms,
-2a82b8be8a8dac David Chinner     2007-07-11  319  	unsigned int		grp_count,
-2a82b8be8a8dac David Chinner     2007-07-11  320  	xfs_mru_cache_free_func_t free_func)
-2a82b8be8a8dac David Chinner     2007-07-11  321  {
-22328d712dd7fd Christoph Hellwig 2014-04-23  322  	struct xfs_mru_cache	*mru = NULL;
-2a82b8be8a8dac David Chinner     2007-07-11  323  	int			err = 0, grp;
-2a82b8be8a8dac David Chinner     2007-07-11  324  	unsigned int		grp_time;
-2a82b8be8a8dac David Chinner     2007-07-11  325  
-2a82b8be8a8dac David Chinner     2007-07-11  326  	if (mrup)
-2a82b8be8a8dac David Chinner     2007-07-11  327  		*mrup = NULL;
-2a82b8be8a8dac David Chinner     2007-07-11  328  
-2a82b8be8a8dac David Chinner     2007-07-11  329  	if (!mrup || !grp_count || !lifetime_ms || !free_func)
-2451337dd04390 Dave Chinner      2014-06-25  330  		return -EINVAL;
-2a82b8be8a8dac David Chinner     2007-07-11  331  
-2a82b8be8a8dac David Chinner     2007-07-11  332  	if (!(grp_time = msecs_to_jiffies(lifetime_ms) / grp_count))
-2451337dd04390 Dave Chinner      2014-06-25  333  		return -EINVAL;
-2a82b8be8a8dac David Chinner     2007-07-11  334  
-10634530f7ba94 Dave Chinner      2024-01-16  335  	mru = kzalloc(sizeof(*mru), GFP_KERNEL | __GFP_NOFAIL);
-2a82b8be8a8dac David Chinner     2007-07-11  336  
-2a82b8be8a8dac David Chinner     2007-07-11  337  	/* An extra list is needed to avoid reaping up to a grp_time early. */
-2a82b8be8a8dac David Chinner     2007-07-11  338  	mru->grp_count = grp_count + 1;
-10634530f7ba94 Dave Chinner      2024-01-16  339  	mru->lists = kzalloc(mru->grp_count * sizeof(*mru->lists),
-10634530f7ba94 Dave Chinner      2024-01-16  340  				GFP_KERNEL | __GFP_NOFAIL);
-2a82b8be8a8dac David Chinner     2007-07-11  341  
-2a82b8be8a8dac David Chinner     2007-07-11  342  	for (grp = 0; grp < mru->grp_count; grp++)
-2a82b8be8a8dac David Chinner     2007-07-11  343  		INIT_LIST_HEAD(mru->lists + grp);
-2a82b8be8a8dac David Chinner     2007-07-11  344  
-2a82b8be8a8dac David Chinner     2007-07-11  345  	/*
-2a82b8be8a8dac David Chinner     2007-07-11  346  	 * We use GFP_KERNEL radix tree preload and do inserts under a
-2a82b8be8a8dac David Chinner     2007-07-11  347  	 * spinlock so GFP_ATOMIC is appropriate for the radix tree itself.
-2a82b8be8a8dac David Chinner     2007-07-11  348  	 */
-2a82b8be8a8dac David Chinner     2007-07-11  349  	INIT_RADIX_TREE(&mru->store, GFP_ATOMIC);
-2a82b8be8a8dac David Chinner     2007-07-11  350  	INIT_LIST_HEAD(&mru->reap_list);
-007c61c68640ea Eric Sandeen      2007-10-11  351  	spin_lock_init(&mru->lock);
-2a82b8be8a8dac David Chinner     2007-07-11  352  	INIT_DELAYED_WORK(&mru->work, _xfs_mru_cache_reap);
-2a82b8be8a8dac David Chinner     2007-07-11  353  
-2a82b8be8a8dac David Chinner     2007-07-11  354  	mru->grp_time  = grp_time;
-2a82b8be8a8dac David Chinner     2007-07-11  355  	mru->free_func = free_func;
-7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  356  	mru->data = data;
-2a82b8be8a8dac David Chinner     2007-07-11  357  	*mrup = mru;
-2a82b8be8a8dac David Chinner     2007-07-11  358  
-2a82b8be8a8dac David Chinner     2007-07-11 @359  exit:
-2a82b8be8a8dac David Chinner     2007-07-11  360  	if (err && mru && mru->lists)
-d4c75a1b40cd03 Dave Chinner      2024-01-16  361  		kfree(mru->lists);
-2a82b8be8a8dac David Chinner     2007-07-11  362  	if (err && mru)
-d4c75a1b40cd03 Dave Chinner      2024-01-16  363  		kfree(mru);
-2a82b8be8a8dac David Chinner     2007-07-11  364  
-2a82b8be8a8dac David Chinner     2007-07-11  365  	return err;
-2a82b8be8a8dac David Chinner     2007-07-11  366  }
-2a82b8be8a8dac David Chinner     2007-07-11  367  
+27489364299a2d Neeraj Sanjay Kale     2024-06-14  1089  
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1090  static int nxp_recv_fw_req_v3(struct hci_dev *hdev, struct sk_buff *skb)
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1091  {
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1092  	struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1093  	struct v3_data_req *req;
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1094  	__u16 len;
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1095  	__u32 offset;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1096  
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1097  	if (!process_boot_signature(nxpdev))
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1098  		goto free_skb;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1099  
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1100  	req = skb_pull_data(skb, sizeof(*req));
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16 @1101  	if (!req || !nxpdev->fw)
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1102  		goto free_skb;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1103  
+27489364299a2d Neeraj Sanjay Kale     2024-06-14 @1104  	if (!req->error) {
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1105  		nxp_send_ack(NXP_ACK_V3, hdev);
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1106  		if (nxpdev->timeout_changed == cmd_sent)
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1107  			nxpdev->timeout_changed = changed;
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1108  		if (nxpdev->baudrate_changed == cmd_sent)
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1109  			nxpdev->baudrate_changed = changed;
+27489364299a2d Neeraj Sanjay Kale     2024-06-14  1110  	} else {
+27489364299a2d Neeraj Sanjay Kale     2024-06-14  1111  		nxp_handle_fw_download_error(hdev, req);
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1112  		if (nxpdev->timeout_changed == cmd_sent &&
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1113  		    req->error == NXP_CRC_RX_ERROR) {
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1114  			nxpdev->fw_v3_offset_correction -= nxpdev->fw_v3_prev_sent;
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1115  			nxpdev->timeout_changed = not_changed;
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1116  		}
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1117  		/* After baudrate change, it is normal to get ACK Timeout error */
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1118  		if (nxpdev->baudrate_changed == cmd_sent &&
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1119  		    req->error == NXP_CRC_RX_ERROR) {
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1120  			nxpdev->fw_v3_offset_correction -= nxpdev->fw_v3_prev_sent;
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1121  			nxpdev->baudrate_changed = not_changed;
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1122  		}
+27489364299a2d Neeraj Sanjay Kale     2024-06-14  1123  		goto free_skb;
+27489364299a2d Neeraj Sanjay Kale     2024-06-14  1124  	}
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1125  
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1126  	len = __le16_to_cpu(req->len);
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1127  
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1128  	if (nxpdev->timeout_changed != changed) {
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1129  		nxp_fw_change_timeout(hdev, len);
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1130  		nxpdev->timeout_changed = cmd_sent;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1131  		goto free_skb;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1132  	}
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1133  
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1134  	if (nxpdev->baudrate_changed != changed) {
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1135  		if (nxp_fw_change_baudrate(hdev, len)) {
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1136  			nxpdev->baudrate_changed = cmd_sent;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1137  			serdev_device_set_baudrate(nxpdev->serdev,
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1138  						   HCI_NXP_SEC_BAUDRATE);
+b0310d6ed684b8 Neeraj Sanjay Kale     2023-04-19  1139  			serdev_device_set_flow_control(nxpdev->serdev, true);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1140  			nxpdev->current_baudrate = HCI_NXP_SEC_BAUDRATE;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1141  		}
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1142  		goto free_skb;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1143  	}
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1144  
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1145  	if (req->len == 0) {
+2684dd614ccf08 Neeraj Sanjay Kale     2024-05-15  1146  		bt_dev_info(hdev, "FW Download Complete: %zu bytes",
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1147  			   nxpdev->fw->size);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1148  		clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1149  		wake_up_interruptible(&nxpdev->fw_dnld_done_wait_q);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1150  		goto free_skb;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1151  	}
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1152  
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1153  	offset = __le32_to_cpu(req->offset);
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1154  	if (offset < nxpdev->fw_v3_offset_correction) {
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1155  		/* This scenario should ideally never occur. But if it ever does,
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1156  		 * FW is out of sync and needs a power cycle.
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1157  		 */
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1158  		bt_dev_err(hdev, "Something went wrong during FW download");
+9e080b53dafae5 Luiz Augusto von Dentz 2023-04-17  1159  		bt_dev_err(hdev, "Please power cycle and try again");
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1160  		goto free_skb;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1161  	}
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1162  
+e3c4891098c875 Neeraj Sanjay Kale     2024-05-15  1163  	nxpdev->fw_dnld_v3_offset = offset - nxpdev->fw_v3_offset_correction;
+e3c4891098c875 Neeraj Sanjay Kale     2024-05-15  1164  	serdev_device_write_buf(nxpdev->serdev, nxpdev->fw->data +
+e3c4891098c875 Neeraj Sanjay Kale     2024-05-15  1165  				nxpdev->fw_dnld_v3_offset, len);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1166  
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1167  free_skb:
+5bf71799df5728 Neeraj Sanjay Kale     2025-03-05  1168  	nxpdev->fw_v3_prev_sent = len;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1169  	kfree_skb(skb);
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1170  	return 0;
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1171  }
+689ca16e523278 Neeraj Sanjay Kale     2023-03-16  1172  
 
 -- 
 0-DAY CI Kernel Test Service
