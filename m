@@ -1,235 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594F5199FA2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 03:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A1718DB3F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Mar 2025 03:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741233277; cv=none; b=akJgovoaMe2tWKBaJqwJPyASSLu6ZF+c8358v+qplpRHeiHJ6tEEGjuayxv/QZdaPlEAtdnq1x+pCNv72zaZagadGN2UvhJ2Io13jYCJbXgdHTyCNUAY2S5PZ2eUluNU+PFr1HDtKjRNuqG0ddVXvcj04vTjE/L4c6MARRzD7vI=
+	t=1741233383; cv=none; b=Nj9PiVQce48qVG4e/Faw5Ll3SE1fqe2PAYtssuAlwHpQhRAPDi+e1f44s6eojqO4jsILjjJdOxtOJH6ndYpcCHS1rydWKRBf3zDB0/XflZ97xPMEAQ3W0gMk9bZnoAp5FTNYgW9Gxw8JoDEpPosiXZjssiMn3jO49sHOuDZcsM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741233277; c=relaxed/simple;
-	bh=ChvtOFg0dvhJ2ophXAF+Pq6klTdUTkOIoE1U7VKF6zY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=syQOtB6+ltYFg+ONzw7m339gK27UV3OoDNcNf9ZLDapLKNCe8/sAX3p061RBjEESn1pLGKrGwAYu8l6UW3W9pFTdX0QeyrMwyR0IlGdQtGZWEMis+rX7vg9JdT4i/9zRTVB31TO+Zg9hyAWNS8nqCTlY16JyM1Yi2V16mgs1lLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVouxcwE; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741233383; c=relaxed/simple;
+	bh=PaczTdZzTte3ObCsQUwmrgPF+frWpg32akvowBrgYFs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZgHtH28WrBduNVbGfNqCZ4XcZzw7TCxdxJsEAS67Gwqd2Q3JmhFB2TPGaWKp4OHrODin30ZewaeXe2nDzBQO1fsZQwoLGni9+dqq/oye7V+xF/nX9GnggkficbD9dYnGBN9Xune+R0ljkEtHGlBLhIBRdhJ9alxEZxE4mtZ4MVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=ClGeqGDU; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVouxcwE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741233276; x=1772769276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ChvtOFg0dvhJ2ophXAF+Pq6klTdUTkOIoE1U7VKF6zY=;
-  b=AVouxcwEM3+Aer0GYHQezaGsvYi8+AYzy4qAaOi1Xp8cDZXZ3tp8wtWW
-   0vJKDq8s8L8DWGNm3u8bZ1Xisq0pivTQAaZ7DprjBGAVa9XgHgb3nHAeZ
-   vP975njqd2DKOpDBVlX18RZuAbyFB+e/98wYzbVkIqgJqWs9qXsklIi9j
-   l5RFKLYT5VDLd4hCJWueBVkIC7l3Eq67aT+B8fdSJbX6SRhACwdAUJyzh
-   58UzO21FS5GZIaUYCYM3m/SNQo7louHQGb6UUUEHWbBRFMEnlxFLSphnI
-   6pBWSChzPyYOwuNpqRxVnZwqGAJ3SyXEqWXhc90mQOusDVhzi3CPamq7j
-   Q==;
-X-CSE-ConnectionGUID: KI5KCuctSMyl5fyQ6mcVUA==
-X-CSE-MsgGUID: 8xnIkGGIRX2v8WsWI7YRMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42361538"
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="42361538"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 19:54:35 -0800
-X-CSE-ConnectionGUID: I8FJwNvdQTWNuW7wEflyig==
-X-CSE-MsgGUID: XcwVzRZGRDacQKe36paGWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,225,1736841600"; 
-   d="scan'208";a="123981455"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Mar 2025 19:54:33 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tq2Jb-000MV8-1o;
-	Thu, 06 Mar 2025 03:54:31 +0000
-Date: Thu, 6 Mar 2025 11:53:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Melody Olvera <quic_molvera@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] soc: qcom: llcc-qcom: Add support for LLCC V6
-Message-ID: <202503061140.CyNu642W-lkp@intel.com>
-References: <20250304-sm8750_llcc_master-v2-2-ae4e1949546e@quicinc.com>
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="ClGeqGDU"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e60ad903382so133987276.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Mar 2025 19:56:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1741233381; x=1741838181; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PaczTdZzTte3ObCsQUwmrgPF+frWpg32akvowBrgYFs=;
+        b=ClGeqGDUfQbl8u6P2s3bioZxSbJk6ROH3Dm4nZny3xToWLpx7v2ajrvfY3+ID6kusZ
+         D241VE95EC+mQTL5qznDkyLJEzM47Ir4tP69FvskWf8YKLjg+PTzD1mI31BTZ8PoN3NB
+         FrlSSnYra/DDTe0S/L/wNM5Pa8/dcJz55yu+w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741233381; x=1741838181;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PaczTdZzTte3ObCsQUwmrgPF+frWpg32akvowBrgYFs=;
+        b=JfvoopuXyuwExGMZBSbHBHpfhKA3eXOnDQVvsjeiRadVQqh53pB34Gwy+R01qZT75y
+         07BKkrGDG6CLTV2Xuh8EAy/eZAiQxb0YYDu7O8WDt9L3/1ivKWFBy2i8arHXK6+dX1ON
+         6419zfW4nqpodStJMW3KGuSLCMOb3ftvM/D+vPoHwJi8SRVj0nqXMnrn+X5a3I9ZlvaU
+         SqArtdIGCe6tHHQ8+oy9Ls6Uu5CdKDXr0tcRW3xtQ7PGiv8/OtbTherz0vwbl8pHtImK
+         U4kNOsb8ywfPzOcFh2XViN1GftbTjcALLDVLaHAm4rY/QAtEtlTtY+AXwF9+V+R89TKW
+         rYvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW43NF7nhK9opaa/crUrqUbZB7tNZXl5mvmEAvtJmhC7LHcLDQxec4GSLcaGRMjl0+tB996RFwLRaWoMGZf@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyz8g7Rjqbl/jGplpKdVOl3QcJACRNwY/Ix/Lfxr2sEApMr5F9r
+	cBjA8ztHNBoj4kVe3AolowHMFkkErsJw6au+hQUytlpfmg3frWtBR6j0DFaFvKazV+aVKEmHbTM
+	BywXJ7Y8w7JCZ8INmyXnxYfUrW+bPholdFMsS
+X-Gm-Gg: ASbGnctjlRlIwgV9eZmF7MKLHGASOCVO9cNk2L8iHNcM397u0T5DS6a2d/iYLjYBiWg
+	R4WB8IGgO5Jl4w3QNkURv0oIUJjEIv7v9WWJq6cKX7k3Xf4qV55fBxviXrnMQBWwlSFpUhc22x/
+	5Rd4NhGc6+elm7SKWnix8iJIBFdAQ=
+X-Google-Smtp-Source: AGHT+IEALDgq2aSDVWiuHV3Hj4sBtIO8YMgZrbvok+ZRywnKgSTz0zvKJWwehfMuL23381fQt3ALq8ZR5bUuyYOcSVY=
+X-Received: by 2002:a05:6902:120b:b0:e5d:ac56:c3cd with SMTP id
+ 3f1490d57ef6-e611e193ea2mr7911399276.14.1741233381042; Wed, 05 Mar 2025
+ 19:56:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250304-sm8750_llcc_master-v2-2-ae4e1949546e@quicinc.com>
+References: <20250304184942.2127704-1-zack.rusin@broadcom.com> <202503060223.BrfYSoFw-lkp@intel.com>
+In-Reply-To: <202503060223.BrfYSoFw-lkp@intel.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Wed, 5 Mar 2025 22:56:09 -0500
+X-Gm-Features: AQ5f1JpQpEnjSe5s4XJSrB5KPsDEfDwFXM16Ast7UALzhHohAWmtCRNDJrIO4VM
+Message-ID: <CABQX2QMoP13Qmqe3TLxYdZ9BetcOdyetCkAn3C4eoBu93mOxdQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Make sure the dirty tracker is released on surfaces
+To: kernel test robot <lkp@intel.com>
+Cc: dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, ian.forbes@broadcom.com, 
+	martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000002b2860062fa47dab"
 
-Hi Melody,
+--0000000000002b2860062fa47dab
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-kernel test robot noticed the following build warnings:
+On Wed, Mar 5, 2025 at 2:10=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Zack,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on drm-exynos/exynos-drm-next]
+> [also build test ERROR on linus/master v6.14-rc5 next-20250305]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[auto build test WARNING on 20d5c66e1810e6e8805ec0d01373afb2dba9f51a]
+I just realized that the commit from Fixes hasn't been pushed to
+drm-misc so the kernel test robots were running this patch without
+applying the one this one fixes (because that sha doesn't exist in the
+open), hence the build error.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Melody-Olvera/dt-bindings-cache-qcom-llcc-Document-SM8750-LLCC-block/20250305-062702
-base:   20d5c66e1810e6e8805ec0d01373afb2dba9f51a
-patch link:    https://lore.kernel.org/r/20250304-sm8750_llcc_master-v2-2-ae4e1949546e%40quicinc.com
-patch subject: [PATCH v2 2/4] soc: qcom: llcc-qcom: Add support for LLCC V6
-config: arc-randconfig-001-20250306 (https://download.01.org/0day-ci/archive/20250306/202503061140.CyNu642W-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061140.CyNu642W-lkp@intel.com/reproduce)
+Since we haven't pushed the commit from fixes to drm-misc, I'm going
+to squash this change with the original one and will resend the
+original one for another review instead.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503061140.CyNu642W-lkp@intel.com/
+z
 
-All warnings (new ones prefixed by >>):
+--0000000000002b2860062fa47dab
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-   drivers/soc/qcom/llcc-qcom.c: In function '_qcom_llcc_cfg_program_v6':
->> drivers/soc/qcom/llcc-qcom.c:3950:13: warning: unused variable 'disable_cap_alloc' [-Wunused-variable]
-    3950 |         u32 disable_cap_alloc, wren, wr_cache_en;
-         |             ^~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/llcc-qcom.c: At top level:
-   drivers/soc/qcom/llcc-qcom.c:3227:18: warning: 'llcc_v6_reg_offset' defined but not used [-Wunused-const-variable=]
-    3227 | static const u32 llcc_v6_reg_offset[] = {
-         |                  ^~~~~~~~~~~~~~~~~~
-   drivers/soc/qcom/llcc-qcom.c:3187:42: warning: 'llcc_v6_edac_reg_offset' defined but not used [-Wunused-const-variable=]
-    3187 | static const struct llcc_edac_reg_offset llcc_v6_edac_reg_offset = {
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/disable_cap_alloc +3950 drivers/soc/qcom/llcc-qcom.c
-
-  3942	
-  3943	static int _qcom_llcc_cfg_program_v6(const struct llcc_slice_config *config,
-  3944					  const struct qcom_llcc_config *cfg)
-  3945	{
-  3946		u32 stale_en, stale_cap_en, mru_uncap_en, mru_rollover;
-  3947		u32 alloc_oneway_en, ovcap_en, ovcap_prio, vict_prio;
-  3948		u32 attr0_cfg, attr1_cfg, attr2_cfg, attr3_cfg;
-  3949		u32 attr0_val, attr1_val, attr2_val, attr3_val;
-> 3950		u32 disable_cap_alloc, wren, wr_cache_en;
-  3951		u32 slice_offset, reg_offset;
-  3952		struct llcc_slice_desc *desc;
-  3953		int ret;
-  3954	
-  3955		attr0_cfg = LLCC_V6_TRP_ATTR0_CFGn(config->slice_id);
-  3956		attr1_cfg = LLCC_V6_TRP_ATTR1_CFGn(config->slice_id);
-  3957		attr2_cfg = LLCC_V6_TRP_ATTR2_CFGn(config->slice_id);
-  3958		attr3_cfg = LLCC_V6_TRP_ATTR3_CFGn(config->slice_id);
-  3959	
-  3960		attr0_val = config->res_ways;
-  3961		attr1_val = config->bonus_ways;
-  3962		attr2_val = config->cache_mode;
-  3963		attr2_val |= FIELD_PREP(ATTR2_PROBE_TARGET_WAYS_MASK, config->probe_target_ways);
-  3964		attr2_val |= FIELD_PREP(ATTR2_FIXED_SIZE_MASK, config->fixed_size);
-  3965		attr2_val |= FIELD_PREP(ATTR2_PRIORITY_MASK, config->priority);
-  3966	
-  3967		attr3_val = MAX_CAP_TO_BYTES(config->max_cap);
-  3968		attr3_val /= drv_data->num_banks;
-  3969		attr3_val >>= CACHE_LINE_SIZE_SHIFT;
-  3970	
-  3971		ret = regmap_write(drv_data->bcast_regmap, attr0_cfg, attr0_val);
-  3972		if (ret)
-  3973			return ret;
-  3974	
-  3975		ret = regmap_write(drv_data->bcast_regmap, attr1_cfg, attr1_val);
-  3976		if (ret)
-  3977			return ret;
-  3978	
-  3979		ret = regmap_write(drv_data->bcast_regmap, attr2_cfg, attr2_val);
-  3980		if (ret)
-  3981			return ret;
-  3982	
-  3983		ret = regmap_write(drv_data->bcast_regmap, attr3_cfg, attr3_val);
-  3984		if (ret)
-  3985			return ret;
-  3986	
-  3987		slice_offset = config->slice_id % 32;
-  3988		reg_offset = (config->slice_id / 32) * 4;
-  3989	
-  3990		wren = config->write_scid_en << slice_offset;
-  3991		ret = regmap_update_bits(drv_data->bcast_regmap,
-  3992				cfg->reg_offset[LLCC_TRP_WRS_EN] + reg_offset,
-  3993				BIT(slice_offset), wren);
-  3994		if (ret)
-  3995			return ret;
-  3996	
-  3997		wr_cache_en = config->write_scid_cacheable_en << slice_offset;
-  3998		ret = regmap_update_bits(drv_data->bcast_regmap,
-  3999				cfg->reg_offset[LLCC_TRP_WRS_CACHEABLE_EN] + reg_offset,
-  4000				BIT(slice_offset), wr_cache_en);
-  4001		if (ret)
-  4002			return ret;
-  4003	
-  4004		stale_en = config->stale_en << slice_offset;
-  4005		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4006				cfg->reg_offset[LLCC_TRP_ALGO_STALE_EN] + reg_offset,
-  4007				BIT(slice_offset), stale_en);
-  4008		if (ret)
-  4009			return ret;
-  4010	
-  4011		stale_cap_en = config->stale_cap_en << slice_offset;
-  4012		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4013				cfg->reg_offset[LLCC_TRP_ALGO_STALE_CAP_EN] + reg_offset,
-  4014				BIT(slice_offset), stale_cap_en);
-  4015		if (ret)
-  4016			return ret;
-  4017	
-  4018		mru_uncap_en = config->mru_uncap_en << slice_offset;
-  4019		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4020				cfg->reg_offset[LLCC_TRP_ALGO_MRU0] + reg_offset,
-  4021				BIT(slice_offset), mru_uncap_en);
-  4022		if (ret)
-  4023			return ret;
-  4024	
-  4025		mru_rollover = config->mru_rollover << slice_offset;
-  4026		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4027				cfg->reg_offset[LLCC_TRP_ALGO_MRU1] + reg_offset,
-  4028				BIT(slice_offset), mru_rollover);
-  4029		if (ret)
-  4030			return ret;
-  4031	
-  4032		alloc_oneway_en = config->alloc_oneway_en << slice_offset;
-  4033		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4034				cfg->reg_offset[LLCC_TRP_ALGO_ALLOC0] + reg_offset,
-  4035				BIT(slice_offset), alloc_oneway_en);
-  4036		if (ret)
-  4037			return ret;
-  4038	
-  4039		ovcap_en = config->ovcap_en << slice_offset;
-  4040		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4041				cfg->reg_offset[LLCC_TRP_ALGO_ALLOC1] + reg_offset,
-  4042				BIT(slice_offset), ovcap_en);
-  4043		if (ret)
-  4044			return ret;
-  4045	
-  4046		ovcap_prio = config->ovcap_prio << slice_offset;
-  4047		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4048				cfg->reg_offset[LLCC_TRP_ALGO_ALLOC2] + reg_offset,
-  4049				BIT(slice_offset), ovcap_prio);
-  4050		if (ret)
-  4051			return ret;
-  4052	
-  4053		vict_prio = config->vict_prio << slice_offset;
-  4054		ret = regmap_update_bits(drv_data->bcast_regmap,
-  4055				cfg->reg_offset[LLCC_TRP_ALGO_ALLOC3] + reg_offset,
-  4056				BIT(slice_offset), vict_prio);
-  4057		if (ret)
-  4058			return ret;
-  4059	
-  4060		if (config->activate_on_init) {
-  4061			desc = llcc_slice_getd(config->usecase_id);
-  4062			if (PTR_ERR_OR_ZERO(desc))
-  4063				return -EINVAL;
-  4064	
-  4065			ret = llcc_slice_activate(desc);
-  4066		}
-  4067	
-  4068		return ret;
-  4069	}
-  4070	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEINPd
++HmRoTKoBVQHeAHrNJQPpPRtPGqCrGgFP0RVGb1eMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDMwNjAzNTYyMVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAGp8BUxS+Ccyeyu+LdRX1TMKl/HArMR9mwKsfYLQ
+yNvy+OTT4+3TG4wXROmBkQDUOsesWBW0DL/n18wDcwyfODO43DPkONzJ26WnSu1gjsgbUkcVrFWf
+5EYsRAaHlsUsvpDYDzG5+lKxh4vpcNfvbyt7Yzl4lTgWWreTon0Iavb8M6T/Wx5ZNmho8Z+xNg8D
+PStLjCsH+/U+kC7k6pBmJQBtnfbx+SFxUcbXn4ufQVb4bh29BzrLL/QIiUdLayqP/z5KFgkXVt1b
+WUQ6y9xmc0oGyKWd7Q0/tCxcjvKEOKmsEyZiRVvKlMEoBccRsr9LXJVN4A3N2dNOmM8KYCaD8lA=
+--0000000000002b2860062fa47dab--
