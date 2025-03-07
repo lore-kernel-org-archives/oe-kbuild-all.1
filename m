@@ -1,70 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6718D65C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BECA1B042F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741350970; cv=none; b=EOz6ckH2I8Vs8i77sSy0h5F+3tqzEo8Z/3FxLmdp3BcOllY/dmemGmrAfwMOpXAJWvP8b85TBLgSgv/vlNGiEXZncL//xhAQrteMkJP1P2rBjvdFqZiEpACGSdAGM3x/HkqrH8tYCG79RaUWM5SESjxCEyrw6NMTS6iR7IghKFE=
+	t=1741351211; cv=none; b=Yts2yEFZ7eQP+DQo5yYsSSYBL0WxbQsjOEgSkDj1aEGSiuHVUeeeG6A7aQd5sWB7qjEKBYddicGhaJ8fVUcIi6tnvt4mt0UKCFc+JBspFrR0ZNtrD4pztN4VKmSRmoeiHMZv4RaCeCKvIMjAyo9UKGwf8euEHgk+Uv7D4IzWTVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741350970; c=relaxed/simple;
-	bh=3/TtT1E4mUKW2DF96LvlJsi7p3Ib7T4oRNpt7Y0xJb0=;
+	s=arc-20240116; t=1741351211; c=relaxed/simple;
+	bh=G5VBh8i8J2WvpCjkRkouehcpWaB8KXAb2HO6V8L2dDY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZlXEWwNjqXZcY8LPercSKY7+iglzRh1g4/Aqbu+Fw+e/zuqTV2V2klngBL6YFyO+rmF0+ja9VhI6rub0FH5Pkk7PNNIcoTtboeV/YsxgndEBiGUQRkhNuXnym2Kemwz+Rm5F82SFxgN3Lv1xWhsq0sHD7KBVwug4SEh95ZqqPOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpAtiDVZ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=eALZ9yI+9s8dOPiBYoMGRTojarmy3LMmZw3FZY10E8SVAY3L9aTW9uFgguWUIiG4haPugaeVqDF0zJQFHuY1SMPbVLeLNARdDUO2fCg4JlvQosT8/0OLoy2E1QjUvXbQdNrmk0vpIdezXdbOXtN7k+96uEG9Mw75FOPhKj0/3t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeTMPU3q; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpAtiDVZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeTMPU3q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741350969; x=1772886969;
+  t=1741351210; x=1772887210;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3/TtT1E4mUKW2DF96LvlJsi7p3Ib7T4oRNpt7Y0xJb0=;
-  b=GpAtiDVZvHWSV7UUS+qNg8id1YJNGAd3cpSlnjbwYleKH0YKZwDZqqQs
-   yGAKEvRKX2YZx6m9Utu0IZREpRA0Cy7tdZwRWcWR+vx5rirrpRLt/+oVl
-   nGucmhxMZGShBdqQFWPZzg78RXffr1lf7rBPKJvdjnaV97Zu1tivJFROp
-   tclK1WunFsf8RzaIEx1GQVuJkN9aFPUyOtYfifxbJmP6K69omndypGnu0
-   puKyao+xXtLfU7ZitDDeWSokbBpTgPwYV4KEFY7QjSNpxtIqXbNSDU3Gg
-   D02jBSNOxujW5Swt7lnGFkei/jUx0lk5sHhB/mGbv8PwJsYpxrEVAnns6
-   Q==;
-X-CSE-ConnectionGUID: 5tSQ+f7DTeC7Xd+l9T7qRg==
-X-CSE-MsgGUID: rGKo7RieRXWaei8K14BzEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="64837781"
+  bh=G5VBh8i8J2WvpCjkRkouehcpWaB8KXAb2HO6V8L2dDY=;
+  b=JeTMPU3qnPzg6w6PrM6U7jBpvCqvWtgCJ4m06jhvDFJy7v12TK29k9U9
+   GtCJiRZuVnw4it5uSrhPMq/PPEA1JOToUco3AuIk5WvovFt//NUgQ0Nkn
+   o8EadXRhA8xo5VSWOHij5ONcMgYUh+9WdTNJZ5Y0btra5FJWsT4Wmuu/r
+   7etKD9sNt3yCmajRDGe2eQ+kZ85LCMaHIQa0uRmS2JmB9PGzb+LsBCaEi
+   8B+uS+U+g/IhvwA4H1Xk0GV/uGu3W+enBzCDxtZwzfMdzO3pE4LfWBVPw
+   wjwZIJRVzOR5Dc1XdOjjkY/Nhg3bnt2uV48gMSvCeQ/Qx7Y6zoJ6bNxHE
+   w==;
+X-CSE-ConnectionGUID: iVe7l8CVTrqR76J47vQQCA==
+X-CSE-MsgGUID: WrOoljQES6qMuJ9C1rjgmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41651803"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="64837781"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:36:08 -0800
-X-CSE-ConnectionGUID: tBSkKd3eRSiolr5vMlSz5A==
-X-CSE-MsgGUID: pOtmXMPnSGGDzqiJ/uyoYw==
+   d="scan'208";a="41651803"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:40:10 -0800
+X-CSE-ConnectionGUID: dVzl55soTd23ED5spwyZmw==
+X-CSE-MsgGUID: n27M5QajR4efWEVWBq7Miw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="142542885"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119235420"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Mar 2025 04:36:05 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2025 04:40:06 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqWvq-0000TX-2O;
-	Fri, 07 Mar 2025 12:36:02 +0000
-Date: Fri, 7 Mar 2025 20:35:09 +0800
+	id 1tqWzj-0000Tr-2I;
+	Fri, 07 Mar 2025 12:40:03 +0000
+Date: Fri, 7 Mar 2025 20:39:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Oleksij Rempel <o.rempel@pengutronix.de>,
-	kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	linux-pm@vger.kernel.org,
-	=?iso-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>
-Subject: Re: [PATCH v4 4/7] nvmem: add support for device and sysfs-based
- cell lookups
-Message-ID: <202503072059.sFFL62LS-lkp@intel.com>
-References: <20250306093900.2199442-5-o.rempel@pengutronix.de>
+To: Jorge Marques <jorge.marques@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Lechner <dlechner@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jorge Marques <jorge.marques@analog.com>
+Subject: Re: [PATCH 4/4] iio: adc: add support for ad4052
+Message-ID: <202503072008.ysqhEBaX-lkp@intel.com>
+References: <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,45 +72,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306093900.2199442-5-o.rempel@pengutronix.de>
+In-Reply-To: <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
 
-Hi Oleksij,
+Hi Jorge,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on sre-power-supply/for-next]
-[also build test ERROR on broonie-regulator/for-next rafael-pm/thermal linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on aac287ec80d71a7ab7e44c936a434625417c3e30]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20250306-174233
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20250306093900.2199442-5-o.rempel%40pengutronix.de
-patch subject: [PATCH v4 4/7] nvmem: add support for device and sysfs-based cell lookups
-config: s390-randconfig-001-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072059.sFFL62LS-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072059.sFFL62LS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Marques/iio-code-mark-iio_dev-as-const-in-iio_buffer_enabled/20250306-220719
+base:   aac287ec80d71a7ab7e44c936a434625417c3e30
+patch link:    https://lore.kernel.org/r/20250306-iio-driver-ad4052-v1-4-2badad30116c%40analog.com
+patch subject: [PATCH 4/4] iio: adc: add support for ad4052
+config: powerpc-randconfig-r132-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072008.ysqhEBaX-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250307/202503072008.ysqhEBaX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503072059.sFFL62LS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503072008.ysqhEBaX-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ad4052.c:357:31: sparse: sparse: symbol 'ad4050_chip_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad4052.c:366:31: sparse: sparse: symbol 'ad4052_chip_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad4052.c:375:31: sparse: sparse: symbol 'ad4056_chip_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad4052.c:384:31: sparse: sparse: symbol 'ad4058_chip_info' was not declared. Should it be static?
+>> drivers/iio/adc/ad4052.c:711:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __be16 [usertype] d16 @@
+   drivers/iio/adc/ad4052.c:711:22: sparse:     expected int
+   drivers/iio/adc/ad4052.c:711:22: sparse:     got restricted __be16 [usertype] d16
+>> drivers/iio/adc/ad4052.c:715:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __be32 [usertype] d32 @@
+   drivers/iio/adc/ad4052.c:715:22: sparse:     expected int
+   drivers/iio/adc/ad4052.c:715:22: sparse:     got restricted __be32 [usertype] d32
+   drivers/iio/adc/ad4052.c:912:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __be32 [usertype] d32 @@
+   drivers/iio/adc/ad4052.c:912:22: sparse:     expected int
+   drivers/iio/adc/ad4052.c:912:22: sparse:     got restricted __be32 [usertype] d32
+>> drivers/iio/adc/ad4052.c:958:33: sparse: sparse: bad assignment (>>=) to restricted __be16
+   drivers/iio/adc/ad4052.c:251:12: sparse: sparse: context imbalance in 'ad4052_iio_device_claim_direct' - different lock contexts for basic block
+   drivers/iio/adc/ad4052.c:277:9: sparse: sparse: context imbalance in 'ad4052_sample_rate_get' - unexpected unlock
+   drivers/iio/adc/ad4052.c:294:9: sparse: sparse: context imbalance in 'ad4052_sample_rate_set' - unexpected unlock
+   drivers/iio/adc/ad4052.c:780:34: sparse: sparse: context imbalance in 'ad4052_read_raw' - unexpected unlock
+   drivers/iio/adc/ad4052.c:805:34: sparse: sparse: context imbalance in 'ad4052_write_raw' - unexpected unlock
+   drivers/iio/adc/ad4052.c:820:9: sparse: sparse: context imbalance in 'ad4052_read_event_config' - unexpected unlock
+   drivers/iio/adc/ad4052.c:903:42: sparse: sparse: context imbalance in 'ad4052_read_event_value' - unexpected unlock
+   drivers/iio/adc/ad4052.c:971:34: sparse: sparse: context imbalance in 'ad4052_write_event_value' - unexpected unlock
+   drivers/iio/adc/ad4052.c:1055:34: sparse: sparse: context imbalance in 'ad4052_debugfs_reg_access' - unexpected unlock
 
-   In file included from net/ethernet/eth.c:46:
->> include/linux/nvmem-consumer.h:115:20: warning: no previous prototype for 'nvmem_cell_get_by_sysfs_name' [-Wmissing-prototypes]
-     115 | struct nvmem_cell *nvmem_cell_get_by_sysfs_name(struct nvmem_device *nvmem,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/nvmem-consumer.h:197:22: warning: no previous prototype for 'nvmem_device_get_by_name' [-Wmissing-prototypes]
-     197 | struct nvmem_device *nvmem_device_get_by_name(const char *name)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   s390-linux-ld: net/ethernet/eth.o: in function `nvmem_cell_get_by_sysfs_name':
->> eth.c:(.text+0x16a0): multiple definition of `nvmem_cell_get_by_sysfs_name'; drivers/net/phy/dp83867.o:dp83867.c:(.text+0x18d0): first defined here
-   s390-linux-ld: net/ethernet/eth.o: in function `nvmem_device_get_by_name':
->> eth.c:(.text+0x16a8): multiple definition of `nvmem_device_get_by_name'; drivers/net/phy/dp83867.o:dp83867.c:(.text+0x18d8): first defined here
+vim +/ad4050_chip_info +357 drivers/iio/adc/ad4052.c
+
+   356	
+ > 357	const struct ad4052_chip_info ad4050_chip_info = {
+   358		.name = "ad4050",
+   359		.channels = { AD4052_CHAN(12, AD4052_2MSPS) },
+   360		.offload_channels = { AD4052_OFFLOAD_CHAN(12, AD4052_2MSPS) },
+   361		.prod_id = 0x70,
+   362		.max_avg = AD4050_MAX_AVG,
+   363		.grade = AD4052_2MSPS,
+   364	};
+   365	
+ > 366	const struct ad4052_chip_info ad4052_chip_info = {
+   367		.name = "ad4052",
+   368		.channels = { AD4052_CHAN(16, AD4052_2MSPS) },
+   369		.offload_channels = { AD4052_OFFLOAD_CHAN(16, AD4052_2MSPS) },
+   370		.prod_id = 0x72,
+   371		.max_avg = AD4052_MAX_AVG,
+   372		.grade = AD4052_2MSPS,
+   373	};
+   374	
+ > 375	const struct ad4052_chip_info ad4056_chip_info = {
+   376		.name = "ad4056",
+   377		.channels = { AD4052_CHAN(12, AD4052_500KSPS) },
+   378		.offload_channels = { AD4052_OFFLOAD_CHAN(12, AD4052_500KSPS) },
+   379		.prod_id = 0x70,
+   380		.max_avg = AD4050_MAX_AVG,
+   381		.grade = AD4052_500KSPS,
+   382	};
+   383	
+ > 384	const struct ad4052_chip_info ad4058_chip_info = {
+   385		.name = "ad4058",
+   386		.channels = { AD4052_CHAN(16, AD4052_500KSPS) },
+   387		.offload_channels = { AD4052_OFFLOAD_CHAN(16, AD4052_500KSPS) },
+   388		.prod_id = 0x72,
+   389		.max_avg = AD4052_MAX_AVG,
+   390		.grade = AD4052_500KSPS,
+   391	};
+   392	
 
 -- 
 0-DAY CI Kernel Test Service
