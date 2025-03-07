@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37D61A3146
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 07:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8610018B476
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 07:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741332214; cv=none; b=cy2VtZy92CsctH2ykyVKnAioKZb/TPw1qq59gPsxiry0l7xGGD0pyqeWSM/g5ya9LONB/AFjJ7VIgMlFs9e7qje3Lbo7ngcq3MnDXrVtfnkuN9HifBUXYw33p0q0019oMAv7imU3KSFMBI9n7CC7dRb/6+X3XS3l+oHMTZwVJUM=
+	t=1741333339; cv=none; b=Ztbnoly8rzdFetWLumGHayFF9qcxLmadyDmMhvKCicWquSUpYF9XPvAtECqqBRZP1U5F5+SYS3+PFKmr69GSDYyxP83i0aRxXPxFNJlwhXfzsIf4DCGCT1S+ubCHhEtUMRgDCCc4V6j5YtQN2nJ0m5arf94yEgMibQFqVgYwS2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741332214; c=relaxed/simple;
-	bh=89ogA/XPFlCQZzMCO32lLlxodG9UI3Wb7VLr/O4REPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aBONIcO5qvPDkUZi7PlkbUJA4ZX22i71f+cPSVec923fzmj6TKOILtp0887Wk+wCS29lBIFg2klmfJHJfxYoiPJH2uSlkNYCsaHGIDKdOwAhcUlCXG6p1A08Nu9sUzDhF90eaErV+uYQtSHvkBjHzaC0LToxysHA0z6ROLi+sno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MNd10nxl; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741333339; c=relaxed/simple;
+	bh=rcJ1lmO/IX1zD43I1E6cNy0D8ecjrHhn+vqY2kZqKao=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MYnAQysOAhc7G4VPHKtxTyb8Jh5+m+6BHfS7D2EqSU38Ghy9hb24z4LMKd5gUh1k31o7xC1C/2fKSOkEfXAJfz61oXuX017aqItEFiY6TK71GSIkgjnY1eX1GRLYOrMMFm+0Mm6TpFNGnl7QfPfS8TnuYVhtAtzpRFkuSIfmEv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Zzg0V2hf; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNd10nxl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741332213; x=1772868213;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=89ogA/XPFlCQZzMCO32lLlxodG9UI3Wb7VLr/O4REPE=;
-  b=MNd10nxl28alFagNMgJaX5mUB5Q20k0OjA8DheihW/61yKjApX2/NUWd
-   ruOlppM0oV9YQyhTrdy+dwbdM1SUuYwIvWtTlCGsJSmc5+eUG/+6hBuRQ
-   WXoHpAmeKvDcH1hjlRryRmVkFqCJ0fl2yErr33FTRlUxRQquXp80L6kSm
-   6ZupUxpvo20SkeBLVvzpO1m4a0MZ6QAhiu4sWdV9G0DeRv0wsSH6XzaAc
-   AgztdoKECPzccIKhudjr6Hp3AlHwsUKdMj3DYn9pj8AVcyF+xoPwm6yT/
-   FFWDcwpNjyF7uGatN2Qvi5Q1U6RTtLfJJX3eEr79zwta7dLHut7TUX3nI
-   Q==;
-X-CSE-ConnectionGUID: CykYQhUhT0ydA3DAl1oppg==
-X-CSE-MsgGUID: /Is3F5lBToiGGLXXYP6UNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52577634"
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="52577634"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 23:23:31 -0800
-X-CSE-ConnectionGUID: GyMV3pmRT1qAy7Rk4lB+UQ==
-X-CSE-MsgGUID: O6dY2zykSYGSoabnwFNqYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150197413"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Mar 2025 23:23:30 -0800
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqS3M-00007R-00;
-	Fri, 07 Mar 2025 07:23:28 +0000
-Date: Fri, 7 Mar 2025 15:23:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bharata B Rao <bharata@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/4] mm: kpromoted: Hot page info collection and
- promotion daemon
-Message-ID: <202503071523.f89emNyA-lkp@intel.com>
-References: <20250306054532.221138-3-bharata@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Zzg0V2hf"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3911748893aso1116710f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Mar 2025 23:42:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741333335; x=1741938135; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=T3D+fMvGVb3mMpPYsm6B35F+EmsCAhR76/cxNumM6ZE=;
+        b=Zzg0V2hfFh5I6A1QpUO6+yHhX4M/lNKjMVm8ZypEOsFuGtYiSWAipq3d8ZUg4Yu5MQ
+         uMA4npWQgQE0tRIX7ij0o8rqcWB4M0edlrRDDF+0E39htSbKO5ahadtq4v3sL9MbCuNz
+         7BEwc+kugT+UlquRdNjNIMSu+j5I4Lu5Levk/BHZFkSw+cGwZqYTyMSQ0LLgw0oFEjbJ
+         CJMMyDhk5v8XmhwQhFM9Lljfup6pmu29EnNGrOXEFR3xJcIhI1Euepgiidm/HMPWv91E
+         Wr9nKskFvIAiEO3Ia0qqR5i0rIsltqmlVRzt1r1Myx+JVbX2+NMgXjpaY8KfuyYOj8gL
+         1Fng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741333335; x=1741938135;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=T3D+fMvGVb3mMpPYsm6B35F+EmsCAhR76/cxNumM6ZE=;
+        b=txY0tO4jEOY8QjWvas/H24an85Z6/iD2zK4vfEnlf90/dGJr33U/60OQmYOFWqaLyW
+         3sN0Sit+RNPPSwiG0RTE4WpdbH84+qc0s9Te++UvBrc5KAKTtsz49rduBJI1TkDVclEE
+         ds0ubEx9wdWcpEX3dDtZBCoQCd/lxOBmjV4v5GaXKBPeaYYzK5lypfnkMiieKDMhav1u
+         WYXSp/0SVPJ0yLhsYTKR/NKkfJXV9OZqBFnU7D8HtIrqunWeG2J74E8/vtfh1GZsU8oy
+         uSrHfQZNmjOs/hd36KrUrXAC8OYn0TkvJAHA9go4KyFyMCA5ieZETass22jqi2Ow5A1Y
+         llnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+IcFckiK2OdKMBnlrE8v/mKMVapiqf6ej7C4oOZY661bn5UhLEYiqzQP0J+3MB64RFxq8CDfAxZcSAuhF@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjdyPIedewvX+OM1LihN2L/4mTEDgxQ0AaQnOSFqicHK1U5T8o
+	Lnf6MtCnbyCXt7D9VFgB8zfEkunwmf4q5VFf639u2OWpvPpXt1rEEAsaIi0WYwc=
+X-Gm-Gg: ASbGncuSFIpYN7tH6tfRowNDnvFgr0Ttuv3vLmkLuN1GlN3rQcgDsrgFo4YXhcF8m11
+	//stRUb8mLo+az/LqEKq6fq0i6F5q7txNsuPBZDz7Myfx0Brtia5ojTbmy01EoWav2dC/WTHFTZ
+	sdF393NPFjiONTLuJuZZe/nMwtYBDVssJEGyE0LbWH96YUpdBnBhX8cZeITohpPru2HGp4Zqa6g
+	yub+wycypJuKChmRhE/2cLfoviM+EYNk26UL09uDOtJQNUeagC09vEcosRfs3tJ5Paea7YFKC1h
+	ox24gyBtKFdtYW1k3TvJ+Ue8CCD6bkEPB3pvtDJ2dv+TLwk2ew==
+X-Google-Smtp-Source: AGHT+IHfnwA04H+Aec+4skHp4NDTpM4b0Nh6+dTOkvb//KqgU9tCJJRPmho7Xn5RwJWkyFqnJJ8R9w==
+X-Received: by 2002:a05:6000:186b:b0:391:231b:8e0d with SMTP id ffacd0b85a97d-39132dc5632mr1464220f8f.39.1741333335635;
+        Thu, 06 Mar 2025 23:42:15 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912c106a1asm4493649f8f.100.2025.03.06.23.42.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Mar 2025 23:42:15 -0800 (PST)
+Date: Fri, 7 Mar 2025 10:42:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jeff Layton <jlayton@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: [cel:nfsd-testing 35/53] fs/nfsd/state.h:788 nfsd4_try_run_cb()
+ warn: test_and_set_bit() takes a bit number
+Message-ID: <e223e751-072a-43b7-ab21-485f94fe3f2f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +71,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306054532.221138-3-bharata@amd.com>
 
-Hi Bharata,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on tip/x86/mm linus/master v6.14-rc5]
-[cannot apply to akpm-mm/mm-everything next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bharata-B-Rao/mm-migrate-Allow-misplaced-migration-without-VMA-too/20250306-134949
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20250306054532.221138-3-bharata%40amd.com
-patch subject: [RFC PATCH 2/4] mm: kpromoted: Hot page info collection and promotion daemon
-config: s390-randconfig-001-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071523.f89emNyA-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071523.f89emNyA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   312e8dc9f5f591a4927b4786a25840ef381c97d9
+commit: f94ac2bc823ffbabc5c88c38e63a1e6635f8a6cd [35/53] nfsd: prevent callback tasks running concurrently
+config: x86_64-randconfig-161-20250306 (https://download.01.org/0day-ci/archive/20250307/202503071428.Y4kljIky-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071523.f89emNyA-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503071428.Y4kljIky-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/nfsd/state.h:788 nfsd4_try_run_cb() warn: test_and_set_bit() takes a bit number
+fs/nfsd/nfs4state.c:3235 nfs4_cb_getattr() warn: test_and_set_bit() takes a bit number
+fs/nfsd/nfs4state.c:5428 nfsd_break_one_deleg() warn: test_and_set_bit() takes a bit number
+fs/nfsd/state.h:788 nfsd4_try_run_cb() warn: test_and_set_bit() takes a bit number
+fs/nfsd/nfs4callback.c:1315 nfsd41_destroy_cb() warn: clear_bit() takes a bit number
+fs/nfsd/nfs4layouts.c:347 nfsd4_recall_file_layout() warn: test_and_set_bit() takes a bit number
 
-   mm/kpromoted.c: In function 'kpromoted_record_access':
->> mm/kpromoted.c:158:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     158 |         int ret, bkt;
-         |             ^~~
+vim +788 fs/nfsd/state.h
+
+f94ac2bc823ffb Jeff Layton 2025-02-20  786  static inline void nfsd4_try_run_cb(struct nfsd4_callback *cb)
+f94ac2bc823ffb Jeff Layton 2025-02-20  787  {
+f94ac2bc823ffb Jeff Layton 2025-02-20 @788  	if (!test_and_set_bit(NFSD4_CALLBACK_RUNNING, &cb->cb_flags))
 
 
-vim +/ret +158 mm/kpromoted.c
+NFSD4_CALLBACK_RUNNING is BIT(0) so this actually tests BIT(1).  It's
+a double shift bug.  Which works out fine so long as it's done
+consistently and the BITs never go above 5.
 
-   147	
-   148	/*
-   149	 * Called by subsystems that generate page hotness/access information.
-   150	 *
-   151	 * Records the memory access info for futher action by kpromoted.
-   152	 */
-   153	int kpromoted_record_access(u64 pfn, int nid, int src, unsigned long now)
-   154	{
-   155		struct page_hotness_info *phi;
-   156		struct page *page;
-   157		struct folio *folio;
- > 158		int ret, bkt;
-   159	
-   160		count_vm_event(KPROMOTED_RECORDED_ACCESSES);
-   161	
-   162		switch (src) {
-   163		case KPROMOTED_HW_HINTS:
-   164			count_vm_event(KPROMOTED_RECORD_HWHINTS);
-   165			break;
-   166		case KPROMOTED_PGTABLE_SCAN:
-   167			count_vm_event(KPROMOTED_RECORD_PGTSCANS);
-   168			break;
-   169		default:
-   170			break;
-   171		}
-   172	
-   173		/*
-   174		 * Record only accesses from lower tiers.
-   175		 * Assuming node having CPUs as toptier for now.
-   176		 */
-   177		if (node_is_toptier(pfn_to_nid(pfn))) {
-   178			count_vm_event(KPROMOTED_RECORD_TOPTIER);
-   179			return 0;
-   180		}
-   181	
-   182		page = pfn_to_online_page(pfn);
-   183		if (!page || is_zone_device_page(page))
-   184			return 0;
-   185	
-   186		folio = page_folio(page);
-   187		if (!folio_test_lru(folio))
-   188			return 0;
-   189	
-   190		bkt = hash_min(pfn, KPROMOTED_HASH_ORDER);
-   191		mutex_lock(&page_hotness_lock[bkt]);
-   192		phi = kpromoted_lookup(pfn, bkt, now);
-   193		if (!phi) {
-   194			ret = PTR_ERR(phi);
-   195			goto out;
-   196		}
-   197	
-   198		if ((phi->last_update - now) > msecs_to_jiffies(KPROMOTED_FREQ_WINDOW)) {
-   199			/* New window */
-   200			phi->frequency = 1; /* TODO: Factor in the history */
-   201			phi->last_update = now;
-   202		} else {
-   203			phi->frequency++;
-   204		}
-   205		phi->recency = now;
-   206	
-   207		/*
-   208		 * TODOs:
-   209		 * 1. Source nid is hard-coded for some temperature sources
-   210		 * 2. Take action if hot_node changes - may be a shared page?
-   211		 * 3. Maintain node info for every access within the window?
-   212		 */
-   213		phi->hot_node = (nid == NUMA_NO_NODE) ? 1 : nid;
-   214		mutex_unlock(&page_hotness_lock[bkt]);
-   215	out:
-   216		return 0;
-   217	}
-   218	
+f94ac2bc823ffb Jeff Layton 2025-02-20  789  		WARN_ON_ONCE(!nfsd4_run_cb(cb));
+f94ac2bc823ffb Jeff Layton 2025-02-20  790  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
