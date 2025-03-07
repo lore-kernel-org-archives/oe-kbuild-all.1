@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620421A430
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E4F1E868
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 13:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741351971; cv=none; b=FvHt2zhyyLiaNamAQrlHlgQRSTL5BX234qe0oAQcxfjcZ1Wdqex1rQVyMdwEQSEZfTaQcvb89CR4+zyjEs6E082ktd7VyCYyposrtmNBqv6rTg9goFcPaFcSFcgoE1FZtYyGwcqGuxL+moiqjf13wVgYpAP09W/LkaV1fyveOd8=
+	t=1741353823; cv=none; b=lzBUvLsJ8WWadWsZWFRMmQNrumtC4ej4zFfOCNzDnH2S6EUuHXFr/vcbOeYB5aQB0aEHfRcI1prsKCKIPZhbbQUWRLDO81T0GTdQj0vCJqWKXkyXiQy1WtluvdcEJVqae68s6lxKnJUUlzS6NLrqSz5zQ0F3No2qAo3X1ZCCizw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741351971; c=relaxed/simple;
-	bh=KUe9SSJz9ISvQAEPHqlR4strR/gMPqHS0mOsCVaZh5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ixgM4uiljpczyAnOUllFP4zJRGG2ZXIxqvMzKE2Mh6JeiadkBO3LVrdzZeQYVJyVFV+bX9hEKHHXkzeiDMjJKfUqzTkkov+66dQUYr05aCRtFVfBk4DC6oN87RkLHUDsNYCIIm5hqqwmOJXsmNeYQk2wbn5Ovsqj495iphuDbV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVp6f/CY; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1741353823; c=relaxed/simple;
+	bh=txijfGNJaMM9T9e+g83FHJ5psQT0Ehopj0Ibv4UGGB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a45vewdi1gAs9ZkHXOgF8gdCBQQeZFy696ciElfsHGP1qKUGVagSv2U8tmdwCSsKOUP33SmltXJik/96wOfb6qbJrwLyk7qHZdLuJFSs6EKXEdL4S3ZDMGc5UxarfLhkNCt6OWkxhbaVq1EfTLWP7xHWBkaY4xzE4xXm1/Rderc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfyhOlO3; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVp6f/CY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfyhOlO3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741351958; x=1772887958;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KUe9SSJz9ISvQAEPHqlR4strR/gMPqHS0mOsCVaZh5M=;
-  b=JVp6f/CY9ew+ZYsWB1uzk9ifnH0SWHyOxWbq3xpKPRLfiO0dI8yAbBk0
-   SejF0bJlB3To8JgloKYIgY89PnOBQqRb8hAC7bku7KelZ2I/q9kXKrmOw
-   2UaEQ3p9LP0boeFiRBuQwylXcefOQdUQ7gdUnsnCtzSBnqVjlBiSK1hld
-   kV1sthDJ5FTM9b/LmafqPys1tUO7z0Ij2Oob3WIpmTzr2oqhvtuzbRAWf
-   c5W6/BeDUCoepBNw+M6BNY8urnUt5j/f6lnzrMH0bbmhq2VaxHeJRjisr
-   uOB+uLLnm/Ij8nXGQlAkEVyTvurqoyEBPQfXnvVI+aRB8Marejz/vSHf2
-   g==;
-X-CSE-ConnectionGUID: vtDo8STwTgSPsBUDBMMyKg==
-X-CSE-MsgGUID: zqJUCXUKQH6itSe6bv8AWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53040238"
+  t=1741353821; x=1772889821;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=txijfGNJaMM9T9e+g83FHJ5psQT0Ehopj0Ibv4UGGB4=;
+  b=dfyhOlO37kUcDtVOoECK6OOY3WzpZSNZxlQsWGG1iDAkKKaOuPaPRCUE
+   MzJXceEt7pOPRBL8kANciPedJKqKgHFJFsdPgzJSpEmF1+NH/U4YuPNbi
+   ihFerOFt8GTaScQ8g+LdjJo/5gBpBuLa7wbdABoqQn+Nr7/VfIZ2gTuYP
+   BDpT+qrDO6MHIKyaNcewmhA0YhYnZWApqJz41+pv3YlYeUMi+eW7LrEKT
+   hdWXbg8UOGldamwI3SLio6MrHBmsa8VejuBWwIouZ0ckudVZ0oKQ/QrSk
+   Ksi41bRBlY4mDrndaTMZ+hLZgJ6eBt/mHBrFYow0tlcOghuOuI//TNFNr
+   A==;
+X-CSE-ConnectionGUID: b9N/UOZcQVmx5kEC/L953g==
+X-CSE-MsgGUID: QOPDpCH2TLaanaqoAOfS/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52608759"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="53040238"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:52:37 -0800
-X-CSE-ConnectionGUID: HlvgJ0VbQi+RI8/+1dtRZg==
-X-CSE-MsgGUID: 5RnjY5gaROC53AggHSIZ7Q==
+   d="scan'208";a="52608759"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 05:23:41 -0800
+X-CSE-ConnectionGUID: W5zJ2VTtRNOPvWaiIT3pSg==
+X-CSE-MsgGUID: 5i8Bu6gPSHCNoptBXQOfzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="119820211"
+   d="scan'208";a="119317839"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Mar 2025 04:52:33 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 07 Mar 2025 05:23:39 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqXBR-0000UV-0k;
-	Fri, 07 Mar 2025 12:52:19 +0000
-Date: Fri, 7 Mar 2025 20:51:04 +0800
+	id 1tqXft-0000W5-0p;
+	Fri, 07 Mar 2025 13:23:37 +0000
+Date: Fri, 7 Mar 2025 21:22:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, lukasz.luba@arm.com,
-	rafael.j.wysocki@intel.com, pierre.gondois@arm.com,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, qyousef@layalina.io,
-	hongyan.xia2@arm.com, christian.loehle@arm.com,
-	luis.machado@arm.com, qperret@google.com,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: Re: [PATCH 5/7 v5] sched/fair: Add push task mechanism for EAS
-Message-ID: <202503072035.8PEXiAFe-lkp@intel.com>
-References: <20250302210539.1563190-6-vincent.guittot@linaro.org>
+To: Ryan Wanner <Ryan.Wanner@microchip.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Subject: [linux-next:master 6747/9212]
+ arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb:
+ reset-controller@e001d100: compatible: 'oneOf' conditional failed, one must
+ be fixed:
+Message-ID: <202503072119.iKTU5WPQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,140 +64,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250302210539.1563190-6-vincent.guittot@linaro.org>
 
-Hi Vincent,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/sched-fair-Filter-false-overloaded_group-case-for-EAS/20250303-050850
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250302210539.1563190-6-vincent.guittot%40linaro.org
-patch subject: [PATCH 5/7 v5] sched/fair: Add push task mechanism for EAS
-config: x86_64-randconfig-003-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072035.8PEXiAFe-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072035.8PEXiAFe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   565351ae7e0cee80e9b5ed84452a5b13644ffc4d
+commit: f4573d25c14d1ccd7401bc5fcd56eb76811df418 [6747/9212] ARM: dts: microchip: sama7d65: Add Reset Controller to sama7d65 SoC
+config: arm-randconfig-052-20250304 (https://download.01.org/0day-ci/archive/20250307/202503072119.iKTU5WPQ-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072119.iKTU5WPQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503072035.8PEXiAFe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503072119.iKTU5WPQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   kernel/sched/fair.c: In function 'has_pushable_tasks':
-   kernel/sched/fair.c:8675:42: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8675 |         return !plist_head_empty(&rq->cfs.pushable_tasks);
-         |                                          ^
-   In file included from include/linux/kernel.h:22,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
-   kernel/sched/fair.c: In function 'pick_next_pushable_fair_task':
-   kernel/sched/fair.c:8685:39: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |                                       ^
-   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                 ^~~
-   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |             ^~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:22,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/energy_model.h:4,
-                    from kernel/sched/fair.c:23:
-   kernel/sched/fair.c:8685:39: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |                                       ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/plist.h:233:9: note: in expansion of macro 'container_of'
-     233 |         container_of(plist_first(head), type, member)
-         |         ^~~~~~~~~~~~
-   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |             ^~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8685:39: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |                                       ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/plist.h:233:9: note: in expansion of macro 'container_of'
-     233 |         container_of(plist_first(head), type, member)
-         |         ^~~~~~~~~~~~
-   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |             ^~~~~~~~~~~~~~~~~
->> include/linux/compiler_types.h:483:27: error: expression in static assertion is not an integer
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/plist.h:233:9: note: in expansion of macro 'container_of'
-     233 |         container_of(plist_first(head), type, member)
-         |         ^~~~~~~~~~~~
-   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
-    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
-         |             ^~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:8697:47: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8697 |         plist_del(&p->pushable_tasks, &rq->cfs.pushable_tasks);
-         |                                               ^
-   kernel/sched/fair.c: In function 'fair_remove_pushable_task':
-   kernel/sched/fair.c:8772:55: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8772 |                 plist_del(&p->pushable_tasks, &rq->cfs.pushable_tasks);
-         |                                                       ^
-   kernel/sched/fair.c: In function 'fair_add_pushable_task':
-   kernel/sched/fair.c:8779:63: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8779 |                         plist_del(&p->pushable_tasks, &rq->cfs.pushable_tasks);
-         |                                                               ^
-   kernel/sched/fair.c:8781:63: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-    8781 |                         plist_add(&p->pushable_tasks, &rq->cfs.pushable_tasks);
-         |                                                               ^
-   kernel/sched/fair.c: In function 'init_cfs_rq':
-   kernel/sched/fair.c:13572:32: error: 'struct cfs_rq' has no member named 'pushable_tasks'
-   13572 |         plist_head_init(&cfs_rq->pushable_tasks);
-         |                                ^~
-   kernel/sched/fair.c: In function 'has_pushable_tasks':
-   kernel/sched/fair.c:8676:1: warning: control reaches end of non-void function [-Wreturn-type]
-    8676 | }
-         | ^
-
-
-vim +483 include/linux/compiler_types.h
-
-eb111869301e15 Rasmus Villemoes 2019-09-13  481  
-d15155824c5014 Will Deacon      2017-10-24  482  /* Are two types/vars the same type (ignoring qualifiers)? */
-d15155824c5014 Will Deacon      2017-10-24 @483  #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-d15155824c5014 Will Deacon      2017-10-24  484  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0014000: failed to match any schema with compatible: ['microchip,sama7d65-pinctrl', 'microchip,sama7g5-pinctrl']
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: reset-controller@e001d100: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-rstc', 'microchip,sama7g5-rstc'] is too long
+   	'microchip,sama7d65-rstc' is not one of ['atmel,at91sam9260-rstc', 'atmel,at91sam9g45-rstc', 'atmel,sama5d3-rstc', 'microchip,sam9x60-rstc', 'microchip,sama7g5-rstc']
+   	'atmel,sama5d3-rstc' was expected
+   	'atmel,at91sam9g45-rstc' was expected
+   	from schema $id: http://devicetree.org/schemas/reset/atmel,at91sam9260-reset.yaml#
+>> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/reset-controller@e001d100: failed to match any schema with compatible: ['microchip,sama7d65-rstc', 'microchip,sama7g5-rstc']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/chipid@e0020000: failed to match any schema with compatible: ['microchip,sama7d65-chipid']
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: dma-controller@e1200000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['microchip,sama7d65-dma', 'microchip,sama7g5-dma'] is too long
+   	'microchip,sama7d65-dma' is not one of ['atmel,sama5d4-dma', 'microchip,sama7g5-dma']
+   	'microchip,sama7d65-dma' is not one of ['microchip,sam9x60-dma', 'microchip,sam9x7-dma']
+   	'atmel,sama5d4-dma' was expected
+   	from schema $id: http://devicetree.org/schemas/dma/atmel,sama5d4-dma.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: dma-controller@e1200000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/dma/atmel,sama5d4-dma.yaml#
+   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/dma-controller@e1200000: failed to match any schema with compatible: ['microchip,sama7d65-dma', 'microchip,sama7g5-dma']
 
 -- 
 0-DAY CI Kernel Test Service
