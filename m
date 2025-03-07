@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1453C1CFBC;
-	Fri,  7 Mar 2025 01:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD59125DF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 01:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741310143; cv=none; b=L5wZLXYyVgUwIDRAmqfgH838F1ROPNT33Lyyu8S1JG1q3VM2Lv7N8paBymwufS6MAuJUKBLv2aZ5vUrPGEimnoeDVl0Hb9SzPv0U9rrRQnw2DNx2u4i7azv4LAX4ERGDQx2ArCmYq2+hC3Ul/9DpRumeOwbTz13ENkT6/rCLeNI=
+	t=1741311181; cv=none; b=lx+LiueZAlt6p9Fd1d3oOX5/wbkGMUZwFXJlkNDeey3T1KEhvSlf5YkADu0vbY450bx6PuydFpG+l+sQt9iVy8dwibkBwtaUzas5/8bF5dHTj7qQX6xEdOuvyeSTYfcKcbfFV1hKWhA1VytV8Q93tDbIC2wkFuYIgz3g30CrGXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741310143; c=relaxed/simple;
-	bh=IDqfehStYsDReh/OmURi3sjsjrl6MnnNxdL6gw8M0/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d+CdLKwq3zMhFWIzx1P6Szaqfqh/PsDIw/fovSTl47QETCoNMdVYz335zK8bnUagKwIjLp47URFD9DLZujXe7ZuULhXGXUROP6qyy7jAJSySQrd1LLy/s4nqnUZqR6tpYblj2vi8KmlPaGsHQgcNxkni7ypEhx5ewXa5tIh40Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOhatSWs; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1741311181; c=relaxed/simple;
+	bh=h8CBJoFjkhREDrHIpFD7UMFjXr3AXo9LRYU19++XK4E=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qJp+Zfn8FN1rRbXitcWQVVBh7Ro+tu9jp6rLTUaOMMkfvVxAa6AurT2iaeEuN9OTv/BSSmVDra/6SaDik2FmNH5K/HBSmr1W3FwyNCcU5KxYakD7ybPQ0rGGFo9tYly9aQkiO/TMCt+sEj9T95wEDqbnwDubpH32oyhLo/C+m8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=afUoqKta; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOhatSWs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="afUoqKta"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741310140; x=1772846140;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IDqfehStYsDReh/OmURi3sjsjrl6MnnNxdL6gw8M0/g=;
-  b=HOhatSWslwGrzyptV4i8ve7qXU4awHBUprEkTgnbGTC2QjGG2aNs/9Fu
-   EsW4V+x1lsOfAX90X7FtuSyWh3oRw8Q70h7GOA+bnPrMlprI+IGmPJgqG
-   jBnkqyhj54m+sRxuqjTKrsSlCc2On3Se+dqouCy9K9boOFbRDzZAF+MUc
-   b3AIx5sxrA7gkQEQOAGaVX6ck+bhJIdsuho8+KfJxdA2Lt2jFbziSObFV
-   xsgmmbFyRwc0gDsgYTbfnRO7WPRJtgnNYjKBUSm8PAJXJRy7tfaaP+UKN
-   EPsMC7yWILVPICDsY3x4aT4+nYmUoPebOImVrKsr6abXc6P9uOvWlyRGt
-   g==;
-X-CSE-ConnectionGUID: BfbmslkdQ3ukln3SaEaM+w==
-X-CSE-MsgGUID: bxUUGWDMSZ2j3RYlPiGVaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41521129"
+  t=1741311179; x=1772847179;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=h8CBJoFjkhREDrHIpFD7UMFjXr3AXo9LRYU19++XK4E=;
+  b=afUoqKtauFAzdrfcTmctiuYEFVMtFfQE7ocBN4I8Y9u9qgokgzG/wciB
+   y/qDjUs1aE2STPQJdlA48MLpMfYf/TtzFMibCUGhoZY7vQTWxajvIfAin
+   VO+kwq9r7uL91KOn3xtLLM6DPa1OtUzH3ug7LalRCodvuWDjSRw4aHOI/
+   LbWAtUyx/O7Zwzse3sqUXcgpPSgSKIcA1P5XhlEMOHDfMG4N6cF6O6gLd
+   DBvk6AVlE2sVaAfnZj7JMIJRFYjw3n889rC0y4mjD+nndRmIBqGSbj4Kr
+   v6Zk1NOFpISCa1Bw5TvevEmb+xHr+j0KwUO4rPT1Wh+dhg3i1T/Y7SMqr
+   w==;
+X-CSE-ConnectionGUID: bJcJHmYISO6uOWY28iSxJQ==
+X-CSE-MsgGUID: Z6dGEUZ7TNO8Bhvel78Dyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52556693"
 X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
-   d="scan'208";a="41521129"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 17:15:39 -0800
-X-CSE-ConnectionGUID: ajNg/lLuSlewTQfMV/QH+A==
-X-CSE-MsgGUID: OolEWDI0QViGY/fYcEFpxw==
+   d="scan'208";a="52556693"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 17:32:58 -0800
+X-CSE-ConnectionGUID: erDGNT8SS3ulKv1mZU7wRA==
+X-CSE-MsgGUID: Cju/1Ie4RvygNH//CpHCIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
-   d="scan'208";a="124115152"
+   d="scan'208";a="119367478"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 06 Mar 2025 17:15:37 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 06 Mar 2025 17:32:58 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqMJ3-000Nqq-0e;
-	Fri, 07 Mar 2025 01:15:23 +0000
-Date: Fri, 7 Mar 2025 09:11:17 +0800
+	id 1tqMa7-000Nt4-2P
+	for oe-kbuild-all@lists.linux.dev;
+	Fri, 07 Mar 2025 01:32:55 +0000
+Date: Fri, 7 Mar 2025 09:32:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-bluetooth@vger.kernel.org,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Subject: [bluetooth-next:master 40/43] drivers/bluetooth/btnxpuart.c:1683:8:
- error: no member named 'cmd_timeout' in 'struct hci_dev'; did you mean
- 'rpa_timeout'?
-Message-ID: <202503070951.EcxRrnHK-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] drivers/scsi/scsi_logging.o: warning: objtool:
+ scsi_log_print_sense()+0x247: unreachable instruction
+Message-ID: <202503070903.T6pELdy9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,106 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-head:   8968f507940cad09c8e2ecc4631f90d62709e17b
-commit: b21ae0e8b43797d7c9c3ae1d97a0257686e24005 [40/43] Bluetooth: btnxpuart: Add support for HCI coredump feature
-config: x86_64-buildonly-randconfig-001-20250307 (https://download.01.org/0day-ci/archive/20250307/202503070951.EcxRrnHK-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503070951.EcxRrnHK-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: 79a4e91d1bb2a411a4ce2baa93680fa707567003 [1/1] device.h: Add __cold to dev_<level> logging functions
+config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250307/202503070903.T6pELdy9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503070903.T6pELdy9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503070951.EcxRrnHK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503070903.T6pELdy9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/bluetooth/btnxpuart.c:1683:8: error: no member named 'cmd_timeout' in 'struct hci_dev'; did you mean 'rpa_timeout'?
-    1683 |         hdev->cmd_timeout = nxp_cmd_timeout;
-         |               ^~~~~~~~~~~
-         |               rpa_timeout
-   include/net/bluetooth/hci_core.h:593:10: note: 'rpa_timeout' declared here
-     593 |         __u32                   rpa_timeout;
-         |                                 ^
-   1 error generated.
-
-
-vim +1683 drivers/bluetooth/btnxpuart.c
-
-  1629	
-  1630	static int nxp_serdev_probe(struct serdev_device *serdev)
-  1631	{
-  1632		struct hci_dev *hdev;
-  1633		struct btnxpuart_dev *nxpdev;
-  1634	
-  1635		nxpdev = devm_kzalloc(&serdev->dev, sizeof(*nxpdev), GFP_KERNEL);
-  1636		if (!nxpdev)
-  1637			return -ENOMEM;
-  1638	
-  1639		nxpdev->nxp_data = (struct btnxpuart_data *)device_get_match_data(&serdev->dev);
-  1640	
-  1641		nxpdev->serdev = serdev;
-  1642		serdev_device_set_drvdata(serdev, nxpdev);
-  1643	
-  1644		serdev_device_set_client_ops(serdev, &btnxpuart_client_ops);
-  1645	
-  1646		INIT_WORK(&nxpdev->tx_work, btnxpuart_tx_work);
-  1647		skb_queue_head_init(&nxpdev->txq);
-  1648	
-  1649		init_waitqueue_head(&nxpdev->fw_dnld_done_wait_q);
-  1650		init_waitqueue_head(&nxpdev->check_boot_sign_wait_q);
-  1651	
-  1652		device_property_read_u32(&nxpdev->serdev->dev, "fw-init-baudrate",
-  1653					 &nxpdev->fw_init_baudrate);
-  1654		if (!nxpdev->fw_init_baudrate)
-  1655			nxpdev->fw_init_baudrate = FW_INIT_BAUDRATE;
-  1656	
-  1657		set_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
-  1658	
-  1659		crc8_populate_msb(crc8_table, POLYNOMIAL8);
-  1660	
-  1661		/* Initialize and register HCI device */
-  1662		hdev = hci_alloc_dev();
-  1663		if (!hdev) {
-  1664			dev_err(&serdev->dev, "Can't allocate HCI device\n");
-  1665			return -ENOMEM;
-  1666		}
-  1667	
-  1668		nxpdev->hdev = hdev;
-  1669	
-  1670		hdev->bus = HCI_UART;
-  1671		hci_set_drvdata(hdev, nxpdev);
-  1672	
-  1673		hdev->manufacturer = MANUFACTURER_NXP;
-  1674		hdev->open  = btnxpuart_open;
-  1675		hdev->close = btnxpuart_close;
-  1676		hdev->flush = btnxpuart_flush;
-  1677		hdev->setup = nxp_setup;
-  1678		hdev->post_init = nxp_post_init;
-  1679		hdev->send  = nxp_enqueue;
-  1680		hdev->hw_error = nxp_hw_err;
-  1681		hdev->shutdown = nxp_shutdown;
-  1682		hdev->wakeup = nxp_wakeup;
-> 1683		hdev->cmd_timeout = nxp_cmd_timeout;
-  1684		SET_HCIDEV_DEV(hdev, &serdev->dev);
-  1685	
-  1686		if (hci_register_dev(hdev) < 0) {
-  1687			dev_err(&serdev->dev, "Can't register HCI device\n");
-  1688			goto probe_fail;
-  1689		}
-  1690	
-  1691		if (ps_setup(hdev))
-  1692			goto probe_fail;
-  1693	
-  1694		hci_devcd_register(hdev, nxp_coredump, nxp_coredump_hdr, NULL);
-  1695	
-  1696		return 0;
-  1697	
-  1698	probe_fail:
-  1699		hci_free_dev(hdev);
-  1700		return -ENODEV;
-  1701	}
-  1702	
+>> drivers/scsi/scsi_logging.o: warning: objtool: scsi_log_print_sense()+0x247: unreachable instruction
+--
+>> drivers/misc/pci_endpoint_test.o: warning: objtool: pci_endpoint_test_probe()+0x886: unreachable instruction
+--
+>> drivers/infiniband/hw/hfi1/chip.o: warning: objtool: hfi1_init_vnic_rsm()+0x34a: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
