@@ -1,73 +1,60 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79EE2F32
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 01:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0212817C79
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 02:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741312543; cv=none; b=ZzzMLrYBVvRZ0Qb76/cFVWljBkV0hGDXLOTHjlc8cwh6PR61wHkPONz1HiVqcZHCUQwCcNbW0yR5OaHq/QGdvbc6wx3ngdEY421CL0eDTSSrYijXz23pg4oQh+H4E7SJkYd9mX8HsOWPbuC5WpnyUamzApqx/lM3MFZAuT3x6MU=
+	t=1741313083; cv=none; b=IC9y/zO5XGYm16MW+NqMbv1PcoxyEBehIvTaMZEtg/LvK2MwCuP1FHsiOYa1CPdCaolbdJan5RdQA+rD2vd4QT8aphMmjPALlV5jKkKTNdnueBkc9Cum36srnXNA8zFn9KXRE42mubocjz9/e6d2dyquCGewwoj01/58+oPUPjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741312543; c=relaxed/simple;
-	bh=WFtlNwCp6F6dypP+jkyqN+ro2kON98q9i7vFLuLj63Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D2TPSF6peMnos/eUy4uTuO4cuCayljAa5eMTgJLhXPe0XKPlOBQzGt1M3Qnkn4cn7b+2oaQR3KDSwUkoW9k7+8o9XnA+so69LM7JswSeEUdzZmj+HXRrwrYtNSMbQaVIPdmOHvfZ+smtNtqxrkIxxPhr90HfhdMYibKyccZqP/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftFHrrK/; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741313083; c=relaxed/simple;
+	bh=bpGSGxPqKqhelnhrxz3eWTpgjlz+pymbAsoKYg720fc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fLHcArjlf8eGDSuz4L/fnKu+W3Z35yphsjAHKh7e0IyTo/7Tw679u31RGJNufk0WIuvB3VT6Zu5iu6en6jH077ZJmj47SESZ9c/eOg74wSSCEO8hlIJniBh72/PKNIsA0gK+PiEsMPhi2b96Ze+bRBIZrGvAF/t8VP//Q755MUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kTjQDZ9n; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftFHrrK/"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac25520a289so41622366b.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Mar 2025 17:55:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741312540; x=1741917340; darn=lists.linux.dev;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dfMo9BSVD+wSJIQf7ahUDMQqezCtFreygJl3Rk+iXCc=;
-        b=ftFHrrK/AAFJB8luosZsBRrC6C2Ch/gUevCOE0KbNBk5ob9Z+e3TUYRIXxWKHhLkqa
-         S2G8COXtGjS027tCeo0yd0fyJKPQCY444VdcOyn+jn8hmFK8u8jiR+giN8sHfcvhjaeF
-         py/fUs1wGR4lDiFXdDcVJ+t4qXQSd/aXATvLnmkhRcjTF4Ty7vRGTj/+fZQEZxxP0VOe
-         XPyPieacQgEYh3R53uBViwyck5iG6ScG9WNrPqL5pj4wNb5JifUNHhNo8oJI68KtZq5F
-         SWretHR9MjI9spWo76r2huUtA3AgWupMcBvHmT5VbhqU7QXbMr/49zR5ti6Aka6li3o/
-         BL1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741312540; x=1741917340;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dfMo9BSVD+wSJIQf7ahUDMQqezCtFreygJl3Rk+iXCc=;
-        b=n0AD9c56wgRQ87sFfbQjMpH9BlePlxXnZ8VmWzvnDWl/trPmZi3D7Em0pBvseML1oZ
-         RVokFQ72gun3vilbokM5637Oq6s0V30h47VWrmbNZEsKV9nWBv7uZhaU027v4uzq8yyW
-         qMNiVbauyxHVo6NnJhIoNaoxRjuFN4qBWRdnEQBTLoZb8s66v7ZBsRaOr08Df/Yvv1rl
-         HhDug8zdfDCpos8zVQdomSglVsb7/g3MS77yOFFs6Ms3HqW3WqEjqkteZ2BYjgKD/119
-         sXvRAZTvMWrj62WgCzw9CqyroIlutUm/DXCEElfPtJgvdCXbY69MFrdgxbd0rJxWcc9M
-         GZ1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXakviWuiWRBt7qaGGmfYzqu6UqGHjW/GlJMjPl4zTR/avRoWz+l0JfHyVDi7CuAUfinzIlMFk1bR5TOI4v@lists.linux.dev
-X-Gm-Message-State: AOJu0YwX/RJ4K9ZywFOuJVeiFEhJJDIXrJ7bZor3I/lWC81cz+FtYYM8
-	yUmBozq27eR/yp5QBCyLhnR7CVTjl2+tX0cGMgPp93t2bDiiFv+v
-X-Gm-Gg: ASbGncvoatpbth/Ny9MIFbiPbHpmB8SHY7QfrcF1HUhuN7ik/fdC+Tjwnp9NGLOvd70
-	X9ffKA4xC6OHTJ+FQfQsr1kn2aWFj50vGdie3rlve2JyEW1o6aT7j0XB8KPvPGhh3nru7b/cRNy
-	jFh5IYQFnNAj1b/kHuneOABZNaQs/gKNaGM5e37ebtJ/qr7tqrR54ny/1/9/vzSvtOCQkwgZElc
-	y4TyMUAn0cMVEV/UWg4IWegbGi+XV0/YXrTTBA+cSv74aPaPMVmCj9c5tF83NQuKO1NsIJh5VFx
-	WhfNGxBXEVQbHwqGNyxtdFWN74mgT2q4/zUeG1VKQw0l
-X-Google-Smtp-Source: AGHT+IG6Qf8izM34HbnM9PviHh6ntJthb32BZxheV4Ot2SGT+WNbAG/93pztik+oWtMYRmbAS8B+kg==
-X-Received: by 2002:a17:906:f58b:b0:abf:6f87:c720 with SMTP id a640c23a62f3a-ac252ae319dmr141714766b.29.1741312539669;
-        Thu, 06 Mar 2025 17:55:39 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac25d376342sm2392566b.106.2025.03.06.17.55.39
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 06 Mar 2025 17:55:39 -0800 (PST)
-Date: Fri, 7 Mar 2025 01:55:38 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	oe-kbuild-all@lists.linux.dev, willy@infradead.org,
-	michel@lespinasse.org, linux-mm@kvack.org
-Subject: Re: [PATCH 3/7] lib/rbtree: add random seed
-Message-ID: <20250307015538.yu6f7hgt3lfefoyw@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250304011952.29182-4-richard.weiyang@gmail.com>
- <202503061924.hFdFosTG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kTjQDZ9n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741313081; x=1772849081;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bpGSGxPqKqhelnhrxz3eWTpgjlz+pymbAsoKYg720fc=;
+  b=kTjQDZ9nV2TD0CsIV8l5KLC2xyAEUaB8JpRegfjEKN4I9HNpD0c1G6Cj
+   ERbX9MCuPNutVWuJoXIHAfp0dndWVxqy1TWUM7Jy8jSciAVtaGoKTOr6G
+   d6/8WgnjlL5USKn/3D3bU4Yltl1QzLxPketYrcFCCkzoH8hsfldlCzwMU
+   CcoFRU05HZ8Uo7GicmQBalXRPZaMvHFIQOVw25gBCNxDXvuLgMvEVCWU7
+   +O9koY0btOrmg7Q1lM53ITg/WI7VKZD+aiHfL2Ge94aP3ntci1sa+dt/m
+   MVPJU29tFmYnXVhlCd+paZTyLKWrg53sJjJcmwbvrvOF3TlE3EwWL1B7C
+   A==;
+X-CSE-ConnectionGUID: utC+3lN8Qq+f+8GtnLpX6w==
+X-CSE-MsgGUID: OtXoS++VR3uOo3HiYisDSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42208946"
+X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
+   d="scan'208";a="42208946"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 18:04:41 -0800
+X-CSE-ConnectionGUID: ezDq5dK+TbWs9DMgZLM/qQ==
+X-CSE-MsgGUID: JyWY8C5tQOqJ5EjDNbCyHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119117246"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 06 Mar 2025 18:04:39 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqN4l-000NvI-2M;
+	Fri, 07 Mar 2025 02:04:35 +0000
+Date: Fri, 7 Mar 2025 10:04:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+Subject: [bluetooth-next:master 40/43] drivers/bluetooth/btnxpuart.c:1683:15:
+ error: 'struct hci_dev' has no member named 'cmd_timeout'; did you mean
+ 'cmd_timer'?
+Message-ID: <202503070916.OR4VIRZh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,119 +63,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202503061924.hFdFosTG-lkp@intel.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Thu, Mar 06, 2025 at 07:34:21PM +0800, kernel test robot wrote:
->Hi Wei,
->
->kernel test robot noticed the following build warnings:
->
->[auto build test WARNING on linus/master]
->[also build test WARNING on v6.14-rc5 next-20250306]
->[cannot apply to akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything]
->[If your patch is applied to the wrong git tree, kindly drop us a note.
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/lib-rbtree-enable-userland-test-suite-for-rbtree-related-data-structure/20250304-092345
->base:   linus/master
->patch link:    https://lore.kernel.org/r/20250304011952.29182-4-richard.weiyang%40gmail.com
->patch subject: [PATCH 3/7] lib/rbtree: add random seed
->config: csky-randconfig-002-20250305 (https://download.01.org/0day-ci/archive/20250306/202503061924.hFdFosTG-lkp@intel.com/config)
->compiler: csky-linux-gcc (GCC) 14.2.0
->reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250306/202503061924.hFdFosTG-lkp@intel.com/reproduce)
->
->If you fix the issue in a separate patch/commit (i.e. not just a new version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202503061924.hFdFosTG-lkp@intel.com/
->
->All warnings (new ones prefixed by >>):
->
->>> lib/interval_tree_test.c:22:22: warning: conversion from 'long long unsigned int' to 'ulong' {aka 'long unsigned int'} changes value from '3141592653589793238' to '2721204694' [-Woverflow]
->      22 | __param(ulong, seed, 3141592653589793238ULL, "Random seed");
->         |                      ^~~~~~~~~~~~~~~~~~~~~~
->   lib/interval_tree_test.c:10:28: note: in definition of macro '__param'
->      10 |         static type name = init;                \
->         |                            ^~~~
->--
->>> lib/rbtree_test.c:17:22: warning: conversion from 'long long unsigned int' to 'ulong' {aka 'long unsigned int'} changes value from '3141592653589793238' to '2721204694' [-Woverflow]
->      17 | __param(ulong, seed, 3141592653589793238ULL, "Random seed");
->         |                      ^~~~~~~~~~~~~~~~~~~~~~
->   lib/rbtree_test.c:10:28: note: in definition of macro '__param'
->      10 |         static type name = init;                \
->         |                            ^~~~
->
->
->vim +22 lib/interval_tree_test.c
->
->    20	
->    21	__param(uint, max_endpoint, ~0, "Largest value for the interval's endpoint");
->  > 22	__param(ulong, seed, 3141592653589793238ULL, "Random seed");
->    23	
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   8968f507940cad09c8e2ecc4631f90d62709e17b
+commit: b21ae0e8b43797d7c9c3ae1d97a0257686e24005 [40/43] Bluetooth: btnxpuart: Add support for HCI coredump feature
+config: sh-randconfig-002-20250307 (https://download.01.org/0day-ci/archive/20250307/202503070916.OR4VIRZh-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503070916.OR4VIRZh-lkp@intel.com/reproduce)
 
-Thanks for reporting. I went through the mail list, it seems I need send a diff
-reply here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503070916.OR4VIRZh-lkp@intel.com/
 
-Since we already have proper definition of param_xxx_ullong(), I choose
-following fix. If any comment, just let me know.
+All errors (new ones prefixed by >>):
 
-Thanks
+   drivers/bluetooth/btnxpuart.c: In function 'nxp_serdev_probe':
+>> drivers/bluetooth/btnxpuart.c:1683:15: error: 'struct hci_dev' has no member named 'cmd_timeout'; did you mean 'cmd_timer'?
+    1683 |         hdev->cmd_timeout = nxp_cmd_timeout;
+         |               ^~~~~~~~~~~
+         |               cmd_timer
 
-diff --git a/include/linux/types.h b/include/linux/types.h
-index a3d2182c2686..49b79c8bb1a9 100644
---- a/include/linux/types.h
-+++ b/include/linux/types.h
-@@ -92,6 +92,7 @@ typedef unsigned char		unchar;
- typedef unsigned short		ushort;
- typedef unsigned int		uint;
- typedef unsigned long		ulong;
-+typedef unsigned long long	ullong;
- 
- #ifndef __BIT_TYPES_DEFINED__
- #define __BIT_TYPES_DEFINED__
-diff --git a/lib/interval_tree_test.c b/lib/interval_tree_test.c
-index 37198afa87ed..5fd62656f42e 100644
---- a/lib/interval_tree_test.c
-+++ b/lib/interval_tree_test.c
-@@ -21,7 +21,7 @@ __param(int, search_loops, 1000, "Number of iterations searching the tree");
- __param(bool, search_all, false, "Searches will iterate all nodes in the tree");
- 
- __param(uint, max_endpoint, ~0, "Largest value for the interval's endpoint");
--__param(ulong, seed, 3141592653589793238ULL, "Random seed");
-+__param(ullong, seed, 3141592653589793238ULL, "Random seed");
- 
- static struct rb_root_cached root = RB_ROOT_CACHED;
- static struct interval_tree_node *nodes = NULL;
-diff --git a/lib/rbtree_test.c b/lib/rbtree_test.c
-index 94ace8f0fbf8..690cede46ac2 100644
---- a/lib/rbtree_test.c
-+++ b/lib/rbtree_test.c
-@@ -14,7 +14,7 @@
- __param(int, nnodes, 100, "Number of nodes in the rb-tree");
- __param(int, perf_loops, 1000, "Number of iterations modifying the rb-tree");
- __param(int, check_loops, 100, "Number of iterations modifying and verifying the rb-tree");
--__param(ulong, seed, 3141592653589793238ULL, "Random seed");
-+__param(ullong, seed, 3141592653589793238ULL, "Random seed");
- 
- struct test_node {
- 	u32 key;
-diff --git a/tools/include/linux/types.h b/tools/include/linux/types.h
-index 8519386acd23..4928e33d44ac 100644
---- a/tools/include/linux/types.h
-+++ b/tools/include/linux/types.h
-@@ -42,6 +42,8 @@ typedef __s16 s16;
- typedef __u8  u8;
- typedef __s8  s8;
- 
-+typedef unsigned long long	ullong;
-+
- #ifdef __CHECKER__
- #define __bitwise	__attribute__((bitwise))
- #else
+
+vim +1683 drivers/bluetooth/btnxpuart.c
+
+  1629	
+  1630	static int nxp_serdev_probe(struct serdev_device *serdev)
+  1631	{
+  1632		struct hci_dev *hdev;
+  1633		struct btnxpuart_dev *nxpdev;
+  1634	
+  1635		nxpdev = devm_kzalloc(&serdev->dev, sizeof(*nxpdev), GFP_KERNEL);
+  1636		if (!nxpdev)
+  1637			return -ENOMEM;
+  1638	
+  1639		nxpdev->nxp_data = (struct btnxpuart_data *)device_get_match_data(&serdev->dev);
+  1640	
+  1641		nxpdev->serdev = serdev;
+  1642		serdev_device_set_drvdata(serdev, nxpdev);
+  1643	
+  1644		serdev_device_set_client_ops(serdev, &btnxpuart_client_ops);
+  1645	
+  1646		INIT_WORK(&nxpdev->tx_work, btnxpuart_tx_work);
+  1647		skb_queue_head_init(&nxpdev->txq);
+  1648	
+  1649		init_waitqueue_head(&nxpdev->fw_dnld_done_wait_q);
+  1650		init_waitqueue_head(&nxpdev->check_boot_sign_wait_q);
+  1651	
+  1652		device_property_read_u32(&nxpdev->serdev->dev, "fw-init-baudrate",
+  1653					 &nxpdev->fw_init_baudrate);
+  1654		if (!nxpdev->fw_init_baudrate)
+  1655			nxpdev->fw_init_baudrate = FW_INIT_BAUDRATE;
+  1656	
+  1657		set_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
+  1658	
+  1659		crc8_populate_msb(crc8_table, POLYNOMIAL8);
+  1660	
+  1661		/* Initialize and register HCI device */
+  1662		hdev = hci_alloc_dev();
+  1663		if (!hdev) {
+  1664			dev_err(&serdev->dev, "Can't allocate HCI device\n");
+  1665			return -ENOMEM;
+  1666		}
+  1667	
+  1668		nxpdev->hdev = hdev;
+  1669	
+  1670		hdev->bus = HCI_UART;
+  1671		hci_set_drvdata(hdev, nxpdev);
+  1672	
+  1673		hdev->manufacturer = MANUFACTURER_NXP;
+  1674		hdev->open  = btnxpuart_open;
+  1675		hdev->close = btnxpuart_close;
+  1676		hdev->flush = btnxpuart_flush;
+  1677		hdev->setup = nxp_setup;
+  1678		hdev->post_init = nxp_post_init;
+  1679		hdev->send  = nxp_enqueue;
+  1680		hdev->hw_error = nxp_hw_err;
+  1681		hdev->shutdown = nxp_shutdown;
+  1682		hdev->wakeup = nxp_wakeup;
+> 1683		hdev->cmd_timeout = nxp_cmd_timeout;
+  1684		SET_HCIDEV_DEV(hdev, &serdev->dev);
+  1685	
+  1686		if (hci_register_dev(hdev) < 0) {
+  1687			dev_err(&serdev->dev, "Can't register HCI device\n");
+  1688			goto probe_fail;
+  1689		}
+  1690	
+  1691		if (ps_setup(hdev))
+  1692			goto probe_fail;
+  1693	
+  1694		hci_devcd_register(hdev, nxp_coredump, nxp_coredump_hdr, NULL);
+  1695	
+  1696		return 0;
+  1697	
+  1698	probe_fail:
+  1699		hci_free_dev(hdev);
+  1700		return -ENODEV;
+  1701	}
+  1702	
 
 -- 
-Wei Yang
-Help you, Help me
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
