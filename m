@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D05218AB4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C83714A4F9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741349214; cv=none; b=ZOYWxkQaE/Mnrj8Pn5B7qd3CdQrZeOZjZKidI2DFfMccktXbIYPUUql6lrlDylWH7A84tdRg/vBHvjtpPhuGP+qD/qxFhkkGwOqiDUyHmJvAFAs2BA4eZ1rjhUpocbGftyyy7Qr4RIcO6vAOh5rLRM3J6T01ZclubyB403/7B70=
+	t=1741350668; cv=none; b=UwRShHaV6zue8gJTTu8ASz+1WDfwgN+a5WimRWEveFbIyG6l/TyFM217zCVryWVdIEe7J4caBa/CywGWWpR63/pjOARCu7fcgQVtBtQK9E9ejCSfpTo8yv8g0en9Cy8WlAvsVv5tTG26uOSilCWG4IP0LaOms2HI+xZxzKIgxxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741349214; c=relaxed/simple;
-	bh=YT4Wlcwkl4YtSQS3RjRTgrksQssnkjkPHEd5VqKqFE8=;
+	s=arc-20240116; t=1741350668; c=relaxed/simple;
+	bh=dpCRN76oKxhQWOtxW3CFJtDv1z8q+T1LLtnFgy15kiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lhKYaXglFaXeow5AxFElEZYXRi1iq+PY0ar1Y1Di6/eykWvKfAmK43ehSuxuh7YwkmxBMNQVjBv2xUDHMMokEVpOWlXvWnfvKUN/tNKcbQccIn+w8Czx82GS/X/7D0QIGqsVwYbDq6vutnXBzerublVFkp/ZO4KCDoORBF2di/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ec0/G+aT; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=QFzQaGvVffIuk05FSCxM+ZVZGFdCA8WsW8Q/StK2/+0MpTVFw4I1eV0jZS/peT1TXzUNVrILaZwv5fS5dfR9wh5DQ69U48jwMop4QaY80DHRdLtvHB4uF2DJgR00ZXmblGJ8AC+/TpvW9UTmNvsw8SAthb5n5vyclvdBNOFq+JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NyX9IcDJ; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ec0/G+aT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NyX9IcDJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741349210; x=1772885210;
+  t=1741350666; x=1772886666;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YT4Wlcwkl4YtSQS3RjRTgrksQssnkjkPHEd5VqKqFE8=;
-  b=ec0/G+aTMr34I4nznSMEhpUaHlAG4/8o/ftRbj64Pfk2uUZ5iASbO/nP
-   C+SlJ8ghHasj4NS0QPkjDFCGawD1lGTGDtU8x0LDtYZN1iCUkxpwevXhs
-   b5DC3Eis49kU1KMGL+70eqU6Y3h0Erhbl4GKW5U5UKtqv4658Plg1wYo/
-   2NuDsbd/hhSIMMUmFRIdcGftCfMkBPSVeQkmY6FPhmHYxPRv2Wp1viatL
-   MHCMnVB/+dkT8UTZinbOm/iM8Vr5/4HfdK+3LRF7TSwtw79Y/AuPYVjVF
-   0NeVuc/3qu2QYIaMtzOSzKg3msRkX/nUgIKbwfAXPGYdTnzK8V2pbLoo/
-   g==;
-X-CSE-ConnectionGUID: nM0wugmOTV2INmbsJP9GGA==
-X-CSE-MsgGUID: od78waVeSsCxOgWEjPOY6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42250776"
+  bh=dpCRN76oKxhQWOtxW3CFJtDv1z8q+T1LLtnFgy15kiE=;
+  b=NyX9IcDJMRNFZHQ5/4mtRJB5dz5A6P0PZEUc6cTm+AMwevJoZErJMRoX
+   bP6ANgpkmDx5K09ffpR1Emm38V99clL0tlYiWfsx7AVc4C6PGiPTH2JGn
+   qBX76nxQ/qofYjr10GMeoLP6+HwDEDolLvRsYXXKH8t6VzQD2OquZo2At
+   uGbnfEWCO6SlZnrDJqcNXscdC4DvhHlZocWOLyCIzDQdr9f1PYATAzNdX
+   bECYF0EMZEgOGYGHdY5BVUQXk7v/oRjlrvvSMxsQ3OUwhwTat7jTpH3GK
+   3DbnmPbZYTSQYFBIaVzCDTZkC3zxbyigGFy1P18kupszIyDi+cdsfpSms
+   w==;
+X-CSE-ConnectionGUID: 1Op9fRFmT+StzeHbJFvVuw==
+X-CSE-MsgGUID: c8k+Qza7QfuWq12rKuZ5YQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42274947"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="42250776"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:06:48 -0800
-X-CSE-ConnectionGUID: ubeWDkQOTqKZlqyUeyxe9w==
-X-CSE-MsgGUID: QSInDB0YTYq+D+MVTG61OQ==
+   d="scan'208";a="42274947"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:31:05 -0800
+X-CSE-ConnectionGUID: SPcV756jR9+PtF5Q6KoaUw==
+X-CSE-MsgGUID: up90lS0aRHu7HJcHsODaiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="119476459"
+   d="scan'208";a="124230489"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2025 04:06:46 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Mar 2025 04:31:04 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqWTS-0000Qt-0g;
-	Fri, 07 Mar 2025 12:06:42 +0000
-Date: Fri, 7 Mar 2025 20:05:49 +0800
+	id 1tqWqz-0000Sl-34;
+	Fri, 07 Mar 2025 12:31:01 +0000
+Date: Fri, 7 Mar 2025 20:30:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Francis <alistair@alistair23.me>, bhelgaas@google.com,
-	linux-pci@vger.kernel.org, Jonathan.Cameron@huawei.com,
-	lukas@wunner.de
-Cc: oe-kbuild-all@lists.linux.dev, alex.williamson@redhat.com,
-	christian.koenig@amd.com, kch@nvidia.com,
-	gregkh@linuxfoundation.org, logang@deltatee.com,
-	linux-kernel@vger.kernel.org, alistair23@gmail.com,
-	chaitanyak@nvidia.com, rdunlap@infradead.org,
-	Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH v17 3/4] PCI/DOE: Expose the DOE features via sysfs
-Message-ID: <202503071950.vvsA3SXV-lkp@intel.com>
-References: <20250306075211.1855177-3-alistair@alistair23.me>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm/msm/dpu: Support YUV formats on writeback for DPU
+ 5.x+
+Message-ID: <202503072004.KTOFOoOq-lkp@intel.com>
+References: <20250305-cdm-yuv-fix-v1-1-5f1dd8ecf76c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,54 +63,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306075211.1855177-3-alistair@alistair23.me>
+In-Reply-To: <20250305-cdm-yuv-fix-v1-1-5f1dd8ecf76c@quicinc.com>
 
-Hi Alistair,
+Hi Jessica,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 6d3175a72cc07e90f81fb35841048a8a9b5134cb]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/PCI-DOE-Rename-Discovery-Response-Data-Object-Contents-to-type/20250306-155550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250306075211.1855177-3-alistair%40alistair23.me
-patch subject: [PATCH v17 3/4] PCI/DOE: Expose the DOE features via sysfs
-config: powerpc-icon_defconfig (https://download.01.org/0day-ci/archive/20250307/202503071950.vvsA3SXV-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071950.vvsA3SXV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jessica-Zhang/drm-msm-dpu-Support-YUV-formats-on-writeback-for-DPU-5-x/20250306-111647
+base:   6d3175a72cc07e90f81fb35841048a8a9b5134cb
+patch link:    https://lore.kernel.org/r/20250305-cdm-yuv-fix-v1-1-5f1dd8ecf76c%40quicinc.com
+patch subject: [PATCH] drm/msm/dpu: Support YUV formats on writeback for DPU 5.x+
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250307/202503072004.KTOFOoOq-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072004.KTOFOoOq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071950.vvsA3SXV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503072004.KTOFOoOq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/powerpc/kernel/pci-common.c:44:
-   arch/powerpc/kernel/../../../drivers/pci/pci.h: In function 'pci_doe_sysfs_init':
->> arch/powerpc/kernel/../../../drivers/pci/pci.h:488:70: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
-     488 | static inline void pci_doe_sysfs_init(struct pci_dev *pdev) { return 0; }
-         |                                                                      ^
-   arch/powerpc/kernel/../../../drivers/pci/pci.h:488:20: note: declared here
-     488 | static inline void pci_doe_sysfs_init(struct pci_dev *pdev) { return 0; }
-         |                    ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c:235:18: warning: 'wb2_formats_rgb' defined but not used [-Wunused-const-variable=]
+     235 | static const u32 wb2_formats_rgb[] = {
+         |                  ^~~~~~~~~~~~~~~
 
 
-vim +/return +488 arch/powerpc/kernel/../../../drivers/pci/pci.h
+vim +/wb2_formats_rgb +235 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 
-   483	
-   484	#if defined(CONFIG_PCI_DOE) && defined(CONFIG_SYSFS)
-   485	void pci_doe_sysfs_init(struct pci_dev *pci_dev);
-   486	void pci_doe_sysfs_teardown(struct pci_dev *pdev);
-   487	#else
- > 488	static inline void pci_doe_sysfs_init(struct pci_dev *pdev) { return 0; }
-   489	static inline void pci_doe_sysfs_teardown(struct pci_dev *pdev) { }
-   490	#endif
-   491	
+dabfdd89eaa928 Vinod Polimera 2022-04-11  234  
+8c16b988ba2d3d Abhinav Kumar  2023-12-12 @235  static const u32 wb2_formats_rgb[] = {
+53324b99bd7b4d Abhinav Kumar  2022-04-26  236  	DRM_FORMAT_RGB565,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  237  	DRM_FORMAT_BGR565,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  238  	DRM_FORMAT_RGB888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  239  	DRM_FORMAT_ARGB8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  240  	DRM_FORMAT_RGBA8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  241  	DRM_FORMAT_ABGR8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  242  	DRM_FORMAT_XRGB8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  243  	DRM_FORMAT_RGBX8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  244  	DRM_FORMAT_XBGR8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  245  	DRM_FORMAT_ARGB1555,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  246  	DRM_FORMAT_RGBA5551,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  247  	DRM_FORMAT_XRGB1555,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  248  	DRM_FORMAT_RGBX5551,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  249  	DRM_FORMAT_ARGB4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  250  	DRM_FORMAT_RGBA4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  251  	DRM_FORMAT_RGBX4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  252  	DRM_FORMAT_XRGB4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  253  	DRM_FORMAT_BGR888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  254  	DRM_FORMAT_BGRA8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  255  	DRM_FORMAT_BGRX8888,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  256  	DRM_FORMAT_ABGR1555,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  257  	DRM_FORMAT_BGRA5551,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  258  	DRM_FORMAT_XBGR1555,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  259  	DRM_FORMAT_BGRX5551,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  260  	DRM_FORMAT_ABGR4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  261  	DRM_FORMAT_BGRA4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  262  	DRM_FORMAT_BGRX4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  263  	DRM_FORMAT_XBGR4444,
+53324b99bd7b4d Abhinav Kumar  2022-04-26  264  };
+53324b99bd7b4d Abhinav Kumar  2022-04-26  265  
 
 -- 
 0-DAY CI Kernel Test Service
