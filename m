@@ -1,71 +1,70 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DA11A314C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 07:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C86F1AA7BF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 09:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741333424; cv=none; b=fu6QUY8Q2022eenTbq5D3BkfPgbriZq6pV+/k5X9yL7WndQyO2HJD8M7NrKk1/loI9bPtC2V7bl41nz2h+9whc9J7Uz4cRkOB1g0/rP6xD0QhrAL5+UipYeo9zglDHa7IvQltcTJI2BJB4tb2NkGM7NhgWy4r8NozjXqkSvxQck=
+	t=1741340114; cv=none; b=hQ2zU/dDqacrT1Y9proJmXCnbzbdtN/7/oXbcrX6YoaTcSanfAc4IrDs0WtmOusbXKey0nix1ualwIK2noLEMdhPlWXckWIw69UeCUdMLULGgcKz1q2TUuZq+bQ8WGAN4wCyaJqOJ8zx8sHlDP4ROxKsJI/o6ksr7+QAxRv5H3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741333424; c=relaxed/simple;
-	bh=q9EjPrsiTkSrrCSkftDQ0XVhghk2mMj/z1pgIRJ8EFs=;
+	s=arc-20240116; t=1741340114; c=relaxed/simple;
+	bh=jYoSV8nQfJp7un5aTqDi+A3w76r2felo0UbylAdqFyQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=m5FXru8nQguvEdK44kl0zSPiFtKHfA7nmY9G8gMLbvnN1Kra01sM5pk/kEBJar6Ih/+iwHQUxah5HaW2Lu+d7GtTrmQ2nIAtNImZ6VQ7zFxYKoPmHkFt3EMNj1FHXDS7TiZH7Om5f0G5bNFHzQSBzaA64wuf6UXSVZoD7aqIwSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s0eRRsCt; arc=none smtp.client-ip=209.85.221.53
+	 Content-Disposition; b=MHvR/NL8brrVPoX3rTg5r+x7iCuGdQWcErRgNS7slZgir5PZHwrHugqBgxi2xGRQpgT9Vm6LxNr2Md2S4kidHJrLxtz3p23c42N/auqCYBlTzWniLvSKnR7PXKgV9nBtUBSV0Lc/pUhQWnr7ubbXNlQfzFw/t2+DGFBRyNLXiK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mK76bCaF; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s0eRRsCt"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39133f709f5so189006f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 06 Mar 2025 23:43:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mK76bCaF"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso761007f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Mar 2025 01:35:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741333421; x=1741938221; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FAiX7ZoQFnaQDtZJKG3FPxlAfD7LyYqjF8yJgV4SPk0=;
-        b=s0eRRsCtTB4DVZN2I7FuUK5Lu0/Dy2tpJvEAPZ70iH1i0z7BkxEXwoNoYDqXqovLKj
-         PtvYQMnDzwiCc3/8Il/9MAFrtgvdM7JHeJ37h+LYq11nGJ0w/sC+vdrDsy145RgwGSH/
-         Xe+Isuqgh6lrlL5ZnTuFPdoyeGBoqIS1Xux3y7Vg1F9WszLLJVujJe6kskiOPyIeVXst
-         J+Dr4UMr2AQaJ5d08k4ZwHN7d9bH1iELAeXxZMIZ0leNt3OJrP+DsikMtrwNqmhJok8R
-         ocLtna3gFw8PCABDUSlNKQ+mmiEPCRDRWvzGhuWaoDWyKerlx1sVJRX9eOMSykyB4IY8
-         VSyw==
+        d=linaro.org; s=google; t=1741340110; x=1741944910; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tG4wOjkGDNlxrhDYLef3YLmq5DbwWRyZAglhXkugrhk=;
+        b=mK76bCaFl1q3r1FlLwJVB6/TsDIVAGwj53uRAK5qhklB/idkAhU81m0J7L1rTZjReI
+         DjJCmWPb56nzdp3Yk2BvHvzBOZGogoy0c0QE8q0xa5Joo6skQt3AxJzbfpTWjtPWVA9O
+         IsNLuDye7Jf2WjMnihq6u7uXMROkNSXsz5wPbBlL1SRuRvMW0Y0e0HFBaSf0WLgS5Yio
+         vGaEDpq93j6UE3v0mC9NthGQVfbizKqbl0FJQzpx2ivBfTDqnA3Vv7Z03IW+2Y0Q4QCu
+         VJVluUhOdtOaoUwFPwoK9Qih9HUcQmYeRpJuGtK+pYWiiYSiORFayVh+Fi0Gl63rzCiS
+         UrMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741333421; x=1741938221;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FAiX7ZoQFnaQDtZJKG3FPxlAfD7LyYqjF8yJgV4SPk0=;
-        b=gNbuHuWFkX+843U1UNSMZAH7dwSZvHxqzEmWZVtYt9R6S/XFSblyox14Wkr7rUsFZB
-         sQzZm/vf3e13ikH+8BW3j5X71Qrx3yBfVVArvgJsmkyF1zXvQIagvtDRRiDm8MUPjMAO
-         VEy4PS03Y3esBhEYjh+hEn5RPfM1ri8/bX8S1lizm/Z4lVkm7zEoqagM9JlgJawiquaM
-         VMF2QcGKEGrn5SA21T3Uy72W7FrrO+OD2G/FqRfaTCSp1Uhrpuh5UpAmSxk4TaYLc0I/
-         ISNJ2SuwHaxGQcmzveengeipLZcfYEsJpAG6r1jfVCbmIPcZCF/6H1KRYwVMAlIkO4IK
-         NDkg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0m+dJYLTJ+n4nNS46Y9LfcX+ryN+WNVXTZSL1aQ7gBrN69n8IKVHWiulvzW1rnVO6mXH1AOKUGOwb4RMk@lists.linux.dev
-X-Gm-Message-State: AOJu0YwO1yVfWlCrjGhT9fz2Su8aphVOwJb6W0ZsHACDwsKVT4aICWI6
-	u9xDTMTET33w/x/DHRxzrGDjt2dzF4XroHUODAU5CoZagDIbNLs3MIivhTUV0wM=
-X-Gm-Gg: ASbGncvKAPUR39b8+5oZUVqSDaNqvwaXYfuHXKoNnl4mdOfCOwOjWArDMmAk+ZnkwfD
-	yxAliXMaSgMGUpSd6VmJZE47nXzkUwOdHfy0rmTmOgO/MAhMid5jVk4fpfGjWQkoPman7c4dl7Y
-	vNtvLXntSS32R4mrGEWfCDnbUUYYFYu/IvcEIMDcL6W3yr7zGBgrL+YTZxPzfKcMTY7oHsiANiX
-	vPB5IfnMHnH6hfo0fI44chWWGB8dJkix50TQ64uhIDbsel9DIaV1ZcK6q7PJq38ogIlaewTGCKN
-	8/a2kUoFLrjNIi+UE9RoR665Ly/fGZL0JFLn369uU85VFx38OQ==
-X-Google-Smtp-Source: AGHT+IFk6A8C/ZntqwxTrlUz2PFzjZZpFVU9KCl3S1emNKm9UtBgGjkFq3dnBk02LPS/zX7/WThaAQ==
-X-Received: by 2002:a05:6000:381:b0:391:4ca:490 with SMTP id ffacd0b85a97d-39132d76e70mr1285143f8f.29.1741333420618;
-        Thu, 06 Mar 2025 23:43:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1741340110; x=1741944910;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tG4wOjkGDNlxrhDYLef3YLmq5DbwWRyZAglhXkugrhk=;
+        b=r/hCfp2WD6drYNN3wYmt/FDdCfuUAYYLSYmhWOrybgbj6TnJA1znn8QnL9zpmsQUL7
+         Tt/0myPesr5UMEKk7NwKs6WCFPHDXD30HEMLiTlXC6r5zr942ol1TuZHlErYgN16brDA
+         WxqnBClylPYXO8QUGVYhr4u3K4XH2m1NyIkAL/PAq3NKVgh4lvIEsODyhqBh8EzQzfPm
+         EK7XU38fSPROJvn3wAPCSxc0p6ExUPqNOd+BmIAGrVzn2cU/9PGQoawARBLHlrnUpiZF
+         7Ysz8bU/YM2inBVXK7z/lBYnDAgKmSCJqSdK/UKceFmYdc3H+spish5Dyw7JVqiBUJr6
+         s08Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXUbRtZFuVK2MjmL/hiczOxNavRZFXgtGZ/ZJ5Qepwd9IRLxP7fJlZPlW+zNVFUW7/H36o1YKLjC1D8PIat@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVHNvy4lLZt/maUnc27ors0lmcJYadnqKeJhUbPQjFCiKCzHg9
+	ogO3qKxzoLsOmbbV8Dr1mKbKpYaq+gaALFVtfEvXYF03nUZB2BtabrwjdAQzGdE=
+X-Gm-Gg: ASbGncuwCEWBDr/FxRfP1Rq0IBugatpuWcKyzUMVUmQ5VBdx3qMYYIcBt6GJK9IcbD2
+	XNE0h179KXJj5FXp8UlA4RXZK+p2k1x7rYjyz19B6TSg4e4fYmMTVlUsHdfpiKgZ+ObmN34r7uF
+	I56m2o7UJk1r4HthteBJeCfwJKPhkC8VFXVp2qqQzT8WWQdGphtxd5U4NiTQDog8kqKDoPYp0n3
+	h1UN4RMLNv0wZJCJQ2Ilv6bRkMfRcnvp+u67b1kdp+th14gbmB2OWQC0Ywf12meCVHmPnK320VV
+	j6jiz0x/cPj70mQb1jq8AwGJrkEmubtDaT8LBndEDUq1w7iemw==
+X-Google-Smtp-Source: AGHT+IHkXSAqFp5TDNlCnoK05b/KoISEKKsQipby+FODmtnLx9O7Cb6nJRjyYWBfk3StIU8egQB/bg==
+X-Received: by 2002:a05:6000:1867:b0:38f:2a53:1d78 with SMTP id ffacd0b85a97d-39132d20b9emr1587470f8f.10.1741340110231;
+        Fri, 07 Mar 2025 01:35:10 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bd4352fa3sm72716925e9.30.2025.03.06.23.43.39
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912c104acesm4823915f8f.98.2025.03.07.01.35.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 23:43:40 -0800 (PST)
-Date: Fri, 7 Mar 2025 10:43:36 +0300
+        Fri, 07 Mar 2025 01:35:09 -0800 (PST)
+Date: Fri, 7 Mar 2025 12:35:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, raoxu <raoxu@uniontech.com>,
-	mathias.nyman@intel.com, gregkh@linuxfoundation.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, wangyuli@uniontech.com,
-	zhanjun@uniontech.com, Xu Rao <raoxu@uniontech.com>
-Subject: Re: [PATCH] From: Xu Rao <raoxu@uniontech.com> Subject: [PATCH] usb:
- xhci: Add debugfs support for xHCI port bandwidth
-Message-ID: <8318dbc1-1c15-4a11-abba-23f917e8b176@stanley.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Etienne Carriere <etienne.carriere@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Olivier Masse <olivier.masse@nxp.com>
+Subject: [jens-wiklander-tee:testing/tuxbuild 6/10] drivers/tee/tee_shm.c:258
+ tee_shm_register_fd() warn: passing zero to 'PTR_ERR'
+Message-ID: <06bf6c6d-f4f3-4a19-be2e-e8a7f3f6c999@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,72 +73,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250303095837.16332-1-raoxu@uniontech.com>
 
-Hi raoxu,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/raoxu/From-Xu-Rao-raoxu-uniontech-com-Subject-PATCH-usb-xhci-Add-debugfs-support-for-xHCI-port-bandwidth/20250303-180107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250303095837.16332-1-raoxu%40uniontech.com
-patch subject: [PATCH] From: Xu Rao <raoxu@uniontech.com> Subject: [PATCH] usb: xhci: Add debugfs support for xHCI port bandwidth
-config: riscv-randconfig-r072-20250306 (https://download.01.org/0day-ci/archive/20250307/202503071516.tj5UBRqT-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tuxbuild
+head:   f4198d1f9ee51430ec81d02bb21f769cb6fd14c1
+commit: 7fc3cd07fc7e055deefa3b33ff9f702ccd9f7864 [6/10] tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071648.ViJVMQTh-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503071516.tj5UBRqT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503071648.ViJVMQTh-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/host/xhci.c:3120 xhci_get_port_bandwidth() error: uninitialized symbol 'flags'.
+smatch warnings:
+drivers/tee/tee_shm.c:258 tee_shm_register_fd() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:218 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+vim +/PTR_ERR +258 drivers/tee/tee_shm.c
 
-vim +/flags +3120 drivers/usb/host/xhci.c
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  210  struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  211  {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  212  	struct tee_shm_dmabuf_ref *ref;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  213  	int rc;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  214  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  215  	if (!tee_device_get(ctx->teedev))
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  216  		return ERR_PTR(-EINVAL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  217  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  218  	teedev_ctx_get(ctx);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  219  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  220  	ref = kzalloc(sizeof(*ref), GFP_KERNEL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  221  	if (!ref) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  222  		rc = -ENOMEM;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  223  		goto err_put_tee;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  224  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  225  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  226  	refcount_set(&ref->shm.refcount, 1);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  227  	ref->shm.ctx = ctx;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  228  	ref->shm.id = -1;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  229  	ref->shm.flags = TEE_SHM_DMA_BUF;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  230  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  231  	ref->dmabuf = dma_buf_get(fd);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  232  	if (IS_ERR(ref->dmabuf)) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  233  		rc = PTR_ERR(ref->dmabuf);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  234  		goto err_kfree_ref;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  235  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  236  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  237  	rc = tee_heap_update_from_dma_buf(ctx->teedev, ref->dmabuf,
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  238  					  &ref->offset, &ref->shm,
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  239  					  &ref->parent_shm);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  240  	if (!rc)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  241  		goto out;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  242  	if (rc != -EINVAL)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  243  		goto err_put_dmabuf;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  244  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  245  	ref->attach = dma_buf_attach(ref->dmabuf, &ctx->teedev->dev);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  246  	if (IS_ERR(ref->attach)) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  247  		rc = PTR_ERR(ref->attach);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  248  		goto err_put_dmabuf;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  249  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  250  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  251  	ref->sgt = dma_buf_map_attachment(ref->attach, DMA_BIDIRECTIONAL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  252  	if (IS_ERR(ref->sgt)) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  253  		rc = PTR_ERR(ref->sgt);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  254  		goto err_detach;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  255  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  256  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  257  	if (sg_nents(ref->sgt->sgl) != 1) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27 @258  		rc = PTR_ERR(ref->sgt->sgl);
 
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3094  int xhci_get_port_bandwidth(struct xhci_hcd *xhci, u8 *bw_table)
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3095  {
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3096  	unsigned int		num_ports;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3097  	unsigned int		i;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3098  	struct xhci_command	*cmd;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3099  	dma_addr_t		dma_handle;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3100  	void			*dma_buf;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3101  	int			ret;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3102  	unsigned long		flags;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3103  	struct device		*dev  = xhci_to_hcd(xhci)->self.sysdev;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3104  
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3105  	num_ports = HCS_MAX_PORTS(xhci->hcs_params1);
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3106  
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3107  	cmd = xhci_alloc_command(xhci, true, GFP_KERNEL);
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3108  	if (!cmd)
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3109  		return -ENOMEM;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3110  
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3111  	dma_buf = dma_alloc_coherent(dev, xhci->page_size, &dma_handle,
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3112  					GFP_KERNEL);
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3113  	if (!dma_buf) {
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3114  		xhci_free_command(xhci, cmd);
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3115  		return -ENOMEM;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3116  	}
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3117  
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3118  	/* get xhci hub usb3 port bandwidth */
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3119  	/* refer to xhci rev1_2 protocol 4.6.15*/
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03 @3120  	spin_unlock_irqrestore(&xhci->lock, flags);
+This should be "rc = -EINVAL;"
 
-This was supposed to be spin_lock_save().
-
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3121  	ret = xhci_queue_get_rh_port_bw(xhci, cmd, dma_handle, USB_SPEED_SUPER,
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3122  					0, false);
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3123  	if (ret < 0) {
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3124  		spin_unlock_irqrestore(&xhci->lock, flags);
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3125  		goto out;
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3126  	}
-01a36d597b1902 drivers/usb/host/xhci.c     Xu Rao      2025-03-03  3127  	xhci_ring_cmd_db(xhci);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  259  		goto err_unmap_attachement;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  260  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  261  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  262  	ref->shm.paddr = page_to_phys(sg_page(ref->sgt->sgl));
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  263  	ref->shm.size = ref->sgt->sgl->length;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  264  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  265  out:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  266  	mutex_lock(&ref->shm.ctx->teedev->mutex);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  267  	ref->shm.id = idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  268  				1, 0, GFP_KERNEL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  269  	mutex_unlock(&ref->shm.ctx->teedev->mutex);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  270  	if (ref->shm.id < 0) {
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  271  		rc = ref->shm.id;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  272  		if (ref->attach)
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  273  			goto err_unmap_attachement;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  274  		goto err_put_dmabuf;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  275  	}
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  276  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  277  	return &ref->shm;
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  278  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  279  err_unmap_attachement:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  280  	dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  281  err_detach:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  282  	dma_buf_detach(ref->dmabuf, ref->attach);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  283  err_put_dmabuf:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  284  	dma_buf_put(ref->dmabuf);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  285  err_kfree_ref:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  286  	kfree(ref);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  287  err_put_tee:
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  288  	teedev_ctx_put(ctx);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  289  	tee_device_put(ctx->teedev);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  290  
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  291  	return ERR_PTR(rc);
+7fc3cd07fc7e05 Etienne Carriere 2016-10-27  292  }
 
 -- 
 0-DAY CI Kernel Test Service
