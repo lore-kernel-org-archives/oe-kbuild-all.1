@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9DA8624B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 03:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519E42E822;
+	Fri,  7 Mar 2025 03:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741316860; cv=none; b=TXpMaHoV6H3Irm9DZR8aucd0nAdKwQOozZW5l68PkqwpaHevk5fKzweq5UeKspxYW1uf4r+E8DuYzYytDHZZU3fFLvb4l0ZJp6+SB7wb5+S4rE5CNQGRz/R9J32asEVynSSgw5glhKwW3/ieQZwJDEgF+rGEQztv0pOfIek7j1Q=
+	t=1741316924; cv=none; b=XUh2YRQW7Liexa04XLpcOC89JXUaH0Z+Arq9BSHzHBFWURBZVBIZOTmdT5tbIaZ2HxBpS0WlOSos365/F7kpLYwCt53bMLA1OOJuCIXft4jui7SkEnXnivZehxfjsNXfa3aKtDVpnhBUO0Loq1hEIWpIcf511TKQJdZLglMxMrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741316860; c=relaxed/simple;
-	bh=jqXiDACI97GfDcK54v2uBOaQZbVY6w2uy8BfQ6PYqas=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sJDSXMvmm1hXILsA/BZgtWUTUrxr6HY9beVuBppXrc6J6VDcGzi6zOJUuQ0pfsel/1ztBbD8JY9FP8aWWi4KH06aAF71mD1d0kwp2AV/Gjx7qfWrNeQnGs75VoCNsk2fgEB83Dsgn4DoFTH0dlhzAC/0W6rrMGLaqZhapnQNlyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zpx2ilBE; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1741316924; c=relaxed/simple;
+	bh=DcLJ9aKimVNyrW/43nsjmeGTwBj8U+eyVkMor5z0OH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hlzJNjFkIrK8bBBgSQh6krkALjWhwNrby3czd3XWAaqJthstuiMAOXu+YY/VkVQvU7v4dg/+0JQxTeoMnNCAEoTxPQYX7lo7TsdMse4P9QPwgfeDC1FarVHDLt+1800mZVDSEF1P1h9AuJSICR2M/e6LJEjzb0eKx+77rqgIJRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BmYVNQH1; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zpx2ilBE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmYVNQH1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741316858; x=1772852858;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jqXiDACI97GfDcK54v2uBOaQZbVY6w2uy8BfQ6PYqas=;
-  b=Zpx2ilBEnzC1Im9f9Wh/7uJIfMUUMYohQXve39Z0PnkW0x5m9j4o+eai
-   rOLSQy/MIckIigpvr0quCKPTlEB8En8m2bS9DYcCx2+TAwOkKpCBi3ZgS
-   el9Uu+V/zi0DHpUfr5cj0k0+LpLTyqTa2hMCCUysKKOX/zd/z7Ni08whs
-   Zn3YFmkhQmGx0iM246UGQRljLy2dOYbfGApqjMfxYDCVamEvY9IatS3wf
-   77qy53qdgUcPQKAyRrigHOoNhhT1ZnztdpCYTpj95JAeWQ1efbndJbhhh
-   utcvpFgIU4ul/GTyfLn60AH98U9hVvUwUuBUhh0cZylE7ZiPQg20NCHt6
+  t=1741316920; x=1772852920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DcLJ9aKimVNyrW/43nsjmeGTwBj8U+eyVkMor5z0OH0=;
+  b=BmYVNQH16msb0sJQ9GcjMHOLg4n+SuJln+cjl6Ke/kh2mO9bb7duYuwM
+   r5oNeYB25w8pwb7YbClYDSd5eY9BZrELjd8h3Yca/RY2JDgMDHMkwHJaQ
+   b4G3ql67IYQfIRsFyb0tEl+ItKuBaBcVkHoKemBeaiQ9BFxGCxbQhb/wb
+   5UTsmhT8ednU81eS40qfqxiBhwqh1GvpXIZJAG/BfpqFeT2te2vRGyxjm
+   E/522LTTBSgjHkTZX4nuvt4KGvWllyj2AcskmAoMQIC0DxDK65l4NUwgq
+   H9OOTvkjVI6u896BhHXoz78mJmmjKYyNizSA+rnWLcQxCOg8jMyFg3Icb
    A==;
-X-CSE-ConnectionGUID: +B+tEmqjThOr1NU1RE+aFA==
-X-CSE-MsgGUID: TMH3A7t+QimmxzF39cQ9AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53754593"
+X-CSE-ConnectionGUID: P7CMQSibSoChL0lofLTLAw==
+X-CSE-MsgGUID: sMz398i+Tmq3GWh7HcmEog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52996206"
 X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
-   d="scan'208";a="53754593"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 19:07:35 -0800
-X-CSE-ConnectionGUID: opmL1lExRT2KLMDc5MleNw==
-X-CSE-MsgGUID: F4OW/fH2Q7SDJhn8MzERiw==
+   d="scan'208";a="52996206"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 19:08:39 -0800
+X-CSE-ConnectionGUID: NYB16Ma0QrSPRJ6pD9Bw5g==
+X-CSE-MsgGUID: UPRbNo95TJeuYJ1WV0owAw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,227,1736841600"; 
-   d="scan'208";a="119204896"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119130707"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Mar 2025 19:07:33 -0800
+  by orviesa010.jf.intel.com with ESMTP; 06 Mar 2025 19:08:35 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqO3f-000O7Q-27;
-	Fri, 07 Mar 2025 03:07:31 +0000
-Date: Fri, 7 Mar 2025 11:07:28 +0800
+	id 1tqO4d-000O7i-2r;
+	Fri, 07 Mar 2025 03:08:31 +0000
+Date: Fri, 7 Mar 2025 11:07:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Dingxian Wen <shawn.wen@rock-chips.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: [linuxtv-media-pending:next 3/30] snps_hdmirx.c:undefined reference
- to `__udivdi3'
-Message-ID: <202503071004.stlhNcQK-lkp@intel.com>
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
+	akpm@linux-foundation.org, urezki@gmail.com, hch@infradead.org,
+	dmitry.osipenko@collabora.com, jfalempe@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ryosuke Yasuoka <ryasuoka@redhat.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-mm@kvack.org
+Subject: Re: [PATCH drm-next 2/2] drm/virtio: Use atomic_vmap to work
+ drm_panic in GUI
+Message-ID: <202503071022.q1pg7suf-lkp@intel.com>
+References: <20250305152555.318159-3-ryasuoka@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +71,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250305152555.318159-3-ryasuoka@redhat.com>
 
-tree:   https://git.linuxtv.org/media-ci/media-pending.git next
-head:   143d75583f2427f3a97dba62413c4f0604867ebf
-commit: 7b59b132ad4398f9c13c3222e5126f5045aa5ead [3/30] media: platform: synopsys: Add support for HDMI input driver
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250307/202503071004.stlhNcQK-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071004.stlhNcQK-lkp@intel.com/reproduce)
+Hi Ryosuke,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on e21cba704714c301d04c5fd37a693734b623872a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryosuke-Yasuoka/vmalloc-Add-atomic_vmap/20250305-232918
+base:   e21cba704714c301d04c5fd37a693734b623872a
+patch link:    https://lore.kernel.org/r/20250305152555.318159-3-ryasuoka%40redhat.com
+patch subject: [PATCH drm-next 2/2] drm/virtio: Use atomic_vmap to work drm_panic in GUI
+config: i386-buildonly-randconfig-003-20250306 (https://download.01.org/0day-ci/archive/20250307/202503071022.q1pg7suf-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071022.q1pg7suf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071004.stlhNcQK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071022.q1pg7suf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   m68k-linux-ld: drivers/media/platform/synopsys/hdmirx/snps_hdmirx.o: in function `hdmirx_get_timings':
->> snps_hdmirx.c:(.text+0x239e): undefined reference to `__udivdi3'
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-mgr-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-bridge-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fpga/tests/fpga-region-test.o
+ERROR: modpost: "drm_gem_atomic_get_pages" [drivers/gpu/drm/drm_shmem_helper.ko] undefined!
+ERROR: modpost: "atomic_vmap" [drivers/gpu/drm/drm_shmem_helper.ko] undefined!
+>> ERROR: modpost: "drm_gem_shmem_atomic_vmap" [drivers/gpu/drm/virtio/virtio-gpu.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
