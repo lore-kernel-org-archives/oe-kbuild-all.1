@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CDD1607A4;
-	Fri,  7 Mar 2025 17:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBECE219E98
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 18:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741370200; cv=none; b=kkPb1So97l+QcIiU9HL0esP7oMO3ZrP93DNjzmk9cUe4L3H1FN2vjiLMjKtOKNhhYGNGynvDmKz3k59x6yhOLtVIxyozqo17WebCevqFx5CgfPvzvqrJv8qpp75R9gBjQoV/DaWfOTh/1NJ7+24NuIdxNXzQqam47icaoUwmxRw=
+	t=1741372729; cv=none; b=P+KfKA6ib+OmuQAeTRlcP1054tF7UvklzvMjVp//Cv6t+iQFIOE7iFijH7COVh+eMCCHfUESFvD+Jnj1ZRhcQHpiZw4sgWu+Bt6B6fxcc1Q9LUMNRwhrkTMWjxinP3DUGYHPA153w6MRJiEip4KznC9kYqCFkOXqlORvGPTTaaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741370200; c=relaxed/simple;
-	bh=v32ep8wQXLYDB9RMfVOjlCUuiFXNYEVja62Yb9wpOWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rvp9kBlA9dHfN5dCA0hJTZFoK/TlXqGNW1b7XZQMYtAL/LoIVkaPtF1QHF1nnRLHKizelYuc9xAQy1zfLeBQL+Duo1n48VsRDUyxLKpP65+R0x7wbZAuEvdHsTqgsEuM0oQVjZGqXV+GZPcGHEl4C6garN2QU1kaHTHXb4QaoZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJwh1MwR; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1741372729; c=relaxed/simple;
+	bh=r7dcldOhANKEkZ4dRi/fH2du0vrXWes+A6Jc06AVwDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Wui4JIjLVwSB2xFbnlFceRkYQWPbY7PK7rkyyeEEE09En7maW60UqgzVikEFKvMsMNpIcbS1TaVMOiljAdyp4PonjhZ/Z9qLeHtoQTzDoMnhixXOanflObcntkXXX5zz19PZo6UOhoQ4eLON8LSwYJPPZ6ezook2rIufxxm4NEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HzaxIrHJ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJwh1MwR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HzaxIrHJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741370198; x=1772906198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v32ep8wQXLYDB9RMfVOjlCUuiFXNYEVja62Yb9wpOWM=;
-  b=nJwh1MwRAHZ+liSnrpQlj5pEBgDqexMG/MYFxiqu5y3rnQkMW9L50ruf
-   5Shxog8wEOcaTfxR+7P0tifdLh2E228ZMD4EV5UAmYSFufXn7LtOalAot
-   QwXTb9WQzCkW3AQqe2xu5wXfuz5zmuaKuYuLCYUIvUGKAURoa3Iwtmexc
-   D3L3lyrWnnPlAl6XHB5dFNVMcvZY1xnCSAl0uqHJ5UflKbmx3JSlbPytw
-   mHyiY5wI/wpmdJl+Z3xAtlCqcUpHkRKtwxaBk7r4SFJK0NYs00fFGAhJN
-   6c16OMJp5iKeiw4berhO4+onbGSK1C47DW34V662ZbMkl/TIGdlpG6de1
+  t=1741372728; x=1772908728;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r7dcldOhANKEkZ4dRi/fH2du0vrXWes+A6Jc06AVwDA=;
+  b=HzaxIrHJ2HD1xXs2cHu+65kqPRGng4ztCb9D3BxXAafdHItFk8TiOTOS
+   7LGQdimfrbQzjbBf1ULhGDvXcYjmXMTtkzXUatgRqJcYLnTSxBGbcdE5Y
+   S3a5FogwVrw707biYREFLXUxdl7JinHxhYUJ5+TxmVCzu35KGNVIX6jRt
+   clwxOWq0z2hbIDLiINp2S5PeS7qgXPTgN29rMsROT3dL2wGoVkUSsjdcJ
+   NxbPFeaMKlOyqyIBBZJBp5JQRaduMzyBfKS8hjqbLzZoLiLMV8t4AphIT
+   CeY5Oyt/Ej1ZODAslERWlv0Jp+twDdqKbmXJ//xw/SarK+AfBh/JvBFHU
    Q==;
-X-CSE-ConnectionGUID: aoxc72rbQ+OZFZQGWcFkAw==
-X-CSE-MsgGUID: NIGJ7q8YSaWk0xtKWvpcsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42628544"
+X-CSE-ConnectionGUID: Po8OW0FsQsujGakyrmiMQg==
+X-CSE-MsgGUID: W4e7W3DHQTSkJq9rwgk9qA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42573538"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="42628544"
+   d="scan'208";a="42573538"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 09:56:34 -0800
-X-CSE-ConnectionGUID: HH8jZ9sLTiKKfX9cT8D9lg==
-X-CSE-MsgGUID: hWYQM+BpTy+mwO1PB9jgmw==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 10:38:47 -0800
+X-CSE-ConnectionGUID: IMw6SSneTa+Jnql2XyF5gQ==
+X-CSE-MsgGUID: GVFPRx1MRU24n2/Zlh59Iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150335665"
+   d="scan'208";a="150349545"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Mar 2025 09:56:32 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 07 Mar 2025 10:38:46 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqbvy-0000t5-1I;
-	Fri, 07 Mar 2025 17:56:30 +0000
-Date: Sat, 8 Mar 2025 01:56:25 +0800
+	id 1tqcaf-0000vb-2l;
+	Fri, 07 Mar 2025 18:38:35 +0000
+Date: Sat, 8 Mar 2025 02:38:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bharata B Rao <bharata@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 4/4] x86: ibs: Enable IBS profiling for memory
- accesses
-Message-ID: <202503080104.AHMWmR7w-lkp@intel.com>
-References: <20250306054532.221138-5-bharata@amd.com>
+To: Ben Skeggs <bskeggs@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dave Airlie <airlied@redhat.com>
+Subject: [jfern:nova-core-experiments 192/411]
+ drivers/gpu/drm/nouveau/nouveau_drm.c:824:1: warning: label
+ 'fail_drm_dev_init' defined but not used
+Message-ID: <202503080248.u5FhxSv3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306054532.221138-5-bharata@amd.com>
 
-Hi Bharata,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on tip/x86/mm linus/master v6.14-rc5]
-[cannot apply to akpm-mm/mm-everything next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bharata-B-Rao/mm-migrate-Allow-misplaced-migration-without-VMA-too/20250306-134949
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20250306054532.221138-5-bharata%40amd.com
-patch subject: [RFC PATCH 4/4] x86: ibs: Enable IBS profiling for memory accesses
-config: x86_64-buildonly-randconfig-005-20250307 (https://download.01.org/0day-ci/archive/20250308/202503080104.AHMWmR7w-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080104.AHMWmR7w-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-core-experiments
+head:   3b93174b3502247b0c46bd54a7cf5f4105274edb
+commit: d5f4619b33f18fda53df3bd2b5608cc78d5798b0 [192/411] drm/nouveau/nvkm: move pci probe() enable/disable handling from drm
+config: csky-randconfig-002-20250307 (https://download.01.org/0day-ci/archive/20250308/202503080248.u5FhxSv3-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080248.u5FhxSv3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503080104.AHMWmR7w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503080248.u5FhxSv3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: do_syscall_64+0x11: call to hw_access_profiling_stop() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: do_int80_emulation+0x16: call to hw_access_profiling_stop() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x5: call to hw_access_profiling_stop() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_exit_to_user_mode+0xcc: call to hw_access_profiling_start() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x5: call to hw_access_profiling_stop() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit_to_user_mode+0xc2: call to hw_access_profiling_start() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x1c: call to hw_access_profiling_stop() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x63: call to hw_access_profiling_start() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ia32_setup_rt_frame+0x135: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: compat_get_bitmap+0xb3: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: compat_put_bitmap+0xb3: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp1+0xd: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp2+0x10: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp4+0x10: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_cmp8+0xf: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp1+0x10: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp2+0x10: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp4+0x10: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_const_cmp8+0xf: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: __sanitizer_cov_trace_switch+0x51: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: fault_in_writeable+0xae: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: fault_in_readable+0xb5: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: fillonedir+0x179: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: filldir+0x245: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: filldir64+0x244: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: compat_fillonedir+0x1ae: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: compat_filldir+0x28e: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: copy_iovec_from_user+0x98: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: check_zeroed_user+0xce: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: strncpy_from_user+0x8a: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: strnlen_user+0xa7: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
-   vmlinux.o: warning: objtool: copy_mc_fragile_handle_tail+0x4d: call to write_comp_data.llvm.15977173092665352742() with UACCESS enabled
+   drivers/gpu/drm/nouveau/nouveau_drm.c: In function 'nouveau_drm_probe':
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:824:1: warning: label 'fail_drm_dev_init' defined but not used [-Wunused-label]
+     824 | fail_drm_dev_init:
+         | ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nouveau_drm.c: In function 'nouveau_drm_device_remove':
+   drivers/gpu/drm/nouveau/nouveau_drm.c:836:29: warning: unused variable 'device' [-Wunused-variable]
+     836 |         struct nvkm_device *device = drm->nvkm;
+         |                             ^~~~~~
+   drivers/gpu/drm/nouveau/nouveau_drm.c: At top level:
+   drivers/gpu/drm/nouveau/nouveau_drm.c:484:1: warning: 'nouveau_driver' defined but not used [-Wunused-const-variable=]
+     484 | nouveau_driver = {
+         | ^~~~~~~~~~~~~~
+
+
+vim +/fail_drm_dev_init +824 drivers/gpu/drm/nouveau/nouveau_drm.c
+
+   786	
+   787	static int nouveau_drm_probe(struct pci_dev *pdev,
+   788				     const struct pci_device_id *pent)
+   789	{
+   790		struct nvkm_device *device;
+   791		struct nouveau_drm *drm;
+   792		int ret;
+   793	
+   794		/* We need to check that the chipset is supported before booting
+   795		 * fbdev off the hardware, as there's no way to put it back.
+   796		 */
+   797		ret = nvkm_device_pci_driver.probe(pdev, NULL);
+   798		if (ret)
+   799			return ret;
+   800	
+   801		device = pci_get_drvdata(pdev);
+   802	
+   803		if (nouveau_atomic)
+   804			driver_pci.driver_features |= DRIVER_ATOMIC;
+   805	
+   806		drm = nouveau_drm_device_new(&driver_pci, &pdev->dev, device);
+   807		if (IS_ERR(drm)) {
+   808			ret = PTR_ERR(drm);
+   809			goto fail_nvkm;
+   810		}
+   811	
+   812		ret = nouveau_drm_device_init(drm);
+   813		if (ret)
+   814			goto fail_drm;
+   815	
+   816		if (drm->device.impl->ram_size <= 32 * 1024 * 1024)
+   817			drm_fbdev_ttm_setup(drm->dev, 8);
+   818		else
+   819			drm_fbdev_ttm_setup(drm->dev, 32);
+   820	
+   821		quirk_broken_nv_runpm(pdev);
+   822		return 0;
+   823	
+ > 824	fail_drm_dev_init:
+   825		nouveau_drm_device_fini(drm);
+   826	fail_drm:
+   827		nouveau_drm_device_del(drm);
+   828	fail_nvkm:
+   829		nvkm_device_del(&device);
+   830		return ret;
+   831	}
+   832	
 
 -- 
 0-DAY CI Kernel Test Service
