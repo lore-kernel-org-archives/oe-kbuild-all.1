@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C787818F2C3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 03:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7765F188713
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 03:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741318815; cv=none; b=eD7e2GJGIdtzML8W9ur/0Tzh3nj00DD0I49uvUwtvK4n9d6yeoBF/kkAVXswDgEHSLD8H4nrrFomoJ8fvUlQUZfkKbO0TS87ZOQ4kBTcZdlAUauVHDuK6683xi1v+JdY2imLlPgOgVsyJXqrJd+6F+Vu0Bi45Keybq43tYXKo7k=
+	t=1741318824; cv=none; b=ELBegR+K+hzeFe2+60NP2vjczVrZZGyN0tNGpxJDMX2X80edK6+5DcSXnWXJj5fTdKEontzVh+nkJ1bVA+J3aFbAm2a5uxawMgy4TG7j6nCNUYLRtPuPDA+14Jdsc2WX92cUItZ2NFF7OnhzljsZOOa6pUweBHWF8eEalArPU8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741318815; c=relaxed/simple;
-	bh=fyQXl3brd3qQYlZIRU/OdbZDDvjbA6fU9y98rBfw7qw=;
+	s=arc-20240116; t=1741318824; c=relaxed/simple;
+	bh=iyS2daxFBTxrqZIFfDH3tFbe9as5X14QyKFI7+aIKb0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YguvVoK9ZfyGyn2jzMlQa0BvwX76Xs7Av6EtuPRotfYoOT7scUOInR2dzFEXHa+XP6zpEaCNrUDVBV70rJ5QCtsOr+AV5iE5S8hCPieAqxkBGDPpc1BH1c6F7JG1S2+YHm3PdQ7B+KBs1a3ibyym9kR1HgpjVzjfJJarPuD4u7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m5WM0jWz; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=b7reOT1ng24aE5UD/ZF3pYNZkKen8XRT/8RuyuRzXWosR92fORVW2+D4FfvGXJJkI9eopdRL3PGdrdmlZjYRnAl7fuXaJKVeFifRSSwBRXyAIhKj8DcPwwjhnrIwFd2auyKxLgzg3aN7IdsBpkS8H4sQAC2tP7l9psCLgRw5O6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ww3fP9E9; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m5WM0jWz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ww3fP9E9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741318814; x=1772854814;
+  t=1741318823; x=1772854823;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fyQXl3brd3qQYlZIRU/OdbZDDvjbA6fU9y98rBfw7qw=;
-  b=m5WM0jWz3X2ZKUZ/2AjUvRUTuCbD4TDxt9svj1WwPWQBRnJtU5uJGdxO
-   c954lzZV8b8MhvkP8EoL2SS9brt7fI15sVDi2y4CiS8PKc/3zfVVkm5iG
-   gpvln01qsCZrfEhQY3x57m46DTaF8mZxbagUhsUDGrPI0eaMYTgCSVxW7
-   CcVE8R4WGdq7lPF4glsncH78L8ZUVnIjYt5m70ttOcVM57BaSseHVZPfA
-   oNmRVAMOh9bbzHm6mOKDw1zXxk4gGWGtJ9m+hl7pN/jc+4vwwt11oYNS1
-   D7ZlJ6Pa+G53/ZNxOnIT/zH2CI111YPz2ZHqhydAHuWzOutrGpW1jqXh+
-   g==;
-X-CSE-ConnectionGUID: PMIAyaePRyWsco+VvijGXQ==
-X-CSE-MsgGUID: iRBru55HRWiE6KQXuDqmQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53756965"
+  bh=iyS2daxFBTxrqZIFfDH3tFbe9as5X14QyKFI7+aIKb0=;
+  b=Ww3fP9E9mqizuzfjuIg1Wal5BSk2UL9imiVRiGatUA2St7jyPZcvI4yY
+   UhLgoVqSDG9o/71TkN7EIw9pFIjqlH5hrTzS1q2AWHk0S9Fs2EyHYz4pG
+   SSKrdoSvFK0IxVK60vdm7M9j2KteI2bdkNW86OvpIt3hfdZ+x6n4bY/3f
+   ptuEvI9UQsTStCJdU/NRo8f9yrNejwLvDhBmlTV1/JIvZPiJq9hSsMoEz
+   iZWFGEgpKRiU+fC4ZMqU1fTZMW5TNn4t0/JMm/ug2zMKlm7TP5xQGH08/
+   SVtJlW0HtKb4pxAC32kLIW8nI0merVerOR2WsNEx7/BkHthXoTxqZCtXd
+   w==;
+X-CSE-ConnectionGUID: n6X3sI99SA6MtJInAgaKBA==
+X-CSE-MsgGUID: sHWRwRhqSwOt5YzITtaIdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53757029"
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="53756965"
+   d="scan'208";a="53757029"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 19:40:13 -0800
-X-CSE-ConnectionGUID: 0msCiQSVSdKczjqOYJy2cw==
-X-CSE-MsgGUID: ALOC+wvaShmuMYFgaF3wYw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 19:40:22 -0800
+X-CSE-ConnectionGUID: BtDtKb4QTOOuzJ7JXGGdUw==
+X-CSE-MsgGUID: doplWBhgTcKiYh8pnoHrMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="124139530"
+   d="scan'208";a="124139557"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 06 Mar 2025 19:40:11 -0800
+  by orviesa003.jf.intel.com with ESMTP; 06 Mar 2025 19:40:16 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqOZC-000OEQ-05;
-	Fri, 07 Mar 2025 03:40:06 +0000
-Date: Fri, 7 Mar 2025 11:39:07 +0800
+	id 1tqOZE-000OES-2Q;
+	Fri, 07 Mar 2025 03:40:10 +0000
+Date: Fri, 7 Mar 2025 11:39:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: arthur@arthurfabre.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC bpf-next 02/20] trait: XDP support
-Message-ID: <202503071156.Q2Vf0mLs-lkp@intel.com>
-References: <20250305-afabre-traits-010-rfc2-v1-2-d0ecfb869797@cloudflare.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>, tony.luck@intel.com,
+	bp@alien8.de, peterz@infradead.org, catalin.marinas@arm.com,
+	yazen.ghannam@amd.com, akpm@linux-foundation.org,
+	linmiaohe@huawei.com, nao.horiguchi@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	jpoimboe@kernel.org, linux-edac@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	baolin.wang@linux.alibaba.com, tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v3 1/3] x86/mce: Use is_copy_from_user() to determine
+ copy-from-user context
+Message-ID: <202503071115.uNkoVksh-lkp@intel.com>
+References: <20250306021031.5538-2-xueshuai@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +70,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305-afabre-traits-010-rfc2-v1-2-d0ecfb869797@cloudflare.com>
+In-Reply-To: <20250306021031.5538-2-xueshuai@linux.alibaba.com>
 
-Hi,
+Hi Shuai,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 42ba8a49d085e0c2ad50fb9a8ec954c9762b6e01]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/arthur-arthurfabre-com/trait-limited-KV-store-for-packet-metadata/20250305-224338
-base:   42ba8a49d085e0c2ad50fb9a8ec954c9762b6e01
-patch link:    https://lore.kernel.org/r/20250305-afabre-traits-010-rfc2-v1-2-d0ecfb869797%40cloudflare.com
-patch subject: [PATCH RFC bpf-next 02/20] trait: XDP support
-config: arc-randconfig-002-20250306 (https://download.01.org/0day-ci/archive/20250307/202503071156.Q2Vf0mLs-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071156.Q2Vf0mLs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/x86-mce-Use-is_copy_from_user-to-determine-copy-from-user-context/20250306-101505
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250306021031.5538-2-xueshuai%40linux.alibaba.com
+patch subject: [PATCH v3 1/3] x86/mce: Use is_copy_from_user() to determine copy-from-user context
+config: i386-buildonly-randconfig-005-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071115.uNkoVksh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071115.uNkoVksh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071156.Q2Vf0mLs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071115.uNkoVksh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arc/include/asm/cache.h:28,
-                    from include/linux/cache.h:6,
-                    from include/linux/time.h:5,
-                    from include/linux/compat.h:10,
-                    from fs/select.c:18:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct xdp_frame) == _XDP_FRAME_SIZE"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/net/xdp.h:283:1: note: in expansion of macro 'static_assert'
-     283 | static_assert(sizeof(struct xdp_frame) == _XDP_FRAME_SIZE);
-         | ^~~~~~~~~~~~~
+   arch/x86/kernel/cpu/mce/severity.c: In function 'error_context':
+>> arch/x86/kernel/cpu/mce/severity.c:305:39: error: expected ';' before '}' token
+     305 |                 return IN_KERNEL_RECOV
+         |                                       ^
+         |                                       ;
+     306 |         }
+         |         ~                              
 
 
-vim +78 include/linux/build_bug.h
+vim +305 arch/x86/kernel/cpu/mce/severity.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+   274	
+   275	/*
+   276	 * If mcgstatus indicated that ip/cs on the stack were
+   277	 * no good, then "m->cs" will be zero and we will have
+   278	 * to assume the worst case (IN_KERNEL) as we actually
+   279	 * have no idea what we were executing when the machine
+   280	 * check hit.
+   281	 * If we do have a good "m->cs" (or a faked one in the
+   282	 * case we were executing in VM86 mode) we can use it to
+   283	 * distinguish an exception taken in user from from one
+   284	 * taken in the kernel.
+   285	 */
+   286	static noinstr int error_context(struct mce *m, struct pt_regs *regs)
+   287	{
+   288		int fixup_type;
+   289		bool copy_user;
+   290	
+   291		if ((m->cs & 3) == 3)
+   292			return IN_USER;
+   293	
+   294		if (!mc_recoverable(m->mcgstatus))
+   295			return IN_KERNEL;
+   296	
+   297		/* Allow instrumentation around external facilities usage. */
+   298		instrumentation_begin();
+   299		fixup_type = ex_get_fixup_type(m->ip);
+   300		copy_user  = is_copy_from_user(regs);
+   301		instrumentation_end();
+   302	
+   303		if (copy_user) {
+   304			m->kflags |= MCE_IN_KERNEL_COPYIN | MCE_IN_KERNEL_COPYIN;
+ > 305			return IN_KERNEL_RECOV
+   306		}
+   307	
+   308		switch (fixup_type) {
+   309		case EX_TYPE_FAULT_MCE_SAFE:
+   310		case EX_TYPE_DEFAULT_MCE_SAFE:
+   311			m->kflags |= MCE_IN_KERNEL_RECOV;
+   312			return IN_KERNEL_RECOV;
+   313	
+   314		default:
+   315			return IN_KERNEL;
+   316		}
+   317	}
+   318	
 
 -- 
 0-DAY CI Kernel Test Service
