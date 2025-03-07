@@ -1,62 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D7C217728
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2749421883F;
+	Fri,  7 Mar 2025 12:06:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741349209; cv=none; b=k+01ZR3ITeCMWuB/ECq66/6o9Z5FP+g7pAoBRU1LxGbzg6C+s0itDksjtXgomAYvbkAM6y3gSReVDQuT+kbuROc88kxPlUgSJ+ee8fFJsriMoux66w9sYdDmWGLH5dASd9nB8VcULKgw364B+MOlyOP4ICDoCdVjfVpOdly4VGg=
+	t=1741349210; cv=none; b=bov425hw4uSoX1BQC86hOM44KaijIYDlP/ykBkwHetLF/HD0IsLtHXqt8FkC6Sq7WfWivPQgPsV535G7msCTFA8Q7BgdjLzm2hm4PWZhtDKxPdBH4yk8wuQAusATvGIr9o5mpfbekw6J2mPyj1VvJD7eKUjBqqu1nXXRAPHRppA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741349209; c=relaxed/simple;
-	bh=0oCBY5oAdsrz42TahdnVY9YCT9v2i6ORNNeF6JnAjL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I4CCDEyPnXlTZvyzFcysHlHPeqk74F5mGzYUfG+5T4+54uZXE1DGu7Et2DmhSBeG9q9tJqv4LOe2E4t6e2xMK9z+pLB1PnmE4n3D0B0I4P52mEoU41n046s6vpHdPBFpSF43OUm6QW41ithuWVvuCrtAvQaiEGhmilIQKJV/LvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3yNU9Bj; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1741349210; c=relaxed/simple;
+	bh=DeTqmEGJpgLjw1WkILyNYBLvvL+fu8TabnQD5UdHxBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jrqGURxSHzh9vyzexFQQGqv83bCOvbs2ztXzJABRESDrKP0jUXFIty3NHszVMwJy29qs0q5jSwt2LQtj6F7RgLaHkG/MaO084QKio+aoA/7RiWT8hzyG/beh67gcIeB1/Tb0+i18l6OsJ8p2NIM2Wvmknnfyquc+1jDRos17sUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxSm+iGK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3yNU9Bj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxSm+iGK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741349208; x=1772885208;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0oCBY5oAdsrz42TahdnVY9YCT9v2i6ORNNeF6JnAjL8=;
-  b=N3yNU9BjwaIKKyhNGZGBSrmrNw8Km6dgyo529HLVOwQZJrOcueAt/1AH
-   1uTuKQr9lTso7BF8kTXFVQ25EPLpbKo5jZECRGXRZGGl6Zz3a3p8TtIY5
-   KrcVIabn5WFrxrCRs/aGXWtJWAqftZj0oTcieHnXNNso/cibtjsCF7QE3
-   aGlmfHcqGCuwYbSwYn9oQY2w7MNj/29mlxOMn0V4MsjBF+TmXT88UXxE0
-   0xRvyFBDW+Jp4LA+jEu9zAV32lLcgFy7GoPzZ9fOAn0yvKE5sSQ9PIuuQ
-   8KGfSoNsOcjIC8waOTMjX+gODXU/JrE8ROHU/vfi27zdD6CLm3EjtK9c0
-   Q==;
-X-CSE-ConnectionGUID: 6GFLonDbRnKliF1e3xHLaw==
-X-CSE-MsgGUID: 0Kker7dLT9Cp+QeRJrb/VA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42250759"
+  t=1741349209; x=1772885209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DeTqmEGJpgLjw1WkILyNYBLvvL+fu8TabnQD5UdHxBM=;
+  b=DxSm+iGKZFdeUvDPajXnd1EcuSg7FI5NeuqA8D12nZfL3Uz0sn8BrN7+
+   BRR0Q7aRjDU7dyjveUEHLpmaq8OEa+MtxDMuv9yaQj8g7OuEsdUigIrOM
+   RtwYPePtnBXNWHYn07zTuZ1dTP1CwzmN4ZTqvauEMro4eSmQN7X0mXZJ9
+   aNFxlUGY09t5ijX08tZrags/Br3XUS+MU0u/kewMJfxOmFDLeQPtmUSzW
+   3fxhMxobjPlywcBT7w5a4BS7M5Io2u5/8Zzn/Bn9AI9Q9Oz5ly1mhfpSn
+   HpNYOJ0rzRughPr+miF1znrKkyH2MRuBrfUWb+6Y7jYxKhwKKaUY7rgB5
+   A==;
+X-CSE-ConnectionGUID: RjQul4MFS3yfATCPYeZUYw==
+X-CSE-MsgGUID: OydbQ81YReSCNoatdBbBkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42250761"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="42250759"
+   d="scan'208";a="42250761"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:06:46 -0800
-X-CSE-ConnectionGUID: KtmD0P0MTa2KelLn40kh0A==
-X-CSE-MsgGUID: JwY2VsbOSjagGaejtsTFOQ==
+X-CSE-ConnectionGUID: 8zz9i99HQRyf+0so0hEGBw==
+X-CSE-MsgGUID: KApKi7SZQC+TTI+NUBhZOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="119476460"
+   d="scan'208";a="119476458"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2025 04:06:46 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqWTS-0000R0-0w;
+	id 1tqWTS-0000Qr-0a;
 	Fri, 07 Mar 2025 12:06:42 +0000
-Date: Fri, 7 Mar 2025 20:06:24 +0800
+Date: Fri, 7 Mar 2025 20:05:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vaishnav Achath <vaishnav.a@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vignesh Raghavendra <vigneshr@ti.com>,
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Subject: [linux-next:master 8651/9212]
- arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb:
- pinctrl@f4000: 'cam0-reset-pins-default', 'cam1-reset-pins-default',
- 'cam2-reset-pins-default', 'cam3-reset-pins-default' do not match any of the
- regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl...
-Message-ID: <202503072048.TTUCYDBb-lkp@intel.com>
+To: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	David Ahern <dsahern@kernel.org>
+Subject: Re: [PATCH net-next 2/2] udp_tunnel: use static call for GRO hooks
+ when possible
+Message-ID: <202503071931.FDaDRKvW-lkp@intel.com>
+References: <740cd03d2982943c313de334977e18cc9de1bc3e.1741275846.git.pabeni@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +67,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <740cd03d2982943c313de334977e18cc9de1bc3e.1741275846.git.pabeni@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   565351ae7e0cee80e9b5ed84452a5b13644ffc4d
-commit: c24ccb1cd77fb44087b2f7008d99626796b33ca4 [8651/9212] arm64: dts: ti: k3-j722s-evm: Add overlay for quad IMX219
-config: arm64-randconfig-051-20250306 (https://download.01.org/0day-ci/archive/20250307/202503072048.TTUCYDBb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072048.TTUCYDBb-lkp@intel.com/reproduce)
+Hi Paolo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/udp_tunnel-create-a-fast-path-GRO-lookup/20250306-235952
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/740cd03d2982943c313de334977e18cc9de1bc3e.1741275846.git.pabeni%40redhat.com
+patch subject: [PATCH net-next 2/2] udp_tunnel: use static call for GRO hooks when possible
+config: mips-rt305x_defconfig (https://download.01.org/0day-ci/archive/20250307/202503071931.FDaDRKvW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071931.FDaDRKvW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503072048.TTUCYDBb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071931.FDaDRKvW-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: pinctrl@f4000: 'cam0-reset-pins-default', 'cam1-reset-pins-default', 'cam2-reset-pins-default', 'cam3-reset-pins-default' do not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: i2c-mux@70: Unevaluated properties are not allowed ('i2c-alias-pool' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VANA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDIG-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDDL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VANA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDIG-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDDL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
-   arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: i2c-mux@71: Unevaluated properties are not allowed ('i2c-alias-pool' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VANA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDIG-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDDL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VANA-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDIG-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'VDDL-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
->> arch/arm64/boot/dts/ti/k3-j722s-evm-csi2-quad-rpi-cam-imx219.dtb: sensor@10: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
+All errors (new ones prefixed by >>):
+
+>> net/ipv4/udp_offload.c:172:9: error: incompatible pointer types returning 'struct sk_buff *' from a function with result type 'struct skbuff *' [-Werror,-Wincompatible-pointer-types]
+     172 |         return call_gro_receive_sk(udp_sk(sk)->gro_receive, sk, head, skb);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ipv4/udp_offload.c:782:5: error: incompatible pointer types assigning to 'struct sk_buff *' from 'struct skbuff *' [-Werror,-Wincompatible-pointer-types]
+     782 |         pp = udp_tunnel_gro_rcv(sk, head, skb);
+         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> net/ipv4/udp_offload.c:932:14: error: use of undeclared identifier 'udp_tunnel_gro_type_lock'; did you mean 'udp_tunnel_gro_rcv'?
+     932 |         mutex_init(&udp_tunnel_gro_type_lock);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                     udp_tunnel_gro_rcv
+   include/linux/mutex.h:64:16: note: expanded from macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^
+   net/ipv4/udp_offload.c:168:23: note: 'udp_tunnel_gro_rcv' declared here
+     168 | static struct skbuff *udp_tunnel_gro_rcv(struct sock *sk,
+         |                       ^
+>> net/ipv4/udp_offload.c:932:2: error: incompatible pointer types passing 'struct skbuff *(*)(struct sock *, struct list_head *, struct sk_buff *)' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
+     932 |         mutex_init(&udp_tunnel_gro_type_lock);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:64:15: note: expanded from macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                      ^~~~~~~
+   include/linux/mutex.h:89:40: note: passing argument to parameter 'lock' here
+      89 | extern void __mutex_init(struct mutex *lock, const char *name,
+         |                                        ^
+   4 errors generated.
+
+
+vim +172 net/ipv4/udp_offload.c
+
+   167	
+ > 168	static struct skbuff *udp_tunnel_gro_rcv(struct sock *sk,
+   169						 struct list_head *head,
+   170						 struct sk_buff *skb)
+   171	{
+ > 172		return call_gro_receive_sk(udp_sk(sk)->gro_receive, sk, head, skb);
+   173	}
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
