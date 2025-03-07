@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B78CDDA9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 23:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4669219E8;
+	Fri,  7 Mar 2025 23:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741388847; cv=none; b=VArbGW/FVarznr8K9hGcF5z4047Ch/TrxEt2e1/oDvkLg4hKzuOOMGofnGOZa6WG265vW39Ak6hp9UKfAB59xGR5Q55tyQeAsktjVy7SV7AOxwSRUoNBAfWLkJSQy06qU1gUE7dyxNRkb8O1mXGd+PhuZqzcuCqrpRS5tQlNcdo=
+	t=1741389529; cv=none; b=AvzxUbWJKOsNn9wIXZ+xxZBEAlMdu3flxe1PKFEcVkM4o9/t3aqffRa943IyFWLqXt+7dcJYgJu+Q+xOqv3+HWpchj3mXio0zOWE7DiHC1GFWitVa5V0CvxD04BpkSoMYjRVJoPmXuXV2/xHF+whCRlIzuWzWO4pXrdcywZP/SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741388847; c=relaxed/simple;
-	bh=f7xubfhDuugSyN1Lbmf7fTgbCyPFfVyWKaP9yJ7FDS4=;
+	s=arc-20240116; t=1741389529; c=relaxed/simple;
+	bh=SGbjZXP+dDpCY4Npn4/qv+l6WgdAJj/ZTXj5Ia9hXV8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kswyr8W5aH1/MCTvmHECkZSSU715RBQKvm6h5eAF6ClZMgbcdfBXHs8beaV/EZjFkXMoAGxkGNN1QAXp0z0B29JnDjRIuHoovUFfV01jfM4HrVYdvQc7LATHJ9M2OH6VvMuhk3I0Mw9aVmQjNtoJj/QJlNubvlwgmpC7eA6mWI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFC6tF4T; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=W+aHm7cSrnXQZpNdyZ4rG5QlfmIdv6plr1p2+f/ctKZRDFXx+pTWOKPzSrjKSNj3OoVuHnC1gpdSYt2mbnnhOmnW5dt/6FqgtxeXYXTvhDCY5cwgaKr/+iCZm74yLsUIDzxYKkD5171EThYWWzS5DQUFx0cKjbP5teV3S36KvZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APiaq9Dr; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFC6tF4T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APiaq9Dr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741388845; x=1772924845;
+  t=1741389528; x=1772925528;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f7xubfhDuugSyN1Lbmf7fTgbCyPFfVyWKaP9yJ7FDS4=;
-  b=LFC6tF4ToivpUAGKo7k81ybs3IrwIRRxpGjSEbtNGgV3/tXtEs1yp2ui
-   5U+/xMAPLbfYLkXUsvK1aA7pTt2eA1ZfOxw/ec+sle/cgIerZlr6iRAPu
-   EhL2oTH1K1BweUX99i4F+jo433OroheSMxhB0n6TwJDaq8aYFyZyMPnhC
-   uSvZnxecR/RUnmsq+uIDFDPRgKhoVgehLTzJWhlecJzUMbSfuCG+uIGPH
-   mEbNQ1fyNDG2ZlurCt2Q0YBMSquJu/zwo+oU4AUhuzd5iIlgV9GvuglVM
-   5+WLcAK+3eEcgUCk7EyiBBPhm4BOLOyTQvfXygXV2RqatUOjEmw+AMNn9
-   w==;
-X-CSE-ConnectionGUID: i6lA98LKQg6P5erXBAYtAw==
-X-CSE-MsgGUID: CHROzI+OTnKm6zX05GAd1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="64890581"
+  bh=SGbjZXP+dDpCY4Npn4/qv+l6WgdAJj/ZTXj5Ia9hXV8=;
+  b=APiaq9DrPrdp3r1WK+lRqEyku9+1Ce26hkUuGBS2VTM9ukvKckJM5F6d
+   wi0rekwAcNderg0RnxAZMhVmfozPjq869o0jbpdUqEo2qQDaZ91g6Sz5T
+   hBNZh2BVmyJyMBP+f2c9A1BBKKi0zoPVQ6evQbaoaMF1eHx4ULm5EOc7R
+   +oL7V3ZNLghzZCLnDkUQuYZLW7oV9mkKYFRGrUmmLGCOD0DqPT7jzWMYj
+   mzHMYMkK6o1YyBz0ZxM4NvvrINdy7W9Vxc/J5j590GLoecM5CG7LoCOi7
+   +nSmOqlQqMV6NJkMYuCaAs2npisNjPUjmyX1nRqsKG4l3+PMGc0rpv2DC
+   g==;
+X-CSE-ConnectionGUID: XGA52RWfSkK70q7WcjuyRw==
+X-CSE-MsgGUID: Bn/0Vj8yRNe1Y2+pZIdozA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="42652038"
 X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; 
-   d="scan'208";a="64890581"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 15:07:24 -0800
-X-CSE-ConnectionGUID: YR6DfC6sRhST7eYucyKiIQ==
-X-CSE-MsgGUID: 3BHJkeJKQUmEJDKZZzIitA==
+   d="scan'208";a="42652038"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 15:18:48 -0800
+X-CSE-ConnectionGUID: 2/XIlxpORZKAoqhdUeHY3w==
+X-CSE-MsgGUID: lhF5PQgzSsy5AY37GMF1PQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; 
-   d="scan'208";a="124367819"
+   d="scan'208";a="124464035"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 07 Mar 2025 15:07:22 -0800
+  by orviesa004.jf.intel.com with ESMTP; 07 Mar 2025 15:18:46 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqgml-0001AB-0d;
-	Fri, 07 Mar 2025 23:07:19 +0000
-Date: Sat, 8 Mar 2025 07:06:24 +0800
+	id 1tqgxn-0001Az-1n;
+	Fri, 07 Mar 2025 23:18:43 +0000
+Date: Sat, 8 Mar 2025 07:17:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/3] mm/shmem.c:2361:1:
- warning: unused label 'alloced'
-Message-ID: <202503080609.MhfilN9Z-lkp@intel.com>
+To: Ben Skeggs <bskeggs@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Dave Airlie <airlied@redhat.com>
+Subject: [jfern:nova-core-experiments 192/411]
+ drivers/gpu/drm/nouveau/nouveau_drm.c:824:1: warning: unused label
+ 'fail_drm_dev_init'
+Message-ID: <202503080712.rNSoZTIG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,124 +64,166 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   77c5a6e3cce4b47aa624d85584c727a0af89d9c2
-commit: add2b5a560c69b21c09e79e7d808ad0215c61797 [0/3] ANDROID: mm: shmem: add vendor hooks in shmem folio allocation path
-config: i386-buildonly-randconfig-003-20250308 (https://download.01.org/0day-ci/archive/20250308/202503080609.MhfilN9Z-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova-core-experiments
+head:   3b93174b3502247b0c46bd54a7cf5f4105274edb
+commit: d5f4619b33f18fda53df3bd2b5608cc78d5798b0 [192/411] drm/nouveau/nvkm: move pci probe() enable/disable handling from drm
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250308/202503080712.rNSoZTIG-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080609.MhfilN9Z-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080712.rNSoZTIG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503080609.MhfilN9Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503080712.rNSoZTIG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from mm/shmem.c:43:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/shmem.c:2361:1: warning: unused label 'alloced' [-Wunused-label]
-    2361 | alloced:
-         | ^~~~~~~~
-   mm/shmem.c:1644:14: warning: unused function 'limit_gfp_mask' [-Wunused-function]
-    1644 | static gfp_t limit_gfp_mask(gfp_t huge_gfp, gfp_t limit_gfp)
-         |              ^~~~~~~~~~~~~~
-   4 warnings generated.
+   In file included from drivers/gpu/drm/nouveau/nouveau_drm.c:26:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/nouveau/nouveau_drm.c:27:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/nouveau/nouveau_drm.c:27:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/nouveau/nouveau_drm.c:27:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/gpu/drm/nouveau/nouveau_drm.c:824:1: warning: unused label 'fail_drm_dev_init' [-Wunused-label]
+     824 | fail_drm_dev_init:
+         | ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/nouveau_drm.c:836:22: warning: unused variable 'device' [-Wunused-variable]
+     836 |         struct nvkm_device *device = drm->nvkm;
+         |                             ^~~~~~
+   drivers/gpu/drm/nouveau/nouveau_drm.c:484:1: warning: unused variable 'nouveau_driver' [-Wunused-const-variable]
+     484 | nouveau_driver = {
+         | ^~~~~~~~~~~~~~
+   19 warnings generated.
 
 
-vim +/alloced +2361 mm/shmem.c
+vim +/fail_drm_dev_init +824 drivers/gpu/drm/nouveau/nouveau_drm.c
 
-c5bf121e4350a9 Vineeth Remanan Pillai  2019-03-05  2351  
-e7a2ab7b3bb5d8 Baolin Wang             2024-06-11  2352  	folio = shmem_alloc_and_add_folio(vmf, gfp, inode, index, fault_mm, 0);
-3022fd7af9604d Hugh Dickins            2023-09-29  2353  	if (IS_ERR(folio)) {
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2354) 		error = PTR_ERR(folio);
-3022fd7af9604d Hugh Dickins            2023-09-29  2355  		if (error == -EEXIST)
-3022fd7af9604d Hugh Dickins            2023-09-29  2356  			goto repeat;
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2357) 		folio = NULL;
-c5bf121e4350a9 Vineeth Remanan Pillai  2019-03-05  2358  		goto unlock;
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2359  	}
-54af60421822bb Hugh Dickins            2011-08-03  2360  
-3022fd7af9604d Hugh Dickins            2023-09-29 @2361  alloced:
-1635f6a74152f1 Hugh Dickins            2012-05-29  2362  	alloced = true;
-e7a2ab7b3bb5d8 Baolin Wang             2024-06-11  2363  	if (folio_test_large(folio) &&
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2364  	    DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE) <
-de5b85262e2038 Hugh Dickins            2024-08-25  2365  					folio_next_index(folio)) {
-3022fd7af9604d Hugh Dickins            2023-09-29  2366  		struct shmem_sb_info *sbinfo = SHMEM_SB(inode->i_sb);
-3022fd7af9604d Hugh Dickins            2023-09-29  2367  		struct shmem_inode_info *info = SHMEM_I(inode);
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2368  		/*
-fc26babbc7d45a Matthew Wilcox (Oracle  2022-09-02  2369) 		 * Part of the large folio is beyond i_size: subject
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2370  		 * to shrink under memory pressure.
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2371  		 */
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2372  		spin_lock(&sbinfo->shrinklist_lock);
-d041353dc98a63 Cong Wang               2017-08-10  2373  		/*
-d041353dc98a63 Cong Wang               2017-08-10  2374  		 * _careful to defend against unlocked access to
-d041353dc98a63 Cong Wang               2017-08-10  2375  		 * ->shrink_list in shmem_unused_huge_shrink()
-d041353dc98a63 Cong Wang               2017-08-10  2376  		 */
-d041353dc98a63 Cong Wang               2017-08-10  2377  		if (list_empty_careful(&info->shrinklist)) {
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2378  			list_add_tail(&info->shrinklist,
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2379  				      &sbinfo->shrinklist);
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2380  			sbinfo->shrinklist_len++;
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2381  		}
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2382  		spin_unlock(&sbinfo->shrinklist_lock);
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2383  	}
-779750d20b93bb Kirill A. Shutemov      2016-07-26  2384  
-3022fd7af9604d Hugh Dickins            2023-09-29  2385  	if (sgp == SGP_WRITE)
-3022fd7af9604d Hugh Dickins            2023-09-29  2386  		folio_set_referenced(folio);
-ec9516fbc5fa81 Hugh Dickins            2012-05-29  2387  	/*
-fc26babbc7d45a Matthew Wilcox (Oracle  2022-09-02  2388) 	 * Let SGP_FALLOC use the SGP_WRITE optimization on a new folio.
-1635f6a74152f1 Hugh Dickins            2012-05-29  2389  	 */
-1635f6a74152f1 Hugh Dickins            2012-05-29  2390  	if (sgp == SGP_FALLOC)
-1635f6a74152f1 Hugh Dickins            2012-05-29  2391  		sgp = SGP_WRITE;
-1635f6a74152f1 Hugh Dickins            2012-05-29  2392  clear:
-1635f6a74152f1 Hugh Dickins            2012-05-29  2393  	/*
-fc26babbc7d45a Matthew Wilcox (Oracle  2022-09-02  2394) 	 * Let SGP_WRITE caller clear ends if write does not fill folio;
-fc26babbc7d45a Matthew Wilcox (Oracle  2022-09-02  2395) 	 * but SGP_FALLOC on a folio fallocated earlier must initialize
-1635f6a74152f1 Hugh Dickins            2012-05-29  2396  	 * it now, lest undo on failure cancel our earlier guarantee.
-ec9516fbc5fa81 Hugh Dickins            2012-05-29  2397  	 */
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2398) 	if (sgp != SGP_WRITE && !folio_test_uptodate(folio)) {
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2399) 		long i, n = folio_nr_pages(folio);
-800d8c63b2e989 Kirill A. Shutemov      2016-07-26  2400  
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2401) 		for (i = 0; i < n; i++)
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2402) 			clear_highpage(folio_page(folio, i));
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2403) 		flush_dcache_folio(folio);
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2404) 		folio_mark_uptodate(folio);
-ec9516fbc5fa81 Hugh Dickins            2012-05-29  2405  	}
-bde05d1ccd5126 Hugh Dickins            2012-05-29  2406  
-54af60421822bb Hugh Dickins            2011-08-03  2407  	/* Perhaps the file has been truncated since we checked */
-75edd345e8ede5 Hugh Dickins            2016-05-19  2408  	if (sgp <= SGP_CACHE &&
-09cbfeaf1a5a67 Kirill A. Shutemov      2016-04-01  2409  	    ((loff_t)index << PAGE_SHIFT) >= i_size_read(inode)) {
-54af60421822bb Hugh Dickins            2011-08-03  2410  		error = -EINVAL;
-267a4c76bbdb95 Hugh Dickins            2015-12-11  2411  		goto unlock;
-e83c32e8f92724 Hugh Dickins            2011-07-25  2412  	}
-63ec1973ddf3eb Matthew Wilcox (Oracle  2020-10-13  2413) out:
-fc26babbc7d45a Matthew Wilcox (Oracle  2022-09-02  2414) 	*foliop = folio;
-54af60421822bb Hugh Dickins            2011-08-03  2415  	return 0;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2416  
-59a16ead572330 Hugh Dickins            2011-05-11  2417  	/*
-54af60421822bb Hugh Dickins            2011-08-03  2418  	 * Error recovery.
-59a16ead572330 Hugh Dickins            2011-05-11  2419  	 */
-d189922862e03c Hugh Dickins            2012-07-11  2420  unlock:
-3022fd7af9604d Hugh Dickins            2023-09-29  2421  	if (alloced)
-3022fd7af9604d Hugh Dickins            2023-09-29  2422  		filemap_remove_folio(folio);
-3022fd7af9604d Hugh Dickins            2023-09-29  2423  	shmem_recalc_inode(inode, 0, 0);
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2424) 	if (folio) {
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2425) 		folio_unlock(folio);
-b1d0ec3a9a250b Matthew Wilcox (Oracle  2022-05-12  2426) 		folio_put(folio);
-54af60421822bb Hugh Dickins            2011-08-03  2427  	}
-54af60421822bb Hugh Dickins            2011-08-03  2428  	return error;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2429  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2430  
-
-:::::: The code at line 2361 was first introduced by commit
-:::::: 3022fd7af9604d44ec43da8a4398872989599b18 shmem: _add_to_page_cache() before shmem_inode_acct_blocks()
-
-:::::: TO: Hugh Dickins <hughd@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   786	
+   787	static int nouveau_drm_probe(struct pci_dev *pdev,
+   788				     const struct pci_device_id *pent)
+   789	{
+   790		struct nvkm_device *device;
+   791		struct nouveau_drm *drm;
+   792		int ret;
+   793	
+   794		/* We need to check that the chipset is supported before booting
+   795		 * fbdev off the hardware, as there's no way to put it back.
+   796		 */
+   797		ret = nvkm_device_pci_driver.probe(pdev, NULL);
+   798		if (ret)
+   799			return ret;
+   800	
+   801		device = pci_get_drvdata(pdev);
+   802	
+   803		if (nouveau_atomic)
+   804			driver_pci.driver_features |= DRIVER_ATOMIC;
+   805	
+   806		drm = nouveau_drm_device_new(&driver_pci, &pdev->dev, device);
+   807		if (IS_ERR(drm)) {
+   808			ret = PTR_ERR(drm);
+   809			goto fail_nvkm;
+   810		}
+   811	
+   812		ret = nouveau_drm_device_init(drm);
+   813		if (ret)
+   814			goto fail_drm;
+   815	
+   816		if (drm->device.impl->ram_size <= 32 * 1024 * 1024)
+   817			drm_fbdev_ttm_setup(drm->dev, 8);
+   818		else
+   819			drm_fbdev_ttm_setup(drm->dev, 32);
+   820	
+   821		quirk_broken_nv_runpm(pdev);
+   822		return 0;
+   823	
+ > 824	fail_drm_dev_init:
+   825		nouveau_drm_device_fini(drm);
+   826	fail_drm:
+   827		nouveau_drm_device_del(drm);
+   828	fail_nvkm:
+   829		nvkm_device_del(&device);
+   830		return ret;
+   831	}
+   832	
 
 -- 
 0-DAY CI Kernel Test Service
