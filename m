@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B7A20D500
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 10:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D5E20B803;
+	Fri,  7 Mar 2025 10:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741342206; cv=none; b=RauhaPv7+s3YXhShl161fn+AY669QyYgARGIkj1wpYditiTZrpf+FTnng+O0twTCSOB4zMl06BwLAQ6Iop7PVi3a8CnTf1QywFtur5xqSOYDhkCaXUw5Fv7BQiJ3HYO9lh9QwuC6drlrlKwzoYZpWjojm+488roGWQYiTk+fgnE=
+	t=1741342864; cv=none; b=GGWAjKb7E3SLHdpF8vaDqSn/sq7VuNEA0azti1PteaaNvD6XhkaNdE4uLpilqymF7twruy58rwylmBFOmj498WBOBVUwvY/QfG89/nOwTdvBLYS/y1yiG+tP6dbN36p9+RFbgWSaB4dEkdZ63o7bOrC5/vslfuF/xK+Ar7FGwYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741342206; c=relaxed/simple;
-	bh=9+6ae7onFk8JgONHwl3uzE0LXv/qWykGOcp8w/uyALA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uJWAnRlycjJQvFFvqNIBUVuvftJ9wnqhvRGOSKDXdzZomorqrGBhOQfFrX+q7g7p/0QYjf2bU0ahDxtAr8cwNI6OolQd83h1zDhZLEPnXwKp2onCuHmpV1OOHJAvoKg68o11Sx1E+3GN6siHVTgxNJiGj0AbdVO3nfeZ9CEmoxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCLQQh42; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1741342864; c=relaxed/simple;
+	bh=dQnlVGWbYiwMPKkWJqaOBto3IdcfEayFg0Vp1UtN5zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d26xzVoUBYKCu+ItTU6zdKu7cqY7KrLEsVaVqIyc7D50BEY3EgVLuMPtqLFA79itIigkfiBnx+p3IPdOwbGD4UErWP52W/EQVbnVG0wsE0Kw5tJmxBU+PlP37Uoq8ulaQ1RUYWTnWHwGG+apeuZAKzoqiW9pTL2OfELtfVafwzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WI2nOCE2; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCLQQh42"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WI2nOCE2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741342203; x=1772878203;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9+6ae7onFk8JgONHwl3uzE0LXv/qWykGOcp8w/uyALA=;
-  b=DCLQQh42iX8nT1l1bQqay3lb79DrFwdKr8CU+jK2AKvwk8bMKeVPImVq
-   lpPcVaxiYz5gg7OZDOKC/NYdF93Gem2cbqbLU2oqBXCp87r+6pqOv1nlx
-   30VLKJi9ouu/tczH0HkBfTXn+8YcyZm9/PeOJl3ogLonJS9//07Z2C/Sp
-   DmiRPTfwbE726aalsWp+ArV3gWpfLDLF6AflSPpX7N9n0jsGhQ7aJKAfV
-   qSCvjzFAN6m9PsA5dDGnVcWYv6Pv8hEmfQT+fAWtw0YtiPBtEg/0vtr2x
-   R4WEx0FI4icHi1palzp4GpJ++Q9LAB+vlI2MCM4KOtS/OkS5FwET9Ev0A
-   g==;
-X-CSE-ConnectionGUID: jSgBk5sFTVOr/XfRRVC4qg==
-X-CSE-MsgGUID: xVBfGsg1SuGG8HUdHzwJTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="67759795"
+  t=1741342863; x=1772878863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dQnlVGWbYiwMPKkWJqaOBto3IdcfEayFg0Vp1UtN5zE=;
+  b=WI2nOCE2Tc3+uf7XQa/CknZxuS2LBSEcfmGPtBQV9rx05pONi5bg8ddi
+   rJLpUXCJrmXgnUs0ZXi9oMBwViONl/Scu/boBS8SreJTUv3djIvrM+bq9
+   dM+P/YQe6E7a9XgPAX5QKk0k0UNl9oMBZuHwJ36XimwpIKl5Zi1cchm2l
+   V2gdt3MeJODm6QaC1FWsIdjerPR/hu9UovrzGxAlUKxw2p9rrm/K1MsP2
+   7Zn0TJU7bToli+PAEpNCkN2ECc+yKDtNfUGzxOdDmfEFSqi6xzC8vLZdV
+   X3xhchVhQRXvumQTDQ2qHstn222PkQiPH5RUUjq8raoQxJPOgPLE9l85r
+   Q==;
+X-CSE-ConnectionGUID: YS9gIYS3TFOMxTtMfssMIw==
+X-CSE-MsgGUID: djOtXwtjR56DbG/eu36/bw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59944688"
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="67759795"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:10:02 -0800
-X-CSE-ConnectionGUID: CgwGcGosTN+ydItczhdMvQ==
-X-CSE-MsgGUID: prEkso4hTr20j9BZ/oWOcQ==
+   d="scan'208";a="59944688"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:21:03 -0800
+X-CSE-ConnectionGUID: Mn8/YWZbTgqHgbHQvAlbgg==
+X-CSE-MsgGUID: 7xdn67vpSDyuLPdGCAuq+Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="119288110"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119810934"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Mar 2025 02:10:00 -0800
+  by orviesa007.jf.intel.com with ESMTP; 07 Mar 2025 02:21:02 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqUeU-0000HX-08;
-	Fri, 07 Mar 2025 10:09:58 +0000
-Date: Fri, 7 Mar 2025 18:09:42 +0800
+	id 1tqUp9-0000IB-0b;
+	Fri, 07 Mar 2025 10:20:59 +0000
+Date: Fri, 7 Mar 2025 18:20:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Abel Vesa <abel.vesa@linaro.org>,
-	Iuliana Prodan <iuliana.prodan@nxp.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Peng Fan <peng.fan@nxp.com>
-Subject: [linux-next:master 7337/8790]
- arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-adpismarc.dtb:
- clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125],
- [2, 127], [2, 128], [2, 182]] is too short
-Message-ID: <202503072049.hL73dR8K-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/4] nfsd: add some stub tracepoints around key vfs
+ functions
+Message-ID: <202503071828.4eKhNhUb-lkp@intel.com>
+References: <20250306-nfsd-tracepoints-v1-3-4405bf41b95f@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,300 +63,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250306-nfsd-tracepoints-v1-3-4405bf41b95f@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7ec162622e66a4ff886f8f28712ea1b13069e1aa
-commit: 2471a101938b0d1835b1983df08daeb98eef1205 [7337/8790] dt-bindings: clock: imx8mp: add axi clock
-config: arm64-randconfig-051-20250304 (https://download.01.org/0day-ci/archive/20250307/202503072049.hL73dR8K-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072049.hL73dR8K-lkp@intel.com/reproduce)
+Hi Jeff,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7dc86d35a5f8a7ac24b53792c704b101e5041842]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-add-commit-start-done-tracepoints-around-nfsd_commit/20250306-204120
+base:   7dc86d35a5f8a7ac24b53792c704b101e5041842
+patch link:    https://lore.kernel.org/r/20250306-nfsd-tracepoints-v1-3-4405bf41b95f%40kernel.org
+patch subject: [PATCH 3/4] nfsd: add some stub tracepoints around key vfs functions
+config: arm-randconfig-003-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071828.4eKhNhUb-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071828.4eKhNhUb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503072049.hL73dR8K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071828.4eKhNhUb-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-adpismarc.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-adpismarc.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb: /soc@0/bus@30800000/i2c@30a30000/tlc59108@40: failed to match any schema with compatible: ['ti,tlc59108']
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-proton2s.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-beacon-kit.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-debix-model-a.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-debix-som-a-bmb-08.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-drc02.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-drc02.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk2.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-pdk3.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
-   arch/arm64/boot/dts/freescale/imx8mp-dhcom-som.dtsi:266.9-278.5: Warning (graph_child_address): /soc@0/bus@30800000/i2c@30a40000/bridge@f/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-picoitx.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-dhcom-picoitx.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-icore-mx8mp-edimm2.2.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-iota2-lumpy.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-iota2-lumpy.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-bl-osm-s.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-bl-osm-s.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-navqp.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-nitrogen-smarc-universal-board.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-nitrogen-smarc-universal-board.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-hdmi.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-lt6.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-skov-revb-mi1010ait-1cp1.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-var-som-symphony.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw71xx-2x.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw72xx-2x.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw73xx-2x.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw75xx-2x.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw82xx-2x.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw82xx-2x.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dahlia.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-dev.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-ivy.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-ivy.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-mallow.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-nonwifi-yavia.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dahlia.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-dev.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-ivy.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-ivy.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-mallow.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-verdin-wifi-yavia.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios-lvds.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3-helios-lvds.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-dl.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-kontron-dl.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk-no-eth.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-dlvds-hdmi-channel0.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds0-imx-lvds-hdmi.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-dlvds-hdmi-channel0.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-lvds1-imx-lvds-hdmi.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-mx8-dlvds-lcd1.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-evk-pcie-ep.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-evk-pcie-ep.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mpxl-lvds-g133han01.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-imx219.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: clock-controller@30e20000: clocks: [[2, 284], [2, 123], [2, 124], [2, 125], [2, 127], [2, 128], [2, 182]] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-venice-gw74xx-rpidsi.dtb: clock-controller@30e20000: clock-names: ['ahb', 'sai1', 'sai2', 'sai3', 'sai5', 'sai6', 'sai7'] is too short
-   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
+All errors (new ones prefixed by >>):
+
+>> fs/nfsd/nfsproc.c:57:2: error: call to undeclared function 'trace_nfsd_getattr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      57 |         trace_nfsd_getattr(rqstp, &argp->fh);
+         |         ^
+   1 error generated.
+
+
+vim +/trace_nfsd_getattr +57 fs/nfsd/nfsproc.c
+
+    46	
+    47	/*
+    48	 * Get a file's attributes
+    49	 * N.B. After this call resp->fh needs an fh_put
+    50	 */
+    51	static __be32
+    52	nfsd_proc_getattr(struct svc_rqst *rqstp)
+    53	{
+    54		struct nfsd_fhandle *argp = rqstp->rq_argp;
+    55		struct nfsd_attrstat *resp = rqstp->rq_resp;
+    56	
+  > 57		trace_nfsd_getattr(rqstp, &argp->fh);
+    58	
+    59		dprintk("nfsd: GETATTR  %s\n", SVCFH_fmt(&argp->fh));
+    60	
+    61		fh_copy(&resp->fh, &argp->fh);
+    62		resp->status = fh_verify(rqstp, &resp->fh, 0,
+    63					 NFSD_MAY_NOP | NFSD_MAY_BYPASS_GSS_ON_ROOT);
+    64		if (resp->status != nfs_ok)
+    65			goto out;
+    66		resp->status = fh_getattr(&resp->fh, &resp->stat);
+    67	out:
+    68		resp->status = nfsd_map_status(resp->status);
+    69		return rpc_success;
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
