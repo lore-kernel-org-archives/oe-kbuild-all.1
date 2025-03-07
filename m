@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BECA1B042F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620421A430
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 12:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741351211; cv=none; b=Yts2yEFZ7eQP+DQo5yYsSSYBL0WxbQsjOEgSkDj1aEGSiuHVUeeeG6A7aQd5sWB7qjEKBYddicGhaJ8fVUcIi6tnvt4mt0UKCFc+JBspFrR0ZNtrD4pztN4VKmSRmoeiHMZv4RaCeCKvIMjAyo9UKGwf8euEHgk+Uv7D4IzWTVM=
+	t=1741351971; cv=none; b=FvHt2zhyyLiaNamAQrlHlgQRSTL5BX234qe0oAQcxfjcZ1Wdqex1rQVyMdwEQSEZfTaQcvb89CR4+zyjEs6E082ktd7VyCYyposrtmNBqv6rTg9goFcPaFcSFcgoE1FZtYyGwcqGuxL+moiqjf13wVgYpAP09W/LkaV1fyveOd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741351211; c=relaxed/simple;
-	bh=G5VBh8i8J2WvpCjkRkouehcpWaB8KXAb2HO6V8L2dDY=;
+	s=arc-20240116; t=1741351971; c=relaxed/simple;
+	bh=KUe9SSJz9ISvQAEPHqlR4strR/gMPqHS0mOsCVaZh5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eALZ9yI+9s8dOPiBYoMGRTojarmy3LMmZw3FZY10E8SVAY3L9aTW9uFgguWUIiG4haPugaeVqDF0zJQFHuY1SMPbVLeLNARdDUO2fCg4JlvQosT8/0OLoy2E1QjUvXbQdNrmk0vpIdezXdbOXtN7k+96uEG9Mw75FOPhKj0/3t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeTMPU3q; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixgM4uiljpczyAnOUllFP4zJRGG2ZXIxqvMzKE2Mh6JeiadkBO3LVrdzZeQYVJyVFV+bX9hEKHHXkzeiDMjJKfUqzTkkov+66dQUYr05aCRtFVfBk4DC6oN87RkLHUDsNYCIIm5hqqwmOJXsmNeYQk2wbn5Ovsqj495iphuDbV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVp6f/CY; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeTMPU3q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVp6f/CY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741351210; x=1772887210;
+  t=1741351958; x=1772887958;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=G5VBh8i8J2WvpCjkRkouehcpWaB8KXAb2HO6V8L2dDY=;
-  b=JeTMPU3qnPzg6w6PrM6U7jBpvCqvWtgCJ4m06jhvDFJy7v12TK29k9U9
-   GtCJiRZuVnw4it5uSrhPMq/PPEA1JOToUco3AuIk5WvovFt//NUgQ0Nkn
-   o8EadXRhA8xo5VSWOHij5ONcMgYUh+9WdTNJZ5Y0btra5FJWsT4Wmuu/r
-   7etKD9sNt3yCmajRDGe2eQ+kZ85LCMaHIQa0uRmS2JmB9PGzb+LsBCaEi
-   8B+uS+U+g/IhvwA4H1Xk0GV/uGu3W+enBzCDxtZwzfMdzO3pE4LfWBVPw
-   wjwZIJRVzOR5Dc1XdOjjkY/Nhg3bnt2uV48gMSvCeQ/Qx7Y6zoJ6bNxHE
-   w==;
-X-CSE-ConnectionGUID: iVe7l8CVTrqR76J47vQQCA==
-X-CSE-MsgGUID: WrOoljQES6qMuJ9C1rjgmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41651803"
+  bh=KUe9SSJz9ISvQAEPHqlR4strR/gMPqHS0mOsCVaZh5M=;
+  b=JVp6f/CY9ew+ZYsWB1uzk9ifnH0SWHyOxWbq3xpKPRLfiO0dI8yAbBk0
+   SejF0bJlB3To8JgloKYIgY89PnOBQqRb8hAC7bku7KelZ2I/q9kXKrmOw
+   2UaEQ3p9LP0boeFiRBuQwylXcefOQdUQ7gdUnsnCtzSBnqVjlBiSK1hld
+   kV1sthDJ5FTM9b/LmafqPys1tUO7z0Ij2Oob3WIpmTzr2oqhvtuzbRAWf
+   c5W6/BeDUCoepBNw+M6BNY8urnUt5j/f6lnzrMH0bbmhq2VaxHeJRjisr
+   uOB+uLLnm/Ij8nXGQlAkEVyTvurqoyEBPQfXnvVI+aRB8Marejz/vSHf2
+   g==;
+X-CSE-ConnectionGUID: vtDo8STwTgSPsBUDBMMyKg==
+X-CSE-MsgGUID: zqJUCXUKQH6itSe6bv8AWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53040238"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="41651803"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:40:10 -0800
-X-CSE-ConnectionGUID: dVzl55soTd23ED5spwyZmw==
-X-CSE-MsgGUID: n27M5QajR4efWEVWBq7Miw==
+   d="scan'208";a="53040238"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 04:52:37 -0800
+X-CSE-ConnectionGUID: HlvgJ0VbQi+RI8/+1dtRZg==
+X-CSE-MsgGUID: 5RnjY5gaROC53AggHSIZ7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119235420"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="119820211"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2025 04:40:06 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Mar 2025 04:52:33 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqWzj-0000Tr-2I;
-	Fri, 07 Mar 2025 12:40:03 +0000
-Date: Fri, 7 Mar 2025 20:39:32 +0800
+	id 1tqXBR-0000UV-0k;
+	Fri, 07 Mar 2025 12:52:19 +0000
+Date: Fri, 7 Mar 2025 20:51:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jorge Marques <jorge.marques@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Lechner <dlechner@baylibre.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jorge Marques <jorge.marques@analog.com>
-Subject: Re: [PATCH 4/4] iio: adc: add support for ad4052
-Message-ID: <202503072008.ysqhEBaX-lkp@intel.com>
-References: <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>, mingo@redhat.com,
+	peterz@infradead.org, juri.lelli@redhat.com,
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+	mgorman@suse.de, vschneid@redhat.com, lukasz.luba@arm.com,
+	rafael.j.wysocki@intel.com, pierre.gondois@arm.com,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, qyousef@layalina.io,
+	hongyan.xia2@arm.com, christian.loehle@arm.com,
+	luis.machado@arm.com, qperret@google.com,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Subject: Re: [PATCH 5/7 v5] sched/fair: Add push task mechanism for EAS
+Message-ID: <202503072035.8PEXiAFe-lkp@intel.com>
+References: <20250302210539.1563190-6-vincent.guittot@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,91 +70,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306-iio-driver-ad4052-v1-4-2badad30116c@analog.com>
+In-Reply-To: <20250302210539.1563190-6-vincent.guittot@linaro.org>
 
-Hi Jorge,
+Hi Vincent,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on aac287ec80d71a7ab7e44c936a434625417c3e30]
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on peterz-queue/sched/core linus/master v6.14-rc5 next-20250306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Marques/iio-code-mark-iio_dev-as-const-in-iio_buffer_enabled/20250306-220719
-base:   aac287ec80d71a7ab7e44c936a434625417c3e30
-patch link:    https://lore.kernel.org/r/20250306-iio-driver-ad4052-v1-4-2badad30116c%40analog.com
-patch subject: [PATCH 4/4] iio: adc: add support for ad4052
-config: powerpc-randconfig-r132-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072008.ysqhEBaX-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250307/202503072008.ysqhEBaX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Guittot/sched-fair-Filter-false-overloaded_group-case-for-EAS/20250303-050850
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20250302210539.1563190-6-vincent.guittot%40linaro.org
+patch subject: [PATCH 5/7 v5] sched/fair: Add push task mechanism for EAS
+config: x86_64-randconfig-003-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072035.8PEXiAFe-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072035.8PEXiAFe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503072008.ysqhEBaX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503072035.8PEXiAFe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/ad4052.c:357:31: sparse: sparse: symbol 'ad4050_chip_info' was not declared. Should it be static?
->> drivers/iio/adc/ad4052.c:366:31: sparse: sparse: symbol 'ad4052_chip_info' was not declared. Should it be static?
->> drivers/iio/adc/ad4052.c:375:31: sparse: sparse: symbol 'ad4056_chip_info' was not declared. Should it be static?
->> drivers/iio/adc/ad4052.c:384:31: sparse: sparse: symbol 'ad4058_chip_info' was not declared. Should it be static?
->> drivers/iio/adc/ad4052.c:711:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __be16 [usertype] d16 @@
-   drivers/iio/adc/ad4052.c:711:22: sparse:     expected int
-   drivers/iio/adc/ad4052.c:711:22: sparse:     got restricted __be16 [usertype] d16
->> drivers/iio/adc/ad4052.c:715:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __be32 [usertype] d32 @@
-   drivers/iio/adc/ad4052.c:715:22: sparse:     expected int
-   drivers/iio/adc/ad4052.c:715:22: sparse:     got restricted __be32 [usertype] d32
-   drivers/iio/adc/ad4052.c:912:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected int @@     got restricted __be32 [usertype] d32 @@
-   drivers/iio/adc/ad4052.c:912:22: sparse:     expected int
-   drivers/iio/adc/ad4052.c:912:22: sparse:     got restricted __be32 [usertype] d32
->> drivers/iio/adc/ad4052.c:958:33: sparse: sparse: bad assignment (>>=) to restricted __be16
-   drivers/iio/adc/ad4052.c:251:12: sparse: sparse: context imbalance in 'ad4052_iio_device_claim_direct' - different lock contexts for basic block
-   drivers/iio/adc/ad4052.c:277:9: sparse: sparse: context imbalance in 'ad4052_sample_rate_get' - unexpected unlock
-   drivers/iio/adc/ad4052.c:294:9: sparse: sparse: context imbalance in 'ad4052_sample_rate_set' - unexpected unlock
-   drivers/iio/adc/ad4052.c:780:34: sparse: sparse: context imbalance in 'ad4052_read_raw' - unexpected unlock
-   drivers/iio/adc/ad4052.c:805:34: sparse: sparse: context imbalance in 'ad4052_write_raw' - unexpected unlock
-   drivers/iio/adc/ad4052.c:820:9: sparse: sparse: context imbalance in 'ad4052_read_event_config' - unexpected unlock
-   drivers/iio/adc/ad4052.c:903:42: sparse: sparse: context imbalance in 'ad4052_read_event_value' - unexpected unlock
-   drivers/iio/adc/ad4052.c:971:34: sparse: sparse: context imbalance in 'ad4052_write_event_value' - unexpected unlock
-   drivers/iio/adc/ad4052.c:1055:34: sparse: sparse: context imbalance in 'ad4052_debugfs_reg_access' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +/ad4050_chip_info +357 drivers/iio/adc/ad4052.c
+   kernel/sched/fair.c: In function 'has_pushable_tasks':
+   kernel/sched/fair.c:8675:42: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8675 |         return !plist_head_empty(&rq->cfs.pushable_tasks);
+         |                                          ^
+   In file included from include/linux/kernel.h:22,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c: In function 'pick_next_pushable_fair_task':
+   kernel/sched/fair.c:8685:39: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |                                       ^
+   include/linux/container_of.h:19:33: note: in definition of macro 'container_of'
+      19 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/kernel.h:22,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/energy_model.h:4,
+                    from kernel/sched/fair.c:23:
+   kernel/sched/fair.c:8685:39: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |                                       ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/plist.h:233:9: note: in expansion of macro 'container_of'
+     233 |         container_of(plist_first(head), type, member)
+         |         ^~~~~~~~~~~~
+   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |             ^~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8685:39: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |                                       ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ^~~~~~~~~~~
+   include/linux/plist.h:233:9: note: in expansion of macro 'container_of'
+     233 |         container_of(plist_first(head), type, member)
+         |         ^~~~~~~~~~~~
+   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |             ^~~~~~~~~~~~~~~~~
+>> include/linux/compiler_types.h:483:27: error: expression in static assertion is not an integer
+     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/plist.h:233:9: note: in expansion of macro 'container_of'
+     233 |         container_of(plist_first(head), type, member)
+         |         ^~~~~~~~~~~~
+   kernel/sched/fair.c:8685:13: note: in expansion of macro 'plist_first_entry'
+    8685 |         p = plist_first_entry(&rq->cfs.pushable_tasks,
+         |             ^~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:8697:47: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8697 |         plist_del(&p->pushable_tasks, &rq->cfs.pushable_tasks);
+         |                                               ^
+   kernel/sched/fair.c: In function 'fair_remove_pushable_task':
+   kernel/sched/fair.c:8772:55: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8772 |                 plist_del(&p->pushable_tasks, &rq->cfs.pushable_tasks);
+         |                                                       ^
+   kernel/sched/fair.c: In function 'fair_add_pushable_task':
+   kernel/sched/fair.c:8779:63: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8779 |                         plist_del(&p->pushable_tasks, &rq->cfs.pushable_tasks);
+         |                                                               ^
+   kernel/sched/fair.c:8781:63: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+    8781 |                         plist_add(&p->pushable_tasks, &rq->cfs.pushable_tasks);
+         |                                                               ^
+   kernel/sched/fair.c: In function 'init_cfs_rq':
+   kernel/sched/fair.c:13572:32: error: 'struct cfs_rq' has no member named 'pushable_tasks'
+   13572 |         plist_head_init(&cfs_rq->pushable_tasks);
+         |                                ^~
+   kernel/sched/fair.c: In function 'has_pushable_tasks':
+   kernel/sched/fair.c:8676:1: warning: control reaches end of non-void function [-Wreturn-type]
+    8676 | }
+         | ^
 
-   356	
- > 357	const struct ad4052_chip_info ad4050_chip_info = {
-   358		.name = "ad4050",
-   359		.channels = { AD4052_CHAN(12, AD4052_2MSPS) },
-   360		.offload_channels = { AD4052_OFFLOAD_CHAN(12, AD4052_2MSPS) },
-   361		.prod_id = 0x70,
-   362		.max_avg = AD4050_MAX_AVG,
-   363		.grade = AD4052_2MSPS,
-   364	};
-   365	
- > 366	const struct ad4052_chip_info ad4052_chip_info = {
-   367		.name = "ad4052",
-   368		.channels = { AD4052_CHAN(16, AD4052_2MSPS) },
-   369		.offload_channels = { AD4052_OFFLOAD_CHAN(16, AD4052_2MSPS) },
-   370		.prod_id = 0x72,
-   371		.max_avg = AD4052_MAX_AVG,
-   372		.grade = AD4052_2MSPS,
-   373	};
-   374	
- > 375	const struct ad4052_chip_info ad4056_chip_info = {
-   376		.name = "ad4056",
-   377		.channels = { AD4052_CHAN(12, AD4052_500KSPS) },
-   378		.offload_channels = { AD4052_OFFLOAD_CHAN(12, AD4052_500KSPS) },
-   379		.prod_id = 0x70,
-   380		.max_avg = AD4050_MAX_AVG,
-   381		.grade = AD4052_500KSPS,
-   382	};
-   383	
- > 384	const struct ad4052_chip_info ad4058_chip_info = {
-   385		.name = "ad4058",
-   386		.channels = { AD4052_CHAN(16, AD4052_500KSPS) },
-   387		.offload_channels = { AD4052_OFFLOAD_CHAN(16, AD4052_500KSPS) },
-   388		.prod_id = 0x72,
-   389		.max_avg = AD4052_MAX_AVG,
-   390		.grade = AD4052_500KSPS,
-   391	};
-   392	
+
+vim +483 include/linux/compiler_types.h
+
+eb111869301e15 Rasmus Villemoes 2019-09-13  481  
+d15155824c5014 Will Deacon      2017-10-24  482  /* Are two types/vars the same type (ignoring qualifiers)? */
+d15155824c5014 Will Deacon      2017-10-24 @483  #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+d15155824c5014 Will Deacon      2017-10-24  484  
 
 -- 
 0-DAY CI Kernel Test Service
