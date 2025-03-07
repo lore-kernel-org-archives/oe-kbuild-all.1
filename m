@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9DE18BC36
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 22:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B78CDDA9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 23:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741388184; cv=none; b=jSjxRWEBsNitXbguNDqlNG4ojpETsF/EE5TwKDTkB3xjEj8RTJCa0E3gp0yQOIpYg4b8aEbDPxCf+sZ+W7y7jDqAUOX9ZtYv7O7b5zmbb2m48crr6chvm8pEJ5UtxD9URIEM5KcZMI4gsz6ruS3+U1s29b8imk2zk2iaTJXiV1w=
+	t=1741388847; cv=none; b=VArbGW/FVarznr8K9hGcF5z4047Ch/TrxEt2e1/oDvkLg4hKzuOOMGofnGOZa6WG265vW39Ak6hp9UKfAB59xGR5Q55tyQeAsktjVy7SV7AOxwSRUoNBAfWLkJSQy06qU1gUE7dyxNRkb8O1mXGd+PhuZqzcuCqrpRS5tQlNcdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741388184; c=relaxed/simple;
-	bh=XMgZyZCybN4cbdr0PFZWpeUlvibszcAUe3W9TUOxRc0=;
+	s=arc-20240116; t=1741388847; c=relaxed/simple;
+	bh=f7xubfhDuugSyN1Lbmf7fTgbCyPFfVyWKaP9yJ7FDS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IlX3lEoqIPdAbgTBjTJNJhR/pbZdK9sjc0DO1EeO9AaEw2I4V0jNm7OPgWISBZXhbn7YTisGm4T5aqNv5/h5ncQiDPUZlMXK8evCVK33mLDsjexPWxnWotdIE2uNgN5GVlfVK03jVTyD4ocB9X3Ny2y2I5aqn6SJFGNOajr4GWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/V36RgJ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=Kswyr8W5aH1/MCTvmHECkZSSU715RBQKvm6h5eAF6ClZMgbcdfBXHs8beaV/EZjFkXMoAGxkGNN1QAXp0z0B29JnDjRIuHoovUFfV01jfM4HrVYdvQc7LATHJ9M2OH6VvMuhk3I0Mw9aVmQjNtoJj/QJlNubvlwgmpC7eA6mWI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFC6tF4T; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/V36RgJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFC6tF4T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741388182; x=1772924182;
+  t=1741388845; x=1772924845;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XMgZyZCybN4cbdr0PFZWpeUlvibszcAUe3W9TUOxRc0=;
-  b=f/V36RgJS7/wCzuIXRj82/YmhfXZzBIapAmrMRy+QSOb2EaZ/MXawOgo
-   dNeg1tiYhbpn6JoZYwDrqeBUeAtiwLdEsa7I874QVUlm2mMePv6QmFNV2
-   dQ/3wjJ7yZc6vTIaeKrtG+DjiQbSkRR2+4sebaJlq/ZSWLv2o55HDu4hY
-   NVFTysZmWmpQV8XJuc8cLiebb3CeyXWR2vBz1WmDy79VDyPMQqkCacxVC
-   CgbeprCljiXWOFjcjIaPNqSFYhL8w/U49vG03izl4N+ODLBLHhGdQ4W0v
-   sJA/M2sqfrCp/lJeKeUKoHjAj7gAEc4IBMVTixpou4GeB+V0lN7u1of02
-   Q==;
-X-CSE-ConnectionGUID: jHqQNt8yRoCQ7SfUBai9yQ==
-X-CSE-MsgGUID: r9Tcy13vT4G/wk9bn8GKVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="42157104"
+  bh=f7xubfhDuugSyN1Lbmf7fTgbCyPFfVyWKaP9yJ7FDS4=;
+  b=LFC6tF4ToivpUAGKo7k81ybs3IrwIRRxpGjSEbtNGgV3/tXtEs1yp2ui
+   5U+/xMAPLbfYLkXUsvK1aA7pTt2eA1ZfOxw/ec+sle/cgIerZlr6iRAPu
+   EhL2oTH1K1BweUX99i4F+jo433OroheSMxhB0n6TwJDaq8aYFyZyMPnhC
+   uSvZnxecR/RUnmsq+uIDFDPRgKhoVgehLTzJWhlecJzUMbSfuCG+uIGPH
+   mEbNQ1fyNDG2ZlurCt2Q0YBMSquJu/zwo+oU4AUhuzd5iIlgV9GvuglVM
+   5+WLcAK+3eEcgUCk7EyiBBPhm4BOLOyTQvfXygXV2RqatUOjEmw+AMNn9
+   w==;
+X-CSE-ConnectionGUID: i6lA98LKQg6P5erXBAYtAw==
+X-CSE-MsgGUID: CHROzI+OTnKm6zX05GAd1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="64890581"
 X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; 
-   d="scan'208";a="42157104"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 14:56:22 -0800
-X-CSE-ConnectionGUID: t7UfIMIgQ+iuaECbOc3CCQ==
-X-CSE-MsgGUID: luvNMasmQM6mg644U4hHgg==
+   d="scan'208";a="64890581"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 15:07:24 -0800
+X-CSE-ConnectionGUID: YR6DfC6sRhST7eYucyKiIQ==
+X-CSE-MsgGUID: 3BHJkeJKQUmEJDKZZzIitA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119383323"
+X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; 
+   d="scan'208";a="124367819"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 07 Mar 2025 14:56:21 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Mar 2025 15:07:22 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqgc6-00019b-0i;
-	Fri, 07 Mar 2025 22:56:18 +0000
-Date: Sat, 8 Mar 2025 06:56:12 +0800
+	id 1tqgml-0001AB-0d;
+	Fri, 07 Mar 2025 23:07:19 +0000
+Date: Sat, 8 Mar 2025 07:06:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3] mm/shmem.c:2361:1: warning:
- label 'alloced' defined but not used
-Message-ID: <202503080631.JoKQrG7n-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 0/3] mm/shmem.c:2361:1:
+ warning: unused label 'alloced'
+Message-ID: <202503080609.MhfilN9Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,28 +62,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   68a380ba195d471b9ab81db23a5854289dd1c678
-commit: add2b5a560c69b21c09e79e7d808ad0215c61797 [3/3] ANDROID: mm: shmem: add vendor hooks in shmem folio allocation path
-config: i386-buildonly-randconfig-006-20250308 (https://download.01.org/0day-ci/archive/20250308/202503080631.JoKQrG7n-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080631.JoKQrG7n-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   77c5a6e3cce4b47aa624d85584c727a0af89d9c2
+commit: add2b5a560c69b21c09e79e7d808ad0215c61797 [0/3] ANDROID: mm: shmem: add vendor hooks in shmem folio allocation path
+config: i386-buildonly-randconfig-003-20250308 (https://download.01.org/0day-ci/archive/20250308/202503080609.MhfilN9Z-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080609.MhfilN9Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503080631.JoKQrG7n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503080609.MhfilN9Z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/shmem.c: In function 'shmem_get_folio_gfp':
->> mm/shmem.c:2361:1: warning: label 'alloced' defined but not used [-Wunused-label]
+   In file included from mm/shmem.c:43:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/shmem.c:2361:1: warning: unused label 'alloced' [-Wunused-label]
     2361 | alloced:
-         | ^~~~~~~
-   mm/shmem.c: At top level:
->> mm/shmem.c:1644:14: warning: 'limit_gfp_mask' defined but not used [-Wunused-function]
+         | ^~~~~~~~
+   mm/shmem.c:1644:14: warning: unused function 'limit_gfp_mask' [-Wunused-function]
     1644 | static gfp_t limit_gfp_mask(gfp_t huge_gfp, gfp_t limit_gfp)
          |              ^~~~~~~~~~~~~~
+   4 warnings generated.
 
 
 vim +/alloced +2361 mm/shmem.c
