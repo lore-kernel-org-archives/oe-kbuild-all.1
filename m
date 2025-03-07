@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68E1E1DEB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 10:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51BE1A841E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 10:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741343557; cv=none; b=nvKq7BeNlq8QyG8DpghbWUJuQxwD1jsSL4L33SZ4nuF9rrJgLfk/+UNKODkq0BCTKJw133sh0yUIho1KhagTDGBtFUq6dZFBxOwW10tVmO1Z2cC43mCB63brNq/QX4k85moXswseIwpBjMrwVdehF2P/GjrsGEoZv1qlKcnLsOo=
+	t=1741344877; cv=none; b=R+YHdJSS0FNLi4h5opm6hshIgKHmOQ5mN9TL/HWdbuf5bOUSsLoA5AuYY0qoPimGjFhXnVCCxMJzqWRj1WvQKZZzMothyb9hydvP5mClAO3nk+mdc/Bj1rMxXT8HDU9C0XLkqWHoed39PES8Az9o0GSTIX5uXdqrEfco8UIPEaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741343557; c=relaxed/simple;
-	bh=eaFXM5ndfzcSejieQgyRUMqCp/DYjdcvdOcHWt4mbqA=;
+	s=arc-20240116; t=1741344877; c=relaxed/simple;
+	bh=kdxsL/VEF38k0Qhlo+fJceXX+aDyGF2/MbB6sANxSvI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NFy93Cr9Q1w126ldReKXYovqDjixJvQDG+//9uao4xM2JcmbVMQGmyGeJwTdgLfj6DuguGQYivwR4D5M4H0peJfJsoLLPm+rNuGjr2X9IM2khYH7mNKgU+dDBd9GIDO2K96UwNkHtJDm7c3hAXTWS85rBxgNK50+4j+0W0zXT7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhkRhXrI; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=CoHS93m3umWW+sBzmPrSRmY1/eFzBeROA0LZT8ZLIoDfhe3a3YK4JM8Lc+giQy8jKdhNjZWpgIHYNQVjMu6bYiD5D6aRJ1r0YVwFVYYRbPEHhnj0IYpozYdt5kgCtFPZWwRNStv+YikJxCYI9PKpzKm32pFtL/GuKFawPQSQFvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fu5bf2pz; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhkRhXrI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fu5bf2pz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741343554; x=1772879554;
+  t=1741344876; x=1772880876;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eaFXM5ndfzcSejieQgyRUMqCp/DYjdcvdOcHWt4mbqA=;
-  b=AhkRhXrINTsEbCMqNiN4yFC31JdFwVb2eHsOt1k4Ty4eHZGBpiePPqhR
-   3DtNyoLIIjWPR/4ZZojwBs//cyCLCLZNVjp/4azVifGKFYjsWi0J9K9aN
-   H9COqt54Yub9EzoQGLQuOpbS42o21YGb9nVIzC0RlbPCUqKPHMq8mkPLw
-   fWzLI2wlc8MbbSuhi7e8BW6rXVpvwhHTsAutaUghIZxF0gSrGJ6oyB6P+
-   iC17JYY/qTsDOInn4o/yq8KzHfVtzjFJ316GeWC6pXKyD3gfDeBQxI+nT
-   23EznovhfQMiEGDwLt067r1zZnM9ES1n/E529ucH4Rxnn+CKWZEDvSEdT
-   w==;
-X-CSE-ConnectionGUID: w4b4Z/vvSQygLfrDtFvSIg==
-X-CSE-MsgGUID: aEuLiyI0QHC2illKTXoXZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53023632"
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="53023632"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:32:34 -0800
-X-CSE-ConnectionGUID: fIAv12/HSamVvCAGlF+p9A==
-X-CSE-MsgGUID: n3eYZvM/Qzy8b6cjiZJCfw==
+  bh=kdxsL/VEF38k0Qhlo+fJceXX+aDyGF2/MbB6sANxSvI=;
+  b=Fu5bf2pzZ0Lhgu2g+BGY78fW5UIQ31mfiF7MTdtSU5dnihma6YadWNkY
+   giNSVtbM2X6Oa/12vk6fE5N7K/xt4edTIijXxhKiB9tG3HHiB6l1M8jmX
+   9yJpWHTQe/m6Eyg1ysFvOVy90snq1xtJTsw0ILObW1Fnjj9S2rQ0a0Cy0
+   veZ9bGrZ/dtYb5Odn1IbgEPszf81TJ1ZZqBg+lQkwZZzfSDZGAQ9CbOGD
+   mKXjAnD/beBSGBr6UzHrYQQdI+DeQDBgpY7b72RT7scr+QsqT9Gqkp2yf
+   azvO12FV7xdql7kbe1OHTTobkRBV/i2/S270tJm4LEo0OiV01ug/OnFgq
+   A==;
+X-CSE-ConnectionGUID: TZbX+7zOQxCCVAgWYKJ2/w==
+X-CSE-MsgGUID: PNrz0G/GRQ21mAFJET2F5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52596005"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="52596005"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:54:35 -0800
+X-CSE-ConnectionGUID: bQSnjr4uT8ivGtu7KSdARQ==
+X-CSE-MsgGUID: 2pZLyKrfSNq+yTH3sBXO5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="119117900"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="124514406"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Mar 2025 02:32:32 -0800
+  by orviesa005.jf.intel.com with ESMTP; 07 Mar 2025 02:54:34 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqV0A-0000Jf-1P;
-	Fri, 07 Mar 2025 10:32:23 +0000
-Date: Fri, 7 Mar 2025 18:32:04 +0800
+	id 1tqVLc-0000L1-0F;
+	Fri, 07 Mar 2025 10:54:32 +0000
+Date: Fri, 7 Mar 2025 18:53:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>, serge@hallyn.com,
-	paul@paul-moore.com, jmorris@namei.org,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Max Kellermann <max.kellermann@ionos.com>
-Subject: Re: [PATCH] security/commoncap: don't assume "setid" if all ids are
- identical
-Message-ID: <202503071808.FE4vwUc4-lkp@intel.com>
-References: <20250306082615.174777-1-max.kellermann@ionos.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/4] nfsd: add some stub tracepoints around key vfs
+ functions
+Message-ID: <202503071834.Qj8kjbdh-lkp@intel.com>
+References: <20250306-nfsd-tracepoints-v1-3-4405bf41b95f@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,60 +63,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306082615.174777-1-max.kellermann@ionos.com>
+In-Reply-To: <20250306-nfsd-tracepoints-v1-3-4405bf41b95f@kernel.org>
 
-Hi Max,
+Hi Jeff,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pcmoore-selinux/next]
-[also build test WARNING on linus/master v6.14-rc5 next-20250306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 7dc86d35a5f8a7ac24b53792c704b101e5041842]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Kellermann/security-commoncap-don-t-assume-setid-if-all-ids-are-identical/20250306-162826
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
-patch link:    https://lore.kernel.org/r/20250306082615.174777-1-max.kellermann%40ionos.com
-patch subject: [PATCH] security/commoncap: don't assume "setid" if all ids are identical
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20250307/202503071808.FE4vwUc4-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071808.FE4vwUc4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-add-commit-start-done-tracepoints-around-nfsd_commit/20250306-204120
+base:   7dc86d35a5f8a7ac24b53792c704b101e5041842
+patch link:    https://lore.kernel.org/r/20250306-nfsd-tracepoints-v1-3-4405bf41b95f%40kernel.org
+patch subject: [PATCH 3/4] nfsd: add some stub tracepoints around key vfs functions
+config: csky-randconfig-001-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071834.Qj8kjbdh-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071834.Qj8kjbdh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071808.FE4vwUc4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071834.Qj8kjbdh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/commoncap.c:865: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Are all user/group ids in both cred instances identical?
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_getattr':
+>> fs/nfsd/nfsproc.c:57:9: error: implicit declaration of function 'trace_nfsd_getattr' [-Wimplicit-function-declaration]
+      57 |         trace_nfsd_getattr(rqstp, &argp->fh);
+         |         ^~~~~~~~~~~~~~~~~~
 
 
-vim +865 security/commoncap.c
+vim +/trace_nfsd_getattr +57 fs/nfsd/nfsproc.c
 
-   863	
-   864	/**
- > 865	 * Are all user/group ids in both cred instances identical?
-   866	 *
-   867	 * It can be used after __is_setuid() / __is_setgid() to check whether
-   868	 * this is really a set*id operation or whether both processes just
-   869	 * have differing real/effective ids.  It is safe to keep differing
-   870	 * real/effective ids in "unsafe" program execution.
-   871	 */
-   872	static bool has_identical_uids_gids(const struct cred *a, const struct cred *b)
-   873	{
-   874		return uid_eq(a->uid, b->uid) &&
-   875			gid_eq(a->gid, b->gid) &&
-   876			uid_eq(a->suid, b->suid) &&
-   877			gid_eq(a->sgid, b->sgid) &&
-   878			uid_eq(a->euid, b->euid) &&
-   879			gid_eq(a->egid, b->egid) &&
-   880			uid_eq(a->fsuid, b->fsuid) &&
-   881			gid_eq(a->fsgid, b->fsgid);
-   882	}
-   883	
+    46	
+    47	/*
+    48	 * Get a file's attributes
+    49	 * N.B. After this call resp->fh needs an fh_put
+    50	 */
+    51	static __be32
+    52	nfsd_proc_getattr(struct svc_rqst *rqstp)
+    53	{
+    54		struct nfsd_fhandle *argp = rqstp->rq_argp;
+    55		struct nfsd_attrstat *resp = rqstp->rq_resp;
+    56	
+  > 57		trace_nfsd_getattr(rqstp, &argp->fh);
+    58	
+    59		dprintk("nfsd: GETATTR  %s\n", SVCFH_fmt(&argp->fh));
+    60	
+    61		fh_copy(&resp->fh, &argp->fh);
+    62		resp->status = fh_verify(rqstp, &resp->fh, 0,
+    63					 NFSD_MAY_NOP | NFSD_MAY_BYPASS_GSS_ON_ROOT);
+    64		if (resp->status != nfs_ok)
+    65			goto out;
+    66		resp->status = fh_getattr(&resp->fh, &resp->stat);
+    67	out:
+    68		resp->status = nfsd_map_status(resp->status);
+    69		return rpc_success;
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
