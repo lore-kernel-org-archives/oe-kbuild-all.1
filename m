@@ -1,70 +1,59 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0206721A459
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 13:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C587221A44F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 14:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741355932; cv=none; b=nnByYb3Mj0W/b4N773PpZqZpjEJgHHooIfa1Qyo3OA4jBsfd3A/oYPU/l7jOyySO3AScVV+lvEUCQsaRlxxcGnhHr5rtO8uBcITpuxO3NQOO6G5TUpk8vPkFGEtGGNS0O361kDrV9RmjGmfXHMRSeAKh7KFSQ9ADnQ35KADYNI4=
+	t=1741356499; cv=none; b=IxhnH0Mz3mdZbkxts4bS83Eh0Dj6Qd7FgSB7bjAaHZVi+F4jNCcyT0fQ6b8c/s/G65lT8qzacF9j9EkbNDSTZ7EYbsHPT6oIdur0B22P9bcWboLPBCFDYY+t2ur4OSqNMm/TTdGXjgTZfwpKkpWieL+m4O7cpeRgTi4bDXvN4yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741355932; c=relaxed/simple;
-	bh=LgdGyBjxDWXmoa9HcdXIpGcy9TdkkZ9WRcWjI+eTOWM=;
+	s=arc-20240116; t=1741356499; c=relaxed/simple;
+	bh=J8MCkD9cjo90DhVBv/FvO7ZoUYt37oQqJbrr8lhVti4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IfZRBvVOrgMiWrn31blfv9/wRJ3l/rzz/o88jkYo0wVNFJbJW71S4pblAPcjOp9Mtd4xPvcYK16xOQOP1tr+eOqnB6G5bWkGrbzoUNFgebYdrRMgJrk74xbLVKkkwPb4XlG/Il//uC4Ltcs/RPlEd00WA+oMKjNiuLlYDK7yG2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PKNVkO0d; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=mjneswVAXiBOrbZNlWJXc9ZPlsA/LyoQZ7wsl/INqYSOm/RiPhd/lv5x4CApdtxmo4zmNRBJ6okXM2zjkX8j/XPMwbA9Z/93pyyc5jIthz3b0t4udmhrrVMp9XObUATE7UnMVgxkNtTqhKHD/8NfZ0wYMdAZdP4AnAV/B05kaR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=la7oxGSw; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PKNVkO0d"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-390f69f8083so1603699f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 07 Mar 2025 05:58:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741355928; x=1741960728; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9EGxfAWzHmc0n2XcMsv4xyGAchxM7sK9Sox0qv/mbjM=;
-        b=PKNVkO0dkaxrB30hoV+MOm0MqXLDrf9Ogw5OLXCcALHeu14bi5rFJ+hSdQfLLyVZbx
-         neeaHS5lXuOuuDfhty4LcA1qnu6yQnXAh/sTe0IFPWKu/xxyYzWMGbPmbk9c5NPMSYSM
-         nY/xbyS6svGXDXNQDzK39WndDh5QpBuRErQV5as1WyRTR+5tCABxyO4ipZeXvz/nk6xT
-         xIfzaYh7XMFwHWQJgEOUAYZHWwQXRZxFbjF8hPDRuX078rYe9GY8p01Gdlu5vPWgKVMD
-         qp01ZnmuxNDt2M8zT/qZI7DzHBwtAvgdAPXo0TeYowz/erAtGJeCAEnA8uzkKFypSQx1
-         1KKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741355928; x=1741960728;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9EGxfAWzHmc0n2XcMsv4xyGAchxM7sK9Sox0qv/mbjM=;
-        b=qUdJtiyoeRmY4+Q/UViB7Ciig+s8Or7mHxE4VLeuWB1vlmPy9o+UyXSjEAOGqbpTpt
-         kP/iq4OL0Ropey27GHtS84l5Mdca5hXgLAT4j/1IC+o3tRuHyk6eXjXF0Dka2b09OFLQ
-         CNUEac5VkdKrkrDpK2VOfeMzoRXryVMg3boK6hEmYvkdodphFJxVx2f+C3T3sD3XQ12w
-         lGiWQXcB8A5Ixn20uZVdLShXiFoHMPQEDc7Tm02d/5LT55Wn69R5IP8F0LxaJUHTgL5a
-         Wbo20Q/N4YTyVwGBcF+iIlXNjQVqJboBPfvJ8A0AZIiouOeE1zA4pUWyuB+P/apkMtH4
-         Hx3w==
-X-Forwarded-Encrypted: i=1; AJvYcCXPJnVeMC2FtICfFEQXKFcQMOio7nydvUEoqhqK/AVFZF8a+RDj9URGfWCpgUIlThSMxvc1hZvPQfEgfkgm@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTIWGDdxnb7FmNR1gwJ7nBb339tlAVH6X9rh1nwCTcEWJwtGvV
-	7KiYHtlVu5zJBkndt+Q9Mh7SF7MsANTRiH+2P1AauoGsJ45p7zyfP2QL5VY3RaM=
-X-Gm-Gg: ASbGncuFSwakT+0QeCc0XubOPbPRqpOWOf5YyvWaJR/5BANeTU3oxztUaBXhqWwo+0b
-	PpfHyNIhqiVwaE11FJDU+2UBwzMHgMwXHOeF7OsEWqjsvn7Q8m8xlzSaL3hG56Dno1ElDIyEHzQ
-	5jePTLTaXNGjYpFu8MgYSF3I+6d5qoIQnlKT4tGgGvKAx0oWIbR6IyMobXp0oQQy437S83F0JlJ
-	mYb+NfrSym7H959Rc5YlOAkK9Fg7xkpmYJXUvG32eLBvSoOVTOqrewVBcDCauzqzyjyvY/WU+/9
-	2T+wZIgPkFl5XKJnxrw94LhQoFBmTP5kEPWqcChpGIUIF/EoZQ==
-X-Google-Smtp-Source: AGHT+IHob9xSwHZHxbIGxOhr+1B8/H6WPDLiz5T5TIbPy4IHpRxIEmfhrIuEHRHdzuZcNtNspVmeNA==
-X-Received: by 2002:adf:8bd7:0:b0:391:39bd:a381 with SMTP id ffacd0b85a97d-39139bda886mr202282f8f.30.1741355928133;
-        Fri, 07 Mar 2025 05:58:48 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912bfb7aefsm5371321f8f.20.2025.03.07.05.58.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 05:58:47 -0800 (PST)
-Date: Fri, 7 Mar 2025 16:58:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Julian Sun <sunjunchao2870@gmail.com>,
-	linux-xfs@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, cem@kernel.org,
-	djwong@kernel.org, Julian Sun <sunjunchao2870@gmail.com>
-Subject: Re: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL
- allocation.
-Message-ID: <398b4241-bef5-4270-9fff-204e528b76fb@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="la7oxGSw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741356498; x=1772892498;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=J8MCkD9cjo90DhVBv/FvO7ZoUYt37oQqJbrr8lhVti4=;
+  b=la7oxGSwcZ8R0BIvrVmP3R4ZM5LlChYdkAaGNfsKmBw9mJNzT/dKK+gM
+   JA5p+r6pTv2Ww40RjZPeDFQ5iqvHQNhbX0iEXnYuoJE+dN3DHolrGqleH
+   BfcZIuPzMlu3AD+NzYIiv1v0gVq0ww2rTGCy6IXoT6G+lbFE11tWlyBxs
+   PSWL+/cilVmLIW+Qv75eyg00RxMtRKEbl/56izYzJgKUB7h8IPs9kSf67
+   /BUUBcAoFIXd3u+3v5ISdxCH9hkw32NbKwBhKgeW3mrqWEFj71cBN8S6w
+   RESzQ6F9CLidNtKYhs4F7lDCm8LfwoKBxOg9TPOzw62b/5FWz1xKy2jSO
+   g==;
+X-CSE-ConnectionGUID: 0YMOtw1pRH+RhBn+902q2Q==
+X-CSE-MsgGUID: amP6r9wtTN2T3RBfjcMStg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59961848"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="59961848"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 06:08:17 -0800
+X-CSE-ConnectionGUID: +bv2jkeMQuilBtb0xQLbdw==
+X-CSE-MsgGUID: PVbS58BuQoSDn7emtTn6dQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="124553830"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 07 Mar 2025 06:08:16 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqYN3-0000Yd-0K;
+	Fri, 07 Mar 2025 14:08:13 +0000
+Date: Fri, 7 Mar 2025 22:07:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 6/6]
+ drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:220:1: error: expected identifier or
+ '(' before '{' token
+Message-ID: <202503072207.tRaqMIgE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,94 +62,216 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250228082622.2638686-2-sunjunchao2870@gmail.com>
 
-Hi Julian,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Sun/xfs-remove-unnecessary-checks-for-__GFP_NOFAIL-allocation/20250228-162815
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20250228082622.2638686-2-sunjunchao2870%40gmail.com
-patch subject: [PATCH 1/2] xfs: remove unnecessary checks for __GFP_NOFAIL allocation.
-config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072035.d6QqiZWT-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   3035d9b996ef99bc35325e91d9bcf6437259e374
+commit: 56c7482df8dc4a22d074197a9e4313cc79b734a3 [6/6] CHROMIUM: drm/mediatek: Add support for MST HDCP
+config: arm64-randconfig-003-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072207.tRaqMIgE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072207.tRaqMIgE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503072035.d6QqiZWT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503072207.tRaqMIgE-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/xfs_mru_cache.c:360 xfs_mru_cache_create() warn: variable dereferenced before check 'mru' (see line 338)
+All error/warnings (new ones prefixed by >>):
 
-vim +/mru +360 fs/xfs/xfs_mru_cache.c
+   In file included from drivers/gpu/drm/mediatek/mtk_dp_common.h:19,
+                    from drivers/gpu/drm/mediatek/mtk_dp_mst.h:9,
+                    from drivers/gpu/drm/mediatek/mtk_dp_mst.c:19:
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:220:1: error: expected identifier or '(' before '{' token
+     220 | {
+         | ^
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:219:19: warning: 'tee_hdcp_toggle_encrypt' declared 'static' but never defined [-Wunused-function]
+     219 | static inline int tee_hdcp_toggle_encrypt(struct mtk_hdcp_info *hdcp_info);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/mediatek/mtk_dp_common.h:19,
+                    from drivers/gpu/drm/mediatek/mtk_dp_v2.h:10,
+                    from drivers/gpu/drm/mediatek/mtk_dp_v2.c:65:
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:220:1: error: expected identifier or '(' before '{' token
+     220 | {
+         | ^
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2587:6: warning: no previous prototype for 'mtk_dp_dsc_support_v2' [-Wmissing-prototypes]
+    2587 | void mtk_dp_dsc_support_v2(struct mtk_dp *mtk_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2595:6: warning: no previous prototype for 'mtk_dp_dsc_enable_v2' [-Wmissing-prototypes]
+    2595 | void mtk_dp_dsc_enable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2625:6: warning: no previous prototype for 'mtk_dp_dsc_disable_v2' [-Wmissing-prototypes]
+    2625 | void mtk_dp_dsc_disable_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2655:6: warning: no previous prototype for 'mtk_dp_set_chunk_size_v2' [-Wmissing-prototypes]
+    2655 | void mtk_dp_set_chunk_size_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2674:6: warning: no previous prototype for 'mtk_dp_dsc_set_param_v2' [-Wmissing-prototypes]
+    2674 | void mtk_dp_dsc_set_param_v2(struct mtk_dp *mtk_dp,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2700:6: warning: no previous prototype for 'mtk_dp_dsc_set_pps_v2' [-Wmissing-prototypes]
+    2700 | void mtk_dp_dsc_set_pps_v2(struct mtk_dp *mtk_dp,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2719:6: warning: no previous prototype for 'mtk_dp_dsc_pps_send_v2' [-Wmissing-prototypes]
+    2719 | void mtk_dp_dsc_pps_send_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:2725:6: warning: no previous prototype for 'mtk_dp_dsc_parse_pps_param_v2' [-Wmissing-prototypes]
+    2725 | void mtk_dp_dsc_parse_pps_param_v2(struct mtk_dp *mtk_dp, const enum dp_encoder_id encoder_id, u8 *pps)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c: In function 'mtk_dp_video_config_v2':
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:3699:12: warning: variable 'data' set but not used [-Wunused-but-set-variable]
+    3699 |         u8 data;
+         |            ^~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c: At top level:
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4678:18: warning: initialized field overwritten [-Woverride-init]
+    4678 |         .reset = drm_atomic_helper_connector_reset,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:4678:18: note: (near initialization for 'mtk_dp_con_funcs.reset')
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c: In function 'mtk_drm_dp_notifier_v2':
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:6097:17: error: implicit declaration of function 'mtk_dp_suspend_v2'; did you mean 'mtk_dp_tu_set_v2'? [-Wimplicit-function-declaration]
+    6097 |                 mtk_dp_suspend_v2(dev);
+         |                 ^~~~~~~~~~~~~~~~~
+         |                 mtk_dp_tu_set_v2
+   drivers/gpu/drm/mediatek/mtk_dp_v2.c:6100:17: error: implicit declaration of function 'mtk_dp_resume_v2'; did you mean 'mtk_dp_read_v2'? [-Wimplicit-function-declaration]
+    6100 |                 mtk_dp_resume_v2(dev);
+         |                 ^~~~~~~~~~~~~~~~
+         |                 mtk_dp_read_v2
+   drivers/gpu/drm/mediatek/tlc_dp_hdcp.h: At top level:
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:219:19: warning: 'tee_hdcp_toggle_encrypt' declared 'static' but never defined [-Wunused-function]
+     219 | static inline int tee_hdcp_toggle_encrypt(struct mtk_hdcp_info *hdcp_info);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/mediatek/mtk_dp_common.h:19,
+                    from drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:9:
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:220:1: error: expected identifier or '(' before '{' token
+     220 | {
+         | ^
+>> drivers/gpu/drm/mediatek/tlc_dp_hdcp.h:219:19: warning: 'tee_hdcp_toggle_encrypt' declared 'static' but never defined [-Wunused-function]
+     219 | static inline int tee_hdcp_toggle_encrypt(struct mtk_hdcp_info *hdcp_info);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/mediatek/tlc_dp_hdcp.c:22:21: warning: 'dp_ta_uuid' defined but not used [-Wunused-const-variable=]
+      22 | static const uuid_t dp_ta_uuid =
+         |                     ^~~~~~~~~~
 
-2a82b8be8a8dac David Chinner     2007-07-11  314  int
-2a82b8be8a8dac David Chinner     2007-07-11  315  xfs_mru_cache_create(
-22328d712dd7fd Christoph Hellwig 2014-04-23  316  	struct xfs_mru_cache	**mrup,
-7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  317  	void			*data,
-2a82b8be8a8dac David Chinner     2007-07-11  318  	unsigned int		lifetime_ms,
-2a82b8be8a8dac David Chinner     2007-07-11  319  	unsigned int		grp_count,
-2a82b8be8a8dac David Chinner     2007-07-11  320  	xfs_mru_cache_free_func_t free_func)
-2a82b8be8a8dac David Chinner     2007-07-11  321  {
-22328d712dd7fd Christoph Hellwig 2014-04-23  322  	struct xfs_mru_cache	*mru = NULL;
-2a82b8be8a8dac David Chinner     2007-07-11  323  	int			err = 0, grp;
-2a82b8be8a8dac David Chinner     2007-07-11  324  	unsigned int		grp_time;
-2a82b8be8a8dac David Chinner     2007-07-11  325  
-2a82b8be8a8dac David Chinner     2007-07-11  326  	if (mrup)
-2a82b8be8a8dac David Chinner     2007-07-11  327  		*mrup = NULL;
-2a82b8be8a8dac David Chinner     2007-07-11  328  
-2a82b8be8a8dac David Chinner     2007-07-11  329  	if (!mrup || !grp_count || !lifetime_ms || !free_func)
-2451337dd04390 Dave Chinner      2014-06-25  330  		return -EINVAL;
-2a82b8be8a8dac David Chinner     2007-07-11  331  
-2a82b8be8a8dac David Chinner     2007-07-11  332  	if (!(grp_time = msecs_to_jiffies(lifetime_ms) / grp_count))
-2451337dd04390 Dave Chinner      2014-06-25  333  		return -EINVAL;
-2a82b8be8a8dac David Chinner     2007-07-11  334  
-10634530f7ba94 Dave Chinner      2024-01-16  335  	mru = kzalloc(sizeof(*mru), GFP_KERNEL | __GFP_NOFAIL);
-2a82b8be8a8dac David Chinner     2007-07-11  336  
-2a82b8be8a8dac David Chinner     2007-07-11  337  	/* An extra list is needed to avoid reaping up to a grp_time early. */
-2a82b8be8a8dac David Chinner     2007-07-11 @338  	mru->grp_count = grp_count + 1;
-10634530f7ba94 Dave Chinner      2024-01-16  339  	mru->lists = kzalloc(mru->grp_count * sizeof(*mru->lists),
-10634530f7ba94 Dave Chinner      2024-01-16  340  				GFP_KERNEL | __GFP_NOFAIL);
-2a82b8be8a8dac David Chinner     2007-07-11  341  
-2a82b8be8a8dac David Chinner     2007-07-11  342  	for (grp = 0; grp < mru->grp_count; grp++)
-2a82b8be8a8dac David Chinner     2007-07-11  343  		INIT_LIST_HEAD(mru->lists + grp);
-2a82b8be8a8dac David Chinner     2007-07-11  344  
-2a82b8be8a8dac David Chinner     2007-07-11  345  	/*
-2a82b8be8a8dac David Chinner     2007-07-11  346  	 * We use GFP_KERNEL radix tree preload and do inserts under a
-2a82b8be8a8dac David Chinner     2007-07-11  347  	 * spinlock so GFP_ATOMIC is appropriate for the radix tree itself.
-2a82b8be8a8dac David Chinner     2007-07-11  348  	 */
-2a82b8be8a8dac David Chinner     2007-07-11  349  	INIT_RADIX_TREE(&mru->store, GFP_ATOMIC);
-2a82b8be8a8dac David Chinner     2007-07-11  350  	INIT_LIST_HEAD(&mru->reap_list);
-007c61c68640ea Eric Sandeen      2007-10-11  351  	spin_lock_init(&mru->lock);
-2a82b8be8a8dac David Chinner     2007-07-11  352  	INIT_DELAYED_WORK(&mru->work, _xfs_mru_cache_reap);
-2a82b8be8a8dac David Chinner     2007-07-11  353  
-2a82b8be8a8dac David Chinner     2007-07-11  354  	mru->grp_time  = grp_time;
-2a82b8be8a8dac David Chinner     2007-07-11  355  	mru->free_func = free_func;
-7fcd3efa1e9ebe Christoph Hellwig 2018-04-09  356  	mru->data = data;
-2a82b8be8a8dac David Chinner     2007-07-11  357  	*mrup = mru;
-2a82b8be8a8dac David Chinner     2007-07-11  358  
-2a82b8be8a8dac David Chinner     2007-07-11  359  exit:
-2a82b8be8a8dac David Chinner     2007-07-11 @360  	if (err && mru && mru->lists)
-                                                                   ^^^
 
-d4c75a1b40cd03 Dave Chinner      2024-01-16  361  		kfree(mru->lists);
-2a82b8be8a8dac David Chinner     2007-07-11  362  	if (err && mru)
-                                                                   ^^^
-I normally wouldn't hit forward on this zero-day bot thing because it's
-obviously harmless.  But since you're removing NULL checks you could
-remove these two too if you want.
+vim +220 drivers/gpu/drm/mediatek/tlc_dp_hdcp.h
 
-d4c75a1b40cd03 Dave Chinner      2024-01-16  363  		kfree(mru);
-2a82b8be8a8dac David Chinner     2007-07-11  364  
-2a82b8be8a8dac David Chinner     2007-07-11  365  	return err;
-2a82b8be8a8dac David Chinner     2007-07-11  366  }
+   105	
+   106	#if IS_ENABLED(CONFIG_TEE)
+   107	int tee_add_device(struct mtk_hdcp_info *hdcp_info, u32 version);
+   108	void tee_remove_device(struct mtk_hdcp_info *hdcp_info);
+   109	int tee_clear_paring(struct mtk_hdcp_info *hdcp_info);
+   110	int tee_calculate_lm(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *bksv);
+   111	int tee_get_aksv(struct mtk_hdcp_info *hdcp_info, u8 *aksv);
+   112	int tee_compare_r0(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *r0, u32 len);
+   113	int tee_hdcp1x_compute_compare_v(u8 id, struct mtk_hdcp_info *hdcp_info,
+   114					u8 *crypto_param, u32 param_len, u8 *rx_v);
+   115	int tee_hdcp1x_set_tx_an(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *an_code);
+   116	int tee_hdcp1x_soft_rst(u8 id, struct mtk_hdcp_info *hdcp_info);
+   117	int tee_hdcp2_soft_rst(u8 id, struct mtk_hdcp_info *hdcp_info);
+   118	int tee_hdcp_update_encrypt(u8 id, struct mtk_hdcp_info *hdcp_info, bool enable, u8 version);
+   119	int tee_ake_certificate(struct mtk_hdcp_info *hdcp_info,
+   120					u8 *certificate, bool *stored, u8 *out_m, u8 *out_ekm);
+   121	int tee_enc_rsaes_oaep(struct mtk_hdcp_info *hdcp_info, u8 *ekm);
+   122	int tee_ake_h_prime(struct mtk_hdcp_info *hdcp_info,
+   123					u8 *rtx, u8 *rrx, u8 *rx_caps, u8 *tx_caps, u8 *rx_h, u32 rx_h_len);
+   124	int tee_ake_paring(struct mtk_hdcp_info *hdcp_info, u8 *rx_ekm);
+   125	int tee_lc_l_prime(struct mtk_hdcp_info *hdcp_info, u8 *rn, u8 *rx_l, u32 len);
+   126	int tee_ske_enc_ks(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *riv, u8 *eks);
+   127	int tee_hdcp2_compute_compare_v(struct mtk_hdcp_info *hdcp_info,
+   128					u8 *crypto_param, u32 param_len, u8 *rx_v, u8 *tx_v);
+   129	int tee_hdcp2_compute_compare_m(struct mtk_hdcp_info *hdcp_info,
+   130					u8 *crypto_param, u32 param_len, u8 *rx_m);
+   131	int tee_hdcp2_set_rx_info(struct mtk_hdcp_info *hdcp_info, u8 *rx_info);
+   132	int tee_hdcp_toggle_encrypt(struct mtk_hdcp_info *hdcp_info);
+   133	#else
+   134	static inline int tee_add_device(struct mtk_hdcp_info *hdcp_info, u32 version)
+   135	{
+   136		return -EFAULT;
+   137	}
+   138	static inline void tee_remove_device(struct mtk_hdcp_info *hdcp_info)
+   139	{
+   140		return;
+   141	}
+   142	static inline int tee_clear_paring(struct mtk_hdcp_info *hdcp_info)
+   143	{
+   144		return -EFAULT;
+   145	}
+   146	static inline int tee_calculate_lm(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *bksv)
+   147	{
+   148		return -EFAULT;
+   149	}
+   150	static inline int tee_get_aksv(struct mtk_hdcp_info *hdcp_info, u8 *aksv)
+   151	{
+   152		return -EFAULT;
+   153	}
+   154	static inline int tee_compare_r0(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *r0, u32 len)
+   155	{
+   156		return -EFAULT;
+   157	}
+   158	static inline int tee_hdcp1x_compute_compare_v(u8 id, struct mtk_hdcp_info *hdcp_info,
+   159					u8 *crypto_param, u32 param_len, u8 *rx_v)
+   160	{
+   161		return -EFAULT;
+   162	}
+   163	static inline int tee_hdcp1x_set_tx_an(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *an_code)
+   164	{
+   165		return -EFAULT;
+   166	}
+   167	static inline int tee_hdcp1x_soft_rst(u8 id, struct mtk_hdcp_info *hdcp_info)
+   168	{
+   169		return -EFAULT;
+   170	}
+   171	static inline int tee_hdcp2_soft_rst(u8 id, struct mtk_hdcp_info *hdcp_info)
+   172	{
+   173		return -EFAULT;
+   174	}
+   175	static inline int tee_hdcp_update_encrypt(u8 id, struct mtk_hdcp_info *hdcp_info, bool enable, u8 version)
+   176	{
+   177		return -EFAULT;
+   178	}
+   179	static inline int tee_ake_certificate(struct mtk_hdcp_info *hdcp_info,
+   180					u8 *certificate, bool *stored, u8 *out_m, u8 *out_ekm)
+   181	{
+   182		return -EFAULT;
+   183	}
+   184	static inline int tee_enc_rsaes_oaep(struct mtk_hdcp_info *hdcp_info, u8 *ekm)
+   185	{
+   186		return -EFAULT;
+   187	}
+   188	static inline int tee_ake_h_prime(struct mtk_hdcp_info *hdcp_info,
+   189					u8 *rtx, u8 *rrx, u8 *rx_caps, u8 *tx_caps, u8 *rx_h, u32 rx_h_len)
+   190	{
+   191		return -EFAULT;
+   192	}
+   193	static inline int tee_ake_paring(struct mtk_hdcp_info *hdcp_info, u8 *rx_ekm)
+   194	{
+   195		return -EFAULT;
+   196	}
+   197	static inline int tee_lc_l_prime(struct mtk_hdcp_info *hdcp_info, u8 *rn, u8 *rx_l, u32 len)
+   198	{
+   199		return -EFAULT;
+   200	}
+   201	static inline int tee_ske_enc_ks(u8 id, struct mtk_hdcp_info *hdcp_info, u8 *riv, u8 *eks)
+   202	{
+   203		return -EFAULT;
+   204	}
+   205	static inline int tee_hdcp2_compute_compare_v(struct mtk_hdcp_info *hdcp_info,
+   206					u8 *crypto_param, u32 param_len, u8 *rx_v, u8 *tx_v)
+   207	{
+   208		return -EFAULT;
+   209	}
+   210	static inline int tee_hdcp2_compute_compare_m(struct mtk_hdcp_info *hdcp_info,
+   211					u8 *crypto_param, u32 param_len, u8 *rx_m)
+   212	{
+   213		return -EFAULT;
+   214	}
+   215	static inline int tee_hdcp2_set_rx_info(struct mtk_hdcp_info *hdcp_info, u8 *rx_info)
+   216	{
+   217		return -EFAULT;
+   218	}
+ > 219	static inline int tee_hdcp_toggle_encrypt(struct mtk_hdcp_info *hdcp_info);
+ > 220	{
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
