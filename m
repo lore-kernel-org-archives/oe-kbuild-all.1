@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA2921D3C8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 15:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF30217F53
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 15:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741360718; cv=none; b=eP9uWPC8DQJhaGKtIG/tPdizlKblZR2yoboJyB7vi7g9O6zPuajeGFEMce1JKiDfUCLK7H1mozgDLNPDdEFZDm9C7XiZ7gaSlkKldXjrwG9ZfibK5OZ0ys+ImFJzzQukHcaGk6jMgX4Qp4K99rV7xy2lizwnE/vZ1tiD1NLmfis=
+	t=1741360956; cv=none; b=amcaCOEGQMMLaxCC+NaZzSLZkfOBXIdeKtFoY0S2wYvZIEkrK4kJtNVAt7Cauuc1ywDRN5Wq9F9MQu1JwhLLc+Ous3u1zCYD4ZE4DlBfQ4yluc3Oj8DIhw7fakMZSHxbm7oV9lilwynV3s4Wr9vRKf6v13KXmXhas4eQ6mB4fw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741360718; c=relaxed/simple;
-	bh=p3YKblVgNUJ9A5s9Y1bYvwOhcKIHEN1xpybr1xaLV30=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MxaOI7wZa5TZfRpdQ8I09CdXw3RzOt4MM8SQ0TZCMPARM79W6pwW9HnpN6ey8xqQCp/4aE6octh+19CiyOydJ5h2kxFITfpWbjrZY+yzM1RjCpPQGtIcWF6afp9AgpuL8NvlaSiqB/WwJJJl9YjscDa3DktAIXBn4ICAwaba+pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aA2mfY+j; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1741360956; c=relaxed/simple;
+	bh=KSMC5QM8qz0gz5xHIBm/4GI/nE2ksGcyfus2VQkF2rQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NXjJnt7ip7GyqMLQYig+2AGh9ewz/XPk0uzlC/MEQM0JYTL/M1bh0H44hpRCRb2VfVO1PY3nsVBYcJQ+dR6VKPH/c8pYEUK/LsQN9K/AR7VF21fNJdN452NOTCwyjVr1yiD1xJ+CAvr5EYudYKD7zxZX9FyK6dl37pwhs9SsofM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGzfdexT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aA2mfY+j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGzfdexT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741360716; x=1772896716;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p3YKblVgNUJ9A5s9Y1bYvwOhcKIHEN1xpybr1xaLV30=;
-  b=aA2mfY+jlKNO17ipWcE+Tkc394VB3BTMUMdrZ6tfdgHkkaZjKir9Na7Y
-   7wJYbBDHbmOEVR07ayUJ4f4bdF6vPFQKJiQSk8AhmNQdAMK4lmZl5226N
-   JyS6fg4OdJmAIn9Vu0xUgjrRWXh6FBdR1UaXLmeFCrXoLNDwp7fSzFo18
-   0EhMcKASRme0snOiKzdOJNgutymUdZw/xTFLTBaid4MBaSblyGtBK9RFD
-   s3UyKTyqG/AALmG8lpQoehCl3G5GHbj/aIwforjgXBoNiJgzLqUZ+Q4iC
-   6xHnwSDuzo+KpQRrSVfod1z6iASHFB9k4jYOOcql1enFxd33BTncaoZwn
-   A==;
-X-CSE-ConnectionGUID: O/N8GL+kR6Gnw1TIhG7Nyg==
-X-CSE-MsgGUID: VnrxrqFpR2mZBgvEqruKuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="64851638"
+  t=1741360955; x=1772896955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KSMC5QM8qz0gz5xHIBm/4GI/nE2ksGcyfus2VQkF2rQ=;
+  b=OGzfdexTrQYAN/QqegxwO/uS80i62iEvzL/NCIhEw/8dXW9dNpbT4bl6
+   vSvYQqvCxYzz6sCqDGCkx/58BkDJ0nLQyt1PFxlgoQx9Z8lhMREibqhXi
+   b81DaZyLd0L8tKespJZ5bkvn5Yu+F2rpUaBpkK9C5Viwt6jv/3udFmF3U
+   UwoXqxDRj1mYAMFeRiVXl2rROPtdM0x3bIVKZVS0csAg6yJIZqMtctTvQ
+   2+MQnEKmFc1TxEk31iGIn7BVCim1M/KJ46HiCn8ytEHf0B4YSHQOnKUcT
+   6iR/yPXVAQPt5GHmE7sqoFTwNdGu74z7UodMOInBYKuovyN6v0qHSTh18
+   w==;
+X-CSE-ConnectionGUID: 2u3IJTQ8QVGtUzDKXoiN9Q==
+X-CSE-MsgGUID: RmsAC69fTYS5vZQGdT5nGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42641182"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="64851638"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 07:18:36 -0800
-X-CSE-ConnectionGUID: 36dOYEWET0ygLpDwWdY2zw==
-X-CSE-MsgGUID: Q8v3D0hLRwi3LzzGxjhyAQ==
+   d="scan'208";a="42641182"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 07:22:34 -0800
+X-CSE-ConnectionGUID: jxflgZpCQxiEbKo8TpoN8Q==
+X-CSE-MsgGUID: kAgM1Y5cRAiYSvsxMVIJbg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="156561887"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="120045919"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 07 Mar 2025 07:18:32 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 07 Mar 2025 07:22:32 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqZT4-0000dL-0o;
-	Fri, 07 Mar 2025 15:18:30 +0000
-Date: Fri, 7 Mar 2025 23:18:02 +0800
+	id 1tqZWw-0000du-2O;
+	Fri, 07 Mar 2025 15:22:30 +0000
+Date: Fri, 7 Mar 2025 23:22:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Francis <alistair@alistair23.me>, bhelgaas@google.com,
-	linux-pci@vger.kernel.org, Jonathan.Cameron@huawei.com,
-	lukas@wunner.de
-Cc: oe-kbuild-all@lists.linux.dev, alex.williamson@redhat.com,
-	christian.koenig@amd.com, kch@nvidia.com,
-	gregkh@linuxfoundation.org, logang@deltatee.com,
-	linux-kernel@vger.kernel.org, alistair23@gmail.com,
-	chaitanyak@nvidia.com, rdunlap@infradead.org,
-	Alistair Francis <alistair@alistair23.me>
-Subject: Re: [PATCH v17 3/4] PCI/DOE: Expose the DOE features via sysfs
-Message-ID: <202503072251.DHy2O6b1-lkp@intel.com>
-References: <20250306075211.1855177-3-alistair@alistair23.me>
+To: Rong Xu <xur@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Han Shen <shenhan@google.com>, Kees Cook <kees@kernel.org>
+Subject: main.c:(.text.unlikely+0x18): relocation truncated to fit:
+ R_ARC_S25W_PCREL against symbol `__st_r13_to_r15' defined in .text section
+ in ../lib/gcc/arc-elf/12.3.0/arc700/libgcc.a(_millicodethunk_st.o)
+Message-ID: <202503072317.Y9GcLy6u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,54 +64,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306075211.1855177-3-alistair@alistair23.me>
 
-Hi Alistair,
+Hi Rong,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.14-rc5 next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/PCI-DOE-Rename-Discovery-Response-Data-Object-Contents-to-type/20250306-155550
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250306075211.1855177-3-alistair%40alistair23.me
-patch subject: [PATCH v17 3/4] PCI/DOE: Expose the DOE features via sysfs
-config: powerpc64-randconfig-003-20250307 (https://download.01.org/0day-ci/archive/20250307/202503072251.DHy2O6b1-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072251.DHy2O6b1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   00a7d39898c8010bfd5ff62af31ca5db34421b38
+commit: 0043ecea2399ffc8bfd99ed9dbbe766e7c79293c vmlinux.lds.h: Adjust symbol ordering in text output section
+date:   3 months ago
+config: arc-randconfig-r006-20230901 (https://download.01.org/0day-ci/archive/20250307/202503072317.Y9GcLy6u-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503072317.Y9GcLy6u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503072251.DHy2O6b1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503072317.Y9GcLy6u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/powerpc/platforms/powernv/pci-ioda.c:46:
-   arch/powerpc/platforms/powernv/../../../../drivers/pci/pci.h: In function 'pci_doe_sysfs_init':
->> arch/powerpc/platforms/powernv/../../../../drivers/pci/pci.h:488:70: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
-     488 | static inline void pci_doe_sysfs_init(struct pci_dev *pdev) { return 0; }
-         |                                                                      ^
-   arch/powerpc/platforms/powernv/../../../../drivers/pci/pci.h:488:20: note: declared here
-     488 | static inline void pci_doe_sysfs_init(struct pci_dev *pdev) { return 0; }
-         |                    ^~~~~~~~~~~~~~~~~~
-
-
-vim +/return +488 arch/powerpc/platforms/powernv/../../../../drivers/pci/pci.h
-
-   483	
-   484	#if defined(CONFIG_PCI_DOE) && defined(CONFIG_SYSFS)
-   485	void pci_doe_sysfs_init(struct pci_dev *pci_dev);
-   486	void pci_doe_sysfs_teardown(struct pci_dev *pdev);
-   487	#else
- > 488	static inline void pci_doe_sysfs_init(struct pci_dev *pdev) { return 0; }
-   489	static inline void pci_doe_sysfs_teardown(struct pci_dev *pdev) { }
-   490	#endif
-   491	
+   init/main.o: in function `run_init_process':
+>> main.c:(.text.unlikely+0x18): relocation truncated to fit: R_ARC_S25W_PCREL against symbol `__st_r13_to_r15' defined in .text section in ../lib/gcc/arc-elf/12.3.0/arc700/libgcc.a(_millicodethunk_st.o)
 
 -- 
 0-DAY CI Kernel Test Service
