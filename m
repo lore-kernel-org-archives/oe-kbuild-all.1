@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BA1664C6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 05:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A0F7FD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 05:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741324088; cv=none; b=QhWSg5xCr65WdGCDuoOyhi/jiFzYbd0czepwhwnNjjxlp12cwX3ElftJmWQtsrxp61fQD2bGKNS8csGwl3B+WWLGUNjW+FfLnLvLyKBpw0xJng2c7DxFceKUQos1yiiAg0cRNgV0wUAvyC8DyrFnzVZXXnhhaAAVCZJuyB+16D8=
+	t=1741326027; cv=none; b=Gc/rhff/iJ4r49R80ZLoPtcQO0dmjbBldbrYrnSk2Uv/m7zjFxQAvPYKCsdxdQ7xhopJJmFuOL2sjFrht1xjBp18iv/UUNDvnf4HXJotjfia38IRBn/rIsyNf+s61LAtZxymEcyXJg/BWO4jQXUWcMKRU8kgxb9vDErpIjEqfrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741324088; c=relaxed/simple;
-	bh=S1SYTRASpCbA+dLioCWWM4XWzVvn1bUBHoNW5Gmw6f4=;
+	s=arc-20240116; t=1741326027; c=relaxed/simple;
+	bh=uuTzd8j7mT1bXr727bmHxazLk37Q/pnAbXMifV8W2HM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O5E7wIhCRb1Vy+M06oL/P1fr4n2xMMnzv8pzG+VhVZovnlPWGtAff9R/ZzMnGWLd5+FY6+OHFLHYxRBm0xXQcWF6Dd4TWtMDla6nv8ylV1U396RNy74WFofWsxhkCBquzsjo0ixcIxU7OJPlgdQZxw8dWkJFJXtHVmhQNBuR8Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFgTZ2DS; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=qimY7i4ctkqsWbgims3Jsv/OmI+5dYwuKpkP6ZiYOjokVVuQGVf6DHJ2h6vE3DVzZL2ovyUgZHkGu6h3qTkPg1mIVW+IRhHA5rcLaQQz+MaLm7UxrmsMT6P6AMhCP3qZ+hlVTLFfT6JR40xGRuphBEOkBjsTjKanWQck1tuoIxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFcaPOqU; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFgTZ2DS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFcaPOqU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741324087; x=1772860087;
+  t=1741326026; x=1772862026;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S1SYTRASpCbA+dLioCWWM4XWzVvn1bUBHoNW5Gmw6f4=;
-  b=eFgTZ2DSVVZBAMEIaTcJTim36kHhTTZ9RA2CWIaaG1Qk0yRzY6WPMoX3
-   oCFgPHgYnPNQtJpK/HfdtNhkOjRxjfWzEJ2YUzKRSVWKiKOIfz8s0vYAC
-   1QJL7BiWPy7Gabt6VWr4xl3YVtXT/bappI/0huVJs/r1AOm66Otor22sH
-   tGWC6JZTUykmtmileyp2baRIp6JEn9P+MOkgn1f8Y9dXeoUsEnKCACeBX
-   6/eP7iiEAol0zP5Y8d7ihN5K/7Y1I0koMDBb39/4+iqwUVHFWwMw6tw7Z
-   CUqHcpiGlcNHKd7EO9pwefgu6i/fky+0peuNZGZJA2VKnXHdNew8GAJQX
+  bh=uuTzd8j7mT1bXr727bmHxazLk37Q/pnAbXMifV8W2HM=;
+  b=fFcaPOqUrdcsfuxTJeplQa2PbVyA1mYgqDpQ8SqF5PjPXCOAGKvCKks3
+   sjnQ0i+xCJlXMpDGs9dR92jmFzF1XjCd3HEIApAxzW0OMWC+bO35wUgnh
+   7uXq70ZTMr/kFSXfFs8PR3DNoCMePxOcUg13iIXUd5ZmusHM2TFyVLIKD
+   uV0UbrC/vVp10wrrbKuzI6phKUupaUHlYRBVmkQX05mSCRJ9LjnYrwKiU
+   BkmBQ57SdldNn7EfpeJgGB/308XXPruMDap9IzF7HukJsOBOisLQHZ2Lb
+   ZQu/EY1hmYU13CV3TcGfi9DrFWZ/aTZ6kyjoSI9TiuRvUEg8MyM4Gcsff
    g==;
-X-CSE-ConnectionGUID: 7pPEOTZWRtWMgY8vvD+piA==
-X-CSE-MsgGUID: d0jbMcASS9OpCsrbpvLt6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42276602"
+X-CSE-ConnectionGUID: M7SwwmU/QI+GSP5/1DfuVg==
+X-CSE-MsgGUID: cFsGJNyqT4CVc1xTvk06qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41534840"
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="42276602"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 21:08:05 -0800
-X-CSE-ConnectionGUID: UPoGvrFNSZ2rZFWGZw/ceQ==
-X-CSE-MsgGUID: Qr0fE4UJRqOjLjHrxZ6sqw==
+   d="scan'208";a="41534840"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 21:40:25 -0800
+X-CSE-ConnectionGUID: XS8kF4x+TByIZVJuU1sjJg==
+X-CSE-MsgGUID: 1b4NcsIORUOv9ZH/Af34Mw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="119408485"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="156437473"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Mar 2025 21:08:05 -0800
+  by orviesa001.jf.intel.com with ESMTP; 06 Mar 2025 21:40:22 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqPwE-000OZk-05;
-	Fri, 07 Mar 2025 05:07:58 +0000
-Date: Fri, 7 Mar 2025 13:05:21 +0800
+	id 1tqQQt-000OkY-0b;
+	Fri, 07 Mar 2025 05:40:04 +0000
+Date: Fri, 7 Mar 2025 13:38:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
-Subject: [linux-next:master 7500/9212] arch/x86/net/bpf_timed_may_goto.o:
- warning: objtool: arch_bpf_timed_may_goto+0xc: call without frame pointer
- save/setup
-Message-ID: <202503071350.QOhsHVaW-lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [linux-next:master 7642/9212]
+ arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: gpio@140:
+ Unevaluated properties are not allowed ('lte_disable', 'lte_reset',
+ 'sata_reset', 'wlan_disable' were unexpected)
+Message-ID: <202503071330.AYnUvWOo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,19 +68,39 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   565351ae7e0cee80e9b5ed84452a5b13644ffc4d
-commit: 2cb0a521527461c5519b2115b42709062a6a63f1 [7500/9212] bpf, x86: Add x86 JIT support for timed may_goto
-config: x86_64-randconfig-006-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071350.QOhsHVaW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071350.QOhsHVaW-lkp@intel.com/reproduce)
+commit: f2f3d5d62f6fbdaef46d1991086265a497b3e24f [7642/9212] dt-bindings: gpio: mvebu: Add missing 'gpio-ranges' property and hog nodes
+config: arm64-randconfig-051-20250305 (https://download.01.org/0day-ci/archive/20250307/202503071330.AYnUvWOo-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2025.3.dev3+gabf9328
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071330.AYnUvWOo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071350.QOhsHVaW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071330.AYnUvWOo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> arch/x86/net/bpf_timed_may_goto.o: warning: objtool: arch_bpf_timed_may_goto+0xc: call without frame pointer save/setup
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: config-space@f2000000: $nodename:0: 'config-space@f2000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000: failed to match any schema with compatible: ['marvell,cp110-icu']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@10: failed to match any schema with compatible: ['marvell,cp110-icu-nsr']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
+>> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: gpio@140: Unevaluated properties are not allowed ('lte_disable', 'lte_reset', 'sata_reset', 'wlan_disable' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: sata_reset: $nodename:0: 'sata_reset' does not match '-hog(-[0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: lte_reset: $nodename:0: 'lte_reset' does not match '-hog(-[0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: wlan_disable: $nodename:0: 'wlan_disable' does not match '-hog(-[0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: lte_disable: $nodename:0: 'lte_disable' does not match '-hog(-[0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
 
 -- 
 0-DAY CI Kernel Test Service
