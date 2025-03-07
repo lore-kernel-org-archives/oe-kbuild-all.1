@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51BE1A841E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 10:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19C920CCFD
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Mar 2025 10:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741344877; cv=none; b=R+YHdJSS0FNLi4h5opm6hshIgKHmOQ5mN9TL/HWdbuf5bOUSsLoA5AuYY0qoPimGjFhXnVCCxMJzqWRj1WvQKZZzMothyb9hydvP5mClAO3nk+mdc/Bj1rMxXT8HDU9C0XLkqWHoed39PES8Az9o0GSTIX5uXdqrEfco8UIPEaU=
+	t=1741344878; cv=none; b=IkwdpxWjYdy2XlfNl72Pg/TCp/iV+UAij8Pl/i5bYCHOxbrMeVO0D5FVSJWGfE9/LzpSfINtWHYeMKIoeiXsQthxd3bOHaIIpczF1Obxq92idJ6QkH2rwowKIrMzAq5THbj9OzFW9SfU9S/6DgogHTgYvE9IOpCBMT9P7WMeEaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741344877; c=relaxed/simple;
-	bh=kdxsL/VEF38k0Qhlo+fJceXX+aDyGF2/MbB6sANxSvI=;
+	s=arc-20240116; t=1741344878; c=relaxed/simple;
+	bh=yRfIVS+UqKnrEjZ0DSlu48JRvEdXsauMc01zJ6F2h7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CoHS93m3umWW+sBzmPrSRmY1/eFzBeROA0LZT8ZLIoDfhe3a3YK4JM8Lc+giQy8jKdhNjZWpgIHYNQVjMu6bYiD5D6aRJ1r0YVwFVYYRbPEHhnj0IYpozYdt5kgCtFPZWwRNStv+YikJxCYI9PKpzKm32pFtL/GuKFawPQSQFvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fu5bf2pz; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=blypkQUuiM1F201CMWNLQ0GtbJAwsj1JvmZzH5zCg6FLS1vkA6IXCOGGaYwj2IDqlxT0i4d9/X+5BRf1tmUc+zW2Pk7IF+iauFqup78j2ekY3leDQL5XrKsc9y7++2kq2ySda1zsEeYm0L6hSibj9aCEgNDoaxmi4v3Ua2QllyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xf0NPPDi; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fu5bf2pz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xf0NPPDi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741344876; x=1772880876;
+  t=1741344877; x=1772880877;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kdxsL/VEF38k0Qhlo+fJceXX+aDyGF2/MbB6sANxSvI=;
-  b=Fu5bf2pzZ0Lhgu2g+BGY78fW5UIQ31mfiF7MTdtSU5dnihma6YadWNkY
-   giNSVtbM2X6Oa/12vk6fE5N7K/xt4edTIijXxhKiB9tG3HHiB6l1M8jmX
-   9yJpWHTQe/m6Eyg1ysFvOVy90snq1xtJTsw0ILObW1Fnjj9S2rQ0a0Cy0
-   veZ9bGrZ/dtYb5Odn1IbgEPszf81TJ1ZZqBg+lQkwZZzfSDZGAQ9CbOGD
-   mKXjAnD/beBSGBr6UzHrYQQdI+DeQDBgpY7b72RT7scr+QsqT9Gqkp2yf
-   azvO12FV7xdql7kbe1OHTTobkRBV/i2/S270tJm4LEo0OiV01ug/OnFgq
-   A==;
-X-CSE-ConnectionGUID: TZbX+7zOQxCCVAgWYKJ2/w==
-X-CSE-MsgGUID: PNrz0G/GRQ21mAFJET2F5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="52596005"
+  bh=yRfIVS+UqKnrEjZ0DSlu48JRvEdXsauMc01zJ6F2h7U=;
+  b=Xf0NPPDisGC3LSdwkP9l5mvuAqWfxdMDpNjGf7s/d7wCgA9Wf4TpSScU
+   q/CoWagZocdz/n/bG6ADoRi2HA1OaOXNWBVzj9IHkaz4c7IheGbo0DBP2
+   kORydBhP/5uk5fxRdSFcQygx+9kp1kiJrWSaSlPU3jyOgRsjAZXpMbh4o
+   kmhwpFuxt9CwLVAo8Ek1aifFgD52Bam7DZePo1NCttTwjbIYELUf3gXrL
+   nbprpeCePIRgWxloAZnOmRQ0vvSpvA/3CHmAG6w3O5SwJM4HAulgd0u7F
+   u3GGgFe1kidOtlcAx2SJZsEEKh//6o0eoDHoBhWs7CHRfF6bUTP18xFzf
+   Q==;
+X-CSE-ConnectionGUID: K0Z3RbEoTZCP+bC9CAV5lw==
+X-CSE-MsgGUID: IfjvcHoTRdKK45KjgeKGnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="64831081"
 X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="52596005"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:54:35 -0800
-X-CSE-ConnectionGUID: bQSnjr4uT8ivGtu7KSdARQ==
-X-CSE-MsgGUID: 2pZLyKrfSNq+yTH3sBXO5A==
+   d="scan'208";a="64831081"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:54:37 -0800
+X-CSE-ConnectionGUID: zhpYvAzyRfGrvcrHk581oA==
+X-CSE-MsgGUID: OV6kapyRRIyAKi3FvKx8Aw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="124514406"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="119120578"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 07 Mar 2025 02:54:34 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 07 Mar 2025 02:54:34 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqVLc-0000L1-0F;
+	id 1tqVLc-0000L3-0J;
 	Fri, 07 Mar 2025 10:54:32 +0000
-Date: Fri, 7 Mar 2025 18:53:37 +0800
+Date: Fri, 7 Mar 2025 18:53:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/4] nfsd: add some stub tracepoints around key vfs
- functions
-Message-ID: <202503071834.Qj8kjbdh-lkp@intel.com>
-References: <20250306-nfsd-tracepoints-v1-3-4405bf41b95f@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	David Ahern <dsahern@kernel.org>
+Subject: Re: [PATCH net-next 2/2] udp_tunnel: use static call for GRO hooks
+ when possible
+Message-ID: <202503071846.PFKkO7SH-lkp@intel.com>
+References: <740cd03d2982943c313de334977e18cc9de1bc3e.1741275846.git.pabeni@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +67,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306-nfsd-tracepoints-v1-3-4405bf41b95f@kernel.org>
+In-Reply-To: <740cd03d2982943c313de334977e18cc9de1bc3e.1741275846.git.pabeni@redhat.com>
 
-Hi Jeff,
+Hi Paolo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 7dc86d35a5f8a7ac24b53792c704b101e5041842]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-add-commit-start-done-tracepoints-around-nfsd_commit/20250306-204120
-base:   7dc86d35a5f8a7ac24b53792c704b101e5041842
-patch link:    https://lore.kernel.org/r/20250306-nfsd-tracepoints-v1-3-4405bf41b95f%40kernel.org
-patch subject: [PATCH 3/4] nfsd: add some stub tracepoints around key vfs functions
-config: csky-randconfig-001-20250307 (https://download.01.org/0day-ci/archive/20250307/202503071834.Qj8kjbdh-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071834.Qj8kjbdh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/udp_tunnel-create-a-fast-path-GRO-lookup/20250306-235952
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/740cd03d2982943c313de334977e18cc9de1bc3e.1741275846.git.pabeni%40redhat.com
+patch subject: [PATCH net-next 2/2] udp_tunnel: use static call for GRO hooks when possible
+config: arm-wpcm450_defconfig (https://download.01.org/0day-ci/archive/20250307/202503071846.PFKkO7SH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250307/202503071846.PFKkO7SH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503071834.Qj8kjbdh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503071846.PFKkO7SH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_getattr':
->> fs/nfsd/nfsproc.c:57:9: error: implicit declaration of function 'trace_nfsd_getattr' [-Wimplicit-function-declaration]
-      57 |         trace_nfsd_getattr(rqstp, &argp->fh);
-         |         ^~~~~~~~~~~~~~~~~~
+   net/ipv4/udp_offload.c: In function 'udp_tunnel_gro_rcv':
+>> net/ipv4/udp_offload.c:172:16: error: returning 'struct sk_buff *' from a function with incompatible return type 'struct skbuff *' [-Wincompatible-pointer-types]
+     172 |         return call_gro_receive_sk(udp_sk(sk)->gro_receive, sk, head, skb);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/udp_offload.c: In function 'udp_gro_receive':
+>> net/ipv4/udp_offload.c:782:12: error: assignment to 'struct sk_buff *' from incompatible pointer type 'struct skbuff *' [-Wincompatible-pointer-types]
+     782 |         pp = udp_tunnel_gro_rcv(sk, head, skb);
+         |            ^
+   In file included from include/linux/seqlock.h:19,
+                    from include/linux/dcache.h:11,
+                    from include/linux/fs.h:8,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from net/ipv4/udp_offload.c:9:
+   net/ipv4/udp_offload.c: In function 'udpv4_offload_init':
+>> net/ipv4/udp_offload.c:932:21: error: 'udp_tunnel_gro_type_lock' undeclared (first use in this function); did you mean 'udp_tunnel_gro_rcv'?
+     932 |         mutex_init(&udp_tunnel_gro_type_lock);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
+   net/ipv4/udp_offload.c:932:21: note: each undeclared identifier is reported only once for each function it appears in
+     932 |         mutex_init(&udp_tunnel_gro_type_lock);
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
 
 
-vim +/trace_nfsd_getattr +57 fs/nfsd/nfsproc.c
+vim +172 net/ipv4/udp_offload.c
 
-    46	
-    47	/*
-    48	 * Get a file's attributes
-    49	 * N.B. After this call resp->fh needs an fh_put
-    50	 */
-    51	static __be32
-    52	nfsd_proc_getattr(struct svc_rqst *rqstp)
-    53	{
-    54		struct nfsd_fhandle *argp = rqstp->rq_argp;
-    55		struct nfsd_attrstat *resp = rqstp->rq_resp;
-    56	
-  > 57		trace_nfsd_getattr(rqstp, &argp->fh);
-    58	
-    59		dprintk("nfsd: GETATTR  %s\n", SVCFH_fmt(&argp->fh));
-    60	
-    61		fh_copy(&resp->fh, &argp->fh);
-    62		resp->status = fh_verify(rqstp, &resp->fh, 0,
-    63					 NFSD_MAY_NOP | NFSD_MAY_BYPASS_GSS_ON_ROOT);
-    64		if (resp->status != nfs_ok)
-    65			goto out;
-    66		resp->status = fh_getattr(&resp->fh, &resp->stat);
-    67	out:
-    68		resp->status = nfsd_map_status(resp->status);
-    69		return rpc_success;
-    70	}
-    71	
+   167	
+   168	static struct skbuff *udp_tunnel_gro_rcv(struct sock *sk,
+   169						 struct list_head *head,
+   170						 struct sk_buff *skb)
+   171	{
+ > 172		return call_gro_receive_sk(udp_sk(sk)->gro_receive, sk, head, skb);
+   173	}
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
