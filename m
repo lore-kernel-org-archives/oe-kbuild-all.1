@@ -1,74 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AA62A8C1
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 18:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D437E0E4;
+	Sat,  8 Mar 2025 19:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741457985; cv=none; b=rT4BXoyCnTShmfJSXkkgWqQ2zgynwMn/7OxwPKEuPt2qSHnITmi9e+wHikog20pIyckNcyKFXc+dCT3BzGKbfvTjfhQWYLE+EJ97g405hcBURI8SEhwbQyvbOCifuPE4Y1fE0Lk3DC+Fk/G3DPTp0swCyy2g92nuMkqrppJAkbo=
+	t=1741460638; cv=none; b=rcYOtoTWP7TBSgacxWgJxNQwtadAb+Wh7N1KqApVcVfwM/YC3jZ0hW8AeFMXjIwpDEv0gn3UR349LfFWWfWkh9WqfAMY9RZycuYSWhfy0lU8ESMf/BUXx7PdqiqlTZzP77nmZPLwVqdM8H5T+ZmExpxb9KAkgFGKG6eacGMZtbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741457985; c=relaxed/simple;
-	bh=3ZbtnjaBp0JSEnHRsCIJgQ9vp2KNBHBRTefIL+bnMvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pR+L/IsVLE/BUZv1bm8AAV3W3nEYDlmNAiWhAl1n7sMDaSf9TNVLE1sder02tDr+lKtU/0Ks1Bn3iC1NWBl0vp/wj9QrCwGFAU3cAua2RZtD8MKkhBNc5PAfosGtexvI/731ANUHvRvkZHmYteC/dO4+RspaGJzUTsqsYO9Rj9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6504FC4CEE0;
-	Sat,  8 Mar 2025 18:19:44 +0000 (UTC)
-Date: Sat, 8 Mar 2025 13:19:43 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu (Google)"
- <mhiramat@kernel.org>
-Subject: Re: [trace:ring-buffer/for-next 1/12]
- arch/arm64/include/asm/memory.h:424:66: error: passing argument 1 of
- 'virt_to_pfn' makes pointer from integer without a cast
-Message-ID: <20250308131943.702eb9d4@batman.local.home>
-In-Reply-To: <202503090135.MkaxUr8M-lkp@intel.com>
-References: <202503090135.MkaxUr8M-lkp@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1741460638; c=relaxed/simple;
+	bh=65kqqOsjZaiM1VgbRJnR4M7Afd5DgByNmFYUFii1nB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=loctNI2SCjyofR0ruslzmwXWdQBs/vr7nN/EBAwOWpkqCU/femXlRMcBpBMFAh1SjD0S/5kxjgbBFB9GCdVYpIXuEthCEJ1FH9WRDzrLWyp5WFiRzGKL2Gm13sR6z7N1EvSyv7TCXHSTbQUjykBUAfG0u9TLO8E54maTR9VJBKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcXPzNSo; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcXPzNSo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741460637; x=1772996637;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=65kqqOsjZaiM1VgbRJnR4M7Afd5DgByNmFYUFii1nB8=;
+  b=fcXPzNSob9tmmvPRhPd6xRWvoyamVA3lxGF71egZdzl8axZWLX7lXdt5
+   Hy/6ix63Ol0URJLkIVd854yrEuCozQcNo//JfK/tt1HjqzkUeBeWDFRL+
+   qcCtbiUD7PwLkvjH1fBrRtahA9GGoUfCQ5pHitFQa/lgvKhLl8Yc0knHB
+   3bPPAD/+LjSpucehelnapwl9sH14IR9l9aoSiJsAFzaV7L1dbcdZzzb61
+   j1a50PdOfHSQwWS7+byec93nwGHbPhE0ggFX9Mgc1QrsZgPFQvYUK31mJ
+   fW5rlh+x0be2fjyhSuZZ08SjLh9z+BacP3srk+QnzQVL79PZWzeLJ1w1V
+   w==;
+X-CSE-ConnectionGUID: LfYMi/4QTi6grInyW4+fNw==
+X-CSE-MsgGUID: Am2oxLNnRo6aPPlC6WS+zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42632746"
+X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
+   d="scan'208";a="42632746"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 11:03:56 -0800
+X-CSE-ConnectionGUID: mwyqAACbTuK9LXorcgrneA==
+X-CSE-MsgGUID: fIe6VNYnQFOKHlW2UIH9Vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
+   d="scan'208";a="120301243"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Mar 2025 11:03:56 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tqzSi-0002Do-2l;
+	Sat, 08 Mar 2025 19:03:52 +0000
+Date: Sun, 9 Mar 2025 03:03:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:nfsd-tracepoints 8/9] fs/nfsd/nfs4proc.c:796:10: error:
+ label at end of compound statement: expected statement
+Message-ID: <202503090203.YzYCBsQA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 9 Mar 2025 01:48:17 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git nfsd-tracepoints
+head:   7162c90c3e04a073c111a5821e529377ce2ab43f
+commit: f1681c62918a99afaf3528b5332aa647740eb818 [8/9] nfsd: add tracepoints around nfsd_create events
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20250309/202503090203.YzYCBsQA-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503090203.YzYCBsQA-lkp@intel.com/reproduce)
 
->    kernel/trace/ring_buffer.c: In function '__rb_map_vma':
-> >> arch/arm64/include/asm/memory.h:424:66: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]  
->      424 |         __is_lm_address(__addr) && pfn_is_map_memory(virt_to_pfn(__addr));      \
->          |                                                                  ^~~~~~
->          |                                                                  |
->          |                                                                  long unsigned int
->    kernel/trace/ring_buffer.c:7093:21: note: in expansion of macro 'virt_addr_valid'
->     7093 |                 if (virt_addr_valid(cpu_buffer->subbuf_ids[s]))
->          |                     ^~~~~~~~~~~~~~~
->    arch/arm64/include/asm/memory.h:379:53: note: expected 'const void *' but argument is of type 'long unsigned int'
->      379 | static inline unsigned long virt_to_pfn(const void *kaddr)
->          |                                         ~~~~~~~~~~~~^~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503090203.YzYCBsQA-lkp@intel.com/
 
-This is the third report of the same bug:
+All errors (new ones prefixed by >>):
 
-Other two are here:
+>> fs/nfsd/nfs4proc.c:796:10: error: label at end of compound statement: expected statement
+           default:
+                   ^
+                    ;
+   1 error generated.
 
-  https://lore.kernel.org/all/202503090238.GMaKCb2n-lkp@intel.com/
-  https://lore.kernel.org/all/202503090029.zj0DretW-lkp@intel.com/
 
-And I just wrote the fix here:
+vim +796 fs/nfsd/nfs4proc.c
 
-  https://lore.kernel.org/all/20250308123649.1330e9ca@batman.local.home/
+   778	
+   779	static umode_t nfs_type_to_vfs_type(enum nfs_ftype4 nfstype)
+   780	{
+   781		switch (nfstype) {
+   782		case NF4REG:
+   783			return S_IFREG;
+   784		case NF4DIR:
+   785			return S_IFDIR;
+   786		case NF4BLK:
+   787			return S_IFBLK;
+   788		case NF4CHR:
+   789			return S_IFCHR;
+   790		case NF4LNK:
+   791			return S_IFLNK;
+   792		case NF4SOCK:
+   793			return S_IFSOCK;
+   794		case NF4FIFO:
+   795			return S_IFIFO;
+ > 796		default:
+   797		}
+   798		return 0;
+   799	}
+   800	
 
-The mistake was that this was only tested on x86 which casts to
-unsigned long for virt_addr_valid() so it didn't mind having an
-unsigned long passed to it. But other archs expect a pointer.
-
-Could you update the infrastructure to not send the same bug report for
-every architecture it affects?
-
-Thanks,
-
--- Steve
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
