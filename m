@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDC97464
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 16:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7E814D2BB;
+	Sat,  8 Mar 2025 17:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741453046; cv=none; b=NlgL7AoEwQb7Mm6yVB0cAMOHrTq0Tmtkir0iGi534vfzyj/hNFI6CUUfmJTdfpHGkG/iVBL3CFWAJZjOdxx0c7kYs/Np2JaffuUK0h1TwCT+DLs6/EDjaMPFT0nMaW7aEdAFESFOWT942vuh1gIYLUZ8zDsoBzq83gfIFu4Wacs=
+	t=1741453647; cv=none; b=jGdltH5nXI8BfAemWlByY7bY8pMXv9MiOfSYWKrxjWNsNAowMqyUvWMcgTJdupBGoCVxPJzi1mZlUszWaQ01pfuII/I34J2lIiWJoZ8iJNIioimZPsEpq5wzf8BfRvddlXWZrcznIY8LPxjne0UHguRdQMnqnaEEMiWqGWCgB8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741453046; c=relaxed/simple;
-	bh=BA2aeLzFFPBNgVJJOb3Xek3uvLxuzrPM+SZakjvJdJ8=;
+	s=arc-20240116; t=1741453647; c=relaxed/simple;
+	bh=SQDGTz+a7cAQW6CJvt8E8Lr+dpKxOdBVBOwYcRcfgqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uv5zYylk7KhZnhdk7qfoOf9frx/qnDV0tLiDPJIB77dnTDueGgC8ng7tVYvku/7z86c/+sMbe7iGijbaw6nSstJ9D+zVYm+zrwuQE43ysBWQV0H8ydF1+8YkrAzuAb/wBP6ZYtNld3mDvGFGdLn0r3z0Gy6/xknh+UjsXShAC10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DhTpYBxC; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=fVy0lUskbsR4B18BLqkAMAhPDMDtTKTojZbGkj9XdgY75lRrDbj1Bpsh/xy/OZEDKiYdRqJsIv2kYAZK9cCZvSo013dWQ19NwKyCCi+3gzE7sqZOzVLicPrBvCg94gy3vHMCcOD1queFE9BTOPcHyQOrqcpvsWbX3G0Guj1hjg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iW9RnH3d; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DhTpYBxC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iW9RnH3d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741453045; x=1772989045;
+  t=1741453646; x=1772989646;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BA2aeLzFFPBNgVJJOb3Xek3uvLxuzrPM+SZakjvJdJ8=;
-  b=DhTpYBxCKJCNZ5IDbvYdJLPZGG630miAUFCOQKawh3Fx1n/ogWS9xhDj
-   Bz9LNAJCBxS5q8E4zz9EWOYVxyDpCAM0eAzpM/QEyj1WouraXiM2Gf+Yu
-   y/+iXsvu8qhcZJXew+p6bQX2tiYD42aI/ELQYKgxxMUXkcF77PVvFC5VY
-   EuwPaAu4IYsS0FJ7ZyT7aSNMaCuMe2XJec24jDi4bdr+8I/3zWmnxO/ys
-   /ZziJ1fqxfgaSI7xIiMzLhm0BQoDchNkrbIbibRyHtX9JQs1gF+AYs8M6
-   Asi9CWqp6t+IleZc0K6T3+DZoHYE6FEI7IfnqHgYUp5yVD7Z3yLDfJw+O
-   Q==;
-X-CSE-ConnectionGUID: CzhUoWlMQjq3XnlBNbp6tQ==
-X-CSE-MsgGUID: 9Lc0ExTdRpSJeFiTJTP9PA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42194489"
+  bh=SQDGTz+a7cAQW6CJvt8E8Lr+dpKxOdBVBOwYcRcfgqw=;
+  b=iW9RnH3df4I4xZ+C9BETUt4Nr/aWe9A+Uu9nLT4tIXMZdCV6ViXxB1EV
+   jhGmDYKLkkKGCVKGR3z7ZGQJ95M9eSIuJTA97RLztun4A7tIRX48Nw7jr
+   dobTRV9CIaw0IcbvWxXO31Qamg9Nfep+YMT+GN+L7KPRILDwos0DN9OLt
+   U+49DDORhIJEWprSlPFBNxtoYGakuIyPNAnQmjLhpo04YnscwvKqs9IGv
+   mqnknz05kpxAW1QubUL8IXeuR8713HZMSX5H0YeES9eilCFyl1EoVK4Vc
+   DmTiuG1CCvi5ZRYXeck4W2+ylEDO40tNr4jqnQewkC2dJmA7M1ohZNdEF
+   g==;
+X-CSE-ConnectionGUID: 3tIB4cc3Qt63aCz5jZFBjw==
+X-CSE-MsgGUID: 0d0okJNsT6SRNb4X7vBy9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42342594"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="42194489"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 08:57:24 -0800
-X-CSE-ConnectionGUID: mZFmJZnJTTGsxXOpoRZaOw==
-X-CSE-MsgGUID: xyPkvp4nQTaxDJnBSZ8DtA==
+   d="scan'208";a="42342594"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 09:07:25 -0800
+X-CSE-ConnectionGUID: ry91zZxeSYiBAgR5iOVrNQ==
+X-CSE-MsgGUID: mND6hwjNQhiQXaZfIkSPgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="119584982"
+   d="scan'208";a="119332725"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Mar 2025 08:57:22 -0800
+  by orviesa009.jf.intel.com with ESMTP; 08 Mar 2025 09:07:23 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqxUG-000270-22;
-	Sat, 08 Mar 2025 16:57:20 +0000
-Date: Sun, 9 Mar 2025 00:56:21 +0800
+	id 1tqxdx-00027a-1W;
+	Sat, 08 Mar 2025 17:07:21 +0000
+Date: Sun, 9 Mar 2025 01:06:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:fsnotify-fixes 1/1] fs/notify/fsnotify.c:653:55: warning:
- unused variable 'parent'
-Message-ID: <202503090008.XERPAjyn-lkp@intel.com>
+To: Carlos Maiolino <cem@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-xfs@vger.kernel.org
+Subject: [xfs-linux:test-merge 13/13] fs/xfs/xfs_file.c:746:49: error: too
+ few arguments to function call, expected 4, have 3
+Message-ID: <202503090149.Wu0ag7zs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +63,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/amir73il/linux fsnotify-fixes
-head:   5653cb5c4b685aee55ccbb488b4b51603348f7d9
-commit: 5653cb5c4b685aee55ccbb488b4b51603348f7d9 [1/1] fsnotify: avoid pre-content events when faulting in user pages
-config: arc-randconfig-001-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090008.XERPAjyn-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503090008.XERPAjyn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git test-merge
+head:   fac04210bb99888fd453db09239bed27436fd619
+commit: fac04210bb99888fd453db09239bed27436fd619 [13/13] Merge branch 'xfs-6.15-atomicwrites' into for-next
+config: i386-buildonly-randconfig-003-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090149.Wu0ag7zs-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503090149.Wu0ag7zs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503090008.XERPAjyn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503090149.Wu0ag7zs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/notify/fsnotify.c: In function 'file_set_fsnotify_mode_from_watchers':
->> fs/notify/fsnotify.c:653:55: warning: unused variable 'parent' [-Wunused-variable]
-     653 |         struct dentry *dentry = file->f_path.dentry, *parent;
-         |                                                       ^~~~~~
+>> fs/xfs/xfs_file.c:746:49: error: too few arguments to function call, expected 4, have 3
+     746 |         ret = xfs_file_write_checks(iocb, from, &iolock);
+         |               ~~~~~~~~~~~~~~~~~~~~~                    ^
+   fs/xfs/xfs_file.c:434:1: note: 'xfs_file_write_checks' declared here
+     434 | xfs_file_write_checks(
+         | ^
+     435 |         struct kiocb            *iocb,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     436 |         struct iov_iter         *from,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     437 |         unsigned int            *iolock,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     438 |         struct xfs_zone_alloc_ctx *ac)
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/parent +653 fs/notify/fsnotify.c
+vim +746 fs/xfs/xfs_file.c
 
-90586523eb4b349 Eric Paris     2009-05-21  643  
-a94204f4d48e28a Amir Goldstein 2024-11-15  644  #ifdef CONFIG_FANOTIFY_ACCESS_PERMISSIONS
-a94204f4d48e28a Amir Goldstein 2024-11-15  645  /*
-a94204f4d48e28a Amir Goldstein 2024-11-15  646   * At open time we check fsnotify_sb_has_priority_watchers() and set the
-a94204f4d48e28a Amir Goldstein 2024-11-15  647   * FMODE_NONOTIFY_ mode bits accordignly.
-a94204f4d48e28a Amir Goldstein 2024-11-15  648   * Later, fsnotify permission hooks do not check if there are permission event
-a94204f4d48e28a Amir Goldstein 2024-11-15  649   * watches, but that there were permission event watches at open time.
-a94204f4d48e28a Amir Goldstein 2024-11-15  650   */
-95101401bb50ae2 Amir Goldstein 2025-02-03  651  void file_set_fsnotify_mode_from_watchers(struct file *file)
-a94204f4d48e28a Amir Goldstein 2024-11-15  652  {
-318652e07fa5b17 Amir Goldstein 2024-11-15 @653  	struct dentry *dentry = file->f_path.dentry, *parent;
-318652e07fa5b17 Amir Goldstein 2024-11-15  654  	struct super_block *sb = dentry->d_sb;
-a94204f4d48e28a Amir Goldstein 2024-11-15  655  
-a94204f4d48e28a Amir Goldstein 2024-11-15  656  	/* Is it a file opened by fanotify? */
-a94204f4d48e28a Amir Goldstein 2024-11-15  657  	if (FMODE_FSNOTIFY_NONE(file->f_mode))
-a94204f4d48e28a Amir Goldstein 2024-11-15  658  		return;
-a94204f4d48e28a Amir Goldstein 2024-11-15  659  
-a94204f4d48e28a Amir Goldstein 2024-11-15  660  	/*
-a94204f4d48e28a Amir Goldstein 2024-11-15  661  	 * Permission events is a super set of pre-content events, so if there
-a94204f4d48e28a Amir Goldstein 2024-11-15  662  	 * are no permission event watchers, there are also no pre-content event
-a94204f4d48e28a Amir Goldstein 2024-11-15  663  	 * watchers and this is implied from the single FMODE_NONOTIFY_PERM bit.
-a94204f4d48e28a Amir Goldstein 2024-11-15  664  	 */
-a94204f4d48e28a Amir Goldstein 2024-11-15  665  	if (likely(!fsnotify_sb_has_priority_watchers(sb,
-a94204f4d48e28a Amir Goldstein 2024-11-15  666  						FSNOTIFY_PRIO_CONTENT))) {
-95101401bb50ae2 Amir Goldstein 2025-02-03  667  		file_set_fsnotify_mode(file, FMODE_NONOTIFY_PERM);
-a94204f4d48e28a Amir Goldstein 2024-11-15  668  		return;
-a94204f4d48e28a Amir Goldstein 2024-11-15  669  	}
-a94204f4d48e28a Amir Goldstein 2024-11-15  670  
-a94204f4d48e28a Amir Goldstein 2024-11-15  671  	/*
-a94204f4d48e28a Amir Goldstein 2024-11-15  672  	 * If there are permission event watchers but no pre-content event
-a94204f4d48e28a Amir Goldstein 2024-11-15  673  	 * watchers, set FMODE_NONOTIFY | FMODE_NONOTIFY_PERM to indicate that.
-a94204f4d48e28a Amir Goldstein 2024-11-15  674  	 */
-318652e07fa5b17 Amir Goldstein 2024-11-15  675  	if ((!d_is_dir(dentry) && !d_is_reg(dentry)) ||
-318652e07fa5b17 Amir Goldstein 2024-11-15  676  	    likely(!fsnotify_sb_has_priority_watchers(sb,
-a94204f4d48e28a Amir Goldstein 2024-11-15  677  						FSNOTIFY_PRIO_PRE_CONTENT))) {
-95101401bb50ae2 Amir Goldstein 2025-02-03  678  		file_set_fsnotify_mode(file, FMODE_NONOTIFY | FMODE_NONOTIFY_PERM);
-a94204f4d48e28a Amir Goldstein 2024-11-15  679  		return;
-a94204f4d48e28a Amir Goldstein 2024-11-15  680  	}
-318652e07fa5b17 Amir Goldstein 2024-11-15  681  
-318652e07fa5b17 Amir Goldstein 2024-11-15  682  	/*
-5653cb5c4b685ae Amir Goldstein 2025-03-07  683  	 * OK, there are some pre-content watchers on this fs, so
-5653cb5c4b685ae Amir Goldstein 2025-03-07  684  	 * Enable pre-content events.
-318652e07fa5b17 Amir Goldstein 2024-11-15  685  	 */
-95101401bb50ae2 Amir Goldstein 2025-02-03  686  	file_set_fsnotify_mode(file, 0);
-a94204f4d48e28a Amir Goldstein 2024-11-15  687  }
-a94204f4d48e28a Amir Goldstein 2024-11-15  688  #endif
-a94204f4d48e28a Amir Goldstein 2024-11-15  689  
+2e2383405824b9 Christoph Hellwig 2025-01-27  730  
+307185b178ac26 John Garry        2025-03-03  731  static noinline ssize_t
+307185b178ac26 John Garry        2025-03-03  732  xfs_file_dio_write_atomic(
+307185b178ac26 John Garry        2025-03-03  733  	struct xfs_inode	*ip,
+307185b178ac26 John Garry        2025-03-03  734  	struct kiocb		*iocb,
+307185b178ac26 John Garry        2025-03-03  735  	struct iov_iter		*from)
+307185b178ac26 John Garry        2025-03-03  736  {
+307185b178ac26 John Garry        2025-03-03  737  	unsigned int		iolock = XFS_IOLOCK_SHARED;
+307185b178ac26 John Garry        2025-03-03  738  	unsigned int		dio_flags = 0;
+307185b178ac26 John Garry        2025-03-03  739  	ssize_t			ret;
+307185b178ac26 John Garry        2025-03-03  740  
+307185b178ac26 John Garry        2025-03-03  741  retry:
+307185b178ac26 John Garry        2025-03-03  742  	ret = xfs_ilock_iocb_for_write(iocb, &iolock);
+307185b178ac26 John Garry        2025-03-03  743  	if (ret)
+307185b178ac26 John Garry        2025-03-03  744  		return ret;
+307185b178ac26 John Garry        2025-03-03  745  
+307185b178ac26 John Garry        2025-03-03 @746  	ret = xfs_file_write_checks(iocb, from, &iolock);
+307185b178ac26 John Garry        2025-03-03  747  	if (ret)
+307185b178ac26 John Garry        2025-03-03  748  		goto out_unlock;
+307185b178ac26 John Garry        2025-03-03  749  
+307185b178ac26 John Garry        2025-03-03  750  	if (dio_flags & IOMAP_DIO_FORCE_WAIT)
+307185b178ac26 John Garry        2025-03-03  751  		inode_dio_wait(VFS_I(ip));
+307185b178ac26 John Garry        2025-03-03  752  
+307185b178ac26 John Garry        2025-03-03  753  	trace_xfs_file_direct_write(iocb, from);
+307185b178ac26 John Garry        2025-03-03  754  	ret = iomap_dio_rw(iocb, from, &xfs_atomic_write_iomap_ops,
+307185b178ac26 John Garry        2025-03-03  755  			&xfs_dio_write_ops, dio_flags, NULL, 0);
+307185b178ac26 John Garry        2025-03-03  756  
+307185b178ac26 John Garry        2025-03-03  757  	if (ret == -EAGAIN && !(iocb->ki_flags & IOCB_NOWAIT) &&
+307185b178ac26 John Garry        2025-03-03  758  	    !(dio_flags & IOMAP_DIO_ATOMIC_SW)) {
+307185b178ac26 John Garry        2025-03-03  759  		xfs_iunlock(ip, iolock);
+307185b178ac26 John Garry        2025-03-03  760  		dio_flags = IOMAP_DIO_ATOMIC_SW | IOMAP_DIO_FORCE_WAIT;
+307185b178ac26 John Garry        2025-03-03  761  		iolock = XFS_IOLOCK_EXCL;
+307185b178ac26 John Garry        2025-03-03  762  		goto retry;
+307185b178ac26 John Garry        2025-03-03  763  	}
+307185b178ac26 John Garry        2025-03-03  764  
+307185b178ac26 John Garry        2025-03-03  765  out_unlock:
+307185b178ac26 John Garry        2025-03-03  766  	if (iolock)
+307185b178ac26 John Garry        2025-03-03  767  		xfs_iunlock(ip, iolock);
+307185b178ac26 John Garry        2025-03-03  768  	return ret;
+307185b178ac26 John Garry        2025-03-03  769  }
+307185b178ac26 John Garry        2025-03-03  770  
 
-:::::: The code at line 653 was first introduced by commit
-:::::: 318652e07fa5b1743d08eeccd69a1f47f2c15710 fsnotify: check if file is actually being watched for pre-content events on open
+:::::: The code at line 746 was first introduced by commit
+:::::: 307185b178ac2695cbd964e9b0a5a9b7513bba93 xfs: Add xfs_file_dio_write_atomic()
 
-:::::: TO: Amir Goldstein <amir73il@gmail.com>
-:::::: CC: Jan Kara <jack@suse.cz>
+:::::: TO: John Garry <john.g.garry@oracle.com>
+:::::: CC: Carlos Maiolino <cem@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
