@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE701474B8
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 20:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370321E25F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 21:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741467428; cv=none; b=FLTliLgVgdkOpGhiw3zcHkuswrH5wO39I2VBONStrCGFDkzNb0OlKppCelY10iHPXQR7udfi3k8DkJTKURguSlKGoS+49vYCGzcbxQbFsxCDQG8lSbjK1oTprxpgvxcqZFM7CUtD63iz/gGr+M7MgC/XVw7Eftf9SczAs9M8FFE=
+	t=1741469294; cv=none; b=lBzRlHHbxYp/PqztigoSB8C1Z/yRXUQ+tLXF0nVzuiqh8fZGbePseSO7NFopS1gTSrdrwD6I5T7dwwPci06x1s080O3DBirqnrw+6ykqAYNolWow4x/kQ+bPlhQe4Brl2G6NHUjkc1NICnk6pMTJLVTq+sNTWAg22EMvKBsEQKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741467428; c=relaxed/simple;
-	bh=xquJh1iDTzUTixkp8H/ct2VKW4PsAesCQbj0tZ1EYw0=;
+	s=arc-20240116; t=1741469294; c=relaxed/simple;
+	bh=3xHubNXjfuRR3o9klGIVWUu2Iya5Kq7P9eRzrAo/WMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O9ZfJNhmaS50tG0cRLMyTFnuM5LHBEmt07hTuazoOJwCdbCBT2oBHZjQvWiWmNgB0xOjBmk6Re9X6BjRuv8CT3rGZ0LUGe0onDkUcrbYGo1cnxmEPO2HiWZCAo5NkB+JPZ/0ibIKbHLTFOk8ciZAKUJe4tg7A4jo+2mvpcJ54B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fylTqoRM; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=I3wHbrv44Z1TS1ngrxzxuvDkGU9G7KvNO2rwHgrijZ2SZWG07SaReW/NdOBbrbyP8E9Kt6cxH5q+ZcUud5Kb0GItVhMovYXOVykweuchPCZCdWkwh18I9x1pqOflP2ekzmBKHzHz6ZMvp1ECNcpkoPQEJ0Eyjlz/PD6o+0E6/44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lo30/JYl; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fylTqoRM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lo30/JYl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741467427; x=1773003427;
+  t=1741469294; x=1773005294;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xquJh1iDTzUTixkp8H/ct2VKW4PsAesCQbj0tZ1EYw0=;
-  b=fylTqoRMybs10d1G+04op8nTOdkMYCEsQAqiABLLYgau8IQk1qQGT2Vr
-   iSXRiM/0QyiN872TE2A44S2Ad6EoMSBC8Lq/4N/8/QOf2TMG0ZqBfmOUO
-   ROPhqezlvimRth1DE7ZbCcLnrQNKLH6j0k5nSQNHa51BKQhBGldEcCLUx
-   aQESOmK14g+RKMCMNffQ4/EgHhrxo7Lkv+JFw6YW2AGQZ22gQfXGNlhou
-   ryWkcheI5FmIw5Xva1W+Vu4N2xlNehc0kP5H0Zs3KRE2yO/rMKaAC9cKK
-   7ZmuWh5EXBfIGdPdqDvFKOiDihiOffxACnpFFRq1IiaRgkpy2IZa39a6O
-   A==;
-X-CSE-ConnectionGUID: J3bqIA+5TReLVr9rtkCdWw==
-X-CSE-MsgGUID: U27Aax58THaimHLx5idvuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42716693"
+  bh=3xHubNXjfuRR3o9klGIVWUu2Iya5Kq7P9eRzrAo/WMA=;
+  b=lo30/JYlWw8XAV4zlda2vZPkPWLOzl3M2h31YAJ1LbZsD6stM6aUlsb5
+   olM4HD7XpB2C1nfE6WXKDFIch0PxERQX5+E73PgmcmbMN+bu23+WBGCiv
+   8nyO4e+tthLf2vfxKuROVu7s3oRV9Gv5aKWm5XT0iNYbb+YPszaim+6PU
+   CGHIqOy7q62RzZS8Qxq2o3m4+KGLQmWKEgNJKckwuI47miS7ACMOt9NYa
+   E0Ey17WmlnZ3myG5bdgZ2OxY5EVaZpzU5eAsQxw9/uOveCe1eIGLc3P1B
+   AqTjaRIYjVI+AqbhUPT6VX5GsAiQ+4aF0K7MWqvULVotHAX5pbXUejwcE
+   w==;
+X-CSE-ConnectionGUID: lsxaTV5KS96bM+2Zhzr0Yg==
+X-CSE-MsgGUID: aLa2fhpgQz6M25e+KDztXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="52706492"
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="42716693"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 12:57:06 -0800
-X-CSE-ConnectionGUID: G28eCsXKQMSkxPqs3WKpew==
-X-CSE-MsgGUID: sXcYnGvdS0i30u5+YFi/tw==
+   d="scan'208";a="52706492"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 13:28:09 -0800
+X-CSE-ConnectionGUID: Pqtdhlx8SsW+kIiMv+bZ/w==
+X-CSE-MsgGUID: Ayfindk6QTukk2IMkNOZjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="124552323"
+   d="scan'208";a="124226434"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 08 Mar 2025 12:57:05 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Mar 2025 13:28:07 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tr1EE-0002Ik-0z;
-	Sat, 08 Mar 2025 20:57:02 +0000
-Date: Sun, 9 Mar 2025 04:56:45 +0800
+	id 1tr1iH-0002Ks-0r;
+	Sat, 08 Mar 2025 21:28:05 +0000
+Date: Sun, 9 Mar 2025 05:28:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea Righi <arighi@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>,
-	Yury Norov <yury.norov@gmail.com>
-Subject: [linux-next:master 3203/9634]
- arch/powerpc/include/asm/bitops.h:126:26: error: constraint 'n' expects an
- integer constant expression
-Message-ID: <202503090435.wITkzD2e-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1461/1461]
+ drivers/infiniband/core/.tmp_uverbs_uapi.o: warning: objtool: missing symbol
+ for section .text
+Message-ID: <202503090527.cCPBJlcO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,44 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0a2f889128969dab41861b6e40111aa03dc57014
-commit: 48849271e66114cb980a3bc44218b04d0f8cdcdd [3203/9634] sched_ext: idle: Per-node idle cpumasks
-config: powerpc-randconfig-r112-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090435.wITkzD2e-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250309/202503090435.wITkzD2e-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1584a68cf2ef23ac87ba506e8ab8ca7e261813c1
+commit: 0a3173a5f09bc58a3638ecfd0a80bdbae55e123c [1461/1461] Merge branch 'linus/master' into rdma.git for-next
+config: x86_64-buildonly-randconfig-002-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090527.cCPBJlcO-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503090527.cCPBJlcO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503090435.wITkzD2e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503090527.cCPBJlcO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:16:
-   In file included from include/linux/sched/clock.h:5:
-   In file included from include/linux/smp.h:13:
-   In file included from include/linux/cpumask.h:11:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:68:
->> arch/powerpc/include/asm/bitops.h:126:26: error: constraint 'n' expects an integer constant expression
-     126 | DEFINE_CLROP(clear_bits, "")
-         |                          ^
-   1 error generated.
-
-
-vim +/n +126 arch/powerpc/include/asm/bitops.h
-
-fb350784d8d179 Christophe Leroy 2021-09-21  125  
-fb350784d8d179 Christophe Leroy 2021-09-21 @126  DEFINE_CLROP(clear_bits, "")
-fb350784d8d179 Christophe Leroy 2021-09-21  127  DEFINE_CLROP(clear_bits_unlock, PPC_RELEASE_BARRIER)
-fb350784d8d179 Christophe Leroy 2021-09-21  128  
-
-:::::: The code at line 126 was first introduced by commit
-:::::: fb350784d8d17952afa93383bb47aaa6b715c459 powerpc/bitops: Use immediate operand when possible
-
-:::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+>> drivers/infiniband/core/.tmp_uverbs_uapi.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
