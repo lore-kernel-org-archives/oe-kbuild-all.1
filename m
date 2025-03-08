@@ -1,184 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28BF1E832D;
-	Sat,  8 Mar 2025 17:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AA62A8C1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 18:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741456163; cv=none; b=B9k/9QQQiZMR8D7TBe6sOc1ZOZbV6CLIadabvhlYb4UGjI9wqP2ExtFryfn32Y+/7/ItoGHDqPmrfOioTHGnqAoQhpSiLXzpZ+mLIGk71qzxdNkcCVuQFPo5Ug1p2LORsT4KLlIHNw9+ntSFZj6QoqB0b3cjx+Es6vYi7DZzHMg=
+	t=1741457985; cv=none; b=rT4BXoyCnTShmfJSXkkgWqQ2zgynwMn/7OxwPKEuPt2qSHnITmi9e+wHikog20pIyckNcyKFXc+dCT3BzGKbfvTjfhQWYLE+EJ97g405hcBURI8SEhwbQyvbOCifuPE4Y1fE0Lk3DC+Fk/G3DPTp0swCyy2g92nuMkqrppJAkbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741456163; c=relaxed/simple;
-	bh=sp7v80xpaznIvmnItT1wH0F7vEXqhErdcmMSDkebixY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CHLoYjmSp+4s0F4G1ioR6Z54tvmIGhcIoTNAiYrXQqWMmen/XVptfoyBLoqEI/jA9JEnrpUG/yqYpIM+RnmDFnd4I3IUc1itx/ta1j0QH/WUbYhZn9sz/cNwRdI537mvs7YB/ZMPG4vfRWdlfpRXYJ61URm0ktjX+WnkINtlbl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WN5vchFt; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WN5vchFt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741456161; x=1772992161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sp7v80xpaznIvmnItT1wH0F7vEXqhErdcmMSDkebixY=;
-  b=WN5vchFt8qZU5ioOIi+2kZCQrAzwU5FfGPA2MXEW+bAlQQI5dRmx7VdW
-   p8p5Cpy55vibA2cp4XZPrarW6mNL4eA7boUYnCO3nFjYSK09dRThmTorC
-   kcR9IqUYZhuaC+UbhYUwjz/ZLA7qLK9afE8b49FbtSKyzPcJsn54Or864
-   r6mOOllS2L2Ikjipz4BNttLr5z/74Uelu3WVZO6HOTEJtwlQOWcYhaAw2
-   eTJ0MTBGrlWrvcZXDsEaKG2hWeGE48/gxn03uuDl8d/Wf65QULUU/LqUP
-   8h14AqRUERKXZveWJjgBVlDPHrfr0T4ZG3KFmcionc4rd+uFuC7RFeYwp
-   w==;
-X-CSE-ConnectionGUID: B/eMir/pQKyJbsy1cWgwHw==
-X-CSE-MsgGUID: duf5r7fYTTO3FPkxMDXB/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="52699882"
-X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="52699882"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 09:49:19 -0800
-X-CSE-ConnectionGUID: b5faxIkgT2CbQTiVKbDyrA==
-X-CSE-MsgGUID: qDLejKgIRJ2/xpEMe8+bnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="120079533"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Mar 2025 09:49:17 -0800
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tqyIV-00029W-2H;
-	Sat, 08 Mar 2025 17:49:15 +0000
-Date: Sun, 9 Mar 2025 01:48:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: fdmanana@kernel.org, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
-Message-ID: <202503090344.SeJrOfHD-lkp@intel.com>
-References: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
+	s=arc-20240116; t=1741457985; c=relaxed/simple;
+	bh=3ZbtnjaBp0JSEnHRsCIJgQ9vp2KNBHBRTefIL+bnMvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pR+L/IsVLE/BUZv1bm8AAV3W3nEYDlmNAiWhAl1n7sMDaSf9TNVLE1sder02tDr+lKtU/0Ks1Bn3iC1NWBl0vp/wj9QrCwGFAU3cAua2RZtD8MKkhBNc5PAfosGtexvI/731ANUHvRvkZHmYteC/dO4+RspaGJzUTsqsYO9Rj9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6504FC4CEE0;
+	Sat,  8 Mar 2025 18:19:44 +0000 (UTC)
+Date: Sat, 8 Mar 2025 13:19:43 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Masami Hiramatsu (Google)"
+ <mhiramat@kernel.org>
+Subject: Re: [trace:ring-buffer/for-next 1/12]
+ arch/arm64/include/asm/memory.h:424:66: error: passing argument 1 of
+ 'virt_to_pfn' makes pointer from integer without a cast
+Message-ID: <20250308131943.702eb9d4@batman.local.home>
+In-Reply-To: <202503090135.MkaxUr8M-lkp@intel.com>
+References: <202503090135.MkaxUr8M-lkp@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Sun, 9 Mar 2025 01:48:17 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+>    kernel/trace/ring_buffer.c: In function '__rb_map_vma':
+> >> arch/arm64/include/asm/memory.h:424:66: error: passing argument 1 of 'virt_to_pfn' makes pointer from integer without a cast [-Wint-conversion]  
+>      424 |         __is_lm_address(__addr) && pfn_is_map_memory(virt_to_pfn(__addr));      \
+>          |                                                                  ^~~~~~
+>          |                                                                  |
+>          |                                                                  long unsigned int
+>    kernel/trace/ring_buffer.c:7093:21: note: in expansion of macro 'virt_addr_valid'
+>     7093 |                 if (virt_addr_valid(cpu_buffer->subbuf_ids[s]))
+>          |                     ^~~~~~~~~~~~~~~
+>    arch/arm64/include/asm/memory.h:379:53: note: expected 'const void *' but argument is of type 'long unsigned int'
+>      379 | static inline unsigned long virt_to_pfn(const void *kaddr)
+>          |                                         ~~~~~~~~~~~~^~~~~
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on next-20250307]
-[cannot apply to linus/master v6.14-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is the third report of the same bug:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-return-a-btrfs_inode-from-btrfs_iget_logging/20250307-214724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana%40suse.com
-patch subject: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250309/202503090344.SeJrOfHD-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503090344.SeJrOfHD-lkp@intel.com/reproduce)
+Other two are here:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503090344.SeJrOfHD-lkp@intel.com/
+  https://lore.kernel.org/all/202503090238.GMaKCb2n-lkp@intel.com/
+  https://lore.kernel.org/all/202503090029.zj0DretW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+And I just wrote the fix here:
 
-   In file included from fs/btrfs/send.c:11:
-   In file included from include/linux/xattr.h:18:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/btrfs/send.c:5535:8: error: incompatible pointer types assigning to 'struct inode *' from 'struct btrfs_inode *' [-Werror,-Wincompatible-pointer-types]
-    5535 |         inode = btrfs_iget(sctx->cur_ino, root);
-         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings and 1 error generated.
+  https://lore.kernel.org/all/20250308123649.1330e9ca@batman.local.home/
 
+The mistake was that this was only tested on x86 which casts to
+unsigned long for virt_addr_valid() so it didn't mind having an
+unsigned long passed to it. But other archs expect a pointer.
 
-vim +5535 fs/btrfs/send.c
+Could you update the infrastructure to not send the same bug report for
+every architecture it affects?
 
-16e7549f045d33b Josef Bacik   2013-10-22  5519  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5520  static int send_encoded_inline_extent(struct send_ctx *sctx,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5521  				      struct btrfs_path *path, u64 offset,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5522  				      u64 len)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5523  {
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5524  	struct btrfs_root *root = sctx->send_root;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5525  	struct btrfs_fs_info *fs_info = root->fs_info;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5526  	struct inode *inode;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5527  	struct fs_path *fspath;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5528  	struct extent_buffer *leaf = path->nodes[0];
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5529  	struct btrfs_key key;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5530  	struct btrfs_file_extent_item *ei;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5531  	u64 ram_bytes;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5532  	size_t inline_size;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5533  	int ret;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5534  
-d13240dd0a2d13b Filipe Manana 2024-06-13 @5535  	inode = btrfs_iget(sctx->cur_ino, root);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5536  	if (IS_ERR(inode))
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5537  		return PTR_ERR(inode);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5538  
-6054b503e2eafac Filipe Manana 2025-02-18  5539  	fspath = get_cur_inode_path(sctx);
-6054b503e2eafac Filipe Manana 2025-02-18  5540  	if (IS_ERR(fspath)) {
-6054b503e2eafac Filipe Manana 2025-02-18  5541  		ret = PTR_ERR(fspath);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5542  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5543  	}
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5544  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5545  	ret = begin_cmd(sctx, BTRFS_SEND_C_ENCODED_WRITE);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5546  	if (ret < 0)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5547  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5548  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5549  	btrfs_item_key_to_cpu(leaf, &key, path->slots[0]);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5550  	ei = btrfs_item_ptr(leaf, path->slots[0], struct btrfs_file_extent_item);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5551  	ram_bytes = btrfs_file_extent_ram_bytes(leaf, ei);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5552  	inline_size = btrfs_file_extent_inline_item_len(leaf, path->slots[0]);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5553  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5554  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH, fspath);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5555  	TLV_PUT_U64(sctx, BTRFS_SEND_A_FILE_OFFSET, offset);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5556  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_FILE_LEN,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5557  		    min(key.offset + ram_bytes - offset, len));
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5558  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_LEN, ram_bytes);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5559  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_OFFSET, offset - key.offset);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5560  	ret = btrfs_encoded_io_compression_from_extent(fs_info,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5561  				btrfs_file_extent_compression(leaf, ei));
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5562  	if (ret < 0)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5563  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5564  	TLV_PUT_U32(sctx, BTRFS_SEND_A_COMPRESSION, ret);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5565  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5566  	ret = put_data_header(sctx, inline_size);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5567  	if (ret < 0)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5568  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5569  	read_extent_buffer(leaf, sctx->send_buf + sctx->send_size,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5570  			   btrfs_file_extent_inline_start(ei), inline_size);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5571  	sctx->send_size += inline_size;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5572  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5573  	ret = send_cmd(sctx);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5574  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5575  tlv_put_failure:
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5576  out:
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5577  	iput(inode);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5578  	return ret;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5579  }
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5580  
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
