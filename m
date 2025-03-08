@@ -1,57 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2677C1494CF;
-	Sat,  8 Mar 2025 11:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0978E1B0420
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 11:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741432254; cv=none; b=FNCoT523mWzH7IVvwISpMpn8n9TStRDsmm1sh/sS3hIZT+nFed/Aso/ZxkMH0Cd9SAmR1QOXWYagWifqhHm4Tc5R23LmpYVnyYu9YU1jpF4AsK6GX92SaPbsLGI7kLZ2lq4UV8F06URAyYw7S/jdSd+Y7LnVWe/6cZUWp+xw3zg=
+	t=1741433538; cv=none; b=sn31rTUXzBdxwRzp2pDGWcjfEG1UeEHmYKlRFM4aEnmYQr5/BnfKcnQa1ldXHJZ2VI9XEomkIYdSJoRj+uozPNn5H+Y/Z3OYtOxl+MjUgBK/GndKxP7d6y6/pM9SF7682aM3mhyrZqHO5a+vt3qk5evpHEW7FHooK7T6SC6Og4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741432254; c=relaxed/simple;
-	bh=vyXXg3/nm2+NAIbR/9TzehfEZUW023728ZmtWYeFQVo=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ADv7P4dONctu4GRsHfRW3PcU3SZDt3zHR9aCtSeegDqZY9PWGjes5+gXBnBTeb1xRn+p25rlvnRFmxq0g1qgBk0qsoZgixWqViUfGr9BrQ3XJfKMq1s3SWRZqVXmWjVtoPAcdliTI59844ypVcwMh1anqFuN3ngV33KXWpDBy+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSDEFH3a; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1741433538; c=relaxed/simple;
+	bh=mGyzuQSYI7lxTaG2jXM1kKKIwq/K5pIrgPk+wo5OWgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jcz2adxcyM4tL9gY04p+nrSW36m/seKa4u7oi87Rcpbz+aDfgRKRUEMyX15gwHYREBN82sIS1PFNUEkoxpffQo6Vuccra3DMs6r+s/yOY3/Qq8sL2ODC97Fuoen2R/0jwrym7lhX4r98M/AYFXgQjKsAY2AG5Rc3n7UbzSLu3pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBekcoLN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSDEFH3a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBekcoLN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741432252; x=1772968252;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=vyXXg3/nm2+NAIbR/9TzehfEZUW023728ZmtWYeFQVo=;
-  b=KSDEFH3aOxRGTpnrZplom8Zdj26GnxzKSTeE3tRciMjbj2PFGkmeBZfC
-   Xex1L8nQyi8l1/Foii7+9o40Nu/vhNfiumkXdqoPeOkBGaNsSEFVA+smK
-   sBfRAz7BOqP8XJnRPGOAX2QcYJ7zCyIoD0i5sLQYuN6C6iDwHkuLSg/rS
-   1ekcFcF7PbHFmBI2E01bKzgnJdmhwyh3j3fh+hr41LUOtptPWMkI0L6xO
-   Py4E48s7GzstN4KFo9LWpPDm4rzCxuCE2N7ymMSjydSoWJz9sJx2Mi3OF
-   Lm6gpnHMMovjHVqfR96LV4CZZ8TcfLYTNs5N3jaNXwg0R99EoEVoyIGhn
-   Q==;
-X-CSE-ConnectionGUID: id1BsYJ9QaeN+ImKDv8fqA==
-X-CSE-MsgGUID: N2egCCprTne+huxcH2BA+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="30059650"
+  t=1741433537; x=1772969537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mGyzuQSYI7lxTaG2jXM1kKKIwq/K5pIrgPk+wo5OWgs=;
+  b=IBekcoLNJC4CD/dWjW8+kTbMex0vw49C4L2ge37dfNeYZ99Q+OF2o6pH
+   Z6wQfUumkq/FbXQZCu0D/V8qgM6gHSysrx39s0Fzk5LafVw9rWsUZYxCh
+   0WLRVKSxncuEyAzm0/4DzgjV9vPBN2IfQGfQ8jRIZiuykI/zWQFu13gO3
+   AUZJK43sUesIbRbaGJDMeIrK9K2bHYN9A4grSQFm8c7jiL/CbAGbOWlVR
+   ZmfcWcOooxz6/MSmUYWEwsZglRNMIRUQtbPtlAinQ8f+jDnjIkQsYhqdo
+   gustSIujflOZ7NXYU9R8sBrIZNjWsKnVNH/49DXfpfIGV6fWvmrv0GV1I
+   g==;
+X-CSE-ConnectionGUID: 4d8+Dq8ZSlSaSQEWtuumjw==
+X-CSE-MsgGUID: W8en81wLSoePQkFu8sblGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="46259555"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="30059650"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 03:10:51 -0800
-X-CSE-ConnectionGUID: 9/sOZ+mjSemfR0n5/g25Cg==
-X-CSE-MsgGUID: w8xnwOGeTtisx8PsNSxTvA==
+   d="scan'208";a="46259555"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 03:32:16 -0800
+X-CSE-ConnectionGUID: IMg6izIxRlW2TFhEeyHY2g==
+X-CSE-MsgGUID: wh3GvtK/TuespLgCOnphSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="124554333"
+   d="scan'208";a="119724206"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2025 03:10:50 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2025 03:32:13 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqs4q-0001pg-0i;
-	Sat, 08 Mar 2025 11:10:45 +0000
-Date: Sat, 8 Mar 2025 19:10:14 +0800
+	id 1tqsPb-0001qk-2a;
+	Sat, 08 Mar 2025 11:32:11 +0000
+Date: Sat, 8 Mar 2025 19:31:39 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: drivers/iio/adc/xilinx-ams.c:1158:2: warning: arithmetic between
- different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq')
-Message-ID: <202503081901.8P1kbdE3-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org, pavel@ucw.cz,
+	danielt@kernel.org, jingoohan1@gmail.com, deller@gmx.de,
+	simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 06/11] backlight: Replace fb events with a dedicated
+ function call
+Message-ID: <202503081907.HxPC1bKV-lkp@intel.com>
+References: <20250306140947.580324-7-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,147 +67,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250306140947.580324-7-tzimmermann@suse.de>
 
-CC: linux-kernel@vger.kernel.org
-TO: Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Manish Narani <manish.narani@xilinx.com>
+Hi Thomas,
 
-Hi Anand,
+kernel test robot noticed the following build errors:
 
-FYI, the error/warning still remains.
+[auto build test ERROR on lee-backlight/for-backlight-next]
+[also build test ERROR on lee-leds/for-leds-next linus/master lee-backlight/for-backlight-fixes v6.14-rc5 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2a520073e74fbb956b5564818fc5529dcc7e9f0e
-commit: d5c70627a79455154f5f636096abe6fe57510605 iio: adc: Add Xilinx AMS driver
-date:   3 years, 3 months ago
-config: x86_64-buildonly-randconfig-006-20250127 (https://download.01.org/0day-ci/archive/20250308/202503081901.8P1kbdE3-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081901.8P1kbdE3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Rework-fb_blank/20250306-221554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+patch link:    https://lore.kernel.org/r/20250306140947.580324-7-tzimmermann%40suse.de
+patch subject: [PATCH v3 06/11] backlight: Replace fb events with a dedicated function call
+config: i386-randconfig-005-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081907.HxPC1bKV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081907.HxPC1bKV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503081901.8P1kbdE3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503081907.HxPC1bKV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iio/adc/xilinx-ams.c:1158:2: warning: arithmetic between different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq') [-Wenum-enum-conversion]
-    1158 |         AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCC_PSPLL, AMS_VCC_PSPLL0),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:259:34: note: expanded from macro 'AMS_CTRL_CHAN_VOLTAGE'
-     259 |         AMS_CHAN_VOLTAGE(PL_SEQ(AMS_SEQ(AMS_SEQ(_scan_index))), _addr, false)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:219:34: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                  ~~~~~~~~~~~ ^
-   drivers/iio/adc/xilinx-ams.c:219:37: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                                 ^
-   drivers/iio/adc/xilinx-ams.c:221:39: note: expanded from macro 'PL_SEQ'
-     221 | #define PL_SEQ(x)               (AMS_PS_SEQ_MAX + (x))
-         |                                                    ^
-   drivers/iio/adc/xilinx-ams.c:243:16: note: expanded from macro 'AMS_CHAN_VOLTAGE'
-     243 |         .scan_index = _scan_index, \
-         |                       ^~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:1159:2: warning: arithmetic between different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq') [-Wenum-enum-conversion]
-    1159 |         AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCC_PSBATT, AMS_VCC_PSPLL3),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:259:34: note: expanded from macro 'AMS_CTRL_CHAN_VOLTAGE'
-     259 |         AMS_CHAN_VOLTAGE(PL_SEQ(AMS_SEQ(AMS_SEQ(_scan_index))), _addr, false)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:219:34: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                  ~~~~~~~~~~~ ^
-   drivers/iio/adc/xilinx-ams.c:219:37: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                                 ^
-   drivers/iio/adc/xilinx-ams.c:221:39: note: expanded from macro 'PL_SEQ'
-     221 | #define PL_SEQ(x)               (AMS_PS_SEQ_MAX + (x))
-         |                                                    ^
-   drivers/iio/adc/xilinx-ams.c:243:16: note: expanded from macro 'AMS_CHAN_VOLTAGE'
-     243 |         .scan_index = _scan_index, \
-         |                       ^~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:1160:2: warning: arithmetic between different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq') [-Wenum-enum-conversion]
-    1160 |         AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCCINT, AMS_VCCINT),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:259:34: note: expanded from macro 'AMS_CTRL_CHAN_VOLTAGE'
-     259 |         AMS_CHAN_VOLTAGE(PL_SEQ(AMS_SEQ(AMS_SEQ(_scan_index))), _addr, false)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:219:34: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                  ~~~~~~~~~~~ ^
-   drivers/iio/adc/xilinx-ams.c:219:37: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                                 ^
-   drivers/iio/adc/xilinx-ams.c:221:39: note: expanded from macro 'PL_SEQ'
-     221 | #define PL_SEQ(x)               (AMS_PS_SEQ_MAX + (x))
-         |                                                    ^
-   drivers/iio/adc/xilinx-ams.c:243:16: note: expanded from macro 'AMS_CHAN_VOLTAGE'
-     243 |         .scan_index = _scan_index, \
-         |                       ^~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:1161:2: warning: arithmetic between different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq') [-Wenum-enum-conversion]
-    1161 |         AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCCBRAM, AMS_VCCBRAM),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:259:34: note: expanded from macro 'AMS_CTRL_CHAN_VOLTAGE'
-     259 |         AMS_CHAN_VOLTAGE(PL_SEQ(AMS_SEQ(AMS_SEQ(_scan_index))), _addr, false)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:219:34: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                  ~~~~~~~~~~~ ^
-   drivers/iio/adc/xilinx-ams.c:219:37: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                                 ^
-   drivers/iio/adc/xilinx-ams.c:221:39: note: expanded from macro 'PL_SEQ'
-     221 | #define PL_SEQ(x)               (AMS_PS_SEQ_MAX + (x))
-         |                                                    ^
-   drivers/iio/adc/xilinx-ams.c:243:16: note: expanded from macro 'AMS_CHAN_VOLTAGE'
-     243 |         .scan_index = _scan_index, \
-         |                       ^~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:1162:2: warning: arithmetic between different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq') [-Wenum-enum-conversion]
-    1162 |         AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCCAUX, AMS_VCCAUX),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:259:34: note: expanded from macro 'AMS_CTRL_CHAN_VOLTAGE'
-     259 |         AMS_CHAN_VOLTAGE(PL_SEQ(AMS_SEQ(AMS_SEQ(_scan_index))), _addr, false)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:219:34: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                  ~~~~~~~~~~~ ^
-   drivers/iio/adc/xilinx-ams.c:219:37: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                                 ^
-   drivers/iio/adc/xilinx-ams.c:221:39: note: expanded from macro 'PL_SEQ'
-     221 | #define PL_SEQ(x)               (AMS_PS_SEQ_MAX + (x))
-         |                                                    ^
-   drivers/iio/adc/xilinx-ams.c:243:16: note: expanded from macro 'AMS_CHAN_VOLTAGE'
-     243 |         .scan_index = _scan_index, \
-         |                       ^~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:1163:2: warning: arithmetic between different enumeration types ('enum ams_ps_pl_seq' and 'enum ams_seq') [-Wenum-enum-conversion]
-    1163 |         AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_PSDDRPLL, AMS_PSDDRPLL),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:259:34: note: expanded from macro 'AMS_CTRL_CHAN_VOLTAGE'
-     259 |         AMS_CHAN_VOLTAGE(PL_SEQ(AMS_SEQ(AMS_SEQ(_scan_index))), _addr, false)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/xilinx-ams.c:219:34: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
-         |                                  ~~~~~~~~~~~ ^
-   drivers/iio/adc/xilinx-ams.c:219:37: note: expanded from macro 'AMS_SEQ'
-     219 | #define AMS_SEQ(x)              (AMS_SEQ_MAX + (x))
+   ld: drivers/video/fbdev/core/fb_backlight.o: in function `fb_bl_notify_blank':
+>> drivers/video/fbdev/core/fb_backlight.c:47: undefined reference to `backlight_notify_blank'
+>> ld: drivers/video/fbdev/core/fb_backlight.c:49: undefined reference to `backlight_notify_blank_all'
 
 
-vim +1158 drivers/iio/adc/xilinx-ams.c
+vim +47 drivers/video/fbdev/core/fb_backlight.c
 
-  1156	
-  1157	static const struct iio_chan_spec ams_ctrl_channels[] = {
-> 1158		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCC_PSPLL, AMS_VCC_PSPLL0),
-  1159		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCC_PSBATT, AMS_VCC_PSPLL3),
-  1160		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCCINT, AMS_VCCINT),
-  1161		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCCBRAM, AMS_VCCBRAM),
-  1162		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_VCCAUX, AMS_VCCAUX),
-  1163		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_PSDDRPLL, AMS_PSDDRPLL),
-  1164		AMS_CTRL_CHAN_VOLTAGE(AMS_SEQ_INTDDR, AMS_PSINTFPDDR),
-  1165	};
-  1166	
+    40	
+    41	void fb_bl_notify_blank(struct fb_info *info, int old_blank)
+    42	{
+    43		bool on = info->blank == FB_BLANK_UNBLANK;
+    44		bool prev_on = old_blank == FB_BLANK_UNBLANK;
+    45	
+    46		if (info->bl_dev)
+  > 47			backlight_notify_blank(info->bl_dev, info->device, on, prev_on);
+    48		else
+  > 49			backlight_notify_blank_all(info->device, on, prev_on);
 
 -- 
 0-DAY CI Kernel Test Service
