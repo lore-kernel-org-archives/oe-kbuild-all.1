@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C97F13B7A3;
-	Sat,  8 Mar 2025 01:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1130845945
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 02:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741398856; cv=none; b=QtN7v2OJ14gXsDZBUx5l3nPSnqZCOE39YmHD/xTsXxmIo2fLqgGgbFGEnmfviG/uwgNIr/n4M89UEqHkIU+wY3jZp7aPeZk4UmUoap9IdcDR0UGKuJ1J66QWFTlw1Ivt2Jl5Z/2lQAjz85dykik4q2c4Zo7/0uKATN2lJ7QKGmc=
+	t=1741402551; cv=none; b=eFwzC4imyon0rkFe25fkMD6+Wt5RXQZHUIilJRuxWUjZVa1/rWnGP89TITDKzxEP0fscvlH59Wa+wtF4gkligDc5KB/vJ9Dx8qWsFH1JcQdme4PbWIgYyMFfn8ihVxdG5HgtUOVMkVu8reMTvcbrfGvXdGvm3zbfKtFPUirGkYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741398856; c=relaxed/simple;
-	bh=fZu8llA9P1XjspsJVXkVUyO/JGv+jVF8RjMU7tBj6To=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bn+esQUo6GHX1kAEPoqgaHikQ5anZyv/SERSBvZDWY9ClRC6YV3vNbV+ZS5VSvdz52KLX73ALzdtCmGdyFvsnK6pcpRp2C14vocpVByiptOhQ+5EP81woZKzY6AWJDucd0vFQ4mNoy0x3xOL60T+HHqx4KR994Srvual5bPMrb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTaoHg0s; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1741402551; c=relaxed/simple;
+	bh=OgLe/TVHlI8PQ2TzGXiuS59t0LVkdTCnfy5f9AbwGsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g7KRJcudDy0mrHNWjMN3AKX71bAggh8yCistmpaP9735n+g/Nt0EeUhJUM3q6YJ+huLeo5aTAyZKY2516YtSjfbWewsPOIZN5/e3XsN1Ziji0s6Ok9t8D159wvpB3NX2BOtxixImOTIAPRTRZAJxaUhNF+RyOvg2KsjqNrAhGME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jI5dVtmp; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTaoHg0s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jI5dVtmp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741398854; x=1772934854;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fZu8llA9P1XjspsJVXkVUyO/JGv+jVF8RjMU7tBj6To=;
-  b=GTaoHg0sOZw+1A5+ZSXyto+ChYTs3kHufDJlEpen0Cs11JmrFYSM2GDu
-   xf6EQ4mnivBihIPd0U+sbtMBUG6V5LkN5CHL9/Uu9ES0dbb76iz+N6VTx
-   r8aZ3ZfBA0rjB+u53VFwVToyfYFEFb1yE3zQgBaBr7GyyidpTbj5TAd2e
-   jwSCRteMulvs9tR6yLoAvN/aZzD8k8LnX21TdfOxe8stGDiheJmE8OggO
-   DSC8utD+NHGOYFPT7NOfMDe7t17NwAAsWfE7JdhlauSYTqCBBHhJYcTM8
-   xnzGUYcN4SMHUr0TVj7nO7s9SyUAJIVpgkQnU91FslRVf1Y/FoZMIjQnr
-   g==;
-X-CSE-ConnectionGUID: KFLbPBxzQIG0zOxbq11V3g==
-X-CSE-MsgGUID: o78tvZQYTdKQfjXdHRn9fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="59867337"
-X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; 
-   d="scan'208";a="59867337"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 17:54:13 -0800
-X-CSE-ConnectionGUID: ByRX0l9XQ3GF9xqjVELU2A==
-X-CSE-MsgGUID: wzRWFM8qS2GKp9quMifyQQ==
+  t=1741402550; x=1772938550;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OgLe/TVHlI8PQ2TzGXiuS59t0LVkdTCnfy5f9AbwGsk=;
+  b=jI5dVtmpCDQpqGIxsFJeKYsLpgMW/4cd62gS++KaYEt6tGfJ1aMBprCD
+   +5QvkSOiEn/aajwsYDgEwQNOFOlAF3mOmzGPYZ0ly4968nupSzCuEbGKk
+   kfPPpoMalsr6YkvqXfdjrSxVsBXOTxa6djLfF2ZAmXobVgbeTgVWiuxH3
+   feKfZEzAIk0VIwnLnsgMm0g3Q1W60GqS/Ijk7s/yzoW0hizZUdpLJqQ7+
+   JtvzcHfsN+z0buAjDT81r4AzzKSzerGkCMQH6NGIC61GZS09iLKwdyWmt
+   kSN1Aedrfb0LZllXY7xX1eT6yzOhQ+PKhpDDyhJ8otTIfy6qCIau9QHTO
+   A==;
+X-CSE-ConnectionGUID: imiUrhSWQ9yWrnH+8YsXrw==
+X-CSE-MsgGUID: WAxPzscqR3CfO/Xq9t/Xqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="67829941"
+X-IronPort-AV: E=Sophos;i="6.14,231,1736841600"; 
+   d="scan'208";a="67829941"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 18:55:49 -0800
+X-CSE-ConnectionGUID: b2iXX8kwS/KP0fcr/2ac4A==
+X-CSE-MsgGUID: ENYvoTDaQO+lSIlVtXA0cw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,230,1736841600"; 
-   d="scan'208";a="119655933"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="124711463"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2025 17:54:12 -0800
+  by orviesa005.jf.intel.com with ESMTP; 07 Mar 2025 18:55:47 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqjOE-0001L2-00;
-	Sat, 08 Mar 2025 01:54:10 +0000
-Date: Sat, 8 Mar 2025 09:53:12 +0800
+	id 1tqkLo-0001OO-11;
+	Sat, 08 Mar 2025 02:55:44 +0000
+Date: Sat, 8 Mar 2025 10:55:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:irq/msi 9/11] drivers/pci/tph.c:307:38: error: use of
- undeclared identifier 'msix_idx'
-Message-ID: <202503080952.nzeYvx81-lkp@intel.com>
+To: Luke Jones <luke@ljones.dev>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
+	linux-input@vger.kernel.org, bentiss@kernel.org, jikos@kernel.org,
+	mario.limonciello@amd.com, "Luke D. Jones" <luke@ljones.dev>
+Subject: Re: [PATCH v3 2/2] platform/x86: asus-wmi: Refactor Ally
+ suspend/resume
+Message-ID: <202503081003.gNlKWt4M-lkp@intel.com>
+References: <20250227085817.1007697-3-luke@ljones.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,92 +66,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250227085817.1007697-3-luke@ljones.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git irq/msi
-head:   3c18507c3399a1cedf7a102a03c28ffab3e785aa
-commit: defb1c68db9bbe478ff9e59d0dcd70a9d0d1376f [9/11] PCI/TPH: Replace the broken MSI-X control word update
-config: i386-buildonly-randconfig-005-20250308 (https://download.01.org/0day-ci/archive/20250308/202503080952.nzeYvx81-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503080952.nzeYvx81-lkp@intel.com/reproduce)
+Hi Luke,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.14-rc5 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luke-Jones/hid-asus-check-ROG-Ally-MCU-version-and-warn/20250227-165941
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250227085817.1007697-3-luke%40ljones.dev
+patch subject: [PATCH v3 2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250308/202503081003.gNlKWt4M-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081003.gNlKWt4M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503080952.nzeYvx81-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503081003.gNlKWt4M-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/pci/tph.c:307:38: error: use of undeclared identifier 'msix_idx'
-     307 |                 err = pci_msix_write_tph_tag(pdev, msix_idx, tag);
-         |                                                    ^
-   1 error generated.
+   In file included from drivers/hid/hid-asus.c:29:
+   include/linux/platform_data/x86/asus-wmi.h: In function 'set_ally_mcu_hack':
+>> include/linux/platform_data/x86/asus-wmi.h:168:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+     168 |         return -ENODEV;
+         |                ^
+   include/linux/platform_data/x86/asus-wmi.h:166:20: note: declared here
+     166 | static inline void set_ally_mcu_hack(bool enabled)
+         |                    ^~~~~~~~~~~~~~~~~
+   include/linux/platform_data/x86/asus-wmi.h: In function 'set_ally_mcu_powersave':
+   include/linux/platform_data/x86/asus-wmi.h:172:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
+     172 |         return -ENODEV;
+         |                ^
+   include/linux/platform_data/x86/asus-wmi.h:170:20: note: declared here
+     170 | static inline void set_ally_mcu_powersave(bool enabled)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/msix_idx +307 drivers/pci/tph.c
+vim +/return +168 include/linux/platform_data/x86/asus-wmi.h
 
-   267	
-   268	/**
-   269	 * pcie_tph_set_st_entry() - Set Steering Tag in the ST table entry
-   270	 * @pdev: PCI device
-   271	 * @index: ST table entry index
-   272	 * @tag: Steering Tag to be written
-   273	 *
-   274	 * Figure out the proper location of ST table, either in the MSI-X table or
-   275	 * in the TPH Extended Capability space, and write the Steering Tag into
-   276	 * the ST entry pointed by index.
-   277	 *
-   278	 * Return: 0 if success, otherwise negative value (-errno)
-   279	 */
-   280	int pcie_tph_set_st_entry(struct pci_dev *pdev, unsigned int index, u16 tag)
-   281	{
-   282		u32 loc;
-   283		int err = 0;
-   284	
-   285		if (!pdev->tph_cap)
-   286			return -EINVAL;
-   287	
-   288		if (!pdev->tph_enabled)
-   289			return -EINVAL;
-   290	
-   291		/* No need to write tag if device is in "No ST Mode" */
-   292		if (pdev->tph_mode == PCI_TPH_ST_NS_MODE)
-   293			return 0;
-   294	
-   295		/*
-   296		 * Disable TPH before updating ST to avoid potential instability as
-   297		 * cautioned in PCIe r6.2, sec 6.17.3, "ST Modes of Operation"
-   298		 */
-   299		set_ctrl_reg_req_en(pdev, PCI_TPH_REQ_DISABLE);
-   300	
-   301		loc = get_st_table_loc(pdev);
-   302		/* Convert loc to match with PCI_TPH_LOC_* */
-   303		loc = FIELD_PREP(PCI_TPH_CAP_LOC_MASK, loc);
-   304	
-   305		switch (loc) {
-   306		case PCI_TPH_LOC_MSIX:
- > 307			err = pci_msix_write_tph_tag(pdev, msix_idx, tag);
-   308			break;
-   309		case PCI_TPH_LOC_CAP:
-   310			err = write_tag_to_st_table(pdev, index, tag);
-   311			break;
-   312		default:
-   313			err = -EINVAL;
-   314		}
-   315	
-   316		if (err) {
-   317			pcie_disable_tph(pdev);
-   318			return err;
-   319		}
-   320	
-   321		set_ctrl_reg_req_en(pdev, pdev->tph_req_type);
-   322	
-   323		pci_dbg(pdev, "set steering tag: %s table, index=%d, tag=%#04x\n",
-   324			(loc == PCI_TPH_LOC_MSIX) ? "MSI-X" : "ST", index, tag);
-   325	
-   326		return 0;
-   327	}
-   328	EXPORT_SYMBOL(pcie_tph_set_st_entry);
-   329	
+   159	
+   160	#if IS_REACHABLE(CONFIG_ASUS_WMI)
+   161	void set_ally_mcu_hack(bool enabled);
+   162	void set_ally_mcu_powersave(bool enabled);
+   163	int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval);
+   164	int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, u32 *retval);
+   165	#else
+   166	static inline void set_ally_mcu_hack(bool enabled)
+   167	{
+ > 168		return -ENODEV;
+   169	}
+   170	static inline void set_ally_mcu_powersave(bool enabled)
+   171	{
+   172		return -ENODEV;
+   173	}
+   174	static inline int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 *retval)
+   175	{
+   176		return -ENODEV;
+   177	}
+   178	static inline int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1,
+   179						   u32 *retval)
+   180	{
+   181		return -ENODEV;
+   182	}
+   183	#endif
+   184	
 
 -- 
 0-DAY CI Kernel Test Service
