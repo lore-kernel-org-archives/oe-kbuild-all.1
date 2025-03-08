@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F6D18DB2F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 09:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A947C145FE0;
+	Sat,  8 Mar 2025 09:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741425433; cv=none; b=bNjM+lCM5k5nF9dWnuxaNWpit7WFbp4PDRszcle36bmQYnSLkDN7/ggN0mi12mS07GBBHlf5MhGd/r+r+PTApLtd1wpqyX3hZ9YpxFlDwyOoJ+NFjYwsyNe2VgQIKuk+c1jlA/WT5ZJsxAHD6XSvEM4wcgSth035j9LqQ9CrM8Q=
+	t=1741425434; cv=none; b=IROPexFmyfiBBJXrEutNLScV1Ij8co2OdMV87ZcrjinJWb2H6tKcMD0QL37HA5BzQr9V56SVCecz1NAHflMOspk9SleTHcouMji2g7R6xVxwMBHkmWraJrfz7M/XTig+0vsRVpzCH1V/PlpZRiOOy3+zS8IT1Su6Fz+p9Oar/to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741425433; c=relaxed/simple;
-	bh=AmkJ7ad/5jBC0PhnRiqe9SrqTCaM7TojsMxvTR1Lfzo=;
+	s=arc-20240116; t=1741425434; c=relaxed/simple;
+	bh=oNQG78hYLNkqJIU8Tl66FQzisDtqzypDr0j1eI4poYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cVzz8r1wxhiT1ruxI7tHKE98dUv9aSAXzhiIqgrXtwNpt0HB82PycLl2MwXqo3v4eBZwnQ3/F1nYyUREuP8jllZZsSW9kcwMEJ7f+WjiUIkDvoZr7X0srS7O1IcdEhHghzfXRGFqywh+tKt94XhiwYUHvaChUMFS2NwPUb0Z7tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YA6si4qP; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nm/sUbAwxJpbwlI7bDE1qkQpsSA2xEgLx8hS8xUxbyTqicj+mZRxfWsIfFxomNQbA2kJu5rZNmEuQsfLiLxC7w8o4pV8PjFCXIP1Rw0YRTXD5PsNKH1KAKJz2S3RxDHgcUltKlHqbubo0FXBoY8GUnSxYfT8gkLubx8qVaN1dq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JfjpNS1H; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YA6si4qP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JfjpNS1H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741425431; x=1772961431;
+  t=1741425430; x=1772961430;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AmkJ7ad/5jBC0PhnRiqe9SrqTCaM7TojsMxvTR1Lfzo=;
-  b=YA6si4qPzArUtXJtlENSGMKaSwWx8st29wCQudQ9yxGZ2vv4Bw4lMuJD
-   8mGEs5UQx7RDV0LU6IpBlK5vKJEPRVFIJATI8B6RoEW7AseBgcrTmee06
-   719VXHb6uWMOU1jOpCyCaHTYo3mNmJGQiLjLsu3xcImc0ZhrJCEnsbBxD
-   TI96GszFFJXFk8JU5xmtPGBumo4M82Fd9BJqWvq6D9N5ll10+Oslh481x
-   gZzqyKxDxPYSwGbiDTw++Fug9o2ba8t6LSi5kJ1F5AiFxozFOV72M4zXS
-   Vr27o44rWkl1RieOri33b9UFKob7WHNlBn1vkr6pKS4/RlGRD3Qe48a7U
-   Q==;
-X-CSE-ConnectionGUID: uBtvGixeSmCp7qAqn763lQ==
-X-CSE-MsgGUID: uZL2J8BCTWSE3kS0kmscBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="46396067"
+  bh=oNQG78hYLNkqJIU8Tl66FQzisDtqzypDr0j1eI4poYE=;
+  b=JfjpNS1HcifC+XbjKSLU5e5dDaa8EF4E9GgJDiGY9x1AFzIyzwaVFysJ
+   Uqe/+vrGSewo2LNaFCOAo8ve5Wfc2h9l5GJppKlbBtVtmXe36y6CCgEe9
+   lM9v/RzROv5UUpNKgKMV5uLFuFKROIyR7cxRgZWYM4SEu/WCtJ4DswFyU
+   wUBVkyuDTrLdeUGYpCJeswgClyctCVeJrfr5yGDa49RjMt1h5n8+GNLI7
+   4nNFim5S/Fo6s1gQSbD//jFhPvGPnujMaTceCHjGc2GUxHE4wQaFo9R2K
+   esQkv7HG3NdjrzFk0NJHlVMxKJalNYICwmMKmgqH3JIdmq7Kh/HuG/UfZ
+   g==;
+X-CSE-ConnectionGUID: I9fL++ZdQ9O7WVTu69fEXA==
+X-CSE-MsgGUID: oaToeXKlQOWYdWEvszcWAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11366"; a="46396057"
 X-IronPort-AV: E=Sophos;i="6.14,231,1736841600"; 
-   d="scan'208";a="46396067"
+   d="scan'208";a="46396057"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 01:17:10 -0800
-X-CSE-ConnectionGUID: fLV6IGZKT7mtqBEPsh0yXg==
-X-CSE-MsgGUID: YbPWow3VRTmnJ5ZpKUccNg==
+X-CSE-ConnectionGUID: lE91PsnrTCCgF6HS7Tpqmg==
+X-CSE-MsgGUID: +74u2etmQ3CgU7nOLFOodw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="124759205"
+   d="scan'208";a="124759207"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by orviesa005.jf.intel.com with ESMTP; 08 Mar 2025 01:17:06 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqqIp-0001k0-2h;
+	id 1tqqIp-0001k2-2v;
 	Sat, 08 Mar 2025 09:17:03 +0000
-Date: Sat, 8 Mar 2025 17:16:34 +0800
+Date: Sat, 8 Mar 2025 17:16:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jens Reidel <adrian@mainlining.org>,
 	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -57,14 +57,15 @@ To: Jens Reidel <adrian@mainlining.org>,
 	Bastien Nocera <hadess@hadess.net>,
 	Hans de Goede <hdegoede@redhat.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Luca Weiss <luca.weiss@fairphone.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-	linux@mainlining.org, ~postmarketos/upstreaming@lists.sr.ht,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Luca Weiss <luca.weiss@fairphone.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	phone-devel@vger.kernel.org, linux@mainlining.org,
+	~postmarketos/upstreaming@lists.sr.ht,
 	Jens Reidel <adrian@mainlining.org>
 Subject: Re: [PATCH v3 2/2] Input: goodix_berlin - Add support for Berlin-A
  series
-Message-ID: <202503081606.xAchU9at-lkp@intel.com>
+Message-ID: <202503081721.EOfR4bx9-lkp@intel.com>
 References: <20250307094823.478152-3-adrian@mainlining.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -90,22 +91,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jens-Reidel/dt-bindings-i
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
 patch link:    https://lore.kernel.org/r/20250307094823.478152-3-adrian%40mainlining.org
 patch subject: [PATCH v3 2/2] Input: goodix_berlin - Add support for Berlin-A series
-config: i386-buildonly-randconfig-001-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081606.xAchU9at-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081606.xAchU9at-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20250308 (https://download.01.org/0day-ci/archive/20250308/202503081721.EOfR4bx9-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503081721.EOfR4bx9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503081606.xAchU9at-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503081721.EOfR4bx9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/input/touchscreen/goodix_berlin_i2c.c: In function 'goodix_berlin_i2c_probe':
->> drivers/input/touchscreen/goodix_berlin_i2c.c:35:36: error: 'cd' undeclared (first use in this function)
+>> drivers/input/touchscreen/goodix_berlin_i2c.c:35:22: error: use of undeclared identifier 'cd'
       35 |                 i2c_get_match_data(cd->dev);
-         |                                    ^~
-   drivers/input/touchscreen/goodix_berlin_i2c.c:35:36: note: each undeclared identifier is reported only once for each function it appears in
+         |                                    ^
+   1 error generated.
 
 
 vim +/cd +35 drivers/input/touchscreen/goodix_berlin_i2c.c
