@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB482BB15
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 14:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D705B167DB7
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 15:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741443553; cv=none; b=UYAXElb5wLP8wiHEv0hlZKV1uNGUQwPI/saWj2HclYSPH4ggksLg6zY94qrSCMnhrvqhp2dlDouLBEtAcPIt5558MOsj7I5+Q6QYQ7qrYh4wZ4X4nC7tUrDsUvhY4sFyfmHH36zwRYCwGlvLM+vXfWZNWqbixA4f3XCtFRILIlc=
+	t=1741446675; cv=none; b=sVUyAuGjjKbTsVpBmDqM0VRVS0REZL8IqiGxqw9uHmVUNotv0zXXych8tLg5Sgc5by+Mm5BIu3G8dmsnnfbIy0fjLRYTqrhgUv/22gqkYCwnm3ni9Bhrb5S7DnoD1S4FAhsByhkTJzDUWHktF9yeV0eNKjLbuWdPRHhpurZYtMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741443553; c=relaxed/simple;
-	bh=OJVw0G597giataKprUXkmkxpJUg0B5uUaaLq7Si4CRg=;
+	s=arc-20240116; t=1741446675; c=relaxed/simple;
+	bh=4Wx2jeQvaWXg3NBS+LdWL+pS5MRB0VD1kkNQNQaFuYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Payd2IdGf3uIWSIEYT57ivAXuJUmo3lefV6xOg271ncIVzwHvrkZ/4B1l7kOykbPfD//zKfhRP3QQYDUvpj5mMLlQgrN7wvR4qZQGAcETuje9unvafYzA4NGYayWOB7BZNcm8aUVhPyqKSEitlaLogkl2S9gS8R1LoWarfKa3eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VcGc3ZUn; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=FWiVIJn+8kcCkL8vjBdp5QHYb1fGs/lIAxeGaE+yg0WNcisBYuOCzCw8rZ/MtohevyX0EIYO/yI77+rmqnOzI5eHJnA8LHBPz8IaN/wkHjwkMuCNYAopezWsibmmy/7cHm+YDXP1T4QjpNTcBMgKTFpcxlxCHhSMhFbMg4Vp/YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLkLH1gG; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcGc3ZUn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLkLH1gG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741443551; x=1772979551;
+  t=1741446674; x=1772982674;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OJVw0G597giataKprUXkmkxpJUg0B5uUaaLq7Si4CRg=;
-  b=VcGc3ZUnk16Mh9bGL9SijL3UBUp8r8az4P9s1n97OIdJgDrzX8E7Z/gw
-   EZuTxhAUEq65C9yZuw9hey0LLw6DWJQhEE6po8Gqq0d/CI0+8FaoApOBQ
-   LoM7zfrdgTnV8pILeUvtTr2CjeIdMsv5fp6E/Me2COlYQXlE4PODFwPYW
-   eB6sSZ/5U+sDqYaINisSZnVQ7UPoAAcgREPGQCXad0Os19EFsmPSyg8UT
-   /SmT4adxXh2JCA1KM+MkjBu93zM9Hp47+RbMso9ixf26It4Jmem8VayzB
-   ZXDbXkArta5D0npJqmiOhgbpdx3gHwPEPfYABZn9eVDH4tHjOH6sSckf+
+  bh=4Wx2jeQvaWXg3NBS+LdWL+pS5MRB0VD1kkNQNQaFuYk=;
+  b=FLkLH1gGTDggtnoIKhHlOTOL76HjvV6TGIA0XxaVltXlZ21s4WVwFAS+
+   crhcJpBdaQT/O3Nv7MDivuVvZ4wsZa6OCzHn2Vabmm2hg7J3DuXt6Biri
+   b4pZmkO9Or8DXMUmVaQpXoq2t42sURfEFzYLJJKUzyuW9nvQ0ktbbzUHI
+   RnHnzKeKn3X7xF/jpmqJcnnXtvyqdZ7/ziaiqVVSIRazHfj2zOqS5upRA
+   ziXqQsUyofozlfMWfGSEVKgWBFqZzdwISR0i+tYkQ+xC07XS2gcqrib0e
+   xyOyKef6Kv+c63POK1Oodq2CmQlKCYWGZ3HiCF5uVJ/9RItjd7BHPl7bi
    A==;
-X-CSE-ConnectionGUID: rSUTYE12TFGRB3RfEDQZGg==
-X-CSE-MsgGUID: zIXx/MhCRsOx9IdhWJCn8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="53115468"
+X-CSE-ConnectionGUID: LIkFdIWHS8ed86KZ1KAjzw==
+X-CSE-MsgGUID: 8tGqlyY5SgSkox8EzQiziA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42681857"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="53115468"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 06:19:10 -0800
-X-CSE-ConnectionGUID: p1Wsz7h9QjyiR1a3WrIzaw==
-X-CSE-MsgGUID: PVp+Q5hzQwWLVAa7OXgTWg==
+   d="scan'208";a="42681857"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:11:13 -0800
+X-CSE-ConnectionGUID: MMiyfYU0QnqZJsRNa+uqog==
+X-CSE-MsgGUID: gppOa1ldQ2anS6a83MVl2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="124574296"
+   d="scan'208";a="124653625"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2025 06:19:09 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 08 Mar 2025 07:11:11 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqv17-0001xw-31;
-	Sat, 08 Mar 2025 14:19:05 +0000
-Date: Sat, 8 Mar 2025 22:18:45 +0800
+	id 1tqvpV-0001zY-39;
+	Sat, 08 Mar 2025 15:11:09 +0000
+Date: Sat, 8 Mar 2025 23:10:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2007/2007] mm/memory.c:5277:24: warning: variable
- 'nr_pages' set but not used
-Message-ID: <202503082212.OF8nZc9a-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2790/2790] mm/page_alloc.c:3036:6: sparse:
+ sparse: symbol '__drain_all_pages' was not declared. Should it be static?
+Message-ID: <202503082314.gTnzWY6P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,152 +62,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zi,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   944ce05f6b83ba40c4382c6b90b7b94f529118d3
-commit: 3bfa35ccde9e52ca74fed047eb4d89be32dd9e5e [2007/2007] mm/numa: no task_numa_fault() call if PTE is changed
-config: loongarch-randconfig-001-20250308 (https://download.01.org/0day-ci/archive/20250308/202503082212.OF8nZc9a-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082212.OF8nZc9a-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   2e32af659ca005096d96fb7e433bd96744b02844
+commit: e037ee4a8deaff7c579618c0aba1f066d6d14b11 [2790/2790] mm, page_alloc: disable pcplists during memory offline
+config: arm64-randconfig-r131-20250308 (https://download.01.org/0day-ci/archive/20250308/202503082314.gTnzWY6P-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250308/202503082314.gTnzWY6P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503082212.OF8nZc9a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503082314.gTnzWY6P-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/page_alloc.c:3036:6: sparse: sparse: symbol '__drain_all_pages' was not declared. Should it be static?
+>> mm/page_alloc.c:6634:6: sparse: sparse: symbol '__zone_set_pageset_high_and_batch' was not declared. Should it be static?
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
 
-   mm/memory.c: In function 'do_numa_page':
->> mm/memory.c:5277:24: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
-    5277 |         int flags = 0, nr_pages;
-         |                        ^~~~~~~~
+vim +/__drain_all_pages +3036 mm/page_alloc.c
 
-
-vim +/nr_pages +5277 mm/memory.c
-
-f569661eacc258 Baolin Wang       2024-05-11  5266  
-2b7403035459c7 Souptick Joarder  2018-08-23  5267  static vm_fault_t do_numa_page(struct vm_fault *vmf)
-d10e63f29488b0 Mel Gorman        2012-10-25  5268  {
-82b0f8c39a3869 Jan Kara          2016-12-14  5269  	struct vm_area_struct *vma = vmf->vma;
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5270  	struct folio *folio = NULL;
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5271  	int nid = NUMA_NO_NODE;
-2cb37064a2b82c Baolin Wang       2024-06-22  5272  	bool writable = false, ignore_writable = false;
-2cb37064a2b82c Baolin Wang       2024-06-22  5273  	bool pte_write_upgrade = vma_wants_manual_pte_write_upgrade(vma);
-90572890d20252 Peter Zijlstra    2013-10-07  5274  	int last_cpupid;
-cbee9f88ec1b8d Peter Zijlstra    2012-10-25  5275  	int target_nid;
-04a8645304500b Aneesh Kumar K.V  2019-03-05  5276  	pte_t pte, old_pte;
-2cb37064a2b82c Baolin Wang       2024-06-22 @5277  	int flags = 0, nr_pages;
-d10e63f29488b0 Mel Gorman        2012-10-25  5278  
-d10e63f29488b0 Mel Gorman        2012-10-25  5279  	/*
-e2491c31fb10ae John Hubbard      2024-05-25  5280  	 * The pte cannot be used safely until we verify, while holding the page
-e2491c31fb10ae John Hubbard      2024-05-25  5281  	 * table lock, that its contents have not changed during fault handling.
-d10e63f29488b0 Mel Gorman        2012-10-25  5282  	 */
-82b0f8c39a3869 Jan Kara          2016-12-14  5283  	spin_lock(vmf->ptl);
-e2491c31fb10ae John Hubbard      2024-05-25  5284  	/* Read the live PTE from the page tables: */
-e2491c31fb10ae John Hubbard      2024-05-25  5285  	old_pte = ptep_get(vmf->pte);
-e2491c31fb10ae John Hubbard      2024-05-25  5286  
-e2491c31fb10ae John Hubbard      2024-05-25  5287  	if (unlikely(!pte_same(old_pte, vmf->orig_pte))) {
-82b0f8c39a3869 Jan Kara          2016-12-14  5288  		pte_unmap_unlock(vmf->pte, vmf->ptl);
-3bfa35ccde9e52 Zi Yan            2024-08-09  5289  		return 0;
-4daae3b4b9e49b Mel Gorman        2012-11-02  5290  	}
-4daae3b4b9e49b Mel Gorman        2012-11-02  5291  
-04a8645304500b Aneesh Kumar K.V  2019-03-05  5292  	pte = pte_modify(old_pte, vma->vm_page_prot);
-d10e63f29488b0 Mel Gorman        2012-10-25  5293  
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5294  	/*
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5295  	 * Detect now whether the PTE could be writable; this information
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5296  	 * is only valid while holding the PT lock.
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5297  	 */
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5298  	writable = pte_write(pte);
-2cb37064a2b82c Baolin Wang       2024-06-22  5299  	if (!writable && pte_write_upgrade &&
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5300  	    can_change_pte_writable(vma, vmf->address, pte))
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5301  		writable = true;
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5302  
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5303  	folio = vm_normal_folio(vma, vmf->address, pte);
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5304  	if (!folio || folio_is_zone_device(folio))
-b99a342d4f11a5 Huang Ying        2021-04-29  5305  		goto out_map;
-d10e63f29488b0 Mel Gorman        2012-10-25  5306  
-6688cc05473b36 Peter Zijlstra    2013-10-07  5307  	/*
-bea66fbd11af1c Mel Gorman        2015-03-25  5308  	 * Avoid grouping on RO pages in general. RO pages shouldn't hurt as
-bea66fbd11af1c Mel Gorman        2015-03-25  5309  	 * much anyway since they can be in shared cache state. This misses
-bea66fbd11af1c Mel Gorman        2015-03-25  5310  	 * the case where a mapping is writable but the process never writes
-bea66fbd11af1c Mel Gorman        2015-03-25  5311  	 * to it but pte_write gets cleared during protection updates and
-bea66fbd11af1c Mel Gorman        2015-03-25  5312  	 * pte_dirty has unpredictable behaviour between PTE scan updates,
-bea66fbd11af1c Mel Gorman        2015-03-25  5313  	 * background writeback, dirty balancing and application behaviour.
-bea66fbd11af1c Mel Gorman        2015-03-25  5314  	 */
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5315  	if (!writable)
-6688cc05473b36 Peter Zijlstra    2013-10-07  5316  		flags |= TNF_NO_GROUP;
-6688cc05473b36 Peter Zijlstra    2013-10-07  5317  
-dabe1d992414a6 Rik van Riel      2013-10-07  5318  	/*
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5319  	 * Flag if the folio is shared between multiple address spaces. This
-dabe1d992414a6 Rik van Riel      2013-10-07  5320  	 * is later used when determining whether to group tasks together
-dabe1d992414a6 Rik van Riel      2013-10-07  5321  	 */
-b8eba2d7e4a309 David Hildenbrand 2024-05-11  5322  	if (folio_likely_mapped_shared(folio) && (vma->vm_flags & VM_SHARED))
-dabe1d992414a6 Rik van Riel      2013-10-07  5323  		flags |= TNF_SHARED;
-dabe1d992414a6 Rik van Riel      2013-10-07  5324  
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5325  	nid = folio_nid(folio);
-2cb37064a2b82c Baolin Wang       2024-06-22  5326  	nr_pages = folio_nr_pages(folio);
-33024536bafd91 Huang Ying        2022-07-13  5327  	/*
-33024536bafd91 Huang Ying        2022-07-13  5328  	 * For memory tiering mode, cpupid of slow memory page is used
-33024536bafd91 Huang Ying        2022-07-13  5329  	 * to record page access time.  So use default value.
-33024536bafd91 Huang Ying        2022-07-13  5330  	 */
-33024536bafd91 Huang Ying        2022-07-13  5331  	if ((sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5332  	    !node_is_toptier(nid))
-33024536bafd91 Huang Ying        2022-07-13  5333  		last_cpupid = (-1 & LAST_CPUPID_MASK);
-33024536bafd91 Huang Ying        2022-07-13  5334  	else
-28e1ec746768bb Kefeng Wang       2023-11-27  5335  		last_cpupid = folio_last_cpupid(folio);
-bf7c2ab764599b Kefeng Wang       2023-11-27  5336  	target_nid = numa_migrate_prep(folio, vma, vmf->address, nid, &flags);
-98fa15f34cb379 Anshuman Khandual 2019-03-05  5337  	if (target_nid == NUMA_NO_NODE) {
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5338  		folio_put(folio);
-b99a342d4f11a5 Huang Ying        2021-04-29  5339  		goto out_map;
-4daae3b4b9e49b Mel Gorman        2012-11-02  5340  	}
-b99a342d4f11a5 Huang Ying        2021-04-29  5341  	pte_unmap_unlock(vmf->pte, vmf->ptl);
-6a56ccbcf6c695 David Hildenbrand 2022-11-08  5342  	writable = false;
-2cb37064a2b82c Baolin Wang       2024-06-22  5343  	ignore_writable = true;
-4daae3b4b9e49b Mel Gorman        2012-11-02  5344  
-4daae3b4b9e49b Mel Gorman        2012-11-02  5345  	/* Migrate to the requested node */
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5346  	if (migrate_misplaced_folio(folio, vma, target_nid)) {
-d5e6c8d5790088 Kefeng Wang       2023-11-27  5347  		nid = target_nid;
-6688cc05473b36 Peter Zijlstra    2013-10-07  5348  		flags |= TNF_MIGRATED;
-3bfa35ccde9e52 Zi Yan            2024-08-09  5349  		task_numa_fault(last_cpupid, nid, 1, flags);
-3bfa35ccde9e52 Zi Yan            2024-08-09  5350  		return 0;
-3bfa35ccde9e52 Zi Yan            2024-08-09  5351  	}
-3bfa35ccde9e52 Zi Yan            2024-08-09  5352  
-074c238177a75f Mel Gorman        2015-03-25  5353  	flags |= TNF_MIGRATE_FAIL;
-c7ad08804fae5b Hugh Dickins      2023-06-08  5354  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, 
-c7ad08804fae5b Hugh Dickins      2023-06-08  5355  			               vmf->address, &vmf->ptl);
-c7ad08804fae5b Hugh Dickins      2023-06-08  5356  	if (unlikely(!vmf->pte))
-3bfa35ccde9e52 Zi Yan            2024-08-09  5357  		return 0;
-c33c794828f212 Ryan Roberts      2023-06-12  5358  	if (unlikely(!pte_same(ptep_get(vmf->pte), vmf->orig_pte))) {
-b99a342d4f11a5 Huang Ying        2021-04-29  5359  		pte_unmap_unlock(vmf->pte, vmf->ptl);
-d10e63f29488b0 Mel Gorman        2012-10-25  5360  		return 0;
-3bfa35ccde9e52 Zi Yan            2024-08-09  5361  	}
-b99a342d4f11a5 Huang Ying        2021-04-29  5362  out_map:
-b99a342d4f11a5 Huang Ying        2021-04-29  5363  	/*
-b99a342d4f11a5 Huang Ying        2021-04-29  5364  	 * Make it present again, depending on how arch implements
-b99a342d4f11a5 Huang Ying        2021-04-29  5365  	 * non-accessible ptes, some can allow access by kernel mode.
-b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 */
-2cb37064a2b82c Baolin Wang       2024-06-22  5367  	if (folio && folio_test_large(folio))
-2cb37064a2b82c Baolin Wang       2024-06-22  5368  		numa_rebuild_large_mapping(vmf, vma, folio, pte, ignore_writable,
-2cb37064a2b82c Baolin Wang       2024-06-22  5369  					   pte_write_upgrade);
-2cb37064a2b82c Baolin Wang       2024-06-22  5370  	else
-2cb37064a2b82c Baolin Wang       2024-06-22  5371  		numa_rebuild_single_mapping(vmf, vma, vmf->address, vmf->pte,
-2cb37064a2b82c Baolin Wang       2024-06-22  5372  					    writable);
-b99a342d4f11a5 Huang Ying        2021-04-29  5373  	pte_unmap_unlock(vmf->pte, vmf->ptl);
-3bfa35ccde9e52 Zi Yan            2024-08-09  5374  
-3bfa35ccde9e52 Zi Yan            2024-08-09  5375  	if (nid != NUMA_NO_NODE)
-3bfa35ccde9e52 Zi Yan            2024-08-09  5376  		task_numa_fault(last_cpupid, nid, 1, flags);
-3bfa35ccde9e52 Zi Yan            2024-08-09  5377  	return 0;
-d10e63f29488b0 Mel Gorman        2012-10-25  5378  }
-d10e63f29488b0 Mel Gorman        2012-10-25  5379  
-
-:::::: The code at line 5277 was first introduced by commit
-:::::: 2cb37064a2b82cd8ebeeaaed21259b5912dff51d mm: support multi-size THP numa balancing
-
-:::::: TO: Baolin Wang <baolin.wang@linux.alibaba.com>
-:::::: CC: Liu Shixin <liushixin2@huawei.com>
+  3025	
+  3026	/*
+  3027	 * The implementation of drain_all_pages(), exposing an extra parameter to
+  3028	 * drain on all cpus.
+  3029	 *
+  3030	 * drain_all_pages() is optimized to only execute on cpus where pcplists are
+  3031	 * not empty. The check for non-emptiness can however race with a free to
+  3032	 * pcplist that has not yet increased the pcp->count from 0 to 1. Callers
+  3033	 * that need the guarantee that every CPU has drained can disable the
+  3034	 * optimizing racy check.
+  3035	 */
+> 3036	void __drain_all_pages(struct zone *zone, bool force_all_cpus)
+  3037	{
+  3038		int cpu;
+  3039	
+  3040		/*
+  3041		 * Allocate in the BSS so we wont require allocation in
+  3042		 * direct reclaim path for CONFIG_CPUMASK_OFFSTACK=y
+  3043		 */
+  3044		static cpumask_t cpus_with_pcps;
+  3045	
+  3046		/*
+  3047		 * Make sure nobody triggers this path before mm_percpu_wq is fully
+  3048		 * initialized.
+  3049		 */
+  3050		if (WARN_ON_ONCE(!mm_percpu_wq))
+  3051			return;
+  3052	
+  3053		/*
+  3054		 * Do not drain if one is already in progress unless it's specific to
+  3055		 * a zone. Such callers are primarily CMA and memory hotplug and need
+  3056		 * the drain to be complete when the call returns.
+  3057		 */
+  3058		if (unlikely(!mutex_trylock(&pcpu_drain_mutex))) {
+  3059			if (!zone)
+  3060				return;
+  3061			mutex_lock(&pcpu_drain_mutex);
+  3062		}
+  3063	
+  3064		/*
+  3065		 * We don't care about racing with CPU hotplug event
+  3066		 * as offline notification will cause the notified
+  3067		 * cpu to drain that CPU pcps and on_each_cpu_mask
+  3068		 * disables preemption as part of its processing
+  3069		 */
+  3070		for_each_online_cpu(cpu) {
+  3071			struct per_cpu_pageset *pcp;
+  3072			struct zone *z;
+  3073			bool has_pcps = false;
+  3074	
+  3075			if (force_all_cpus) {
+  3076				/*
+  3077				 * The pcp.count check is racy, some callers need a
+  3078				 * guarantee that no cpu is missed.
+  3079				 */
+  3080				has_pcps = true;
+  3081			} else if (zone) {
+  3082				pcp = per_cpu_ptr(zone->pageset, cpu);
+  3083				if (pcp->pcp.count)
+  3084					has_pcps = true;
+  3085			} else {
+  3086				for_each_populated_zone(z) {
+  3087					pcp = per_cpu_ptr(z->pageset, cpu);
+  3088					if (pcp->pcp.count) {
+  3089						has_pcps = true;
+  3090						break;
+  3091					}
+  3092				}
+  3093			}
+  3094	
+  3095			if (has_pcps)
+  3096				cpumask_set_cpu(cpu, &cpus_with_pcps);
+  3097			else
+  3098				cpumask_clear_cpu(cpu, &cpus_with_pcps);
+  3099		}
+  3100	
+  3101		for_each_cpu(cpu, &cpus_with_pcps) {
+  3102			struct pcpu_drain *drain = per_cpu_ptr(&pcpu_drain, cpu);
+  3103	
+  3104			drain->zone = zone;
+  3105			INIT_WORK(&drain->work, drain_local_pages_wq);
+  3106			queue_work_on(cpu, mm_percpu_wq, &drain->work);
+  3107		}
+  3108		for_each_cpu(cpu, &cpus_with_pcps)
+  3109			flush_work(&per_cpu_ptr(&pcpu_drain, cpu)->work);
+  3110	
+  3111		mutex_unlock(&pcpu_drain_mutex);
+  3112	}
+  3113	
 
 -- 
 0-DAY CI Kernel Test Service
