@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495431B85E4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 13:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB482BB15
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 14:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741441656; cv=none; b=lKH6tzgmQKolSJulb3PMrJLxwsU97LuzZeh3aVwDdpv3PJHeuHozMB5NkoVIZqDlfkHyriIk9YdDqr3dn2n0JJ55Zz6GATS7fm3KVHyuobuoyDO0wvpZUB1L1T0FYWchrkBACEgvjKcXh1NnzOe7gMaWMJfDTS0Ri2qjgZPIXts=
+	t=1741443553; cv=none; b=UYAXElb5wLP8wiHEv0hlZKV1uNGUQwPI/saWj2HclYSPH4ggksLg6zY94qrSCMnhrvqhp2dlDouLBEtAcPIt5558MOsj7I5+Q6QYQ7qrYh4wZ4X4nC7tUrDsUvhY4sFyfmHH36zwRYCwGlvLM+vXfWZNWqbixA4f3XCtFRILIlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741441656; c=relaxed/simple;
-	bh=VhVMNtKTGuXymtyKJMeoT8KYnmWFDSOmhBUY5ZZr65M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTS4VWVKAlQAYdIA6oK2W+EmRNGSgIXYLXTVth7dpme0zO5xROaIXVGQPVBBRLJjn84nFIhQnLzo9kGCHhySRQhNQyvpqSlJu4KlSf5wkXHTqlvtIK45PeDp32jVPm2IJ3RTS8LoKM3z+UztYsLtMf751G3NepiWBBrTkZPsDUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlM0NXLu; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1741443553; c=relaxed/simple;
+	bh=OJVw0G597giataKprUXkmkxpJUg0B5uUaaLq7Si4CRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Payd2IdGf3uIWSIEYT57ivAXuJUmo3lefV6xOg271ncIVzwHvrkZ/4B1l7kOykbPfD//zKfhRP3QQYDUvpj5mMLlQgrN7wvR4qZQGAcETuje9unvafYzA4NGYayWOB7BZNcm8aUVhPyqKSEitlaLogkl2S9gS8R1LoWarfKa3eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VcGc3ZUn; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlM0NXLu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcGc3ZUn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741441654; x=1772977654;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VhVMNtKTGuXymtyKJMeoT8KYnmWFDSOmhBUY5ZZr65M=;
-  b=SlM0NXLu+eAcRYReJHs3scNdR8nNr8KHoBtUABd2waapA2TD2vP4mdG/
-   j1T6Vr/T44BlsW7eWlLwq7Su+nq1islV7MEHLehddJSXSGEdZ6zozvdQY
-   jhPSihzCxrAMMgg26zwUZLKzEvHT2ufhVwdRHTbZ5dxO9BeL1ri+tNKDc
-   61odowv4r4R9Wq5YedK9NT4wxWxGFt2YWHCO6nbGjT2T0g0JYb1mim76Z
-   XoPDFwwAKimXx5k4AT5Asyzrhp9Y2EpimyULO+X96MqCsisp++6Vp+Win
-   s3VGwuLM/y2rI8CbxJo28nFaA4LkDomSbv6OyL6ZcY7QBDDF5fr16TL8b
-   g==;
-X-CSE-ConnectionGUID: z5ILByeEQP6QJ97PM9KtWQ==
-X-CSE-MsgGUID: 1eQn7ascQWiUis5G+jBu5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46263792"
+  t=1741443551; x=1772979551;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OJVw0G597giataKprUXkmkxpJUg0B5uUaaLq7Si4CRg=;
+  b=VcGc3ZUnk16Mh9bGL9SijL3UBUp8r8az4P9s1n97OIdJgDrzX8E7Z/gw
+   EZuTxhAUEq65C9yZuw9hey0LLw6DWJQhEE6po8Gqq0d/CI0+8FaoApOBQ
+   LoM7zfrdgTnV8pILeUvtTr2CjeIdMsv5fp6E/Me2COlYQXlE4PODFwPYW
+   eB6sSZ/5U+sDqYaINisSZnVQ7UPoAAcgREPGQCXad0Os19EFsmPSyg8UT
+   /SmT4adxXh2JCA1KM+MkjBu93zM9Hp47+RbMso9ixf26It4Jmem8VayzB
+   ZXDbXkArta5D0npJqmiOhgbpdx3gHwPEPfYABZn9eVDH4tHjOH6sSckf+
+   A==;
+X-CSE-ConnectionGUID: rSUTYE12TFGRB3RfEDQZGg==
+X-CSE-MsgGUID: zIXx/MhCRsOx9IdhWJCn8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="53115468"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="46263792"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 05:47:34 -0800
-X-CSE-ConnectionGUID: qBrvRkGqQQG0U0lDswIdLw==
-X-CSE-MsgGUID: 8Tm5jwVmQoKT7WroWG650A==
+   d="scan'208";a="53115468"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 06:19:10 -0800
+X-CSE-ConnectionGUID: p1Wsz7h9QjyiR1a3WrIzaw==
+X-CSE-MsgGUID: PVp+Q5hzQwWLVAa7OXgTWg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119501133"
+X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
+   d="scan'208";a="124574296"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 08 Mar 2025 05:47:31 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2025 06:19:09 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tquWR-0001wW-23;
-	Sat, 08 Mar 2025 13:47:25 +0000
-Date: Sat, 8 Mar 2025 21:46:59 +0800
+	id 1tqv17-0001xw-31;
+	Sat, 08 Mar 2025 14:19:05 +0000
+Date: Sat, 8 Mar 2025 22:18:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>, brauner@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, viro@zeniv.linux.org.uk, jack@suse.cz,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	io-uring@vger.kernel.org, audit@vger.kernel.org, axboe@kernel.dk,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: Re: [PATCH] fs: support filename refcount without atomics
-Message-ID: <202503082155.OjmOoifN-lkp@intel.com>
-References: <20250307161155.760949-1-mjguzik@gmail.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2007/2007] mm/memory.c:5277:24: warning: variable
+ 'nr_pages' set but not used
+Message-ID: <202503082212.OF8nZc9a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,87 +61,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250307161155.760949-1-mjguzik@gmail.com>
 
-Hi Mateusz,
+Hi Zi,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.14-rc5 next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/fs-support-filename-refcount-without-atomics/20250308-002442
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250307161155.760949-1-mjguzik%40gmail.com
-patch subject: [PATCH] fs: support filename refcount without atomics
-config: i386-buildonly-randconfig-001-20250308 (https://download.01.org/0day-ci/archive/20250308/202503082155.OjmOoifN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082155.OjmOoifN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   944ce05f6b83ba40c4382c6b90b7b94f529118d3
+commit: 3bfa35ccde9e52ca74fed047eb4d89be32dd9e5e [2007/2007] mm/numa: no task_numa_fault() call if PTE is changed
+config: loongarch-randconfig-001-20250308 (https://download.01.org/0day-ci/archive/20250308/202503082212.OF8nZc9a-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082212.OF8nZc9a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503082155.OjmOoifN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503082212.OF8nZc9a-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/swait.h:5,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   include/linux/fs.h: In function 'makeatomicname':
->> include/linux/fs.h:2875:24: error: 'struct filename' has no member named 'owner'
-    2875 |         VFS_BUG_ON(name->owner != current && !name->is_atomic);
-         |                        ^~
-   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
-      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
-         |                                                               ^
-   include/linux/fs.h:2875:9: note: in expansion of macro 'VFS_BUG_ON'
-    2875 |         VFS_BUG_ON(name->owner != current && !name->is_atomic);
-         |         ^~~~~~~~~~
-   include/linux/fs.h: In function 'refname':
-   include/linux/fs.h:2884:24: error: 'struct filename' has no member named 'owner'
-    2884 |         VFS_BUG_ON(name->owner != current && !name->is_atomic);
-         |                        ^~
-   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
-      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
-         |                                                               ^
-   include/linux/fs.h:2884:9: note: in expansion of macro 'VFS_BUG_ON'
-    2884 |         VFS_BUG_ON(name->owner != current && !name->is_atomic);
-         |         ^~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=2878351160
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1264: prepare0] Error 2 shuffle=2878351160
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=2878351160
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=2878351160
-   make: Target 'prepare' not remade because of errors.
+   mm/memory.c: In function 'do_numa_page':
+>> mm/memory.c:5277:24: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
+    5277 |         int flags = 0, nr_pages;
+         |                        ^~~~~~~~
 
 
-vim +2875 include/linux/fs.h
+vim +/nr_pages +5277 mm/memory.c
 
-  2866	
-  2867	static inline void makeatomicname(struct filename *name)
-  2868	{
-  2869		VFS_BUG_ON(IS_ERR_OR_NULL(name));
-  2870		/*
-  2871		 * The name can legitimately already be atomic if it was cached by audit.
-  2872		 * If switching the refcount to atomic, we need not to know we are the
-  2873		 * only non-atomic user.
-  2874		 */
-> 2875		VFS_BUG_ON(name->owner != current && !name->is_atomic);
-  2876		/*
-  2877		 * Don't bother branching, this is a store to an already dirtied cacheline.
-  2878		 */
-  2879		name->is_atomic = true;
-  2880	}
-  2881	
+f569661eacc258 Baolin Wang       2024-05-11  5266  
+2b7403035459c7 Souptick Joarder  2018-08-23  5267  static vm_fault_t do_numa_page(struct vm_fault *vmf)
+d10e63f29488b0 Mel Gorman        2012-10-25  5268  {
+82b0f8c39a3869 Jan Kara          2016-12-14  5269  	struct vm_area_struct *vma = vmf->vma;
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5270  	struct folio *folio = NULL;
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5271  	int nid = NUMA_NO_NODE;
+2cb37064a2b82c Baolin Wang       2024-06-22  5272  	bool writable = false, ignore_writable = false;
+2cb37064a2b82c Baolin Wang       2024-06-22  5273  	bool pte_write_upgrade = vma_wants_manual_pte_write_upgrade(vma);
+90572890d20252 Peter Zijlstra    2013-10-07  5274  	int last_cpupid;
+cbee9f88ec1b8d Peter Zijlstra    2012-10-25  5275  	int target_nid;
+04a8645304500b Aneesh Kumar K.V  2019-03-05  5276  	pte_t pte, old_pte;
+2cb37064a2b82c Baolin Wang       2024-06-22 @5277  	int flags = 0, nr_pages;
+d10e63f29488b0 Mel Gorman        2012-10-25  5278  
+d10e63f29488b0 Mel Gorman        2012-10-25  5279  	/*
+e2491c31fb10ae John Hubbard      2024-05-25  5280  	 * The pte cannot be used safely until we verify, while holding the page
+e2491c31fb10ae John Hubbard      2024-05-25  5281  	 * table lock, that its contents have not changed during fault handling.
+d10e63f29488b0 Mel Gorman        2012-10-25  5282  	 */
+82b0f8c39a3869 Jan Kara          2016-12-14  5283  	spin_lock(vmf->ptl);
+e2491c31fb10ae John Hubbard      2024-05-25  5284  	/* Read the live PTE from the page tables: */
+e2491c31fb10ae John Hubbard      2024-05-25  5285  	old_pte = ptep_get(vmf->pte);
+e2491c31fb10ae John Hubbard      2024-05-25  5286  
+e2491c31fb10ae John Hubbard      2024-05-25  5287  	if (unlikely(!pte_same(old_pte, vmf->orig_pte))) {
+82b0f8c39a3869 Jan Kara          2016-12-14  5288  		pte_unmap_unlock(vmf->pte, vmf->ptl);
+3bfa35ccde9e52 Zi Yan            2024-08-09  5289  		return 0;
+4daae3b4b9e49b Mel Gorman        2012-11-02  5290  	}
+4daae3b4b9e49b Mel Gorman        2012-11-02  5291  
+04a8645304500b Aneesh Kumar K.V  2019-03-05  5292  	pte = pte_modify(old_pte, vma->vm_page_prot);
+d10e63f29488b0 Mel Gorman        2012-10-25  5293  
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5294  	/*
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5295  	 * Detect now whether the PTE could be writable; this information
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5296  	 * is only valid while holding the PT lock.
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5297  	 */
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5298  	writable = pte_write(pte);
+2cb37064a2b82c Baolin Wang       2024-06-22  5299  	if (!writable && pte_write_upgrade &&
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5300  	    can_change_pte_writable(vma, vmf->address, pte))
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5301  		writable = true;
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5302  
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5303  	folio = vm_normal_folio(vma, vmf->address, pte);
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5304  	if (!folio || folio_is_zone_device(folio))
+b99a342d4f11a5 Huang Ying        2021-04-29  5305  		goto out_map;
+d10e63f29488b0 Mel Gorman        2012-10-25  5306  
+6688cc05473b36 Peter Zijlstra    2013-10-07  5307  	/*
+bea66fbd11af1c Mel Gorman        2015-03-25  5308  	 * Avoid grouping on RO pages in general. RO pages shouldn't hurt as
+bea66fbd11af1c Mel Gorman        2015-03-25  5309  	 * much anyway since they can be in shared cache state. This misses
+bea66fbd11af1c Mel Gorman        2015-03-25  5310  	 * the case where a mapping is writable but the process never writes
+bea66fbd11af1c Mel Gorman        2015-03-25  5311  	 * to it but pte_write gets cleared during protection updates and
+bea66fbd11af1c Mel Gorman        2015-03-25  5312  	 * pte_dirty has unpredictable behaviour between PTE scan updates,
+bea66fbd11af1c Mel Gorman        2015-03-25  5313  	 * background writeback, dirty balancing and application behaviour.
+bea66fbd11af1c Mel Gorman        2015-03-25  5314  	 */
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5315  	if (!writable)
+6688cc05473b36 Peter Zijlstra    2013-10-07  5316  		flags |= TNF_NO_GROUP;
+6688cc05473b36 Peter Zijlstra    2013-10-07  5317  
+dabe1d992414a6 Rik van Riel      2013-10-07  5318  	/*
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5319  	 * Flag if the folio is shared between multiple address spaces. This
+dabe1d992414a6 Rik van Riel      2013-10-07  5320  	 * is later used when determining whether to group tasks together
+dabe1d992414a6 Rik van Riel      2013-10-07  5321  	 */
+b8eba2d7e4a309 David Hildenbrand 2024-05-11  5322  	if (folio_likely_mapped_shared(folio) && (vma->vm_flags & VM_SHARED))
+dabe1d992414a6 Rik van Riel      2013-10-07  5323  		flags |= TNF_SHARED;
+dabe1d992414a6 Rik van Riel      2013-10-07  5324  
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5325  	nid = folio_nid(folio);
+2cb37064a2b82c Baolin Wang       2024-06-22  5326  	nr_pages = folio_nr_pages(folio);
+33024536bafd91 Huang Ying        2022-07-13  5327  	/*
+33024536bafd91 Huang Ying        2022-07-13  5328  	 * For memory tiering mode, cpupid of slow memory page is used
+33024536bafd91 Huang Ying        2022-07-13  5329  	 * to record page access time.  So use default value.
+33024536bafd91 Huang Ying        2022-07-13  5330  	 */
+33024536bafd91 Huang Ying        2022-07-13  5331  	if ((sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5332  	    !node_is_toptier(nid))
+33024536bafd91 Huang Ying        2022-07-13  5333  		last_cpupid = (-1 & LAST_CPUPID_MASK);
+33024536bafd91 Huang Ying        2022-07-13  5334  	else
+28e1ec746768bb Kefeng Wang       2023-11-27  5335  		last_cpupid = folio_last_cpupid(folio);
+bf7c2ab764599b Kefeng Wang       2023-11-27  5336  	target_nid = numa_migrate_prep(folio, vma, vmf->address, nid, &flags);
+98fa15f34cb379 Anshuman Khandual 2019-03-05  5337  	if (target_nid == NUMA_NO_NODE) {
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5338  		folio_put(folio);
+b99a342d4f11a5 Huang Ying        2021-04-29  5339  		goto out_map;
+4daae3b4b9e49b Mel Gorman        2012-11-02  5340  	}
+b99a342d4f11a5 Huang Ying        2021-04-29  5341  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+6a56ccbcf6c695 David Hildenbrand 2022-11-08  5342  	writable = false;
+2cb37064a2b82c Baolin Wang       2024-06-22  5343  	ignore_writable = true;
+4daae3b4b9e49b Mel Gorman        2012-11-02  5344  
+4daae3b4b9e49b Mel Gorman        2012-11-02  5345  	/* Migrate to the requested node */
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5346  	if (migrate_misplaced_folio(folio, vma, target_nid)) {
+d5e6c8d5790088 Kefeng Wang       2023-11-27  5347  		nid = target_nid;
+6688cc05473b36 Peter Zijlstra    2013-10-07  5348  		flags |= TNF_MIGRATED;
+3bfa35ccde9e52 Zi Yan            2024-08-09  5349  		task_numa_fault(last_cpupid, nid, 1, flags);
+3bfa35ccde9e52 Zi Yan            2024-08-09  5350  		return 0;
+3bfa35ccde9e52 Zi Yan            2024-08-09  5351  	}
+3bfa35ccde9e52 Zi Yan            2024-08-09  5352  
+074c238177a75f Mel Gorman        2015-03-25  5353  	flags |= TNF_MIGRATE_FAIL;
+c7ad08804fae5b Hugh Dickins      2023-06-08  5354  	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, 
+c7ad08804fae5b Hugh Dickins      2023-06-08  5355  			               vmf->address, &vmf->ptl);
+c7ad08804fae5b Hugh Dickins      2023-06-08  5356  	if (unlikely(!vmf->pte))
+3bfa35ccde9e52 Zi Yan            2024-08-09  5357  		return 0;
+c33c794828f212 Ryan Roberts      2023-06-12  5358  	if (unlikely(!pte_same(ptep_get(vmf->pte), vmf->orig_pte))) {
+b99a342d4f11a5 Huang Ying        2021-04-29  5359  		pte_unmap_unlock(vmf->pte, vmf->ptl);
+d10e63f29488b0 Mel Gorman        2012-10-25  5360  		return 0;
+3bfa35ccde9e52 Zi Yan            2024-08-09  5361  	}
+b99a342d4f11a5 Huang Ying        2021-04-29  5362  out_map:
+b99a342d4f11a5 Huang Ying        2021-04-29  5363  	/*
+b99a342d4f11a5 Huang Ying        2021-04-29  5364  	 * Make it present again, depending on how arch implements
+b99a342d4f11a5 Huang Ying        2021-04-29  5365  	 * non-accessible ptes, some can allow access by kernel mode.
+b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 */
+2cb37064a2b82c Baolin Wang       2024-06-22  5367  	if (folio && folio_test_large(folio))
+2cb37064a2b82c Baolin Wang       2024-06-22  5368  		numa_rebuild_large_mapping(vmf, vma, folio, pte, ignore_writable,
+2cb37064a2b82c Baolin Wang       2024-06-22  5369  					   pte_write_upgrade);
+2cb37064a2b82c Baolin Wang       2024-06-22  5370  	else
+2cb37064a2b82c Baolin Wang       2024-06-22  5371  		numa_rebuild_single_mapping(vmf, vma, vmf->address, vmf->pte,
+2cb37064a2b82c Baolin Wang       2024-06-22  5372  					    writable);
+b99a342d4f11a5 Huang Ying        2021-04-29  5373  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+3bfa35ccde9e52 Zi Yan            2024-08-09  5374  
+3bfa35ccde9e52 Zi Yan            2024-08-09  5375  	if (nid != NUMA_NO_NODE)
+3bfa35ccde9e52 Zi Yan            2024-08-09  5376  		task_numa_fault(last_cpupid, nid, 1, flags);
+3bfa35ccde9e52 Zi Yan            2024-08-09  5377  	return 0;
+d10e63f29488b0 Mel Gorman        2012-10-25  5378  }
+d10e63f29488b0 Mel Gorman        2012-10-25  5379  
+
+:::::: The code at line 5277 was first introduced by commit
+:::::: 2cb37064a2b82cd8ebeeaaed21259b5912dff51d mm: support multi-size THP numa balancing
+
+:::::: TO: Baolin Wang <baolin.wang@linux.alibaba.com>
+:::::: CC: Liu Shixin <liushixin2@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
