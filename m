@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2443374FF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 20:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE701474B8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 20:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741466827; cv=none; b=IBRqRBi7hzoB9bj2K98gcEtSSNOkCVe1oNTV6V1WRAma47s0lhef22xhW3Wp3iq/f0ES92BBkQ+P0CTZgDg2BfSUwfj5ApLglBxUekEvjiQNvptEyOupHJBcxfm/dSX5twWCZFziXRQ9svcYoz5Xi8MiSk80uFc7LSSEIm09Q4U=
+	t=1741467428; cv=none; b=FLTliLgVgdkOpGhiw3zcHkuswrH5wO39I2VBONStrCGFDkzNb0OlKppCelY10iHPXQR7udfi3k8DkJTKURguSlKGoS+49vYCGzcbxQbFsxCDQG8lSbjK1oTprxpgvxcqZFM7CUtD63iz/gGr+M7MgC/XVw7Eftf9SczAs9M8FFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741466827; c=relaxed/simple;
-	bh=X10cUkFQl8DS84INYb7TZkx5vRBzE1my/4hRSNN3L0U=;
+	s=arc-20240116; t=1741467428; c=relaxed/simple;
+	bh=xquJh1iDTzUTixkp8H/ct2VKW4PsAesCQbj0tZ1EYw0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZUn92GC2uENbbfpFzdIFhVlTx8RmBnbvEM/drAPrxeukOAi4AdVoUIeHQWozg4vxJzudbUORGW8WCzo/4o0wsvQlnw2zGTrz6NXJ37Tpwjx5jIWo+5v50bHGmE3CEknRYqeudaT9oeYyDZdbWU6XBIUc9w22K7hXRX6heXYTUfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5IR71Sg; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=O9ZfJNhmaS50tG0cRLMyTFnuM5LHBEmt07hTuazoOJwCdbCBT2oBHZjQvWiWmNgB0xOjBmk6Re9X6BjRuv8CT3rGZ0LUGe0onDkUcrbYGo1cnxmEPO2HiWZCAo5NkB+JPZ/0ibIKbHLTFOk8ciZAKUJe4tg7A4jo+2mvpcJ54B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fylTqoRM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5IR71Sg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fylTqoRM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741466825; x=1773002825;
+  t=1741467427; x=1773003427;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X10cUkFQl8DS84INYb7TZkx5vRBzE1my/4hRSNN3L0U=;
-  b=J5IR71SgqmvA0pKtZVXzbLk8Ry6H0yFkHFkRLPKeRNwf5bil/agS3mfy
-   SIMxZl50DDnQezAknnTsFHktG+JjWlOxpoEcZXwMP/LNU5gzv+w8wvkb7
-   cepT/k+ILdkOBtEFS0/nswp0brP1diVcl7eqUW6jVk4HjJEO0+ebw5tPu
-   BmgTEc1Zd3wtt0lEPsiRI0aDJdAQDpjNFdP9ALVcQ6SYnH+HNVwPbhLER
-   hrA6VfdYgN8xRekzUKwYBhjPgxV1in06ptZOpNxgc/Xd6vwuyaJBSXded
-   6+gu0MyJtc88Ak9wLsOSvtqLZI8bufZNxMeVaxmFPLegTH70l3q7Q3vyi
-   w==;
-X-CSE-ConnectionGUID: pOyEJaKtSwGCWE03pBFUmw==
-X-CSE-MsgGUID: EqfoBCVwQc2oHxaz+gEg9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42348018"
+  bh=xquJh1iDTzUTixkp8H/ct2VKW4PsAesCQbj0tZ1EYw0=;
+  b=fylTqoRMybs10d1G+04op8nTOdkMYCEsQAqiABLLYgau8IQk1qQGT2Vr
+   iSXRiM/0QyiN872TE2A44S2Ad6EoMSBC8Lq/4N/8/QOf2TMG0ZqBfmOUO
+   ROPhqezlvimRth1DE7ZbCcLnrQNKLH6j0k5nSQNHa51BKQhBGldEcCLUx
+   aQESOmK14g+RKMCMNffQ4/EgHhrxo7Lkv+JFw6YW2AGQZ22gQfXGNlhou
+   ryWkcheI5FmIw5Xva1W+Vu4N2xlNehc0kP5H0Zs3KRE2yO/rMKaAC9cKK
+   7ZmuWh5EXBfIGdPdqDvFKOiDihiOffxACnpFFRq1IiaRgkpy2IZa39a6O
+   A==;
+X-CSE-ConnectionGUID: J3bqIA+5TReLVr9rtkCdWw==
+X-CSE-MsgGUID: U27Aax58THaimHLx5idvuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42716693"
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="42348018"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 12:47:04 -0800
-X-CSE-ConnectionGUID: 9yyevqBIQDmdCrQ4/z5/yA==
-X-CSE-MsgGUID: kzn/rZ5YSBuTcUEr+EGAaw==
+   d="scan'208";a="42716693"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 12:57:06 -0800
+X-CSE-ConnectionGUID: G28eCsXKQMSkxPqs3WKpew==
+X-CSE-MsgGUID: sXcYnGvdS0i30u5+YFi/tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="150415908"
+   d="scan'208";a="124552323"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 08 Mar 2025 12:47:04 -0800
+  by orviesa003.jf.intel.com with ESMTP; 08 Mar 2025 12:57:05 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tr14X-0002IA-0z;
-	Sat, 08 Mar 2025 20:47:01 +0000
-Date: Sun, 9 Mar 2025 04:46:33 +0800
+	id 1tr1EE-0002Ik-0z;
+	Sat, 08 Mar 2025 20:57:02 +0000
+Date: Sun, 9 Mar 2025 04:56:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: [linux-next:master 7915/9634] drivers/acpi/button.c:456:2-3:
- Unneeded semicolon
-Message-ID: <202503090406.aRfaZUA0-lkp@intel.com>
+To: Andrea Righi <arighi@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>,
+	Yury Norov <yury.norov@gmail.com>
+Subject: [linux-next:master 3203/9634]
+ arch/powerpc/include/asm/bitops.h:126:26: error: constraint 'n' expects an
+ integer constant expression
+Message-ID: <202503090435.wITkzD2e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,58 +66,42 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   0a2f889128969dab41861b6e40111aa03dc57014
-commit: 39bc24ceb09df1bd4c333a19bec0b021567cb03c [7915/9634] ACPI: button: Install notifier for system events as well
-config: loongarch-randconfig-r052-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090406.aRfaZUA0-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+commit: 48849271e66114cb980a3bc44218b04d0f8cdcdd [3203/9634] sched_ext: idle: Per-node idle cpumasks
+config: powerpc-randconfig-r112-20250308 (https://download.01.org/0day-ci/archive/20250309/202503090435.wITkzD2e-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250309/202503090435.wITkzD2e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503090406.aRfaZUA0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503090435.wITkzD2e-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/button.c:456:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +456 drivers/acpi/button.c
+   In file included from kernel/sched/build_policy.c:16:
+   In file included from include/linux/sched/clock.h:5:
+   In file included from include/linux/smp.h:13:
+   In file included from include/linux/cpumask.h:11:
+   In file included from include/linux/kernel.h:23:
+   In file included from include/linux/bitops.h:68:
+>> arch/powerpc/include/asm/bitops.h:126:26: error: constraint 'n' expects an integer constant expression
+     126 | DEFINE_CLROP(clear_bits, "")
+         |                          ^
+   1 error generated.
 
-   439	
-   440	static void acpi_button_notify(acpi_handle handle, u32 event, void *data)
-   441	{
-   442		struct acpi_device *device = data;
-   443		struct acpi_button *button;
-   444		struct input_dev *input;
-   445		int keycode;
-   446	
-   447		switch (event) {
-   448		case ACPI_BUTTON_NOTIFY_STATUS:
-   449			break;
-   450		case ACPI_BUTTON_NOTIFY_WAKE:
-   451			break;
-   452		default:
-   453			acpi_handle_debug(device->handle, "Unsupported event [0x%x]\n",
-   454					  event);
-   455			return;
- > 456		};
-   457	
-   458		acpi_pm_wakeup_event(&device->dev);
-   459	
-   460		button = acpi_driver_data(device);
-   461		if (button->suspended)
-   462			return;
-   463	
-   464		input = button->input;
-   465		keycode = test_bit(KEY_SLEEP, input->keybit) ? KEY_SLEEP : KEY_POWER;
-   466	
-   467		input_report_key(input, keycode, 1);
-   468		input_sync(input);
-   469		input_report_key(input, keycode, 0);
-   470		input_sync(input);
-   471	
-   472		acpi_bus_generate_netlink_event(device->pnp.device_class,
-   473						dev_name(&device->dev),
-   474						event, ++button->pushed);
-   475	}
-   476	
+
+vim +/n +126 arch/powerpc/include/asm/bitops.h
+
+fb350784d8d179 Christophe Leroy 2021-09-21  125  
+fb350784d8d179 Christophe Leroy 2021-09-21 @126  DEFINE_CLROP(clear_bits, "")
+fb350784d8d179 Christophe Leroy 2021-09-21  127  DEFINE_CLROP(clear_bits_unlock, PPC_RELEASE_BARRIER)
+fb350784d8d179 Christophe Leroy 2021-09-21  128  
+
+:::::: The code at line 126 was first introduced by commit
+:::::: fb350784d8d17952afa93383bb47aaa6b715c459 powerpc/bitops: Use immediate operand when possible
+
+:::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
