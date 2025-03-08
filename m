@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C995D84E1C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2E413CA9C
 	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 15:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741447938; cv=none; b=KFHdgsh8vZqnS9IXE+DZotO6DsdymejLOKM51smC+XHHUlrY8h46MlHgy1TXtmEDcoAKDldfMH62rJBt1o0j57cBmcalCr8UlTdidNw8Df95c2qMyGfq64zfLIEUtPaYqvR1KMeH/a7vb1FiGhu6ejjBlvXOP6G07FTiVtJHuwU=
+	t=1741447938; cv=none; b=SAaGikyUMWk1AESPib1cAugE5Wz3HNUxwqk3JHewrppWRQ9AyZcd5p1oIhfNu/5DgCIXi/1Koe7mVUSEduNtTPCdxION32BYcTMmcvtr1S1oAQUKjEg/ByTmFDXIdFYt9ZWrymegDBgXeB1vAyaSW+OqBeD5bgQF+eVZcd09dEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741447938; c=relaxed/simple;
-	bh=uQ2PwAcUFJcaSfIYVHtwCGZc7Khn0XllXM41TWBSa6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QhkMnuJkX8T8/5wNrc4Tx1AtV+qycUcbMjdoBgeP9OFyy4oYqBHUZI4NB+hh2VO+GI7Blx3cRVl030lQOdKgUBv8kUm7nklLKrN0PJIqLaX9q/VU365LZ07WYotn/xofLKjKxvPuje4szNlfBhECUBczCzjmD53dE/ZZ+omiQgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXbO2tVG; arc=none smtp.client-ip=198.175.65.14
+	bh=Kzejc+wXN5y5MKWQR8dH9bHK6PPe0WLmbmBYIB8erM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lbCMEmIjH9uuKKvqPGmIIqAAbQj8BrqdOL8CP0mzyts09U5L1NZN6/OUttLhXqzk9+cXpqe751EWeHRCI+zby5vPwUA9IX13XNXC8O3N3fDR3QZJtrjLXmw9boE5LeRSY6FYcKXEddFeteqaWswFHinXeGVQp8h5M+0jsbj61EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hmItoU+4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXbO2tVG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hmItoU+4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741447936; x=1772983936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uQ2PwAcUFJcaSfIYVHtwCGZc7Khn0XllXM41TWBSa6M=;
-  b=VXbO2tVGie71mV66Kvb4l/eqbtnR7VfPWXp2TiZ7X/yRw8U64b6wUV5Y
-   ABglQqlB+qTfN5BoMqSfjbiarLtdFuujoWK68lkyN2wk9Y2OQTQll59EL
-   SyEvIjUMHGsIH/lO9clIN5PnXcKs08cvcMIng1oRekxa1wv/hLO6jICWU
-   F/bN59oaBIWurC8cToVWJ+s8LiTcx34My+E2b61bMOkCRGu7GA7M/yzFP
-   IwnOxPz6zEB6BAmgxFsDlr2sCDF93BCUfeb1zrIt8uo6vHV1bxqG2bxmI
-   MHKDsuoDnzPcyYHBTpQSIW220Ft8rz3oodqJ+HwxQZ0jzj4AA0YcE6orp
-   Q==;
-X-CSE-ConnectionGUID: yG1uOT+wR5i+EXKT7SqK6g==
-X-CSE-MsgGUID: SjDZcG8ITSSPDSNg6KwWSg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46267536"
+  t=1741447935; x=1772983935;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Kzejc+wXN5y5MKWQR8dH9bHK6PPe0WLmbmBYIB8erM8=;
+  b=hmItoU+4FsHvhUzc5YKp7BmplnFyBQciri2LOIEviyN6Jh+IGdGqvObq
+   xY1sDewqq279CFIJmes9K1aBcvW7xBDgdS5bpqfvlC1LEQKinPxTUgFss
+   GQ3PF+l+Kgou3PPZSSv1hnuaItHpbuxrhk5dw8OxlK4lkM1sX1SsCikCx
+   hPubKJZdj0D2uxZ3FaLUauPyQORUecn1xAmHT29etA+tG2ARQKlU0q1KI
+   phaCuLe/HHvhDxdNaB9G6FlhT5CzSOrdaBlkH7WVNeFZbtg5lEt4gzZl1
+   7+UOi4b6BVH2M9ADqgNqG08BZrrQF02igvZCvQYjiC7PhaPKBcLFgTrka
+   w==;
+X-CSE-ConnectionGUID: 0/+hL57wSVGMVHvTGaQuyw==
+X-CSE-MsgGUID: rJFMBV9gQ9++WYjMl/BzDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="30067500"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="46267536"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:32:15 -0800
-X-CSE-ConnectionGUID: pwUJaqt7T96GSUlyybx4DQ==
-X-CSE-MsgGUID: DT42SmmRRTqp7eldHimn0w==
+   d="scan'208";a="30067500"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:32:14 -0800
+X-CSE-ConnectionGUID: ojnZRe9iSLSQ6Hv2WIxTzQ==
+X-CSE-MsgGUID: m0BJR9ibQXGgW2hxCCzoWQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150526791"
+X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
+   d="scan'208";a="119754184"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 08 Mar 2025 07:32:14 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 08 Mar 2025 07:32:13 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqw9r-0001zw-2i;
+	id 1tqw9r-000201-31;
 	Sat, 08 Mar 2025 15:32:11 +0000
-Date: Sat, 8 Mar 2025 23:31:41 +0800
+Date: Sat, 8 Mar 2025 23:31:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: fdmanana@kernel.org, linux-btrfs@vger.kernel.org
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
-Message-ID: <202503082341.T7dnq95G-lkp@intel.com>
-References: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
+Subject: [anolis-intel-cloud:devel-5.10 1/1] fs/xfs/xfs_mount.c:1087:1:
+ warning: no previous prototype for 'xfs_atomic_staging_cancel_all'
+Message-ID: <202503082327.MdnbYDxR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,104 +61,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on next-20250307]
-[cannot apply to linus/master v6.14-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-return-a-btrfs_inode-from-btrfs_iget_logging/20250307-214724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana%40suse.com
-patch subject: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250308/202503082341.T7dnq95G-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082341.T7dnq95G-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   797aae63f086cf8250bfbb8395ab310c525ac4a6
+commit: bb45aa897d6fc9eb24c04228746be0f10ed3b356 [1/1] anolis: xfs: release atomic staging extents when unmounting
+config: x86_64-anolis-intel-cloud-devel-5.10 (https://download.01.org/0day-ci/archive/20250308/202503082327.MdnbYDxR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082327.MdnbYDxR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503082341.T7dnq95G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503082327.MdnbYDxR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/btrfs/send.c: In function 'send_encoded_inline_extent':
->> fs/btrfs/send.c:5535:15: error: assignment to 'struct inode *' from incompatible pointer type 'struct btrfs_inode *' [-Wincompatible-pointer-types]
-    5535 |         inode = btrfs_iget(sctx->cur_ino, root);
-         |               ^
+>> fs/xfs/xfs_mount.c:1087:1: warning: no previous prototype for 'xfs_atomic_staging_cancel_all' [-Wmissing-prototypes]
+    1087 | xfs_atomic_staging_cancel_all(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +5535 fs/btrfs/send.c
+vim +/xfs_atomic_staging_cancel_all +1087 fs/xfs/xfs_mount.c
 
-16e7549f045d33b Josef Bacik   2013-10-22  5519  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5520  static int send_encoded_inline_extent(struct send_ctx *sctx,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5521  				      struct btrfs_path *path, u64 offset,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5522  				      u64 len)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5523  {
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5524  	struct btrfs_root *root = sctx->send_root;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5525  	struct btrfs_fs_info *fs_info = root->fs_info;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5526  	struct inode *inode;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5527  	struct fs_path *fspath;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5528  	struct extent_buffer *leaf = path->nodes[0];
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5529  	struct btrfs_key key;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5530  	struct btrfs_file_extent_item *ei;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5531  	u64 ram_bytes;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5532  	size_t inline_size;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5533  	int ret;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5534  
-d13240dd0a2d13b Filipe Manana 2024-06-13 @5535  	inode = btrfs_iget(sctx->cur_ino, root);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5536  	if (IS_ERR(inode))
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5537  		return PTR_ERR(inode);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5538  
-6054b503e2eafac Filipe Manana 2025-02-18  5539  	fspath = get_cur_inode_path(sctx);
-6054b503e2eafac Filipe Manana 2025-02-18  5540  	if (IS_ERR(fspath)) {
-6054b503e2eafac Filipe Manana 2025-02-18  5541  		ret = PTR_ERR(fspath);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5542  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5543  	}
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5544  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5545  	ret = begin_cmd(sctx, BTRFS_SEND_C_ENCODED_WRITE);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5546  	if (ret < 0)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5547  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5548  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5549  	btrfs_item_key_to_cpu(leaf, &key, path->slots[0]);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5550  	ei = btrfs_item_ptr(leaf, path->slots[0], struct btrfs_file_extent_item);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5551  	ram_bytes = btrfs_file_extent_ram_bytes(leaf, ei);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5552  	inline_size = btrfs_file_extent_inline_item_len(leaf, path->slots[0]);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5553  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5554  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH, fspath);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5555  	TLV_PUT_U64(sctx, BTRFS_SEND_A_FILE_OFFSET, offset);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5556  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_FILE_LEN,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5557  		    min(key.offset + ram_bytes - offset, len));
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5558  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_LEN, ram_bytes);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5559  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_OFFSET, offset - key.offset);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5560  	ret = btrfs_encoded_io_compression_from_extent(fs_info,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5561  				btrfs_file_extent_compression(leaf, ei));
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5562  	if (ret < 0)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5563  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5564  	TLV_PUT_U32(sctx, BTRFS_SEND_A_COMPRESSION, ret);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5565  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5566  	ret = put_data_header(sctx, inline_size);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5567  	if (ret < 0)
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5568  		goto out;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5569  	read_extent_buffer(leaf, sctx->send_buf + sctx->send_size,
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5570  			   btrfs_file_extent_inline_start(ei), inline_size);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5571  	sctx->send_size += inline_size;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5572  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5573  	ret = send_cmd(sctx);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5574  
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5575  tlv_put_failure:
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5576  out:
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5577  	iput(inode);
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5578  	return ret;
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5579  }
-3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5580  
+  1085	
+  1086	void
+> 1087	xfs_atomic_staging_cancel_all(
+  1088		struct xfs_mount	*mp)
+  1089	{
+  1090		xfs_agnumber_t		agno;
+  1091	
+  1092		for (agno = 0; agno < mp->m_sb.sb_agcount; agno++) {
+  1093			struct xfs_perag *pag = xfs_perag_get(mp, agno);
+  1094			struct xfs_trans *tp = NULL;
+  1095	
+  1096			while (1) {
+  1097				struct xfs_atomic_staging *as;
+  1098				int error;
+  1099	
+  1100				spin_lock(&pag->atomic_staging_lock);
+  1101				as = pag->atomic_staging;
+  1102				if (!as) {
+  1103					spin_unlock(&pag->atomic_staging_lock);
+  1104					break;
+  1105				}
+  1106				pag->atomic_staging = as->next;
+  1107				spin_unlock(&pag->atomic_staging_lock);
+  1108	
+  1109				if (!tp) {
+  1110					/* Start a rolling transaction to remove the mappings */
+  1111					error = xfs_trans_alloc(mp, &M_RES(mp)->tr_write,
+  1112								0, 0, 0, &tp);
+  1113					if (error)
+  1114						break;
+  1115				}
+  1116	
+  1117				while (as->aglen) {
+  1118					xfs_fsblock_t fsbno =
+  1119						XFS_AGB_TO_FSB(mp, agno, as->agbno);
+  1120	
+  1121					xfs_refcount_free_cow_extent(tp, fsbno,
+  1122							XFS_ATOMIC_WRITE_EXTSZ_HINT);
+  1123					as->agbno += XFS_ATOMIC_WRITE_EXTSZ_HINT;
+  1124					as->aglen -= XFS_ATOMIC_WRITE_EXTSZ_HINT;
+  1125				}
+  1126				kfree(as);
+  1127			}
+  1128			if (tp)
+  1129				xfs_trans_commit(tp);
+  1130			xfs_perag_put(pag);
+  1131		}
+  1132	}
+  1133	
 
 -- 
 0-DAY CI Kernel Test Service
