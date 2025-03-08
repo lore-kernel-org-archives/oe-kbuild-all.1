@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D705B167DB7
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 15:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C995D84E1C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 15:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741446675; cv=none; b=sVUyAuGjjKbTsVpBmDqM0VRVS0REZL8IqiGxqw9uHmVUNotv0zXXych8tLg5Sgc5by+Mm5BIu3G8dmsnnfbIy0fjLRYTqrhgUv/22gqkYCwnm3ni9Bhrb5S7DnoD1S4FAhsByhkTJzDUWHktF9yeV0eNKjLbuWdPRHhpurZYtMk=
+	t=1741447938; cv=none; b=KFHdgsh8vZqnS9IXE+DZotO6DsdymejLOKM51smC+XHHUlrY8h46MlHgy1TXtmEDcoAKDldfMH62rJBt1o0j57cBmcalCr8UlTdidNw8Df95c2qMyGfq64zfLIEUtPaYqvR1KMeH/a7vb1FiGhu6ejjBlvXOP6G07FTiVtJHuwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741446675; c=relaxed/simple;
-	bh=4Wx2jeQvaWXg3NBS+LdWL+pS5MRB0VD1kkNQNQaFuYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FWiVIJn+8kcCkL8vjBdp5QHYb1fGs/lIAxeGaE+yg0WNcisBYuOCzCw8rZ/MtohevyX0EIYO/yI77+rmqnOzI5eHJnA8LHBPz8IaN/wkHjwkMuCNYAopezWsibmmy/7cHm+YDXP1T4QjpNTcBMgKTFpcxlxCHhSMhFbMg4Vp/YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLkLH1gG; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1741447938; c=relaxed/simple;
+	bh=uQ2PwAcUFJcaSfIYVHtwCGZc7Khn0XllXM41TWBSa6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhkMnuJkX8T8/5wNrc4Tx1AtV+qycUcbMjdoBgeP9OFyy4oYqBHUZI4NB+hh2VO+GI7Blx3cRVl030lQOdKgUBv8kUm7nklLKrN0PJIqLaX9q/VU365LZ07WYotn/xofLKjKxvPuje4szNlfBhECUBczCzjmD53dE/ZZ+omiQgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXbO2tVG; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLkLH1gG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXbO2tVG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741446674; x=1772982674;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Wx2jeQvaWXg3NBS+LdWL+pS5MRB0VD1kkNQNQaFuYk=;
-  b=FLkLH1gGTDggtnoIKhHlOTOL76HjvV6TGIA0XxaVltXlZ21s4WVwFAS+
-   crhcJpBdaQT/O3Nv7MDivuVvZ4wsZa6OCzHn2Vabmm2hg7J3DuXt6Biri
-   b4pZmkO9Or8DXMUmVaQpXoq2t42sURfEFzYLJJKUzyuW9nvQ0ktbbzUHI
-   RnHnzKeKn3X7xF/jpmqJcnnXtvyqdZ7/ziaiqVVSIRazHfj2zOqS5upRA
-   ziXqQsUyofozlfMWfGSEVKgWBFqZzdwISR0i+tYkQ+xC07XS2gcqrib0e
-   xyOyKef6Kv+c63POK1Oodq2CmQlKCYWGZ3HiCF5uVJ/9RItjd7BHPl7bi
-   A==;
-X-CSE-ConnectionGUID: LIkFdIWHS8ed86KZ1KAjzw==
-X-CSE-MsgGUID: 8tGqlyY5SgSkox8EzQiziA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42681857"
+  t=1741447936; x=1772983936;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uQ2PwAcUFJcaSfIYVHtwCGZc7Khn0XllXM41TWBSa6M=;
+  b=VXbO2tVGie71mV66Kvb4l/eqbtnR7VfPWXp2TiZ7X/yRw8U64b6wUV5Y
+   ABglQqlB+qTfN5BoMqSfjbiarLtdFuujoWK68lkyN2wk9Y2OQTQll59EL
+   SyEvIjUMHGsIH/lO9clIN5PnXcKs08cvcMIng1oRekxa1wv/hLO6jICWU
+   F/bN59oaBIWurC8cToVWJ+s8LiTcx34My+E2b61bMOkCRGu7GA7M/yzFP
+   IwnOxPz6zEB6BAmgxFsDlr2sCDF93BCUfeb1zrIt8uo6vHV1bxqG2bxmI
+   MHKDsuoDnzPcyYHBTpQSIW220Ft8rz3oodqJ+HwxQZ0jzj4AA0YcE6orp
+   Q==;
+X-CSE-ConnectionGUID: yG1uOT+wR5i+EXKT7SqK6g==
+X-CSE-MsgGUID: SjDZcG8ITSSPDSNg6KwWSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46267536"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="42681857"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:11:13 -0800
-X-CSE-ConnectionGUID: MMiyfYU0QnqZJsRNa+uqog==
-X-CSE-MsgGUID: gppOa1ldQ2anS6a83MVl2g==
+   d="scan'208";a="46267536"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:32:15 -0800
+X-CSE-ConnectionGUID: pwUJaqt7T96GSUlyybx4DQ==
+X-CSE-MsgGUID: DT42SmmRRTqp7eldHimn0w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="124653625"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="150526791"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Mar 2025 07:11:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 08 Mar 2025 07:32:14 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqvpV-0001zY-39;
-	Sat, 08 Mar 2025 15:11:09 +0000
-Date: Sat, 8 Mar 2025 23:10:22 +0800
+	id 1tqw9r-0001zw-2i;
+	Sat, 08 Mar 2025 15:32:11 +0000
+Date: Sat, 8 Mar 2025 23:31:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: fdmanana@kernel.org, linux-btrfs@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2790/2790] mm/page_alloc.c:3036:6: sparse:
- sparse: symbol '__drain_all_pages' was not declared. Should it be static?
-Message-ID: <202503082314.gTnzWY6P-lkp@intel.com>
+Subject: Re: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
+Message-ID: <202503082341.T7dnq95G-lkp@intel.com>
+References: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,121 +62,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   2e32af659ca005096d96fb7e433bd96744b02844
-commit: e037ee4a8deaff7c579618c0aba1f066d6d14b11 [2790/2790] mm, page_alloc: disable pcplists during memory offline
-config: arm64-randconfig-r131-20250308 (https://download.01.org/0day-ci/archive/20250308/202503082314.gTnzWY6P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250308/202503082314.gTnzWY6P-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on next-20250307]
+[cannot apply to linus/master v6.14-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-return-a-btrfs_inode-from-btrfs_iget_logging/20250307-214724
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana%40suse.com
+patch subject: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250308/202503082341.T7dnq95G-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082341.T7dnq95G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503082314.gTnzWY6P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503082341.T7dnq95G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/page_alloc.c:3036:6: sparse: sparse: symbol '__drain_all_pages' was not declared. Should it be static?
->> mm/page_alloc.c:6634:6: sparse: sparse: symbol '__zone_set_pageset_high_and_batch' was not declared. Should it be static?
-   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
-   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
-   include/linux/gfp.h:327:27: sparse: sparse: restricted gfp_t degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +/__drain_all_pages +3036 mm/page_alloc.c
+   fs/btrfs/send.c: In function 'send_encoded_inline_extent':
+>> fs/btrfs/send.c:5535:15: error: assignment to 'struct inode *' from incompatible pointer type 'struct btrfs_inode *' [-Wincompatible-pointer-types]
+    5535 |         inode = btrfs_iget(sctx->cur_ino, root);
+         |               ^
 
-  3025	
-  3026	/*
-  3027	 * The implementation of drain_all_pages(), exposing an extra parameter to
-  3028	 * drain on all cpus.
-  3029	 *
-  3030	 * drain_all_pages() is optimized to only execute on cpus where pcplists are
-  3031	 * not empty. The check for non-emptiness can however race with a free to
-  3032	 * pcplist that has not yet increased the pcp->count from 0 to 1. Callers
-  3033	 * that need the guarantee that every CPU has drained can disable the
-  3034	 * optimizing racy check.
-  3035	 */
-> 3036	void __drain_all_pages(struct zone *zone, bool force_all_cpus)
-  3037	{
-  3038		int cpu;
-  3039	
-  3040		/*
-  3041		 * Allocate in the BSS so we wont require allocation in
-  3042		 * direct reclaim path for CONFIG_CPUMASK_OFFSTACK=y
-  3043		 */
-  3044		static cpumask_t cpus_with_pcps;
-  3045	
-  3046		/*
-  3047		 * Make sure nobody triggers this path before mm_percpu_wq is fully
-  3048		 * initialized.
-  3049		 */
-  3050		if (WARN_ON_ONCE(!mm_percpu_wq))
-  3051			return;
-  3052	
-  3053		/*
-  3054		 * Do not drain if one is already in progress unless it's specific to
-  3055		 * a zone. Such callers are primarily CMA and memory hotplug and need
-  3056		 * the drain to be complete when the call returns.
-  3057		 */
-  3058		if (unlikely(!mutex_trylock(&pcpu_drain_mutex))) {
-  3059			if (!zone)
-  3060				return;
-  3061			mutex_lock(&pcpu_drain_mutex);
-  3062		}
-  3063	
-  3064		/*
-  3065		 * We don't care about racing with CPU hotplug event
-  3066		 * as offline notification will cause the notified
-  3067		 * cpu to drain that CPU pcps and on_each_cpu_mask
-  3068		 * disables preemption as part of its processing
-  3069		 */
-  3070		for_each_online_cpu(cpu) {
-  3071			struct per_cpu_pageset *pcp;
-  3072			struct zone *z;
-  3073			bool has_pcps = false;
-  3074	
-  3075			if (force_all_cpus) {
-  3076				/*
-  3077				 * The pcp.count check is racy, some callers need a
-  3078				 * guarantee that no cpu is missed.
-  3079				 */
-  3080				has_pcps = true;
-  3081			} else if (zone) {
-  3082				pcp = per_cpu_ptr(zone->pageset, cpu);
-  3083				if (pcp->pcp.count)
-  3084					has_pcps = true;
-  3085			} else {
-  3086				for_each_populated_zone(z) {
-  3087					pcp = per_cpu_ptr(z->pageset, cpu);
-  3088					if (pcp->pcp.count) {
-  3089						has_pcps = true;
-  3090						break;
-  3091					}
-  3092				}
-  3093			}
-  3094	
-  3095			if (has_pcps)
-  3096				cpumask_set_cpu(cpu, &cpus_with_pcps);
-  3097			else
-  3098				cpumask_clear_cpu(cpu, &cpus_with_pcps);
-  3099		}
-  3100	
-  3101		for_each_cpu(cpu, &cpus_with_pcps) {
-  3102			struct pcpu_drain *drain = per_cpu_ptr(&pcpu_drain, cpu);
-  3103	
-  3104			drain->zone = zone;
-  3105			INIT_WORK(&drain->work, drain_local_pages_wq);
-  3106			queue_work_on(cpu, mm_percpu_wq, &drain->work);
-  3107		}
-  3108		for_each_cpu(cpu, &cpus_with_pcps)
-  3109			flush_work(&per_cpu_ptr(&pcpu_drain, cpu)->work);
-  3110	
-  3111		mutex_unlock(&pcpu_drain_mutex);
-  3112	}
-  3113	
+
+vim +5535 fs/btrfs/send.c
+
+16e7549f045d33b Josef Bacik   2013-10-22  5519  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5520  static int send_encoded_inline_extent(struct send_ctx *sctx,
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5521  				      struct btrfs_path *path, u64 offset,
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5522  				      u64 len)
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5523  {
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5524  	struct btrfs_root *root = sctx->send_root;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5525  	struct btrfs_fs_info *fs_info = root->fs_info;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5526  	struct inode *inode;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5527  	struct fs_path *fspath;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5528  	struct extent_buffer *leaf = path->nodes[0];
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5529  	struct btrfs_key key;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5530  	struct btrfs_file_extent_item *ei;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5531  	u64 ram_bytes;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5532  	size_t inline_size;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5533  	int ret;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5534  
+d13240dd0a2d13b Filipe Manana 2024-06-13 @5535  	inode = btrfs_iget(sctx->cur_ino, root);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5536  	if (IS_ERR(inode))
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5537  		return PTR_ERR(inode);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5538  
+6054b503e2eafac Filipe Manana 2025-02-18  5539  	fspath = get_cur_inode_path(sctx);
+6054b503e2eafac Filipe Manana 2025-02-18  5540  	if (IS_ERR(fspath)) {
+6054b503e2eafac Filipe Manana 2025-02-18  5541  		ret = PTR_ERR(fspath);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5542  		goto out;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5543  	}
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5544  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5545  	ret = begin_cmd(sctx, BTRFS_SEND_C_ENCODED_WRITE);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5546  	if (ret < 0)
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5547  		goto out;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5548  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5549  	btrfs_item_key_to_cpu(leaf, &key, path->slots[0]);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5550  	ei = btrfs_item_ptr(leaf, path->slots[0], struct btrfs_file_extent_item);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5551  	ram_bytes = btrfs_file_extent_ram_bytes(leaf, ei);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5552  	inline_size = btrfs_file_extent_inline_item_len(leaf, path->slots[0]);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5553  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5554  	TLV_PUT_PATH(sctx, BTRFS_SEND_A_PATH, fspath);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5555  	TLV_PUT_U64(sctx, BTRFS_SEND_A_FILE_OFFSET, offset);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5556  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_FILE_LEN,
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5557  		    min(key.offset + ram_bytes - offset, len));
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5558  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_LEN, ram_bytes);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5559  	TLV_PUT_U64(sctx, BTRFS_SEND_A_UNENCODED_OFFSET, offset - key.offset);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5560  	ret = btrfs_encoded_io_compression_from_extent(fs_info,
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5561  				btrfs_file_extent_compression(leaf, ei));
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5562  	if (ret < 0)
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5563  		goto out;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5564  	TLV_PUT_U32(sctx, BTRFS_SEND_A_COMPRESSION, ret);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5565  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5566  	ret = put_data_header(sctx, inline_size);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5567  	if (ret < 0)
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5568  		goto out;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5569  	read_extent_buffer(leaf, sctx->send_buf + sctx->send_size,
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5570  			   btrfs_file_extent_inline_start(ei), inline_size);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5571  	sctx->send_size += inline_size;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5572  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5573  	ret = send_cmd(sctx);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5574  
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5575  tlv_put_failure:
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5576  out:
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5577  	iput(inode);
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5578  	return ret;
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5579  }
+3ea4dc5bf00c7d1 Omar Sandoval 2022-03-17  5580  
 
 -- 
 0-DAY CI Kernel Test Service
