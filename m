@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8B31A9B29
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 15:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C288314AD3F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Mar 2025 15:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741448617; cv=none; b=LQIjBcNFNBGiuP6IFdysL78lS3canX7/WosFyXd/iD7lRf0+TvtTjCbdz2ozCF0oPsZQUeXFBz6O0Dp64FeiJd5QEB7JQurzsob2V0NGC81VXrFBN9YQms6q7PYcAkq7Nyf9fsxRfIp18NXpgUiGeBlrebSq4LvMqOdJnmtQPlc=
+	t=1741449221; cv=none; b=GXDO8qN6l/MrDWlSXpaUU27Is5rXVpgnITI/DAeHjh/2zjJ6JEMhXapf24keC006S/SzPtBx0TSSlDvvECTpKV6ax+to9a0B9XPd1zORbP64nixteAQinROzPlusleW/nVVF8mF+65X5xQb4G2UY+EcgIfmsWlh6JZd9lI91rCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741448617; c=relaxed/simple;
-	bh=3NLC2xHfsjhh7DZQpP43y7jXI4Jig6o2A/+KDxJyOk8=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gPbzDoeNoW6sUV55mdwIGJzjIcCCCu+sBfyCB53djYd20a5vjP2t8ZkhF635tzQ9dINt/+e7I4AcU8IyV/+3qaRHYGk22MUsPSqTBb4hi9dkd23kP/0siHBqV4WQ1QDpySEiSV5xRIHHufX9ET7zjeOccJr5+0E8AemSzYISoo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FywjOAw2; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1741449221; c=relaxed/simple;
+	bh=H0xu7XTq50Pp5KSTU53AH0lpxzg7OI20PdHhdWAhQAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jN6s/ExILDZvwTI6o+NPKoB9bUDIdNkU5wxvQGrOO+jCzOHgDeKerJBZXWAhkPF+xZDbAfkgZBcxdH+QChDuBGQnHXG0nJrqRIXyzTipOyAeCAFaqG2MHYH/GBeAP6MnCNjJ6gxrHlRMboErHZCYBCoiYTpsu/ecoUl7M7HBtSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CpBXDMn+; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FywjOAw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CpBXDMn+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741448616; x=1772984616;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=3NLC2xHfsjhh7DZQpP43y7jXI4Jig6o2A/+KDxJyOk8=;
-  b=FywjOAw2WZRJz+uj3g8xoGL4zNIRM5T+TJjn2g6MxNZfPAK6MFS8si2a
-   /2SDZG0cIgdBvD7qQYDASzCw5qpfHggd2bLyJZpk5UXT0bJ5r7ESupoW3
-   w1KAgOkr+Bmw2S/cpoVIBiKmtz2EP1NjlgM6y4K43oe4VNzl7q/HZqmTR
-   gkOTjSVyb3doaEJ8vulsUVDy3pLUYVhzPSMStRi9QcT2149k5GDGTSnpY
-   pPqVj8/OyO7P26BFM5ZQOGZyqCrHJATe/tCJqYz1AFDdJkjEf2pRL02yL
-   jqO6/a6kKgPy4La395/6GUGjfuW0EsxJzipalt2s+YJx1SC40YEn7DBun
-   Q==;
-X-CSE-ConnectionGUID: /orP279OSuKkDKnPIdHrRw==
-X-CSE-MsgGUID: 3RQp862YSRK6Id2092jKcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="59893201"
+  t=1741449220; x=1772985220;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H0xu7XTq50Pp5KSTU53AH0lpxzg7OI20PdHhdWAhQAo=;
+  b=CpBXDMn+Icn2xm3hOnnKy3S2B1KSD7kIk6GCjAawheuV50jBkH+PYMbV
+   /yQa/v1GOe6jm8wc5Z9O0Xq5UTHLZdkMZp6QCGpBJJjtu0O9jdCIKMYAc
+   no7m9xbl5TkiUaiajnlOqg1MkTvpMxFkRyxRmKVZ0r2vR6HZjenilOYfs
+   TGmbcmlKHwMA4pC6zGOxYeU8DCXr6vZsXQJBYefSH2KK9JRx1R3USLaiK
+   pJ+R8RQE9odSZU0P/xJk03uClob6AvswP4ColkF8oQfVQMGgfv9YN0Ks2
+   NxOs/p4kgZNIVYG3yK0uUh/QH5daAhW2yHQQkufn4XRr8XwfP915um2wP
+   A==;
+X-CSE-ConnectionGUID: 5SR1rwsMRDe/3lOwEemZ5Q==
+X-CSE-MsgGUID: 91+q7pTGTay8XsQXfIqAyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="53876625"
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="59893201"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:43:36 -0800
-X-CSE-ConnectionGUID: fDTGtZxMSPWpv+Tqceec6A==
-X-CSE-MsgGUID: MH4eIHpxSE+/LjgKGGA+Jw==
+   d="scan'208";a="53876625"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 07:53:39 -0800
+X-CSE-ConnectionGUID: wQMy5iDLQReFQZ1t/9edSA==
+X-CSE-MsgGUID: u5ylFMGuQTWse5DCLRW5cA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,232,1736841600"; 
-   d="scan'208";a="120275194"
+   d="scan'208";a="119576770"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Mar 2025 07:43:34 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 08 Mar 2025 07:53:35 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tqwKq-00020i-0i
-	for oe-kbuild-all@lists.linux.dev;
-	Sat, 08 Mar 2025 15:43:32 +0000
-Date: Sat, 8 Mar 2025 23:42:46 +0800
+	id 1tqwUW-000216-32;
+	Sat, 08 Mar 2025 15:53:32 +0000
+Date: Sat, 8 Mar 2025 23:52:59 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:pr/57 1/1] security/smack/smack_lsm.c:314: warning:
- Function parameter or member 'inode' not described in 'init_inode_smack'
-Message-ID: <202503082319.UtUYdFF0-lkp@intel.com>
+To: Casey Schaufler <casey@schaufler-ca.com>, paul@paul-moore.com,
+	eparis@redhat.com, linux-security-module@vger.kernel.org,
+	audit@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jmorris@namei.org, serge@hallyn.com,
+	keescook@chromium.org, john.johansen@canonical.com,
+	penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com,
+	linux-kernel@vger.kernel.org, selinux@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] LSM: security_lsmblob_to_secctx module selection
+Message-ID: <202503082328.C7GyGU63-lkp@intel.com>
+References: <20250307183701.16970-4-casey@schaufler-ca.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,73 +67,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250307183701.16970-4-casey@schaufler-ca.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git pr/57
-head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
-commit: afb1cbe37440c7f38b9cf46fc331cc9dfd5cce21 [1/1] LSM: Infrastructure management of the inode security
-config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250308/202503082319.UtUYdFF0-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082319.UtUYdFF0-lkp@intel.com/reproduce)
+Hi Casey,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pcmoore-selinux/next]
+[also build test WARNING on linus/master v6.14-rc5 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/Audit-Create-audit_stamp-structure/20250308-024950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20250307183701.16970-4-casey%40schaufler-ca.com
+patch subject: [PATCH v2 3/6] LSM: security_lsmblob_to_secctx module selection
+config: arc-randconfig-001-20250308 (https://download.01.org/0day-ci/archive/20250308/202503082328.C7GyGU63-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250308/202503082328.C7GyGU63-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503082319.UtUYdFF0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503082328.C7GyGU63-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> security/smack/smack_lsm.c:314: warning: Function parameter or member 'inode' not described in 'init_inode_smack'
->> security/smack/smack_lsm.c:314: warning: Excess function parameter 'isp' description in 'init_inode_smack'
-   security/smack/smack_lsm.c:400: warning: Function parameter or member 'mode' not described in 'smk_ptrace_mode'
-   security/smack/smack_lsm.c:516: warning: Function parameter or member 'typefrom_file' not described in 'smack_syslog'
-   security/smack/smack_lsm.c:516: warning: Excess function parameter 'type' description in 'smack_syslog'
-   security/smack/smack_lsm.c:694: warning: Function parameter or member 'mnt_opts' not described in 'smack_set_mnt_opts'
-   security/smack/smack_lsm.c:694: warning: Excess function parameter 'opts' description in 'smack_set_mnt_opts'
-   security/smack/smack_lsm.c:1144: warning: Function parameter or member 'path' not described in 'smack_inode_getattr'
-   security/smack/smack_lsm.c:1144: warning: Excess function parameter 'mnt' description in 'smack_inode_getattr'
-   security/smack/smack_lsm.c:1144: warning: Excess function parameter 'dentry' description in 'smack_inode_getattr'
-   security/smack/smack_lsm.c:1574: warning: Function parameter or member 'file' not described in 'smack_mmap_file'
-   security/smack/smack_lsm.c:1574: warning: Function parameter or member 'reqprot' not described in 'smack_mmap_file'
-   security/smack/smack_lsm.c:1574: warning: Function parameter or member 'prot' not described in 'smack_mmap_file'
-   security/smack/smack_lsm.c:1574: warning: Function parameter or member 'flags' not described in 'smack_mmap_file'
-   security/smack/smack_lsm.c:1796: warning: Excess function parameter 'cred' description in 'smack_file_open'
-   security/smack/smack_lsm.c:1824: warning: Function parameter or member 'cred' not described in 'smack_cred_alloc_blank'
-   security/smack/smack_lsm.c:1824: warning: Excess function parameter 'new' description in 'smack_cred_alloc_blank'
-   security/smack/smack_lsm.c:1905: warning: Function parameter or member 'cred' not described in 'smack_cred_getsecid'
-   security/smack/smack_lsm.c:1905: warning: Excess function parameter 'c' description in 'smack_cred_getsecid'
-   security/smack/smack_lsm.c:2062: warning: Excess function parameter 'policy' description in 'smack_task_setscheduler'
-   security/smack/smack_lsm.c:2062: warning: Excess function parameter 'lp' description in 'smack_task_setscheduler'
-   security/smack/smack_lsm.c:2534: warning: Function parameter or member 'sk' not described in 'smk_ipv6_port_check'
-   security/smack/smack_lsm.c:2534: warning: Function parameter or member 'act' not described in 'smk_ipv6_port_check'
-   security/smack/smack_lsm.c:2534: warning: Excess function parameter 'sock' description in 'smk_ipv6_port_check'
-   security/smack/smack_lsm.c:2947: warning: Function parameter or member 'ipc' not described in 'smack_shm_shmat'
-   security/smack/smack_lsm.c:2947: warning: Excess function parameter 'isp' description in 'smack_shm_shmat'
+>> security/security.c:4325: warning: Excess function parameter 'lsmid' description in 'security_secid_to_secctx'
+>> security/security.c:4344: warning: Function parameter or struct member 'lsmid' not described in 'security_lsmprop_to_secctx'
 
 
-vim +314 security/smack/smack_lsm.c
+vim +4325 security/security.c
 
-e114e473771c84 Casey Schaufler  2008-02-04  306  
-e114e473771c84 Casey Schaufler  2008-02-04  307  /**
-afb1cbe37440c7 Casey Schaufler  2018-09-21  308   * init_inode_smack - initialize an inode security blob
-afb1cbe37440c7 Casey Schaufler  2018-09-21  309   * @isp: the blob to initialize
-21c7eae21a2100 Lukasz Pawelczyk 2014-08-29  310   * @skp: a pointer to the Smack label entry to use in the blob
-e114e473771c84 Casey Schaufler  2008-02-04  311   *
-e114e473771c84 Casey Schaufler  2008-02-04  312   */
-afb1cbe37440c7 Casey Schaufler  2018-09-21  313  static void init_inode_smack(struct inode *inode, struct smack_known *skp)
-e114e473771c84 Casey Schaufler  2008-02-04 @314  {
-afb1cbe37440c7 Casey Schaufler  2018-09-21  315  	struct inode_smack *isp = smack_inode(inode);
-e114e473771c84 Casey Schaufler  2008-02-04  316  
-21c7eae21a2100 Lukasz Pawelczyk 2014-08-29  317  	isp->smk_inode = skp;
-e114e473771c84 Casey Schaufler  2008-02-04  318  	isp->smk_flags = 0;
-e114e473771c84 Casey Schaufler  2008-02-04  319  	mutex_init(&isp->smk_lock);
-e114e473771c84 Casey Schaufler  2008-02-04  320  }
-e114e473771c84 Casey Schaufler  2008-02-04  321  
-
-:::::: The code at line 314 was first introduced by commit
-:::::: e114e473771c848c3cfec05f0123e70f1cdbdc99 Smack: Simplified Mandatory Access Control Kernel
-
-:::::: TO: Casey Schaufler <casey@schaufler-ca.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+746df9b59c8a5f1 David Quigley   2013-05-22  4310  
+e261301c851aee4 Paul Moore      2023-02-16  4311  /**
+e261301c851aee4 Paul Moore      2023-02-16  4312   * security_secid_to_secctx() - Convert a secid to a secctx
+e261301c851aee4 Paul Moore      2023-02-16  4313   * @secid: secid
+2d470c778120d3c Casey Schaufler 2024-10-23  4314   * @cp: the LSM context
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4315   * @lsmid: which security module to report
+e261301c851aee4 Paul Moore      2023-02-16  4316   *
+2d470c778120d3c Casey Schaufler 2024-10-23  4317   * Convert secid to security context.  If @cp is NULL the length of the
+2d470c778120d3c Casey Schaufler 2024-10-23  4318   * result will be returned, but no data will be returned.  This
+e261301c851aee4 Paul Moore      2023-02-16  4319   * does mean that the length could change between calls to check the length and
+2d470c778120d3c Casey Schaufler 2024-10-23  4320   * the next call which actually allocates and returns the data.
+e261301c851aee4 Paul Moore      2023-02-16  4321   *
+2d470c778120d3c Casey Schaufler 2024-10-23  4322   * Return: Return length of data on success, error on failure.
+e261301c851aee4 Paul Moore      2023-02-16  4323   */
+2d470c778120d3c Casey Schaufler 2024-10-23  4324  int security_secid_to_secctx(u32 secid, struct lsm_context *cp)
+20510f2f4e2dabb James Morris    2007-10-16 @4325  {
+2d470c778120d3c Casey Schaufler 2024-10-23  4326  	return call_int_hook(secid_to_secctx, secid, cp);
+20510f2f4e2dabb James Morris    2007-10-16  4327  }
+20510f2f4e2dabb James Morris    2007-10-16  4328  EXPORT_SYMBOL(security_secid_to_secctx);
+20510f2f4e2dabb James Morris    2007-10-16  4329  
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4330  /**
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4331   * security_lsmprop_to_secctx() - Convert a lsm_prop to a secctx
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4332   * @prop: lsm specific information
+2d470c778120d3c Casey Schaufler 2024-10-23  4333   * @cp: the LSM context
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4334   *
+2d470c778120d3c Casey Schaufler 2024-10-23  4335   * Convert a @prop entry to security context.  If @cp is NULL the
+2d470c778120d3c Casey Schaufler 2024-10-23  4336   * length of the result will be returned. This does mean that the
+2d470c778120d3c Casey Schaufler 2024-10-23  4337   * length could change between calls to check the length and the
+2d470c778120d3c Casey Schaufler 2024-10-23  4338   * next call which actually allocates and returns the @cp.
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4339   *
+2d470c778120d3c Casey Schaufler 2024-10-23  4340   * Return: Return length of data on success, error on failure.
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4341   */
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4342  int security_lsmprop_to_secctx(struct lsm_prop *prop, struct lsm_context *cp,
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4343  			       int lsmid)
+6f2f724f0e116d9 Casey Schaufler 2024-10-09 @4344  {
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4345  	struct lsm_static_call *scall;
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4346  
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4347  	lsm_for_each_hook(scall, lsmprop_to_secctx) {
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4348  		if (lsmid != 0 && lsmid != scall->hl->lsmid->id)
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4349  			continue;
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4350  		return scall->hl->hook.lsmprop_to_secctx(prop, cp);
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4351  	}
+c6b93968f3f6d88 Casey Schaufler 2025-03-07  4352  	return LSM_RET_DEFAULT(lsmprop_to_secctx);
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4353  }
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4354  EXPORT_SYMBOL(security_lsmprop_to_secctx);
+6f2f724f0e116d9 Casey Schaufler 2024-10-09  4355  
 
 -- 
 0-DAY CI Kernel Test Service
