@@ -1,211 +1,357 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0C513665A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 09:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741511529; cv=fail; b=UoRB7e/5SsbMG9JZn9hMYMf4VcQzhUL8qi6XFGKABbywpgAEKJXm2yH7a77CdwEpy+cRnqig6ZIqsMIs532NNvBT8HrbD/dfLclKH4H9AwgP433dCV7rodhWv/K1JIZBKWpxZwnBUs3jSBqQVYMKe+pFFlmPA+9pAyqcxgPkrZ0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741511529; c=relaxed/simple;
-	bh=NLSprSmNIIoBkneI7EHFAbTNKl6MuwVBzQ6bO/ztT9E=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OF6AM4AFdOXVf+FYad2S1S0k/Qx7tdTA8HNcOZOUA9vyybQgiVw/kJX2wD9+5ymY20KMTwyWnBaxpftzc2NWMlfeoaDwvRn1mLKJNZGnKkvPcyTzlZWmdnzPmBEOSMa05zl+uolVmt75BE8UegNmnXGjFHbkVyVl3SXX+duPfO0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VGpgbXaO; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=rTQPttv8; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDDC192B71
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 09:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741512204; cv=none; b=ur3LqOlHuuLisMsqJGdbabhVw5ddXxfXWhLPvSKZgfkAKR0OsAZPwJSOdqXV9uPVLn5Yk4frHAsgG4Fy0wSv9wkR6pQqJsxu9gdAYpY/P3pe0mSmp+3hrsJjkp+ePG8eR/R4c43raVgKA9sFas5vXWNHHhgNaUBBpj2vtsTIPfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741512204; c=relaxed/simple;
+	bh=xUNl/zL0mRGPVFYaiJnWKZK8tVHtvOuDq/rI8weecYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ElWRG4nIqFLmZ5S3GshXpnFCffqpD8rx3i6IhhRHTkuOLaNPj9wHoJD9MNL71Obm7g1w/sdabiRH11HNSAtDcmsW2h2q8RuhaA/bZ4nkvz4RXv2iioVgyoU7hTCx6ksiFG6abIq6qwn/KAWgUKqOAsShcP7iH5IEm6fIViL9/jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mdCX9NZx; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VGpgbXaO";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="rTQPttv8"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5298010X020613;
-	Sun, 9 Mar 2025 09:11:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2023-11-20; bh=A8+ylutzY+pMb/6ZrNgyVXgzAayTf7WATcWt168uo8k=; b=
-	VGpgbXaOgCpK5mYEW2eKw3aFB5LGTwR26ekP4X5BdQISZw6fdp7y4w5oynFB01Ng
-	lijyLN3xg8hweyX+3XHsmL/0KTiCq5bfEpDH+7eu7pDQkPa144BcAZifRcFb6xgK
-	HZc8KMvqwjpMbhCkelTWuBRCWX1FNE6fcgGa6nnmgRY8ALUNJU72wiTuDaB2Yp1/
-	0DTmxx0FFqA1w7KyparSvFZk8Wyz0U8yDbVMtFiMm/97zaz3OebmqndnvuuEguj8
-	xSS3yzyaqVJT5N28EgKWr1xH9GE+AHLGbh/ZguNZWzTCPjj/2bS399XBDfgoYEAd
-	reoqNUDoIbr2XFiSuZp3TA==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 458dxch1de-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 09 Mar 2025 09:11:55 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5297KMdu015990;
-	Sun, 9 Mar 2025 09:11:54 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 458cbcu2k8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 09 Mar 2025 09:11:54 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rm+qPtDIzsM0Vti3f6FTBkHKTCUl8YT0uPoBqUPrH6bTmwrpFRP/JLvc1U+u7/jXcL/+Aa1ODTDefzFvOeeMBb/NGeaWjpntwc74CnKUyY8XEQjOKPC2va3JoowLQTrAvNfFB4QnbbYe3eHUIFgp/R1hN7G9lemmVs09gLjxlPSyjF9BqNMfJcNmFYJJQUOxSQYFE1dMTI1oN8gKlp19P8SwWrVaoDiVEohEiNBIw8Jwq/8uoAnBsiW7mu75e23dxlrtnCG5/Rlb0gWNv+4q9wJmRu6aUEMdvI5j9B0QJsujXxRFcyLotAdJkE9N1evhqiQCXiQykteMZSg2+P+W0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A8+ylutzY+pMb/6ZrNgyVXgzAayTf7WATcWt168uo8k=;
- b=Pd5t8p+f8OO+YKGEJ5oMhxswxu6+VAriVN+dPZFHS67Fbmltk1XNBXa6neSXpekLozbfTGHEd3P2ulBSZDO6c9kMF3eQ2jQgqyYtPpqZ6oE01yZr7FNXToLtDjSFkzf7I0vMtGmoNikKesFnG1OBOPXnDjMwl8+5Momi4Z4vGIzHRSAZUS/kU4fh1bkCCg0A5iN45dazIj4NpTZD0htbPMtfyCIyoYwsxrF1nDk331vseq9UTwH9izTHpGBlKidAj7aE95fl44bfb7ip+bAzCfy7HfCiksxQNLakOxRTIdMc8jWvjFf9u97aJCWNyhHFfdpPeqN+m/+TP0/T9Q3hOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A8+ylutzY+pMb/6ZrNgyVXgzAayTf7WATcWt168uo8k=;
- b=rTQPttv83n4Qp57zfrD/yXCP8bYE3mKsHG1ffn/CfM4fCAPdeowb15LPCyVRGGFob/7ROmL4xiWhrb6sxu2FzwIZjECnDTAIwofmp7IspPGP3zzsEsLkJHCBpkS/Ce/jfdv/rIoU+iovdaEmlQEJhhT3kVok9gij3DlUJFITXGk=
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
- by SA3PR10MB6969.namprd10.prod.outlook.com (2603:10b6:806:316::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Sun, 9 Mar
- 2025 09:11:53 +0000
-Received: from DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::4f45:f4ab:121:e088]) by DM6PR10MB4313.namprd10.prod.outlook.com
- ([fe80::4f45:f4ab:121:e088%6]) with mapi id 15.20.8511.025; Sun, 9 Mar 2025
- 09:11:52 +0000
-Message-ID: <7ade7fb1-b48d-4ee1-b9b5-2aff9c1c9622@oracle.com>
-Date: Sun, 9 Mar 2025 09:11:50 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [xfs-linux:test-merge 13/13] fs/xfs/xfs_file.c:746:15: error: too
- few arguments to function 'xfs_file_write_checks'
-To: kernel test robot <lkp@intel.com>, Carlos Maiolino <cem@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org, hch@lst.de
-References: <202503090042.CWpAx3iG-lkp@intel.com>
-Content-Language: en-US
-From: John Garry <john.g.garry@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <202503090042.CWpAx3iG-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LNXP265CA0096.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:76::36) To DM6PR10MB4313.namprd10.prod.outlook.com
- (2603:10b6:5:212::20)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mdCX9NZx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741512201; x=1773048201;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xUNl/zL0mRGPVFYaiJnWKZK8tVHtvOuDq/rI8weecYs=;
+  b=mdCX9NZxF2oORvjTfE1GOKtW7+kdA/23S6NcllAUAkQWv5QLW40dOaI6
+   vyjTylgzvGyGMh74kTzwiYsjr7XS+Nkcu5Ym8Sh8dJ/wj7V3eSW0n+z0P
+   tDowEyZStOSXAAwHg3Xe131OcvRIbADQmAO8KfzdxXbHDMJhbPeEg09yx
+   IYBR4oBV2NgJaN9dXfzskiGZeKkVGtVE1vLuH7z+f74tr41GlqxoXn25S
+   ziOl065hR9AcFmhCcii0VB2m4LnjuyDdlg1zjTFewYTbLKXo5vJV5qoxi
+   lBHI+xVOJJEYWI5NrhvX0XfhDG0CHn5Ndok1/FBbCccTvZmNBnJpIT84A
+   w==;
+X-CSE-ConnectionGUID: yfOtRz46RGKGPczCx4XZwA==
+X-CSE-MsgGUID: imkh9dX0QmOxD8kvKqkOww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46171128"
+X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
+   d="scan'208";a="46171128"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 01:23:20 -0800
+X-CSE-ConnectionGUID: lOqGlhaFQNuZxiltlsfRyw==
+X-CSE-MsgGUID: Zi+lhBhQRUaK3R4/xKL7vg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
+   d="scan'208";a="124798964"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 09 Mar 2025 01:23:19 -0800
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1trCsP-0002sm-0J;
+	Sun, 09 Mar 2025 09:23:17 +0000
+Date: Sun, 9 Mar 2025 17:23:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1473/1473] mm/khugepaged.c:974:21:
+ sparse: sparse: invalid assignment: |=
+Message-ID: <202503091715.gswAJqxr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|SA3PR10MB6969:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3b32ca9-10c6-43e4-1885-08dd5eea6e63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?L1Jzdlc2ZEJRcXpLekxkVTV4TG9RN0FiUHYvcXQwWWZwdEU4VUgwbkp5UTJw?=
- =?utf-8?B?STZTclR2VjkzR0hSN2NLa3hxeTUvcmpYU0gvNUZ0WGErS3c5Q2J1eWhDNXBO?=
- =?utf-8?B?dW01RUlwNFJCeE1vNlE1bmYzQk5DbTh1UzlpSnhDUWoxMHg0cnpiTXZ1eHRX?=
- =?utf-8?B?cVVmSUQ2MXlCd2k4YUJpeVk5SmNvTG1PUktwOFlZcGlQb0dnZ2JoN09heEtL?=
- =?utf-8?B?UG9tNjV5Z1dlMVhzTkVLZGpqczZ6ZE9BaGZDMWNqTElYWnQzRHJqUmJJNWda?=
- =?utf-8?B?bjFRTU1nemF6QjdlTUY5TVFpc1ZOcldxQ25RKzY3ak1wLzNZNktMTXR3YXBY?=
- =?utf-8?B?amgyN005QUlKOGVDd2tPd2haU1JJL0ZXWmsrRVpCSFUyS3lUMERrcFMxcndJ?=
- =?utf-8?B?QlgvYS8vWXVhaFJ6c3AwUU5aVFIvdnlkdVZKQkJiQjhYZDRwejduZVFYalI3?=
- =?utf-8?B?QzNVZktXTWRZb0ZRNEIrcEg0WU93eTBxd1BCMHhXYTNlTlE4ZjRDaFh4c3Ro?=
- =?utf-8?B?UVVyWkhSMjdoZEgwcGUwWDNrZ1AxT3ljSVZUMFJ4OGdZRUU4c2d2THJXRHdP?=
- =?utf-8?B?MEdpTDcvaFFMLzF1RmhSTTRNT3pMdmdUV2lMVm45ZkdWUFlRelUxb2JCbVN5?=
- =?utf-8?B?T2RpME1UM2wvN3pNTGkxWTVpRmlFSElZaFpzRzkvSWx6aFJqckdyQnFvb0Ur?=
- =?utf-8?B?bTNYQlZDYmJzcW92KzFBKzBvNzdERHlzVHc0OFVOOGU5ekVyZGhsclUxNGhD?=
- =?utf-8?B?eDVVc2ZQQkNQTm5Ed1lBdHBRd2U5cnRIVWNOOGdWaFpqWEp2emRjVDkxamZa?=
- =?utf-8?B?MlZ4a0x6enRxcE1TaTF2WTZXVzF0RWF5SDduayt3aXFVa1JJemxqMXo1ckJ1?=
- =?utf-8?B?RkxvMkZJUXJ5bnlvNFZEQ2dzazdtaDhKeUdyNEFRQXR3WGtlU2EvSEJyWFNy?=
- =?utf-8?B?LzlDV3NOWjJQYi9RT2JNakJCS1Bxb1pQdE5ubkRsVFcvUDRhUkt4a3pSd2pP?=
- =?utf-8?B?NWtLVFEwVXRTc1dMQ1E5YjM3bUl2YWFtOTZ2M1l6YWdHM283b0FEMDhZb1py?=
- =?utf-8?B?OHdsdVY0NEFwdE9EUVB5MnFyUzFWczlGbTQ3UWhndUhTUjUxTUdLMTBFS2xV?=
- =?utf-8?B?VUlKL0hMWjNKdWN2NjNIelV4TlF1RUpLMlJqeUZQdVhPTDlhbWlHRWhTUTJt?=
- =?utf-8?B?SXN4bWp4YVRzQkxvaG45UDF4eHNUeElLZ3VBc2ZjcjZvaitkNWRhbGtQMkpn?=
- =?utf-8?B?S2luRFFEeXRkZEV5NldCcVA5dGxrMTNWSGJIc1ZOcjBBeTV0dVRjbXNjekVk?=
- =?utf-8?B?RFlKc2lETTVPcEhWOGFSQmV1VmZ2TU82UTVDcDFZWGFHc3UyMnRNTXdwNXdj?=
- =?utf-8?B?bkdqSnpJM1p2Nk9IbU1EdE93MWQxd3FKeTVZWFFhcGM1SWUvT3RHdGNzR21h?=
- =?utf-8?B?NXNMQmJQY1kzMlpkMkhSU2FxWUY3K1k1V2ZSWFNjYTVXb2pVb1BIZ3NDMThL?=
- =?utf-8?B?cjIyTVRJMkhiWnhUZG9VU1pYTS9YZjRzekJiWFBkTTZxWWQ5WjNsL1kxaWhp?=
- =?utf-8?B?eHNWRXRQdlVDTnIrQ3phYXc4MERhR3dkUFEyRnBGY0JtRzBwa290QmZDckRh?=
- =?utf-8?B?SnJJY2xWWnJVSndZWVNBRXF6OUlvYVZBZGRhYXVxS294clcvTWRpQVRDbEUw?=
- =?utf-8?B?bXFHYWQ2ZU1ScXM4SnV5alRqQmVhUzJOSW03RjZHSjlFeE1SdGNNNm56K3A4?=
- =?utf-8?B?TVNGblRnQ1lrck1iRCtxd0h0QTgybjRrRDFKOEl2MkVlRnp2NGRVMEM3ODNl?=
- =?utf-8?B?TUU5VEZsTGFaUnQ2TE5HN3psY1ppRWhnQ0VDWU4vRmhtd3F5aTBGekQwL1R3?=
- =?utf-8?Q?ye3vKZ7f6S3KF?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bDY1NUJLVGRXK3JYMURCUGVvdCtNTXkyRmtjSUlrUEdsbmtsUjNuSnNDOGdF?=
- =?utf-8?B?WnBIbCttaEJrUVBCYTBacXEzcGdoV01FcGl0WEl3Y3c3QTYrWnpsMVNOa0hq?=
- =?utf-8?B?R1dYNDlvZ09PREx0TlZFdThYRWRCNTdoWVRqdCszNFRzZlZEenNlTHBKTHdj?=
- =?utf-8?B?SWljK1dYcjNXNi91NllRRHFDRmVaWlJYUWRDalo1b3hYelIrYjF0QmgrZXFi?=
- =?utf-8?B?QkwyNXR2cjFBTWNIbEh1aXVoU0JjQ2VzR0tUVmVLVVBhTjV5TzE3RWhQN2Ix?=
- =?utf-8?B?czVrK1hVZDFhNDR3Z2hYOFlRRkQzenlsa1dYQlRwN2tlc25EOWNUblBNam5C?=
- =?utf-8?B?T1Vrbnh1N0N5UzRmZnA5OHFsN0o5NTdTY2ZEeVFXOUlVTFhoQWpCN2RTcUJv?=
- =?utf-8?B?bVlJZjVBRVF6bDFPaDhHQmxGTExEZU9qWXhlNFZwUGFwN3pGTTEvQnBvbGJK?=
- =?utf-8?B?SWxoQ25peXR6Z0U3aEZMcXZkWmNQejJXczRZd2J4QTU1MFZMemkrY05VbU1H?=
- =?utf-8?B?K0pGSFdYRzF4M2JDMy9KTEd5TXFsU2ROejYwSi9Cb29KT2E2VHhBWXQvM2Mw?=
- =?utf-8?B?dmo4bHJ1L0h4YzFESHV3djB5eEUrY0xmOE5qU2tHQzZSaXRGRi81aVVHMXg3?=
- =?utf-8?B?eFlrKzRxMDFPVnlRSnpScXFKSFRGV09zN2c1VzFNd2NKZ3AvcFhqb29iOTMx?=
- =?utf-8?B?M2NocXNCRjFjcVplVEdBa3VSNitqSlBNL2V2aUtTaEZsaWptbDJzTytIWEhZ?=
- =?utf-8?B?am5UZVgwVkd1TkxHQkJxaDhZMGdONVVidnlmd0sza1hXNXRRbEQ4R3R0cmZa?=
- =?utf-8?B?RWw1akVFS05WSm40NUZQT09PWHdmVndRUnQ5aERhQ2lmdzd3dE5xc2ZaU3lP?=
- =?utf-8?B?LzRsTExQMkUwak9PcWFNbmJ1MGgvT0RQcTREQ1R6NjM2SFkwVWc1bWZkMjdu?=
- =?utf-8?B?WkdMV0xpaFBQU3VQSmd5bTIrREZWVDN2QTRCaE0vblpoUzFMS3B4eElPVjEw?=
- =?utf-8?B?QzdhWjNZcTRNMG9naTdwa25ZQ1Q0SXFheTVxRnczLzY4aGNTbnBlR2RtdHdh?=
- =?utf-8?B?c2Y3ck1HZ3Z3N0xyMzcyRFd6U1JDM05NTnVkZklsN000Uk5lR0QxVEFNS0JF?=
- =?utf-8?B?TTFPeFJlZ1lpdVQ1SmRKeU1xbnRLSVNCM3JQVVNrVHVaQ05EOHdISUJ5SUVh?=
- =?utf-8?B?ZW02L2lwa0RmTWZjTnh6Q09WMkk2ZmJ1NE1oVEc1cW5PejllcGhyeG1RdVNX?=
- =?utf-8?B?UUJYYUN0bXJZVGw0RWx0ajVGOUlDVmRia3NPVTgxMkZYeVo4VldNK1NCTTkv?=
- =?utf-8?B?S0dFeUtGY01BS1FYNGFEYVhRSW0zeW5MRU11WGdHaWRJdFhyTVBhSy9pZENM?=
- =?utf-8?B?VXhBeTgxQlVUZFZJdEpub2R5aDYyK243dHRHVnZhbmFLNGdDdVZrNUpqWi92?=
- =?utf-8?B?Uzg5R2lneFRUTnFVN3RQR1F5clV2MlFLaHRHTXlyN1NxdSs2MEFWWnp3RVJh?=
- =?utf-8?B?dWMrbjZBM3YzQnRLNjFPTHl1K1ZyVEczZms5M3VxWHRkWEJvTzRjaTAzRW9l?=
- =?utf-8?B?S0pWZTBvMXIrWkV2cDUyTVVoTnlTZnpVTFkxK21aOFVRUHRLbHlHNzc0ejJr?=
- =?utf-8?B?NnlrZTFsWjZ5VjdaaWZuYkY4SFZwUEZiT2hRUGRsZ3d2Z1p2T051SEVWNm1h?=
- =?utf-8?B?aDZQU2o5WmtDdjQyN3Ywd01NMVFqN1E2T3MrbGo0YTYzT2JtZnNvSWR1L2tr?=
- =?utf-8?B?bnREZTltaUNGdnBRb2R0ODlubDZ3QkJFMk05SmdoK2JiZXROUVZ0eG5pS1ky?=
- =?utf-8?B?d1RkZWh1UklNbkRQczJ1OUZhTXBzS082WXVyUUZGa1BmRVMzdDJsalVwSUFv?=
- =?utf-8?B?aG5BY1g0ZVlvVlZjaVc5amdXV00xdHBBR0tXbmdueGNNZWgzcC94Tytmd3hD?=
- =?utf-8?B?cFlEdkozVW9nQnAzZUtaS2VKMkV4Z3hQK1BrY1l6TEhtT0lsc2dXcU5Oa1Vt?=
- =?utf-8?B?S0k2Y0R0VXlMdCttK2dlclFpM2UwU0VXUmxaUTFiVW9VU3lJd2EySHhlcUwx?=
- =?utf-8?B?cWI5T002QVIzZk9wK3Nwdzh0UUhpYVlGUW43OXNhY0VtendBbjFxejh5TTNN?=
- =?utf-8?B?RjJDVGVBMU1BKzdieXBPUlZhNmlkZ1BwWC9iRGxWODdDU1BPYUZaZ05WeG1Y?=
- =?utf-8?B?eHc9PQ==?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	zUcQh8sYLqBlyAXFnTmc9NYRDRBxT8X5nRbzMhVm0kPKib6DscrMLHdq46wHCYYTJIV4xWNGQzZxni0Oz5C6nLeaBWjWgI4WUJ9qXAvga7UvlfjpaADSqgcUhPT8sSF+dSwxwxgO6mkcU1A79Yo3Rtrt6sYBUmZAaXFxy450CVj9kWpc9Pt7WDDQCE0TdKaujN3D+s4YvPss/EX2m7abdcHBSMZxyL8Zn/7GZtF3WUePLYMuw6NBUpVCDpgrOAJugjJvoV7aR7P/uTnXaDWB2+QgzW636TBUg1zGSSO5Lj/7FszBU33UbKv3YJRiH9r787Fcm73oSkbnevPaPqCvSJEgbRqN+aNBes6wUUy9fDyXe8mAUNrw+VbomAiewOq1wXd4Q4ejdwwGtcKB6AjNbpMbNpQF+PFB/isrp4BbXIT+ZXlmQPEPkA5M8ng0akWF5kLXJ0Eq+jJ08eTYhIOTN5ZjMYb/y6FeaFwamHindKZ9rEF/eVfB1k+HitYOwrmuqayunou618WGPq5knPBlhsOQViGL73hxGh0dVczbbI0dwUSFldnqDB4w3Fx8xuzmLnLeqVF6Ki0vOXZMLKehBk9Qr+cdO6jclHm1hiSCkOU=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3b32ca9-10c6-43e4-1885-08dd5eea6e63
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2025 09:11:52.6917
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4l/Z2udbYVuArc54oX+ojZKRCW1wgZbydHZklUq2wfmgtDoctPCTwVYfZz7PJWZ0Ys6ugk57d8LYK0dUCLEYXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB6969
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-09_03,2025-03-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502100000
- definitions=main-2503090071
-X-Proofpoint-ORIG-GUID: FJQ-s1uxM_A4SMpsLFbERn5VrdD-vN3Z
-X-Proofpoint-GUID: FJQ-s1uxM_A4SMpsLFbERn5VrdD-vN3Z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 08/03/2025 16:46, kernel test robot wrote:
->>> fs/xfs/xfs_file.c:746:15: error: too few arguments to function 'xfs_file_write_checks'
->       746 |         ret = xfs_file_write_checks(iocb, from, &iolock);
->           |               ^~~~~~~~~~~~~~~~~~~~~
->     fs/xfs/xfs_file.c:434:1: note: declared here
->       434 | xfs_file_write_checks(
->           | ^~~~~~~~~~~~~~~~~~~~~
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   1584a68cf2ef23ac87ba506e8ab8ca7e261813c1
+commit: ff0fb9e816fac221fa24a1810dd895745406070b [1473/1473] mm: thp: Add memory reliable support for hugepaged collapse
+config: arm64-randconfig-r113-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091715.gswAJqxr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250309/202503091715.gswAJqxr-lkp@intel.com/reproduce)
 
-Christoph's zoned series added a new arg to xfs_file_write_checks().
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091715.gswAJqxr-lkp@intel.com/
 
-I think that we want to add a NULL here as that arg - assuming that we 
-won't support atomic writes for zoned devices now.
+sparse warnings: (new ones prefixed by >>)
+>> mm/khugepaged.c:974:21: sparse: sparse: invalid assignment: |=
+   mm/khugepaged.c:974:21: sparse:    left side has type restricted gfp_t
+   mm/khugepaged.c:974:21: sparse:    right side has type unsigned int
+   mm/khugepaged.c:1352:21: sparse: sparse: invalid assignment: |=
+   mm/khugepaged.c:1352:21: sparse:    left side has type restricted gfp_t
+   mm/khugepaged.c:1352:21: sparse:    right side has type unsigned int
+   mm/khugepaged.c:1378:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1378:9: sparse:     expected void **slot
+   mm/khugepaged.c:1378:9: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1378:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1378:9: sparse:     expected void **slot
+   mm/khugepaged.c:1378:9: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1409:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1409:56: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1409:56: sparse:     got void **slot
+   mm/khugepaged.c:1458:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1458:22: sparse:     expected void **slot
+   mm/khugepaged.c:1458:22: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1459:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1459:17: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1459:17: sparse:     got void **slot
+   mm/khugepaged.c:1483:60: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1483:60: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1483:60: sparse:     got void **slot
+   mm/khugepaged.c:1486:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1486:47: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1486:47: sparse:     got void **slot
+   mm/khugepaged.c:1486:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1486:22: sparse:     expected void **slot
+   mm/khugepaged.c:1486:22: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1378:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1378:9: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1378:9: sparse:     got void **slot
+   mm/khugepaged.c:1378:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1378:9: sparse:     expected void **slot
+   mm/khugepaged.c:1378:9: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1578:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1578:17: sparse:     expected void **slot
+   mm/khugepaged.c:1578:17: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1578:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1578:17: sparse:     expected void **slot
+   mm/khugepaged.c:1578:17: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1597:68: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1597:68: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1597:68: sparse:     got void **slot
+   mm/khugepaged.c:1598:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1598:55: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1598:55: sparse:     got void **slot
+   mm/khugepaged.c:1598:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1598:30: sparse:     expected void **slot
+   mm/khugepaged.c:1598:30: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1578:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1578:17: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1578:17: sparse:     got void **slot
+   mm/khugepaged.c:1578:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1578:17: sparse:     expected void **slot
+   mm/khugepaged.c:1578:17: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1633:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1633:9: sparse:     expected void **slot
+   mm/khugepaged.c:1633:9: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1633:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1633:9: sparse:     expected void **slot
+   mm/khugepaged.c:1633:9: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1637:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1637:46: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1637:46: sparse:     got void **slot
+   mm/khugepaged.c:1639:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1639:30: sparse:     expected void **slot
+   mm/khugepaged.c:1639:30: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1682:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1682:55: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1682:55: sparse:     got void **slot
+   mm/khugepaged.c:1682:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1682:30: sparse:     expected void **slot
+   mm/khugepaged.c:1682:30: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c:1633:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   mm/khugepaged.c:1633:9: sparse:     expected void [noderef] __rcu **slot
+   mm/khugepaged.c:1633:9: sparse:     got void **slot
+   mm/khugepaged.c:1633:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   mm/khugepaged.c:1633:9: sparse:     expected void **slot
+   mm/khugepaged.c:1633:9: sparse:     got void [noderef] __rcu **
+   mm/khugepaged.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
+   In file included from arch/arm64/include/asm/atomic.h:36,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/asm-generic/bug.h:18,
+                    from arch/arm64/include/asm/bug.h:37,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:10,
+                    from mm/khugepaged.c:4:
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
 
-Carlos, please advise to handle.
+vim +974 mm/khugepaged.c
 
-Thanks,
-John
+   949	
+   950	static void collapse_huge_page(struct mm_struct *mm,
+   951					   unsigned long address,
+   952					   struct page **hpage,
+   953					   int node, int referenced, int unmapped,
+   954					   bool reliable)
+   955	{
+   956		pmd_t *pmd, _pmd;
+   957		pte_t *pte;
+   958		pgtable_t pgtable;
+   959		struct page *new_page;
+   960		spinlock_t *pmd_ptl, *pte_ptl;
+   961		int isolated = 0, result = 0;
+   962		struct mem_cgroup *memcg;
+   963		struct vm_area_struct *vma;
+   964		unsigned long mmun_start;	/* For mmu_notifiers */
+   965		unsigned long mmun_end;		/* For mmu_notifiers */
+   966		gfp_t gfp;
+   967	
+   968		VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+   969	
+   970		/* Only allocate from the target node */
+   971		gfp = alloc_hugepage_khugepaged_gfpmask() | __GFP_THISNODE;
+   972	
+   973		if (reliable)
+ > 974			gfp |= ___GFP_RELIABILITY;
+   975	
+   976		/*
+   977		 * Before allocating the hugepage, release the mmap_sem read lock.
+   978		 * The allocation can take potentially a long time if it involves
+   979		 * sync compaction, and we do not need to hold the mmap_sem during
+   980		 * that. We will recheck the vma after taking it again in write mode.
+   981		 */
+   982		up_read(&mm->mmap_sem);
+   983		new_page = khugepaged_alloc_page(hpage, gfp, node);
+   984		if (!new_page) {
+   985			result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+   986			goto out_nolock;
+   987		}
+   988	
+   989		if (unlikely(mem_cgroup_try_charge(new_page, mm, gfp, &memcg, true))) {
+   990			result = SCAN_CGROUP_CHARGE_FAIL;
+   991			goto out_nolock;
+   992		}
+   993	
+   994		down_read(&mm->mmap_sem);
+   995		result = hugepage_vma_revalidate(mm, address, &vma);
+   996		if (result) {
+   997			mem_cgroup_cancel_charge(new_page, memcg, true);
+   998			up_read(&mm->mmap_sem);
+   999			goto out_nolock;
+  1000		}
+  1001	
+  1002		pmd = mm_find_pmd(mm, address);
+  1003		if (!pmd) {
+  1004			result = SCAN_PMD_NULL;
+  1005			mem_cgroup_cancel_charge(new_page, memcg, true);
+  1006			up_read(&mm->mmap_sem);
+  1007			goto out_nolock;
+  1008		}
+  1009	
+  1010		/*
+  1011		 * __collapse_huge_page_swapin always returns with mmap_sem locked.
+  1012		 * If it fails, we release mmap_sem and jump out_nolock.
+  1013		 * Continuing to collapse causes inconsistency.
+  1014		 */
+  1015		if (unmapped && !__collapse_huge_page_swapin(mm, vma, address,
+  1016							     pmd, referenced)) {
+  1017			mem_cgroup_cancel_charge(new_page, memcg, true);
+  1018			up_read(&mm->mmap_sem);
+  1019			goto out_nolock;
+  1020		}
+  1021	
+  1022		up_read(&mm->mmap_sem);
+  1023		/*
+  1024		 * Prevent all access to pagetables with the exception of
+  1025		 * gup_fast later handled by the ptep_clear_flush and the VM
+  1026		 * handled by the anon_vma lock + PG_lock.
+  1027		 */
+  1028		down_write(&mm->mmap_sem);
+  1029		result = hugepage_vma_revalidate(mm, address, &vma);
+  1030		if (result)
+  1031			goto out;
+  1032		/* check if the pmd is still valid */
+  1033		if (mm_find_pmd(mm, address) != pmd)
+  1034			goto out;
+  1035	
+  1036		anon_vma_lock_write(vma->anon_vma);
+  1037	
+  1038		pte = pte_offset_map(pmd, address);
+  1039		pte_ptl = pte_lockptr(mm, pmd);
+  1040	
+  1041		mmun_start = address;
+  1042		mmun_end   = address + HPAGE_PMD_SIZE;
+  1043		mmu_notifier_invalidate_range_start(mm, mmun_start, mmun_end);
+  1044		pmd_ptl = pmd_lock(mm, pmd); /* probably unnecessary */
+  1045		/*
+  1046		 * After this gup_fast can't run anymore. This also removes
+  1047		 * any huge TLB entry from the CPU so we won't allow
+  1048		 * huge and small TLB entries for the same virtual address
+  1049		 * to avoid the risk of CPU bugs in that area.
+  1050		 */
+  1051		_pmd = pmdp_collapse_flush(vma, address, pmd);
+  1052		spin_unlock(pmd_ptl);
+  1053		mmu_notifier_invalidate_range_end(mm, mmun_start, mmun_end);
+  1054	
+  1055		spin_lock(pte_ptl);
+  1056		isolated = __collapse_huge_page_isolate(vma, address, pte);
+  1057		spin_unlock(pte_ptl);
+  1058	
+  1059		if (unlikely(!isolated)) {
+  1060			pte_unmap(pte);
+  1061			spin_lock(pmd_ptl);
+  1062			BUG_ON(!pmd_none(*pmd));
+  1063			/*
+  1064			 * We can only use set_pmd_at when establishing
+  1065			 * hugepmds and never for establishing regular pmds that
+  1066			 * points to regular pagetables. Use pmd_populate for that
+  1067			 */
+  1068			pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+  1069			spin_unlock(pmd_ptl);
+  1070			anon_vma_unlock_write(vma->anon_vma);
+  1071			result = SCAN_FAIL;
+  1072			goto out;
+  1073		}
+  1074	
+  1075		/*
+  1076		 * All pages are isolated and locked so anon_vma rmap
+  1077		 * can't run anymore.
+  1078		 */
+  1079		anon_vma_unlock_write(vma->anon_vma);
+  1080	
+  1081		__collapse_huge_page_copy(pte, new_page, vma, address, pte_ptl);
+  1082		pte_unmap(pte);
+  1083		__SetPageUptodate(new_page);
+  1084		pgtable = pmd_pgtable(_pmd);
+  1085	
+  1086		_pmd = mk_huge_pmd(new_page, vma->vm_page_prot);
+  1087		_pmd = maybe_pmd_mkwrite(pmd_mkdirty(_pmd), vma);
+  1088	
+  1089		/*
+  1090		 * spin_lock() below is not the equivalent of smp_wmb(), so
+  1091		 * this is needed to avoid the copy_huge_page writes to become
+  1092		 * visible after the set_pmd_at() write.
+  1093		 */
+  1094		smp_wmb();
+  1095	
+  1096		spin_lock(pmd_ptl);
+  1097		BUG_ON(!pmd_none(*pmd));
+  1098		page_add_new_anon_rmap(new_page, vma, address, true);
+  1099		mem_cgroup_commit_charge(new_page, memcg, false, true);
+  1100		count_memcg_events(memcg, THP_COLLAPSE_ALLOC, 1);
+  1101		lru_cache_add_active_or_unevictable(new_page, vma);
+  1102		pgtable_trans_huge_deposit(mm, pmd, pgtable);
+  1103		set_pmd_at(mm, address, pmd, _pmd);
+  1104		update_mmu_cache_pmd(vma, address, pmd);
+  1105		spin_unlock(pmd_ptl);
+  1106	
+  1107		*hpage = NULL;
+  1108	
+  1109		khugepaged_pages_collapsed++;
+  1110		result = SCAN_SUCCEED;
+  1111	out_up_write:
+  1112		up_write(&mm->mmap_sem);
+  1113	out_nolock:
+  1114		trace_mm_collapse_huge_page(mm, isolated, result);
+  1115		return;
+  1116	out:
+  1117		mem_cgroup_cancel_charge(new_page, memcg, true);
+  1118		goto out_up_write;
+  1119	}
+  1120	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
