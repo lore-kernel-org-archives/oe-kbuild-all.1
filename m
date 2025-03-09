@@ -1,196 +1,117 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51A7632;
-	Sun,  9 Mar 2025 19:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6C517B4EC
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 19:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741548006; cv=none; b=DYAOwSaYm2Hu/059hkeJ2HVIQFFqZeKin1xo0DEgo5uJCP0K+THuvfc90N/5NeImUVNmv+2QifksrW/lxGWnFFCwbhDi0dWTsLj7oRFUDVc13sHWVe2utLOM11Xsv5rSfUsBjGmQuH6uQmrMDlRc2j6W5I0zcGF+HoRfVi3htso=
+	t=1741548419; cv=none; b=l578v+JZQhBvpBUTsea7SlK83Wy4DBH1AtrNvNVWarbbCY1EwhOVw7zfq64tjuhR3L12MGYpla1JAs9oL7HeK2viGOi4heRYEN79IiIpkt9e7+Bk7xwGx1KCDJzxDETyU3rArvdu6W9O+18+nWD5s4Zm3AbtjWlMJyuuSLdQDQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741548006; c=relaxed/simple;
-	bh=psatQdlUUGYu/oraQfaPpXeNoJhIqRIX1zOYmpOfZSQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HzMj1AN/BsSvoGLYYLSq1/aQhaqhy9S7dc7CY0CNVe2Ywqp1joTd95dkNf2HY6tIaYgWr2KQf8YvgzBYylrYKHIMN4R3eak/3u5VDNjHDXR+TxXIDh+EwPVmya6IzvwK5ce1+XmIpdaiJPDtjkeq+oY/YZ1p61IJ6U+HChroGSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4Z9pvs2Sgyz9sgJ;
-	Sun,  9 Mar 2025 19:48:57 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Vn_rAKUH5xiV; Sun,  9 Mar 2025 19:48:57 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4Z9pvs0Znqz9sgH;
-	Sun,  9 Mar 2025 19:48:57 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id F32678B765;
-	Sun,  9 Mar 2025 19:48:56 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id zwW5rIwsYnQA; Sun,  9 Mar 2025 19:48:56 +0100 (CET)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 665AA8B764;
-	Sun,  9 Mar 2025 19:48:56 +0100 (CET)
-Message-ID: <4967dc7d-dc87-48d9-a44d-2d667c2841f0@csgroup.eu>
-Date: Sun, 9 Mar 2025 19:48:56 +0100
+	s=arc-20240116; t=1741548419; c=relaxed/simple;
+	bh=Dk3dyE0dtJPnVxAV4n6omrRWpps5/OsjqC9n7SUzIAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LpSTyFgyQJAtXQ+POHxHm+iQ+CkpBiiW9j3YQy30TQqX1bXF/k8LqmKnoSeOwFwnnFtUf4ExOJD//NHruhwuLGpEB3W6WuUJMFPmgHqbkTrZMdL/2TCP6oT5d6mDmNyoutMA0hMJNbpAuWGcGYZCAOhwsx4cj/zsFNG7L/LRirU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSUrHM+A; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSUrHM+A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741548417; x=1773084417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Dk3dyE0dtJPnVxAV4n6omrRWpps5/OsjqC9n7SUzIAY=;
+  b=XSUrHM+AvsgTkyH0jGb22UiXdwXBsmFvcXnT3sZ22xM5Ul1w6rEkEPge
+   YwRKUryn52j66sBKjF+qpOtILcJdV79HgdC8srvwuPs3bW8sXA6Zj3VUg
+   jsNwkNLe+qXh/fKZkDOTmgHeZXyCT23F1loDFzizOFPYyNTCi1AveU2RU
+   5QwcnSn9RWbYS7DjqSjZJ0a5mWTvZ89bIVYGQQYQlC/ZcAL989ug8vWkW
+   iROywfm8lleMk7HvHLnnVii6RO9n+O+cwZdJkcn5BtNPtSIh+LpvtKcgg
+   E++5g1ZUcQxsIbxwqqQ3tfGjwqbk/x7NVYFLugZoxVFSMT8GO/bxQuqVz
+   Q==;
+X-CSE-ConnectionGUID: R++kP8tQRjOdSI3t3GDBiA==
+X-CSE-MsgGUID: waXh3j1HR8mB/i2homDOGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42414968"
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="42414968"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 12:26:56 -0700
+X-CSE-ConnectionGUID: UsC/pV4tTLOMuh37iVyUtw==
+X-CSE-MsgGUID: 5kmuBSalTDaAtTsev3gd4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
+   d="scan'208";a="120288769"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 09 Mar 2025 12:26:52 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1trMIT-0003PE-1U;
+	Sun, 09 Mar 2025 19:26:49 +0000
+Date: Mon, 10 Mar 2025 03:26:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, upstream@airoha.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v12 05/13] dt-bindings: mfd: Document support
+ for Airoha AN8855 Switch SoC
+Message-ID: <202503100331.nksmBPCd-lkp@intel.com>
+References: <20250309172717.9067-6-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 3203/9634]
- arch/powerpc/include/asm/bitops.h:126:26: error: constraint 'n' expects an
- integer constant expression
-To: Andrea Righi <arighi@nvidia.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tejun Heo <tj@kernel.org>,
- Yury Norov <yury.norov@gmail.com>, clang-built-linux@googlegroups.com,
- "llvm@lists.linux.dev" <llvm@lists.linux.dev>
-References: <202503090435.wITkzD2e-lkp@intel.com> <Z81TSQHHaNq_Aj4x@gpd3>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <Z81TSQHHaNq_Aj4x@gpd3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250309172717.9067-6-ansuelsmth@gmail.com>
 
+Hi Christian,
 
+kernel test robot noticed the following build warnings:
 
-Le 09/03/2025 à 09:37, Andrea Righi a écrit :
-> [Vous ne recevez pas souvent de courriers de arighi@nvidia.com. D?couvrez pourquoi ceci est important ? https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> On Sun, Mar 09, 2025 at 04:56:45AM +0800, kernel test robot wrote:
->> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fnext%2Flinux-next.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C01ad01407fee4a03676d08dd5ee5a99d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638771062684017698%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=lK0Vy%2F4o95CtQF5szPezehhmcdFjDEGgf6JWYRIG%2FcY%3D&reserved=0 master
->> head:   0a2f889128969dab41861b6e40111aa03dc57014
->> commit: 48849271e66114cb980a3bc44218b04d0f8cdcdd [3203/9634] sched_ext: idle: Per-node idle cpumasks
->> config: powerpc-randconfig-r112-20250308 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250309%2F202503090435.wITkzD2e-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C01ad01407fee4a03676d08dd5ee5a99d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638771062687408543%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=dNaCIS1An989v%2BhSzWt0F1M33pxzf0WO6G09wU3%2F90s%3D&reserved=0)
->> compiler: clang version 18.1.8 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fllvm%2Fllvm-project&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C01ad01407fee4a03676d08dd5ee5a99d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638771062687416861%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=bBHENBhnCpqHz2ErtwY4iMTakfvmq5kumF0BVqN6hKQ%3D&reserved=0 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
->> reproduce: (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20250309%2F202503090435.wITkzD2e-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C01ad01407fee4a03676d08dd5ee5a99d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638771062687424999%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=Wm6O%2BaoClsBaKLXtVLOi4uDpPVx6z%2FoXnE6LF%2BMnBH8%3D&reserved=0)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202503090435.wITkzD2e-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C01ad01407fee4a03676d08dd5ee5a99d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638771062687433012%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=vh%2BADDGxZZJblkU6V0NlC9VPlK2ZgQQWfTCdRMtfXNY%3D&reserved=0
->>
->> All errors (new ones prefixed by >>):
->>
->>     In file included from kernel/sched/build_policy.c:16:
->>     In file included from include/linux/sched/clock.h:5:
->>     In file included from include/linux/smp.h:13:
->>     In file included from include/linux/cpumask.h:11:
->>     In file included from include/linux/kernel.h:23:
->>     In file included from include/linux/bitops.h:68:
->>>> arch/powerpc/include/asm/bitops.h:126:26: error: constraint 'n' expects an integer constant expression
->>       126 | DEFINE_CLROP(clear_bits, "")
->>           |                          ^
->>     1 error generated.
-> 
-> I've expanded the for_each_node_numadist() macro to better understand
-> what's going on, it seems that clang isn't happy with a node_clear() inside
-> the for loop, and it's not complaining about a similar node_clear() outside
-> the for loop.
-> 
-> Also, it seems to happen only with clang (gcc is always happy).
-> 
-> Here's the relevant code (with the macro expanded and comments removed):
-> 
-> ===
-> static DEFINE_PER_CPU(nodemask_t, per_cpu_unvisited);
-> 
-> static s32 pick_idle_cpu_from_online_nodes(const struct cpumask *cpus_allowed, int node, u64 flags)
-> {
->          nodemask_t *unvisited;
->          s32 cpu = -EBUSY;
-> 
->          preempt_disable();
->          unvisited = this_cpu_ptr(&per_cpu_unvisited);
-> 
->          nodes_copy(*unvisited, node_states[N_ONLINE]);
->          node_clear(node, *unvisited);
-> 
->          for (int __start = node,
->               node = nearest_node_nodemask(__start, unvisited);
->               node < MAX_NUMNODES;
->               // node_clear(node, *unvisited), <- clang is happy with this one commented!
->               node = nearest_node_nodemask(__start, unvisited)) {
->                  cpu = pick_idle_cpu_in_node(cpus_allowed, node, flags);
->                  if (cpu >= 0)
->                          break;
->          }
->          preempt_enable();
-> 
->          return cpu;
-> }
-> ===
-> 
-> The code looks correct to me, but I don't know much about powerpc assembly.
-> Christophe, maybe you have a better idea of what's happening here?
+[auto build test WARNING on net-next/main]
 
-#define DEFINE_CLROP(fn, prefix)					\
-static inline void fn(unsigned long mask, volatile unsigned long *_p)	\
-{									\
-	unsigned long old;						\
-	unsigned long *p = (unsigned long *)_p;				\
-									\
-	if (IS_ENABLED(CONFIG_PPC32) &&					\
-	    __builtin_constant_p(mask) && is_rlwinm_mask_valid(~mask)) {\
-		asm volatile (						\
-			prefix						\
-		"1:"	"lwarx	%0,0,%3\n"				\
-			"rlwinm	%0,%0,0,%2\n"				\
-			"stwcx.	%0,0,%3\n"				\
-			"bne- 1b\n"					\
-			: "=&r" (old), "+m" (*p)			\
-			: "n" (~mask), "r" (p)				\
-			: "cc", "memory");				\
-	} else {							\
-		asm volatile (						\
-			prefix						\
-		"1:"	PPC_LLARX "%0,0,%3,0\n"				\
-			"andc %0,%0,%2\n"				\
-			PPC_STLCX "%0,0,%3\n"				\
-			"bne- 1b\n"					\
-			: "=&r" (old), "+m" (*p)			\
-			: "r" (mask), "r" (p)				\
-			: "cc", "memory");				\
-	}								\
-}
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvmem-Document-support-for-Airoha-AN8855-Switch-EFUSE/20250310-013306
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250309172717.9067-6-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH v12 05/13] dt-bindings: mfd: Document support for Airoha AN8855 Switch SoC
+reproduce: (https://download.01.org/0day-ci/archive/20250310/202503100331.nksmBPCd-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503100331.nksmBPCd-lkp@intel.com/
 
-clang says "constraint 'n' expects an integer constant expression" ?
+All warnings (new ones prefixed by >>):
 
-The only place I see 'n' constraint in that macro is the '"n" (~mask)' 
-in the if __builtin_constant_p(mask) branch. As far as I know if mask is 
-a constant (~mask) is also a constant ?
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/airoha,an8855-mfd.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
 
-Must be a clang bug ?
-
-Maybe try with __builtin_constant_p(~mask) instead of 
-__builtin_constant_p(mask)
-
-Christophe
-
-> 
-> Thanks,
-> -Andrea
-> 
->>
->>
->> vim +/n +126 arch/powerpc/include/asm/bitops.h
->>
->> fb350784d8d179 Christophe Leroy 2021-09-21  125
->> fb350784d8d179 Christophe Leroy 2021-09-21 @126  DEFINE_CLROP(clear_bits, "")
->> fb350784d8d179 Christophe Leroy 2021-09-21  127  DEFINE_CLROP(clear_bits_unlock, PPC_RELEASE_BARRIER)
->> fb350784d8d179 Christophe Leroy 2021-09-21  128
->>
->> :::::: The code at line 126 was first introduced by commit
->> :::::: fb350784d8d17952afa93383bb47aaa6b715c459 powerpc/bitops: Use immediate operand when possible
->>
->> :::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
->> :::::: CC: Michael Ellerman <mpe@ellerman.id.au>
->>
->> --
->> 0-DAY CI Kernel Test Service
->> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel%2Flkp-tests%2Fwiki&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C01ad01407fee4a03676d08dd5ee5a99d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638771062687441670%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=y4xmCm57X1U8WeYk2lPntirA60ajGxiW6u2xjp3t580%3D&reserved=0
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
