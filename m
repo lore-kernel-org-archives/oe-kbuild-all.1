@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A171B4F08
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 14:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2491AC43A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 14:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741529983; cv=none; b=inzHBkLLOFLbgXezeTbCdb6jTsl/uct/v6UJiIupSFYEWKeyMXmpEMRtb+joRiBvJnI0Y4Ab4MUH9lpBGMqC/zTUND66+zIEnU2sUgn4F6gnxxlGsA3juusb+ak/NfZFFkvnL1ZNqCbHR74ChEotwBg5X3V7EzGa04hTWo/HFSo=
+	t=1741530728; cv=none; b=ZKuankcDWrW4wEH3fFF4p5uDFMGYbItB3w4qOTZfjUbOkte8KS/3eGyUL9qELmsUgaM00rkJnufF1nkrejY8y2ZqFzT3dDDVmQ1wkc0vjxu6Xl9q+QOAuQuOSdXFPLt2vIzJYnHAJK7M1KdqeczbWRdNaeQb9PDtpY2cE6TpREo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741529983; c=relaxed/simple;
-	bh=ZG2rzKu6iXilCkrrkwptgdpwn28MXDhu6DMLhGe1TIA=;
+	s=arc-20240116; t=1741530728; c=relaxed/simple;
+	bh=bM8KgHA9rXTFzkZz2YUyXVCXsDpEbBTTpxv7YveLWAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PRqQHpdryefXT2FGiaQsE5LHDQrgdgDl9HHAzBe3zZKn2rf07SxIXdIrftBcWpATuuT0FT6T+R5nLZII0NxDli6071YRAmvQGkcGwJz+UKDQPhxdiFSNbmmYypBCy1zmoLoxjrdv5xaUAEUaG4XR53gyjHWHw6BMwvO2qQ7I69Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jF2AaZSX; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=MmG98n1OGWlri48PzX0qznjTtUdO6iLg+i5ENDyJcwHotiMcrk6kIcZhqry01koqjaaLq6uWPULjRDfv6njsdNyW+RWJbIAv4t3zneuPuvEBm4emscU2PqctJiVs9QYsaffeNBu+RkyDKr1OuUFd4722kU4CbYVqBCUfcosCCc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l8ewZFu4; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jF2AaZSX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l8ewZFu4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741529981; x=1773065981;
+  t=1741530727; x=1773066727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZG2rzKu6iXilCkrrkwptgdpwn28MXDhu6DMLhGe1TIA=;
-  b=jF2AaZSXgrkopYSdVstPEgdhQXkpX1jF7eLAqcK9WPaVWhHH7GjZaObR
-   AJbVWhpi4we+0//xeKqM5+ZpvuvWv6TkSsTLK24I8iOM37XgP+qjxePt2
-   d7rs78IsmfTW2GvV799BsHQFPxgd2k5z3ydRH+2jPSUNHad9hC7oyd8Or
-   MDZsuSLXHJWNHO/7+RaVmQ16RnBVrGOvwA3vE/2qaNPSRE20bqitBL0Bw
-   5oasdLP3ABrUBGRorWSfjBLQnqbBFEvUCisnwzExnhgMOUhMyfVrpxFS+
-   RNeExC+Z7vpnh1g8tE4/ehK6H0jmVd63lbGkoItftAfpUyuh5HCDpblAb
-   g==;
-X-CSE-ConnectionGUID: Qwp2XnGKSvKN1zSZsoUq8A==
-X-CSE-MsgGUID: IU8nwxcNTXucMTJu0kE1NA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42568595"
+  bh=bM8KgHA9rXTFzkZz2YUyXVCXsDpEbBTTpxv7YveLWAU=;
+  b=l8ewZFu4jrdTsfV9oL6cfv3tMohadhUAPS02oTopvWJmNQM1ByxJYG/i
+   nhlGxgbem9mYu00/ikVaBnlgGQRDoH5F6mJm/X0sORlOnGQyUWQ9IkLMC
+   GikRFHLJ0c6tZEsfGjISJ/a2x4fEEAWu+tRSZUwfRtWVn5NbshbdsABG6
+   bVbN0d+IIotV+KkmnRPLR9F3nKmIoDO5dLAnn2/Aj0rdHZ9+MySZ6yheq
+   /vQ9YmI+tU6kAT11qREzG5LP1ZZ+TbPT4l2F+TGmL+yWMM6DtmIfmu4eU
+   xb790/OQaNJSW+Bl2lC55ffofQJsXxalBS2N6/1BIj5kCtE3crXYr3qt4
+   w==;
+X-CSE-ConnectionGUID: 2VQlRY2wQXqXTIpkKBFqpQ==
+X-CSE-MsgGUID: xYIFJcETTJCK1fBvjjatBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="59938740"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="42568595"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 07:19:41 -0700
-X-CSE-ConnectionGUID: COab6tBdQ4WTqq6hRftOIg==
-X-CSE-MsgGUID: Z8dMQavqQrSFOfV67h0yRg==
+   d="scan'208";a="59938740"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 07:32:06 -0700
+X-CSE-ConnectionGUID: xXM4is8+QW691AlE3zMhng==
+X-CSE-MsgGUID: 3uOXxDMGTV2CzwqEKsPaQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120666787"
+   d="scan'208";a="123947084"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 09 Mar 2025 07:19:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Mar 2025 07:32:04 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trHV6-0003As-2u;
-	Sun, 09 Mar 2025 14:19:34 +0000
-Date: Sun, 9 Mar 2025 22:19:01 +0800
+	id 1trHhC-0003BS-0X;
+	Sun, 09 Mar 2025 14:32:02 +0000
+Date: Sun, 9 Mar 2025 22:31:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
+To: Jason Gerecke <jason.gerecke@wacom.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: drivers/most/most_snd.c:58: warning: Excess struct member 'opened'
- description in 'channel'
-Message-ID: <202503092254.0yxhP6hv-lkp@intel.com>
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: drivers/input/touchscreen/wacom_w8001.c:637:29: warning: ' Pen'
+ directive output may be truncated writing 4 bytes into a region of size
+ between 1 and 64
+Message-ID: <202503092244.Ets7kUrD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +64,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
+Hi Jason,
 
 FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   1110ce6a1e34fe1fdc1bfe4ad52405f327d5083b
-commit: 512d092d78823f9813f4af38090b33c454137a4c ALSA: Enable build with UML
-date:   1 year, 8 months ago
-config: um-randconfig-001-20240624 (https://download.01.org/0day-ci/archive/20250309/202503092254.0yxhP6hv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503092254.0yxhP6hv-lkp@intel.com/reproduce)
+commit: 6c7cc1a29d1e679be4a98b01141f1ba491e5775e Input: wacom_w8001 - simplify device name generation
+date:   9 months ago
+config: sparc-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20250309/202503092244.Ets7kUrD-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503092244.Ets7kUrD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503092254.0yxhP6hv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503092244.Ets7kUrD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/most/most_snd.c:58: warning: Excess struct member 'opened' description in 'channel'
+   drivers/input/touchscreen/wacom_w8001.c: In function 'w8001_connect':
+>> drivers/input/touchscreen/wacom_w8001.c:637:29: warning: ' Pen' directive output may be truncated writing 4 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
+     637 |                          "%s Pen", basename);
+         |                             ^~~~
+   drivers/input/touchscreen/wacom_w8001.c:636:17: note: 'snprintf' output between 5 and 68 bytes into a destination of size 64
+     636 |                 snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     637 |                          "%s Pen", basename);
+         |                          ~~~~~~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/wacom_w8001.c:653:29: warning: ' Finger' directive output may be truncated writing 7 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
+     653 |                          "%s Finger", basename);
+         |                             ^~~~~~~
+   drivers/input/touchscreen/wacom_w8001.c:652:17: note: 'snprintf' output between 8 and 71 bytes into a destination of size 64
+     652 |                 snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     653 |                          "%s Finger", basename);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +58 drivers/most/most_snd.c
+vim +637 drivers/input/touchscreen/wacom_w8001.c
 
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  26  
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  27  /**
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  28   * struct channel - private structure to keep channel specific data
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  29   * @substream: stores the substream structure
-fba3993e86cc44 drivers/most/most_snd.c                Randy Dunlap    2023-01-12  30   * @pcm_hardware: low-level hardware description
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  31   * @iface: interface for which the channel belongs to
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  32   * @cfg: channel configuration
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  33   * @card: registered sound card
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  34   * @list: list for private use
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  35   * @id: channel index
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  36   * @period_pos: current period position (ring buffer)
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  37   * @buffer_pos: current buffer position (ring buffer)
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  38   * @is_stream_running: identifies whether a stream is running or not
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  39   * @opened: set when the stream is opened
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  40   * @playback_task: playback thread
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  41   * @playback_waitq: waitq used by playback thread
-fba3993e86cc44 drivers/most/most_snd.c                Randy Dunlap    2023-01-12  42   * @copy_fn: copy function for PCM-specific format and width
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  43   */
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  44  struct channel {
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  45  	struct snd_pcm_substream *substream;
-d801887248312f drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-09-28  46  	struct snd_pcm_hardware pcm_hardware;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  47  	struct most_interface *iface;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  48  	struct most_channel_config *cfg;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  49  	struct snd_card *card;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  50  	struct list_head list;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  51  	int id;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  52  	unsigned int period_pos;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  53  	unsigned int buffer_pos;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  54  	bool is_stream_running;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  55  	struct task_struct *playback_task;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  56  	wait_queue_head_t playback_waitq;
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  57  	void (*copy_fn)(void *alsa, void *most, unsigned int bytes);
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24 @58  };
-54b4856fb36246 drivers/staging/most/aim-sound/sound.c Christian Gromm 2015-07-24  59  
-
-:::::: The code at line 58 was first introduced by commit
-:::::: 54b4856fb3624609dd5d9ed013bfec7d67083622 Staging: most: add MOST driver's aim-sound module
-
-:::::: TO: Christian Gromm <christian.gromm@microchip.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   586	
+   587	/*
+   588	 * w8001_connect() is the routine that is called when someone adds a
+   589	 * new serio device that supports the w8001 protocol and registers it as
+   590	 * an input device.
+   591	 */
+   592	
+   593	static int w8001_connect(struct serio *serio, struct serio_driver *drv)
+   594	{
+   595		struct w8001 *w8001;
+   596		struct input_dev *input_dev_pen;
+   597		struct input_dev *input_dev_touch;
+   598		char basename[64] = "Wacom Serial";
+   599		int err, err_pen, err_touch;
+   600	
+   601		w8001 = kzalloc(sizeof(struct w8001), GFP_KERNEL);
+   602		input_dev_pen = input_allocate_device();
+   603		input_dev_touch = input_allocate_device();
+   604		if (!w8001 || !input_dev_pen || !input_dev_touch) {
+   605			err = -ENOMEM;
+   606			goto fail1;
+   607		}
+   608	
+   609		w8001->serio = serio;
+   610		w8001->pen_dev = input_dev_pen;
+   611		w8001->touch_dev = input_dev_touch;
+   612		mutex_init(&w8001->mutex);
+   613		init_completion(&w8001->cmd_done);
+   614		snprintf(w8001->phys, sizeof(w8001->phys), "%s/input0", serio->phys);
+   615	
+   616		serio_set_drvdata(serio, w8001);
+   617		err = serio_open(serio, drv);
+   618		if (err)
+   619			goto fail2;
+   620	
+   621		err = w8001_detect(w8001);
+   622		if (err)
+   623			goto fail3;
+   624	
+   625		/* For backwards-compatibility we compose the basename based on
+   626		 * capabilities and then just append the tool type
+   627		 */
+   628		err_pen = w8001_setup_pen(w8001, basename, sizeof(basename));
+   629		err_touch = w8001_setup_touch(w8001, basename, sizeof(basename));
+   630		if (err_pen && err_touch) {
+   631			err = -ENXIO;
+   632			goto fail3;
+   633		}
+   634	
+   635		if (!err_pen) {
+   636			snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+ > 637				 "%s Pen", basename);
+   638			input_dev_pen->name = w8001->pen_name;
+   639	
+   640			w8001_set_devdata(input_dev_pen, w8001, serio);
+   641	
+   642			err = input_register_device(w8001->pen_dev);
+   643			if (err)
+   644				goto fail3;
+   645		} else {
+   646			input_free_device(input_dev_pen);
+   647			input_dev_pen = NULL;
+   648			w8001->pen_dev = NULL;
+   649		}
+   650	
+   651		if (!err_touch) {
+   652			snprintf(w8001->pen_name, sizeof(w8001->pen_name),
+ > 653				 "%s Finger", basename);
+   654			input_dev_touch->name = w8001->touch_name;
+   655	
+   656			w8001_set_devdata(input_dev_touch, w8001, serio);
+   657	
+   658			err = input_register_device(w8001->touch_dev);
+   659			if (err)
+   660				goto fail4;
+   661		} else {
+   662			input_free_device(input_dev_touch);
+   663			input_dev_touch = NULL;
+   664			w8001->touch_dev = NULL;
+   665		}
+   666	
+   667		return 0;
+   668	
+   669	fail4:
+   670		if (w8001->pen_dev)
+   671			input_unregister_device(w8001->pen_dev);
+   672	fail3:
+   673		serio_close(serio);
+   674	fail2:
+   675		serio_set_drvdata(serio, NULL);
+   676	fail1:
+   677		input_free_device(input_dev_pen);
+   678		input_free_device(input_dev_touch);
+   679		kfree(w8001);
+   680		return err;
+   681	}
+   682	
 
 -- 
 0-DAY CI Kernel Test Service
