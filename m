@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2491AC43A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA591CAA85
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 14:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741530728; cv=none; b=ZKuankcDWrW4wEH3fFF4p5uDFMGYbItB3w4qOTZfjUbOkte8KS/3eGyUL9qELmsUgaM00rkJnufF1nkrejY8y2ZqFzT3dDDVmQ1wkc0vjxu6Xl9q+QOAuQuOSdXFPLt2vIzJYnHAJK7M1KdqeczbWRdNaeQb9PDtpY2cE6TpREo=
+	t=1741530728; cv=none; b=kzXMrXX6Ww7PtV61crgixj0v0qGbu8yTmQ/C2KjazFc+psrVb3T82OSfWTGeQdYSI4dh1L4oY5ITORjbmJYPFVyZaNFrQVAmfUrtEjstPxOXg94NOqg8dL2n0C7XcAH/NgP4aD8NBCd3++59bqhcbTT3qSBqGIP7JgCritmY1Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741530728; c=relaxed/simple;
-	bh=bM8KgHA9rXTFzkZz2YUyXVCXsDpEbBTTpxv7YveLWAU=;
+	bh=rf7ClRPwbXBSePW2jK3Cp73RMSU8ntYf25KwZNIqRWY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MmG98n1OGWlri48PzX0qznjTtUdO6iLg+i5ENDyJcwHotiMcrk6kIcZhqry01koqjaaLq6uWPULjRDfv6njsdNyW+RWJbIAv4t3zneuPuvEBm4emscU2PqctJiVs9QYsaffeNBu+RkyDKr1OuUFd4722kU4CbYVqBCUfcosCCc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l8ewZFu4; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=XDq9D7X63x6rbW+PDvs2SXlnug9XZGmMBPq/K+1RIdDaXR7vXOHG4j0H83ZAFldUvmKj1L64lgQOq46DNORLfdjvI7J8ktCIbXRa+Eo8js3t5TTPzYpqqkDg49NY9ijDlb/jRtCFMM4TM5qPrV5kUOWut8eHJBHoAcN8ToHX31I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RbHBkzWJ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l8ewZFu4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RbHBkzWJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1741530727; x=1773066727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bM8KgHA9rXTFzkZz2YUyXVCXsDpEbBTTpxv7YveLWAU=;
-  b=l8ewZFu4jrdTsfV9oL6cfv3tMohadhUAPS02oTopvWJmNQM1ByxJYG/i
-   nhlGxgbem9mYu00/ikVaBnlgGQRDoH5F6mJm/X0sORlOnGQyUWQ9IkLMC
-   GikRFHLJ0c6tZEsfGjISJ/a2x4fEEAWu+tRSZUwfRtWVn5NbshbdsABG6
-   bVbN0d+IIotV+KkmnRPLR9F3nKmIoDO5dLAnn2/Aj0rdHZ9+MySZ6yheq
-   /vQ9YmI+tU6kAT11qREzG5LP1ZZ+TbPT4l2F+TGmL+yWMM6DtmIfmu4eU
-   xb790/OQaNJSW+Bl2lC55ffofQJsXxalBS2N6/1BIj5kCtE3crXYr3qt4
-   w==;
-X-CSE-ConnectionGUID: 2VQlRY2wQXqXTIpkKBFqpQ==
-X-CSE-MsgGUID: xYIFJcETTJCK1fBvjjatBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="59938740"
+  bh=rf7ClRPwbXBSePW2jK3Cp73RMSU8ntYf25KwZNIqRWY=;
+  b=RbHBkzWJ1Ef7lDXWj0LCfNyhZaEXS7fy+EIjuSdmxBLIV3wh2sggp93v
+   kB++7mP3Qgf1v7pvWvhgEPyeiOR1g6kBBeiDnDzws0T06d53Op+FRBFTv
+   wpueBESQGODIXtAe+suSR2yfTZQxdKMbhZT4369TmASPWi2CWqnr8khVz
+   5BArWZFVd3xEjFMqX/7Bd6WfIJYgiLjoxwRpzAci9y3ShFYFDV8mSftXD
+   B+zwdZE+OOFxveNldBQbzmgqs3UaqgGYOrZB0nIz0x4VWWXMGFG16+Rgz
+   9+oQQaYlArYedqQsq0KzqfB8VA+bCtH6naGoIod3gFy7f9jrJ6gwh/Fgk
+   Q==;
+X-CSE-ConnectionGUID: i8RKXRmlSpKjCh8+bq4K6A==
+X-CSE-MsgGUID: LAnC4nPcS+2VIVu8BSGhYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="53157492"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="59938740"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 07:32:06 -0700
-X-CSE-ConnectionGUID: xXM4is8+QW691AlE3zMhng==
-X-CSE-MsgGUID: 3uOXxDMGTV2CzwqEKsPaQg==
+   d="scan'208";a="53157492"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 07:32:06 -0700
+X-CSE-ConnectionGUID: Mz38SZ9bTuOQheLpz9LDzA==
+X-CSE-MsgGUID: ewQXqTkbScu1LfchR0THwg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="123947084"
+X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
+   d="scan'208";a="120480757"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Mar 2025 07:32:04 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Mar 2025 07:32:04 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trHhC-0003BS-0X;
+	id 1trHhC-0003BQ-0S;
 	Sun, 09 Mar 2025 14:32:02 +0000
-Date: Sun, 9 Mar 2025 22:31:39 +0800
+Date: Sun, 9 Mar 2025 22:31:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gerecke <jason.gerecke@wacom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: drivers/input/touchscreen/wacom_w8001.c:637:29: warning: ' Pen'
- directive output may be truncated writing 4 bytes into a region of size
- between 1 and 64
-Message-ID: <202503092244.Ets7kUrD-lkp@intel.com>
+To: Chiara Meiohas <cmeiohas@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Doug Ledford <dledford@redhat.com>,
+	Jason Gunthorpe <jgg+lists@ziepe.ca>, linux-rdma@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: [rdma:wip/leon-for-next 19/29] include/rdma/ib_ucaps.h:19:18:
+ warning: extra tokens at end of #ifdef directive
+Message-ID: <202503092207.3Ho0hd5Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,143 +66,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jason,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1110ce6a1e34fe1fdc1bfe4ad52405f327d5083b
-commit: 6c7cc1a29d1e679be4a98b01141f1ba491e5775e Input: wacom_w8001 - simplify device name generation
-date:   9 months ago
-config: sparc-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20250309/202503092244.Ets7kUrD-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503092244.Ets7kUrD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/leon-for-next
+head:   b064e7b61e82e48d030582eb1d3701b31c2b16c8
+commit: 548599879c3a640b3893070a1739624bcfdb968d [19/29] RDMA/uverbs: Introduce UCAP (User CAPabilities) API
+config: csky-randconfig-002-20250309 (https://download.01.org/0day-ci/archive/20250309/202503092207.3Ho0hd5Q-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503092207.3Ho0hd5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503092244.Ets7kUrD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503092207.3Ho0hd5Q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/input/touchscreen/wacom_w8001.c: In function 'w8001_connect':
->> drivers/input/touchscreen/wacom_w8001.c:637:29: warning: ' Pen' directive output may be truncated writing 4 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
-     637 |                          "%s Pen", basename);
-         |                             ^~~~
-   drivers/input/touchscreen/wacom_w8001.c:636:17: note: 'snprintf' output between 5 and 68 bytes into a destination of size 64
-     636 |                 snprintf(w8001->pen_name, sizeof(w8001->pen_name),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     637 |                          "%s Pen", basename);
-         |                          ~~~~~~~~~~~~~~~~~~~
->> drivers/input/touchscreen/wacom_w8001.c:653:29: warning: ' Finger' directive output may be truncated writing 7 bytes into a region of size between 1 and 64 [-Wformat-truncation=]
-     653 |                          "%s Finger", basename);
-         |                             ^~~~~~~
-   drivers/input/touchscreen/wacom_w8001.c:652:17: note: 'snprintf' output between 8 and 71 bytes into a destination of size 64
-     652 |                 snprintf(w8001->pen_name, sizeof(w8001->pen_name),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     653 |                          "%s Finger", basename);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/infiniband/core/ucaps.c:11:
+>> include/rdma/ib_ucaps.h:19:18: warning: extra tokens at end of #ifdef directive
+      19 | #ifdef IS_ENABLED(CONFIG_INFINIBAND_USER_ACCESS)
+         |                  ^
 
 
-vim +637 drivers/input/touchscreen/wacom_w8001.c
+vim +19 include/rdma/ib_ucaps.h
 
-   586	
-   587	/*
-   588	 * w8001_connect() is the routine that is called when someone adds a
-   589	 * new serio device that supports the w8001 protocol and registers it as
-   590	 * an input device.
-   591	 */
-   592	
-   593	static int w8001_connect(struct serio *serio, struct serio_driver *drv)
-   594	{
-   595		struct w8001 *w8001;
-   596		struct input_dev *input_dev_pen;
-   597		struct input_dev *input_dev_touch;
-   598		char basename[64] = "Wacom Serial";
-   599		int err, err_pen, err_touch;
-   600	
-   601		w8001 = kzalloc(sizeof(struct w8001), GFP_KERNEL);
-   602		input_dev_pen = input_allocate_device();
-   603		input_dev_touch = input_allocate_device();
-   604		if (!w8001 || !input_dev_pen || !input_dev_touch) {
-   605			err = -ENOMEM;
-   606			goto fail1;
-   607		}
-   608	
-   609		w8001->serio = serio;
-   610		w8001->pen_dev = input_dev_pen;
-   611		w8001->touch_dev = input_dev_touch;
-   612		mutex_init(&w8001->mutex);
-   613		init_completion(&w8001->cmd_done);
-   614		snprintf(w8001->phys, sizeof(w8001->phys), "%s/input0", serio->phys);
-   615	
-   616		serio_set_drvdata(serio, w8001);
-   617		err = serio_open(serio, drv);
-   618		if (err)
-   619			goto fail2;
-   620	
-   621		err = w8001_detect(w8001);
-   622		if (err)
-   623			goto fail3;
-   624	
-   625		/* For backwards-compatibility we compose the basename based on
-   626		 * capabilities and then just append the tool type
-   627		 */
-   628		err_pen = w8001_setup_pen(w8001, basename, sizeof(basename));
-   629		err_touch = w8001_setup_touch(w8001, basename, sizeof(basename));
-   630		if (err_pen && err_touch) {
-   631			err = -ENXIO;
-   632			goto fail3;
-   633		}
-   634	
-   635		if (!err_pen) {
-   636			snprintf(w8001->pen_name, sizeof(w8001->pen_name),
- > 637				 "%s Pen", basename);
-   638			input_dev_pen->name = w8001->pen_name;
-   639	
-   640			w8001_set_devdata(input_dev_pen, w8001, serio);
-   641	
-   642			err = input_register_device(w8001->pen_dev);
-   643			if (err)
-   644				goto fail3;
-   645		} else {
-   646			input_free_device(input_dev_pen);
-   647			input_dev_pen = NULL;
-   648			w8001->pen_dev = NULL;
-   649		}
-   650	
-   651		if (!err_touch) {
-   652			snprintf(w8001->pen_name, sizeof(w8001->pen_name),
- > 653				 "%s Finger", basename);
-   654			input_dev_touch->name = w8001->touch_name;
-   655	
-   656			w8001_set_devdata(input_dev_touch, w8001, serio);
-   657	
-   658			err = input_register_device(w8001->touch_dev);
-   659			if (err)
-   660				goto fail4;
-   661		} else {
-   662			input_free_device(input_dev_touch);
-   663			input_dev_touch = NULL;
-   664			w8001->touch_dev = NULL;
-   665		}
-   666	
-   667		return 0;
-   668	
-   669	fail4:
-   670		if (w8001->pen_dev)
-   671			input_unregister_device(w8001->pen_dev);
-   672	fail3:
-   673		serio_close(serio);
-   674	fail2:
-   675		serio_set_drvdata(serio, NULL);
-   676	fail1:
-   677		input_free_device(input_dev_pen);
-   678		input_free_device(input_dev_touch);
-   679		kfree(w8001);
-   680		return err;
-   681	}
-   682	
+    16	
+    17	void ib_cleanup_ucaps(void);
+    18	int ib_get_ucaps(int *fds, int fd_count, uint64_t *idx_mask);
+  > 19	#ifdef IS_ENABLED(CONFIG_INFINIBAND_USER_ACCESS)
+    20	int ib_create_ucap(enum rdma_user_cap type);
+    21	void ib_remove_ucap(enum rdma_user_cap type);
+    22	#else
+    23	static inline int ib_create_ucap(enum rdma_user_cap type)
+    24	{
+    25		return -EOPNOTSUPP;
+    26	}
+    27	static inline void ib_remove_ucap(enum rdma_user_cap type) {}
+    28	#endif /* CONFIG_INFINIBAND_USER_ACCESS */
+    29	
 
 -- 
 0-DAY CI Kernel Test Service
