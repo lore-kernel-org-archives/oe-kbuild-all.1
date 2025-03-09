@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C801F35977
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 07:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68BF19BBC
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 07:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741505467; cv=none; b=KcLVXWs3KKYSnDVwuA87tLtyuBg/HuTzyeMyd49D6F4o+TzJBDo4ir3xVT1gNRsZBUf/V0chRic48lmehuP+BIeNzzhEczAqW0WX/cl4hEPmLfgazCG/n/FAq6XzeXkye4Jb0iElaIP7dSUlKw0VNmJ01LfoaLKXqGK3ig+ipj0=
+	t=1741506148; cv=none; b=bhhdhaMAHbf3PjEBsnNobheK2oOwIPFUKuomf0Ho/0bhgPATmMk8BJyYjY3Tm68OPE1+WhhUlRKhYy4LBcngkAqAOI6wX7zVFYpU6HcTUQk050qfxYi9c4X0fIoHTpr0uOvdZN3sWziT57HHndItvdyfjeTZtpmIzA/RV7dRoLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741505467; c=relaxed/simple;
-	bh=ZKJSAixtGa8EYM786HG4a7BBHv/1ACcxuJ/EoQKKgBI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBnH4cFPhdQJCUw6hoJkG1JyqwdW0T5aUXvF+0/96MNtrnDEQYijTb10wWXcbTXKunUWpgUkaC/dqSGUIQTtTRZsqje0w5dsQsUTE6VyUN1RSCU4dxgJDbzgAvmqJ0lQijZoaU+lP1Lav1UPQCj5UaJuC1NAJHTfaE9II+DRSwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAPPoDG6; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1741506148; c=relaxed/simple;
+	bh=RE7lPsZzR/eOzNpRYQWpzd4nNHiiOIPFgDoM5fx8/7k=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fvqUQSRlHdaRIATlrtoE+qXIIpqzSqOUJeLCmsuTM3iLg2OBhp2Duy+CS88vHQVuApD7f0/1n/iU8hz7aUhvLi4Znnp1dTtHt31TChu8BmoBPpWsg46wjtiQdZItQgFjGUZvi21V3FwDKJltKoZYPIbV5QFCCy9UzYyjPoE2Nv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hHiq/qw8; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAPPoDG6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hHiq/qw8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741505464; x=1773041464;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZKJSAixtGa8EYM786HG4a7BBHv/1ACcxuJ/EoQKKgBI=;
-  b=EAPPoDG6ryex3O7npIQwmfr3mgHhv3ktD8ULikq8VFjxJf45ttTsE5mP
-   uvWbJ8mB11LcY+dnuqYZu7S6g7Fbytjc7ZyLAzaveudz0mojD5KD+bcxj
-   XgVECwuEj5q0TQLbFUtN5Bl5ULY0vMJDv3vN+4eIR4Sm1l22bEcc67nab
-   cuXuFdRvigbPVeeIQhPd8uMr2eO85tECSyanAcRmXz2NN1J4h+m2p8Lcx
-   f2RkxUNXmqfhBAB082ExRPRbHKhKDBoGK4R3lNqrYg32yl8zrrdyRn/7r
-   jyk+3ogSA7CZ2/hZMsGVwH5thAc7Kg3L/qwXB6U77/iTsXQFg8BtR8vC9
-   Q==;
-X-CSE-ConnectionGUID: Njo4e/Y9S1COKyswQngjvw==
-X-CSE-MsgGUID: aSrALV3kRDadd7tg3onjZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46294101"
+  t=1741506147; x=1773042147;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=RE7lPsZzR/eOzNpRYQWpzd4nNHiiOIPFgDoM5fx8/7k=;
+  b=hHiq/qw8Q6TNFr5XqduI0lx2e8trxn8xpZmOUiHL1R2r3Uts27kdB9dF
+   ksxnbG0k4yL9RtV4q/B6BujWi11+WKKvV1N9E1metsh9exGQBsdM3Pz5p
+   adn+JYFjE8elh5Pao3TotwWzD2mmZSkGw//ND3YYCaRYtvVNUTvQEvqwN
+   bEgk6Z81gN6Jg6ZLB/JblT+X+j+msnEGtzdDoKijVhwUBo6CGrIMXNqMk
+   hBbUalTGyqyy8h/8aTvslNGh9r6litP9iX8of4NDryETDOBZ8SMGkJg1r
+   j30GkPHqhYd4bck1Arg/3sjr8pgv9hA3FyW1hSRGMbZ/UUDifI/9llde7
+   A==;
+X-CSE-ConnectionGUID: 2VU/ch+BR1m7Hrb59xx5CA==
+X-CSE-MsgGUID: ZGE9Z19qQ4+pxlms2mXX5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46294425"
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="46294101"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 23:31:03 -0800
-X-CSE-ConnectionGUID: ue1gO0WMR5+lcH41ApZx1A==
-X-CSE-MsgGUID: s9AjcIKbQlSBzq2PnIQnJg==
+   d="scan'208";a="46294425"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 23:42:26 -0800
+X-CSE-ConnectionGUID: 5z1sa5F1R76lgNihNYb7IQ==
+X-CSE-MsgGUID: Fkf8/ZVCTfyChEnNveOjiA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="120419004"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="123894551"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Mar 2025 23:31:02 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 08 Mar 2025 23:42:25 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trB7g-0002nm-1P;
-	Sun, 09 Mar 2025 07:30:57 +0000
-Date: Sun, 9 Mar 2025 15:30:28 +0800
+	id 1trBIl-0002oP-0q
+	for oe-kbuild-all@lists.linux.dev;
+	Sun, 09 Mar 2025 07:42:23 +0000
+Date: Sun, 9 Mar 2025 15:41:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ming Lei <ming.lei@redhat.com>
-Subject: Re: [RESEND PATCH 3/5] loop: add helper loop_queue_work_prep
-Message-ID: <202503091413.vbFFy32o-lkp@intel.com>
-References: <20250308162312.1640828-4-ming.lei@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:pr/57 1/1] security/safesetid/lsm.c:213:5: warning: no
+ previous prototype for function 'add_safesetid_whitelist_entry'
+Message-ID: <202503091510.Rj1oRsX1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,63 +61,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250308162312.1640828-4-ming.lei@redhat.com>
 
-Hi Ming,
+Hi Micah,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v6.14-rc5 next-20250307]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/loop-remove-rw-parameter-from-lo_rw_aio/20250309-002548
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20250308162312.1640828-4-ming.lei%40redhat.com
-patch subject: [RESEND PATCH 3/5] loop: add helper loop_queue_work_prep
-config: arc-randconfig-001-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091413.vbFFy32o-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091413.vbFFy32o-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git pr/57
+head:   6fe7458ff80d33a5dba8b386c88d33ffd2ccb47d
+commit: aeca4e2ca65c1aeacfbe520684e6421719d99417 [1/1] LSM: add SafeSetID module that gates setid calls
+config: x86_64-buildonly-randconfig-006-20250217 (https://download.01.org/0day-ci/archive/20250309/202503091510.Rj1oRsX1-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091510.Rj1oRsX1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091413.vbFFy32o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091510.Rj1oRsX1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/block/loop.c: In function 'loop_queue_work_prep':
->> drivers/block/loop.c:862:25: warning: unused variable 'rq' [-Wunused-variable]
-     862 |         struct request *rq = blk_mq_rq_from_pdu(cmd);
-         |                         ^~
+>> security/safesetid/lsm.c:213:5: warning: no previous prototype for function 'add_safesetid_whitelist_entry' [-Wmissing-prototypes]
+     213 | int add_safesetid_whitelist_entry(kuid_t parent, kuid_t child)
+         |     ^
+   security/safesetid/lsm.c:213:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     213 | int add_safesetid_whitelist_entry(kuid_t parent, kuid_t child)
+         | ^
+         | static 
+>> security/safesetid/lsm.c:234:6: warning: no previous prototype for function 'flush_safesetid_whitelist_entries' [-Wmissing-prototypes]
+     234 | void flush_safesetid_whitelist_entries(void)
+         |      ^
+   security/safesetid/lsm.c:234:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     234 | void flush_safesetid_whitelist_entries(void)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/rq +862 drivers/block/loop.c
+vim +/add_safesetid_whitelist_entry +213 security/safesetid/lsm.c
 
-   859	
-   860	static void loop_queue_work_prep(struct loop_cmd *cmd)
-   861	{
- > 862		struct request *rq = blk_mq_rq_from_pdu(cmd);
-   863	
-   864		/* always use the first bio's css */
-   865		cmd->blkcg_css = NULL;
-   866		cmd->memcg_css = NULL;
-   867	#ifdef CONFIG_BLK_CGROUP
-   868		if (rq->bio) {
-   869			cmd->blkcg_css = bio_blkcg_css(rq->bio);
-   870	#ifdef CONFIG_MEMCG
-   871			if (cmd->blkcg_css) {
-   872				cmd->memcg_css =
-   873					cgroup_get_e_css(cmd->blkcg_css->cgroup,
-   874							&memory_cgrp_subsys);
-   875			}
-   876	#endif
-   877		}
-   878	#endif
-   879	}
-   880	
+   212	
+ > 213	int add_safesetid_whitelist_entry(kuid_t parent, kuid_t child)
+   214	{
+   215		struct entry *new;
+   216	
+   217		/* Return if entry already exists */
+   218		if (check_setuid_policy_hashtable_key_value(parent, child))
+   219			return 0;
+   220	
+   221		new = kzalloc(sizeof(struct entry), GFP_KERNEL);
+   222		if (!new)
+   223			return -ENOMEM;
+   224		new->parent_kuid = __kuid_val(parent);
+   225		new->child_kuid = __kuid_val(child);
+   226		spin_lock(&safesetid_whitelist_hashtable_spinlock);
+   227		hash_add_rcu(safesetid_whitelist_hashtable,
+   228			     &new->next,
+   229			     __kuid_val(parent));
+   230		spin_unlock(&safesetid_whitelist_hashtable_spinlock);
+   231		return 0;
+   232	}
+   233	
+ > 234	void flush_safesetid_whitelist_entries(void)
+   235	{
+   236		struct entry *entry;
+   237		struct hlist_node *hlist_node;
+   238		unsigned int bkt_loop_cursor;
+   239		HLIST_HEAD(free_list);
+   240	
+   241		/*
+   242		 * Could probably use hash_for_each_rcu here instead, but this should
+   243		 * be fine as well.
+   244		 */
+   245		spin_lock(&safesetid_whitelist_hashtable_spinlock);
+   246		hash_for_each_safe(safesetid_whitelist_hashtable, bkt_loop_cursor,
+   247				   hlist_node, entry, next) {
+   248			hash_del_rcu(&entry->next);
+   249			hlist_add_head(&entry->dlist, &free_list);
+   250		}
+   251		spin_unlock(&safesetid_whitelist_hashtable_spinlock);
+   252		synchronize_rcu();
+   253		hlist_for_each_entry_safe(entry, hlist_node, &free_list, dlist) {
+   254			hlist_del(&entry->dlist);
+   255			kfree(entry);
+   256		}
+   257	}
+   258	
 
 -- 
 0-DAY CI Kernel Test Service
