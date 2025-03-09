@@ -1,59 +1,76 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8E84A0C;
-	Sun,  9 Mar 2025 11:38:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2861C4A0C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 11:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741520286; cv=none; b=fP7cyS9EMd4H6js6RnSVoHYcSo21gbdnYpm+MDRnZ0++1OMZLlHzMh17c1f9yeWuMJ5tJvDnhHBjGass08Y//9/Q02vukJOZAyiUV3eeJt9tX3Bz1rZ3YhZsQizYWlj2sX37Vppx1X6cM192h36N93lPbMcGoeLUk4rpcxz8eoE=
+	t=1741520290; cv=none; b=ACcVSSHffvbBADac7ze+LhPs8xBfwLkgvOscXH8qZBvila5myhtQixGQ5X8CPQJGtmHxKlRNk9dLekkRZMf8K3MTEmbMZTKmT/Nid8mpkUsR2e+30UXFEeoXm/TBMwNUdFmiBnXchZU3Vuis1ZU/QEyICgNY8IFYn4W1/YkScgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741520286; c=relaxed/simple;
-	bh=jjHW1xVbJVe7Vu9Yib+s3kJLGOmCalV98kQ8V7HP3aY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DP+oBbbbKez6ag7FfdQf4NinwN6+abYI39DZrfWb6gVDF8Ovae5bJdEN8zmEVCRITP0yJOuv7ZX7eWmYus1N/Kse9XmL7BymKSUSpzexoonq0eHGoqrqZMtmXyocIK5R4eAhaj0KB5mJm8kApwHCgucPhDqRTQLaW4HbisCgx9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUjdX0Oo; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1741520290; c=relaxed/simple;
+	bh=4nucg4CoauwA5kAPnRFSbGlLG8bVoifutuzMWDupJwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kxVlt9JnE6VXmLGmcyWjvYIx+S/e0hfxvZGX+EjHKx2waIsMQJFxk5rMjH0J8EdDOLboC9x8xicrfcnJBnYzU8iFz7eFkEX1LPk19RKQ9r+BKclgcnDy1FZe/cGJCZCvJgJLtNDn7yIsb43gR7/a6Hm7eKOPuVv3ndtFq7xNE3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVy66t1v; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUjdX0Oo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVy66t1v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741520284; x=1773056284;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jjHW1xVbJVe7Vu9Yib+s3kJLGOmCalV98kQ8V7HP3aY=;
-  b=fUjdX0OobQ2NXjLtyTxufkyP01XJW7mfH2tTPEgSDfwQnXRcwj4O7CWP
-   26T7JUpKVV3hn6C06V9WAFlxJwMts2SYhFJxO2Z3MqqT6gv1KPgK1fg+A
-   ayaWQBBPfa+ZYEs+nGQBSHRwTChXycWWzduyRQ54HS+RFaQ4YL3H1nWqU
-   b7J4KDZpBhx2W5pVOVDPcyT3MwDuEQNInI7utty203LP47uukMbJbZz79
-   D5r6XykPwqnhGitWyLqaO0Feg81og29hfSMmipmfJWErTtwbL2rlSpuhh
-   nsf681cFF3zgPjsHNbl5iiKI1qnSDdl/omkls8zew5XqAvD37Z/R+Ykis
-   Q==;
-X-CSE-ConnectionGUID: Xdq0WxpgQ4ChQO0AyCNXGg==
-X-CSE-MsgGUID: aAoj2bW+RFyoNDJer9875Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="30100060"
+  t=1741520288; x=1773056288;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4nucg4CoauwA5kAPnRFSbGlLG8bVoifutuzMWDupJwo=;
+  b=ZVy66t1vTpgQTHeu4/wAw0NlsZ/d6jWbbB0pu/wMRDKIvzDVwbJV2dwa
+   PXk7cIuJTCmoCAjiGLD1HRpFOdceeSJeCUijGRLtfO7zBMOlkSW4Sp4uO
+   I5WyLSRHXYBkk60F/b+cBF/8IhUrNNtK2EuBGBEuxRWuLnKy/N4wfZrvS
+   h2+qY+Tbf5dfnD9Ui7DuHUgCHawZ9BkjdtFufS0TFZt23Vu52k3CvZfoz
+   cZ9+S8gMBe3wk4WqyF3XMpY4t1TDVO8gW7TEuq/WjAwphmJ+iuqZZT15r
+   ajTRCyFBuOLZiYk1z8mK6Mejc7T/UXN3utSLtAeTrCZzx2V6DdrtviGdQ
+   A==;
+X-CSE-ConnectionGUID: sXm47PPMRF67kbfx/fNJwA==
+X-CSE-MsgGUID: dbrPFGFbROeFmS7GldvUaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="30100064"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="30100060"
+   d="scan'208";a="30100064"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 04:38:03 -0700
-X-CSE-ConnectionGUID: S1dkXO7pQ4meau80IynLBg==
-X-CSE-MsgGUID: yv0XtjKdToax/AgZ6SGRaQ==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 04:38:07 -0700
+X-CSE-ConnectionGUID: w5jE01DjQaGnYl4VkIt9VQ==
+X-CSE-MsgGUID: f5fOJWxjTFWCT8UaKUILFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="119710153"
+   d="scan'208";a="119710154"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by orviesa006.jf.intel.com with ESMTP; 09 Mar 2025 04:38:01 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trEyl-00033K-1x;
+	id 1trEyl-00033I-1s;
 	Sun, 09 Mar 2025 11:37:59 +0000
-Date: Sun, 9 Mar 2025 19:37:55 +0800
+Date: Sun, 9 Mar 2025 19:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:asm-call 33/42]
- arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm
- statement
-Message-ID: <202503091928.NPL4UWrM-lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	John Hubbard <jhubbard@nvidia.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
+	Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH v15 5/9] mm: rust: add mmput_async support
+Message-ID: <202503091916.QousmtcY-lkp@intel.com>
+References: <20250304-vma-v15-5-5c641b31980a@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,192 +79,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250304-vma-v15-5-5c641b31980a@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git asm-call
-head:   44613874d65bd54453e4f3c595459870cf4a8c9c
-commit: 96d3258b6cb6c042087f728a1aff88caaf36cfe4 [33/42] x86/xen: Use asm_call() in __hypercall*()
-config: x86_64-buildonly-randconfig-006-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091928.NPL4UWrM-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091928.NPL4UWrM-lkp@intel.com/reproduce)
+Hi Alice,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/mm-rust-add-abstraction-for-struct-mm_struct/20250304-195314
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250304-vma-v15-5-5c641b31980a%40google.com
+patch subject: [PATCH v15 5/9] mm: rust: add mmput_async support
+config: riscv-randconfig-r113-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091916.QousmtcY-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
+reproduce: (https://download.01.org/0day-ci/archive/20250309/202503091916.QousmtcY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091928.NPL4UWrM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091916.QousmtcY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/xen/features.c:14:
->> arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm statement
-     270 |         return _hypercall4(int, mmu_update, req, count, success_count, domid);
-         |                ^
-   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
-     207 |                  __HYPERCALL_CLOBBER4));                                \
-         |                                       ^
-   arch/x86/include/asm/xen/hypercall.h:277:9: error: expected ';' after asm statement
-     277 |         return _hypercall4(int, mmuext_op, op, count, success_count, domid);
-         |                ^
-   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
-     207 |                  __HYPERCALL_CLOBBER4));                                \
-         |                                       ^
-   2 errors generated.
---
-   In file included from drivers/xen/gntdev.c:44:
-   In file included from include/xen/events.h:12:
->> arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm statement
-     270 |         return _hypercall4(int, mmu_update, req, count, success_count, domid);
-         |                ^
-   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
-     207 |                  __HYPERCALL_CLOBBER4));                                \
-         |                                       ^
-   arch/x86/include/asm/xen/hypercall.h:277:9: error: expected ';' after asm statement
-     277 |         return _hypercall4(int, mmuext_op, op, count, success_count, domid);
-         |                ^
-   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
-     207 |                  __HYPERCALL_CLOBBER4));                                \
-         |                                       ^
-   In file included from drivers/xen/gntdev.c:49:
-   In file included from drivers/xen/gntdev-common.h:15:
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     159 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
-     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
-     160 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
-     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-         |                     ^ ~~~~~~~~~~~~~~~~~
-   drivers/xen/gntdev.c:600:46: warning: shift count >= width of type [-Wshift-count-overflow]
-     600 |         dma_coerce_mask_and_coherent(priv->dma_dev, DMA_BIT_MASK(64));
-         |                                                     ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
-      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   3 warnings and 2 errors generated.
---
-   In file included from drivers/xen/mem-reservation.c:13:
->> arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm statement
-     270 |         return _hypercall4(int, mmu_update, req, count, success_count, domid);
-         |                ^
-   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
-     207 |                  __HYPERCALL_CLOBBER4));                                \
-         |                                       ^
-   arch/x86/include/asm/xen/hypercall.h:277:9: error: expected ';' after asm statement
-     277 |         return _hypercall4(int, mmuext_op, op, count, success_count, domid);
-         |                ^
-   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
-     207 |                  __HYPERCALL_CLOBBER4));                                \
-         |                                       ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/xen/mem-reservation.c:16:
-   In file included from include/xen/mem-reservation.h:16:
-   In file included from include/linux/highmem.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-
-
-vim +270 arch/x86/include/asm/xen/hypercall.h
-
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  265  
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  266  static inline int
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  267  HYPERVISOR_mmu_update(struct mmu_update *req, int count,
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  268  		      int *success_count, domid_t domid)
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  269  {
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17 @270  	return _hypercall4(int, mmu_update, req, count, success_count, domid);
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  271  }
-a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  272  
-
-:::::: The code at line 270 was first introduced by commit
-:::::: a42089dd358a7673a0a23126589a9029e57c2049 xen: Add Xen interface header files
-
-:::::: TO: Jeremy Fitzhardinge <jeremy@xensource.com>
-:::::: CC: Jeremy Fitzhardinge <jeremy@goop.org>
+   820 |         insl(addr, buffer, count);
+   |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+   106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+   |                                          ~~~~~~~~~~ ^
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   829 |         outsb(addr, buffer, count);
+   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+   118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+   |                                            ~~~~~~~~~~ ^
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   838 |         outsw(addr, buffer, count);
+   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+   119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+   |                                            ~~~~~~~~~~ ^
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   847 |         outsl(addr, buffer, count);
+   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+   120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+   |                                            ~~~~~~~~~~ ^
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+   |                                                   ~~~~~~~~~~ ^
+   clang diag: arch/riscv/include/asm/io.h:104:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:105:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:106:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:118:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:119:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:120:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   7 warnings generated.
+   clang diag: arch/riscv/include/asm/io.h:104:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:105:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:106:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:118:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:119:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:120:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:104:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:105:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:106:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:118:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:119:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: arch/riscv/include/asm/io.h:120:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>> error[E0425]: cannot find function `mmput_async` in crate `bindings`
+   --> rust/kernel/mm.rs:143:28
+   |
+   143 |         unsafe { bindings::mmput_async(obj.cast().as_ptr()) };
+   |                            ^^^^^^^^^^^ not found in `bindings`
 
 -- 
 0-DAY CI Kernel Test Service
