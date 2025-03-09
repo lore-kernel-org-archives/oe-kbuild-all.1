@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23972F2E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 06:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956472F2E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 06:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741502874; cv=none; b=Kyw6PVYLjzTI0Vpj8MYs3ojeUsMCvEzfklRqFbO8XCd/WK6PNqPaTIz8e8Vf0aNGW83HcqxAApzEKN/Kip3d+rB+LRL3MOkmTzp1YAoIpX6b9KdMZ9krYbUB5SBm1BouTLuKFsZLKsniYVxzkX+qjMmfWjJjBqUuBNyNX47CYsQ=
+	t=1741503534; cv=none; b=L29tPD37wLjSL3T1ZL+EelbPHZZA6DWDcTp418vwccMAjhpaW8d3M1Qblj2WBiEbr6yZaaSLVhiiKxYxYIk0iKAplyEvouDMFh5m+yYQa3Fjfyn923th4gfpuBzgSUTsyAUwEqo0dq/E9TTH+FW2XkjT2sCRz8NqEEy0dcCcwA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741502874; c=relaxed/simple;
-	bh=WZBBMyyFkQKuDNJJ/VbNVczq+k5JSaLm2bRXMjU1vOc=;
+	s=arc-20240116; t=1741503534; c=relaxed/simple;
+	bh=zJkL+33OpBlwLGagD/SKr5zX8FBK47bGo5jRmMiG/Ms=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XjxHzyS5ixPSDPu3gBPqJeE7/POUu1VLIZviws4E4zN3rflGTJdeTbrpSfIZQnUd2b01OiXyaqap69G5/NFfD5yFQ/bUb66ceOcuEakSftdcCZrw4820bEd16r6QZt9wFPB9vdbEOv46uVj17RdKSBWNZrJDxWu6tvlczFp2GXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PG0vxj+f; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=MJxvNNHNeHF0WOEC0unFN/I3+6psT/Eb5mtbwhI/9GcCWWVem30j2hwgNq7ZX7o0uoGsxcwlzBDioVdBcmcGc9XstQfvPW7Oyaw7FtEAncqjkEHcPfxnS2XYMtCq/OZ9w7LU4iF5dOTxEQhmaYNbq3Y6apHCmWkxmr7Eb6bM4dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQ7k801v; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PG0vxj+f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQ7k801v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741502872; x=1773038872;
+  t=1741503532; x=1773039532;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WZBBMyyFkQKuDNJJ/VbNVczq+k5JSaLm2bRXMjU1vOc=;
-  b=PG0vxj+f2Dtwb1dhqwRIkfLXGbS2WiravW47AXsEFxxmpGQNGV+A/JE6
-   3jZz+A4XmA+2KUP7b6laJkdXxw0WsIG7AXGJydRUBfOl1TjiNYEYqsamE
-   38Q8gmt6Smr8RX4OJcTRAikRytR0pbN6XPQb04YcURvxhYalAXMGz86ZN
-   WT6gEeHnNFWNssAmp68Oa7ft+7daqGL7+oG30TF9jdxlziWsWpH2LhTyg
-   7VS1SJ2eQtEXQVz0SXwylEHz8lQMMzK1p1N+93ZDzwzHZzGnLoOZrVM55
-   G6kwb/mzWYgGFBFcl7pUtWAt+jZG7bfRjG0SWs828cUKv2826gE9JdrRx
-   w==;
-X-CSE-ConnectionGUID: LN9o8NrPQ9+Ve5PDrYeHDQ==
-X-CSE-MsgGUID: Zd/e4XazSaKvLbwWClS2BQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="52721227"
+  bh=zJkL+33OpBlwLGagD/SKr5zX8FBK47bGo5jRmMiG/Ms=;
+  b=VQ7k801v6L9iEitHANH4d1dxOObGjBJw1tmn+1WDzj9B0NcVEuh+B5RF
+   mPsbFaSFvMkJgStBYb3nCctXPd0SkJkA/9ENkhkiSJe3cCLqff4iDAAgY
+   /5KvCvMY8IUjVVf7Z4p/d3PXlRvk9qsy16dx3VW2KH+nKP971FXofZGN1
+   poNDE55HynI/8L/zoQuPZ7Sk9WTM2k9Xq5qiZVjcitIhXgpRdDwJY/SX5
+   VHCxSzE0SZ07o+GZT2Gt2vZi6ip1RlWkpW0k/KzJRjHJAl858UlN2W6hE
+   eJlcEge4y4AjTCjjffxrZfaqmZtSeqz7n9a4OCRYyMKUF4I9oaganYS+L
+   Q==;
+X-CSE-ConnectionGUID: PCLzWlghQkSc/POIpkK6Eg==
+X-CSE-MsgGUID: Q4Y1EXCvS4Oe/8B+/KQiAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="41763329"
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="52721227"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 22:47:51 -0800
-X-CSE-ConnectionGUID: AIAUER2/SNWkiwCeVhJc9Q==
-X-CSE-MsgGUID: IjHa3li4QT2/M7Zh207L4g==
+   d="scan'208";a="41763329"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 22:58:52 -0800
+X-CSE-ConnectionGUID: RQbVB+RFRUC9z2QAtTFaog==
+X-CSE-MsgGUID: MN3m2S7pSNCI5kHxg00N2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="124946330"
+X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
+   d="scan'208";a="120184315"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 08 Mar 2025 22:47:50 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 08 Mar 2025 22:58:51 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trARw-0002mG-0w;
-	Sun, 09 Mar 2025 06:47:48 +0000
-Date: Sun, 9 Mar 2025 14:47:40 +0800
+	id 1trAca-0002mi-2W;
+	Sun, 09 Mar 2025 06:58:48 +0000
+Date: Sun, 9 Mar 2025 14:58:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:asm-call 39/42] arch/x86/include/asm/cmpxchg_32.h:96:22:
- error: expected ':' or ')' before string constant
-Message-ID: <202503091446.UbrezQrg-lkp@intel.com>
+Subject: [jolsa-perf:bpf/optimized_usdt_1 19/20] kernel/seccomp.c:769:9:
+ error: expected identifier or '(' before 'for'
+Message-ID: <202503091449.ytCeLMrF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,154 +62,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git asm-call
-head:   3688c8209c27cd871041b38371e3c44e219ed75a
-commit: 9718c811b321acdc79da879f8830360acf26f69e [39/42] x86/percpu: Add __asm_call() and use it in percpu cmpxchg ops
-config: i386-buildonly-randconfig-003-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091446.UbrezQrg-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_1
+head:   c63f2f86076da544bc726c0e4dc9cb92f556b3d5
+commit: 637a4f5485c20fbeb03d920745ae345b81406600 [19/20] seccomp: passthrough uprobe systemcall without filtering
+config: i386-buildonly-randconfig-003-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091449.ytCeLMrF-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091446.UbrezQrg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091449.ytCeLMrF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091446.UbrezQrg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091449.ytCeLMrF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/alternative.h:8,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/swait.h:5,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/cmpxchg_32.h: In function 'arch_cmpxchg64':
->> arch/x86/include/asm/cmpxchg_32.h:96:22: error: expected ':' or ')' before string constant
-      96 |                  ARG("b" (n.low), "c" (n.high), [ptr] "S" (_ptr)),      \
-         |                      ^~~
-   arch/x86/include/asm/asm.h:214:57: note: in definition of macro 'ASM_CALL_OUTPUT'
-     214 | #define ASM_CALL_OUTPUT(x...)   ASM_CALL_CONSTRAINT, ## x
-         |                                                         ^
-   arch/x86/include/asm/asm.h:254:9: note: in expansion of macro '__asm_call'
-     254 |         __asm_call(volatile, insns, ARG(output), ARG(input), ## clobbers)
-         |         ^~~~~~~~~~
-   arch/x86/include/asm/asm.h:254:37: note: in expansion of macro 'ARG'
-     254 |         __asm_call(volatile, insns, ARG(output), ARG(input), ## clobbers)
-         |                                     ^~~
-   arch/x86/include/asm/cmpxchg_32.h:93:9: note: in expansion of macro 'asm_call'
-      93 |         asm_call(ALTERNATIVE(_lock_loc "call cmpxchg8b_emu",            \
-         |         ^~~~~~~~
-   arch/x86/include/asm/cmpxchg_32.h:96:18: note: in expansion of macro 'ARG'
-      96 |                  ARG("b" (n.low), "c" (n.high), [ptr] "S" (_ptr)),      \
-         |                  ^~~
-   arch/x86/include/asm/cmpxchg_32.h:104:16: note: in expansion of macro '__arch_cmpxchg64_emu'
-     104 |         return __arch_cmpxchg64_emu(ptr, old, new, LOCK_PREFIX_HERE, "lock ");
-         |                ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/cmpxchg.h:143,
-                    from arch/x86/include/asm/atomic.h:8,
-                    from include/linux/atomic.h:7,
-                    from include/linux/jump_label.h:257,
-                    from include/linux/static_key.h:1,
-                    from arch/x86/include/asm/nospec-branch.h:6,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/cmpxchg_32.h:91:28: warning: unused variable 'n' [-Wunused-variable]
-      91 |                            n = { .full = (_new), };                     \
-         |                            ^
-   arch/x86/include/asm/cmpxchg_32.h:104:16: note: in expansion of macro '__arch_cmpxchg64_emu'
-     104 |         return __arch_cmpxchg64_emu(ptr, old, new, LOCK_PREFIX_HERE, "lock ");
-         |                ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/alternative.h:8,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/swait.h:5,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/cmpxchg_32.h: In function 'arch_cmpxchg64_local':
->> arch/x86/include/asm/cmpxchg_32.h:96:22: error: expected ':' or ')' before string constant
-      96 |                  ARG("b" (n.low), "c" (n.high), [ptr] "S" (_ptr)),      \
-         |                      ^~~
-   arch/x86/include/asm/asm.h:214:57: note: in definition of macro 'ASM_CALL_OUTPUT'
-     214 | #define ASM_CALL_OUTPUT(x...)   ASM_CALL_CONSTRAINT, ## x
-         |                                                         ^
-   arch/x86/include/asm/asm.h:254:9: note: in expansion of macro '__asm_call'
-     254 |         __asm_call(volatile, insns, ARG(output), ARG(input), ## clobbers)
-         |         ^~~~~~~~~~
-   arch/x86/include/asm/asm.h:254:37: note: in expansion of macro 'ARG'
-     254 |         __asm_call(volatile, insns, ARG(output), ARG(input), ## clobbers)
-         |                                     ^~~
-   arch/x86/include/asm/cmpxchg_32.h:93:9: note: in expansion of macro 'asm_call'
-      93 |         asm_call(ALTERNATIVE(_lock_loc "call cmpxchg8b_emu",            \
-         |         ^~~~~~~~
-   arch/x86/include/asm/cmpxchg_32.h:96:18: note: in expansion of macro 'ARG'
-      96 |                  ARG("b" (n.low), "c" (n.high), [ptr] "S" (_ptr)),      \
-         |                  ^~~
-   arch/x86/include/asm/cmpxchg_32.h:110:16: note: in expansion of macro '__arch_cmpxchg64_emu'
-     110 |         return __arch_cmpxchg64_emu(ptr, old, new, ,);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/cmpxchg.h:143,
-                    from arch/x86/include/asm/atomic.h:8,
-                    from include/linux/atomic.h:7,
-                    from include/linux/jump_label.h:257,
-                    from include/linux/static_key.h:1,
-                    from arch/x86/include/asm/nospec-branch.h:6,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:18,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   arch/x86/include/asm/cmpxchg_32.h:91:28: warning: unused variable 'n' [-Wunused-variable]
-      91 |                            n = { .full = (_new), };                     \
-         |                            ^
-   arch/x86/include/asm/cmpxchg_32.h:110:16: note: in expansion of macro '__arch_cmpxchg64_emu'
-     110 |         return __arch_cmpxchg64_emu(ptr, old, new, ,);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=2779073971
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1267: prepare0] Error 2 shuffle=2779073971
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=2779073971
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=2779073971
-   make: Target 'prepare' not remade because of errors.
+   kernel/seccomp.c: In function 'seccomp_is_const_allow':
+>> kernel/seccomp.c:747:14: warning: unused variable 'op_res' [-Wunused-variable]
+     747 |         bool op_res;
+         |              ^~~~~~
+>> kernel/seccomp.c:746:22: warning: unused variable 'pc' [-Wunused-variable]
+     746 |         unsigned int pc;
+         |                      ^~
+>> kernel/seccomp.c:745:22: warning: unused variable 'reg_value' [-Wunused-variable]
+     745 |         unsigned int reg_value = 0;
+         |                      ^~~~~~~~~
+   kernel/seccomp.c: At top level:
+>> kernel/seccomp.c:769:9: error: expected identifier or '(' before 'for'
+     769 |         for (pc = 0; pc < fprog->len; pc++) {
+         |         ^~~
+>> kernel/seccomp.c:769:25: error: expected '=', ',', ';', 'asm' or '__attribute__' before '<' token
+     769 |         for (pc = 0; pc < fprog->len; pc++) {
+         |                         ^
+   kernel/seccomp.c:769:41: error: expected '=', ',', ';', 'asm' or '__attribute__' before '++' token
+     769 |         for (pc = 0; pc < fprog->len; pc++) {
+         |                                         ^~
+   In file included from arch/x86/include/asm/bug.h:103,
+                    from include/linux/bug.h:5,
+                    from include/linux/refcount.h:96,
+                    from kernel/seccomp.c:18:
+>> include/asm-generic/bug.h:170:29: error: expected identifier or '(' before '{' token
+     170 | #define WARN_ON(condition) ({                                           \
+         |                             ^
+   kernel/seccomp.c:828:9: note: in expansion of macro 'WARN_ON'
+     828 |         WARN_ON(1);
+         |         ^~~~~~~
+>> kernel/seccomp.c:829:9: error: expected identifier or '(' before 'return'
+     829 |         return false;
+         |         ^~~~~~
+>> kernel/seccomp.c:830:1: error: expected identifier or '(' before '}' token
+     830 | }
+         | ^
+   kernel/seccomp.c: In function 'seccomp_is_const_allow':
+   kernel/seccomp.c:767:9: warning: control reaches end of non-void function [-Wreturn-type]
+     767 |         }
+         |         ^
 
 
-vim +96 arch/x86/include/asm/cmpxchg_32.h
+vim +769 kernel/seccomp.c
 
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08   82  
-2c0b8a7578f7653 include/asm-x86/cmpxchg_32.h      Mathieu Desnoyers 2008-01-30   83  /*
-2c0b8a7578f7653 include/asm-x86/cmpxchg_32.h      Mathieu Desnoyers 2008-01-30   84   * Building a kernel capable running on 80386 and 80486. It may be necessary
-2c0b8a7578f7653 include/asm-x86/cmpxchg_32.h      Mathieu Desnoyers 2008-01-30   85   * to simulate the cmpxchg8b on the 80386 and 80486 CPU.
-2c0b8a7578f7653 include/asm-x86/cmpxchg_32.h      Mathieu Desnoyers 2008-01-30   86   */
-a436ed9c5106b41 include/asm-i386/cmpxchg.h        Jeff Dike         2007-05-08   87  
-33eb8ab4ec83cf0 arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-17   88  #define __arch_cmpxchg64_emu(_ptr, _old, _new, _lock_loc, _lock)	\
-2c0b8a7578f7653 include/asm-x86/cmpxchg_32.h      Mathieu Desnoyers 2008-01-30   89  ({									\
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08   90  	union __u64_halves o = { .full = (_old), },			\
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08   91  			   n = { .full = (_new), };			\
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08   92  									\
-9d370256c94ac8f arch/x86/include/asm/cmpxchg_32.h Josh Poimboeuf    2025-03-07   93  	asm_call(ALTERNATIVE(_lock_loc "call cmpxchg8b_emu",		\
-9d370256c94ac8f arch/x86/include/asm/cmpxchg_32.h Josh Poimboeuf    2025-03-07   94  			     _lock "cmpxchg8b %a[ptr]", X86_FEATURE_CX8),\
-9d370256c94ac8f arch/x86/include/asm/cmpxchg_32.h Josh Poimboeuf    2025-03-07   95  		 ARG("+a" (o.low), "+d" (o.high))			\
-9d370256c94ac8f arch/x86/include/asm/cmpxchg_32.h Josh Poimboeuf    2025-03-07  @96  		 ARG("b" (n.low), "c" (n.high),	[ptr] "S" (_ptr)),	\
-9d370256c94ac8f arch/x86/include/asm/cmpxchg_32.h Josh Poimboeuf    2025-03-07   97  		 ARG("memory"));					\
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08   98  									\
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08   99  	o.full;								\
-7016cc5def44b9d arch/x86/include/asm/cmpxchg_32.h Uros Bizjak       2024-04-08  100  })
-79e1dd05d1a22e9 arch/x86/include/asm/cmpxchg_32.h Arjan van de Ven  2009-09-30  101  
+c8bee430dc52cf Kees Cook   2014-06-27  734  
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  735  #ifdef SECCOMP_ARCH_NATIVE
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  736  /**
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  737   * seccomp_is_const_allow - check if filter is constant allow with given data
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  738   * @fprog: The BPF programs
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  739   * @sd: The seccomp data to check against, only syscall number and arch
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  740   *      number are considered constant.
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  741   */
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  742  static bool seccomp_is_const_allow(struct sock_fprog_kern *fprog,
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  743  				   struct seccomp_data *sd)
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  744  {
+8e01b51a31a1e0 YiFei Zhu   2020-10-11 @745  	unsigned int reg_value = 0;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11 @746  	unsigned int pc;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11 @747  	bool op_res;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  748  
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  749  	if (WARN_ON_ONCE(!fprog))
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  750  		return false;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  751  
+cf6cb56ef24410 Eyal Birger 2025-02-02  752  	/* Our single exception to filtering. */
+637a4f5485c20f Jiri Olsa   2025-03-08  753  #if defined __NR_uretprobe || defined __NR_uprobe
+cf6cb56ef24410 Eyal Birger 2025-02-02  754  #ifdef SECCOMP_ARCH_COMPAT
+cf6cb56ef24410 Eyal Birger 2025-02-02  755  	if (sd->arch == SECCOMP_ARCH_NATIVE)
+cf6cb56ef24410 Eyal Birger 2025-02-02  756  #endif
+637a4f5485c20f Jiri Olsa   2025-03-08  757  	{
+637a4f5485c20f Jiri Olsa   2025-03-08  758  #ifdef __NR_uretprobe
+cf6cb56ef24410 Eyal Birger 2025-02-02  759  		if (sd->nr == __NR_uretprobe)
+cf6cb56ef24410 Eyal Birger 2025-02-02  760  			return true;
+cf6cb56ef24410 Eyal Birger 2025-02-02  761  #endif
+637a4f5485c20f Jiri Olsa   2025-03-08  762  #ifdef __NR_uprobe
+637a4f5485c20f Jiri Olsa   2025-03-08  763  		if (sd->nr == __NR_uprobe)
+637a4f5485c20f Jiri Olsa   2025-03-08  764  			return true;
+637a4f5485c20f Jiri Olsa   2025-03-08  765  #endif
+637a4f5485c20f Jiri Olsa   2025-03-08  766  #endif
+637a4f5485c20f Jiri Olsa   2025-03-08  767  	}
+cf6cb56ef24410 Eyal Birger 2025-02-02  768  
+8e01b51a31a1e0 YiFei Zhu   2020-10-11 @769  	for (pc = 0; pc < fprog->len; pc++) {
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  770  		struct sock_filter *insn = &fprog->filter[pc];
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  771  		u16 code = insn->code;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  772  		u32 k = insn->k;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  773  
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  774  		switch (code) {
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  775  		case BPF_LD | BPF_W | BPF_ABS:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  776  			switch (k) {
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  777  			case offsetof(struct seccomp_data, nr):
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  778  				reg_value = sd->nr;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  779  				break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  780  			case offsetof(struct seccomp_data, arch):
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  781  				reg_value = sd->arch;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  782  				break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  783  			default:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  784  				/* can't optimize (non-constant value load) */
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  785  				return false;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  786  			}
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  787  			break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  788  		case BPF_RET | BPF_K:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  789  			/* reached return with constant values only, check allow */
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  790  			return k == SECCOMP_RET_ALLOW;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  791  		case BPF_JMP | BPF_JA:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  792  			pc += insn->k;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  793  			break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  794  		case BPF_JMP | BPF_JEQ | BPF_K:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  795  		case BPF_JMP | BPF_JGE | BPF_K:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  796  		case BPF_JMP | BPF_JGT | BPF_K:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  797  		case BPF_JMP | BPF_JSET | BPF_K:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  798  			switch (BPF_OP(code)) {
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  799  			case BPF_JEQ:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  800  				op_res = reg_value == k;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  801  				break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  802  			case BPF_JGE:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  803  				op_res = reg_value >= k;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  804  				break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  805  			case BPF_JGT:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  806  				op_res = reg_value > k;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  807  				break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  808  			case BPF_JSET:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  809  				op_res = !!(reg_value & k);
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  810  				break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  811  			default:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  812  				/* can't optimize (unknown jump) */
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  813  				return false;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  814  			}
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  815  
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  816  			pc += op_res ? insn->jt : insn->jf;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  817  			break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  818  		case BPF_ALU | BPF_AND | BPF_K:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  819  			reg_value &= k;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  820  			break;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  821  		default:
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  822  			/* can't optimize (unknown insn) */
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  823  			return false;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  824  		}
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  825  	}
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  826  
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  827  	/* ran off the end of the filter?! */
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  828  	WARN_ON(1);
+8e01b51a31a1e0 YiFei Zhu   2020-10-11 @829  	return false;
+8e01b51a31a1e0 YiFei Zhu   2020-10-11 @830  }
+8e01b51a31a1e0 YiFei Zhu   2020-10-11  831  
 
-:::::: The code at line 96 was first introduced by commit
-:::::: 9d370256c94ac8fae08150c247d35872dd4e270f x86/locking: Use asm_call() in *_cmpxchg64_emu()
+:::::: The code at line 769 was first introduced by commit
+:::::: 8e01b51a31a1e08e2c3e8fcc0ef6790441be2f61 seccomp/cache: Add "emulator" to check if filter is constant allow
 
-:::::: TO: Josh Poimboeuf <jpoimboe@kernel.org>
-:::::: CC: Josh Poimboeuf <jpoimboe@kernel.org>
+:::::: TO: YiFei Zhu <yifeifz2@illinois.edu>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
