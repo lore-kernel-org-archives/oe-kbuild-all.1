@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC67117CA12;
-	Sun,  9 Mar 2025 10:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E504188CCA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 11:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741516479; cv=none; b=bvraQ4Aav9QqejjJCdVhhQkVGncbvWOie1m6CG9dGluLQQNtYGS11HjR029MilkloKwQYr0w3tTxpisuT5TipeIFpKw2Nx2E/fcLPmu8g7Nsp7b2/zEMrUdt1x3t/LgLWh7+Tz6WSsg0oDWgHiRcfh3yy+SV+qKrMzVL8MPsmc0=
+	t=1741518340; cv=none; b=VInU8OxSVppSUn6yy7xyQkM1Yf3Q6ex6WOH0T429yU9SmzEe4talKVOdVG97Ak18Jho+zCX/8hOVYiK2B7ufMUVfbBjOHndE2FTnG3Rs0+58PY1I9kdb2gk/3f9CRS6u/H/Za6CimbPrd6T6569Mse2qaX0ktl9utTIdADB5/RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741516479; c=relaxed/simple;
-	bh=VVA+1SPK40Lwo6TMSvfP2Ladr8U82jm2GxrtF3EBH+M=;
+	s=arc-20240116; t=1741518340; c=relaxed/simple;
+	bh=BBwBNjtPpwYanJb00ICfB1+E/NGwG8jeBj9FyJAvDeQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ikD7uGhcCQvyilF1GHqXGBvdMVuX6orlF/dNdYeX1NRJnHHEaKkVy2f5eTeFhpfv1ck90qIiiixfex2wpW70/32s1ZqEPzPXUKksR/Xafj5hBSCu6AOxSYZJ0YcgHd13oOVbnDJxXmh5BcKssvJdY+NN6P5k/FhgDuZsCloHCLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bxi0NRUo; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=ZTBm7i5UpPp87WI9VGs3yk3mnGg2CT7ogHWkV+AI6wrnWFScoVHkeZGJXMr/5DZZQWyv2Qq5gnx9OmNSKYYVvDZERVXjgJ0lzaSLLGBObnrvc8q3w9FJqhXbklPao8SIiMTzcOAjH/FUZKGv+tHVztV++7PIrXSdNRrXwgMR2iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G591+A2S; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bxi0NRUo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G591+A2S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741516478; x=1773052478;
+  t=1741518339; x=1773054339;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VVA+1SPK40Lwo6TMSvfP2Ladr8U82jm2GxrtF3EBH+M=;
-  b=Bxi0NRUoPG6bXI72Ov5TlwnEutDlUMrOyJX1L++4u86yqHsGyrvCVpYa
-   8FgdLm1bEr3sDbegPB6TQObJZZyiWt1siG67iEa3tITwyEWvLtUMYvS9U
-   opc4Ez3WDsjR45YmE5ZnBpNwAOTei/nCEyEv9bB+9WUiw55Zd2jSWMbWi
-   oyqnVJ0IfHjblMuhlGaDhABk811Nc2/59vzly0z0idHnBvpPRW14JVQBP
-   RBNWGVWg1dhPvgdnyxxfrxDYcYUI6lqeCH5peRD7y8nEtkzYSNQ5Tp4bx
-   qtT+LiHEKWw3pUM85V0zS2NLWcScXpMivNZofSDryIJMAleFzl18HcsU/
-   Q==;
-X-CSE-ConnectionGUID: JhYu88ziT4eDbMR5TQ3Sgg==
-X-CSE-MsgGUID: 9r+bhqi7QOOCcHUe0WWZgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46299964"
+  bh=BBwBNjtPpwYanJb00ICfB1+E/NGwG8jeBj9FyJAvDeQ=;
+  b=G591+A2S3kZAGKcQUFQB02R2qcq/DsZtAqyVhwMQHAE33u0as8XfG3Hd
+   gRnVYIfgzYN+igxbqxExnHZHAhxkUF8LlwZ/ng8+UzH8nXLz1+6dzGeaO
+   5DG1SmiVJza29pNp0bVDr36LAcmRoXkZces/5dfXW9AlPSFAFEdIvuKeN
+   Ta4YhQp0OCjU4zFuUSIv9wBOhkseMAvZeZZdeiggcZKSMDR+uS0NcLQ6H
+   cQj/NcNPI51t9UuH18xDDSUyF7AM6SZ+tYJ8bbTAHXfdlHV/0JKDu/dns
+   PlZNVCTol3CvSF/TjDtzK+I669vQSlzmFESogp2KbeRnIzmA0T+UfiGF/
+   w==;
+X-CSE-ConnectionGUID: x7sq9ey+QjacbExze55IyQ==
+X-CSE-MsgGUID: uFZirjKdSs+g9zG4ijxEoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="52729699"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="46299964"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 03:34:35 -0700
-X-CSE-ConnectionGUID: 01hoakgbQP+BOvDMJ7aBYw==
-X-CSE-MsgGUID: CSYZftjBRsG5xe2oR72sbA==
+   d="scan'208";a="52729699"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 04:05:38 -0700
+X-CSE-ConnectionGUID: Zkb1QyrTQ3WnGZ6ffXq3IA==
+X-CSE-MsgGUID: f2zNQzeET42qdNhk86V0Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="124741343"
+   d="scan'208";a="120224063"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 09 Mar 2025 03:34:34 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Mar 2025 04:05:37 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trDzM-0002zw-0H;
-	Sun, 09 Mar 2025 10:34:32 +0000
-Date: Sun, 9 Mar 2025 18:34:13 +0800
+	id 1trETO-00031Q-2e;
+	Sun, 09 Mar 2025 11:05:34 +0000
+Date: Sun, 9 Mar 2025 19:05:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:asm-call 27/42] arch/x86/include/asm/mshyperv.h:142:9:
- error: expected ')'
-Message-ID: <202503091841.vKh4oa5M-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2007/2007] kernel/kexec_core.c:1066: undefined
+ reference to `machine_crash_shutdown'
+Message-ID: <202503091909.W4esTcVo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +62,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git asm-call
-head:   44613874d65bd54453e4f3c595459870cf4a8c9c
-commit: aa81a7d76185c9d4373a1f1d5d0b101328e8b4ce [27/42] x86/hyperv: Use asm_call() in hypercall functions
-config: x86_64-buildonly-randconfig-006-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091841.vKh4oa5M-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091841.vKh4oa5M-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   944ce05f6b83ba40c4382c6b90b7b94f529118d3
+commit: 47ff774cbb440dfc3cf5d5bc7cf82b41d4d99966 [2007/2007] x86, crash: wrap crash dumping code into crash related ifdefs
+config: x86_64-randconfig-r121-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091909.W4esTcVo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091909.W4esTcVo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091841.vKh4oa5M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091909.W4esTcVo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/hv/hv_balloon.c:33:
->> arch/x86/include/asm/mshyperv.h:142:9: error: expected ')'
-     142 |                          ARG("cc", "r8", "r9", "r10", "r11"));
-         |                              ^
-   1 error generated.
---
-   In file included from drivers/hv/vmbus_drv.c:40:
->> arch/x86/include/asm/mshyperv.h:142:9: error: expected ')'
-     142 |                          ARG("cc", "r8", "r9", "r10", "r11"));
-         |                              ^
-   drivers/hv/vmbus_drv.c:1928:42: warning: shift count >= width of type [-Wshift-count-overflow]
-    1928 |         dma_set_mask(&child_device_obj->device, DMA_BIT_MASK(64));
-         |                                                 ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
-      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   1 warning and 1 error generated.
+   ld: kernel/kexec_core.o: in function `__crash_kexec':
+>> kernel/kexec_core.c:1066: undefined reference to `machine_crash_shutdown'
+   ld: kernel/kexec.o: in function `do_kexec_load':
+>> kernel/kexec.c:105: undefined reference to `arch_kexec_unprotect_crashkres'
+>> ld: kernel/kexec.c:166: undefined reference to `arch_kexec_protect_crashkres'
+   ld: kernel/kexec_file.o: in function `__do_sys_kexec_file_load':
+>> kernel/kexec_file.c:350: undefined reference to `arch_kexec_unprotect_crashkres'
+>> ld: kernel/kexec_file.c:415: undefined reference to `arch_kexec_protect_crashkres'
 
 
-vim +142 arch/x86/include/asm/mshyperv.h
+vim +1066 kernel/kexec_core.c
 
-   123	
-   124	/* Fast hypercall with 8 bytes of input and no output */
-   125	static inline u64 _hv_do_fast_hypercall8(u64 control, u64 input1)
-   126	{
-   127		u64 hv_status;
-   128	
-   129	#ifdef CONFIG_X86_64
-   130		if (hv_isolation_type_tdx() && !hyperv_paravisor_present)
-   131			return hv_tdx_hypercall(control, input1, 0);
-   132	
-   133		if (hv_isolation_type_snp() && !hyperv_paravisor_present) {
-   134			asm_call("vmmcall",
-   135				 ARG("=a" (hv_status), "+c" (control), "+d" (input1)),
-   136				 ARG(),
-   137				 ARG("cc", "r8", "r9", "r10", "r11"));
-   138		} else {
-   139			asm_call(CALL_NOSPEC,
-   140				 ARG("=a" (hv_status), "+c" (control), "+d" (input1)),
-   141				 ARG(THUNK_TARGET(hv_hypercall_pg))
- > 142				 ARG("cc", "r8", "r9", "r10", "r11"));
-   143		}
-   144	#else
-   145		{
-   146			u32 input1_hi = upper_32_bits(input1);
-   147			u32 input1_lo = lower_32_bits(input1);
-   148	
-   149			asm_call(CALL_NOSPEC,
-   150				 ARG("=A" (hv_status), "+c" (input1_lo)),
-   151				 ARG("A" (control), "b" (input1_hi),
-   152				     THUNK_TARGET(hv_hypercall_pg)),
-   153				 ARG("cc", "edi", "esi"));
-   154		}
-   155	#endif
-   156			return hv_status;
-   157	}
-   158	
+7e99f8b69c11c1 Ricardo Ribalda    2023-01-04  1044  
+7bbee5ca3896f6 Hidehiro Kawai     2015-12-14  1045  /*
+7bbee5ca3896f6 Hidehiro Kawai     2015-12-14  1046   * No panic_cpu check version of crash_kexec().  This function is called
+7bbee5ca3896f6 Hidehiro Kawai     2015-12-14  1047   * only when panic_cpu holds the current CPU number; this is the only CPU
+7bbee5ca3896f6 Hidehiro Kawai     2015-12-14  1048   * which processes crash_kexec routines.
+7bbee5ca3896f6 Hidehiro Kawai     2015-12-14  1049   */
+c207aee48037ab Josh Poimboeuf     2017-06-28  1050  void __noclone __crash_kexec(struct pt_regs *regs)
+2965faa5e03d1e Dave Young         2015-09-09  1051  {
+05c6257433b721 Valentin Schneider 2022-06-30  1052  	/* Take the kexec_lock here to prevent sys_kexec_load
+2965faa5e03d1e Dave Young         2015-09-09  1053  	 * running on one cpu from replacing the crash kernel
+2965faa5e03d1e Dave Young         2015-09-09  1054  	 * we are using after a panic on a different cpu.
+2965faa5e03d1e Dave Young         2015-09-09  1055  	 *
+2965faa5e03d1e Dave Young         2015-09-09  1056  	 * If the crash kernel was not located in a fixed area
+2965faa5e03d1e Dave Young         2015-09-09  1057  	 * of memory the xchg(&kexec_crash_image) would be
+2965faa5e03d1e Dave Young         2015-09-09  1058  	 * sufficient.  But since I reuse the memory...
+2965faa5e03d1e Dave Young         2015-09-09  1059  	 */
+05c6257433b721 Valentin Schneider 2022-06-30  1060  	if (kexec_trylock()) {
+2965faa5e03d1e Dave Young         2015-09-09  1061  		if (kexec_crash_image) {
+2965faa5e03d1e Dave Young         2015-09-09  1062  			struct pt_regs fixed_regs;
+2965faa5e03d1e Dave Young         2015-09-09  1063  
+2965faa5e03d1e Dave Young         2015-09-09  1064  			crash_setup_regs(&fixed_regs, regs);
+2965faa5e03d1e Dave Young         2015-09-09  1065  			crash_save_vmcoreinfo();
+2965faa5e03d1e Dave Young         2015-09-09 @1066  			machine_crash_shutdown(&fixed_regs);
+2965faa5e03d1e Dave Young         2015-09-09  1067  			machine_kexec(kexec_crash_image);
+2965faa5e03d1e Dave Young         2015-09-09  1068  		}
+05c6257433b721 Valentin Schneider 2022-06-30  1069  		kexec_unlock();
+2965faa5e03d1e Dave Young         2015-09-09  1070  	}
+2965faa5e03d1e Dave Young         2015-09-09  1071  }
+c207aee48037ab Josh Poimboeuf     2017-06-28  1072  STACK_FRAME_NON_STANDARD(__crash_kexec);
+2965faa5e03d1e Dave Young         2015-09-09  1073  
+
+:::::: The code at line 1066 was first introduced by commit
+:::::: 2965faa5e03d1e71e9ff9aa143fff39e0a77543a kexec: split kexec_load syscall from kexec core code
+
+:::::: TO: Dave Young <dyoung@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
