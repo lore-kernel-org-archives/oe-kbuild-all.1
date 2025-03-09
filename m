@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512994A0C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 11:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8E84A0C;
+	Sun,  9 Mar 2025 11:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741519064; cv=none; b=BiIAUxB8uzamUcT/qVmm5vCrr0oP3rXZfdQSY36MaQwGbHB+4iOK8XEY5zbhfRXKiRDoXy9brgshVCcNHtKI/ZXqdnYXodgAJEs3dyfBIx/Z/YmFYV3KAM9QcxaSbgV1Yo+WpIYTHzeLKK0tQ0dhXQ0VJEWTYaRdiyNhbldi1Eo=
+	t=1741520286; cv=none; b=fP7cyS9EMd4H6js6RnSVoHYcSo21gbdnYpm+MDRnZ0++1OMZLlHzMh17c1f9yeWuMJ5tJvDnhHBjGass08Y//9/Q02vukJOZAyiUV3eeJt9tX3Bz1rZ3YhZsQizYWlj2sX37Vppx1X6cM192h36N93lPbMcGoeLUk4rpcxz8eoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741519064; c=relaxed/simple;
-	bh=QSf+jvHlxj/q/MmnvoCuSlyJ7jRPtTkcssl0GlRqrOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DUV6fJTSVLIXiHVVT7J77z58ibLLJ7054hLtWCsS454KwzNBnLD8c45hshhdrSldVCk+DT3IEzVZjuBQK0vb8WSLYG4edw/gk+utDiCxnmtKUgp1KXu2uV0KtcJRwHbIsGmjn1UbmwbcTVd+PNcQ96DlIc14qIJ+Up83Ga3x0qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RiZ855jm; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1741520286; c=relaxed/simple;
+	bh=jjHW1xVbJVe7Vu9Yib+s3kJLGOmCalV98kQ8V7HP3aY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DP+oBbbbKez6ag7FfdQf4NinwN6+abYI39DZrfWb6gVDF8Ovae5bJdEN8zmEVCRITP0yJOuv7ZX7eWmYus1N/Kse9XmL7BymKSUSpzexoonq0eHGoqrqZMtmXyocIK5R4eAhaj0KB5mJm8kApwHCgucPhDqRTQLaW4HbisCgx9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUjdX0Oo; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RiZ855jm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUjdX0Oo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741519061; x=1773055061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QSf+jvHlxj/q/MmnvoCuSlyJ7jRPtTkcssl0GlRqrOE=;
-  b=RiZ855jmQWBSz26S4zRkb7igb0MhIoLDl/cG7mUMOj1fmsaK0+Yc2t6Q
-   A0RzMiUD3zYr6eWtyRR5YZpgY+hWpa8B184Br87513F57xfNfgxbkweaJ
-   7JHmiPQCYZu6eGlHkzbbzHsWrCUSzt/P4NoILqTzpQeIqS8coxMpTVfLj
-   KqHhLynN/7kbTO+lvKtx9dwryi0AwNuZxf6YO0D8CluvX54SbpgfGt+9z
-   OKQsGqGLkFolPRwHhhm3NAK3c/XbA21DEaLXkjxwKd/qGP4xvDmjcBDmC
-   uKjuH5AeR60lFH0SUQRuVc0CeVyKbbRYpqL4io0CLCtnG7491AM0IRcdk
-   w==;
-X-CSE-ConnectionGUID: /t9681AmT/OfU/gebNvZYQ==
-X-CSE-MsgGUID: nBE01MwdSmOnzfpBdtKiMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42637761"
+  t=1741520284; x=1773056284;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jjHW1xVbJVe7Vu9Yib+s3kJLGOmCalV98kQ8V7HP3aY=;
+  b=fUjdX0OobQ2NXjLtyTxufkyP01XJW7mfH2tTPEgSDfwQnXRcwj4O7CWP
+   26T7JUpKVV3hn6C06V9WAFlxJwMts2SYhFJxO2Z3MqqT6gv1KPgK1fg+A
+   ayaWQBBPfa+ZYEs+nGQBSHRwTChXycWWzduyRQ54HS+RFaQ4YL3H1nWqU
+   b7J4KDZpBhx2W5pVOVDPcyT3MwDuEQNInI7utty203LP47uukMbJbZz79
+   D5r6XykPwqnhGitWyLqaO0Feg81og29hfSMmipmfJWErTtwbL2rlSpuhh
+   nsf681cFF3zgPjsHNbl5iiKI1qnSDdl/omkls8zew5XqAvD37Z/R+Ykis
+   Q==;
+X-CSE-ConnectionGUID: Xdq0WxpgQ4ChQO0AyCNXGg==
+X-CSE-MsgGUID: aAoj2bW+RFyoNDJer9875Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="30100060"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="42637761"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 04:17:40 -0700
-X-CSE-ConnectionGUID: 8vBYysMdRN67j6N62vJNtw==
-X-CSE-MsgGUID: 4wn1WTrARm2da30ZvQlYVg==
+   d="scan'208";a="30100060"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 04:38:03 -0700
+X-CSE-ConnectionGUID: S1dkXO7pQ4meau80IynLBg==
+X-CSE-MsgGUID: yv0XtjKdToax/AgZ6SGRaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="142962768"
+   d="scan'208";a="119710153"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Mar 2025 04:17:39 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2025 04:38:01 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trEf2-00032E-1e;
-	Sun, 09 Mar 2025 11:17:36 +0000
-Date: Sun, 9 Mar 2025 19:16:38 +0800
+	id 1trEyl-00033K-1x;
+	Sun, 09 Mar 2025 11:37:59 +0000
+Date: Sun, 9 Mar 2025 19:37:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, marcel@holtmann.org,
-	luiz.dentz@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org, amitkumar.karwar@nxp.com,
-	neeraj.sanjaykale@nxp.com
-Subject: Re: [PATCH v2 2/3] Bluetooth: btnxpuart: Handle bootloader error
- during cmd5 and cmd7
-Message-ID: <202503091936.x9Evtskg-lkp@intel.com>
-References: <20250306180931.57705-2-neeraj.sanjaykale@nxp.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:asm-call 33/42]
+ arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm
+ statement
+Message-ID: <202503091928.NPL4UWrM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,122 +62,192 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306180931.57705-2-neeraj.sanjaykale@nxp.com>
 
-Hi Neeraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on linus/master v6.14-rc5 next-20250307]
-[cannot apply to bluetooth-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neeraj-Sanjay-Kale/Bluetooth-btnxpuart-Handle-bootloader-error-during-cmd5-and-cmd7/20250307-021228
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20250306180931.57705-2-neeraj.sanjaykale%40nxp.com
-patch subject: [PATCH v2 2/3] Bluetooth: btnxpuart: Handle bootloader error during cmd5 and cmd7
-config: microblaze-randconfig-r123-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091936.x9Evtskg-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250309/202503091936.x9Evtskg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git asm-call
+head:   44613874d65bd54453e4f3c595459870cf4a8c9c
+commit: 96d3258b6cb6c042087f728a1aff88caaf36cfe4 [33/42] x86/xen: Use asm_call() in __hypercall*()
+config: x86_64-buildonly-randconfig-006-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091928.NPL4UWrM-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091928.NPL4UWrM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091936.x9Evtskg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091928.NPL4UWrM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/bluetooth/btnxpuart.c:1113:24: sparse: sparse: restricted __le16 degrades to integer
-   drivers/bluetooth/btnxpuart.c:1119:24: sparse: sparse: restricted __le16 degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +1113 drivers/bluetooth/btnxpuart.c
+   In file included from drivers/xen/features.c:14:
+>> arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm statement
+     270 |         return _hypercall4(int, mmu_update, req, count, success_count, domid);
+         |                ^
+   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
+     207 |                  __HYPERCALL_CLOBBER4));                                \
+         |                                       ^
+   arch/x86/include/asm/xen/hypercall.h:277:9: error: expected ';' after asm statement
+     277 |         return _hypercall4(int, mmuext_op, op, count, success_count, domid);
+         |                ^
+   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
+     207 |                  __HYPERCALL_CLOBBER4));                                \
+         |                                       ^
+   2 errors generated.
+--
+   In file included from drivers/xen/gntdev.c:44:
+   In file included from include/xen/events.h:12:
+>> arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm statement
+     270 |         return _hypercall4(int, mmu_update, req, count, success_count, domid);
+         |                ^
+   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
+     207 |                  __HYPERCALL_CLOBBER4));                                \
+         |                                       ^
+   arch/x86/include/asm/xen/hypercall.h:277:9: error: expected ';' after asm statement
+     277 |         return _hypercall4(int, mmuext_op, op, count, success_count, domid);
+         |                ^
+   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
+     207 |                  __HYPERCALL_CLOBBER4));                                \
+         |                                       ^
+   In file included from drivers/xen/gntdev.c:49:
+   In file included from drivers/xen/gntdev-common.h:15:
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     159 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
+     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     160 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
+     137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   drivers/xen/gntdev.c:600:46: warning: shift count >= width of type [-Wshift-count-overflow]
+     600 |         dma_coerce_mask_and_coherent(priv->dma_dev, DMA_BIT_MASK(64));
+         |                                                     ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   3 warnings and 2 errors generated.
+--
+   In file included from drivers/xen/mem-reservation.c:13:
+>> arch/x86/include/asm/xen/hypercall.h:270:9: error: expected ';' after asm statement
+     270 |         return _hypercall4(int, mmu_update, req, count, success_count, domid);
+         |                ^
+   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
+     207 |                  __HYPERCALL_CLOBBER4));                                \
+         |                                       ^
+   arch/x86/include/asm/xen/hypercall.h:277:9: error: expected ';' after asm statement
+     277 |         return _hypercall4(int, mmuext_op, op, count, success_count, domid);
+         |                ^
+   arch/x86/include/asm/xen/hypercall.h:207:25: note: expanded from macro '_hypercall4'
+     207 |                  __HYPERCALL_CLOBBER4));                                \
+         |                                       ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from drivers/xen/mem-reservation.c:16:
+   In file included from include/xen/mem-reservation.h:16:
+   In file included from include/linux/highmem.h:5:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
 
-  1089	
-  1090	static int nxp_recv_fw_req_v3(struct hci_dev *hdev, struct sk_buff *skb)
-  1091	{
-  1092		struct btnxpuart_dev *nxpdev = hci_get_drvdata(hdev);
-  1093		struct v3_data_req *req;
-  1094		__u16 len = 0;
-  1095		__u32 offset;
-  1096	
-  1097		if (!process_boot_signature(nxpdev))
-  1098			goto free_skb;
-  1099	
-  1100		req = skb_pull_data(skb, sizeof(*req));
-  1101		if (!req || !nxpdev->fw)
-  1102			goto free_skb;
-  1103	
-  1104		if (!req->error) {
-  1105			nxp_send_ack(NXP_ACK_V3, hdev);
-  1106			if (nxpdev->timeout_changed == cmd_sent)
-  1107				nxpdev->timeout_changed = changed;
-  1108			if (nxpdev->baudrate_changed == cmd_sent)
-  1109				nxpdev->baudrate_changed = changed;
-  1110		} else {
-  1111			nxp_handle_fw_download_error(hdev, req);
-  1112			if (nxpdev->timeout_changed == cmd_sent &&
-> 1113			    req->error == NXP_CRC_RX_ERROR) {
-  1114				nxpdev->fw_v3_offset_correction -= nxpdev->fw_v3_prev_sent;
-  1115				nxpdev->timeout_changed = not_changed;
-  1116			}
-  1117			/* After baudrate change, it is normal to get ACK Timeout error */
-  1118			if (nxpdev->baudrate_changed == cmd_sent &&
-  1119			    req->error == NXP_CRC_RX_ERROR) {
-  1120				nxpdev->fw_v3_offset_correction -= nxpdev->fw_v3_prev_sent;
-  1121				nxpdev->baudrate_changed = not_changed;
-  1122			}
-  1123			goto free_skb;
-  1124		}
-  1125	
-  1126		len = __le16_to_cpu(req->len);
-  1127	
-  1128		if (nxpdev->timeout_changed != changed) {
-  1129			nxp_fw_change_timeout(hdev, len);
-  1130			nxpdev->timeout_changed = cmd_sent;
-  1131			goto free_skb;
-  1132		}
-  1133	
-  1134		if (nxpdev->baudrate_changed != changed) {
-  1135			if (nxp_fw_change_baudrate(hdev, len)) {
-  1136				nxpdev->baudrate_changed = cmd_sent;
-  1137				serdev_device_set_baudrate(nxpdev->serdev,
-  1138							   HCI_NXP_SEC_BAUDRATE);
-  1139				serdev_device_set_flow_control(nxpdev->serdev, true);
-  1140				nxpdev->current_baudrate = HCI_NXP_SEC_BAUDRATE;
-  1141			}
-  1142			goto free_skb;
-  1143		}
-  1144	
-  1145		if (req->len == 0) {
-  1146			bt_dev_info(hdev, "FW Download Complete: %zu bytes",
-  1147				   nxpdev->fw->size);
-  1148			clear_bit(BTNXPUART_FW_DOWNLOADING, &nxpdev->tx_state);
-  1149			wake_up_interruptible(&nxpdev->fw_dnld_done_wait_q);
-  1150			goto free_skb;
-  1151		}
-  1152	
-  1153		offset = __le32_to_cpu(req->offset);
-  1154		if (offset < nxpdev->fw_v3_offset_correction) {
-  1155			/* This scenario should ideally never occur. But if it ever does,
-  1156			 * FW is out of sync and needs a power cycle.
-  1157			 */
-  1158			bt_dev_err(hdev, "Something went wrong during FW download");
-  1159			bt_dev_err(hdev, "Please power cycle and try again");
-  1160			goto free_skb;
-  1161		}
-  1162	
-  1163		nxpdev->fw_dnld_v3_offset = offset - nxpdev->fw_v3_offset_correction;
-  1164		serdev_device_write_buf(nxpdev->serdev, nxpdev->fw->data +
-  1165					nxpdev->fw_dnld_v3_offset, len);
-  1166	
-  1167	free_skb:
-  1168		nxpdev->fw_v3_prev_sent = len;
-  1169		kfree_skb(skb);
-  1170		return 0;
-  1171	}
-  1172	
+
+vim +270 arch/x86/include/asm/xen/hypercall.h
+
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  265  
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  266  static inline int
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  267  HYPERVISOR_mmu_update(struct mmu_update *req, int count,
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  268  		      int *success_count, domid_t domid)
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  269  {
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17 @270  	return _hypercall4(int, mmu_update, req, count, success_count, domid);
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  271  }
+a42089dd358a76 include/asm-i386/xen/hypercall.h Jeremy Fitzhardinge 2007-07-17  272  
+
+:::::: The code at line 270 was first introduced by commit
+:::::: a42089dd358a7673a0a23126589a9029e57c2049 xen: Add Xen interface header files
+
+:::::: TO: Jeremy Fitzhardinge <jeremy@xensource.com>
+:::::: CC: Jeremy Fitzhardinge <jeremy@goop.org>
 
 -- 
 0-DAY CI Kernel Test Service
