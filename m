@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DCF1FB3;
-	Sun,  9 Mar 2025 09:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3394C17A319
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 10:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741513645; cv=none; b=LihVfJiw/RW6UsZVHGxi8XDcr8XxfWa1eMoZH6pDEH8nTGTtPdGIjqcjDgybj6btKnmE5A0XlanXqTPz0rQpArfoeWHpYbYfaMbN2Fd+rXyUkTg1Qu9tHfLARgbXzOTj+t5G4Sy+cxoomtxom5D+nLI3ARkvCdLa06abs0wLGuQ=
+	t=1741515150; cv=none; b=MyLFTl24YW6zmJlvGXxLNPhNKUHT0w9JoAQZRJ2fnAK9jOn3PQV+ox0mem2OvKcn2SfWGQfEDHEdRZrVh/FguZC3fjQPIjC0z2sCnUbvUkjNL6u3tvo9fE9BPm+BoyHBFDrdKBaliE35ZrC3SiGzf3My9X76VIhDlzMcIqkaaaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741513645; c=relaxed/simple;
-	bh=/5tOJ6dvoZUKrdt5kC3lD2gIF7ApQ8RlCheMP9lRgR0=;
+	s=arc-20240116; t=1741515150; c=relaxed/simple;
+	bh=0hRp6Evvb4x+fiqny5sMvP4eJnYfZxCPeryZqOSEjQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rZQxIwQ1O1NNyuKrT6xnsF7cGlPqC65q9JLCwZ6cR/KwOJAxbm92gckxJ2R67P7nnHUHr5c9VDloe5s7YJyqwEqtZL4cLJnCRntRR+pSnBHsggLMe18VqfveaNLnGlfF6wf/RSaZGpAPdJrgrmBqzT/9piD08XjcnQKtEoenEy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaKoP8bc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=I4N5qQUItmdKqLutr6FVxLm+g3SvYnphcZLK8fkKHIemrvTtqupgptBUBSMk7/CGwP4auyTlMb1OkTHwgCy4X5C8oY/+iJ7jY9XtSbeW64BAUWjAhATlFMwMn0VWtt7z21PV5j10pOFTdiyG1PL1v4hrTg3yGvwYBKhQgkB7qmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maY37+k5; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaKoP8bc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maY37+k5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741513643; x=1773049643;
+  t=1741515148; x=1773051148;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=/5tOJ6dvoZUKrdt5kC3lD2gIF7ApQ8RlCheMP9lRgR0=;
-  b=aaKoP8bcDymMhd9ypdVaw3gQEBc0TPWsPsHYkksQK+GXqJM3wG6sX8HO
-   nSP/axPwZ9D8aHI0e+xPeJTOOVxGzER17Xz7gUtu/kVAlMxcnrXP+JJt9
-   8dRbMmCe3tNEd9G+sqCR8JAX9NZJy7Geb6rxkmnLj9XYdvaz+70tNk2y0
-   UrMg3pvQPPsjwpz7NEgdYVg+dL7CEP6Nu99oGxgpfGHn4Dcd9zPbozlaR
-   XltvHnB4MMKk2sqs64ngbwSKvohOWCYPuJy3gUl0fWhrBycv65dgp/7u1
-   Ib9vpgmOdX485fWtWk2V3G5x4YkLSetoRUD3xRHXYmjzcQuyMSCFT2I2c
-   Q==;
-X-CSE-ConnectionGUID: qsqAc3yFTj2UFqL6R8x4pA==
-X-CSE-MsgGUID: EOCoX7luStuRYFLjlqsXnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42431819"
+  bh=0hRp6Evvb4x+fiqny5sMvP4eJnYfZxCPeryZqOSEjQM=;
+  b=maY37+k5UY8zb+TeH+x4x7qE2lyeq2LZzUwzpzH8kF6/td812kcdoEdf
+   1mgdcIwUKQIYHvrIX01iKqqntKArp/YI5EfuIaaPmNZsREkWH0TpfhBFH
+   4KF6CpKwJLsBEpgcyXWiDZ3KehHLuWnzHDQ2b5dUB2vC4OPopTCMhgyzC
+   d3NMmjrVu9+PS5IHQ0YAo5lzjHX0LavilBv21C+ZmyONDM9sJ9y2VeFVU
+   hZP1bC/RvsA+GmFchMZIVR99OYkDiStUPdc09urcCQZAo607OgWfDxL6L
+   H0q3avETcOQQ7aJFdDii6XzPORAYPRS0MyMiLA2RdaLyx9KTuZOMgLHVc
+   A==;
+X-CSE-ConnectionGUID: DN5AtywVTqa0q70KIJHf4Q==
+X-CSE-MsgGUID: khh7NvVCRvWjVOoKUH/osg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42659888"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="42431819"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 01:47:22 -0800
-X-CSE-ConnectionGUID: p+g5kU1nRYaC0TUJw/nphA==
-X-CSE-MsgGUID: us1zPSDCTnSTDV5V6lYFRA==
+   d="scan'208";a="42659888"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 03:12:27 -0700
+X-CSE-ConnectionGUID: i+bF4JeQQHWIZvh7k1deSw==
+X-CSE-MsgGUID: NGLCuwx7SxOYEfY6kLw/OA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="124976344"
+X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
+   d="scan'208";a="119701085"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 09 Mar 2025 01:47:22 -0800
+  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2025 03:12:27 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trDFf-0002tw-1K;
-	Sun, 09 Mar 2025 09:47:19 +0000
-Date: Sun, 9 Mar 2025 17:46:40 +0800
+	id 1trDdw-0002zA-0s;
+	Sun, 09 Mar 2025 10:12:24 +0000
+Date: Sun, 9 Mar 2025 18:11:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v6 15/26] landlock: Log scoped denials
-Message-ID: <202503091759.e9RGYFVV-lkp@intel.com>
+Message-ID: <202503091859.d55xPuZb-lkp@intel.com>
 References: <20250308184422.2159360-16-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -75,29 +75,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Micka-l-Sala-n/lsm-Add-au
 base:   7eb172143d5508b4da468ed59ee857c6e5e01da6
 patch link:    https://lore.kernel.org/r/20250308184422.2159360-16-mic%40digikod.net
 patch subject: [PATCH v6 15/26] landlock: Log scoped denials
-config: i386-buildonly-randconfig-006-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091759.e9RGYFVV-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091759.e9RGYFVV-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-004-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091859.d55xPuZb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091859.d55xPuZb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091759.e9RGYFVV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091859.d55xPuZb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> security/landlock/fs.c:1816:24: error: no member named 'fown_layer' in 'struct landlock_file_security'
+   security/landlock/fs.c: In function 'hook_file_set_fowner':
+>> security/landlock/fs.c:1816:36: error: 'struct landlock_file_security' has no member named 'fown_layer'
     1816 |                 landlock_file(file)->fown_layer = handle_layer;
-         |                 ~~~~~~~~~~~~~~~~~~~  ^
-   security/landlock/fs.c:1821:24: error: no member named 'fown_layer' in 'struct landlock_file_security'
+         |                                    ^~
+   security/landlock/fs.c:1821:36: error: 'struct landlock_file_security' has no member named 'fown_layer'
     1821 |                 landlock_file(file)->fown_layer = 0;
-         |                 ~~~~~~~~~~~~~~~~~~~  ^
-   2 errors generated.
+         |                                    ^~
 --
->> security/landlock/task.c:412:48: error: no member named 'fown_layer' in 'struct landlock_file_security'
+   security/landlock/task.c: In function 'hook_file_send_sigiotask':
+>> security/landlock/task.c:412:60: error: 'struct landlock_file_security' has no member named 'fown_layer'
      412 |                 .layer_plus_one = landlock_file(fown->file)->fown_layer + 1,
-         |                                   ~~~~~~~~~~~~~~~~~~~~~~~~~  ^
-   1 error generated.
+         |                                                            ^~
 
 
 vim +1816 security/landlock/fs.c
