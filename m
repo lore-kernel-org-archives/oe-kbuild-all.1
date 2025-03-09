@@ -1,76 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2861C4A0C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 11:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02656211C;
+	Sun,  9 Mar 2025 12:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741520290; cv=none; b=ACcVSSHffvbBADac7ze+LhPs8xBfwLkgvOscXH8qZBvila5myhtQixGQ5X8CPQJGtmHxKlRNk9dLekkRZMf8K3MTEmbMZTKmT/Nid8mpkUsR2e+30UXFEeoXm/TBMwNUdFmiBnXchZU3Vuis1ZU/QEyICgNY8IFYn4W1/YkScgc=
+	t=1741522810; cv=none; b=bWHmWGv6ssH5H/TX3XwGAZKZIlzK3na5j+EfHYqzzSEMFIuRkjYZ0ZrEDd/4484J/H2ZZbF+P7D4GUwI7vvSsYe2fK06zyYdTFt/EX6xICHuCWyAm/rdf5e6KsQ8NW12OektViiKEGjVlP7l/oJNIeKWhyUbPG13806BYAXfOCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741520290; c=relaxed/simple;
-	bh=4nucg4CoauwA5kAPnRFSbGlLG8bVoifutuzMWDupJwo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxVlt9JnE6VXmLGmcyWjvYIx+S/e0hfxvZGX+EjHKx2waIsMQJFxk5rMjH0J8EdDOLboC9x8xicrfcnJBnYzU8iFz7eFkEX1LPk19RKQ9r+BKclgcnDy1FZe/cGJCZCvJgJLtNDn7yIsb43gR7/a6Hm7eKOPuVv3ndtFq7xNE3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVy66t1v; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1741522810; c=relaxed/simple;
+	bh=FBfm+xo1vqTjDpoWeRpN2M/Ankc/SCdLuV1dwK9Cnic=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=s3gQ8osX55g3E14fvGoXV1XLk+cK9AsKRd9v+3nncjWHntNFynnCKivXTwkA6x/QSXhlFnV0eIkljCDVgCYIYMV/5O2T/SUstWL0JH5tQ6rkvGrWdRYVOR5nqIqagCT+U2KircGPAbtLHmPjryk00F2I4RzxxrRTmSOO+Zi76xA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ReN+ZyCx; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVy66t1v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ReN+ZyCx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741520288; x=1773056288;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4nucg4CoauwA5kAPnRFSbGlLG8bVoifutuzMWDupJwo=;
-  b=ZVy66t1vTpgQTHeu4/wAw0NlsZ/d6jWbbB0pu/wMRDKIvzDVwbJV2dwa
-   PXk7cIuJTCmoCAjiGLD1HRpFOdceeSJeCUijGRLtfO7zBMOlkSW4Sp4uO
-   I5WyLSRHXYBkk60F/b+cBF/8IhUrNNtK2EuBGBEuxRWuLnKy/N4wfZrvS
-   h2+qY+Tbf5dfnD9Ui7DuHUgCHawZ9BkjdtFufS0TFZt23Vu52k3CvZfoz
-   cZ9+S8gMBe3wk4WqyF3XMpY4t1TDVO8gW7TEuq/WjAwphmJ+iuqZZT15r
-   ajTRCyFBuOLZiYk1z8mK6Mejc7T/UXN3utSLtAeTrCZzx2V6DdrtviGdQ
-   A==;
-X-CSE-ConnectionGUID: sXm47PPMRF67kbfx/fNJwA==
-X-CSE-MsgGUID: dbrPFGFbROeFmS7GldvUaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="30100064"
+  t=1741522809; x=1773058809;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FBfm+xo1vqTjDpoWeRpN2M/Ankc/SCdLuV1dwK9Cnic=;
+  b=ReN+ZyCxAFHMKy1GU0kWWgP61FDguGV4sychl0ywwk79RcndeiHz452j
+   R+LnVVsQ91Hfsvr/4V9LhRfzOtdX9Xz3NKtmpN7TLX2ce/j7SJ3nnmJGj
+   dgIUslS4zfyIYMXY1pnaYHI750nXkHhy7/6S4rgq8MUDVkPxqxirowiWI
+   sXCL0o1sDXpM21FktywAysJhvZGXz/+qi4s6vd+gqAzXOSjIFQRPv4YjT
+   YnOoaIM8LZIJZ0gvsY3uo5toU1cDqiwMKt6ycqgKb4N2inJnSo0V0/ROJ
+   mL30C5CnFcC/y+VYlSyCIgFvpLVvjkjpvuKkOP3GOxpjxCrn5IBJUk8Us
+   g==;
+X-CSE-ConnectionGUID: tjoSUmDRSK664PGv+ctMpA==
+X-CSE-MsgGUID: ocMQVBNSQr+RCM7GEv/k4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="42230943"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="30100064"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 04:38:07 -0700
-X-CSE-ConnectionGUID: w5jE01DjQaGnYl4VkIt9VQ==
-X-CSE-MsgGUID: f5fOJWxjTFWCT8UaKUILFQ==
+   d="scan'208";a="42230943"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 05:20:08 -0700
+X-CSE-ConnectionGUID: BFMlb1NhShuHNc0qPb0xbg==
+X-CSE-MsgGUID: C0y1rclwR4KtGYZERbAZRw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="119710154"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119689047"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2025 04:38:01 -0700
+  by orviesa010.jf.intel.com with ESMTP; 09 Mar 2025 05:20:06 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trEyl-00033I-1s;
-	Sun, 09 Mar 2025 11:37:59 +0000
-Date: Sun, 9 Mar 2025 19:37:54 +0800
+	id 1trFdU-000352-00;
+	Sun, 09 Mar 2025 12:20:04 +0000
+Date: Sun, 9 Mar 2025 20:19:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	John Hubbard <jhubbard@nvidia.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>,
-	Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v15 5/9] mm: rust: add mmput_async support
-Message-ID: <202503091916.QousmtcY-lkp@intel.com>
-References: <20250304-vma-v15-5-5c641b31980a@google.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:nfsd-tracepoints 8/9] fs/nfsd/nfs4proc.c:797:2: warning:
+ label at end of compound statement is a C2x extension
+Message-ID: <202503092055.5Awz8EoC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,134 +61,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250304-vma-v15-5-5c641b31980a@google.com>
 
-Hi Alice,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/mm-rust-add-abstraction-for-struct-mm_struct/20250304-195314
-base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-patch link:    https://lore.kernel.org/r/20250304-vma-v15-5-5c641b31980a%40google.com
-patch subject: [PATCH v15 5/9] mm: rust: add mmput_async support
-config: riscv-randconfig-r113-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091916.QousmtcY-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
-reproduce: (https://download.01.org/0day-ci/archive/20250309/202503091916.QousmtcY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git nfsd-tracepoints
+head:   7162c90c3e04a073c111a5821e529377ce2ab43f
+commit: f1681c62918a99afaf3528b5332aa647740eb818 [8/9] nfsd: add tracepoints around nfsd_create events
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250309/202503092055.5Awz8EoC-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503092055.5Awz8EoC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091916.QousmtcY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503092055.5Awz8EoC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   820 |         insl(addr, buffer, count);
-   |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-   106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-   |                                          ~~~~~~~~~~ ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   829 |         outsb(addr, buffer, count);
-   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-   118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-   |                                            ~~~~~~~~~~ ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   838 |         outsw(addr, buffer, count);
-   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-   119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-   |                                            ~~~~~~~~~~ ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   847 |         outsl(addr, buffer, count);
-   |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-   120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-   |                                            ~~~~~~~~~~ ^
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   |                                                   ~~~~~~~~~~ ^
-   clang diag: arch/riscv/include/asm/io.h:104:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:105:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:106:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:118:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:119:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:120:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   7 warnings generated.
-   clang diag: arch/riscv/include/asm/io.h:104:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:105:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:106:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:118:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:119:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:120:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:104:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:105:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:106:53: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:118:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:119:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: arch/riscv/include/asm/io.h:120:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> error[E0425]: cannot find function `mmput_async` in crate `bindings`
-   --> rust/kernel/mm.rs:143:28
-   |
-   143 |         unsafe { bindings::mmput_async(obj.cast().as_ptr()) };
-   |                            ^^^^^^^^^^^ not found in `bindings`
+>> fs/nfsd/nfs4proc.c:797:2: warning: label at end of compound statement is a C2x extension [-Wc2x-extensions]
+           }
+           ^
+   1 warning generated.
+
+
+vim +797 fs/nfsd/nfs4proc.c
+
+   778	
+   779	static umode_t nfs_type_to_vfs_type(enum nfs_ftype4 nfstype)
+   780	{
+   781		switch (nfstype) {
+   782		case NF4REG:
+   783			return S_IFREG;
+   784		case NF4DIR:
+   785			return S_IFDIR;
+   786		case NF4BLK:
+   787			return S_IFBLK;
+   788		case NF4CHR:
+   789			return S_IFCHR;
+   790		case NF4LNK:
+   791			return S_IFLNK;
+   792		case NF4SOCK:
+   793			return S_IFSOCK;
+   794		case NF4FIFO:
+   795			return S_IFIFO;
+   796		default:
+ > 797		}
+   798		return 0;
+   799	}
+   800	
 
 -- 
 0-DAY CI Kernel Test Service
