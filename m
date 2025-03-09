@@ -1,80 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F033209;
-	Sun,  9 Mar 2025 03:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5703596B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 03:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741489969; cv=none; b=h+sh1gd7beucuEoi6XsqqVxWsS+gZVEPmlNdIBE9QmTIQaMY6yKMAnVwJHZta4ag+kjPTGewvB4XMVbxDlUpyaA8eo0wHZRTNy5riLrGmofmPTKs1EeZz7WFS7GCSW5PT6sv0F22OJ347rAugiv/qY7n75837GonPvq/ngp5j0M=
+	t=1741492429; cv=none; b=QmqB0wNZgQBWbfq4wCxFmzVwFCXbTfysZoo5j6LISM9aA8tmabA1+JjrnwoQ48V1UoVbxpKyXwH22ghYY3UMd7jrfX3R4b1w6SpkOwYW23J1WCRy8NXIVjYJs3eXZpACaBR2nOGrnbevBXzKUOe4IvBKjz7uJI2W2RfG9IjzE8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741489969; c=relaxed/simple;
-	bh=DHi9MJPnGZGRDihEky9eZ9K5pTtJu5JwGfbsXs63aYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7GcWyr5dNjcMBzc7fpBZMY9ITm7WnTB2aJ1Z3nPMMJZhgnxyu/SfJuquhSoIlRucATdnVg/h0Zu2KgoVa1Ni4iDfKlCUs62X23Yix0ip8NQbuy6NskZTYitCIJeCXriFzO24JEQCtFDkPjgAQhuu8Yt5+8pXzIuIiCSbqcPSUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHYqUUTt; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1741492429; c=relaxed/simple;
+	bh=dthA8HMmsVMgB5EvxN3JhWFp8FewKu+23/RaTHjSQpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rq3xZAigu+rtXuhwgB/a1jzFPPUW8G3tozAC8i/zFQGSipu/KwsznXKfUqmjf5ugZOWjcQQIwyzDLFHzb3vBCEaDEYiD4w7nS+dS0nHQZ9spGocjIvNhnEj1OJHFFgTCrtALYt9o20yctVfeKDV8za2SczRcJdBFpQOssPqJU9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T+013Lwy; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHYqUUTt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+013Lwy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741489968; x=1773025968;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DHi9MJPnGZGRDihEky9eZ9K5pTtJu5JwGfbsXs63aYM=;
-  b=ZHYqUUTts+vqJUrt3xOJdH+jr3CsKOgyhEpTPNeEK9isI78jW9M3Rhuk
-   MfE/2my59jzYhMZRuT5+4lK8yscTiRRLJhZVy7TruHADvXn9udxmIR3Mm
-   pX3qcSiVqKXUe8DEkTWK9AcbvgWKeg0Diw5asSTWa4TELkfY1/xCZKuUl
-   2jVjWWjaFB6KsiHKRkxkYwr1uKJOut5sYeBvYQcB+xkJ/owAj/zokNRXB
-   hadKI0/qbixoXsKxB+xkMm8EQjTwR3rGEGiCxV4NmlEpIiJ2J1bSpniX5
-   eFuXLXMRP05zZ+bsD1D0bAMYeO1FJqRfSwpOdFSklLLx6Wm8EylO4SbDd
+  t=1741492427; x=1773028427;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dthA8HMmsVMgB5EvxN3JhWFp8FewKu+23/RaTHjSQpY=;
+  b=T+013LwyFTDoZfMtM14X5vgXj4fPo/THlO0cb4PzhvQyQGq2F63v3snx
+   PsVrW+Y6/P6xVMa3GQixVqKIXdgjiZ9Yz6Svt9FsstIxZdFgpb/Xjv/4k
+   UtWombYLdeUrmqhmbKcvjg7FrJp7caxywKu8gRNaWqsw054uXDYAYsDFm
+   fwmlX4FWhc8VvhDhCOFlXlUTr2zEEW3IThrG8aQDE21pFAVv3+GwNEJ8k
+   wfFXwuzmfo2LYxbRev75GwHseGcSvVvGCMLvlIK4rbetjQ8tbphg+4uWd
+   7NPSVkkQCoIGDkcnHXqz+cqNXJhexucqDHuX3FTvtUUUUndUU8fyVA0q+
    g==;
-X-CSE-ConnectionGUID: rR5p/5kbShW9jiIUGPwGRg==
-X-CSE-MsgGUID: Z0Rki/08Sgqc5x3iNmI0kQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46422511"
+X-CSE-ConnectionGUID: 9OdDA/+cT3KMpveEUYFUXw==
+X-CSE-MsgGUID: GZ9YhEaRQvudZi0tQqM1cQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11367"; a="46288382"
 X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="46422511"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 19:12:47 -0800
-X-CSE-ConnectionGUID: DqzgJJ8mTwWR1tSSMsjUwA==
-X-CSE-MsgGUID: YMO4U9C0R/6Uf0PY2hDqTA==
+   d="scan'208";a="46288382"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2025 19:53:47 -0800
+X-CSE-ConnectionGUID: UFQ53EYCRJykLoCCmK8HSg==
+X-CSE-MsgGUID: AFfx8wAcRgGIfaBmC4siaQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,233,1736841600"; 
-   d="scan'208";a="119656338"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="156883151"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 08 Mar 2025 19:12:41 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Mar 2025 19:53:45 -0800
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tr75i-0002bY-13;
-	Sun, 09 Mar 2025 03:12:38 +0000
-Date: Sun, 9 Mar 2025 11:12:14 +0800
+	id 1tr7jS-0002do-2D;
+	Sun, 09 Mar 2025 03:53:42 +0000
+Date: Sun, 9 Mar 2025 11:52:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>, Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kuogee Hsieh <quic_khsieh@quicinc.com>,
-	Krishna Manikandan <quic_mkrishn@quicinc.com>,
-	Jonathan Marek <jonathan@marek.ca>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 06/10] drm/msm/mdss: add SAR2130P device configuration
-Message-ID: <202503091045.4UVScL8t-lkp@intel.com>
-References: <20250308-sar2130p-display-v1-6-1d4c30f43822@linaro.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>
+Subject: [akpm-mm:mm-unstable 481/507] lib/xarray.c:1251:14: error:
+ redefinition of 'xas_try_split_min_order'
+Message-ID: <202503091121.RktXlKnp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,51 +64,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250308-sar2130p-display-v1-6-1d4c30f43822@linaro.org>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0a2f889128969dab41861b6e40111aa03dc57014]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/dt-bindings-display-msm-dp-controller-describe-SAR2130P/20250308-094544
-base:   0a2f889128969dab41861b6e40111aa03dc57014
-patch link:    https://lore.kernel.org/r/20250308-sar2130p-display-v1-6-1d4c30f43822%40linaro.org
-patch subject: [PATCH 06/10] drm/msm/mdss: add SAR2130P device configuration
-config: arm-randconfig-004-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091045.4UVScL8t-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091045.4UVScL8t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   2f0c87542d97822659e81f55ae5e5cc1994f3339
+commit: 835714732ae42a4b4f590316b06d06826bff2483 [481/507] mm/filemap: use xas_try_split() in __filemap_add_folio()
+config: i386-buildonly-randconfig-003-20250309 (https://download.01.org/0day-ci/archive/20250309/202503091121.RktXlKnp-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503091121.RktXlKnp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503091045.4UVScL8t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503091121.RktXlKnp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/msm_mdss.c:599:10: error: 'const struct msm_mdss_data' has no member named 'ubwc_static'
-     599 |         .ubwc_static = 1,
-         |          ^~~~~~~~~~~
-   drivers/gpu/drm/msm/msm_mdss.c:600:29: warning: initialized field overwritten [-Woverride-init]
-     600 |         .highest_bank_bit = 0,
-         |                             ^
-   drivers/gpu/drm/msm/msm_mdss.c:600:29: note: (near initialization for 'sar2130p_data.highest_bank_bit')
+>> lib/xarray.c:1251:14: error: redefinition of 'xas_try_split_min_order'
+    1251 | unsigned int xas_try_split_min_order(unsigned int order)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from lib/xarray.c:13:
+   include/linux/xarray.h:1587:28: note: previous definition of 'xas_try_split_min_order' with type 'unsigned int(unsigned int)'
+    1587 | static inline unsigned int xas_try_split_min_order(unsigned int order)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +599 drivers/gpu/drm/msm/msm_mdss.c
+vim +/xas_try_split_min_order +1251 lib/xarray.c
 
-   594	
-   595	static const struct msm_mdss_data sar2130p_data = {
-   596		.ubwc_enc_version = UBWC_3_0, /* 4.0.2 in hw */
-   597		.ubwc_dec_version = UBWC_4_3,
-   598		.ubwc_swizzle = 6,
- > 599		.ubwc_static = 1,
-   600		.highest_bank_bit = 0,
-   601		.macrotile_mode = 1,
-   602		.reg_bus_bw = 74000,
-   603	};
-   604	
+  1237	
+  1238	/**
+  1239	 * xas_try_split_min_order() - Minimal split order xas_try_split() can accept
+  1240	 * @order: Current entry order.
+  1241	 *
+  1242	 * xas_try_split() can split a multi-index entry to smaller than @order - 1 if
+  1243	 * no new xa_node is needed. This function provides the minimal order
+  1244	 * xas_try_split() supports.
+  1245	 *
+  1246	 * Return: the minimal order xas_try_split() supports
+  1247	 *
+  1248	 * Context: Any context.
+  1249	 *
+  1250	 */
+> 1251	unsigned int xas_try_split_min_order(unsigned int order)
+  1252	{
+  1253		if (order % XA_CHUNK_SHIFT == 0)
+  1254			return order == 0 ? 0 : order - 1;
+  1255	
+  1256		return order - (order % XA_CHUNK_SHIFT);
+  1257	}
+  1258	EXPORT_SYMBOL_GPL(xas_try_split_min_order);
+  1259	
 
 -- 
 0-DAY CI Kernel Test Service
