@@ -1,79 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177E8187553
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 15:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF501C5F1F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Mar 2025 16:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741535482; cv=none; b=auGpbboNs2QEHjHATiJQ3H5yrWj4vg8fK1bNH5+L7q5wnVOUJLyDyy8oYZrQH9HfOcA9rn0cJs0OKh+fcCX/qAjj3b2eGbV+SzjAKeDeWsgTOhXClRkQY3N/sbZHTkuIG9n+mpSNld6y1a+RbEs68YMyARzYXG5Hccnq0nj7kwk=
+	t=1741536708; cv=none; b=BI5Dioj7DBGJXpRlyfr7qgIRW//sSzOjfB4XU7WxP7XcwsXrSvAv7HRG/0rA8dZ9vU5AsdNWACSJsRa9f27hHhm72IYwXzzODad8o+9pw5WSobL/IBCjwYdx18zR8xhGu6KoaKAk6l8tYgVgyyoKeniEvrEFwUcIYyhDRHWWFg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741535482; c=relaxed/simple;
-	bh=z26VWBNMz80YyF/hRHm8Hl23tDMXIjOJUiY/5dcLl2Q=;
+	s=arc-20240116; t=1741536708; c=relaxed/simple;
+	bh=9hCZiuQUrvw8C6VOe681QbTu6p8BIa79fAzB/mklYP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DTQPh4aQHFa1RS7XB6JSe9m2S0TRCrz64tCwxOR3d91kmk0m2CdfNNXlqQ9b5B94tC4/7t9ERil/mvyC/XYeadeR+AaNi4E5Ca0jlHcT5jvF9bWN+8Jhiy1vg2sjtUdsYcT83XlOm16xeoRnKkc9DOp0jj9h+AIcM0t7+0Hupfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQkgWgI5; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXEEDh+rCdIQ47QT+ImXMhNtqN2LXTFGdGpM65WApGqRHn2LUL41C76PM4NydudfouvG6MhEgTuoX/Pf73ipV1+L5gIMxmzJIANB8/1vxloDLWRPH+aK/lTSyQPXjc4AgOi5iaZJl1rdba1TfG+bn7i/K095J73kXAy36yec19g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZbGiYZo; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQkgWgI5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZbGiYZo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741535481; x=1773071481;
+  t=1741536707; x=1773072707;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=z26VWBNMz80YyF/hRHm8Hl23tDMXIjOJUiY/5dcLl2Q=;
-  b=mQkgWgI5eKCkAx7WYOKVlMXw1aQj8+lLLsJ2kk3aCdEwfOURLsVyzGVT
-   E/fx1O0o+k8kfFTAmojXYer8cYYnJH7mZIguepPfAjzl8iDfwvKJO5dT1
-   qQxdKs7Tz8+p8pNW0AYWmPBDtOXcu0OUNK6F9utsLs5rN6DloRRFf6APk
-   6eU/S/BVZXqOQmQM2ruxdXR86MTIVNCOB7sSl7kFdGB8PbQex/Wi8S13I
-   pxgrTaeS+CGKM1xjEQDLKZUztZOHbt3n6CtaWVTOEgZljYRbe2gfjOEq7
-   YjliK+yM5we2f2NOPGtxDOSwbtZhL7C2on9A32IkLbh6aJ9PrUFjZVhtx
-   Q==;
-X-CSE-ConnectionGUID: JDCIXyY6QPGKZgb5Iig7YQ==
-X-CSE-MsgGUID: eYrc5RAlSV67afp1/xq55Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42670978"
+  bh=9hCZiuQUrvw8C6VOe681QbTu6p8BIa79fAzB/mklYP4=;
+  b=YZbGiYZor6PfrgcvcNyBXY5ypy84ve6NQ22SlkMjKE5tgRJ3dna0G1gn
+   dr2led+iP31wMj7HLoRuqCzx3MEMcenbAWnei16GxE/gwl7k2P7re9QRE
+   FbuYvjeaWVMXnIRn1OCkXXv2HzOMnwgeKxJEvVrwxZbM41qMRGT8iIO20
+   MWYwhladsmmHwKE37BdAbIXR5rJOJ+0q0T85BRUxUjaJUkmVayvnjUqRf
+   h3xm7G1VhqOI2u1SXcsE8vHYvKi6Dy5U+Vh2vlwHjN1D7mdwCYOQml0I8
+   B9Kn1pI8P4FwTbLtvJjnCupJdGsVKBLidRZA5lz+uByU/BmKXsAAt+fnh
+   w==;
+X-CSE-ConnectionGUID: 59EA4rt5RHmlCMvQz5jhWQ==
+X-CSE-MsgGUID: 0UKROox1SKa68MFplBCYzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42240135"
 X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="42670978"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 08:51:20 -0700
-X-CSE-ConnectionGUID: aMKZlXlkRZmvTo3hOOJy6g==
-X-CSE-MsgGUID: elAGiMi7SmG61Nx2Z1eQnw==
+   d="scan'208";a="42240135"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 09:11:46 -0700
+X-CSE-ConnectionGUID: igfIiSO4REKuMBuIYyKnfg==
+X-CSE-MsgGUID: P9l/zbXRSr+FhzXTflQ3MA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,234,1736841600"; 
-   d="scan'208";a="124782869"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120680370"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 09 Mar 2025 08:51:13 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 Mar 2025 09:11:42 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trIvi-0003Ey-22;
-	Sun, 09 Mar 2025 15:51:07 +0000
-Date: Sun, 9 Mar 2025 23:50:11 +0800
+	id 1trJFb-0003Gk-22;
+	Sun, 09 Mar 2025 16:11:39 +0000
+Date: Mon, 10 Mar 2025 00:11:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+To: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Daniel Danzberger <dd@embedd.com>, Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Nikita Shubin <nikita.shubin@maquefel.me>,
-	Guo Ren <guoren@kernel.org>, Yangyu Chen <cyy@cyyself.name>,
-	Ben Hutchings <bwh@kernel.org>, Felix Fietkau <nbd@nbd.name>,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
-	linux-usb@vger.kernel.org, upstream@airoha.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 09/13] dt-bindings: phy: Add documentation for Airoha
- AN7581 USB PHY
-Message-ID: <202503092318.xReLDuUG-lkp@intel.com>
-References: <20250309132959.19045-10-ansuelsmth@gmail.com>
+	Conor Dooley <conor+dt@kernel.org>, Kees Cook <kees@kernel.org>,
+	Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Ivan Belokobylskiy <belokobylskij@gmail.com>,
+	David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH v3] ARM: dts: nexus4: Initial dts
+Message-ID: <202503092337.8UvZ5rwI-lkp@intel.com>
+References: <20250309-lg-nexus4-mako-v3-1-1dc2807df296@ixit.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,43 +73,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250309132959.19045-10-ansuelsmth@gmail.com>
+In-Reply-To: <20250309-lg-nexus4-mako-v3-1-1dc2807df296@ixit.cz>
 
-Hi Christian,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20250307]
-[also build test WARNING on v6.14-rc5]
-[cannot apply to clk/clk-next robh/for-next usb/usb-testing usb/usb-next usb/usb-linus linus/master v6.14-rc5 v6.14-rc4 v6.14-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 0a2f889128969dab41861b6e40111aa03dc57014]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/clk-en7523-convert-driver-to-regmap-API/20250309-213623
-base:   next-20250307
-patch link:    https://lore.kernel.org/r/20250309132959.19045-10-ansuelsmth%40gmail.com
-patch subject: [PATCH 09/13] dt-bindings: phy: Add documentation for Airoha AN7581 USB PHY
-reproduce: (https://download.01.org/0day-ci/archive/20250309/202503092318.xReLDuUG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Heidelberg-via-B4-Relay/ARM-dts-nexus4-Initial-dts/20250309-084753
+base:   0a2f889128969dab41861b6e40111aa03dc57014
+patch link:    https://lore.kernel.org/r/20250309-lg-nexus4-mako-v3-1-1dc2807df296%40ixit.cz
+patch subject: [PATCH v3] ARM: dts: nexus4: Initial dts
+config: arm-randconfig-002-20250309 (https://download.01.org/0day-ci/archive/20250309/202503092337.8UvZ5rwI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250309/202503092337.8UvZ5rwI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503092318.xReLDuUG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503092337.8UvZ5rwI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/phy/airoha,an7581-usb-phy.yam
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
-   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
-   make[1]: *** [Makefile:1792: htmldocs] Error 2
+>> Error: arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dts:289.1-10 Label or path pmicintc not found
+   FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
