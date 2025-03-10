@@ -1,99 +1,154 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C056318E361
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 14:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38201531E3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 15:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741617917; cv=none; b=MmF26zFRNXJxGzSKympSgIKZ0GbHoK+EGBezusxLLMbsMAQ5iadRPINxiyAWjPB9z8sNhoHssI7GvVTUcclcCYyex448iTEwqk/5yFHBDKjuCdzG/Kzo7mm/QWwalexifD/VFV4tT/pUA/tLxerPKUTCJoCSojHi815gfL82BDw=
+	t=1741621619; cv=none; b=BzF1ZSoPKP9DfmIWqBma/m1S6GbiO7ePDPzMydIsEt2+iuFQ3pDc7X1OlyxIRRLkeJDLkwPfxuHyIkB/GCAH/4QNCdcsAzg+uj8A4KatcVHt1rHzPV3vWrTQYm69LY8jUDw3e0Qo7rSKa4+fBqJ3ClBKVQYNm8o2kZTYSnLWOh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741617917; c=relaxed/simple;
-	bh=gW8z6VuVGnqPIy1b10ZKo6rOVlMZz58aYMYu5AfNd/A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N3AoDKo3DLkyVwWE03EQbQuPOqOThqydD0zC7uFH9LMv6bxeJPp/iDZlriTYot9pvbxmUD7yVOMCviPHZyo2+4kkyjiTYGguoxNUTA4X6by4+/me3YPODFinAiwL2madimm2gWpO5SbegiHYvz7uHM5PoOjBlxHp/mlbXdeWt6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eNrwNHf2; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741621619; c=relaxed/simple;
+	bh=FBgwY36HDCOGShWtd98nUyKOeQn3V3CPBD96iQp7bC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rdXxENJaVT0iHTNAp76IKHs2ZphcwDDxY8UwqxslOH9vE02HXk6obVuTbBBuJyjp4elmX12+MZYYOCuqcmXeUt9PlJdtEd/DK6XnqpKg0D6TSweUrw4n55H1ft4O2SsPIA4PgS0a6GttzK91RxTMHI5Cz/ZP3wGQeY472Ky5/Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxrP5QSH; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eNrwNHf2"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2ff67f44fcaso1228421a91.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 07:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741617915; x=1742222715; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gW8z6VuVGnqPIy1b10ZKo6rOVlMZz58aYMYu5AfNd/A=;
-        b=eNrwNHf2jupb/5TPE4tiFGRkj1q5zTRiRvWiozvjAAynZkB4qy25PXZt2TrmtV2H8+
-         CXmBf34eS6ng93eyWzD6TkQ00zJ8YQv5Fhq/K9vNOkK4AzN0ApwwteAiHhotPl1ijYoJ
-         dPrC3ii3HhvlRFE/XJVGO525C3QmRPB3I+RyvzeBu4c5craRRcBQPrsHUEdMFG88nY2R
-         XwhxP8jGtAhaZ9UQ7Y3w44a1GzfYOX7mjkQopIcYhfMrq/N3e5IaGN3Wv755WyisXAZd
-         VwjGb2i/djvGeQCqfYu1gy1nJ+wiMcI8qPftaXOtz3aKMfuVYDwsUeV8KZzO9MCQMsLF
-         5B2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741617915; x=1742222715;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gW8z6VuVGnqPIy1b10ZKo6rOVlMZz58aYMYu5AfNd/A=;
-        b=nDeKfeD6eTJheYe724XeZXFXB04pL9KbYHiQ7b4ZXLpX6j3EXMv+Fb8uYg+rAXrDEo
-         yUyBtDbVoIzJAG5q1BoSeCuDIVYoSE28M/mX1UU4Cf7MSQdA+TFhvbNDoXIwV57Ji2Ah
-         KxFWPYgHr9g5meRhwBWYAxMXLmLGcWmbp1SXzrVQbb3HhWLp8MJUqH6AK5j5RYFTs5ww
-         E2V3ufJWCVahhYPA+euh6Fqrhasq8kchcwzTUg7ISYShpBvvTGRnNStSl8LmlWIeww71
-         2p0ugz2dkRfAmKmCVp+ANsGRzN4oNubL4LxcEueBRleMYKO2UM6s2DmPPjJpT/PG1VH+
-         XA+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUSWNfW31PqeE1ydMETeghfwKWnHS3wdGK0GzbyW4/2byCRN+HU2qESlHmHSCGpx3S+8OrwrQmztrLWYO3F@lists.linux.dev
-X-Gm-Message-State: AOJu0YxvAny+gI7av9Cp29Ujc33ZIobvWboIFO3d1PvuZlzJaJlEDy4O
-	+agwGK4nR8RRxak/LrMerz0xu3LGgxjCa3AgJVbGf7StfxWPlm+2mtvlb2ErDkxEAF48SVo8hDM
-	B6TG4eKn9O5cv6s9RcTtZ5MAA0iQ=
-X-Gm-Gg: ASbGncsASK2lGlO4ZMC4MCZjbAKZ4arrTOFbWuOSFsOrf0LEdeA882D3WJQ7gjmQ/Zf
-	IwHdjnwKjxiyVzWRM3REb5/v3cnZ41b5irDVfjntHWe+y8uWuRHbPqUhk/m5B/sMgT1RHdUiZNc
-	69i69j8nVZWOh2WearnwS4NzHHAr5Fv7qlD94z
-X-Google-Smtp-Source: AGHT+IGFBrCXa0nfH6q3KU/d6EVjPEAYQctUGGrFOQVO/LubB0zYyYAGq4Qv4EuO5b6mIZ2fYbTZgO5CinWJRcgvDxE=
-X-Received: by 2002:a17:90b:388b:b0:2fa:6055:17e7 with SMTP id
- 98e67ed59e1d1-300ff94ba4fmr18872a91.8.1741617914779; Mon, 10 Mar 2025
- 07:45:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxrP5QSH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741621618; x=1773157618;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FBgwY36HDCOGShWtd98nUyKOeQn3V3CPBD96iQp7bC0=;
+  b=RxrP5QSHcdboIjQb/si7giAu9o5nZbp8h9YGuOcKgU9vYA8OOiIAw96e
+   XUaKWenzcYKRuva69EYykOLJfMkne8QMEYt3XKxIogjrh9XBC0B0qFLW7
+   pr0y72e7ALVWmk2byAFH0bYYl5bEBo7Yf3DK64oEaFFCj6U38Umyb8cOt
+   x9/90buQtvpLWZG6xDrYWenuwi/YK6bLlTcMf7byJ67q5VDwSZ/ESn64F
+   mb1vL6z1ETREqI0cZaHM29KKdv6v6vrmklXITical7RzpkEK85xjA33tf
+   v2PHHeSOrfn/Rm8mrl+qFJX2tBuQp4F1PrHgL44g6V/drUq1foJc7nvs7
+   Q==;
+X-CSE-ConnectionGUID: XA0aeJs4RemQ2U+U6yzn3Q==
+X-CSE-MsgGUID: inUgYGtYQyuDV4QvVd6gpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42503678"
+X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
+   d="scan'208";a="42503678"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 08:46:57 -0700
+X-CSE-ConnectionGUID: 970ODgy7RY6vUYtdemQNiA==
+X-CSE-MsgGUID: 1ROdfxaZTbGfPIzbUQPmGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
+   d="scan'208";a="119866069"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2025 08:46:56 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1trfLC-0004PI-09;
+	Mon, 10 Mar 2025 15:46:54 +0000
+Date: Mon, 10 Mar 2025 23:46:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:devel 23/23]
+ drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit
+ declaration of function 'devm_kmemdup_array'; did you mean
+ 'devm_kmalloc_array'?
+Message-ID: <202503102326.NA0KFO8t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250304-vma-v15-5-5c641b31980a@google.com> <202503091916.QousmtcY-lkp@intel.com>
- <Z86vpQBMYuonWsM_@google.com> <f8da228a-fbc9-413c-8fbe-cfbf074a3053@lucifer.local>
-In-Reply-To: <f8da228a-fbc9-413c-8fbe-cfbf074a3053@lucifer.local>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 10 Mar 2025 15:45:01 +0100
-X-Gm-Features: AQ5f1Jo-KFcVKueX0g67j4CnRVm7aFG8zzgraUS9Fb3LDQnYzo1Ea90XXPPdoKc
-Message-ID: <CANiq72kAY8hfN_RW-=h-gmFQbq=0DDSQ=ZQr+M3KhJgnsW6n5Q@mail.gmail.com>
-Subject: Re: [PATCH v15 5/9] mm: rust: add mmput_async support
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, kernel test robot <lkp@intel.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@suse.cz>, John Hubbard <jhubbard@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Jann Horn <jannh@google.com>, Suren Baghdasaryan <surenb@google.com>, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Mar 10, 2025 at 3:20=E2=80=AFPM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> Yeah, !CONFIG_MMU is a constant source of headaches and pain :/ is there =
-a
-> way to just require CONFIG_MMU for the rust bits? As far as I'm concerned
-> !CONFIG_MMU is a relic... (not everybody agrees of course :>)
+tree:   git://linuxtv.org/sailus/media_tree.git devel
+head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
+commit: 07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2 [23/23] media: stm32-dcmi: use devm_kmemdup_array()
+config: sparc-randconfig-001-20250310 (https://download.01.org/0day-ci/archive/20250310/202503102326.NA0KFO8t-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102326.NA0KFO8t-lkp@intel.com/reproduce)
 
-I guess you could simply limit `CONFIG_RUST` to it, but yeah, I guess
-it depends on how many people you estimate would like to mix both, and
-the bandwidth/patience available to support it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503102326.NA0KFO8t-lkp@intel.com/
 
-Cheers,
-Miguel
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/st/stm32/stm32-dcmi.c: In function 'dcmi_formats_init':
+>> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Wimplicit-function-declaration]
+    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
+         |                            ^~~~~~~~~~~~~~~~~~
+         |                            devm_kmalloc_array
+>> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:26: error: assignment to 'const struct dcmi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
+         |                          ^
+
+
+vim +1685 drivers/media/platform/st/stm32/stm32-dcmi.c
+
+  1639	
+  1640	static int dcmi_formats_init(struct stm32_dcmi *dcmi)
+  1641	{
+  1642		const struct dcmi_format *sd_fmts[ARRAY_SIZE(dcmi_formats)];
+  1643		unsigned int num_fmts = 0, i, j;
+  1644		struct v4l2_subdev *subdev = dcmi->source;
+  1645		struct v4l2_subdev_mbus_code_enum mbus_code = {
+  1646			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+  1647		};
+  1648	
+  1649		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
+  1650					 NULL, &mbus_code)) {
+  1651			for (i = 0; i < ARRAY_SIZE(dcmi_formats); i++) {
+  1652				if (dcmi_formats[i].mbus_code != mbus_code.code)
+  1653					continue;
+  1654	
+  1655				/* Exclude JPEG if BT656 bus is selected */
+  1656				if (dcmi_formats[i].fourcc == V4L2_PIX_FMT_JPEG &&
+  1657				    dcmi->bus_type == V4L2_MBUS_BT656)
+  1658					continue;
+  1659	
+  1660				/* Code supported, have we got this fourcc yet? */
+  1661				for (j = 0; j < num_fmts; j++)
+  1662					if (sd_fmts[j]->fourcc ==
+  1663							dcmi_formats[i].fourcc) {
+  1664						/* Already available */
+  1665						dev_dbg(dcmi->dev, "Skipping fourcc/code: %4.4s/0x%x\n",
+  1666							(char *)&sd_fmts[j]->fourcc,
+  1667							mbus_code.code);
+  1668						break;
+  1669					}
+  1670				if (j == num_fmts) {
+  1671					/* New */
+  1672					sd_fmts[num_fmts++] = dcmi_formats + i;
+  1673					dev_dbg(dcmi->dev, "Supported fourcc/code: %4.4s/0x%x\n",
+  1674						(char *)&sd_fmts[num_fmts - 1]->fourcc,
+  1675						sd_fmts[num_fmts - 1]->mbus_code);
+  1676				}
+  1677			}
+  1678			mbus_code.index++;
+  1679		}
+  1680	
+  1681		if (!num_fmts)
+  1682			return -ENXIO;
+  1683	
+  1684		dcmi->num_of_sd_formats = num_fmts;
+> 1685		dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
+  1686						      sizeof(sd_fmts[0]), GFP_KERNEL);
+  1687		if (!dcmi->sd_formats) {
+  1688			dev_err(dcmi->dev, "Could not allocate memory\n");
+  1689			return -ENOMEM;
+  1690		}
+  1691	
+  1692		dcmi->sd_format = dcmi->sd_formats[0];
+  1693		return 0;
+  1694	}
+  1695	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
