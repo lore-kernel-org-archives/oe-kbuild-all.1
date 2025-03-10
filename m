@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38201531E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 15:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDC222DFB6;
+	Mon, 10 Mar 2025 15:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741621619; cv=none; b=BzF1ZSoPKP9DfmIWqBma/m1S6GbiO7ePDPzMydIsEt2+iuFQ3pDc7X1OlyxIRRLkeJDLkwPfxuHyIkB/GCAH/4QNCdcsAzg+uj8A4KatcVHt1rHzPV3vWrTQYm69LY8jUDw3e0Qo7rSKa4+fBqJ3ClBKVQYNm8o2kZTYSnLWOh4=
+	t=1741622221; cv=none; b=N+yanDyAbk73KPGIIoj24/Bmazs+foOl4fV+1JvutdCKqBQfRA66o30pVEhch7iJN8QbTUNfGF6bQf5Qz5/GJyzqQdtLRV0PGcItPmhNQB/rGJm/H2TFYJfgu7lJb6Qr9cpwGecfFd/CRC27VKQzxiVtc3wF7HRAbE1t/nOOyCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741621619; c=relaxed/simple;
-	bh=FBgwY36HDCOGShWtd98nUyKOeQn3V3CPBD96iQp7bC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rdXxENJaVT0iHTNAp76IKHs2ZphcwDDxY8UwqxslOH9vE02HXk6obVuTbBBuJyjp4elmX12+MZYYOCuqcmXeUt9PlJdtEd/DK6XnqpKg0D6TSweUrw4n55H1ft4O2SsPIA4PgS0a6GttzK91RxTMHI5Cz/ZP3wGQeY472Ky5/Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxrP5QSH; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1741622221; c=relaxed/simple;
+	bh=HUOoS96yEGNDr6tmWxBEsNiNGsOwUXnMZoZqjoX9vAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SvEmTNJ2B88wfoa0iflr6C5BMqte1VFg8Ji37nBhv09iksCfo9s4KW9RVtVhUtHr+qkTBLcJPPz/J2EkdmqJue/PsepKTYnOTpCZI07SXV3iXeftZEz9FvejBh1kZ5iKvXMEXSkaO8QJlGTSAFygGDPzsmd+l8g9J4xCkolspjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVGCPUE2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxrP5QSH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVGCPUE2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741621618; x=1773157618;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FBgwY36HDCOGShWtd98nUyKOeQn3V3CPBD96iQp7bC0=;
-  b=RxrP5QSHcdboIjQb/si7giAu9o5nZbp8h9YGuOcKgU9vYA8OOiIAw96e
-   XUaKWenzcYKRuva69EYykOLJfMkne8QMEYt3XKxIogjrh9XBC0B0qFLW7
-   pr0y72e7ALVWmk2byAFH0bYYl5bEBo7Yf3DK64oEaFFCj6U38Umyb8cOt
-   x9/90buQtvpLWZG6xDrYWenuwi/YK6bLlTcMf7byJ67q5VDwSZ/ESn64F
-   mb1vL6z1ETREqI0cZaHM29KKdv6v6vrmklXITical7RzpkEK85xjA33tf
-   v2PHHeSOrfn/Rm8mrl+qFJX2tBuQp4F1PrHgL44g6V/drUq1foJc7nvs7
-   Q==;
-X-CSE-ConnectionGUID: XA0aeJs4RemQ2U+U6yzn3Q==
-X-CSE-MsgGUID: inUgYGtYQyuDV4QvVd6gpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42503678"
+  t=1741622220; x=1773158220;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HUOoS96yEGNDr6tmWxBEsNiNGsOwUXnMZoZqjoX9vAA=;
+  b=jVGCPUE2yavaZ6Ej4W6xwNBOM/G+mAAiMgjk25ZeAyzE4o3OURIJLwOa
+   DbH/cxjtkpQi1ze8COSd24mvEET73nfydGkqs2jxuCK6oFp1/6Bc2wZO4
+   mV0Kv8NLV3ydvdp6tDY+dH6VPjDkAsRwSj2wEdR0yuopafyW2tXx08sJ0
+   7mDIKtkSE0Wk1M4QKHAjTQUpYeQcJScmbhU5Tk/R7aZBaJMa72G9QuNOB
+   Pe+0gJ/pLD8Ln14wglTelVqi+3UAdmzi8ZqZB0uOI7ZfxLx2zZ1klqN9J
+   216rYHA1gItlS/ytbZCXn/RuhMqqIslpDEziL7D4I/+O9Hj+6J0SjnDXa
+   w==;
+X-CSE-ConnectionGUID: BdphJXdHTvuDlJkcd0Rn9g==
+X-CSE-MsgGUID: f5qvtEGDS1eGooy8qJScUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="65081040"
 X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="42503678"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 08:46:57 -0700
-X-CSE-ConnectionGUID: 970ODgy7RY6vUYtdemQNiA==
-X-CSE-MsgGUID: 1ROdfxaZTbGfPIzbUQPmGg==
+   d="scan'208";a="65081040"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 08:56:59 -0700
+X-CSE-ConnectionGUID: h9n+icFATluKVx9K7ImYmQ==
+X-CSE-MsgGUID: pgat/bVPTj+l6ZZfBU3B7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="119866069"
+   d="scan'208";a="125260838"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2025 08:46:56 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Mar 2025 08:56:57 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trfLC-0004PI-09;
-	Mon, 10 Mar 2025 15:46:54 +0000
-Date: Mon, 10 Mar 2025 23:46:28 +0800
+	id 1trfUs-0004Pw-35;
+	Mon, 10 Mar 2025 15:56:54 +0000
+Date: Mon, 10 Mar 2025 23:56:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:devel 23/23]
- drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit
- declaration of function 'devm_kmemdup_array'; did you mean
- 'devm_kmalloc_array'?
-Message-ID: <202503102326.NA0KFO8t-lkp@intel.com>
+To: Zsolt Kajtar <soci@c64.rulez.org>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Zsolt Kajtar <soci@c64.rulez.org>
+Subject: Re: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing
+ routines
+Message-ID: <202503102312.rSGvBwl1-lkp@intel.com>
+References: <20250309184716.13732-2-soci@c64.rulez.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,90 +65,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250309184716.13732-2-soci@c64.rulez.org>
 
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
-commit: 07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2 [23/23] media: stm32-dcmi: use devm_kmemdup_array()
-config: sparc-randconfig-001-20250310 (https://download.01.org/0day-ci/archive/20250310/202503102326.NA0KFO8t-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102326.NA0KFO8t-lkp@intel.com/reproduce)
+Hi Zsolt,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.14-rc6 next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zsolt-Kajtar/Refactoring-the-fbcon-packed-pixel-drawing-routines/20250310-025619
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250309184716.13732-2-soci%40c64.rulez.org
+patch subject: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing routines
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250310/202503102312.rSGvBwl1-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102312.rSGvBwl1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503102326.NA0KFO8t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503102312.rSGvBwl1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/st/stm32/stm32-dcmi.c: In function 'dcmi_formats_init':
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Wimplicit-function-declaration]
-    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-         |                            ^~~~~~~~~~~~~~~~~~
-         |                            devm_kmalloc_array
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:26: error: assignment to 'const struct dcmi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-         |                          ^
+   In file included from drivers/video/fbdev/wmt_ge_rops.c:15:
+>> drivers/video/fbdev/core/fb_draw.h:16:48: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
+         |                                                ^
+   drivers/video/fbdev/core/fb_draw.h:18:5: error: incomplete definition of type 'struct fb_address'
+      18 |         adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
+         |         ~~~^
+   drivers/video/fbdev/core/fb_draw.h:16:48: note: forward declaration of 'struct fb_address'
+      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
+         |                                                ^
+   drivers/video/fbdev/core/fb_draw.h:22:46: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/core/fb_draw.h:24:39: error: incomplete definition of type 'struct fb_address'
+      24 |         unsigned int bits = (unsigned int)adr->bits + offset;
+         |                                           ~~~^
+   drivers/video/fbdev/core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/core/fb_draw.h:26:5: error: incomplete definition of type 'struct fb_address'
+      26 |         adr->bits = bits & (BITS_PER_LONG - 1u);
+         |         ~~~^
+   drivers/video/fbdev/core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/core/fb_draw.h:27:5: error: incomplete definition of type 'struct fb_address'
+      27 |         adr->address += (bits & ~(BITS_PER_LONG - 1u)) / BITS_PER_BYTE;
+         |         ~~~^
+   drivers/video/fbdev/core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/core/fb_draw.h:31:47: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:33:16: error: incomplete definition of type 'struct fb_address'
+      33 |         int bits = adr->bits - (int)offset;
+         |                    ~~~^
+   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:35:5: error: incomplete definition of type 'struct fb_address'
+      35 |         adr->bits = bits & (BITS_PER_LONG - 1);
+         |         ~~~^
+   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:37:6: error: incomplete definition of type 'struct fb_address'
+      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+         |                 ~~~^
+   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:37:23: error: incomplete definition of type 'struct fb_address'
+      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+         |                                  ~~~^
+   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:39:6: error: incomplete definition of type 'struct fb_address'
+      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+         |                 ~~~^
+   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:39:30: error: incomplete definition of type 'struct fb_address'
+      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+         |                                         ~~~^
+   drivers/video/fbdev/core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/core/fb_draw.h:50:34: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      50 |                                     int offset, const struct fb_address *dst)
+         |                                                              ^
+   drivers/video/fbdev/core/fb_draw.h:52:2: error: call to undeclared function 'fb_write_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |         ^
+   drivers/video/fbdev/core/fb_draw.h:52:2: note: did you mean 'fb_modify_offset'?
+   drivers/video/fbdev/core/fb_draw.h:49:20: note: 'fb_modify_offset' declared here
+      49 | static inline void fb_modify_offset(unsigned long val, unsigned long mask,
+         |                    ^
+      50 |                                     int offset, const struct fb_address *dst)
+      51 | {
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |         ~~~~~~~~~~~~~~~
+         |         fb_modify_offset
+   drivers/video/fbdev/core/fb_draw.h:52:31: error: call to undeclared function 'fb_read_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |                                      ^
+   drivers/video/fbdev/wmt_ge_rops.c:57:8: error: call to undeclared function 'pixel_to_pat'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      57 |         pat = pixel_to_pat(p->var.bits_per_pixel, fg);
+         |               ^
+   4 warnings and 13 errors generated.
 
 
-vim +1685 drivers/media/platform/st/stm32/stm32-dcmi.c
+vim +16 drivers/video/fbdev/core/fb_draw.h
 
-  1639	
-  1640	static int dcmi_formats_init(struct stm32_dcmi *dcmi)
-  1641	{
-  1642		const struct dcmi_format *sd_fmts[ARRAY_SIZE(dcmi_formats)];
-  1643		unsigned int num_fmts = 0, i, j;
-  1644		struct v4l2_subdev *subdev = dcmi->source;
-  1645		struct v4l2_subdev_mbus_code_enum mbus_code = {
-  1646			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-  1647		};
-  1648	
-  1649		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
-  1650					 NULL, &mbus_code)) {
-  1651			for (i = 0; i < ARRAY_SIZE(dcmi_formats); i++) {
-  1652				if (dcmi_formats[i].mbus_code != mbus_code.code)
-  1653					continue;
-  1654	
-  1655				/* Exclude JPEG if BT656 bus is selected */
-  1656				if (dcmi_formats[i].fourcc == V4L2_PIX_FMT_JPEG &&
-  1657				    dcmi->bus_type == V4L2_MBUS_BT656)
-  1658					continue;
-  1659	
-  1660				/* Code supported, have we got this fourcc yet? */
-  1661				for (j = 0; j < num_fmts; j++)
-  1662					if (sd_fmts[j]->fourcc ==
-  1663							dcmi_formats[i].fourcc) {
-  1664						/* Already available */
-  1665						dev_dbg(dcmi->dev, "Skipping fourcc/code: %4.4s/0x%x\n",
-  1666							(char *)&sd_fmts[j]->fourcc,
-  1667							mbus_code.code);
-  1668						break;
-  1669					}
-  1670				if (j == num_fmts) {
-  1671					/* New */
-  1672					sd_fmts[num_fmts++] = dcmi_formats + i;
-  1673					dev_dbg(dcmi->dev, "Supported fourcc/code: %4.4s/0x%x\n",
-  1674						(char *)&sd_fmts[num_fmts - 1]->fourcc,
-  1675						sd_fmts[num_fmts - 1]->mbus_code);
-  1676				}
-  1677			}
-  1678			mbus_code.index++;
-  1679		}
-  1680	
-  1681		if (!num_fmts)
-  1682			return -ENXIO;
-  1683	
-  1684		dcmi->num_of_sd_formats = num_fmts;
-> 1685		dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-  1686						      sizeof(sd_fmts[0]), GFP_KERNEL);
-  1687		if (!dcmi->sd_formats) {
-  1688			dev_err(dcmi->dev, "Could not allocate memory\n");
-  1689			return -ENOMEM;
-  1690		}
-  1691	
-  1692		dcmi->sd_format = dcmi->sd_formats[0];
-  1693		return 0;
-  1694	}
-  1695	
+    14	
+    15	/* move the address pointer by the number of words */
+  > 16	static inline void fb_address_move_long(struct fb_address *adr, int offset)
+    17	{
+    18		adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
+    19	}
+    20	
 
 -- 
 0-DAY CI Kernel Test Service
