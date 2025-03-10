@@ -1,72 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69681A935;
-	Mon, 10 Mar 2025 02:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96582170A11
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 02:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741572233; cv=none; b=qtFGsOGn4qyGdM4NNjJHnej6KN4awnRtQbUe6oqzGWfzdhF/6+nLeKCycXzRC72OzHhfHnSlDrwVyv4YChTVaeCMbBdR2eY2rcVQw+NNeHka4LLEy57hRX8V1hxNl5McVOKypHMpPCBRiqOqW4GZaWb8qXL2i4OwA1jrMeKC/fk=
+	t=1741573404; cv=none; b=C5zR1vcnbV7Sx0Mu7ImTrcdiHZkRvWphCikjgh1YMPRthQNIiY0iQJpHWsOXS140WlIUr6E3ciFikk9jaPNEN/6HOod5qztCOLZYvGveY0PcLpxRxUpzcp6b3nU23jk9VY+W+xtH9vS7vIEG8w2I8bXr8jDzT4BsWEPutHrD1DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741572233; c=relaxed/simple;
-	bh=6CykNk9cUToWOqSzi+0FSLKdtYh2ymFzaVs96PibQ6M=;
+	s=arc-20240116; t=1741573404; c=relaxed/simple;
+	bh=3gVBwQ+xnSHDQdwleaOPzbEA18eMDGqNSgUHEhn4lSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOrpxHsAHhgW9/mspaITc4Zz13J/hglJd5jZBUz0OSMlAkGF/vUqhSu2cJO/sUaIWiTq5XQDweOVySFEd/LXNnBoKUYxJYwJ4P74girMsiMGV3q6YxDRvyOmGbe+0K1c6gQKYV3yhXJ9rHjcugk5kHHRR9VEnsjIU92g6MXuuu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVOnBdhh; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=ESkBfqqtCYMTjMTkDghyLwJpXru0k3Hid7BjVv/EteSteEkR0wowboskI4ynIPHV1vStE+xbKRz0O3HZOpJm33CcZ6sa/warrwgJ5H4xfGcCB9UfsjNFEu+wUVpl2Ol9TCdpUT/8Ee0FDFFxjxQI7ROhfzkW9E5Uo7VJ+RqNmho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHKuv12A; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVOnBdhh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHKuv12A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741572232; x=1773108232;
+  t=1741573403; x=1773109403;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6CykNk9cUToWOqSzi+0FSLKdtYh2ymFzaVs96PibQ6M=;
-  b=bVOnBdhhHR3fLgAUAoxH2rDH8/4BS8UwCRvnhjaX5qMo1hL86QRktfKS
-   FxIcl603aNrBvLmRPcB3xccrcRYkNp0QjHluYkM8KBQcPR3sCSGEPlEA0
-   ZhGIKncuuDPoNIRRviehtnAp6iPqedMz3ZxgDu64raUJ0Of7+il+VG7oG
-   Kwwhd530B/TVPhQ8bYiQvIpfU95+VWdafQfM+ytqHUgbx739FnF/hrL6x
-   LZV1OiEC5kcaOxLtarOwY7RRj0C9Tkpy066L5hVuZTCyvw6fqsrULRgJP
-   wW+iVXRSdLjTtIkaMt1WLG9xD7eK/bAn47VsFYiBtnqllucUyErHYVly0
+  bh=3gVBwQ+xnSHDQdwleaOPzbEA18eMDGqNSgUHEhn4lSc=;
+  b=BHKuv12AYtVhfq3gyr/ABHpACYY1xauVf31zFu2lCLm5UDGCcmwyGHF6
+   LbyPFjUZwIWXFEoUfYbX5pVIS03TOS0OcqVigfEbRu+7TBuNLOVfymMRo
+   fikmdde5qunNI7SJrJ/xQQ4rG88eloRyR984D1v3hTVGK8dtlf/jRH+KO
+   EeZddTtUWmzX/YKwRwyuYlLay1OiR2ERLHWllGRQ2wjoGVI7vVMELbkaS
+   Gucw4K5glsteFyhV8lHX33TJWiGkcmKJkYXX6jeuMW7xg+9fiTOffwWbq
+   j4kfvH4DGwG7gbTtUrLOTKf4CrLdZQSF6CNjnWim57/onCFOD5YL9tBUX
    w==;
-X-CSE-ConnectionGUID: RVtvTeJZSxewvTVf13W61Q==
-X-CSE-MsgGUID: q6NgxTRuTlyDp9JBReTj/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="53193570"
+X-CSE-ConnectionGUID: nLEth4FGRi204DZ1VhMmew==
+X-CSE-MsgGUID: YsT+IbZ6QBCOt83JevRHbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42747185"
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="53193570"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 19:03:50 -0700
-X-CSE-ConnectionGUID: BjxoIDHuSPq56c0P2KxA4Q==
-X-CSE-MsgGUID: que1fRfzQBqTdfIlhlvZOQ==
+   d="scan'208";a="42747185"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 19:23:22 -0700
+X-CSE-ConnectionGUID: xtzFaLkpR+OWljWM7Nyuyw==
+X-CSE-MsgGUID: PEjtvO1ZSQK/meadhrz2/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="124456649"
+   d="scan'208";a="119809225"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Mar 2025 19:03:17 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Mar 2025 19:23:21 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trSU6-0003hE-2M;
-	Mon, 10 Mar 2025 02:03:14 +0000
-Date: Mon, 10 Mar 2025 10:02:18 +0800
+	id 1trSnV-0003iO-2l;
+	Mon, 10 Mar 2025 02:23:17 +0000
+Date: Mon, 10 Mar 2025 10:22:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 2/4] ASoC: meson: g12a-toacodec: drop the definition
- of bits
-Message-ID: <202503100909.xnqNYW9u-lkp@intel.com>
-References: <20250309181600.1322701-3-jan.dakinevich@salutedevices.com>
+To: Zsolt Kajtar <soci@c64.rulez.org>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Zsolt Kajtar <soci@c64.rulez.org>
+Subject: Re: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing
+ routines
+Message-ID: <202503101013.VkX1hbJx-lkp@intel.com>
+References: <20250309184716.13732-2-soci@c64.rulez.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,111 +64,203 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250309181600.1322701-3-jan.dakinevich@salutedevices.com>
+In-Reply-To: <20250309184716.13732-2-soci@c64.rulez.org>
 
-Hi Jan,
+Hi Zsolt,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.14-rc5 next-20250307]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc6 next-20250307]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Dakinevich/ASoC-meson-codec-glue-add-support-for-capture-stream/20250310-022013
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250309181600.1322701-3-jan.dakinevich%40salutedevices.com
-patch subject: [PATCH v2 2/4] ASoC: meson: g12a-toacodec: drop the definition of bits
-config: i386-buildonly-randconfig-005-20250310 (https://download.01.org/0day-ci/archive/20250310/202503100909.xnqNYW9u-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503100909.xnqNYW9u-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zsolt-Kajtar/Refactoring-the-fbcon-packed-pixel-drawing-routines/20250310-025619
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250309184716.13732-2-soci%40c64.rulez.org
+patch subject: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing routines
+config: arm-randconfig-002-20250310 (https://download.01.org/0day-ci/archive/20250310/202503101013.VkX1hbJx-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503101013.VkX1hbJx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503100909.xnqNYW9u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503101013.VkX1hbJx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> sound/soc/meson/g12a-toacodec.c:83:11: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mclk_sel), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mclk_sel)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-      83 |                                       FIELD_PREP(mclk_sel, mux));
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
-     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
-      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      74 |                                  _pfx "type of reg too small for mask"); \
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-   include/linux/compiler_types.h:542:22: note: expanded from macro 'compiletime_assert'
-     542 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:530:23: note: expanded from macro '_compiletime_assert'
-     530 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:522:9: note: expanded from macro '__compiletime_assert'
-     522 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   1 warning generated.
+   In file included from drivers/video/fbdev/wmt_ge_rops.c:15:
+>> drivers/video/fbdev/core/fb_draw.h:16:48: warning: 'struct fb_address' declared inside parameter list will not be visible outside of this definition or declaration
+      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
+         |                                                ^~~~~~~~~~
+   drivers/video/fbdev/core/fb_draw.h: In function 'fb_address_move_long':
+>> drivers/video/fbdev/core/fb_draw.h:18:12: error: invalid use of undefined type 'struct fb_address'
+      18 |         adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
+         |            ^~
+   drivers/video/fbdev/core/fb_draw.h: At top level:
+   drivers/video/fbdev/core/fb_draw.h:22:46: warning: 'struct fb_address' declared inside parameter list will not be visible outside of this definition or declaration
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^~~~~~~~~~
+   drivers/video/fbdev/core/fb_draw.h: In function 'fb_address_forward':
+   drivers/video/fbdev/core/fb_draw.h:24:46: error: invalid use of undefined type 'struct fb_address'
+      24 |         unsigned int bits = (unsigned int)adr->bits + offset;
+         |                                              ^~
+   drivers/video/fbdev/core/fb_draw.h:26:12: error: invalid use of undefined type 'struct fb_address'
+      26 |         adr->bits = bits & (BITS_PER_LONG - 1u);
+         |            ^~
+   drivers/video/fbdev/core/fb_draw.h:27:12: error: invalid use of undefined type 'struct fb_address'
+      27 |         adr->address += (bits & ~(BITS_PER_LONG - 1u)) / BITS_PER_BYTE;
+         |            ^~
+   drivers/video/fbdev/core/fb_draw.h: At top level:
+   drivers/video/fbdev/core/fb_draw.h:31:47: warning: 'struct fb_address' declared inside parameter list will not be visible outside of this definition or declaration
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^~~~~~~~~~
+   drivers/video/fbdev/core/fb_draw.h: In function 'fb_address_backward':
+   drivers/video/fbdev/core/fb_draw.h:33:23: error: invalid use of undefined type 'struct fb_address'
+      33 |         int bits = adr->bits - (int)offset;
+         |                       ^~
+   drivers/video/fbdev/core/fb_draw.h:35:12: error: invalid use of undefined type 'struct fb_address'
+      35 |         adr->bits = bits & (BITS_PER_LONG - 1);
+         |            ^~
+   drivers/video/fbdev/core/fb_draw.h:37:20: error: invalid use of undefined type 'struct fb_address'
+      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+         |                    ^~
+   drivers/video/fbdev/core/fb_draw.h:37:37: error: invalid use of undefined type 'struct fb_address'
+      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+         |                                     ^~
+   drivers/video/fbdev/core/fb_draw.h:39:20: error: invalid use of undefined type 'struct fb_address'
+      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+         |                    ^~
+   drivers/video/fbdev/core/fb_draw.h:39:44: error: invalid use of undefined type 'struct fb_address'
+      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+         |                                            ^~
+   drivers/video/fbdev/core/fb_draw.h: At top level:
+   drivers/video/fbdev/core/fb_draw.h:50:62: warning: 'struct fb_address' declared inside parameter list will not be visible outside of this definition or declaration
+      50 |                                     int offset, const struct fb_address *dst)
+         |                                                              ^~~~~~~~~~
+   drivers/video/fbdev/core/fb_draw.h: In function 'fb_modify_offset':
+>> drivers/video/fbdev/core/fb_draw.h:52:9: error: implicit declaration of function 'fb_write_offset'; did you mean 'fb_modify_offset'? [-Wimplicit-function-declaration]
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |         ^~~~~~~~~~~~~~~
+         |         fb_modify_offset
+>> drivers/video/fbdev/core/fb_draw.h:52:38: error: implicit declaration of function 'fb_read_offset'; did you mean 'fb_modify_offset'? [-Wimplicit-function-declaration]
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |                                      ^~~~~~~~~~~~~~
+         |                                      fb_modify_offset
+   drivers/video/fbdev/core/fb_draw.h: In function 'fb_reverse_bits_long':
+>> drivers/video/fbdev/core/fb_draw.h:106:16: error: implicit declaration of function 'bitrev8x4' [-Wimplicit-function-declaration]
+     106 |         return bitrev8x4(val);
+         |                ^~~~~~~~~
+   drivers/video/fbdev/wmt_ge_rops.c: In function 'wmt_ge_fillrect':
+>> drivers/video/fbdev/wmt_ge_rops.c:57:15: error: implicit declaration of function 'pixel_to_pat' [-Wimplicit-function-declaration]
+      57 |         pat = pixel_to_pat(p->var.bits_per_pixel, fg);
+         |               ^~~~~~~~~~~~
 
 
-vim +83 sound/soc/meson/g12a-toacodec.c
+vim +18 drivers/video/fbdev/core/fb_draw.h
 
-    42	
-    43	static int g12a_toacodec_mux_put_enum(struct snd_kcontrol *kcontrol,
-    44					      struct snd_ctl_elem_value *ucontrol)
-    45	{
-    46		struct snd_soc_component *component =
-    47			snd_soc_dapm_kcontrol_component(kcontrol);
-    48		struct g12a_toacodec *priv = snd_soc_component_get_drvdata(component);
-    49		struct snd_soc_dapm_context *dapm =
-    50			snd_soc_dapm_kcontrol_dapm(kcontrol);
-    51		struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
-    52		unsigned int mclk_sel = GENMASK(2, 0);
-    53		unsigned int mux, reg;
+    14	
+    15	/* move the address pointer by the number of words */
+  > 16	static inline void fb_address_move_long(struct fb_address *adr, int offset)
+    17	{
+  > 18		adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
+    19	}
+    20	
+    21	/* move the address pointer forward with the number of bits */
+    22	static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+    23	{
+    24		unsigned int bits = (unsigned int)adr->bits + offset;
+    25	
+    26		adr->bits = bits & (BITS_PER_LONG - 1u);
+    27		adr->address += (bits & ~(BITS_PER_LONG - 1u)) / BITS_PER_BYTE;
+    28	}
+    29	
+    30	/* move the address pointer backwards with the number of bits */
+    31	static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+    32	{
+    33		int bits = adr->bits - (int)offset;
+    34	
+    35		adr->bits = bits & (BITS_PER_LONG - 1);
+    36		if (bits < 0)
+    37			adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+    38		else
+    39			adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+    40	}
+    41	
+    42	/* compose pixels based on mask */
+    43	static inline unsigned long fb_comp(unsigned long set, unsigned long unset, unsigned long mask)
+    44	{
+    45		return ((set ^ unset) & mask) ^ unset;
+    46	}
+    47	
+    48	/* framebuffer read-modify-write access for replacing bits in the mask */
+    49	static inline void fb_modify_offset(unsigned long val, unsigned long mask,
+    50					    int offset, const struct fb_address *dst)
+    51	{
+  > 52		fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+    53	}
     54	
-    55		if (ucontrol->value.enumerated.item[0] >= e->items)
-    56			return -EINVAL;
-    57	
-    58		mux = snd_soc_enum_item_to_val(e, ucontrol->value.enumerated.item[0]);
-    59		regmap_field_read(priv->field_dat_sel, &reg);
-    60	
-    61		if (mux == reg)
-    62			return 0;
-    63	
-    64		/* Force disconnect of the mux while updating */
-    65		snd_soc_dapm_mux_update_power(dapm, kcontrol, 0, NULL, NULL);
-    66	
-    67		regmap_field_write(priv->field_dat_sel, mux);
-    68		regmap_field_write(priv->field_lrclk_sel, mux);
-    69		regmap_field_write(priv->field_bclk_sel, mux);
-    70	
-    71		/*
-    72		 * FIXME:
-    73		 * On this soc, the glue gets the MCLK directly from the clock
-    74		 * controller instead of going the through the TDM interface.
-    75		 *
-    76		 * Here we assume interface A uses clock A, etc ... While it is
-    77		 * true for now, it could be different. Instead the glue should
-    78		 * find out the clock used by the interface and select the same
-    79		 * source. For that, we will need regmap backed clock mux which
-    80		 * is a work in progress
-    81		 */
-    82		snd_soc_component_update_bits(component, e->reg, mclk_sel,
-  > 83					      FIELD_PREP(mclk_sel, mux));
-    84	
-    85		snd_soc_dapm_mux_update_power(dapm, kcontrol, mux, e, NULL);
+    55	/*
+    56	 * get current palette, if applicable for visual
+    57	 *
+    58	 * The pseudo color table entries (and colors) are right justified and in the
+    59	 * same byte order as it's expected to be placed into a native ordered
+    60	 * framebuffer memory. What that means:
+    61	 *
+    62	 * Expected bytes in framebuffer memory (in native order):
+    63	 * RR GG BB RR GG BB RR GG BB ...
+    64	 *
+    65	 * Pseudo palette entry on little endian arch:
+    66	 * RR | GG << 8 | BB << 16
+    67	 *
+    68	 * Pseudo palette entry on a big endian arch:
+    69	 * RR << 16 | GG << 8 | BB
+    70	 */
+    71	static inline const u32 *fb_palette(struct fb_info *info)
+    72	{
+    73		return (info->fix.visual == FB_VISUAL_TRUECOLOR ||
+    74			info->fix.visual == FB_VISUAL_DIRECTCOLOR) ? info->pseudo_palette : NULL;
+    75	}
+    76	
+    77	/* move pixels right on screen when framebuffer is in native order */
+    78	static inline unsigned long fb_right(unsigned long value, int index)
+    79	{
+    80	#ifdef __LITTLE_ENDIAN
+    81		return value << index;
+    82	#else
+    83		return value >> index;
+    84	#endif
+    85	}
     86	
-    87		return 1;
-    88	}
-    89	
+    87	/* move pixels left on screen when framebuffer is in native order */
+    88	static inline unsigned long fb_left(unsigned long value, int index)
+    89	{
+    90	#ifdef __LITTLE_ENDIAN
+    91		return value >> index;
+    92	#else
+    93		return value << index;
+    94	#endif
+    95	}
+    96	
+    97	/* reversal options */
+    98	struct fb_reverse {
+    99		bool byte, pixel;
+   100	};
+   101	
+   102	/* reverse bits of each byte in a long */
+   103	static inline unsigned long fb_reverse_bits_long(unsigned long val)
+   104	{
+   105	#if defined(CONFIG_HAVE_ARCH_BITREVERSE) && BITS_PER_LONG == 32
+ > 106		return bitrev8x4(val);
+   107	#else
+   108		val = fb_comp(val >> 1, val << 1, ~0UL / 3);
+   109		val = fb_comp(val >> 2, val << 2, ~0UL / 5);
+   110		return fb_comp(val >> 4, val << 4, ~0UL / 17);
+   111	#endif
+   112	}
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
