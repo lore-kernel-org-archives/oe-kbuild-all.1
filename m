@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07211DFFD;
-	Mon, 10 Mar 2025 21:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C067D1DE2CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 21:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741642418; cv=none; b=ZiiQS+HAdxTyewNvOSrKO/O05Gzt+CafSdTCAilvHRi7qXRYXIgS6XekG7pm4EDuijKvlSelqoV43sMiVUOVnBvr9LCkB6G3DEd53V6B8qvuGxgNd0s5GKK7O7fwV+pcrM6V8bZLISZJx+GNPrBfsTgdwjhRTsl9A278+XpPhdw=
+	t=1741643078; cv=none; b=VVaZs2j+8rdL+PZQpfqwBiDhBLZ3rpvS803f8N4fTNpJNk8n1wSBuDCezDVpzqUJUuF6bLFablrf0gwCedAMniKTQ928vPx2EgbuEccOVQM1BHnWPFLIvJWL5ojMqqDTKxS9tayoxKsdOmYcB07IQRzda15neJxwF2jQwBANKfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741642418; c=relaxed/simple;
-	bh=sfRcIWo6fC9vYfEEbwG5irFtI4H4l3WxRKjPF8MQDos=;
+	s=arc-20240116; t=1741643078; c=relaxed/simple;
+	bh=xFcD+WAS8JvggU+R6FqMm/oA/8bbDL1L5s7rvcehr1Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jbu8gBRM9dPlQQ55moDyvO2c4yII94jyfehxKFP2UVFbzIx8f4swkLQ9V9cgdEyLAIHoiY4e+ZMXWey8F+WMDd7EGv+KNdLXq+gyNTI+LwLpZ8lh1SB4asdnCW1GOJ0BwdmORr2uoTt5XGVjY4b04VbBc07Mg6etltDY4QNeb0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSF+7SVg; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=QMtKIPY0p61d+JnC53nkotdXZDCOd8khf0oxACsA9fFzYuyiSCsjIC9LDXW5qg/vDce60/iMpnlw+qAuHtmzKVpNhtQtlm0rOIFeDKj8/nCqhebmcPdOC8xQ+U1nh+cIjPZHbryizDaMOIAOQN0oIHk9eTZM+uH5DsmHPc1H5aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezDZRWFj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSF+7SVg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezDZRWFj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741642416; x=1773178416;
+  t=1741643077; x=1773179077;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sfRcIWo6fC9vYfEEbwG5irFtI4H4l3WxRKjPF8MQDos=;
-  b=SSF+7SVgwkLxDizG5oism6gTf+b0wSdlWHYphhOsWDcl1ro/rqZ35X/l
-   tQ+Eig7riwjMIA8q71IgYfE6mKDEzbUPvUXqD6zYGIqJ9pJogyjCdDG3v
-   OvFnVmHTK1NZZzgpKOMMtBR5/qO3AuuBr/M038p39dvDghG901iIN4Ew7
-   IjnQKW1mqYMEV++KSshE8Rwh1/MQRNyreBfKysYcDK/Q9h//eJSOlevxk
-   Kq39bxDhiUC3lJQFWaQHqOd+A12Dgq8+tw7iHVOWY46JYO/HzTsfnCNlJ
-   6OHdYxt+OrrimfKpd0GdpzUYx/V0jOilBdEAi9ZgZkj4xxTx9Y99WIQlk
-   w==;
-X-CSE-ConnectionGUID: rnXb0tu6TyWcodIaullnng==
-X-CSE-MsgGUID: JeAPOfFHRP+edVfgW1Sh0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="65114209"
+  bh=xFcD+WAS8JvggU+R6FqMm/oA/8bbDL1L5s7rvcehr1Q=;
+  b=ezDZRWFjzjrefCIltUPyRAobRjZAl4tqTdJraijNslHbH9OJLYmAKuzw
+   bA5mgpV1ZT8qSitHMYAMDib72WSSGJG/lrdXB90hT01WKGut2w/rMjjFm
+   D0ENa2sYWSdBv4BplZc4d65C80pyZIx7V/IckYAW77DM45bvdxBybE7if
+   hAMOzRmP2/S7q0eTacZ6xcnj6BkzCVQA0+FGttMVJZ8xDFqWs0b3QL/7N
+   WEXHV+PHDwruL6tJy83grPjbzxw4XMQyjnoOu0mgZjSudHgx5bsZXfCoC
+   fDKw6LnFOLwcoAXHmnI/LfFZasMvpbfSbMgA920IWcLzo4HU4pUUt7qka
+   g==;
+X-CSE-ConnectionGUID: Q5uzhKUiT3iWvgXFCd1MGA==
+X-CSE-MsgGUID: ayQZw+IbQgKNVfSna3mlSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="60065302"
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="65114209"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 14:33:35 -0700
-X-CSE-ConnectionGUID: rSG8M5aCQ0uqbNVKLm/l1Q==
-X-CSE-MsgGUID: gV4WmIVcR7aB9aGkv0GkIA==
+   d="scan'208";a="60065302"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 14:44:37 -0700
+X-CSE-ConnectionGUID: ibSaXHsCQnSnKzlQLfL5kw==
+X-CSE-MsgGUID: ipuIL4ycQ3GMHWsrX9IWKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="120130684"
+   d="scan'208";a="120637791"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Mar 2025 14:33:33 -0700
+  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2025 14:44:35 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trkkd-00065W-1Q;
-	Mon, 10 Mar 2025 21:33:31 +0000
-Date: Tue, 11 Mar 2025 05:32:35 +0800
+	id 1trkvI-000666-1F;
+	Mon, 10 Mar 2025 21:44:32 +0000
+Date: Tue, 11 Mar 2025 05:43:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Raag Jadav <raag.jadav@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
 Subject: [sailus-media-tree:devel 22/23]
- drivers/media/platform/atmel/atmel-isi.c:1075:22: error: call to undeclared
- function 'devm_kmemdup_array'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202503110545.xrh6sBcJ-lkp@intel.com>
+ drivers/media/platform/atmel/atmel-isi.c:1075:27: warning: assignment to
+ 'const struct isi_format **' from 'int' makes pointer from integer without a
+ cast
+Message-ID: <202503110526.P3GrQ20d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,29 +68,29 @@ Content-Disposition: inline
 tree:   git://linuxtv.org/sailus/media_tree.git devel
 head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
 commit: 93c8dabd1d1ed94f03eb9a63c0bc291b62595bda [22/23] media: atmel-isi: use devm_kmemdup_array()
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250311/202503110545.xrh6sBcJ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110545.xrh6sBcJ-lkp@intel.com/reproduce)
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250311/202503110526.P3GrQ20d-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110526.P3GrQ20d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110545.xrh6sBcJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503110526.P3GrQ20d-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/atmel/atmel-isi.c:1075:22: error: call to undeclared function 'devm_kmemdup_array'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   drivers/media/platform/atmel/atmel-isi.c: In function 'isi_formats_init':
+   drivers/media/platform/atmel/atmel-isi.c:1075:29: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Werror=implicit-function-declaration]
     1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                             ^
->> drivers/media/platform/atmel/atmel-isi.c:1075:20: error: incompatible integer to pointer conversion assigning to 'const struct isi_format **' from 'int' [-Wint-conversion]
+         |                             ^~~~~~~~~~~~~~~~~~
+         |                             devm_kmalloc_array
+>> drivers/media/platform/atmel/atmel-isi.c:1075:27: warning: assignment to 'const struct isi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
     1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1076 |                                                sizeof(isi_fmts[0]), GFP_KERNEL);
-         |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+         |                           ^
+   cc1: some warnings being treated as errors
 
 
-vim +/devm_kmemdup_array +1075 drivers/media/platform/atmel/atmel-isi.c
+vim +1075 drivers/media/platform/atmel/atmel-isi.c
 
   1043	
   1044	static int isi_formats_init(struct atmel_isi *isi)
