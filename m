@@ -1,59 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568202AE6A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 18:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9581722D7AF;
+	Mon, 10 Mar 2025 18:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741632403; cv=none; b=RmX5V1Y/nLzsnJbt7Tm6ilUnD2FBa0modpZHy30Xh14B2Tz3kTZdbR5nUS79cYt1BBJAD35PzDV09hAjEjoe2+boCvfVYS81SP8+eX4KaLsPS0vHtl8wFRbj329WjgR5qDeuyBrZbFvAw4ZPwKNx4YAJTjJVlUXhDqHHHW6seNo=
+	t=1741632546; cv=none; b=Bd6Q9Pg7AlznZ1eJDBXORDHPgMmASVFQQanaGqLDxgdRkf53pcUeZefPNwS1vZ1lyffyw7hy+dH9QOBabboP4j0CtcCiTgbgkiLVGgUCbHap1av/AK7pZZjgJiy49ku6GtqHgmKdhWi5A6sOJAqRAk94P42fg/LvCHEdJNdEeso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741632403; c=relaxed/simple;
-	bh=XLXDVkewlJgzZiw0tmrQtMSwGaUw/YB5o41kad7bk88=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oAHAFJ66HM/8Zitvmu1W3Qfq9Uh6YRh0xDDEA5A9aNKA2jx3QzoX2oXPwjB8HIAQBFnnIi5Y7KGS08XHxoicXsonXQ8EvGrcfMenrEljByoY23e4FvHzfNknpjE34F6nRRFKLSjSOxtIqKcj9Gnin0MGBnUv3d0vyNvr3bnAAuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MN8xwxNv; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741632546; c=relaxed/simple;
+	bh=sNJdbmXy/Tk0MEkmZqvg7WEtMf2IVSmQKv14VkQ4aL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GB/XlZDSw6xLUbOWb7kDAF7NsvsKTxicC3wd1sTsYSpKLg/8ILNoyxyQmRtnt/h0n9XoYOyZWRRbqeiDqEdnQRKbUmb4mNbOSxpkjMe9g5Cq4Ye+xIj14Xv2UXXwZWAXjUZMpmpU2R7gUJZmS2vq2KUDIRHGEI3uS/e90b/G5QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XZkM2iHV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MN8xwxNv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741632400; x=1773168400;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XLXDVkewlJgzZiw0tmrQtMSwGaUw/YB5o41kad7bk88=;
-  b=MN8xwxNv+xEnT2lmtZOBLtYFj3uUbPM59I+QWEiELzZ5EfA92vLUlSE8
-   zwlhMTYvuRYDgO4CvyJm7ft0JZsU9iIDNV+8EShEZ9HVZ1Z0zJE5f6MKO
-   xKnFtJSxjIQ27f7TRwy9UP1bVaLHEAsA+JAFZGbrmwpoNFqkPC6wFJ7s+
-   /zMzQOtHwgxHKyl3ONa7A+XQgKFrzLcE73GiufTh6NTMRfkIbCGOK04Px
-   vmDgom9XewwttZsEKHu09bNwQcnS1PbYspKcg4ZBlYesupEfGEpdvSotk
-   D7EATVmFDWN3vIncnj5dyV2Nb6GRzedaJfCtFVYBXBHDVT+oyYtONSWeM
-   g==;
-X-CSE-ConnectionGUID: ZeLD7FcgRG+zwbR7h2XdaA==
-X-CSE-MsgGUID: pBqjdsKdQUCcqSH3kFh/zw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42494055"
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="42494055"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 11:46:39 -0700
-X-CSE-ConnectionGUID: Uip3k8ROSZmSZeWpNULX9w==
-X-CSE-MsgGUID: Iid1iY5ERnGgxI/Cz0QllQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="120004183"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 10 Mar 2025 11:46:38 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tri96-0005z8-0G;
-	Mon, 10 Mar 2025 18:46:36 +0000
-Date: Tue, 11 Mar 2025 02:46:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 4/6] net/ceph/ceph_san.c:22:19: sparse:
- sparse: symbol 'ceph_san_log_128_cache' was not declared. Should it be
- static?
-Message-ID: <202503110213.fV7UzFoR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZkM2iHV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA7C2C4CEE5;
+	Mon, 10 Mar 2025 18:49:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741632546;
+	bh=sNJdbmXy/Tk0MEkmZqvg7WEtMf2IVSmQKv14VkQ4aL8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XZkM2iHVWuWUcGnoVeoG6gEcSxmVQo+wUu8Iymvhi8SYXJGTn3GZUKVNiVsk9Iyz6
+	 jmMYfnL2gdQwMc2YhTuyWYRD9YoU4+zxIguUKW7j1P6b8FCGlp0uqqTOOw4c8F2rPK
+	 wCbnc/wsTZMnUMqDxKi06iPw/K31bC1XZO9O2V04ccyyRcB7Y0G3YtokrlHkWEkBMd
+	 Vwug8CxYDUplCvD8ZCLSFw/jXw9FOGz2At4iCAn8SCbWDkAu2hyPej+dkry0LT+sAy
+	 HRz2YN+bDUNN5S1p2iuCgH/DuzFCxRU5rNFsTTZfUJw5XA5t26FzceqDYPTjI6u22t
+	 af3ffPdXSk84A==
+Date: Tue, 11 Mar 2025 03:49:04 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Niklas Cassel <cassel@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [pci:endpoint-test 16/18]
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c:316:3: error: field designator
+ 'intx_capable' does not refer to any field in type 'const struct
+ dw_pcie_ep_ops'
+Message-ID: <20250310184904.GB1179150@rocinante>
+References: <202503110151.vQXf5yof-lkp@intel.com>
+ <20250310182605.GA1179150@rocinante>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,184 +46,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250310182605.GA1179150@rocinante>
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   8bb4b4a8adc916ebe57638af949152b069d7b58a
-commit: 284eb81c9d23609f54d9e015ce2c40076e8d8a87 [4/6] TLS logger
-config: mips-randconfig-r123-20250310 (https://download.01.org/0day-ci/archive/20250311/202503110213.fV7UzFoR-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250311/202503110213.fV7UzFoR-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110213.fV7UzFoR-lkp@intel.com/
+> [...]
+> > vim +316 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> > 
+> >    313	
+> >    314	static const struct dw_pcie_ep_ops rockchip_pcie_ep_ops = {
+> >    315		.init = rockchip_pcie_ep_init,
+> >  > 316		.intx_capable = false,
+> >    317		.raise_irq = rockchip_pcie_raise_irq,
+> >    318		.get_features = rockchip_pcie_get_features,
+> >    319	};
+> >    320	
+> 
+> I moved setting the .intx_capable property to false to the pci_epc_features
+> struct definition for RK3568, which is what I believe the intention was.
+> 
+> Have a look at:
+> 
+>   https://web.git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?h=endpoint-test&id=cb349262d9770e6478a7e91bdf438122b8cda44d
+> 
+> Let me know if this is OK with you.
 
-sparse warnings: (new ones prefixed by >>)
->> net/ceph/ceph_san.c:22:19: sparse: sparse: symbol 'ceph_san_log_128_cache' was not declared. Should it be static?
->> net/ceph/ceph_san.c:23:19: sparse: sparse: symbol 'ceph_san_log_256_cache' was not declared. Should it be static?
->> net/ceph/ceph_san.c:25:19: sparse: sparse: symbol 'ceph_san_tls_logger_cache' was not declared. Should it be static?
->> net/ceph/ceph_san.c:144:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_percore_logger * @@
-   net/ceph/ceph_san.c:144:42: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:144:42: sparse:     got struct ceph_san_percore_logger *
-   net/ceph/ceph_san.c:183:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_percore_logger * @@
-   net/ceph/ceph_san.c:183:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:183:14: sparse:     got struct ceph_san_percore_logger *
-   net/ceph/ceph_san.c:243:14: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_percore_logger * @@
-   net/ceph/ceph_san.c:243:14: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   net/ceph/ceph_san.c:243:14: sparse:     got struct ceph_san_percore_logger *
+Niklas, I saw your reply to this failure report.
 
-vim +/ceph_san_log_128_cache +22 net/ceph/ceph_san.c
+Based on it, I fixed the patch and dropped any annotations added (since
+there was no need to do anything aside from retroing the code to its
+orignal form).
 
-    20	
-    21	/* Memory caches for log entries */
-  > 22	struct kmem_cache *ceph_san_log_128_cache;
-  > 23	struct kmem_cache *ceph_san_log_256_cache;
-    24	
-  > 25	struct kmem_cache *ceph_san_tls_logger_cache;
-    26	
-    27	static inline void *cephsan_pagefrag_get_ptr(struct cephsan_pagefrag *pf, u64 val);
-    28	/* The definitions for struct ceph_san_log_entry and struct ceph_san_tls_logger
-    29	 * have been moved to cephsan.h (under CONFIG_DEBUG_FS) to avoid duplication.
-    30	 */
-    31	
-    32	
-    33	/* Release function for TLS storage */
-    34	static void ceph_san_tls_release(void *ptr)
-    35	{
-    36	    struct tls_ceph_san_context *context = ptr;
-    37	    if (!context)
-    38	        return;
-    39	
-    40	    /* Remove from global list with lock protection */
-    41	    spin_lock(&g_ceph_san_contexts_lock);
-    42	    list_del(&context->list);
-    43	    spin_unlock(&g_ceph_san_contexts_lock);
-    44	
-    45	    /* Free all log entries */
-    46	        int head_idx = context->logger.head_idx & (CEPH_SAN_MAX_LOGS - 1);
-    47	        int tail_idx = (head_idx + 1) & (CEPH_SAN_MAX_LOGS - 1);
-    48	
-    49	    for (int i = tail_idx; (i & (CEPH_SAN_MAX_LOGS - 1)) != head_idx; i++) {
-    50	        struct ceph_san_log_entry_tls *entry = &context->logger.logs[i & (CEPH_SAN_MAX_LOGS - 1)];
-    51	        if (entry->buf) {
-    52	            if (entry->ts & 0x1)
-    53	                    kmem_cache_free(ceph_san_log_256_cache, entry->buf);
-    54				else
-    55	                    kmem_cache_free(ceph_san_log_128_cache, entry->buf);
-    56				entry->buf = NULL;
-    57			}
-    58		}
-    59	
-    60	    kmem_cache_free(ceph_san_tls_logger_cache, context);
-    61	}
-    62	
-    63	static struct tls_ceph_san_context *get_cephsan_context(void) {
-    64	    struct tls_ceph_san_context *context;
-    65	
-    66	    context = current->tls.state;
-    67	    if (context)
-    68	        return context;
-    69	
-    70	    context = kmem_cache_alloc(ceph_san_tls_logger_cache, GFP_KERNEL);
-    71		if (!context)
-    72			return NULL;
-    73	
-    74		context->logger.pid = current->pid;
-    75		memcpy(context->logger.comm, current->comm, TASK_COMM_LEN);
-    76	
-    77	     /* Initialize list entry */
-    78	    INIT_LIST_HEAD(&context->list);
-    79	
-    80	    /* Add to global list with lock protection */
-    81	    spin_lock(&g_ceph_san_contexts_lock);
-    82	    list_add(&context->list, &g_ceph_san_contexts);
-    83	    spin_unlock(&g_ceph_san_contexts_lock);
-    84	
-    85	    current->tls.state = context;
-    86	    current->tls.release = ceph_san_tls_release;
-    87	    return context;
-    88	}
-    89	
-    90	void log_cephsan_tls(char *buf) {
-    91	    /* Use the task's TLS storage */
-    92	    int len = strlen(buf);
-    93	    struct tls_ceph_san_context *ctx;
-    94	    struct ceph_san_tls_logger *logger;
-    95	    char *new_buf;
-    96	
-    97	    ctx = get_cephsan_context();
-    98	    if (!ctx)
-    99	        return;
-   100	
-   101	    logger = &ctx->logger;
-   102	
-   103	    /* Log the message */
-   104	    int head_idx = logger->head_idx + 1 & (CEPH_SAN_MAX_LOGS - 1);
-   105	    struct ceph_san_log_entry_tls *entry = &logger->logs[head_idx];
-   106	
-   107	    /* Only free and reallocate if sizes differ */
-   108	    if (!entry->buf || (entry->ts & 0x1) != (len > LOG_BUF_SMALL)) {
-   109	        if (entry->buf) {
-   110	            if (entry->ts & 0x1)
-   111	                kmem_cache_free(ceph_san_log_256_cache, entry->buf);
-   112	            else
-   113	                kmem_cache_free(ceph_san_log_128_cache, entry->buf);
-   114	            entry->buf = NULL;
-   115	        }
-   116	
-   117	        /* Allocate new buffer from appropriate cache */
-   118	        if (len <= LOG_BUF_SMALL) {
-   119	            new_buf = kmem_cache_alloc(ceph_san_log_128_cache, GFP_KERNEL);
-   120				entry->ts = jiffies | 0x0;
-   121	        } else {
-   122	            new_buf = kmem_cache_alloc(ceph_san_log_256_cache, GFP_KERNEL);
-   123				entry->ts = jiffies | 0x1;
-   124	        }
-   125	    } else {
-   126	        /* Reuse existing buffer since size category hasn't changed */
-   127	        new_buf = entry->buf;
-   128	    }
-   129	
-   130	    if (!new_buf)
-   131	        return;
-   132	
-   133	    buf[len-1] = '\0';
-   134	    entry->buf = new_buf;
-   135	    memcpy(entry->buf, buf, len);
-   136	
-   137	    logger->head_idx = head_idx;
-   138	}
-   139	
-   140	static void log_cephsan_percore(char *buf) {
-   141	    /* Use the per-core TLS logger */
-   142	    u64 buf_idx;
-   143	    int len = strlen(buf);
- > 144	    struct ceph_san_percore_logger *pc = this_cpu_ptr(&ceph_san_percore);
-   145	    struct cephsan_pagefrag *pf = this_cpu_ptr(&ceph_san_pagefrag);
-   146	
-   147	    int head_idx = pc->head_idx + 1 & (CEPH_SAN_MAX_LOGS - 1);
-   148	    int pre_len = pc->logs[head_idx].len;
-   149	
-   150	    buf[len-1] = '\0';
-   151	    pc->logs[head_idx].pid = current->pid;
-   152	    pc->logs[head_idx].ts = jiffies;
-   153	    memcpy(pc->logs[head_idx].comm, current->comm, TASK_COMM_LEN);
-   154	
-   155	    cephsan_pagefrag_free(pf, pre_len);
-   156	    pc->logs[head_idx].len = 0;
-   157	
-   158	    buf_idx = cephsan_pagefrag_alloc(pf, len);
-   159	    if (buf_idx) {
-   160	        pc->head_idx = head_idx;
-   161	        pc->histogram.counters[len >> 3]++;
-   162	        pc->logs[head_idx].len = len;
-   163	        pc->logs[head_idx].buf = cephsan_pagefrag_get_ptr(pf, buf_idx);
-   164	        memcpy(pc->logs[head_idx].buf, buf, len);
-   165	    }
-   166	}
-   167	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That said, I didn't do any edits when applying the patch that I can recall,
+so I think something got its knickers in a twist when I was applying the
+patches.
+
+However, I did miss that it got applied incorrectly when reviewing the
+changes before pushing them.  My bad.
+
+Anyway.  Sorry for the commotion.  I am glad the fix was trivial here.
+
+Thank you!
+
+	Krzysztof
