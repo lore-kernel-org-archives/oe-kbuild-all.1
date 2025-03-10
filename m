@@ -1,101 +1,145 @@
-Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C012E17C225;
-	Mon, 10 Mar 2025 02:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=222.66.158.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2928E2F28
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 05:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741575551; cv=none; b=M5pwyiFNlgTVTqXWR4ZOJ2yO3oLz/KWUe8xeBa+vp6tU4WwVZG9LWZsb4eTvvZNrfwFVCQkWs2+ETO/QMfmL86AoRJysB1vnUXraY4e6kUTLYMYQDeEhUkiw2bt/k8LJ394RBjpDX/68lSQ7qx0Wqt0HJyRxOitOUzHVBqSFmBw=
+	t=1741584589; cv=none; b=Fr+Yyo3uxsURA7AD+IVgnTDBurqu4FnVnjphDK47/TjMv7WjzVnby4vB+GGBq3+kYb8xMFx8KGk4AC2sSwQHq3VNXwoPB6Pz+uaIwGbzPN4aBt0TJEznw9xbNYBzTls3XvRadSeki6u+7iXCWyDAI12TydBitzsQnX+sJQkeQt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741575551; c=relaxed/simple;
-	bh=GSNZxhA8Oh6wTTIEAqfSBZW5X5jGalcRCqrjPIanACw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fYTfnJ6WWlHvfBfA9LmyZlX4n5CRGN8PAmKp+s9RohrIYZ2DDmx93R65XxmUaTLy/hwO4yOnjNtvAqSmWIrbaWvsG4Er5e/Rde4FnpsGYlMvHrQDshf0Pk1aPtpMaZcr/8WK0Z+JQMlbXCgNFzQh3/SH7MCSfCt8G6pnaQslI+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com; spf=pass smtp.mailfrom=unisoc.com; arc=none smtp.client-ip=222.66.158.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unisoc.com
-Received: from SHSQR01.spreadtrum.com (localhost [127.0.0.2] (may be forged))
-	by SHSQR01.spreadtrum.com with ESMTP id 52A2x53Z029745;
-	Mon, 10 Mar 2025 10:59:05 +0800 (+08)
-	(envelope-from Xuewen.Yan@unisoc.com)
-Received: from dlp.unisoc.com ([10.29.3.86])
-	by SHSQR01.spreadtrum.com with ESMTP id 52A2v5Oe012412;
-	Mon, 10 Mar 2025 10:57:05 +0800 (+08)
-	(envelope-from Xuewen.Yan@unisoc.com)
-Received: from SHDLP.spreadtrum.com (bjmbx01.spreadtrum.com [10.0.64.7])
-	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4ZB1dK6rR1z2KFyXP;
-	Mon, 10 Mar 2025 10:52:05 +0800 (CST)
-Received: from BJ10918NBW01.spreadtrum.com (10.0.73.73) by
- BJMBX01.spreadtrum.com (10.0.64.7) with Microsoft SMTP Server (TLS) id
- 15.0.1497.23; Mon, 10 Mar 2025 10:57:02 +0800
-From: Xuewen Yan <xuewen.yan@unisoc.com>
-To: <lkp@intel.com>, <rjw@rjwysocki.net>, <daniel.lezcano@kernel.org>
-CC: <devel@acpica.org>, <jeson.gao@unisoc.com>, <linux-acpi@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <llvm@lists.linux.dev>,
-        <lukasz.luba@arm.com>, <oe-kbuild-all@lists.linux.dev>,
-        <rafael@kernel.org>, <ke.wang@unisoc.com>, <di.shen@unisoc.com>,
-        <xuewen.yan94@gmail.com>
-Subject: [RFC PATCH] drivers/powercap: fix build error when CONFIG_SMP is not set
-Date: Mon, 10 Mar 2025 10:56:55 +0800
-Message-ID: <20250310025655.576-1-xuewen.yan@unisoc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202503070326.9hEUez42-lkp@intel.com>
-References: <202503070326.9hEUez42-lkp@intel.com>
+	s=arc-20240116; t=1741584589; c=relaxed/simple;
+	bh=9TpJZU4IMxFlFq9rtNq9EpuRURaYQ9iymzogtbnkoNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AJFhuwp3GCqdWvhA5er8vslKUKkucBvGuRc6pFOihwzaniqfA+PsLQ0luHewQk1zOSyatlVcMlvOsJRpUfa7r+P4G/L3hcWIC4FxFhNgFq+URLmis/Pw8bo9WiuS6EsJ/Tie3VKYfQd8bO38L4ojP7y8omG1TR6sQK7W6EAQHjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VCmM9Iok; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCmM9Iok"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741584587; x=1773120587;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9TpJZU4IMxFlFq9rtNq9EpuRURaYQ9iymzogtbnkoNs=;
+  b=VCmM9Iokl7KtNptEc9mdznB2JwIoAFfvnL4yLRqDPGqmhVzbJ6bhNiY6
+   YXjjoQJvW/yRTPLrDjXDC91A0OwqLRuHSXYJ2ehqAHUt8tCNL4v21dsQ7
+   eOqAf0JxRdHtj+jlwEYWDM/HJeX8FJb0ZjMMSVVxF8hw11RG6LajVjlPB
+   Yu5YcghMTFqIs7aHPeMUvYJWLKPz2B3jaQStGpb1mLWmegG00AUKF0IEQ
+   Uk9Mmm5cMERq99BGccyFFazUgsBX2SML71ZPecKWB4qpiDDqGf2dotoZx
+   B4/t8Nmu21HR7pVPUV3aGhgcv8QKqo3zsWax3ODfbgC0BTlt66ia0DYgh
+   Q==;
+X-CSE-ConnectionGUID: 9dJZUfh4S0SfvvCm9/w/oQ==
+X-CSE-MsgGUID: 5mmEJ8OOTAqO50hHPnNyqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="46210654"
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="46210654"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 22:29:46 -0700
+X-CSE-ConnectionGUID: HKY+LWCOQX6ZXEdzbrUayw==
+X-CSE-MsgGUID: XsuJdeP3R+WaBmOKAbQbCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="119605396"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 09 Mar 2025 22:29:46 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1trVhg-0003pw-2n;
+	Mon, 10 Mar 2025 05:29:32 +0000
+Date: Mon, 10 Mar 2025 13:28:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2025-03-07 17/40]
+ sound/soc/soc-pcm.c:1635:22: error: implicit declaration of function
+ 'snd_soc_dpcm_can_be_update'; did you mean 'snd_soc_dpcm_can_be_params'?
+Message-ID: <202503101325.i4b6ektq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHCAS03.spreadtrum.com (10.0.1.207) To
- BJMBX01.spreadtrum.com (10.0.64.7)
-X-MAIL:SHSQR01.spreadtrum.com 52A2v5Oe012412
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When CONFIG_ENERGY_MODEL=y and CONFIG_SMP=n, there is build error:
+Hi Kuninori,
 
->> drivers/powercap/dtpm_cpu.c:83:15: error: call to undeclared function 'sched_cpu_util';
-ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      83 |                 sum_util += sched_cpu_util(cpu);
-         |                             ^
-   1 error generated.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-This is because the sched_cpu_util depends on CONFIG_SMP,
-so using the #ifdef to guarantee the dependence.
+tree:   https://github.com/morimoto/linux sound-cleanup-2025-03-07
+head:   609577579ecf4de9913d0d83a96d240bd935a4a1
+commit: f6c0618b06d3285bd3ddd254ce62c5eb92c6e4f1 [17/40] ASoC: soc-pcm: tidyup function name to snd_soc_dpcm_be_can_xxx()
+config: arm-randconfig-002-20250310 (https://download.01.org/0day-ci/archive/20250310/202503101325.i4b6ektq-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503101325.i4b6ektq-lkp@intel.com/reproduce)
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202503070326.9hEUez42-lkp@intel.com/
-Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
----
- drivers/powercap/dtpm_cpu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503101325.i4b6ektq-lkp@intel.com/
 
-diff --git a/drivers/powercap/dtpm_cpu.c b/drivers/powercap/dtpm_cpu.c
-index 6b6f51b21550..b935e8c38b45 100644
---- a/drivers/powercap/dtpm_cpu.c
-+++ b/drivers/powercap/dtpm_cpu.c
-@@ -68,6 +68,7 @@ static u64 set_pd_power_limit(struct dtpm *dtpm, u64 power_limit)
- 	return power_limit;
- }
- 
-+#ifdef CONFIG_SMP
- static u64 scale_pd_power_uw(struct cpumask *pd_mask, u64 power)
- {
- 	unsigned long max, sum_util = 0;
-@@ -84,6 +85,12 @@ static u64 scale_pd_power_uw(struct cpumask *pd_mask, u64 power)
- 
- 	return (power * ((sum_util << 10) / max)) >> 10;
- }
-+#else /* !CONFIG_SMP */
-+static inline u64 scale_pd_power_uw(struct cpumask *pd_mask, u64 power)
-+{
-+	return power;
-+}
-+#endif
- 
- static u64 get_pd_power_uw(struct dtpm *dtpm)
- {
+All errors (new ones prefixed by >>):
+
+   sound/soc/soc-pcm.c: In function 'dpcm_be_dai_stop':
+>> sound/soc/soc-pcm.c:1635:22: error: implicit declaration of function 'snd_soc_dpcm_can_be_update'; did you mean 'snd_soc_dpcm_can_be_params'? [-Wimplicit-function-declaration]
+    1635 |                 if (!snd_soc_dpcm_can_be_update(fe, be, stream))
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                      snd_soc_dpcm_can_be_params
+   sound/soc/soc-pcm.c: At top level:
+   sound/soc/soc-pcm.c:48:12: warning: 'snd_soc_dpcm_be_can_update' defined but not used [-Wunused-function]
+      48 | static int snd_soc_dpcm_be_can_update(struct snd_soc_pcm_runtime *fe,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +1635 sound/soc/soc-pcm.c
+
+  1619	
+  1620	void dpcm_be_dai_stop(struct snd_soc_pcm_runtime *fe, int stream,
+  1621			      int do_hw_free, struct snd_soc_dpcm *last)
+  1622	{
+  1623		struct snd_soc_dpcm *dpcm;
+  1624	
+  1625		/* disable any enabled and non active backends */
+  1626		for_each_dpcm_be(fe, stream, dpcm) {
+  1627			struct snd_soc_pcm_runtime *be = dpcm->be;
+  1628			struct snd_pcm_substream *be_substream =
+  1629				snd_soc_dpcm_get_substream(be, stream);
+  1630	
+  1631			if (dpcm == last)
+  1632				return;
+  1633	
+  1634			/* is this op for this BE ? */
+> 1635			if (!snd_soc_dpcm_can_be_update(fe, be, stream))
+  1636				continue;
+  1637	
+  1638			if (be->dpcm[stream].users == 0) {
+  1639				dev_err(be->dev, "ASoC: no users %s at close - state %d\n",
+  1640					snd_pcm_direction_name(stream),
+  1641					be->dpcm[stream].state);
+  1642				continue;
+  1643			}
+  1644	
+  1645			if (--be->dpcm[stream].users != 0)
+  1646				continue;
+  1647	
+  1648			if (be->dpcm[stream].state != SND_SOC_DPCM_STATE_OPEN) {
+  1649				if (!do_hw_free)
+  1650					continue;
+  1651	
+  1652				if (be->dpcm[stream].state != SND_SOC_DPCM_STATE_HW_FREE) {
+  1653					__soc_pcm_hw_free(be, be_substream);
+  1654					be->dpcm[stream].state = SND_SOC_DPCM_STATE_HW_FREE;
+  1655				}
+  1656			}
+  1657	
+  1658			__soc_pcm_close(be, be_substream);
+  1659			be_substream->runtime = NULL;
+  1660			be->dpcm[stream].state = SND_SOC_DPCM_STATE_CLOSE;
+  1661		}
+  1662	}
+  1663	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
