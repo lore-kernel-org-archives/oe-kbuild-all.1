@@ -1,57 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A1222598;
-	Mon, 10 Mar 2025 08:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEE62206B7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 08:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741594128; cv=none; b=sNDWxi29+//8L1Qlo9O5k9WmBC1PSHFn5zhTL3lGWMWGNIDuSIe55phTTUucHAkSe8OIFrXrNhvhZ2Yc6iJFRXOukFxCuJnnI+NpRG/M9lHeqTbbrIAGOq7Sc5gPjmmKVhx86kUitIomYosT5QAwoD2o9Y28UCRQL+ON0+nJFp0=
+	t=1741594856; cv=none; b=gaE0otV80Huv2Wh6FMUhy3sHjfmECKxlPwn05sAf1sK3o1VjKTfCCp0bYlN3ykw/sxFNvMtFIhRq2Enw8GeaC+dp6naVU/H9FIHKjBYpqMHVOwrk1Nsfr7DzOUbBIZfgZnBqJeP8888qD98eo3HNIwblCGGFZIpuP8s7klcq9vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741594128; c=relaxed/simple;
-	bh=oj773ZY1lX6xeNXKPLSmZK9uZvl58r8+Nt5vEp3hkqM=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zx5kY3p+9teOV737NR0k76HbmhobZ7RLx204flSJGRcJrX/+5pTyoqLkQW4BGQAOOKTyJ8FcKZW4DE/ijfuqjZcwJkEZ7AZIjgrLja51RZMvGxGuwKQ6EiLrqH+72HvRjxsA8jl2XkyJhDKSzMVw1dqSW4LO/gN8Jj7h2Rdypho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bas7sXuF; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741594856; c=relaxed/simple;
+	bh=a3XRq5SZMIxfZ+2Mgp5d2cHVY8T95QU6b1B4CIW7pak=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=PRTTiT6YxuTFgC6OuCmMJqbqiBTNedYaamvx0/oWkt1SyLJy1YA5r5nkW7+V9iZMzoWLla6Znq5InVBrNXEOZNQKH2/bAeUF4CGk3+G4Ux0aefEZTjxA77KoTDN+FwUfsTzXrjKOJMmxqrY21KNH+jcBDPUKG6cYC2m3Tmo2xIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=goublSDT; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bas7sXuF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741594126; x=1773130126;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=oj773ZY1lX6xeNXKPLSmZK9uZvl58r8+Nt5vEp3hkqM=;
-  b=bas7sXuFgHjs5lcQ2PEueTXZFvOxjTRR5TOU5+7bZNpPviT++MyP/gyK
-   IDVatni63rS+Qe7rHzz++vNNQ2t58335LyR4BOjaJDayzVJo/a84yafdi
-   /+8ysQ4DN+wDpGhrxt1QNgfB4Ex+3dr7JkhIk6EnnPOYZPvN9aS2EHgwn
-   eniq4+P2JK6r1IJoAPWQvbZUgxEU1lTYIeiaaVHvb/hUCMgMEPVrzzXlH
-   3qtfUHgPAW0Wl/3/ECRykz8jm7WuMrjMcIeVGRD80Pf9K37h6ne6V75P+
-   MG5ZoXAnuoIePLJXO2/CKeJqmys/HAt6gnzPusjBTIrq90vyU3YM/WoxZ
-   w==;
-X-CSE-ConnectionGUID: XekxZ0uDRtuQIz+QS7kEUg==
-X-CSE-MsgGUID: ToQZzzPOQgiR/dYXDZPPqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42768047"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="42768047"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:08:45 -0700
-X-CSE-ConnectionGUID: gtCM+lBETmilN0qILKInqw==
-X-CSE-MsgGUID: lEyqF+vrQP21ThEUfwJlTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="124990971"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Mar 2025 01:08:44 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trYBm-0003yf-0h;
-	Mon, 10 Mar 2025 08:08:42 +0000
-Date: Mon, 10 Mar 2025 16:08:14 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: kernel/bpf/log.c:425:11: warning: bitwise operation between
- different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag')
-Message-ID: <202503101529.rnkM3qaN-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="goublSDT"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39130ee05b0so2317379f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 01:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741594853; x=1742199653; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/IRa+YB+4QLff7q5apAvMehk6zSiN1B98VZ8cSYC1R0=;
+        b=goublSDTxT/b/mK9MDsVxrPVX1vNhAkyveL85dQwuEq3rPEYmHohQZIvErZlM1Ag1K
+         6xui4Nk3Je0jbLzD+GWUAXzgUEjCqyZsDguX6xZfbShoW3ykO+7okU9hkt1CfSOytD/H
+         phEAGZs+Zgus2lrYZdWqa70Cebbkwib7cCEhbVx7B8JocH3FM1oGSFRVEpmt7iHGi24U
+         oZNqyn9r4Lc5nBypyeSVXK8dzRB+yJAE+u6UckKCvhpfPNeX0ghDilkYabzNJ4KSMlCx
+         GpulNVev2ebUOgxkY4WzQPI9Z2MR0rkZ/A5LxlbeBjuViy9ZP5undhHnqBCosVkWQcTH
+         9Bwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741594853; x=1742199653;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/IRa+YB+4QLff7q5apAvMehk6zSiN1B98VZ8cSYC1R0=;
+        b=w05sab+dKLA5lmRT5qhOZJGvPEmoMvDPbNOuJ//YZ//tMydmi1CXF/C4HdRDssEI/t
+         K3L6+2iQqKJ5DMIKHk+00mJtXtPlgaODtcq8d3wey05HrBnaruKu+MoOYRX0rl17ZXgS
+         Ym4hc13WJMWnRczCrPY68G+AXmJRNmWq9qJf0xWhImQcVzNOffT83Pnel2OSxlAQKMJf
+         2AU9PxKYBS41G+ZWZU676VejKKy+0r+EjdglaKHge+uFJI/aKj5006n1mlwve+UgpHZX
+         PGADqivpdwwNyZCVY2rDRtBTsWkXTPukktDCEaQiFpJcrxLQhTIpK/AzPsoSro/rm2o2
+         QCSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVYgvIUOgNvaXBswgCp7aMwkKW9siuTxsTE3926X9Mtem/zFTnT447g3SGwVgkNcigu7S9eIg7t9cpkqfnM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzptL+4ZI9kbpPyLz42CsJpC2FEZ/bClYBv1cpr6tuq65mA8pcv
+	c3btjmZdadRr5ObRTkr4YIS0Lb1BU+zLPZkWB4txq3XXBFlrclkPW9JQO+AzEQg=
+X-Gm-Gg: ASbGncsqewqH1B+BeMm5cpEFybWsJE3+Ao5o5SXvOg/4pM7rP5HdQo1oKJSyJnA2udy
+	WE9qyyOe0Gu/SznUNKsY3QXTarCvY6t9W14cJNFOrphCsB1qJd28CJ+KPM/+kUfpMOzzSDuO2xU
+	FUPmXrPphdF69rrMXagYgXBZzaRUbbjKzsUOx2iXQxbitwl/LyCE34zh3Xb+YuGFWNC27BwZzn0
+	HtahG0hKzmQquw1Ry9fB2kdsdGIgTfwDQWPFTS0WSuKlaK6wL2qgaOhxMFP6J7c0npJWQMsXRsO
+	NA4A9Kyt9k+5vbIY9HHfqFSpOVBzv1lDI3qeXSgQtKI/RxdCDA==
+X-Google-Smtp-Source: AGHT+IEGATgu5VbdS6kbtg3c6tfuRZz15xP7b2oCeJs8qye1D0o8hlDPBidbACz+FOSKn4FK+JvF+A==
+X-Received: by 2002:a5d:47a2:0:b0:391:12a5:3c95 with SMTP id ffacd0b85a97d-39132d6b98dmr7210587f8f.22.1741594852971;
+        Mon, 10 Mar 2025 01:20:52 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912bfba87csm14444368f8f.17.2025.03.10.01.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 01:20:52 -0700 (PDT)
+Date: Mon, 10 Mar 2025 11:20:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Casey Schaufler <casey@schaufler-ca.com>,
+	paul@paul-moore.com, eparis@redhat.com,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jmorris@namei.org,
+	serge@hallyn.com, keescook@chromium.org,
+	john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp,
+	stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH v2 6/6] Audit: Add record for multiple object contexts
+Message-ID: <f57dc6f4-cc46-4a58-9525-1dfda105ea59@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,122 +76,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250307183701.16970-7-casey@schaufler-ca.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Andrii Nakryiko <andrii@kernel.org>
-CC: Alexei Starovoitov <ast@kernel.org>
+Hi Casey,
 
-Hi Andrii,
+kernel test robot noticed the following build warnings:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   80e54e84911a923c40d7bee33a34c1b4be148d7a
-commit: 42feb6620accded89cad5f455665e21281813d79 bpf: move verifier state printing code to kernel/bpf/log.c
-date:   1 year, 4 months ago
-config: x86_64-buildonly-randconfig-006-20250127 (https://download.01.org/0day-ci/archive/20250310/202503101529.rnkM3qaN-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503101529.rnkM3qaN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Schaufler/Audit-Create-audit_stamp-structure/20250308-024950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
+patch link:    https://lore.kernel.org/r/20250307183701.16970-7-casey%40schaufler-ca.com
+patch subject: [PATCH v2 6/6] Audit: Add record for multiple object contexts
+config: powerpc64-randconfig-r073-20250309 (https://download.01.org/0day-ci/archive/20250310/202503100802.Dqju4qc5-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503101529.rnkM3qaN-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503100802.Dqju4qc5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/auditsc.c:1753 audit_log_exit() warn: if statement not indented
 
-   In file included from kernel/bpf/log.c:9:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2177:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/bpf/log.c:425:11: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     425 |         if (type & PTR_MAYBE_NULL) {
-         |             ~~~~ ^ ~~~~~~~~~~~~~~
-   kernel/bpf/log.c:433:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     433 |                  type & MEM_RDONLY ? "rdonly_" : "",
-         |                  ~~~~ ^ ~~~~~~~~~~
-   kernel/bpf/log.c:434:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     434 |                  type & MEM_RINGBUF ? "ringbuf_" : "",
-         |                  ~~~~ ^ ~~~~~~~~~~~
-   kernel/bpf/log.c:435:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     435 |                  type & MEM_USER ? "user_" : "",
-         |                  ~~~~ ^ ~~~~~~~~
-   kernel/bpf/log.c:436:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     436 |                  type & MEM_PERCPU ? "percpu_" : "",
-         |                  ~~~~ ^ ~~~~~~~~~~
-   kernel/bpf/log.c:437:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     437 |                  type & MEM_RCU ? "rcu_" : "",
-         |                  ~~~~ ^ ~~~~~~~
-   kernel/bpf/log.c:438:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     438 |                  type & PTR_UNTRUSTED ? "untrusted_" : "",
-         |                  ~~~~ ^ ~~~~~~~~~~~~~
-   kernel/bpf/log.c:439:9: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     439 |                  type & PTR_TRUSTED ? "trusted_" : ""
-         |                  ~~~~ ^ ~~~~~~~~~~~
-   9 warnings generated.
+vim +1753 kernel/auditsc.c
 
+e54dc2431d740a Amy Griffis        2007-03-29  1749  	for (aux = context->aux_pids; aux; aux = aux->next) {
+e54dc2431d740a Amy Griffis        2007-03-29  1750  		struct audit_aux_data_pids *axs = (void *)aux;
+e54dc2431d740a Amy Griffis        2007-03-29  1751  
+e54dc2431d740a Amy Griffis        2007-03-29  1752  		for (i = 0; i < axs->pid_count; i++)
+e54dc2431d740a Amy Griffis        2007-03-29 @1753  			if (audit_log_pid_context(context, axs->target_pid[i],
+c2a7780efe37d0 Eric Paris         2008-01-07  1754  						  axs->target_auid[i],
+c2a7780efe37d0 Eric Paris         2008-01-07  1755  						  axs->target_uid[i],
+4746ec5b01ed07 Eric Paris         2008-01-08  1756  						  axs->target_sessionid[i],
+13d826e564e2cc Casey Schaufler    2024-10-09  1757  						  &axs->target_ref[i],
+c2a7780efe37d0 Eric Paris         2008-01-07  1758  						  axs->target_comm[i]))
+e54dc2431d740a Amy Griffis        2007-03-29  1759  			call_panic = 1;
 
-vim +425 kernel/bpf/log.c
+This should be indented another tab.
 
-   392	
-   393	/* string representation of 'enum bpf_reg_type'
-   394	 *
-   395	 * Note that reg_type_str() can not appear more than once in a single verbose()
-   396	 * statement.
-   397	 */
-   398	const char *reg_type_str(struct bpf_verifier_env *env, enum bpf_reg_type type)
-   399	{
-   400		char postfix[16] = {0}, prefix[64] = {0};
-   401		static const char * const str[] = {
-   402			[NOT_INIT]		= "?",
-   403			[SCALAR_VALUE]		= "scalar",
-   404			[PTR_TO_CTX]		= "ctx",
-   405			[CONST_PTR_TO_MAP]	= "map_ptr",
-   406			[PTR_TO_MAP_VALUE]	= "map_value",
-   407			[PTR_TO_STACK]		= "fp",
-   408			[PTR_TO_PACKET]		= "pkt",
-   409			[PTR_TO_PACKET_META]	= "pkt_meta",
-   410			[PTR_TO_PACKET_END]	= "pkt_end",
-   411			[PTR_TO_FLOW_KEYS]	= "flow_keys",
-   412			[PTR_TO_SOCKET]		= "sock",
-   413			[PTR_TO_SOCK_COMMON]	= "sock_common",
-   414			[PTR_TO_TCP_SOCK]	= "tcp_sock",
-   415			[PTR_TO_TP_BUFFER]	= "tp_buffer",
-   416			[PTR_TO_XDP_SOCK]	= "xdp_sock",
-   417			[PTR_TO_BTF_ID]		= "ptr_",
-   418			[PTR_TO_MEM]		= "mem",
-   419			[PTR_TO_BUF]		= "buf",
-   420			[PTR_TO_FUNC]		= "func",
-   421			[PTR_TO_MAP_KEY]	= "map_key",
-   422			[CONST_PTR_TO_DYNPTR]	= "dynptr_ptr",
-   423		};
-   424	
- > 425		if (type & PTR_MAYBE_NULL) {
-   426			if (base_type(type) == PTR_TO_BTF_ID)
-   427				strncpy(postfix, "or_null_", 16);
-   428			else
-   429				strncpy(postfix, "_or_null", 16);
-   430		}
-   431	
-   432		snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s",
-   433			 type & MEM_RDONLY ? "rdonly_" : "",
-   434			 type & MEM_RINGBUF ? "ringbuf_" : "",
-   435			 type & MEM_USER ? "user_" : "",
-   436			 type & MEM_PERCPU ? "percpu_" : "",
-   437			 type & MEM_RCU ? "rcu_" : "",
-   438			 type & PTR_UNTRUSTED ? "untrusted_" : "",
-   439			 type & PTR_TRUSTED ? "trusted_" : ""
-   440		);
-   441	
-   442		snprintf(env->tmp_str_buf, TMP_STR_BUF_LEN, "%s%s%s",
-   443			 prefix, str[base_type(type)], postfix);
-   444		return env->tmp_str_buf;
-   445	}
-   446	
+a5cb013da773a6 Al Viro            2007-03-20  1760  	}
+a5cb013da773a6 Al Viro            2007-03-20  1761  
+e54dc2431d740a Amy Griffis        2007-03-29  1762  	if (context->target_pid &&
+e54dc2431d740a Amy Griffis        2007-03-29  1763  	    audit_log_pid_context(context, context->target_pid,
+c2a7780efe37d0 Eric Paris         2008-01-07  1764  				  context->target_auid, context->target_uid,
+4746ec5b01ed07 Eric Paris         2008-01-08  1765  				  context->target_sessionid,
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
