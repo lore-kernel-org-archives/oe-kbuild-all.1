@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CAD1DE899
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 20:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1075F1B87F0;
+	Mon, 10 Mar 2025 20:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741638006; cv=none; b=UTo2/u+7BNXzhNxl+G2RIIuUoWv9YDF3/LSL3p+MW08/jSXKQ9u8Hb4Q/mvHuVglXo5vAAosK6k+ji4JME6FgoW5i4RajxLnxlkLS8LwYosSwa/GcdMa4VaB0LJaklO/GbTp/HS6JNbc4ddWVX2bxMo8cp+GAsIN2wkF0IZFlfw=
+	t=1741638667; cv=none; b=bwAEiCEbdF3en7tX4WiTPdmrnI2yZ+tYu6byq1FArGNHK5e7vkbj0MmwCVACP6+0RB9DRqquHQ46qjRoywhJ1BAq1rz8Jd1hgn7z6/5W/n7bz9S7GJSUKyRQ/Pkz7fkcRcVvmKYXacdCSEnI7U8hoftdTTLEFmqbgyKwoYeoLVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741638006; c=relaxed/simple;
-	bh=NXpQsRprDiJ5DrNL2pc8Kpoiow0SMdmdczFp+xdRzJw=;
+	s=arc-20240116; t=1741638667; c=relaxed/simple;
+	bh=2lWjYVwUD4B+ylfpdDXy2c+UG5vZSSB2NoEDcFhh5yc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hqxUvchSBMBNvrL2RE0Fy+Fu4f9juQTeSR0biKLYIIQdLoy3YMuOp5KHlvjHTCkt/VclsYB1lneqYGiMTlhDy11TTMXhWhwsZ2ohoAX1WaWMNkPSO01xjsLt42ugHhkN4nYIOKVPYuV2T4FKPaQuNnmRHyKmpL5JbHeF3WmuFBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D0eFOk3j; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=PSMOdv5bYjFnBmrRGCc1e0vTrl1NpGQi79ide7LED5lG3CLHS+H/cAyCfiyOGcTYF7LZih995mLyH+islJlaynTm616I4B5UJ9QT50KV97Bs1oVVoXkphCMJb9oufIRoveGgf7uviAMT91rdLsWxe6k13E3XQ0hn7OICCKI4mmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qb21qx1C; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D0eFOk3j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qb21qx1C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741638004; x=1773174004;
+  t=1741638665; x=1773174665;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NXpQsRprDiJ5DrNL2pc8Kpoiow0SMdmdczFp+xdRzJw=;
-  b=D0eFOk3jl4uL4+46U9bYe6U26+iUkdt0O1I3li83CuyUBBPY+XyUgbYQ
-   6f42+t+Y0uv6jGK7mUs7vJhUV54B5RSQliMEAKRqWifQZgW6bf9Y8q5Xa
-   5hKn65qxCfq0i1Gq5f22oGQdgW+Wm+SOWZfsfj+lKoIkYx4gx5XFJsPpe
-   T5kFjS86wl587abJDJxdtoo5mbTkolPiMx/h4jAUWkcD8EKLMDCCjArUc
-   8FJafpd7ZdgmdP7rPOReeNWLeJ7LZ1YUMs+BectGD3ZDD1MNuZCn2xknr
-   i/ZJkwGMhaZQIlq0fMnsmbaC1Vz5O3ZcQqZzlp/t9BR+R9TUeczh6NUYh
+  bh=2lWjYVwUD4B+ylfpdDXy2c+UG5vZSSB2NoEDcFhh5yc=;
+  b=Qb21qx1CC1iry6v0R67nSPqntR2G92jghm1VAgDteaa+LahnMYqacdza
+   esHGLmNcVnsMp3ag42W443LV4YAtWLBcUmcXxqfCvMIsEc5dS+1NXwPPQ
+   1D7xjbh6AOgjGFKJp0rKOmELMFyj02++s0nLWLZg1UZsnICnVY/ifWs+B
+   dx0yo6RL2OmprlejDQxdYszBcydFZw/oub/KPX7k5sQ1a7Xde68vbTts/
+   9i1R0SIdq6uiFx/uMkQ2/TBfy9OGcr/AQt/lRTT/ECAtYSqyEOM/H1eoe
+   JXCXkDDB82p2NBsw9VZdfb1HbhRB4bDffPCHGXk7sg6YNh24ATiOdnxee
    A==;
-X-CSE-ConnectionGUID: 8ZKA8M0ySh+xdWJnXikJng==
-X-CSE-MsgGUID: qedfL4jJS+6Xo1Ug0ZH/mg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="46563650"
+X-CSE-ConnectionGUID: Hc3TTWFBSO6bFmIJ8a+zGw==
+X-CSE-MsgGUID: 1VGknH2iStmhh4ZULWDwXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="54030135"
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="46563650"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 13:20:03 -0700
-X-CSE-ConnectionGUID: dbkUusI3QsWTda9P+0UGcA==
-X-CSE-MsgGUID: SYvhz1UIT9iC2cHqmNc0cA==
+   d="scan'208";a="54030135"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 13:31:04 -0700
+X-CSE-ConnectionGUID: XZgJbwoQRLmNcCgb1HNfmQ==
+X-CSE-MsgGUID: Bpa1+CaCTdSnuHBcKhFBww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="120574945"
+   d="scan'208";a="125134358"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Mar 2025 13:20:03 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 Mar 2025 13:31:03 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trjbU-00063Y-0Z;
-	Mon, 10 Mar 2025 20:20:00 +0000
-Date: Tue, 11 Mar 2025 04:19:49 +0800
+	id 1trjm8-00063o-2q;
+	Mon, 10 Mar 2025 20:31:00 +0000
+Date: Tue, 11 Mar 2025 04:30:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:rxrpc-next 22/24] include/linux/kern_levels.h:5:25:
- warning: format '%zx' expects argument of type 'size_t', but argument 2 has
- type 'long unsigned int'
-Message-ID: <202503110412.B068KETJ-lkp@intel.com>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: [watchdog-next:v6.15-rc1 4/7]
+ drivers/watchdog/lenovo_se30_wdt.c:272:24: error: call to undeclared
+ function 'devm_ioremap'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202503110448.Q9dbJblV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +66,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-next
-head:   d7f39f641ff8fc788bdea0f91c5ef47501a35f43
-commit: 058c7735cc6847229a73d7d3fee04fc1f3522ea9 [22/24] afs: Use rxgk RESPONSE to pass token for callback channel
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250311/202503110412.B068KETJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110412.B068KETJ-lkp@intel.com/reproduce)
+tree:   git://www.linux-watchdog.org/linux-watchdog-next.git v6.15-rc1
+head:   d127d9ce2c8ee87d51fdcfff7895661a3c06fb24
+commit: c284153a2c5537db4fec51ac850c17d2eb1ffcfe [4/7] watchdog: lenovo_se30_wdt: Watchdog driver for Lenovo SE30 platform
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250311/202503110448.Q9dbJblV-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110448.Q9dbJblV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110412.B068KETJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503110448.Q9dbJblV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from fs/afs/cm_security.c:8:
-   fs/afs/cm_security.c: In function 'afs_create_yfs_cm_token':
->> include/linux/kern_levels.h:5:25: warning: format '%zx' expects argument of type 'size_t', but argument 2 has type 'long unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:473:25: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:544:9: note: in expansion of macro 'printk'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:544:16: note: in expansion of macro 'KERN_ERR'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   fs/afs/cm_security.c:314:17: note: in expansion of macro 'pr_err'
-     314 |                 pr_err("Appdata size incorrect %zx != %zx\n",
-         |                 ^~~~~~
+   In file included from drivers/watchdog/lenovo_se30_wdt.c:10:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     549 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/watchdog/lenovo_se30_wdt.c:10:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/watchdog/lenovo_se30_wdt.c:10:
+   In file included from include/linux/iommu.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     601 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     724 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     737 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     750 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     764 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     778 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     792 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/watchdog/lenovo_se30_wdt.c:272:24: error: call to undeclared function 'devm_ioremap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     272 |         priv->shm_base_addr = devm_ioremap(dev, base_phys, SHM_WIN_SIZE);
+         |                               ^
+   drivers/watchdog/lenovo_se30_wdt.c:272:22: error: incompatible integer to pointer conversion assigning to 'unsigned char *' from 'int' [-Wint-conversion]
+     272 |         priv->shm_base_addr = devm_ioremap(dev, base_phys, SHM_WIN_SIZE);
+         |                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 warnings and 2 errors generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +/devm_ioremap +272 drivers/watchdog/lenovo_se30_wdt.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
-
-:::::: The code at line 5 was first introduced by commit
-:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
-
-:::::: TO: Joe Perches <joe@perches.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   233	
+   234	static int lenovo_se30_wdt_probe(struct platform_device *pdev)
+   235	{
+   236		struct device *dev = &pdev->dev;
+   237		struct lenovo_se30_wdt *priv;
+   238		unsigned long base_phys;
+   239		unsigned short val;
+   240		int err;
+   241	
+   242		err = superio_enter(UNLOCK_KEY, SIO_REG, LNV_SE30_NAME);
+   243		if (err)
+   244			return err;
+   245	
+   246		val = superio_inb(SIO_REG, CHIPID_REG) << 8;
+   247		val |= superio_inb(SIO_REG, CHIPID_REG + 1);
+   248	
+   249		if ((val & CHIPID_MASK) != LNV_SE30_ID) {
+   250			superio_exit(LOCK_KEY, SIO_REG);
+   251			return -ENODEV;
+   252		}
+   253	
+   254		superio_outb(SIO_REG, LDN_REG, LD_NUM_SHM);
+   255		base_phys = (superio_inb(SIO_REG, LD_BASE_ADDR) |
+   256				 (superio_inb(SIO_REG, LD_BASE_ADDR + 1) << 8) |
+   257				 (superio_inb(SIO_REG, LD_BASE_ADDR + 2) << 16) |
+   258				 (superio_inb(SIO_REG, LD_BASE_ADDR + 3) << 24)) &
+   259				0xFFFFFFFF;
+   260	
+   261		superio_exit(LOCK_KEY, SIO_REG);
+   262		if (base_phys == 0xFFFFFFFF || base_phys == 0)
+   263			return -ENODEV;
+   264	
+   265		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   266		if (!priv)
+   267			return -ENOMEM;
+   268	
+   269		if (!devm_request_mem_region(dev, base_phys, SHM_WIN_SIZE, LNV_SE30_NAME))
+   270			return -EBUSY;
+   271	
+ > 272		priv->shm_base_addr = devm_ioremap(dev, base_phys, SHM_WIN_SIZE);
+   273	
+   274		priv->wdt_cfg.mod = WDT_MODULE;
+   275		priv->wdt_cfg.idx = WDT_CFG_INDEX;
+   276		priv->wdt_cnt.mod = WDT_MODULE;
+   277		priv->wdt_cnt.idx = WDT_CNT_INDEX;
+   278	
+   279		priv->wdt.ops = &lenovo_se30_wdt_ops;
+   280		priv->wdt.info = &lenovo_se30_wdt_info;
+   281		priv->wdt.timeout = WATCHDOG_TIMEOUT; /* Set default timeout */
+   282		priv->wdt.min_timeout = MIN_TIMEOUT;
+   283		priv->wdt.max_timeout = MAX_TIMEOUT;
+   284		priv->wdt.parent = dev;
+   285	
+   286		watchdog_init_timeout(&priv->wdt, timeout, dev);
+   287		watchdog_set_drvdata(&priv->wdt, priv);
+   288		watchdog_set_nowayout(&priv->wdt, nowayout);
+   289		watchdog_stop_on_reboot(&priv->wdt);
+   290		watchdog_stop_on_unregister(&priv->wdt);
+   291	
+   292		return devm_watchdog_register_device(dev, &priv->wdt);
+   293	}
+   294	
 
 -- 
 0-DAY CI Kernel Test Service
