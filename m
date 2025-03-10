@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA18A935
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 00:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D769F14F6C;
+	Mon, 10 Mar 2025 01:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741567241; cv=none; b=uA/3zfH+hbDT02mXK3/btYEmUSGSDtvKOoj9BdHFsFuxdsDhgaGkH9QVvzHAzvdl6IrioOmJM1QCt90NuRp9OcXtAl1/etjI3x+FJqBhjsQ3j5SHsrZQTKB1QKKslJQgFNrtMjfIJFfhFXeuhCH+1epzmvYHkPik6BaFjjzW348=
+	t=1741568450; cv=none; b=PmaWw7zasu8ZVV/jGgw9lKqEhFgh+lDb757M0/hSuqxbyGBXSZ/S5dKolCOsGdmvlVSNpdVwqONFpEpyyEMmHA/slHF+tj9M0+Vr+iZntcWN0fVGSqQbzmfOiLJcSHwNrj8Tux3DtXcpmGcnfR1TGY3KlbwCXgNl45t/w526SqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741567241; c=relaxed/simple;
-	bh=fPofR83G5HoqBX7vZ1BWgiPYfrVXcgXiDr0FAZchcbQ=;
+	s=arc-20240116; t=1741568450; c=relaxed/simple;
+	bh=ATKBXs54xojdbxT24WNkcELorESgyhG6mFkqqtotNFY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2RzIFWa19yBjqWqYTk8oDG3z78ILoOhVOfnafrbNJj2tv6+M3oWnzTnChfPbG0OguuVoON5Lcz5ElB9mLPj0rP+tFiDcrsSI1RDgqTTrPVbBhe2CaRYvDvMy6AIQBaD19mAu1gOHxJr8e/lhTS8XTtcr4TkVFUd//7F20qlWoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOax1CPG; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=SzGFrwmAP/VMGcGsN33TyI6trahRryDyQLIbMVUUCAmGtCslJN5ZHZiz87xKboBuwNsFDS+3DCGWSh+0RtfOIsCydlxMc38xvMB5cofUvJ/Y0+wRDFbZLC0h92R3nd7ZAKD+0UhyGSskLhCfl6m6LVhevqKVuqKqSwhKAhw4uSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGP8AqOE; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOax1CPG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGP8AqOE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741567239; x=1773103239;
+  t=1741568448; x=1773104448;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fPofR83G5HoqBX7vZ1BWgiPYfrVXcgXiDr0FAZchcbQ=;
-  b=WOax1CPGsHU0ZFiTTkPRXzeqD+250Ur3jDXc5/kU/do5lmd2jS/oOGVl
-   AUwHe/zhdzV22a1ZImJqREtwD1YkCKQau4WfPjtDLeH6tYqRHBX58h0EC
-   FekTVaTOphZY1aUelLBGM+BLN1bBfRTkfASqxvDvK6x158CR/gGqrJFSf
-   oNkVa4Yjdsssj0ZP2IYqsBw2mQcNqqMrAFbIy1uaiftvxGECcpmkV5Jm3
-   /0gavqAD0mhPDa3mOrP1o4IgYBimgfa5heewojnrM0DXkEVT3XAtYshfX
-   XgxlZXdRPDgK/loIczPYVtQ5Wk6suqBlq34Qn/3AJR2BTYtT4+HAwwt4m
-   A==;
-X-CSE-ConnectionGUID: HdoYI3WORVO8c7Ze02O7PQ==
-X-CSE-MsgGUID: NNw3KzzdS9iugjGUTeo0lA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="41714249"
+  bh=ATKBXs54xojdbxT24WNkcELorESgyhG6mFkqqtotNFY=;
+  b=TGP8AqOEMojtVvAXZwA4mzl4I3aMVLc2o92KWg3FpluZikdg02zlu8Sk
+   V2K8/bWD/L8i5RSTwORLOkr1zep7P2xOZKC/aXEvGv/KFEFTgv/q74qst
+   1gz1mJkG5s18Z36I0BpbFZdSj9V/Yjjr0RRGg6y/zViZKidhWoTiHlmEM
+   IREwCHR4qbCRuqzklL5OVftk4jMfeajhXAK+262nyAw5PAYvwT2DaVWBz
+   wUuJ6hLc6dw12QxXSfC92Hye063yi6pW4h+4/UnTR5GqL8odfIEZ5vxHS
+   Sh+/DcMDayYJ2Wp7gsR1fklS+0SjAncshQiVNGHPSy4W0QB/jEPCOCKGg
+   Q==;
+X-CSE-ConnectionGUID: UUn0LGW6QW6XPOrJZKpgdA==
+X-CSE-MsgGUID: O40O9OIPSb6CClDb8lsgtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="59959526"
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="41714249"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 17:40:38 -0700
-X-CSE-ConnectionGUID: RfyAm9ZERT+WHRxQxCfycw==
-X-CSE-MsgGUID: x/99IQEgQi6esqtqzMfHnw==
+   d="scan'208";a="59959526"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2025 18:00:47 -0700
+X-CSE-ConnectionGUID: BmLNX371QpaiMXDxa8/IHw==
+X-CSE-MsgGUID: dGmMCrapQkaSnmaU2L1/RA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="157037843"
+X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
+   d="scan'208";a="143065153"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 09 Mar 2025 17:40:31 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 09 Mar 2025 18:00:45 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trRC0-0003b2-28;
-	Mon, 10 Mar 2025 00:40:28 +0000
-Date: Mon, 10 Mar 2025 08:39:28 +0800
+	id 1trRVb-0003fg-0B;
+	Mon, 10 Mar 2025 01:00:43 +0000
+Date: Mon, 10 Mar 2025 09:00:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Edward Adam Davis <eadavis@qq.com>,
-	syzbot+00c633585760c05507c3@syzkaller.appspotmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	omosnace@redhat.com, paul@paul-moore.com, selinux@vger.kernel.org,
-	stephen.smalley.work@gmail.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] selinux: read and write sid under lock
-Message-ID: <202503100821.PtEmEm7K-lkp@intel.com>
-References: <tencent_0BEE86CD3878D26D402DDD6F949484E96E0A@qq.com>
+To: Zsolt Kajtar <soci@c64.rulez.org>, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Zsolt Kajtar <soci@c64.rulez.org>
+Subject: Re: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing
+ routines
+Message-ID: <202503100810.9iId3430-lkp@intel.com>
+References: <20250309184716.13732-2-soci@c64.rulez.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,88 +65,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_0BEE86CD3878D26D402DDD6F949484E96E0A@qq.com>
+In-Reply-To: <20250309184716.13732-2-soci@c64.rulez.org>
 
-Hi Edward,
+Hi Zsolt,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on pcmoore-selinux/next]
-[also build test ERROR on linus/master v6.14-rc5 next-20250307]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc5 next-20250307]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/selinux-read-and-write-sid-under-lock/20250309-130846
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git next
-patch link:    https://lore.kernel.org/r/tencent_0BEE86CD3878D26D402DDD6F949484E96E0A%40qq.com
-patch subject: [PATCH] selinux: read and write sid under lock
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250310/202503100821.PtEmEm7K-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503100821.PtEmEm7K-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zsolt-Kajtar/Refactoring-the-fbcon-packed-pixel-drawing-routines/20250310-025619
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250309184716.13732-2-soci%40c64.rulez.org
+patch subject: [PATCH RESEND 1/2] Refactoring the fbcon packed pixel drawing routines
+config: i386-buildonly-randconfig-002-20250310 (https://download.01.org/0day-ci/archive/20250310/202503100810.9iId3430-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503100810.9iId3430-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503100821.PtEmEm7K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503100810.9iId3430-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   security/selinux/hooks.c: In function 'selinux_socket_post_create':
->> security/selinux/hooks.c:4718:33: error: 'struct sk_security_struct' has no member named 'lock'
-    4718 |                 spin_lock(&sksec->lock);
-         |                                 ^~
-   security/selinux/hooks.c:4721:35: error: 'struct sk_security_struct' has no member named 'lock'
-    4721 |                 spin_unlock(&sksec->lock);
-         |                                   ^~
-   security/selinux/hooks.c: In function 'selinux_socket_sock_rcv_skb':
-   security/selinux/hooks.c:5198:25: error: 'struct sk_security_struct' has no member named 'lock'
-    5198 |         spin_lock(&sksec->lock);
-         |                         ^~
-   security/selinux/hooks.c:5200:27: error: 'struct sk_security_struct' has no member named 'lock'
-    5200 |         spin_unlock(&sksec->lock);
-         |                           ^~
+   In file included from drivers/video/fbdev/aty/mach64_cursor.c:9:
+>> drivers/video/fbdev/aty/../core/fb_draw.h:16:48: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
+         |                                                ^
+>> drivers/video/fbdev/aty/../core/fb_draw.h:18:5: error: incomplete definition of type 'struct fb_address'
+      18 |         adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
+         |         ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:16:48: note: forward declaration of 'struct fb_address'
+      16 | static inline void fb_address_move_long(struct fb_address *adr, int offset)
+         |                                                ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:22:46: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:24:39: error: incomplete definition of type 'struct fb_address'
+      24 |         unsigned int bits = (unsigned int)adr->bits + offset;
+         |                                           ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:26:5: error: incomplete definition of type 'struct fb_address'
+      26 |         adr->bits = bits & (BITS_PER_LONG - 1u);
+         |         ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:27:5: error: incomplete definition of type 'struct fb_address'
+      27 |         adr->address += (bits & ~(BITS_PER_LONG - 1u)) / BITS_PER_BYTE;
+         |         ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:22:46: note: forward declaration of 'struct fb_address'
+      22 | static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+         |                                              ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:33:16: error: incomplete definition of type 'struct fb_address'
+      33 |         int bits = adr->bits - (int)offset;
+         |                    ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:35:5: error: incomplete definition of type 'struct fb_address'
+      35 |         adr->bits = bits & (BITS_PER_LONG - 1);
+         |         ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:37:6: error: incomplete definition of type 'struct fb_address'
+      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+         |                 ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:37:23: error: incomplete definition of type 'struct fb_address'
+      37 |                 adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+         |                                  ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:39:6: error: incomplete definition of type 'struct fb_address'
+      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+         |                 ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:39:30: error: incomplete definition of type 'struct fb_address'
+      39 |                 adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+         |                                         ~~~^
+   drivers/video/fbdev/aty/../core/fb_draw.h:31:47: note: forward declaration of 'struct fb_address'
+      31 | static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+         |                                               ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:50:34: warning: declaration of 'struct fb_address' will not be visible outside of this function [-Wvisibility]
+      50 |                                     int offset, const struct fb_address *dst)
+         |                                                              ^
+>> drivers/video/fbdev/aty/../core/fb_draw.h:52:2: error: call to undeclared function 'fb_write_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |         ^
+   drivers/video/fbdev/aty/../core/fb_draw.h:52:2: note: did you mean 'fb_modify_offset'?
+   drivers/video/fbdev/aty/../core/fb_draw.h:49:20: note: 'fb_modify_offset' declared here
+      49 | static inline void fb_modify_offset(unsigned long val, unsigned long mask,
+         |                    ^
+      50 |                                     int offset, const struct fb_address *dst)
+      51 | {
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |         ~~~~~~~~~~~~~~~
+         |         fb_modify_offset
+>> drivers/video/fbdev/aty/../core/fb_draw.h:52:31: error: call to undeclared function 'fb_read_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      52 |         fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+         |                                      ^
+>> drivers/video/fbdev/aty/mach64_cursor.c:184:9: error: call to undeclared function 'comp'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     184 |                                 l = comp(l, 0xaaaa,
+         |                                     ^
+   4 warnings and 13 errors generated.
 
 
-vim +4718 security/selinux/hooks.c
+vim +18 drivers/video/fbdev/aty/../core/fb_draw.h
 
-  4695	
-  4696	static int selinux_socket_post_create(struct socket *sock, int family,
-  4697					      int type, int protocol, int kern)
-  4698	{
-  4699		const struct task_security_struct *tsec = selinux_cred(current_cred());
-  4700		struct inode_security_struct *isec = inode_security_novalidate(SOCK_INODE(sock));
-  4701		struct sk_security_struct *sksec;
-  4702		u16 sclass = socket_type_to_security_class(family, type, protocol);
-  4703		u32 sid = SECINITSID_KERNEL;
-  4704		int err = 0;
-  4705	
-  4706		if (!kern) {
-  4707			err = socket_sockcreate_sid(tsec, sclass, &sid);
-  4708			if (err)
-  4709				return err;
-  4710		}
-  4711	
-  4712		isec->sclass = sclass;
-  4713		isec->sid = sid;
-  4714		isec->initialized = LABEL_INITIALIZED;
-  4715	
-  4716		if (sock->sk) {
-  4717			sksec = selinux_sock(sock->sk);
-> 4718			spin_lock(&sksec->lock);
-  4719			sksec->sclass = sclass;
-  4720			sksec->sid = sid;
-  4721			spin_unlock(&sksec->lock);
-  4722			/* Allows detection of the first association on this socket */
-  4723			if (sksec->sclass == SECCLASS_SCTP_SOCKET)
-  4724				sksec->sctp_assoc_state = SCTP_ASSOC_UNSET;
-  4725	
-  4726			err = selinux_netlbl_socket_post_create(sock->sk, family);
-  4727		}
-  4728	
-  4729		return err;
-  4730	}
-  4731	
+    14	
+    15	/* move the address pointer by the number of words */
+  > 16	static inline void fb_address_move_long(struct fb_address *adr, int offset)
+    17	{
+  > 18		adr->address += offset * (BITS_PER_LONG / BITS_PER_BYTE);
+    19	}
+    20	
+    21	/* move the address pointer forward with the number of bits */
+    22	static inline void fb_address_forward(struct fb_address *adr, unsigned int offset)
+    23	{
+    24		unsigned int bits = (unsigned int)adr->bits + offset;
+    25	
+    26		adr->bits = bits & (BITS_PER_LONG - 1u);
+    27		adr->address += (bits & ~(BITS_PER_LONG - 1u)) / BITS_PER_BYTE;
+    28	}
+    29	
+    30	/* move the address pointer backwards with the number of bits */
+    31	static inline void fb_address_backward(struct fb_address *adr, unsigned int offset)
+    32	{
+    33		int bits = adr->bits - (int)offset;
+    34	
+    35		adr->bits = bits & (BITS_PER_LONG - 1);
+    36		if (bits < 0)
+    37			adr->address -= (adr->bits - bits) / BITS_PER_BYTE;
+    38		else
+    39			adr->address += (bits - adr->bits) / BITS_PER_BYTE;
+    40	}
+    41	
+    42	/* compose pixels based on mask */
+    43	static inline unsigned long fb_comp(unsigned long set, unsigned long unset, unsigned long mask)
+    44	{
+    45		return ((set ^ unset) & mask) ^ unset;
+    46	}
+    47	
+    48	/* framebuffer read-modify-write access for replacing bits in the mask */
+    49	static inline void fb_modify_offset(unsigned long val, unsigned long mask,
+    50					    int offset, const struct fb_address *dst)
+    51	{
+  > 52		fb_write_offset(fb_comp(val, fb_read_offset(offset, dst), mask), offset, dst);
+    53	}
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
