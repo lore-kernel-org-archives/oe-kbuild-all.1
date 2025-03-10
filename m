@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AF7224234
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 10:46:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9C62288CC;
+	Mon, 10 Mar 2025 10:47:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741603563; cv=none; b=M6JjJwP1Nvci4tCChVJKF8yOK9vr6xqmBQ3upaKD34GmYGx5XiYM7B5bk/7W3H8A6fM4musIgUVHSPSs5UinIo3g69lPwTmkiiVWFQAiWuwkRZ0m399uUABLIrF7qBrKWdUe1e4HSJvJkXGH/ZH5kvHhxcxuNYlX/XyzFmn5Vds=
+	t=1741603630; cv=none; b=Zie0EwBVA4WOl6fjff2e4EHGggN++ylcxnwT3uhHIRhMMMKfZ5wKzejDSg6lrGDBdfypOdcNTD40mThjoOhx7pod8gA2RiZuz4fvdO2y2J8rE6cEWtLXKmRod0uILwbTi0tMGAHgN23Reec1Fg1j3WcIcN2nf4mqjznUJI5CMG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741603563; c=relaxed/simple;
-	bh=nWYvkVwkkApaoKhNnVQmPg2a5kTvAR0XFUoijBV5TBo=;
+	s=arc-20240116; t=1741603630; c=relaxed/simple;
+	bh=Sc9/v3JuthVpaujL0gcxOlKafMze0NJxxDCqEp489d8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h5yt4ubjhpZ/U05lfKptK1+E0qy+MxTcNBCO+t7oBtX0g4FWWJlvMajyWv+VQBsoFC+g/64Oofq76Mt64EvDcUyX9BzWCjXYoHVAGXx3fYp8B3Rn4CA8UTx8g3Bz4oJengwY2rSzvi+Ub0zVF8inKV0BH6guVTIuSAqDqKYMW6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JGpwXtaS; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=QPOZCJuo8M51gtifAhEUngREE5+YncxGzkirlgZisz7YSYB7oRBEaqLMnHxGRk6nqZ+fyMPAVzXlrjtAf9Jk2147HBYaul5xMd4i8yl62/AhOh/QvlAxRPN9IWDv33PJ78QceV9y452ZyyGJ68gLlJMficW7VI2YG4Ct7ydfRyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rH+4GpSW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JGpwXtaS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56CDCC4CEE5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 10:46:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rH+4GpSW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC07C4CEEC;
+	Mon, 10 Mar 2025 10:47:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741603563;
-	bh=nWYvkVwkkApaoKhNnVQmPg2a5kTvAR0XFUoijBV5TBo=;
+	s=k20201202; t=1741603630;
+	bh=Sc9/v3JuthVpaujL0gcxOlKafMze0NJxxDCqEp489d8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JGpwXtaSTEE9PfjQBV21o8vzSkKu0fGQ3Xxa4dF3UECcVY03awbZBc8rEOiGpMOdB
-	 zGAVzAa49vN6qWLriJRwd9XSqmgFbf+zW5TmMlvEd9uLp5me/X+r2P/gng0ny5sHFv
-	 VOoIfUhOBdxJsCCgTls2OYRn4LaFoMUEeNGUTS21ZT1yx1zJPKHbHFXzECS36nyWiO
-	 jASNZF2US2zufJjB1GDRU1ztDHuJ7rPPYjpkwS46Eu+JNc2HJJ8Tihg0DI8ePbDJgM
-	 IqZBCmwmPyvllPChbcBzYL8ZZbSl4b+fBvqdqPiF/jgCyyB1yR5YSAaHkIl8s9sUPI
-	 tOMalZqgy6+2A==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5e673822f76so1803972a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 03:46:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVmUBXEjOgykVLPE8N8Dwk4rIHbA2xdci3nE/gkdAXA//bSsJ0dPWy7r18BrYDtKVjl8DSjfIVEZwmNX5mv@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAZeJ9nV0Hu8+Ry0Wd0JVLAVi4mul1gQovBhnWnn3kQ7zVRkVk
-	Cm0HPsUK49nVG/mqXyzoL9hz4ZGOeoiDlr4xBRzp/qm3fIoWK5pFRH20KBMmz0245e7xP5Xjkm0
-	ciuU0jdxCEm2jFCaO/HbRLvcmqdg=
-X-Google-Smtp-Source: AGHT+IFKMC1Mp25UNKdtdZ9S+vhYs4X9sEvt5rgiYGoaBvK5s6mS9g8nWiR+9pLZl25dTQjm93sZM9k9P5ZoJLpIf5w=
-X-Received: by 2002:a17:907:7fa5:b0:ac0:3d5c:4fc6 with SMTP id
- a640c23a62f3a-ac252b56146mr1345274566b.27.1741603561855; Mon, 10 Mar 2025
- 03:46:01 -0700 (PDT)
+	b=rH+4GpSWm70MDdz90J7WW3e4ZM9LjCnSU4zwgbT8SOFlddqVCH/3RCSdyos4/kzyP
+	 dFMWx1NJ4K7McNB9oaj90ertP74A5yQggnQhxCQO1xcO+ozMNrEAX29kJp3jGOK5ls
+	 NBsDiSZr9WR78oOYqfZ78WUGzKDBB2uLHo6aYzW0N9XZLsc3KhKJpz0g49pEdeHpmW
+	 /hX+tKQdtN4vR/t4WAYFEhht6Yox8doDzXITAl6HDpPT4JcTq1oHCRwuWh9LKt2sHv
+	 xr9N5cjFJCMWDe8FzlcYrLFZa+JJrb8athYeufmyntax2/ephCyCUJTwrnRhWRsVh6
+	 2p4kAzh2UgnfA==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-abf615d5f31so798143766b.2;
+        Mon, 10 Mar 2025 03:47:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVk1npy1GUWmGNrSZ+wvrPUZzwZKrixj2CvYK4Yvep7VTbLSyDeqD7WXiHzyJlqTYCRIP58@lists.linux.dev, AJvYcCWiEUdnNlD0YTMTWWw7ikfS8Rk6mKIaCzakPeCcnJIIFrJcCvyidAJIKAOrC3F31v6tGUIHm5x2Wa6nFmvnpA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMEj2QbqZcOgNjvWXB0s4C9IhM/f44p3NIQO5vT8UMK5llUsHg
+	E4ue9m+3rl8fEXRaqCZPjUHpZTBaQlOhOtd2PGgz4hGfeiX5/BtyGHEibSsQ+H4nT0nEHF242+6
+	5CwRM3JXi/RxiTQkMLd0moJnfUaI=
+X-Google-Smtp-Source: AGHT+IE0Qz01VzgipkgxgkfoRbX692A0lttf+JeI1m/AaZEuHJKWtSe6j975Vn4wdPQ5YcuAZTwi8kxmz+yBkADcLL0=
+X-Received: by 2002:a17:907:1ca3:b0:ab7:b30:42ed with SMTP id
+ a640c23a62f3a-ac2521295eamr1615213666b.0.1741603628863; Mon, 10 Mar 2025
+ 03:47:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,20 +43,21 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <f6d2a09fb43742fb5be38f820908510e298f8d40.1741354479.git.fdmanana@suse.com>
- <202503082341.T7dnq95G-lkp@intel.com>
-In-Reply-To: <202503082341.T7dnq95G-lkp@intel.com>
+ <202503090344.SeJrOfHD-lkp@intel.com>
+In-Reply-To: <202503090344.SeJrOfHD-lkp@intel.com>
 From: Filipe Manana <fdmanana@kernel.org>
-Date: Mon, 10 Mar 2025 10:45:24 +0000
-X-Gmail-Original-Message-ID: <CAL3q7H4kad4ojST6ejTQqWMzr-J5ikVb=OABConGjXUHKrV6FQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JoDyrvATg6Wb9yt0fdB-M2iyLqKwwojeuWj-tNrZQcXURmjZ_rk1BbuHuQ
-Message-ID: <CAL3q7H4kad4ojST6ejTQqWMzr-J5ikVb=OABConGjXUHKrV6FQ@mail.gmail.com>
+Date: Mon, 10 Mar 2025 10:46:32 +0000
+X-Gmail-Original-Message-ID: <CAL3q7H649w5+hRzX_pRB=6kMVQFSfLL7=2dt16taiVzOUYOgzQ@mail.gmail.com>
+X-Gm-Features: AQ5f1JpH99uf8nj-3JsGIluLIezRqAJA4enqoTTq_8A9S1s8aybiFQFmOMw-9rg
+Message-ID: <CAL3q7H649w5+hRzX_pRB=6kMVQFSfLL7=2dt16taiVzOUYOgzQ@mail.gmail.com>
 Subject: Re: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode instead
 To: kernel test robot <lkp@intel.com>
-Cc: linux-btrfs@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Cc: linux-btrfs@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 8, 2025 at 3:32=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+On Sat, Mar 8, 2025 at 5:49=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
 ote:
 >
 > Hi,
@@ -78,27 +79,52 @@ or-next
 298f8d40.1741354479.git.fdmanana%40suse.com
 > patch subject: [PATCH 4/8] btrfs: make btrfs_iget() return a btrfs inode =
 instead
-> config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250308=
-/202503082341.T7dnq95G-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.2.0
+> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/202503=
+09/202503090344.SeJrOfHD-lkp@intel.com/config)
+> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd70=
+8029e0b2869e80abe31ddb175f7c35361f90)
 > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250308/202503082341.T7dnq95G-lkp@intel.com/reproduce)
+ve/20250309/202503090344.SeJrOfHD-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new vers=
 ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503082341.T7dnq95G-lkp=
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503090344.SeJrOfHD-lkp=
 @intel.com/
 >
 > All errors (new ones prefixed by >>):
 >
->    fs/btrfs/send.c: In function 'send_encoded_inline_extent':
-> >> fs/btrfs/send.c:5535:15: error: assignment to 'struct inode *' from in=
-compatible pointer type 'struct btrfs_inode *' [-Wincompatible-pointer-type=
-s]
+>    In file included from fs/btrfs/send.c:11:
+>    In file included from include/linux/xattr.h:18:
+>    In file included from include/linux/mm.h:2224:
+>    include/linux/vmstat.h:504:43: warning: arithmetic between different e=
+numeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-=
+enum-conversion]
+>      504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      505 |                            item];
+>          |                            ~~~~
+>    include/linux/vmstat.h:511:43: warning: arithmetic between different e=
+numeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-=
+enum-conversion]
+>      511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      512 |                            NR_VM_NUMA_EVENT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/vmstat.h:524:43: warning: arithmetic between different e=
+numeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-=
+enum-conversion]
+>      524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      525 |                            NR_VM_NUMA_EVENT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~~
+> >> fs/btrfs/send.c:5535:8: error: incompatible pointer types assigning to=
+ 'struct inode *' from 'struct btrfs_inode *' [-Werror,-Wincompatible-point=
+er-types]
 >     5535 |         inode =3D btrfs_iget(sctx->cur_ino, root);
-
+>          |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    3 warnings and 1 error generated.
 
 You're testing against a branch that doesn't contain this dependency:
 
@@ -113,7 +139,6 @@ but not yet in  any kernel.org repo.
 
 Thanks.
 
->          |               ^
 >
 >
 > vim +5535 fs/btrfs/send.c
