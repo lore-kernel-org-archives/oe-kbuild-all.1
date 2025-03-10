@@ -1,61 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CC42288FB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 13:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B0522A1CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Mar 2025 13:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741612155; cv=none; b=IvIbKz291fnSymbR60bofVjdgLbooP4D7+fqZ9V8OIU3hx2Th7LP84uyptd5/ROckw2BJt38+fR4E+bHyBqjBuwnM+dKaqGrGwJA5Q4lmut1henre323go1yAwhN9TP1SXLCoX0IkSWcqciQfvd3vw94+9usziOthquQK59UQNI=
+	t=1741614791; cv=none; b=UtNPFHx+sqKHeFgailyeG/E67QVexdRwfOYkKWyz9e8WDHlMSeRQ18PslEmM7mMKzspz3bMavd2UYwhuolP1nLu/DhLe49GkjuUh8+gDkb94C7HwRi04S8NBFq1DGclbUqbODltj8MInI88udmqGS8/yG0eTo+MI2LeUqof+9rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741612155; c=relaxed/simple;
-	bh=Vq+v5sP4eqDziClAZd6XjfUr7QO/4X4D/kFCPmbk2aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=skjW48av8kmhISZiLmU+KibKYiyS0uYm0VlTIWlZJOeeWeICNzO96mQ8ba0Fn6A3P/fbxlLjTEU8C2nt7AHIAusxHdBu7tzbGsTIapkX+hVzd49BWNI6+Qbjwjlfe9HJys2Tfsw0gOyquoBNO4TO5Rk6miFhsuVZ5NLwoke013M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vr3W7lX+; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1741614791; c=relaxed/simple;
+	bh=O/w5wA572U8ZVaqFgo/awxmCslHGU3ldh7l8AS35QTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rx1ChwNb4mYe3EpfTIWJUO7eETaRR05EE7RjheDeVueUzCISFskVrqlNDvWogzLRFtgL+wANtbTKnu5f0US882QhDQ0hFTP5HU+IMPa8DO1MPb7RlbJ27OMwQT2ml0zKRPXtQMEq4e5dDBlsJNennyPUHxxlMrYu5OD5F6S/oFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7r5Wxci; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vr3W7lX+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7r5Wxci"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741612153; x=1773148153;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vq+v5sP4eqDziClAZd6XjfUr7QO/4X4D/kFCPmbk2aw=;
-  b=Vr3W7lX+mrZmQ03abQzg5/eRVT60igEzmqIX+3Zgx4pG0f/EfZ4u7Fjb
-   viygj26baGxRP0NeL/V7u5OxrARG7stBx9dosHMuZCd7+aX33FcJ6Qtzv
-   W+yqk5hVY0CKYQdKnKWbCixmlGUJCcbE0mzVX5eek2sus9KIhLh+ipkin
-   /SShZGg3jp9qoi0LtiLxGfGaYLxC6a1ULZmVEqIjo0IxqmcmgawoPtms/
-   FJKK9/WUXO5ZcI35m+dGx27ur8iCC7xbnBZdLTlMvR8oXQaJSnxxBZTGW
-   wPWM9J0E/z1x28UNXXc++34JI2+2jppamiU+k0fZ6sXoBI4qI2xdl8zOl
-   g==;
-X-CSE-ConnectionGUID: joG/vnXjQxKfSVnMlT5Hxg==
-X-CSE-MsgGUID: dLhM80RQRp+NIoZXHUxLnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42515506"
+  t=1741614790; x=1773150790;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O/w5wA572U8ZVaqFgo/awxmCslHGU3ldh7l8AS35QTo=;
+  b=Q7r5WxcifHppYxuC83rxl5XaeBhEbFem6z281O1cz0GG4Mr9ybdgZMYW
+   p7tnBfRigGM3w2GjT6jHKB1idE5mJrqPVvXyzkQmjjUj2fuoOXv4skw5Z
+   1GXB79RA3x9FiAD+Y0wx1XofEOVu+HDgPXksbB3TvFPyTqZRxK5yLs7lE
+   bq26+trnUYkrADVfYMlm8Rp5jPF4SR9oFf+2DBakoytvDAltLXv0GPbTi
+   Le1Ukki4GRWoeT3ic6b8+0clN2BEwgjVZFJnFgnb3n+cypEKOT9AV7+tF
+   SujwN7/WQJkVyNkubp3IfScM2SxR2HXmJHy3oYsql6OXQp5mrm39G7xT1
+   Q==;
+X-CSE-ConnectionGUID: H1jUNKc5RbitRFamNsYm5A==
+X-CSE-MsgGUID: fmodw9GWSLy/nB26NElTCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="53988370"
 X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="42515506"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 06:09:12 -0700
-X-CSE-ConnectionGUID: Lzhp/OENQxuRbABCjpzBwQ==
-X-CSE-MsgGUID: YdsDAS0nR/eXQm8MGMvmkQ==
+   d="scan'208";a="53988370"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 06:53:09 -0700
+X-CSE-ConnectionGUID: 4UHsYB7CQku8kdNw7wyn9A==
+X-CSE-MsgGUID: Q/lcFYIeRpuL5hsUlAOLXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="125043995"
+   d="scan'208";a="119715154"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Mar 2025 06:09:10 -0700
+  by orviesa009.jf.intel.com with ESMTP; 10 Mar 2025 06:53:06 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trcsW-0004GC-2Z;
-	Mon, 10 Mar 2025 13:09:08 +0000
-Date: Mon, 10 Mar 2025 21:08:30 +0800
+	id 1trdZ2-0004IC-0W;
+	Mon, 10 Mar 2025 13:53:04 +0000
+Date: Mon, 10 Mar 2025 21:52:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20250304 5/11]
- drivers/net/wireless/intel/iwlwifi/fw/api/tx.h:745:31: error: field 'tx' has
- incomplete type
-Message-ID: <202503102143.Rm06fBbo-lkp@intel.com>
+To: Eric Dumazet <edumazet@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Ahern <dsahern@kernel.org>,
+	Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+	eric.dumazet@gmail.com, Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next 3/4] inet: frags: change inet_frag_kill() to
+ defer refcount updates
+Message-ID: <202503102108.U88XuKx1-lkp@intel.com>
+References: <20250309173151.2863314-4-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,116 +67,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250309173151.2863314-4-edumazet@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20250304
-head:   6d2e9e1f723433e96db706772bc630bc704bf9ba
-commit: a6053266a6e573a3c22309605547bf35869fbaf3 [5/11] wifi: iwlwifi: dvm: Avoid -Wflex-array-member-not-at-end warnings
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20250310/202503102143.Rm06fBbo-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102143.Rm06fBbo-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/inet-frags-add-inet_frag_putn-helper/20250310-013501
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250309173151.2863314-4-edumazet%40google.com
+patch subject: [PATCH net-next 3/4] inet: frags: change inet_frag_kill() to defer refcount updates
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250310/202503102108.U88XuKx1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102108.U88XuKx1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503102143.Rm06fBbo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503102108.U88XuKx1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/wireless/intel/iwlwifi/pcie/tx.c:27:
->> drivers/net/wireless/intel/iwlwifi/fw/api/tx.h:745:31: error: field 'tx' has incomplete type
-     745 |         struct iwl_tx_cmd_hdr tx;
-         |                               ^~
-   drivers/net/wireless/intel/iwlwifi/fw/api/tx.h:764:31: error: field 'tx' has incomplete type
-     764 |         struct iwl_tx_cmd_hdr tx;
-         |                               ^~
---
-   In file included from drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/tdls.h:10,
-                    from drivers/net/wireless/intel/iwlwifi/mvm/fw-api.h:10,
-                    from drivers/net/wireless/intel/iwlwifi/mvm/sta.h:15,
-                    from drivers/net/wireless/intel/iwlwifi/mvm/mvm.h:30,
-                    from drivers/net/wireless/intel/iwlwifi/mvm/fw.c:21:
->> drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/tx.h:745:31: error: field 'tx' has incomplete type
-     745 |         struct iwl_tx_cmd_hdr tx;
-         |                               ^~
-   drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/tx.h:764:31: error: field 'tx' has incomplete type
-     764 |         struct iwl_tx_cmd_hdr tx;
-         |                               ^~
->> drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/tdls.h:53:31: error: field 'tx_cmd' has incomplete type
-      53 |         struct iwl_tx_cmd_hdr tx_cmd;
-         |                               ^~~~~~
->> drivers/net/wireless/intel/iwlwifi/mvm/../fw/api/tdls.h:134:31: error: field 'pti_req_tx_cmd' has incomplete type
-     134 |         struct iwl_tx_cmd_hdr pti_req_tx_cmd;
-         |                               ^~~~~~~~~~~~~~
+   net/ieee802154/6lowpan/reassembly.c: In function 'lowpan_frag_rcv':
+>> net/ieee802154/6lowpan/reassembly.c:312:23: error: too few arguments to function 'lowpan_frag_queue'
+     312 |                 ret = lowpan_frag_queue(fq, skb, frag_type);
+         |                       ^~~~~~~~~~~~~~~~~
+   net/ieee802154/6lowpan/reassembly.c:86:12: note: declared here
+      86 | static int lowpan_frag_queue(struct lowpan_frag_queue *fq,
+         |            ^~~~~~~~~~~~~~~~~
 
 
-vim +/tx +745 drivers/net/wireless/intel/iwlwifi/fw/api/tx.h
+vim +/lowpan_frag_queue +312 net/ieee802154/6lowpan/reassembly.c
 
-   686	
-   687	/**
-   688	 * struct iwl_compressed_ba_notif - notifies about reception of BA
-   689	 * ( BA_NOTIF = 0xc5 )
-   690	 * @flags: status flag, see the &iwl_mvm_ba_resp_flags
-   691	 * @sta_id: Index of recipient (BA-sending) station in fw's station table
-   692	 * @reduced_txp: power reduced according to TPC. This is the actual value and
-   693	 *	not a copy from the LQ command. Thus, if not the first rate was used
-   694	 *	for Tx-ing then this value will be set to 0 by FW.
-   695	 * @tlc_rate_info: TLC rate info, initial rate index, TLC table color
-   696	 * @retry_cnt: retry count
-   697	 * @query_byte_cnt: SCD query byte count
-   698	 * @query_frame_cnt: SCD query frame count
-   699	 * @txed: number of frames sent in the aggregation (all-TIDs)
-   700	 * @done: number of frames that were Acked by the BA (all-TIDs)
-   701	 * @rts_retry_cnt: RTS retry count
-   702	 * @reserved: reserved (for alignment)
-   703	 * @wireless_time: Wireless-media time
-   704	 * @tx_rate: the rate the aggregation was sent at
-   705	 * @tfd_cnt: number of TFD-Q elements
-   706	 * @ra_tid_cnt: number of RATID-Q elements
-   707	 * @tfd: array of TFD queue status updates. See &iwl_compressed_ba_tfd
-   708	 *	for details. Length in @tfd_cnt.
-   709	 * @ra_tid: array of RA-TID queue status updates. For debug purposes only. See
-   710	 *	&iwl_compressed_ba_ratid for more details. Length in @ra_tid_cnt.
-   711	 */
-   712	struct iwl_compressed_ba_notif {
-   713		__le32 flags;
-   714		u8 sta_id;
-   715		u8 reduced_txp;
-   716		u8 tlc_rate_info;
-   717		u8 retry_cnt;
-   718		__le32 query_byte_cnt;
-   719		__le16 query_frame_cnt;
-   720		__le16 txed;
-   721		__le16 done;
-   722		u8 rts_retry_cnt;
-   723		u8 reserved;
-   724		__le32 wireless_time;
-   725		__le32 tx_rate;
-   726		__le16 tfd_cnt;
-   727		__le16 ra_tid_cnt;
-   728		union {
-   729			DECLARE_FLEX_ARRAY(struct iwl_compressed_ba_ratid, ra_tid);
-   730			DECLARE_FLEX_ARRAY(struct iwl_compressed_ba_tfd, tfd);
-   731		};
-   732	} __packed; /* COMPRESSED_BA_RES_API_S_VER_4,
-   733		       COMPRESSED_BA_RES_API_S_VER_5 */
-   734	
-   735	/**
-   736	 * struct iwl_mac_beacon_cmd_v6 - beacon template command
-   737	 * @tx: the tx commands associated with the beacon frame
-   738	 * @template_id: currently equal to the mac context id of the coresponding
-   739	 *  mac.
-   740	 * @tim_idx: the offset of the tim IE in the beacon
-   741	 * @tim_size: the length of the tim IE
-   742	 * @frame: the template of the beacon frame
-   743	 */
-   744	struct iwl_mac_beacon_cmd_v6 {
- > 745		struct iwl_tx_cmd_hdr tx;
-   746		__le32 template_id;
-   747		__le32 tim_idx;
-   748		__le32 tim_size;
-   749		struct ieee80211_hdr frame[];
-   750	} __packed; /* BEACON_TEMPLATE_CMD_API_S_VER_6 */
-   751	
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  280  
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  281  int lowpan_frag_rcv(struct sk_buff *skb, u8 frag_type)
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  282  {
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  283  	struct lowpan_frag_queue *fq;
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  284  	struct net *net = dev_net(skb->dev);
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  285  	struct lowpan_802154_cb *cb = lowpan_802154_cb(skb);
+f18fa5de5ba7f1d net/ieee802154/6lowpan/reassembly.c Alexander Aring    2018-04-20  286  	struct ieee802154_hdr hdr = {};
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  287  	int err;
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  288  
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  289  	if (ieee802154_hdr_peek_addrs(skb, &hdr) < 0)
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  290  		goto err;
+ae531b9475f62c5 net/ieee802154/reassembly.c         Phoebe Buckheister 2014-03-14  291  
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  292  	err = lowpan_get_cb(skb, frag_type, cb);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  293  	if (err < 0)
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  294  		goto err;
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  295  
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  296  	if (frag_type == LOWPAN_DISPATCH_FRAG1) {
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  297  		err = lowpan_invoke_frag_rx_handlers(skb);
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  298  		if (err == NET_RX_DROP)
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  299  			goto err;
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  300  	}
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  301  
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  302  	if (cb->d_size > IPV6_MIN_MTU) {
+6697dabe27e0330 net/ieee802154/reassembly.c         Martin Townsend    2014-08-19  303  		net_warn_ratelimited("lowpan_frag_rcv: datagram size exceeds MTU\n");
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  304  		goto err;
+6697dabe27e0330 net/ieee802154/reassembly.c         Martin Townsend    2014-08-19  305  	}
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  306  
+72a5e6bb5120d64 net/ieee802154/6lowpan/reassembly.c Alexander Aring    2015-09-02  307  	fq = fq_find(net, cb, &hdr.source, &hdr.dest);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  308  	if (fq != NULL) {
+aec42e105cebf42 net/ieee802154/6lowpan/reassembly.c Eric Dumazet       2025-03-09  309  		int ret, refs = 1;
+4710d806fcb8251 net/ieee802154/reassembly.c         Varka Bhadram      2014-07-02  310  
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  311  		spin_lock(&fq->q.lock);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28 @312  		ret = lowpan_frag_queue(fq, skb, frag_type);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  313  		spin_unlock(&fq->q.lock);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  314  
+aec42e105cebf42 net/ieee802154/6lowpan/reassembly.c Eric Dumazet       2025-03-09  315  		inet_frag_putn(&fq->q, refs);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  316  		return ret;
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  317  	}
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  318  
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  319  err:
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  320  	kfree_skb(skb);
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  321  	return -1;
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  322  }
+7240cdec60b136f net/ieee802154/reassembly.c         Alexander Aring    2014-02-28  323  
 
 -- 
 0-DAY CI Kernel Test Service
