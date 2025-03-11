@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E8B79CD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 00:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77D05258
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 01:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741652467; cv=none; b=B01mTZnDQJXinx2lDGerxtS/hpiJ702HE5mo0tKPwDOUbE7b7V83gUyR/WSm+WfBwjDC8NjpD1FtmC2Plz/SiY55fprpMt7bLZ+uz4eOgmzv7O5Rlf+JywvZNW7EPCqanC8tM+KISN5p2Ljyr2tFUb3Hp72XP0TnoO+IBEGpvzA=
+	t=1741656791; cv=none; b=ArnYbpBXq3bIcdkexJrBQ3hKqHY+4xEMVmNLEwFEURmpcxjAisDOxW2ggjjJrmirGYLmb4jH9jJ5Rgh7K8zis+hEZUwo79oG9AR1TwyW2/lpyARA2teTWc9Ul/e0dEia3yblqubhFe1SdhXnMKpWFVTE6BJ4MjGNULdLzzX+dsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741652467; c=relaxed/simple;
-	bh=dpaZIyauDtJJCEdc/pR2TJjQSlr/h8Z3wB3Q9Bv2AvY=;
+	s=arc-20240116; t=1741656791; c=relaxed/simple;
+	bh=EVNN3ljEpfJV/uJO8/Tm4VvkLB0Z6YO0rnrYJIsygHU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RthHl5FbrEy8bhokO7vUwytOHCAQAK8L9uf4+EgtzUE6N9xYcspLrB0n9zzg32ZJ1bEK3hkQn/IxpD3kHqNa6FSS0BTrJnpCPBXbpMAEUgx4MlUDxs/1/F9E0hyhORRC6SJgNByL94Ycah/iG3BbrOztXAOILXMtvPPtZhgp0gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U+9uYY2b; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=lnQvV3JhBUi0KXExdJCKL6fGdPbayQNTP90MCnHTtpIXE5SgBKBVhvLldQcFhsxUd2GLIyTlYA9Ho598S85Fdc1gthsnTQFpcWEm6KX1l691v1ZFhGgKxEW8rpeoERgzrVA2Crfcju06fIn9JJklZHYz86V4X/PtPPxpyciva3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1iy9YPp; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U+9uYY2b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1iy9YPp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741652464; x=1773188464;
+  t=1741656790; x=1773192790;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dpaZIyauDtJJCEdc/pR2TJjQSlr/h8Z3wB3Q9Bv2AvY=;
-  b=U+9uYY2b/5E8L8mG83g9I5vUhwFqlzvLemK1ngn/dbVMCL+nNxEN71s7
-   hfWgeB+3i0eUqVzeJs8H/v6oF95NQjsHtkLOzTeQfXir04Hm+4cFluB+n
-   g73K5j1IH0L1yELaUugM2pcLuq7v6p/W29LcRVZOMgXyHLQG9x31Ha32p
-   LNBFyDdiJZmeMbQD1K43Fb1gWKxUeBwBhlw5Jw9sw3fBZMoWnQccm9SsR
-   79BLgd2oKwonUf2FcWMWW5dhPCBvFlCtvm8Smad5z8v96pUYmm6i//G/s
-   QAneEwzhREIweZqnPGAKzAKkLx0uLGWCnYjP2lVWmB/AkX7iNZvi6Lsuc
+  bh=EVNN3ljEpfJV/uJO8/Tm4VvkLB0Z6YO0rnrYJIsygHU=;
+  b=a1iy9YPpNJWbDSDHuGDk0qpG77HisDCxNZQfC38RgASUXY2+u9hYfwiG
+   g50wT/aeyh19KVUGYq9HRpX+PJu5XZ2QThkjpHvUMtdpXQazevZHGGcUY
+   LPhnUxopEDXH+mrCF3h0Wi5L5z8c3Zxu4Mx7dEsusGUropkCx+pK4bXd4
+   X37AorBr5gmja1E0eLzRrnh7bBqKUOmrHKNggKu0d+1iey3SFWiF/IOzS
+   b94HuBfpUdL+RJQNsCRPtqLBCguMA5NaDy5EG/rm2kBP2qtEwg0FcQAwk
+   kMbo09Q2iYVagspMQQKDjDpUOiLZrOrM53bScGV+qCuTJgp2yoGpYbWIa
    w==;
-X-CSE-ConnectionGUID: Rzn8eiH0S8eQna40QS3tyA==
-X-CSE-MsgGUID: boNyeyJgTV+JJbjNV5DgKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="46584451"
+X-CSE-ConnectionGUID: m22GxrMATXCoiOJ8DFG+6Q==
+X-CSE-MsgGUID: F7xcQXmzQ+mZ3ye8PUPcuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42588924"
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="46584451"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 17:21:03 -0700
-X-CSE-ConnectionGUID: 4O3PwJEtR5q6E2yrbniepw==
-X-CSE-MsgGUID: FM5lXTzLTR6CT0P7RTVlTg==
+   d="scan'208";a="42588924"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 18:33:10 -0700
+X-CSE-ConnectionGUID: UvbbAhM0T1WYN9L0qXXs/A==
+X-CSE-MsgGUID: ET1a7ATKT1CyeZ3szHiffA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="120110284"
+   d="scan'208";a="125372096"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 10 Mar 2025 17:21:01 -0700
+  by orviesa005.jf.intel.com with ESMTP; 10 Mar 2025 18:33:08 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trnMh-0006D6-2M;
-	Tue, 11 Mar 2025 00:20:59 +0000
-Date: Tue, 11 Mar 2025 08:20:37 +0800
+	id 1troUT-0006FK-1Q;
+	Tue, 11 Mar 2025 01:33:05 +0000
+Date: Tue, 11 Mar 2025 09:32:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jyri Sarha <jyri.sarha@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Liam Girdwood <liam.r.girdwood@intel.com>
-Subject: [thesofproject:topic/sof-dev-rebase 20/71]
- sound/soc/sof/sof-client-probes-ipc4.c:211:29-35: ERROR: application of
- sizeof to pointer
-Message-ID: <202503110822.q6TnCZ5H-lkp@intel.com>
+Subject: [thesofproject:topic/sof-dev-rebase 24/71]
+ sound/soc/sof/sof-client-probes-ipc4.c:233:2-3: Unneeded semicolon
+Message-ID: <202503110952.KPetXI1h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,77 +66,96 @@ Content-Disposition: inline
 
 tree:   https://github.com/thesofproject/linux topic/sof-dev-rebase
 head:   30b59334e68e51d0c94309ee1fdb85aaf7a1c6c9
-commit: 1a8251ae4b1b72d8e3a8867de2652555c7fb034b [20/71] ASoC: SOF: sof-client-probes-ipc4: Implement ipc4_probes_points_info
-config: powerpc-randconfig-r061-20250311 (https://download.01.org/0day-ci/archive/20250311/202503110822.q6TnCZ5H-lkp@intel.com/config)
+commit: 9f3b3e77a5779cbe209210cfc2b28b9b80e0075f [24/71] ASoC: SOF: sof-client-probes: Add available points_info(), IPC4 only
+config: powerpc-randconfig-r061-20250311 (https://download.01.org/0day-ci/archive/20250311/202503110952.KPetXI1h-lkp@intel.com/config)
 compiler: powerpc-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110822.q6TnCZ5H-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503110952.KPetXI1h-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> sound/soc/sof/sof-client-probes-ipc4.c:211:29-35: ERROR: application of sizeof to pointer
+>> sound/soc/sof/sof-client-probes-ipc4.c:233:2-3: Unneeded semicolon
 
-vim +211 sound/soc/sof/sof-client-probes-ipc4.c
+vim +233 sound/soc/sof/sof-client-probes-ipc4.c
 
-   170	
-   171	/**
-   172	 * ipc4_probes_points_info - retrieve list of active probe points
-   173	 * @cdev:	SOF client device
-   174	 * @desc:	Returned list of active probes
-   175	 * @num_desc:	Returned count of active probes
-   176	 * @return:	0 on success, negative error code on error
-   177	 */
-   178	static int ipc4_probes_points_info(struct sof_client_dev *cdev,
-   179					   struct sof_probe_point_desc **desc,
-   180					   size_t *num_desc)
-   181	{
-   182		struct sof_man4_module *mentry = sof_ipc4_probe_get_module_info(cdev);
-   183		struct device *dev = &cdev->auxdev.dev;
-   184		struct sof_ipc4_probe_info *info;
-   185		struct sof_ipc4_msg msg;
-   186		int i, ret;
-   187	
-   188		if (!mentry)
-   189			return -ENODEV;
-   190	
-   191		msg.primary = mentry->id;
-   192		msg.primary |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
-   193		msg.primary |= SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
-   194	
-   195		msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(SOF_IPC4_PROBE_POINTS);
-   196	
-   197		msg.data_size = cdev->sdev->ipc->max_payload_size;
-   198		msg.data_ptr = kzalloc(msg.data_size, GFP_KERNEL);
-   199		if (!msg.data_ptr)
-   200			return -ENOMEM;
-   201	
-   202		ret = sof_client_ipc_set_get_data(cdev, &msg, false);
-   203		if (ret) {
-   204			kfree(msg.data_ptr);
-   205			return ret;
-   206		}
-   207		info = msg.data_ptr;
-   208		*num_desc = info->num_elems;
-   209		dev_dbg(dev, "%s: got %zu probe points", __func__, *num_desc);
-   210	
- > 211		*desc = kzalloc(*num_desc * sizeof(*desc), GFP_KERNEL);
-   212		if (!*desc) {
-   213			kfree(msg.data_ptr);
-   214			return -ENOMEM;
-   215		}
-   216	
-   217		for (i = 0; i < *num_desc; i++) {
-   218			(*desc)[i].buffer_id = info->points[i].point_id;
-   219			(*desc)[i].purpose = info->points[i].purpose;
-   220			(*desc)[i].stream_tag = info->points[i].stream_tag;
-   221		}
-   222		kfree(msg.data_ptr);
-   223	
-   224		return 0;
-   225	}
-   226	
+   195	
+   196	/**
+   197	 * ipc4_probes_points_info - retrieve list of probe points
+   198	 * @cdev:	SOF client device
+   199	 * @desc:	Returned list of active probes
+   200	 * @num_desc:	Returned count of active probes
+   201	 * @type:	Either PROBES_INFO_ACTIVE_PROBES or PROBES_INFO_AVAILABE_PROBES
+   202	 * @return:	0 on success, negative error code on error
+   203	 *
+   204	 * Returns list if active probe points if type is
+   205	 * PROBES_INFO_ACTIVE_PROBES, or list of all available probe points if
+   206	 * type is PROBES_INFO_AVAILABE_PROBES.
+   207	 */
+   208	static int ipc4_probes_points_info(struct sof_client_dev *cdev,
+   209					   struct sof_probe_point_desc **desc,
+   210					   size_t *num_desc,
+   211					   enum sof_probe_info_type type)
+   212	{
+   213		struct sof_man4_module *mentry = sof_ipc4_probe_get_module_info(cdev);
+   214		struct device *dev = &cdev->auxdev.dev;
+   215		struct sof_ipc4_probe_info *info;
+   216		struct sof_ipc4_msg msg;
+   217		u32 param_id;
+   218		int i, ret;
+   219	
+   220		if (!mentry)
+   221			return -ENODEV;
+   222	
+   223		switch (type) {
+   224		case PROBES_INFO_ACTIVE_PROBES:
+   225			param_id = SOF_IPC4_PROBE_POINTS;
+   226			break;
+   227		case PROBES_INFO_AVAILABE_PROBES:
+   228			param_id = SOF_IPC4_PROBE_POINTS_AVAILABLE;
+   229			break;
+   230		default:
+   231			dev_err(dev, "%s: info type %u not supported", __func__, type);
+   232			return -EOPNOTSUPP;
+ > 233		};
+   234	
+   235		msg.primary = mentry->id;
+   236		msg.primary |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
+   237		msg.primary |= SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
+   238	
+   239		msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(param_id);
+   240	
+   241		msg.data_size = cdev->sdev->ipc->max_payload_size;
+   242		msg.data_ptr = kzalloc(msg.data_size, GFP_KERNEL);
+   243		if (!msg.data_ptr)
+   244			return -ENOMEM;
+   245	
+   246		ret = sof_client_ipc_set_get_data(cdev, &msg, false);
+   247		if (ret) {
+   248			kfree(msg.data_ptr);
+   249			return ret;
+   250		}
+   251		info = msg.data_ptr;
+   252		*num_desc = info->num_elems;
+   253		dev_dbg(dev, "%s: got %zu probe points", __func__, *num_desc);
+   254	
+   255		*desc = kzalloc(*num_desc * sizeof(*desc), GFP_KERNEL);
+   256		if (!*desc) {
+   257			kfree(msg.data_ptr);
+   258			return -ENOMEM;
+   259		}
+   260	
+   261		for (i = 0; i < *num_desc; i++) {
+   262			(*desc)[i].buffer_id = info->points[i].point_id;
+   263			(*desc)[i].purpose = info->points[i].purpose;
+   264			(*desc)[i].stream_tag = info->points[i].stream_tag;
+   265		}
+   266		kfree(msg.data_ptr);
+   267	
+   268		return 0;
+   269	}
+   270	
 
 -- 
 0-DAY CI Kernel Test Service
