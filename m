@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9E526AE4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 04:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A4533E1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 07:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741669199; cv=none; b=ritRe8BEQlTPRY6nVQO3nOjIPWM7mTnjtidTTlmE5WwtO/FXI7bgkrkb/XBtP54+N+m/+lDGuFoOcPVceTJcjEoHS/j81jn3uBhWMGoo15i6JKLfTrap7DEfGlGl4m/z3qjHhaIDSRz+uvJYXtIgXOWWurRtmCvcQWnf3+f4oEM=
+	t=1741678411; cv=none; b=NsxX5HloGAdeX1jS9cKri00JNd9e8CHcI+/2RgTQNEyqtf2A06DfAMPrvTpUvd1pCnRCSoSUb00k+pKk2rdaCLqGSYx0AIYscDOpjHMhI87AhdxSGEJuD481cLYyMAO5ub9VfZafjh5VoTYo8vi/VWV49zTz54LPDE90EFzEFdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741669199; c=relaxed/simple;
-	bh=T8dNBWD8AFThEgAnmGlyAM84dX2UTfVsC0TZt/Vdhbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZmTi5OhJ8AG1TmYbyFA5zrUHskDvhv578JwNMixuzw1XZpQn3pofmS2uG2vgvQM0l8nMNiJe5F/H/nBhyuL7T4zPCXxhtnEPTHgB56YQFwrC21t0mcVOnkjqtlvyo5OsDhqJu1jG90cmJX6BNIJiBhCeRKLeHXn8vF2lBoaII+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nn58INZV; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1741678411; c=relaxed/simple;
+	bh=bvZK6cFi7goNewHU3vBg2XkUUKxvFEMMbFjetmDHRJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=joKxyIuY5lDbxDB6HVk29MU53rEvhAW2KkKJZy9jjE4WrKOJU3hpbZULpNbyzYC338rc4VGmBQIcdqYNbLTSBgnXwIGAYlnq9x+IiscRKKnHQ+yQbP04iE21pNapblLYSG0bFgV8LOThr1fe3xke2NpIIlaFzrrEYD1uAKsH0hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZssxyVf; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nn58INZV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZssxyVf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741669198; x=1773205198;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=T8dNBWD8AFThEgAnmGlyAM84dX2UTfVsC0TZt/Vdhbs=;
-  b=Nn58INZVKYUaDYlkL0X2gvC7qWZCT2OdOhJAWTTiZDd9Yjdw/OJWYNG8
-   QVUP1JCh+p7f6ce2ix/6swmftrhUhM99cw/K55g3oGLpwfFl3eaJmqQSj
-   5CCCbiz8uPVXSz4G2XL2B9yBxNMvnh/iAP0tyH5EN0Hbs2bblpJ9fdeBQ
-   Fn0wcBJLjhE3FhGb/ypDe2kzoxohE/zpT+4j3EhMJhROIh6iA0nzmQmZe
-   V1qbkETLY7LMozV9svx52XdOKth563PkhRZdhu724B6inH+n7c/mJuOto
-   tbaCYyX+7CDmWO7areF+XUwcmP5p9R7aFyi4oE3iAHD5OvwHustZbsUlq
-   Q==;
-X-CSE-ConnectionGUID: /Mv9B0JPSJSDLM5cprMiiA==
-X-CSE-MsgGUID: TmsXwoyeTXyzipgfjpkFvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="54066559"
+  t=1741678409; x=1773214409;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bvZK6cFi7goNewHU3vBg2XkUUKxvFEMMbFjetmDHRJ0=;
+  b=cZssxyVfhz48ujqymbBJm3kBTwqDk+A1E98UsSl/DzLI3/xZv/N0UwmH
+   mn6jZSUeWKmu9xgrX8cyP2NroZ30YxHqiDl42LW9/c9mEUJTBYmb2N0LG
+   AgchalL9WTgKpW1UWysyUCl8sbvz2R4JAcf+WCL3oyhe7QThrUqEYhIm7
+   IjUlA9SrrOmxYvqYmiTNkaYNBvemdvj0/HSgwbD7+cQcNQ5nQy5mXO8PC
+   qrQHM7xWA+vurBI7p/nrpXospf+zVdTqF66SkFGrBCvvDizRhLVrXQEgY
+   jul62ZsmgbBs+OSdd3soE5VCxDIvjHI9sQESkt8otcm4+4+gX8XHE1JqD
+   w==;
+X-CSE-ConnectionGUID: kGuC7Y52QTGF6dmBg0aDFg==
+X-CSE-MsgGUID: QV+7SxRoQmuSAF6xXt8ssg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="60107129"
 X-IronPort-AV: E=Sophos;i="6.14,238,1736841600"; 
-   d="scan'208";a="54066559"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 21:59:57 -0700
-X-CSE-ConnectionGUID: Zr/Z+HXXRNihh31xGmeCmg==
-X-CSE-MsgGUID: odH2lZGxSg61wvsSe9j6MQ==
+   d="scan'208";a="60107129"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 00:33:29 -0700
+X-CSE-ConnectionGUID: K+SKXOAgTtCjRvj0qjFCWA==
+X-CSE-MsgGUID: DKPZBBEzSQC0oJzI/CQg0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,238,1736841600"; 
-   d="scan'208";a="121103198"
+   d="scan'208";a="120467675"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 10 Mar 2025 21:59:56 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 11 Mar 2025 00:33:25 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1trrib-0006MC-1C;
-	Tue, 11 Mar 2025 04:59:53 +0000
-Date: Tue, 11 Mar 2025 12:59:25 +0800
+	id 1tru79-0006SC-1F;
+	Tue, 11 Mar 2025 07:33:23 +0000
+Date: Tue, 11 Mar 2025 15:32:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Wanner <Ryan.Wanner@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: [linux-next:master 7316/9634]
- arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: watchdog@e001d000:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202503111231.JzkmowRE-lkp@intel.com>
+To: Haren Myneni <haren@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, msuchanek@suse.de, mahesh@linux.ibm.com,
+	tyreld@linux.ibm.com, hbabu@us.ibm.com, haren@linux.ibm.com,
+	sv@linux.ibm.com
+Subject: Re: [PATCH v7 1/7] powerpc/pseries: Define common functions for RTAS
+ sequence calls
+Message-ID: <202503111557.y6cdjLzI-lkp@intel.com>
+References: <20250309213916.762116-2-haren@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,116 +66,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250309213916.762116-2-haren@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   0a2f889128969dab41861b6e40111aa03dc57014
-commit: df41b7c0ccb4239ca4644f15902b480d8f11c550 [7316/9634] ARM: dts: micr=
-ochip: sama7d65: Add watchdog for sama7d65
-config: arm-randconfig-052-20250304 (https://download.01.org/0day-ci/archiv=
-e/20250311/202503111231.JzkmowRE-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a=
-2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2025.3.dev3+gabf9328
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20250311/202503111231.JzkmowRE-lkp@intel.com/reproduce)
+Hi Haren,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes linus/master v6.14-rc6]
+[cannot apply to next-20250307]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haren-Myneni/powerpc-pseries-Define-common-functions-for-RTAS-sequence-calls/20250310-054319
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20250309213916.762116-2-haren%40linux.ibm.com
+patch subject: [PATCH v7 1/7] powerpc/pseries: Define common functions for RTAS sequence calls
+config: powerpc64-randconfig-r072-20250311 (https://download.01.org/0day-ci/archive/20250311/202503111557.y6cdjLzI-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503111557.y6cdjLzI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503111231.JzkmowRE-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503111557.y6cdjLzI-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: sfr@e0008000: c=
-ompatible:0: 'microchip,sama7d65-sfrbu' is not one of ['al,alpine-sysfabric=
--service', 'allwinner,sun8i-a83t-system-controller', 'allwinner,sun8i-h3-sy=
-stem-controller', 'allwinner,sun8i-v3s-system-controller', 'allwinner,sun50=
-i-a64-system-controller', 'altr,l3regs', 'altr,sdr-ctl', 'amd,pensando-elba=
--syscon', 'amlogic,meson-mx-assist', 'amlogic,meson-mx-bootrom', 'amlogic,m=
-eson8-analog-top', 'amlogic,meson8b-analog-top', 'amlogic,meson8-pmu', 'aml=
-ogic,meson8b-pmu', 'apm,merlin-poweroff-mailbox', 'apm,mustang-poweroff-mai=
-lbox', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene-rb',=
- 'apm,xgene-scu', 'atmel,sama5d2-sfrbu', 'atmel,sama5d3-nfc-io', 'atmel,sam=
-a5d3-sfrbu', 'atmel,sama5d4-sfrbu', 'axis,artpec6-syscon', 'brcm,cru-clkset=
-', 'brcm,sr-cdru', 'brcm,sr-mhb', 'cirrus,ep7209-syscon1', 'cirrus,ep7209-s=
-yscon2', 'cirrus,ep7209-syscon3', 'cnxt,cx92755-uc', 'freecom,fsg-cs2-syste=
-m-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93-wakeupmix-syscfg', =
-'fsl,ls1088a-reset', 'fsl,vf610-anatop', 'fsl,vf610-mscm-cpucfg', 'hisilico=
-n,dsa-subctrl', 'hisilicon,hi6220-sramctrl', 'hisilicon,hip04-ppe', 'hisili=
-con,pcie-sas-subctrl', 'hisilicon,peri-subctrl', 'hpe,gxp-sysreg', 'loongso=
-n,ls1b-syscon', 'loongson,ls1c-syscon', 'lsi,axxia-syscon', 'marvell,armada=
--3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'marvell,armada-3700-avs', 'm=
-arvell,armada-3700-usb2-host-misc', 'marvell,dove-global-config', 'mediatek=
-,mt2701-pctl-a-syscfg', 'mediatek,mt2712-pctl-a-syscfg', 'mediatek,mt6397-p=
-ctl-pmic-syscfg', 'mediatek,mt8135-pctl-a-syscfg', 'mediatek,mt8135-pctl-b-=
-syscfg', 'mediatek,mt8173-pctl-a-syscfg', 'mediatek,mt8365-syscfg', 'microc=
-hip,lan966x-cpu-syscon', 'microchip,mpfs-sysreg-scb', 'microchip,sam9x60-sf=
-r', 'microchip,sama7g5-ddr3phy', 'mscc,ocelot-cpu-syscon', 'mstar,msc313-pm=
-sleep', 'nuvoton,ma35d1-sys', 'nuvoton,wpcm450-shm', 'rockchip,px30-qos', '=
-rockchip,rk3036-qos', 'rockchip,rk3066-qos', 'rockchip,rk3128-qos', 'rockch=
-ip,rk3228-qos', 'rockchip,rk3288-qos', 'rockchip,rk3368-qos', 'rockchip,rk3=
-399-qos', 'rockchip,rk3562-qos', 'rockchip,rk3568-qos', 'rockchip,rk3576-qo=
-s', 'rockchip,rk3588-qos', 'rockchip,rv1126-qos', 'st,spear1340-misc', 'ste=
-ricsson,nomadik-pmu', 'starfive,jh7100-sysmain', 'ti,am62-opp-efuse-table',=
- 'ti,am62-usb-phy-ctrl', 'ti,am625-dss-oldi-io-ctrl', 'ti,am62p-cpsw-mac-ef=
-use', 'ti,am654-dss-oldi-io-ctrl', 'ti,j784s4-acspcie-proxy-ctrl', 'ti,j784=
-s4-pcie-ctrl', 'ti,keystone-pllctrl']
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: sfr@e0008000: c=
-ompatible:1: 'syscon' was expected
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: sfr@e0008000: c=
-ompatible: ['microchip,sama7d65-sfrbu', 'atmel,sama5d2-sfrbu', 'syscon'] is=
- too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/sfr@e00080=
-00: failed to match any schema with compatible: ['microchip,sama7d65-sfrbu'=
-, 'atmel,sama5d2-sfrbu', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0=
-014000: failed to match any schema with compatible: ['microchip,sama7d65-pi=
-nctrl', 'microchip,sama7g5-pinctrl']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/pinctrl@e0=
-014000: failed to match any schema with compatible: ['microchip,sama7d65-pi=
-nctrl', 'microchip,sama7g5-pinctrl']
->> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: watchdog@e001d0=
-00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sama7d65-wdt', 'microchip,sama7g5-wdt'] is too long
-   	'microchip,sama7d65-wdt' is not one of ['atmel,sama5d4-wdt', 'microchip=
-,sam9x60-wdt', 'microchip,sama7g5-wdt']
-   	'microchip,sam9x7-wdt' was expected
-   	'microchip,sam9x60-wdt' was expected
-   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,sama5d4-w=
-dt.yaml#
->> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: watchdog@e001d0=
-00: Unevaluated properties are not allowed ('clocks', 'compatible' were une=
-xpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/atmel,sama5d4-w=
-dt.yaml#
->> arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/watchdog@e=
-001d000: failed to match any schema with compatible: ['microchip,sama7d65-w=
-dt', 'microchip,sama7g5-wdt']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: reset-controlle=
-r@e001d100: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sama7d65-rstc', 'microchip,sama7g5-rstc'] is too long
-   	'microchip,sama7d65-rstc' is not one of ['atmel,at91sam9260-rstc', 'atm=
-el,at91sam9g45-rstc', 'atmel,sama5d3-rstc', 'microchip,sam9x60-rstc', 'micr=
-ochip,sama7g5-rstc']
-   	'atmel,sama5d3-rstc' was expected
-   	'atmel,at91sam9g45-rstc' was expected
-   	from schema $id: http://devicetree.org/schemas/reset/atmel,at91sam9260-=
-reset.yaml#
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: /soc/reset-cont=
-roller@e001d100: failed to match any schema with compatible: ['microchip,sa=
-ma7d65-rstc', 'microchip,sama7g5-rstc']
-   arch/arm/boot/dts/microchip/at91-sama7d65_curiosity.dtb: poweroff@e001d2=
-00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sama7d65-shdwc', 'microchip,sama7g5-shdwc', 'syscon'] is to=
-o long
-   	'microchip,sama7g5-shdwc' was expected
+All warnings (new ones prefixed by >>):
 
---=20
+>> arch/powerpc/platforms/pseries/papr-vpd.c:127: warning: Function parameter or struct member 'seq' not described in 'vpd_sequence_begin'
+--
+>> arch/powerpc/platforms/pseries/papr-rtas-common.c:171: warning: Excess function parameter 'param' description in 'papr_rtas_retrieve'
+>> arch/powerpc/platforms/pseries/papr-rtas-common.c:208: warning: Excess function parameter 'param' description in 'papr_rtas_setup_file_interface'
+>> arch/powerpc/platforms/pseries/papr-rtas-common.c:255: warning: Function parameter or struct member 'status' not described in 'papr_rtas_sequence_should_stop'
+>> arch/powerpc/platforms/pseries/papr-rtas-common.c:255: warning: Function parameter or struct member 'init_state' not described in 'papr_rtas_sequence_should_stop'
+
+
+vim +127 arch/powerpc/platforms/pseries/papr-vpd.c
+
+514f6ff4369a30b Nathan Lynch 2023-12-12  113  
+514f6ff4369a30b Nathan Lynch 2023-12-12  114  /*
+514f6ff4369a30b Nathan Lynch 2023-12-12  115   * Internal VPD sequence APIs. A VPD sequence is a series of calls to
+514f6ff4369a30b Nathan Lynch 2023-12-12  116   * ibm,get-vpd for a given location code. The sequence ends when an
+514f6ff4369a30b Nathan Lynch 2023-12-12  117   * error is encountered or all VPD for the location code has been
+514f6ff4369a30b Nathan Lynch 2023-12-12  118   * returned.
+514f6ff4369a30b Nathan Lynch 2023-12-12  119   */
+514f6ff4369a30b Nathan Lynch 2023-12-12  120  
+514f6ff4369a30b Nathan Lynch 2023-12-12  121  /**
+514f6ff4369a30b Nathan Lynch 2023-12-12  122   * vpd_sequence_begin() - Begin a VPD retrieval sequence.
+514f6ff4369a30b Nathan Lynch 2023-12-12  123   *
+514f6ff4369a30b Nathan Lynch 2023-12-12  124   * Context: May sleep.
+514f6ff4369a30b Nathan Lynch 2023-12-12  125   */
+c657e2672fb8b67 Haren Myneni 2025-03-09  126  static void vpd_sequence_begin(struct papr_rtas_sequence *seq)
+514f6ff4369a30b Nathan Lynch 2023-12-12 @127  {
+c657e2672fb8b67 Haren Myneni 2025-03-09  128  	struct rtas_ibm_get_vpd_params *vpd_params;
+514f6ff4369a30b Nathan Lynch 2023-12-12  129  	/*
+514f6ff4369a30b Nathan Lynch 2023-12-12  130  	 * Use a static data structure for the location code passed to
+514f6ff4369a30b Nathan Lynch 2023-12-12  131  	 * RTAS to ensure it's in the RMA and avoid a separate work
+514f6ff4369a30b Nathan Lynch 2023-12-12  132  	 * area allocation. Guarded by the function lock.
+514f6ff4369a30b Nathan Lynch 2023-12-12  133  	 */
+514f6ff4369a30b Nathan Lynch 2023-12-12  134  	static struct papr_location_code static_loc_code;
+514f6ff4369a30b Nathan Lynch 2023-12-12  135  
+c657e2672fb8b67 Haren Myneni 2025-03-09  136  	vpd_params =  (struct rtas_ibm_get_vpd_params *)seq->params;
+514f6ff4369a30b Nathan Lynch 2023-12-12  137  	/*
+514f6ff4369a30b Nathan Lynch 2023-12-12  138  	 * We could allocate the work area before acquiring the
+514f6ff4369a30b Nathan Lynch 2023-12-12  139  	 * function lock, but that would allow concurrent requests to
+514f6ff4369a30b Nathan Lynch 2023-12-12  140  	 * exhaust the limited work area pool for no benefit. So
+514f6ff4369a30b Nathan Lynch 2023-12-12  141  	 * allocate the work area under the lock.
+514f6ff4369a30b Nathan Lynch 2023-12-12  142  	 */
+514f6ff4369a30b Nathan Lynch 2023-12-12  143  	mutex_lock(&rtas_ibm_get_vpd_lock);
+c657e2672fb8b67 Haren Myneni 2025-03-09  144  	static_loc_code = *(struct papr_location_code *)vpd_params->loc_code;
+c657e2672fb8b67 Haren Myneni 2025-03-09  145  	vpd_params =  (struct rtas_ibm_get_vpd_params *)seq->params;
+c657e2672fb8b67 Haren Myneni 2025-03-09  146  	vpd_params->work_area = rtas_work_area_alloc(SZ_4K);
+c657e2672fb8b67 Haren Myneni 2025-03-09  147  	vpd_params->loc_code = &static_loc_code;
+c657e2672fb8b67 Haren Myneni 2025-03-09  148  	vpd_params->sequence = 1;
+c657e2672fb8b67 Haren Myneni 2025-03-09  149  	vpd_params->status = 0;
+514f6ff4369a30b Nathan Lynch 2023-12-12  150  }
+514f6ff4369a30b Nathan Lynch 2023-12-12  151  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
