@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0B22AE8E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 02:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBE11E0E13
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 03:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741658666; cv=none; b=j9cux9511UeIHsSafpjs/ViX1RKV6d0wFnTY2dEsaqVyxQGJKEsEBbUH2NjWsZQFdNkcV3P6qZVyhq3i38rr4xVyy5ka995xKpcbO0ciTpH5z0Tj1c24FVG/3vY8yw+6Qiq51rTXRoVDHFOby3juw80+dUdAP2drQ4fcqmPB+Mg=
+	t=1741662358; cv=none; b=nOU/IfhVM2F4kZwERGfz8SVKJIbNrwEbYmgwZp4ymMiwm6RSoH8RX1sZyNQgvwxd6z+ioJX+SltiFqzXThhMYf/kvEz/EsvYmGylebIVqNvnqovZnM0MtZarJHdKICjNGr7jnhRs7+ALf3tLdEK6EO0WrEYnox/OjIKKEma/tMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741658666; c=relaxed/simple;
-	bh=MvtiFbfI7qZmdOQBCagXnPRz5QI12g8lXuJeSoMdjsg=;
+	s=arc-20240116; t=1741662358; c=relaxed/simple;
+	bh=9NRNsXhdvckbBjWOaKhVy21aCDf06Tstwo5+4M97kSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mxni4/Kv5QHroCiwfd0mkRQXnGd3W4jz/RMFzWKdztsah94U3+oWfMc6kp4snNUVFBwxTONoiy3J+sUhTgMWrCkBeuMLxxedd2GE0ov/FlUDv1Yb+Ewr3V0Tdn4JkvNpLrcnRW4IKmjxAfNmFZbq7fTv3qyu7wJyy28klrUeThc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpPSe3pO; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=rt+PwVBk9nt7PAU7fndjpN9BlJ03nZzgs5kfnEAT6rEduISi1ctRSqd/+mwhyhNrrXqIdNerD4S9oRTskhWDPXXOGwR2rwTUs3Pa38EluelYpYFiWeJ1ha2Qodo7q/wLQ4B1+lJwg6AlQoHrn3buDzJy/cVgkWEe9/0bGGCgbx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5aif2Ly; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpPSe3pO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5aif2Ly"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741658665; x=1773194665;
+  t=1741662355; x=1773198355;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MvtiFbfI7qZmdOQBCagXnPRz5QI12g8lXuJeSoMdjsg=;
-  b=ZpPSe3pOOdxjHuZf4ZHvvLZrTkyn1BJ55DBRiOAyq6l5HTboeDGokXnw
-   9pb0i9xQ4w/UCXhdR83MujLZ/+WXBR7Rw0NTf3r8IqlDMTtMNNFLBZXDr
-   oZ3MITFblpUAFGr3je7+QPOQ+gc7yxUoiXMpsTnK03yTbq6C96JXqxt15
-   5WhhVqegdG29a2MHvNqqxSrC4AQSLnptXyn52UjGBaRO0VAtpdpDdM/rA
-   6We28yUexC9qnwqE2gQQWku13aBEqom0eKhFKLVYkqOb3l3NgabMw333A
-   Pfte3T13cx2jNwjBigm9jirPymS2QwmM1zqPwrZOoDPdQOzymFtNj8AMY
-   g==;
-X-CSE-ConnectionGUID: dXOGeDHlQBWIQ1IawuP9fA==
-X-CSE-MsgGUID: GQAULtieS4ibZhxGvAlqxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42792441"
+  bh=9NRNsXhdvckbBjWOaKhVy21aCDf06Tstwo5+4M97kSc=;
+  b=a5aif2LywiLYfuVXC3fYDacJ0w13Gmuvz9nXJJTJ9VEmsnxsh1B/XIJl
+   rsZcVLT/YhnFQxFaRxvp6UEfL7Bg5il/zbN0LDVgduqHFb03mR1Hzh1lS
+   vbrsRFCXGY8gmsgBpB55WT66dkPXZhIub69w+6Xn5Ae3x/SHd6OTEpU9b
+   VKht18F6SZoUhewhAo3yRHR6r94ff9mG2xTYsQU/J5kOlUsvEF/ZAXWZP
+   OWjqUU0T04lcKyvSSSp1ILkOOf9Es3OQgvtGRZoPT+MmKW4yO621eaYBW
+   csmpEfQFCZJbU9OpT0s5NC+DK11oeiS2mBaTPcWuvw3CHJmGYDmTgDOrC
+   w==;
+X-CSE-ConnectionGUID: CQKZiIZWSieG0N9Is5xf0g==
+X-CSE-MsgGUID: AcOCVypkQwGTd5j0Eda0jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="41929645"
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="42792441"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 19:04:25 -0700
-X-CSE-ConnectionGUID: Borrjp/RR4erGplN+136gQ==
-X-CSE-MsgGUID: H+iIyfrdTcGLfPV6k3tjtA==
+   d="scan'208";a="41929645"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 20:05:54 -0700
+X-CSE-ConnectionGUID: itxgHyR3QR2mHqZdQBG9Zw==
+X-CSE-MsgGUID: KTje+2NzSZmHPID+y0SB/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="121075125"
+   d="scan'208";a="151153947"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 10 Mar 2025 19:04:23 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Mar 2025 20:05:53 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1troyi-0006Gg-20;
-	Tue, 11 Mar 2025 02:04:20 +0000
-Date: Tue, 11 Mar 2025 10:03:54 +0800
+	id 1trpwE-0006Ic-0l;
+	Tue, 11 Mar 2025 03:05:50 +0000
+Date: Tue, 11 Mar 2025 11:05:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:devel 23/23]
- drivers/media/platform/st/stm32/stm32-dcmi.c:1685:26: warning: assignment to
- 'const struct dcmi_format **' from 'int' makes pointer from integer without
- a cast
-Message-ID: <202503110923.hRugQG84-lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1473/1473]
+ drivers/net/ethernet/huawei/hinic/hinic_lld.c:142:1: sparse: sparse: symbol
+ 'g_hinic_chip_list' was not declared. Should it be static?
+Message-ID: <202503111134.UWDl3InI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,90 +63,350 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
-commit: 07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2 [23/23] media: stm32-dcmi: use devm_kmemdup_array()
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250311/202503110923.hRugQG84-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110923.hRugQG84-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   09e192513a17ce8324302ae595ebf001e08e13b0
+commit: 6cb2e756917d122560e0c52f350682760d004eec [1473/1473] net: hinic: Add NIC Layer
+config: arm64-randconfig-r132-20250309 (https://download.01.org/0day-ci/archive/20250311/202503111134.UWDl3InI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250311/202503111134.UWDl3InI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110923.hRugQG84-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503111134.UWDl3InI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:142:1: sparse: sparse: symbol 'g_hinic_chip_list' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:158:23: sparse: sparse: symbol 'g_lld_lock' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:484:31: sparse: sparse: symbol 'ver_incompat_table' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:529:5: sparse: sparse: symbol 'hinic_version_cmp' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:754:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] manufacture_id @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:754:29: sparse:     expected unsigned int [usertype] manufacture_id
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:754:29: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:755:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] resp_code @@     got restricted __be16 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:755:24: sparse:     expected unsigned short [usertype] resp_code
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:755:24: sparse:     got restricted __be16 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:756:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] reason_code @@     got restricted __be16 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:756:26: sparse:     expected unsigned short [usertype] reason_code
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:756:26: sparse:     got restricted __be16 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:801:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:801:16: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:801:16: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:802:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:802:16: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:802:16: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:803:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:803:16: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:803:16: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:804:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:804:14: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:804:14: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:842:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] ifa_address @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:842:52: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:842:52: sparse:     got restricted __be32 [usertype] ifa_address
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:881:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] ip_cnt @@     got restricted __be16 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:881:25: sparse:     expected unsigned short [usertype] ip_cnt
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:881:25: sparse:     got restricted __be16 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:1268:6: sparse: sparse: symbol 'hinic_get_ppf_hwdev_by_pdev' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:1539:19: sparse: sparse: cast to restricted __be32
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:1781:57: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:1824:6: sparse: sparse: symbol 'hinic_event_process' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2203:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] cfg_reg_base @@     got void [noderef] __iomem *cfg_reg_base @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2203:32: sparse:     expected void *[assigned] cfg_reg_base
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2203:32: sparse:     got void [noderef] __iomem *cfg_reg_base
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2204:33: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] intr_reg_base @@     got void [noderef] __iomem *intr_reg_base @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2204:33: sparse:     expected void *[assigned] intr_reg_base
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2204:33: sparse:     got void [noderef] __iomem *intr_reg_base
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2205:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] db_base @@     got void [noderef] __iomem *db_base @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2205:27: sparse:     expected void *[assigned] db_base
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2205:27: sparse:     got void [noderef] __iomem *db_base
+>> drivers/net/ethernet/huawei/hinic/hinic_lld.c:2207:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[assigned] dwqe_mapping @@     got void [noderef] __iomem *dwqe_mapping @@
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2207:32: sparse:     expected void *[assigned] dwqe_mapping
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:2207:32: sparse:     got void [noderef] __iomem *dwqe_mapping
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:529:5: warning: no previous prototype for 'hinic_version_cmp' [-Wmissing-prototypes]
+     529 | int hinic_version_cmp(char *ver1, char *ver2)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:1268:7: warning: no previous prototype for 'hinic_get_ppf_hwdev_by_pdev' [-Wmissing-prototypes]
+    1268 | void *hinic_get_ppf_hwdev_by_pdev(struct pci_dev *pdev)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:1390:5: warning: no previous prototype for 'hinic_get_card_func_info_by_card_name' [-Wmissing-prototypes]
+    1390 | int hinic_get_card_func_info_by_card_name(char *chip_name,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_lld.c:1824:6: warning: no previous prototype for 'hinic_event_process' [-Wmissing-prototypes]
+    1824 | void hinic_event_process(void *adapter, struct hinic_event_info *event)
+         |      ^~~~~~~~~~~~~~~~~~~
+--
+>> drivers/net/ethernet/huawei/hinic/hinic_qp.c:49:26: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:62:28: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:70:18: sparse: sparse: cast to restricted __be32
+>> drivers/net/ethernet/huawei/hinic/hinic_qp.c:85:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] status @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:85:21: sparse:     expected unsigned int [usertype] status
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:85:21: sparse:     got restricted __be32 [usertype]
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:96:20: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:107:24: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:114:23: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:122:23: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_qp.c:191:33: sparse: sparse: cast to restricted __be32
+--
+>> drivers/net/ethernet/huawei/hinic/hinic_rx.c:152:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addr_high @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:152:44: sparse:     expected unsigned int [usertype] addr_high
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:152:44: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_rx.c:154:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] addr_low @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:154:43: sparse:     expected unsigned int [usertype] addr_low
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:154:43: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_rx.c:174:6: sparse: sparse: symbol 'hinic_rx_free_buffers' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:568:24: sparse: sparse: cast to restricted __be32
+>> drivers/net/ethernet/huawei/hinic/hinic_rx.c:606:6: sparse: sparse: symbol 'rx_pass_super_cqe' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:680:26: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:688:28: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:689:28: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:709:45: sparse: sparse: cast to restricted __be32
+   In file included from include/linux/sctp.h:57,
+                    from drivers/net/ethernet/huawei/hinic/hinic_rx.c:30:
+   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
+     390 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
+     719 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
+     718 |         struct sockaddr_storage sspp_addr;
+         |                                 ^~~~~~~~~
+   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
+     732 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
+     731 |         struct sockaddr_storage ssp_addr;
+         |                                 ^~~~~~~~
+   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
+     783 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
+     775 |         struct sockaddr_storage spp_address;
+         |                                 ^~~~~~~~~~~
+   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
+     896 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
+     890 |         struct sockaddr_storage spinfo_address;
+         |                                 ^~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:174:6: warning: no previous prototype for 'hinic_rx_free_buffers' [-Wmissing-prototypes]
+     174 | void hinic_rx_free_buffers(struct hinic_rxq *rxq)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:548:5: warning: no previous prototype for 'recv_one_pkt' [-Wmissing-prototypes]
+     548 | int recv_one_pkt(struct hinic_rxq *rxq, struct hinic_rq_cqe *rx_cqe,
+         |     ^~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_rx.c:606:6: warning: no previous prototype for 'rx_pass_super_cqe' [-Wmissing-prototypes]
+     606 | void rx_pass_super_cqe(struct hinic_rxq *rxq, u32 index, u32 pkt_num,
+         |      ^~~~~~~~~~~~~~~~~
+--
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:593:35: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:594:35: sparse: sparse: cast to restricted __be32
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:595:35: sparse: sparse: cast to restricted __be32
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:1051:5: sparse: sparse: symbol 'hinic_setup_tx_wqe' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:1230:5: sparse: sparse: symbol 'hinic_stop_sq' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] hi_addr @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse:     expected unsigned int [usertype] hi_addr
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] lo_addr @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse:     expected unsigned int [usertype] lo_addr
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] len @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse:     expected unsigned int [usertype] len
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] hi_addr @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse:     expected unsigned int [usertype] hi_addr
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] lo_addr @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse:     expected unsigned int [usertype] lo_addr
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] len @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse:     expected unsigned int [usertype] len
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] hi_addr @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse:     expected unsigned int [usertype] hi_addr
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:109:28: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] lo_addr @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse:     expected unsigned int [usertype] lo_addr
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:110:28: sparse:     got restricted __be32 [usertype]
+>> drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] len @@     got restricted __be32 [usertype] @@
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse:     expected unsigned int [usertype] len
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:111:25: sparse:     got restricted __be32 [usertype]
+   In file included from include/linux/sctp.h:57,
+                    from drivers/net/ethernet/huawei/hinic/hinic_tx.c:26:
+   include/uapi/linux/sctp.h:390:1: warning: alignment 4 of 'struct sctp_paddr_change' is less than 8 [-Wpacked-not-aligned]
+     390 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:719:1: warning: alignment 4 of 'struct sctp_setpeerprim' is less than 8 [-Wpacked-not-aligned]
+     719 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:718:33: warning: 'sspp_addr' offset 4 in 'struct sctp_setpeerprim' isn't aligned to 8 [-Wpacked-not-aligned]
+     718 |         struct sockaddr_storage sspp_addr;
+         |                                 ^~~~~~~~~
+   include/uapi/linux/sctp.h:732:1: warning: alignment 4 of 'struct sctp_prim' is less than 8 [-Wpacked-not-aligned]
+     732 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:731:33: warning: 'ssp_addr' offset 4 in 'struct sctp_prim' isn't aligned to 8 [-Wpacked-not-aligned]
+     731 |         struct sockaddr_storage ssp_addr;
+         |                                 ^~~~~~~~
+   include/uapi/linux/sctp.h:783:1: warning: alignment 4 of 'struct sctp_paddrparams' is less than 8 [-Wpacked-not-aligned]
+     783 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:775:33: warning: 'spp_address' offset 4 in 'struct sctp_paddrparams' isn't aligned to 8 [-Wpacked-not-aligned]
+     775 |         struct sockaddr_storage spp_address;
+         |                                 ^~~~~~~~~~~
+   include/uapi/linux/sctp.h:896:1: warning: alignment 4 of 'struct sctp_paddrinfo' is less than 8 [-Wpacked-not-aligned]
+     896 | } __attribute__((packed, aligned(4)));
+         | ^
+   include/uapi/linux/sctp.h:890:33: warning: 'spinfo_address' offset 4 in 'struct sctp_paddrinfo' isn't aligned to 8 [-Wpacked-not-aligned]
+     890 |         struct sockaddr_storage spinfo_address;
+         |                                 ^~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:1051:5: warning: no previous prototype for 'hinic_setup_tx_wqe' [-Wmissing-prototypes]
+    1051 | int hinic_setup_tx_wqe(struct hinic_txq *txq)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_tx.c:1230:5: warning: no previous prototype for 'hinic_stop_sq' [-Wmissing-prototypes]
+    1230 | int hinic_stop_sq(struct hinic_txq *txq)
+         |     ^~~~~~~~~~~~~
+--
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:65:7: sparse: sparse: symbol 'dbgtool_dev_id' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:66:13: sparse: sparse: symbol 'dbgtool_chr_dev' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:69:14: sparse: sparse: symbol 'dbgtool_d_class' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:72:5: sparse: sparse: symbol 'g_dbgtool_init_flag' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:73:5: sparse: sparse: symbol 'g_dbgtool_ref_cnt' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:176:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] *cmd @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:176:51: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:176:51: sparse:     got unsigned char [usertype] *cmd
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:190:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *ack @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:190:44: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:190:44: sparse:     got void *ack
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:135:6: sparse: sparse: symbol 'dbgtool_knl_api_cmd_read' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:238:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] *cmd @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:238:51: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:238:51: sparse:     got unsigned char [usertype] *cmd
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:207:6: sparse: sparse: symbol 'dbgtool_knl_api_cmd_write' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:339:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct pf_dev_info *dev_info @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:339:37: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:339:37: sparse:     got struct pf_dev_info *dev_info
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:299:6: sparse: sparse: symbol 'dbgtool_knl_pf_dev_info_get' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:357:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct ffm_record_info *ffm_rd @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:357:37: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:357:37: sparse:     got struct ffm_record_info *ffm_rd
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:353:6: sparse: sparse: symbol 'dbgtool_knl_ffm_info_rd' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:371:6: sparse: sparse: symbol 'dbgtool_knl_ffm_info_clr' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:423:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void *buf_in @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:423:54: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:423:54: sparse:     got void *buf_in
+>> drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:446:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned short [usertype] *out_size @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:446:44: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:446:44: sparse:     got unsigned short [usertype] *out_size
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:453:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *buf_out @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:453:44: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:453:44: sparse:     got void *buf_out
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:386:6: sparse: sparse: symbol 'dbgtool_knl_msg_to_up' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:508:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:508:37: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:508:37: sparse:     got void *
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:495:6: sparse: sparse: symbol 'dbgtool_knl_unlocked_ioctl' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:573:6: sparse: sparse: symbol 'ffm_intr_msg_record' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:135:6: warning: no previous prototype for 'dbgtool_knl_api_cmd_read' [-Wmissing-prototypes]
+     135 | long dbgtool_knl_api_cmd_read(struct dbgtool_param *para,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:207:6: warning: no previous prototype for 'dbgtool_knl_api_cmd_write' [-Wmissing-prototypes]
+     207 | long dbgtool_knl_api_cmd_write(struct dbgtool_param *para,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:299:6: warning: no previous prototype for 'dbgtool_knl_pf_dev_info_get' [-Wmissing-prototypes]
+     299 | long dbgtool_knl_pf_dev_info_get(struct dbgtool_param *para,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:353:6: warning: no previous prototype for 'dbgtool_knl_ffm_info_rd' [-Wmissing-prototypes]
+     353 | long dbgtool_knl_ffm_info_rd(struct dbgtool_param *para,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:371:6: warning: no previous prototype for 'dbgtool_knl_ffm_info_clr' [-Wmissing-prototypes]
+     371 | long dbgtool_knl_ffm_info_clr(struct dbgtool_param *para,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:386:6: warning: no previous prototype for 'dbgtool_knl_msg_to_up' [-Wmissing-prototypes]
+     386 | long dbgtool_knl_msg_to_up(struct dbgtool_param *para,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:495:6: warning: no previous prototype for 'dbgtool_knl_unlocked_ioctl' [-Wmissing-prototypes]
+     495 | long dbgtool_knl_unlocked_ioctl(struct file *pfile,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:573:6: warning: no previous prototype for 'ffm_intr_msg_record' [-Wmissing-prototypes]
+     573 | void ffm_intr_msg_record(void *handle, void *buf_in, u16 in_size,
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:498: warning: Function parameter or member 'arg' not described in 'dbgtool_knl_unlocked_ioctl'
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:575: warning: Function parameter or member 'in_size' not described in 'ffm_intr_msg_record'
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:575: warning: Function parameter or member 'out_size' not described in 'ffm_intr_msg_record'
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:664: warning: Function parameter or member 'vhwdev' not described in 'dbgtool_knl_init'
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:664: warning: Excess function parameter 'hwdev' description in 'dbgtool_knl_init'
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:792: warning: Function parameter or member 'vhwdev' not described in 'dbgtool_knl_deinit'
+   drivers/net/ethernet/huawei/hinic/hinic_dbgtool_knl.c:792: warning: Excess function parameter 'hwdev' description in 'dbgtool_knl_deinit'
+--
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:104:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void *in_buff @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:104:43: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:104:43: sparse:     got void *in_buff
+>> drivers/net/ethernet/huawei/hinic/hinic_nictool.c:162:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *out_buf @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:162:32: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:162:32: sparse:     got void *out_buf
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1070:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *out_buf @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1070:32: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1070:32: sparse:     got void *out_buf
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1153:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *out_buf @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1153:32: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1153:32: sparse:     got void *out_buf
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1363:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1363:35: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1363:35: sparse:     got void *
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1492:25: sparse: sparse: symbol 'sm_module_cmd_handle' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1663:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *out_buf @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1663:32: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1663:32: sparse:     got void *out_buf
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1750:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *out_buf @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1750:32: sparse:     expected void [noderef] __user *to
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1750:32: sparse:     got void *out_buf
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1756:5: sparse: sparse: symbol 'send_to_service_driver' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1871:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void * @@
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1871:38: sparse:     expected void const [noderef] __user *from
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1871:38: sparse:     got void *
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1964:5: sparse: sparse: symbol 'if_nictool_exist' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1756:5: warning: no previous prototype for 'send_to_service_driver' [-Wmissing-prototypes]
+    1756 | int send_to_service_driver(struct msg_module *nt_msg, void *buf_in,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_nictool.c:1964:5: warning: no previous prototype for 'if_nictool_exist' [-Wmissing-prototypes]
+    1964 | int if_nictool_exist(void)
+         |     ^~~~~~~~~~~~~~~~
+--
+>> drivers/net/ethernet/huawei/hinic/hinic_dcb.c:62:6: sparse: sparse: symbol 'hinic_dcb_config_init' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_dcb.c:226:6: sparse: sparse: symbol 'hinic_set_prio_tc_map' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_dcb.c:825:4: sparse: sparse: symbol 'hinic_dcbnl_set_all' was not declared. Should it be static?
+>> drivers/net/ethernet/huawei/hinic/hinic_dcb.c:1059:5: sparse: sparse: symbol '__set_cos_up_map' was not declared. Should it be static?
+   drivers/net/ethernet/huawei/hinic/hinic_dcb.c:62:6: warning: no previous prototype for 'hinic_dcb_config_init' [-Wmissing-prototypes]
+      62 | void hinic_dcb_config_init(struct hinic_nic_dev *nic_dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dcb.c:226:6: warning: no previous prototype for 'hinic_set_prio_tc_map' [-Wmissing-prototypes]
+     226 | void hinic_set_prio_tc_map(struct hinic_nic_dev *nic_dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dcb.c:825:4: warning: no previous prototype for 'hinic_dcbnl_set_all' [-Wmissing-prototypes]
+     825 | u8 hinic_dcbnl_set_all(struct net_device *netdev)
+         |    ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic/hinic_dcb.c:1059:5: warning: no previous prototype for '__set_cos_up_map' [-Wmissing-prototypes]
+    1059 | int __set_cos_up_map(struct hinic_nic_dev *nic_dev, u8 *cos_up)
+         |     ^~~~~~~~~~~~~~~~
 
-   drivers/media/platform/st/stm32/stm32-dcmi.c: In function 'dcmi_formats_init':
-   drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Werror=implicit-function-declaration]
-    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-         |                            ^~~~~~~~~~~~~~~~~~
-         |                            devm_kmalloc_array
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:26: warning: assignment to 'const struct dcmi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-         |                          ^
-   cc1: some warnings being treated as errors
+vim +/g_hinic_chip_list +142 drivers/net/ethernet/huawei/hinic/hinic_lld.c
 
+746ea35981b1f77 Xue 2019-01-30  139  
+746ea35981b1f77 Xue 2019-01-30  140  #define MAX_CARD_ID 64
+746ea35981b1f77 Xue 2019-01-30  141  static u64 card_bit_map;
+746ea35981b1f77 Xue 2019-01-30 @142  LIST_HEAD(g_hinic_chip_list);
+746ea35981b1f77 Xue 2019-01-30  143  struct hinic_uld_info g_uld_info[SERVICE_T_MAX] = { {0} };
+746ea35981b1f77 Xue 2019-01-30  144  static const char *s_uld_name[SERVICE_T_MAX] = {
+746ea35981b1f77 Xue 2019-01-30  145  	"nic", "ovs", "roce", "toe", "iwarp", "fc", "fcoe", };
+746ea35981b1f77 Xue 2019-01-30  146  
 
-vim +1685 drivers/media/platform/st/stm32/stm32-dcmi.c
+:::::: The code at line 142 was first introduced by commit
+:::::: 746ea35981b1f77e988d48642409d73f0470b3eb net: hinic: Add Hardware Abstract Layer
 
-  1639	
-  1640	static int dcmi_formats_init(struct stm32_dcmi *dcmi)
-  1641	{
-  1642		const struct dcmi_format *sd_fmts[ARRAY_SIZE(dcmi_formats)];
-  1643		unsigned int num_fmts = 0, i, j;
-  1644		struct v4l2_subdev *subdev = dcmi->source;
-  1645		struct v4l2_subdev_mbus_code_enum mbus_code = {
-  1646			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-  1647		};
-  1648	
-  1649		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
-  1650					 NULL, &mbus_code)) {
-  1651			for (i = 0; i < ARRAY_SIZE(dcmi_formats); i++) {
-  1652				if (dcmi_formats[i].mbus_code != mbus_code.code)
-  1653					continue;
-  1654	
-  1655				/* Exclude JPEG if BT656 bus is selected */
-  1656				if (dcmi_formats[i].fourcc == V4L2_PIX_FMT_JPEG &&
-  1657				    dcmi->bus_type == V4L2_MBUS_BT656)
-  1658					continue;
-  1659	
-  1660				/* Code supported, have we got this fourcc yet? */
-  1661				for (j = 0; j < num_fmts; j++)
-  1662					if (sd_fmts[j]->fourcc ==
-  1663							dcmi_formats[i].fourcc) {
-  1664						/* Already available */
-  1665						dev_dbg(dcmi->dev, "Skipping fourcc/code: %4.4s/0x%x\n",
-  1666							(char *)&sd_fmts[j]->fourcc,
-  1667							mbus_code.code);
-  1668						break;
-  1669					}
-  1670				if (j == num_fmts) {
-  1671					/* New */
-  1672					sd_fmts[num_fmts++] = dcmi_formats + i;
-  1673					dev_dbg(dcmi->dev, "Supported fourcc/code: %4.4s/0x%x\n",
-  1674						(char *)&sd_fmts[num_fmts - 1]->fourcc,
-  1675						sd_fmts[num_fmts - 1]->mbus_code);
-  1676				}
-  1677			}
-  1678			mbus_code.index++;
-  1679		}
-  1680	
-  1681		if (!num_fmts)
-  1682			return -ENXIO;
-  1683	
-  1684		dcmi->num_of_sd_formats = num_fmts;
-> 1685		dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-  1686						      sizeof(sd_fmts[0]), GFP_KERNEL);
-  1687		if (!dcmi->sd_formats) {
-  1688			dev_err(dcmi->dev, "Could not allocate memory\n");
-  1689			return -ENOMEM;
-  1690		}
-  1691	
-  1692		dcmi->sd_format = dcmi->sd_formats[0];
-  1693		return 0;
-  1694	}
-  1695	
+:::::: TO: Xue <xuechaojing@huawei.com>
+:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
