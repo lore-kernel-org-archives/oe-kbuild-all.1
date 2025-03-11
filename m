@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B633263C61
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 19:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AD02C1A2;
+	Tue, 11 Mar 2025 19:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741720977; cv=none; b=ff7qcIlit3KsgxGuqFiinpu3LKWmx8dZK6GV8FYVGAQVcoq7uREgcwVFiCnJJR2PnACiZ1QR0UAdWpIEG3PyD0hNu0HYSjvTLP1Rbfx2U1B3fH9e10O85+IMK6FycsJ6XQusIoaWc1nEGZoam/RDGb+4wxxye+ZD4X9ddF/AG0c=
+	t=1741722296; cv=none; b=BP/UYHEX/eFb6HsrBfLleYqO3PlrXcH18duUhfaQ4qUSbEdaHU8HC4zY6WL7IolPcD9xOxxGRkwhs3I85YvYfgDKIr95rZJ0tREf8ElBu/CGV02rKANhJQsv/a+6GH7+J6jy45zbq0IHyLqJAshiNEdtFV0eqfZUFUX7MBiGGUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741720977; c=relaxed/simple;
-	bh=5BQSyaBQxUFZeErA3U7SLVLmiRtJYGd9Vyqr3I7dCeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rHCVk2dag3JlkbIiRuWu0OsmtL3YUji8T8JcedvY5dR3xPGCcp75L3D3vMB7pVtxr/GtxmVC1/8EKXXRXybulEnz+DuTdHndbIHiD32IUslFujaAoHtvhsJfYX8cMwRitb/0z2mtRYTHQX41BL1nPi6Me6eYR/jM9Q8qrG8TYF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1vFLHq4; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1741722296; c=relaxed/simple;
+	bh=GwrPkIIGmOqOTDHd8PjtXlMstAzljEmYscJ24yHy6+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ml37WCC+oh5HB6liaXYz1/aKvQNke7nPaF/J78q9l8QOczVaW6a3ZrRWsClqaF6FtSTlFL2RRcVH/81XoG+l6aau+5Oim5r3O1IFQeN79MYuMKkUfFcidx/CgcZ18c3s9fURCYjWo7m0DesLmY3CaUwfjSn32k/jrn8iSADIyKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZkcAnjR; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1vFLHq4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZkcAnjR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741720976; x=1773256976;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5BQSyaBQxUFZeErA3U7SLVLmiRtJYGd9Vyqr3I7dCeE=;
-  b=P1vFLHq44APE7p052VDH4TvOR3gYwmVmcM23o0rOaYG4EqF+/7wj/XHh
-   NatotfSapM6rr9N4hHfYvNzI1DY1DNZfRPWHNxaGV1WL6JuGX0DWELAcG
-   tgteJyczSp8gp+E/77fXNCBAriWE8hMwwxwc8W3I99uK4fbza6U1dMzqL
-   F/qh4H7kO4OL6db89KnkAJmnExmN3SX41TU2hNpGvRLRcl3IFaSYE+/Ix
-   1uXJTjWCTT2ZPit1QWxpLaH+MWFUvsNQgnf0dt2ejD3LTseJS2ENsAW5u
-   sVB0OTBpxlvVPfqexEpJ0/W4oy7F6TBLypIGKPyjMTeNwn+y/REwf1I8w
+  t=1741722295; x=1773258295;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GwrPkIIGmOqOTDHd8PjtXlMstAzljEmYscJ24yHy6+M=;
+  b=CZkcAnjRORz8Psh/47R7kWeXgDsbn8gBMtijKQw25yhGQcDPCBNPSAQC
+   p1sf3wdI12GYPOdTty17VtQnevv/wXQNVzohiktNA1W71gaR6heJ1qnyD
+   sFv9RXoIEVTzWsi1eWY/zifKlb7zFbgouyW6hPzdZTCNiRRYDNNOTAa/o
+   AF/g36ApotOITYS6FH1qT0CD6BgKfIkLV1IMT+pgSV+ia2smUVsKtVcxI
+   y8LAzM2Zi5tAhgrzrcRt7V4A0knYkPW6YPlSVo8FYwBYkjBRfBxOJjmxy
+   o7XM8DtId/psdIbueSPFT0TP6RDhynQeGBuWEtaUEFn6Rf3ms4UiGofRe
    w==;
-X-CSE-ConnectionGUID: s0q7k52RS9Cdtv1c9/NQIA==
-X-CSE-MsgGUID: 4GVAGovnQ+uKNiKTbL8zGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="68140533"
+X-CSE-ConnectionGUID: 23qMpjCmQRSoks2jiBbO6w==
+X-CSE-MsgGUID: cnL0D2gaSqeDkCoA7CppEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="53773095"
 X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
-   d="scan'208";a="68140533"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 12:22:55 -0700
-X-CSE-ConnectionGUID: NenFRhsnSMyQfY/xGuDGFQ==
-X-CSE-MsgGUID: YFmv9pF4TY2TRKohK66sOw==
+   d="scan'208";a="53773095"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 12:44:53 -0700
+X-CSE-ConnectionGUID: QBRCwykRTcuv/AqLKfapTA==
+X-CSE-MsgGUID: Yuu7xhoAQGyPHCnHHLdA1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
-   d="scan'208";a="120913249"
+   d="scan'208";a="125316014"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 11 Mar 2025 12:22:49 -0700
+  by orviesa003.jf.intel.com with ESMTP; 11 Mar 2025 12:44:51 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ts5Bf-0007m8-0w;
-	Tue, 11 Mar 2025 19:22:47 +0000
-Date: Wed, 12 Mar 2025 03:22:20 +0800
+	id 1ts5Wy-0007mm-2N;
+	Tue, 11 Mar 2025 19:44:48 +0000
+Date: Wed, 12 Mar 2025 03:43:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tamir Duberstein <tamird@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	linux-pci@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
-Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-Message-ID: <202503120332.YTCpFEvv-lkp@intel.com>
-References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:nfsd-tracepoints 10/14] fs/nfsd/nfsproc.c:483:2: error:
+ call to undeclared function 'trace_nfsd_proc_link'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202503120309.6UatC2Y3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,37 +62,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
 
-Hi Tamir,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ff64846bee0e7e3e7bc9363ebad3bab42dd27e24]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/rust-enable-clippy-ptr_as_ptr-lint/20250308-004557
-base:   ff64846bee0e7e3e7bc9363ebad3bab42dd27e24
-patch link:    https://lore.kernel.org/r/20250307-ptr-as-ptr-v1-1-582d06514c98%40gmail.com
-patch subject: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250312/202503120332.YTCpFEvv-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120332.YTCpFEvv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git nfsd-tracepoints
+head:   406b15fe7fc917eb20c0cfe48d441442adad9918
+commit: 0dde04bfb829ba259ce6f586a807eaaee6540529 [10/14] nfsd: add tracepoints for hardlink events
+config: arm-randconfig-003-20250312 (https://download.01.org/0day-ci/archive/20250312/202503120309.6UatC2Y3-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120309.6UatC2Y3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503120332.YTCpFEvv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503120309.6UatC2Y3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: `as` casting between raw pointers without changing its mutability
-   --> rust/kernel/firmware.rs:64:35
-   |
-   64 |         let ret = unsafe { func.0(pfw as _, name.as_char_ptr(), dev.as_raw()) };
-   |                                   ^^^^^^^^ help: try `pointer::cast`, a safer alternative: `pfw.cast()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_as_ptr
-   = note: requested on the command line with `-W clippy::ptr-as-ptr`
+   fs/nfsd/nfsproc.c:295:2: error: call to undeclared function 'trace_nfsd_proc_create'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     295 |         trace_nfsd_proc_create(rqstp, dirfhp, S_IFREG, argp->name, argp->len);
+         |         ^
+   fs/nfsd/nfsproc.c:295:2: note: did you mean 'nfsd_proc_create'?
+   fs/nfsd/nfsproc.c:279:1: note: 'nfsd_proc_create' declared here
+     279 | nfsd_proc_create(struct svc_rqst *rqstp)
+         | ^
+>> fs/nfsd/nfsproc.c:483:2: error: call to undeclared function 'trace_nfsd_proc_link'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     483 |         trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
+         |         ^
+   fs/nfsd/nfsproc.c:483:2: note: did you mean 'nfsd_proc_link'?
+   fs/nfsd/nfsproc.c:478:1: note: 'nfsd_proc_link' declared here
+     478 | nfsd_proc_link(struct svc_rqst *rqstp)
+         | ^
+     479 | {
+     480 |         struct nfsd_linkargs *argp = rqstp->rq_argp;
+     481 |         struct nfsd_stat *resp = rqstp->rq_resp;
+     482 | 
+     483 |         trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
+         |         ~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_link
+   fs/nfsd/nfsproc.c:503:2: error: call to undeclared function 'trace_nfsd_proc_symlink'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     503 |         trace_nfsd_proc_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
+         |         ^
+   fs/nfsd/nfsproc.c:503:2: note: did you mean 'nfsd_proc_symlink'?
+   fs/nfsd/nfsproc.c:494:1: note: 'nfsd_proc_symlink' declared here
+     494 | nfsd_proc_symlink(struct svc_rqst *rqstp)
+         | ^
+     495 | {
+     496 |         struct nfsd_symlinkargs *argp = rqstp->rq_argp;
+     497 |         struct nfsd_stat *resp = rqstp->rq_resp;
+     498 |         struct nfsd_attrs attrs = {
+     499 |                 .na_iattr       = &argp->attrs,
+     500 |         };
+     501 |         struct svc_fh   newfh;
+     502 | 
+     503 |         trace_nfsd_proc_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
+         |         ~~~~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_symlink
+   fs/nfsd/nfsproc.c:538:1: error: function definition is not allowed here
+     538 | {
+         | ^
+   fs/nfsd/nfsproc.c:571:1: error: function definition is not allowed here
+     571 | {
+         | ^
+   fs/nfsd/nfsproc.c:587:1: error: function definition is not allowed here
+     587 | {
+         | ^
+   fs/nfsd/nfsproc.c:607:1: error: function definition is not allowed here
+     607 | {
+         | ^
+   fs/nfsd/nfsproc.c:635:1: error: function definition is not allowed here
+     635 | {
+         | ^
+   fs/nfsd/nfsproc.c:819:14: error: use of undeclared identifier 'nfsd_proc_mkdir'; did you mean '_proc_mkdir'?
+     819 |                 .pc_func = nfsd_proc_mkdir,
+         |                            ^~~~~~~~~~~~~~~
+         |                            _proc_mkdir
+   include/linux/proc_fs.h:85:24: note: '_proc_mkdir' declared here
+      85 | struct proc_dir_entry *_proc_mkdir(const char *, umode_t, struct proc_dir_entry *, void *, bool);
+         |                        ^
+   fs/nfsd/nfsproc.c:831:14: error: use of undeclared identifier 'nfsd_proc_rmdir'
+     831 |                 .pc_func = nfsd_proc_rmdir,
+         |                            ^
+   fs/nfsd/nfsproc.c:842:14: error: use of undeclared identifier 'nfsd_proc_readdir'
+     842 |                 .pc_func = nfsd_proc_readdir,
+         |                            ^
+   fs/nfsd/nfsproc.c:852:14: error: use of undeclared identifier 'nfsd_proc_statfs'; did you mean 'nfsd_proc_setattr'?
+     852 |                 .pc_func = nfsd_proc_statfs,
+         |                            ^~~~~~~~~~~~~~~~
+         |                            nfsd_proc_setattr
+   fs/nfsd/nfsproc.c:75:1: note: 'nfsd_proc_setattr' declared here
+      75 | nfsd_proc_setattr(struct svc_rqst *rqstp)
+         | ^
+   fs/nfsd/nfsproc.c:873:3: error: expected '}'
+     873 | };
+         |   ^
+   fs/nfsd/nfsproc.c:495:1: note: to match this '{'
+     495 | {
+         | ^
+   13 errors generated.
+
+
+vim +/trace_nfsd_proc_link +483 fs/nfsd/nfsproc.c
+
+   476	
+   477	static __be32
+   478	nfsd_proc_link(struct svc_rqst *rqstp)
+   479	{
+   480		struct nfsd_linkargs *argp = rqstp->rq_argp;
+   481		struct nfsd_stat *resp = rqstp->rq_resp;
+   482	
+ > 483		trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
+   484	
+   485		resp->status = nfsd_link(rqstp, &argp->tfh, argp->tname, argp->tlen,
+   486					 &argp->ffh);
+   487		fh_put(&argp->ffh);
+   488		fh_put(&argp->tfh);
+   489		resp->status = nfsd_map_status(resp->status);
+   490		return rpc_success;
+   491	}
+   492	
 
 -- 
 0-DAY CI Kernel Test Service
