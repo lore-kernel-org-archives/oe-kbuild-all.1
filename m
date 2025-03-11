@@ -1,98 +1,88 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931F8263F2E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 20:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC67F23F378;
+	Tue, 11 Mar 2025 20:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741726212; cv=none; b=QcEvGcYRUxzXkhCz/tQLSt72xhjkFbygJ5BtPM7OUp5yG+h//1RrvKrZG4X5DoitIML3by2jQ9SPJxjJJmN2J3vrJxeCFGNsbrbCYsDM+qb8kxDxLTYBsJi6nSzYa7wRgYHqopCezL1+YivOElS9eu1F/rhYz2I9ZZntRJScWm4=
+	t=1741726691; cv=none; b=p49OGKAg8+oucZujS8AI5IcZoLOQ4kEYWhHqiCgmaq3WsZWBTfwyw17fwyJsr54wf5ZrN7X3zpslr+XfpIfVh7ZsadVgNjdV706y8JLbo94AMhOAaHXbTQ9NXz5VVifUnehJ4V27JYbXmb4tQkwoxdNiup2YpFh8QysqGBf9z00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741726212; c=relaxed/simple;
-	bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ecMbuQ5qk8vOl0MwyYCzDNnRzBkeIJAwPm6ErG6QLPvzEyryFZ5OrdAN1b1sTxfpA9VeH79Q2EEfVQpHoQMr/ZgpiiEdPWZRSu1nB6u3Dw3Rsoy40XCM06Uv0vOvIvbpjc60NUjed9LvZmkYzakd+cTLkoCfKm/kIYdxe2+XfXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhUH56D8; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741726691; c=relaxed/simple;
+	bh=Ld2KwSNW+IXaMuDN/QT9TrO1OJVJJgklSBJ4hDGO1mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BaDkUl1ea15RAuNEauiQGni3Ykc5lIFg+eYzzjMdtOIpHdfvVJIw6jgom9iFiVcwMN/ehhLvTlH+out+y4pONO4b7yVtlKTfpB4KBHl7L74vBLZxrP7HI5jPjDT6YDq/CmSl4tHQDTJ7PP9tDTgzqNUMso+6iLAN0EInrHptFdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=nVogI8vT; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FhUH56D8"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-216513f8104so10611405ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 13:50:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741726210; x=1742331010; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
-        b=FhUH56D8LIdmf9vB46geg2DvD+jPOaOtItr+kO/Gt5GHtx1s39fBKnpHfUAK3DPLZI
-         Sv3B5W2bXyqbZDYYKHjtUU9cpPdf4p6o7qcB9R28U3TwATnFTZvrWbv/YR/YWVUhyABV
-         b6PJZm2ZS5kRPbFIm1Pv5XrrOzb6R43aMNCErXxIfBCNYlAL/YqGlwu1JRpC421V6Mr9
-         rmelkY95sCGnfTTISryd/4E4npbGdVPYkKjwTBBtXJDepJVmPvVUDOnwxnanmbqhQaXO
-         PzFbIiiIJkmr04AplaM/Qw4SHxQbGH9eCadb5JkvO+ysJ5KBi63cOb3txQCJR42Y9BLg
-         ABgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741726210; x=1742331010;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
-        b=FIwS4dkyxElpSWib9RVepgdqWbQ1ThlrKGfXwPsJPfAaAhskQPuSlLcJd44t/np0rr
-         dqY/Kk7FEFTkdf0mONjyGOH6ZJ2R7XCNhhR9kdncFnTZL79TJgQb/+5tmjuVXdqrKmPU
-         sfzdbxR3colSuc3YQpwBjbeE/IKZ1cKqIE1nppeMmfaMWuUPHavWqDKm4H6F2ULQYQct
-         A2UkiBgkIs6LXgmnx77DhM+G0EneqtuRZy66p5FjczHNQBg6+jkvjqLiEPATHWySxRzZ
-         cCYgCyxnZLRwTL8UZZYjUSrnfSqGk187Q/17ehRZ59l0wQCaFMrL0FMvF+3Xc2VrlxN0
-         1TJA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNWtsXbNelUY3F+OnYFg5G4sj9VFj8B6dx/R5HGEFcuj2vakirzW8Ce5jlRQkpeSttybSeTwvFk0Jk6Eys@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsE3GjuNVk/MqgYQBccg8Wtl8dRcLG014JIlyeR3Jy/VNijNUz
-	pwPkG2vFJ+xRFuPzZWXhG2KVVDcxGeaAC4MTNGwPfjVVYFUbnuBd9mbcwJkXoU2FN2oiFynjpRk
-	OFsRScHI11fePpyIRVcqszH7olRw=
-X-Gm-Gg: ASbGncv/YBip89t87lwVPgFn76XE8Y9Fio5YmW0n8y88cU9Td5BjxFtsca4wj84MxjF
-	5CgucxDOsPDn8WfeUHwgeGwR9fSEgr/d0PbmfEiHLHOAtJM8U7n6kgsvgmlHQZfBwucyfCU48Cb
-	/5NgZGyIL0V/POmP7bw4ndSUn5DA==
-X-Google-Smtp-Source: AGHT+IF6Iu5cJXNrmMcH037VEuQgEw5FQiSeS4rw7qJG+vfgUlX6Z+xe0TEh54YrTrzNEmVy1nOOetWOtZm26Z9qTGA=
-X-Received: by 2002:a17:902:c952:b0:223:659d:ac66 with SMTP id
- d9443c01a7336-22593302b09mr26173505ad.12.1741726209805; Tue, 11 Mar 2025
- 13:50:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="nVogI8vT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1741726686;
+	bh=Ld2KwSNW+IXaMuDN/QT9TrO1OJVJJgklSBJ4hDGO1mw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nVogI8vT5EwRIx90WK2rmGBj+6NQYsNUku16NNrRt2krhcIanpLXalIIpTw+y47rb
+	 G+0dlHi+eqTzsh3EcygM2E7AtezY11bpfq5r2WHV/egNcZuGw5ahAI6zlB5FrPLJUo
+	 iGtucErOL2t6CDjMsQJsAHZXnHBVmcLB4/Hz0L2Y=
+Date: Tue, 11 Mar 2025 21:58:06 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [thomas-weissschuh:b4/module-hashes 9/9] llvm-objcopy: error:
+ '.tmp_module_hashes.o': The file was not recognized as a valid object file
+Message-ID: <d7ec6ad2-70ad-4c0f-bfff-6119779d65e2@t-8ch.de>
+References: <202503112010.RsM1bgi6-lkp@intel.com>
+ <20250311194940.GA1966726@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
- <202503120332.YTCpFEvv-lkp@intel.com> <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 11 Mar 2025 21:49:56 +0100
-X-Gm-Features: AQ5f1JpxGxSGer3XisukrOBay0DQPLazUdlb5Q5D9ZecG6Ve_YwoPvaVLT-TLE8
-Message-ID: <CANiq72n2cYvAWkz+QwG9++NknaN-A2g=N4AeatADwRZ1pWtk0A@mail.gmail.com>
-Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250311194940.GA1966726@ax162>
 
-On Tue, Mar 11, 2025 at 9:44=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
- wrote:
->
-> By the way, it would be great if the email also included the rustc versio=
-n used.
+Hi Nathan,
 
-Yeah, I think I may have mentioned it at some point... For the moment,
-one can look for it manually in the linked config (i.e.
-`CONFIG_RUSTC_VERSION_TEXT`).
+On 2025-03-11 20:49:40+0100, Nathan Chancellor wrote:
+> On Tue, Mar 11, 2025 at 08:14:14PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/module-hashes
+> > head:   8ab7849599f74e8492224b62d852cd9affecea7c
+> > commit: 8ab7849599f74e8492224b62d852cd9affecea7c [9/9] module: Introduce hash-based integrity checking
+> > config: x86_64-randconfig-005-20250311 (https://download.01.org/0day-ci/archive/20250311/202503112010.RsM1bgi6-lkp@intel.com/config)
+> > compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503112010.RsM1bgi6-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202503112010.RsM1bgi6-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > >> llvm-objcopy: error: '.tmp_module_hashes.o': The file was not recognized as a valid object file
+> 
+> I suspect this happens because LTO is enabled for this configuration (so
+> -flto will be in KBUILD_CFLAGS), which generates an LLVM bitcode object
+> file instead of an ELF one.
 
-Cheers,
-Miguel
+Thanks for the hint!
+
+The following diff seems to fix the issue and quick testing indicates
+that it should work with the different supported compilers.
+Any objections?
+
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 2add7eb950a0..f8d87a2ae74b 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -324,7 +324,7 @@ if is_enabled CONFIG_MODULE_HASHES; then
+        ${srctree}/scripts/module-hashes.sh > .tmp_module_hashes.c
+        info CC ${module_hashes_o}
+        ${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} ${KBUILD_CFLAGS} \
+-               ${KBUILD_CFLAGS_KERNEL} -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
++               ${KBUILD_CFLAGS_KERNEL} -fno-lto -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
+        ${OBJCOPY} --dump-section .module_hashes=.tmp_module_hashes.bin ${module_hashes_o}
+        ${OBJCOPY} --update-section .module_hashes=.tmp_module_hashes.bin vmlinux
+ fi
