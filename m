@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047F92620ED;
-	Tue, 11 Mar 2025 17:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99428263887
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 18:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741714132; cv=none; b=D16rvJgWjTwgI+zNMVzT8Z+GFeXqiR9fzkeWGrGHEcm37Zelb2z976ETxK2wdztD9aKVE2UCQO+I2cdQNaVuFCv1fvpB06J3Qxq86t4/Pm9tRKNJcl8lxINkrG4/YFUFMuU7U2kAnrQU8Z5pHC6T0EZ6FBVeThTAn5sRcQEN6DA=
+	t=1741716636; cv=none; b=t5VSFq3s/GRHhOslUtPSXu6RDVXLN4QAxx0CkthwVOzY8TXjO9tGNf0Ou7vX7eIpwoV9urQk7Ycyh5wDwa3IstzDLkDGrco8yHnIg/clP91zTy5oiFrDxaD5X5mJKnn+f6V5PYhqcNESX2PPQGmXxJnYjnwlJTYHlrydYc554Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741714132; c=relaxed/simple;
-	bh=qksm7vKFWSXmoo8z8Dy+oNnEBIujGEUMzz9Tn5C2hS8=;
+	s=arc-20240116; t=1741716636; c=relaxed/simple;
+	bh=n2gyZg1aKp45T1EE+bMtT+IOtYAsDxzCHhOg0MybcaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u0BCIfm/dAg6HH++7z3cHzdlOd3YFlvfdTyF1q1OwrxnD8i5vPbqyJwDXT5hAqfZPt0tDJOAM69wcKGHWHvwUc9AsBnfuD3ofFX9TZDDgBaA77cuZ+wtL/3b3l/a4VUp+se30IHSOaQA/FOF+GcJJYyN+HMTGMM+tZOYa3XcN+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAbDUYdH; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=hhjB2VfrdAAOPFm2UYKvgzf5YkwraRu1DpmwQ7YQkPkW4I4a0Z4hBFDWdEm4VSJEt7x0UUPSbC4ei+Y5SDTEXNzLmmV1xvfU7cOfyhVAZXWaMFqMsmdDSONEAsPT2K9cs92dUBPpaPtB8N54ciiWnL0lziPd1c6lmUYsNOoyZI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DUEDmuB/; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAbDUYdH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DUEDmuB/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741714131; x=1773250131;
+  t=1741716635; x=1773252635;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qksm7vKFWSXmoo8z8Dy+oNnEBIujGEUMzz9Tn5C2hS8=;
-  b=TAbDUYdHsQkrDkZVFSynIkSZ03BBas3+qWd1Zn1JRNy/Z4k9GhzVaDJZ
-   94Cw6cU/u3X+BFN1wNVbQhVhG7dFCBK4nMbC8plunvKMgNuKz1pXlak0F
-   P1G98a8wpdvix47wdJopZqba9t6iQK0TTDX8Co1IYETuDXIa4A+6joB4l
-   9/e9zRb8LesCNIXt81snjIlxa7WcFEDZBQ5Kyvn1fQ7ZN7fyfMzdSNA0v
-   RhxcoL1e82kM+upbkiE4QNfWpoPth/ExURmQdmLi5SwRd7OhjZFho2pOT
-   gUFQBZqyV/cYc/ac3BMyKHATaiuwQ5uZTk9GRkwdh0By/ZRuZFsyi8YyC
+  bh=n2gyZg1aKp45T1EE+bMtT+IOtYAsDxzCHhOg0MybcaA=;
+  b=DUEDmuB/Ml72rAZdBA9BVQ4DWu57YSCOIHh7+UcgJXF2FbCKMyqusLTt
+   06i7+wV6d98sW1iUYKHTSaq/p8bTRz7V3WWxsMm0ROL0Rv3LxCru84LbC
+   xLjF71ujYbm24H6ePE8gxlbrw3hNPDeULHRC35jyk9HXdUx8rXKY9ue8p
+   6M9AvSdi8GE2+cDHfLsZpd53Dd4OY5MYjKm5TuPY93MbBOZ2Sl9BLcXAe
+   50N1z2F8rmxzW1JbyAP5WPB+Jph4od9tekyOd659hN5gxFQ6WlpliYerk
+   qRJfI0zwYgjtSP3bqhyrgt0a62vQxNop28EQWCHhn2zNRafKBtdXEE+qk
    w==;
-X-CSE-ConnectionGUID: zjF7z7afT0+z9qxD3hrJGw==
-X-CSE-MsgGUID: 0wUMj/PATfOtWEbpTgTgMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="45550125"
+X-CSE-ConnectionGUID: PWOADNgkSlCXtCgNxm+jWg==
+X-CSE-MsgGUID: em8b4RTjQ7eVqSAbMXqb2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="42954821"
 X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
-   d="scan'208";a="45550125"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 10:28:50 -0700
-X-CSE-ConnectionGUID: cEqVlkNaQ5amO2a00V7EBw==
-X-CSE-MsgGUID: Ds0B9fxYQbOvmh/SZ8dSow==
+   d="scan'208";a="42954821"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 11:10:34 -0700
+X-CSE-ConnectionGUID: sYNEJ0WpSg+WwKvIM6mPbg==
+X-CSE-MsgGUID: tskyWO/jQ4yo+1XX6elJSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
-   d="scan'208";a="120898387"
+   d="scan'208";a="151341806"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2025 10:28:49 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 11 Mar 2025 11:10:32 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ts3PK-0007gS-2P;
-	Tue, 11 Mar 2025 17:28:46 +0000
-Date: Wed, 12 Mar 2025 01:28:16 +0800
+	id 1ts43e-0007iG-21;
+	Tue, 11 Mar 2025 18:10:28 +0000
+Date: Wed, 12 Mar 2025 02:10:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 74/81] fs/nfsd/nfsproc.c:483:9: error: implicit
- declaration of function 'trace_nfsd_proc_link'; did you mean
- 'nfsd_proc_link'?
-Message-ID: <202503120154.ctwnAOLZ-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 1/1]
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtb:
+ /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with
+ compatible: ['mediatek,mt6397-clk']
+Message-ID: <202503120214.Se9quMMp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,103 +64,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   86deeee9a2bdf8ba09cfd0ab66dbf448d2e8b82b
-commit: c35bc37489cde3283951cb26a56b8b6aa77c151b [74/81] nfsd: add tracepoints for hardlink events
-config: sparc-randconfig-001-20250311 (https://download.01.org/0day-ci/archive/20250312/202503120154.ctwnAOLZ-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120154.ctwnAOLZ-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   3e7a6629f398fbc9d78216def76bbf6b860ff58f
+commit: 66edee0acd72a79606fc8a1fb89166dda54be744 [1/1] arm64: dts: mediatek: mt8173-elm: Fix MT6397 PMIC sub-node names
+config: arm64-randconfig-052-20250310 (https://download.01.org/0day-ci/archive/20250312/202503120214.Se9quMMp-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
+dtschema version: 2025.3.dev4+g7b57675
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120214.Se9quMMp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503120154.ctwnAOLZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503120214.Se9quMMp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_create':
-   fs/nfsd/nfsproc.c:295:9: error: implicit declaration of function 'trace_nfsd_proc_create'; did you mean 'nfsd_proc_create'? [-Wimplicit-function-declaration]
-     295 |         trace_nfsd_proc_create(rqstp, dirfhp, S_IFREG, argp->name, argp->len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_create
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_link':
->> fs/nfsd/nfsproc.c:483:9: error: implicit declaration of function 'trace_nfsd_proc_link'; did you mean 'nfsd_proc_link'? [-Wimplicit-function-declaration]
-     483 |         trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_link
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
-   fs/nfsd/nfsproc.c:503:9: error: implicit declaration of function 'trace_nfsd_proc_symlink'; did you mean 'nfsd_proc_symlink'? [-Wimplicit-function-declaration]
-     503 |         trace_nfsd_proc_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_symlink
-   fs/nfsd/nfsproc.c:537:1: error: invalid storage class for function 'nfsd_proc_mkdir'
-     537 | nfsd_proc_mkdir(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_mkdir':
-   fs/nfsd/nfsproc.c:545:9: error: implicit declaration of function 'trace_nfsd_proc_mkdir'; did you mean 'nfsd_proc_mkdir'? [-Wimplicit-function-declaration]
-     545 |         trace_nfsd_proc_mkdir(rqstp, &argp->fh, S_IFDIR, argp->name, argp->len);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_mkdir
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
-   fs/nfsd/nfsproc.c:570:1: error: invalid storage class for function 'nfsd_proc_rmdir'
-     570 | nfsd_proc_rmdir(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:584:13: error: invalid storage class for function 'nfsd_init_dirlist_pages'
-     584 | static void nfsd_init_dirlist_pages(struct svc_rqst *rqstp,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:606:1: error: invalid storage class for function 'nfsd_proc_readdir'
-     606 | nfsd_proc_readdir(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:634:1: error: invalid storage class for function 'nfsd_proc_statfs'
-     634 | nfsd_proc_statfs(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:819:28: error: initializer element is not constant
-     819 |                 .pc_func = nfsd_proc_mkdir,
-         |                            ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:819:28: note: (near initialization for 'nfsd_procedures2[14].pc_func')
-   fs/nfsd/nfsproc.c:831:28: error: initializer element is not constant
-     831 |                 .pc_func = nfsd_proc_rmdir,
-         |                            ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:831:28: note: (near initialization for 'nfsd_procedures2[15].pc_func')
-   fs/nfsd/nfsproc.c:842:28: error: initializer element is not constant
-     842 |                 .pc_func = nfsd_proc_readdir,
-         |                            ^~~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:842:28: note: (near initialization for 'nfsd_procedures2[16].pc_func')
-   fs/nfsd/nfsproc.c:852:28: error: initializer element is not constant
-     852 |                 .pc_func = nfsd_proc_statfs,
-         |                            ^~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:852:28: note: (near initialization for 'nfsd_procedures2[17].pc_func')
-   fs/nfsd/nfsproc.c:873:1: error: expected declaration or statement at end of input
-     873 | };
-         | ^
-   fs/nfsd/nfsproc.c:866:26: warning: unused variable 'nfsd_version2' [-Wunused-variable]
-     866 | const struct svc_version nfsd_version2 = {
-         |                          ^~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c: At top level:
-   fs/nfsd/nfsproc.c:494:1: warning: 'nfsd_proc_symlink' defined but not used [-Wunused-function]
-     494 | nfsd_proc_symlink(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~~~
-
-
-vim +483 fs/nfsd/nfsproc.c
-
-   476	
-   477	static __be32
-   478	nfsd_proc_link(struct svc_rqst *rqstp)
-   479	{
-   480		struct nfsd_linkargs *argp = rqstp->rq_argp;
-   481		struct nfsd_stat *resp = rqstp->rq_resp;
-   482	
- > 483		trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
-   484	
-   485		resp->status = nfsd_link(rqstp, &argp->tfh, argp->tname, argp->tlen,
-   486					 &argp->ffh);
-   487		fh_put(&argp->ffh);
-   488		fh_put(&argp->tfh);
-   489		resp->status = nfsd_map_status(resp->status);
-   490		return rpc_success;
-   491	}
-   492	
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
+   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+--
+   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
+>> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
+   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
