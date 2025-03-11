@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99428263887
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 18:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B362326461A;
+	Tue, 11 Mar 2025 18:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741716636; cv=none; b=t5VSFq3s/GRHhOslUtPSXu6RDVXLN4QAxx0CkthwVOzY8TXjO9tGNf0Ou7vX7eIpwoV9urQk7Ycyh5wDwa3IstzDLkDGrco8yHnIg/clP91zTy5oiFrDxaD5X5mJKnn+f6V5PYhqcNESX2PPQGmXxJnYjnwlJTYHlrydYc554Qs=
+	t=1741718487; cv=none; b=AsqPStcsRJP4VVvNRP2imu++QQerL/x3+dJvv8y/pymiRkDjQZC2Ilrm0P3iaAmZpgEP87/Gw1ppd3rrOfbfjbZ/cUPROoMjLtmA6Q7jmjrASgvZntXYhuOd+vvWDTEJvS4G3HnvuEtXw8rAF0V6UMaqLqgXo/5NIcjUFLd8sbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741716636; c=relaxed/simple;
-	bh=n2gyZg1aKp45T1EE+bMtT+IOtYAsDxzCHhOg0MybcaA=;
+	s=arc-20240116; t=1741718487; c=relaxed/simple;
+	bh=Oo3+DSJS+GEqpeP+JySy6cB+ydfTdgWYneyZ2LYJm+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hhjB2VfrdAAOPFm2UYKvgzf5YkwraRu1DpmwQ7YQkPkW4I4a0Z4hBFDWdEm4VSJEt7x0UUPSbC4ei+Y5SDTEXNzLmmV1xvfU7cOfyhVAZXWaMFqMsmdDSONEAsPT2K9cs92dUBPpaPtB8N54ciiWnL0lziPd1c6lmUYsNOoyZI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DUEDmuB/; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=JVRgwwObmM+GGRxWidXpXHhk4nxvp7ehsp2491vLLNmPKkVEM9ST0X/TUvEr1zd8srUxAiUOAWlr4tHRWX5+9bdVpjCUdRzJkEAHl+0AMxHCAcwLbV9ilTI+PNK8nrgeFsVFDlAZcW6MrQUEvlSaSPb7RqojHVkN9BzAOcl+W6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNgPb9I+; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DUEDmuB/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNgPb9I+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741716635; x=1773252635;
+  t=1741718486; x=1773254486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n2gyZg1aKp45T1EE+bMtT+IOtYAsDxzCHhOg0MybcaA=;
-  b=DUEDmuB/Ml72rAZdBA9BVQ4DWu57YSCOIHh7+UcgJXF2FbCKMyqusLTt
-   06i7+wV6d98sW1iUYKHTSaq/p8bTRz7V3WWxsMm0ROL0Rv3LxCru84LbC
-   xLjF71ujYbm24H6ePE8gxlbrw3hNPDeULHRC35jyk9HXdUx8rXKY9ue8p
-   6M9AvSdi8GE2+cDHfLsZpd53Dd4OY5MYjKm5TuPY93MbBOZ2Sl9BLcXAe
-   50N1z2F8rmxzW1JbyAP5WPB+Jph4od9tekyOd659hN5gxFQ6WlpliYerk
-   qRJfI0zwYgjtSP3bqhyrgt0a62vQxNop28EQWCHhn2zNRafKBtdXEE+qk
-   w==;
-X-CSE-ConnectionGUID: PWOADNgkSlCXtCgNxm+jWg==
-X-CSE-MsgGUID: em8b4RTjQ7eVqSAbMXqb2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="42954821"
+  bh=Oo3+DSJS+GEqpeP+JySy6cB+ydfTdgWYneyZ2LYJm+s=;
+  b=mNgPb9I+eXeqsywHJcK2XVi18/XDVKDbJbSnoWej5dNhC2PTtCQ3JMlK
+   LUwtoERuHCRJgFT92+5UY2WkScnjS1CwC+qKz7egtfT6MAMFfcb16nhuO
+   j/wh+oyHvtNMA0xcSMRBPEhubIMO/Tf5q3RPVKGCkKzVxcvjrHlyjwm2n
+   /JreEasxzxhEnHpAMchfnSI4rL0ocBkj3W6dUah+B//sJZDHnmjNccDbg
+   PIPUujvkgHz/o08stc9xdgofKbA0ys2kks29qk5LiLcS8Tymzr8r7FusN
+   DbnHB4/VLqbsBYBquqD6b8Fz/wBv2Fy093Gd9GtGFfWyGUIw7nRePsjUt
+   A==;
+X-CSE-ConnectionGUID: nfOvj7prQKeaCi79AZacoQ==
+X-CSE-MsgGUID: NBc5s59YT1G4v78Ib2G9Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="41941905"
 X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
-   d="scan'208";a="42954821"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 11:10:34 -0700
-X-CSE-ConnectionGUID: sYNEJ0WpSg+WwKvIM6mPbg==
-X-CSE-MsgGUID: tskyWO/jQ4yo+1XX6elJSA==
+   d="scan'208";a="41941905"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 11:41:25 -0700
+X-CSE-ConnectionGUID: NlbXqsT3S0q0hASlXPvPAQ==
+X-CSE-MsgGUID: NC3RptFFQrKbCr5YXWssxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,239,1736841600"; 
-   d="scan'208";a="151341806"
+   d="scan'208";a="121093665"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Mar 2025 11:10:32 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 11 Mar 2025 11:41:23 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ts43e-0007iG-21;
-	Tue, 11 Mar 2025 18:10:28 +0000
-Date: Wed, 12 Mar 2025 02:10:00 +0800
+	id 1ts4XY-0007jE-0v;
+	Tue, 11 Mar 2025 18:41:20 +0000
+Date: Wed, 12 Mar 2025 02:40:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 1/1]
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtb:
- /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with
- compatible: ['mediatek,mt6397-clk']
-Message-ID: <202503120214.Se9quMMp-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 75/81] fs/nfsd/nfsproc.c:447:9: error: implicit
+ declaration of function 'trace_nfsd_proc_remove'; did you mean
+ 'nfsd_proc_remove'?
+Message-ID: <202503120209.pV3QBDxN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,91 +63,240 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   3e7a6629f398fbc9d78216def76bbf6b860ff58f
-commit: 66edee0acd72a79606fc8a1fb89166dda54be744 [1/1] arm64: dts: mediatek: mt8173-elm: Fix MT6397 PMIC sub-node names
-config: arm64-randconfig-052-20250310 (https://download.01.org/0day-ci/archive/20250312/202503120214.Se9quMMp-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
-dtschema version: 2025.3.dev4+g7b57675
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120214.Se9quMMp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   86deeee9a2bdf8ba09cfd0ab66dbf448d2e8b82b
+commit: 7874515959533baab57e883272ac73bd8ec21b9c [75/81] nfsd: add tracepoints for unlink events
+config: sparc-randconfig-001-20250311 (https://download.01.org/0day-ci/archive/20250312/202503120209.pV3QBDxN-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120209.pV3QBDxN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503120214.Se9quMMp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503120209.pV3QBDxN-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+All errors (new ones prefixed by >>):
+
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_create':
+   fs/nfsd/nfsproc.c:295:9: error: implicit declaration of function 'trace_nfsd_proc_create'; did you mean 'nfsd_proc_create'? [-Wimplicit-function-declaration]
+     295 |         trace_nfsd_proc_create(rqstp, dirfhp, S_IFREG, argp->name, argp->len);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_create
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_remove':
+>> fs/nfsd/nfsproc.c:447:9: error: implicit declaration of function 'trace_nfsd_proc_remove'; did you mean 'nfsd_proc_remove'? [-Wimplicit-function-declaration]
+     447 |         trace_nfsd_proc_remove(rqstp, &argp->fh, argp->name, argp->len);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_remove
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_link':
+   fs/nfsd/nfsproc.c:482:9: error: implicit declaration of function 'trace_nfsd_proc_link'; did you mean 'nfsd_proc_link'? [-Wimplicit-function-declaration]
+     482 |         trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
+         |         ^~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_link
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
+   fs/nfsd/nfsproc.c:502:9: error: implicit declaration of function 'trace_nfsd_proc_symlink'; did you mean 'nfsd_proc_symlink'? [-Wimplicit-function-declaration]
+     502 |         trace_nfsd_proc_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_symlink
+   fs/nfsd/nfsproc.c:536:1: error: invalid storage class for function 'nfsd_proc_mkdir'
+     536 | nfsd_proc_mkdir(struct svc_rqst *rqstp)
+         | ^~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_mkdir':
+   fs/nfsd/nfsproc.c:544:9: error: implicit declaration of function 'trace_nfsd_proc_mkdir'; did you mean 'nfsd_proc_mkdir'? [-Wimplicit-function-declaration]
+     544 |         trace_nfsd_proc_mkdir(rqstp, &argp->fh, S_IFDIR, argp->name, argp->len);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_mkdir
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
+   fs/nfsd/nfsproc.c:569:1: error: invalid storage class for function 'nfsd_proc_rmdir'
+     569 | nfsd_proc_rmdir(struct svc_rqst *rqstp)
+         | ^~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_rmdir':
+>> fs/nfsd/nfsproc.c:574:9: error: implicit declaration of function 'trace_nfsd_proc_rmdir'; did you mean 'nfsd_proc_rmdir'? [-Wimplicit-function-declaration]
+     574 |         trace_nfsd_proc_rmdir(rqstp, &argp->fh, argp->name, argp->len);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         nfsd_proc_rmdir
+   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
+   fs/nfsd/nfsproc.c:583:13: error: invalid storage class for function 'nfsd_init_dirlist_pages'
+     583 | static void nfsd_init_dirlist_pages(struct svc_rqst *rqstp,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:605:1: error: invalid storage class for function 'nfsd_proc_readdir'
+     605 | nfsd_proc_readdir(struct svc_rqst *rqstp)
+         | ^~~~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:633:1: error: invalid storage class for function 'nfsd_proc_statfs'
+     633 | nfsd_proc_statfs(struct svc_rqst *rqstp)
+         | ^~~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:818:28: error: initializer element is not constant
+     818 |                 .pc_func = nfsd_proc_mkdir,
+         |                            ^~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:818:28: note: (near initialization for 'nfsd_procedures2[14].pc_func')
+   fs/nfsd/nfsproc.c:830:28: error: initializer element is not constant
+     830 |                 .pc_func = nfsd_proc_rmdir,
+         |                            ^~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:830:28: note: (near initialization for 'nfsd_procedures2[15].pc_func')
+   fs/nfsd/nfsproc.c:841:28: error: initializer element is not constant
+     841 |                 .pc_func = nfsd_proc_readdir,
+         |                            ^~~~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:841:28: note: (near initialization for 'nfsd_procedures2[16].pc_func')
+   fs/nfsd/nfsproc.c:851:28: error: initializer element is not constant
+     851 |                 .pc_func = nfsd_proc_statfs,
+         |                            ^~~~~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c:851:28: note: (near initialization for 'nfsd_procedures2[17].pc_func')
+   fs/nfsd/nfsproc.c:872:1: error: expected declaration or statement at end of input
+     872 | };
+         | ^
+   fs/nfsd/nfsproc.c:865:26: warning: unused variable 'nfsd_version2' [-Wunused-variable]
+     865 | const struct svc_version nfsd_version2 = {
+         |                          ^~~~~~~~~~~~~
+   fs/nfsd/nfsproc.c: At top level:
+   fs/nfsd/nfsproc.c:493:1: warning: 'nfsd_proc_symlink' defined but not used [-Wunused-function]
+     493 | nfsd_proc_symlink(struct svc_rqst *rqstp)
+         | ^~~~~~~~~~~~~~~~~
+
+
+vim +447 fs/nfsd/nfsproc.c
+
+   440	
+   441	static __be32
+   442	nfsd_proc_remove(struct svc_rqst *rqstp)
+   443	{
+   444		struct nfsd_diropargs *argp = rqstp->rq_argp;
+   445		struct nfsd_stat *resp = rqstp->rq_resp;
+   446	
+ > 447		trace_nfsd_proc_remove(rqstp, &argp->fh, argp->name, argp->len);
+   448	
+   449		/* Unlink. -SIFDIR means file must not be a directory */
+   450		resp->status = nfsd_unlink(rqstp, &argp->fh, -S_IFDIR,
+   451					   argp->name, argp->len);
+   452		fh_put(&argp->fh);
+   453		resp->status = nfsd_map_status(resp->status);
+   454		return rpc_success;
+   455	}
+   456	
+   457	static __be32
+   458	nfsd_proc_rename(struct svc_rqst *rqstp)
+   459	{
+   460		struct nfsd_renameargs *argp = rqstp->rq_argp;
+   461		struct nfsd_stat *resp = rqstp->rq_resp;
+   462	
+   463		dprintk("nfsd: RENAME   %s %.*s -> \n",
+   464			SVCFH_fmt(&argp->ffh), argp->flen, argp->fname);
+   465		dprintk("nfsd:        ->  %s %.*s\n",
+   466			SVCFH_fmt(&argp->tfh), argp->tlen, argp->tname);
+   467	
+   468		resp->status = nfsd_rename(rqstp, &argp->ffh, argp->fname, argp->flen,
+   469					   &argp->tfh, argp->tname, argp->tlen);
+   470		fh_put(&argp->ffh);
+   471		fh_put(&argp->tfh);
+   472		resp->status = nfsd_map_status(resp->status);
+   473		return rpc_success;
+   474	}
+   475	
+   476	static __be32
+   477	nfsd_proc_link(struct svc_rqst *rqstp)
+   478	{
+   479		struct nfsd_linkargs *argp = rqstp->rq_argp;
+   480		struct nfsd_stat *resp = rqstp->rq_resp;
+   481	
+   482		trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
+   483	
+   484		resp->status = nfsd_link(rqstp, &argp->tfh, argp->tname, argp->tlen,
+   485					 &argp->ffh);
+   486		fh_put(&argp->ffh);
+   487		fh_put(&argp->tfh);
+   488		resp->status = nfsd_map_status(resp->status);
+   489		return rpc_success;
+   490	}
+   491	
+   492	static __be32
+   493	nfsd_proc_symlink(struct svc_rqst *rqstp)
+   494	{
+   495		struct nfsd_symlinkargs *argp = rqstp->rq_argp;
+   496		struct nfsd_stat *resp = rqstp->rq_resp;
+   497		struct nfsd_attrs attrs = {
+   498			.na_iattr	= &argp->attrs,
+   499		};
+   500		struct svc_fh	newfh;
+   501	
+   502		trace_nfsd_proc_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
+   503					argp->tname, argp->tlen);
+   504	
+   505		if (argp->tlen == 0) {
+   506		if (argp->tlen > NFS_MAXPATHLEN) {
+   507			resp->status = nfserr_nametoolong;
+   508			goto out;
+   509		}
+   510	
+   511		argp->tname = svc_fill_symlink_pathname(rqstp, &argp->first,
+   512							page_address(rqstp->rq_arg.pages[0]),
+   513							argp->tlen);
+   514		if (IS_ERR(argp->tname)) {
+   515			resp->status = nfserrno(PTR_ERR(argp->tname));
+   516			goto out;
+   517		}
+   518	
+   519		fh_init(&newfh, NFS_FHSIZE);
+   520		resp->status = nfsd_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
+   521					    argp->tname, &attrs, &newfh);
+   522	
+   523		kfree(argp->tname);
+   524		fh_put(&argp->ffh);
+   525		fh_put(&newfh);
+   526	out:
+   527		resp->status = nfsd_map_status(resp->status);
+   528		return rpc_success;
+   529	}
+   530	
+   531	/*
+   532	 * Make directory. This operation is not idempotent.
+   533	 * N.B. After this call resp->fh needs an fh_put
+   534	 */
+   535	static __be32
+   536	nfsd_proc_mkdir(struct svc_rqst *rqstp)
+   537	{
+   538		struct nfsd_createargs *argp = rqstp->rq_argp;
+   539		struct nfsd_diropres *resp = rqstp->rq_resp;
+   540		struct nfsd_attrs attrs = {
+   541			.na_iattr	= &argp->attrs,
+   542		};
+   543	
+   544		trace_nfsd_proc_mkdir(rqstp, &argp->fh, S_IFDIR, argp->name, argp->len);
+   545	
+   546		if (resp->fh.fh_dentry) {
+   547			printk(KERN_WARNING
+   548				"nfsd_proc_mkdir: response already verified??\n");
+   549		}
+   550	
+   551		argp->attrs.ia_valid &= ~ATTR_SIZE;
+   552		fh_init(&resp->fh, NFS_FHSIZE);
+   553		resp->status = nfsd_create(rqstp, &argp->fh, argp->name, argp->len,
+   554					   &attrs, S_IFDIR, 0, &resp->fh);
+   555		fh_put(&argp->fh);
+   556		if (resp->status != nfs_ok)
+   557			goto out;
+   558	
+   559		resp->status = fh_getattr(&resp->fh, &resp->stat);
+   560	out:
+   561		resp->status = nfsd_map_status(resp->status);
+   562		return rpc_success;
+   563	}
+   564	
+   565	/*
+   566	 * Remove a directory
+   567	 */
+   568	static __be32
+   569	nfsd_proc_rmdir(struct svc_rqst *rqstp)
+   570	{
+   571		struct nfsd_diropargs *argp = rqstp->rq_argp;
+   572		struct nfsd_stat *resp = rqstp->rq_resp;
+   573	
+ > 574		trace_nfsd_proc_rmdir(rqstp, &argp->fh, argp->name, argp->len);
+   575	
+   576		resp->status = nfsd_unlink(rqstp, &argp->fh, S_IFDIR,
+   577					   argp->name, argp->len);
+   578		fh_put(&argp->fh);
+   579		resp->status = nfsd_map_status(resp->status);
+   580		return rpc_success;
+   581	}
+   582	
 
 -- 
 0-DAY CI Kernel Test Service
