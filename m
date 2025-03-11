@@ -1,198 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2329263C90;
-	Tue, 11 Mar 2025 20:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931F8263F2E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 20:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741726138; cv=none; b=hnON3ASXJQ1biPYKzPwB6IvgRYkT0GI/JQuaE/28qiBpUNc0nI1j8Jo1GqWAsCp9dPXP5b8hx1eAGjSjuahHOUUSwrcp7H7hp5t3qiQ6XBeAcBa4CAQB89W8gJe1dK9Tuvsh1KRjTe/gzbsZbr7R2Jyp2EoqbmwNRvHjY98CatM=
+	t=1741726212; cv=none; b=QcEvGcYRUxzXkhCz/tQLSt72xhjkFbygJ5BtPM7OUp5yG+h//1RrvKrZG4X5DoitIML3by2jQ9SPJxjJJmN2J3vrJxeCFGNsbrbCYsDM+qb8kxDxLTYBsJi6nSzYa7wRgYHqopCezL1+YivOElS9eu1F/rhYz2I9ZZntRJScWm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741726138; c=relaxed/simple;
-	bh=Gv8OdVk281yWEK4gH2tR0XZTbRLp4JKZGF5Aw8j9Thw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UKIBdygBPsre0D9du+unXcOEbi9W2LA0VACroGWsMYiYJt6AaB6xszwCf2evWpXV6KcEwAsLLsDFyShNbwUDbvZz891iL4QsIY64uot/WZQ9ojvW5Q3I1t/NWsCsLWGx7TepQS0zOqeRURruhrnQ3t5RZ+rfkfiEfxAU2Rid+H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtEa5Bl5; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741726212; c=relaxed/simple;
+	bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ecMbuQ5qk8vOl0MwyYCzDNnRzBkeIJAwPm6ErG6QLPvzEyryFZ5OrdAN1b1sTxfpA9VeH79Q2EEfVQpHoQMr/ZgpiiEdPWZRSu1nB6u3Dw3Rsoy40XCM06Uv0vOvIvbpjc60NUjed9LvZmkYzakd+cTLkoCfKm/kIYdxe2+XfXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhUH56D8; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtEa5Bl5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741726137; x=1773262137;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gv8OdVk281yWEK4gH2tR0XZTbRLp4JKZGF5Aw8j9Thw=;
-  b=EtEa5Bl5tX2fGI+lRd4lw0x/26KoJk4SjEwbJucow/17XERH+9jaMaGT
-   4ctef/QWYWvlMAreUUcQrGSoYjf8xyJvdwcocaxCcyUT5d9+W4JPcghZe
-   AjktnSIjVGBNhRfxPL8oMUHvhUHuWVZ4icoMPhw5Yqmc70QOr8sc+LXL2
-   oujHNXYpSlza3joPT0OEo9WbxBHCHqrN+NyCINjZfNBzQH78dO473OAD1
-   H3GIroJgJNDr/wxy0HFyyDxS0ahaDdDDcnXQE8qwjcOyMqZgyENrW4gnp
-   eTLhh6VEIqwHO2oW/Ozs+SHSHBZp3360rCYaRV7h3xA7B1asWJH/hwmq8
-   A==;
-X-CSE-ConnectionGUID: VdrxTSqNRjKiZsoRYceo/Q==
-X-CSE-MsgGUID: 0A6CJopvQSCVznwmM8LCwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="45565686"
-X-IronPort-AV: E=Sophos;i="6.14,240,1736841600"; 
-   d="scan'208";a="45565686"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 13:48:56 -0700
-X-CSE-ConnectionGUID: KAiNspcjTzWgKYziKLsGlA==
-X-CSE-MsgGUID: 3X5zP5oJSL6lSb9B5HT44Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,240,1736841600"; 
-   d="scan'208";a="157629588"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 11 Mar 2025 13:48:55 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ts6Wy-0007pn-1c;
-	Tue, 11 Mar 2025 20:48:52 +0000
-Date: Wed, 12 Mar 2025 04:48:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 77/81] fs/nfsd/nfsproc.c:609:9: error: implicit
- declaration of function 'trace_nfsd_proc_readdir'; did you mean
- 'nfsd_proc_readdir'?
-Message-ID: <202503120409.qVw45sG2-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FhUH56D8"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-216513f8104so10611405ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Mar 2025 13:50:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741726210; x=1742331010; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
+        b=FhUH56D8LIdmf9vB46geg2DvD+jPOaOtItr+kO/Gt5GHtx1s39fBKnpHfUAK3DPLZI
+         Sv3B5W2bXyqbZDYYKHjtUU9cpPdf4p6o7qcB9R28U3TwATnFTZvrWbv/YR/YWVUhyABV
+         b6PJZm2ZS5kRPbFIm1Pv5XrrOzb6R43aMNCErXxIfBCNYlAL/YqGlwu1JRpC421V6Mr9
+         rmelkY95sCGnfTTISryd/4E4npbGdVPYkKjwTBBtXJDepJVmPvVUDOnwxnanmbqhQaXO
+         PzFbIiiIJkmr04AplaM/Qw4SHxQbGH9eCadb5JkvO+ysJ5KBi63cOb3txQCJR42Y9BLg
+         ABgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741726210; x=1742331010;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JWdKg5zoGBpY28zuxaqBxi6+dP6Re/Qr912PEvIfcXY=;
+        b=FIwS4dkyxElpSWib9RVepgdqWbQ1ThlrKGfXwPsJPfAaAhskQPuSlLcJd44t/np0rr
+         dqY/Kk7FEFTkdf0mONjyGOH6ZJ2R7XCNhhR9kdncFnTZL79TJgQb/+5tmjuVXdqrKmPU
+         sfzdbxR3colSuc3YQpwBjbeE/IKZ1cKqIE1nppeMmfaMWuUPHavWqDKm4H6F2ULQYQct
+         A2UkiBgkIs6LXgmnx77DhM+G0EneqtuRZy66p5FjczHNQBg6+jkvjqLiEPATHWySxRzZ
+         cCYgCyxnZLRwTL8UZZYjUSrnfSqGk187Q/17ehRZ59l0wQCaFMrL0FMvF+3Xc2VrlxN0
+         1TJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNWtsXbNelUY3F+OnYFg5G4sj9VFj8B6dx/R5HGEFcuj2vakirzW8Ce5jlRQkpeSttybSeTwvFk0Jk6Eys@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsE3GjuNVk/MqgYQBccg8Wtl8dRcLG014JIlyeR3Jy/VNijNUz
+	pwPkG2vFJ+xRFuPzZWXhG2KVVDcxGeaAC4MTNGwPfjVVYFUbnuBd9mbcwJkXoU2FN2oiFynjpRk
+	OFsRScHI11fePpyIRVcqszH7olRw=
+X-Gm-Gg: ASbGncv/YBip89t87lwVPgFn76XE8Y9Fio5YmW0n8y88cU9Td5BjxFtsca4wj84MxjF
+	5CgucxDOsPDn8WfeUHwgeGwR9fSEgr/d0PbmfEiHLHOAtJM8U7n6kgsvgmlHQZfBwucyfCU48Cb
+	/5NgZGyIL0V/POmP7bw4ndSUn5DA==
+X-Google-Smtp-Source: AGHT+IF6Iu5cJXNrmMcH037VEuQgEw5FQiSeS4rw7qJG+vfgUlX6Z+xe0TEh54YrTrzNEmVy1nOOetWOtZm26Z9qTGA=
+X-Received: by 2002:a17:902:c952:b0:223:659d:ac66 with SMTP id
+ d9443c01a7336-22593302b09mr26173505ad.12.1741726209805; Tue, 11 Mar 2025
+ 13:50:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
+ <202503120332.YTCpFEvv-lkp@intel.com> <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
+In-Reply-To: <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 11 Mar 2025 21:49:56 +0100
+X-Gm-Features: AQ5f1JpxGxSGer3XisukrOBay0DQPLazUdlb5Q5D9ZecG6Ve_YwoPvaVLT-TLE8
+Message-ID: <CANiq72n2cYvAWkz+QwG9++NknaN-A2g=N4AeatADwRZ1pWtk0A@mail.gmail.com>
+Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   86deeee9a2bdf8ba09cfd0ab66dbf448d2e8b82b
-commit: ff1419b2601aa54042da81c8dec9361011dafc84 [77/81] nfsd: add tracepoints for readdir events
-config: sparc-randconfig-001-20250311 (https://download.01.org/0day-ci/archive/20250312/202503120409.qVw45sG2-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120409.qVw45sG2-lkp@intel.com/reproduce)
+On Tue, Mar 11, 2025 at 9:44=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
+>
+> By the way, it would be great if the email also included the rustc versio=
+n used.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503120409.qVw45sG2-lkp@intel.com/
+Yeah, I think I may have mentioned it at some point... For the moment,
+one can look for it manually in the linked config (i.e.
+`CONFIG_RUSTC_VERSION_TEXT`).
 
-All errors (new ones prefixed by >>):
-
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_create':
-   fs/nfsd/nfsproc.c:295:9: error: implicit declaration of function 'trace_nfsd_proc_create'; did you mean 'nfsd_proc_create'? [-Wimplicit-function-declaration]
-     295 |         trace_nfsd_proc_create(rqstp, dirfhp, S_IFREG, argp->name, argp->len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_create
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_remove':
-   fs/nfsd/nfsproc.c:447:9: error: implicit declaration of function 'trace_nfsd_proc_remove'; did you mean 'nfsd_proc_remove'? [-Wimplicit-function-declaration]
-     447 |         trace_nfsd_proc_remove(rqstp, &argp->fh, argp->name, argp->len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_remove
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_rename':
-   fs/nfsd/nfsproc.c:463:9: error: implicit declaration of function 'trace_nfsd_proc_rename'; did you mean 'nfsd_proc_rename'? [-Wimplicit-function-declaration]
-     463 |         trace_nfsd_proc_rename(rqstp, &argp->ffh, &argp->tfh, argp->fname,
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_rename
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_link':
-   fs/nfsd/nfsproc.c:480:9: error: implicit declaration of function 'trace_nfsd_proc_link'; did you mean 'nfsd_proc_link'? [-Wimplicit-function-declaration]
-     480 |         trace_nfsd_proc_link(rqstp, &argp->ffh, &argp->tfh, argp->tname, argp->tlen);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_link
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
-   fs/nfsd/nfsproc.c:500:9: error: implicit declaration of function 'trace_nfsd_proc_symlink'; did you mean 'nfsd_proc_symlink'? [-Wimplicit-function-declaration]
-     500 |         trace_nfsd_proc_symlink(rqstp, &argp->ffh, argp->fname, argp->flen,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_symlink
-   fs/nfsd/nfsproc.c:534:1: error: invalid storage class for function 'nfsd_proc_mkdir'
-     534 | nfsd_proc_mkdir(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_mkdir':
-   fs/nfsd/nfsproc.c:542:9: error: implicit declaration of function 'trace_nfsd_proc_mkdir'; did you mean 'nfsd_proc_mkdir'? [-Wimplicit-function-declaration]
-     542 |         trace_nfsd_proc_mkdir(rqstp, &argp->fh, S_IFDIR, argp->name, argp->len);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_mkdir
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
-   fs/nfsd/nfsproc.c:567:1: error: invalid storage class for function 'nfsd_proc_rmdir'
-     567 | nfsd_proc_rmdir(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_rmdir':
-   fs/nfsd/nfsproc.c:572:9: error: implicit declaration of function 'trace_nfsd_proc_rmdir'; did you mean 'nfsd_proc_rmdir'? [-Wimplicit-function-declaration]
-     572 |         trace_nfsd_proc_rmdir(rqstp, &argp->fh, argp->name, argp->len);
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_rmdir
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
-   fs/nfsd/nfsproc.c:581:13: error: invalid storage class for function 'nfsd_init_dirlist_pages'
-     581 | static void nfsd_init_dirlist_pages(struct svc_rqst *rqstp,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:603:1: error: invalid storage class for function 'nfsd_proc_readdir'
-     603 | nfsd_proc_readdir(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_readdir':
->> fs/nfsd/nfsproc.c:609:9: error: implicit declaration of function 'trace_nfsd_proc_readdir'; did you mean 'nfsd_proc_readdir'? [-Wimplicit-function-declaration]
-     609 |         trace_nfsd_proc_readdir(rqstp, &argp->fh, argp->cookie, argp->count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         nfsd_proc_readdir
-   fs/nfsd/nfsproc.c: In function 'nfsd_proc_symlink':
-   fs/nfsd/nfsproc.c:629:1: error: invalid storage class for function 'nfsd_proc_statfs'
-     629 | nfsd_proc_statfs(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:814:28: error: initializer element is not constant
-     814 |                 .pc_func = nfsd_proc_mkdir,
-         |                            ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:814:28: note: (near initialization for 'nfsd_procedures2[14].pc_func')
-   fs/nfsd/nfsproc.c:826:28: error: initializer element is not constant
-     826 |                 .pc_func = nfsd_proc_rmdir,
-         |                            ^~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:826:28: note: (near initialization for 'nfsd_procedures2[15].pc_func')
-   fs/nfsd/nfsproc.c:837:28: error: initializer element is not constant
-     837 |                 .pc_func = nfsd_proc_readdir,
-         |                            ^~~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:837:28: note: (near initialization for 'nfsd_procedures2[16].pc_func')
-   fs/nfsd/nfsproc.c:847:28: error: initializer element is not constant
-     847 |                 .pc_func = nfsd_proc_statfs,
-         |                            ^~~~~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c:847:28: note: (near initialization for 'nfsd_procedures2[17].pc_func')
-   fs/nfsd/nfsproc.c:868:1: error: expected declaration or statement at end of input
-     868 | };
-         | ^
-   fs/nfsd/nfsproc.c:861:26: warning: unused variable 'nfsd_version2' [-Wunused-variable]
-     861 | const struct svc_version nfsd_version2 = {
-         |                          ^~~~~~~~~~~~~
-   fs/nfsd/nfsproc.c: At top level:
-   fs/nfsd/nfsproc.c:491:1: warning: 'nfsd_proc_symlink' defined but not used [-Wunused-function]
-     491 | nfsd_proc_symlink(struct svc_rqst *rqstp)
-         | ^~~~~~~~~~~~~~~~~
-
-
-vim +609 fs/nfsd/nfsproc.c
-
-   598	
-   599	/*
-   600	 * Read a portion of a directory.
-   601	 */
-   602	static __be32
-   603	nfsd_proc_readdir(struct svc_rqst *rqstp)
-   604	{
-   605		struct nfsd_readdirargs *argp = rqstp->rq_argp;
-   606		struct nfsd_readdirres *resp = rqstp->rq_resp;
-   607		loff_t		offset;
-   608	
- > 609		trace_nfsd_proc_readdir(rqstp, &argp->fh, argp->cookie, argp->count);
-   610	
-   611		nfsd_init_dirlist_pages(rqstp, resp, argp->count);
-   612	
-   613		resp->common.err = nfs_ok;
-   614		resp->cookie_offset = 0;
-   615		offset = argp->cookie;
-   616		resp->status = nfsd_readdir(rqstp, &argp->fh, &offset,
-   617					    &resp->common, nfssvc_encode_entry);
-   618		nfssvc_encode_nfscookie(resp, offset);
-   619	
-   620		fh_put(&argp->fh);
-   621		resp->status = nfsd_map_status(resp->status);
-   622		return rpc_success;
-   623	}
-   624	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
