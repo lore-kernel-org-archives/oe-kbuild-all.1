@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE9F1F12E0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 23:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68111EF389;
+	Wed, 12 Mar 2025 23:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741821185; cv=none; b=VnxZLmM4U9NorBMMgmRHdmmJYFJql7tPYuyylzjeptNBRWlS9ubvbxjK32Gapc6jMl912eakw8taXWxKklY7pmIo24r+g50qZzH29C+NCDBbTZUAjfoGbrm81x8p2v77gnXu5m22BL6FIsv4vaES0qYax1y6Q8O0eF0Rpe2cqhM=
+	t=1741821844; cv=none; b=GHUFWsl9xlLoHmKtAZb5MHl5fg24LnszdQqSKXmYCms2FqvJuVfHa6zMwBBrEFSbrDrXSoOoMPuBsNFc19qBsCiyKnXM/e/gqxJzsRTdUUXnauEGgr+80dcQxuoFOyEtCLx9HmlqR9NlPhtGK2bhkD/HDPBACDOkJ90A3oS8/K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741821185; c=relaxed/simple;
-	bh=6sf+ZmY7MxAFM7PhMCtT+W5n57HSOBeIMTJ11wI1fQU=;
+	s=arc-20240116; t=1741821844; c=relaxed/simple;
+	bh=KHVGi6EeY1QYxOlcB8rkUUmuAe6VGkayj/4+oGezi60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R8Q1o5yQn8uL/Tfd81inLxkZmhNTcA2PiRzR82P7r2Fs/1wRifHKqFtriFBiyIcT6CSOfUYYPAjmK4cmD+SRtlkT9zmwPlTeugF/Yoys3fBn7Lrc4kIDx+wgm8oyf/GEuNvCjfi2wz8DyoCL/5lIBOwm6S7D1U6Gi28U6gB4/zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c9vscHBG; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=rc1DAgkEJxmcRjSjNasmS9xwZmb/co9cISgtZdxXuuAFkmEkOMYHcY9T+IHcklyAUEUylWcVZoPBrr6ba16to7kLyvAK2rxpe4P6KKTDBa61vZ2mBefpjRi+6pTX84JHlPZ1732SdZKUKS/GlWz1olLT1RI2zFsXiZkqNrmj2bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2zg1YKn; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c9vscHBG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2zg1YKn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741821184; x=1773357184;
+  t=1741821843; x=1773357843;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6sf+ZmY7MxAFM7PhMCtT+W5n57HSOBeIMTJ11wI1fQU=;
-  b=c9vscHBGYzckc4xLwQ5ivxS7IXR5pQFd5j3E8TuzYAeDaHyEiuobd9tD
-   1iCtlBAet7y2qbfEVjhKbAMDrh4O9Geipc1S5u8KvBY4X1yF/lA+nIitP
-   86cweMJOeNnDVBjId/SNbi7mMbphZDlD0XH/tWHTG58o1lHlhMDFeG00R
-   yg8omyndqcCY7K/DEtYqJAuQzKpgkUpgBK7jnjNg2sTMBC9ZYLMZ6YCic
-   MescWW4uGqFshBrF6O038b5/jaMQNnKglUYs2EhmsGkn47JhLy1i47EtY
-   YIjv+EwzEJrRzXDUQG1Z5CcbUb8hyp1kRxhmwRehdBD0EYp7UmyXV47ej
-   Q==;
-X-CSE-ConnectionGUID: yMly/9ahT/ew9w3JimaImg==
-X-CSE-MsgGUID: 7FrSkALMRfWGNC5+kzimfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42090148"
+  bh=KHVGi6EeY1QYxOlcB8rkUUmuAe6VGkayj/4+oGezi60=;
+  b=O2zg1YKnIKEKntzJq/LQAkU4yCfZe6MHr8EKIgwwkLDboH+kCvTzHEBa
+   CX8hT+wluo8c5xSG0jo56+hZKldHgYFXMKHYPdopPqD8qGu+GbQDRLmbM
+   u1u/dzU+1MuanGHDhpyBUDgRUjqhXoXlA9xj8wMXcmHd+LNTfBecLKXxm
+   UYyYL2NzLFLKVKhpRcoo/U0lyqjhNIO39b1c+ZNfiCTuQltuy5WlYLrzI
+   3yTaKsts9y6cU07Em9PA8nw3+XdArwZTuZHW+RzyYmw92o4pXvJZYO9F7
+   OdqXkgbDZHgJtK3KhxTIKLGSjj37Chn+c1k8SXz8qtRc9W7t4u0eZJBx1
+   g==;
+X-CSE-ConnectionGUID: +J1bWyYnRp6wlTqFq7Jk9A==
+X-CSE-MsgGUID: fm54DamCQnu6DU72LmlTMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="43105628"
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="42090148"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 16:13:02 -0700
-X-CSE-ConnectionGUID: 0yxVx+PaQS6nKWnQIJnihg==
-X-CSE-MsgGUID: j6gb52yaT8usbBNtCEG9Dw==
+   d="scan'208";a="43105628"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 16:24:03 -0700
+X-CSE-ConnectionGUID: P/Vu9LfHQdSiklkHaXFsjw==
+X-CSE-MsgGUID: J6Ar2AivS7yrGF3tn3JdhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="125399758"
+   d="scan'208";a="151609212"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Mar 2025 16:13:01 -0700
+  by orviesa002.jf.intel.com with ESMTP; 12 Mar 2025 16:24:01 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsVFx-0008xY-2w;
-	Wed, 12 Mar 2025 23:12:57 +0000
-Date: Thu, 13 Mar 2025 07:12:01 +0800
+	id 1tsVQc-0008y8-2I;
+	Wed, 12 Mar 2025 23:23:58 +0000
+Date: Thu, 13 Mar 2025 07:23:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Markus Elfring <Markus.Elfring@web.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>,
-	Robert Richter <rric@kernel.org>
-Subject: Re: [PATCH v12 3/3] i2c: octeon: add block-mode i2c operations
-Message-ID: <202503130610.rUb3f7P4-lkp@intel.com>
-References: <20250311023435.3962466-4-aryan.srivastava@alliedtelesis.co.nz>
+To: kan.liang@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V8 2/6] perf: attach/detach PMU specific data
+Message-ID: <202503130704.dGVT7UMi-lkp@intel.com>
+References: <20250312182525.4078433-2-kan.liang@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,156 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311023435.3962466-4-aryan.srivastava@alliedtelesis.co.nz>
+In-Reply-To: <20250312182525.4078433-2-kan.liang@linux.intel.com>
 
-Hi Aryan,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on next-20250312]
-[cannot apply to linus/master v6.14-rc6]
+[auto build test ERROR on tip/perf/core]
+[also build test ERROR on next-20250312]
+[cannot apply to perf-tools-next/perf-tools-next perf-tools/perf-tools linus/master acme/perf/core v6.14-rc6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aryan-Srivastava/i2c-octeon-fix-return-commenting/20250311-103714
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20250311023435.3962466-4-aryan.srivastava%40alliedtelesis.co.nz
-patch subject: [PATCH v12 3/3] i2c: octeon: add block-mode i2c operations
-config: alpha-randconfig-r132-20250312 (https://download.01.org/0day-ci/archive/20250313/202503130610.rUb3f7P4-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250313/202503130610.rUb3f7P4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/kan-liang-linux-intel-com/perf-attach-detach-PMU-specific-data/20250313-022851
+base:   tip/perf/core
+patch link:    https://lore.kernel.org/r/20250312182525.4078433-2-kan.liang%40linux.intel.com
+patch subject: [PATCH V8 2/6] perf: attach/detach PMU specific data
+config: i386-buildonly-randconfig-005-20250313 (https://download.01.org/0day-ci/archive/20250313/202503130704.dGVT7UMi-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130704.dGVT7UMi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503130610.rUb3f7P4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503130704.dGVT7UMi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-octeon-core.c:677:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long long [usertype] rd @@     got restricted __be64 [usertype] @@
-   drivers/i2c/busses/i2c-octeon-core.c:677:26: sparse:     expected unsigned long long [usertype] rd
-   drivers/i2c/busses/i2c-octeon-core.c:677:26: sparse:     got restricted __be64 [usertype]
->> drivers/i2c/busses/i2c-octeon-core.c:728:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [addressable] [usertype] buf @@     got restricted __be64 [usertype] @@
-   drivers/i2c/busses/i2c-octeon-core.c:728:21: sparse:     expected unsigned long long [addressable] [usertype] buf
-   drivers/i2c/busses/i2c-octeon-core.c:728:21: sparse:     got restricted __be64 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +677 drivers/i2c/busses/i2c-octeon-core.c
+>> kernel/events/core.c:5604:13: error: no member named 'security' in 'struct perf_event'
+    5604 |         if (event->security)
+         |             ~~~~~  ^
+   1 error generated.
 
-   633	
-   634	/**
-   635	 * octeon_i2c_hlc_block_comp_read - high-level-controller composite block read
-   636	 * @i2c: The struct octeon_i2c
-   637	 * @msgs: msg[0] contains address, place read data into msg[1]
-   638	 *
-   639	 * i2c core command is constructed and written into the SW_TWSI register.
-   640	 * The execution of the command will result in requested data being
-   641	 * placed into a FIFO buffer, ready to be read.
-   642	 * Used in the case where the i2c xfer is for greater than 8 bytes of read data.
-   643	 *
-   644	 * Returns: 0 on success, otherwise a negative errno.
-   645	 */
-   646	static int octeon_i2c_hlc_block_comp_read(struct octeon_i2c *i2c, struct i2c_msg *msgs)
-   647	{
-   648		int ret = 0;
-   649		u16 len;
-   650		u64 cmd;
-   651	
-   652		octeon_i2c_hlc_enable(i2c);
-   653		octeon_i2c_block_enable(i2c);
-   654	
-   655		/* Write (size - 1) into block control register */
-   656		len = msgs[1].len - 1;
-   657		octeon_i2c_writeq_flush((u64)(len), i2c->twsi_base + OCTEON_REG_BLOCK_CTL(i2c));
-   658	
-   659		/* Prepare core command */
-   660		cmd = SW_TWSI_V | SW_TWSI_R | SW_TWSI_SOVR | SW_TWSI_OP_7_IA;
-   661		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
-   662	
-   663		/* Send core command */
-   664		ret = octeon_i2c_hlc_read_cmd(i2c, msgs[0], cmd);
-   665		if (ret)
-   666			return ret;
-   667	
-   668		cmd = __raw_readq(i2c->twsi_base + OCTEON_REG_SW_TWSI(i2c));
-   669		if ((cmd & SW_TWSI_R) == 0)
-   670			return octeon_i2c_check_status(i2c, false);
-   671	
-   672		/* read data in FIFO */
-   673		octeon_i2c_writeq_flush(TWSX_BLOCK_STS_RESET_PTR,
-   674					i2c->twsi_base + OCTEON_REG_BLOCK_STS(i2c));
-   675		for (u16 i = 0; i <= len; i += 8) {
-   676			/* Byte-swap FIFO data and copy into msg buffer */
- > 677			u64 rd = cpu_to_be64(__raw_readq(i2c->twsi_base + OCTEON_REG_BLOCK_FIFO(i2c)));
-   678	
-   679			memcpy(&msgs[1].buf[i], &rd, MIN_T(u16, 8, msgs[1].len - i));
-   680		}
-   681	
-   682		octeon_i2c_block_disable(i2c);
-   683		return ret;
-   684	}
-   685	
-   686	/**
-   687	 * octeon_i2c_hlc_block_comp_write - high-level-controller composite block write
-   688	 * @i2c: The struct octeon_i2c
-   689	 * @msgs: msg[0] contains address, msg[1] contains data to be written
-   690	 *
-   691	 * i2c core command is constructed and write data is written into the FIFO buffer.
-   692	 * The execution of the command will result in HW write, using the data in FIFO.
-   693	 * Used in the case where the i2c xfer is for greater than 8 bytes of write data.
-   694	 *
-   695	 * Returns: 0 on success, otherwise a negative errno.
-   696	 */
-   697	static int octeon_i2c_hlc_block_comp_write(struct octeon_i2c *i2c, struct i2c_msg *msgs)
-   698	{
-   699		bool set_ext = false;
-   700		int ret = 0;
-   701		u16 len;
-   702		u64 cmd, ext = 0;
-   703	
-   704		octeon_i2c_hlc_enable(i2c);
-   705		octeon_i2c_block_enable(i2c);
-   706	
-   707		/* Write (size - 1) into block control register */
-   708		len = msgs[1].len - 1;
-   709		octeon_i2c_writeq_flush((u64)(len), i2c->twsi_base + OCTEON_REG_BLOCK_CTL(i2c));
-   710	
-   711		/* Prepare core command */
-   712		cmd = SW_TWSI_V | SW_TWSI_SOVR | SW_TWSI_OP_7_IA;
-   713		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
-   714	
-   715		/* Set parameters for extended message (if required) */
-   716		set_ext = octeon_i2c_hlc_ext(i2c, msgs[0], &cmd, &ext);
-   717	
-   718		/* Write msg into FIFO buffer */
-   719		octeon_i2c_writeq_flush(TWSX_BLOCK_STS_RESET_PTR,
-   720					i2c->twsi_base + OCTEON_REG_BLOCK_STS(i2c));
-   721		for (u16 i = 0; i <= len; i += 8) {
-   722			u64 buf = 0;
-   723	
-   724			/* Copy 8 bytes or remaining bytes from message buffer */
-   725			memcpy(&buf, &msgs[1].buf[i], MIN_T(u16, 8, msgs[1].len - i));
-   726	
-   727			/* Byte-swap message data and write into FIFO */
- > 728			buf = cpu_to_be64(buf);
-   729			octeon_i2c_writeq_flush(buf, i2c->twsi_base + OCTEON_REG_BLOCK_FIFO(i2c));
-   730		}
-   731		if (set_ext)
-   732			octeon_i2c_writeq_flush(ext, i2c->twsi_base + OCTEON_REG_SW_TWSI_EXT(i2c));
-   733	
-   734		/* Send command to core (send data in FIFO) */
-   735		ret = octeon_i2c_hlc_cmd_send(i2c, cmd);
-   736		if (ret)
-   737			return ret;
-   738	
-   739		cmd = __raw_readq(i2c->twsi_base + OCTEON_REG_SW_TWSI(i2c));
-   740		if ((cmd & SW_TWSI_R) == 0)
-   741			return octeon_i2c_check_status(i2c, false);
-   742	
-   743		octeon_i2c_block_disable(i2c);
-   744		return ret;
-   745	}
-   746	
+
+vim +5604 kernel/events/core.c
+
+  5600	
+  5601	/* vs perf_event_alloc() error */
+  5602	static void __free_event(struct perf_event *event)
+  5603	{
+> 5604		if (event->security)
+  5605			security_perf_event_free(event);
+  5606	
+  5607		if (event->attach_state & PERF_ATTACH_CALLCHAIN)
+  5608			put_callchain_buffers();
+  5609	
+  5610		kfree(event->addr_filter_ranges);
+  5611	
+  5612		if (event->attach_state & PERF_ATTACH_EXCLUSIVE)
+  5613			exclusive_event_destroy(event);
+  5614	
+  5615		if (is_cgroup_event(event))
+  5616			perf_detach_cgroup(event);
+  5617	
+  5618		if (event->destroy)
+  5619			event->destroy(event);
+  5620	
+  5621		/*
+  5622		 * Must be after ->destroy(), due to uprobe_perf_close() using
+  5623		 * hw.target.
+  5624		 */
+  5625		if (event->hw.target)
+  5626			put_task_struct(event->hw.target);
+  5627	
+  5628		if (event->pmu_ctx) {
+  5629			/*
+  5630			 * put_pmu_ctx() needs an event->ctx reference, because of
+  5631			 * epc->ctx.
+  5632			 */
+  5633			WARN_ON_ONCE(!event->ctx);
+  5634			WARN_ON_ONCE(event->pmu_ctx->ctx != event->ctx);
+  5635			put_pmu_ctx(event->pmu_ctx);
+  5636		}
+  5637	
+  5638		/*
+  5639		 * perf_event_free_task() relies on put_ctx() being 'last', in
+  5640		 * particular all task references must be cleaned up.
+  5641		 */
+  5642		if (event->ctx)
+  5643			put_ctx(event->ctx);
+  5644	
+  5645		if (event->pmu)
+  5646			module_put(event->pmu->module);
+  5647	
+  5648		call_rcu(&event->rcu_head, free_event_rcu);
+  5649	}
+  5650	
 
 -- 
 0-DAY CI Kernel Test Service
