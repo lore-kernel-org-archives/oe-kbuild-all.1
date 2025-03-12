@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7315D1422DD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 15:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7222245001
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 15:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741793332; cv=none; b=dvBwWs+5mhD9uiW5geioL6xyapjHWqQKq3reH29uWwFumzg9mGDvW1a/pY7iAAMJWgSqKi8wm1ViZuNHamMi7M+ubuLGOJBt1+8WqnoLlX9emifo6SX5LXNMM/SUr6MYNjV05Il0Pc/ncSYue3r2BT6i/KZVg9KRyGSxHy4KXpM=
+	t=1741794016; cv=none; b=r33GPOFF6yaZdWAVyuAqzAPuTkKGEti1HZ5/4/pMyhfoutrkC9/E6ExmHnI6fYxm2JqXE60pDGfTlSyvKM28nSy5bhrJW7yawkqe8rlYLPTtCSM49mHNbP0VksQRRFsirVHY3E1SqXb8VkztJUSpSQJL0vmzRhxTWex3cLMuX3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741793332; c=relaxed/simple;
-	bh=EGZuUpDr//jaRdXf/uKu1IGEaACrrG+Adp9/cjvnSf8=;
+	s=arc-20240116; t=1741794016; c=relaxed/simple;
+	bh=/52CkBmsjfTmPjWn6jpwT0h4ikUF9u+uH7qr/I/Fiqo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rP/FCro9wHGgh3eYsbuZpOmzPhBSke8ZPrtPJDCGXYHXdaUi7kJo7oKzuGVrAqsQB/H2OCUsatrqJzM323Eicv5WO9SbPoYQ0Sm9ksftXPW177/Iwq7IfhQmhUIJmwzlSEHEj1nFzyRGYYvSIEoOpxdMpGU6EjcmMSSzy3mPcsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AeTjsSCK; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=GM2L1Bx4fNhzYZkxGK8odlYoAS9Hzq+jZYviEH0WUn6znot7woEnd4OAmDyKLbybkM160TI2/l6WRHsBFUbA4UUP53MHrsZZ2wLNJazNOlJekZJYDpP3lxgnO5nzqX4mZtJeYSALfvqwDRla70oaQGjzVOebNmHlj3njaCbWhwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGi3hiRp; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AeTjsSCK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGi3hiRp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741793330; x=1773329330;
+  t=1741794015; x=1773330015;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EGZuUpDr//jaRdXf/uKu1IGEaACrrG+Adp9/cjvnSf8=;
-  b=AeTjsSCKaHyFEq5F3/ajXOVatYmwNI/lh8m0tIiC0Al6XAbnJGdj67xL
-   Girdnd/bLndOqhCd6sZJn49tcPI5DmUfayULyp1SwHzIco6RM/c2VCwpA
-   buSoaVIJtgaVAGzy24yuC4goq5rFj3G05MqtpHQKxDfv1n9nr0CnvyJNg
-   praN5EqD/Ht9S/KiLjmpTM5ufpcs1lKnbcnnL0TzAj1elRz7Pml1B3Q53
-   LsL+Z7IGNHM9PwVPS7LIUd5McRzb9Zejw0TzNbVm9gWGkboCfUyTiW06G
-   HwKIFRItuJ0j0fl1dw3uRsBGUnfb3cYittOth7QR+MxTKY8supN7oLRar
-   A==;
-X-CSE-ConnectionGUID: 5n1nHBfcThKSCia5Uarugg==
-X-CSE-MsgGUID: GbzHfluiSai/8lNOT7FE5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42134162"
+  bh=/52CkBmsjfTmPjWn6jpwT0h4ikUF9u+uH7qr/I/Fiqo=;
+  b=EGi3hiRpuXMf+OVGQrY3Qto5MdxkV18Loq53BE58bXaeqQLqD2YWP4vP
+   C2mA6rjSa2ZkhqrP0RJpscYc1DRJoHvxAvG0S3m4s/09je9OSdlXblzdq
+   BioKxUWh9h8B8pKrBKVd2qyiJ/6dPJdagxcrHKB+eZ5SaaltAG1ZLU2cI
+   L+JVKOJylJsFZ7vSB8uqWGJx2gZ71XK/tiHY2gzybuVEeGRYB7GUNRgN2
+   WakRFnph8OvuDC0sZoIJshk3lggxzoLcp2Im0w7dDDw3wUzWFYwxGOd4u
+   OBqJ7BK7/v1/Q2jnIKYsc6KsocJml+puc6uAAXH/k2XNrLqa720AP0UEW
+   Q==;
+X-CSE-ConnectionGUID: YNxK7vmfTJCr7pzvCIn4jw==
+X-CSE-MsgGUID: BsRqSIbyTqeD7LN37kaNGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42987565"
 X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="42134162"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 08:28:50 -0700
-X-CSE-ConnectionGUID: x7//u5VLT8S4jl7q7ubD6g==
-X-CSE-MsgGUID: gz3SVc/aSoWHxmWPVjoWIw==
+   d="scan'208";a="42987565"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 08:39:52 -0700
+X-CSE-ConnectionGUID: anbCkLLVQt6tDfz3u5CJgA==
+X-CSE-MsgGUID: WAuf9KfmROaLQRiJxE/xtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
-   d="scan'208";a="120630374"
+   d="scan'208";a="124826744"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 12 Mar 2025 08:28:49 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 12 Mar 2025 08:39:49 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsO0k-0008eq-1e;
-	Wed, 12 Mar 2025 15:28:46 +0000
-Date: Wed, 12 Mar 2025 23:28:28 +0800
+	id 1tsOBP-0008fU-2H;
+	Wed, 12 Mar 2025 15:39:47 +0000
+Date: Wed, 12 Mar 2025 23:39:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android16-6.12-desktop 280/280]
- arch/x86/kvm/mmu/mmu.c:4595:39: error: invalid application of 'sizeof' to
+ arch/x86/kvm/mmu/mmu.c:4595:25: error: invalid application of 'sizeof' to an
  incomplete type 'struct kvm_pinned_page'
-Message-ID: <202503122351.Dmionfev-lkp@intel.com>
+Message-ID: <202503122341.39YxLHVY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,89 +66,90 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
 head:   416b1b8e121ff0114c661e47e388426ad5cce864
 commit: 09bf6b8a4a13018bbcea10b0f62f734ff6bbcb1a [280/280] ANDROID: REVERTME: HACK: kvm: pin all the pages used by protected VM
-config: i386-buildonly-randconfig-003-20250312 (https://download.01.org/0day-ci/archive/20250312/202503122351.Dmionfev-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503122351.Dmionfev-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20250312 (https://download.01.org/0day-ci/archive/20250312/202503122341.39YxLHVY-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503122341.39YxLHVY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503122351.Dmionfev-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503122341.39YxLHVY-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/percpu.h:5,
-                    from arch/x86/include/asm/msr.h:15,
-                    from arch/x86/include/asm/tsc.h:10,
-                    from arch/x86/include/asm/timex.h:6,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/jiffies.h:10,
-                    from include/linux/ktime.h:25,
-                    from include/linux/timer.h:6,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:19,
-                    from arch/x86/kvm/irq.h:13,
-                    from arch/x86/kvm/mmu/mmu.c:19:
-   arch/x86/kvm/mmu/mmu.c: In function 'direct_page_fault':
->> arch/x86/kvm/mmu/mmu.c:4595:39: error: invalid application of 'sizeof' to incomplete type 'struct kvm_pinned_page'
+>> arch/x86/kvm/mmu/mmu.c:4595:25: error: invalid application of 'sizeof' to an incomplete type 'struct kvm_pinned_page'
     4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                                       ^
-   include/linux/alloc_tag.h:227:16: note: in definition of macro 'alloc_hooks_tag'
+         |                                       ^~~~~~~~
+   include/linux/slab.h:887:52: note: expanded from macro 'kmalloc'
+     887 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
+         |                                                                            ^~~~~~~~~~~
+   include/linux/alloc_tag.h:241:31: note: expanded from macro 'alloc_hooks'
+     241 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
+         |                                      ^~~~~~~~~
+   include/linux/alloc_tag.h:227:9: note: expanded from macro 'alloc_hooks_tag'
      227 |         typeof(_do_alloc) _res;                                         \
          |                ^~~~~~~~~
-   include/linux/slab.h:887:49: note: in expansion of macro 'alloc_hooks'
+   arch/x86/kvm/mmu/mmu.c:4586:9: note: forward declaration of 'struct kvm_pinned_page'
+    4586 |         struct kvm_pinned_page *ppage = NULL;
+         |                ^
+>> arch/x86/kvm/mmu/mmu.c:4595:25: error: invalid application of 'sizeof' to an incomplete type 'struct kvm_pinned_page'
+    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
+         |                                       ^~~~~~~~
+   include/linux/slab.h:887:52: note: expanded from macro 'kmalloc'
      887 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   arch/x86/kvm/mmu/mmu.c:4595:25: note: in expansion of macro 'kmalloc'
-    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                         ^~~~~~~
->> arch/x86/kvm/mmu/mmu.c:4595:39: error: invalid application of 'sizeof' to incomplete type 'struct kvm_pinned_page'
-    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                                       ^
-   include/linux/alloc_tag.h:231:24: note: in definition of macro 'alloc_hooks_tag'
+         |                                                                            ^~~~~~~~~~~
+   include/linux/alloc_tag.h:241:31: note: expanded from macro 'alloc_hooks'
+     241 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
+         |                                      ^~~~~~~~~
+   include/linux/alloc_tag.h:231:10: note: expanded from macro 'alloc_hooks_tag'
      231 |                 _res = _do_alloc;                                       \
          |                        ^~~~~~~~~
-   include/linux/slab.h:887:49: note: in expansion of macro 'alloc_hooks'
+   arch/x86/kvm/mmu/mmu.c:4586:9: note: forward declaration of 'struct kvm_pinned_page'
+    4586 |         struct kvm_pinned_page *ppage = NULL;
+         |                ^
+>> arch/x86/kvm/mmu/mmu.c:4595:25: error: invalid application of 'sizeof' to an incomplete type 'struct kvm_pinned_page'
+    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
+         |                                       ^~~~~~~~
+   include/linux/slab.h:887:52: note: expanded from macro 'kmalloc'
      887 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   arch/x86/kvm/mmu/mmu.c:4595:25: note: in expansion of macro 'kmalloc'
-    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                         ^~~~~~~
->> arch/x86/kvm/mmu/mmu.c:4595:39: error: invalid application of 'sizeof' to incomplete type 'struct kvm_pinned_page'
-    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                                       ^
-   include/linux/alloc_tag.h:234:24: note: in definition of macro 'alloc_hooks_tag'
+         |                                                                            ^~~~~~~~~~~
+   include/linux/alloc_tag.h:241:31: note: expanded from macro 'alloc_hooks'
+     241 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
+         |                                      ^~~~~~~~~
+   include/linux/alloc_tag.h:234:10: note: expanded from macro 'alloc_hooks_tag'
      234 |                 _res = _do_alloc;                                       \
          |                        ^~~~~~~~~
-   include/linux/slab.h:887:49: note: in expansion of macro 'alloc_hooks'
-     887 | #define kmalloc(...)                            alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   arch/x86/kvm/mmu/mmu.c:4595:25: note: in expansion of macro 'kmalloc'
-    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                         ^~~~~~~
->> arch/x86/kvm/mmu/mmu.c:4595:23: warning: assignment to 'struct kvm_pinned_page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    4595 |                 ppage = kmalloc(sizeof(*ppage), GFP_KERNEL_ACCOUNT);
-         |                       ^
->> arch/x86/kvm/mmu/mmu.c:4630:22: error: invalid use of undefined type 'struct kvm_pinned_page'
+   arch/x86/kvm/mmu/mmu.c:4586:9: note: forward declaration of 'struct kvm_pinned_page'
+    4586 |         struct kvm_pinned_page *ppage = NULL;
+         |                ^
+>> arch/x86/kvm/mmu/mmu.c:4630:8: error: incomplete definition of type 'struct kvm_pinned_page'
     4630 |                 ppage->page = pfn_to_page(fault->pfn);
-         |                      ^~
-   arch/x86/kvm/mmu/mmu.c:4631:31: error: invalid use of undefined type 'struct kvm_pinned_page'
+         |                 ~~~~~^
+   arch/x86/kvm/mmu/mmu.c:4586:9: note: forward declaration of 'struct kvm_pinned_page'
+    4586 |         struct kvm_pinned_page *ppage = NULL;
+         |                ^
+   arch/x86/kvm/mmu/mmu.c:4631:17: error: incomplete definition of type 'struct kvm_pinned_page'
     4631 |                 get_page(ppage->page);
-         |                               ^~
-   arch/x86/kvm/mmu/mmu.c:4632:37: error: 'struct kvm' has no member named 'pkvm'
+         |                          ~~~~~^
+   arch/x86/kvm/mmu/mmu.c:4586:9: note: forward declaration of 'struct kvm_pinned_page'
+    4586 |         struct kvm_pinned_page *ppage = NULL;
+         |                ^
+   arch/x86/kvm/mmu/mmu.c:4632:25: error: no member named 'pkvm' in 'struct kvm'
     4632 |                 spin_lock(&vcpu->kvm->pkvm.pinned_page_lock);
-         |                                     ^~
-   arch/x86/kvm/mmu/mmu.c:4633:32: error: invalid use of undefined type 'struct kvm_pinned_page'
+         |                            ~~~~~~~~~  ^
+   arch/x86/kvm/mmu/mmu.c:4633:18: error: incomplete definition of type 'struct kvm_pinned_page'
     4633 |                 list_add(&ppage->list, &vcpu->kvm->pkvm.pinned_pages);
-         |                                ^~
-   arch/x86/kvm/mmu/mmu.c:4633:50: error: 'struct kvm' has no member named 'pkvm'
+         |                           ~~~~~^
+   arch/x86/kvm/mmu/mmu.c:4586:9: note: forward declaration of 'struct kvm_pinned_page'
+    4586 |         struct kvm_pinned_page *ppage = NULL;
+         |                ^
+   arch/x86/kvm/mmu/mmu.c:4633:38: error: no member named 'pkvm' in 'struct kvm'
     4633 |                 list_add(&ppage->list, &vcpu->kvm->pkvm.pinned_pages);
-         |                                                  ^~
-   arch/x86/kvm/mmu/mmu.c:4634:39: error: 'struct kvm' has no member named 'pkvm'
+         |                                         ~~~~~~~~~  ^
+   arch/x86/kvm/mmu/mmu.c:4634:27: error: no member named 'pkvm' in 'struct kvm'
     4634 |                 spin_unlock(&vcpu->kvm->pkvm.pinned_page_lock);
-         |                                       ^~
+         |                              ~~~~~~~~~  ^
+   9 errors generated.
 
 
 vim +4595 arch/x86/kvm/mmu/mmu.c
