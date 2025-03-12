@@ -1,59 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29D71DED40
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 05:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200A81DF721;
+	Wed, 12 Mar 2025 05:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741758088; cv=none; b=T0wtVkEhb+4XKAcNuk0xXARrdYAyngnvuWNnyozF1yVVcsGgrEJ0ZpLwvF4eBtYTNCSBnspOfY7QuMYoB9UsdhNiAyCkQSZTWkEc2savidZyaepo+Cyu3YzzN8YmAnbgGHwkcvkaNP2S4+b0601X5ETwtt3HOqfKfCJdOIb/Lu4=
+	t=1741758893; cv=none; b=Y/nf9I8jXjolRJh2qhL3vxLpraFfiCVHXaU6+Bh6NzPsne686JXn6XRXcyn3Y5rGaszAXJL6oXADZ1VvzD2tSlVPahwz3F8p1hwzk9ojpe242db/pGy17rWc4ox2Ms2NINfcq96e1h9dVWzCTwsxuVrIa/Z7A/z4G4S9x0JRDfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741758088; c=relaxed/simple;
-	bh=Hly95rB7cJPOeX4xQyWuUn+N5asxcoX1u7IMEAz5c0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=S8CIn1nhvz8fZLTXRFtAC7xoQ3AWwmJxljgw00mMe2lif02gUZDaL1t98MKdJ6prARdhhbH//P4fH2DMEPmdP5NA4GqT/lzaGSqphIcCywXJDs6kNmkBlQT6WG/+joCNT04APsszRve05EKjq7VJch/Zvk6uNE2bKh8jKurL7fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCnp1qut; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741758893; c=relaxed/simple;
+	bh=vyWxhQdRY//26aG3d6bJ2kK9sfRyVEIOrkSJuEV2uY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dZKH93v2yY0eTJ0dZVnBsboS5rPgORJW/74JiSdSGpi6ffEzLGPWd3fjlG4y/hBjBnXtAg1TPxF5YqV++kpk5VJ5DhdN+yaLIt97PVexkgD12liqcgkXwisi6d73jaD2Uh3eNccsEurVsKPZlyqdfxFV2BrNWrtMOOYvjxkAAJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KhNDAQk+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCnp1qut"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741758087; x=1773294087;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hly95rB7cJPOeX4xQyWuUn+N5asxcoX1u7IMEAz5c0o=;
-  b=jCnp1qutFnOlonqsCrIb0j0yY3givBbKc00gWAwchlpbjh3chKOFTJei
-   ONaDcTtLMjxYwSrs70n8F83K/PtL6nJpVwEXA3HNZ9W2phWLAlDgv4ZYr
-   LycaAkuHS3vyJk0gJuuohnjra1EpWkCE1vOqrZ26DcFet0q7y40lzSrQj
-   BNNh/507LyokIb6vGlLdJiQPZHUk03f8VvifV5QFwrF5lFqOeTwVPmVKs
-   XJCHEFaEf0CX9/O1RBxBPYZSpb5JamtdxUkiRhiHqmT6wMyFRqPOqIaCE
-   roX3AGUciDj4CLBVzydkO712MjWf5b/A4qIYH5CarEeG7e0He9tt2c+iy
-   A==;
-X-CSE-ConnectionGUID: 6nQlJGQqSqSwx2/2Wcc/bw==
-X-CSE-MsgGUID: Q0B0+idIS1esHMXxSrOZVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="54208349"
-X-IronPort-AV: E=Sophos;i="6.14,240,1736841600"; 
-   d="scan'208";a="54208349"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 22:41:24 -0700
-X-CSE-ConnectionGUID: R0OKHaJeQJCwvhZdvs4DTA==
-X-CSE-MsgGUID: y9TD09ysQe+CiIkeFK2LnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,240,1736841600"; 
-   d="scan'208";a="120487877"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 11 Mar 2025 22:41:22 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tsEqG-00089y-13;
-	Wed, 12 Mar 2025 05:41:20 +0000
-Date: Wed, 12 Mar 2025 13:40:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:_r8 64/70] kernel/module/main.c:2641:10: warning: format
- specifies type 'char *' but the argument has type 'int'
-Message-ID: <202503121305.Y1cIpLhr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KhNDAQk+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32031C4CEE3;
+	Wed, 12 Mar 2025 05:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741758892;
+	bh=vyWxhQdRY//26aG3d6bJ2kK9sfRyVEIOrkSJuEV2uY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KhNDAQk+LA2hbygFLud2kv3tvQY4bP+TGRzBDuPen37RP200k4WnHD8TMs0TePmga
+	 4N0RUSsq0NMpV+58FSIl6nvPyvIRnw6E59tMm7uAPlQF7Ply1N8ElJiXSsQZiLJRMA
+	 Y+XiKDevK0eaqNHlnyxmloW4zfkZgYHyQ5GO8Ol8H8we9K3dxMKnQhr2leDS0C7Shr
+	 cwZ50Tpjsqa9TUF0ugPMlrK5FkkgL0xm9dbgcPHR2AG/ceV/7Wr8JM6euzEl9kYdsP
+	 fszL0FBGmgnu6bSRaAF8gFfMOMQUXq8914MXdCoBF5WZT7ftfPo3CYeNHK3vKSyoRP
+	 Ak8ID3r9cBA0w==
+Date: Wed, 12 Mar 2025 07:54:48 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Stuart Yoder <stuart.yoder@arm.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 9090/10334] ld.lld: error: undefined symbol:
+ tpm_crb_ffa_init
+Message-ID: <Z9EhqAxJjbsUiuC_@kernel.org>
+References: <202503120916.TnY8Xobl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +43,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202503120916.TnY8Xobl-lkp@intel.com>
 
-tree:   https://github.com/jimc/linux.git _r8
-head:   d2e2e629f0a887e71446afa03ead92dc5a4af57c
-commit: 1f2e18de8214b240046f219f0c37aeeee89a48b0 [64/70] dyndbg: split __dyndbg_sites section out from __dyndbg_descriptors
-config: i386-buildonly-randconfig-002-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121305.Y1cIpLhr-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503121305.Y1cIpLhr-lkp@intel.com/reproduce)
+On Wed, Mar 12, 2025 at 09:51:04AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   eea255893718268e1ab852fb52f70c613d109b99
+> commit: 9b2015ee9b5bba20097ea1e1f4188067624f4fa3 [9090/10334] tpm_crb: add support for the Arm FF-A start method
+> config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250312/202503120916.TnY8Xobl-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120916.TnY8Xobl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503120916.TnY8Xobl-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: undefined symbol: tpm_crb_ffa_init
+>    >>> referenced by tpm_crb.c
+>    >>>               drivers/char/tpm/tpm_crb.o:(crb_acpi_add) in archive vmlinux.a
+> --
+> >> ld.lld: error: undefined symbol: tpm_crb_ffa_start
+>    >>> referenced by tpm_crb.c
+>    >>>               drivers/char/tpm/tpm_crb.o:(__crb_request_locality) in archive vmlinux.a
+>    >>> referenced by tpm_crb.c
+>    >>>               drivers/char/tpm/tpm_crb.o:(__crb_relinquish_locality) in archive vmlinux.a
+>    >>> referenced by tpm_crb.c
+>    >>>               drivers/char/tpm/tpm_crb.o:(crb_send) in archive vmlinux.a
+>    >>> referenced 1 more times
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503121305.Y1cIpLhr-lkp@intel.com/
+Stuart, I did not go through this but this does not look correct even with
+a quick peak:
 
-All warnings (new ones prefixed by >>):
-
->> kernel/module/main.c:2641:10: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
-    2640 |                 pr_err("module: %s section-pair lengths: %d != %d: __dyndbg_{descriptors,codeorgs}\n",
-         |                                 ~~
-         |                                 %d
-    2641 |                        mod->dyndbg_info.descs.len != mod->dyndbg_info.sites.len, mod->name);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:544:33: note: expanded from macro 'pr_err'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:501:60: note: expanded from macro 'printk'
-     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:473:19: note: expanded from macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
->> kernel/module/main.c:2641:68: warning: format specifies type 'int' but the argument has type 'char *' [-Wformat]
-    2640 |                 pr_err("module: %s section-pair lengths: %d != %d: __dyndbg_{descriptors,codeorgs}\n",
-         |                                                          ~~
-         |                                                          %s
-    2641 |                        mod->dyndbg_info.descs.len != mod->dyndbg_info.sites.len, mod->name);
-         |                                                                                  ^~~~~~~~~
-   include/linux/printk.h:544:33: note: expanded from macro 'pr_err'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:501:60: note: expanded from macro 'printk'
-     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:473:19: note: expanded from macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
->> kernel/module/main.c:2640:51: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-    2640 |                 pr_err("module: %s section-pair lengths: %d != %d: __dyndbg_{descriptors,codeorgs}\n",
-         |                                                                ~^
-   include/linux/printk.h:544:25: note: expanded from macro 'pr_err'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                                ^~~
-   include/linux/printk.h:391:21: note: expanded from macro 'pr_fmt'
-     391 | #define pr_fmt(fmt) fmt
-         |                     ^~~
-   include/linux/printk.h:501:53: note: expanded from macro 'printk'
-     501 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ^~~
-   include/linux/printk.h:473:11: note: expanded from macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   3 warnings generated.
+config TCG_ARM_CRB_FFA                                                                                                                                                         
+       ~~~~~~~~~~~~~~~
+       TCG_FTPM_FFA (and Kconfig put before TCG_FTPM_TEE)
 
 
-vim +2641 kernel/module/main.c
+        tristate "TPM CRB over Arm FF-A Transport"                                                                                                                             
+        depends on ARM_FFA_TRANSPORT                                                                                                                                           
+        default y if (TCG_CRB && ARM_FFA_TRANSPORT)                                                                                                                            
+                                 ~~~~~~~~~~~~~~~~~
+				 redundant given "depends on"
 
-  2616	
-  2617		mod->extable = section_objs(info, "__ex_table",
-  2618					    sizeof(*mod->extable), &mod->num_exentries);
-  2619	
-  2620		if (section_addr(info, "__obsparm"))
-  2621			pr_warn("%s: Ignoring obsolete parameters\n", mod->name);
-  2622	
-  2623	#ifdef CONFIG_DYNAMIC_DEBUG_CORE
-  2624		mod->dyndbg_info.descs.start = section_objs(info, "__dyndbg_descriptors",
-  2625							    sizeof(*mod->dyndbg_info.descs.start),
-  2626							    &mod->dyndbg_info.descs.len);
-  2627		mod->dyndbg_info.maps.start = section_objs(info, "__dyndbg_class_maps",
-  2628							   sizeof(*mod->dyndbg_info.maps.start),
-  2629							   &mod->dyndbg_info.maps.len);
-  2630		mod->dyndbg_info.users.start = section_objs(info, "__dyndbg_class_users",
-  2631							   sizeof(*mod->dyndbg_info.users.start),
-  2632							   &mod->dyndbg_info.users.len);
-  2633		mod->dyndbg_info.sites.start = section_objs(info, "__dyndbg_codeorgs",
-  2634							    sizeof(*mod->dyndbg_info.sites.start),
-  2635							    &mod->dyndbg_info.sites.len);
-  2636		/* these 2 sections must match */
-  2637		if (!!mod->dyndbg_info.descs.start ^ !!mod->dyndbg_info.sites.start)
-  2638			pr_err("module: %s missing one-of __dyndbg_{descriptors,codeorgs} sections\n", mod->name);
-  2639		if (mod->dyndbg_info.descs.len != mod->dyndbg_info.sites.len)
-> 2640			pr_err("module: %s section-pair lengths: %d != %d: __dyndbg_{descriptors,codeorgs}\n",
-> 2641			       mod->dyndbg_info.descs.len != mod->dyndbg_info.sites.len, mod->name);
-  2642	#endif
-  2643	
-  2644		return 0;
-  2645	}
-  2646	
+        help                                                                                                                                                                   
+          If the Arm FF-A transport is used to access the TPM say Yes.                                                                                                         
+          To compile this driver as a module, choose M here; the module                                                                                                        
+          will be called tpm_crb_ffa.                                                                                                                                          
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So I'll drop the whole series from my tree for the moment and you'll
+have to respin.
+              
+BR, Jarkko
