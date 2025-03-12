@@ -1,197 +1,91 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AB41EDA09
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 21:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C6D1F2388
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 23:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741816673; cv=none; b=hKQOZ49H7t0JlcK3Zp6mBkwiKtEVCSAP5Dj0UJaNpm8HymvWZMex4puOCqyN03FI+b6Jkp0NYm96RziNWVmtp9mgbRx43+oXDGruOGcyNbSpKObbDrt3APhve/Ps7PRLLSbjpPSX2PDTjzCWtjaz0WFbRR6OQapTcLAWB61Brak=
+	t=1741820454; cv=none; b=bQXWeNqGWuCepE5sC3c5LRimEVWZ417kx+Q6aZHojqbbIY6osCTPd1lAQYAu4IqpaMUIcDBt+Qs5JJrzGddcPw8X/57yKR1tAmFs7zREx3Yt0RLWH4py6/0jA8sO2qYmyMzYxRQZfmQ2qIas7olHeV0KsGnaAszg9P/4oF2AoXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741816673; c=relaxed/simple;
-	bh=nGcJgkCoJtQtvRizpm3fbRxdCL9kPsxqBFdpAYH9m/w=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=jE+ucH4Yg1yHrAjWoMk06+29n2gwWwQtGz4LiAOsGHkw7cLkkuC+TZpUciJ28Piopn13LKBBLV0yTkwl991NfVLciy/LkzPigiFeXCrp76XYeDYFaed4mKRGUqkO5d9E2x9F+y3ZJblcPW0mlkcDqU9tgcWN8yQjZj9nr8K/OFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev; spf=none smtp.mailfrom=ljones.dev; dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b=bqzjTbkt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Erl3rH2W; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ljones.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ljones.dev
+	s=arc-20240116; t=1741820454; c=relaxed/simple;
+	bh=ZcsvWtM7Ag0v1GAMuyaECFss1dVT1toWpcoC/pTjWvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jgdula1xSh2zxwQdFsxmStknWJRUlIx+Xz6u45xLS9F5BJ39cV99eTJeIxqXIpXBmGKXZ+Xm+sBFC3GtIGpLN9slVYemfxlbzPB7UqQMKWbuC5wUszCyY1NgTpbyXEEGNM/tvb/T11cA7AQ5qj10a89niJMJPblppcHWZUTtj1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X92XTXlo; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ljones.dev header.i=@ljones.dev header.b="bqzjTbkt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Erl3rH2W"
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 54DF31382D0E;
-	Wed, 12 Mar 2025 17:57:50 -0400 (EDT)
-Received: from phl-imap-01 ([10.202.2.91])
-  by phl-compute-02.internal (MEProxy); Wed, 12 Mar 2025 17:57:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ljones.dev; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1741816670;
-	 x=1741903070; bh=AW3u1nv38LQ6380aEyc8+b6LZ30uxmKTmGKWtqc/wP4=; b=
-	bqzjTbkt80rt8bDORRv8hCOupadvmc0+H8OwR7m4SWNny+Benxh7W1ElyaxUSGyN
-	vSguJogwXEagqaps9JGIk+tJmfP4tQm/Ii+go/CZ4scrw+h6bp8af4LNRTL3BI+z
-	fvTT2yuIQQdyHyQ/hb/SxT1tEqiCAyYHbA8gmoB5RJdQ44mieX7YE3r+sbuqLvBF
-	cVXGhxJwRrSxnG51H8Uvoe1VnsbqtG1/Ui7VwXcbPkz2XMXS8wMBnaMXjARem6iZ
-	YpOtJODSNSkodoIdpvaSBak4fVxljzk90hLQsUPwx5J3rnIk6sIpySN6pJYjMs8z
-	HpvjCBH2UOG7fdeCIJi83Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1741816670; x=
-	1741903070; bh=AW3u1nv38LQ6380aEyc8+b6LZ30uxmKTmGKWtqc/wP4=; b=E
-	rl3rH2WAG5xfo0syewwG7xC3IP4ZxYspcw3r+K2bEudQV2iYhWgSpID8qnV9yXzi
-	uChKh9vVhBB7F16EeRf7R6pRjTDMGKyczNrYfZONObEyGMjfz4wGNlcbiPC7PZHT
-	+EHwa+g1lU79pt53/IXFyoK+uuaZ9l9iSBvP5pwMPzmFyxQ3beaTuyFMOOe0/1zS
-	a/vyEBZbL5F3XeyngVvC/oogKFR7CuHZzWxLIwsJ1c9R/lnD3Eq/ADrDwFBukLxF
-	vUWbgobq0WzOzPjNntMOSGqckL+R/nW9f+fT5y3W8frZGhTP/+zH3keh4C6hn0NI
-	WC4oWzbyIRNdmytkA1MFg==
-X-ME-Sender: <xms:XQPSZ2dTboDqoLor48QHmFDFFXNjPVfE8vV_sV-AiLR-PyUMZRFcKA>
-    <xme:XQPSZwMp0kqSci2Jff14OqDLpfsJk0FdZIRDvB4SLKztCB8q4QolSyfu5DpmN8nDC
-    DDwA-5G5bbIZpc_ExA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduvdeivddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedfnfhukhgvucflohhnvghsfdcuoehluhhkvgeslhhjohhnvghsrd
-    guvghvqeenucggtffrrghtthgvrhhnpeekvdelteefleefudffgfeukeefheeuffevveev
-    teevgeevjeegtdelteffkeffheenucffohhmrghinhepghhithdqshgtmhdrtghomhdpgh
-    hithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvsh
-    druggvvhdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehmrghrihhordhlihhmohhntghivghllhhosegrmhgurdgtohhmpdhrtghpthhtoh
-    eplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegsvghnthhishhssehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehjihhkohhssehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehilhhpohdrjhgrrhhvihhnvghnsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghp
-    thhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprh
-    gtphhtthhopehhuggvghhovgguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheplhhi
-    nhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:XgPSZ3iAeAzP8am4aYLot8WuBtePCDZ1k2a187KG7T_RhGaDBw2rcw>
-    <xmx:XgPSZz_vPVbqRizicmTNT7KQ_6DGzOJwdQSF6D1nywcYc1Pex4avAg>
-    <xmx:XgPSZys8qcmzwO95o5kkf-cvDpbNsnG6sEB13DcsQ8ZpqZSWWArG_Q>
-    <xmx:XgPSZ6HcpysqETxCAWe9YoOGjp5P6zIEX_x73c4CqVJxHSfCBnC9DA>
-    <xmx:XgPSZwB3qIlKjj3-oS7p03F0Dvq6R_TpWhtTiroYGxlbCDZTzu3uS849>
-Feedback-ID: i5ec1447f:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id E5E403360079; Wed, 12 Mar 2025 17:57:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X92XTXlo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741820453; x=1773356453;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZcsvWtM7Ag0v1GAMuyaECFss1dVT1toWpcoC/pTjWvs=;
+  b=X92XTXlo/WsZxVUxQzCZczgxjmAEEs9vuB8UvedZwjM/5Vu9DgRIPKfd
+   xfSTtlOcIn/c5JO+FCbBY1y6CFqgxiERUdg1ulg6ZcTRdA0daF4p2DTWA
+   uG1Wo2HvRdy7wACxkhV3hIi5zjMi7NCyGDvGzF/KuWsHN9v3evTnr1wWI
+   1SE5qLFnLtQmSOGCZ/rUZy87OzKKMthUt0Bmw/Kcj2wvu026LTb9wM/v7
+   T307Ruh67khorNYhvKMWW+EyGesrAfe8g9vSY7+Nq7QgwxpZCui7ejeLO
+   kqqkIMTKOnYrlheTH7or00ehjFdMPMRJSKFB8IB7RxE92bGIqVzzckS9d
+   A==;
+X-CSE-ConnectionGUID: AFJCRfvzQd+Ap7UqrPpYVA==
+X-CSE-MsgGUID: AhrNVbCcSL662uEJ4BfOMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="65378431"
+X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
+   d="scan'208";a="65378431"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 16:00:53 -0700
+X-CSE-ConnectionGUID: 0AlcsAHSRkKzs52BnxlYew==
+X-CSE-MsgGUID: 38835sgERd+wy+UeL5PqoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
+   d="scan'208";a="125653455"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 12 Mar 2025 16:00:52 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsV4D-0008x6-1Y;
+	Wed, 12 Mar 2025 23:00:49 +0000
+Date: Thu, 13 Mar 2025 07:00:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 120/120] ld.lld: error:
+ undefined symbol: timekeeping_inject_sleeptime64
+Message-ID: <202503130628.jG6ghb3u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 13 Mar 2025 10:57:29 +1300
-From: "Luke Jones" <luke@ljones.dev>
-To: "kernel test robot" <lkp@intel.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, "Hans de Goede" <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
- "Benjamin Tissoires" <bentiss@kernel.org>, "Jiri Kosina" <jikos@kernel.org>,
- "Mario Limonciello" <mario.limonciello@amd.com>
-Message-Id: <3d8df52d-4338-4235-b1fa-183f39e3c3aa@app.fastmail.com>
-In-Reply-To: <202503081003.gNlKWt4M-lkp@intel.com>
-References: <20250227085817.1007697-3-luke@ljones.dev>
- <202503081003.gNlKWt4M-lkp@intel.com>
-Subject: Re: [PATCH v3 2/2] platform/x86: asus-wmi: Refactor Ally suspend/resume
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   30a172da615ef0c0d9dfa4b39e005a45b89c35b1
+commit: 029865ac9555743665dd106b4bbefb2f371849e9 [120/120] ANDROID: virtio: virtio_pvclock: initial driver impl
+config: i386-randconfig-r112-20250312 (https://download.01.org/0day-ci/archive/20250313/202503130628.jG6ghb3u-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130628.jG6ghb3u-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503130628.jG6ghb3u-lkp@intel.com/
 
-On Sat, 8 Mar 2025, at 3:55 PM, kernel test robot wrote:
-> Hi Luke,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on hid/for-next]
-> [also build test ERROR on linus/master v6.14-rc5 next-20250307]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    
-> https://github.com/intel-lab-lkp/linux/commits/Luke-Jones/hid-asus-check-ROG-Ally-MCU-version-and-warn/20250227-165941
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git 
-> for-next
-> patch link:    
-> https://lore.kernel.org/r/20250227085817.1007697-3-luke%40ljones.dev
-> patch subject: [PATCH v3 2/2] platform/x86: asus-wmi: Refactor Ally 
-> suspend/resume
-> config: mips-allyesconfig 
-> (https://download.01.org/0day-ci/archive/20250308/202503081003.gNlKWt4M-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20250308/202503081003.gNlKWt4M-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202503081003.gNlKWt4M-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from drivers/hid/hid-asus.c:29:
->    include/linux/platform_data/x86/asus-wmi.h: In function 'set_ally_mcu_hack':
->>> include/linux/platform_data/x86/asus-wmi.h:168:16: error: 'return' with a value, in function returning void [-Wreturn-mismatch]
->      168 |         return -ENODEV;
->          |                ^
->    include/linux/platform_data/x86/asus-wmi.h:166:20: note: declared 
-> here
->      166 | static inline void set_ally_mcu_hack(bool enabled)
->          |                    ^~~~~~~~~~~~~~~~~
->    include/linux/platform_data/x86/asus-wmi.h: In function 
-> 'set_ally_mcu_powersave':
->    include/linux/platform_data/x86/asus-wmi.h:172:16: error: 'return' 
-> with a value, in function returning void [-Wreturn-mismatch]
->      172 |         return -ENODEV;
->          |                ^
->    include/linux/platform_data/x86/asus-wmi.h:170:20: note: declared 
-> here
->      170 | static inline void set_ally_mcu_powersave(bool enabled)
->          |                    ^~~~~~~~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
 
-*Groaning sounds*.
-Ilpo/Hans, you guys want me to fix this and submit new series or can this be corrected when pulled in?
-There's two more of the same below this.
+>> ld.lld: error: undefined symbol: timekeeping_inject_sleeptime64
+   >>> referenced by virtio_pvclock.c:77 (drivers/virtio/virtio_pvclock.c:77)
+   >>>               virtio/virtio_pvclock.o:(update_suspend_time) in archive drivers/built-in.a
 
->
-> vim +/return +168 include/linux/platform_data/x86/asus-wmi.h
->
->    159	
->    160	#if IS_REACHABLE(CONFIG_ASUS_WMI)
->    161	void set_ally_mcu_hack(bool enabled);
->    162	void set_ally_mcu_powersave(bool enabled);
->    163	int asus_wmi_set_devstate(u32 dev_id, u32 ctrl_param, u32 
-> *retval);
->    164	int asus_wmi_evaluate_method(u32 method_id, u32 arg0, u32 arg1, 
-> u32 *retval);
->    165	#else
->    166	static inline void set_ally_mcu_hack(bool enabled)
->    167	{
->  > 168		return -ENODEV;
->    169	}
->    170	static inline void set_ally_mcu_powersave(bool enabled)
->    171	{
->    172		return -ENODEV;
->    173	}
->    174	static inline int asus_wmi_set_devstate(u32 dev_id, u32 
-> ctrl_param, u32 *retval)
->    175	{
->    176		return -ENODEV;
->    177	}
->    178	static inline int asus_wmi_evaluate_method(u32 method_id, u32 
-> arg0, u32 arg1,
->    179						   u32 *retval)
->    180	{
->    181		return -ENODEV;
->    182	}
->    183	#endif
->    184	
->
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
