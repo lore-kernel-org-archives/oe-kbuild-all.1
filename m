@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6748B23BD09;
-	Wed, 12 Mar 2025 10:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1344207F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 11:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741774896; cv=none; b=MbbXqz3nmhEGqf8//PO6cfEr1guJoGCiDtLYgBmjTdjVurTv9CfBk8+BJYitEMYJ0IJIoOcPqJQo6mBblx10JL+WliJ/4Jy76umFYKbxNSXRBL9L63M/BcxVwjCVr0pDrPxL10ZRCnbvBimOY3fst4q/sfkMr1WmcSHaRgFavVQ=
+	t=1741777938; cv=none; b=BoOnALcqlao7vlDJgJoq0rbP7hGGIQlWClsBSUjWd5X9/MFBRMA/gnry4YzVxzKGT6lrdk4xgIGYX3tibKvJGK2D6YyWbhkQpn+VfQcfZv9AnLUHIqzEoNbwxzNOChJNsGk6y+paPwQa1mi8TIc2SetScmuLMqVdWPmNmbMCZbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741774896; c=relaxed/simple;
-	bh=41QWwJfAFHDyzTTvXUw28+dvX6bb0jw45B0uM9j0CvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tV6Z48b3J8ifQf93pBXS1dTsoYAtpvzCwjRNI/fdES1Y6vg5lTDhpVvwoWIWlkEdGv9HRkmf+krZKe4TP4B2gBp1zK5KJzXYehOH9GO37hPHp/UgfdNnUPOQPOcQbnyfS/tWsv5uTBxT384LYdyyIHTY+flO3DmwIcxsjqvNDag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aJ0SkTcu; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1741777938; c=relaxed/simple;
+	bh=R8IjUW/kA5mbXFySflN9AaRt4k54Jgkwkl4MfnHr0VE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ws9fsgUYiMTQND7w2bG11BAPQNJ5IUs9WVplZijo6xtlyabhaI5KT4TkVVED4N8oyRtCgzvK5xgbhok9VFWWH60qOM8VHquzIMpAeHTJhiq1v9TcHislmx04YxfzMjM2/r0hzO09DUfo+n8DXm6fnvA45bcJRI2sS9x0B1ra2KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jeqT6r/0; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aJ0SkTcu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jeqT6r/0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741774894; x=1773310894;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=41QWwJfAFHDyzTTvXUw28+dvX6bb0jw45B0uM9j0CvY=;
-  b=aJ0SkTcu4SiwLvSXwGyXgUBkygC9cuWlDY+n3JIdhvnFYsLbBAU5OGSb
-   /g84wcQFPl5o9KlZ50S/tqq638C59k35vr3f3c7pjGzWTBg3mBaKe4yH+
-   t8eGFTiDLYXo33fIlcGBWbEEILxoSqnEp8sI8+lQh/x9CDlGq1KLXB97j
-   dSduoMRJKHLaj73C7EZF9AYKQ7R0jCHAl43SL8t/wjY+hnkGpKLYvXlEQ
-   vZbkO10S4DvnO3YoiQBaB+SSod4hhZ7iufuEAg4Dl9AMkMO1qstFAxh/1
-   XWzqtAgJwILYG7slhxEsHHTt2vxZZXNQb3H2m0wuHaH4vhfcdnd0eDga3
-   w==;
-X-CSE-ConnectionGUID: 0ZBctZSUSVCm639jRv1wgQ==
-X-CSE-MsgGUID: vYSvNd43QwCHEf2tXgy7MQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="65306442"
+  t=1741777936; x=1773313936;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R8IjUW/kA5mbXFySflN9AaRt4k54Jgkwkl4MfnHr0VE=;
+  b=jeqT6r/0KL8MeteG+5LBYQ6Y3fv6SvguO1lDN1PGPV0E6dWCisZeMQ4Q
+   kBo0ZujkGYKITqAy2jG9FwE39ttWqQn8uNoa3C7bFA+jZ3JqczWrVkFK7
+   4z9p79yp9xTirFUYfK5Bt1WOhVweADqKJ/6oJd4hE/YbgNOKtgS1ihYCL
+   5trvKyRdyta0ScjzAoLH9N1L9k/7uwQV7E/Hq9MjNg3iK3aBlwhxcrVfg
+   r2BzWkpQxLSssdQLC6H+7mpeh2OO9lbQIcrGodJw8ZHR0KLi8fkdSpppP
+   gFf2stNcXiXrZfuzoeCILPXbnp6IXddXEDIXjlyMGG6yB+NC7Ifm0XDO3
+   A==;
+X-CSE-ConnectionGUID: SLDc2Uh/RaqkbP6ZKSaM2Q==
+X-CSE-MsgGUID: tSJOj91gQ3y1wkTxTwP4HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="30432934"
 X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; 
-   d="scan'208";a="65306442"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 03:21:34 -0700
-X-CSE-ConnectionGUID: B/5+MFx7QrW63VAKxIyfyg==
-X-CSE-MsgGUID: g4KEu2WDSN6abvwq00/fpQ==
+   d="scan'208";a="30432934"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 04:12:15 -0700
+X-CSE-ConnectionGUID: 5sF3/R8tSGG+gMWghL0haA==
+X-CSE-MsgGUID: MASVcJHES02H7XRhHvjuBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; 
-   d="scan'208";a="125643020"
+   d="scan'208";a="120632836"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 12 Mar 2025 03:21:31 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 Mar 2025 04:12:15 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsJDM-0008O0-2h;
-	Wed, 12 Mar 2025 10:21:28 +0000
-Date: Wed, 12 Mar 2025 18:20:49 +0800
+	id 1tsK0S-0008QI-1J;
+	Wed, 12 Mar 2025 11:12:12 +0000
+Date: Wed, 12 Mar 2025 19:11:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: oushixiong1025@163.com, Simona Vetter <simona@ffwll.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Helge Deller <deller@gmx.de>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Samuel Thibault <samuel.thibault@ens-lyon.org>,
-	Zsolt Kajtar <soci@c64.rulez.org>, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH 1/2] fbcon: Register sysfs groups through device_add_group
-Message-ID: <202503121852.0x6J0c7a-lkp@intel.com>
-References: <20250311112856.1020095-1-oushixiong1025@163.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2025-02 1/1] ld.lld: warning:
+ vmlinux.o.lto.vmlinux.a(privcmd.o at 1788478).o:(.discard.ignore_alts+0x0):
+ has non-ABS relocation R_386_PC32 against symbol ''
+Message-ID: <202503121928.1aPe79oD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,50 +62,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311112856.1020095-1-oushixiong1025@163.com>
 
-Hi,
+Hi Masahiro,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.14-rc6 next-20250311]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong1025-163-com/fbcon-Change-return-value-type-to-void/20250311-193230
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250311112856.1020095-1-oushixiong1025%40163.com
-patch subject: [PATCH 1/2] fbcon: Register sysfs groups through device_add_group
-config: sparc-randconfig-001-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121852.0x6J0c7a-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503121852.0x6J0c7a-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-02
+head:   6e2d50b6dcaa791d469102a137f5c06b0f40c28b
+commit: 3216484550610470013b7ce1c9ed272da0a74589 [1/1] kbuild: use obj-y instead extra-y for objects placed at the head
+config: i386-randconfig-r064-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121928.1aPe79oD-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503121928.1aPe79oD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503121852.0x6J0c7a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503121928.1aPe79oD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/video/fbdev/core/fbcon.c: In function 'fbcon_deinit_device':
->> drivers/video/fbdev/core/fbcon.c:3390:37: error: 'fb_info' undeclared (first use in this function)
-    3390 |                 device_remove_group(fb_info->dev, &fbcon_device_attr_group);
-         |                                     ^~~~~~~
-   drivers/video/fbdev/core/fbcon.c:3390:37: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +/fb_info +3390 drivers/video/fbdev/core/fbcon.c
-
-  3388	
-  3389		if (fbcon_has_sysfs) {
-> 3390			device_remove_group(fb_info->dev, &fbcon_device_attr_group);
-  3391	
-  3392			fbcon_has_sysfs = 0;
-  3393		}
-  3394	}
-  3395	
+>> ld.lld: warning: vmlinux.o.lto.vmlinux.a(privcmd.o at 1788478).o:(.discard.ignore_alts+0x0): has non-ABS relocation R_386_PC32 against symbol ''
+   ld.lld: warning: vmlinux.o.lto.vmlinux.a(privcmd.o at 1788478).o:(.discard.ignore_alts+0x4): has non-ABS relocation R_386_PC32 against symbol ''
+   ld.lld: warning: vmlinux.o.lto.vmlinux.a(privcmd.o at 1788478).o:(.discard.ignore_alts+0x8): has non-ABS relocation R_386_PC32 against symbol ''
+   ld.lld: warning: vmlinux.o.lto.vmlinux.a(privcmd.o at 1788478).o:(.discard.ignore_alts+0xc): has non-ABS relocation R_386_PC32 against symbol ''
 
 -- 
 0-DAY CI Kernel Test Service
