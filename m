@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7A95684;
-	Wed, 12 Mar 2025 01:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C951487ED;
+	Wed, 12 Mar 2025 02:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741744306; cv=none; b=E1DV+QA9dWlzCA4EUJwgCmn367O6Hl/nTj8doogTUPVZZrArG/hSUjq9kNEtOdU+VK7xErLCspbOIy5QZP6Udi2jrSCJBB8O4Up2XnuU9N2Cew+CGvilihk4277fjvpd+t9biE+DS27wdAgCP2CxK0kGwEJSTn6uzJvtNL25LSs=
+	t=1741746170; cv=none; b=R0z/dASV8xWVoUvoy7/DHleFGLU5TVFDDZgKCP4oC4ycUd2V5+fKujVDmAidQlZlcxwO3kMS0YHrSHKDrPEXYCB+4tR8QO7VGlhJHR9Qz+XiQhfCR7/cWK/SgJZKQa7pceXHbQOHdgAVG30tugw4m2vTd/+CROCsCNzj0KE2toc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741744306; c=relaxed/simple;
-	bh=8tF1c0BMrEsjeXjFAL3/6gIyIoYa1c1UOXeWV20sKd4=;
+	s=arc-20240116; t=1741746170; c=relaxed/simple;
+	bh=njEpVr6lkvNzm3bboWuqUb5YOQ7Bu3DrZ9NOslttHqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X7a8zFgPcC4zHZ6xqhTE/ajHbBI9dkTXxARBzPnuVPY3M8WljjIAKD/U8d7YuXutNBB9o1Ct8lbDB8e88i5RqS50SJH+yHJBapZiSEQOthOeFL9AWWfTu9CdNsrsPi0mEs6xwIl5Yp2NHp+99GT581Lx2koFDJUim30EDdxJ2QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDvsdfkb; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=hsrx6vHpd51KbkkwNIUQZfRQ5wMyer52LjkkmJSJsZyVYRtjQ7wdJITS1Xyf7Lat9UC5QUdox0tOBncPjq9w6Vpgr2joxZM188JwI210kmjbF2BSRH2Jty93Mfmr/Ej8bP+pz+qJHdp/9Rb3hEjeBqCYfS0M73vEMlmufdGFEQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0wfYspO; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDvsdfkb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0wfYspO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741744305; x=1773280305;
+  t=1741746167; x=1773282167;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8tF1c0BMrEsjeXjFAL3/6gIyIoYa1c1UOXeWV20sKd4=;
-  b=gDvsdfkb7t2rALc5984cFQ09vQUdGItaV0WSiWe/f3zfLGIPJfmglzgH
-   sv31T9/ChBBW6tU4emwhoKv5iNGJcNKw1AFGA1ymBxDjFYtwCFawhJ5hI
-   ukFM1fUF3WPqQGZI1cSUklouS2JRPW05Bc8ttuPGtC+1DJiX2y9XTZ6fY
-   UEoc68j2i160cq687y1J1r9dvEHgARMlMxhcqD0c+DAt6pZ3cN+zboYCb
-   QJ0dKtvke/Khqj/Tr3zIOZlZFEIxHCEldoJQaF//iJL/omqnBdhgDUG9D
-   UaJtNxeVG1nFBVDdsdbGfplbyZssh2kGwDDXayxwpjoGGBX4Dn8OtAS1n
-   w==;
-X-CSE-ConnectionGUID: Z2w6s01CTqaP5fS6qWlCsA==
-X-CSE-MsgGUID: eQFmtMh8RFuN2PnU5ZbxSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="54180183"
+  bh=njEpVr6lkvNzm3bboWuqUb5YOQ7Bu3DrZ9NOslttHqc=;
+  b=I0wfYspOvWV1nIiOovFZaMTrYj+47nap2KIg4FidP31N8raCJ2ALI0U4
+   5kqhlELQtnhnEjYBzoTYmYiw9+DnWEEhgB5YdlGMLwLYKVNcJqTQZEoHw
+   UKlME3yHdUQKlmiHyHhGZKf1T5JKQ/gJzq7T7KP1tXF4vygXzWEe+ZfM8
+   7K6uj5uGwTRTgeu4v6NoFL713WtlXLWcjqvD3I9mah3REBPabUqkR58hn
+   4MFp7NC1UcwwupIkvWyCsiXQFEBSANRDa/PbMLAZs7m17z9sNgGBqFYdZ
+   UhhAPqQ9C2GZqf9SMjOcfMOsqi3dW20qYhyl9OCLvtP1Wj0FOdUKd6d8E
+   g==;
+X-CSE-ConnectionGUID: zyfkENU4T+GFQdy1ZacNcQ==
+X-CSE-MsgGUID: ww2olvqIRKChhc7Chn48Aw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="53801767"
 X-IronPort-AV: E=Sophos;i="6.14,240,1736841600"; 
-   d="scan'208";a="54180183"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 18:51:43 -0700
-X-CSE-ConnectionGUID: On05y0FMREqCTvuVDlceIA==
-X-CSE-MsgGUID: mjFXunIdTR+yb3CIca8JXA==
+   d="scan'208";a="53801767"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2025 19:22:44 -0700
+X-CSE-ConnectionGUID: UfyotK71RQSq/6RsPz2IlA==
+X-CSE-MsgGUID: GsHMEQihT7Km9yawOUbfbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,240,1736841600"; 
-   d="scan'208";a="125521472"
+   d="scan'208";a="125683591"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 11 Mar 2025 18:51:41 -0700
+  by orviesa005.jf.intel.com with ESMTP; 11 Mar 2025 19:22:43 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsBFy-00081y-1P;
-	Wed, 12 Mar 2025 01:51:38 +0000
-Date: Wed, 12 Mar 2025 09:51:04 +0800
+	id 1tsBk1-000838-0Z;
+	Wed, 12 Mar 2025 02:22:41 +0000
+Date: Wed, 12 Mar 2025 10:22:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stuart Yoder <stuart.yoder@arm.com>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [linux-next:master 9090/10334] ld.lld: error: undefined symbol:
- tpm_crb_ffa_init
-Message-ID: <202503120916.TnY8Xobl-lkp@intel.com>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [bigeasy-staging:futex_local_v10 16/21] fork.c:undefined reference
+ to `futex_hash_free'
+Message-ID: <202503121056.u2KwsVBf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,32 +63,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eea255893718268e1ab852fb52f70c613d109b99
-commit: 9b2015ee9b5bba20097ea1e1f4188067624f4fa3 [9090/10334] tpm_crb: add support for the Arm FF-A start method
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250312/202503120916.TnY8Xobl-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503120916.TnY8Xobl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git futex_local_v10
+head:   1a9133756e6eeef39468a2076cf712331180694b
+commit: ccbfa01ed2ba7957ac35cd762f8a26dbf3e1db97 [16/21] futex: Remove superfluous state
+config: sh-randconfig-001-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121056.u2KwsVBf-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250312/202503121056.u2KwsVBf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503120916.TnY8Xobl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503121056.u2KwsVBf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: tpm_crb_ffa_init
-   >>> referenced by tpm_crb.c
-   >>>               drivers/char/tpm/tpm_crb.o:(crb_acpi_add) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: tpm_crb_ffa_start
-   >>> referenced by tpm_crb.c
-   >>>               drivers/char/tpm/tpm_crb.o:(__crb_request_locality) in archive vmlinux.a
-   >>> referenced by tpm_crb.c
-   >>>               drivers/char/tpm/tpm_crb.o:(__crb_relinquish_locality) in archive vmlinux.a
-   >>> referenced by tpm_crb.c
-   >>>               drivers/char/tpm/tpm_crb.o:(crb_send) in archive vmlinux.a
-   >>> referenced 1 more times
+   sh4-linux-ld: kernel/fork.o: in function `mmput':
+>> fork.c:(.text+0xe78): undefined reference to `futex_hash_free'
+   sh4-linux-ld: kernel/fork.o: in function `copy_process':
+>> fork.c:(.text+0x2090): undefined reference to `futex_hash_allocate_default'
+   sh4-linux-ld: kernel/futex/core.o: in function `exit_pi_state_list':
+   core.c:(.text+0x3d0): undefined reference to `futex_get_private_hash'
+>> sh4-linux-ld: core.c:(.text+0x3f8): undefined reference to `futex_hash_put'
+   sh4-linux-ld: core.c:(.text+0x4cc): undefined reference to `futex_hash_put'
+   sh4-linux-ld: core.c:(.text+0x4d8): undefined reference to `futex_put_private_hash'
+   sh4-linux-ld: kernel/futex/pi.o: in function `class_hb_destructor.isra.0':
+>> pi.c:(.text+0x24c): undefined reference to `futex_hash_put'
+   sh4-linux-ld: kernel/futex/pi.o: in function `futex_lock_pi':
+   pi.c:(.text+0xd08): undefined reference to `futex_hash_put'
+   sh4-linux-ld: kernel/futex/pi.o: in function `futex_unlock_pi':
+>> pi.c:(.text+0xf80): undefined reference to `futex_hash_get'
+   sh4-linux-ld: kernel/futex/requeue.o: in function `requeue_pi_wake_futex':
+>> requeue.c:(.text+0x1cc): undefined reference to `futex_hash_get'
+   sh4-linux-ld: kernel/futex/requeue.o: in function `class_hb_destructor.isra.0':
+>> requeue.c:(.text+0x21c): undefined reference to `futex_hash_put'
+   sh4-linux-ld: kernel/futex/requeue.o: in function `futex_wait_requeue_pi':
+   requeue.c:(.text+0x98c): undefined reference to `futex_hash_put'
+   sh4-linux-ld: kernel/futex/waitwake.o: in function `class_hb_destructor.isra.0':
+>> waitwake.c:(.text+0x10c): undefined reference to `futex_hash_put'
+   sh4-linux-ld: kernel/futex/waitwake.o: in function `futex_wait_multiple_setup':
+   waitwake.c:(.text+0x8b4): undefined reference to `futex_get_private_hash'
+   sh4-linux-ld: waitwake.c:(.text+0x8bc): undefined reference to `futex_put_private_hash'
 
 -- 
 0-DAY CI Kernel Test Service
