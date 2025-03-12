@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E93236A72
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 08:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB8923A571
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Mar 2025 09:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741769896; cv=none; b=LDN5w4y4cgwSfbGQWeWxSlyovkgyqHsAgJgbE6zOet+N8IUWl4Q0s0UeXh0G+uvqGAzU3McAwXnX4b3TSsINU31/YtjAXMwn58dnZqLp3GbgCK8ib+g7OJSQf5sBpo/sSzU93wGOi4hzqa7Alq0EFVJ5XTm9PhdUikwGMS+Oawk=
+	t=1741771133; cv=none; b=uNRp0RLbZsK/oQl2RaSj0NDuCbAfozVPK4XypjQkjwPnjg0SjLO4+7pes8QIChzRKTBVFdMax8xaLRssgiBQtIubA8JqRoEYB3WHj04iJwx4UI+dDY6FPrkvEQyviQrugzz9J0GdV5dlw7ugBn/h+Kq6kjhu2UdH+XvmuVnTvdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741769896; c=relaxed/simple;
-	bh=HttexNxW0KtxV4sJ29IXJAlxzJTo/xsJm31W440ao9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dy7ZBnBoarl+/ixpjnhlLPCwiPVipIzPD3k2W2OATaAuEN15o5WY/D2vmxe4/UF1fMts7GbOcTwJs+W44422iL7+VuZIpt57t7XwtXFjt49VcWxAe/rPojMcoget4QA9Fxj8fEQdAPZZYGH+djcl1QathAI2fRiOn6o6+ELEytY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdPUjpQA; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1741771133; c=relaxed/simple;
+	bh=h0vrRYBtUT771vABFXaZD16vUNYYNyu6nUzNLW4uYjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lDUKhBq9XmnCaN63P7jdFTEMmul98oINnSyNAsEZWnpkm6gjzWNJ2BNZrJpQie5mFJVE2NkmBiA6UVbiB4wUUXHbu3HGmUre1pCZS8ag4caFSiA0B/dpKVz9funsYyQedFlh+jzTlN6CCLLFNshlrHdADR/+kR75vngIzhGab6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeyjenQC; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdPUjpQA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeyjenQC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741769895; x=1773305895;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HttexNxW0KtxV4sJ29IXJAlxzJTo/xsJm31W440ao9w=;
-  b=FdPUjpQAbK7rAoHy+AnxNXMAzZ6p9RMqzJVR05iYNvmdLTd9SnQpBiem
-   MdZPfbg5PqfhIp1oZfj0el78uNHDWjnTx13vn8+UD47zb81RZ7OXeRzJS
-   w44EM4qg9AwQFZG9cpCexnnvx7lxrWal27dwJMNGdzUVIQwmMqQh7de23
-   YR/QZIcCN3kABHJdp2B9hfXvmPsCsL+eNs9afN7CnSe/Iibo6JxaI+EzN
-   1RicCcYgfTUUsY8gYWiv3HvkThouDwmeE0tjzFv+B6OmYJFvNWI5G/3nb
-   jxl9pZ9Eymg2txTtDxojy6TL9NdRONB/khe3uLhpnqDaVF3mi5GG6zAep
-   A==;
-X-CSE-ConnectionGUID: y/1Gyo4tRTSYi7MIzAefTQ==
-X-CSE-MsgGUID: TC66ZCxjTSifC0UOKnwKcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="45618601"
+  t=1741771131; x=1773307131;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h0vrRYBtUT771vABFXaZD16vUNYYNyu6nUzNLW4uYjA=;
+  b=FeyjenQCH2qLv964x+7VZg5qIuXWIRFIOk90lXAnjKnbiIqw+MU8cBdU
+   zMQ/q7IWXIw03rWcW4sW4ju0PrhseLmXpDCSub46rsjWRMFmjWjiBAgqG
+   HMRLUYBBjU6YmG5BZ33tPHerPMTYuW5cxWpMxsQ0o0+tqw8NlCXS9Lima
+   a4KpwaqEo+qITvscSZQkWlRFfrMqsbCfdNyqVbB0nxf9tg24RD+mm+u5e
+   v8sYs1PtXnKTmt7L03q/1Gy/cNNsWMPEbECjqcS0RBBwHHCx1GgWFpV0L
+   oHOYQ8nP9TjGnxvbYPpZvQZ+8QanaBXEKc+BCtGtx909i/mjn+5X/Tp8i
+   Q==;
+X-CSE-ConnectionGUID: wQERKP5jTSa0Yib+a73rjw==
+X-CSE-MsgGUID: I6nnkCfMRfyPeTMXnFlfHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11370"; a="46486836"
 X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; 
-   d="scan'208";a="45618601"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 01:58:14 -0700
-X-CSE-ConnectionGUID: UzbWyRTKQ0+krqIOMX7qPw==
-X-CSE-MsgGUID: UBs0sv0gTUSLN+/Dr7g3Ww==
+   d="scan'208";a="46486836"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 02:18:50 -0700
+X-CSE-ConnectionGUID: orTpIL/cR1KXmDPpKDVkgQ==
+X-CSE-MsgGUID: 9JO8na0wRviwZ8T0VefKeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,241,1736841600"; 
-   d="scan'208";a="121475893"
+   d="scan'208";a="120801270"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 12 Mar 2025 01:58:09 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Mar 2025 02:18:48 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsHug-0008Im-0k;
-	Wed, 12 Mar 2025 08:58:06 +0000
-Date: Wed, 12 Mar 2025 16:57:30 +0800
+	id 1tsIEg-0008Jm-04;
+	Wed, 12 Mar 2025 09:18:46 +0000
+Date: Wed, 12 Mar 2025 17:18:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven chen <chenste@linux.microsoft.com>, zohar@linux.ibm.com,
-	stefanb@linux.ibm.com, roberto.sassu@huaweicloud.com,
-	roberto.sassu@huawei.com, eric.snowberg@oracle.com,
-	ebiederm@xmission.com, paul@paul-moore.com, code@tyhicks.com,
-	bauermann@kolabnow.com, linux-integrity@vger.kernel.org,
-	kexec@lists.infradead.org, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, madvenka@linux.microsoft.com,
-	nramas@linux.microsoft.com, James.Bottomley@hansenpartnership.com,
-	bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com
-Subject: Re: [PATCH v9 4/7] ima: kexec: define functions to copy IMA log at
- soft boot
-Message-ID: <202503121600.IMBKp2gC-lkp@intel.com>
-References: <20250304190351.96975-5-chenste@linux.microsoft.com>
+To: Finley Xiao <finley.xiao@rock-chips.com>
+Cc: oe-kbuild-all@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>,
+	Tao Huang <huangtao@rock-chips.com>,
+	Sugar Zhang <sugar.zhang@rock-chips.com>,
+	Kever Yang <kever.yang@rock-chips.com>
+Subject: [linux-next:master 6438/10334]
+ drivers/clk/rockchip/rst-rk3562.c:265:9: sparse: sparse: Initializer entry
+ defined twice
+Message-ID: <202503121743.0zcDf6nE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,51 +65,421 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250304190351.96975-5-chenste@linux.microsoft.com>
 
-Hi steven,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on zohar-integrity/next-integrity]
-[also build test WARNING on linus/master v6.14-rc6 next-20250311]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/steven-chen/ima-copy-only-complete-measurement-records-across-kexec/20250305-031719
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20250304190351.96975-5-chenste%40linux.microsoft.com
-patch subject: [PATCH v9 4/7] ima: kexec: define functions to copy IMA log at soft boot
-config: powerpc64-randconfig-r133-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121600.IMBKp2gC-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250312/202503121600.IMBKp2gC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   eea255893718268e1ab852fb52f70c613d109b99
+commit: f863d4cc79a7e2f8c734d1fac84dc275805f41c7 [6438/10334] clk: rockchip: Add clock controller for the RK3562
+config: arm64-randconfig-r131-20250312 (https://download.01.org/0day-ci/archive/20250312/202503121743.0zcDf6nE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250312/202503121743.0zcDf6nE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503121600.IMBKp2gC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503121743.0zcDf6nE-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   security/integrity/ima/ima_kexec.c:107:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [assigned] [usertype] version @@     got restricted __le16 [usertype] @@
-   security/integrity/ima/ima_kexec.c:107:30: sparse:     expected unsigned short [addressable] [assigned] [usertype] version
-   security/integrity/ima/ima_kexec.c:107:30: sparse:     got restricted __le16 [usertype]
-   security/integrity/ima/ima_kexec.c:108:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [addressable] [assigned] [usertype] count @@     got restricted __le64 [usertype] @@
-   security/integrity/ima/ima_kexec.c:108:28: sparse:     expected unsigned long long [addressable] [assigned] [usertype] count
-   security/integrity/ima/ima_kexec.c:108:28: sparse:     got restricted __le64 [usertype]
-   security/integrity/ima/ima_kexec.c:109:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [addressable] [assigned] [usertype] buffer_size @@     got restricted __le64 [usertype] @@
-   security/integrity/ima/ima_kexec.c:109:34: sparse:     expected unsigned long long [addressable] [assigned] [usertype] buffer_size
-   security/integrity/ima/ima_kexec.c:109:34: sparse:     got restricted __le64 [usertype]
->> security/integrity/ima/ima_kexec.c:209:23: sparse: sparse: symbol 'update_buffer_nb' was not declared. Should it be static?
+>> drivers/clk/rockchip/rst-rk3562.c:265:9: sparse: sparse: Initializer entry defined twice
+   drivers/clk/rockchip/rst-rk3562.c:266:9: sparse:   also defined here
 
-vim +/update_buffer_nb +209 security/integrity/ima/ima_kexec.c
+vim +265 drivers/clk/rockchip/rst-rk3562.c
 
-   208	
- > 209	struct notifier_block update_buffer_nb = {
-   210		.notifier_call = ima_update_kexec_buffer,
-   211		.priority = 1,
-   212	};
-   213	
+    26	
+    27	/* mapping table for reset ID to register offset */
+    28	static const int rk3562_register_offset[] = {
+    29		/* SOFTRST_CON01 */
+    30		RK3562_CRU_RESET_OFFSET(SRST_A_TOP_BIU, 1, 0),
+    31		RK3562_CRU_RESET_OFFSET(SRST_A_TOP_VIO_BIU, 1, 1),
+    32		RK3562_CRU_RESET_OFFSET(SRST_REF_PVTPLL_LOGIC, 1, 2),
+    33	
+    34		/* SOFTRST_CON03 */
+    35		RK3562_CRU_RESET_OFFSET(SRST_NCOREPORESET0, 3, 0),
+    36		RK3562_CRU_RESET_OFFSET(SRST_NCOREPORESET1, 3, 1),
+    37		RK3562_CRU_RESET_OFFSET(SRST_NCOREPORESET2, 3, 2),
+    38		RK3562_CRU_RESET_OFFSET(SRST_NCOREPORESET3, 3, 3),
+    39		RK3562_CRU_RESET_OFFSET(SRST_NCORESET0, 3, 4),
+    40		RK3562_CRU_RESET_OFFSET(SRST_NCORESET1, 3, 5),
+    41		RK3562_CRU_RESET_OFFSET(SRST_NCORESET2, 3, 6),
+    42		RK3562_CRU_RESET_OFFSET(SRST_NCORESET3, 3, 7),
+    43		RK3562_CRU_RESET_OFFSET(SRST_NL2RESET, 3, 8),
+    44	
+    45		/* SOFTRST_CON04 */
+    46		RK3562_CRU_RESET_OFFSET(SRST_DAP, 4, 9),
+    47		RK3562_CRU_RESET_OFFSET(SRST_P_DBG_DAPLITE, 4, 10),
+    48		RK3562_CRU_RESET_OFFSET(SRST_REF_PVTPLL_CORE, 4, 13),
+    49	
+    50		/* SOFTRST_CON05 */
+    51		RK3562_CRU_RESET_OFFSET(SRST_A_CORE_BIU, 5, 0),
+    52		RK3562_CRU_RESET_OFFSET(SRST_P_CORE_BIU, 5, 1),
+    53		RK3562_CRU_RESET_OFFSET(SRST_H_CORE_BIU, 5, 2),
+    54	
+    55		/* SOFTRST_CON06 */
+    56		RK3562_CRU_RESET_OFFSET(SRST_A_NPU_BIU, 6, 2),
+    57		RK3562_CRU_RESET_OFFSET(SRST_H_NPU_BIU, 6, 3),
+    58		RK3562_CRU_RESET_OFFSET(SRST_A_RKNN, 6, 4),
+    59		RK3562_CRU_RESET_OFFSET(SRST_H_RKNN, 6, 5),
+    60		RK3562_CRU_RESET_OFFSET(SRST_REF_PVTPLL_NPU, 6, 6),
+    61	
+    62		/* SOFTRST_CON08 */
+    63		RK3562_CRU_RESET_OFFSET(SRST_A_GPU_BIU, 8, 3),
+    64		RK3562_CRU_RESET_OFFSET(SRST_GPU, 8, 4),
+    65		RK3562_CRU_RESET_OFFSET(SRST_REF_PVTPLL_GPU, 8, 5),
+    66		RK3562_CRU_RESET_OFFSET(SRST_GPU_BRG_BIU, 8, 8),
+    67	
+    68		/* SOFTRST_CON09 */
+    69		RK3562_CRU_RESET_OFFSET(SRST_RKVENC_CORE, 9, 0),
+    70		RK3562_CRU_RESET_OFFSET(SRST_A_VEPU_BIU, 9, 3),
+    71		RK3562_CRU_RESET_OFFSET(SRST_H_VEPU_BIU, 9, 4),
+    72		RK3562_CRU_RESET_OFFSET(SRST_A_RKVENC, 9, 5),
+    73		RK3562_CRU_RESET_OFFSET(SRST_H_RKVENC, 9, 6),
+    74	
+    75		/* SOFTRST_CON10 */
+    76		RK3562_CRU_RESET_OFFSET(SRST_RKVDEC_HEVC_CA, 10, 2),
+    77		RK3562_CRU_RESET_OFFSET(SRST_A_VDPU_BIU, 10, 5),
+    78		RK3562_CRU_RESET_OFFSET(SRST_H_VDPU_BIU, 10, 6),
+    79		RK3562_CRU_RESET_OFFSET(SRST_A_RKVDEC, 10, 7),
+    80		RK3562_CRU_RESET_OFFSET(SRST_H_RKVDEC, 10, 8),
+    81	
+    82		/* SOFTRST_CON11 */
+    83		RK3562_CRU_RESET_OFFSET(SRST_A_VI_BIU, 11, 3),
+    84		RK3562_CRU_RESET_OFFSET(SRST_H_VI_BIU, 11, 4),
+    85		RK3562_CRU_RESET_OFFSET(SRST_P_VI_BIU, 11, 5),
+    86		RK3562_CRU_RESET_OFFSET(SRST_ISP, 11, 8),
+    87		RK3562_CRU_RESET_OFFSET(SRST_A_VICAP, 11, 9),
+    88		RK3562_CRU_RESET_OFFSET(SRST_H_VICAP, 11, 10),
+    89		RK3562_CRU_RESET_OFFSET(SRST_D_VICAP, 11, 11),
+    90		RK3562_CRU_RESET_OFFSET(SRST_I0_VICAP, 11, 12),
+    91		RK3562_CRU_RESET_OFFSET(SRST_I1_VICAP, 11, 13),
+    92		RK3562_CRU_RESET_OFFSET(SRST_I2_VICAP, 11, 14),
+    93		RK3562_CRU_RESET_OFFSET(SRST_I3_VICAP, 11, 15),
+    94	
+    95		/* SOFTRST_CON12 */
+    96		RK3562_CRU_RESET_OFFSET(SRST_P_CSIHOST0, 12, 0),
+    97		RK3562_CRU_RESET_OFFSET(SRST_P_CSIHOST1, 12, 1),
+    98		RK3562_CRU_RESET_OFFSET(SRST_P_CSIHOST2, 12, 2),
+    99		RK3562_CRU_RESET_OFFSET(SRST_P_CSIHOST3, 12, 3),
+   100		RK3562_CRU_RESET_OFFSET(SRST_P_CSIPHY0, 12, 4),
+   101		RK3562_CRU_RESET_OFFSET(SRST_P_CSIPHY1, 12, 5),
+   102	
+   103		/* SOFTRST_CON13 */
+   104		RK3562_CRU_RESET_OFFSET(SRST_A_VO_BIU, 13, 3),
+   105		RK3562_CRU_RESET_OFFSET(SRST_H_VO_BIU, 13, 4),
+   106		RK3562_CRU_RESET_OFFSET(SRST_A_VOP, 13, 6),
+   107		RK3562_CRU_RESET_OFFSET(SRST_H_VOP, 13, 7),
+   108		RK3562_CRU_RESET_OFFSET(SRST_D_VOP, 13, 8),
+   109		RK3562_CRU_RESET_OFFSET(SRST_D_VOP1, 13, 9),
+   110	
+   111		/* SOFTRST_CON14 */
+   112		RK3562_CRU_RESET_OFFSET(SRST_A_RGA_BIU, 14, 3),
+   113		RK3562_CRU_RESET_OFFSET(SRST_H_RGA_BIU, 14, 4),
+   114		RK3562_CRU_RESET_OFFSET(SRST_A_RGA, 14, 6),
+   115		RK3562_CRU_RESET_OFFSET(SRST_H_RGA, 14, 7),
+   116		RK3562_CRU_RESET_OFFSET(SRST_RGA_CORE, 14, 8),
+   117		RK3562_CRU_RESET_OFFSET(SRST_A_JDEC, 14, 9),
+   118		RK3562_CRU_RESET_OFFSET(SRST_H_JDEC, 14, 10),
+   119	
+   120		/* SOFTRST_CON15 */
+   121		RK3562_CRU_RESET_OFFSET(SRST_B_EBK_BIU, 15, 2),
+   122		RK3562_CRU_RESET_OFFSET(SRST_P_EBK_BIU, 15, 3),
+   123		RK3562_CRU_RESET_OFFSET(SRST_AHB2AXI_EBC, 15, 4),
+   124		RK3562_CRU_RESET_OFFSET(SRST_H_EBC, 15, 5),
+   125		RK3562_CRU_RESET_OFFSET(SRST_D_EBC, 15, 6),
+   126		RK3562_CRU_RESET_OFFSET(SRST_H_EINK, 15, 7),
+   127		RK3562_CRU_RESET_OFFSET(SRST_P_EINK, 15, 8),
+   128	
+   129		/* SOFTRST_CON16 */
+   130		RK3562_CRU_RESET_OFFSET(SRST_P_PHP_BIU, 16, 2),
+   131		RK3562_CRU_RESET_OFFSET(SRST_A_PHP_BIU, 16, 3),
+   132		RK3562_CRU_RESET_OFFSET(SRST_P_PCIE20, 16, 7),
+   133		RK3562_CRU_RESET_OFFSET(SRST_PCIE20_POWERUP, 16, 8),
+   134		RK3562_CRU_RESET_OFFSET(SRST_USB3OTG, 16, 10),
+   135	
+   136		/* SOFTRST_CON17 */
+   137		RK3562_CRU_RESET_OFFSET(SRST_PIPEPHY, 17, 3),
+   138	
+   139		/* SOFTRST_CON18 */
+   140		RK3562_CRU_RESET_OFFSET(SRST_A_BUS_BIU, 18, 3),
+   141		RK3562_CRU_RESET_OFFSET(SRST_H_BUS_BIU, 18, 4),
+   142		RK3562_CRU_RESET_OFFSET(SRST_P_BUS_BIU, 18, 5),
+   143	
+   144		/* SOFTRST_CON19 */
+   145		RK3562_CRU_RESET_OFFSET(SRST_P_I2C1, 19, 0),
+   146		RK3562_CRU_RESET_OFFSET(SRST_P_I2C2, 19, 1),
+   147		RK3562_CRU_RESET_OFFSET(SRST_P_I2C3, 19, 2),
+   148		RK3562_CRU_RESET_OFFSET(SRST_P_I2C4, 19, 3),
+   149		RK3562_CRU_RESET_OFFSET(SRST_P_I2C5, 19, 4),
+   150		RK3562_CRU_RESET_OFFSET(SRST_I2C1, 19, 6),
+   151		RK3562_CRU_RESET_OFFSET(SRST_I2C2, 19, 7),
+   152		RK3562_CRU_RESET_OFFSET(SRST_I2C3, 19, 8),
+   153		RK3562_CRU_RESET_OFFSET(SRST_I2C4, 19, 9),
+   154		RK3562_CRU_RESET_OFFSET(SRST_I2C5, 19, 10),
+   155	
+   156		/* SOFTRST_CON20 */
+   157		RK3562_CRU_RESET_OFFSET(SRST_BUS_GPIO3, 20, 5),
+   158		RK3562_CRU_RESET_OFFSET(SRST_BUS_GPIO4, 20, 6),
+   159	
+   160		/* SOFTRST_CON21 */
+   161		RK3562_CRU_RESET_OFFSET(SRST_P_TIMER, 21, 0),
+   162		RK3562_CRU_RESET_OFFSET(SRST_TIMER0, 21, 1),
+   163		RK3562_CRU_RESET_OFFSET(SRST_TIMER1, 21, 2),
+   164		RK3562_CRU_RESET_OFFSET(SRST_TIMER2, 21, 3),
+   165		RK3562_CRU_RESET_OFFSET(SRST_TIMER3, 21, 4),
+   166		RK3562_CRU_RESET_OFFSET(SRST_TIMER4, 21, 5),
+   167		RK3562_CRU_RESET_OFFSET(SRST_TIMER5, 21, 6),
+   168		RK3562_CRU_RESET_OFFSET(SRST_P_STIMER, 21, 7),
+   169		RK3562_CRU_RESET_OFFSET(SRST_STIMER0, 21, 8),
+   170		RK3562_CRU_RESET_OFFSET(SRST_STIMER1, 21, 9),
+   171	
+   172		/* SOFTRST_CON22 */
+   173		RK3562_CRU_RESET_OFFSET(SRST_P_WDTNS, 22, 0),
+   174		RK3562_CRU_RESET_OFFSET(SRST_WDTNS, 22, 1),
+   175		RK3562_CRU_RESET_OFFSET(SRST_P_GRF, 22, 2),
+   176		RK3562_CRU_RESET_OFFSET(SRST_P_SGRF, 22, 3),
+   177		RK3562_CRU_RESET_OFFSET(SRST_P_MAILBOX, 22, 4),
+   178		RK3562_CRU_RESET_OFFSET(SRST_P_INTC, 22, 5),
+   179		RK3562_CRU_RESET_OFFSET(SRST_A_BUS_GIC400, 22, 6),
+   180		RK3562_CRU_RESET_OFFSET(SRST_A_BUS_GIC400_DEBUG, 22, 7),
+   181	
+   182		/* SOFTRST_CON23 */
+   183		RK3562_CRU_RESET_OFFSET(SRST_A_BUS_SPINLOCK, 23, 0),
+   184		RK3562_CRU_RESET_OFFSET(SRST_A_DCF, 23, 1),
+   185		RK3562_CRU_RESET_OFFSET(SRST_P_DCF, 23, 2),
+   186		RK3562_CRU_RESET_OFFSET(SRST_F_BUS_CM0_CORE, 23, 3),
+   187		RK3562_CRU_RESET_OFFSET(SRST_T_BUS_CM0_JTAG, 23, 5),
+   188		RK3562_CRU_RESET_OFFSET(SRST_H_ICACHE, 23, 8),
+   189		RK3562_CRU_RESET_OFFSET(SRST_H_DCACHE, 23, 9),
+   190	
+   191		/* SOFTRST_CON24 */
+   192		RK3562_CRU_RESET_OFFSET(SRST_P_TSADC, 24, 0),
+   193		RK3562_CRU_RESET_OFFSET(SRST_TSADC, 24, 1),
+   194		RK3562_CRU_RESET_OFFSET(SRST_TSADCPHY, 24, 2),
+   195		RK3562_CRU_RESET_OFFSET(SRST_P_DFT2APB, 24, 4),
+   196	
+   197		/* SOFTRST_CON25 */
+   198		RK3562_CRU_RESET_OFFSET(SRST_A_GMAC, 25, 0),
+   199		RK3562_CRU_RESET_OFFSET(SRST_P_APB2ASB_VCCIO156, 25, 1),
+   200		RK3562_CRU_RESET_OFFSET(SRST_P_DSIPHY, 25, 5),
+   201		RK3562_CRU_RESET_OFFSET(SRST_P_DSITX, 25, 8),
+   202		RK3562_CRU_RESET_OFFSET(SRST_P_CPU_EMA_DET, 25, 9),
+   203		RK3562_CRU_RESET_OFFSET(SRST_P_HASH, 25, 10),
+   204		RK3562_CRU_RESET_OFFSET(SRST_P_TOPCRU, 25, 11),
+   205	
+   206		/* SOFTRST_CON26 */
+   207		RK3562_CRU_RESET_OFFSET(SRST_P_ASB2APB_VCCIO156, 26, 0),
+   208		RK3562_CRU_RESET_OFFSET(SRST_P_IOC_VCCIO156, 26, 1),
+   209		RK3562_CRU_RESET_OFFSET(SRST_P_GPIO3_VCCIO156, 26, 2),
+   210		RK3562_CRU_RESET_OFFSET(SRST_P_GPIO4_VCCIO156, 26, 3),
+   211		RK3562_CRU_RESET_OFFSET(SRST_P_SARADC_VCCIO156, 26, 4),
+   212		RK3562_CRU_RESET_OFFSET(SRST_SARADC_VCCIO156, 26, 5),
+   213		RK3562_CRU_RESET_OFFSET(SRST_SARADC_VCCIO156_PHY, 26, 6),
+   214	
+   215		/* SOFTRST_CON27 */
+   216		RK3562_CRU_RESET_OFFSET(SRST_A_MAC100, 27, 1),
+   217	
+   218		/* PMU0_SOFTRST_CON00 */
+   219		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_CRU, 0, 0),
+   220		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_PMU, 0, 1),
+   221		RK3562_PMU0CRU_RESET_OFFSET(SRST_PMU0_PMU, 0, 2),
+   222		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_HP_TIMER, 0, 3),
+   223		RK3562_PMU0CRU_RESET_OFFSET(SRST_PMU0_HP_TIMER, 0, 4),
+   224		RK3562_PMU0CRU_RESET_OFFSET(SRST_PMU0_32K_HP_TIMER, 0, 5),
+   225		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_PVTM, 0, 6),
+   226		RK3562_PMU0CRU_RESET_OFFSET(SRST_PMU0_PVTM, 0, 7),
+   227		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_IOC_PMUIO, 0, 8),
+   228		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_GPIO0, 0, 9),
+   229		RK3562_PMU0CRU_RESET_OFFSET(SRST_PMU0_GPIO0, 0, 10),
+   230		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_GRF, 0, 11),
+   231		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_SGRF, 0, 12),
+   232	
+   233		/* PMU0_SOFTRST_CON01 */
+   234		RK3562_PMU0CRU_RESET_OFFSET(SRST_DDR_FAIL_SAFE, 1, 0),
+   235		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_SCRKEYGEN, 1, 1),
+   236	
+   237		/* PMU0_SOFTRST_CON02 */
+   238		RK3562_PMU0CRU_RESET_OFFSET(SRST_P_PMU0_I2C0, 2, 8),
+   239		RK3562_PMU0CRU_RESET_OFFSET(SRST_PMU0_I2C0, 2, 9),
+   240	
+   241		/* PMU1_SOFTRST_CON00 */
+   242		RK3562_PMU1CRU_RESET_OFFSET(SRST_P_PMU1_CRU, 0, 0),
+   243		RK3562_PMU1CRU_RESET_OFFSET(SRST_H_PMU1_MEM, 0, 2),
+   244		RK3562_PMU1CRU_RESET_OFFSET(SRST_H_PMU1_BIU, 0, 3),
+   245		RK3562_PMU1CRU_RESET_OFFSET(SRST_P_PMU1_BIU, 0, 4),
+   246		RK3562_PMU1CRU_RESET_OFFSET(SRST_P_PMU1_UART0, 0, 7),
+   247		RK3562_PMU1CRU_RESET_OFFSET(SRST_S_PMU1_UART0, 0, 10),
+   248	
+   249		/* PMU1_SOFTRST_CON01 */
+   250		RK3562_PMU1CRU_RESET_OFFSET(SRST_P_PMU1_SPI0, 1, 0),
+   251		RK3562_PMU1CRU_RESET_OFFSET(SRST_PMU1_SPI0, 1, 1),
+   252		RK3562_PMU1CRU_RESET_OFFSET(SRST_P_PMU1_PWM0, 1, 3),
+   253		RK3562_PMU1CRU_RESET_OFFSET(SRST_PMU1_PWM0, 1, 4),
+   254	
+   255		/* PMU1_SOFTRST_CON02 */
+   256		RK3562_PMU1CRU_RESET_OFFSET(SRST_F_PMU1_CM0_CORE, 2, 0),
+   257		RK3562_PMU1CRU_RESET_OFFSET(SRST_T_PMU1_CM0_JTAG, 2, 2),
+   258		RK3562_PMU1CRU_RESET_OFFSET(SRST_P_PMU1_WDTNS, 2, 3),
+   259		RK3562_PMU1CRU_RESET_OFFSET(SRST_PMU1_WDTNS, 2, 4),
+   260		RK3562_PMU1CRU_RESET_OFFSET(SRST_PMU1_MAILBOX, 2, 8),
+   261	
+   262		/* DDR_SOFTRST_CON00 */
+   263		RK3562_DDRCRU_RESET_OFFSET(SRST_MSCH_BRG_BIU, 0, 4),
+   264		RK3562_DDRCRU_RESET_OFFSET(SRST_P_MSCH_BIU, 0, 5),
+ > 265		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_HWLP, 0, 6),
+   266		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_PHY, 0, 8),
+   267		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_DFICTL, 0, 9),
+   268		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_DMA2DDR, 0, 10),
+   269	
+   270		/* DDR_SOFTRST_CON01 */
+   271		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_MON, 1, 0),
+   272		RK3562_DDRCRU_RESET_OFFSET(SRST_TM_DDR_MON, 1, 1),
+   273		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_GRF, 1, 2),
+   274		RK3562_DDRCRU_RESET_OFFSET(SRST_P_DDR_CRU, 1, 3),
+   275		RK3562_DDRCRU_RESET_OFFSET(SRST_P_SUBDDR_CRU, 1, 4),
+   276	
+   277		/* SUBDDR_SOFTRST_CON00 */
+   278		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_MSCH_BIU, 0, 1),
+   279		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_DDR_PHY, 0, 4),
+   280		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_DDR_DFICTL, 0, 5),
+   281		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_DDR_SCRAMBLE, 0, 6),
+   282		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_DDR_MON, 0, 7),
+   283		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_A_DDR_SPLIT, 0, 8),
+   284		RK3562_SUBDDRCRU_RESET_OFFSET(SRST_DDR_DMA2DDR, 0, 9),
+   285	
+   286		/* PERI_SOFTRST_CON01 */
+   287		RK3562_PERICRU_RESET_OFFSET(SRST_A_PERI_BIU, 1, 3),
+   288		RK3562_PERICRU_RESET_OFFSET(SRST_H_PERI_BIU, 1, 4),
+   289		RK3562_PERICRU_RESET_OFFSET(SRST_P_PERI_BIU, 1, 5),
+   290		RK3562_PERICRU_RESET_OFFSET(SRST_P_PERICRU, 1, 6),
+   291	
+   292		/* PERI_SOFTRST_CON02 */
+   293		RK3562_PERICRU_RESET_OFFSET(SRST_H_SAI0_8CH, 2, 0),
+   294		RK3562_PERICRU_RESET_OFFSET(SRST_M_SAI0_8CH, 2, 3),
+   295		RK3562_PERICRU_RESET_OFFSET(SRST_H_SAI1_8CH, 2, 5),
+   296		RK3562_PERICRU_RESET_OFFSET(SRST_M_SAI1_8CH, 2, 8),
+   297		RK3562_PERICRU_RESET_OFFSET(SRST_H_SAI2_2CH, 2, 10),
+   298		RK3562_PERICRU_RESET_OFFSET(SRST_M_SAI2_2CH, 2, 13),
+   299	
+   300		/* PERI_SOFTRST_CON03 */
+   301		RK3562_PERICRU_RESET_OFFSET(SRST_H_DSM, 3, 1),
+   302		RK3562_PERICRU_RESET_OFFSET(SRST_DSM, 3, 2),
+   303		RK3562_PERICRU_RESET_OFFSET(SRST_H_PDM, 3, 4),
+   304		RK3562_PERICRU_RESET_OFFSET(SRST_M_PDM, 3, 5),
+   305		RK3562_PERICRU_RESET_OFFSET(SRST_H_SPDIF, 3, 8),
+   306		RK3562_PERICRU_RESET_OFFSET(SRST_M_SPDIF, 3, 11),
+   307	
+   308		/* PERI_SOFTRST_CON04 */
+   309		RK3562_PERICRU_RESET_OFFSET(SRST_H_SDMMC0, 4, 0),
+   310		RK3562_PERICRU_RESET_OFFSET(SRST_H_SDMMC1, 4, 2),
+   311		RK3562_PERICRU_RESET_OFFSET(SRST_H_EMMC, 4, 8),
+   312		RK3562_PERICRU_RESET_OFFSET(SRST_A_EMMC, 4, 9),
+   313		RK3562_PERICRU_RESET_OFFSET(SRST_C_EMMC, 4, 10),
+   314		RK3562_PERICRU_RESET_OFFSET(SRST_B_EMMC, 4, 11),
+   315		RK3562_PERICRU_RESET_OFFSET(SRST_T_EMMC, 4, 12),
+   316		RK3562_PERICRU_RESET_OFFSET(SRST_S_SFC, 4, 13),
+   317		RK3562_PERICRU_RESET_OFFSET(SRST_H_SFC, 4, 14),
+   318	
+   319		/* PERI_SOFTRST_CON05 */
+   320		RK3562_PERICRU_RESET_OFFSET(SRST_H_USB2HOST, 5, 0),
+   321		RK3562_PERICRU_RESET_OFFSET(SRST_H_USB2HOST_ARB, 5, 1),
+   322		RK3562_PERICRU_RESET_OFFSET(SRST_USB2HOST_UTMI, 5, 2),
+   323	
+   324		/* PERI_SOFTRST_CON06 */
+   325		RK3562_PERICRU_RESET_OFFSET(SRST_P_SPI1, 6, 0),
+   326		RK3562_PERICRU_RESET_OFFSET(SRST_SPI1, 6, 1),
+   327		RK3562_PERICRU_RESET_OFFSET(SRST_P_SPI2, 6, 3),
+   328		RK3562_PERICRU_RESET_OFFSET(SRST_SPI2, 6, 4),
+   329	
+   330		/* PERI_SOFTRST_CON07 */
+   331		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART1, 7, 0),
+   332		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART2, 7, 1),
+   333		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART3, 7, 2),
+   334		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART4, 7, 3),
+   335		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART5, 7, 4),
+   336		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART6, 7, 5),
+   337		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART7, 7, 6),
+   338		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART8, 7, 7),
+   339		RK3562_PERICRU_RESET_OFFSET(SRST_P_UART9, 7, 8),
+   340		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART1, 7, 11),
+   341		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART2, 7, 14),
+   342	
+   343		/* PERI_SOFTRST_CON08 */
+   344		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART3, 8, 1),
+   345		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART4, 8, 4),
+   346		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART5, 8, 7),
+   347		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART6, 8, 10),
+   348		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART7, 8, 13),
+   349	
+   350		/* PERI_SOFTRST_CON09 */
+   351		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART8, 9, 0),
+   352		RK3562_PERICRU_RESET_OFFSET(SRST_S_UART9, 9, 3),
+   353	
+   354		/* PERI_SOFTRST_CON10 */
+   355		RK3562_PERICRU_RESET_OFFSET(SRST_P_PWM1_PERI, 10, 0),
+   356		RK3562_PERICRU_RESET_OFFSET(SRST_PWM1_PERI, 10, 1),
+   357		RK3562_PERICRU_RESET_OFFSET(SRST_P_PWM2_PERI, 10, 3),
+   358		RK3562_PERICRU_RESET_OFFSET(SRST_PWM2_PERI, 10, 4),
+   359		RK3562_PERICRU_RESET_OFFSET(SRST_P_PWM3_PERI, 10, 6),
+   360		RK3562_PERICRU_RESET_OFFSET(SRST_PWM3_PERI, 10, 7),
+   361	
+   362		/* PERI_SOFTRST_CON11 */
+   363		RK3562_PERICRU_RESET_OFFSET(SRST_P_CAN0, 11, 0),
+   364		RK3562_PERICRU_RESET_OFFSET(SRST_CAN0, 11, 1),
+   365		RK3562_PERICRU_RESET_OFFSET(SRST_P_CAN1, 11, 2),
+   366		RK3562_PERICRU_RESET_OFFSET(SRST_CAN1, 11, 3),
+   367	
+   368		/* PERI_SOFTRST_CON12 */
+   369		RK3562_PERICRU_RESET_OFFSET(SRST_A_CRYPTO, 12, 0),
+   370		RK3562_PERICRU_RESET_OFFSET(SRST_H_CRYPTO, 12, 1),
+   371		RK3562_PERICRU_RESET_OFFSET(SRST_P_CRYPTO, 12, 2),
+   372		RK3562_PERICRU_RESET_OFFSET(SRST_CORE_CRYPTO, 12, 3),
+   373		RK3562_PERICRU_RESET_OFFSET(SRST_PKA_CRYPTO, 12, 4),
+   374		RK3562_PERICRU_RESET_OFFSET(SRST_H_KLAD, 12, 5),
+   375		RK3562_PERICRU_RESET_OFFSET(SRST_P_KEY_READER, 12, 6),
+   376		RK3562_PERICRU_RESET_OFFSET(SRST_H_RK_RNG_NS, 12, 7),
+   377		RK3562_PERICRU_RESET_OFFSET(SRST_H_RK_RNG_S, 12, 8),
+   378		RK3562_PERICRU_RESET_OFFSET(SRST_H_TRNG_NS, 12, 9),
+   379		RK3562_PERICRU_RESET_OFFSET(SRST_H_TRNG_S, 12, 10),
+   380		RK3562_PERICRU_RESET_OFFSET(SRST_H_CRYPTO_S, 12, 11),
+   381	
+   382		/* PERI_SOFTRST_CON13 */
+   383		RK3562_PERICRU_RESET_OFFSET(SRST_P_PERI_WDT, 13, 0),
+   384		RK3562_PERICRU_RESET_OFFSET(SRST_T_PERI_WDT, 13, 1),
+   385		RK3562_PERICRU_RESET_OFFSET(SRST_A_SYSMEM, 13, 2),
+   386		RK3562_PERICRU_RESET_OFFSET(SRST_H_BOOTROM, 13, 3),
+   387		RK3562_PERICRU_RESET_OFFSET(SRST_P_PERI_GRF, 13, 4),
+   388		RK3562_PERICRU_RESET_OFFSET(SRST_A_DMAC, 13, 5),
+   389		RK3562_PERICRU_RESET_OFFSET(SRST_A_RKDMAC, 13, 6),
+   390	
+   391		/* PERI_SOFTRST_CON14 */
+   392		RK3562_PERICRU_RESET_OFFSET(SRST_P_OTPC_NS, 14, 0),
+   393		RK3562_PERICRU_RESET_OFFSET(SRST_SBPI_OTPC_NS, 14, 1),
+   394		RK3562_PERICRU_RESET_OFFSET(SRST_USER_OTPC_NS, 14, 2),
+   395		RK3562_PERICRU_RESET_OFFSET(SRST_P_OTPC_S, 14, 3),
+   396		RK3562_PERICRU_RESET_OFFSET(SRST_SBPI_OTPC_S, 14, 4),
+   397		RK3562_PERICRU_RESET_OFFSET(SRST_USER_OTPC_S, 14, 5),
+   398		RK3562_PERICRU_RESET_OFFSET(SRST_OTPC_ARB, 14, 6),
+   399		RK3562_PERICRU_RESET_OFFSET(SRST_P_OTPPHY, 14, 7),
+   400		RK3562_PERICRU_RESET_OFFSET(SRST_OTP_NPOR, 14, 8),
+   401	
+   402		/* PERI_SOFTRST_CON15 */
+   403		RK3562_PERICRU_RESET_OFFSET(SRST_P_USB2PHY, 15, 0),
+   404		RK3562_PERICRU_RESET_OFFSET(SRST_USB2PHY_POR, 15, 4),
+   405		RK3562_PERICRU_RESET_OFFSET(SRST_USB2PHY_OTG, 15, 5),
+   406		RK3562_PERICRU_RESET_OFFSET(SRST_USB2PHY_HOST, 15, 6),
+   407		RK3562_PERICRU_RESET_OFFSET(SRST_P_PIPEPHY, 15, 7),
+   408	
+   409		/* PERI_SOFTRST_CON16 */
+   410		RK3562_PERICRU_RESET_OFFSET(SRST_P_SARADC, 16, 4),
+   411		RK3562_PERICRU_RESET_OFFSET(SRST_SARADC, 16, 5),
+   412		RK3562_PERICRU_RESET_OFFSET(SRST_SARADC_PHY, 16, 6),
+   413		RK3562_PERICRU_RESET_OFFSET(SRST_P_IOC_VCCIO234, 16, 12),
+   414	
+   415		/* PERI_SOFTRST_CON17 */
+   416		RK3562_PERICRU_RESET_OFFSET(SRST_P_PERI_GPIO1, 17, 0),
+   417		RK3562_PERICRU_RESET_OFFSET(SRST_P_PERI_GPIO2, 17, 1),
+   418		RK3562_PERICRU_RESET_OFFSET(SRST_PERI_GPIO1, 17, 2),
+   419		RK3562_PERICRU_RESET_OFFSET(SRST_PERI_GPIO2, 17, 3),
+   420	};
+   421	
 
 -- 
 0-DAY CI Kernel Test Service
