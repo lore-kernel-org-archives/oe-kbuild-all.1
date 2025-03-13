@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24588147C9B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 06:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECEC1D5CDE;
+	Thu, 13 Mar 2025 08:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741846526; cv=none; b=A9dTyVkejHzVh2qUPNWoF2B67ABVakf5fJDUpKUNL10G1BnEj5A1ZJisoLIb+KLHc1I8grT1b7WgPPjd6KwN+iL72+XhodGQhr6TOTqKEUlDCNkKPrynbP3OsdIcAa59Fu/y5hJHlHAeo+i8E75hoHDPRc/WkV30IFTSm3pJS2E=
+	t=1741854527; cv=none; b=uQnTgZrZBtMiPrAG7GVH5STdOf5M7QrSizal/edLMtvAekJLs/Fg0zDE0PG/VX/e+b+MGfOHsh4YOgzJqT7EF38wjKmhpI5aABwcgAxNLzu2FfD0ZcHzFUpy9kOUiHyk98w0TUKxFs80d2uFuj8lWtdM0EIfdn6gzeAJ53wb4yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741846526; c=relaxed/simple;
-	bh=UqWkz/acnwNLduWzR4XVqpggcGydtvB6JKF7pzExia8=;
+	s=arc-20240116; t=1741854527; c=relaxed/simple;
+	bh=cZD2EMuz3Jum7RLfC4KVUOeubbjFGowlcHe17pE/s7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bdNZujTv6AmTuSXdf/FHQr2TBd209/4e3hKW7KAiHH1OlidDChDz5e3V6LLBvlfZFWBzQwakWWl013O7zDz7rluyE6JJuRUU2yBIcsewGk27rI0jyRjVvqnLW+C/d6kkXtKTII3ycgoab5fhWuffI9UIHjznP9IJJROg9bR8ySI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CFM7PLGG; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=r/pS0BvDAQYljkFMqcccANOY0SUW5e8N/1xGbYoWnc1reLJKS7fcW1Hk0a+Aebt0MPf6e2BUkCHMgQq6AeqkN/4mrLrz8qW5gWwPj6pgp+jM+kReNBkBF9sCbji/hTok+njqW/IPe8wzgKFYy6afkRygRrqItBBLazaO4jMsr/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aeaoDjkB; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFM7PLGG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aeaoDjkB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741846524; x=1773382524;
+  t=1741854525; x=1773390525;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UqWkz/acnwNLduWzR4XVqpggcGydtvB6JKF7pzExia8=;
-  b=CFM7PLGGd1owWBN2w0wd4Ya/2yrcQs/wv+H7CCkwc3LPr17pilClVhUH
-   4dFOLZS0wehBrHyInMzFX+t1Y1LX3ZNJVs8rRD1hYtxoxsKntRZTu849u
-   6ZaN8XnTES+0BCCPMEzGqnqEr7rXhlEq4LShMUzeb+omVLoZm09KakZEC
-   esftMiX/C3n4W9vPq4d3WHgL7FtZeql73Em0M53gCJ9ZQ/reZQea/TVqu
-   VlZIEmLN8xAN+RqRXvv3X0Ve9jr+DiWOeQA3XvcRgAMOZrKAN5DmrGLVh
-   j6rC5qP4dGr1Uj+nknVJ0wmQSFxxfHAjNpgu6dsAuNV0vv6Omp090qI5b
-   A==;
-X-CSE-ConnectionGUID: A+6ccx8pS/uhf/4+9y86CA==
-X-CSE-MsgGUID: zH5rsUkESX6pq7N7NF1iEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="60348086"
-X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="60348086"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 23:15:23 -0700
-X-CSE-ConnectionGUID: 6SPDTFJjRW+GVcryJWue+w==
-X-CSE-MsgGUID: lz4IrUlcS++cmxxJFgHRfw==
+  bh=cZD2EMuz3Jum7RLfC4KVUOeubbjFGowlcHe17pE/s7k=;
+  b=aeaoDjkB9VNGVpPCNSTA7Hw5+PggFx3GJBdtRnghTVlofrArARngZgqO
+   F6qqtMpJV0BQdEQZktAkO2hsNU1q9b649Jj9FzRrmpnDTfu/4q7isyQfU
+   CJPMu231G8hskaQ4T8NlL6SxycMJr+1iwKv+MS5Bs4SdyvEsGYoqhtO6/
+   C0uUphlIvZB9bGuXwF6vNzfu8ccZMwqcd/fXMkhP/mzCXeHWKJjRBy7Bt
+   95FysRLDABsS2QJqvwWZHgq1x+WcrFWWHE/tkzOrv5ahXxMYROh2NcaqF
+   t3tuDd2RihMta0y1+TkvaU9FdFXH0S1PRnx+TlCYrIQ+pW1jHJ9fD7VPz
+   w==;
+X-CSE-ConnectionGUID: ErUGB0ZNSMmsoN9i+wi9nw==
+X-CSE-MsgGUID: maJu/1tcTJGKNiVx8ETI/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="30548519"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="30548519"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 01:28:43 -0700
+X-CSE-ConnectionGUID: MTH7JES1Qpepysudq2iF1Q==
+X-CSE-MsgGUID: PGEtnaIjREygqu2gdhxHKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="121350633"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="120944655"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Mar 2025 23:15:22 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 13 Mar 2025 01:28:41 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsbqi-0009BM-0f;
-	Thu, 13 Mar 2025 06:15:20 +0000
-Date: Thu, 13 Mar 2025 14:15:07 +0800
+	id 1tsdvj-0009Eb-2Y;
+	Thu, 13 Mar 2025 08:28:39 +0000
+Date: Thu, 13 Mar 2025 16:27:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 1/1]
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtb:
- /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with
- compatible: ['mediatek,mt6397-clk']
-Message-ID: <202503131427.AqXmY1wQ-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 148/149]
+ fs/bcachefs/xattr.c:526:44: error: too few arguments to function call,
+ expected 4, have 3
+Message-ID: <202503131637.nozGr2gv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,91 +63,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   4f2e1b9c27f1a211a722e5692148db6c7ef6a7fa
-commit: 66edee0acd72a79606fc8a1fb89166dda54be744 [1/1] arm64: dts: mediatek: mt8173-elm: Fix MT6397 PMIC sub-node names
-config: arm64-randconfig-052-20250310 (https://download.01.org/0day-ci/archive/20250313/202503131427.AqXmY1wQ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
-dtschema version: 2025.3.dev4+g7b57675
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131427.AqXmY1wQ-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   c616621c9b68c91f9486fb27827d521c3a99c8be
+commit: d74a15fb0e1c99935df10bf18c62e38ad3ec385d [148/149] bcachefs: Device state is now a runtime option
+config: i386-buildonly-randconfig-005-20250313 (https://download.01.org/0day-ci/archive/20250313/202503131637.nozGr2gv-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131637.nozGr2gv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503131427.AqXmY1wQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503131637.nozGr2gv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+All errors (new ones prefixed by >>):
+
+>> fs/bcachefs/xattr.c:526:44: error: too few arguments to function call, expected 4, have 3
+     526 |                 ret = bch2_opt_check_may_set(c, opt_id, v);
+         |                       ~~~~~~~~~~~~~~~~~~~~~~             ^
+   fs/bcachefs/opts.h:645:5: note: 'bch2_opt_check_may_set' declared here
+     645 | int bch2_opt_check_may_set(struct bch_fs *, struct bch_dev *, int, u64);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 --
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/power/power-domain.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/syscfg_pctl_a@10005000: failed to match any schema with compatible: ['mediatek,mt8173-pctl-a-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: pinctrl@1000b000: 'aud_i2s2', 'bl_fixed_pins', 'bt_wake_pins', 'disp_pwm0_pins', 'gpio-line-names', 'gpio_keys_pins', 'hdmi_mux_pins', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'mmc3', 'mmc3default', 'nor', 'panel_backlight_en_pins', 'panel_fixed_pins', 'ps8640_fixed_pins', 'ps8640_pins', 'rt5650_irq', 'sdio_fixed_3v3_pins', 'spi1', 'trackpad_irq', 'usb', 'wifi_wake_pins', 'xxx' do not match any of the regexes: '-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8173-wdt', 'mediatek,mt6589-wdt']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt8173-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000: failed to match any schema with compatible: ['mediatek,mt8173-pwrap']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397: failed to match any schema with compatible: ['mediatek,mt6397']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/clocks: failed to match any schema with compatible: ['mediatek,mt6397-clk']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/regulators: failed to match any schema with compatible: ['mediatek,mt6397-regulator']
->> arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/rtc: failed to match any schema with compatible: ['mediatek,mt6397-rtc']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: syscfg_pctl_pmic@c000: reg: [[0, 49152], [0, 264]] is too long
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/pwrap@1000d000/mt6397/syscfg_pctl_pmic@c000: failed to match any schema with compatible: ['mediatek,mt6397-pctl-pmic-syscfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/vpu@10020000: failed to match any schema with compatible: ['mediatek,mt8173-vpu']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/intpol-controller@10200620: failed to match any schema with compatible: ['mediatek,mt8173-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11007000/audio-codec@1a: failed to match any schema with compatible: ['realtek,rt5650']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: /soc/i2c@11008000/da9211@68: failed to match any schema with compatible: ['dlg,da9211']
-   arch/arm64/boot/dts/mediatek/mt8173-elm-hana-rev7.dtb: tpm@20: 'powered-while-suspended' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+>> fs/bcachefs/sysfs.c:653:39: error: too few arguments to function call, expected 4, have 3
+     653 |         ret = bch2_opt_check_may_set(c, id, v);
+         |               ~~~~~~~~~~~~~~~~~~~~~~         ^
+   fs/bcachefs/opts.h:645:5: note: 'bch2_opt_check_may_set' declared here
+     645 | int bch2_opt_check_may_set(struct bch_fs *, struct bch_dev *, int, u64);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +526 fs/bcachefs/xattr.c
+
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  485  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  486  static int bch2_xattr_bcachefs_set(const struct xattr_handler *handler,
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  487  				   struct mnt_idmap *idmap,
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  488  				   struct dentry *dentry, struct inode *vinode,
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  489  				   const char *name, const void *value,
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  490  				   size_t size, int flags)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  491  {
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  492  	struct bch_inode_info *inode = to_bch_ei(vinode);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  493  	struct bch_fs *c = inode->v.i_sb->s_fs_info;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  494  	const struct bch_option *opt;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  495  	char *buf;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  496  	struct inode_opt_set s;
+4d269918ed502cb Kent Overstreet 2018-12-17  497  	int opt_id, inode_opt_id, ret;
+4d269918ed502cb Kent Overstreet 2018-12-17  498  
+4d269918ed502cb Kent Overstreet 2018-12-17  499  	opt_id = bch2_opt_lookup(name);
+4d269918ed502cb Kent Overstreet 2018-12-17  500  	if (opt_id < 0)
+4d269918ed502cb Kent Overstreet 2018-12-17  501  		return -EINVAL;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  502  
+4d269918ed502cb Kent Overstreet 2018-12-17  503  	opt = bch2_opt_table + opt_id;
+4d269918ed502cb Kent Overstreet 2018-12-17  504  
+4d269918ed502cb Kent Overstreet 2018-12-17  505  	inode_opt_id = opt_to_inode_opt(opt_id);
+4d269918ed502cb Kent Overstreet 2018-12-17  506  	if (inode_opt_id < 0)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  507  		return -EINVAL;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  508  
+4d269918ed502cb Kent Overstreet 2018-12-17  509  	s.id = inode_opt_id;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  510  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  511  	if (value) {
+4d269918ed502cb Kent Overstreet 2018-12-17  512  		u64 v = 0;
+4d269918ed502cb Kent Overstreet 2018-12-17  513  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  514  		buf = kmalloc(size + 1, GFP_KERNEL);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  515  		if (!buf)
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  516  			return -ENOMEM;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  517  		memcpy(buf, value, size);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  518  		buf[size] = '\0';
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  519  
+63c4b25453828ee Kent Overstreet 2022-03-21  520  		ret = bch2_opt_parse(c, opt, buf, &v, NULL);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  521  		kfree(buf);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  522  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  523  		if (ret < 0)
+7e23c1746b027ea Hongbo Li       2024-03-01  524  			goto err_class_exit;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  525  
+4d269918ed502cb Kent Overstreet 2018-12-17 @526  		ret = bch2_opt_check_may_set(c, opt_id, v);
+c258f28ebab6be1 Kent Overstreet 2018-11-12  527  		if (ret < 0)
+7e23c1746b027ea Hongbo Li       2024-03-01  528  			goto err_class_exit;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  529  
+4d269918ed502cb Kent Overstreet 2018-12-17  530  		s.v = v + 1;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  531  		s.defined = true;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  532  	} else {
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  533  		/*
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  534  		 * Check if this option was set on the parent - if so, switched
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  535  		 * back to inheriting from the parent:
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  536  		 *
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  537  		 * rename() also has to deal with keeping inherited options up
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  538  		 * to date - see bch2_reinherit_attrs()
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  539  		 */
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  540  		spin_lock(&dentry->d_lock);
+4d269918ed502cb Kent Overstreet 2018-12-17  541  		if (!IS_ROOT(dentry)) {
+4d269918ed502cb Kent Overstreet 2018-12-17  542  			struct bch_inode_info *dir =
+4d269918ed502cb Kent Overstreet 2018-12-17  543  				to_bch_ei(d_inode(dentry->d_parent));
+4d269918ed502cb Kent Overstreet 2018-12-17  544  
+4d269918ed502cb Kent Overstreet 2018-12-17  545  			s.v = bch2_inode_opt_get(&dir->ei_inode, inode_opt_id);
+4d269918ed502cb Kent Overstreet 2018-12-17  546  		} else {
+4d269918ed502cb Kent Overstreet 2018-12-17  547  			s.v = 0;
+4d269918ed502cb Kent Overstreet 2018-12-17  548  		}
+ba276ce5865b5a2 Kent Overstreet 2023-11-14  549  		spin_unlock(&dentry->d_lock);
+4d269918ed502cb Kent Overstreet 2018-12-17  550  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  551  		s.defined = false;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  552  	}
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  553  
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  554  	mutex_lock(&inode->ei_update_lock);
+2fab25cdd70be68 Kent Overstreet 2018-12-19  555  	if (inode_opt_id == Inode_opt_project) {
+7af0cec3076886d Kent Overstreet 2020-08-24  556  		/*
+7af0cec3076886d Kent Overstreet 2020-08-24  557  		 * inode fields accessible via the xattr interface are stored
+7af0cec3076886d Kent Overstreet 2020-08-24  558  		 * with a +1 bias, so that 0 means unset:
+7af0cec3076886d Kent Overstreet 2020-08-24  559  		 */
+7af0cec3076886d Kent Overstreet 2020-08-24  560  		ret = bch2_set_projid(c, inode, s.v ? s.v - 1 : 0);
+2fab25cdd70be68 Kent Overstreet 2018-12-19  561  		if (ret)
+2fab25cdd70be68 Kent Overstreet 2018-12-19  562  			goto err;
+2fab25cdd70be68 Kent Overstreet 2018-12-19  563  	}
+2fab25cdd70be68 Kent Overstreet 2018-12-19  564  
+2ea9004864b918b Kent Overstreet 2018-07-17  565  	ret = bch2_write_inode(c, inode, inode_opt_set_fn, &s, 0);
+2fab25cdd70be68 Kent Overstreet 2018-12-19  566  err:
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  567  	mutex_unlock(&inode->ei_update_lock);
+7e23c1746b027ea Hongbo Li       2024-03-01  568  err_class_exit:
+e47a390aa5946e3 Kent Overstreet 2023-05-27  569  	return bch2_err_class(ret);
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  570  }
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  571  
+
+:::::: The code at line 526 was first introduced by commit
+:::::: 4d269918ed502cba80ddad998bdb087a633c63ab bcachefs: add bcachefs_effective xattrs
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
