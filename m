@@ -1,186 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08EBC2E338A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 00:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741825173; cv=none; b=KFtJnsPXdlQnNEcgadcK2s2mNIYY+0ajF22ZNHEeBdyoPGMrqdJqbg5DkeucH5nAd8n0rsd3MG/pbEpX9m0+caVlPgUGa6gf//dwawv479iBWrx0iABmWewBaDGt9K9qchG3EI7YzXoXQ5GOfh/IbI7ZWUFSKKIP2jrYrmbzHlM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741825173; c=relaxed/simple;
-	bh=OC2kJdO0bX1Vrlgy1KVz18BJpr1zZxwC8vQSJOOX8ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=raR0tZ4kdrUmxCZZj9bloSzXgJr2EO5yUnV31dXMcunPz5VG2pgmS6kq1RbDXuh89I+0NyXPwaKFFPRq9r7WqC0lloXKqQ4LdK7lll3nvpsfDvj1qC793zS1T3tH1vems7cWfFIEjvAqAmPVc5x/687wbf0MY3PmwIRzce+OeCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDSvSjIo; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60472E337D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 00:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741826437; cv=fail; b=fJWIRmkqhEfNS5LYn9lr5L4fK+JsYbChj8Hp4M3hzXN6Lbw/bZRZwZiQowsDErRm9G2QlgS8xrn0VNxAt5KLMwCbHLTL61slNW4iykGucgKSWr0jAj63CybSDcN7cEr3dKSqz1vbbl8Y/GrddbWqwMfu2H6rGKDJx95ZCJ5yEZo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741826437; c=relaxed/simple;
+	bh=+cNKb26g3cL7sqmRm8S2tGFHyFP8ZfTWYZzRD9EhYow=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=cquPTjrZKTPVEZU5UmaiVZOiVwJ+Idh8KtRBs1R56Y9Yh+427ozLQjUJN1y0rahTWBDpLk4Hny/+TGeAQ10bkUNmDbRpcmVoP+kfVYOYBrrNQX+LAf4Luw5kbmKlUOPPugOMNlh4Yn3d/8fdGEfUUGEzj6PNx7z/ixOT7T3Xz7A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5PCMEUy; arc=fail smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDSvSjIo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5PCMEUy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741825170; x=1773361170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OC2kJdO0bX1Vrlgy1KVz18BJpr1zZxwC8vQSJOOX8ws=;
-  b=aDSvSjIoJXB5I6161vAeXjdHxa/FK9dmvWjFUbps21OvuJF/ik1n2hJk
-   x7Ss3tfQFO6UipiaE4NAddaqza1I4tkijHkDJk0D9ijgb1mIhWOcZnQyF
-   6CpTFyOxoWHrWBwyvivTBMJWrVG7Aic7IlofkRyeHdkQ+NCfNVvcHUHzU
-   di3sJBYa/fnLrsPj5GlMdRZHYv3Oer44NyelJ2p8gAPypjU2mQAG0sL/z
-   Bh16yZuK6fS/ES/a8lznWOzU4B2G6OrCJNITQCkDrHxD1zNpfDxvBf5fk
-   kjNfCg6CyKO2Ues6jr/U4es+WyUB7HhacNXPnxMZKqDyK9RoUbcySBs4F
-   A==;
-X-CSE-ConnectionGUID: oUmLAsjcQROoEJNwsknKKQ==
-X-CSE-MsgGUID: zWJcrJ3cRU2nxMv6EnuACQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42654589"
+  t=1741826436; x=1773362436;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   mime-version;
+  bh=+cNKb26g3cL7sqmRm8S2tGFHyFP8ZfTWYZzRD9EhYow=;
+  b=H5PCMEUyzHMShoW2BgrhcHv0rZRIeEcGNkABC81Fisnba4oA4IujtP/S
+   kddNAfCvWSsNwOxpa+XA3Of26udWPsGgbLg2ZxNxSfQm/kncYj3SBlkX2
+   +UZw4I4hAAd8uDwtk+9//6lQZvFScHdaBc/JeQPDERFJ4HQqEmRmGWne2
+   tUWmwlDQdTEewSEE3+aelaxUjcZ1H/+83fk2WWiRhc2FWKXOC01MgNB2k
+   71QriqUN6Rgr8XcHQMkIaijGmsd+aWKb54yjttH94rZeP51eCFjdfz6k8
+   V83KdIM7Pi4SYyDeJQsu0TpwVg9IgxfQzSGD2FfeOxDwUm8Juhdu2Ozb2
+   g==;
+X-CSE-ConnectionGUID: 3T4Mr0KFSr2OBQPz1igfUg==
+X-CSE-MsgGUID: fksn8OzjTuueyeEtD9RPCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="45702423"
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="42654589"
+   d="scan'208";a="45702423"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 17:19:30 -0700
-X-CSE-ConnectionGUID: s3sqfxtzSe6SU3Vj1W6z7Q==
-X-CSE-MsgGUID: nwNajwp9RgyA/BRF2hWX+Q==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 17:40:35 -0700
+X-CSE-ConnectionGUID: JbPsJeU+RrCL1OwiTzITTA==
+X-CSE-MsgGUID: 7tbxG7bSS02xWGd91N7R2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="125870236"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 12 Mar 2025 17:19:25 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tsWIE-000908-2X;
-	Thu, 13 Mar 2025 00:19:22 +0000
-Date: Thu, 13 Mar 2025 08:19:09 +0800
+   d="scan'208";a="125875545"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 17:40:35 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.14; Wed, 12 Mar 2025 17:40:34 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 12 Mar 2025 17:40:34 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 12 Mar 2025 17:40:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HGIXX3LSM12JQvnBTwnH+6Jrm0JYJmgQaRKC/OXdAJVXd2tOskgnAeiwjyGaumnE2I40tj+2T8/PKJvveFZqsv4Cfksr4fUSWtgoh7HJ+pTS475QDU17EuUgnuBs0yrM12XowsmDoVrzhZTgt70Y4nrDozQKTunWTWqQgQV9tuOXfeCVhbgPkk7EmLQX2gucceg/vCR6ozPI0K8fOfth2Xp/0UoObd7W7SoZ7hunD52c7fQONUDtupxkvykGJwID5KR/zR4rl5WWHYvQhiupBGmEhVIzrz3ijC62P2gO9pNfU6P8SZBQKYhyXuWisxdS2n9I0qEDEyaaTDj6F5By2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lmR4zfPqfyYLAbfE9oLTdxd5mHWam3uQtGZbIBLSnSY=;
+ b=QiK4VfSt69LxV2RNhFh2t2zGr1ub6djQtG/KRnV3VJlH3v12e15Ua/h7nbRSFirfM8dGELqY4Jp71+ECRpeULkGMeI1885c+PoNBo7B2sfUWTmYKave9ZCxrvk8Nyunm1siAydCfTumcXb5Qg0nUlztblwZvrjtCrbANUG+5oveCntkEMOn39pRZaxv9DxJ6y61sAbouzc1VktX1yLIKhI39HRBKuirQ3dtvXZ3VRtrF/wndXMCOYGnuI1MvdVBe47uOSOLVLvKB7iryO14m0BwTPSYaaOQJXHwjJYpljmfykmxRh9GlkImcAi9FrurLBNG8MKgWO7Kf+73lOZZzOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by DM6PR11MB4625.namprd11.prod.outlook.com (2603:10b6:5:2a8::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Thu, 13 Mar
+ 2025 00:40:17 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
+ 00:40:17 +0000
+Date: Thu, 13 Mar 2025 08:40:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jan Dakinevich <jan.dakinevich@salutedevices.com>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 3/4] clk: meson: a1: add the audio clock controller
- driver
-Message-ID: <202503131003.x6L69hJL-lkp@intel.com>
-References: <20250309180940.1322531-4-jan.dakinevich@salutedevices.com>
+To: Filipe Xavier <felipeaggger@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, "Gary
+ Guo" <gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
+	<bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, "Trevor
+ Gross" <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
+CC: <oe-kbuild-all@lists.linux.dev>, <daniel.almeida@collabora.com>,
+	<rust-for-linux@vger.kernel.org>, <felipe_life@live.com>, Filipe Xavier
+	<felipeaggger@gmail.com>
+Subject: Re: [PATCH] rust: add new macro for common bitwise operations
+Message-ID: <Z9IpZucc6V067mh6@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b@gmail.com>
+X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250309180940.1322531-4-jan.dakinevich@salutedevices.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM6PR11MB4625:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93348c8c-442a-4e05-f309-08dd61c7a03e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Svg6Zf1Vg3gkG728qG6mRGcHMceLj6+Y0EMlaH01kjBfmQYvFpT08fx5qEt1?=
+ =?us-ascii?Q?ZDGiGXdt2R79ycsVSpgsLhGzbdVqcWDnzveAnaDzbfPX7PSihR70lRPxo52F?=
+ =?us-ascii?Q?G8CVbok8Q115CFnUFtjJXYC6EXozYcYbgRdrycY0p/IA6lHXG6JBOYADNUzr?=
+ =?us-ascii?Q?mOM4e8lYlqY1ftV6er08T5KAgJkni5YwwfR8j6+8xHJb/9lHS14poLmfTUbk?=
+ =?us-ascii?Q?qcI2TxUCfpd1ywEx0N6ef88c7bMNc7BRtv/QRPrEuyV4i3sjyLSJE7G+xuZO?=
+ =?us-ascii?Q?TqmtUSxmahoo8LbyPFmhAsLm0NiMOE7/t9XnIZCtVgMk+4JHqURGyKTsxUPA?=
+ =?us-ascii?Q?8W+ibQpglATPNAWUaOjEr6KPXw1s4oVMkp0NspmOJvErchaDak2NFeaYLImP?=
+ =?us-ascii?Q?JYRr3P2Silpk+5xtOjq6e0zZ3JkcHu+rFGZzWDwCcRaMZzkxMDPdn57XeafR?=
+ =?us-ascii?Q?odqzLgA8Ldw1QAX/lytfMeo/TGbGXRbgEYeKcouhIPT2QhxRADURL7qDXwUJ?=
+ =?us-ascii?Q?fAtHBEyr9BO8dkU9Ky9Tf+Oor8ed6QKmAkYCrANs68FNCcTuWDR7dKDsTo5E?=
+ =?us-ascii?Q?pu7/d6+6AOMziPcjYRqIyB0qP/0qDjToZo8Kve8TVo8G6roO4qDJKW3xZp14?=
+ =?us-ascii?Q?7mTc+KxZsIPDduJyJrFTZo5l/Xfn9BQJO2HFuWeDGm8ggspZbHZ5LTNDgHp7?=
+ =?us-ascii?Q?xWT/GBW8QEcEmOyKfNmEsebgCmDcpEMF6CORXYQweLfSUpbd15AzP1VErWNU?=
+ =?us-ascii?Q?E7y9L9REfBrVLenLWWoplrSH7anJPuml76bVYyoBRkQ24jI+5ov6cNcoQ+cP?=
+ =?us-ascii?Q?qwCTjifWoQfChMoeSzrRCQFdWZQMXMjnUf50Q4mV6y+zZAQ7q1YeEjUcjixv?=
+ =?us-ascii?Q?A8NrGn1mq5wTsDWRS9wQ03KpueUvHO7/G6RWXIgYZLIlSFDhoKh3Yjn5cX/7?=
+ =?us-ascii?Q?IY3T65MJ+uQPGVGGZL5qhIAUoA/q9dMwOasvj+8lXX/zZCHlHGKAxbjzD4u2?=
+ =?us-ascii?Q?mT3U2fY1QCvtyx8ttwDQG59gqA79RSe2aDyp+BXb0yicpTQP4ywhQrN2YAg2?=
+ =?us-ascii?Q?fGxClUjQFD2ZAOj4Tk2KzC6RcjsYgMVlE//TaSAcXeOTYsJmAxXmIjHVVflB?=
+ =?us-ascii?Q?RObNt4HWbKGqeLwhYgzZklx1wCQFVHrrURobrVHPXFoL+4/aSNOp4ntsTg5E?=
+ =?us-ascii?Q?sL7zyT+R89mWHUT1G1C9EznEIjrlEvX5HYKqD61QrytDWWfX0l2uFpGOORP6?=
+ =?us-ascii?Q?3I8psa2s8h6qWJiiXf7b97Fgg//WjoqMW45moC6RJ1jD+omg99YQC8aEz9bW?=
+ =?us-ascii?Q?1K3HvqEcYCOlAbaNeFfCNB8vv+PlcESi9dPc+D2Yby2kQwKk+4GU5irhSYdv?=
+ =?us-ascii?Q?ykB3DaRk3V2HYf2WwNQZwutE8nEB?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?emC1uHwQp5ek7vx47PGkDr0oQU+T1FGBLv6eQworhpvTJNU0ioNG6ymS6yjY?=
+ =?us-ascii?Q?eg4O1xMfbEIAPn9HEfa1PpGvKwf3rzgflWO2bX3sNzMDxzz3lYPNlyMnoSqT?=
+ =?us-ascii?Q?MNWGkRm5kF2of3HMAfv7qXJBVhokwVqqDdHvtq2IMlZsALj64b7M1bI7Bypx?=
+ =?us-ascii?Q?noEpBSr1gW4kgaG0UDDiXLAWCcCiCwFQqUMin+6stC9b777w4pmZREHD3ejU?=
+ =?us-ascii?Q?GhB2GPhUo/7elJeygGO18M/CHgCylbH4IIg6vIXYNDHgzkBSuemH4W+3o29J?=
+ =?us-ascii?Q?vUwc+iAItWlYsPhSe54g8hMCs7ACYEdxrXuXMTFB4s28J7rNcERupS5cjUf2?=
+ =?us-ascii?Q?PO4Yl6J0jFQXJiUAoH3V1PQJ9WH3HUoz8wKD7+g/yhdKWJ0RI2Z3cvgzswAa?=
+ =?us-ascii?Q?GCDRzvYAUgq+LtX8/oU24+3Weox2g3daCfMtZxIhRqtg4bzREtXkbPg3u4HJ?=
+ =?us-ascii?Q?pWmPmObgEV3WqQLNrn70As7VM88IkzVYZy3tDlm44bPmzZoDvQCP3jpWHK1/?=
+ =?us-ascii?Q?5zfPFxXqRlBhaSFwXX/4f2L+eqKXWCssOx60apQb0ZzVETYehE7paIa+93Af?=
+ =?us-ascii?Q?sPldvXpOWSxFqKv/aXXz56KJopx9q9KDUPj9UTuB6Ssgxex6MsWGjFRXcCbk?=
+ =?us-ascii?Q?sqVXzv2dwBLObVPFzTvaVyda3sLqT/nFVkYXxQTMsN6gW4fUKd5dW11Guzhn?=
+ =?us-ascii?Q?HbOvDutj65wvLxrJ58oIquRvhVNwjFYxba8/VOjnEktyEzoxptaK8LlisN+f?=
+ =?us-ascii?Q?/mJmCN8BX2Zq9mBaI9WZ6/yO0aQZ2+uD6VL1Drt9bKSjeyN6QwhMeBqS9WXP?=
+ =?us-ascii?Q?vCtFfhBrCNMOA83mXzpLa0hoz5CMlYct9cbCtxEZfJ4+5UaUwUQofCEe/kON?=
+ =?us-ascii?Q?r8799mIG+s1t8PYsUwJ5362FKP3aB/CWvaoOH3QwINF7hYwpbMQrmG26xdFC?=
+ =?us-ascii?Q?hLxgwCDVlmpwtWWYNNNJPRpNYxIEjLIIxOvCvhpMBLWUd50+DewnnoUzwqXx?=
+ =?us-ascii?Q?c6uoyL8zhdfJS12bG9z6hX0ZXl0CDw/IVxWnQSeCsduL45Q2f9hb12ozBarq?=
+ =?us-ascii?Q?YiPiHeZZQL988E8zomgCmbuXWZwMpeg3ChcfDqn+PRU3rIUOro/jeHxcabco?=
+ =?us-ascii?Q?kK+Kj8vbEdjuDHy2u4FTjHguspLVgJUCVr3/NM+EuYueJ99GO99msCZOo+HE?=
+ =?us-ascii?Q?/S41GI2n2vEshDtQzlWAkZWotNVblxuQB0VpWtNBzIf6E4u/SGDmMrrOuTAP?=
+ =?us-ascii?Q?ZQGUozDjg/IlGFh2y+sair+uZuN12QInLSmNtkNYCblmIKAlW/WRlPxj+sc6?=
+ =?us-ascii?Q?+/pw3pLgkMf7UlERCtJX0padjnna0SsV5MWXutHr59js+l4dmqU1PVYX2enc?=
+ =?us-ascii?Q?nzu1zSyMhMYLP39Peu+MDsgcY1svPuR23EA+h2OoW1/dlcsD5G9bRcM3DTaJ?=
+ =?us-ascii?Q?ixt0W6ImR3Cl56g4R4nSq0jQJolxyqkR4XXVy04HCiWAFNWIT4YnD14kx8nj?=
+ =?us-ascii?Q?uOzf17N29psAkSdo+vQadcqwN97qpnylS1XoQTYbTJcfem0ClnWd4PZW7zST?=
+ =?us-ascii?Q?9X0OvQHSdZWBPyJZ5X/M28rHWn/wY89utjB34RnO?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93348c8c-442a-4e05-f309-08dd61c7a03e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 00:40:17.7537
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zoSUJYGR7i9/CePe768sj7KUM/k13vAWgaiNAZCsfkBGNDoc0Fq1fgIaEr1bkSaVxiBT1DsRLjAgblxGxvodrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4625
+X-OriginatorOrg: intel.com
 
-Hi Jan,
+Hi Filipe,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on robh/for-next krzk/for-next krzk-dt/for-next linus/master v6.14-rc6 next-20250312]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Dakinevich/clk-meson-axg-share-the-set-of-audio-helper-macros/20250310-022012
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250309180940.1322531-4-jan.dakinevich%40salutedevices.com
-patch subject: [PATCH v6 3/4] clk: meson: a1: add the audio clock controller driver
-config: arm64-randconfig-r131-20250312 (https://download.01.org/0day-ci/archive/20250313/202503131003.x6L69hJL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250313/202503131003.x6L69hJL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Filipe-Xavier/rust-add-new-macro-for-common-bitwise-operations/20250304-205635
+base:   beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d
+patch link:    https://lore.kernel.org/r/20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b%40gmail.com
+patch subject: [PATCH] rust: add new macro for common bitwise operations
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250313/202503130214.myqzPlR6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130214.myqzPlR6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503131003.x6L69hJL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503130214.myqzPlR6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/clk/meson/a1-audio.c: In function 'a1_audio_clkc_probe':
->> drivers/clk/meson/a1-audio.c:807:18: error: implicit declaration of function '__devm_auxiliary_device_create'; did you mean '__auxiliary_device_add'? [-Wimplicit-function-declaration]
-     807 |         auxdev = __devm_auxiliary_device_create(dev, dev->driver->name,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  __auxiliary_device_add
->> drivers/clk/meson/a1-audio.c:807:16: error: assignment to 'struct auxiliary_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     807 |         auxdev = __devm_auxiliary_device_create(dev, dev->driver->name,
-         |                ^
-
-
-vim +807 drivers/clk/meson/a1-audio.c
-
-   748	
-   749	static int a1_audio_clkc_probe(struct platform_device *pdev)
-   750	{
-   751		struct device *dev = &pdev->dev;
-   752		const struct a1_audio_data *data;
-   753		struct auxiliary_device *auxdev;
-   754		struct regmap *map;
-   755		void __iomem *base;
-   756		struct clk *clk;
-   757		unsigned int i;
-   758		int ret;
-   759	
-   760		data = device_get_match_data(dev);
-   761		if (!data)
-   762			return -EINVAL;
-   763	
-   764		clk = devm_clk_get_enabled(dev, "pclk");
-   765		if (IS_ERR(clk))
-   766			return PTR_ERR(clk);
-   767	
-   768		base = devm_platform_ioremap_resource(pdev, 0);
-   769		if (IS_ERR(base))
-   770			return PTR_ERR(base);
-   771	
-   772		map = devm_regmap_init_mmio(dev, base, &a1_audio_regmap_cfg);
-   773		if (IS_ERR(map))
-   774			return PTR_ERR(map);
-   775	
-   776		ret = device_reset(dev);
-   777		if (ret)
-   778			return ret;
-   779	
-   780		for (i = 0; i < data->hw_clks.num; i++) {
-   781			struct clk_hw *hw = data->hw_clks.hws[i];
-   782			struct clk_regmap *clk_regmap = to_clk_regmap(hw);
-   783	
-   784			if (!hw)
-   785				continue;
-   786	
-   787			clk_regmap->map = map;
-   788		}
-   789	
-   790		for (i = 0; i < data->hw_clks.num; i++) {
-   791			struct clk_hw *hw;
-   792	
-   793			hw = data->hw_clks.hws[i];
-   794			if (!hw)
-   795				continue;
-   796	
-   797			ret = devm_clk_hw_register(dev, hw);
-   798			if (ret)
-   799				return ret;
-   800		}
-   801	
-   802		ret = devm_of_clk_add_hw_provider(dev, meson_clk_hw_get,
-   803						  (void *)&data->hw_clks);
-   804		if (ret)
-   805			return ret;
-   806	
- > 807		auxdev = __devm_auxiliary_device_create(dev, dev->driver->name,
-   808							data->rst_drvname, NULL, 0);
-   809		if (!auxdev)
-   810			return -ENODEV;
-   811	
-   812		return 0;
-   813	}
-   814	
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/prelude.rs at line 22:
+    pub use super::{build_assert, build_error};
+    
+    // `super::std_vendor` is hidden, which makes the macro inline for some reason.
+   +pub use super::bitmask;
+    #[doc(no_inline)]
+    pub use super::dbg;
+    pub use super::fmt;
+   Diff in rust/kernel/prelude.rs at line 28:
+   -pub use super::bitmask;
+    pub use super::{dev_alert, dev_crit, dev_dbg, dev_emerg, dev_err, dev_info, dev_notice, dev_warn};
+    pub use super::{pr_alert, pr_crit, pr_debug, pr_emerg, pr_err, pr_info, pr_notice, pr_warn};
+    
+>> Diff in rust/kernel/prelude.rs at line 22:
+    pub use super::{build_assert, build_error};
+    
+    // `super::std_vendor` is hidden, which makes the macro inline for some reason.
+   +pub use super::bitmask;
+    #[doc(no_inline)]
+    pub use super::dbg;
+    pub use super::fmt;
+   Diff in rust/kernel/prelude.rs at line 28:
+   -pub use super::bitmask;
+    pub use super::{dev_alert, dev_crit, dev_dbg, dev_emerg, dev_err, dev_info, dev_notice, dev_warn};
+    pub use super::{pr_alert, pr_crit, pr_debug, pr_emerg, pr_err, pr_info, pr_notice, pr_warn};
+    
+   make[2]: *** [Makefile:1816: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
