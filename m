@@ -1,58 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1251F3B91;
-	Thu, 13 Mar 2025 18:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD12E13B280
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 18:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741889523; cv=none; b=dUGME0SVZNTTSDwMo9VIrEsV4t0KiV/Gms+6BLSm9XIjjE0zotnG5GffrP+cTdPhVarcvh5RDlU+RwE2JU4kcSZeaienn/RgUTc9cmp/EQl9W0aAolJa+ET0Ee1o6utMQDOB+iNVAsU9u8ZNvMLhYpVmNypEVpnpHTY4JICsIaQ=
+	t=1741890686; cv=none; b=ddVPufDcVeiJAWHYjZoIt1E6+Md/l7Gl6+b+vb4P0UGdrnEjwzjJ31kQxRSaYBop+kbNZmoqsrXSzN1HyOiXU4V95mhiGEjeJNCFWlXexWzqABt7vdfLkdVSbkRM+1Kq2vqauA5fEioQ28wVHo3C8NvlvHtFGoakaN8BF+KKqYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741889523; c=relaxed/simple;
-	bh=a/n5TVHgKG0dOJU3nx1VX2LJ+70y4FSPoziu9PZN35Q=;
+	s=arc-20240116; t=1741890686; c=relaxed/simple;
+	bh=gcHZob6HNebed2Cm6BRlntKCieNCU9GdUHJ19WCNgP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e+XY18m8DOtigMdO1+ZVcK0efnvolRtVZ+ffkbNm8VVFbGJLuoJWnOcGztxDWF7huA+nIpa8hAsoCI5fLiTubE8MJ919Qgq/EWB3SP1j/q3AM/OUp/j+h61XSeM0BgDvWaLNXjxG5bA44W0j359FeuHlie0CrTDNR9kWZ4atgH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cz02XWJB; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=mwVjipHQQX05jc69/YzHGelBrOc/vTYiOhIo4XNFc98doX2LWeKcpXVl3tVTQjMvph9bWFNxE9cKpByILENOw9izLGjoY+3SMOogpwJPE8Y+h1CJR/pWc+/R1YRFWx7Khhyr/uhgLqYYd4RD66VTCcGYQO0LJdRy+HZCwqmNc2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=px64f74+; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cz02XWJB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741889522; x=1773425522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a/n5TVHgKG0dOJU3nx1VX2LJ+70y4FSPoziu9PZN35Q=;
-  b=cz02XWJB1s64JKOG/GGZvD9nsL3qaD4egheYZYepehR4I6Y3HxVMZKga
-   9h/1a0uO///msksXRNBX74ueEJUbwK0q26AvHdFAtrgBNJ7hhB/v8Hf7N
-   lWK6T5SGN/ThV5+dWoeRIT4dAJmEszSriz40a/n2Js8O1D8DtNfufE8+R
-   0VVCVf1KchSHbCImbyWQSFm7yn+JGpJGI0wiHY9FT1NWleWotYKgNkGeT
-   MvQUIQ1hk9SWoPzXf7WrhDqTNQuVAayGYkiYdXtsO8FmeZoTx+lzp5c6r
-   Jv6kDpaJKcpOG9g2bhXyEhXj6RFxe8R5t3mhupX2PK18iAAs66SspI3GP
-   w==;
-X-CSE-ConnectionGUID: Wc4Rob3PTi+ce5FAkuzmDQ==
-X-CSE-MsgGUID: 89sSdJs7RayJIvRQOrYdqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="46924448"
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
-   d="scan'208";a="46924448"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 11:12:01 -0700
-X-CSE-ConnectionGUID: SfOOpD0VRIWTi4mq6PFSsw==
-X-CSE-MsgGUID: 5LokG3CYRrG7oBh7Yk7+hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
-   d="scan'208";a="125916064"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 13 Mar 2025 11:12:00 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tsn2D-0009kC-2i;
-	Thu, 13 Mar 2025 18:11:57 +0000
-Date: Fri, 14 Mar 2025 02:11:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:kexec-debug-7 4/8] arch/x86/kernel/early_printk.c:148:17:
- error: 'kexec_debug_8250_port' undeclared
-Message-ID: <202503140119.nsQQvdsr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="px64f74+"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3911748893aso874361f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 11:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741890683; x=1742495483; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vXnRxpxYe49SDy+ll8iRRrwvRZ2bdnRzd1C07n7AGFQ=;
+        b=px64f74+/8b2DonbydocGPdIFmhH4kwbfdnnqmfHO2wUzNNHk4cLGMgv6D5bxaDZ82
+         41lF3AJUgDOOvu1InzaHI+K9uJt+EDWhzSfBRGlnsJsln5tO6kMbysNByjEqUHQmyFsI
+         e4DScEWPRVUu+aMvmDXTBh1Ml74LsRNU5h5BPnzS4mae6x4v5GaeM68IlRX5ONzEGjDZ
+         tpznAWFzSN3xisivlI/m4fotL6k0ZRpLf11UrrwKjzvAHwt31DMfc5+SpyjKgX3T2wkD
+         JigjbZp1kGqzzFITnWqRx2tdOgrm5aUTY8m59KyBWfgcqkXSkGIG7LnCFrXSeHwwP2Cu
+         6vEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741890683; x=1742495483;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vXnRxpxYe49SDy+ll8iRRrwvRZ2bdnRzd1C07n7AGFQ=;
+        b=ni2DI1xKnZB9rwjQgt5WeAmobiwXVnk/CCoS0+H+DRsY3hCGparc26Lkm/lMiU+rzs
+         2fTkjZxO0vE4LkxXdqZoXQ8lRKJ0Mm75dlbx1GTE0fXvXOqphM4wybSyGkCx2a2GYAs8
+         j4HP4qpkWQBT6IHyXIeHMCQFIpRrziMeXJpiVZRLM72sqAl/WJSVajJwC5TlwKBeRtps
+         M/tHeN1FmE5fDNjIy/OYgKz0ZDxSJdrHVIwPvj86/pqkn6/cOGMagRr81JY7D6k56w8Z
+         tXCgnjVlK/MAzdc2oyyBGDeQkOzdFtsXhVJXUGSbvsKqIsIdGeAyrdUHhs5TFMb2DguL
+         dvlA==
+X-Forwarded-Encrypted: i=1; AJvYcCXYHnSofQFfEZMCQF3xi3ysqJZK3lJgBy9UQvOmRaV1hxw3FNh11bOJ/VinwC4R39qsyvCg+caog/66lAg4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxk6a938Cloxeyp0nokGrnteRMlHDNIhJ5ILH9xmuph843oqwEN
+	6wt35QxCoDmBQqujTnmhBs6Lpxg3zGzvK+BbwroYNrZULa98Jy3EfeKek/hGd7c=
+X-Gm-Gg: ASbGnctCXwYI72gJhM40wMsh2kx3YuHEndVIxrh1cP2DCfSHkHcmzUEYvwcxsWto2NF
+	UGotFF6SY+NzE8RUJnC9HwOseJpdBgGJGPAbgImgOoxjV2HDM/SivZ9ma9cSn68rFpNXZ7hG9+2
+	4AS27zPlGrsLjZ5Aiw0FvT0B6APEEgPt2Oby4rDdCT3Fw5BOLtiYmlTbwLI34ENWxVGfiWlb2FE
+	yZW1IoFomIR3/t7dXJocRgYBARgopUg2plhw2VlPOsL3zDURNF7Mbru+s1jboqfAikyeZpiyC/j
+	dPDndnu8l/WS8m96GSRJ8srP1XPWHMXDCpd6rAPL/no5TqCScg==
+X-Google-Smtp-Source: AGHT+IEqhmMGPVvyYQ4YUNWWFgupgua68itRs76XFocxn1hRn/6jgNyhkZmatQ0VV7ymwyyFQmWQeQ==
+X-Received: by 2002:a05:6000:2b09:b0:391:4b8e:a200 with SMTP id ffacd0b85a97d-396c21fbd06mr392167f8f.32.1741890683140;
+        Thu, 13 Mar 2025 11:31:23 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d188bb577sm28973315e9.19.2025.03.13.11.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 11:31:22 -0700 (PDT)
+Date: Thu, 13 Mar 2025 21:31:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Roman Kisel <romank@linux.microsoft.com>,
+	arnd@arndb.de, bhelgaas@google.com, bp@alien8.de,
+	catalin.marinas@arm.com, conor+dt@kernel.org,
+	dave.hansen@linux.intel.com, decui@microsoft.com,
+	haiyangz@microsoft.com, hpa@zytor.com, joey.gouly@arm.com,
+	krzk+dt@kernel.org, kw@linux.com, kys@microsoft.com,
+	lenb@kernel.org, lpieralisi@kernel.org,
+	manivannan.sadhasivam@linaro.org, mark.rutland@arm.com,
+	maz@kernel.org, mingo@redhat.com, oliver.upton@linux.dev,
+	rafael@kernel.org, robh@kernel.org, ssengar@linux.microsoft.com,
+	sudeep.holla@arm.com, suzuki.poulose@arm.com, tglx@linutronix.de,
+	wei.liu@kernel.org, will@kernel.org, yuzenghui@huawei.com,
+	devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ
+ number from DeviceTree
+Message-ID: <1283ab3a-a66b-4fe2-9ba4-8d5972daa89b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,53 +83,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250307220304.247725-9-romank@linux.microsoft.com>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug-7
-head:   6d691abbf75379a981e41eee850d964d5ebb94c8
-commit: d06df8671875384784c4dcb881dea831b3520f08 [4/8] x86/kexec: Add 8250 serial port output
-config: i386-randconfig-002-20250313 (https://download.01.org/0day-ci/archive/20250314/202503140119.nsQQvdsr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503140119.nsQQvdsr-lkp@intel.com/reproduce)
+Hi Roman,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/arm64-kvm-smccc-Introduce-and-use-API-for-detectting-hypervisor-presence/20250308-060639
+base:   3a7f7785eae7cf012af128ca9e383c91e4955354
+patch link:    https://lore.kernel.org/r/20250307220304.247725-9-romank%40linux.microsoft.com
+patch subject: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ number from DeviceTree
+config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250313/202503132345.uKNehsnm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503140119.nsQQvdsr-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503132345.uKNehsnm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/hv/vmbus_drv.c:2355 vmbus_set_irq() warn: platform_get_irq() does not return zero
 
-   arch/x86/kernel/early_printk.c: In function 'early_serial_hw_init':
->> arch/x86/kernel/early_printk.c:148:17: error: 'kexec_debug_8250_port' undeclared (first use in this function)
-     148 |                 kexec_debug_8250_port = early_serial_base;
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/early_printk.c:148:17: note: each undeclared identifier is reported only once for each function it appears in
+vim +2355 drivers/hv/vmbus_drv.c
 
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2348  static int __maybe_unused vmbus_set_irq(struct platform_device *pdev)
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2349  {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2350  	struct irq_data *data;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2351  	int irq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2352  	irq_hw_number_t hwirq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2353  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2354  	irq = platform_get_irq(pdev, 0);
+2e494cbd89c51d1 Roman Kisel    2025-03-07 @2355  	if (irq == 0) {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2356  		pr_err("VMBus interrupt mapping failure\n");
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2357  		return -EINVAL;
 
-vim +/kexec_debug_8250_port +148 arch/x86/kernel/early_printk.c
+You can delete this if statement.  It's dead code.  See the comment
+next to platform_get_irq().  I wrote a blog about the history of
+this:
+https://staticthinking.wordpress.com/2023/08/07/writing-a-check-for-zero-irq-error-codes/
 
-   130	
-   131	static __init void early_serial_hw_init(unsigned divisor)
-   132	{
-   133		unsigned char c;
-   134	
-   135		serial_out(early_serial_base, LCR, 0x3);	/* 8n1 */
-   136		serial_out(early_serial_base, IER, 0);	/* no interrupt */
-   137		serial_out(early_serial_base, FCR, 0);	/* no fifo */
-   138		serial_out(early_serial_base, MCR, 0x3);	/* DTR + RTS */
-   139	
-   140		c = serial_in(early_serial_base, LCR);
-   141		serial_out(early_serial_base, LCR, c | DLAB);
-   142		serial_out(early_serial_base, DLL, divisor & 0xff);
-   143		serial_out(early_serial_base, DLH, (divisor >> 8) & 0xff);
-   144		serial_out(early_serial_base, LCR, c & ~DLAB);
-   145	
-   146	#ifdef CONFIG_KEXEC_CORE
-   147		if (serial_in == io_serial_in)
- > 148			kexec_debug_8250_port = early_serial_base;
-   149	#endif
-   150	}
-   151	
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2358  	}
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2359  	if (irq < 0) {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2360  		pr_err("VMBus interrupt data can't be read from DeviceTree, error %d\n", irq);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2361  		return irq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2362  	}
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2363  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2364  	data = irq_get_irq_data(irq);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2365  	if (!data) {
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2366  		pr_err("No interrupt data for VMBus virq %d\n", irq);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2367  		return -ENODEV;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2368  	}
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2369  	hwirq = irqd_to_hwirq(data);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2370  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2371  	vmbus_irq = irq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2372  	vmbus_interrupt = hwirq;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2373  	pr_debug("VMBus virq %d, hwirq %d\n", vmbus_irq, vmbus_interrupt);
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2374  
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2375  	return 0;
+2e494cbd89c51d1 Roman Kisel    2025-03-07  2376  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
