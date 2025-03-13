@@ -1,80 +1,64 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD12E13B280
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 18:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F80189F56;
+	Thu, 13 Mar 2025 18:33:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741890686; cv=none; b=ddVPufDcVeiJAWHYjZoIt1E6+Md/l7Gl6+b+vb4P0UGdrnEjwzjJ31kQxRSaYBop+kbNZmoqsrXSzN1HyOiXU4V95mhiGEjeJNCFWlXexWzqABt7vdfLkdVSbkRM+1Kq2vqauA5fEioQ28wVHo3C8NvlvHtFGoakaN8BF+KKqYs=
+	t=1741890787; cv=none; b=BKM77WhH9NVtbBbBdQDDM1qsQL5X+jT1oD81DlMiF7iO6vou5pz7EG5hl4eNyTWGyy6781DWSSXvJqk3i1YnbbXaUz2ENQU2hjnJPsuTQTV26hs41M7gXUfyACM/0hAXHKzhapdqYuxK+cfn7/2mpZXg4OyEm1FhOI7/tykAXQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741890686; c=relaxed/simple;
-	bh=gcHZob6HNebed2Cm6BRlntKCieNCU9GdUHJ19WCNgP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mwVjipHQQX05jc69/YzHGelBrOc/vTYiOhIo4XNFc98doX2LWeKcpXVl3tVTQjMvph9bWFNxE9cKpByILENOw9izLGjoY+3SMOogpwJPE8Y+h1CJR/pWc+/R1YRFWx7Khhyr/uhgLqYYd4RD66VTCcGYQO0LJdRy+HZCwqmNc2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=px64f74+; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1741890787; c=relaxed/simple;
+	bh=NNfdweyltKpfxEYdB4dJuUUgTK30BjFlrikEsqHw4SA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CwFmPNpQcAW3e+BWNPAJAISfKvos2MOuQnpDJpHRUtUkuYx9Nj9g2YGM3VD05ArcaAmA+L+EoHMAadT8xUDKXTViUFFe6X2HC3dPPi0p0ILn4nBBXwx5baNnzQh8TNubExaAElcLiwCRYsnNlZq94bC2nq2myJGX3J9qzNugrNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWyPum2I; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="px64f74+"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3911748893aso874361f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 11:31:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741890683; x=1742495483; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vXnRxpxYe49SDy+ll8iRRrwvRZ2bdnRzd1C07n7AGFQ=;
-        b=px64f74+/8b2DonbydocGPdIFmhH4kwbfdnnqmfHO2wUzNNHk4cLGMgv6D5bxaDZ82
-         41lF3AJUgDOOvu1InzaHI+K9uJt+EDWhzSfBRGlnsJsln5tO6kMbysNByjEqUHQmyFsI
-         e4DScEWPRVUu+aMvmDXTBh1Ml74LsRNU5h5BPnzS4mae6x4v5GaeM68IlRX5ONzEGjDZ
-         tpznAWFzSN3xisivlI/m4fotL6k0ZRpLf11UrrwKjzvAHwt31DMfc5+SpyjKgX3T2wkD
-         JigjbZp1kGqzzFITnWqRx2tdOgrm5aUTY8m59KyBWfgcqkXSkGIG7LnCFrXSeHwwP2Cu
-         6vEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741890683; x=1742495483;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vXnRxpxYe49SDy+ll8iRRrwvRZ2bdnRzd1C07n7AGFQ=;
-        b=ni2DI1xKnZB9rwjQgt5WeAmobiwXVnk/CCoS0+H+DRsY3hCGparc26Lkm/lMiU+rzs
-         2fTkjZxO0vE4LkxXdqZoXQ8lRKJ0Mm75dlbx1GTE0fXvXOqphM4wybSyGkCx2a2GYAs8
-         j4HP4qpkWQBT6IHyXIeHMCQFIpRrziMeXJpiVZRLM72sqAl/WJSVajJwC5TlwKBeRtps
-         M/tHeN1FmE5fDNjIy/OYgKz0ZDxSJdrHVIwPvj86/pqkn6/cOGMagRr81JY7D6k56w8Z
-         tXCgnjVlK/MAzdc2oyyBGDeQkOzdFtsXhVJXUGSbvsKqIsIdGeAyrdUHhs5TFMb2DguL
-         dvlA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYHnSofQFfEZMCQF3xi3ysqJZK3lJgBy9UQvOmRaV1hxw3FNh11bOJ/VinwC4R39qsyvCg+caog/66lAg4@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxk6a938Cloxeyp0nokGrnteRMlHDNIhJ5ILH9xmuph843oqwEN
-	6wt35QxCoDmBQqujTnmhBs6Lpxg3zGzvK+BbwroYNrZULa98Jy3EfeKek/hGd7c=
-X-Gm-Gg: ASbGnctCXwYI72gJhM40wMsh2kx3YuHEndVIxrh1cP2DCfSHkHcmzUEYvwcxsWto2NF
-	UGotFF6SY+NzE8RUJnC9HwOseJpdBgGJGPAbgImgOoxjV2HDM/SivZ9ma9cSn68rFpNXZ7hG9+2
-	4AS27zPlGrsLjZ5Aiw0FvT0B6APEEgPt2Oby4rDdCT3Fw5BOLtiYmlTbwLI34ENWxVGfiWlb2FE
-	yZW1IoFomIR3/t7dXJocRgYBARgopUg2plhw2VlPOsL3zDURNF7Mbru+s1jboqfAikyeZpiyC/j
-	dPDndnu8l/WS8m96GSRJ8srP1XPWHMXDCpd6rAPL/no5TqCScg==
-X-Google-Smtp-Source: AGHT+IEqhmMGPVvyYQ4YUNWWFgupgua68itRs76XFocxn1hRn/6jgNyhkZmatQ0VV7ymwyyFQmWQeQ==
-X-Received: by 2002:a05:6000:2b09:b0:391:4b8e:a200 with SMTP id ffacd0b85a97d-396c21fbd06mr392167f8f.32.1741890683140;
-        Thu, 13 Mar 2025 11:31:23 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d188bb577sm28973315e9.19.2025.03.13.11.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 11:31:22 -0700 (PDT)
-Date: Thu, 13 Mar 2025 21:31:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Roman Kisel <romank@linux.microsoft.com>,
-	arnd@arndb.de, bhelgaas@google.com, bp@alien8.de,
-	catalin.marinas@arm.com, conor+dt@kernel.org,
-	dave.hansen@linux.intel.com, decui@microsoft.com,
-	haiyangz@microsoft.com, hpa@zytor.com, joey.gouly@arm.com,
-	krzk+dt@kernel.org, kw@linux.com, kys@microsoft.com,
-	lenb@kernel.org, lpieralisi@kernel.org,
-	manivannan.sadhasivam@linaro.org, mark.rutland@arm.com,
-	maz@kernel.org, mingo@redhat.com, oliver.upton@linux.dev,
-	rafael@kernel.org, robh@kernel.org, ssengar@linux.microsoft.com,
-	sudeep.holla@arm.com, suzuki.poulose@arm.com, tglx@linutronix.de,
-	wei.liu@kernel.org, will@kernel.org, yuzenghui@huawei.com,
-	devicetree@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ
- number from DeviceTree
-Message-ID: <1283ab3a-a66b-4fe2-9ba4-8d5972daa89b@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWyPum2I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741890785; x=1773426785;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NNfdweyltKpfxEYdB4dJuUUgTK30BjFlrikEsqHw4SA=;
+  b=FWyPum2IuqRFFAf8Qs9te8FCnEbQTsxQiIFiKyVt4UUmtUJWk2Aa9ZuA
+   pRl0NRcAPS55l1wY4vyBxNYvgPk3NM7q4GuUyz3rAHGZHnLFkgq+byJmO
+   k6xTOlV6uZBo0bZ9nA/W7LDmNKneul9V1FUVt4/nleaml1QzVQI5Kt0L+
+   iW+b9sfrAgDzvVq2WHJXv53yszZUNaaOXun3y6wqo3F2Fi/8n+xpgslWT
+   9IOpKkt3gjYurTeqq5wUFNIIYa3NEMeX9e41JLhf68GydEE2+6/XSAYLv
+   n1WLbpKbgBKlF9sZASxyn08xUYlZ5jHIpKJANxvLy6vu0Ijo+cvSIQwxU
+   Q==;
+X-CSE-ConnectionGUID: tjBjCzLxTBaMh4A2+Yz0Bw==
+X-CSE-MsgGUID: 71MNOBTJSLaaDLbD5wXB5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42911426"
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="42911426"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 11:33:04 -0700
+X-CSE-ConnectionGUID: FWRYxOsiSAeJW66tDYLG0A==
+X-CSE-MsgGUID: gmOubHMERIa2gAR7Sa2tyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,245,1736841600"; 
+   d="scan'208";a="125663989"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2025 11:33:02 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsnMZ-0009lE-2a;
+	Thu, 13 Mar 2025 18:32:59 +0000
+Date: Fri, 14 Mar 2025 02:32:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Subu Dwevedi <messigoatcr7nop@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Subu Dwevedi <messigoatcr7nop@gmail.com>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] hwmon/applesmc: add MMIO for newer macs
+Message-ID: <202503140229.R49CaAYj-lkp@intel.com>
+References: <20250312123055.1735-2-messigoatcr7nop@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,67 +67,202 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250307220304.247725-9-romank@linux.microsoft.com>
+In-Reply-To: <20250312123055.1735-2-messigoatcr7nop@gmail.com>
 
-Hi Roman,
+Hi Subu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/arm64-kvm-smccc-Introduce-and-use-API-for-detectting-hypervisor-presence/20250308-060639
-base:   3a7f7785eae7cf012af128ca9e383c91e4955354
-patch link:    https://lore.kernel.org/r/20250307220304.247725-9-romank%40linux.microsoft.com
-patch subject: [PATCH hyperv-next v5 08/11] Drivers: hv: vmbus: Get the IRQ number from DeviceTree
-config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250313/202503132345.uKNehsnm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.14-rc6 next-20250313]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Subu-Dwevedi/hwmon-applesmc-add-MMIO-for-newer-macs/20250312-203248
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250312123055.1735-2-messigoatcr7nop%40gmail.com
+patch subject: [PATCH 1/2] hwmon/applesmc: add MMIO for newer macs
+config: x86_64-buildonly-randconfig-002-20250313 (https://download.01.org/0day-ci/archive/20250314/202503140229.R49CaAYj-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503140229.R49CaAYj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503132345.uKNehsnm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503140229.R49CaAYj-lkp@intel.com/
 
-smatch warnings:
-drivers/hv/vmbus_drv.c:2355 vmbus_set_irq() warn: platform_get_irq() does not return zero
+All errors (new ones prefixed by >>):
 
-vim +2355 drivers/hv/vmbus_drv.c
+>> drivers/hwmon/applesmc.c:717:42: error: incomplete definition of type 'struct acpi_device'
+     717 |         status = acpi_get_current_resources(adev->handle, &buffer);
+         |                                             ~~~~^
+   include/linux/acpi.h:801:8: note: forward declaration of 'struct acpi_device'
+     801 | struct acpi_device;
+         |        ^
+   1 error generated.
 
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2348  static int __maybe_unused vmbus_set_irq(struct platform_device *pdev)
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2349  {
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2350  	struct irq_data *data;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2351  	int irq;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2352  	irq_hw_number_t hwirq;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2353  
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2354  	irq = platform_get_irq(pdev, 0);
-2e494cbd89c51d1 Roman Kisel    2025-03-07 @2355  	if (irq == 0) {
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2356  		pr_err("VMBus interrupt mapping failure\n");
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2357  		return -EINVAL;
 
-You can delete this if statement.  It's dead code.  See the comment
-next to platform_get_irq().  I wrote a blog about the history of
-this:
-https://staticthinking.wordpress.com/2023/08/07/writing-a-check-for-zero-irq-error-codes/
+vim +717 drivers/hwmon/applesmc.c
 
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2358  	}
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2359  	if (irq < 0) {
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2360  		pr_err("VMBus interrupt data can't be read from DeviceTree, error %d\n", irq);
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2361  		return irq;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2362  	}
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2363  
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2364  	data = irq_get_irq_data(irq);
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2365  	if (!data) {
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2366  		pr_err("No interrupt data for VMBus virq %d\n", irq);
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2367  		return -ENODEV;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2368  	}
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2369  	hwirq = irqd_to_hwirq(data);
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2370  
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2371  	vmbus_irq = irq;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2372  	vmbus_interrupt = hwirq;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2373  	pr_debug("VMBus virq %d, hwirq %d\n", vmbus_irq, vmbus_interrupt);
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2374  
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2375  	return 0;
-2e494cbd89c51d1 Roman Kisel    2025-03-07  2376  }
+   678	
+   679	static int applesmc_init_index(struct applesmc_registers *s)
+   680	{
+   681		const struct applesmc_entry *entry;
+   682		unsigned int i;
+   683	
+   684		if (s->index)
+   685			return 0;
+   686	
+   687		s->index = kcalloc(s->temp_count, sizeof(s->index[0]), GFP_KERNEL);
+   688		if (!s->index)
+   689			return -ENOMEM;
+   690	
+   691		for (i = s->temp_begin; i < s->temp_end; i++) {
+   692			entry = applesmc_get_entry_by_index(i);
+   693			if (IS_ERR(entry))
+   694				continue;
+   695			if (strcmp(entry->type, TEMP_SENSOR_TYPE))
+   696				continue;
+   697			s->index[s->index_count++] = entry->key;
+   698		}
+   699	
+   700		return 0;
+   701	}
+   702	/*
+   703	 * applesmc_init_mmio_try - Try to initialize MMIO
+   704	 */
+   705	static int applesmc_init_mmio_try(void)
+   706	{
+   707		u8 ldkn_version;
+   708		acpi_status status;
+   709		struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+   710		struct acpi_device *adev;
+   711		struct acpi_resource *res;
+   712	
+   713		adev = acpi_dev_get_first_match_dev("APP0001", NULL, -1);
+   714		if (!adev)
+   715			return -ENXIO;
+   716	
+ > 717		status = acpi_get_current_resources(adev->handle, &buffer);
+   718		if (ACPI_FAILURE(status))
+   719			return -ENXIO;
+   720	
+   721		res = buffer.pointer;
+   722		while (res->type != ACPI_RESOURCE_TYPE_END_TAG) {
+   723			if (res->type == ACPI_RESOURCE_TYPE_FIXED_MEMORY32) {
+   724				if (res->data.fixed_memory32.address_length < 0x4006)
+   725					return -ENXIO;
+   726	
+   727				mmio_base_addr = res->data.fixed_memory32.address;
+   728				mmio_base_size = res->data.fixed_memory32.address_length;
+   729				is_mmio = true;
+   730				break;
+   731			}
+   732			res = ACPI_NEXT_RESOURCE(res);
+   733		}
+   734		kfree(buffer.pointer);
+   735		acpi_dev_put(adev);
+   736	
+   737		if (!is_mmio)
+   738			return -ENXIO;
+   739	
+   740		mmio_base = ioremap(mmio_base_addr, mmio_base_size);
+   741	
+   742		if (!mmio_base)
+   743			return -ENXIO;
+   744	
+   745		if (ioread8(mmio_base + 0x4005) == 0xFF)
+   746			goto out;
+   747	
+   748		if (read_smc(APPLESMC_READ_CMD, "LDKN", &ldkn_version, 1))
+   749			goto out;
+   750	
+   751		if (ldkn_version < 2)
+   752			goto out;
+   753	
+   754		return 0;
+   755	out:
+   756		pr_warn("cannot enable MMIO will use PMIO\n");
+   757		iounmap(mmio_base);
+   758		return -ENXIO;
+   759	}
+   760	/*
+   761	 * applesmc_init_smcreg_try - Try to initialize register cache. Idempotent.
+   762	 */
+   763	static int applesmc_init_smcreg_try(void)
+   764	{
+   765		struct applesmc_registers *s = &smcreg;
+   766		bool left_light_sensor = false, right_light_sensor = false;
+   767		unsigned int count;
+   768		u8 tmp[1];
+   769		int ret;
+   770	
+   771		if (s->init_complete)
+   772			return 0;
+   773	
+   774		ret = read_register_count(&count);
+   775		if (ret)
+   776			return ret;
+   777	
+   778		if (s->cache && s->key_count != count) {
+   779			pr_warn("key count changed from %d to %d\n",
+   780				s->key_count, count);
+   781			kfree(s->cache);
+   782			s->cache = NULL;
+   783		}
+   784		s->key_count = count;
+   785	
+   786		if (!s->cache)
+   787			s->cache = kcalloc(s->key_count, sizeof(*s->cache), GFP_KERNEL);
+   788		if (!s->cache)
+   789			return -ENOMEM;
+   790	
+   791		ret = applesmc_read_key(FANS_COUNT, tmp, 1);
+   792		if (ret)
+   793			return ret;
+   794		s->fan_count = tmp[0];
+   795		if (s->fan_count > 10)
+   796			s->fan_count = 10;
+   797	
+   798		ret = applesmc_get_lower_bound(&s->temp_begin, "T");
+   799		if (ret)
+   800			return ret;
+   801		ret = applesmc_get_lower_bound(&s->temp_end, "U");
+   802		if (ret)
+   803			return ret;
+   804		s->temp_count = s->temp_end - s->temp_begin;
+   805	
+   806		ret = applesmc_init_index(s);
+   807		if (ret)
+   808			return ret;
+   809	
+   810		ret = applesmc_has_key(LIGHT_SENSOR_LEFT_KEY, &left_light_sensor);
+   811		if (ret)
+   812			return ret;
+   813		ret = applesmc_has_key(LIGHT_SENSOR_RIGHT_KEY, &right_light_sensor);
+   814		if (ret)
+   815			return ret;
+   816		ret = applesmc_has_key(MOTION_SENSOR_KEY, &s->has_accelerometer);
+   817		if (ret)
+   818			return ret;
+   819		ret = applesmc_has_key(BACKLIGHT_KEY, &s->has_key_backlight);
+   820		if (ret)
+   821			return ret;
+   822	
+   823		s->num_light_sensors = left_light_sensor + right_light_sensor;
+   824		s->init_complete = true;
+   825	
+   826		pr_info("key=%d fan=%d temp=%d index=%d acc=%d lux=%d kbd=%d\n",
+   827		       s->key_count, s->fan_count, s->temp_count, s->index_count,
+   828		       s->has_accelerometer,
+   829		       s->num_light_sensors,
+   830		       s->has_key_backlight);
+   831	
+   832		return 0;
+   833	}
+   834	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
