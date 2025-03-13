@@ -1,193 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89937264FB5;
-	Thu, 13 Mar 2025 10:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855E926659A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 11:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741861819; cv=none; b=LzuctnxxcRqJJKOgfHkNfU3RyDKjhrJP/i5V3DogpSXvaHrJI5OAWVf9dg3A92SZk1lI5IweOaUZ5tVcOCM8ZjkReuq0WY8WlHXFC2HuFDnDRuKsudvNWgCmof5mYDJRb7lBXI90dv9DdVMKNxcH8Dr+/nZQSE6NhVdttWoW7dg=
+	t=1741863931; cv=none; b=OAnIiiShTMRvyoJSs91YCnJYCchoYMTReV3Thd8fJY9oixNdWS4O5V2AEsX6sL+rqdpuvtymuYmTxTBHQzhckx21BXAZcZQMk2D5hluTK9hZ5VENQYguKTweWCj+8ITnshekkjXtLdED5dUEvnl510tTwHD0t7j9uhwLnd8LtDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741861819; c=relaxed/simple;
-	bh=QEvxVG8I/hTVZKOvqF1lYUikB1WAzIg+p5U+9zryPT0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SGQV1dZW26pb37q5V/vdr77xp8/ve+SFHeGLVzVDcgBl9gGl+4+ErxrwREZRRQHcTP7R6w2pmv1WKyorVoIlYPn0Dcl1rSCUXjWg3YccXtLXw2Vxtfm5DEao5suAxPfT/+Irs8ZB5UTWaVxpzrR6tBT+U+wDRIzxJV60A8wPvz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gsk66exq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741863931; c=relaxed/simple;
+	bh=0d54gouCljvKQiVjTmhq1M17RQqWNcy1+KrvgGpYoU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=srBbLM3tU7lQ8zg6BSlc47XZkr2yXI/kf9yv3TCAAvLl0BPF/zLVqcfMGuWw96MHRGrP1JRei0jWJWSqsD0ZjWBSAtF9Vi2uYsP17Ca0LFsohdsD/k+thrpuiRMUr4xFlPIoF2D+0u8y7V2uukXSggGpGrkHGozCC03tkd5HnX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YWBc5hSF; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gsk66exq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 192BDC4CEEB;
-	Thu, 13 Mar 2025 10:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741861819;
-	bh=QEvxVG8I/hTVZKOvqF1lYUikB1WAzIg+p5U+9zryPT0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Gsk66exqBT/kKfea0fo4Q+0PXcBK0s4a3sQigv+rvzP4d4w2XK1YQERTbFUgUmxBp
-	 ajc7+UuXPVswVpY/MgdzOCPPqFEPMZRe5HS/PlS6Es+uXvGw4Dbp/I7Uqdk+xI94a4
-	 yyVjGgU5aqhZymraWi0rnwcOp88dXSXNEq4W5RYg2lAKej/F6aEVU7WQg8cNTbLqCK
-	 v4ZIDX5mtv+2PtqB1hEsHA3UZ+Y9qFm5JAJbYfyioVGXHo9QXwHHGwIb31mCB+8Mqw
-	 GGo52/0ybPbADOqaSZhtOEcz/EjwEGo44RVi+rfGANjxXjHu5mMfhhiY4SVqdMflkK
-	 rVMDVzGILcrAw==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30bfe0d2b6dso8587741fa.3;
-        Thu, 13 Mar 2025 03:30:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVUiGMqdzuYAkXqXiz0y4BFbrHDrNzUYCDTv9SpnE9NW2YD1qDjf/vSENga53BC4ihPsPkyqbqUgSzOzFtRpQ==@lists.linux.dev, AJvYcCXNEjLmJz0kCWaPXtcKVdjF5s+uYfsE8Yr0OWXSg+T1tQ3dW3Uo+Hu3VykWgqPegQ1cwDOS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBDcp3mizPV8SPW0JYOG/CdQkWmoZLos+So0hFBaGcXwQv+xWI
-	K9D+j08Whw6FgznHcY2E5Cd6sbE4IlRWLfBh3j5L0eShPJDolSGAt1wnQn/ulW6M8gL/sx9TzzZ
-	J7+ZYT6P604VTsjmB7ay242xtr5c=
-X-Google-Smtp-Source: AGHT+IHYqyvlbFJWpUpXNCxWAr3gQGfo/B1oVwVdpaiXhvEQDZmER5taQn2phFdz+AWOWgVByaE0iZNyjmX15WzStcU=
-X-Received: by 2002:a05:6512:2342:b0:549:8b24:988f with SMTP id
- 2adb3069b0e04-54990da2790mr8737978e87.0.1741861817726; Thu, 13 Mar 2025
- 03:30:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YWBc5hSF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741863929; x=1773399929;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0d54gouCljvKQiVjTmhq1M17RQqWNcy1+KrvgGpYoU4=;
+  b=YWBc5hSFq2yhrhXLICgF+FaOPkS2zGff8Z4hfCGJtxBjna3QsuWXhUVL
+   Sv9oGAUDkoTezppQPzQ3CgTPd1wg/LIZBCzOJoJNejR2FHr2H7qxh6Eo7
+   PWQiRe5x9zqxMRekD37A5PZ15VOEOWWudCBPxg7nuD3kSfw8mtmDVeI17
+   YWEJDjIxUz9QB/Q8ZnXsGJaD070RfvX8fHmFs1zZAuJn/+pg6Ef2+p6/x
+   ZJp3KweQVn8lE/J9wsmJ25q0J+RJSd+6A7qksFEOs6lXU7Fx7wILx7KoW
+   R26UDyPj+90KBl1tElQUnwOKNDQDOp4/DeJk1+//blFb6j/fPbN5XnQDC
+   Q==;
+X-CSE-ConnectionGUID: ksgZ9MkES16b22a4BQX7GQ==
+X-CSE-MsgGUID: DOMV8zfPQteD5cR2zCS7Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="60516331"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="60516331"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 04:05:28 -0700
+X-CSE-ConnectionGUID: H5FeNSM7Sv2pNkPqPF0S3g==
+X-CSE-MsgGUID: opHoBL6OSsiMs946c/K3Yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="125992549"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 13 Mar 2025 04:05:26 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsgNP-0009LI-0a;
+	Thu, 13 Mar 2025 11:05:23 +0000
+Date: Thu, 13 Mar 2025 19:04:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nirmoy Das <nirmoy.das@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: ERROR: modpost: "gt_reset_failure" [drivers/gpu/drm/xe/xe.ko]
+ undefined!
+Message-ID: <202503131929.zSgPrfzC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250311110616.148682-9-ardb+git@google.com> <202503131715.Fb6CfjhT-lkp@intel.com>
- <CAMj1kXGBLV6W7mJcELmsQuDUi0u-DofyD985znmVoHoZKZTuxA@mail.gmail.com> <CAMj1kXEZccymq1OhXErSK+prS3L7sygm7_5_1v+j2cypncQuzA@mail.gmail.com>
-In-Reply-To: <CAMj1kXEZccymq1OhXErSK+prS3L7sygm7_5_1v+j2cypncQuzA@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 13 Mar 2025 19:29:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT_NRio2pkR1Km5Nq8KM38zYF7VCoGP0OjEP_Owg-ukpQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JrvxKSzDk58nqsT3nejvFSY6kfeqbfgNaL4ldnTl0LmsnwFvj15KgRa8Ec
-Message-ID: <CAK7LNAT_NRio2pkR1Km5Nq8KM38zYF7VCoGP0OjEP_Owg-ukpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with
- relocations preserved
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 13, 2025 at 7:18=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
-ote:
->
-> On Thu, 13 Mar 2025 at 10:34, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >
-> > On Thu, 13 Mar 2025 at 10:21, kernel test robot <lkp@intel.com> wrote:
-> > >
-> > > Hi Ard,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > [auto build test ERROR on masahiroy-kbuild/for-next]
-> > > [also build test ERROR on masahiroy-kbuild/fixes tip/x86/core s390/fe=
-atures linus/master v6.14-rc6 next-20250312]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a not=
-e.
-> > > And when submitting patch, we suggest to use '--base' as documented i=
-n
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel=
-/Kbuild-link-vmlinux-sh-Make-output-file-name-configurable/20250311-190926
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/lin=
-ux-kbuild.git for-next
-> > > patch link:    https://lore.kernel.org/r/20250311110616.148682-9-ardb=
-%2Bgit%40google.com
-> > > patch subject: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux bui=
-ld with relocations preserved
-> > > config: x86_64-randconfig-076-20250313 (https://download.01.org/0day-=
-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/config)
-> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202503131715.Fb6CfjhT=
--lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > > >> gawk: scripts/generate_builtin_ranges.awk:82: fatal: cannot open f=
-ile `vmlinux.map' for reading: No such file or directory
-> > >
-> >
-> > Hmm it seems I missed some things in link-vmlinux.sh - I will take a lo=
-ok.
->
-> We'd need something like the below applied on top - shall I send a v3?
+Hi Lucas,
 
+FYI, the error/warning still remains.
 
-I will insert this before you patch set.
-https://lore.kernel.org/linux-kbuild/20250313102604.1491732-1-masahiroy@ker=
-nel.org/T/#u
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b7f94fcf55469ad3ef8a74c35b488dbfa314d1bb
+commit: 08b5a4798713f4331317272752b27b1c4f6a246d drm/xe: Allow to compile out debugfs
+date:   7 months ago
+config: alpha-randconfig-r051-20250312 (https://download.01.org/0day-ci/archive/20250313/202503131929.zSgPrfzC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131929.zSgPrfzC-lkp@intel.com/reproduce)
 
-I would have done this earlier.
-That is simply because I always run out of my time
-and I do not have time to fix issues before someone stumbles on them.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503131929.zSgPrfzC-lkp@intel.com/
 
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
+WARNING: modpost: "saved_config" [vmlinux] is COMMON symbol
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_script.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx6/qnx6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pci-host-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/pci-pf-stub.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/console/mdacon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/serial_cs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/agp/alpha-agp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_hdmi_state_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-spmi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/g_NCR5380.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/atp870u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82365.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/i82092.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+>> ERROR: modpost: "gt_reset_failure" [drivers/gpu/drm/xe/xe.ko] undefined!
 
->
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -46,6 +46,7 @@
->
->  # Link of vmlinux
->  # ${1} - output file
-> +# ${2} - map file
->  vmlinux_link()
->  {
->         local output=3D${1}
-> @@ -99,7 +100,7 @@ vmlinux_link()
->         fi
->
->         if is_enabled CONFIG_VMLINUX_MAP; then
-> -               ldflags=3D"${ldflags} ${wl}-Map=3D${output}.map"
-> +               ldflags=3D"${ldflags} ${wl}-Map=3D${2}"
->         fi
->
->         ${ld} ${ldflags} -o ${output}                                   \
-> @@ -185,7 +186,7 @@
->  {
->         rm -f .btf.*
->         rm -f System.map
-> -       rm -f vmlinux
-> +       rm -f ${VMLINUX}
->         rm -f vmlinux.map
->  }
->
-> @@ -224,7 +225,7 @@
->                 strip_debug=3D1
->         fi
->
-> -       vmlinux_link .tmp_vmlinux1
-> +       vmlinux_link .tmp_vmlinux1 .tmp_vmlinux1.map
->  fi
->
->  if is_enabled CONFIG_DEBUG_INFO_BTF; then
-> @@ -267,19 +268,19 @@
->         sysmap_and_kallsyms .tmp_vmlinux1
->         size1=3D$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kal=
-lsymso})
->
-> -       vmlinux_link .tmp_vmlinux2
-> +       vmlinux_link .tmp_vmlinux2 .tmp_vmlinux2.map
->         sysmap_and_kallsyms .tmp_vmlinux2
->         size2=3D$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kal=
-lsymso})
->
->         if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
-> -               vmlinux_link .tmp_vmlinux3
-> +               vmlinux_link .tmp_vmlinux3 .tmp_vmlinux3.map
->                 sysmap_and_kallsyms .tmp_vmlinux3
->         fi
->  fi
->
->  strip_debug=3D
->
-> -vmlinux_link "${VMLINUX}"
-> +vmlinux_link "${VMLINUX}" vmlinux.map
->
->  # fill in BTF IDs
->  if is_enabled CONFIG_DEBUG_INFO_BTF; then
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
