@@ -1,241 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60472E337D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 00:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741826437; cv=fail; b=fJWIRmkqhEfNS5LYn9lr5L4fK+JsYbChj8Hp4M3hzXN6Lbw/bZRZwZiQowsDErRm9G2QlgS8xrn0VNxAt5KLMwCbHLTL61slNW4iykGucgKSWr0jAj63CybSDcN7cEr3dKSqz1vbbl8Y/GrddbWqwMfu2H6rGKDJx95ZCJ5yEZo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741826437; c=relaxed/simple;
-	bh=+cNKb26g3cL7sqmRm8S2tGFHyFP8ZfTWYZzRD9EhYow=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cquPTjrZKTPVEZU5UmaiVZOiVwJ+Idh8KtRBs1R56Y9Yh+427ozLQjUJN1y0rahTWBDpLk4Hny/+TGeAQ10bkUNmDbRpcmVoP+kfVYOYBrrNQX+LAf4Luw5kbmKlUOPPugOMNlh4Yn3d/8fdGEfUUGEzj6PNx7z/ixOT7T3Xz7A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5PCMEUy; arc=fail smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C85110E3;
+	Thu, 13 Mar 2025 00:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741826480; cv=none; b=s3E2GqTXmLxbd3lzKyIA9+B+xO9OdwD6Y5SYNCOY4dxDec0El1BdaeKih3vHmkly0NXuc4blC+8PBsfI/TxtWbbgqqJaubPNzHE/QKG07pwiD9uOa4/uubjKA+2Gl4UeixsN2CN46un621ktgwIPDedYut15kxY3dZ2oOgSmYno=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741826480; c=relaxed/simple;
+	bh=qg4wkcrZqdQahc+sBAwx21I9SGHYFcxuktnWsZUwsEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OJEIpEaaEU7LxOlC+qamj5/mGQCG/Ujp11Nmxy7oaYySktF6IGRRQ40uU77C/JHaDI6+E+KNJRxGiCpUSq05TzzvsaR7Fo508576NIYFAz6EEpreFJu8jSLKdbNurCzq1qFdRRCJSKzaQz6zwM+N07G8/dqtNjl1xsoW33ATMgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJmsWW9I; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5PCMEUy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJmsWW9I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741826436; x=1773362436;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=+cNKb26g3cL7sqmRm8S2tGFHyFP8ZfTWYZzRD9EhYow=;
-  b=H5PCMEUyzHMShoW2BgrhcHv0rZRIeEcGNkABC81Fisnba4oA4IujtP/S
-   kddNAfCvWSsNwOxpa+XA3Of26udWPsGgbLg2ZxNxSfQm/kncYj3SBlkX2
-   +UZw4I4hAAd8uDwtk+9//6lQZvFScHdaBc/JeQPDERFJ4HQqEmRmGWne2
-   tUWmwlDQdTEewSEE3+aelaxUjcZ1H/+83fk2WWiRhc2FWKXOC01MgNB2k
-   71QriqUN6Rgr8XcHQMkIaijGmsd+aWKb54yjttH94rZeP51eCFjdfz6k8
-   V83KdIM7Pi4SYyDeJQsu0TpwVg9IgxfQzSGD2FfeOxDwUm8Juhdu2Ozb2
+  t=1741826478; x=1773362478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qg4wkcrZqdQahc+sBAwx21I9SGHYFcxuktnWsZUwsEg=;
+  b=iJmsWW9IPdQ1HovBIAYKbkYn3llVtRUw3U5x68lBDbPRlDyE+IO8JrJL
+   fJQnNUxee3vYxUQLqT00GlQG0ImAhN9vCEHHigk1h7t8jflWNn2nUoC2s
+   z5T/P4LpEgLOP03dSRmS8zSvsXbh2AU2oA6r2frXAXJfcreFPJeGY4+t6
+   AWFX+gvgi//I7BSm/XFdeI6ifkHWxA2QnIZC47ohkZwzsvISo51FtzI8m
+   10Jo+Sxi7oQ97gB38fofkc8FU70xet48A9HUEvnbAO+9gCuLZdJx8Yhl2
+   1pTNxZmntJ6vOhjmmPzD/9C6tMl4x4eze7zvPske89oQry5jCk3zks63y
    g==;
-X-CSE-ConnectionGUID: 3T4Mr0KFSr2OBQPz1igfUg==
-X-CSE-MsgGUID: fksn8OzjTuueyeEtD9RPCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="45702423"
+X-CSE-ConnectionGUID: o12QYmSxTMqTr5xCqWoQyA==
+X-CSE-MsgGUID: Jof6ID3KTLOQJPOyOV7qgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="46836119"
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="45702423"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 17:40:35 -0700
-X-CSE-ConnectionGUID: JbPsJeU+RrCL1OwiTzITTA==
-X-CSE-MsgGUID: 7tbxG7bSS02xWGd91N7R2w==
+   d="scan'208";a="46836119"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 17:41:18 -0700
+X-CSE-ConnectionGUID: 3nO+JddHSnKIyH/21LSluw==
+X-CSE-MsgGUID: TJX4JyxWRh6p8sSYOhk/jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,243,1736841600"; 
-   d="scan'208";a="125875545"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 17:40:35 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.14; Wed, 12 Mar 2025 17:40:34 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 12 Mar 2025 17:40:34 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 12 Mar 2025 17:40:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HGIXX3LSM12JQvnBTwnH+6Jrm0JYJmgQaRKC/OXdAJVXd2tOskgnAeiwjyGaumnE2I40tj+2T8/PKJvveFZqsv4Cfksr4fUSWtgoh7HJ+pTS475QDU17EuUgnuBs0yrM12XowsmDoVrzhZTgt70Y4nrDozQKTunWTWqQgQV9tuOXfeCVhbgPkk7EmLQX2gucceg/vCR6ozPI0K8fOfth2Xp/0UoObd7W7SoZ7hunD52c7fQONUDtupxkvykGJwID5KR/zR4rl5WWHYvQhiupBGmEhVIzrz3ijC62P2gO9pNfU6P8SZBQKYhyXuWisxdS2n9I0qEDEyaaTDj6F5By2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lmR4zfPqfyYLAbfE9oLTdxd5mHWam3uQtGZbIBLSnSY=;
- b=QiK4VfSt69LxV2RNhFh2t2zGr1ub6djQtG/KRnV3VJlH3v12e15Ua/h7nbRSFirfM8dGELqY4Jp71+ECRpeULkGMeI1885c+PoNBo7B2sfUWTmYKave9ZCxrvk8Nyunm1siAydCfTumcXb5Qg0nUlztblwZvrjtCrbANUG+5oveCntkEMOn39pRZaxv9DxJ6y61sAbouzc1VktX1yLIKhI39HRBKuirQ3dtvXZ3VRtrF/wndXMCOYGnuI1MvdVBe47uOSOLVLvKB7iryO14m0BwTPSYaaOQJXHwjJYpljmfykmxRh9GlkImcAi9FrurLBNG8MKgWO7Kf+73lOZZzOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by DM6PR11MB4625.namprd11.prod.outlook.com (2603:10b6:5:2a8::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Thu, 13 Mar
- 2025 00:40:17 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8511.026; Thu, 13 Mar 2025
- 00:40:17 +0000
-Date: Thu, 13 Mar 2025 08:40:06 +0800
+   d="scan'208";a="121026618"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 12 Mar 2025 17:41:16 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tsWdN-000912-2w;
+	Thu, 13 Mar 2025 00:41:13 +0000
+Date: Thu, 13 Mar 2025 08:40:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Filipe Xavier <felipeaggger@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, "Gary
- Guo" <gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
-	<bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, "Trevor
- Gross" <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <daniel.almeida@collabora.com>,
-	<rust-for-linux@vger.kernel.org>, <felipe_life@live.com>, Filipe Xavier
-	<felipeaggger@gmail.com>
-Subject: Re: [PATCH] rust: add new macro for common bitwise operations
-Message-ID: <Z9IpZucc6V067mh6@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b@gmail.com>
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 45/45] net/ceph/messenger_v2.c:1718:29:
+ warning: variable 'enc_page_cnt' is uninitialized when used here
+Message-ID: <202503130859.hiq9p5zB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DM6PR11MB4625:EE_
-X-MS-Office365-Filtering-Correlation-Id: 93348c8c-442a-4e05-f309-08dd61c7a03e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014|921020;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Svg6Zf1Vg3gkG728qG6mRGcHMceLj6+Y0EMlaH01kjBfmQYvFpT08fx5qEt1?=
- =?us-ascii?Q?ZDGiGXdt2R79ycsVSpgsLhGzbdVqcWDnzveAnaDzbfPX7PSihR70lRPxo52F?=
- =?us-ascii?Q?G8CVbok8Q115CFnUFtjJXYC6EXozYcYbgRdrycY0p/IA6lHXG6JBOYADNUzr?=
- =?us-ascii?Q?mOM4e8lYlqY1ftV6er08T5KAgJkni5YwwfR8j6+8xHJb/9lHS14poLmfTUbk?=
- =?us-ascii?Q?qcI2TxUCfpd1ywEx0N6ef88c7bMNc7BRtv/QRPrEuyV4i3sjyLSJE7G+xuZO?=
- =?us-ascii?Q?TqmtUSxmahoo8LbyPFmhAsLm0NiMOE7/t9XnIZCtVgMk+4JHqURGyKTsxUPA?=
- =?us-ascii?Q?8W+ibQpglATPNAWUaOjEr6KPXw1s4oVMkp0NspmOJvErchaDak2NFeaYLImP?=
- =?us-ascii?Q?JYRr3P2Silpk+5xtOjq6e0zZ3JkcHu+rFGZzWDwCcRaMZzkxMDPdn57XeafR?=
- =?us-ascii?Q?odqzLgA8Ldw1QAX/lytfMeo/TGbGXRbgEYeKcouhIPT2QhxRADURL7qDXwUJ?=
- =?us-ascii?Q?fAtHBEyr9BO8dkU9Ky9Tf+Oor8ed6QKmAkYCrANs68FNCcTuWDR7dKDsTo5E?=
- =?us-ascii?Q?pu7/d6+6AOMziPcjYRqIyB0qP/0qDjToZo8Kve8TVo8G6roO4qDJKW3xZp14?=
- =?us-ascii?Q?7mTc+KxZsIPDduJyJrFTZo5l/Xfn9BQJO2HFuWeDGm8ggspZbHZ5LTNDgHp7?=
- =?us-ascii?Q?xWT/GBW8QEcEmOyKfNmEsebgCmDcpEMF6CORXYQweLfSUpbd15AzP1VErWNU?=
- =?us-ascii?Q?E7y9L9REfBrVLenLWWoplrSH7anJPuml76bVYyoBRkQ24jI+5ov6cNcoQ+cP?=
- =?us-ascii?Q?qwCTjifWoQfChMoeSzrRCQFdWZQMXMjnUf50Q4mV6y+zZAQ7q1YeEjUcjixv?=
- =?us-ascii?Q?A8NrGn1mq5wTsDWRS9wQ03KpueUvHO7/G6RWXIgYZLIlSFDhoKh3Yjn5cX/7?=
- =?us-ascii?Q?IY3T65MJ+uQPGVGGZL5qhIAUoA/q9dMwOasvj+8lXX/zZCHlHGKAxbjzD4u2?=
- =?us-ascii?Q?mT3U2fY1QCvtyx8ttwDQG59gqA79RSe2aDyp+BXb0yicpTQP4ywhQrN2YAg2?=
- =?us-ascii?Q?fGxClUjQFD2ZAOj4Tk2KzC6RcjsYgMVlE//TaSAcXeOTYsJmAxXmIjHVVflB?=
- =?us-ascii?Q?RObNt4HWbKGqeLwhYgzZklx1wCQFVHrrURobrVHPXFoL+4/aSNOp4ntsTg5E?=
- =?us-ascii?Q?sL7zyT+R89mWHUT1G1C9EznEIjrlEvX5HYKqD61QrytDWWfX0l2uFpGOORP6?=
- =?us-ascii?Q?3I8psa2s8h6qWJiiXf7b97Fgg//WjoqMW45moC6RJ1jD+omg99YQC8aEz9bW?=
- =?us-ascii?Q?1K3HvqEcYCOlAbaNeFfCNB8vv+PlcESi9dPc+D2Yby2kQwKk+4GU5irhSYdv?=
- =?us-ascii?Q?ykB3DaRk3V2HYf2WwNQZwutE8nEB?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?emC1uHwQp5ek7vx47PGkDr0oQU+T1FGBLv6eQworhpvTJNU0ioNG6ymS6yjY?=
- =?us-ascii?Q?eg4O1xMfbEIAPn9HEfa1PpGvKwf3rzgflWO2bX3sNzMDxzz3lYPNlyMnoSqT?=
- =?us-ascii?Q?MNWGkRm5kF2of3HMAfv7qXJBVhokwVqqDdHvtq2IMlZsALj64b7M1bI7Bypx?=
- =?us-ascii?Q?noEpBSr1gW4kgaG0UDDiXLAWCcCiCwFQqUMin+6stC9b777w4pmZREHD3ejU?=
- =?us-ascii?Q?GhB2GPhUo/7elJeygGO18M/CHgCylbH4IIg6vIXYNDHgzkBSuemH4W+3o29J?=
- =?us-ascii?Q?vUwc+iAItWlYsPhSe54g8hMCs7ACYEdxrXuXMTFB4s28J7rNcERupS5cjUf2?=
- =?us-ascii?Q?PO4Yl6J0jFQXJiUAoH3V1PQJ9WH3HUoz8wKD7+g/yhdKWJ0RI2Z3cvgzswAa?=
- =?us-ascii?Q?GCDRzvYAUgq+LtX8/oU24+3Weox2g3daCfMtZxIhRqtg4bzREtXkbPg3u4HJ?=
- =?us-ascii?Q?pWmPmObgEV3WqQLNrn70As7VM88IkzVYZy3tDlm44bPmzZoDvQCP3jpWHK1/?=
- =?us-ascii?Q?5zfPFxXqRlBhaSFwXX/4f2L+eqKXWCssOx60apQb0ZzVETYehE7paIa+93Af?=
- =?us-ascii?Q?sPldvXpOWSxFqKv/aXXz56KJopx9q9KDUPj9UTuB6Ssgxex6MsWGjFRXcCbk?=
- =?us-ascii?Q?sqVXzv2dwBLObVPFzTvaVyda3sLqT/nFVkYXxQTMsN6gW4fUKd5dW11Guzhn?=
- =?us-ascii?Q?HbOvDutj65wvLxrJ58oIquRvhVNwjFYxba8/VOjnEktyEzoxptaK8LlisN+f?=
- =?us-ascii?Q?/mJmCN8BX2Zq9mBaI9WZ6/yO0aQZ2+uD6VL1Drt9bKSjeyN6QwhMeBqS9WXP?=
- =?us-ascii?Q?vCtFfhBrCNMOA83mXzpLa0hoz5CMlYct9cbCtxEZfJ4+5UaUwUQofCEe/kON?=
- =?us-ascii?Q?r8799mIG+s1t8PYsUwJ5362FKP3aB/CWvaoOH3QwINF7hYwpbMQrmG26xdFC?=
- =?us-ascii?Q?hLxgwCDVlmpwtWWYNNNJPRpNYxIEjLIIxOvCvhpMBLWUd50+DewnnoUzwqXx?=
- =?us-ascii?Q?c6uoyL8zhdfJS12bG9z6hX0ZXl0CDw/IVxWnQSeCsduL45Q2f9hb12ozBarq?=
- =?us-ascii?Q?YiPiHeZZQL988E8zomgCmbuXWZwMpeg3ChcfDqn+PRU3rIUOro/jeHxcabco?=
- =?us-ascii?Q?kK+Kj8vbEdjuDHy2u4FTjHguspLVgJUCVr3/NM+EuYueJ99GO99msCZOo+HE?=
- =?us-ascii?Q?/S41GI2n2vEshDtQzlWAkZWotNVblxuQB0VpWtNBzIf6E4u/SGDmMrrOuTAP?=
- =?us-ascii?Q?ZQGUozDjg/IlGFh2y+sair+uZuN12QInLSmNtkNYCblmIKAlW/WRlPxj+sc6?=
- =?us-ascii?Q?+/pw3pLgkMf7UlERCtJX0padjnna0SsV5MWXutHr59js+l4dmqU1PVYX2enc?=
- =?us-ascii?Q?nzu1zSyMhMYLP39Peu+MDsgcY1svPuR23EA+h2OoW1/dlcsD5G9bRcM3DTaJ?=
- =?us-ascii?Q?ixt0W6ImR3Cl56g4R4nSq0jQJolxyqkR4XXVy04HCiWAFNWIT4YnD14kx8nj?=
- =?us-ascii?Q?uOzf17N29psAkSdo+vQadcqwN97qpnylS1XoQTYbTJcfem0ClnWd4PZW7zST?=
- =?us-ascii?Q?9X0OvQHSdZWBPyJZ5X/M28rHWn/wY89utjB34RnO?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 93348c8c-442a-4e05-f309-08dd61c7a03e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2025 00:40:17.7537
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zoSUJYGR7i9/CePe768sj7KUM/k13vAWgaiNAZCsfkBGNDoc0Fq1fgIaEr1bkSaVxiBT1DsRLjAgblxGxvodrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4625
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Filipe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Filipe-Xavier/rust-add-new-macro-for-common-bitwise-operations/20250304-205635
-base:   beeb78d46249cab8b2b8359a2ce8fa5376b5ad2d
-patch link:    https://lore.kernel.org/r/20250304-feat-add-bitmask-macro-v1-1-1c2d2bcb476b%40gmail.com
-patch subject: [PATCH] rust: add new macro for common bitwise operations
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250313/202503130214.myqzPlR6-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130214.myqzPlR6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   0ce16824859c4d7209abe27da17e23679b6c7c69
+commit: 0ce16824859c4d7209abe27da17e23679b6c7c69 [45/45] ceph: Don't use data_pages
+config: i386-buildonly-randconfig-003-20250313 (https://download.01.org/0day-ci/archive/20250313/202503130859.hiq9p5zB-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503130859.hiq9p5zB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202503130214.myqzPlR6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503130859.hiq9p5zB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/prelude.rs at line 22:
-    pub use super::{build_assert, build_error};
-    
-    // `super::std_vendor` is hidden, which makes the macro inline for some reason.
-   +pub use super::bitmask;
-    #[doc(no_inline)]
-    pub use super::dbg;
-    pub use super::fmt;
-   Diff in rust/kernel/prelude.rs at line 28:
-   -pub use super::bitmask;
-    pub use super::{dev_alert, dev_crit, dev_dbg, dev_emerg, dev_err, dev_info, dev_notice, dev_warn};
-    pub use super::{pr_alert, pr_crit, pr_debug, pr_emerg, pr_err, pr_info, pr_notice, pr_warn};
-    
->> Diff in rust/kernel/prelude.rs at line 22:
-    pub use super::{build_assert, build_error};
-    
-    // `super::std_vendor` is hidden, which makes the macro inline for some reason.
-   +pub use super::bitmask;
-    #[doc(no_inline)]
-    pub use super::dbg;
-    pub use super::fmt;
-   Diff in rust/kernel/prelude.rs at line 28:
-   -pub use super::bitmask;
-    pub use super::{dev_alert, dev_crit, dev_dbg, dev_emerg, dev_err, dev_info, dev_notice, dev_warn};
-    pub use super::{pr_alert, pr_crit, pr_debug, pr_emerg, pr_err, pr_info, pr_notice, pr_warn};
-    
-   make[2]: *** [Makefile:1816: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:251: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+>> net/ceph/messenger_v2.c:1718:29: warning: variable 'enc_page_cnt' is uninitialized when used here [-Wuninitialized]
+    1718 |         con->v2.out_enc_page_cnt = enc_page_cnt;
+         |                                    ^~~~~~~~~~~~
+   net/ceph/messenger_v2.c:1672:18: note: initialize the variable 'enc_page_cnt' to silence this warning
+    1672 |         int enc_page_cnt;
+         |                         ^
+         |                          = 0
+   net/ceph/messenger_v2.c:3246:29: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3246 |         bvec_set_page(&bv, con->v2.out_enc_pages[con->v2.out_enc_i],
+         |                                    ^~~~~~~~~~~~~
+         |                                    in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   net/ceph/messenger_v2.c:3254:32: error: use of undeclared identifier 'OUT_S_QUEUE_ENC_PAGE'
+    3254 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE);
+         |                                              ^
+   net/ceph/messenger_v2.c:3292:14: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3292 |         if (con->v2.out_enc_pages) {
+         |                     ^~~~~~~~~~~~~
+         |                     in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   net/ceph/messenger_v2.c:3294:36: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3294 |                 ceph_release_page_vector(con->v2.out_enc_pages,
+         |                                                  ^~~~~~~~~~~~~
+         |                                                  in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   net/ceph/messenger_v2.c:3296:11: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3296 |                 con->v2.out_enc_pages = NULL;
+         |                         ^~~~~~~~~~~~~
+         |                         in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   net/ceph/messenger_v2.c:3331:7: error: use of undeclared identifier 'OUT_S_QUEUE_ENC_PAGE'
+    3331 |         case OUT_S_QUEUE_ENC_PAGE:
+         |              ^
+   net/ceph/messenger_v2.c:3650:32: error: use of undeclared identifier 'OUT_S_QUEUE_ENC_PAGE'
+    3650 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE &&
+         |                                              ^
+   net/ceph/messenger_v2.c:3818:14: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3818 |         if (con->v2.out_enc_pages) {
+         |                     ^~~~~~~~~~~~~
+         |                     in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   net/ceph/messenger_v2.c:3820:36: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3820 |                 ceph_release_page_vector(con->v2.out_enc_pages,
+         |                                                  ^~~~~~~~~~~~~
+         |                                                  in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   net/ceph/messenger_v2.c:3822:11: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'; did you mean 'in_enc_pages'?
+    3822 |                 con->v2.out_enc_pages = NULL;
+         |                         ^~~~~~~~~~~~~
+         |                         in_enc_pages
+   include/linux/ceph/messenger.h:305:16: note: 'in_enc_pages' declared here
+     305 |         struct page **in_enc_pages;
+         |                       ^
+   1 warning and 10 errors generated.
+
+
+vim +/enc_page_cnt +1718 net/ceph/messenger_v2.c
+
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1654  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1655  /*
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1656   * Unfortunately the kernel crypto API doesn't support streaming
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1657   * (piecewise) operation for AEAD algorithms, so we can't get away
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1658   * with a fixed size buffer and a couple sgs.  Instead, we have to
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1659   * allocate pages for the entire tail of the message (currently up
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1660   * to ~32M) and two sgs arrays (up to ~256K each)...
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1661   */
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1662  static int prepare_message_secure(struct ceph_connection *con)
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1663  {
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1664  	void *zerop = page_address(ceph_zero_page);
+0ce16824859c4d7 David Howells 2023-07-31  1665  	struct folio_queue *enc_buffer = NULL, *fq;
+0ce16824859c4d7 David Howells 2023-07-31  1666  	struct iov_iter enc_iter;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1667  	struct sg_table enc_sgt = {};
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1668  	struct sg_table sgt = {};
+0ce16824859c4d7 David Howells 2023-07-31  1669  	unsigned int nr_segs = 0;
+0ce16824859c4d7 David Howells 2023-07-31  1670  	ssize_t xsize;
+0ce16824859c4d7 David Howells 2023-07-31  1671  	size_t buf_size = 0;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1672  	int enc_page_cnt;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1673  	int tail_len;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1674  	int ret;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1675  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1676  	ret = prepare_head_secure_small(con, con->v2.out_buf,
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1677  					sizeof(struct ceph_msg_header2));
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1678  	if (ret)
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1679  		return ret;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1680  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1681  	tail_len = tail_onwire_len(con->out_msg, true);
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1682  	if (!tail_len) {
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1683  		/*
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1684  		 * Empty message: once the head is written,
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1685  		 * we are done -- there is no epilogue.
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1686  		 */
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1687  		con->v2.out_state = OUT_S_FINISH_MESSAGE;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1688  		return 0;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1689  	}
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1690  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1691  	encode_epilogue_secure(con, false);
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1692  	ret = setup_message_sgs(&sgt, con->out_msg, zerop, zerop, zerop,
+f36217e35ce13fe Jeff Layton   2022-03-23  1693  				&con->v2.out_epil, NULL, 0, false);
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1694  	if (ret)
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1695  		goto out;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1696  
+0ce16824859c4d7 David Howells 2023-07-31  1697  	ret = netfs_alloc_folioq_buffer(NULL, &enc_buffer, &buf_size, tail_len,
+0ce16824859c4d7 David Howells 2023-07-31  1698  					GFP_NOIO);
+0ce16824859c4d7 David Howells 2023-07-31  1699  	if (ret < 0)
+0ce16824859c4d7 David Howells 2023-07-31  1700  		goto out;
+0ce16824859c4d7 David Howells 2023-07-31  1701  
+0ce16824859c4d7 David Howells 2023-07-31  1702  	for (fq = enc_buffer; fq; fq = fq->next)
+0ce16824859c4d7 David Howells 2023-07-31  1703  		nr_segs += folioq_count(fq);
+0ce16824859c4d7 David Howells 2023-07-31  1704  
+0ce16824859c4d7 David Howells 2023-07-31  1705  	ret = sg_alloc_table(&enc_sgt, nr_segs, GFP_NOIO);
+0ce16824859c4d7 David Howells 2023-07-31  1706  	if (ret)
+0ce16824859c4d7 David Howells 2023-07-31  1707  		goto out;
+0ce16824859c4d7 David Howells 2023-07-31  1708  
+0ce16824859c4d7 David Howells 2023-07-31  1709  	iov_iter_folio_queue(&enc_iter, READ, enc_buffer, 0, 0, tail_len);
+0ce16824859c4d7 David Howells 2023-07-31  1710  	xsize = extract_iter_to_sg(&enc_iter, tail_len, &enc_sgt, nr_segs, 0);
+0ce16824859c4d7 David Howells 2023-07-31  1711  	if (WARN_ON(xsize != tail_len)) {
+0ce16824859c4d7 David Howells 2023-07-31  1712  		ret = -EIO;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1713  		goto out;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1714  	}
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1715  
+0ce16824859c4d7 David Howells 2023-07-31  1716  	WARN_ON(con->v2.out_enc_buffer || con->v2.out_enc_page_cnt);
+0ce16824859c4d7 David Howells 2023-07-31  1717  	con->v2.out_enc_buffer = enc_buffer;
+cd1a677cad99402 Ilya Dryomov  2020-11-19 @1718  	con->v2.out_enc_page_cnt = enc_page_cnt;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1719  	con->v2.out_enc_resid = tail_len;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1720  	con->v2.out_enc_i = 0;
+0ce16824859c4d7 David Howells 2023-07-31  1721  	enc_buffer = NULL;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1722  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1723  	ret = gcm_crypt(con, true, sgt.sgl, enc_sgt.sgl,
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1724  			tail_len - CEPH_GCM_TAG_LEN);
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1725  	if (ret)
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1726  		goto out;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1727  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1728  	dout("%s con %p msg %p sg_cnt %d enc_page_cnt %d\n", __func__, con,
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1729  	     con->out_msg, sgt.orig_nents, enc_page_cnt);
+0ce16824859c4d7 David Howells 2023-07-31  1730  	con->v2.out_state = OUT_S_QUEUE_ENC_FOLIOQ;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1731  
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1732  out:
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1733  	sg_free_table(&sgt);
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1734  	sg_free_table(&enc_sgt);
+0ce16824859c4d7 David Howells 2023-07-31  1735  	netfs_free_folioq_buffer(enc_buffer);
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1736  	return ret;
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1737  }
+cd1a677cad99402 Ilya Dryomov  2020-11-19  1738  
+
+:::::: The code at line 1718 was first introduced by commit
+:::::: cd1a677cad994021b19665ed476aea63f5d54f31 libceph, ceph: implement msgr2.1 protocol (crc and secure modes)
+
+:::::: TO: Ilya Dryomov <idryomov@gmail.com>
+:::::: CC: Ilya Dryomov <idryomov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
