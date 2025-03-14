@@ -1,206 +1,334 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DC4157A5C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 09:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511911EEA5D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 09:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741944767; cv=none; b=uuWw6hc6KOOhDXaAljtLKGh8xvQMHQARSIIAr4vroYWNCuj0GV4z5zWWBExNJakxx5x/1l3buNVMqqPTL2h2eL9svBf+uZp177Hq6UHMfxQ2gsZUoozf2f/Z8MsutK/Fivk7PvQevjWwXeCNYkG/aUpOrPCIInVv+Lk0JQgCSP0=
+	t=1741945469; cv=none; b=gqpMddq7DE4JapWWjT2Li62RuBeJ+v6YoBzxpCNpHua4wiAtg5BGx2majYDG+uTFAqNXtlnSFNu4BLQAPX6r5TDSuENPlp5X/5QB+XjIaVWEWYVQLKkS5P3uG8/5kIf1TSjDleczXvIbqSCvZ7wTT0qeK0M6Ep3fUSN1DMv6JQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741944767; c=relaxed/simple;
-	bh=hcV0LEzSEuwEKgpFGDakD0gKy0s+WRB99I3F9V6pjB0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=awL2QBcGPTGFN5sOzkuKJELj03X9kNP2BXrUy4+LdfJEn6UGppXlWIuX6ea3ju5afJJdbSdcPCvPccc1Res/bKFwa17vBnqNiRf8LXqcFQvY1s+Sk4I9Banth5Wb5LDsvXnbXHrCfnWWEC+pTjWYj20oOXfwPFv16XWD/VHFtts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vitc8bB7; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741945469; c=relaxed/simple;
+	bh=yJdtMfU2C1WeWnG7I3RoEg8QOSlVcnTdq5SN+gMoPkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y2H+G944m0jBIljWya4pKA1PixFhtZ94MlP2HzUlgevg78n+ZLGzQpWhHHJgGp54iEcUme9JGqapo0F2UjBnP4kFXi7AA09Ud6hc41BKa20zT+j2z8VeP03lxHjGokJFQf5OW50VetrSMEJ6wtbNqn63O29nKBWkqY9M24/6WkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1DH2ZJv; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vitc8bB7"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf680d351so18780625e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 02:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741944763; x=1742549563; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J4tYQIJAJBSXDPaAztr8rYlca+bGlBplSbR1xzd+zog=;
-        b=Vitc8bB7MUVU16SdwERAB3UVNEnMrD9mGHc6+wKA1fc4ON/o6seT77NQvYc3xXKg8r
-         HB/yCMqPjhoVE5qCJPAf40vUM6wr+cV9C3Z33kxVsmr0sCaKiE8w1/EnqBhyPvS9+v+2
-         1pE1UiP7qaAHibgTnymdsHc5Aa/4LVSGH2WQvisgv2Yurwwwjr0LrvnOvaYGDPNmruSo
-         dBBmodC1REeoQ0Z+qnwbYMPzA/czmJyt04UaRRivAMbku1UFh1x31crSTxMe6wHOEm1q
-         58FBuyhj/0q7qzTFxPbfbxiCWACD5h4wXGHF577hbinldiGnNsTHo5ldYNLPOYl210Hr
-         1Pjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741944763; x=1742549563;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J4tYQIJAJBSXDPaAztr8rYlca+bGlBplSbR1xzd+zog=;
-        b=kLxgWqmPSaDXNFBgAPm6seXejrlwXmw4Nm0Gny2SjimAC+3XmLCidPwraXCghFv6/R
-         n7lu+BUpBZS3jSU3Z4ypMTLYtzW14Mqr43xrfPmx7bqcGOGh6RvS6hJeKAWMCdwMCsSA
-         Dfv3oO7whL9CO3Og04lH7vDHd8EFFVwKcDHkeb5gS0xqroREBnEC4Xu+pTvahi2YnhmT
-         Y2JiUPl1B/xyl+ht49K9ynnLDlU19ZzF2YSWOIgXZEen5ML7cvKoTVuTVhu8LXm7HBaf
-         3lHGTCvS2eZGwOLVRVlyFtoVTBfJ+oDofV5JcqJPT4zbJzBypke2plbSt/imIBZOebsA
-         BiDQ==
-X-Gm-Message-State: AOJu0YwTYW+2qbsw4KFf6KZ2pimN1PEKwzvVlgonUx8F76G6U/geWpOl
-	YWGpnCyV9v/snqHTUzEtkQhjY4s6VKx2L5eEqOWT8vbjQUGG1QQF
-X-Gm-Gg: ASbGncvVd+6DWW3huBB77N3TweTHutrC/z11nmm+ZDU7fAcnM5eSEQpK/FJ2sW6g1b+
-	AlKQshekkfwR0EjM6z1+CanYxQzQ7kT8KT2q91gdUZdLAY3BXC4fciUc/tLtDd0k+hUuMxdxkYx
-	DHzpKzvAvm4kibOkDMTnFVKTkRq6D/l788qJncgloKvPBidGqTgpp91m8558SQzZcHVuIF2nfca
-	rxZy1d0wSafVyNRKuFrRE0ddGkkWYSPpJowMP2AYveqydNQTQ5y+yiC77WWDqYa13ZTP29im/iT
-	bZa9E4YiC1bSrFbpOqWqI60oUmkx5gEolkdhxYOFkkDClbHcerH9SjWL6njkdlmuqSAYyAYnh2O
-	zcRggZQHJDAHefbVF
-X-Google-Smtp-Source: AGHT+IFAI234bDkyXXIeNHpEbB1U8Jccu6tTIQixfwy1mCNddafRlvmQYFCshie4oRvFllieoeJfMg==
-X-Received: by 2002:a05:600c:420b:b0:43b:4829:8067 with SMTP id 5b1f17b1804b1-43d1806c066mr51117445e9.6.1741944763036;
-        Fri, 14 Mar 2025 02:32:43 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb318a80sm5030639f8f.61.2025.03.14.02.32.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 02:32:42 -0700 (PDT)
-Message-ID: <16fa84a264428b26c1d9e848270b87bf21c7fe8a.camel@gmail.com>
-Subject: Re: [PATCH 06/18] mfd: adp5585: add support for adp5589
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: kernel test robot <lkp@intel.com>, Nuno =?ISO-8859-1?Q?S=E1?= via B4
- Relay <devnull+nuno.sa.analog.com@kernel.org>, linux-gpio@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-input@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>, Rob Herring	
- <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <ukleinek@kernel.org>,  Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Dmitry Torokhov	 <dmitry.torokhov@gmail.com>,
- Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>, Liu Ying
- <victor.liu@nxp.com>
-Date: Fri, 14 Mar 2025 09:32:48 +0000
-In-Reply-To: <202503141715.1e4xyKyq-lkp@intel.com>
-References: <20250313-dev-adp5589-fw-v1-6-20e80d4bd4ea@analog.com>
-	 <202503141715.1e4xyKyq-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1DH2ZJv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741945467; x=1773481467;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yJdtMfU2C1WeWnG7I3RoEg8QOSlVcnTdq5SN+gMoPkc=;
+  b=F1DH2ZJvkWtH37OuA2K7G12ne5Id+/HjeF1hR/40YscXAYnJRoSoV4F1
+   pM8R2EqpdY2S2o3yfpKOmJw0NvrSm4QqGOSL3kUP7uls+QrX1GuEedCfa
+   kq46L7JWSWQsgiQAX6mOtT5CWnAVxB0SihbG7nU0+pGcDLDYRS5dhevbp
+   DqThGt0GWh4k9+TN9/f9pOYO/kV5Rz8H1NLxsrqs+oUkiNFF8Ud6THiQV
+   oDAM7/3WHu5VaPnRLQufbjY8tJXUpB0Uazb6Hvcgsz7do2Or/U+jkBYfh
+   6nHZAZu7BbYB+jNlMW/6IxsgjEufBie1Fhy9B2ivtwq8uOO0kT/NuM+/G
+   w==;
+X-CSE-ConnectionGUID: g+Z1IG9HSWecpQjUbbTSGA==
+X-CSE-MsgGUID: u8TLW2/FTRusIj47mLhX6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="53744123"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="53744123"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 02:44:26 -0700
+X-CSE-ConnectionGUID: Gdd3iWAVR9C25s2zdOTsDA==
+X-CSE-MsgGUID: 1reStWcITZ2bamIO/UAmyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="121259547"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 14 Mar 2025 02:43:56 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tt1a6-000AIq-0V;
+	Fri, 14 Mar 2025 09:43:54 +0000
+Date: Fri, 14 Mar 2025 17:43:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>,
+	linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 10/18] mfd: adp5585: add support for key events
+Message-ID: <202503141730.dPtGWqXX-lkp@intel.com>
+References: <20250313-dev-adp5589-fw-v1-10-20e80d4bd4ea@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250313-dev-adp5589-fw-v1-10-20e80d4bd4ea@analog.com>
 
-On Fri, 2025-03-14 at 17:23 +0800, kernel test robot wrote:
-> Hi Nuno,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on 4d395cb071a343196ca524d3694790f06978fe91]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dt-bin=
-dings-mfd-adp5585-ease-on-the-required-properties/20250313-222511
-> base:=C2=A0=C2=A0 4d395cb071a343196ca524d3694790f06978fe91
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20250313-dev-adp5589-fw-v1-6-20e80d4bd4ea%40ana=
-log.com
-> patch subject: [PATCH 06/18] mfd: adp5585: add support for adp5589
-> config: s390-randconfig-001-20250314
-> (https://download.01.org/0day-ci/archive/20250314/202503141715.1e4xyKyq-l=
-kp@in
-> tel.com/config)
-> compiler: s390-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20250314/202503141715.1e4xyKyq-l=
-kp@in
-> tel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion
-> of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202503141715.1e4xyKyq-lkp@intel.c=
-om/
->=20
-> All warnings (new ones prefixed by >>):
->=20
-> > > drivers/mfd/adp5585.c:249:34: warning: 'adp5585_02_info' defined but =
-not
-> > > used [-Wunused-const-variable=3D]
-> =C2=A0=C2=A0=C2=A0=C2=A0 249 | static const struct adp5585_info adp5585_0=
-2_info =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~
-> > > drivers/mfd/adp5585.c:239:34: warning: 'adp5585_01_info' defined but =
-not
-> > > used [-Wunused-const-variable=3D]
-> =C2=A0=C2=A0=C2=A0=C2=A0 239 | static const struct adp5585_info adp5585_0=
-1_info =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~
-> > > drivers/mfd/adp5585.c:229:34: warning: 'adp5585_info' defined but not=
- used
-> > > [-Wunused-const-variable=3D]
-> =C2=A0=C2=A0=C2=A0=C2=A0 229 | static const struct adp5585_info adp5585_i=
-nfo =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~
-> > > drivers/mfd/adp5585.c:48:41: warning: 'adp5589_volatile_regs' defined=
- but
-> > > not used [-Wunused-const-variable=3D]
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 48 | static const struct regmap_access_tab=
-le adp5589_volatile_regs =3D {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~=
-~~~~~~~~~~~~~~~~
->=20
+Hi Nuno,
 
-ouchhh!!!
+kernel test robot noticed the following build errors:
 
-will fix in v2
+[auto build test ERROR on 4d395cb071a343196ca524d3694790f06978fe91]
 
-- Nuno S=C3=A1
->=20
-> vim +/adp5585_02_info +249 drivers/mfd/adp5585.c
->=20
-> =C2=A0=C2=A0 228=09
-> =C2=A0> 229	static const struct adp5585_info adp5585_info =3D {
-> =C2=A0=C2=A0 230		.adp5585_devs =3D adp5585_devs,
-> =C2=A0=C2=A0 231		.regmap_config =3D &adp5585_regmap_configs[ADP5585_REGM=
-AP_00],
-> =C2=A0=C2=A0 232		.n_devs =3D ARRAY_SIZE(adp5585_devs),
-> =C2=A0=C2=A0 233		.id =3D ADP5585_MAN_ID_VALUE,
-> =C2=A0=C2=A0 234		.regs =3D &adp5585_regs,
-> =C2=A0=C2=A0 235		.max_rows =3D ADP5585_MAX_ROW_NUM,
-> =C2=A0=C2=A0 236		.max_cols =3D ADP5585_MAX_COL_NUM,
-> =C2=A0=C2=A0 237	};
-> =C2=A0=C2=A0 238=09
-> =C2=A0> 239	static const struct adp5585_info adp5585_01_info =3D {
-> =C2=A0=C2=A0 240		.adp5585_devs =3D adp5585_devs,
-> =C2=A0=C2=A0 241		.regmap_config =3D &adp5585_regmap_configs[ADP5585_REGM=
-AP_00],
-> =C2=A0=C2=A0 242		.n_devs =3D ARRAY_SIZE(adp5585_devs),
-> =C2=A0=C2=A0 243		.id =3D ADP5585_MAN_ID_VALUE,
-> =C2=A0=C2=A0 244		.regs =3D &adp5585_regs,
-> =C2=A0=C2=A0 245		.max_rows =3D ADP5585_MAX_ROW_NUM,
-> =C2=A0=C2=A0 246		.max_cols =3D ADP5585_MAX_COL_NUM,
-> =C2=A0=C2=A0 247	};
-> =C2=A0=C2=A0 248=09
-> =C2=A0> 249	static const struct adp5585_info adp5585_02_info =3D {
-> =C2=A0=C2=A0 250		.adp5585_devs =3D adp5585_devs,
-> =C2=A0=C2=A0 251		.regmap_config =3D &adp5585_regmap_configs[ADP5585_REGM=
-AP_02],
-> =C2=A0=C2=A0 252		.n_devs =3D ARRAY_SIZE(adp5585_devs),
-> =C2=A0=C2=A0 253		.id =3D ADP5585_MAN_ID_VALUE,
-> =C2=A0=C2=A0 254		.regs =3D &adp5585_regs,
-> =C2=A0=C2=A0 255		.max_rows =3D ADP5585_MAX_ROW_NUM,
-> =C2=A0=C2=A0 256		.max_cols =3D ADP5585_MAX_COL_NUM,
-> =C2=A0=C2=A0 257	};
-> =C2=A0=C2=A0 258=09
->=20
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-S-via-B4-Relay/dt-bindings-mfd-adp5585-ease-on-the-required-properties/20250313-222511
+base:   4d395cb071a343196ca524d3694790f06978fe91
+patch link:    https://lore.kernel.org/r/20250313-dev-adp5589-fw-v1-10-20e80d4bd4ea%40analog.com
+patch subject: [PATCH 10/18] mfd: adp5585: add support for key events
+config: sparc-randconfig-001-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141730.dPtGWqXX-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141730.dPtGWqXX-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503141730.dPtGWqXX-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/mfd/adp5585.c: In function 'adp5585_keys_reset_parse':
+>> drivers/mfd/adp5585.c:485:47: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     485 |                         adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET1_POL, 1);
+         |                                               ^~~~~~~~~~
+   drivers/mfd/adp5585.c: In function 'adp5585_report_events':
+>> drivers/mfd/adp5585.c:654:27: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     654 |                 key_val = FIELD_GET(ADP5585_KEY_EVENT_MASK, key);
+         |                           ^~~~~~~~~
+   drivers/mfd/adp5585.c: At top level:
+   drivers/mfd/adp5585.c:271:34: warning: 'adp5585_02_info' defined but not used [-Wunused-const-variable=]
+     271 | static const struct adp5585_info adp5585_02_info = {
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/mfd/adp5585.c:258:34: warning: 'adp5585_01_info' defined but not used [-Wunused-const-variable=]
+     258 | static const struct adp5585_info adp5585_01_info = {
+         |                                  ^~~~~~~~~~~~~~~
+   drivers/mfd/adp5585.c:246:34: warning: 'adp5585_info' defined but not used [-Wunused-const-variable=]
+     246 | static const struct adp5585_info adp5585_info = {
+         |                                  ^~~~~~~~~~~~
+   drivers/mfd/adp5585.c:49:41: warning: 'adp5589_volatile_regs' defined but not used [-Wunused-const-variable=]
+      49 | static const struct regmap_access_table adp5589_volatile_regs = {
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +485 drivers/mfd/adp5585.c
+
+   464	
+   465	static int adp5585_keys_reset_parse(struct adp5585_dev *adp5585)
+   466	{
+   467		const struct adp5585_info *info = adp5585->info;
+   468		struct device *dev = adp5585->dev;
+   469		u32 prop_val;
+   470		int ret;
+   471	
+   472		ret = adp5585_keys_parse_array(adp5585, "adi,reset1-keys",
+   473					       adp5585->reset1_keys,
+   474					       &adp5585->nkeys_reset1,
+   475					       ARRAY_SIZE(adp5585->reset1_keys), true);
+   476		if (ret)
+   477			return ret;
+   478	
+   479		if (adp5585->nkeys_reset1 > 0) {
+   480			if (test_bit(ADP5585_ROW4, adp5585->keypad))
+   481				return dev_err_probe(dev, -EINVAL,
+   482						     "Invalid reset1 output(R4) being used in the keypad\n");
+   483	
+   484			if (device_property_read_bool(dev, "adi,reset1-active-high"))
+ > 485				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET1_POL, 1);
+   486		}
+   487	
+   488		ret = adp5585_keys_parse_array(adp5585, "adi,reset2-keys",
+   489					       adp5585->reset2_keys,
+   490					       &adp5585->nkeys_reset2,
+   491					       ARRAY_SIZE(adp5585->reset2_keys), true);
+   492		if (ret)
+   493			return ret;
+   494	
+   495		if (adp5585->nkeys_reset2 > 0) {
+   496			if (test_bit(info->max_rows + ADP5585_COL4, adp5585->keypad))
+   497				return dev_err_probe(dev, -EINVAL,
+   498						     "Invalid reset2 output(C4) being used in the keypad\n");
+   499	
+   500			if (device_property_read_bool(dev, "adi,reset2-active-high"))
+   501				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET2_POL, 1);
+   502		}
+   503	
+   504		if (!adp5585->nkeys_reset1 && !adp5585->nkeys_reset2)
+   505			return 0;
+   506	
+   507		if (device_property_read_bool(dev, "adi,rst-passtrough-enable"))
+   508			adp5585->reset_cfg |= FIELD_PREP(ADP5585_RST_PASSTHRU_EN, 1);
+   509	
+   510		ret = device_property_read_u32(dev, "adi,reset-trigger-ms", &prop_val);
+   511		if (!ret) {
+   512			switch (prop_val) {
+   513			case 0:
+   514				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 0);
+   515				break;
+   516			case 1000:
+   517				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 1);
+   518				break;
+   519			case 1500:
+   520				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 2);
+   521				break;
+   522			case 2000:
+   523				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 3);
+   524				break;
+   525			case 2500:
+   526				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 4);
+   527				break;
+   528			case 3000:
+   529				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 5);
+   530				break;
+   531			case 3500:
+   532				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 6);
+   533				break;
+   534			case 4000:
+   535				adp5585->reset_cfg |= FIELD_PREP(ADP5585_RESET_TRIG_TIME, 7);
+   536				break;
+   537			default:
+   538				return dev_err_probe(dev, -EINVAL,
+   539						     "Invalid value(%u) for adi,reset-trigger-ms\n",
+   540						     prop_val);
+   541			}
+   542		}
+   543	
+   544		ret = device_property_read_u32(dev, "adi,reset-pulse-width-us",
+   545					       &prop_val);
+   546		if (!ret) {
+   547			switch (prop_val) {
+   548			case 500:
+   549				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 0);
+   550				break;
+   551			case 1000:
+   552				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 1);
+   553				break;
+   554			case 2000:
+   555				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 2);
+   556				break;
+   557			case 10000:
+   558				adp5585->reset_cfg |= FIELD_PREP(ADP5585_PULSE_WIDTH, 3);
+   559				break;
+   560			default:
+   561				return dev_err_probe(dev, -EINVAL,
+   562						     "Invalid value(%u) for adi,reset-pulse-width-us\n",
+   563						     prop_val);
+   564			}
+   565		}
+   566	
+   567		return 0;
+   568	}
+   569	
+   570	static int adp5585_parse_fw(struct device *dev, struct adp5585_dev *adp5585)
+   571	{
+   572		const struct adp5585_info *info = adp5585->info;
+   573		unsigned int n_pins = info->max_cols + info->max_rows;
+   574		unsigned int *keypad_pins;
+   575		unsigned int prop_val;
+   576		int n_keys, key, ret;
+   577	
+   578		adp5585->keypad = devm_bitmap_zalloc(dev, n_pins, GFP_KERNEL);
+   579		if (!adp5585->keypad)
+   580			return -ENOMEM;
+   581	
+   582		if (device_property_present(dev, "#pwm-cells"))
+   583			adp5585->has_pwm = true;
+   584	
+   585		n_keys = device_property_count_u32(dev, "adi,keypad-pins");
+   586		if (n_keys <= 0)
+   587			goto no_keypad;
+   588		if (n_keys > n_pins)
+   589			return -EINVAL;
+   590	
+   591		keypad_pins = devm_kcalloc(dev, n_keys, sizeof(*keypad_pins),
+   592					   GFP_KERNEL);
+   593		if (!keypad_pins)
+   594			return -ENOMEM;
+   595	
+   596		ret = device_property_read_u32_array(dev, "adi,keypad-pins",
+   597						     keypad_pins, n_keys);
+   598		if (ret)
+   599			return ret;
+   600	
+   601		for (key = 0; key < n_keys; key++) {
+   602			if (keypad_pins[key] >= n_pins)
+   603				return -EINVAL;
+   604			if (adp5585->has_pwm && keypad_pins[key] == ADP5585_ROW3)
+   605				return dev_err_probe(dev, -EINVAL,
+   606						     "Invalid PWM pin being used in the keypad\n");
+   607			if (!info->has_row5 && keypad_pins[key] == ADP5585_ROW5)
+   608				return dev_err_probe(dev, -EINVAL,
+   609						     "Invalid row5 being used in the keypad\n");
+   610			__set_bit(keypad_pins[key], adp5585->keypad);
+   611		}
+   612	
+   613	no_keypad:
+   614		ret = device_property_read_u32(dev, "adi,key-poll-ms", &prop_val);
+   615		if (!ret) {
+   616			switch (prop_val) {
+   617			case 10:
+   618				fallthrough;
+   619			case 20:
+   620				fallthrough;
+   621			case 30:
+   622				fallthrough;
+   623			case 40:
+   624				adp5585->key_poll_time = prop_val / 10 - 1;
+   625				break;
+   626			default:
+   627				return dev_err_probe(dev, -EINVAL,
+   628						     "Invalid value(%u) for adi,key-poll-ms\n",
+   629						     prop_val);
+   630			}
+   631		}
+   632	
+   633		ret = adp5585_keys_unlock_parse(adp5585);
+   634		if (ret)
+   635			return ret;
+   636	
+   637		return adp5585_keys_reset_parse(adp5585);
+   638	}
+   639	
+   640	static void adp5585_report_events(struct adp5585_dev *adp5585, int ev_cnt)
+   641	{
+   642		unsigned int i;
+   643	
+   644		guard(mutex)(&adp5585->ev_lock);
+   645	
+   646		for (i = 0; i < ev_cnt; i++) {
+   647			unsigned int key, key_val, key_press;
+   648			int ret;
+   649	
+   650			ret = regmap_read(adp5585->regmap, ADP5585_FIFO_1 + i, &key);
+   651			if (ret)
+   652				return;
+   653	
+ > 654			key_val = FIELD_GET(ADP5585_KEY_EVENT_MASK, key);
+   655			key_press = FIELD_GET(ADP5585_KEV_EV_PRESS_MASK, key);
+   656	
+   657			if (key_val >= adp5585->info->gpi_ev_base &&
+   658			    key_val <= adp5585->info->gpi_ev_end) {
+   659				unsigned int gpi = key_val - adp5585->info->gpi_ev_base;
+   660	
+   661				if (adp5585->gpio_irq_handle)
+   662					adp5585->gpio_irq_handle(adp5585->gpio_dev, gpi,
+   663								 key_press);
+   664			} else if (adp5585->keys_irq_handle) {
+   665				adp5585->keys_irq_handle(adp5585->input_dev, key_val,
+   666							 key_press);
+   667			}
+   668		}
+   669	}
+   670	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
