@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FE42E3363
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BA313D8B2
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 06:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741933727; cv=none; b=jp1DDrXWj8gou9Hw+8gzBXkIQXNxP8TJTrLMpUbLxuj1CuU/LxJBLNiqpFqLXXFxCA47KwhaOCmpAntCNNoxq+XajvhzkwXIjOOW5307Cuf0h0yhpAxkEEMD0L7nsMHpqSCVXw64v4HF7eiHZ6pUk1HuNrHAbZKZMZPAFPjOEGE=
+	t=1741933727; cv=none; b=JoSM7yI8Kkh0+iqwb44e3HmSnKmyfFrV7KX/YP+Wu8UvrD/kJScHn0QzuDEnlPm61Pf+ub+fanoqycT9wSa2S9YiFafqE4yQgbhMO2D2QZ9WHpy7yidfTZCBWZAJNQgKbkJKJ4/x+KpqN4osZ+Z+A99ZtQG6AqIawGiJOTUZqCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741933727; c=relaxed/simple;
-	bh=s1M66vKWTgbRTSkxE/ZCDxRXrnq7Ha/dwselkuexWrg=;
+	bh=ihmAxb9cxEISDTFbzn1b94GQP3LKBjJp4eKTDhG1sbY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YlEiLIIrrsAmw2S6Lvyj7qiZZ+kAGnfxDZpyGPhtUi2dIBsplQcYx3m+GQBecvhajvII71tHx0TZFyEOmMEVnpkqT60xIKsBXB0X5cgRLOuQRfpVbzA2R6WDI5mahAqn0saP8DPTARsJPV3Cw7l5jrdNYxavRDyLOc6cHzf0jIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWE4h7KP; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=rO2LMSakHTPR/wFZc9BP2NQyMzt0ovHj1XjWd58j/jkEbY+/pkZZyuMVoYWreSqQIng/VC8YR13Hems3KHo5MIW3DqsHV/s7WZqMHH/YBBf+zhMygdU5f0Fn9pu/Qh606ulukyBcgn/aBeJhf83UCkcAotnf5xekyQz6D48orBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nI87ALwZ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWE4h7KP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nI87ALwZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741933726; x=1773469726;
+  t=1741933727; x=1773469727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s1M66vKWTgbRTSkxE/ZCDxRXrnq7Ha/dwselkuexWrg=;
-  b=FWE4h7KPkxdGQ1oJrKSXtE57+Kj/nxdDdYslkIlnsP/7qy+t6QuWX0el
-   ug7GygMDbwG+EPe44KgNHE1j1+2ho8DWt2XWMP76FIZRB5bQ6BMYXz3wW
-   zdXn/TRSXBY+2NdiW5wX+Lo57aJYnN0pQp0IzoDLJs49j8f5So9bGvjBu
-   0jsyrxCvXCLA9ul/RfsDEbvOulV+sWbeyJj9T+wQo2hUDH5zH+Xa+wKsI
-   d+SlcfHprM3Ur1ygYT84MJdZ3vaQ8q1tqMdj/O2hHRpRBFXGKiABxkJcU
-   PbO68/gLl2/NbpP9znOnzkaKMKmRyb8P/a6x+v7fcYnikQpGiaizuIhzP
+  bh=ihmAxb9cxEISDTFbzn1b94GQP3LKBjJp4eKTDhG1sbY=;
+  b=nI87ALwZt4NDd0wS6k6rEvQjcZFMpohK/YXmgk0EN5VgyMAx90sHtkZ9
+   J4s+AHiTd5JhW3aNYVtkhvttlp9umxZZPsew9+Hoc0NuSK9AKLa3UvRx3
+   RonudFCf7dAz+mKzUoWZkjqnJuNLdJH5ns4dh3qQQ8NvEb68zqwrnJBmQ
+   LJ4Ma/Pw8xCSH7XsD6qHH2tY4w9dBtQGLHpmxdXDbZBCZI+w5B6hHQ33B
+   JYFyKInhxZelvTodjiPiuntnylLcY50MRgjJSRGjqwiYUuDgdl5hYspE2
+   rv0rYVpyUVGKtNpP/FtSgLVU4nacXoNMnLsVKqWH0wZakfDJvO1hWeAe0
    Q==;
-X-CSE-ConnectionGUID: +ftIQ7FASEq0SQfV9CjDIQ==
-X-CSE-MsgGUID: 2Oux0J2gRCKtpbA6yhRbCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="54455196"
+X-CSE-ConnectionGUID: Z8JGYLCATPaUE61HJzNdFQ==
+X-CSE-MsgGUID: adCA923DSrKNP9/vGucF8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43107078"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="54455196"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 23:28:45 -0700
-X-CSE-ConnectionGUID: YisgfRewReeJP4xK5eVXLA==
-X-CSE-MsgGUID: Hu7xDrTAQz6SiTwVdpayBQ==
+   d="scan'208";a="43107078"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 23:28:45 -0700
+X-CSE-ConnectionGUID: u+W3GCh2TzOiVYdV1wuN7Q==
+X-CSE-MsgGUID: 385Pws7ITGCSuqs/NxYDDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="152119239"
+   d="scan'208";a="125799830"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Mar 2025 23:28:43 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2025 23:28:43 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsyXB-000AAU-1l;
+	id 1tsyXB-000AAS-1h;
 	Fri, 14 Mar 2025 06:28:41 +0000
-Date: Fri, 14 Mar 2025 14:27:42 +0800
+Date: Fri, 14 Mar 2025 14:27:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:dt 5/14] drivers/gpu/drm/tegra/hdmi.h:122:9:
- warning: "ACR_ENABLE" redefined
-Message-ID: <202503141417.1McpE8Mn-lkp@intel.com>
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:asoc-6.15 77/105]
+ sound/soc/amd/acp/acp-legacy-common.c:24:29: sparse: sparse: symbol
+ 'acp_common_hw_ops' was not declared. Should it be static?
+Message-ID: <202503141442.iT0LHEMx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
-head:   91b4bcf6b8709da81124749743327c60b904fef8
-commit: 0cc1fe544a742bcb4a96a404bab84d5cd4d789c4 [5/14] m68k: coldfire: enable common clock framework
-config: m68k-randconfig-r123-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141417.1McpE8Mn-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250314/202503141417.1McpE8Mn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-6.15
+head:   d9a06936ee9e64952e161849059f6cf096b33e4a
+commit: 8ae746fe51041484e52eba99bed15a444c7d4372 [77/105] ASoC: amd: acp: Implement acp_common_hw_ops support for acp platforms
+config: x86_64-randconfig-121-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141442.iT0LHEMx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141442.iT0LHEMx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503141417.1McpE8Mn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503141442.iT0LHEMx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/amd/acp/acp-legacy-common.c:24:29: sparse: sparse: symbol 'acp_common_hw_ops' was not declared. Should it be static?
 
-   In file included from drivers/gpu/drm/tegra/hdmi.c:35:
->> drivers/gpu/drm/tegra/hdmi.h:122:9: warning: "ACR_ENABLE" redefined
-     122 | #define ACR_ENABLE         (1 << 31)
-         |         ^~~~~~~~~~
-   In file included from arch/m68k/include/asm/m5441xsim.h:19,
-                    from arch/m68k/include/asm/mcfsim.h:48,
-                    from arch/m68k/include/asm/io_no.h:35,
-                    from arch/m68k/include/asm/io.h:6,
-                    from include/linux/io.h:14,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:8,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from include/linux/regulator/consumer.h:35,
-                    from drivers/gpu/drm/tegra/hdmi.c:17:
-   arch/m68k/include/asm/m54xxacr.h:34:9: note: this is the location of the previous definition
-      34 | #define ACR_ENABLE      0x00008000      /* Enable address */
-         |         ^~~~~~~~~~
+vim +/acp_common_hw_ops +24 sound/soc/amd/acp/acp-legacy-common.c
 
-
-vim +/ACR_ENABLE +122 drivers/gpu/drm/tegra/hdmi.h
-
-edec4af4c3d6d22 Thierry Reding 2012-11-15  119  
-edec4af4c3d6d22 Thierry Reding 2012-11-15  120  #define ACR_SUBPACK_CTS(x) (((x) & 0xffffff) << 8)
-edec4af4c3d6d22 Thierry Reding 2012-11-15  121  #define ACR_SUBPACK_N(x)   (((x) & 0xffffff) << 0)
-edec4af4c3d6d22 Thierry Reding 2012-11-15 @122  #define ACR_ENABLE         (1 << 31)
-edec4af4c3d6d22 Thierry Reding 2012-11-15  123  
-
-:::::: The code at line 122 was first introduced by commit
-:::::: edec4af4c3d6d225578290a9acc38c78147df55b drm: tegra: Add HDMI support
-
-:::::: TO: Thierry Reding <thierry.reding@avionic-design.de>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+    23	
+  > 24	const struct snd_acp_hw_ops acp_common_hw_ops = {
+    25		/* ACP hardware initilizations */
+    26		.acp_init = acp_init,
+    27		.acp_deinit = acp_deinit,
+    28	};
+    29	EXPORT_SYMBOL_NS_GPL(acp_common_hw_ops, "SND_SOC_ACP_COMMON");
+    30	void acp_enable_interrupts(struct acp_dev_data *adata)
+    31	{
+    32		struct acp_resource *rsrc = adata->rsrc;
+    33		u32 ext_intr_ctrl;
+    34	
+    35		writel(0x01, ACP_EXTERNAL_INTR_ENB(adata));
+    36		ext_intr_ctrl = readl(ACP_EXTERNAL_INTR_CNTL(adata, rsrc->irqp_used));
+    37		ext_intr_ctrl |= ACP_ERROR_MASK;
+    38		writel(ext_intr_ctrl, ACP_EXTERNAL_INTR_CNTL(adata, rsrc->irqp_used));
+    39	}
+    40	EXPORT_SYMBOL_NS_GPL(acp_enable_interrupts, "SND_SOC_ACP_COMMON");
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
