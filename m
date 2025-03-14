@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E45E18B494
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 16:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DFE2036FF;
+	Fri, 14 Mar 2025 16:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741969567; cv=none; b=gmQtChjw9Rbyv+bQo4xrZIR99BaN+zYRScNNKy9Ib1k+xifijswnZxo8FX4c1vwOQxklwzlweQYTmZ6vUneDAox6iEQGiTgOkqvIR/iNMj8PGDWq0brN2X7tGTl0Syq4ys04/q8aQii2Fe88ef3oCNskICVosJi8AA/MRn18j/8=
+	t=1741970830; cv=none; b=Cd5W2X6D60XJoaF+ckJJA/HvIr/dJ/ITuJn0PZsgL1KeHyTSEvU2qfLtuItqNEml9PgDP81waUkHzttADuvHYSeadt6YjjtFj9Rwe5FkxcWqCzgvkPsr7T9vbB42KQlqfDLqoqMZNnAdrjtMXth0OoMBhFtBlA3ZwMkR6DX9+dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741969567; c=relaxed/simple;
-	bh=D4q081IR1BvplDEpKnehhI7DsGIA9tnqZ1x/CK1w0B8=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dq+w6jylIQhcZmPly7j9VML7yw9elWdyIomme4U9YVsdS+05W0njlT7F86fmzkM5qBjxbVa8hNL21yFJYfX+lutzYFMWgB3ieFyw3/9zl3fJUyKJqs9f8vgO3MO9o5BSt+TUOZuLrFPyLkfeZBPUlsysD7h3qRe/0CpL2+MVBKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PqCmHHpQ; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1741970830; c=relaxed/simple;
+	bh=HYB98YMhPurGnuqME5Vkp3FZMILpUip8QBLmYxs4gis=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BFYHjjxlf29MZhyjP28AGRb9nPnIw0k3VoFy9tVfiY2JmBd4cjPuaf1bNs9EloFfD9kT5WU/wB0W/7VM8IQpxQw9ZVV617/PGsCsAqqD+D96M8y/sQvksGQj6WAjJCMj+FtNB+JR6HsDHzIF7WZsklW3DNXK6Fjlty29QfXtfkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGXa6VVY; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PqCmHHpQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGXa6VVY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741969566; x=1773505566;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=D4q081IR1BvplDEpKnehhI7DsGIA9tnqZ1x/CK1w0B8=;
-  b=PqCmHHpQInuE9sIzHLP6s+3tayOulxfoqi+GBCzxzuhGVorD0aRyabxk
-   eW3BzMbaTumaBWM1GenTshR4pJe+oNeEzr/hnbQq2G+4FTdgzep4DXSNg
-   EK6uBLd2w0wTBzxEkcQR3T/dN/42F5M+pE0yVIVsqUpNDlpkImnp4Zobi
-   xiq5CuIX9IWVNVq+ou3HE0NE2tE7Ps+045AzKDAW6xEqf7y0z+D5ZVMCs
-   oTuoCqyfDvBBGS5J3Ly8nvFJ8GrDrXB0OSJKEbVFm5ydi9HrcA+9gPgar
-   vZ3Mdr7CRvxyluWsBOqzixiIYOTy5VcIo54+ooIXgIhAXu2Uyx4bbxboD
-   Q==;
-X-CSE-ConnectionGUID: jsxnKX2nScm9wVlQ3a/liA==
-X-CSE-MsgGUID: 9ma6ixAsTu6ClXlkCRUY6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43036395"
+  t=1741970828; x=1773506828;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HYB98YMhPurGnuqME5Vkp3FZMILpUip8QBLmYxs4gis=;
+  b=WGXa6VVYMIkQ0JGa1eUmA3yTef7mRyJrh/CN1aLTZ06Z9jqsqJjq2uJP
+   8Rrn8ZADRUItlcxxm/n44ji6dD9Xby9NwrI1hqjVF0tCI/sF4UKvlmaHA
+   8oiY06ATYS3wIkuld8kd2IORcyMKkgXmVGKCJ9PqI6DUfxoCQrHK91I8t
+   SoxP+zdAf4bD/uLW7Ztqe41WHfIj252Pkjs3YokKaAf81Dc4p5V7ncZ0f
+   y1g5E2yoLZ53QAJrSJmpMTmwfQVVgMKJxMulcBu+fl+bthvG0vK0nV0iX
+   xmjax17JBJ6IhlAdnNKdfAoKhVDpMk3GdawcQSb1BiAFCp+50YrA6zZNP
+   A==;
+X-CSE-ConnectionGUID: LtRGn4y5SYSUCr4c6HyF+g==
+X-CSE-MsgGUID: DGchfC7/QySCOi1Km8Y8jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43261070"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="43036395"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 09:26:05 -0700
-X-CSE-ConnectionGUID: b07bd8ioSZ+L2bmzlJmhmA==
-X-CSE-MsgGUID: 5mgUGju8SVOWd5/1N8mX1w==
+   d="scan'208";a="43261070"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 09:47:07 -0700
+X-CSE-ConnectionGUID: js6QUOXdTRapRsEBxuabUA==
+X-CSE-MsgGUID: lOh73XW9SlKUb0CjGk3y0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="126532328"
+   d="scan'208";a="126383971"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 14 Mar 2025 09:26:04 -0700
+  by orviesa004.jf.intel.com with ESMTP; 14 Mar 2025 09:47:06 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tt7rF-000Ady-1Q
-	for oe-kbuild-all@lists.linux.dev;
-	Fri, 14 Mar 2025 16:26:01 +0000
-Date: Sat, 15 Mar 2025 00:25:03 +0800
+	id 1tt8Bb-000AfW-16;
+	Fri, 14 Mar 2025 16:47:03 +0000
+Date: Sat, 15 Mar 2025 00:46:28 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/preempt-rt 7/7] WARNING: modpost: drivers/rtc/rtc-mv:
- section mismatch in reference: mv_rtc_driver+0x4 (section: .data) ->
- mv_rtc_driver_exit (section: .exit.text)
-Message-ID: <202503150002.vutUJTv2-lkp@intel.com>
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 9687/11207] ld.lld: error: duplicate symbol:
+ amp_rt1019
+Message-ID: <202503150052.OfLBb5o2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,129 +63,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
-head:   685a54e0f0ccdc484187e319722de7fc7709e8fb
-commit: 2bc92c61c5417982e7b92ba628281f411d31013c [7/7] modpost: Optimize symbol search from linear to binary search
-config: xtensa-randconfig-001-20250314 (https://download.01.org/0day-ci/archive/20250315/202503150002.vutUJTv2-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503150002.vutUJTv2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   da920b7df701770e006928053672147075587fb2
+commit: 6e60db74b69c29b528c8d10d86108f78f2995dcb [9687/11207] ASoC: amd: acp: Refactor acp machine select
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250315/202503150052.OfLBb5o2-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503150052.OfLBb5o2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503150002.vutUJTv2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503150052.OfLBb5o2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
-WARNING: modpost: vmlinux: section mismatch in reference: try_to_run_init_process+0x24 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcutorture.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in mm/zsmalloc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp869.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-celtic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/qnx4/qnx4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/adfs/adfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/xor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts4800.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08_i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pinctrl/pinctrl-mcp23s08.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6765-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mfg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-img.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-jpgdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt2712-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt7981-eth.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8167-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8183-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-apmixedsys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-vdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-venc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sprd/clk-sprd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sunxi-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/suniv-f1c100s-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun4i-a10-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a33-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-a83t-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-de2-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-r-ccu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/imx/soc-imx8m.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/mediatek/mtk-cmdq-helper.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/st-rng.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/udl/udl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-fabrics.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-fc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/firewire-uapi-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/storage/uas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
->> WARNING: modpost: drivers/rtc/rtc-mv: section mismatch in reference: mv_rtc_driver+0x4 (section: .data) -> mv_rtc_driver_exit (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-loopback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mailbox/mtk-cmdq-mailbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_userspace.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/gb-es2.o
+>> ld.lld: error: duplicate symbol: amp_rt1019
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(amp_rt1019) in archive vmlinux.a
+   >>> defined at acp-i2s.c
+   >>>            sound/soc/amd/acp/acp-i2s.o:(.data+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: amp_max
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(amp_max) in archive vmlinux.a
+   >>> defined at acp-i2s.c
+   >>>            sound/soc/amd/acp/acp-i2s.o:(.data+0x34) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp63_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_acp63_acp_machines) in archive vmlinux.a
+   >>> defined at acp-pdm.c
+   >>>            sound/soc/amd/acp/acp-pdm.o:(.data+0x840) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp70_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_acp70_acp_machines) in archive vmlinux.a
+   >>> defined at acp-pdm.c
+   >>>            sound/soc/amd/acp/acp-pdm.o:(.data+0x9D0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: amp_rt1019
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(amp_rt1019) in archive vmlinux.a
+   >>> defined at acp-legacy-common.c
+   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: amp_max
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(amp_max) in archive vmlinux.a
+   >>> defined at acp-legacy-common.c
+   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x34) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_acp_machines) in archive vmlinux.a
+   >>> defined at acp-legacy-common.c
+   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x70) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_rmb_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_rmb_acp_machines) in archive vmlinux.a
+   >>> defined at acp-legacy-common.c
+   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x520) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp63_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_acp63_acp_machines) in archive vmlinux.a
+   >>> defined at acp-legacy-common.c
+   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x840) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp70_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_acp70_acp_machines) in archive vmlinux.a
+   >>> defined at acp-legacy-common.c
+   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x9D0) in archive vmlinux.a
+--
+>> ld.lld: error: duplicate symbol: snd_soc_acpi_amd_acp63_acp_machines
+   >>> defined at acp-platform.c
+   >>>            sound/soc/amd/acp/acp-platform.o:(snd_soc_acpi_amd_acp63_acp_machines) in archive vmlinux.a
+   >>> defined at acp-pci.c
+   >>>            sound/soc/amd/acp/acp-pci.o:(.data+0x840) in archive vmlinux.a
+..
 
 -- 
 0-DAY CI Kernel Test Service
