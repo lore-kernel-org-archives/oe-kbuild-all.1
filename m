@@ -1,97 +1,111 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE46B1F8BBC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 23:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF9617D2;
+	Fri, 14 Mar 2025 00:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741908556; cv=none; b=VLfGdEi2CsVqfO4V9RFSFo45CHToyrtglWImstYUCHDArAbBP4ph8e+vCdV/KdeAO7j36qPDvnP9zJJ9knEvUXRBwpDqazSrSABPiE0ql6CkAbX0tb+BCxwMumwqARuEJf2U46nTd14pTmgr29N9LpNuOXCccf/2RJlIMLe0yI8=
+	t=1741912329; cv=none; b=delMs3oXzx1AX1xwc63nQ3QA2u+ChvpRTaJaJ31Wvu11uO3SXQk4LgD5rNvHLGGqU+6HqjBKI2t1YCDq8+nmz04GWS0zaflxSgCxUYuK9FRz6+WDA00OoY+/pkXLWWboULk6UY69Svge69GOAQpWPxtYTJCO4Eo3u7AcZ0rWJmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741908556; c=relaxed/simple;
-	bh=fLmgjAemiovWofaWjxUzmEbQJocXHzEtlxZq33BB5yw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VhUuAkyQJV69KyINboULBBe88iVV8q28NGnDzxix1Q2x8MYqXtVGs8Ke9azGvo2JEoEG7n6ibE/gePJExDzcOZZ1WczmBPE7DpBSEPdUvPGkfCogRa1ZbuYCtQmMMo/CnyGbtQ21opdxtRoQHLQcZObHUyEV+y70HCEeT+Nyogc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zHtzot47; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1741912329; c=relaxed/simple;
+	bh=HtnX3fKiPDeZxpTk5T/FrAwvbTQAyZy2SaD3hvVwhbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LqYrFVxm4o0WDzhZQyJ4zvlRdyNCzhoYbjtfDI8idclhafI0360nX9lH+vbt1D4aUDk/SsmEQ10jZBrxoTzKuj+O+3at5WreI+YDnmfianC6UItxvrACsxamryzlViak/FLUe/s1fevKLx5H1UinWuskIMdnKno8T53HuMYmSzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMWaq4z6; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zHtzot47"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ab771575040so494465466b.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Mar 2025 16:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1741908553; x=1742513353; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fLmgjAemiovWofaWjxUzmEbQJocXHzEtlxZq33BB5yw=;
-        b=zHtzot47hIPMbQPGzLkn0w/rsiAxkwMFYWxNoP1e0pc6cglUgGWB9eVG7RJfkVqZC9
-         TtHGWzWWDl27Buxq/IsXimQyZ3jKWb0NboWzj/4iU8TXe5Ihiv9Ffx1HxJD+r6UHS5Y4
-         uxbKr1eboyjf7ZaC10uFj+9fuCcZGytc+fShpiW1DH8uM8tv5Z21zVIVH2ps+N3ILJZV
-         h6xNUsmmpNuIkxlWuHgOciXKBkQvAKaDCONuQacxpAcfnK+smlWlVyi42Uwwv30g7l2z
-         vOfZBc5kyasfQh4LwhjlPyMxZggukrhaxuI+9QSenVVTQ1g9JbKWzMF+raiCbtJIR6bK
-         aOGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741908553; x=1742513353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fLmgjAemiovWofaWjxUzmEbQJocXHzEtlxZq33BB5yw=;
-        b=qmWKzU8/iJZUR9rQ6I32X7xKWSg5PwgnOfHeoO5kuHQkfQWkSfazYlUKrIo+1iqC+L
-         mevRCRdRVVWg/xbtlcEp/xih0AciJHFe0A34aSNCPahOkRLbQwYBs9D4nCunwpqwdfRr
-         a2DkNVrEQwGvbJ/Jrpp14K18YAlEjB3kqckeGdrcy9d91HV8Ltk8lHFshZ2uoK5TaWKg
-         kyO6T+ZK0BqlPC8Gnf7wZOjNJkZJr2JZKQ9qNImGRJ4SxIh/vV5G/K5d41zk0wTvHWAT
-         26lI5C2Tvr1H06JQ+cBN3y53vnrPqj346Q2n8KmKH+egLwqBx15LItJ/CkeynovNKgbD
-         b/4w==
-X-Forwarded-Encrypted: i=1; AJvYcCUSyAgQqT7ux+qNWIJoDRMJNPuQVppkIU+Xfv/bRFKF1k2swcQRDJEkpgEIY9WiH3TF4Mh4bMClh4016EH7@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyru/kBwxjpA4k+VnXniFexi+yTiqImJAmhrEhK/ChIclpnpu+P
-	y3fxEMNjfognsEM6CW/nxuxo/Cp5BROigMImIT2PrPMlLOgc/OXkxeR4YN8baWw0EEzglUJVxbN
-	EgE5U0ny6EbK8H4llcwKIEVmRIUNG2PNAdyrs
-X-Gm-Gg: ASbGncsfaJpYg2oBvAI4qhYpWBZ5UhAyzgqhEbIoFD7aYshkypN8DRtEOgSN2Ftzf3w
-	ufX1N7qIGlvdgZMSn59PseXqYMk9hlIdeuYlV7E0GddWulq6YiXASioFLua8y4+b8knxeD3tavY
-	wSS0HDEGiGBPFhSOs6sTRMnyEE8CSPHdZqE/HcXefqAxEzCW2yx2ZucZHhE4Noz/bYZg==
-X-Google-Smtp-Source: AGHT+IEhG6Uj2ZgXODFDQkPgzEVnFaKEkMeOMCOgSAKxsS7ffAl3Oika6RfeExnwIHlB01YBUlfrm+cZgMXZ8GfGSBI=
-X-Received: by 2002:a17:907:6ea9:b0:ac0:4364:4083 with SMTP id
- a640c23a62f3a-ac330de660fmr24794366b.0.1741908552998; Thu, 13 Mar 2025
- 16:29:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMWaq4z6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741912328; x=1773448328;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HtnX3fKiPDeZxpTk5T/FrAwvbTQAyZy2SaD3hvVwhbk=;
+  b=IMWaq4z65n+eWPBuxFna4n5THlldQCw8rvEqUdsou1CettXKHdWxC4jc
+   7sth5UVXXjbQBceJbL2JBAuO7V9hI3x1MOMpaqCPQTdmxQa54459PZbDN
+   cYbA+EbKxqWgmO3W2ttcx1v0Ez3Ok4wFNbYF6QtvvwppbG2EFwJauxC7B
+   7SXdK7HQgyPamlP4OnciPmbC7i/aUSrzJ8uCyXVtUWVuAE+RRHTbaYsIx
+   TsCJQ1FukhIPVQjVfJ566RBiO+p9g6kPhFwCdtvF3T/lAYFRRaJIYDXew
+   DmkEbswg399wF27Q8F8n+W4zOC4pIvD09vbabsTRTUi85ZNdTQOQjF9Cq
+   A==;
+X-CSE-ConnectionGUID: zmu4UU/hRrqVZfqdI/uYcA==
+X-CSE-MsgGUID: X8KvA0YeSfWDy6iLNVvc+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60454988"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="60454988"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 17:32:07 -0700
+X-CSE-ConnectionGUID: r/qsnK1iRsSiNm1O0yc7lQ==
+X-CSE-MsgGUID: DxGiGVhYT2WyXnvCVgvDsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="125742044"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2025 17:32:05 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tssy3-000A22-17;
+	Fri, 14 Mar 2025 00:32:03 +0000
+Date: Fri, 14 Mar 2025 08:31:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:b4/scmi_minor_cleanup 7/7]
+ drivers/pmdomain/arm/scmi_pm_domain.c:27:13: warning: unused variable
+ 'ret_state'
+Message-ID: <202503140851.OfvuRJ6C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250312195951.1579682-4-jthies@google.com> <202503132357.RnlF5A0E-lkp@intel.com>
-In-Reply-To: <202503132357.RnlF5A0E-lkp@intel.com>
-From: Jameson Thies <jthies@google.com>
-Date: Thu, 13 Mar 2025 16:29:01 -0700
-X-Gm-Features: AQ5f1JrveV3I6ofpSQly6Maa1d3lFcNQ3Xq7VBo9SbjQm6kMIPtOwMRmVpnj6fw
-Message-ID: <CAMFSARdJgVQitDWmszbhSiVfu4hCoyyNVj3LPHb+7wq64C1BiA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] mfd: cros_ec: Don't add cros_ec_ucsi if it is
- defined in OF or ACPI
-To: kernel test robot <lkp@intel.com>
-Cc: tzungbi@kernel.org, ukaszb@chromium.org, bleung@chromium.org, 
-	heikki.krogerus@linux.intel.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, groeck@chromium.org, swboyd@chromium.org, 
-	akuchynski@chromium.org, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Echoing my response on patch 1/3, thank you for taking a look at this.
-I=E2=80=99ll follow up with a v2 series to address your comments and resolv=
-e
-the build issues. Additional responses below.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/scmi_minor_cleanup
+head:   51352dcbe987669cc05f54142918faf4240c4bb4
+commit: 51352dcbe987669cc05f54142918faf4240c4bb4 [7/7] pmdomain: arm: scmi_pm_domain: Remove redundant state verification
+config: x86_64-buildonly-randconfig-002-20250314 (https://download.01.org/0day-ci/archive/20250314/202503140851.OfvuRJ6C-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503140851.OfvuRJ6C-lkp@intel.com/reproduce)
 
-> > devices will be created automatically. None of parent devices should
-> > ever check if the child exist to create a child - it makes no sense.
->
-> This is still valid - none of parents should be poking around to see if
-> there is a child or not. The core handles it, DT handles it etc.
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503140851.OfvuRJ6C-lkp@intel.com/
 
-Understood, we can remove this for DT. We need to keep part of this
-check for ACPI because there are platforms which need this driver and
-haven't defined proper ACPI nodes in their FW to load cros_ec_ucsi.
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Jameson
+>> drivers/pmdomain/arm/scmi_pm_domain.c:27:13: warning: unused variable 'ret_state' [-Wunused-variable]
+      27 |         u32 state, ret_state;
+         |                    ^~~~~~~~~
+   1 warning generated.
+
+
+vim +/ret_state +27 drivers/pmdomain/arm/scmi_pm_domain.c
+
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  24  
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  25  static int scmi_pd_power(struct generic_pm_domain *domain, bool power_on)
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  26  {
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14 @27  	u32 state, ret_state;
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  28  	struct scmi_pm_domain *pd = to_scmi_pd(domain);
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  29  
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  30  	if (power_on)
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  31  		state = SCMI_POWER_STATE_GENERIC_ON;
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  32  	else
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  33  		state = SCMI_POWER_STATE_GENERIC_OFF;
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  34  
+51352dcbe987669 drivers/pmdomain/arm/scmi_pm_domain.c      Sudeep Holla 2025-03-13  35  	return power_ops->state_set(pd->ph, pd->domain, state);
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  36  }
+898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  37  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: 898216c97ed2ebfffda659ce12388da43534de6c firmware: arm_scmi: add device power domain support using genpd
+
+:::::: TO: Sudeep Holla <sudeep.holla@arm.com>
+:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
