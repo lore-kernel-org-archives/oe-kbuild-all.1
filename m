@@ -1,98 +1,92 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF731FDE09
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 15:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AC7200BBE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 16:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741965793; cv=none; b=NG5hyAhOic7HXEpaPBXU2WsDB7jssYzTBQzGXiA4Ox1Fs4biAaoqM+QWlC+U7o+bhjFnNjHAjzKISkyH641R/BMKkKYBIuFtGGbNrezGYI3JHeb/NW/D+1PPCs6C4FShmrBSm9Zsk47ek3BJR6f95NdKVkbSYMiuX6xXLxQ8X/o=
+	t=1741968846; cv=none; b=DeySi7qXQHUWUC4hfzXm9ZX8UaAyayBS8xh1o3/QBiglY4S/oB2QJoDKTztcJXaG9KC3+oVKbLCpp8zhztJFNTeZjVVlMvvTYbWMfSfU3Jv1frnkycVOplR0Fg37Q20YJfdIlmmoYy5iebKWvQ9bQiqRaMmiqBYyB/2R+Q33tcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741965793; c=relaxed/simple;
-	bh=onGdMGQ9h5riy+xCuuIEp+wSTHDIPrfRuS2Z7rje+4s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rNKrizyjjPgz6E5RIcqMIoUorT/3FLt6gk6oLpFySgfnUFSedPS+j/3bc6uNTyBG7Wpb0zFHhZOaj7xPAJwyySFAPPcrbn0kjAvl3mPdeWY/U0beUU1VzUkJZHuwW70/5RhW1bNMZMFh8uAB1ittztT78uTZDzCoeALOp8t1OsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j+6N7F5G; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741968846; c=relaxed/simple;
+	bh=DSWlAonZUkJocGNIA1FECdwmFFKVX0h5+Q91z8P8J9k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=D89+rdPh3wrtbvd9CHjey8rarDVY3t5uCdu+5zVMc0hMv0TFSNtRKKhxpUBTBbGqIODwwVbiVdPB8vibYazSmmgeIXYNzzGxu7l2NGoAlHu4b/GlXIK0b30iNHfkwJCvjFFTo2mTMfIgrNnCWZt685AWKOch5C1CCctW1RTTqT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PhhhCSoM; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j+6N7F5G"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ff5f2c5924so477401a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 08:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741965791; x=1742570591; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=onGdMGQ9h5riy+xCuuIEp+wSTHDIPrfRuS2Z7rje+4s=;
-        b=j+6N7F5GvpN4Mp53Eow5+i0hvMFuT74HU5LZHIUdF+PJp4hxzyRpjO4CQs5t/MBNT0
-         aDZgAUpmxGYbuXGNoi4L0n5vk7BIZDxC9sxkBXpcUE7KKAM3Z8hTlSn2OnpUAerlo/8m
-         G2Rmez+YxEziaJJrdewvgw7supNS1U/8DSfDJ9tF6SQSBinnMHp7A4Bi55B0SoEC6JXA
-         7XxzUqeBRFqweuwsQ8Jk2d8ctdQa0wvLd/NtLtHr1sanWWcM/t/0aRZyAFJE4AMHTKJg
-         dYV5TWqlmCOqhUjPlo+OorFIisChO1ps6Vh3uClcB5eTdyTT5s6+YzWGC1xw8+IDefwQ
-         d0Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741965791; x=1742570591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=onGdMGQ9h5riy+xCuuIEp+wSTHDIPrfRuS2Z7rje+4s=;
-        b=D4wFpGWPE6pCvYv6d/tyTGC3bWfJ4+GhQA/Ufo3PFGrsdEaUJKnIUYQottZtCFOrKf
-         F9tMZeEXnKffzy2N/SbMQCYkqsT/O77R07Mbq2axl1bjoPtGGrNYbQKilksGrR7pBD7Q
-         iq8c5vQdwhaz9p4oHoWz8Jl4xNcmN0DyJn27DC7cCUY18j0ROTPD8yBFS3ZqIpU8O10g
-         P6aGLIdTwphQsmIqtGIOEoBP/VSiiq2C9M7jlO75uI/1DtLbvWdQ3BJae6+kHc63Nde7
-         gSBLVvhxCbiT4Oi+HDeX3MYJtw8dk0+imS1ia9/d07IImUHpgkQGrlcqJd0GxTsGjfNl
-         GNVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjyE01lhESbKRmWvAmgVEXBtzjN3k14pmy1lW8FaTF7sTwlGFgOnItNo/JdCRIf2Dlx6mUpj3K2dr6I5C5@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjSkw0/uruf/x1kRsP0W2jO8vWxy6XqXOp8RyemdH6zbvpGsEU
-	y1gDuqf2s5s/tU/OjQu8CChU/iGTp53QWhKy/1ABJQNXsDV/b9s0i1BLayDUpNLSE4OGsnHBKVB
-	mf8ri/chq4nfvgViYGxvvqHqZ/FE=
-X-Gm-Gg: ASbGncsSs0scGFsisQ/X8lPs/9MFBs8Rbol/P8Wvjg0PuoOm+E4mhs1qJtXyXS4r1HC
-	XECfJXH6jAL/YDCHdQrAzxilBVqKblQ85XAXy3oOunoTfpMmGfdkE75Im1ZLBCVXv/yrGAxSpqM
-	OYvBLCrhE1cst2juPuWv6kq9XobQ==
-X-Google-Smtp-Source: AGHT+IGXZ+sIMicF7ioYPohSk+0+pI5Y4ZkfdkmKCGHLNPxqRGWFte3NiYQ4N/30XfwYHbA7fFBeZ/NTmqaBLnciMp8=
-X-Received: by 2002:a17:90b:38ce:b0:2ff:6666:529d with SMTP id
- 98e67ed59e1d1-30151d6e1demr1481405a91.6.1741965791659; Fri, 14 Mar 2025
- 08:23:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhhhCSoM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741968844; x=1773504844;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DSWlAonZUkJocGNIA1FECdwmFFKVX0h5+Q91z8P8J9k=;
+  b=PhhhCSoMmO5Bquf3NouIfySZHhfDOfWHLj8VoSmqUDFOZ8caIj22d4N5
+   +dnDOL2zrXBB5BWAB2T43kLx+IHqtlBmyPyWEo/Zp6wCiZ2UtzGeMPzCC
+   H/ycMuKzOULTZCL7Eb2bzjdCkb+l/Bxmkvvw7fmBuRehiB9PM0cMKhMBN
+   lWPILnYz8rRyEw6sD7uAUZElw5Nw2GY6PTxTDWFi3E5moNFCFgwXn+Mjt
+   u9NY52peYBvLRsYnJuPQYKv8xbfOJXbj8wn5X+JnkB2WxqJ5itk1DPV43
+   mjXdJDSMevmfFpt9gWUEw/1f9B9Lg4kxhfzCT1t5B1ljzaDottK8U1USZ
+   A==;
+X-CSE-ConnectionGUID: i5TbByxjR0Stx3Vz1/harQ==
+X-CSE-MsgGUID: pcVj+8TdSb+OmYSdLG3mog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="65588896"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="65588896"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 09:14:04 -0700
+X-CSE-ConnectionGUID: 5RQ/wGPITeGv9lKQcjgGqQ==
+X-CSE-MsgGUID: R3OTRyZuTLiPyz8qWFn4yg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="126384836"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 14 Mar 2025 09:14:02 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tt7fc-000AdU-0y;
+	Fri, 14 Mar 2025 16:14:00 +0000
+Date: Sat, 15 Mar 2025 00:13:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>, linux-doc@vger.kernel.org
+Subject: [broonie-spi:for-6.15 19/22] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/connector/gocontroll,moduline-module-slot.yaml
+Message-ID: <202503150030.PgDfN7Jx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250307-ptr-as-ptr-v1-1-582d06514c98@gmail.com>
- <202503120332.YTCpFEvv-lkp@intel.com> <CAJ-ks9mkbs9KG5D5yETvOJfeqyzTts1gVZyNAogbxjXbwOreZg@mail.gmail.com>
- <CANiq72n2cYvAWkz+QwG9++NknaN-A2g=N4AeatADwRZ1pWtk0A@mail.gmail.com> <Z9Ipko8DBD2cz1nF@rli9-mobl>
-In-Reply-To: <Z9Ipko8DBD2cz1nF@rli9-mobl>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 14 Mar 2025 16:22:59 +0100
-X-Gm-Features: AQ5f1JqAXlG0OSn1ajgmyqsScjagQVuSo381KPk2FBlBxX6zol4hwhDWmTs8x3M
-Message-ID: <CANiq72k8kXeK6C=yh9-LNXbeF=pQitd-7sVP7AsGLBHATfEF7Q@mail.gmail.com>
-Subject: Re: [PATCH] rust: enable `clippy::ptr_as_ptr` lint
-To: Philip Li <philip.li@intel.com>
-Cc: Tamir Duberstein <tamird@gmail.com>, kernel test robot <lkp@intel.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 13, 2025 at 1:41=E2=80=AFAM Philip Li <philip.li@intel.com> wro=
-te:
->
-> Sorry about this, I will implement this to make it clear asap.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-6.15
+head:   336a41c90c86b883aa06ed19f138eee19ddf9958
+commit: 8f1cc5242544052e4be037861abc8bc2b89cabda [19/22] MAINTAINERS: add maintainer for the GOcontroll Moduline module slot
+reproduce: (https://download.01.org/0day-ci/archive/20250315/202503150030.PgDfN7Jx-lkp@intel.com/reproduce)
 
-The bot is great -- thanks for all the resources you have put so far into i=
-t :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503150030.PgDfN7Jx-lkp@intel.com/
 
-Cheers,
-Miguel
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/connector/gocontroll,moduline-module-slot.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
