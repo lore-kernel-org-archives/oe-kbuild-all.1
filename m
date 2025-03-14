@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546BA5223
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 02:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DA512B63
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 03:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741920453; cv=none; b=p93z5dM+BOeJPMu5KDEuKzd/CuQUkCBH4tlGTZq8nnhoqhxlfl45yprfbjL9mrSjAQY4lt+dlqo985qT+ozSpntVuekno5rihLGdWqS8eTIBXsJPk3oIi/aaB5BcCz0lSU3/Pm8IdHO+ZxAXo3pU7ucZ5uoWiacgtbi3rK36xEg=
+	t=1741922439; cv=none; b=oT916yAXTZRB2l0ehT48jafK+OMOsRArQ9QgNGJD8rsGnIE0NM051EadXp/Yy5rKu6XQAisLw1x8BiWpWEtJzhFvgz2kvSCur8Y6yLEOR+YMcIudAdhOSrtAT2FaT+zmFe/BvSaGKDl4Kx3FtD/u8waYiGf6sUPO3cd6+MAeJ5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741920453; c=relaxed/simple;
-	bh=VDxRePHNKzeZPTVE2DTaokNrP1a/uWrDhLYMVG/8vuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XzvQEcOTz0N/6hQ9u8YJdxFR4xG4+kKVtvModDNw3H6uyB4blYlFXXyuqBiAdIVX9QeLC8irOtBcLnR7YO/KjMfHr4s8cfYZM//Wk6SNKnE8dnQk5q+RpngK8J5UExeycDWh6K4cGr7xkFCkmR7SW+Jo/6/7I3io0Yjiu0F0g4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6YtbXK6; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1741922439; c=relaxed/simple;
+	bh=OcG9u49WrKu3JlX28UJO1gB2f62enMW3n6sc0munZoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZx27iizGFZfOtq9VJHYRXOh7tCFG5b1ccIwncjy6bnPbBd/P0n2grGno35IonLPizTajqguoxJfa9UKYe4ZKlfvV9lSEf0tT+vp/H3hhv03yL5FhYDkQ0w0pWIdXmmXyp+6s6mDtKbGd97u+7oMX72KGNCKsKIJG7zFphyw0W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z15e7nmM; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6YtbXK6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z15e7nmM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741920451; x=1773456451;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VDxRePHNKzeZPTVE2DTaokNrP1a/uWrDhLYMVG/8vuc=;
-  b=N6YtbXK65h35Foc/6l7ZAXT3rd0WDfXGvjhq1b6Bv5magfM31qb/zoDF
-   s7AGOV02v/mL0iGWAA7qEpDL7LzVvF4RUPFu5Z1UDbJ1u8PVWwqQGuxq8
-   u32h5xUZY8XpSBNuc9rD1ONOeB/aU4OXypMfDw4SkS/JNYNuQlX53fzQd
-   lrXjQFgq6khj7Bmk2g1WNiAzpUN+bosOfZynYEQ6Mgo9YU+j6GZlyw8D4
-   h9EWloJHL+9ggGAJPzooA3QUWnGybir2IjfGDuJxoDkj50PrJRu9fQoSQ
-   O4GrGzL1f1Ctpjw9ucPiI7Gq2L/bRRtM15muorEuwVICjSCugyY5MdJpW
-   Q==;
-X-CSE-ConnectionGUID: AsTQpU6FQhmkkEE+adGyLg==
-X-CSE-MsgGUID: JgH8gB9iTEy4NSUCrmXjEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="53701209"
+  t=1741922437; x=1773458437;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OcG9u49WrKu3JlX28UJO1gB2f62enMW3n6sc0munZoE=;
+  b=Z15e7nmMLfnB6Tu9Xr3vqvLV0QEzCLmaQqnhxQmuNJPvk9rA66Sg/nSv
+   F4pQS//JKsUhRq7SKsA/VIjHaEkL0oipqA+Qqdteh2JOjHNWrjUWxfy8X
+   XQxKcZBU1mbs+Ryvb01YwIaxWHk68+JaalSyZw9vTcF1f+opauEOUQ4YD
+   JSyx0rAI8p77vjRXsgUsUfGMHkfEZLvnpb/yvcTY3E61nEy4KSCGgDAMD
+   o3YCwCqTBdcyMmzITxlPgOp4sevGGHYn2nyQ8EWN3D0AbjeLKzTLaT/LR
+   wFydZun4s/1Q9EMso/lJm2gj5xHNoieGrDfvQN+WHNJ/qCBk5XuiZvpNS
+   w==;
+X-CSE-ConnectionGUID: qIbdAFUoQTC6bMDcmNukzA==
+X-CSE-MsgGUID: /DievyBTSbu6vJaxuIcmSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="53718417"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="53701209"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 19:47:30 -0700
-X-CSE-ConnectionGUID: miV86RwWR1eZNcL6NIMsMA==
-X-CSE-MsgGUID: kG24nNYyS7K9+xIHrDAKGw==
+   d="scan'208";a="53718417"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 20:20:35 -0700
+X-CSE-ConnectionGUID: e2cBkMs/RJKiQnEtDpUZ4A==
+X-CSE-MsgGUID: z/YrGz/2Q5e85hZjXd2VEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121094490"
+   d="scan'208";a="126184273"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 13 Mar 2025 19:47:29 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Mar 2025 20:20:33 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tsv55-000A5E-16;
-	Fri, 14 Mar 2025 02:47:27 +0000
-Date: Fri, 14 Mar 2025 10:46:57 +0800
+	id 1tsvb4-000A5o-21;
+	Fri, 14 Mar 2025 03:20:30 +0000
+Date: Fri, 14 Mar 2025 11:19:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 3/3] fs/fs-writeback.c:138:6:
- warning: no previous prototype for function 'wb_wakeup'
-Message-ID: <202503141058.rXAD8cSK-lkp@intel.com>
+To: Subu Dwevedi <messigoatcr7nop@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Subu Dwevedi <messigoatcr7nop@gmail.com>,
+	Henrik Rydberg <rydberg@bitmath.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] hwmon/applesmc: add MMIO for newer macs
+Message-ID: <202503141052.v7b9psFM-lkp@intel.com>
+References: <20250312123055.1735-2-messigoatcr7nop@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +66,257 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250312123055.1735-2-messigoatcr7nop@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   ca5266bc32d9bcf538401ef062b30e072e28c88a
-commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [3/3] ANDROID: writeback: export symbols to do a hierarchical writeback control
-config: arm-randconfig-001-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141058.rXAD8cSK-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e15545cad8297ec7555f26e5ae74a9f0511203e7)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141058.rXAD8cSK-lkp@intel.com/reproduce)
+Hi Subu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.14-rc6 next-20250313]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Subu-Dwevedi/hwmon-applesmc-add-MMIO-for-newer-macs/20250312-203248
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250312123055.1735-2-messigoatcr7nop%40gmail.com
+patch subject: [PATCH 1/2] hwmon/applesmc: add MMIO for newer macs
+config: x86_64-randconfig-122-20250313 (https://download.01.org/0day-ci/archive/20250314/202503141052.v7b9psFM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141052.v7b9psFM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503141058.rXAD8cSK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503141052.v7b9psFM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/applesmc.c:257:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:257:31: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:257:31: sparse:     got unsigned char [usertype] *
+>> drivers/hwmon/applesmc.c:258:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:258:46: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:258:46: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:269:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:269:44: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:269:44: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:281:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:281:44: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:281:44: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:282:34: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:282:34: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:282:34: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:283:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:283:33: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:283:33: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:288:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:288:31: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:288:31: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:292:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:292:39: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:292:39: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:299:71: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:299:71: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:299:71: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:302:81: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:302:81: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:302:81: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:306:73: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:306:73: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:306:73: sparse:     got unsigned char [usertype] *
+>> drivers/hwmon/applesmc.c:311:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:311:49: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/hwmon/applesmc.c:311:49: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:320:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:320:44: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:320:44: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:324:63: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:324:63: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:324:63: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:327:73: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:327:73: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:327:73: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:331:65: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:331:65: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:331:65: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:335:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:335:33: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:335:33: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:336:34: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:336:34: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:336:34: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:337:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:337:33: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:337:33: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:341:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:341:31: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:341:31: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:510:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:510:52: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:510:52: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:511:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:511:39: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:511:39: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:512:63: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:512:63: sparse:     expected void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:512:63: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:517:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:517:41: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:517:41: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:521:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:521:58: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:521:58: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:522:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:522:48: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:522:48: sparse:     got unsigned char [usertype] *
+   drivers/hwmon/applesmc.c:523:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:523:50: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:523:50: sparse:     got unsigned char [usertype] *
+>> drivers/hwmon/applesmc.c:740:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [usertype] *static [noderef] [toplevel] __iomem mmio_base @@     got void [noderef] __iomem * @@
+   drivers/hwmon/applesmc.c:740:19: sparse:     expected unsigned char [usertype] *static [noderef] [toplevel] __iomem mmio_base
+   drivers/hwmon/applesmc.c:740:19: sparse:     got void [noderef] __iomem *
+   drivers/hwmon/applesmc.c:745:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __iomem * @@     got unsigned char [usertype] * @@
+   drivers/hwmon/applesmc.c:745:31: sparse:     expected void const [noderef] __iomem *
+   drivers/hwmon/applesmc.c:745:31: sparse:     got unsigned char [usertype] *
+>> drivers/hwmon/applesmc.c:757:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *static [noderef] [toplevel] __iomem mmio_base @@
+   drivers/hwmon/applesmc.c:757:17: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/hwmon/applesmc.c:757:17: sparse:     got unsigned char [usertype] *static [noderef] [toplevel] __iomem mmio_base
+   drivers/hwmon/applesmc.c:1611:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char [usertype] *static [noderef] [toplevel] __iomem mmio_base @@
+   drivers/hwmon/applesmc.c:1611:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/hwmon/applesmc.c:1611:25: sparse:     got unsigned char [usertype] *static [noderef] [toplevel] __iomem mmio_base
+>> drivers/hwmon/applesmc.c:257:21: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:258:36: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:269:34: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:281:34: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:282:24: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:283:23: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:288:21: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:292:29: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:299:61: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:302:71: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:306:63: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:311:39: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:320:34: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:324:53: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:327:63: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:331:55: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:335:23: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:336:24: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:337:23: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:341:21: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:510:42: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:511:29: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:512:53: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:517:31: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:521:48: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:522:38: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:523:40: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:742:14: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:745:21: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:757:17: sparse: sparse: dereference of noderef expression
+   drivers/hwmon/applesmc.c:1611:25: sparse: sparse: dereference of noderef expression
 
->> fs/fs-writeback.c:138:6: warning: no previous prototype for function 'wb_wakeup' [-Wmissing-prototypes]
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         |      ^
-   fs/fs-writeback.c:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         | ^
-         | static 
->> fs/fs-writeback.c:1349:6: warning: no previous prototype for function 'redirty_tail_locked' [-Wmissing-prototypes]
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         |      ^
-   fs/fs-writeback.c:1349:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         | ^
-         | static 
-   2 warnings generated.
+vim +257 drivers/hwmon/applesmc.c
 
-
-vim +/wb_wakeup +138 fs/fs-writeback.c
-
-   137	
- > 138	void wb_wakeup(struct bdi_writeback *wb)
-   139	{
-   140		spin_lock_irq(&wb->work_lock);
-   141		if (test_bit(WB_registered, &wb->state))
-   142			mod_delayed_work(bdi_wq, &wb->dwork, 0);
-   143		spin_unlock_irq(&wb->work_lock);
-   144	}
-   145	EXPORT_SYMBOL_GPL(wb_wakeup);
-   146	
+   250	
+   251	/*
+   252	 * MMIO Impliementation
+   253	 */
+   254	
+   255	static void clearArbitration(void)
+   256	{
+ > 257		if (ioread8(mmio_base + 0x4005))
+ > 258			return iowrite8(0, mmio_base + 0x4005);
+   259	}
+   260	static int waitForKeyDone(void)
+   261	{
+   262		int i = 1000; //millisecounds
+   263		u8 status;
+   264	
+   265		while (i) {
+   266			msleep(1);
+   267			i--;
+   268	
+   269			status = ioread8(mmio_base + 0x4005);
+   270			if (status & 0x20)
+   271				return 0;
+   272		}
+   273	
+   274		return -EIO;
+   275	}
+   276	static int mmio_read_smc(u8 cmd, const char *key, u8 *buffer, u64 len)
+   277	{
+   278		u8 i, u = 0;
+   279	
+   280		clearArbitration();
+   281		iowrite32(*((u32 *)key), mmio_base + 0x78);
+   282		iowrite8(0x15, mmio_base + 0x7E);
+   283		iowrite8(cmd, mmio_base + 0x7F);
+   284	
+   285		if (waitForKeyDone())
+   286			return -EIO;
+   287	
+   288		i = ioread8(mmio_base + 0x7F);
+   289		if (i)
+   290			return -EIO;
+   291		if (cmd == APPLESMC_READ_CMD) {
+   292			i = ioread8(mmio_base + 0x7D);
+   293			if (i > len || !i)
+   294				return -EIO;
+   295	
+   296			while (u < i) {
+   297				if ((i - u) < 4) {
+   298					if ((i - u) < 2) {
+   299						buffer[u] = ioread8(mmio_base + u);
+   300						u += 1;
+   301					} else {
+   302						*(u16 *)&buffer[u] = ioread16(mmio_base + u);
+   303						u += 2;
+   304					}
+   305				} else {
+   306					*(u32 *)&buffer[u] = ioread32(mmio_base + u);
+   307					u += 4;
+   308				}
+   309			}
+   310		} else
+ > 311			memcpy_fromio(buffer, mmio_base + 0x0, len);
+   312	
+   313		return 0;
+   314	}
+   315	static int mmio_write_smc(u8 cmd, const char *key, const u8 *buffer, u8 len)
+   316	{
+   317		u8 i = 0;
+   318	
+   319		clearArbitration();
+   320		iowrite32(*((u32 *)key), mmio_base + 0x78);
+   321		while (i < len) {
+   322			if (len - i < 4) {
+   323				if (len - i < 2) {
+   324					iowrite8(buffer[i], mmio_base + i);
+   325					i += 1;
+   326				} else {
+   327					iowrite16(*(u16 *)&buffer[i], mmio_base + i);
+   328					i += 2;
+   329				}
+   330			} else {
+   331				iowrite32(*(u32 *)&buffer[i], mmio_base + i);
+   332				i += 4;
+   333			}
+   334		}
+   335		iowrite8(len, mmio_base + 0x7D);
+   336		iowrite8(0x15, mmio_base + 0x7E);
+   337		iowrite8(cmd, mmio_base + 0x7F);
+   338		if (waitForKeyDone())
+   339			return -EIO;
+   340	
+   341		i = ioread8(mmio_base + 0x7F);
+   342		if (i)
+   343			return -EIO;
+   344	
+   345		return 0;
+   346	}
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
