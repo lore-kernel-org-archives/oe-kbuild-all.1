@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F54C288DA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 08:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A501C84BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 08:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741941361; cv=none; b=iWBs+WV8Ft1CmKW5oO+GEWNfk4E1he6XG+MWUFezs2uN1HM38icdhqcBYnAf/HAPKF8+q+o07VW9Tua7x48/KG4gaRP9rVe7PwPxxdPJgaD/54ucMffOgQ1r455hMcs7KdZes6WTTySEVk7KoiDBZNIdG7R89EHKzf2p7GrhsOg=
+	t=1741942144; cv=none; b=tXGWQtRWJWKp0dkLjn9ugdI6o99dRxIwJ2BqnOApGrmWBY6H2ZAZ4P5z4Va3PqTCLf6kk2CcJVLLZBxu2SBUU0c3WXI8REEOkmZn+b4V97I2ZZNHAmLWc0Nf46q4jZB58W2HWIKzBD7U+huNRlAjgctFpmPvuW8JF+u+PAgy2bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741941361; c=relaxed/simple;
-	bh=YzrX1qtvsBWsWSdpW5Y0Td3GkkJLw7M2KlVzEhIKBZc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TJ9cIRAO6oKqWPFrf+j0L9h0MVuPLlf4fs1zWzduFBfq8ECvjE4ZMLFqVr2XLSWV/wnIeMsfpWPOyIT2C5tk5X9dSFCQ5kjOka2pdxxfVvA2RM/E8JIU7/uYlhUqMICwykxj74hXltqBj7OUzO202gj4UFDx5Ed1/PbEl85cF5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OU+F6dZS; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1741942144; c=relaxed/simple;
+	bh=/RkOl1ofNmh72IxfC8RKCGE9aTmdSMuFblH9AmdC8ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OnlBKVkEKp52IHkMEw+ljpyx4W5rmQxR4sUU1zwI9rJJbIxLOKofFz266L+5rdLiSUQhpO8yzNbT4fyyRSCWULX19UQRDFOuAT9TtINyESOrrpNYlvdGfeJ+Hc1kXBvDZlE0tWG3p0WxlxqeyGDF9CumB6miqfUb0n6yYblZFAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DktL2nJi; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OU+F6dZS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DktL2nJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741941359; x=1773477359;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=YzrX1qtvsBWsWSdpW5Y0Td3GkkJLw7M2KlVzEhIKBZc=;
-  b=OU+F6dZSbhhPfc9HCpDGqZZu6B4dwbJd3K/O+NP6WRELNJXY0yWmRj7Q
-   TXoa5rYv0PSr3FoVNJ9zjD+7KX55q/vYDPK/d6qE0f9b9HoH8A5cBUIdS
-   UHTmRGYSzth3PnfZG/Pgo/4zbSus6boeKI7WrOhXXXcGrTVdhXR1ieJl0
-   U+WZYVq4nQIxhn5IDnmrfO6USsdm4WIAxUhgVgoSJNUP9sWgwLlS8EnnI
-   N82TNR2PzK1NqWUmD8tr53zitqfzd5Uwta372bmnVtMvqbiXLh0RFEtII
-   Xsimxz8z20ywGiLUhpV11hpeNVpSMsxugvjbCw4Jw/Nex6ID0DHNeDxIX
-   A==;
-X-CSE-ConnectionGUID: RwCMho1ITtm2fUu1ObKIxQ==
-X-CSE-MsgGUID: 97rOlbZpQuWrpLQk0ep+3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60624897"
+  t=1741942142; x=1773478142;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/RkOl1ofNmh72IxfC8RKCGE9aTmdSMuFblH9AmdC8ss=;
+  b=DktL2nJiPAT5qIkVYMlX8nuCxM3SZLPv45Tgm8wWIG1nWXx7+mcb9f81
+   3CTVPYx0gs0iYttL9kRekvFxfSs5fNE4dMRo5N9YRCyOS4HlGbFjEzpsH
+   XZ8AJeFDtnrpoiRWObrL9BQ+enYDfKLTJWugwTFF4ZjDIkbPVAyYmB5sw
+   KzKuKv+74qRIvcfB10OQLkmYKkmRbzWTdsAJj6YIMxvO4Ge8THZ6Bj6FT
+   NddFW6JTX5RvwJFGoHemeLpzpeYxshQtV40M2IBCA/k2CpbJ7lh4fJ0do
+   It/b10cnGA1g1fJfinH3nTpgXeZl/hvNbtLAy8M9KjdJlzae0rhW6TME0
+   Q==;
+X-CSE-ConnectionGUID: QmXAy+MKSnmfDWO7hJRGrg==
+X-CSE-MsgGUID: o3JPl2C+S9eYtE+l0aB8RQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="42255537"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="60624897"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 01:35:58 -0700
-X-CSE-ConnectionGUID: dCnMjlKNQWm4qdc9KdlFuA==
-X-CSE-MsgGUID: A0kVoizATyuy2cC2CVlyIw==
+   d="scan'208";a="42255537"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 01:49:01 -0700
+X-CSE-ConnectionGUID: xooHnKA5QmaNxQH0QcJ/tA==
+X-CSE-MsgGUID: 8KZKcl4xRmGcY9xHiNU4Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="152142101"
+   d="scan'208";a="152056920"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Mar 2025 01:35:58 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 Mar 2025 01:48:59 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tt0WJ-000AEW-2o
-	for oe-kbuild-all@lists.linux.dev;
-	Fri, 14 Mar 2025 08:35:55 +0000
-Date: Fri, 14 Mar 2025 16:35:26 +0800
+	id 1tt0iu-000AF2-2v;
+	Fri, 14 Mar 2025 08:48:56 +0000
+Date: Fri, 14 Mar 2025 16:48:55 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/preempt-rt 7/7] arch/riscv/mm/ptdump.c:387:21: error:
- use of undeclared identifier 'pgtable_l5_enabled'; did you mean
- 'pgtable_l4_enabled'?
-Message-ID: <202503141607.fAwRPSVT-lkp@intel.com>
+To: Faizal Rahim <faizal.abdul.rahim@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: [tnguy-next-queue:dev-queue 87/88]
+ drivers/net/ethernet/intel/igc/igc_ethtool.c:1791:undefined reference to
+ `ethtool_mmsv_get_mm'
+Message-ID: <202503141646.6yybVfAe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +66,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Song,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/preempt-rt
-head:   685a54e0f0ccdc484187e319722de7fc7709e8fb
-commit: 2c8b096a575000605da454d498369f5e15e9739b [7/7] riscv: correct pt_level name via pgtable_l5/4_enabled
-config: riscv-randconfig-001-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141607.fAwRPSVT-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141607.fAwRPSVT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   7dca3a8a1f3c70a4ba8115e4ee5827e424629eaf
+commit: 8f97e7c17be21b5b4feefd2f2e71d71761777ab8 [87/88] igc: add support to get MAC Merge data via ethtool
+config: arm64-randconfig-001-20250314 (https://download.01.org/0day-ci/archive/20250314/202503141646.6yybVfAe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503141646.6yybVfAe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503141607.fAwRPSVT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503141646.6yybVfAe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/mm/ptdump.c:6:
-   In file included from include/linux/efi.h:20:
-   In file included from include/linux/rtc.h:17:
-   In file included from include/linux/interrupt.h:21:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/riscv/mm/ptdump.c:387:21: error: use of undeclared identifier 'pgtable_l5_enabled'; did you mean 'pgtable_l4_enabled'?
-     387 |         pg_level[1].name = pgtable_l5_enabled ? "P4D" : "PGD";
-         |                            ^~~~~~~~~~~~~~~~~~
-         |                            pgtable_l4_enabled
-   arch/riscv/include/asm/pgtable.h:917:13: note: 'pgtable_l4_enabled' declared here
-     917 | extern bool pgtable_l4_enabled;
-         |             ^
-   1 warning and 1 error generated.
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_main.o: in function `igc_fpe_handle_mpacket':
+   drivers/net/ethernet/intel/igc/igc_tsn.h:50:(.text+0x9690): undefined reference to `ethtool_mmsv_event_handle'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_main.o: in function `igc_clean_tx_irq':
+   drivers/net/ethernet/intel/igc/igc_main.c:3157:(.text+0xec44): undefined reference to `ethtool_mmsv_event_handle'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_main.o: in function `igc_watchdog_task':
+   drivers/net/ethernet/intel/igc/igc_main.c:5878:(.text+0x103a4): undefined reference to `ethtool_mmsv_link_state_handle'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_main.c:5917:(.text+0x1058c): undefined reference to `ethtool_mmsv_link_state_handle'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_main.o: in function `igc_down':
+   drivers/net/ethernet/intel/igc/igc_main.c:5352:(.text+0x114e8): undefined reference to `ethtool_mmsv_stop'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_ethtool.o: in function `igc_ethtool_set_mm':
+   drivers/net/ethernet/intel/igc/igc_ethtool.c:1817:(.text+0x800): undefined reference to `ethtool_mmsv_set_mm'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_ethtool.o: in function `igc_ethtool_get_mm':
+>> drivers/net/ethernet/intel/igc/igc_ethtool.c:1791:(.text+0x8bc): undefined reference to `ethtool_mmsv_get_mm'
+   aarch64-linux-ld: drivers/net/ethernet/intel/igc/igc_tsn.o: in function `igc_fpe_init':
+   drivers/net/ethernet/intel/igc/igc_tsn.c:138:(.text+0x1238): undefined reference to `ethtool_mmsv_init'
 
 
-vim +387 arch/riscv/mm/ptdump.c
+vim +1791 drivers/net/ethernet/intel/igc/igc_ethtool.c
 
-   384	
-   385		kernel_ptd_info.base_addr = KERN_VIRT_START;
-   386	
- > 387		pg_level[1].name = pgtable_l5_enabled ? "P4D" : "PGD";
-   388		pg_level[2].name = pgtable_l4_enabled ? "PUD" : "PGD";
-   389	
-   390		for (i = 0; i < ARRAY_SIZE(pg_level); i++)
-   391			for (j = 0; j < ARRAY_SIZE(pte_bits); j++)
-   392				pg_level[i].mask |= pte_bits[j].mask;
-   393	
-   394		debugfs_create_file("kernel_page_tables", 0400, NULL, &kernel_ptd_info,
-   395				    &ptdump_fops);
-   396	#ifdef CONFIG_EFI
-   397		if (efi_enabled(EFI_RUNTIME_SERVICES))
-   398			debugfs_create_file("efi_page_tables", 0400, NULL, &efi_ptd_info,
-   399					    &ptdump_fops);
-   400	#endif
-   401	
-   402		return 0;
-   403	}
-   404	
+  1784	
+  1785	static int igc_ethtool_get_mm(struct net_device *netdev,
+  1786				      struct ethtool_mm_state *cmd)
+  1787	{
+  1788		struct igc_adapter *adapter = netdev_priv(netdev);
+  1789		struct igc_fpe_t *fpe = &adapter->fpe;
+  1790	
+> 1791		ethtool_mmsv_get_mm(&fpe->mmsv, cmd);
+  1792		cmd->tx_min_frag_size = fpe->tx_min_frag_size;
+  1793		cmd->rx_min_frag_size = IGC_RX_MIN_FRAG_SIZE;
+  1794	
+  1795		return 0;
+  1796	}
+  1797	
 
 -- 
 0-DAY CI Kernel Test Service
