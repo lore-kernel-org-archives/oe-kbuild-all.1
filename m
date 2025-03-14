@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD17620ED
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 00:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF90D530
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 01:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741912689; cv=none; b=DtFxmSu1rhXF3Z5FhHdK/Imgd/YRDvvhb6B1I7nczpsPbBYlfxHeU/+sa5hQ8pK0Dukn5/HQJ0zXNi2piHNFkcayPLOb20TSmEFXBHImmNz9ssZuQkUlGHzlZY0YHduWbIz4b3RjcV3/L63slXJARE6bXLXGlfHwKAcaadFlXvI=
+	t=1741917261; cv=none; b=BSoZjYofJKNlXIjdh97URfyfhQyDN9olaRKS1SfEKDxJK2kSOB2k4qeRl/N5y1OlcCkzcDCRS8aNPWFv2sBi712FO3MVW8rRE0b00MAFVEk7x6c/pSR8sHdxmNA9uUGusJiPYjPfPSxJPpt/Slt0s0gX8VTBAN+E19GONcBGt6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741912689; c=relaxed/simple;
-	bh=2gR/bhqg69QZeYmNMbCHpL1+gWLSq6SL1aiUDJK2jCo=;
+	s=arc-20240116; t=1741917261; c=relaxed/simple;
+	bh=d6UedEBxlYw29JZkLkLO68fPare5RDy4oG92I2lYui8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k9o9TWl3nbr6MD5PCTLkvv5kFxJYS4zjT2pMRv2CCkXWZNDO7BUD+oHt4sC6FxGd2u6T4AN9Cte6CJmbLkcD1cuS+PVNeBH0N17XYggE9zO6IXfms+XXOI344alrPlh5CeZwuT0C03FSdl1u/GOfT8DsBvL3UVcMh1quflgbhCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2Pe2e83; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=BQff3nNniVsHexsIrXS7j2EBKcBk30wSwaT/+ySgF3jJI8aBhyL29ket4E3stpriJn81y23S6yiisunOLqVUeSj9VTe1Bo6W6rbrrEScTjNvamUs/zMzRUfUZdL9K4Xc6MQD68a+1smeMRDoyW4ifujY9k3pCdQsGQgXkoFaklo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bWAx6blM; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2Pe2e83"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bWAx6blM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741912688; x=1773448688;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=2gR/bhqg69QZeYmNMbCHpL1+gWLSq6SL1aiUDJK2jCo=;
-  b=B2Pe2e83eVCLMF5HCfK/fuMz3b6646L0Kok5hkYYTeZ8A4SvJeTj89Qm
-   3DBiHLWmntzwhBubGIMDxxVqdYj0guRPrcvC0ND95FnPiwq10QYjvDJ4b
-   l9RaTSvBDyCfhlIh48Kf1AsSggEIWEqGNrZfdw09vJITr6504llGr+fAI
-   IbrbGakd4kGBCzHwhVc3Ja03j2AaA53KN2hzPtYF90uCyb4rD/3b4IwfU
-   BPrMH0V1scyfO7RUIGZaeCqA73PO9g4ma93C2lqZH6SIRDwn9Wl5XjjU3
-   cgtIyraGvaLtllUARIbi6TTo+pSicmtOGn9E/hIEUMTK2J7SlHcSY5Ids
+  t=1741917259; x=1773453259;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d6UedEBxlYw29JZkLkLO68fPare5RDy4oG92I2lYui8=;
+  b=bWAx6blMxORMWLkqSnGKZWzt1XojeVEx/kU1X8hnH4GXBaD5AQA6uMeu
+   VuFVXtEFXqBsbTyW4TkbknbV9ZL192YEjpuxMUTAyoKPZFyM17KKNLLLf
+   qhfLn6Auq38WLCWu05HlVuLMF0IO58q8srNKrrPsu/pgPHqondhmlmwxH
+   QZFBrz55De1/kSwqV7QO08VhYaAmKoR6wUAAiUk8OneA5Ya+Tra4P4mb5
+   do1QN72vLh5umQuW7PHe5nNSjQMjZ4GOj+SWNsGp7ElA+7tRUG1Sd0suY
+   CcCl325Zgn1wK5L0FF6Q8xz5SPmwGnN7/4JdCPyHRDZNyNx/P3PlEPY7n
    Q==;
-X-CSE-ConnectionGUID: UB4ycEWRR2+sSSGCmRu0oQ==
-X-CSE-MsgGUID: Ih62B12PQTyNPNqCu4WZlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="54050634"
+X-CSE-ConnectionGUID: xh2aDacDQp+Lk6eeCEtJOA==
+X-CSE-MsgGUID: dYvqTANkRZ2QZL2+kaH9RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="54433746"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="54050634"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 17:38:07 -0700
-X-CSE-ConnectionGUID: KHGlGqi7RdiA1VM3gp/6Iw==
-X-CSE-MsgGUID: yyCZ6jeVTaq+v5YhcCcccQ==
+   d="scan'208";a="54433746"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 18:54:18 -0700
+X-CSE-ConnectionGUID: C4kh3GfnTQ6zpiA9g9lQ6g==
+X-CSE-MsgGUID: wGboTCjtQoebKeKmMeH3wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121818813"
+   d="scan'208";a="126199192"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Mar 2025 17:38:07 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 13 Mar 2025 18:54:17 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tst3r-000A2K-2Z;
-	Fri, 14 Mar 2025 00:38:03 +0000
-Date: Fri, 14 Mar 2025 08:37:54 +0800
+	id 1tsuFb-000A4a-24;
+	Fri, 14 Mar 2025 01:54:15 +0000
+Date: Fri, 14 Mar 2025 09:53:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.12 3/8] KVM: arm64: Remove host FPSIMD saving for
- non-protected KVM
-Message-ID: <Z9N6YiQcZZNQy0Vu@32d88535ca07>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 3/3] fs/fs-writeback.c:138:6:
+ warning: no previous prototype for 'wb_wakeup'
+Message-ID: <202503140959.QKcmQiug-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +61,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250314-stable-sve-6-12-v1-3-ddc16609d9ba@kernel.org>
 
-Hi,
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   ca5266bc32d9bcf538401ef062b30e072e28c88a
+commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [3/3] ANDROID: writeback: export symbols to do a hierarchical writeback control
+config: arm-randconfig-002-20250314 (https://download.01.org/0day-ci/archive/20250314/202503140959.QKcmQiug-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503140959.QKcmQiug-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503140959.QKcmQiug-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+>> fs/fs-writeback.c:138:6: warning: no previous prototype for 'wb_wakeup' [-Wmissing-prototypes]
+     138 | void wb_wakeup(struct bdi_writeback *wb)
+         |      ^~~~~~~~~
+>> fs/fs-writeback.c:1349:6: warning: no previous prototype for 'redirty_tail_locked' [-Wmissing-prototypes]
+    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
+         |      ^~~~~~~~~~~~~~~~~~~
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 6.12 3/8] KVM: arm64: Remove host FPSIMD saving for non-protected KVM
-Link: https://lore.kernel.org/stable/20250314-stable-sve-6-12-v1-3-ddc16609d9ba%40kernel.org
 
-Please ignore this mail if the patch is not relevant for upstream.
+vim +/wb_wakeup +138 fs/fs-writeback.c
+
+   137	
+ > 138	void wb_wakeup(struct bdi_writeback *wb)
+   139	{
+   140		spin_lock_irq(&wb->work_lock);
+   141		if (test_bit(WB_registered, &wb->state))
+   142			mod_delayed_work(bdi_wq, &wb->dwork, 0);
+   143		spin_unlock_irq(&wb->work_lock);
+   144	}
+   145	EXPORT_SYMBOL_GPL(wb_wakeup);
+   146	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
