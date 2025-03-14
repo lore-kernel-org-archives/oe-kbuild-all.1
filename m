@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844C320012A;
-	Fri, 14 Mar 2025 14:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDD73B7A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 15:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741961996; cv=none; b=jTpPsOndsDUlgi1ZBcXLykmzaW0l1z2rRTrGSyBNPKCuMvAVJIg/uF55hC9T1RLnFBqPT+b0xwMnDAi4e9t21uAfBFp7wYJpcEljDmNSkrhlbcUSHMn7jkIsvQZW/FKT45nWzi/g4R/knqphfdZk8JqYoVmbbFHdvnKlicYQRpI=
+	t=1741964549; cv=none; b=neIoDGXyS2vzCLLbDb5+QoM0m8pkBJEf51KTryOonQOQ5jfI1ELOfEfAfew8XKOEA2WWxFsJckB865GbNEL+8ECuubIp6gu8BzJbkgiTLW2S7MRlqP8QGJmmzAiei8DSPvSP9quermGVvU1+g/nlS62CKI2qc/gDLfGMC/gwUTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741961996; c=relaxed/simple;
-	bh=SV40QSPJiQlccxHG18llzLEn2lrSwbOd5YHTjaimy0c=;
+	s=arc-20240116; t=1741964549; c=relaxed/simple;
+	bh=6PtW+UWhbR6NH84rTyjApC6w3ZTanIVePGfQRO4ExX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hdl+EJ5rK/GlW+0F5XShaB86wfjMyWnbSFqaRkD2yVpzyl87gsp/FGtgT9hr9i8mBqwhvG+9w0lQd9NrZK35gqio5T7586QZIM/VaLuSAzVUW1bo3LMbwLl0L/fleY1ubHqoJg5g9dRU3pEOJXsy2Xl6rRv4XvjefaXkYFKkPMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ScPKrwQ1; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=VzK1YCUjxmbWXanPu2Z6kg+jCMk+RFclkq8cwqgzuT65ztX2pFCdTmgEHqWvfowgAU/dtR7wQEAqAhwDA0ufuG6sRANGD+d6/adCW/4Kl4gSshj+3Ru6cteYIQmiGwLtUjRN2WE20xfnuNyaZUjPThUMtPL+yOUQdqFmQEO5tcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hicIfrIb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ScPKrwQ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hicIfrIb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741961995; x=1773497995;
+  t=1741964547; x=1773500547;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SV40QSPJiQlccxHG18llzLEn2lrSwbOd5YHTjaimy0c=;
-  b=ScPKrwQ1J2rXhQket+5GfPw5/Bq7YkWKsz8xht8hMrASx4jlz1TJ1ktq
-   ZTP9T67xcN+urVU7kjPv3E4M1OtOWrLbaY4ZGus3+QbEKusrzr3gNY10C
-   gMii4PURnXGMSyQZNPZYHrdOtRDH+BH3B7HQe7VyQ+QGwZDJ/8VFYmyQH
-   4MiuhzGQj/p0/fSwPe6vy7b6D6IJSA17wSgsZWLllMYPKaioCbsQvUaBZ
-   fxAZR/WMPcBWvzgr3PalpD1bddmFciBD406DxNAepzJYSaW8yX8p8kEVH
-   T5TPqa/4IgHikOJEyXHyJfi3j4apjoiuGwtynl9p2Tj3e2QLB5oSrTaek
+  bh=6PtW+UWhbR6NH84rTyjApC6w3ZTanIVePGfQRO4ExX0=;
+  b=hicIfrIbg0CdPzrCLGbROuv//L8uEVlxpvf8KLauShxOCKnP2V54nXlX
+   vmnAdvCFJ7Fh8bmNLN1VGw22i8xf5ca9rmwMZ9G/cLc2QAT78s6vEuti+
+   aqeZGSoMsiHknLqpLrGX5qOlN9AqT5Aw5P23L9TZwh6Rpe7Mi8MN1aMlD
+   5ZFQfsBcbzYfNixQvXfO04EmvKuNXEkCgqH/0tr85iLTPw6ngktCFanBe
+   hk67zJzevjdUUspHuNEqcUQOLSoAnR1TGbXai35/SSlI6w2hzVNqymOQv
+   qAeu5hr76aiSmU7uEgIB8TpzmBnCng+8d61JlMGugZU/LF/HUHBgdf96U
    Q==;
-X-CSE-ConnectionGUID: WH/R/Ci6QuWPqrR8YM21Gw==
-X-CSE-MsgGUID: XpEiwpSfSPK20Ocknm70CA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="53321771"
+X-CSE-ConnectionGUID: gmgj3Ti5R2+OXDKZv+gfhg==
+X-CSE-MsgGUID: 2UP7UZ0+R2yo1h1aphCqdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="42849480"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="53321771"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 07:19:52 -0700
-X-CSE-ConnectionGUID: LFdvir1aRTenOmcZTLB6xw==
-X-CSE-MsgGUID: 2lVKRUZ1RS6W9yBY0kUg8w==
+   d="scan'208";a="42849480"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 08:02:26 -0700
+X-CSE-ConnectionGUID: ngRQLSg+T8uBfA+qeGO14A==
+X-CSE-MsgGUID: x7m8zxQaT8uobDkhRaFAug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="122238839"
+   d="scan'208";a="126371155"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 14 Mar 2025 07:19:51 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 14 Mar 2025 08:02:25 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tt5t6-000AXc-15;
-	Fri, 14 Mar 2025 14:19:48 +0000
-Date: Fri, 14 Mar 2025 22:19:43 +0800
+	id 1tt6YJ-000AZY-0O;
+	Fri, 14 Mar 2025 15:02:23 +0000
+Date: Fri, 14 Mar 2025 23:01:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:locking-bench 2/2] lib/locking-benchmark.c:6:10: fatal
- error: 'asm/tsc.h' file not found
-Message-ID: <202503142224.24EyebC4-lkp@intel.com>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 9918/11207] security/landlock/fs.c:1337:18:
+ sparse: sparse: Initializer entry defined twice
+Message-ID: <202503142207.TtjVTUqj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +62,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git locking-bench
-head:   df4891c13ee02fedadd66a990dd65c911f6b7ada
-commit: df4891c13ee02fedadd66a990dd65c911f6b7ada [2/2] lib/test: add locking-benchmark module
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250314/202503142224.24EyebC4-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   da920b7df701770e006928053672147075587fb2
+commit: eb3e469c1fda763a2e38d317c01cb55dd80a6e2f [9918/11207] landlock: Log mount-related denials
+config: i386-randconfig-063-20250314 (https://download.01.org/0day-ci/archive/20250314/202503142207.TtjVTUqj-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503142224.24EyebC4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503142207.TtjVTUqj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503142224.24EyebC4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503142207.TtjVTUqj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/landlock/fs.c:1337:18: sparse: sparse: Initializer entry defined twice
+   security/landlock/fs.c:1338:26: sparse:   also defined here
+   security/landlock/fs.c:1351:18: sparse: sparse: Initializer entry defined twice
+   security/landlock/fs.c:1352:26: sparse:   also defined here
 
-   In file included from lib/locking-benchmark.c:2:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> lib/locking-benchmark.c:6:10: fatal error: 'asm/tsc.h' file not found
-       6 | #include <asm/tsc.h>
-         |          ^~~~~~~~~~~
-   3 warnings and 1 error generated.
+vim +1337 security/landlock/fs.c
 
-
-vim +6 lib/locking-benchmark.c
-
-   > 6	#include <asm/tsc.h>
-     7	
+  1331	
+  1332	static void
+  1333	log_fs_change_layout_path(const struct landlock_cred_security *const subject,
+  1334				  size_t handle_layer, const struct path *const path)
+  1335	{
+  1336		landlock_log_denial(subject, &(struct landlock_request) {
+> 1337			.type = LANDLOCK_REQUEST_FS_CHANGE_LAYOUT,
+  1338			.audit = {
+  1339				.type = LSM_AUDIT_DATA_PATH,
+  1340				.u.path = *path,
+  1341			},
+  1342			.layer_plus_one = handle_layer + 1,
+  1343		});
+  1344	}
+  1345	
 
 -- 
 0-DAY CI Kernel Test Service
