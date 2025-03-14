@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF9617D2;
-	Fri, 14 Mar 2025 00:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD17620ED
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 00:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741912329; cv=none; b=delMs3oXzx1AX1xwc63nQ3QA2u+ChvpRTaJaJ31Wvu11uO3SXQk4LgD5rNvHLGGqU+6HqjBKI2t1YCDq8+nmz04GWS0zaflxSgCxUYuK9FRz6+WDA00OoY+/pkXLWWboULk6UY69Svge69GOAQpWPxtYTJCO4Eo3u7AcZ0rWJmk=
+	t=1741912689; cv=none; b=DtFxmSu1rhXF3Z5FhHdK/Imgd/YRDvvhb6B1I7nczpsPbBYlfxHeU/+sa5hQ8pK0Dukn5/HQJ0zXNi2piHNFkcayPLOb20TSmEFXBHImmNz9ssZuQkUlGHzlZY0YHduWbIz4b3RjcV3/L63slXJARE6bXLXGlfHwKAcaadFlXvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741912329; c=relaxed/simple;
-	bh=HtnX3fKiPDeZxpTk5T/FrAwvbTQAyZy2SaD3hvVwhbk=;
+	s=arc-20240116; t=1741912689; c=relaxed/simple;
+	bh=2gR/bhqg69QZeYmNMbCHpL1+gWLSq6SL1aiUDJK2jCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LqYrFVxm4o0WDzhZQyJ4zvlRdyNCzhoYbjtfDI8idclhafI0360nX9lH+vbt1D4aUDk/SsmEQ10jZBrxoTzKuj+O+3at5WreI+YDnmfianC6UItxvrACsxamryzlViak/FLUe/s1fevKLx5H1UinWuskIMdnKno8T53HuMYmSzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IMWaq4z6; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition:In-Reply-To; b=k9o9TWl3nbr6MD5PCTLkvv5kFxJYS4zjT2pMRv2CCkXWZNDO7BUD+oHt4sC6FxGd2u6T4AN9Cte6CJmbLkcD1cuS+PVNeBH0N17XYggE9zO6IXfms+XXOI344alrPlh5CeZwuT0C03FSdl1u/GOfT8DsBvL3UVcMh1quflgbhCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2Pe2e83; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IMWaq4z6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2Pe2e83"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741912328; x=1773448328;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HtnX3fKiPDeZxpTk5T/FrAwvbTQAyZy2SaD3hvVwhbk=;
-  b=IMWaq4z65n+eWPBuxFna4n5THlldQCw8rvEqUdsou1CettXKHdWxC4jc
-   7sth5UVXXjbQBceJbL2JBAuO7V9hI3x1MOMpaqCPQTdmxQa54459PZbDN
-   cYbA+EbKxqWgmO3W2ttcx1v0Ez3Ok4wFNbYF6QtvvwppbG2EFwJauxC7B
-   7SXdK7HQgyPamlP4OnciPmbC7i/aUSrzJ8uCyXVtUWVuAE+RRHTbaYsIx
-   TsCJQ1FukhIPVQjVfJ566RBiO+p9g6kPhFwCdtvF3T/lAYFRRaJIYDXew
-   DmkEbswg399wF27Q8F8n+W4zOC4pIvD09vbabsTRTUi85ZNdTQOQjF9Cq
-   A==;
-X-CSE-ConnectionGUID: zmu4UU/hRrqVZfqdI/uYcA==
-X-CSE-MsgGUID: X8KvA0YeSfWDy6iLNVvc+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="60454988"
+  t=1741912688; x=1773448688;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=2gR/bhqg69QZeYmNMbCHpL1+gWLSq6SL1aiUDJK2jCo=;
+  b=B2Pe2e83eVCLMF5HCfK/fuMz3b6646L0Kok5hkYYTeZ8A4SvJeTj89Qm
+   3DBiHLWmntzwhBubGIMDxxVqdYj0guRPrcvC0ND95FnPiwq10QYjvDJ4b
+   l9RaTSvBDyCfhlIh48Kf1AsSggEIWEqGNrZfdw09vJITr6504llGr+fAI
+   IbrbGakd4kGBCzHwhVc3Ja03j2AaA53KN2hzPtYF90uCyb4rD/3b4IwfU
+   BPrMH0V1scyfO7RUIGZaeCqA73PO9g4ma93C2lqZH6SIRDwn9Wl5XjjU3
+   cgtIyraGvaLtllUARIbi6TTo+pSicmtOGn9E/hIEUMTK2J7SlHcSY5Ids
+   Q==;
+X-CSE-ConnectionGUID: UB4ycEWRR2+sSSGCmRu0oQ==
+X-CSE-MsgGUID: Ih62B12PQTyNPNqCu4WZlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="54050634"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="60454988"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 17:32:07 -0700
-X-CSE-ConnectionGUID: r/qsnK1iRsSiNm1O0yc7lQ==
-X-CSE-MsgGUID: DxGiGVhYT2WyXnvCVgvDsA==
+   d="scan'208";a="54050634"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 17:38:07 -0700
+X-CSE-ConnectionGUID: KHGlGqi7RdiA1VM3gp/6Iw==
+X-CSE-MsgGUID: yyCZ6jeVTaq+v5YhcCcccQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="125742044"
+   d="scan'208";a="121818813"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Mar 2025 17:32:05 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Mar 2025 17:38:07 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tssy3-000A22-17;
-	Fri, 14 Mar 2025 00:32:03 +0000
-Date: Fri, 14 Mar 2025 08:31:40 +0800
+	id 1tst3r-000A2K-2Z;
+	Fri, 14 Mar 2025 00:38:03 +0000
+Date: Fri, 14 Mar 2025 08:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:b4/scmi_minor_cleanup 7/7]
- drivers/pmdomain/arm/scmi_pm_domain.c:27:13: warning: unused variable
- 'ret_state'
-Message-ID: <202503140851.OfvuRJ6C-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.12 3/8] KVM: arm64: Remove host FPSIMD saving for
+ non-protected KVM
+Message-ID: <Z9N6YiQcZZNQy0Vu@32d88535ca07>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,50 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250314-stable-sve-6-12-v1-3-ddc16609d9ba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/scmi_minor_cleanup
-head:   51352dcbe987669cc05f54142918faf4240c4bb4
-commit: 51352dcbe987669cc05f54142918faf4240c4bb4 [7/7] pmdomain: arm: scmi_pm_domain: Remove redundant state verification
-config: x86_64-buildonly-randconfig-002-20250314 (https://download.01.org/0day-ci/archive/20250314/202503140851.OfvuRJ6C-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250314/202503140851.OfvuRJ6C-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503140851.OfvuRJ6C-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> drivers/pmdomain/arm/scmi_pm_domain.c:27:13: warning: unused variable 'ret_state' [-Wunused-variable]
-      27 |         u32 state, ret_state;
-         |                    ^~~~~~~~~
-   1 warning generated.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 6.12 3/8] KVM: arm64: Remove host FPSIMD saving for non-protected KVM
+Link: https://lore.kernel.org/stable/20250314-stable-sve-6-12-v1-3-ddc16609d9ba%40kernel.org
 
-vim +/ret_state +27 drivers/pmdomain/arm/scmi_pm_domain.c
-
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  24  
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  25  static int scmi_pd_power(struct generic_pm_domain *domain, bool power_on)
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  26  {
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14 @27  	u32 state, ret_state;
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  28  	struct scmi_pm_domain *pd = to_scmi_pd(domain);
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  29  
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  30  	if (power_on)
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  31  		state = SCMI_POWER_STATE_GENERIC_ON;
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  32  	else
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  33  		state = SCMI_POWER_STATE_GENERIC_OFF;
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  34  
-51352dcbe987669 drivers/pmdomain/arm/scmi_pm_domain.c      Sudeep Holla 2025-03-13  35  	return power_ops->state_set(pd->ph, pd->domain, state);
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  36  }
-898216c97ed2ebf drivers/firmware/arm_scmi/scmi_pm_domain.c Sudeep Holla 2017-06-14  37  
-
-:::::: The code at line 27 was first introduced by commit
-:::::: 898216c97ed2ebfffda659ce12388da43534de6c firmware: arm_scmi: add device power domain support using genpd
-
-:::::: TO: Sudeep Holla <sudeep.holla@arm.com>
-:::::: CC: Sudeep Holla <sudeep.holla@arm.com>
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
