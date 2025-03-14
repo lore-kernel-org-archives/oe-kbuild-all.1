@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31C1126BF1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 17:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0AA20296A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 14 Mar 2025 18:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741975165; cv=none; b=CLIuO8v32XR0MvoxCYKbp46zatmyAIIQFCD1wexsZspSxgyVj2JCZ1r7PDafKLSy7EziFCwEwB6uBm4gaDgE74eY0LVpYqtaQknK45JfnQeRP7wbWfd55AIaMkXLUel4kuUGfCyPjPQcWW2hKfCXmnY2nYQKTmoNMrAawezknwo=
+	t=1741975858; cv=none; b=cJysl6EehjrU/bGP0YaorYluNLKeD1R2a3gVw5d6LkzqRvpIpfGib41h2li2Neu9oFe4E0H2utcbVEYO+aFbEb6xOPAHDMTph1zrZmW1Z6EPkS6+/UsMIyvpv19NVSSl+Fs046fulO5HcyZadTNtPnj6FjBuiMMVgS3/o2GFsho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741975165; c=relaxed/simple;
-	bh=m6GTgxWfdLxF0CeogY/pMWfH0CzNPCvR8IqBOhaWc7E=;
+	s=arc-20240116; t=1741975858; c=relaxed/simple;
+	bh=HIAiosRRimBK6y8dQHC1mnAeQD3A2nqHOAZVcyUZUTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tzSCrSYaw5pDlOkzHFearawXvmAimLUCGznpcgL7+6VuSwT9WxG209nDmHOsDIboLggXxzimXuupdvnuZ+BTTJlRFWbTZUX7s9+HJgS1O6+tbdhhugS4pSxMqtSPInYYm6yZqjA6ZEQNeJecfrK3okJyOeqSpn8oFjfJYKprP/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IoY6APEN; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=etIxWYWuRsbpQYXGJ5DgWQiT0pDQn9ctil/Eu4ysiqtjQ7jEhGCIDXWH3VMo3nIVYhWdhfCJUNeEK2UCMrVLUPV7W9m2qNc3lb7I2QYdbkeJTtJ0XtT1bW5E3rPVFl3y3p5Y9Qo2qBKtLSAiP08lZ1bX52wCyL1x1z2NRR46a7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SD39JsyF; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IoY6APEN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SD39JsyF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741975164; x=1773511164;
+  t=1741975857; x=1773511857;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m6GTgxWfdLxF0CeogY/pMWfH0CzNPCvR8IqBOhaWc7E=;
-  b=IoY6APENqh6lvQtGghGLX4GdSLvyo4yxaGr8BcsZoQ/YYyqcIgENDM4J
-   9GESF+sA6cg22jxmusddAROAAYP5Y8X7xgwSAeyfhs1nbToJsi6icTwi0
-   3rZVG1NjIc+Q8Je2uYbdoKAJf4Z2Mue3/y4o1f8D4i7yzfS71PtEtT8WV
-   zb4FCW67+Jcf3oZJ1osYJCSsZYrKa/KUeKstQb0k97NFh3elXiOxsVWlr
-   g+HFa/IQo0LvAptgTGoI9PvvCLMlmJK6atHqAPj5b+hGo0M9AtPcEA+2I
-   cQqoYRU8DAcA+wU+rlz9cWFTknc//dZhg9zgKmn3DTqWkEZmyJ8KAqgIk
-   g==;
-X-CSE-ConnectionGUID: ULHgsPL+RMyV+QDLgDBrEQ==
-X-CSE-MsgGUID: /pKqity2QqewCpUVMw0uEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="65597774"
+  bh=HIAiosRRimBK6y8dQHC1mnAeQD3A2nqHOAZVcyUZUTQ=;
+  b=SD39JsyFEHKLTjJZ5XhCs841PSjumlJ+UCIzMililkIEO4ST9I1boIvO
+   pusxYQkJIRje+MEgpnLMvWAXsv4Ws/hEOlyMlkP/9BGAWbRI+hjgR16j7
+   5va3I4iMeKhEpfCycMq9Ls9aCletkxBFoBlEGiaiWOPk6CsvfGC47qfcM
+   t3FJGRdSjIx4pz3HNdj2Mg6mPPURprqPsjwjmNVv3J7D+7uKmBQVm/rqo
+   CeGZB7zLf1sUrxuuYi65FxBBa9LlnO4g99Cf9yDU3+9+L82Tyvh1cEWKl
+   piEUqax4DYzlL/Bpsw5cJjxF36i93gqhIwu2eW+XRHl5SgIfv/FbRcOQ2
+   Q==;
+X-CSE-ConnectionGUID: 3EP6ibnjTiK+629f9KT0pg==
+X-CSE-MsgGUID: rR0pHVOEQ5m8Zidc5jdqwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="46928573"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="65597774"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 10:59:24 -0700
-X-CSE-ConnectionGUID: g6hVxLOqReSMNpECcJJUYw==
-X-CSE-MsgGUID: 9oOQu42aQC6tOXadoRH73Q==
+   d="scan'208";a="46928573"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 11:10:56 -0700
+X-CSE-ConnectionGUID: QMHPjbyjTLibTl3JyZneJg==
+X-CSE-MsgGUID: lELgLiKFTpCc2LgQey/q+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121073299"
+   d="scan'208";a="121866084"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 14 Mar 2025 10:59:22 -0700
+  by orviesa007.jf.intel.com with ESMTP; 14 Mar 2025 11:10:56 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tt9JT-000Ai4-19;
-	Fri, 14 Mar 2025 17:59:16 +0000
-Date: Sat, 15 Mar 2025 01:58:32 +0800
+	id 1tt9Uj-000AjA-11;
+	Fri, 14 Mar 2025 18:10:53 +0000
+Date: Sat, 15 Mar 2025 02:09:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2] arch/arm64/kvm/mmu.c:2012:5:
- warning: no previous prototype for function 'pkvm_mem_abort_prefault'
-Message-ID: <202503150116.RQjydghy-lkp@intel.com>
+Subject: [android-common:android15-6.6-2025-01 0/1] mm/page_alloc.c:1363:25:
+ sparse: sparse: incorrect type in argument 3 (different base types)
+Message-ID: <202503150255.pHcXsYH3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   5c6a903b8e75e9e04fdd8dd3a5cc74f96b0a707d
-commit: 3fc1e219027721249a621d54449e0f3db624b655 [2/2] ANDROID: KVM: arm64: Introduce kvm-arm.protected_prefault parameter
-config: arm64-randconfig-003-20250314 (https://download.01.org/0day-ci/archive/20250315/202503150116.RQjydghy-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503150116.RQjydghy-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-01
+head:   6726d0da8bd163f294a4cd801fa5028d44aa0916
+commit: a85227c886b7a22cd53bdfcf0740b6e0bd623351 [0/1] ANDROID: page_alloc: add vendor hook to bypass free_pages_prepare
+config: i386-randconfig-061-20250314 (https://download.01.org/0day-ci/archive/20250315/202503150255.pHcXsYH3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503150255.pHcXsYH3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503150116.RQjydghy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503150255.pHcXsYH3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:194:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
+>> mm/page_alloc.c:1363:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1363:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1363:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+   mm/page_alloc.c:1392:6: sparse: sparse: symbol 'free_hpage' redeclared with different type (incompatible argument 2 (different base types)):
+   mm/page_alloc.c:1392:6: sparse:    void extern [addressable] [toplevel] free_hpage( ... )
+   mm/page_alloc.c: note: in included file:
+   include/linux/mm.h:4125:6: sparse: note: previously declared as:
+   include/linux/mm.h:4125:6: sparse:    void extern [addressable] [toplevel] free_hpage( ... )
+   mm/page_alloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+   mm/page_alloc.c:2539:6: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
+   mm/page_alloc.c:2670:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+   mm/page_alloc.c:2904:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
+   mm/page_alloc.c:4641:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
 
-   arch/arm64/kvm/mmu.c:313:1: warning: no previous prototype for function 'kvm_pinned_pages_insert' [-Wmissing-prototypes]
-   INTERVAL_TREE_DEFINE(struct kvm_pinned_page, node, u64, __subtree_last,
-   ^
-   include/linux/interval_tree_generic.h:38:15: note: expanded from macro 'INTERVAL_TREE_DEFINE'
-   ITSTATIC void ITPREFIX ## _insert(ITSTRUCT *node,                             \
-                 ^
-   <scratch space>:149:1: note: expanded from here
-   kvm_pinned_pages_insert
-   ^
-   arch/arm64/kvm/mmu.c:313:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   include/linux/interval_tree_generic.h:38:10: note: expanded from macro 'INTERVAL_TREE_DEFINE'
-   ITSTATIC void ITPREFIX ## _insert(ITSTRUCT *node,                             \
-            ^
->> arch/arm64/kvm/mmu.c:2012:5: warning: no previous prototype for function 'pkvm_mem_abort_prefault' [-Wmissing-prototypes]
-   int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-       ^
-   arch/arm64/kvm/mmu.c:2012:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-   ^
-   static 
-   arch/arm64/kvm/mmu.c:2037:14: warning: variable 'ipa' set but not used [-Wunused-but-set-variable]
-           phys_addr_t ipa = fault_ipa;
-                       ^
-   3 warnings generated.
+vim +1363 mm/page_alloc.c
 
-
-vim +/pkvm_mem_abort_prefault +2012 arch/arm64/kvm/mmu.c
-
-  2011	
-> 2012	int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-  2013				    struct kvm_memory_slot *memslot)
-  2014	{
-  2015		phys_addr_t memslot_start = memslot->base_gfn << PAGE_SHIFT;
-  2016		size_t size = (1 << pkvm_prefault) << PAGE_SHIFT;
-  2017	
-  2018		fault_ipa = ALIGN_DOWN(fault_ipa, size);
-  2019		if (fault_ipa < memslot_start) {
-  2020			size -= memslot_start - fault_ipa;
-  2021			fault_ipa = memslot_start;
-  2022		}
-  2023	
-  2024		return pkvm_mem_abort(vcpu, fault_ipa, size, memslot);
-  2025	}
-  2026	
+  1351	
+  1352	static void __free_pages_ok(struct page *page, unsigned int order,
+  1353				    fpi_t fpi_flags)
+  1354	{
+  1355		unsigned long flags;
+  1356		int migratetype;
+  1357		unsigned long pfn = page_to_pfn(page);
+  1358		struct zone *zone = page_zone(page);
+  1359		bool skip_free_unref_page = false;
+  1360		bool skip_free_pages_prepare = false;
+  1361	
+  1362		trace_android_vh_free_pages_prepare_bypass(page, order,
+> 1363				fpi_flags, &skip_free_pages_prepare);
+  1364		if (skip_free_pages_prepare)
+  1365			goto skip_prepare;
+  1366	
+  1367		if (!free_pages_prepare(page, order, fpi_flags))
+  1368			return;
+  1369	skip_prepare:
+  1370		/*
+  1371		 * Calling get_pfnblock_migratetype() without spin_lock_irqsave() here
+  1372		 * is used to avoid calling get_pfnblock_migratetype() under the lock.
+  1373		 * This will reduce the lock holding time.
+  1374		 */
+  1375		migratetype = get_pfnblock_migratetype(page, pfn);
+  1376		trace_android_vh_free_unref_page_bypass(page, order, migratetype, &skip_free_unref_page);
+  1377		if (skip_free_unref_page)
+  1378			return;
+  1379	
+  1380		spin_lock_irqsave(&zone->lock, flags);
+  1381		if (unlikely(has_isolate_pageblock(zone) ||
+  1382			is_migrate_isolate(migratetype))) {
+  1383			migratetype = get_pfnblock_migratetype(page, pfn);
+  1384		}
+  1385		__free_one_page(page, pfn, zone, order, migratetype, fpi_flags);
+  1386		spin_unlock_irqrestore(&zone->lock, flags);
+  1387	
+  1388		__count_vm_events(PGFREE, 1 << order);
+  1389	}
+  1390	
 
 -- 
 0-DAY CI Kernel Test Service
