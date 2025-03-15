@@ -1,439 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A8C33CFC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 08:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A4819CC24;
+	Sat, 15 Mar 2025 08:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742027816; cv=none; b=GMO64SGmoTwkS/307iUsA5IhJz9j1efYPhm1GaLwQ5uu0kZip04cfr9grqitXGCMNaPPlbfmNEftdtvWb1mmwcSQuOdJffvj31Czlq8VqD6JumIyYkypVYGnJi/GDjbriGwcjGepZqAI61S+N1cCiuymnZzicu8bdzOYqkcL+d8=
+	t=1742027984; cv=none; b=KsFmTIMA+9uD8Bwj5HS9GKiK0CbUDwBElsvsqLJvyglYwbVqLkBPV9TBbb9zaJinO+YnIGAlAAQMaZA4vR5iV7ezQm9Q8g9XAay3Fvj1QKlKvyvobyeCdqU+1oFW2sAObxsBaYymnnToSpUXiI7pTvffNfp/bpv5yjNvUotDngA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742027816; c=relaxed/simple;
-	bh=FOGMG6W5QBvUjY8kDCB3LwxwtVfd9Z4DuozA61oDfHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LnLfuNRCmhWE8cpM6Ji1id91yaH6R82wMO8VWpq+hwTczlujH4UpgHgek7gZxC19h9iVORbUZQT/WS9wEHGLK8Z2xcSgEaJGMiny61gx+lxFJCMgYtudPsf19t/cErIq49y3MheJYwKw8FBJ66GYBI/ux8W+/4aoGwDUecKxRjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dO3Mx2+f; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742027984; c=relaxed/simple;
+	bh=5LqvU/cJQx/1TIRoWiOkrdkCMIi9f/CjyroRp+0LRNs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KrtRKd78vsG+Py4HVy8nduPL+PBrMGD0YlBZM3pp9JA4hi135gUYJOKwMwg1gpSRDcfyj1cGu8GW1wwATVrN3u4JNnrrNKr37ePWBnnGnfAD4XkcA4e6s7STnzyU1TMUGA91Z84ceKuJVFfIQjEtVg474Bdh1CoN0dLo2wwtPl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WiDD7Y/A; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dO3Mx2+f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742027814; x=1773563814;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=FOGMG6W5QBvUjY8kDCB3LwxwtVfd9Z4DuozA61oDfHA=;
-  b=dO3Mx2+fw67t/PjXt+1BVkgqWKgZC7Z66ndDWlfFPxQ5WU3YGaSd4xap
-   aZ+l8PoR/duedJRLFXSKLDIl7atgmR37xLaXFrAvfWbU+2QqHUqPmpQMx
-   V8R2B61WO4TPrM6Y5jRWBPvlVkcW7QeGYvfTPQW2irLwURUQKcXAb7S9A
-   FxOHOfaDhrGA3xxzyM525kjYF9lNd0Uo3txx22Ud7Z2bOPP0lXB9Erc8O
-   Xuh0Gw8jTUu0R6EGFp8fcZs0WmX/7aYjeiPNpJ6mq7xDUy0cj9tcG44fM
-   UiH0oQBOGo9hRw8sYzTaaRJZKl8J6EJO7mWwoSYbiQ6gAr2lITmXNvW3z
-   g==;
-X-CSE-ConnectionGUID: hIPcK2eQTu60KNb1IYt6Fw==
-X-CSE-MsgGUID: DcNLh4ArQnWvMYFwdATQ2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="42429471"
-X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="42429471"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 01:36:53 -0700
-X-CSE-ConnectionGUID: 1Was157xSBS68I4NiCTukg==
-X-CSE-MsgGUID: hnWdqNh7St+Y4EonBr2xeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="144678046"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2025 01:36:51 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ttN0j-000BAR-2H;
-	Sat, 15 Mar 2025 08:36:49 +0000
-Date: Sat, 15 Mar 2025 16:36:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:to_build 8/15] include/asm-generic/io.h:977:16:
- warning: passing argument 1 of 'readsb' discards 'const' qualifier from
- pointer target type
-Message-ID: <202503151622.JuZiRiRG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WiDD7Y/A"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-30144a72db9so121470a91.1;
+        Sat, 15 Mar 2025 01:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742027982; x=1742632782; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zU+utGiUYn/lWu8TMh9PRW1LdrPW+WIyNxx2vVUsNOY=;
+        b=WiDD7Y/AMFrEwYylbXjubXZW1TdZaVGlMnlSvtaVsh9px8vRObko/qBqcXttcKyM4+
+         JpphoF267a4JAW2UHv9y27EOlECUfcetI81WQuKDeaQEzcG5lyYXQ9VcDSOaRr5VRJVc
+         TfLVNBuMnLakyvcZxn+xpFa0wgL9eSR3BDCQ5IgcLcStdqbWxuRiqSq1UrQ/qy5lSjed
+         kbWAjMi60Y4MPertrcwWKQ3WogmLUaghfpXtKT840ORIv6VC5WPGq4ZOp2PMgpemmqsG
+         EUzgdZmQuRuQbbwzLtI0DOHz1Gy/PdqBgZnhak5QJ/UkeEVd5zA5w0tXqOC8cEd1R1/V
+         YZVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742027982; x=1742632782;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zU+utGiUYn/lWu8TMh9PRW1LdrPW+WIyNxx2vVUsNOY=;
+        b=EeX5ed3Q4UIXTOeHojHhNi+9YI/+OMFoL4uDsVBW9h4oFKnRXyxSWbdqk7od9m77zk
+         IC/rWUgl/5oc0qYVGhKjB8WgNlX29gbhRG5w4le+gFwpGwYiwRjSegC6q1SivPzWV3Gc
+         d6Wca1W+R4wvgoXUmt1nrT63Y9/BzW+B37fOh1f/7loD3emt1jTqW5nPL+f8JiboFvo8
+         sQfpt24uR8mudYn52iDSgTCJRWCRrju68/YZRmiWEG/ALthR0iNezXaWHBOtMY4fmhX4
+         UpSDqGwyxtP5eTwDZgLVRYqTXfQXT1eMHVUi9gMud9OnewwywAFbwNhCON1zIOylDtJ8
+         SmvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrGk04kCIMI5HUdHvLC/RtE+QmBumJrrsAay71VsRpqaBgb6kX9S9wfW0KXzR5cUlrft5t@lists.linux.dev, AJvYcCXXqEwict0uWheRMKELPimtzqSKLeRaozuW2GrQfV3Q6NgyUKWubkt9nQNysfc8PQPy0fVCtAajSnnsi1ztyw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqbV6ftN0HXWuHnCc5JsQGYUdC7/LuCOl1tpmfUH2xq19Dpx2Z
+	F2b9X9TJE8xwL0oWDQ+l6YlBfa3XbcEXs3NXfYGWZHr1DKn1AHIA1Ogt5AqrNMbWvMMMDJfh77A
+	o34VkkDc8nzjmK5EzTJ/lW4E97aM=
+X-Gm-Gg: ASbGncuTF/cm9BBXIn+gN29kpIGvjFQ14+hjWEOdGlvcS6v22SydEic+uJW4tuFOtGb
+	bNuYLP2znsibTHxvTY7FDkLCL8DnTGLWGM2NoizPGlHTNC1GwnWX1laXR9ByaCWtmuy8od1x1Ue
+	3NvUJSC0VRAmI+X0I/PIQELq0rRg==
+X-Google-Smtp-Source: AGHT+IEiDB4t+c598d3Rq4swU0Mc2iQEwpq/fpeMERuc6Zu1/Nz/gU10ofBwL1zy26MHqx+aHZR0uleLUhg1IqlQRug=
+X-Received: by 2002:a17:90b:3850:b0:2ff:6941:9b6a with SMTP id
+ 98e67ed59e1d1-30151d40343mr2609242a91.3.1742027982134; Sat, 15 Mar 2025
+ 01:39:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <Z9IsEPOnC+MGSAEA@rli9-mobl> <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
+In-Reply-To: <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 15 Mar 2025 09:39:30 +0100
+X-Gm-Features: AQ5f1JoLQONECP0PuXiZH1IsoZyMhazVY9AyCX57H_XAEH9AnCNINSRLMFnffeA
+Message-ID: <CANiq72md8yWAHdZeJFWAQFxb_9ftTFMiQciK+ZGf+3Lp_Jxa8g@mail.gmail.com>
+Subject: Re: [masahiroy-kbuild:kbuild 15/20] error: Unrecognized option: 'remap-path-prefix'
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to_build
-head:   02710864b974d663d56bc99493fb1976caab42a2
-commit: 58774c1d8c8834d8be1dbea1e8ca339792d73935 [8/15] mips: drop GENERIC_IOMAP wrapper
-config: mips-allnoconfig (https://download.01.org/0day-ci/archive/20250315/202503151622.JuZiRiRG-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151622.JuZiRiRG-lkp@intel.com/reproduce)
+On Sat, Mar 15, 2025 at 8:45=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> Do you see this?
+>
+> I tried to reproduce it on commit
+> 6b5747d07138f8109b1a150830f1d138de146ac2,
+> but I did not observe the reported error.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151622.JuZiRiRG-lkp@intel.com/
+This is probably:
 
-All warnings (new ones prefixed by >>):
+    https://lore.kernel.org/rust-for-linux/CANiq72ntZj10H1DBqRyX=3DuLertMw5=
+9e=3DPM7ESVJ0zWfu_ECnnA@mail.gmail.com/
+    https://lore.kernel.org/rust-for-linux/20250314213333.2230670-1-ojeda@k=
+ernel.org/
 
-   In file included from arch/mips/include/asm/io.h:547,
-                    from arch/mips/include/asm/page.h:181,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/uio.h:10,
-                    from include/linux/socket.h:8,
-                    from include/linux/compat.h:15,
-                    from arch/mips/kernel/asm-offsets.c:12:
-   include/asm-generic/io.h: In function 'ioread8_rep':
->> include/asm-generic/io.h:977:16: warning: passing argument 1 of 'readsb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     977 |         readsb(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:429:1: note: in expansion of macro 'BUILDSTRING'
-     429 | BUILDSTRING(b, u8)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread16_rep':
->> include/asm-generic/io.h:986:16: warning: passing argument 1 of 'readsw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     986 |         readsw(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:430:1: note: in expansion of macro 'BUILDSTRING'
-     430 | BUILDSTRING(w, u16)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread32_rep':
->> include/asm-generic/io.h:995:16: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     995 |         readsl(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:431:1: note: in expansion of macro 'BUILDSTRING'
-     431 | BUILDSTRING(l, u32)
-         | ^~~~~~~~~~~
---
-   In file included from arch/mips/include/asm/io.h:547,
-                    from arch/mips/include/asm/page.h:181,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from kernel/kthread.c:11:
-   include/asm-generic/io.h: In function 'ioread8_rep':
->> include/asm-generic/io.h:977:16: warning: passing argument 1 of 'readsb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     977 |         readsb(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:429:1: note: in expansion of macro 'BUILDSTRING'
-     429 | BUILDSTRING(b, u8)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread16_rep':
->> include/asm-generic/io.h:986:16: warning: passing argument 1 of 'readsw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     986 |         readsw(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:430:1: note: in expansion of macro 'BUILDSTRING'
-     430 | BUILDSTRING(w, u16)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread32_rep':
->> include/asm-generic/io.h:995:16: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     995 |         readsl(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:431:1: note: in expansion of macro 'BUILDSTRING'
-     431 | BUILDSTRING(l, u32)
-         | ^~~~~~~~~~~
-   kernel/kthread.c: In function 'kthread_affine_preferred':
-   kernel/kthread.c:862:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     862 |         int ret;
-         |             ^~~
---
-   In file included from arch/mips/include/asm/io.h:547,
-                    from arch/mips/include/asm/page.h:181,
-                    from include/linux/shm.h:6,
-                    from include/linux/sched.h:23,
-                    from include/linux/percpu.h:12,
-                    from include/linux/radix-tree.h:16,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:18,
-                    from include/linux/clk-provider.h:9,
-                    from lib/vsprintf.c:23:
-   include/asm-generic/io.h: In function 'ioread8_rep':
->> include/asm-generic/io.h:977:16: warning: passing argument 1 of 'readsb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     977 |         readsb(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:429:1: note: in expansion of macro 'BUILDSTRING'
-     429 | BUILDSTRING(b, u8)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread16_rep':
->> include/asm-generic/io.h:986:16: warning: passing argument 1 of 'readsw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     986 |         readsw(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:430:1: note: in expansion of macro 'BUILDSTRING'
-     430 | BUILDSTRING(w, u16)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread32_rep':
->> include/asm-generic/io.h:995:16: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     995 |         readsl(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:431:1: note: in expansion of macro 'BUILDSTRING'
-     431 | BUILDSTRING(l, u32)
-         | ^~~~~~~~~~~
-   lib/vsprintf.c: In function 'va_format':
-   lib/vsprintf.c:1704:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1704 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
-         |         ^~~
---
-   In file included from arch/mips/include/asm/io.h:547,
-                    from arch/mips/include/asm/page.h:181,
-                    from include/linux/shm.h:6,
-                    from include/linux/sched.h:23,
-                    from arch/mips/math-emu/ieee754.h:19,
-                    from arch/mips/math-emu/ieee754int.h:13,
-                    from arch/mips/math-emu/ieee754sp.h:13,
-                    from arch/mips/math-emu/sp_fdp.c:10:
-   include/asm-generic/io.h: In function 'ioread8_rep':
->> include/asm-generic/io.h:977:16: warning: passing argument 1 of 'readsb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     977 |         readsb(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:429:1: note: in expansion of macro 'BUILDSTRING'
-     429 | BUILDSTRING(b, u8)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread16_rep':
->> include/asm-generic/io.h:986:16: warning: passing argument 1 of 'readsw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     986 |         readsw(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:430:1: note: in expansion of macro 'BUILDSTRING'
-     430 | BUILDSTRING(w, u16)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread32_rep':
->> include/asm-generic/io.h:995:16: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     995 |         readsl(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:431:1: note: in expansion of macro 'BUILDSTRING'
-     431 | BUILDSTRING(l, u32)
-         | ^~~~~~~~~~~
-   arch/mips/math-emu/sp_fdp.c: In function 'ieee754sp_fdp':
-   arch/mips/math-emu/ieee754int.h:49:38: warning: variable 'ys' set but not used [-Wunused-but-set-variable]
-      49 |         unsigned int ym; int ye; int ys; int yc
-         |                                      ^~
-   arch/mips/math-emu/sp_fdp.c:25:9: note: in expansion of macro 'COMPYSP'
-      25 |         COMPYSP;
-         |         ^~~~~~~
---
-   In file included from arch/mips/include/asm/io.h:547,
-                    from arch/mips/include/asm/page.h:181,
-                    from include/linux/shm.h:6,
-                    from include/linux/sched.h:23,
-                    from include/linux/context_tracking.h:5,
-                    from arch/mips/kernel/traps.c:18:
-   include/asm-generic/io.h: In function 'ioread8_rep':
->> include/asm-generic/io.h:977:16: warning: passing argument 1 of 'readsb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     977 |         readsb(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:429:1: note: in expansion of macro 'BUILDSTRING'
-     429 | BUILDSTRING(b, u8)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread16_rep':
->> include/asm-generic/io.h:986:16: warning: passing argument 1 of 'readsw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     986 |         readsw(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:430:1: note: in expansion of macro 'BUILDSTRING'
-     430 | BUILDSTRING(w, u16)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread32_rep':
->> include/asm-generic/io.h:995:16: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     995 |         readsl(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:431:1: note: in expansion of macro 'BUILDSTRING'
-     431 | BUILDSTRING(l, u32)
-         | ^~~~~~~~~~~
-   arch/mips/kernel/traps.c: In function 'do_mcheck':
-   arch/mips/kernel/traps.c:1592:24: warning: variable 'prev_state' set but not used [-Wunused-but-set-variable]
-    1592 |         enum ctx_state prev_state;
-         |                        ^~~~~~~~~~
---
-   In file included from arch/mips/include/asm/io.h:547,
-                    from arch/mips/include/asm/page.h:181,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/clk/clkdev.c:9:
-   include/asm-generic/io.h: In function 'ioread8_rep':
->> include/asm-generic/io.h:977:16: warning: passing argument 1 of 'readsb' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     977 |         readsb(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:429:1: note: in expansion of macro 'BUILDSTRING'
-     429 | BUILDSTRING(b, u8)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread16_rep':
->> include/asm-generic/io.h:986:16: warning: passing argument 1 of 'readsw' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     986 |         readsw(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:430:1: note: in expansion of macro 'BUILDSTRING'
-     430 | BUILDSTRING(w, u16)
-         | ^~~~~~~~~~~
-   include/asm-generic/io.h: In function 'ioread32_rep':
->> include/asm-generic/io.h:995:16: warning: passing argument 1 of 'readsl' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     995 |         readsl(addr, buffer, count);
-         |                ^~~~
-   arch/mips/include/asm/io.h:389:55: note: expected 'volatile void *' but argument is of type 'const volatile void *'
-     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   arch/mips/include/asm/io.h:426:1: note: in expansion of macro '__BUILD_MEMORY_STRING'
-     426 | __BUILD_MEMORY_STRING(bwlq, type)                                       \
-         | ^~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/io.h:431:1: note: in expansion of macro 'BUILDSTRING'
-     431 | BUILDSTRING(l, u32)
-         | ^~~~~~~~~~~
-   drivers/clk/clkdev.c: In function 'vclkdev_alloc':
-   drivers/clk/clkdev.c:185:17: warning: function 'vclkdev_alloc' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     185 |                 res = vsnprintf(cla->dev_id, sizeof(cla->dev_id), dev_fmt, ap);
-         |                 ^~~
-..
-
-
-vim +977 include/asm-generic/io.h
-
-9e44fb1816dba8f Horia Geantă   2016-05-19  971  
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  972  #ifndef ioread8_rep
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  973  #define ioread8_rep ioread8_rep
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  974  static inline void ioread8_rep(const volatile void __iomem *addr, void *buffer,
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  975  			       unsigned int count)
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  976  {
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04 @977  	readsb(addr, buffer, count);
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  978  }
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  979  #endif
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  980  
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  981  #ifndef ioread16_rep
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  982  #define ioread16_rep ioread16_rep
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  983  static inline void ioread16_rep(const volatile void __iomem *addr,
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  984  				void *buffer, unsigned int count)
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  985  {
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04 @986  	readsw(addr, buffer, count);
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  987  }
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  988  #endif
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  989  
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  990  #ifndef ioread32_rep
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  991  #define ioread32_rep ioread32_rep
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  992  static inline void ioread32_rep(const volatile void __iomem *addr,
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  993  				void *buffer, unsigned int count)
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  994  {
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04 @995  	readsl(addr, buffer, count);
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  996  }
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  997  #endif
-9ab3a7a0d2b4177 Thierry Reding 2014-07-04  998  
-
-:::::: The code at line 977 was first introduced by commit
-:::::: 9ab3a7a0d2b417773e8e8a880fc3a69f7fc1f57a asm-generic/io.h: Implement generic {read,write}s*()
-
-:::::: TO: Thierry Reding <treding@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
