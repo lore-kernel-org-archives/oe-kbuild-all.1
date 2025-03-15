@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E465B1F8923
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 11:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88132383
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 12:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742039618; cv=none; b=b4Mt9PKnatS9oLJ8owzjTk7t6sK9psavz9kzwaVOPJMQM0dF1rkAyR+gzku++ebEEfX7uOISp52x32ABGNavD/jsyccMlCrMhA7ab1nNXyBrSfem+YBi8Z8hsQb6qCMw88S5O3MvgzxtWllTC63E2ffpqBro6Sgnps97hIII9ME=
+	t=1742040880; cv=none; b=muSX/cPq3qsYGY7hEXzUbs1sAZmgQvdtZQcpZMg5sbX+a+mwVm7WXycQvJ2Wv5x7TeUODd3e+mluO5JMuUrV5oWdL0wOBHRwEdd0pmzK0JZsiYPSrilJTJLsX3HSnWgRsBZNmDu3dlrY1T3FtQjfMkIStPhmHaRBeliJouE67eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742039618; c=relaxed/simple;
-	bh=1J7WXZ6SsI8QywVNDTrmCWTBJDsFW0Wvv1vZFElkrno=;
+	s=arc-20240116; t=1742040880; c=relaxed/simple;
+	bh=nvK7OPHhwn7Gt00i4Nv0gXfdp/l7NdUJJibpOhY+MVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WOpaNP7qg+vJIUfFp9oGf8B93fTJvn+zC1TTQ21jZ8FeKPUsEN6NVfhhKmnZQBuTl26sBKDmt9uhsLCNPpqGFKc/o67tefiMLo/mNqg0ErK1KFIE2v24hJIddo3z7yK/mrLXZVWl1l2BhUBqs15dIDmgJIAH0fSgWlaQfsDn1Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1lyCUC+; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=DxFBlnpx49SJAbSkYOwtH+ByQ1ns8sqdC5efZfWsu4yhpgfSGJwHEHebsDnjT5Zo/kj107VH1E9IhrFk7OiZIPbI//DyyyM8AAooOa2cHtQblecR/WXLzX3LpIjtWrsnjp2rIdHjSDl1j2+cFDQ4A8b+bdMC50BsSZjPUE4hHAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5U1CX+t; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1lyCUC+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5U1CX+t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742039616; x=1773575616;
+  t=1742040878; x=1773576878;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1J7WXZ6SsI8QywVNDTrmCWTBJDsFW0Wvv1vZFElkrno=;
-  b=m1lyCUC+4nTmV93s8j3BvT6npTpvponc4nGA4iXn2B1NgK4dZDF2Y+Ku
-   CqrHN46FAcT8RRwMTuoYZqhdeAc6kTLKL0nXDCXzMrzBQiRoSVGXNhYAG
-   s4VuUcZ4NTjdE9QYzXq/Vzxo+85vHdqnuKMXzvUuNhboki0FUqZ1+P/N8
-   c6csMOkc87iIDNdTDGbI1ecuG4et/wHFHKhiakjku8ICzvtmGiEYE1Y/d
-   rk77oz1Ek7bTIwjoFRY4/Kh+mgzCWjfErCo92OILA+R7ixVIUWpEi38BT
-   w9wzK1htQ3rrtLYRvWyMKwh3sFEtZsON7CXV0S4i+FURHSwZ7HTRN+wNe
-   Q==;
-X-CSE-ConnectionGUID: hNsw6qz6TOmsMfrIPFOYHw==
-X-CSE-MsgGUID: b+etKkDKSLWt2ZR46tjuAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43098423"
+  bh=nvK7OPHhwn7Gt00i4Nv0gXfdp/l7NdUJJibpOhY+MVM=;
+  b=V5U1CX+tco4wzJMhNPE3NKuTeJOUvbmMX1gjE0OStLl7tlR4L0yOgeOE
+   /y8QC+HideZEfHg9u8mFrAN1cM/Ir5MFp7hHlyDx+mA6jN6JVlZMOFlBw
+   4MsmphwSzu/FFFRMXV1FTJDOMdXHgbVFdjgKUzgmirJSvrfV673OVtCPa
+   UPqLVe4LvoqZf6YAvkPF06IBMND/N0tTd9WLERJm3n1u09WncSn+y9MMu
+   bayN9y0ouqKmwoQHoWPZP1s0JY1YoziX7N8vcCPkQaCtEQzxjADimYaYa
+   0pYvB/2WivKkQkuFlgIGmQXtrClm7W2iLHfj+w7FD+RkwhkTKtpHT3P7C
+   w==;
+X-CSE-ConnectionGUID: 1cSowHWDRpi3QqzQo0QAjg==
+X-CSE-MsgGUID: KhssrHPOTwmTKf2x17d2QQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="60587801"
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="43098423"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 04:53:35 -0700
-X-CSE-ConnectionGUID: XXciwBYoQnGsheVIcFQ4Ew==
-X-CSE-MsgGUID: LoMe6NjvT4aCQLXojxNWwQ==
+   d="scan'208";a="60587801"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 05:14:38 -0700
+X-CSE-ConnectionGUID: h8w0lxSNQqmEtwUTp6QYbQ==
+X-CSE-MsgGUID: 4gYTWxxORjCIJQRVpTMoQA==
+X-Ironport-Invalid-End-Of-Message: True
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="122465495"
+   d="scan'208";a="121239568"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Mar 2025 04:53:34 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Mar 2025 05:14:37 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttQ56-000BJv-15;
-	Sat, 15 Mar 2025 11:53:32 +0000
-Date: Sat, 15 Mar 2025 19:53:02 +0800
+	id 1ttQPS-000BKV-1w;
+	Sat, 15 Mar 2025 12:14:34 +0000
+Date: Sat, 15 Mar 2025 20:14:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
- drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
- functions is not needed.
-Message-ID: <202503151948.7IasEYy9-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 158/159] fs/bcachefs/movinggc.c:322:33:
+ sparse: sparse: incompatible types in comparison expression (different
+ address spaces):
+Message-ID: <202503152029.8nPuORFx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +65,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d734d6bbda17b68dd3979a9f707564a18cf04761
-commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
-config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250315/202503151948.7IasEYy9-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   36bbffd106e5d55aaadb060309bad1a28e122f03
+commit: 454dd9816ae1cd9fd0827c062a641dbbdbe44ef0 [158/159] bcachefs: rebalance, copygc status also print stacktrace
+config: parisc-randconfig-r122-20250315 (https://download.01.org/0day-ci/archive/20250315/202503152029.8nPuORFx-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250315/202503152029.8nPuORFx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151948.7IasEYy9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503152029.8nPuORFx-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/movinggc.c: note: in included file:
+   fs/bcachefs/bcachefs.h:1007:9: sparse: sparse: array of flexible structures
+>> fs/bcachefs/movinggc.c:322:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/movinggc.c:322:33: sparse:    struct task_struct [noderef] __rcu *
+   fs/bcachefs/movinggc.c:322:33: sparse:    struct task_struct *
 
-vim +614 drivers/acpi/cppc_acpi.c
+vim +322 fs/bcachefs/movinggc.c
 
-   576	
-   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
-   578	{
-   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
-   580		int parsed_core_num = 0;
-   581		int i, ret;
-   582	
-   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
-   584		if (!cpc_pptr)
-   585			return -ENOMEM;
-   586		for_each_possible_cpu(i) {
-   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
-   588			if (!cpc_pptr[i]) {
-   589				ret = -ENOMEM;
-   590				goto out;
-   591			}
-   592		}
-   593	
-   594		/*
-   595		 * We can not use acpi_get_devices() to walk the processor devices
-   596		 * because some processor device is not present.
-   597		 */
-   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
-   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
-   600					  cpc_pptr, (void **)&parsed_core_num);
-   601		if (ret)
-   602			goto out;
-   603		if (parsed_core_num != num_possible_cpus()) {
-   604			ret = -EINVAL;
-   605			goto out;
-   606		}
-   607	
-   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
-   609	
-   610	out:
-   611		for_each_possible_cpu(i) {
-   612			cpc_ptr = cpc_pptr[i];
-   613			if (cpc_ptr)
- > 614				kfree(cpc_ptr);
-   615		}
-   616		kfree(cpc_pptr);
-   617	
-   618		return ret;
-   619	}
-   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
-   621	
+   298	
+   299	void bch2_copygc_wait_to_text(struct printbuf *out, struct bch_fs *c)
+   300	{
+   301		printbuf_tabstop_push(out, 32);
+   302		prt_printf(out, "running:\t%u\n",		c->copygc_running);
+   303		prt_printf(out, "copygc_wait:\t%llu\n",		c->copygc_wait);
+   304		prt_printf(out, "copygc_wait_at:\t%llu\n",	c->copygc_wait_at);
+   305	
+   306		prt_printf(out, "Currently waiting for:\t");
+   307		prt_human_readable_u64(out, max(0LL, c->copygc_wait -
+   308						atomic64_read(&c->io_clock[WRITE].now)) << 9);
+   309		prt_newline(out);
+   310	
+   311		prt_printf(out, "Currently waiting since:\t");
+   312		prt_human_readable_u64(out, max(0LL,
+   313						atomic64_read(&c->io_clock[WRITE].now) -
+   314						c->copygc_wait_at) << 9);
+   315		prt_newline(out);
+   316	
+   317		prt_printf(out, "Currently calculated wait:\t");
+   318		prt_human_readable_u64(out, bch2_copygc_wait_amount(c));
+   319		prt_newline(out);
+   320	
+   321		rcu_read_lock();
+ > 322		struct task_struct *t = rcu_dereference(c->copygc_thread);
+   323		if (t)
+   324			get_task_struct(t);
+   325		rcu_read_unlock();
+   326	
+   327		if (t) {
+   328			bch2_prt_task_backtrace(out, t, 0, GFP_KERNEL);
+   329			put_task_struct(t);
+   330		}
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
