@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2FC186E54
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 03:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC9610F9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 05:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742010548; cv=none; b=rKKh+oyVRMu/DqHlhTSB9W8mtMplIAWnPBuQ9QCtO7gs4pdBqKtgBQe0FwHMRSkIGy5JF24aG1x45EvD4xj9z9ZADQ6b83tG4iMtGvEdwIKBSIIwBhPm8VpuP6FxZsT82RhzzW82HT5v4u1aS3Rit6i+x/b0DwaXLP/sLrOtZ0o=
+	t=1742016766; cv=none; b=k4zsHEPein4+uClHVMCxLECkmsmKyvAk6zVZ7has6wrAivFSJMglc/cInjwdNj3CN0i3giktH+Iu2YRJFjUoPnOzvgGpTKnPQrmQRuHI5WuEMG5nUe1JrRhQtSmSYL3opI2ZsIfoh4GuxYKNv192yHPrzbLHKDGRFBJe6b+BG+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742010548; c=relaxed/simple;
-	bh=mSkbxS1REs4KpYz+KOYutSriJ2uGhjKLTrlxISCSz0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pualu0JFbDe0G3WTggIu7GzzNsyg+11GlZ9Jkxt2c2BHCLYCJ4YizdE7FBFPWLEbZqlPVA/592rPjfyvuMJ9om9ARW+X3mxwderoJEMst3MoLzYUsQijC0FRb1cjthS4koIfcbucyIxCSftrZhmvIvQmxB9RqGEiqukssnN1W8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FxgjiN2z; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1742016766; c=relaxed/simple;
+	bh=FGxFvMeTHIw8junSff82D7cDkB1dpopOHzs/N/YAUT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lXKpI62u/lcrnRc+sf+nWH/EbVqTqZ9rjxu54iQ/rkkNB89dd18n2gOK2OVl0j1pd6wjRyzmQZc+r9WTW7+/7Atj1LiFMKgLrglib5lee2wC0p0p5vztTzdfg1oR+IRuWB2mliKCZYhgSoRiAWuA0M8/ox+rRuX8rY1a+/qrSQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YjwHRqqT; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FxgjiN2z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YjwHRqqT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742010546; x=1773546546;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mSkbxS1REs4KpYz+KOYutSriJ2uGhjKLTrlxISCSz0Q=;
-  b=FxgjiN2zg0/GDBj9b3EeLxP27M3oV3sanjSQ+XZOvNlgaXmQ6NREzsZD
-   96kytIzEh2plTQ6bsTHIYX2ll+OseB+Wo0Lbc9dEy5oQSDXsiQw4JNBGx
-   50IcltfapbZWDLQxl1S5O6Mljt0k+PFgLSJYgjTDIGULkplovvQUjPvAb
-   XnxrQ6hqtJuDBsZozA4ijpyuWaoWA0qSavQXuT7lsRunmuWka8hBtkvEY
-   RnEd1UUcPbFxjKwk1mRPA+o98oXLjXLaa4lwhkvHFwVfxYrxT0DI28K5U
-   xIMouyqjlWDX2DTpX3Je9n+X6JGfXU6jyfvT9FVqJEzOGyPwgnyy69SFF
+  t=1742016765; x=1773552765;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FGxFvMeTHIw8junSff82D7cDkB1dpopOHzs/N/YAUT8=;
+  b=YjwHRqqT30W/WAf4Pz52EZ8SEC/Gpzcmm/Pnav1bToRQiurE0aI4QCji
+   iA6swX3JffUrmZPgl59KSRv1dVd/Nw3JxZTH7VQ4CvcZIr3I0H1eYvQ+7
+   Q4K8Emj9w+PmqMJpLi2kw7mL85ho7wJfIMd0t/tJqpv/jAEsbAvLAySAM
+   f6BQ0+DgUOyShX2qZ8WJeTt4os4tRljWqQpahJCAgqZzBLaPUM3WigWM1
+   T84q+UCYmTyItnDwnaAqsKLJjQGyT/TVkZ8p/nikpNaL0ZEfnK8zn6Nkr
+   ZSmUIDwzALZVgLB8ITpQJ4n4F1qugstLmfxwVFLkXbZdrXLa7KmMgpOuR
    w==;
-X-CSE-ConnectionGUID: h9r5mZ4VSEStAY1Uv5QdDA==
-X-CSE-MsgGUID: ysP9WLE3QCO3VKDVBn/JZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="53830405"
+X-CSE-ConnectionGUID: dL/he17nT6m3sA4+4ogKPQ==
+X-CSE-MsgGUID: RcdYBLAxTcm8Cjr7dI9XhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="54560687"
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="53830405"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 20:49:04 -0700
-X-CSE-ConnectionGUID: EXcMqaLgSlCjLJGGirvNDQ==
-X-CSE-MsgGUID: +5L5MzR0Sj+L2cyePPAj2Q==
+   d="scan'208";a="54560687"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 22:32:44 -0700
+X-CSE-ConnectionGUID: S4i/w2y1QRWfOGgDL68HMg==
+X-CSE-MsgGUID: 8QHKpKGKSN2bTErpdbW/+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="122402691"
+   d="scan'208";a="121965600"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 14 Mar 2025 20:49:00 -0700
+  by orviesa007.jf.intel.com with ESMTP; 14 Mar 2025 22:32:43 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttIWA-000B2l-13;
-	Sat, 15 Mar 2025 03:48:58 +0000
-Date: Sat, 15 Mar 2025 11:48:15 +0800
+	id 1ttK8W-000B59-1o;
+	Sat, 15 Mar 2025 05:32:40 +0000
+Date: Sat, 15 Mar 2025 13:32:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Russell King <rmk+kernel@armlinux.org.uk>,
-	Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	Rengarajan Sundararajan <Rengarajan.S@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, UNGLinuxDriver@microchip.com,
-	Phil Elwell <phil@raspberrypi.org>
-Subject: Re: [PATCH net-next v3 1/7] net: usb: lan78xx: Convert to PHYlink
- for improved PHY and MAC management
-Message-ID: <202503151113.AFty2HdH-lkp@intel.com>
-References: <20250310115737.784047-2-o.rempel@pengutronix.de>
+To: Longbin Li <looong.bin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-spi:for-6.15 10/22] drivers/spi/spi-sg2044-nor.c:243
+ sg2044_spifmc_write() warn: unsigned 'ret' is never less than zero.
+Message-ID: <202503151344.DRTW7z9o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,169 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250310115737.784047-2-o.rempel@pengutronix.de>
 
-Hi Oleksij,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-usb-lan78xx-Convert-to-PHYlink-for-improved-PHY-and-MAC-management/20250310-200116
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250310115737.784047-2-o.rempel%40pengutronix.de
-patch subject: [PATCH net-next v3 1/7] net: usb: lan78xx: Convert to PHYlink for improved PHY and MAC management
-config: i386-randconfig-006-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151113.AFty2HdH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151113.AFty2HdH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-6.15
+head:   336a41c90c86b883aa06ed19f138eee19ddf9958
+commit: de16c322eefbe9026d4eabc8ae934bb778cffd1d [10/22] spi: sophgo: add SG2044 SPI NOR controller driver
+config: openrisc-randconfig-r072-20250314 (https://download.01.org/0day-ci/archive/20250315/202503151344.DRTW7z9o-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151113.AFty2HdH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151344.DRTW7z9o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/spi/spi-sg2044-nor.c:243 sg2044_spifmc_write() warn: unsigned 'ret' is never less than zero.
+drivers/spi/spi-sg2044-nor.c:450 sg2044_spifmc_probe() error: uninitialized symbol 'base'.
 
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_phy_init':
->> drivers/net/usb/lan78xx.c:2683: undefined reference to `phylink_connect_phy'
->> ld: drivers/net/usb/lan78xx.c:2651: undefined reference to `phylink_set_fixed_link'
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_open':
->> drivers/net/usb/lan78xx.c:3280: undefined reference to `phylink_start'
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_stop':
->> drivers/net/usb/lan78xx.c:3350: undefined reference to `phylink_stop'
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_disconnect':
-   drivers/net/usb/lan78xx.c:4375: undefined reference to `phylink_stop'
->> ld: drivers/net/usb/lan78xx.c:4376: undefined reference to `phylink_disconnect_phy'
->> ld: drivers/net/usb/lan78xx.c:4387: undefined reference to `phylink_destroy'
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_phylink_setup':
->> drivers/net/usb/lan78xx.c:2621: undefined reference to `phylink_create'
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_probe':
->> drivers/net/usb/lan78xx.c:4609: undefined reference to `phylink_disconnect_phy'
-   ld: drivers/net/usb/lan78xx.c:4611: undefined reference to `phylink_destroy'
-   ld: drivers/net/usb/lan78xx.o: in function `lan78xx_reset_resume':
-   drivers/net/usb/lan78xx.c:5173: undefined reference to `phylink_start'
+Old smatch warnings:
+drivers/spi/spi-sg2044-nor.c:253 sg2044_spifmc_write() warn: unsigned 'ret' is never less than zero.
+drivers/spi/spi-sg2044-nor.c:263 sg2044_spifmc_write() warn: unsigned 'ret' is never less than zero.
 
+vim +/ret +243 drivers/spi/spi-sg2044-nor.c
 
-vim +2683 drivers/net/usb/lan78xx.c
-
-  2599	
-  2600	static int lan78xx_phylink_setup(struct lan78xx_net *dev)
-  2601	{
-  2602		struct phylink_config *pc = &dev->phylink_config;
-  2603		phy_interface_t link_interface;
-  2604		struct phylink *phylink;
-  2605	
-  2606		pc->dev = &dev->net->dev;
-  2607		pc->type = PHYLINK_NETDEV;
-  2608		pc->mac_capabilities = MAC_SYM_PAUSE | MAC_ASYM_PAUSE | MAC_10 |
-  2609				       MAC_100 | MAC_1000FD;
-  2610		pc->mac_managed_pm = true;
-  2611	
-  2612		if (dev->chipid == ID_REV_CHIP_ID_7801_) {
-  2613			phy_interface_set_rgmii(pc->supported_interfaces);
-  2614			link_interface = PHY_INTERFACE_MODE_RGMII_ID;
-  2615		} else {
-  2616			__set_bit(PHY_INTERFACE_MODE_INTERNAL,
-  2617				  pc->supported_interfaces);
-  2618			link_interface = PHY_INTERFACE_MODE_INTERNAL;
-  2619		}
-  2620	
-> 2621		phylink = phylink_create(pc, dev->net->dev.fwnode,
-  2622					 link_interface, &lan78xx_phylink_mac_ops);
-  2623		if (IS_ERR(phylink))
-  2624			return PTR_ERR(phylink);
-  2625	
-  2626		dev->phylink = phylink;
-  2627	
-  2628		return 0;
-  2629	}
-  2630	
-  2631	static int lan78xx_phy_init(struct lan78xx_net *dev)
-  2632	{
-  2633		struct phy_device *phydev;
-  2634		int ret;
-  2635	
-  2636		switch (dev->chipid) {
-  2637		case ID_REV_CHIP_ID_7801_:
-  2638			phydev = lan7801_phy_init(dev);
-  2639			/* If no PHY found, set fixed link, probably there is no
-  2640			 * device or some kind of different device like switch.
-  2641			 * For example: EVB-KSZ9897-1 (KSZ9897 switch evaluation board
-  2642			 * with LAN7801 & KSZ9031)
-  2643			 */
-  2644			if (!phydev) {
-  2645				struct phylink_link_state state = {
-  2646					.speed = SPEED_1000,
-  2647					.duplex = DUPLEX_FULL,
-  2648					.interface = PHY_INTERFACE_MODE_RGMII,
-  2649				};
-  2650	
-> 2651				ret = phylink_set_fixed_link(dev->phylink, &state);
-  2652				if (ret)
-  2653					netdev_err(dev->net, "Could not set fixed link\n");
-  2654	
-  2655				return ret;
-  2656			}
-  2657	
-  2658			break;
-  2659	
-  2660		case ID_REV_CHIP_ID_7800_:
-  2661		case ID_REV_CHIP_ID_7850_:
-  2662			phydev = phy_find_first(dev->mdiobus);
-  2663			if (!phydev) {
-  2664				netdev_err(dev->net, "no PHY found\n");
-  2665				return -EIO;
-  2666			}
-  2667			phydev->is_internal = true;
-  2668			phydev->interface = PHY_INTERFACE_MODE_GMII;
-  2669			break;
-  2670	
-  2671		default:
-  2672			netdev_err(dev->net, "Unknown CHIP ID found\n");
-  2673			return -EIO;
-  2674		}
-  2675	
-  2676		/* if phyirq is not set, use polling mode in phylib */
-  2677		if (dev->domain_data.phyirq > 0)
-  2678			phydev->irq = dev->domain_data.phyirq;
-  2679		else
-  2680			phydev->irq = PHY_POLL;
-  2681		netdev_dbg(dev->net, "phydev->irq = %d\n", phydev->irq);
-  2682	
-> 2683		ret = phylink_connect_phy(dev->phylink, phydev);
-  2684		if (ret) {
-  2685			netdev_err(dev->net, "can't attach PHY to %s\n",
-  2686				   dev->mdiobus->id);
-  2687			return -EIO;
-  2688		}
-  2689	
-  2690		phy_support_eee(phydev);
-  2691	
-  2692		if (phydev->mdio.dev.of_node) {
-  2693			u32 reg;
-  2694			int len;
-  2695	
-  2696			len = of_property_count_elems_of_size(phydev->mdio.dev.of_node,
-  2697							      "microchip,led-modes",
-  2698							      sizeof(u32));
-  2699			if (len >= 0) {
-  2700				/* Ensure the appropriate LEDs are enabled */
-  2701				lan78xx_read_reg(dev, HW_CFG, &reg);
-  2702				reg &= ~(HW_CFG_LED0_EN_ |
-  2703					 HW_CFG_LED1_EN_ |
-  2704					 HW_CFG_LED2_EN_ |
-  2705					 HW_CFG_LED3_EN_);
-  2706				reg |= (len > 0) * HW_CFG_LED0_EN_ |
-  2707					(len > 1) * HW_CFG_LED1_EN_ |
-  2708					(len > 2) * HW_CFG_LED2_EN_ |
-  2709					(len > 3) * HW_CFG_LED3_EN_;
-  2710				lan78xx_write_reg(dev, HW_CFG, reg);
-  2711			}
-  2712		}
-  2713	
-  2714		return 0;
-  2715	}
-  2716	
+   212	
+   213	static ssize_t sg2044_spifmc_write(struct sg2044_spifmc *spifmc,
+   214					   const struct spi_mem_op *op)
+   215	{
+   216		size_t xfer_size;
+   217		const u8 *dout = op->data.buf.out;
+   218		int i, offset;
+   219		size_t ret;
+   220		u32 reg;
+   221	
+   222		reg = sg2044_spifmc_init_reg(spifmc);
+   223		reg |= (op->addr.nbytes + op->dummy.nbytes) << SPIFMC_TRAN_CSR_ADDR_BYTES_SHIFT;
+   224		reg |= SPIFMC_TRAN_CSR_FIFO_TRG_LVL_8_BYTE;
+   225		reg |= SPIFMC_TRAN_CSR_WITH_CMD;
+   226		reg |= SPIFMC_TRAN_CSR_TRAN_MODE_TX;
+   227	
+   228		writel(0, spifmc->io_base + SPIFMC_FIFO_PT);
+   229		writeb(op->cmd.opcode, spifmc->io_base + SPIFMC_FIFO_PORT);
+   230	
+   231		for (i = op->addr.nbytes - 1; i >= 0; i--)
+   232			writeb((op->addr.val >> i * 8) & 0xff, spifmc->io_base + SPIFMC_FIFO_PORT);
+   233	
+   234		for (i = 0; i < op->dummy.nbytes; i++)
+   235			writeb(0xff, spifmc->io_base + SPIFMC_FIFO_PORT);
+   236	
+   237		writel(0, spifmc->io_base + SPIFMC_INT_STS);
+   238		writel(op->data.nbytes, spifmc->io_base + SPIFMC_TRAN_NUM);
+   239		reg |= SPIFMC_TRAN_CSR_GO_BUSY;
+   240		writel(reg, spifmc->io_base + SPIFMC_TRAN_CSR);
+   241	
+   242		ret = sg2044_spifmc_wait_xfer_size(spifmc, 0);
+ > 243		if (ret < 0)
+   244			return ret;
+   245	
+   246		writel(0, spifmc->io_base + SPIFMC_FIFO_PT);
+   247	
+   248		offset = 0;
+   249		while (offset < op->data.nbytes) {
+   250			xfer_size = min_t(size_t, SPIFMC_MAX_FIFO_DEPTH, op->data.nbytes - offset);
+   251	
+   252			ret = sg2044_spifmc_wait_xfer_size(spifmc, 0);
+   253			if (ret < 0)
+   254				return ret;
+   255	
+   256			for (i = 0; i < xfer_size; i++)
+   257				writeb(dout[i + offset], spifmc->io_base + SPIFMC_FIFO_PORT);
+   258	
+   259			offset += xfer_size;
+   260		}
+   261	
+   262		ret = sg2044_spifmc_wait_int(spifmc, SPIFMC_INT_TRAN_DONE);
+   263		if (ret < 0)
+   264			return ret;
+   265	
+   266		writel(0, spifmc->io_base + SPIFMC_FIFO_PT);
+   267	
+   268		return 0;
+   269	}
+   270	
 
 -- 
 0-DAY CI Kernel Test Service
