@@ -1,96 +1,84 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86F118D64B;
-	Sat, 15 Mar 2025 15:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86D5AD51
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 16:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742054012; cv=none; b=C1aJIz50GKYjyY9HjMlSqpTX+UXZ4HluoAzZ+hHmsZJ8RrTgkFg8cJAt5Km2T9y9fSGEFuExKsNKaLAI32uNZ3llchZI2l2aIc3pRgYwtIZPQn7thcdOrSuzhqROyulqo93A3cpOP2OwRgjZJ71H4mLagaIMGhFeluP2xBI3J24=
+	t=1742056672; cv=none; b=aO8RMaU9dKqHQ3jk1KG1qA9DW/4b8Z+EXEuW487XNjc5uuABrd7ZuPMnECUZQGNypfXy4Oa03YVxJfjXnEeXI9aKZObtYd08YbDitZaDiw4/JOX/waLl1eP7/RqN8no0Ddt7g6o/t17y/kEMFYtsR/lP8mKRDyojUxM2uLf+AiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742054012; c=relaxed/simple;
-	bh=LwyS+A47iCg56z9vvE9NHobt1hXMoM71/Xb052P68tA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PrybLdDCclDZg0Mh/FbqNw/A6Ritc0IFe3h/AoxW8M9Ok6LNYSqWvYBQB1Ex4pC6JIvnqE2juiMQn5rnXQw8CsyBdbhvR8O7/vyS+VUXhp+XYScKJsgTJmoJbPEnAU5lbqKhB4/9M6OYAZrkPeKTclGpPbMVMdU0fkMk0kwF2vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMHDNJA6; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742056672; c=relaxed/simple;
+	bh=RvjCFKm1WfQjV4+2Xm2HQCzNiVNcfj7UPvZej/UgVZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mNeb/DaEMYLBTPtv0kXCoRV2BgH7124K/qDS5QCNNjkt/FczsvG5Ib+IYoSfTezEXgEgqbQZXKnHWPF913Te3WQ33T+DmzeYqUEgD5ZICgFfIhUqqxa2mpQKOJOYVOljx+O4A+4OXQnaO1g0vM1eALvbPuCkDHv4Rvv2zDyG2ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XoFYN4m8; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMHDNJA6"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ff67f44fcaso135904a91.3;
-        Sat, 15 Mar 2025 08:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742054010; x=1742658810; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LwyS+A47iCg56z9vvE9NHobt1hXMoM71/Xb052P68tA=;
-        b=QMHDNJA6cID1UHXXv/n22XPLiwDGa/dzHAntfuJ+Ff9qKzzbZ8IsNyjItO8NFxTMsv
-         t6rJjdMa853GrJ43qlN0GcZHqjFZGwTA341lJJmF1s4vxTTxTIk0H3zWGIIsUBAeQsTd
-         5o4EdTo4LdMMpwXA4JzLRzGq2gmcuxMAp53QsU9dOm9fx/G0+4ux6sWyLISP+7sdPntZ
-         +4xh73LinkTAnbzEhNNI1Kl1ZlVfKcgYldA3IAyZ6vDYQ7FuvmAuAqTX7A2pxMspnawH
-         wonGAwwUxcLWKdOrFLUWV5juP/99foMgsEC5w7/ZIc94xq5J87kyFonsKY+f05P1hjRm
-         FKgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742054010; x=1742658810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LwyS+A47iCg56z9vvE9NHobt1hXMoM71/Xb052P68tA=;
-        b=aYmbet6OVi0kNEtnVakI/+5L35Kd+8gGgXAq9tpmx9ycDcxmChN95rFSHez2Wz/G88
-         KaJsM2gfUo54RjQLQ/3xOr13FEfMcTswL2RnUMbTAWqFouFMPxdNuwVRmbhRU9Ku7zhc
-         vrixin+XQOeC1DXaJ2c/ASgDVVZIfV0l+NkHwnlSN3Sf57EkOL7XocXCKgGTFF9nDiW1
-         UJv8sqk3Ph2EUnewjPAYnNaEgOKv3+lCcMNjhFV4cT2v54cShr9r5nbvOFLuOqZ7OUwB
-         nkrkhTUJbXho9wIHkTtIGM7+N46EQuSi2UA4hWGHEN0PCPEYuAwnCfVOA28koR8aIF9c
-         JaIg==
-X-Forwarded-Encrypted: i=1; AJvYcCW78fvy/g1xWE4OLiCihAy96CaWeigDF0VPD/MhLZD28vK9HoHt/TyH9GPmyNJi7THwEwl7@lists.linux.dev, AJvYcCXMaKOCK2YCiA189zJIWMsVU9mLbHW5rFuIe+4U6Nu6PdBn8KV4UwAo3T180rgnoAeqqlt2V7W4Snhad70k9g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzU9MonnKgibl0jCWQQteCSVaNOpZwdV7grJX+Na8yTe07wbxNa
-	0Gdk9quuJGB2eo2Tp1OnORJQ48kdpm17Rrh2PJLKU6ciqWzp+IIG53OX8s6cNIKBlERCCuxDg0p
-	QqNuxAhM63qCrK4NoohM5pKRROOjv20SR8rw=
-X-Gm-Gg: ASbGnctPeug5YJxNJA3u74RDdMuF8BpM8KDy24MAic1AB8PKDNlSd7cUcFTkvZaHFr9
-	L20jqByiI68FZ6ouPMDomsLUnXSrv9xfSvdLEwEjYoMaPAOWGwilV45Q2cseBFjcsKn2mh9zUR1
-	cYmH6wCi0OdrJBo2mkAmoiY0otSw==
-X-Google-Smtp-Source: AGHT+IHoJdqiFffFIEX4PGH+eNGg8dU9mGGXsxE9RJVlD3AJ3VsW474CP9GQiqncyttxQgyMVKiY1B3MtSw9bjEU4N0=
-X-Received: by 2002:a17:90b:1652:b0:2ff:7b41:c3cf with SMTP id
- 98e67ed59e1d1-30151d4c068mr3167505a91.4.1742054009887; Sat, 15 Mar 2025
- 08:53:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XoFYN4m8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742056670; x=1773592670;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RvjCFKm1WfQjV4+2Xm2HQCzNiVNcfj7UPvZej/UgVZ4=;
+  b=XoFYN4m8pJ7EV3TQmQ45Z+G8XuH8vBpksDvt6I6Oe8rl1G1BaktSDTcr
+   WB93n1972EOdIIDA607foZCLxqddZVPtJXAAXYSMMJfp0iBMLDHH3u9oB
+   SRlJ1tPiAm7IpOc6ZqQAHLjSaHopyM/rBJa86mLQVWqd+rP1kALEY8wYX
+   ypsPEyWCwDqMszz9SaU9msDHOScmCvLNVxOYJjgdlXVqRIoFGvxI70ppp
+   Tslq+UqHt1BATpEqZFzmJVx0TMVXLTonLRttLGt+9/b97EYSI5suc3TnG
+   JzfWxfCgFbnf4Mfo0cDzMydhI+X61BMuwzChJ/cNy2mkn//yaZeOoohq0
+   g==;
+X-CSE-ConnectionGUID: uIX6j9NTQ5OGTCxR3/mOtA==
+X-CSE-MsgGUID: NaCCWpcsTGm+8XH3ZTRksw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="43229157"
+X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
+   d="scan'208";a="43229157"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 09:37:49 -0700
+X-CSE-ConnectionGUID: mK13j/0EQt++7FaqK63pmA==
+X-CSE-MsgGUID: vlBXJK0kQSqSH0fOS8JZHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
+   d="scan'208";a="121494913"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 15 Mar 2025 09:37:47 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ttUW9-000BTT-1f;
+	Sat, 15 Mar 2025 16:37:45 +0000
+Date: Sun, 16 Mar 2025 00:37:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: [btrfs:pr/1157 153/155] ERROR: modpost: "__udivdi3"
+ [fs/btrfs/btrfs.ko] undefined!
+Message-ID: <202503160031.DREliXmv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Z9IsEPOnC+MGSAEA@rli9-mobl> <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
- <CANiq72md8yWAHdZeJFWAQFxb_9ftTFMiQciK+ZGf+3Lp_Jxa8g@mail.gmail.com> <CAK7LNASrBdCRVoELc-C0JGgdNJsi5WArsqTkaYEm1CgTsjTC9g@mail.gmail.com>
-In-Reply-To: <CAK7LNASrBdCRVoELc-C0JGgdNJsi5WArsqTkaYEm1CgTsjTC9g@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 15 Mar 2025 16:53:17 +0100
-X-Gm-Features: AQ5f1JpLxa31TkNsANiRg7vQHqmi3abo8scORrGuk6pzhcuxvWRzBjzKlLEuvo8
-Message-ID: <CANiq72kL2stNAfmm2HxMXntL2vbHkR0rxrHMRgLu0iG4+mV=dg@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 15/20] error: Unrecognized option: 'remap-path-prefix'
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 15 Mar 2025 at 11:16, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> The 0day bot provides the reproducer, which only executes
-> "make olddefconfig" && "make prepare".
+tree:   https://github.com/btrfs/linux.git pr/1157
+head:   ba17f60c94e718376b5573cced1493563b1d4300
+commit: 49c863d9d6690e1ba2ffa093994e03a0cefd50ad [153/155] btrfs: prepare extent_io.c for future large folio support
+config: powerpc-randconfig-002-20250315 (https://download.01.org/0day-ci/archive/20250316/202503160031.DREliXmv-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160031.DREliXmv-lkp@intel.com/reproduce)
 
-I got confused here for a bit, because the bot runs other targets too
-(e.g. `rustfmtcheck`), but I didn't know see it in the reproducer, so
-I thought perhaps it did not show it. But I see now that the
-reproducer scripts are different in each case (e.g.
-https://lore.kernel.org/rust-for-linux/Z9IpZucc6V067mh6@rli9-mobl/).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503160031.DREliXmv-lkp@intel.com/
 
-So you are completely right -- what happened is that I fixed the ICE
-issue first, which I checked did not reproduce when combined with the
-`--test` flag, and then when I found the second issue (flag not
-existing) I didn't expand it to the other case that passes
-`--remap-path-prefix`. Sorry...
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-I am sending v2 -- this time around I will do my usual full test
-matrix, just in case I am missing something else...
+>> ERROR: modpost: "__udivdi3" [fs/btrfs/btrfs.ko] undefined!
 
-Cheers,
-Miguel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
