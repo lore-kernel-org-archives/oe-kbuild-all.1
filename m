@@ -1,112 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECC9202F9A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 15:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86F118D64B;
+	Sat, 15 Mar 2025 15:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742053485; cv=none; b=EWV89KA1ekDpEVfsyLdT1Oj0XbHbo0om+cKdyCDtEWiUgsjOpbSIKUIpPprdHUBQ9T62Q4o72wRiUHFY3rBOpWObzgYRTkeAk5xep7AixLaaZqpttWTn8qwEzc4GeqDgMD2EL3+p7yl0TQ3qHl5UhbrMmVhRyAOf2ZXZGr27Kpk=
+	t=1742054012; cv=none; b=C1aJIz50GKYjyY9HjMlSqpTX+UXZ4HluoAzZ+hHmsZJ8RrTgkFg8cJAt5Km2T9y9fSGEFuExKsNKaLAI32uNZ3llchZI2l2aIc3pRgYwtIZPQn7thcdOrSuzhqROyulqo93A3cpOP2OwRgjZJ71H4mLagaIMGhFeluP2xBI3J24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742053485; c=relaxed/simple;
-	bh=zFTMi7lqcT0zjvSB3hdP1mrdBKF9yxDWtm48anrby6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FGzQWcb5gjm1O3JH5nEiKTuj32UmJBaW9rAy+pmF9v2WVvybdYWG6Gn8kZxoIIqsAJmXCHKaod7K507MzqnmNwdihxFazYuWEGR/Mhz7L1vzNZORTcTLMs5W7As4VDM9X/7o11nKLk7uVqk210oDv71OpjntlYJsHKdzhDGbtpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5yF9Ufd; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742054012; c=relaxed/simple;
+	bh=LwyS+A47iCg56z9vvE9NHobt1hXMoM71/Xb052P68tA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PrybLdDCclDZg0Mh/FbqNw/A6Ritc0IFe3h/AoxW8M9Ok6LNYSqWvYBQB1Ex4pC6JIvnqE2juiMQn5rnXQw8CsyBdbhvR8O7/vyS+VUXhp+XYScKJsgTJmoJbPEnAU5lbqKhB4/9M6OYAZrkPeKTclGpPbMVMdU0fkMk0kwF2vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMHDNJA6; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5yF9Ufd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742053484; x=1773589484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zFTMi7lqcT0zjvSB3hdP1mrdBKF9yxDWtm48anrby6o=;
-  b=P5yF9UfdHTK6RnwBwLeU7PGtONHwPp6RNlnHj9jEMD0G/XJi0Y7alyZX
-   hQuuf3ZH0RAE5LYD7uLOcduk8R8ntnoieLNydqhh9wiXYmUWgvBbrGun6
-   OwFlVbm/bipr3foCpIjCHsJony4YRT/QSsIasKRODnHmlJ+hnJAhGfop3
-   N1jdugrUdJ5TSG5czXIRTNuzS9YNhpmEILOE5EgujD9k0HeaQzVHtyCce
-   r5YLnJlWXrGLnYFFsix/y+FfrS40Twntnd7cfjV5iDqrdIa2glthL3I9N
-   j7KPF6Jy0tKmoY4TyT3wLiaWtVCXyQAm9SRoBpi5m4o3IwP902QGSPPsd
-   A==;
-X-CSE-ConnectionGUID: TYuuSnDbT1Cy2zSXBb1bGg==
-X-CSE-MsgGUID: W+V9TzMQR62aM4cIcj5URA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="42927236"
-X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="42927236"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 08:44:43 -0700
-X-CSE-ConnectionGUID: WJzixRqDRQ+Fl2j/lLy8zA==
-X-CSE-MsgGUID: Iryse+cBSZiWts3eRKHhRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="121489140"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 15 Mar 2025 08:44:42 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ttTgm-000BQR-0w;
-	Sat, 15 Mar 2025 15:44:40 +0000
-Date: Sat, 15 Mar 2025 23:44:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1] arch/arm64/kvm/mmu.c:2012:5:
- warning: no previous prototype for 'pkvm_mem_abort_prefault'
-Message-ID: <202503152350.Jg5GBiBx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMHDNJA6"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ff67f44fcaso135904a91.3;
+        Sat, 15 Mar 2025 08:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742054010; x=1742658810; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LwyS+A47iCg56z9vvE9NHobt1hXMoM71/Xb052P68tA=;
+        b=QMHDNJA6cID1UHXXv/n22XPLiwDGa/dzHAntfuJ+Ff9qKzzbZ8IsNyjItO8NFxTMsv
+         t6rJjdMa853GrJ43qlN0GcZHqjFZGwTA341lJJmF1s4vxTTxTIk0H3zWGIIsUBAeQsTd
+         5o4EdTo4LdMMpwXA4JzLRzGq2gmcuxMAp53QsU9dOm9fx/G0+4ux6sWyLISP+7sdPntZ
+         +4xh73LinkTAnbzEhNNI1Kl1ZlVfKcgYldA3IAyZ6vDYQ7FuvmAuAqTX7A2pxMspnawH
+         wonGAwwUxcLWKdOrFLUWV5juP/99foMgsEC5w7/ZIc94xq5J87kyFonsKY+f05P1hjRm
+         FKgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742054010; x=1742658810;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LwyS+A47iCg56z9vvE9NHobt1hXMoM71/Xb052P68tA=;
+        b=aYmbet6OVi0kNEtnVakI/+5L35Kd+8gGgXAq9tpmx9ycDcxmChN95rFSHez2Wz/G88
+         KaJsM2gfUo54RjQLQ/3xOr13FEfMcTswL2RnUMbTAWqFouFMPxdNuwVRmbhRU9Ku7zhc
+         vrixin+XQOeC1DXaJ2c/ASgDVVZIfV0l+NkHwnlSN3Sf57EkOL7XocXCKgGTFF9nDiW1
+         UJv8sqk3Ph2EUnewjPAYnNaEgOKv3+lCcMNjhFV4cT2v54cShr9r5nbvOFLuOqZ7OUwB
+         nkrkhTUJbXho9wIHkTtIGM7+N46EQuSi2UA4hWGHEN0PCPEYuAwnCfVOA28koR8aIF9c
+         JaIg==
+X-Forwarded-Encrypted: i=1; AJvYcCW78fvy/g1xWE4OLiCihAy96CaWeigDF0VPD/MhLZD28vK9HoHt/TyH9GPmyNJi7THwEwl7@lists.linux.dev, AJvYcCXMaKOCK2YCiA189zJIWMsVU9mLbHW5rFuIe+4U6Nu6PdBn8KV4UwAo3T180rgnoAeqqlt2V7W4Snhad70k9g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzU9MonnKgibl0jCWQQteCSVaNOpZwdV7grJX+Na8yTe07wbxNa
+	0Gdk9quuJGB2eo2Tp1OnORJQ48kdpm17Rrh2PJLKU6ciqWzp+IIG53OX8s6cNIKBlERCCuxDg0p
+	QqNuxAhM63qCrK4NoohM5pKRROOjv20SR8rw=
+X-Gm-Gg: ASbGnctPeug5YJxNJA3u74RDdMuF8BpM8KDy24MAic1AB8PKDNlSd7cUcFTkvZaHFr9
+	L20jqByiI68FZ6ouPMDomsLUnXSrv9xfSvdLEwEjYoMaPAOWGwilV45Q2cseBFjcsKn2mh9zUR1
+	cYmH6wCi0OdrJBo2mkAmoiY0otSw==
+X-Google-Smtp-Source: AGHT+IHoJdqiFffFIEX4PGH+eNGg8dU9mGGXsxE9RJVlD3AJ3VsW474CP9GQiqncyttxQgyMVKiY1B3MtSw9bjEU4N0=
+X-Received: by 2002:a17:90b:1652:b0:2ff:7b41:c3cf with SMTP id
+ 98e67ed59e1d1-30151d4c068mr3167505a91.4.1742054009887; Sat, 15 Mar 2025
+ 08:53:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <Z9IsEPOnC+MGSAEA@rli9-mobl> <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
+ <CANiq72md8yWAHdZeJFWAQFxb_9ftTFMiQciK+ZGf+3Lp_Jxa8g@mail.gmail.com> <CAK7LNASrBdCRVoELc-C0JGgdNJsi5WArsqTkaYEm1CgTsjTC9g@mail.gmail.com>
+In-Reply-To: <CAK7LNASrBdCRVoELc-C0JGgdNJsi5WArsqTkaYEm1CgTsjTC9g@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 15 Mar 2025 16:53:17 +0100
+X-Gm-Features: AQ5f1JpLxa31TkNsANiRg7vQHqmi3abo8scORrGuk6pzhcuxvWRzBjzKlLEuvo8
+Message-ID: <CANiq72kL2stNAfmm2HxMXntL2vbHkR0rxrHMRgLu0iG4+mV=dg@mail.gmail.com>
+Subject: Re: [masahiroy-kbuild:kbuild 15/20] error: Unrecognized option: 'remap-path-prefix'
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   d27ba0428437fa30d39b114f95d0d183a569b294
-commit: 3fc1e219027721249a621d54449e0f3db624b655 [1/1] ANDROID: KVM: arm64: Introduce kvm-arm.protected_prefault parameter
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20250315/202503152350.Jg5GBiBx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503152350.Jg5GBiBx-lkp@intel.com/reproduce)
+On Sat, 15 Mar 2025 at 11:16, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> The 0day bot provides the reproducer, which only executes
+> "make olddefconfig" && "make prepare".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503152350.Jg5GBiBx-lkp@intel.com/
+I got confused here for a bit, because the bot runs other targets too
+(e.g. `rustfmtcheck`), but I didn't know see it in the reproducer, so
+I thought perhaps it did not show it. But I see now that the
+reproducer scripts are different in each case (e.g.
+https://lore.kernel.org/rust-for-linux/Z9IpZucc6V067mh6@rli9-mobl/).
 
-All warnings (new ones prefixed by >>):
+So you are completely right -- what happened is that I fixed the ICE
+issue first, which I checked did not reproduce when combined with the
+`--test` flag, and then when I found the second issue (flag not
+existing) I didn't expand it to the other case that passes
+`--remap-path-prefix`. Sorry...
 
-   In file included from arch/arm64/kvm/mmu.c:11:
-   arch/arm64/kvm/mmu.c:315:22: warning: no previous prototype for 'kvm_pinned_pages_insert' [-Wmissing-prototypes]
-     315 |                      kvm_pinned_pages);
-         |                      ^~~~~~~~~~~~~~~~
-   include/linux/interval_tree_generic.h:38:15: note: in definition of macro 'INTERVAL_TREE_DEFINE'
-      38 | ITSTATIC void ITPREFIX ## _insert(ITSTRUCT *node,                             \
-         |               ^~~~~~~~
->> arch/arm64/kvm/mmu.c:2012:5: warning: no previous prototype for 'pkvm_mem_abort_prefault' [-Wmissing-prototypes]
-    2012 | int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
+I am sending v2 -- this time around I will do my usual full test
+matrix, just in case I am missing something else...
 
-
-vim +/pkvm_mem_abort_prefault +2012 arch/arm64/kvm/mmu.c
-
-  2011	
-> 2012	int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-  2013				    struct kvm_memory_slot *memslot)
-  2014	{
-  2015		phys_addr_t memslot_start = memslot->base_gfn << PAGE_SHIFT;
-  2016		size_t size = (1 << pkvm_prefault) << PAGE_SHIFT;
-  2017	
-  2018		fault_ipa = ALIGN_DOWN(fault_ipa, size);
-  2019		if (fault_ipa < memslot_start) {
-  2020			size -= memslot_start - fault_ipa;
-  2021			fault_ipa = memslot_start;
-  2022		}
-  2023	
-  2024		return pkvm_mem_abort(vcpu, fault_ipa, size, memslot);
-  2025	}
-  2026	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
