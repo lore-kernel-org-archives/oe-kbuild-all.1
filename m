@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545C113AA27;
-	Sat, 15 Mar 2025 10:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2171D8E01
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 10:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742034379; cv=none; b=gAdMc3Z4BLVkWASNnz0WD2GftRxxu7zHLzzVHBehPs4xlgd3KftlRqjWkhtwnTt8d72dGgBJ+Nb7XwUZJPVz/Z+Fz59mpkQBawP7fDOkSV9pwJAJVFf95w7fwKWq8b90dm66/I1p5Jt9afk9A7NrF5tkN3qBhBKXPjoop3JQDzI=
+	t=1742034982; cv=none; b=BZjp45t+jXVfDT/q+ThVQiG1AiA5UeChfpzINhpzX3/VNCrF10nDi1L4+ZR71zCnhW1fmAuZ86ywRdZkvtfvdlYIVf1mobZixXq5Jf+GVI33nuywqCOuA9rmIMGQJGpI1We89+/Hv28EI57BVPFo3/QICTMELXGqNBLthKoXEYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742034379; c=relaxed/simple;
-	bh=X4Q5OmNEO2RCflqztTRWP1v+33pbm1riAHg2Gfekiqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ow6yY7yAheAJ+6tnjcwZVn9ScxjsM73fJjrA/vgluFVUWn4yJdlbq35OGL3yD3r2vmGljeZZMhD4ekMx6VWjBL5+lGA+xdV92Qh6BV5jn8OpQ5aCknwdm77tcXYCSq/J4njrvmKQZZ7pza0/07oni3F6fIawTVnRhtspsDTbWWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fj4Ki8cf; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1742034982; c=relaxed/simple;
+	bh=6qV1PsRPK6FY5acDPimlrsGS7ltsPHOPEUhKI9EF4XM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tz04R3R6f+NbZrm8R7ObSEAvqLEXqSnYJQGFcFw0+kHojqZeeDzGCYyDCm4SlGWSLaztsBObQgVn1tHA6MXqNxxPA9dBhJCAI1d/V91VE48r3dzZRJE19POTsCEI+Vg+0GJSNw1tzJQYrLsPIVcjlQtBjaTlb2VGuV2F15w0BcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KdbSChBZ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fj4Ki8cf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KdbSChBZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742034377; x=1773570377;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X4Q5OmNEO2RCflqztTRWP1v+33pbm1riAHg2Gfekiqo=;
-  b=Fj4Ki8cf9IQI3Gql87mr6Fkr90tfn8VA+Fl6PiB3Upt4jAhV1gVwZb8O
-   eIOgXrm9RAqsfpK3dBK/EbwdvvaSMwbJ0Sa4Vb3qld2DJBhPGDfZbAJkU
-   7XIHoPs4ygIQ+q18TZL359CnyM6QQQKqj6WOvcWTjpFTg0A+3YqPU6BqN
-   BLtSZzjxC3jywriWL/6kWOXeIyuC2L+5BQ7u5FOaQjNl6ILMGqwdbQwEF
-   bTba8hi6iL+qK/Ui7iMm3uYhT+4ToXwIOmGa4Ug4pqL6XDlt0gDCnAU/w
-   UL5DTCfK9mPggRCsZLGx+0830b+d/CkxAHqjArLNwHCrA1lchMxTknb+S
+  t=1742034981; x=1773570981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6qV1PsRPK6FY5acDPimlrsGS7ltsPHOPEUhKI9EF4XM=;
+  b=KdbSChBZ8Zvx3VP9eHCeFqPb4BCTRxYFgzwN0tL++1DGQb9hjOsncbpK
+   G2aExJ9y3MfjdGc24EFzuLFIOB+eZF/yw7PEPn1tAxisFSoFtwpA40wD7
+   qld4G21ILS1evihHfMcBJjGq1yGuPH0nLZ1rnfkx/zBGoca3LbyqFpXf/
+   kPuz/ADsht2SNZscw5w+U/nlJOO6PMQ0TFOSjyeEUjBHdpWUQydagVge8
+   +sn3D6NEI1CjOQc+OWa9UvKIaDZIsP/tpfIb+End8O/1VoZnlTe/KZIKj
+   JPLZ/6Mx/Si29fhw8UTcmcp0MD6XXkij5Y4ahs6W1ENi4TBm2VFq6nRtN
    w==;
-X-CSE-ConnectionGUID: Yob2f0FhSNKP1pSXeL6dMQ==
-X-CSE-MsgGUID: tX+nwMP9RraR2ZHTi5tZhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43391977"
+X-CSE-ConnectionGUID: gI+Tewo2TGKUQAmy6242BA==
+X-CSE-MsgGUID: 5cXGM+SkRI26p9tHhGmOTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="42432661"
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="43391977"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 03:26:17 -0700
-X-CSE-ConnectionGUID: /OANnVKNR8yCIf6AmkPAhA==
-X-CSE-MsgGUID: 3gaOF1inRU+Bz43jtAYz9Q==
+   d="scan'208";a="42432661"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 03:36:20 -0700
+X-CSE-ConnectionGUID: eC/YFbOmQVSFCVE/Kr1wMg==
+X-CSE-MsgGUID: esa9I441ThObWjVI1iQfHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="121323158"
+   d="scan'208";a="144695410"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Mar 2025 03:26:15 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2025 03:36:17 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttOib-000BFD-2Z;
-	Sat, 15 Mar 2025 10:26:13 +0000
-Date: Sat, 15 Mar 2025 18:25:52 +0800
+	id 1ttOsJ-000BGR-0F;
+	Sat, 15 Mar 2025 10:36:15 +0000
+Date: Sat, 15 Mar 2025 18:36:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:memcg-stock-trylock 1/2] lib/slub_kunit.c:10:10: fatal
- error: 'asm/tsc.h' file not found
-Message-ID: <202503151838.M5kXUgbl-lkp@intel.com>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH 4/5] media: vcodec: Implement manual request completion
+Message-ID: <202503151824.EfaOfTwf-lkp@intel.com>
+References: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,31 +74,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git memcg-stock-trylock
-head:   478ebf7bfd1fda634d890d435c44fd77c97b163d
-commit: 4e670c5b007b5bc341e53bb4902f72db41a30c2e [1/2] slub, kunit: hack a kmalloc/kfree microbench
-config: powerpc64-randconfig-002-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151838.M5kXUgbl-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151838.M5kXUgbl-lkp@intel.com/reproduce)
+Hi Sebastian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f2151613e040973c868d28c8b00885dfab69eb75]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Fricke/media-mc-add-manual-request-completion/20250314-213005
+base:   f2151613e040973c868d28c8b00885dfab69eb75
+patch link:    https://lore.kernel.org/r/20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b%40collabora.com
+patch subject: [PATCH 4/5] media: vcodec: Implement manual request completion
+config: arm-randconfig-001-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151824.EfaOfTwf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151824.EfaOfTwf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151838.M5kXUgbl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151824.EfaOfTwf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/slub_kunit.c:10:10: fatal error: 'asm/tsc.h' file not found
-      10 | #include <asm/tsc.h>
-         |          ^~~~~~~~~~~
-   1 error generated.
+>> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:29:13: warning: no previous prototype for 'state_to_str' [-Wmissing-prototypes]
+      29 | const char *state_to_str(enum mtk_request_state state)
+         |             ^~~~~~~~~~~~
 
 
-vim +10 lib/slub_kunit.c
+vim +/state_to_str +29 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
 
-  > 10	#include <asm/tsc.h>
-    11	
+    28	
+  > 29	const char *state_to_str(enum mtk_request_state state)
+    30	{
+    31		switch (state) {
+    32		case MTK_REQUEST_RECEIVED:
+    33			return "RECEIVED";
+    34		case MTK_REQUEST_LAT_DONE:
+    35			return "LAT_DONE";
+    36		case MTK_REQUEST_CORE_DONE:
+    37			return "CORE_DONE";
+    38		default:
+    39			return "UNKNOWN";
+    40		}
+    41	}
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
