@@ -1,68 +1,58 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1629515ADB4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 09:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3631753BE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 09:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742029445; cv=none; b=tQSvzXeIvVWJiWegoUKg3Uvl7BFxk9WI/TI4vvDN3leo6RMXQZrisBHem2ZDK0KPuc68c1kSI8a64u7nRgFj4vnWv+QjuoJs1V4/Gr/Mm8pKkC9rpw7+2AGa1nsfQCklgJKcRy82tzHAX22Zf6LdKfMOT/veGC78P+1pddy9Qh8=
+	t=1742029812; cv=none; b=QENSd3SUfT8nHEZwmaFNvhHvB+P/GSD522NHpJ8MNqVCChCbVBWYp+M/94ny8LH85ptP3jRMcAXJp1TXrE9hpgBfn6jwHKjRaQl5mWIwOBHN8OGnAo9Zm6FtNjR3J1hhOGgi3Jvu45Y5y86paYRYy5uEE7gQUKqNokr1yvKEU1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742029445; c=relaxed/simple;
-	bh=ZqzLxLBEb6qG7zJa7wfGi8kV1SqoGMh6nz0KTQTE/fE=;
+	s=arc-20240116; t=1742029812; c=relaxed/simple;
+	bh=5pt83pmPI+8JBtS0NrP1sL4gwRg0serC+2nKWAOy04E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R/ErxRmNFDtUl0YxFQmw6GsNSLFNtzUbBNzdSnXgomST1CBtfSh/fLa4dCveUp5tiKSQ2NHQSzsF/wjsukrCryZUhjJY0DC+++9y5gLMqXuDxmHsBOjgmSXqpyf0i9fxYCpmGxthDq2JDfVIcrQc+F3XVaGY+h9F8B9VOZk7VP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O/7/xwtX; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Xx1ErUioMWAc+Rf6Zn7LwphZ8FbEU9fI9Kom61hdreFH39PE0gfNvrJbNm12kggEZGcKZeehzzLLz5Vu5ra+4Kd6E1UiVjX0nprQSp7/Eg091Nqkm22M+YRf36IVDU8Q7DTuh/HiiNAmcdd05UkQwk81QBqQsB02MI6NA3e92QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8kL+RIv; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O/7/xwtX"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso3082915e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 02:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742029441; x=1742634241; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3dbB/ofNXxxiysUhxY/Xsfai0QWByWlEWQ0X0rHDeUs=;
-        b=O/7/xwtXBQghDqxEub/rzkG4yMw4tujAPQQ0L5/9rD9f/1Km3C3ksofH2FzBKC7S4K
-         TZBY1RGFLCqazhCghwZ06Nz/0HPFxa1DDMg4OJ2+2g04l7aWEqP4r/PqxmzSPZkxN6VG
-         lUi30HAR9yEtFTvcwlmcp1s58jleBwz875LTd77rtR57ZqGr+tj8eShEf2BlJLVxmh/B
-         dSb9WiEq94pp3MuKxRDGAEYWMIlm1ryfyMQ2t6WzXCtXhBp4MBMDVRt+Py8KmQzCE8FF
-         VqBLkNWSUKkwaQ+zI7Lf2+kBdxY0iSCZBP7i6ICuoCKwVpolILpsytFy1Qa4rbMDkNjE
-         5Cfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742029441; x=1742634241;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3dbB/ofNXxxiysUhxY/Xsfai0QWByWlEWQ0X0rHDeUs=;
-        b=itBSzWH4xO3CJrd1+TFrjv+Ih5sMgOGnOe7CBnbR/jgak89M8BJZYzKKhuyhw4pWBp
-         dUJlECXp4niS8G8o5VA2AXLq5YB9Gjw1iu5Eh/yxktrRYGKenQrglUFK/p/hTNxLzmvj
-         gw0i59V1aJzBcWzm942fwkeC73YR9n5qE5zr3vxwV63wvJZv+RKiZupzIgWwRjU396Qq
-         +XTLXmfKzELk1wpUVrLLT/W6nMbAV/VeR/SNViCmUNawc8GHpKnhQORkPMJ8+k/8kpGP
-         dfiieiud/mhG6I5BHi/ai/8AGDg0YdZ5XFnGeKd097WzbU44x5/rtlphsBsi2NxTPw6d
-         41fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIodvRb2F1ho0sD5UuBAVZbfUHPSUZ7oLv2HyIpHDGkDj+BJ/+QlKE5/vHMw9ZE0dvUVFwE6mN1LsljOPs@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7eV9LunDz0vWVMiHCjf8JFeWuCOT5OkW9UwUPDgUNNMAo/su4
-	pscKyTc8gu3D9EMnYA+MEK+oLVQUkcw2lRmVdrtQOHl3Y3b/gsTbsGGo9vNS7bM=
-X-Gm-Gg: ASbGncuhBRVMy/hIdaKKhONmGgbe3xvEb1DS3Zp92gkEnZzwFQ3CLP1oeeKFZGuMZOg
-	MHTK7gLkLXCKo675q8O/PZ33Ml5QMdDtSd/e/wo+NI7ESngy3HDCwasHgwM7hyJVOGW1priitL1
-	Q18RBGTsiB+OrlwqRNAwmk7bfusFcj9NaFXVuiRvGvneQhBOKjHLXvek90GvO/1KojdJAHLtRGQ
-	zjFZt4AJ4U5m6DeB8ghbywhdw6DQcFHPA19Lzjk8doM13ZfJ2/PH6JEGz2h9BvugCbHhP50vTie
-	pkYMIqytknW7X+K0q2v9B7Of12rHYfsGfvKWLyeJrdVyZdU0Sw==
-X-Google-Smtp-Source: AGHT+IGELyqbGxiKZpcd1sas1GGAA6ZYHKglj2RXbO764sDWPILYXArG7iWbnRkdJpvjqkTSDdACDA==
-X-Received: by 2002:a05:600c:3c8b:b0:43d:94:cfe6 with SMTP id 5b1f17b1804b1-43d1ecc7b28mr76592925e9.16.1742029441292;
-        Sat, 15 Mar 2025 02:04:01 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d1ffbfa90sm42856785e9.16.2025.03.15.02.04.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Mar 2025 02:04:00 -0700 (PDT)
-Date: Sat, 15 Mar 2025 12:03:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:work.idmapped.squash 9/10] fs/mnt_idmapping.c:384
- alloc_mnt_idmap() error: 'idmap' dereferencing possible ERR_PTR()
-Message-ID: <74e7922d-d803-4b67-9411-dc5aa7f5e2f1@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8kL+RIv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742029811; x=1773565811;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5pt83pmPI+8JBtS0NrP1sL4gwRg0serC+2nKWAOy04E=;
+  b=I8kL+RIvhpozjPvp0RMknmsT0Wm8EOFzrOrOJt2ygUhK6VKmOtxLYLnr
+   r2k2VJNRSQGrE09SCWgwpqnkVPp9BswAeAREo3kBk3LJEfW9a1d8x1Enw
+   mXiwYEnwRwJyz+dwBsc9B5rAguARZNOHsxWA4bf0Ow19kjJi8SMtnyUY2
+   3BFpoqYMsCqmvfhMk9Wqy4/aNgG++0gurXrRbAacJO920akz273ZjHTU0
+   v56umt+kHQhGZcta34mIZyvu/qA7fv5Dg8skvvU+CDlu1G+Ab1W8JKxuF
+   441a4s8PEKCrgJdpNXUClY8drk4O9EV4btTMQ+Vk7c0WqsW8PVvysz0MC
+   Q==;
+X-CSE-ConnectionGUID: prGv7ZBpSU6DIE8hWXbpXA==
+X-CSE-MsgGUID: ZtvTJBX+TEiu4JtUF1cRzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="42430588"
+X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
+   d="scan'208";a="42430588"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 02:10:10 -0700
+X-CSE-ConnectionGUID: IKbzrX1uQdSWeW8IYBqdkA==
+X-CSE-MsgGUID: YOPAN9rsSgu0PeGJlejdBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
+   d="scan'208";a="126691647"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 15 Mar 2025 02:10:09 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ttNWx-000BC5-02;
+	Sat, 15 Mar 2025 09:10:07 +0000
+Date: Sat, 15 Mar 2025 17:09:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:netns-debugfs 1/1] fs/debugfs/netns.c:14:9: error: expected
+ ';' before 'int'
+Message-ID: <202503151723.984UQxig-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,49 +62,153 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/brauner/linux.git work.idmapped.squash
-head:   97968d12e00d95bcc960a4fbd00fdb3ceb7e0c29
-commit: 27ead64a2c3d23b290e9cbff36f10b9fe9fe71f8 [9/10] mnt: add VFS {g,u}id squashing
-config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250315/202503150052.sDyHku8X-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git netns-debugfs
+head:   e06d7dd780ab4a50f85115f8ee988e588e4aad57
+commit: e06d7dd780ab4a50f85115f8ee988e588e4aad57 [1/1] net: add a debugfs directory for showing refcount tracking info
+config: i386-buildonly-randconfig-001-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151723.984UQxig-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151723.984UQxig-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503150052.sDyHku8X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151723.984UQxig-lkp@intel.com/
 
-smatch warnings:
-fs/mnt_idmapping.c:384 alloc_mnt_idmap() error: 'idmap' dereferencing possible ERR_PTR()
+All error/warnings (new ones prefixed by >>):
 
-vim +/idmap +384 fs/mnt_idmapping.c
+>> fs/debugfs/netns.c:14:9: error: expected ';' before 'int'
+      14 | unisgned int debugfs_net_id;
+         |         ^~~~
+         |         ;
+   fs/debugfs/netns.c: In function 'debugfs_exit_net':
+>> fs/debugfs/netns.c:100:34: error: 'dnet' undeclared (first use in this function); did you mean 'net'?
+     100 |         debugfs_remove_recursive(dnet->netdir);
+         |                                  ^~~~
+         |                                  net
+   fs/debugfs/netns.c:100:34: note: each undeclared identifier is reported only once for each function it appears in
+   fs/debugfs/netns.c: At top level:
+>> fs/debugfs/netns.c:111:1: warning: no previous prototype for 'debugfs_net_init' [-Wmissing-prototypes]
+     111 | debugfs_net_init(void)
+         | ^~~~~~~~~~~~~~~~
+>> fs/debugfs/netns.c:120:1: warning: no previous prototype for 'debugfs_net_exit' [-Wmissing-prototypes]
+     120 | debugfs_net_exit(void)
+         | ^~~~~~~~~~~~~~~~
+>> fs/debugfs/netns.c:103:33: warning: 'debugfs_net_ops' defined but not used [-Wunused-variable]
+     103 | static struct pernet_operations debugfs_net_ops = {
+         |                                 ^~~~~~~~~~~~~~~
 
-3707d84c13670bf Christian Brauner 2023-01-13  367  struct mnt_idmap *alloc_mnt_idmap(struct user_namespace *mnt_userns)
-3707d84c13670bf Christian Brauner 2023-01-13  368  {
-3707d84c13670bf Christian Brauner 2023-01-13  369  	struct mnt_idmap *idmap;
-783822e44594639 Christian Brauner 2023-11-22  370  	int ret;
-3707d84c13670bf Christian Brauner 2023-01-13  371  
-3707d84c13670bf Christian Brauner 2023-01-13  372  	idmap = kzalloc(sizeof(struct mnt_idmap), GFP_KERNEL_ACCOUNT);
-3707d84c13670bf Christian Brauner 2023-01-13  373  	if (!idmap)
-3707d84c13670bf Christian Brauner 2023-01-13  374  		return ERR_PTR(-ENOMEM);
-3707d84c13670bf Christian Brauner 2023-01-13  375  
-3707d84c13670bf Christian Brauner 2023-01-13  376  	refcount_set(&idmap->count, 1);
-783822e44594639 Christian Brauner 2023-11-22  377  	ret = copy_mnt_idmap(&mnt_userns->uid_map, &idmap->uid_map);
-783822e44594639 Christian Brauner 2023-11-22  378  	if (!ret)
-783822e44594639 Christian Brauner 2023-11-22  379  		ret = copy_mnt_idmap(&mnt_userns->gid_map, &idmap->gid_map);
-783822e44594639 Christian Brauner 2023-11-22  380  	if (ret) {
-783822e44594639 Christian Brauner 2023-11-22  381  		free_mnt_idmap(idmap);
-783822e44594639 Christian Brauner 2023-11-22  382  		idmap = ERR_PTR(ret);
 
-return ERR_PTR(ret);
+vim +14 fs/debugfs/netns.c
 
-783822e44594639 Christian Brauner 2023-11-22  383  	}
-27ead64a2c3d23b Christian Brauner 2025-03-11 @384  	idmap->vfsuid_squash = INVALID_VFSUID;
-27ead64a2c3d23b Christian Brauner 2025-03-11  385  	idmap->vfsgid_squash = INVALID_VFSGID;
-27ead64a2c3d23b Christian Brauner 2025-03-11  386  	return idmap;
-27ead64a2c3d23b Christian Brauner 2025-03-11  387  }
+    13	
+  > 14	unisgned int debugfs_net_id;
+    15	struct debugfs_net {
+    16		struct dentry *netdir;
+    17		struct dentry *refcnt;
+    18	};
+    19	
+    20	static int
+    21	netns_ref_show(struct seq_file *f, void *v)
+    22	{
+    23		struct net *net = f->private;
+    24		char *buf;
+    25		int len;
+    26	
+    27		buf = kmalloc(4096, GFP_KERNEL);
+    28		if (!buf)
+    29			return -ENOMEM;
+    30	
+    31		len = ref_tracker_dir_snprint(&net->refcnt_tracker, buf, 4096);
+    32		seq_write(f, buf, len);
+    33		kfree(buf);
+    34	
+    35		return 0;
+    36	}
+    37	
+    38	static int
+    39	netns_ref_open(struct inode *inode, struct file *filp)
+    40	{
+    41		int ret;
+    42		struct net *net = inode->i_private;
+    43	
+    44		ret = single_open(filp, netns_ref_show, net);
+    45	
+    46		if (!ret) {
+    47			if (!maybe_get_net(net)) {
+    48				single_release(inode, filp);
+    49				/* If we can't get a ref, pretend it's not there */
+    50				ret = -ENOENT;
+    51			}
+    52		}
+    53		return ret;
+    54	}
+    55	
+    56	static int
+    57	netns_ref_release(struct inode *inode, struct file *filp)
+    58	{
+    59		struct net *net = inode->i_private;
+    60	
+    61		put_net(net);
+    62		return single_release(inode, filp);
+    63	}
+    64	
+    65	static const struct file_operations netns_ref_fops = {
+    66		.owner		= THIS_MODULE,
+    67		.open		= netns_ref_open,
+    68		.read		= seq_read,
+    69		.llseek		= seq_lseek,
+    70		.release	= netns_ref_release,
+    71	};
+    72	
+    73	static int
+    74	debugfs_init_net(struct net *net)
+    75	{
+    76		struct debugfs_net *dnet = net_generic(net, debugfs_net_id);
+    77		char name[11]; /* 10 decimal digits + NULL term */
+    78		int len;
+    79	
+    80		len = snprintf(name, sizeof(name), "%u", net->ns.inum);
+    81		if (len >= sizeof(name))
+    82			return -EOVERFLOW;
+    83	
+    84		dnet->netdir = debugfs_create_dir(name, topdir);
+    85		if (IS_ERR(dnet->netdir))
+    86			return PTR_ERR(dnet->netdir);
+    87	
+    88		dnet->refcnt = debugfs_create_file(name, S_IFREG | 0400, dnet->netdir, net, &netns_ref_fops);
+    89		if (IS_ERR(dnet->refcnt)) {
+    90			debugfs_remove(dnet->netdir);
+    91			return PTR_ERR(dnet->refcnt);
+    92		}
+    93	
+    94		return 0;
+    95	}
+    96	
+    97	static void
+    98	debugfs_exit_net(struct net *net)
+    99	{
+ > 100		debugfs_remove_recursive(dnet->netdir);
+   101	}
+   102	
+ > 103	static struct pernet_operations debugfs_net_ops = {
+   104		.init = debugfs_init_net,
+   105		.exit = debugfs_exit_net,
+   106		.id = &debugfs_net_id,
+   107		.size = sizeof(struct debugfs_net),
+   108	};
+   109	
+   110	int __init
+ > 111	debugfs_net_init(void)
+   112	{
+   113		topdir = debugfs_create_dir("netns", NULL);
+   114		if (IS_ERR(topdir))
+   115			return PTR_ERR(topdir);
+   116		return 0;
+   117	}
+   118	
+   119	void __exit
+ > 120	debugfs_net_exit(void)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
