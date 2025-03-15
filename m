@@ -1,93 +1,120 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A4819CC24;
-	Sat, 15 Mar 2025 08:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1629515ADB4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 09:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742027984; cv=none; b=KsFmTIMA+9uD8Bwj5HS9GKiK0CbUDwBElsvsqLJvyglYwbVqLkBPV9TBbb9zaJinO+YnIGAlAAQMaZA4vR5iV7ezQm9Q8g9XAay3Fvj1QKlKvyvobyeCdqU+1oFW2sAObxsBaYymnnToSpUXiI7pTvffNfp/bpv5yjNvUotDngA=
+	t=1742029445; cv=none; b=tQSvzXeIvVWJiWegoUKg3Uvl7BFxk9WI/TI4vvDN3leo6RMXQZrisBHem2ZDK0KPuc68c1kSI8a64u7nRgFj4vnWv+QjuoJs1V4/Gr/Mm8pKkC9rpw7+2AGa1nsfQCklgJKcRy82tzHAX22Zf6LdKfMOT/veGC78P+1pddy9Qh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742027984; c=relaxed/simple;
-	bh=5LqvU/cJQx/1TIRoWiOkrdkCMIi9f/CjyroRp+0LRNs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KrtRKd78vsG+Py4HVy8nduPL+PBrMGD0YlBZM3pp9JA4hi135gUYJOKwMwg1gpSRDcfyj1cGu8GW1wwATVrN3u4JNnrrNKr37ePWBnnGnfAD4XkcA4e6s7STnzyU1TMUGA91Z84ceKuJVFfIQjEtVg474Bdh1CoN0dLo2wwtPl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WiDD7Y/A; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742029445; c=relaxed/simple;
+	bh=ZqzLxLBEb6qG7zJa7wfGi8kV1SqoGMh6nz0KTQTE/fE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R/ErxRmNFDtUl0YxFQmw6GsNSLFNtzUbBNzdSnXgomST1CBtfSh/fLa4dCveUp5tiKSQ2NHQSzsF/wjsukrCryZUhjJY0DC+++9y5gLMqXuDxmHsBOjgmSXqpyf0i9fxYCpmGxthDq2JDfVIcrQc+F3XVaGY+h9F8B9VOZk7VP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O/7/xwtX; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WiDD7Y/A"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-30144a72db9so121470a91.1;
-        Sat, 15 Mar 2025 01:39:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O/7/xwtX"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso3082915e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 02:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742027982; x=1742632782; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zU+utGiUYn/lWu8TMh9PRW1LdrPW+WIyNxx2vVUsNOY=;
-        b=WiDD7Y/AMFrEwYylbXjubXZW1TdZaVGlMnlSvtaVsh9px8vRObko/qBqcXttcKyM4+
-         JpphoF267a4JAW2UHv9y27EOlECUfcetI81WQuKDeaQEzcG5lyYXQ9VcDSOaRr5VRJVc
-         TfLVNBuMnLakyvcZxn+xpFa0wgL9eSR3BDCQ5IgcLcStdqbWxuRiqSq1UrQ/qy5lSjed
-         kbWAjMi60Y4MPertrcwWKQ3WogmLUaghfpXtKT840ORIv6VC5WPGq4ZOp2PMgpemmqsG
-         EUzgdZmQuRuQbbwzLtI0DOHz1Gy/PdqBgZnhak5QJ/UkeEVd5zA5w0tXqOC8cEd1R1/V
-         YZVg==
+        d=linaro.org; s=google; t=1742029441; x=1742634241; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3dbB/ofNXxxiysUhxY/Xsfai0QWByWlEWQ0X0rHDeUs=;
+        b=O/7/xwtXBQghDqxEub/rzkG4yMw4tujAPQQ0L5/9rD9f/1Km3C3ksofH2FzBKC7S4K
+         TZBY1RGFLCqazhCghwZ06Nz/0HPFxa1DDMg4OJ2+2g04l7aWEqP4r/PqxmzSPZkxN6VG
+         lUi30HAR9yEtFTvcwlmcp1s58jleBwz875LTd77rtR57ZqGr+tj8eShEf2BlJLVxmh/B
+         dSb9WiEq94pp3MuKxRDGAEYWMIlm1ryfyMQ2t6WzXCtXhBp4MBMDVRt+Py8KmQzCE8FF
+         VqBLkNWSUKkwaQ+zI7Lf2+kBdxY0iSCZBP7i6ICuoCKwVpolILpsytFy1Qa4rbMDkNjE
+         5Cfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742027982; x=1742632782;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zU+utGiUYn/lWu8TMh9PRW1LdrPW+WIyNxx2vVUsNOY=;
-        b=EeX5ed3Q4UIXTOeHojHhNi+9YI/+OMFoL4uDsVBW9h4oFKnRXyxSWbdqk7od9m77zk
-         IC/rWUgl/5oc0qYVGhKjB8WgNlX29gbhRG5w4le+gFwpGwYiwRjSegC6q1SivPzWV3Gc
-         d6Wca1W+R4wvgoXUmt1nrT63Y9/BzW+B37fOh1f/7loD3emt1jTqW5nPL+f8JiboFvo8
-         sQfpt24uR8mudYn52iDSgTCJRWCRrju68/YZRmiWEG/ALthR0iNezXaWHBOtMY4fmhX4
-         UpSDqGwyxtP5eTwDZgLVRYqTXfQXT1eMHVUi9gMud9OnewwywAFbwNhCON1zIOylDtJ8
-         SmvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrGk04kCIMI5HUdHvLC/RtE+QmBumJrrsAay71VsRpqaBgb6kX9S9wfW0KXzR5cUlrft5t@lists.linux.dev, AJvYcCXXqEwict0uWheRMKELPimtzqSKLeRaozuW2GrQfV3Q6NgyUKWubkt9nQNysfc8PQPy0fVCtAajSnnsi1ztyw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqbV6ftN0HXWuHnCc5JsQGYUdC7/LuCOl1tpmfUH2xq19Dpx2Z
-	F2b9X9TJE8xwL0oWDQ+l6YlBfa3XbcEXs3NXfYGWZHr1DKn1AHIA1Ogt5AqrNMbWvMMMDJfh77A
-	o34VkkDc8nzjmK5EzTJ/lW4E97aM=
-X-Gm-Gg: ASbGncuTF/cm9BBXIn+gN29kpIGvjFQ14+hjWEOdGlvcS6v22SydEic+uJW4tuFOtGb
-	bNuYLP2znsibTHxvTY7FDkLCL8DnTGLWGM2NoizPGlHTNC1GwnWX1laXR9ByaCWtmuy8od1x1Ue
-	3NvUJSC0VRAmI+X0I/PIQELq0rRg==
-X-Google-Smtp-Source: AGHT+IEiDB4t+c598d3Rq4swU0Mc2iQEwpq/fpeMERuc6Zu1/Nz/gU10ofBwL1zy26MHqx+aHZR0uleLUhg1IqlQRug=
-X-Received: by 2002:a17:90b:3850:b0:2ff:6941:9b6a with SMTP id
- 98e67ed59e1d1-30151d40343mr2609242a91.3.1742027982134; Sat, 15 Mar 2025
- 01:39:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742029441; x=1742634241;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3dbB/ofNXxxiysUhxY/Xsfai0QWByWlEWQ0X0rHDeUs=;
+        b=itBSzWH4xO3CJrd1+TFrjv+Ih5sMgOGnOe7CBnbR/jgak89M8BJZYzKKhuyhw4pWBp
+         dUJlECXp4niS8G8o5VA2AXLq5YB9Gjw1iu5Eh/yxktrRYGKenQrglUFK/p/hTNxLzmvj
+         gw0i59V1aJzBcWzm942fwkeC73YR9n5qE5zr3vxwV63wvJZv+RKiZupzIgWwRjU396Qq
+         +XTLXmfKzELk1wpUVrLLT/W6nMbAV/VeR/SNViCmUNawc8GHpKnhQORkPMJ8+k/8kpGP
+         dfiieiud/mhG6I5BHi/ai/8AGDg0YdZ5XFnGeKd097WzbU44x5/rtlphsBsi2NxTPw6d
+         41fw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIodvRb2F1ho0sD5UuBAVZbfUHPSUZ7oLv2HyIpHDGkDj+BJ/+QlKE5/vHMw9ZE0dvUVFwE6mN1LsljOPs@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7eV9LunDz0vWVMiHCjf8JFeWuCOT5OkW9UwUPDgUNNMAo/su4
+	pscKyTc8gu3D9EMnYA+MEK+oLVQUkcw2lRmVdrtQOHl3Y3b/gsTbsGGo9vNS7bM=
+X-Gm-Gg: ASbGncuhBRVMy/hIdaKKhONmGgbe3xvEb1DS3Zp92gkEnZzwFQ3CLP1oeeKFZGuMZOg
+	MHTK7gLkLXCKo675q8O/PZ33Ml5QMdDtSd/e/wo+NI7ESngy3HDCwasHgwM7hyJVOGW1priitL1
+	Q18RBGTsiB+OrlwqRNAwmk7bfusFcj9NaFXVuiRvGvneQhBOKjHLXvek90GvO/1KojdJAHLtRGQ
+	zjFZt4AJ4U5m6DeB8ghbywhdw6DQcFHPA19Lzjk8doM13ZfJ2/PH6JEGz2h9BvugCbHhP50vTie
+	pkYMIqytknW7X+K0q2v9B7Of12rHYfsGfvKWLyeJrdVyZdU0Sw==
+X-Google-Smtp-Source: AGHT+IGELyqbGxiKZpcd1sas1GGAA6ZYHKglj2RXbO764sDWPILYXArG7iWbnRkdJpvjqkTSDdACDA==
+X-Received: by 2002:a05:600c:3c8b:b0:43d:94:cfe6 with SMTP id 5b1f17b1804b1-43d1ecc7b28mr76592925e9.16.1742029441292;
+        Sat, 15 Mar 2025 02:04:01 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d1ffbfa90sm42856785e9.16.2025.03.15.02.04.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Mar 2025 02:04:00 -0700 (PDT)
+Date: Sat, 15 Mar 2025 12:03:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christian Brauner <brauner@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.idmapped.squash 9/10] fs/mnt_idmapping.c:384
+ alloc_mnt_idmap() error: 'idmap' dereferencing possible ERR_PTR()
+Message-ID: <74e7922d-d803-4b67-9411-dc5aa7f5e2f1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Z9IsEPOnC+MGSAEA@rli9-mobl> <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
-In-Reply-To: <CAK7LNAQpbQCzKha63SnJG2TpyXCFB4Vu8Q9xua9G8ht=Fbk_kA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 15 Mar 2025 09:39:30 +0100
-X-Gm-Features: AQ5f1JoLQONECP0PuXiZH1IsoZyMhazVY9AyCX57H_XAEH9AnCNINSRLMFnffeA
-Message-ID: <CANiq72md8yWAHdZeJFWAQFxb_9ftTFMiQciK+ZGf+3Lp_Jxa8g@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 15/20] error: Unrecognized option: 'remap-path-prefix'
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Mar 15, 2025 at 8:45=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Do you see this?
->
-> I tried to reproduce it on commit
-> 6b5747d07138f8109b1a150830f1d138de146ac2,
-> but I did not observe the reported error.
+tree:   https://github.com/brauner/linux.git work.idmapped.squash
+head:   97968d12e00d95bcc960a4fbd00fdb3ceb7e0c29
+commit: 27ead64a2c3d23b290e9cbff36f10b9fe9fe71f8 [9/10] mnt: add VFS {g,u}id squashing
+config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250315/202503150052.sDyHku8X-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
-This is probably:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503150052.sDyHku8X-lkp@intel.com/
 
-    https://lore.kernel.org/rust-for-linux/CANiq72ntZj10H1DBqRyX=3DuLertMw5=
-9e=3DPM7ESVJ0zWfu_ECnnA@mail.gmail.com/
-    https://lore.kernel.org/rust-for-linux/20250314213333.2230670-1-ojeda@k=
-ernel.org/
+smatch warnings:
+fs/mnt_idmapping.c:384 alloc_mnt_idmap() error: 'idmap' dereferencing possible ERR_PTR()
 
-Cheers,
-Miguel
+vim +/idmap +384 fs/mnt_idmapping.c
+
+3707d84c13670bf Christian Brauner 2023-01-13  367  struct mnt_idmap *alloc_mnt_idmap(struct user_namespace *mnt_userns)
+3707d84c13670bf Christian Brauner 2023-01-13  368  {
+3707d84c13670bf Christian Brauner 2023-01-13  369  	struct mnt_idmap *idmap;
+783822e44594639 Christian Brauner 2023-11-22  370  	int ret;
+3707d84c13670bf Christian Brauner 2023-01-13  371  
+3707d84c13670bf Christian Brauner 2023-01-13  372  	idmap = kzalloc(sizeof(struct mnt_idmap), GFP_KERNEL_ACCOUNT);
+3707d84c13670bf Christian Brauner 2023-01-13  373  	if (!idmap)
+3707d84c13670bf Christian Brauner 2023-01-13  374  		return ERR_PTR(-ENOMEM);
+3707d84c13670bf Christian Brauner 2023-01-13  375  
+3707d84c13670bf Christian Brauner 2023-01-13  376  	refcount_set(&idmap->count, 1);
+783822e44594639 Christian Brauner 2023-11-22  377  	ret = copy_mnt_idmap(&mnt_userns->uid_map, &idmap->uid_map);
+783822e44594639 Christian Brauner 2023-11-22  378  	if (!ret)
+783822e44594639 Christian Brauner 2023-11-22  379  		ret = copy_mnt_idmap(&mnt_userns->gid_map, &idmap->gid_map);
+783822e44594639 Christian Brauner 2023-11-22  380  	if (ret) {
+783822e44594639 Christian Brauner 2023-11-22  381  		free_mnt_idmap(idmap);
+783822e44594639 Christian Brauner 2023-11-22  382  		idmap = ERR_PTR(ret);
+
+return ERR_PTR(ret);
+
+783822e44594639 Christian Brauner 2023-11-22  383  	}
+27ead64a2c3d23b Christian Brauner 2025-03-11 @384  	idmap->vfsuid_squash = INVALID_VFSUID;
+27ead64a2c3d23b Christian Brauner 2025-03-11  385  	idmap->vfsgid_squash = INVALID_VFSGID;
+27ead64a2c3d23b Christian Brauner 2025-03-11  386  	return idmap;
+27ead64a2c3d23b Christian Brauner 2025-03-11  387  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
