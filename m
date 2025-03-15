@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F9517555
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 02:11:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB0078C91;
+	Sat, 15 Mar 2025 02:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742004718; cv=none; b=Y5NBMvx7zAOWQ6RlEqqlWGCe06m/V7Z06vH+iKbaQdtmZpZ3AYYckQWFqku4jW6RAnINaTzJHVqFxFJ61J9HhAkcGuMjVPUkS4M1MmE0M8JoNGaByTWjo2FALiKE6uUvXDDYw97b9mvkHBYWP5FT2su/uGdhsjfF3fQra3rpjYI=
+	t=1742004720; cv=none; b=JgrBTQQh37xdJMB1+qdst5z4gzzSdYQaHtKJiPGtNHjU3fnLqqQx/2+9VIMp0JA70hCsiS0+1YTQmA54iJMDc0B47gR9/gMygc1JK7528+xJNw7UqC8o2J+CUMqg9LcXe+v80X+fBIWeeInQyJWlwWJEXRjHYeCJj99SuQ3XN9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742004718; c=relaxed/simple;
-	bh=gowls29+Qr2Q/pl5cxeE+NlIP806O0WePdVmbZherdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBO5SToCQBesZDL8NjO/9zSlfF4Jp3a6+LapBYKw+UiBqh8u8FGEeeX8wH5HRVmFM8FRnhVsInMBP9OYSeV/ebbFdPYx+1VVifxH97r3tS+vJzKJ3eOzbng3E+elc5D+0Y2m5wOlrUCVprJ8Vt7MFMV8tuHnJ3hen0/wa+MZgdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=duCqU8rQ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1742004720; c=relaxed/simple;
+	bh=1dGZby3NcTG5d1ppp+jOKH36+9Gbk0rBnUPVsdgiPNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Uv8I3+3ZDMWTfhGgJiMyem/XqrSwtKSglg47hREbeWaJBu0+bkf4Q1ai+6978UMLTFtmQQgh8G8H0+0aSML10MTqTilSVE5dn/sKa5xL6rK/Cz5ZRg51zaiZ7xKknGS/tavI7lhKl/y3wOWIXv1aA+1+yTgoY2RCVX28Vm2iZaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9jRn2+X; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="duCqU8rQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9jRn2+X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742004717; x=1773540717;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gowls29+Qr2Q/pl5cxeE+NlIP806O0WePdVmbZherdE=;
-  b=duCqU8rQi1GMNPPqUpwqFnMmauP0cMAN/jRuyYzVa6Tdq1eVd4eoO8Jd
-   lJDBMAX4KiCnILs1Jh+rTMcqAYFct+8m9q/rH/eqT7P09t2CsuRuxQvo4
-   dobiRgwwGcz3T7fXx+7CaRAs7XxOIQQqQd4eyoJWvWqOjx6SNl3ehQKcH
-   U+fvGL3H9gdRgomVIhW3cQTNo/ETIYn077kLoO+wdG1fTpMkjJeSkszjv
-   GMBwr9dIpXsuDkHfcPHzMzEFLvsa3kDaQSHm8IX17++HU3arBu9wppWwK
-   3Aa5kl5F8MUby9sGb5UB7kyuxggt5NcFllzAvJzPghMchiWTL6kErIZ7i
+  t=1742004719; x=1773540719;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1dGZby3NcTG5d1ppp+jOKH36+9Gbk0rBnUPVsdgiPNo=;
+  b=Z9jRn2+Xh/2hT+1ZgZxu9EBW0XU6+7acrfZt3szFHcszzo/6ysbNXKN+
+   spKVnPYknVi0C61bjJpwlgKMyca10/un+XMptDU3y0/JneEGFrcXzZvqE
+   ZUQgVRRkfGjBzmZAT4Et6llmT9HrvWGVOUQIm8hZWbUcLJzbFvmY8plfb
+   G8tR5wWcQytIHKr7BId0ckz59ROOa5IhPJL1lCAb2aexnyIysej1JoSzD
+   3Q3aakZve4s/+Qt1QhPWp1+9bgKLsi9MiKFInr9MePIjc3b8h+Hfbvhkp
+   Bj0lcD55mDMDna1Hn51VS1jbf1GlNUFW2e/BHFvdYMJOhyim54vIDU2Fh
    w==;
-X-CSE-ConnectionGUID: FQsUFWicQd+5EEeJwesubw==
-X-CSE-MsgGUID: t8+XVd8YTOqFnb4r0iMPsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="53380626"
+X-CSE-ConnectionGUID: CbfPukxHTNOK/PQZX9QqCA==
+X-CSE-MsgGUID: C6xXuOGnQK+x+YObP0v49Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="53380628"
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="53380626"
+   d="scan'208";a="53380628"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 19:11:56 -0700
-X-CSE-ConnectionGUID: gFTbA6DpSMikRxV2QV+taQ==
-X-CSE-MsgGUID: PEjrDMm3RUm/LPJSbppPrA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 19:11:58 -0700
+X-CSE-ConnectionGUID: xujijOMGRVG99iFMYwJrUw==
+X-CSE-MsgGUID: I8vAgwIQSsuRZEw9V/dsWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="121938832"
+   d="scan'208";a="121938833"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by orviesa007.jf.intel.com with ESMTP; 14 Mar 2025 19:11:56 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttH0C-000AzD-2S;
+	id 1ttH0C-000AzG-2d;
 	Sat, 15 Mar 2025 02:11:52 +0000
-Date: Sat, 15 Mar 2025 10:11:15 +0800
+Date: Sat, 15 Mar 2025 10:11:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 07/10] bus: mhi: host: Add support for Bandwidth scale
-Message-ID: <202503151036.eJjjGFDV-lkp@intel.com>
-References: <20250313-mhi_bw_up-v2-7-869ca32170bf@oss.qualcomm.com>
+To: Sarika Sharma <quic_sarishar@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jeff Johnson <jjohnson@kernel.org>, Kalle Valo <kvalo@kernel.org>,
+	ath12k@lists.infradead.org,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Raj Kumar Bhagat <quic_rajkbhag@quicinc.com>
+Subject: [ath:ath12k-split-phy 144/158]
+ drivers/net/wireless/mediatek/mt76/mt792x_core.c:574:9: error: no member
+ named 'ack_signal' in 'struct station_info'
+Message-ID: <202503151013.F71WON7c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +66,232 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250313-mhi_bw_up-v2-7-869ca32170bf@oss.qualcomm.com>
 
-Hi Krishna,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 80e54e84911a923c40d7bee33a34c1b4be148d7a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-update-current-bus-speed-as-part-of-pci_bus_add_devices/20250313-195014
-base:   80e54e84911a923c40d7bee33a34c1b4be148d7a
-patch link:    https://lore.kernel.org/r/20250313-mhi_bw_up-v2-7-869ca32170bf%40oss.qualcomm.com
-patch subject: [PATCH v2 07/10] bus: mhi: host: Add support for Bandwidth scale
-config: alpha-randconfig-r122-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151036.eJjjGFDV-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250315/202503151036.eJjjGFDV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-split-phy
+head:   b8fa5b81fe378ec2bf46db73a2ff7d43151121da
+commit: 4ee62a717c5471caf9b50beb6eeefcf4ee0670a8 [144/158] wifi: cfg80211: reorg sinfo structure elements for MLO
+config: powerpc-randconfig-003-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151013.F71WON7c-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151013.F71WON7c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151036.eJjjGFDV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151013.F71WON7c-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/bus/mhi/host/init.c:535:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   drivers/bus/mhi/host/init.c:535:13: sparse:     expected unsigned int [usertype] val
-   drivers/bus/mhi/host/init.c:535:13: sparse:     got restricted __le32 [usertype]
+All errors (new ones prefixed by >>):
+
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:556:10: error: no member named 'txrate' in 'struct station_info'
+     556 |                 sinfo->txrate.legacy = txrate->legacy;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:558:10: error: no member named 'txrate' in 'struct station_info'
+     558 |                 sinfo->txrate.mcs = txrate->mcs;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:559:10: error: no member named 'txrate' in 'struct station_info'
+     559 |                 sinfo->txrate.nss = txrate->nss;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:560:10: error: no member named 'txrate' in 'struct station_info'
+     560 |                 sinfo->txrate.bw = txrate->bw;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:561:10: error: no member named 'txrate' in 'struct station_info'
+     561 |                 sinfo->txrate.he_gi = txrate->he_gi;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:562:10: error: no member named 'txrate' in 'struct station_info'
+     562 |                 sinfo->txrate.he_dcm = txrate->he_dcm;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:563:10: error: no member named 'txrate' in 'struct station_info'
+     563 |                 sinfo->txrate.he_ru_alloc = txrate->he_ru_alloc;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:565:9: error: no member named 'tx_failed' in 'struct station_info'
+     565 |         sinfo->tx_failed = msta->deflink.wcid.stats.tx_failed;
+         |         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:568:9: error: no member named 'tx_retries' in 'struct station_info'
+     568 |         sinfo->tx_retries = msta->deflink.wcid.stats.tx_retries;
+         |         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt792x_core.c:571:9: error: no member named 'txrate' in 'struct station_info'
+     571 |         sinfo->txrate.flags = txrate->flags;
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt792x_core.c:574:9: error: no member named 'ack_signal' in 'struct station_info'
+     574 |         sinfo->ack_signal = (s8)msta->deflink.ack_signal;
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt792x_core.c:577:9: error: no member named 'avg_ack_signal' in 'struct station_info'
+     577 |         sinfo->avg_ack_signal = -(s8)ewma_avg_signal_read(&msta->deflink.avg_ack_signal);
+         |         ~~~~~  ^
+   12 errors generated.
 --
->> drivers/bus/mhi/host/main.c:1122:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] response @@     got restricted __le32 [usertype] @@
-   drivers/bus/mhi/host/main.c:1122:18: sparse:     expected unsigned int [assigned] [usertype] response
-   drivers/bus/mhi/host/main.c:1122:18: sparse:     got restricted __le32 [usertype]
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1159:10: error: no member named 'rxrate' in 'struct station_info'
+    1159 |                 sinfo->rxrate = rxrate;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1165:11: error: no member named 'txrate' in 'struct station_info'
+    1165 |                         sinfo->txrate.legacy = txrate->legacy;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1167:11: error: no member named 'txrate' in 'struct station_info'
+    1167 |                         sinfo->txrate.mcs = txrate->mcs;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1168:11: error: no member named 'txrate' in 'struct station_info'
+    1168 |                         sinfo->txrate.nss = txrate->nss;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1169:11: error: no member named 'txrate' in 'struct station_info'
+    1169 |                         sinfo->txrate.bw = txrate->bw;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1170:11: error: no member named 'txrate' in 'struct station_info'
+    1170 |                         sinfo->txrate.he_gi = txrate->he_gi;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1171:11: error: no member named 'txrate' in 'struct station_info'
+    1171 |                         sinfo->txrate.he_dcm = txrate->he_dcm;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1172:11: error: no member named 'txrate' in 'struct station_info'
+    1172 |                         sinfo->txrate.he_ru_alloc = txrate->he_ru_alloc;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1174:10: error: no member named 'txrate' in 'struct station_info'
+    1174 |                 sinfo->txrate.flags = txrate->flags;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1182:10: error: no member named 'tx_bytes' in 'struct station_info'
+    1182 |                 sinfo->tx_bytes = msta->wcid.stats.tx_bytes;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1186:11: error: no member named 'tx_packets' in 'struct station_info'
+    1186 |                         sinfo->tx_packets = msta->wcid.stats.tx_packets;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1191:11: error: no member named 'rx_bytes' in 'struct station_info'
+    1191 |                         sinfo->rx_bytes = msta->wcid.stats.rx_bytes;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1194:11: error: no member named 'rx_packets' in 'struct station_info'
+    1194 |                         sinfo->rx_packets = msta->wcid.stats.rx_packets;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1199:9: error: no member named 'tx_failed' in 'struct station_info'
+    1199 |         sinfo->tx_failed = msta->wcid.stats.tx_failed;
+         |         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7915/main.c:1202:9: error: no member named 'tx_retries' in 'struct station_info'
+    1202 |         sinfo->tx_retries = msta->wcid.stats.tx_retries;
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt7915/main.c:1205:9: error: no member named 'ack_signal' in 'struct station_info'
+    1205 |         sinfo->ack_signal = (s8)msta->ack_signal;
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt7915/main.c:1208:9: error: no member named 'avg_ack_signal' in 'struct station_info'
+    1208 |         sinfo->avg_ack_signal = -(s8)ewma_avg_signal_read(&msta->avg_ack_signal);
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt7915/main.c:1797:3: error: field designator 'sta_statistics' does not refer to any field in type 'const struct ieee80211_ops'
+    1797 |         .sta_statistics = mt7915_sta_statistics,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   18 errors generated.
+--
+>> drivers/net/wireless/mediatek/mt76/mt7925/main.c:2180:3: error: field designator 'sta_statistics' does not refer to any field in type 'const struct ieee80211_ops'
+    2180 |         .sta_statistics = mt792x_sta_statistics,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1152:11: error: no member named 'txrate' in 'struct station_info'
+    1152 |                         sinfo->txrate.legacy = txrate->legacy;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1154:11: error: no member named 'txrate' in 'struct station_info'
+    1154 |                         sinfo->txrate.mcs = txrate->mcs;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1155:11: error: no member named 'txrate' in 'struct station_info'
+    1155 |                         sinfo->txrate.nss = txrate->nss;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1156:11: error: no member named 'txrate' in 'struct station_info'
+    1156 |                         sinfo->txrate.bw = txrate->bw;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1157:11: error: no member named 'txrate' in 'struct station_info'
+    1157 |                         sinfo->txrate.he_gi = txrate->he_gi;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1158:11: error: no member named 'txrate' in 'struct station_info'
+    1158 |                         sinfo->txrate.he_dcm = txrate->he_dcm;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1159:11: error: no member named 'txrate' in 'struct station_info'
+    1159 |                         sinfo->txrate.he_ru_alloc = txrate->he_ru_alloc;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1160:11: error: no member named 'txrate' in 'struct station_info'
+    1160 |                         sinfo->txrate.eht_gi = txrate->eht_gi;
+         |                         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1162:10: error: no member named 'txrate' in 'struct station_info'
+    1162 |                 sinfo->txrate.flags = txrate->flags;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1165:9: error: no member named 'txrate' in 'struct station_info'
+    1165 |         sinfo->txrate.flags = txrate->flags;
+         |         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1168:9: error: no member named 'tx_failed' in 'struct station_info'
+    1168 |         sinfo->tx_failed = msta->wcid.stats.tx_failed;
+         |         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1171:9: error: no member named 'tx_retries' in 'struct station_info'
+    1171 |         sinfo->tx_retries = msta->wcid.stats.tx_retries;
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt7996/main.c:1174:9: error: no member named 'ack_signal' in 'struct station_info'
+    1174 |         sinfo->ack_signal = (s8)msta->ack_signal;
+         |         ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt7996/main.c:1177:9: error: no member named 'avg_ack_signal' in 'struct station_info'
+    1177 |         sinfo->avg_ack_signal = -(s8)ewma_avg_signal_read(&msta->avg_ack_signal);
+         |         ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1181:10: error: no member named 'tx_bytes' in 'struct station_info'
+    1181 |                 sinfo->tx_bytes = msta->wcid.stats.tx_bytes;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1184:10: error: no member named 'rx_bytes' in 'struct station_info'
+    1184 |                 sinfo->rx_bytes = msta->wcid.stats.rx_bytes;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1187:10: error: no member named 'tx_packets' in 'struct station_info'
+    1187 |                 sinfo->tx_packets = msta->wcid.stats.tx_packets;
+         |                 ~~~~~  ^
+   drivers/net/wireless/mediatek/mt76/mt7996/main.c:1190:10: error: no member named 'rx_packets' in 'struct station_info'
+    1190 |                 sinfo->rx_packets = msta->wcid.stats.rx_packets;
+         |                 ~~~~~  ^
+>> drivers/net/wireless/mediatek/mt76/mt7996/main.c:1667:3: error: field designator 'sta_statistics' does not refer to any field in type 'const struct ieee80211_ops'
+    1667 |         .sta_statistics = mt7996_sta_statistics,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   19 errors generated.
+--
+>> drivers/net/wireless/mediatek/mt76/mt7921/main.c:1547:3: error: field designator 'sta_statistics' does not refer to any field in type 'const struct ieee80211_ops'
+    1547 |         .sta_statistics = mt792x_sta_statistics,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-vim +535 drivers/bus/mhi/host/init.c
 
-   514	
-   515	static int mhi_init_bw_scale(struct mhi_controller *mhi_cntrl,
-   516				     int bw_scale_db)
-   517	{
-   518		struct device *dev = &mhi_cntrl->mhi_dev->dev;
-   519		u32 bw_cfg_offset, val = 0;
-   520		int ret, er_index;
-   521	
-   522		ret = mhi_get_capability_offset(mhi_cntrl, MHI_BW_SCALE_CAP_ID,
-   523						&bw_cfg_offset);
-   524		if (ret)
-   525			return ret;
-   526	
-   527		/* No ER configured to support BW scale */
-   528		er_index = mhi_get_er_index(mhi_cntrl, MHI_ER_BW_SCALE);
-   529		if (er_index < 0)
-   530			return er_index;
-   531	
-   532		bw_cfg_offset += MHI_BW_SCALE_CFG_OFFSET;
-   533	
-   534		/* advertise host support */
- > 535		val = MHI_BW_SCALE_ENABLE(bw_scale_db, er_index);
-   536	
-   537		mhi_write_reg(mhi_cntrl, mhi_cntrl->regs, bw_cfg_offset, val);
-   538	
-   539		dev_dbg(dev, "Bandwidth scaling setup complete. Event ring:%d\n",
-   540			er_index);
-   541	
-   542		return 0;
-   543	}
-   544	
+vim +574 drivers/net/wireless/mediatek/mt76/mt792x_core.c
+
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  543  
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  544  void mt792x_sta_statistics(struct ieee80211_hw *hw,
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  545  			   struct ieee80211_vif *vif,
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  546  			   struct ieee80211_sta *sta,
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  547  			   struct station_info *sinfo)
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  548  {
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  549  	struct mt792x_sta *msta = (struct mt792x_sta *)sta->drv_priv;
+4c28c0976ed83c3 Deren Wu         2024-06-12  550  	struct rate_info *txrate = &msta->deflink.wcid.rate;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  551  
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  552  	if (!txrate->legacy && !txrate->flags)
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  553  		return;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  554  
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  555  	if (txrate->legacy) {
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  556  		sinfo->txrate.legacy = txrate->legacy;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  557  	} else {
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  558  		sinfo->txrate.mcs = txrate->mcs;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  559  		sinfo->txrate.nss = txrate->nss;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  560  		sinfo->txrate.bw = txrate->bw;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  561  		sinfo->txrate.he_gi = txrate->he_gi;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  562  		sinfo->txrate.he_dcm = txrate->he_dcm;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  563  		sinfo->txrate.he_ru_alloc = txrate->he_ru_alloc;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  564  	}
+4c28c0976ed83c3 Deren Wu         2024-06-12  565  	sinfo->tx_failed = msta->deflink.wcid.stats.tx_failed;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  566  	sinfo->filled |= BIT_ULL(NL80211_STA_INFO_TX_FAILED);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  567  
+4c28c0976ed83c3 Deren Wu         2024-06-12  568  	sinfo->tx_retries = msta->deflink.wcid.stats.tx_retries;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  569  	sinfo->filled |= BIT_ULL(NL80211_STA_INFO_TX_RETRIES);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  570  
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  571  	sinfo->txrate.flags = txrate->flags;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  572  	sinfo->filled |= BIT_ULL(NL80211_STA_INFO_TX_BITRATE);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  573  
+4c28c0976ed83c3 Deren Wu         2024-06-12 @574  	sinfo->ack_signal = (s8)msta->deflink.ack_signal;
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  575  	sinfo->filled |= BIT_ULL(NL80211_STA_INFO_ACK_SIGNAL);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  576  
+4c28c0976ed83c3 Deren Wu         2024-06-12 @577  	sinfo->avg_ack_signal = -(s8)ewma_avg_signal_read(&msta->deflink.avg_ack_signal);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  578  	sinfo->filled |= BIT_ULL(NL80211_STA_INFO_ACK_SIGNAL_AVG);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  579  }
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  580  EXPORT_SYMBOL_GPL(mt792x_sta_statistics);
+c74df1c067f2af0 Lorenzo Bianconi 2023-06-28  581  
+
+:::::: The code at line 574 was first introduced by commit
+:::::: 4c28c0976ed83c3e8240e80ea918c4d1a3f9c5bc wifi: mt76: mt792x: add struct mt792x_link_sta
+
+:::::: TO: Deren Wu <deren.wu@mediatek.com>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
 
 -- 
 0-DAY CI Kernel Test Service
