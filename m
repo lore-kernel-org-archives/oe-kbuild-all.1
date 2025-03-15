@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732291A08AB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 07:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DDFAD51
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 07:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742024323; cv=none; b=FDVzlwfesDMt7fDZ057EA6aNxmTPPekp3FyxlnRtV6EzDUXssTXmEc1ak70Lu90a/WF0/KZh0qsmwwF+yukwBCLpakte20o/oKQGSI7/U+9QzNpBBLwtyes3fhOoVWOMH13efnYdykTRYmV2LMEwIXvUdaH52DFZSrnTE0R8FrQ=
+	t=1742024332; cv=none; b=EUEjt9oUbSMfZmkDKDcN/aJWmrpLkWriD7xaYXuyB3qhW40qvrxviK9SDgjkWskSD94aQEKCTaoTuX+H7/k/W1dHQqx1nlvvXowtzEhplTuszBCcvzsSUvtb8dnQ9Lkg29UaLK5J6pFlMGal3/wNBXy7vRL+BBqESk2fuhfjJEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742024323; c=relaxed/simple;
-	bh=Ag0Liw+5nFTMbpWGAUDY1iT8SxG73LaSDHU1TbuuLaw=;
+	s=arc-20240116; t=1742024332; c=relaxed/simple;
+	bh=tG+NomvjzTrIpLUJCJXD3a0quZXY6LHArWeqlMEnoWY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O2hlNoidJ6fO839gOOKaWbjfjBMzKPRA7OC1eSkod5yetro994Yf967KcHbw7lcyBjKfFfD/+kLWDbQIHqO+hvoH1zJz+S2vmaCaUrZbgdJNn52gdZtEt6gs/NQyRGO3geWlpq57qTHw2t6YKTyhgnuk+68oEknkCOHP1BpdsPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxNIPpel; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ecRQF7ieK76qqVh0Cg6Dli/qZWNCxq4p2BDfOyjy+6XI8pkQ64Zg+zB7Z2n3tVx8z48UNmxx4jgivifUJeDRYWTRarYri7Ct30bhF20Tf9aJueXnuMFnDrwjM+Sp1/B+tQ8F2Qpb77h/68C1qiv24FTO0Qv278V4JbPpoXIF6O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OraMh/s6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxNIPpel"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OraMh/s6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742024320; x=1773560320;
+  t=1742024330; x=1773560330;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ag0Liw+5nFTMbpWGAUDY1iT8SxG73LaSDHU1TbuuLaw=;
-  b=bxNIPpelm8xXII6H2rE/WVq3aMmuecpmnFUDm8PBFuNb3Q1c2ZXRDTFA
-   iVsxRwS0/ILVf3jIU1CeDgimv2cJXHTh7TV//7YUdSIPWHcqygiHWDh/c
-   6RmlNVEaOXzcv37qj+XUHydymBpJSatikjJAsnHH5sSQ1eVPX9fFrdkX1
-   kpobMoxouUmjAv6d98pWl2k9wibsPEwt2u1jEbUk0LLRm9V2uQOI0Yls9
-   HUKcaSDx96BA4RRb8fGNFwKE2CXOl9aJOT4NrUtUYDXJtQ4IiA377gNer
-   8cv3t/WEUTSxddPfYyebgoW0GCKfhwX91I5K/8m6gSQ/T2BqXurn8aDQr
-   w==;
-X-CSE-ConnectionGUID: /UvO61zXQ4K6YamViJdNZw==
-X-CSE-MsgGUID: ZLz5rN78RWGrucKJhrA5Ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43284681"
+  bh=tG+NomvjzTrIpLUJCJXD3a0quZXY6LHArWeqlMEnoWY=;
+  b=OraMh/s6kTwOEs7k7j6gb23zM4LbkFujyX65wEQZW8iuoH7InsrAk8NU
+   h6ZwVTFy0YowHTHbSdfV5EHlQHoWRjeCIRw4wGN6pyc7D6z4/toJO/h2M
+   fWU876YF044cRo0hEEL9ipxkFBQneMlfJW/G5MFnbYlOkQ1VCe+INoYY9
+   DtotbBMeSqrFujUjwFKHNJ95ts//6V49lVhLqVUE9FGSUVaWH3amR16Uw
+   W+Fp6XDro1AJaUlNbSziupLJskiD1H9gkIirCCzwIBWcpfouAWWsyzbUJ
+   xwl2Wbv/1CzqYbDGMvEv9cWjaOjxRfmBydyOMZnK500lQP/bfTj99gGdD
+   A==;
+X-CSE-ConnectionGUID: ADJWr27MS6qY1FwbpefPEA==
+X-CSE-MsgGUID: 2Ij8RSonQx+J2EaCXs/eHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43284686"
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="43284681"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 00:38:40 -0700
-X-CSE-ConnectionGUID: 31dOWPbrSjOY1yTI0DxqJg==
-X-CSE-MsgGUID: upuQ9nfXTc2OLtYEeN9lwA==
+   d="scan'208";a="43284686"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 00:38:50 -0700
+X-CSE-ConnectionGUID: 7ZPQKo89R7a/qyX7h5zOPg==
+X-CSE-MsgGUID: BzBAPPy2TomLP2YHcIXVIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="121483326"
+   d="scan'208";a="121433355"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 15 Mar 2025 00:38:39 -0700
+  by orviesa010.jf.intel.com with ESMTP; 15 Mar 2025 00:38:46 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttM6F-000B8p-23;
-	Sat, 15 Mar 2025 07:38:32 +0000
-Date: Sat, 15 Mar 2025 15:37:51 +0800
+	id 1ttM6P-000B8s-0x;
+	Sat, 15 Mar 2025 07:38:39 +0000
+Date: Sat, 15 Mar 2025 15:37:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:for-kernelci 10/10]
- drivers/soc/aspeed/aspeed-p2a-ctrl.c:348:14: error: implicit declaration of
- function 'of_reserved_mem_region_to_resource'
-Message-ID: <202503151521.46jF9Gm0-lkp@intel.com>
+Subject: [vbabka:memcg-stock-trylock 1/2] lib/slub_kunit.c:10:10: fatal
+ error: asm/tsc.h: No such file or directory
+Message-ID: <202503151558.odW6lJMp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,82 +62,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   5b03bf12bca3de24640f5e388ef4d956cf22673e
-commit: 6cc5107d1a7aa24dffaa093cfbeb387890c16970 [10/10] more driver cleanups
-config: arc-randconfig-002-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151521.46jF9Gm0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git memcg-stock-trylock
+head:   478ebf7bfd1fda634d890d435c44fd77c97b163d
+commit: 4e670c5b007b5bc341e53bb4902f72db41a30c2e [1/2] slub, kunit: hack a kmalloc/kfree microbench
+config: arc-randconfig-002-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151558.odW6lJMp-lkp@intel.com/config)
 compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151521.46jF9Gm0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151558.odW6lJMp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151521.46jF9Gm0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151558.odW6lJMp-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/soc/aspeed/aspeed-p2a-ctrl.c: In function 'aspeed_p2a_ctrl_probe':
->> drivers/soc/aspeed/aspeed-p2a-ctrl.c:348:14: error: implicit declaration of function 'of_reserved_mem_region_to_resource' [-Werror=implicit-function-declaration]
-     348 |         rc = of_reserved_mem_region_to_resource(dev->of_node, 0, &resm);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/soc/aspeed/aspeed-lpc-ctrl.c: In function 'aspeed_lpc_ctrl_probe':
->> drivers/soc/aspeed/aspeed-lpc-ctrl.c:242:22: error: implicit declaration of function 'of_address_to_resource' [-Werror=implicit-function-declaration]
-     242 |                 rc = of_address_to_resource(node, 1, &resm);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> lib/slub_kunit.c:10:10: fatal error: asm/tsc.h: No such file or directory
+      10 | #include <asm/tsc.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/of_reserved_mem_region_to_resource +348 drivers/soc/aspeed/aspeed-p2a-ctrl.c
+vim +10 lib/slub_kunit.c
 
-   331	
-   332	static int aspeed_p2a_ctrl_probe(struct platform_device *pdev)
-   333	{
-   334		struct aspeed_p2a_ctrl *misc_ctrl;
-   335		struct device *dev;
-   336		struct resource resm;
-   337		int rc = 0;
-   338	
-   339		dev = &pdev->dev;
-   340	
-   341		misc_ctrl = devm_kzalloc(dev, sizeof(*misc_ctrl), GFP_KERNEL);
-   342		if (!misc_ctrl)
-   343			return -ENOMEM;
-   344	
-   345		mutex_init(&misc_ctrl->tracking);
-   346	
-   347		/* optional. */
- > 348		rc = of_reserved_mem_region_to_resource(dev->of_node, 0, &resm);
-   349		if (!rc) {
-   350			misc_ctrl->mem_size = resource_size(&resm);
-   351			misc_ctrl->mem_base = resm.start;
-   352		}
-   353	
-   354		misc_ctrl->regmap = syscon_node_to_regmap(pdev->dev.parent->of_node);
-   355		if (IS_ERR(misc_ctrl->regmap)) {
-   356			dev_err(dev, "Couldn't get regmap\n");
-   357			return -ENODEV;
-   358		}
-   359	
-   360		misc_ctrl->config = of_device_get_match_data(dev);
-   361	
-   362		dev_set_drvdata(&pdev->dev, misc_ctrl);
-   363	
-   364		aspeed_p2a_disable_all(misc_ctrl);
-   365	
-   366		misc_ctrl->miscdev.minor = MISC_DYNAMIC_MINOR;
-   367		misc_ctrl->miscdev.name = DEVICE_NAME;
-   368		misc_ctrl->miscdev.fops = &aspeed_p2a_ctrl_fops;
-   369		misc_ctrl->miscdev.parent = dev;
-   370	
-   371		rc = misc_register(&misc_ctrl->miscdev);
-   372		if (rc)
-   373			dev_err(dev, "Unable to register device\n");
-   374	
-   375		return rc;
-   376	}
-   377	
+  > 10	#include <asm/tsc.h>
+    11	
 
 -- 
 0-DAY CI Kernel Test Service
