@@ -1,213 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3631753BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 09:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5CED531;
+	Sat, 15 Mar 2025 09:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742029812; cv=none; b=QENSd3SUfT8nHEZwmaFNvhHvB+P/GSD522NHpJ8MNqVCChCbVBWYp+M/94ny8LH85ptP3jRMcAXJp1TXrE9hpgBfn6jwHKjRaQl5mWIwOBHN8OGnAo9Zm6FtNjR3J1hhOGgi3Jvu45Y5y86paYRYy5uEE7gQUKqNokr1yvKEU1Q=
+	t=1742029813; cv=none; b=i4RFhkRm3Bi2tVgZo/sSwxafPuAnyHqmpC4DYXlCqVt3PeSkUG4cUQp7YO70C7spWPDsPL7L+6uoBLcJpkGjlkv46z3mwTAhaKyRNOiIfZcxfeUmYfwtDUy+vD2R3+NXlTaT0E5Kudb8awGyzWvzv8fkChKRF32j7pXTFv82Gw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742029812; c=relaxed/simple;
-	bh=5pt83pmPI+8JBtS0NrP1sL4gwRg0serC+2nKWAOy04E=;
+	s=arc-20240116; t=1742029813; c=relaxed/simple;
+	bh=sykcBFCfTrScqo1uV+BY7U/iY5Ywnba/BNBPGphPvJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xx1ErUioMWAc+Rf6Zn7LwphZ8FbEU9fI9Kom61hdreFH39PE0gfNvrJbNm12kggEZGcKZeehzzLLz5Vu5ra+4Kd6E1UiVjX0nprQSp7/Eg091Nqkm22M+YRf36IVDU8Q7DTuh/HiiNAmcdd05UkQwk81QBqQsB02MI6NA3e92QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8kL+RIv; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=pPvVXbKZcDGngxNfVfEUu8+hD4+b352/dwtOtLUiab3HfPa6JI8VAZzjsEv5rWjL/2tYsXLEGGZfQW+woanKU7nNASVasdBBFOKrpl9VtHATW4z46rcPjlLydkfkrcsW0RlcCqA1W6RxUlz2mRSYLG5d6bsfsii8O63MPaM17II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZNPQdeE; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8kL+RIv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZNPQdeE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742029811; x=1773565811;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5pt83pmPI+8JBtS0NrP1sL4gwRg0serC+2nKWAOy04E=;
-  b=I8kL+RIvhpozjPvp0RMknmsT0Wm8EOFzrOrOJt2ygUhK6VKmOtxLYLnr
-   r2k2VJNRSQGrE09SCWgwpqnkVPp9BswAeAREo3kBk3LJEfW9a1d8x1Enw
-   mXiwYEnwRwJyz+dwBsc9B5rAguARZNOHsxWA4bf0Ow19kjJi8SMtnyUY2
-   3BFpoqYMsCqmvfhMk9Wqy4/aNgG++0gurXrRbAacJO920akz273ZjHTU0
-   v56umt+kHQhGZcta34mIZyvu/qA7fv5Dg8skvvU+CDlu1G+Ab1W8JKxuF
-   441a4s8PEKCrgJdpNXUClY8drk4O9EV4btTMQ+Vk7c0WqsW8PVvysz0MC
-   Q==;
-X-CSE-ConnectionGUID: prGv7ZBpSU6DIE8hWXbpXA==
-X-CSE-MsgGUID: ZtvTJBX+TEiu4JtUF1cRzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="42430588"
+  t=1742029812; x=1773565812;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sykcBFCfTrScqo1uV+BY7U/iY5Ywnba/BNBPGphPvJs=;
+  b=cZNPQdeEtGtbmxxQYQumNrPYH3Xlvdmw9li8kpwS3Pwk7Q8TQ8rfQn/B
+   EPAED+NA+lfRyYNK3qBXe9STkZqSabAuQPSN674tPPWLhEWRUpAa6HkYl
+   ++gTZZVdr+nOhze7bs+QTVuALqcNZ8v+0/F2vDox7Cip0QU08c/pq7awj
+   xrsnb9Q+F3RLZOLBRn8HwC55Phcrqj4qOoIuHEJzOsik5YcoE0jC5waqq
+   76qR4CMjZP4AcvK2vQRCnRfvHQhNf1mo2lgWvFkKEGleTZnCEL5SbRh3s
+   sv1vG/SbGR32j8Pa1SS9eXs4oR0D/3SpuGgocpRW9VnqkZlL+sPHksprp
+   g==;
+X-CSE-ConnectionGUID: LfvU5vFYS+6YpMDN5f7qXQ==
+X-CSE-MsgGUID: Ctbl8HM9SIyZL2291oF89Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="46830873"
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="42430588"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 02:10:10 -0700
-X-CSE-ConnectionGUID: IKbzrX1uQdSWeW8IYBqdkA==
-X-CSE-MsgGUID: YOPAN9rsSgu0PeGJlejdBw==
+   d="scan'208";a="46830873"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 02:10:11 -0700
+X-CSE-ConnectionGUID: z+zJKdhGSv6iAcp6v2iSaA==
+X-CSE-MsgGUID: r4vbHY9qS92jB53VpdRY5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="126691647"
+   d="scan'208";a="121697823"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 15 Mar 2025 02:10:09 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Mar 2025 02:10:09 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttNWx-000BC5-02;
-	Sat, 15 Mar 2025 09:10:07 +0000
-Date: Sat, 15 Mar 2025 17:09:16 +0800
+	id 1ttNWw-000BC3-3C;
+	Sat, 15 Mar 2025 09:10:06 +0000
+Date: Sat, 15 Mar 2025 17:09:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:netns-debugfs 1/1] fs/debugfs/netns.c:14:9: error: expected
- ';' before 'int'
-Message-ID: <202503151723.984UQxig-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:to_build 8/15] include/asm-generic/io.h:977:9:
+ error: passing 'const volatile void *' to parameter of type 'volatile void
+ *' discards qualifiers
+Message-ID: <202503151758.IYVjltC3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git netns-debugfs
-head:   e06d7dd780ab4a50f85115f8ee988e588e4aad57
-commit: e06d7dd780ab4a50f85115f8ee988e588e4aad57 [1/1] net: add a debugfs directory for showing refcount tracking info
-config: i386-buildonly-randconfig-001-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151723.984UQxig-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151723.984UQxig-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to_build
+head:   02710864b974d663d56bc99493fb1976caab42a2
+commit: 58774c1d8c8834d8be1dbea1e8ca339792d73935 [8/15] mips: drop GENERIC_IOMAP wrapper
+config: mips-bcm63xx_defconfig (https://download.01.org/0day-ci/archive/20250315/202503151758.IYVjltC3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151758.IYVjltC3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151723.984UQxig-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151758.IYVjltC3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/debugfs/netns.c:14:9: error: expected ';' before 'int'
-      14 | unisgned int debugfs_net_id;
-         |         ^~~~
-         |         ;
-   fs/debugfs/netns.c: In function 'debugfs_exit_net':
->> fs/debugfs/netns.c:100:34: error: 'dnet' undeclared (first use in this function); did you mean 'net'?
-     100 |         debugfs_remove_recursive(dnet->netdir);
-         |                                  ^~~~
-         |                                  net
-   fs/debugfs/netns.c:100:34: note: each undeclared identifier is reported only once for each function it appears in
-   fs/debugfs/netns.c: At top level:
->> fs/debugfs/netns.c:111:1: warning: no previous prototype for 'debugfs_net_init' [-Wmissing-prototypes]
-     111 | debugfs_net_init(void)
-         | ^~~~~~~~~~~~~~~~
->> fs/debugfs/netns.c:120:1: warning: no previous prototype for 'debugfs_net_exit' [-Wmissing-prototypes]
-     120 | debugfs_net_exit(void)
-         | ^~~~~~~~~~~~~~~~
->> fs/debugfs/netns.c:103:33: warning: 'debugfs_net_ops' defined but not used [-Wunused-variable]
-     103 | static struct pernet_operations debugfs_net_ops = {
-         |                                 ^~~~~~~~~~~~~~~
+   In file included from arch/mips/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:15:
+   In file included from include/linux/socket.h:8:
+   In file included from include/linux/uio.h:10:
+   In file included from include/linux/mm_types.h:5:
+   In file included from include/linux/mm_types_task.h:14:
+   In file included from arch/mips/include/asm/page.h:181:
+   In file included from arch/mips/include/asm/io.h:547:
+>> include/asm-generic/io.h:977:9: error: passing 'const volatile void *' to parameter of type 'volatile void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     977 |         readsb(addr, buffer, count);
+         |                ^~~~
+   arch/mips/include/asm/io.h:429:1: note: passing argument to parameter 'mem' here
+     429 | BUILDSTRING(b, u8)
+         | ^
+   arch/mips/include/asm/io.h:425:10: note: expanded from macro 'BUILDSTRING'
+     425 |                                                                         \
+         |                                                                         ^
+   arch/mips/include/asm/io.h:389:55: note: expanded from macro '\
+   __BUILD_MEMORY_STRING'
+     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
+         |                                                       ^
+   In file included from arch/mips/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:15:
+   In file included from include/linux/socket.h:8:
+   In file included from include/linux/uio.h:10:
+   In file included from include/linux/mm_types.h:5:
+   In file included from include/linux/mm_types_task.h:14:
+   In file included from arch/mips/include/asm/page.h:181:
+   In file included from arch/mips/include/asm/io.h:547:
+   include/asm-generic/io.h:986:9: error: passing 'const volatile void *' to parameter of type 'volatile void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     986 |         readsw(addr, buffer, count);
+         |                ^~~~
+   arch/mips/include/asm/io.h:430:1: note: passing argument to parameter 'mem' here
+     430 | BUILDSTRING(w, u16)
+         | ^
+   arch/mips/include/asm/io.h:425:10: note: expanded from macro 'BUILDSTRING'
+     425 |                                                                         \
+         |                                                                         ^
+   arch/mips/include/asm/io.h:389:55: note: expanded from macro '\
+   __BUILD_MEMORY_STRING'
+     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
+         |                                                       ^
+   In file included from arch/mips/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:15:
+   In file included from include/linux/socket.h:8:
+   In file included from include/linux/uio.h:10:
+   In file included from include/linux/mm_types.h:5:
+   In file included from include/linux/mm_types_task.h:14:
+   In file included from arch/mips/include/asm/page.h:181:
+   In file included from arch/mips/include/asm/io.h:547:
+   include/asm-generic/io.h:995:9: error: passing 'const volatile void *' to parameter of type 'volatile void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     995 |         readsl(addr, buffer, count);
+         |                ^~~~
+   arch/mips/include/asm/io.h:431:1: note: passing argument to parameter 'mem' here
+     431 | BUILDSTRING(l, u32)
+         | ^
+   arch/mips/include/asm/io.h:425:10: note: expanded from macro 'BUILDSTRING'
+     425 |                                                                         \
+         |                                                                         ^
+   arch/mips/include/asm/io.h:389:55: note: expanded from macro '\
+   __BUILD_MEMORY_STRING'
+     389 | static inline void reads##bwlq(volatile void __iomem *mem, void *addr,  \
+         |                                                       ^
+   In file included from arch/mips/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:15:
+   In file included from include/linux/socket.h:8:
+   In file included from include/linux/uio.h:10:
+   In file included from include/linux/mm_types.h:5:
+   In file included from include/linux/mm_types_task.h:14:
+   In file included from arch/mips/include/asm/page.h:181:
+   In file included from arch/mips/include/asm/io.h:547:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   1 warning and 3 errors generated.
+   make[3]: *** [scripts/Makefile.build:102: arch/mips/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1264: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +14 fs/debugfs/netns.c
+vim +977 include/asm-generic/io.h
 
-    13	
-  > 14	unisgned int debugfs_net_id;
-    15	struct debugfs_net {
-    16		struct dentry *netdir;
-    17		struct dentry *refcnt;
-    18	};
-    19	
-    20	static int
-    21	netns_ref_show(struct seq_file *f, void *v)
-    22	{
-    23		struct net *net = f->private;
-    24		char *buf;
-    25		int len;
-    26	
-    27		buf = kmalloc(4096, GFP_KERNEL);
-    28		if (!buf)
-    29			return -ENOMEM;
-    30	
-    31		len = ref_tracker_dir_snprint(&net->refcnt_tracker, buf, 4096);
-    32		seq_write(f, buf, len);
-    33		kfree(buf);
-    34	
-    35		return 0;
-    36	}
-    37	
-    38	static int
-    39	netns_ref_open(struct inode *inode, struct file *filp)
-    40	{
-    41		int ret;
-    42		struct net *net = inode->i_private;
-    43	
-    44		ret = single_open(filp, netns_ref_show, net);
-    45	
-    46		if (!ret) {
-    47			if (!maybe_get_net(net)) {
-    48				single_release(inode, filp);
-    49				/* If we can't get a ref, pretend it's not there */
-    50				ret = -ENOENT;
-    51			}
-    52		}
-    53		return ret;
-    54	}
-    55	
-    56	static int
-    57	netns_ref_release(struct inode *inode, struct file *filp)
-    58	{
-    59		struct net *net = inode->i_private;
-    60	
-    61		put_net(net);
-    62		return single_release(inode, filp);
-    63	}
-    64	
-    65	static const struct file_operations netns_ref_fops = {
-    66		.owner		= THIS_MODULE,
-    67		.open		= netns_ref_open,
-    68		.read		= seq_read,
-    69		.llseek		= seq_lseek,
-    70		.release	= netns_ref_release,
-    71	};
-    72	
-    73	static int
-    74	debugfs_init_net(struct net *net)
-    75	{
-    76		struct debugfs_net *dnet = net_generic(net, debugfs_net_id);
-    77		char name[11]; /* 10 decimal digits + NULL term */
-    78		int len;
-    79	
-    80		len = snprintf(name, sizeof(name), "%u", net->ns.inum);
-    81		if (len >= sizeof(name))
-    82			return -EOVERFLOW;
-    83	
-    84		dnet->netdir = debugfs_create_dir(name, topdir);
-    85		if (IS_ERR(dnet->netdir))
-    86			return PTR_ERR(dnet->netdir);
-    87	
-    88		dnet->refcnt = debugfs_create_file(name, S_IFREG | 0400, dnet->netdir, net, &netns_ref_fops);
-    89		if (IS_ERR(dnet->refcnt)) {
-    90			debugfs_remove(dnet->netdir);
-    91			return PTR_ERR(dnet->refcnt);
-    92		}
-    93	
-    94		return 0;
-    95	}
-    96	
-    97	static void
-    98	debugfs_exit_net(struct net *net)
-    99	{
- > 100		debugfs_remove_recursive(dnet->netdir);
-   101	}
-   102	
- > 103	static struct pernet_operations debugfs_net_ops = {
-   104		.init = debugfs_init_net,
-   105		.exit = debugfs_exit_net,
-   106		.id = &debugfs_net_id,
-   107		.size = sizeof(struct debugfs_net),
-   108	};
-   109	
-   110	int __init
- > 111	debugfs_net_init(void)
-   112	{
-   113		topdir = debugfs_create_dir("netns", NULL);
-   114		if (IS_ERR(topdir))
-   115			return PTR_ERR(topdir);
-   116		return 0;
-   117	}
-   118	
-   119	void __exit
- > 120	debugfs_net_exit(void)
+9e44fb1816dba8f Horia Geantă   2016-05-19  971  
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  972  #ifndef ioread8_rep
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  973  #define ioread8_rep ioread8_rep
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  974  static inline void ioread8_rep(const volatile void __iomem *addr, void *buffer,
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  975  			       unsigned int count)
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  976  {
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04 @977  	readsb(addr, buffer, count);
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  978  }
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  979  #endif
+9ab3a7a0d2b4177 Thierry Reding 2014-07-04  980  
+
+:::::: The code at line 977 was first introduced by commit
+:::::: 9ab3a7a0d2b417773e8e8a880fc3a69f7fc1f57a asm-generic/io.h: Implement generic {read,write}s*()
+
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
