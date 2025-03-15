@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AF1DB548
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 11:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E465B1F8923
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 11:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742037695; cv=none; b=Km5OAKSaTKZRoVV6hYAdnc0/5oEcCmHXyeRMDd5VyKD/VbiUTO62ig5iGvzVAV/NrwZh7mGEafNMLb8L5N9ZA3gDIlqfNQYQxeBqEU/HIpugnDUt1Xrztd7nWGyR6ulHBodEq2FNgJCPv725J2+eGkZ80XcAxRTa0fy8Sm7RmkI=
+	t=1742039618; cv=none; b=b4Mt9PKnatS9oLJ8owzjTk7t6sK9psavz9kzwaVOPJMQM0dF1rkAyR+gzku++ebEEfX7uOISp52x32ABGNavD/jsyccMlCrMhA7ab1nNXyBrSfem+YBi8Z8hsQb6qCMw88S5O3MvgzxtWllTC63E2ffpqBro6Sgnps97hIII9ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742037695; c=relaxed/simple;
-	bh=+XwWh5R0u79kkj0AjBBWDujUAV1GyVGJXNmhKE3Gc+c=;
+	s=arc-20240116; t=1742039618; c=relaxed/simple;
+	bh=1J7WXZ6SsI8QywVNDTrmCWTBJDsFW0Wvv1vZFElkrno=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WJjWaDheX0SPOY3mZXSeqDccNkc5rmjh7tDw9oj9jQoLWivq7jNLVu5duzXJaTZipGvYMHz8nJiU8K0WTlY0nEMkpesTekKGokE7kKO+mPmTihk9CQIbfX1apDYVnTQAEHKwUyWSJItTmU+ruFULSAlMKNlGTbV6yyzYxluAdjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYTOM6aI; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=WOpaNP7qg+vJIUfFp9oGf8B93fTJvn+zC1TTQ21jZ8FeKPUsEN6NVfhhKmnZQBuTl26sBKDmt9uhsLCNPpqGFKc/o67tefiMLo/mNqg0ErK1KFIE2v24hJIddo3z7yK/mrLXZVWl1l2BhUBqs15dIDmgJIAH0fSgWlaQfsDn1Nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1lyCUC+; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYTOM6aI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1lyCUC+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742037694; x=1773573694;
+  t=1742039616; x=1773575616;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+XwWh5R0u79kkj0AjBBWDujUAV1GyVGJXNmhKE3Gc+c=;
-  b=KYTOM6aIrX08iDHLzj5qy0601M2nqp5kub/3KqJODDZ6r+OpWsMRjflD
-   NLb0lsoV8Pq8QtHI0yuza/vkkCrvq1GzDx29e2+zh21Ll1xZn4JcwW068
-   Urly63YBeVwy9O7UGsPfMW+nvqmBnMRFz3EGehNupoGX++nMih3jBYby1
-   RibQG+QxDU/Uio7c/RkIV83RqL1TB9HiczojB6OdCwFR4WHcMyBdY+qZu
-   0L96xgFl6F90Rnr/Vt6hj3DBQMBg6Qt7bZZOYuccmG6OlUZmvRBa4GZtP
-   rPVq0hTQsecee/u8S+bFpmdoy29njd+DHjBaR5qWLWLDgQKztLmFqhB2o
-   A==;
-X-CSE-ConnectionGUID: 6pFWLiUxQFySi6MtCmtAPA==
-X-CSE-MsgGUID: MZS6lf9HQFaIuzJexRVV8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43365325"
+  bh=1J7WXZ6SsI8QywVNDTrmCWTBJDsFW0Wvv1vZFElkrno=;
+  b=m1lyCUC+4nTmV93s8j3BvT6npTpvponc4nGA4iXn2B1NgK4dZDF2Y+Ku
+   CqrHN46FAcT8RRwMTuoYZqhdeAc6kTLKL0nXDCXzMrzBQiRoSVGXNhYAG
+   s4VuUcZ4NTjdE9QYzXq/Vzxo+85vHdqnuKMXzvUuNhboki0FUqZ1+P/N8
+   c6csMOkc87iIDNdTDGbI1ecuG4et/wHFHKhiakjku8ICzvtmGiEYE1Y/d
+   rk77oz1Ek7bTIwjoFRY4/Kh+mgzCWjfErCo92OILA+R7ixVIUWpEi38BT
+   w9wzK1htQ3rrtLYRvWyMKwh3sFEtZsON7CXV0S4i+FURHSwZ7HTRN+wNe
+   Q==;
+X-CSE-ConnectionGUID: hNsw6qz6TOmsMfrIPFOYHw==
+X-CSE-MsgGUID: b+etKkDKSLWt2ZR46tjuAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43098423"
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="43365325"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 04:21:33 -0700
-X-CSE-ConnectionGUID: AgtDNYYgSaC/aVaH/GUB/A==
-X-CSE-MsgGUID: 4wOeW14RShy2rj5HbXQcZg==
+   d="scan'208";a="43098423"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 04:53:35 -0700
+X-CSE-ConnectionGUID: XXciwBYoQnGsheVIcFQ4Ew==
+X-CSE-MsgGUID: LoMe6NjvT4aCQLXojxNWwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="158664176"
+   d="scan'208";a="122465495"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Mar 2025 04:21:32 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Mar 2025 04:53:34 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttPa5-000BIl-2D;
-	Sat, 15 Mar 2025 11:21:29 +0000
-Date: Sat, 15 Mar 2025 19:21:10 +0800
+	id 1ttQ56-000BJv-15;
+	Sat, 15 Mar 2025 11:53:32 +0000
+Date: Sat, 15 Mar 2025 19:53:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 1/1] WARNING: modpost: vmlinux: section mismatch in
- reference: debugfs_init+0xa4 (section: .init.text) -> debugfs_netns_exit
- (section: .exit.text)
-Message-ID: <202503151908.aL0n0wIK-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1365/1365]
+ drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202503151948.7IasEYy9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,21 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   e49cf6cefb96a0e88d003b105617aec9d07e139f
-commit: e49cf6cefb96a0e88d003b105617aec9d07e139f [1/1] net: add a debugfs directory for showing refcount tracking info
-config: i386-buildonly-randconfig-001-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151908.aL0n0wIK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151908.aL0n0wIK-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d734d6bbda17b68dd3979a9f707564a18cf04761
+commit: b8815fbbe89b0d15fa3296c3e57d2197a92f5bc0 [1365/1365] ACPI: CPPC: Fix cppc_cpufreq_init failed in CPU Hotplug situation
+config: x86_64-randconfig-102-20250103 (https://download.01.org/0day-ci/archive/20250315/202503151948.7IasEYy9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151908.aL0n0wIK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151948.7IasEYy9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/acpi/cppc_acpi.c:614:3-8: WARNING: NULL check before some freeing functions is not needed.
 
->> WARNING: modpost: vmlinux: section mismatch in reference: debugfs_init+0xa4 (section: .init.text) -> debugfs_netns_exit (section: .exit.text)
+vim +614 drivers/acpi/cppc_acpi.c
+
+   576	
+   577	int acpi_get_psd_map(struct cppc_cpudata **all_cpu_data)
+   578	{
+   579		struct cpc_desc **cpc_pptr, *cpc_ptr;
+   580		int parsed_core_num = 0;
+   581		int i, ret;
+   582	
+   583		cpc_pptr = kcalloc(num_possible_cpus(), sizeof(void *), GFP_KERNEL);
+   584		if (!cpc_pptr)
+   585			return -ENOMEM;
+   586		for_each_possible_cpu(i) {
+   587			cpc_pptr[i] = kzalloc(sizeof(struct cpc_desc), GFP_KERNEL);
+   588			if (!cpc_pptr[i]) {
+   589				ret = -ENOMEM;
+   590				goto out;
+   591			}
+   592		}
+   593	
+   594		/*
+   595		 * We can not use acpi_get_devices() to walk the processor devices
+   596		 * because some processor device is not present.
+   597		 */
+   598		ret = acpi_walk_namespace(ACPI_TYPE_DEVICE, ACPI_ROOT_OBJECT,
+   599					  ACPI_UINT32_MAX, acpi_parse_cpc, NULL,
+   600					  cpc_pptr, (void **)&parsed_core_num);
+   601		if (ret)
+   602			goto out;
+   603		if (parsed_core_num != num_possible_cpus()) {
+   604			ret = -EINVAL;
+   605			goto out;
+   606		}
+   607	
+   608		ret = __acpi_get_psd_map(all_cpu_data, cpc_pptr);
+   609	
+   610	out:
+   611		for_each_possible_cpu(i) {
+   612			cpc_ptr = cpc_pptr[i];
+   613			if (cpc_ptr)
+ > 614				kfree(cpc_ptr);
+   615		}
+   616		kfree(cpc_pptr);
+   617	
+   618		return ret;
+   619	}
+   620	EXPORT_SYMBOL_GPL(acpi_get_psd_map);
+   621	
 
 -- 
 0-DAY CI Kernel Test Service
