@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B706A1F3BBC;
-	Sat, 15 Mar 2025 11:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AF1DB548
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 11:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742037034; cv=none; b=G1yzkshX5fbKaVDRilVQC7D9Ok/78Jkl2d8T4rDIbX2cJ/cYW2AjanvA+DrNEwGqnmWnalpgF4FmG3sr/C5uvyFW4j5YYMCX04xS+IeLkO7k8I1wa6dxYTS6yJC+PzBrNF8iKo6nAUNtBHUM7l+gNawe0PBJUNDRezfe6WNPekU=
+	t=1742037695; cv=none; b=Km5OAKSaTKZRoVV6hYAdnc0/5oEcCmHXyeRMDd5VyKD/VbiUTO62ig5iGvzVAV/NrwZh7mGEafNMLb8L5N9ZA3gDIlqfNQYQxeBqEU/HIpugnDUt1Xrztd7nWGyR6ulHBodEq2FNgJCPv725J2+eGkZ80XcAxRTa0fy8Sm7RmkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742037034; c=relaxed/simple;
-	bh=Vlexr4j79kviA7oP0TzI3WJzUGXEvlQPGsrdOayLrEU=;
+	s=arc-20240116; t=1742037695; c=relaxed/simple;
+	bh=+XwWh5R0u79kkj0AjBBWDujUAV1GyVGJXNmhKE3Gc+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BsvW6Mc6PvB4RN0BzdAkucPBTicq7iesgRXh7HmL6IzhNuu8fcPlF+91OpLJulwsF68w1aKNS1SNfGN12qBgLT95Ic3uXcX/MkwGjurS4SwBLgr4otrlJj7FBUXhW1eMo3+KSHSkhQLtwCzl+As+aWZQD4MUUT3VwKdf+4N4aVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+gWdOMb; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=WJjWaDheX0SPOY3mZXSeqDccNkc5rmjh7tDw9oj9jQoLWivq7jNLVu5duzXJaTZipGvYMHz8nJiU8K0WTlY0nEMkpesTekKGokE7kKO+mPmTihk9CQIbfX1apDYVnTQAEHKwUyWSJItTmU+ruFULSAlMKNlGTbV6yyzYxluAdjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KYTOM6aI; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+gWdOMb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KYTOM6aI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742037032; x=1773573032;
+  t=1742037694; x=1773573694;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vlexr4j79kviA7oP0TzI3WJzUGXEvlQPGsrdOayLrEU=;
-  b=V+gWdOMbaZDq5nBUr4cW0Z/dbdxwdXKoSHdw17lgddpL2uWzFnTNVOiL
-   G5Ov3sQ3FkhyAY3ODQRHNg6wPUN9/RDZhX6ZS6a3tizbiUA6UPzN7dY/d
-   Ri/HYhVvbCrt0gJUn0hVVvWEV9QmFOqqzAOMRc2UGG79vN+Jlm4Me3vB/
-   j0uv6mq/EnWWYyW+R1y+1BifdQt+8IeUc+vVPYTtFkHs4BCBRURCWGEku
-   YA/oF+KWGn9HTp/CQhdXyr23NFcuvpJLIUepEDM8v53fa0fJkYvBOwkQZ
-   GlY7QCWQYwWOYaRWNPOlgAjr6i8y83poL60NK6nwFLyGugWyJxcDNjkwD
-   Q==;
-X-CSE-ConnectionGUID: f0eQnUbrTbuZ+b2fMPMgJg==
-X-CSE-MsgGUID: 42GV1VI3R7yrs4nr64Ohnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43056825"
+  bh=+XwWh5R0u79kkj0AjBBWDujUAV1GyVGJXNmhKE3Gc+c=;
+  b=KYTOM6aIrX08iDHLzj5qy0601M2nqp5kub/3KqJODDZ6r+OpWsMRjflD
+   NLb0lsoV8Pq8QtHI0yuza/vkkCrvq1GzDx29e2+zh21Ll1xZn4JcwW068
+   Urly63YBeVwy9O7UGsPfMW+nvqmBnMRFz3EGehNupoGX++nMih3jBYby1
+   RibQG+QxDU/Uio7c/RkIV83RqL1TB9HiczojB6OdCwFR4WHcMyBdY+qZu
+   0L96xgFl6F90Rnr/Vt6hj3DBQMBg6Qt7bZZOYuccmG6OlUZmvRBa4GZtP
+   rPVq0hTQsecee/u8S+bFpmdoy29njd+DHjBaR5qWLWLDgQKztLmFqhB2o
+   A==;
+X-CSE-ConnectionGUID: 6pFWLiUxQFySi6MtCmtAPA==
+X-CSE-MsgGUID: MZS6lf9HQFaIuzJexRVV8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43365325"
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="43056825"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 04:10:32 -0700
-X-CSE-ConnectionGUID: RFNbAvbXSouS1wUiaeokmQ==
-X-CSE-MsgGUID: KWEhhl8WS+6AoDvHHL+whw==
+   d="scan'208";a="43365325"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 04:21:33 -0700
+X-CSE-ConnectionGUID: AgtDNYYgSaC/aVaH/GUB/A==
+X-CSE-MsgGUID: 4wOeW14RShy2rj5HbXQcZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,250,1736841600"; 
-   d="scan'208";a="126377075"
+   d="scan'208";a="158664176"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 15 Mar 2025 04:10:31 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Mar 2025 04:21:32 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttPPM-000BIX-1U;
-	Sat, 15 Mar 2025 11:10:26 +0000
-Date: Sat, 15 Mar 2025 19:09:35 +0800
+	id 1ttPa5-000BIl-2D;
+	Sat, 15 Mar 2025 11:21:29 +0000
+Date: Sat, 15 Mar 2025 19:21:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:netns-debugfs 1/1] fs/debugfs/netns.c:111:1: warning: no
- previous prototype for function 'debugfs_net_init'
-Message-ID: <202503151941.zNw2k4Vz-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:kdevops 1/1] WARNING: modpost: vmlinux: section mismatch in
+ reference: debugfs_init+0xa4 (section: .init.text) -> debugfs_netns_exit
+ (section: .exit.text)
+Message-ID: <202503151908.aL0n0wIK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,58 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git netns-debugfs
-head:   e06d7dd780ab4a50f85115f8ee988e588e4aad57
-commit: e06d7dd780ab4a50f85115f8ee988e588e4aad57 [1/1] net: add a debugfs directory for showing refcount tracking info
-config: x86_64-buildonly-randconfig-002-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151941.zNw2k4Vz-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151941.zNw2k4Vz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
+head:   e49cf6cefb96a0e88d003b105617aec9d07e139f
+commit: e49cf6cefb96a0e88d003b105617aec9d07e139f [1/1] net: add a debugfs directory for showing refcount tracking info
+config: i386-buildonly-randconfig-001-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151908.aL0n0wIK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151908.aL0n0wIK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151941.zNw2k4Vz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503151908.aL0n0wIK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   fs/debugfs/netns.c:14:1: error: unknown type name 'unisgned'; did you mean 'unsigned'?
-      14 | unisgned int debugfs_net_id;
-         | ^~~~~~~~
-         | unsigned
-   fs/debugfs/netns.c:100:27: error: use of undeclared identifier 'dnet'
-     100 |         debugfs_remove_recursive(dnet->netdir);
-         |                                  ^
->> fs/debugfs/netns.c:111:1: warning: no previous prototype for function 'debugfs_net_init' [-Wmissing-prototypes]
-     111 | debugfs_net_init(void)
-         | ^
-   fs/debugfs/netns.c:110:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     110 | int __init
-         | ^
-         | static 
->> fs/debugfs/netns.c:120:1: warning: no previous prototype for function 'debugfs_net_exit' [-Wmissing-prototypes]
-     120 | debugfs_net_exit(void)
-         | ^
-   fs/debugfs/netns.c:119:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     119 | void __exit
-         | ^
-         | static 
-   2 warnings and 2 errors generated.
-
-
-vim +/debugfs_net_init +111 fs/debugfs/netns.c
-
-   109	
-   110	int __init
- > 111	debugfs_net_init(void)
-   112	{
-   113		topdir = debugfs_create_dir("netns", NULL);
-   114		if (IS_ERR(topdir))
-   115			return PTR_ERR(topdir);
-   116		return 0;
-   117	}
-   118	
-   119	void __exit
- > 120	debugfs_net_exit(void)
+>> WARNING: modpost: vmlinux: section mismatch in reference: debugfs_init+0xa4 (section: .init.text) -> debugfs_netns_exit (section: .exit.text)
 
 -- 
 0-DAY CI Kernel Test Service
