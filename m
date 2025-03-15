@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3E42E338B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 15 Mar 2025 23:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7389A1C8607;
+	Sat, 15 Mar 2025 23:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742081384; cv=none; b=qJe8ejEqgR3qqbsrz5+G/IV8FWTt3CZFeIXc35VKi7cGSZxWnSBkVfbKl4RaSMT3w2e/d37zPSuviTgwkdIa9xo4NmojzDzDy6+80+I0qrsWXHtam9kcACp+u46i3QFxRz2wX7AJygA7a1zgo8L0hZWXGt6aYqHodimeVa4YtIk=
+	t=1742082709; cv=none; b=jRVsDWnSBgXjpHCMShxfNlom1yoM6hzBwx1YMJo+ugNlnuGdpkWUY0GYryXm9ebmzS6mXkZtwnWlr/G3SACxHkSxbJ0ZSJAk+xXHIYh9m9139kqYIiQMNmLAyN4BqhxpGDq8fd3IrRuDBxStDfaGLWmu0wbSe8E2zx1F4LygOFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742081384; c=relaxed/simple;
-	bh=1uCu2yjhZCgzq8A26Se4SNOn0elVoUbQNF4QHLE6Ytg=;
+	s=arc-20240116; t=1742082709; c=relaxed/simple;
+	bh=FT26bfZ8vN5ufmcpCV5KQhxXMg3utTZ9eOrqzjH2+T4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gXrKlBXVsx9kqGAKLQHlZha0UNmwhp9XN4UgIYX4OJpLEM6bhNYyLUSiUW8GTU4otmUjPb4Tzh+4haA5wqC7rZwp8lh/g3yZsz2OT1ldj3L0XKZhp7vSm+0GOEI3Orqc1oZxCp1FNlq0ZpI0g2/2U9TGqztVuGPpfZTD/84e7q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SLP0Wgkz; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZHv9VO8XhPcHVhNw/KFQ1ukjSU3pU9MkOkpwHgCUkPZ/nRT7PCK+rWLI2J18WRWgoY64NKeN3PkUpSbkNtK/Oy8kEjO1rWu29vnDm7OP0WvSHpPZci03ITXovtRiGenQ/e1eXkdz7NIf9M/cwa33BnzO+SZgI0+oFbseh+d9G/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEwAr83g; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SLP0Wgkz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEwAr83g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742081382; x=1773617382;
+  t=1742082704; x=1773618704;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1uCu2yjhZCgzq8A26Se4SNOn0elVoUbQNF4QHLE6Ytg=;
-  b=SLP0WgkzA6yBmvze7ktAU19wwCKWiKqigLxpnToXgbX6O3BqSDfADcRx
-   klrIP6LNTNOfmdH0Ftoc5hcpg/GTm8HfXnTtnGgZaLZA0cPzuT6Z64FFQ
-   SyIt+1NifRZZmB515uJ7ivANdwML5GFPrMcdQ5EYAHBKffQWhbPMWVu6k
-   HuYpKAzncHM4Qc/NN8CMjDsmy7FtSsTZOyv23Y+GPcMtv0r0vf10vjxuY
-   +QbO9QYx95/YaWfJEPwDLHvWOnGdyjIyD+Zn6bKWtpBfeaiDhFiGFOkZR
-   pHBl8/d5Kz6wSq8KKZIWqFRy1pJ6K7LcP1TdlsBQAQ6u0su7xwJy1VZGO
-   g==;
-X-CSE-ConnectionGUID: PG8LipgIRpO/yk/B5k1bbw==
-X-CSE-MsgGUID: 0jb6OIS3THS3x8XMmFUAuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="42454068"
+  bh=FT26bfZ8vN5ufmcpCV5KQhxXMg3utTZ9eOrqzjH2+T4=;
+  b=YEwAr83gPyGGA+MGLm6mja+Dg9Z3UQ8gy6W0bap2E1gMZZd5Eec2jJK/
+   FFOJn0+LkRN1ycygBjTmTEhYH+OdiK6CXtLxKCZQEnc2Bk1IlhhznYDoL
+   mnTKLIdZeU6do1GPgocYyANM1olF3lHKJJImpMzZibCVk1pAjMVaLtkPk
+   cC1Os0fd/eY7MyhGMGFJ7laZFZR9jMXRPN4kKVQOzQ4CS5MfvGsuzC/9A
+   6aQk13IrOZ6m729LAkSmMMePOLolSE6chuv/KCgfUxlemhedyYnc+/Lhk
+   BqzE0uLsLbCUsMXJg34Y0QrVaR2alZW0cUNccNc9opKxR0xZwZsnmG72F
+   Q==;
+X-CSE-ConnectionGUID: Kyu45iFmRiSE05C2e83XGg==
+X-CSE-MsgGUID: c8eQp8J4T++ku7yRuKL1Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="53416684"
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="42454068"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 16:29:41 -0700
-X-CSE-ConnectionGUID: SVZiwoUNTAS+EEqtE2S//g==
-X-CSE-MsgGUID: OR4Sj66XTR2Yso0FyJT7rQ==
+   d="scan'208";a="53416684"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 16:51:43 -0700
+X-CSE-ConnectionGUID: SwcuRti5TVKMoqAxn6T7kw==
+X-CSE-MsgGUID: v/TU6OkeSkKkaz3QKp7eKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="121636888"
+   d="scan'208";a="122094295"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Mar 2025 16:29:34 -0700
+  by orviesa007.jf.intel.com with ESMTP; 15 Mar 2025 16:51:36 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttawd-000BiB-2d;
-	Sat, 15 Mar 2025 23:29:31 +0000
-Date: Sun, 16 Mar 2025 07:29:27 +0800
+	id 1ttbHx-000Bid-1r;
+	Sat, 15 Mar 2025 23:51:33 +0000
+Date: Sun, 16 Mar 2025 07:50:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Roman Kisel <romank@linux.microsoft.com>, arnd@arndb.de,
 	bhelgaas@google.com, bp@alien8.de, catalin.marinas@arm.com,
@@ -61,11 +61,11 @@ To: Roman Kisel <romank@linux.microsoft.com>, arnd@arndb.de,
 	rafael@kernel.org, robh@kernel.org, ssengar@linux.microsoft.com,
 	sudeep.holla@arm.com, suzuki.poulose@arm.com, tglx@linutronix.de,
 	wei.liu@kernel.org, will@kernel.org, yuzenghui@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH hyperv-next v6 03/11] Drivers: hv: Enable VTL mode for
- arm64
-Message-ID: <202503160607.GJqd9Ku7-lkp@intel.com>
-References: <20250315001931.631210-4-romank@linux.microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH hyperv-next v6 11/11] PCI: hv: Get vPCI MSI IRQ domain
+ from DeviceTree
+Message-ID: <202503160700.upkL1tck-lkp@intel.com>
+References: <20250315001931.631210-12-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,70 +74,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250315001931.631210-4-romank@linux.microsoft.com>
+In-Reply-To: <20250315001931.631210-12-romank@linux.microsoft.com>
 
 Hi Roman,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on d9608f6dc3e3229a40e1db1dab573d6882f38c2a]
+[auto build test WARNING on d9608f6dc3e3229a40e1db1dab573d6882f38c2a]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/arm64-kvm-smccc-Introduce-and-use-API-for-detecting-hypervisor-presence/20250315-082319
 base:   d9608f6dc3e3229a40e1db1dab573d6882f38c2a
-patch link:    https://lore.kernel.org/r/20250315001931.631210-4-romank%40linux.microsoft.com
-patch subject: [PATCH hyperv-next v6 03/11] Drivers: hv: Enable VTL mode for arm64
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250316/202503160607.GJqd9Ku7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160607.GJqd9Ku7-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250315001931.631210-12-romank%40linux.microsoft.com
+patch subject: [PATCH hyperv-next v6 11/11] PCI: hv: Get vPCI MSI IRQ domain from DeviceTree
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250316/202503160700.upkL1tck-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160700.upkL1tck-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503160607.GJqd9Ku7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503160700.upkL1tck-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/hyperv/hv_vtl.c: In function 'hv_vtl_system_desc_base':
->> arch/x86/hyperv/hv_vtl.c:84:28: error: 'struct ldttss_desc' has no member named 'base3'; did you mean 'base0'?
-      84 |         return ((u64)desc->base3 << 32) | ((u64)desc->base2 << 24) |
-         |                            ^~~~~
-         |                            base0
-   arch/x86/hyperv/hv_vtl.c: In function 'hv_vtl_ap_entry':
->> arch/x86/hyperv/hv_vtl.c:96:35: error: 'secondary_startup_64' undeclared (first use in this function); did you mean 'secondary_startup_64_fn'?
-      96 |         ((secondary_startup_64_fn)secondary_startup_64)(&boot_params, &boot_params);
-         |                                   ^~~~~~~~~~~~~~~~~~~~
-         |                                   secondary_startup_64_fn
-   arch/x86/hyperv/hv_vtl.c:96:35: note: each undeclared identifier is reported only once for each function it appears in
-   arch/x86/hyperv/hv_vtl.c: In function 'hv_vtl_bringup_vcpu':
-   arch/x86/hyperv/hv_vtl.c:116:19: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     116 |         u64 rip = (u64)&hv_vtl_ap_entry;
-         |                   ^
-   arch/x86/hyperv/hv_vtl.c: In function 'hv_vtl_system_desc_base':
-   arch/x86/hyperv/hv_vtl.c:86:1: warning: control reaches end of non-void function [-Wreturn-type]
-      86 | }
-         | ^
+>> drivers/pci/controller/pci-hyperv.c:921:21: warning: unused variable 'domain' [-Wunused-variable]
+     921 |         struct irq_domain *domain;
+         |                            ^~~~~~
+   1 warning generated.
 
 
-vim +84 arch/x86/hyperv/hv_vtl.c
+vim +/domain +921 drivers/pci/controller/pci-hyperv.c
 
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  81  
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  82  static inline u64 hv_vtl_system_desc_base(struct ldttss_desc *desc)
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  83  {
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10 @84  	return ((u64)desc->base3 << 32) | ((u64)desc->base2 << 24) |
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  85  		(desc->base1 << 16) | desc->base0;
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  86  }
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  87  
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  88  static inline u32 hv_vtl_system_desc_limit(struct ldttss_desc *desc)
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  89  {
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  90  	return ((u32)desc->limit1 << 16) | (u32)desc->limit0;
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  91  }
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  92  
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  93  typedef void (*secondary_startup_64_fn)(void*, void*);
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  94  static void hv_vtl_ap_entry(void)
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  95  {
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10 @96  	((secondary_startup_64_fn)secondary_startup_64)(&boot_params, &boot_params);
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  97  }
-3be1bc2fe9d2e4f Saurabh Sengar 2023-04-10  98  
+   918	
+   919	static struct irq_domain *hv_pci_acpi_irq_domain_parent(void)
+   920	{
+ > 921		struct irq_domain *domain;
+   922		acpi_gsi_domain_disp_fn gsi_domain_disp_fn;
+   923	
+   924		if (acpi_irq_model != ACPI_IRQ_MODEL_GIC)
+   925			return NULL;
+   926		gsi_domain_disp_fn = acpi_get_gsi_dispatcher();
+   927		if (!gsi_domain_disp_fn)
+   928			return NULL;
+   929		return irq_find_matching_fwnode(gsi_domain_disp_fn(0),
+   930					     DOMAIN_BUS_ANY);
+   931	}
+   932	
 
 -- 
 0-DAY CI Kernel Test Service
