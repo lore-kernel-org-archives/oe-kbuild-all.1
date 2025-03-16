@@ -1,71 +1,69 @@
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4EF199254
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 10:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C1A16C684
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 11:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742121141; cv=none; b=RFGZbM0W+zRkn1/RCSUp1cooXT3FP6wP8V6LEvEXpnvxXXpTA9PMn/lXHv+YTMequItkhSP48pQ0S/RsO0v6kqNBmGru58v9q7ntxOC3muC7IOAkZwgSL1/dy1WmLsfPnrQkVH7z/h/iYDOgxaR+nqnsXdY6Oet50GWrGOYLMsY=
+	t=1742125502; cv=none; b=nRwrStg5llWDXVlSlj/PJWBbHiGzrDqFCU7sRJuxggLCIzG03shl4BnRt/FTJjxc2bW14HJpBfqxpH/+60UmaSC1iOoO5t+RjcEOY+As3y+oGRl5zTYdmMy+3fH4uY8s0JX9d04EC0sXc5ZXJQEkM6JmJHKOiMTgcohEUnf206c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742121141; c=relaxed/simple;
-	bh=rrZy0viAniqPbhoR+1hQ7ijtZ9CkDKXykVMVhgwnyzA=;
+	s=arc-20240116; t=1742125502; c=relaxed/simple;
+	bh=LBSEfVovD4nDf3E5onrgXvdi2b7+J45Z1yC0vLrh3JM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oUP9Nh63tIT2Ye/F/cyrSoo1y4zKiPGtOPVDX4wO2ZbgWJQ8BJQrwCjJtrY30QIv2w9+FIqF89SarSH4L1A101w0SUjF/uqAhJArahkqljDrLVSL3ERebU0J0UXpOci1NvVVgbPdntYZLrOf+mOJz4qNW+IITZMXQ196/nPx2qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fNqoGJzd; arc=none smtp.client-ip=209.85.221.46
+	 Content-Disposition; b=EygwEjP1t/tYjkDlm+lTFfpwxHoY4oap9xKPGrC07n2mEPj5vYIr1nBMWltYs6DihkRJQAlkBIkZOFuq1w218sxva/XPWhTa3onbtn2vp5uNwphTyiiXtOLoi3SN+VqLnv656on6X15Bvt2UXLoQnYMl+1CeeSKeJlNuQyc//8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d4kn9RGA; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fNqoGJzd"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-391211ea598so1882951f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 03:32:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d4kn9RGA"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-390e3b3d3f4so2061007f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 04:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742121137; x=1742725937; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HbB3Zun3gDrzT2BzlBXVO8tDPzz0kaoZWWFSKmDuYmw=;
-        b=fNqoGJzdUNmTxnj899UeWUaQoz5gjkZsRUMrwfcm5HFzXzjIzyCExBzZM2IrkA+udp
-         ACD7wxFK581/vsOwyzL5zO2kHWsJh6cQY00Gl9zLBSWorASlHm8oreavNQn5wg6vwcm+
-         6FpKTlaDQv9BoO+bMWk2aBrHBUa1rWsWIsQnIzTbDEACR2CI/P1blKCtTDpuadljz2jV
-         LFf+SxXCnnEZTmb/DdKX1KUX3Feqxc/g4D9CedEnqhcSPVS38bFzWbGGoSnbXqJys0iU
-         MfrxKC2Pb3lNhvxfAGUjZrGPpRg3lxmYBXdjH9UcrRE7D0a0Sgyxqcko6WdX+NH5td/b
-         70Nw==
+        d=linaro.org; s=google; t=1742125498; x=1742730298; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4z/GrSbwmpt8ZzAL70C3RRPxtlwbJhPaVOT6CiyQvcg=;
+        b=d4kn9RGAII6bnUWgxk7ju0Sb4rYereUOUEbokj90TFSkiOLHuVR5r6YaAvnYqBVJl5
+         +1aeg0xObXd81SWYIj09BSpai+YKmrPKf6AxM8b5+x2otlD/yboh49WyIbMxCpaUeOSm
+         X7IUxDapeIupA0s0BLhSbpbuptrtQa/RNJ+uZF5hInSRCUXiNboCZHOylXsnUbZsVow7
+         Jan1T9Njss2odysrqCSDU3aIaOXvl4GeCLDmBs6I47NKO0t7Ig+0lKV+eDUyLmJ89q7c
+         L7v4Lv65qdwtV3bb3giTBneI8WY3C64F0uUtVTHTjH2SOlgQlvDWs8t6aGhsn3FiJqPJ
+         pn8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742121137; x=1742725937;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HbB3Zun3gDrzT2BzlBXVO8tDPzz0kaoZWWFSKmDuYmw=;
-        b=JEIutKZ+TrLUcOYB5QsxCQ/4iX7k4ju6S0hfRgzAqDcN8D/X53qrb5RitXaB9tSGjJ
-         Bv39F825fywvtHPszW3ZwPHlO7SqO2vgMBZWVuxvYkirCm7o05nslB2e+2zRKJuPw1nF
-         5H9N8x/UOQHbeAdRPwF3PgtgBc6ruyPg8C4vA5FhxTVERkVL4xDCGVWDz1JDLTFasszO
-         klB1UNrVoSd4NISg5y1BNKpKou7OTcl0jjdMbH/mJdeA4AVuvu/G94ya2+ySOjjVMvTA
-         N2ImBV16vxLsTM1XFj2KYlgbsO3OkcWQdloDr3tfxha8aJZltagtAYX0ECoNovqJEKhC
-         WarA==
-X-Forwarded-Encrypted: i=1; AJvYcCWoNvNKj/F1H1nF18ZC3Kz5/S9arogdCZnuDgcaumo/JvLSM/HM7zcNF8d/O5PZM2Zl3+sqgbnh/yoyZqSq@lists.linux.dev
-X-Gm-Message-State: AOJu0YwD46v6zzIItWkkahhi3wfh2vVzEfQNLYfnPnso7yVu7JyFfi79
-	wQQ5AvvIkd+eQSFuj9mfZlOM00xoGs/BnmUVHb8lEz15ADZr23Emv6Wu7954MOY=
-X-Gm-Gg: ASbGncsNortwte6BLy/61DufT3eRBvoiD1PhRZ+1rZA5Yfs2i2fA6bo/8hOPT3/shSw
-	i3FTc47TzWT8WtI51dy1FjAY1Td086x1pGpeaXeFlrjTZCSZnJdZ/Bl2+MxV8VGwnowF1KfB3dn
-	fsdJufaHtUgDxsqOnuJKd11Pv5ClztTeDupoLyCVQGuI/SySVs1EQkkVkMf5sWCsJmmtc9b3Gns
-	nLIpPxO/OpBiwOWHdBaxz3uQt6ChvTNjjba8abO7J1cATOOGGCeC3HZXWG1kHzbradfYz23U+ru
-	HX+9TaikZJVYst5l4uzUMIMsy14VgvWCc8facBl47QlWsOxcag==
-X-Google-Smtp-Source: AGHT+IGPUH+kPc//pK+nbCVSTVrqoPbY9VyOj+oM6MVV21R+0n68FEr8K6JofP1y8x4JU00kKq6+Og==
-X-Received: by 2002:adf:c790:0:b0:391:41fb:89ff with SMTP id ffacd0b85a97d-3971f60b104mr9360022f8f.27.1742121137018;
-        Sun, 16 Mar 2025 03:32:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742125498; x=1742730298;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4z/GrSbwmpt8ZzAL70C3RRPxtlwbJhPaVOT6CiyQvcg=;
+        b=xSQleXtfHTNVDtHJtDnYq3K950Xj1tZBrExUJf/B+7XU088p2VJ5tgSvLJ2ihoQOM6
+         c86zRlaUYkVABi5KuWA0g80MD2szZd9NnCAK8GYdPeQhTFYKHvUOSXGPTBQF0hXHZv2R
+         BZC8JVAI6iWxoVQTYmv/cE7gFdEV46F7HQR4lp+MSeWh8q524fQCxK9iBjo5jzOOcGY9
+         /uZ8Kh/bh7RLl4pj7dBC2h0O99N0CzyUk1nIruaDbUnMl4vws03jjOJSfYmtdaXQBd2R
+         cOxv4k5al97CiwkSNtzHtw3CN3U8bfz2vdFCtZd/M7TiYwpa3nG/lPLzweVpaSuQIZ5g
+         8bhw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGoEoH9Qt+Cuhz+yxG5YNyp6B+J1R6RP+uJk5+yE10AzMVyrNyN/7jX8943pgcWJhS06J+VoU8kkyROAFV@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEkX9K6MNq1UMLsZ7fdAwtpr+W1daEiMX/p//Nk7CkRbwUOaKe
+	TFoTDH7ZlpTmQUHSmRSH315N9UT0B0SN//aOwYKQsA97j2qu3gQZMqlnuJF/QsY=
+X-Gm-Gg: ASbGncu/lGs9Ei9KnHmiB2298qOYbd0dkj+GmZpj97aagfWfbIR9eZDIQo2nkJztncR
+	iBvZxfvUVVmF6uhilJ3Yr3/u776CSjkz7HiD5X4Gzu2veHa9lSgk8MP4itXkxfjthyv7mZXRBBl
+	bHSjD7Mj3o+fLDQIdqFkS7l8GB3PeqFgSNBYMLjYyIB2QHSrJJHFWhAdRmjmAJx3AnUmLDXYMvm
+	95/T8HQdOv0HsGlzmNykip0rXdyT0meIgrBeMv2BfBJqXbxfj7rHjKLzMDUWA8g1clFCrGdWFv1
+	AODhPizUVMw3OuXPAR6s9I26xs+n9rzu1Qf6sHTGu0SAblYkxg==
+X-Google-Smtp-Source: AGHT+IGSLtUKDzy+yy1bstXhLFvRdnEKTEieXKC2dfWuQBjP+OJnPO04R2BQoH4o46VIG9NWApnaRg==
+X-Received: by 2002:adf:a297:0:b0:391:3fa7:bf66 with SMTP id ffacd0b85a97d-3971e3a54bfmr8689570f8f.31.1742125498164;
+        Sun, 16 Mar 2025 04:44:58 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-395c888152dsm11459147f8f.48.2025.03.16.03.32.15
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-395c7df34eesm11986796f8f.18.2025.03.16.04.44.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Mar 2025 03:32:16 -0700 (PDT)
-Date: Sun, 16 Mar 2025 13:32:12 +0300
+        Sun, 16 Mar 2025 04:44:57 -0700 (PDT)
+Date: Sun, 16 Mar 2025 14:44:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, jic23@kernel.org,
-	lars@metafoo.de, Michael.Hennerich@analog.com, corbet@lwn.net,
-	marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
-Message-ID: <0658073a-059b-417a-aafc-c83651e922cf@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Yi Liu <yi.l.liu@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20250311 20/30]
+ drivers/iommu/iommufd/device.c:478 iommufd_hw_pagetable_attach() warn:
+ passing positive error code '4294950918-4294967294' to 'PTR_ERR'
+Message-ID: <8f3f0c86-8059-4444-9fc0-3011a8db8d7e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,64 +72,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt@analog.com>
 
-Hi Marcelo,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-adc-ad4000-Add-support-for-SPI-offload/20250315-012316
-base:   af94f401e26f686f7391ce79b38a6129417c22dc
-patch link:    https://lore.kernel.org/r/301fc83a961c4a2ef2ac980d0baa83d9d89a88c5.1741970538.git.marcelo.schmitt%40analog.com
-patch subject: [PATCH v1 1/4] iio: adc: ad4000: Add support for SPI offload
-config: parisc-randconfig-r072-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161513.yeRBTxjg-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20250311
+head:   61681190f00a2bd3a65f06f64d4279c5a9987c75
+commit: 88f4b638c9af4670720e029522e8fee6e55cb26d [20/30] iommufd/device: Add pasid_attach array to track per-PASID attach
+config: openrisc-randconfig-r071-20250314 (https://download.01.org/0day-ci/archive/20250316/202503161104.CANtg5Ng-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503161513.yeRBTxjg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503161104.CANtg5Ng-lkp@intel.com/
 
 New smatch warnings:
-drivers/iio/adc/ad4000.c:862 ad4000_spi_offload_setup() warn: passing zero to 'PTR_ERR'
+drivers/iommu/iommufd/device.c:478 iommufd_hw_pagetable_attach() warn: passing positive error code '4294950918-4294967294' to 'PTR_ERR'
 
-vim +/PTR_ERR +862 drivers/iio/adc/ad4000.c
+vim +478 drivers/iommu/iommufd/device.c
 
-e74205e82803041 Marcelo Schmitt 2025-03-14  846  static int ad4000_spi_offload_setup(struct iio_dev *indio_dev,
-e74205e82803041 Marcelo Schmitt 2025-03-14  847  				    struct ad4000_state *st)
-e74205e82803041 Marcelo Schmitt 2025-03-14  848  {
-e74205e82803041 Marcelo Schmitt 2025-03-14  849  	struct spi_device *spi = st->spi;
-e74205e82803041 Marcelo Schmitt 2025-03-14  850  	struct device *dev = &spi->dev;
-e74205e82803041 Marcelo Schmitt 2025-03-14  851  	struct dma_chan *rx_dma;
-e74205e82803041 Marcelo Schmitt 2025-03-14  852  	int ret;
-e74205e82803041 Marcelo Schmitt 2025-03-14  853  
-e74205e82803041 Marcelo Schmitt 2025-03-14  854  	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
-e74205e82803041 Marcelo Schmitt 2025-03-14  855  							   SPI_OFFLOAD_TRIGGER_PERIODIC);
-e74205e82803041 Marcelo Schmitt 2025-03-14  856  	if (IS_ERR(st->offload_trigger))
-e74205e82803041 Marcelo Schmitt 2025-03-14  857  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
-e74205e82803041 Marcelo Schmitt 2025-03-14  858  				     "Failed to get offload trigger\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  859  
-e74205e82803041 Marcelo Schmitt 2025-03-14  860  	ret = ad4000_set_sampling_freq(st, st->max_rate_hz);
-e74205e82803041 Marcelo Schmitt 2025-03-14  861  	if (ret)
-e74205e82803041 Marcelo Schmitt 2025-03-14 @862  		return dev_err_probe(dev, PTR_ERR(st->offload_trigger),
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  463  int iommufd_hw_pagetable_attach(struct iommufd_hw_pagetable *hwpt,
+0e3f068ad552018 Yi Liu          2025-02-26  464  				struct iommufd_device *idev, ioasid_t pasid)
+e8d57210035b637 Jason Gunthorpe 2022-11-29  465  {
+b2f44814680b569 Nicolin Chen    2024-08-06  466  	struct iommufd_hwpt_paging *hwpt_paging = find_hwpt_paging(hwpt);
+509c6c6f3098710 Yi Liu          2025-02-26  467  	bool attach_resv = hwpt_paging && pasid == IOMMU_NO_PASID;
+88f4b638c9af467 Yi Liu          2025-03-09  468  	struct iommufd_hw_pagetable *old_hwpt = NULL;
+481d086162ecc90 Yi Liu          2025-03-06  469  	struct iommufd_group *igroup = idev->igroup;
+80ca6ff4d5b9edf Yi Liu          2025-03-08  470  	struct iommufd_attach_handle *handle;
+e8d57210035b637 Jason Gunthorpe 2022-11-29  471  	int rc;
+e8d57210035b637 Jason Gunthorpe 2022-11-29  472  
+481d086162ecc90 Yi Liu          2025-03-06  473  	mutex_lock(&igroup->lock);
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  474  
+88f4b638c9af467 Yi Liu          2025-03-09  475  	handle = xa_cmpxchg(&igroup->pasid_attach, pasid, NULL,
+88f4b638c9af467 Yi Liu          2025-03-09  476  			    XA_ZERO_ENTRY, GFP_KERNEL);
+88f4b638c9af467 Yi Liu          2025-03-09  477  	if (xa_is_err(handle)) {
+88f4b638c9af467 Yi Liu          2025-03-09 @478  		rc = PTR_ERR(handle);
 
-s/PTR_ERR(st->offload_trigger)/ret/
+This should be: rc = xa_err(handle);
 
-e74205e82803041 Marcelo Schmitt 2025-03-14  863  				     "Failed to set sampling frequency\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  864  
-e74205e82803041 Marcelo Schmitt 2025-03-14  865  	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
-e74205e82803041 Marcelo Schmitt 2025-03-14  866  	if (IS_ERR(rx_dma))
-e74205e82803041 Marcelo Schmitt 2025-03-14  867  		return dev_err_probe(dev, PTR_ERR(rx_dma),
-e74205e82803041 Marcelo Schmitt 2025-03-14  868  				     "Failed to get offload RX DMA\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  869  
-e74205e82803041 Marcelo Schmitt 2025-03-14  870  	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
-e74205e82803041 Marcelo Schmitt 2025-03-14  871  							  IIO_BUFFER_DIRECTION_IN);
-e74205e82803041 Marcelo Schmitt 2025-03-14  872  	if (ret)
-e74205e82803041 Marcelo Schmitt 2025-03-14  873  		return dev_err_probe(dev, ret, "Failed to setup DMA buffer\n");
-e74205e82803041 Marcelo Schmitt 2025-03-14  874  
-e74205e82803041 Marcelo Schmitt 2025-03-14  875  	return 0;
-e74205e82803041 Marcelo Schmitt 2025-03-14  876  }
+88f4b638c9af467 Yi Liu          2025-03-09  479  		goto err_unlock;
+88f4b638c9af467 Yi Liu          2025-03-09  480  	}
+88f4b638c9af467 Yi Liu          2025-03-09  481  
+c8cb4382bcb8855 Yi Liu          2025-03-09  482  	if (!handle) {
+80ca6ff4d5b9edf Yi Liu          2025-03-08  483  		handle = kzalloc(sizeof(*handle), GFP_KERNEL);
+80ca6ff4d5b9edf Yi Liu          2025-03-08  484  		if (!handle) {
+80ca6ff4d5b9edf Yi Liu          2025-03-08  485  			rc = -ENOMEM;
+88f4b638c9af467 Yi Liu          2025-03-09  486  			goto err_release_id;
+80ca6ff4d5b9edf Yi Liu          2025-03-08  487  		}
+80ca6ff4d5b9edf Yi Liu          2025-03-08  488  		handle->idev = idev;
+405653abe7c7f0c Yi Liu          2025-03-08  489  		xa_init(&handle->device_array);
+80ca6ff4d5b9edf Yi Liu          2025-03-08  490  	}
+80ca6ff4d5b9edf Yi Liu          2025-03-08  491  
+c8cb4382bcb8855 Yi Liu          2025-03-09  492  	old_hwpt = handle->hwpt;
+c8cb4382bcb8855 Yi Liu          2025-03-09  493  
+405653abe7c7f0c Yi Liu          2025-03-08  494  	rc = xa_insert(&handle->device_array, idev->obj.id, idev, GFP_KERNEL);
+3c97e09cef9ed05 Yi Liu          2025-03-08  495  	if (rc) {
+3c97e09cef9ed05 Yi Liu          2025-03-08  496  		WARN_ON(rc == -EBUSY && !old_hwpt);
+3c97e09cef9ed05 Yi Liu          2025-03-08  497  		goto err_free_handle;
+3c97e09cef9ed05 Yi Liu          2025-03-08  498  	}
+3c97e09cef9ed05 Yi Liu          2025-03-08  499  
+c8cb4382bcb8855 Yi Liu          2025-03-09  500  	if (old_hwpt && old_hwpt != hwpt) {
+c8cb4382bcb8855 Yi Liu          2025-03-09  501  		rc = -EINVAL;
+3c97e09cef9ed05 Yi Liu          2025-03-08  502  		goto err_erase_dev;
+c8cb4382bcb8855 Yi Liu          2025-03-09  503  	}
+c8cb4382bcb8855 Yi Liu          2025-03-09  504  
+509c6c6f3098710 Yi Liu          2025-02-26  505  	if (attach_resv) {
+b2f44814680b569 Nicolin Chen    2024-08-06  506  		rc = iommufd_device_attach_reserved_iova(idev, hwpt_paging);
+e8d57210035b637 Jason Gunthorpe 2022-11-29  507  		if (rc)
+3c97e09cef9ed05 Yi Liu          2025-03-08  508  			goto err_erase_dev;
+58d84f430dc7f73 Jason Gunthorpe 2023-10-25  509  	}
+e8d57210035b637 Jason Gunthorpe 2022-11-29  510  
+e8d57210035b637 Jason Gunthorpe 2022-11-29  511  	/*
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  512  	 * Only attach to the group once for the first device that is in the
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  513  	 * group. All the other devices will follow this attachment. The user
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  514  	 * should attach every device individually to the hwpt as the per-device
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  515  	 * reserved regions are only updated during individual device
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  516  	 * attachment.
+e8d57210035b637 Jason Gunthorpe 2022-11-29  517  	 */
+88f4b638c9af467 Yi Liu          2025-03-09  518  	if (!iommufd_group_device_num(igroup, pasid)) {
+80ca6ff4d5b9edf Yi Liu          2025-03-08  519  		rc = iommufd_hwpt_attach_device(hwpt, idev, pasid, handle);
+e8d57210035b637 Jason Gunthorpe 2022-11-29  520  		if (rc)
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  521  			goto err_unresv;
+c8cb4382bcb8855 Yi Liu          2025-03-09  522  		handle->hwpt = hwpt;
+88f4b638c9af467 Yi Liu          2025-03-09  523  		WARN_ON(xa_is_err(xa_store(&igroup->pasid_attach, pasid, handle,
+88f4b638c9af467 Yi Liu          2025-03-09  524  					   GFP_KERNEL)));
+e8d57210035b637 Jason Gunthorpe 2022-11-29  525  	}
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  526  	refcount_inc(&hwpt->obj.users);
+481d086162ecc90 Yi Liu          2025-03-06  527  	mutex_unlock(&igroup->lock);
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  528  	return 0;
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  529  err_unresv:
+509c6c6f3098710 Yi Liu          2025-02-26  530  	if (attach_resv)
+b2f44814680b569 Nicolin Chen    2024-08-06  531  		iopt_remove_reserved_iova(&hwpt_paging->ioas->iopt, idev->dev);
+3c97e09cef9ed05 Yi Liu          2025-03-08  532  err_erase_dev:
+405653abe7c7f0c Yi Liu          2025-03-08  533  	xa_erase(&handle->device_array, idev->obj.id);
+80ca6ff4d5b9edf Yi Liu          2025-03-08  534  err_free_handle:
+c8cb4382bcb8855 Yi Liu          2025-03-09  535  	if (!old_hwpt)
+80ca6ff4d5b9edf Yi Liu          2025-03-08  536  		kfree(handle);
+88f4b638c9af467 Yi Liu          2025-03-09  537  err_release_id:
+88f4b638c9af467 Yi Liu          2025-03-09  538  	if (!old_hwpt)
+88f4b638c9af467 Yi Liu          2025-03-09  539  		xa_release(&igroup->pasid_attach, pasid);
+91a2e17e243f70e Jason Gunthorpe 2023-07-17  540  err_unlock:
+481d086162ecc90 Yi Liu          2025-03-06  541  	mutex_unlock(&igroup->lock);
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  542  	return rc;
+339fbf3ae144263 Jason Gunthorpe 2023-03-01  543  }
 
 -- 
 0-DAY CI Kernel Test Service
