@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726A42E338B;
-	Sun, 16 Mar 2025 00:45:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CD279D0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 00:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742085957; cv=none; b=M711PJ/W/+W1ZHrkJ6SmK1k7x5acs07JkbhG+s5ksWunyalt+DXiT/hXFiecdujFrE68Ffi7lfj5i73EN6PXn3f94+K3wlbm3uXIH+AeSETVIF8GXNu/VPbih83AZdprENLJU9Brolsm/yKkiRxKX1aR1qvcRVUw+R31C8OXRA8=
+	t=1742085958; cv=none; b=Cmwe5iOO4YC2L03/Q4MdPTFEQfl0rla8GWNB5y9zPTA7MT+RM2nztVcxv/G3N9eok7REGxBkjQ9C/FT1VM+FYT0Ky0o7wtAcTKl7JpQyWHJC/lpAiIgSqXtUgE833zC8Xtc3kIx/yVuWQHU3QucTBr5ZV4Y65VB/TtGSteK7BYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742085957; c=relaxed/simple;
-	bh=GnyUQ2wzxa/zIaLr5CDvqAQ+fJHVEE3Z3q1vbpSMHHU=;
+	s=arc-20240116; t=1742085958; c=relaxed/simple;
+	bh=iVr3mXQ5wZkv8oZyXUzpKEHSnbGTcwDEUVA7B7Bucfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ttKHoJC7tLZoLxfQABYPqm4nqdJ/Mayev5IWr0e7m6TPw/RwYWI3IKFdWau8/DHxgoyyA0MaLIoqcAEtSgkeU5CqqvdDkyraNnIlU8SllqblmvoXeKlCnqsq7xFdlW9UyywUkOtTBL4oL39817Vj5Brf81gmnO+M37MtBUUb/4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PcfMlY4N; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=LhwmgIqa3krGCRPmuoJIFzSWOHw1FWnohWhTUJTgSFJNSeB0GVZ3NO7i+326hckpY4/oHuFmuKFvk6xGClla8KEJle3BlUKN2bn65Q/nLUjDWh6cNqCpNrYI1B22nHqZzWxz/211n316a4epDJESZva8LFi0adjC49HM8Imuppc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRDWrDnt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PcfMlY4N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRDWrDnt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742085955; x=1773621955;
+  t=1742085957; x=1773621957;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GnyUQ2wzxa/zIaLr5CDvqAQ+fJHVEE3Z3q1vbpSMHHU=;
-  b=PcfMlY4Nhb6BTikxI8jvv2NbESnZ3m70/mY0mFxb+avxb3iQ9pzMAv4S
-   cAKMn1iQWw1FZ8IvNTWorM92hrJvFkS8mwiF/cose67shWXUltI5E8Zew
-   1GLSG3u4FLWm8YuRiGAvDuZlPUFlTLDj7l9C2sKNFwvje7vx9wTloxMjG
-   bYLw8kahVDtD5T1g8WdEGGHM3y0Ah7yY0Ms16XDrzTOnpD+NWQKIMmOHP
-   9BzgayU11N2BYkpXQzzHWoiO8f3ZKKeoEsLag+N0KM28wUn3HIlHtRPsr
-   LsUFh0UkZ7XNKuh/Li9og+svviA2YIufeUp3dZ0UOXGbSlBotjJk5zlw8
-   A==;
-X-CSE-ConnectionGUID: dMJx1kosTE++KZIxiQ5xYw==
-X-CSE-MsgGUID: r1w1p1/eQfiLOFY3ZCE8kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="54585249"
+  bh=iVr3mXQ5wZkv8oZyXUzpKEHSnbGTcwDEUVA7B7Bucfg=;
+  b=lRDWrDntvDmLB9bPI2I3bnyrLgWyNMWdauWCodjq0WXxEIU72Efr6gL/
+   q26K4c/JHaqQJs2VxVz8dlceYBajDZy1WcBvbbSHuE1J+Yz5EVJK8Bf34
+   V1oL4qmPQ/7UDaCKGMYhPiLfIFeK1uRFfZvc9AlTiZE8uEiLfS/bHbS1R
+   To6wsZcUayqCjKUnJmFgCgBoOCRdbFG93rNkCFJGqw3rszj/G/LERsGYZ
+   XHyXXdGStesZUtAhibx4ESdfzBKU7yydIA2Ifyau6RKnM6XOW/tjd59C2
+   kAJOCg726iAUF3BFqB4leaAgy/lGbaVsvJMDqhhbIgidOfmfZZOA0cfON
+   w==;
+X-CSE-ConnectionGUID: /c3EDtP3RmCEibr0uH2gjw==
+X-CSE-MsgGUID: bMyNodeVQkCo50So16dH3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="54585252"
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="54585249"
+   d="scan'208";a="54585252"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 17:45:54 -0700
-X-CSE-ConnectionGUID: JmLpDbQjSsWEoUx0b7+C1Q==
-X-CSE-MsgGUID: sbKP2K/STvaNmmC9lAXcgA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 17:45:55 -0700
+X-CSE-ConnectionGUID: eyVT49zMSjeZK/ENlK6A5w==
+X-CSE-MsgGUID: MMkgoWeYT5ijb1hm6vKPaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="126803570"
+   d="scan'208";a="126803571"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by orviesa005.jf.intel.com with ESMTP; 15 Mar 2025 17:45:54 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttc8U-000Bjz-2J;
+	id 1ttc8U-000Bk1-2N;
 	Sun, 16 Mar 2025 00:45:50 +0000
 Date: Sun, 16 Mar 2025 08:45:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-sound:for-next 86/105] ld.lld: error: duplicate symbol:
- acp63_rsrc
-Message-ID: <202503160801.yExt0K2E-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>
+Subject: [pci:controller/dwc-cpu-addr-fixup 6/13]
+ drivers/pci/controller/dwc/pcie-designware.c:1134:39: warning: format '%llx'
+ expects argument of type 'long long unsigned int', but argument 3 has type
+ 'resource_size_t' {aka 'unsigned int'}
+Message-ID: <202503160823.faHNdwwX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +65,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-head:   d9a06936ee9e64952e161849059f6cf096b33e4a
-commit: d08220b6e32e88655f54b497fd45a3982b59093c [86/105] ASoC: amd: acp: Refactor acp63 platform resource structure
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250316/202503160801.yExt0K2E-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160801.yExt0K2E-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-cpu-addr-fixup
+head:   40b96cba38232460c691b52bbf9183f9e4d34914
+commit: af175b4797cd4e3e8ff22a4e3c6924443986b797 [6/13] PCI: dwc: Add dw_pcie_parent_bus_offset() checking and debug
+config: csky-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503160823.faHNdwwX-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160823.faHNdwwX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503160801.yExt0K2E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503160823.faHNdwwX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: duplicate symbol: acp63_rsrc
-   >>> defined at acp-platform.c
-   >>>            sound/soc/amd/acp/acp-platform.o:(acp63_rsrc) in archive vmlinux.a
-   >>> defined at acp-i2s.c
-   >>>            sound/soc/amd/acp/acp-i2s.o:(.data+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: acp63_rsrc
-   >>> defined at acp-platform.c
-   >>>            sound/soc/amd/acp/acp-platform.o:(acp63_rsrc) in archive vmlinux.a
-   >>> defined at acp-legacy-common.c
-   >>>            sound/soc/amd/acp/acp-legacy-common.o:(.data+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: acp63_rsrc
-   >>> defined at acp-platform.c
-   >>>            sound/soc/amd/acp/acp-platform.o:(acp63_rsrc) in archive vmlinux.a
-   >>> defined at acp-pdm.c
-   >>>            sound/soc/amd/acp/acp-pdm.o:(.data+0x0) in archive vmlinux.a
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma/edma.h:12,
+                    from drivers/pci/controller/dwc/pcie-designware.c:15:
+   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_parent_bus_offset':
+>> drivers/pci/controller/dwc/pcie-designware.c:1134:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    1134 |                         dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:1134:25: note: in expansion of macro 'dev_warn'
+    1134 |                         dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
+         |                         ^~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:1134:47: note: format string is defined here
+    1134 |                         dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
+         |                                        ~~~~~~~^
+         |                                               |
+         |                                               long long unsigned int
+         |                                        %#010x
+   drivers/pci/controller/dwc/pcie-designware.c:1138:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    1138 |                         dev_warn(dev, "%#010llx %s reg[%d] != %#010llx fixed up addr; devicetree is broken\n",
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:1138:25: note: in expansion of macro 'dev_warn'
+    1138 |                         dev_warn(dev, "%#010llx %s reg[%d] != %#010llx fixed up addr; devicetree is broken\n",
+         |                         ^~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:1138:47: note: format string is defined here
+    1138 |                         dev_warn(dev, "%#010llx %s reg[%d] != %#010llx fixed up addr; devicetree is broken\n",
+         |                                        ~~~~~~~^
+         |                                               |
+         |                                               long long unsigned int
+         |                                        %#010x
+   drivers/pci/controller/dwc/pcie-designware.c:1145:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+    1145 |                         dev_warn(dev, "devicetree has incorrect translation; please check parent \"ranges\" property. CPU physical addr %#010llx, parent bus addr %#010llx\n",
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:1145:25: note: in expansion of macro 'dev_warn'
+    1145 |                         dev_warn(dev, "devicetree has incorrect translation; please check parent \"ranges\" property. CPU physical addr %#010llx, parent bus addr %#010llx\n",
+         |                         ^~~~~~~~
+   drivers/pci/controller/dwc/pcie-designware.c:1145:125: note: format string is defined here
+    1145 |                         dev_warn(dev, "devicetree has incorrect translation; please check parent \"ranges\" property. CPU physical addr %#010llx, parent bus addr %#010llx\n",
+         |                                                                                                                      ~~~~~~~^
+         |                                                                                                                             |
+         |                                                                                                                             long long unsigned int
+         |                                                                                                                       CPU x
+
+
+vim +1134 drivers/pci/controller/dwc/pcie-designware.c
+
+  1109	
+  1110	resource_size_t dw_pcie_parent_bus_offset(struct dw_pcie *pci,
+  1111						  const char *reg_name,
+  1112						  resource_size_t cpu_phy_addr)
+  1113	{
+  1114		struct device *dev = pci->dev;
+  1115		struct device_node *np = dev->of_node;
+  1116		int index;
+  1117		u64 reg_addr, fixup_addr;
+  1118		u64 (*fixup)(struct dw_pcie *pcie, u64 cpu_addr);
+  1119	
+  1120		/* Look up reg_name address on parent bus */
+  1121		index = of_property_match_string(np, "reg-names", reg_name);
+  1122	
+  1123		if (index < 0) {
+  1124			dev_err(dev, "No %s in devicetree \"reg\" property\n", reg_name);
+  1125			return 0;
+  1126		}
+  1127	
+  1128		of_property_read_reg(np, index, &reg_addr, NULL);
+  1129	
+  1130		fixup = pci->ops->cpu_addr_fixup;
+  1131		if (fixup) {
+  1132			fixup_addr = fixup(pci, cpu_phy_addr);
+  1133			if (reg_addr == fixup_addr) {
+> 1134				dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
 
 -- 
 0-DAY CI Kernel Test Service
