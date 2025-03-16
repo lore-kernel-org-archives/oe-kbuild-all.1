@@ -1,107 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5068F4A;
-	Sun, 16 Mar 2025 14:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2E21A01D4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 14:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742134157; cv=none; b=JPldJDmyzf15iHrUBfGqEBYGaivwZ9zGxqRcNjbQ61XF4yZSOj3HH2xoLsbb4fDWPYNznprR4FWmvdzIGX3UjYovXLfXFvYQVw98ZDrjnjijOP3RNBxEV6EGjKG6pOWQna3zrqLnXV0XaYvZH1LPpF96ySw2kmUL+u0kM7cLC+4=
+	t=1742135054; cv=none; b=aEtXtoAqDMtdO7qL0MQNve7jmFl/RHpinhUyJe1C9TOW1nLX8rLNnIQM03zgExxbqqMUMJetZuiwawLeB+6KJoqc56lJ0OPPe/vxe2r18U1P/YrhiNJsxsMEXSOSWMEmb7lXlbUTG0ITcFN8xvNqP0N4PIJ62gR7A+qmR9LrtFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742134157; c=relaxed/simple;
-	bh=wU+h1/mGkI0Ouvm0JG9pmOItT73sOENrMQWYhRMeZiY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a9J12ZfeGwH+QeGNhsRhYKWFDz8P1SnlENIWQNl+k5LHFJxb0WMaBTL9CxIliUlPAumoPRqQUBhkdoyHvIziSSIf60YYVWrGDapyI+t64G6wVH8Kj5SE6/E3XfyOYd7mgWU9Hx2TI2JH7nfdIaEJsrjHKoaDua+cntz27QzXmZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCtv1fGO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742135054; c=relaxed/simple;
+	bh=u3G4ULdupRXzimAN0BJ9I7lPIuNbuu/MqV6zfWZJCwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kO8PGuhTA1JdxJtokiFtRza5kvzm2A+BJ80QSh8swFU42ZsQtP7LKvGl25iD990GZxN7MpKIblcn/7X/KBAdM2LWRIB5iSkn7ZR0kUIEeNDHBEJFMYz/Be/v338hqKWBxZMUGzaiG6Qn2jce/Bc4PY9Dm6zdC1Jpx6SWV6xKDfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGINjB7D; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCtv1fGO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7E7C4CEE3;
-	Sun, 16 Mar 2025 14:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742134156;
-	bh=wU+h1/mGkI0Ouvm0JG9pmOItT73sOENrMQWYhRMeZiY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kCtv1fGO9QNHVcZi4x4y4ImTAM6wE5nEJW5Ytru/5JP6QBhwBSy5H2qZREfy1MmMV
-	 p2cLPbYM4uaCqHWZIcFw9qZOioTjhvNvAujn3D7NmuqnheHk6G9fNgk2TKKYollVPz
-	 08ZD9V2oKFZrhbLe3fXZsW7XEjRK6tyrsr+PZH1FblLCqCGw+rjYauK0iK+ZC3kNr9
-	 D6XeoklWghUNNa2zFCWjbcasxtZ42FVsgRzq4WBRS5O+S7QGZKg8PphX99AMCGxqSG
-	 tEgGIeZvkooEC5/S4AXR99IaOVlyN310JR8FoORIaA08ImhZ8yvFMPnS2gKLAhAkJI
-	 XbX7aRSe1kkXg==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-543d8badc30so4123335e87.0;
-        Sun, 16 Mar 2025 07:09:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVp/CUy2xemgOus81Gh8jaiM8s9k7t9stLHR7MUrAIexzgiCw/WY4HNTsTjflX/qaYpbBAokaI9/hxosS+D@lists.linux.dev
-X-Gm-Message-State: AOJu0YyoMMwmC8QP8a9L2SyHH2uIKo00quP3SYTFTZp85cMCXc5GQCxu
-	0cCG7Uz8M3G5xCPZvYyENJE87d+9GFkGQMgqaLw04V9z3d4+RjTFtpHsn32oAU76Pp2cUOD/f9V
-	9x1Dyy0L+qh6/AKQeVsGOEIchSrQ=
-X-Google-Smtp-Source: AGHT+IFgNHoODEqrbgYbZjTrUA96HByHMipMHG1JH0Qy/JfS82gDVHqymv/IEyd2BapSAOqx+WW3C2rTJ1Fil2Vi9C8=
-X-Received: by 2002:a05:6512:1286:b0:545:10eb:1ab2 with SMTP id
- 2adb3069b0e04-549c398d167mr3611216e87.33.1742134155097; Sun, 16 Mar 2025
- 07:09:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGINjB7D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742135052; x=1773671052;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u3G4ULdupRXzimAN0BJ9I7lPIuNbuu/MqV6zfWZJCwI=;
+  b=UGINjB7DSHBUT9D1ZprxeDzl2fa0fLcfajRCMEbjhT09nCNsscPTwXP3
+   /zVGZdIvid+laFLBPTQrG47Bt6pYgoSG2IAdnapNXPbmchnj7UdQxrvzy
+   n48PfBhWinPq3snZqlDxWAnBRf5rsMc7tKW0pzkm7z8YtKvNopyX+4/bO
+   ZATx2QHP5KcpDEhSnQ7LBFihB2TagtJnjgskpuXd8H0QaLoZg06O9eI+p
+   y+ApHsx9JOLJ93oeyVUTtpf25nUTVeSLhxUogq/1vkf/jdZL/z47YmRkg
+   xwN6HzsfT4u6KiAODu0Ub+pg8keHjqZQguvkh3UakvtXxGYWShywbvBOK
+   A==;
+X-CSE-ConnectionGUID: nQNpNS+JRKqGR+y4xSgQiQ==
+X-CSE-MsgGUID: Xvf0ApIJTKCqY0vyX0jrsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="65698317"
+X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
+   d="scan'208";a="65698317"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 07:24:11 -0700
+X-CSE-ConnectionGUID: by0WQ1yHTPGkQROS4bbrAA==
+X-CSE-MsgGUID: fiq2IAbQQNSL/oenhX0x4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
+   d="scan'208";a="122194127"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 16 Mar 2025 07:24:09 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ttouN-000C1z-1d;
+	Sun, 16 Mar 2025 14:24:07 +0000
+Date: Sun, 16 Mar 2025 22:23:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 139/160]
+ include/linux/random.h:104 get_random_u64_below() warn: always true
+ condition '(ceil <= (~0)) => (0-u32max <= u32max)'
+Message-ID: <202503162234.iyijTkoU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202503161833.ytx1ivfu-lkp@intel.com>
-In-Reply-To: <202503161833.ytx1ivfu-lkp@intel.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Sun, 16 Mar 2025 15:09:04 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
-X-Gm-Features: AQ5f1JonePai-5_ejUylzciYQE_fCI-n5gOvfA2mN3w1Tt00Tosys_ftHKke75M
-Message-ID: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 25/35] FAILED cannot open vmlinux: No
- such file or directory
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 16 Mar 2025 at 11:20, kernel test robot <lkp@intel.com> wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-> head:   e3de46f775ec29a17f671523798c28222a4ce818
-> commit: cac289e2b2b0909b52c0a694c4469a9ad9f03764 [25/35] kbuild: Create intermediate vmlinux build with relocations preserved
-> config: i386-buildonly-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/config)
-> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503161833.ytx1ivfu-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> FAILED cannot open vmlinux: No such file or directory
->
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   6d7f54c162635934218ea0cede09f68e40e3bc2f
+commit: 3ebf48025118a2db43fab6b283ceda9bd7998937 [139/160] bcachefs: kill bch2_get_random_u64_below()
+config: i386-randconfig-141-20250316 (https://download.01.org/0day-ci/archive/20250316/202503162234.iyijTkoU-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
 
-We need the below - Masahiro, would you like me to send this is a
-follow-up patch?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503162234.iyijTkoU-lkp@intel.com/
 
+smatch warnings:
+include/linux/random.h:104 get_random_u64_below() warn: always true condition '(ceil <= (~0)) => (0-u32max <= u32max)'
 
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -185,7 +185,7 @@ cleanup()
- {
-        rm -f .btf.*
-        rm -f System.map
--       rm -f vmlinux
-+       rm -f "${VMLINUX}"
-        rm -f vmlinux.map
- }
+vim +104 include/linux/random.h
 
-@@ -288,12 +288,12 @@ vmlinux_link "${VMLINUX}"
+a83003c2e557d2a Kent Overstreet 2025-03-13   95  
+a83003c2e557d2a Kent Overstreet 2025-03-13   96  static inline u64 get_random_u64_below(u32 ceil)
+a83003c2e557d2a Kent Overstreet 2025-03-13   97  {
+a83003c2e557d2a Kent Overstreet 2025-03-13   98  	if (!__builtin_constant_p(ceil))
+a83003c2e557d2a Kent Overstreet 2025-03-13   99  		return __get_random_u64_below(ceil);
+a83003c2e557d2a Kent Overstreet 2025-03-13  100  
+a83003c2e557d2a Kent Overstreet 2025-03-13  101  	BUILD_BUG_ON_MSG(!ceil, "get_random_u64_below() must take ceil > 0");
+a83003c2e557d2a Kent Overstreet 2025-03-13  102  	if (ceil <= 1)
+a83003c2e557d2a Kent Overstreet 2025-03-13  103  		return 0;
+a83003c2e557d2a Kent Overstreet 2025-03-13 @104  	if (ceil <= U32_MAX)
+a83003c2e557d2a Kent Overstreet 2025-03-13  105  		return get_random_u32_below(ceil);
+a83003c2e557d2a Kent Overstreet 2025-03-13  106  
+a83003c2e557d2a Kent Overstreet 2025-03-13  107  	for (;;) {
+a83003c2e557d2a Kent Overstreet 2025-03-13  108  		u64 rand = get_random_u64();
+a83003c2e557d2a Kent Overstreet 2025-03-13  109  		u64 mult = ceil * rand;
+a83003c2e557d2a Kent Overstreet 2025-03-13  110  		if (likely(mult >= -ceil % ceil))
+a83003c2e557d2a Kent Overstreet 2025-03-13  111  			return mul_u64_u64_shr(ceil, rand, 64);
+a83003c2e557d2a Kent Overstreet 2025-03-13  112  	}
+a83003c2e557d2a Kent Overstreet 2025-03-13  113  }
+a83003c2e557d2a Kent Overstreet 2025-03-13  114  
 
- # fill in BTF IDs
- if is_enabled CONFIG_DEBUG_INFO_BTF; then
--       info BTFIDS vmlinux
-+       info BTFIDS "${VMLINUX}"
-        RESOLVE_BTFIDS_ARGS=""
-        if is_enabled CONFIG_WERROR; then
-                RESOLVE_BTFIDS_ARGS=" --fatal_warnings "
-        fi
--       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
-+       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} "${VMLINUX}"
- fi
+:::::: The code at line 104 was first introduced by commit
+:::::: a83003c2e557d2aa65561df407a61cb44900d481 random: get_random_u64_below()
 
- mksysmap "${VMLINUX}" System.map
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
