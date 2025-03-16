@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CD279D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 00:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164824C96;
+	Sun, 16 Mar 2025 01:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742085958; cv=none; b=Cmwe5iOO4YC2L03/Q4MdPTFEQfl0rla8GWNB5y9zPTA7MT+RM2nztVcxv/G3N9eok7REGxBkjQ9C/FT1VM+FYT0Ky0o7wtAcTKl7JpQyWHJC/lpAiIgSqXtUgE833zC8Xtc3kIx/yVuWQHU3QucTBr5ZV4Y65VB/TtGSteK7BYU=
+	t=1742087820; cv=none; b=J+H9/a2XZ7oluj6RDChg92Gb4c+sIZ23hFo1ciSTrKXGlRlmpDoH6PYAVooTEYV0+xpx1K1YgoQbKWpEdjzGZbbnAFmGzbp5rp6qXFvHtWWbes6aIT0lFzr5p5J7uTTxQbaozZvZYwuuDLn1CqJbSziS+NBsiuHHkM71Obl4pOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742085958; c=relaxed/simple;
-	bh=iVr3mXQ5wZkv8oZyXUzpKEHSnbGTcwDEUVA7B7Bucfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LhwmgIqa3krGCRPmuoJIFzSWOHw1FWnohWhTUJTgSFJNSeB0GVZ3NO7i+326hckpY4/oHuFmuKFvk6xGClla8KEJle3BlUKN2bn65Q/nLUjDWh6cNqCpNrYI1B22nHqZzWxz/211n316a4epDJESZva8LFi0adjC49HM8Imuppc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRDWrDnt; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1742087820; c=relaxed/simple;
+	bh=SSAZS0Aw8X7I+lmtlf1UTRPtQEiv9h3mzLxk5QChPPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qvfrv/2c18jyN8nG6C1ZOJlyxOEaBWm7zsD42OXuXl/kwsIcQRv9dTSl7YScDGXQuqkzglxXe6JXKhwhipT5jm3Xn7IGdxPftEtTiy5MzM8fvA7ZM8/WQ5sXcmbbMoI5vwafuojeHZlMwl69Y2dV4gyDC85RXOcTPjz6EqBS1xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huafWbJi; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRDWrDnt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huafWbJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742085957; x=1773621957;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iVr3mXQ5wZkv8oZyXUzpKEHSnbGTcwDEUVA7B7Bucfg=;
-  b=lRDWrDntvDmLB9bPI2I3bnyrLgWyNMWdauWCodjq0WXxEIU72Efr6gL/
-   q26K4c/JHaqQJs2VxVz8dlceYBajDZy1WcBvbbSHuE1J+Yz5EVJK8Bf34
-   V1oL4qmPQ/7UDaCKGMYhPiLfIFeK1uRFfZvc9AlTiZE8uEiLfS/bHbS1R
-   To6wsZcUayqCjKUnJmFgCgBoOCRdbFG93rNkCFJGqw3rszj/G/LERsGYZ
-   XHyXXdGStesZUtAhibx4ESdfzBKU7yydIA2Ifyau6RKnM6XOW/tjd59C2
-   kAJOCg726iAUF3BFqB4leaAgy/lGbaVsvJMDqhhbIgidOfmfZZOA0cfON
+  t=1742087819; x=1773623819;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SSAZS0Aw8X7I+lmtlf1UTRPtQEiv9h3mzLxk5QChPPc=;
+  b=huafWbJiIl0MHwUkZG6/VvkXDnDVpE6B2Y1Cew9YszNqIQPCS3H0NLwo
+   3r4eFEikPzZ3rmORK/YXF2okpxBrc+MtO4NLhF/Hl6X6z7muRVRV2t6/i
+   7d8CD6ZFEcNeAKfosfPB3ey/4Bx4dWNjo3xY35N4gDsQSEzKw/nnBLnv9
+   zyOX/3RN1FwsgFWXQeV1hAB+KaacanPXkZ8SEMOJfBytD8prrKUJaBj/2
+   zQK7GmgIoLY/JPuVrAQf8FNRvF3uf5Ue8tfADkZBCUnAnfv+gyqeGltiL
+   82cKy905uRjfob/fwqZbzUUhN5pn8VF60PrFojbCNNZyncPeDMy5dGpo8
    w==;
-X-CSE-ConnectionGUID: /c3EDtP3RmCEibr0uH2gjw==
-X-CSE-MsgGUID: bMyNodeVQkCo50So16dH3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="54585252"
+X-CSE-ConnectionGUID: FWCV3jEXTCqn/cZFnXkNLg==
+X-CSE-MsgGUID: 5VuGcp+LQG+OJjTa19SHhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11374"; a="45977540"
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="54585252"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 17:45:55 -0700
-X-CSE-ConnectionGUID: eyVT49zMSjeZK/ENlK6A5w==
-X-CSE-MsgGUID: MMkgoWeYT5ijb1hm6vKPaQ==
+   d="scan'208";a="45977540"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 18:16:58 -0700
+X-CSE-ConnectionGUID: cWRnzUJ5QriF7b36Uq0b9A==
+X-CSE-MsgGUID: ESDT0N2/SLCTX94sQwGBXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,251,1736841600"; 
-   d="scan'208";a="126803571"
+   d="scan'208";a="144792764"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 15 Mar 2025 17:45:54 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 15 Mar 2025 18:16:56 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttc8U-000Bk1-2N;
-	Sun, 16 Mar 2025 00:45:50 +0000
-Date: Sun, 16 Mar 2025 08:45:03 +0800
+	id 1ttccX-000Bkh-1F;
+	Sun, 16 Mar 2025 01:16:53 +0000
+Date: Sun, 16 Mar 2025 09:16:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: [pci:controller/dwc-cpu-addr-fixup 6/13]
- drivers/pci/controller/dwc/pcie-designware.c:1134:39: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 3 has type
- 'resource_size_t' {aka 'unsigned int'}
-Message-ID: <202503160823.faHNdwwX-lkp@intel.com>
+To: Pu Lehui <pulehui@huaweicloud.com>, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	Pu Lehui <pulehui@huawei.com>
+Subject: Re: [PATCH] riscv: fgraph: Fix stack layout to match
+ __arch_ftrace_regs argument of ftrace_return_to_handler
+Message-ID: <202503160820.dvqMpH0g-lkp@intel.com>
+References: <20250311132243.2178271-1-pulehui@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,109 +70,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250311132243.2178271-1-pulehui@huaweicloud.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-cpu-addr-fixup
-head:   40b96cba38232460c691b52bbf9183f9e4d34914
-commit: af175b4797cd4e3e8ff22a4e3c6924443986b797 [6/13] PCI: dwc: Add dw_pcie_parent_bus_offset() checking and debug
-config: csky-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503160823.faHNdwwX-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160823.faHNdwwX-lkp@intel.com/reproduce)
+Hi Pu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.14-rc6 next-20250314]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pu-Lehui/riscv-fgraph-Fix-stack-layout-to-match-__arch_ftrace_regs-argument-of-ftrace_return_to_handler/20250311-212440
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250311132243.2178271-1-pulehui%40huaweicloud.com
+patch subject: [PATCH] riscv: fgraph: Fix stack layout to match __arch_ftrace_regs argument of ftrace_return_to_handler
+config: riscv-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503160820.dvqMpH0g-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160820.dvqMpH0g-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503160823.faHNdwwX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503160820.dvqMpH0g-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma/edma.h:12,
-                    from drivers/pci/controller/dwc/pcie-designware.c:15:
-   drivers/pci/controller/dwc/pcie-designware.c: In function 'dw_pcie_parent_bus_offset':
->> drivers/pci/controller/dwc/pcie-designware.c:1134:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-    1134 |                         dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:1134:25: note: in expansion of macro 'dev_warn'
-    1134 |                         dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
-         |                         ^~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:1134:47: note: format string is defined here
-    1134 |                         dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
-         |                                        ~~~~~~~^
-         |                                               |
-         |                                               long long unsigned int
-         |                                        %#010x
-   drivers/pci/controller/dwc/pcie-designware.c:1138:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-    1138 |                         dev_warn(dev, "%#010llx %s reg[%d] != %#010llx fixed up addr; devicetree is broken\n",
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:1138:25: note: in expansion of macro 'dev_warn'
-    1138 |                         dev_warn(dev, "%#010llx %s reg[%d] != %#010llx fixed up addr; devicetree is broken\n",
-         |                         ^~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:1138:47: note: format string is defined here
-    1138 |                         dev_warn(dev, "%#010llx %s reg[%d] != %#010llx fixed up addr; devicetree is broken\n",
-         |                                        ~~~~~~~^
-         |                                               |
-         |                                               long long unsigned int
-         |                                        %#010x
-   drivers/pci/controller/dwc/pcie-designware.c:1145:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-    1145 |                         dev_warn(dev, "devicetree has incorrect translation; please check parent \"ranges\" property. CPU physical addr %#010llx, parent bus addr %#010llx\n",
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:1145:25: note: in expansion of macro 'dev_warn'
-    1145 |                         dev_warn(dev, "devicetree has incorrect translation; please check parent \"ranges\" property. CPU physical addr %#010llx, parent bus addr %#010llx\n",
-         |                         ^~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware.c:1145:125: note: format string is defined here
-    1145 |                         dev_warn(dev, "devicetree has incorrect translation; please check parent \"ranges\" property. CPU physical addr %#010llx, parent bus addr %#010llx\n",
-         |                                                                                                                      ~~~~~~~^
-         |                                                                                                                             |
-         |                                                                                                                             long long unsigned int
-         |                                                                                                                       CPU x
-
-
-vim +1134 drivers/pci/controller/dwc/pcie-designware.c
-
-  1109	
-  1110	resource_size_t dw_pcie_parent_bus_offset(struct dw_pcie *pci,
-  1111						  const char *reg_name,
-  1112						  resource_size_t cpu_phy_addr)
-  1113	{
-  1114		struct device *dev = pci->dev;
-  1115		struct device_node *np = dev->of_node;
-  1116		int index;
-  1117		u64 reg_addr, fixup_addr;
-  1118		u64 (*fixup)(struct dw_pcie *pcie, u64 cpu_addr);
-  1119	
-  1120		/* Look up reg_name address on parent bus */
-  1121		index = of_property_match_string(np, "reg-names", reg_name);
-  1122	
-  1123		if (index < 0) {
-  1124			dev_err(dev, "No %s in devicetree \"reg\" property\n", reg_name);
-  1125			return 0;
-  1126		}
-  1127	
-  1128		of_property_read_reg(np, index, &reg_addr, NULL);
-  1129	
-  1130		fixup = pci->ops->cpu_addr_fixup;
-  1131		if (fixup) {
-  1132			fixup_addr = fixup(pci, cpu_phy_addr);
-  1133			if (reg_addr == fixup_addr) {
-> 1134				dev_warn(dev, "%#010llx %s reg[%d] == %#010llx; %ps is redundant\n",
+>> <instantiation>:1:14: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+   addi sp, sp, -FREGS_SIZE_ON_STACK
+                ^
+   arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
+    SAVE_RET_ABI_STATE
+    ^
+>> <instantiation>:2:17: error: unexpected token
+    sw ra, FREGS_RA(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
+    SAVE_RET_ABI_STATE
+    ^
+   <instantiation>:3:17: error: unexpected token
+    sw s0, FREGS_S0(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
+    SAVE_RET_ABI_STATE
+    ^
+   <instantiation>:4:17: error: unexpected token
+    sw a0, FREGS_A0(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
+    SAVE_RET_ABI_STATE
+    ^
+   <instantiation>:5:17: error: unexpected token
+    sw a1, FREGS_A1(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
+    SAVE_RET_ABI_STATE
+    ^
+   <instantiation>:6:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+    addi s0, sp, FREGS_SIZE_ON_STACK
+                 ^
+   arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
+    SAVE_RET_ABI_STATE
+    ^
+   <instantiation>:1:16: error: unexpected token
+   lw ra, FREGS_RA(sp)
+                  ^
+   arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
+    RESTORE_RET_ABI_STATE
+    ^
+>> <instantiation>:2:17: error: unexpected token
+    lw s0, FREGS_S0(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
+    RESTORE_RET_ABI_STATE
+    ^
+   <instantiation>:3:17: error: unexpected token
+    lw a0, FREGS_A0(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
+    RESTORE_RET_ABI_STATE
+    ^
+   <instantiation>:4:17: error: unexpected token
+    lw a1, FREGS_A1(sp)
+                   ^
+   arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
+    RESTORE_RET_ABI_STATE
+    ^
+   <instantiation>:5:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+    addi sp, sp, FREGS_SIZE_ON_STACK
+                 ^
+   arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
+    RESTORE_RET_ABI_STATE
+    ^
 
 -- 
 0-DAY CI Kernel Test Service
