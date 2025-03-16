@@ -1,764 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB37C8CE
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 16 Mar 2025 14:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5068F4A;
+	Sun, 16 Mar 2025 14:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742133778; cv=none; b=sm/KvwlhcsELJUJXS68e5ZZS0tOs8rMkIQC7/BOEkl0J+v7e2/RUKwLRzznNxTaVOvBqwzGaRURXdyKr4MCeeqva/HkSSdVh0WOUNwvFtBn1lPYADMKaBrs6h8N+pdtQNe1SSD0t03mpoSe27864SbmaSjnflEz6kQI5U8nN0lE=
+	t=1742134157; cv=none; b=JPldJDmyzf15iHrUBfGqEBYGaivwZ9zGxqRcNjbQ61XF4yZSOj3HH2xoLsbb4fDWPYNznprR4FWmvdzIGX3UjYovXLfXFvYQVw98ZDrjnjijOP3RNBxEV6EGjKG6pOWQna3zrqLnXV0XaYvZH1LPpF96ySw2kmUL+u0kM7cLC+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742133778; c=relaxed/simple;
-	bh=/LvDCU/lPOT4UEJUZNeeS6wniCghEBoerkL+EINUev0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qoaxJieAOec5PUtuLe1Z5JrmLSil09k2n/q8pE/L8gZqbVaL2FKB96HOwM0qGs9L616oh23bWIWNi0UsBITJsJv7KR64iGEogluWpCaH69Sf51RhC+McOKilrkqQiqpXUIzZpukyZeenvQ6cIC+aunbnxWb3PbO52y/BKb/e/FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1Glnt/r; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742134157; c=relaxed/simple;
+	bh=wU+h1/mGkI0Ouvm0JG9pmOItT73sOENrMQWYhRMeZiY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a9J12ZfeGwH+QeGNhsRhYKWFDz8P1SnlENIWQNl+k5LHFJxb0WMaBTL9CxIliUlPAumoPRqQUBhkdoyHvIziSSIf60YYVWrGDapyI+t64G6wVH8Kj5SE6/E3XfyOYd7mgWU9Hx2TI2JH7nfdIaEJsrjHKoaDua+cntz27QzXmZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kCtv1fGO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1Glnt/r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742133775; x=1773669775;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/LvDCU/lPOT4UEJUZNeeS6wniCghEBoerkL+EINUev0=;
-  b=D1Glnt/rDzdASE6rYFuAOqYmkTwsuTbMwEG6w+Sugk1OtgXUgH0qhGKK
-   zjUb1U3o9A8iHJM82DGOMjkGmkDTw1f4iDzyLLM3LWq2x+m4lq8Hsg8gl
-   TRFKfeEoVYOaWAhMFk2IQjJMP8vYzTn8+b96qahCwzWtIwsj01zqRBAHg
-   zo5BmdK4DrRT8wXX7bkXwcD1OxJcftoU4AQXMwr0cmSTvluGqhZXXlVbj
-   Mwghnfzaj/rwZ95oPNm2Vc/OuYR8ZtuGS8hOa2kaf7EPkeILDbRaj7M6X
-   aqHfHrMTVnzficpV9KDlJtpmqnA+PuemImztE7X6YXcAWrG+OZzsHg1RG
-   A==;
-X-CSE-ConnectionGUID: mPq+3vW8QTeRzcCOVohvUg==
-X-CSE-MsgGUID: raLXE2tMTXyxramr3PzUzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="30820078"
-X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
-   d="scan'208";a="30820078"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 07:02:55 -0700
-X-CSE-ConnectionGUID: jDahsuLDRha3Hnm00V02Ew==
-X-CSE-MsgGUID: OJUJPKzsSmeRsNUiVeotpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,252,1736841600"; 
-   d="scan'208";a="121429501"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Mar 2025 07:02:53 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ttoZn-000C1b-00;
-	Sun, 16 Mar 2025 14:02:51 +0000
-Date: Sun, 16 Mar 2025 22:02:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 133/160]
- fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-Message-ID: <202503162158.7bEoTl00-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kCtv1fGO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD7E7C4CEE3;
+	Sun, 16 Mar 2025 14:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742134156;
+	bh=wU+h1/mGkI0Ouvm0JG9pmOItT73sOENrMQWYhRMeZiY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kCtv1fGO9QNHVcZi4x4y4ImTAM6wE5nEJW5Ytru/5JP6QBhwBSy5H2qZREfy1MmMV
+	 p2cLPbYM4uaCqHWZIcFw9qZOioTjhvNvAujn3D7NmuqnheHk6G9fNgk2TKKYollVPz
+	 08ZD9V2oKFZrhbLe3fXZsW7XEjRK6tyrsr+PZH1FblLCqCGw+rjYauK0iK+ZC3kNr9
+	 D6XeoklWghUNNa2zFCWjbcasxtZ42FVsgRzq4WBRS5O+S7QGZKg8PphX99AMCGxqSG
+	 tEgGIeZvkooEC5/S4AXR99IaOVlyN310JR8FoORIaA08ImhZ8yvFMPnS2gKLAhAkJI
+	 XbX7aRSe1kkXg==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-543d8badc30so4123335e87.0;
+        Sun, 16 Mar 2025 07:09:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVp/CUy2xemgOus81Gh8jaiM8s9k7t9stLHR7MUrAIexzgiCw/WY4HNTsTjflX/qaYpbBAokaI9/hxosS+D@lists.linux.dev
+X-Gm-Message-State: AOJu0YyoMMwmC8QP8a9L2SyHH2uIKo00quP3SYTFTZp85cMCXc5GQCxu
+	0cCG7Uz8M3G5xCPZvYyENJE87d+9GFkGQMgqaLw04V9z3d4+RjTFtpHsn32oAU76Pp2cUOD/f9V
+	9x1Dyy0L+qh6/AKQeVsGOEIchSrQ=
+X-Google-Smtp-Source: AGHT+IFgNHoODEqrbgYbZjTrUA96HByHMipMHG1JH0Qy/JfS82gDVHqymv/IEyd2BapSAOqx+WW3C2rTJ1Fil2Vi9C8=
+X-Received: by 2002:a05:6512:1286:b0:545:10eb:1ab2 with SMTP id
+ 2adb3069b0e04-549c398d167mr3611216e87.33.1742134155097; Sun, 16 Mar 2025
+ 07:09:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202503161833.ytx1ivfu-lkp@intel.com>
+In-Reply-To: <202503161833.ytx1ivfu-lkp@intel.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Sun, 16 Mar 2025 15:09:04 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
+X-Gm-Features: AQ5f1JonePai-5_ejUylzciYQE_fCI-n5gOvfA2mN3w1Tt00Tosys_ftHKke75M
+Message-ID: <CAMj1kXGqqW2UPvxB+o_LNSXb3CBk1QsQuCpmY=OsQPY=kWHFnw@mail.gmail.com>
+Subject: Re: [masahiroy-kbuild:kbuild 25/35] FAILED cannot open vmlinux: No
+ such file or directory
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   6d7f54c162635934218ea0cede09f68e40e3bc2f
-commit: 0effd697a5c73b9d6182236bbfe428b9d2146f8d [133/160] bcachefs: Kill BCH_DEV_OPT_SETTERS()
-config: i386-randconfig-051-20250316 (https://download.01.org/0day-ci/archive/20250316/202503162158.7bEoTl00-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503162158.7bEoTl00-lkp@intel.com/reproduce)
+On Sun, 16 Mar 2025 at 11:20, kernel test robot <lkp@intel.com> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+> head:   e3de46f775ec29a17f671523798c28222a4ce818
+> commit: cac289e2b2b0909b52c0a694c4469a9ad9f03764 [25/35] kbuild: Create intermediate vmlinux build with relocations preserved
+> config: i386-buildonly-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/config)
+> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503161833.ytx1ivfu-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503161833.ytx1ivfu-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> FAILED cannot open vmlinux: No such file or directory
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503162158.7bEoTl00-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:134:9: note: in expansion of macro 'x'
-     134 |         x(block_size,                   u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[0].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:134:9: note: in expansion of macro 'x'
-     134 |         x(block_size,                   u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:134:9: note: in expansion of macro 'x'
-     134 |         x(block_size,                   u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[0].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:134:9: note: in expansion of macro 'x'
-     134 |         x(block_size,                   u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:140:9: note: in expansion of macro 'x'
-     140 |         x(btree_node_size,              u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[1].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:140:9: note: in expansion of macro 'x'
-     140 |         x(btree_node_size,              u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:140:9: note: in expansion of macro 'x'
-     140 |         x(btree_node_size,              u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[1].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:140:9: note: in expansion of macro 'x'
-     140 |         x(btree_node_size,              u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:146:9: note: in expansion of macro 'x'
-     146 |         x(errors,                       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[2].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:146:9: note: in expansion of macro 'x'
-     146 |         x(errors,                       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:146:9: note: in expansion of macro 'x'
-     146 |         x(errors,                       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[2].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:146:9: note: in expansion of macro 'x'
-     146 |         x(errors,                       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:151:9: note: in expansion of macro 'x'
-     151 |         x(write_error_timeout,          u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[3].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:151:9: note: in expansion of macro 'x'
-     151 |         x(write_error_timeout,          u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:151:9: note: in expansion of macro 'x'
-     151 |         x(write_error_timeout,          u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[3].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:151:9: note: in expansion of macro 'x'
-     151 |         x(write_error_timeout,          u16,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:156:9: note: in expansion of macro 'x'
-     156 |         x(metadata_replicas,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[4].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:156:9: note: in expansion of macro 'x'
-     156 |         x(metadata_replicas,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:156:9: note: in expansion of macro 'x'
-     156 |         x(metadata_replicas,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[4].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:156:9: note: in expansion of macro 'x'
-     156 |         x(metadata_replicas,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:161:9: note: in expansion of macro 'x'
-     161 |         x(data_replicas,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[5].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:161:9: note: in expansion of macro 'x'
-     161 |         x(data_replicas,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:161:9: note: in expansion of macro 'x'
-     161 |         x(data_replicas,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[5].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:161:9: note: in expansion of macro 'x'
-     161 |         x(data_replicas,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:166:9: note: in expansion of macro 'x'
-     166 |         x(metadata_replicas_required, u8,                               \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[6].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:166:9: note: in expansion of macro 'x'
-     166 |         x(metadata_replicas_required, u8,                               \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:166:9: note: in expansion of macro 'x'
-     166 |         x(metadata_replicas_required, u8,                               \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[6].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:166:9: note: in expansion of macro 'x'
-     166 |         x(metadata_replicas_required, u8,                               \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:171:9: note: in expansion of macro 'x'
-     171 |         x(data_replicas_required,       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[7].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:171:9: note: in expansion of macro 'x'
-     171 |         x(data_replicas_required,       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:171:9: note: in expansion of macro 'x'
-     171 |         x(data_replicas_required,       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[7].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:171:9: note: in expansion of macro 'x'
-     171 |         x(data_replicas_required,       u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:176:9: note: in expansion of macro 'x'
-     176 |         x(encoded_extent_max,           u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[8].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:176:9: note: in expansion of macro 'x'
-     176 |         x(encoded_extent_max,           u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:176:9: note: in expansion of macro 'x'
-     176 |         x(encoded_extent_max,           u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[8].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:176:9: note: in expansion of macro 'x'
-     176 |         x(encoded_extent_max,           u32,                            \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:182:9: note: in expansion of macro 'x'
-     182 |         x(metadata_checksum,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[9].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:182:9: note: in expansion of macro 'x'
-     182 |         x(metadata_checksum,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
->> fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:182:9: note: in expansion of macro 'x'
-     182 |         x(metadata_checksum,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[9].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:182:9: note: in expansion of macro 'x'
-     182 |         x(metadata_checksum,            u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:187:9: note: in expansion of macro 'x'
-     187 |         x(data_checksum,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[10].get_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:187:9: note: in expansion of macro 'x'
-     187 |         x(data_checksum,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:187:9: note: in expansion of macro 'x'
-     187 |         x(data_checksum,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: note: (near initialization for 'bch2_opt_table[10].set_sb')
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:267:35: note: in expansion of macro 'filter_if_type_and_neq'
-     267 |                 .set_sb         = filter_if_type_and_neq(SET_##_sb_opt, SET_BCH2_NO_SB_OPT),    \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:187:9: note: in expansion of macro 'x'
-     187 |         x(data_checksum,                u8,                             \
-         |         ^
-   fs/bcachefs/opts.c:273:9: note: in expansion of macro 'BCH_OPTS'
-     273 |         BCH_OPTS()
-         |         ^~~~~~~~
-   fs/bcachefs/opts.c:240:33: error: initializer element is not constant
-     240 | #define mask_if_eq(_p, _v)      (_p != _v ? _p : NULL)
-         |                                 ^
-   fs/bcachefs/opts.c:243:9: note: in expansion of macro 'mask_if_eq'
-     243 |         mask_if_eq(type_compatible_or_null(_p, _v), _v)
-         |         ^~~~~~~~~~
-   fs/bcachefs/opts.c:266:35: note: in expansion of macro 'filter_if_type_and_neq'
-     266 |                 .get_sb         = filter_if_type_and_neq(_sb_opt,       BCH2_NO_SB_OPT),        \
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/opts.h:192:9: note: in expansion of macro 'x'
-     192 |         x(compression,                  u8,                             \
+We need the below - Masahiro, would you like me to send this is a
+follow-up patch?
 
 
-vim +240 fs/bcachefs/opts.c
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -185,7 +185,7 @@ cleanup()
+ {
+        rm -f .btf.*
+        rm -f System.map
+-       rm -f vmlinux
++       rm -f "${VMLINUX}"
+        rm -f vmlinux.map
+ }
 
-   235	
-   236	#define type_compatible_or_null(_p, _type)				\
-   237		__builtin_choose_expr(						\
-   238			__builtin_types_compatible_p(typeof(_p), typeof(_type)), _p, NULL)
-   239	
- > 240	#define mask_if_eq(_p, _v)	(_p != _v ? _p : NULL)
-   241	
+@@ -288,12 +288,12 @@ vmlinux_link "${VMLINUX}"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ # fill in BTF IDs
+ if is_enabled CONFIG_DEBUG_INFO_BTF; then
+-       info BTFIDS vmlinux
++       info BTFIDS "${VMLINUX}"
+        RESOLVE_BTFIDS_ARGS=""
+        if is_enabled CONFIG_WERROR; then
+                RESOLVE_BTFIDS_ARGS=" --fatal_warnings "
+        fi
+-       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
++       ${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} "${VMLINUX}"
+ fi
+
+ mksysmap "${VMLINUX}" System.map
