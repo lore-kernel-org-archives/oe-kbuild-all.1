@@ -1,106 +1,129 @@
-Received: from relay01c.gzo.com (relay01c.gzo.com [96.31.72.250])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240FE22759C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 14:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.31.72.250
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674B354652;
+	Mon, 17 Mar 2025 14:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742220373; cv=none; b=OhD2VmWGO8VlP6FDaC5scGGL89Bvq8wzxRmdRWEoiQeEOMtVl/arx2xdzOzZxXpoz8GhAsgh0AfWcVPtDJA5gft7ikyf4ircQdkUR1lAcSfqGNCNme5pbJArsKXvApRRwFvZZdLIR8qR5Kg7tG1QjM0ruY/6rRFZ04y9ldiiPh8=
+	t=1742222968; cv=none; b=d80UBc+UPfOTiFkc1laiDCq5WWX+iqzz2f18fK6ayCi79MYNIwUGI9O7QXb35GxifwBvrZ2X3HfUa+GSe861PZ5UPAXaJoLNy6Ptsj9OMYfwOJUEUHCn5F4Hc8IB4RE0sI7erVUppfvLReqy4giJFXoDsSKXMCu32tQJaV+Bo4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742220373; c=relaxed/simple;
-	bh=jTB5znB+ogEWEhTkaupi8dMN+yvFZhhh7iKqXffpBfE=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=Ad6wCXHXTTD1KbW3gLVAHbi/jZYjqwqGbSoOlvtfo87+TwPtUf6ZgP2TYMH7WMezL5foaEyS1hDdfHzOfQdhO/n5N0OjM5Z1iKDRnIyyIw4vqjI4y1CM2L1Gdub9zKtm/HQZwn9Uio8ZvDIt7t0dqdWKkmBts+Tsy+aQRDW+bBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shurup.com; spf=pass smtp.mailfrom=shurup.com; dkim=pass (2048-bit key) header.d=shurup.com header.i=@shurup.com header.b=itgmWAFW; arc=none smtp.client-ip=96.31.72.250
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=shurup.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shurup.com
+	s=arc-20240116; t=1742222968; c=relaxed/simple;
+	bh=s8CehdpXkTqOO0ErPHHVLt5yyez+Ks7PrRBqfbCNRVc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xybe82/v5fYemLzWDFNwgOh1f7I4NelR3H/Ju7upF13Y3WYvvTj8P1eBYqyCVsdhwBhpWvWK+l+skdit60LhXE4nRAR+1O4bpqWdjNBs0k8zaGbjtSlnRAyTUgPvJ2c7p6pX9VmIFegoWugQOpEzqWqMGO07AXP2CdYerzyeEbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mhuPfWls; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shurup.com header.i=@shurup.com header.b="itgmWAFW"
-Received: from cpanel84.gzo.com ([96.31.72.74]:38348)
-	by relay02.gzo.com with esmtps  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <yury@shurup.com>)
-	id 1tuAfX-00000005jnI-3RRa
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 17 Mar 2025 08:38:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=shurup.com;
-	s=default; h=To:References:Message-Id:Content-Transfer-Encoding:Cc:Date:
-	In-Reply-To:From:Subject:Mime-Version:Content-Type:Sender:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
-	:List-Post:List-Owner:List-Archive;
-	bh=jTB5znB+ogEWEhTkaupi8dMN+yvFZhhh7iKqXffpBfE=; b=itgmWAFW/cuIeL45f9rRrm8AD8
-	oSRYuomvAQ3i3hhhxAuh5G8Z7MEgw6gBc5f1AmFkGfSjypoRJuGZfm0ebwvwEWKJ1UGin889Jy845
-	n/hmIXlvqjpmzUzWROwNEqBw3Mv12wGamJPMXc9PPFyfwDXYyGRdSCjdR5qgK7pKGfFwoaD5beAzL
-	4WImmvX1yUAAM81Rqhsj12WQI4QxuCD7PMImbsbPOIPqCCrgE26vu6RCCfH0n5CHkk97SE5no1Cn8
-	m7shpDRb/eOeXS+dlZ+p8TmXeG2uBTJ+T7tgaVwi/GECFztUuvHR5nw6tB7w3IPOfOy2a2drVH6tb
-	Cn6pydIg==;
-Received: from [178.202.191.195] (port=13529 helo=smtpclient.apple)
-	by cpanel84.gzo.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <yury@shurup.com>)
-	id 1tuAfY-0000000Ei07-0uS3;
-	Mon, 17 Mar 2025 08:38:14 -0500
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mhuPfWls"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C92CFC4CEE3;
+	Mon, 17 Mar 2025 14:49:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742222967;
+	bh=s8CehdpXkTqOO0ErPHHVLt5yyez+Ks7PrRBqfbCNRVc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=mhuPfWlsqazTRYpvIDa7gC+hDui8usQNP3ZO8OPLyucvwyE0ZVVFJWHL4ywTVRv57
+	 2Gw0LV8SGvedmVCfNXvGG7KLTPbDqjE6PHeE81IVIylmhCxUUy9G0aWyAQ0c1D25fA
+	 fh52Txl2pW84GIYvEcyAk48V/i7wefc2xxX6XKRDHVXdEiURyBX2dHpMWtuz5r9faj
+	 xiJh6vfra8WmJf51d3wZ1JSlrWN2aBlAcEQK9DIMPOopREGHudRjPcicgJ5XnJJD7A
+	 kl46n5Ta27Jp0zZo3JxLm5PO204jVJ5eaAhepGbPwaneDeX27LLpDXvfM3zVBR/axc
+	 +pXyz7bIKQwAw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tuBmP-00EL5V-ET;
+	Mon, 17 Mar 2025 14:49:25 +0000
+Date: Mon, 17 Mar 2025 14:49:24 +0000
+Message-ID: <86y0x3n24r.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Andrew Jones <andrew.jones@linux.dev>,
+	oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	devel@daynix.com
+Subject: Re: [PATCH v5 3/5] KVM: arm64: PMU: Fix SET_ONE_REG for vPMC regs
+In-Reply-To: <202503172023.fzyJ3TMB-lkp@intel.com>
+References: <20250315-pmc-v5-3-ecee87dab216@daynix.com>
+	<202503172023.fzyJ3TMB-lkp@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [PATCH RESEND] tty: vt: make defkeymap for shifted F-keys
- consistent with kbd
-From: "Yury V. Zaytsev" <yury@shurup.com>
-In-Reply-To: <202503061554.ZQPrGM8H-lkp@intel.com>
-Date: Mon, 17 Mar 2025 14:37:43 +0100
-Cc: gregkh@linuxfoundation.org,
- jirislaby@kernel.org,
- linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BD85D5D1-4D09-41AC-BFD8-C53E986C629F@shurup.com>
-References: <20250301132108.62761-1-yury@shurup.com>
- <202503061554.ZQPrGM8H-lkp@intel.com>
-To: kernel test robot <lkp@intel.com>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel84.gzo.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - shurup.com
-X-Get-Message-Sender-Via: cpanel84.gzo.com: authenticated_id: yury+shurup.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel84.gzo.com: yury@shurup.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-GZO-MailScanner-Information: Please contact the ISP for more information
-X-GZO-MailScanner-ID: 1tuAfX-00000005jnI-3RRa
-X-GZO-MailScanner: Found to be clean
-X-GZO-MailScanner-SpamCheck: not spam, SpamAssassin (cached, score=-2.099,
-	required 6, autolearn=not spam, BAYES_00 -1.90, DKIM_SIGNED 0.10,
-	DKIM_VALID -0.10, DKIM_VALID_AU -0.10, DKIM_VALID_EF -0.10,
-	RCVD_IN_VALIDITY_CERTIFIED_BLOCKED 0.00,
-	RCVD_IN_VALIDITY_RPBL_BLOCKED 0.00, SPF_HELO_PASS -0.00,
-	SPF_PASS -0.00, URIBL_BLOCKED 0.00)
-X-GZO-MailScanner-From: yury@shurup.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: lkp@intel.com, akihiko.odaki@daynix.com, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, andrew.jones@linux.dev, oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, devel@daynix.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi,
+On Mon, 17 Mar 2025 13:02:47 +0000,
+kernel test robot <lkp@intel.com> wrote:
+> 
+> Hi Akihiko,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 80e54e84911a923c40d7bee33a34c1b4be148d7a]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Akihiko-Odaki/KVM-arm64-PMU-Set-raw-values-from-user-to-PM-C-I-NTEN-SET-CLR-PMOVS-SET-CLR/20250315-173731
+> base:   80e54e84911a923c40d7bee33a34c1b4be148d7a
+> patch link:    https://lore.kernel.org/r/20250315-pmc-v5-3-ecee87dab216%40daynix.com
+> patch subject: [PATCH v5 3/5] KVM: arm64: PMU: Fix SET_ONE_REG for vPMC regs
+> config: arm64-randconfig-r122-20250317 (https://download.01.org/0day-ci/archive/20250317/202503172023.fzyJ3TMB-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20250317/202503172023.fzyJ3TMB-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503172023.fzyJ3TMB-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    arch/arm64/kvm/sys_regs.c: In function 'set_pmu_evcntr':
+> >> arch/arm64/kvm/sys_regs.c:975:9: error: implicit declaration of function 'kvm_pmu_set_counter_value_user'; did you mean 'kvm_pmu_set_counter_value'? [-Wimplicit-function-declaration]
+>      975 |         kvm_pmu_set_counter_value_user(vcpu, idx, val);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>          |         kvm_pmu_set_counter_value
+> 
+> 
+> vim +975 arch/arm64/kvm/sys_regs.c
+> 
+>    962	
+>    963	static int set_pmu_evcntr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r,
+>    964				  u64 val)
+>    965	{
+>    966		u64 idx;
+>    967	
+>    968		if (r->CRn == 9 && r->CRm == 13 && r->Op2 == 0)
+>    969			/* PMCCNTR_EL0 */
+>    970			idx = ARMV8_PMU_CYCLE_IDX;
+>    971		else
+>    972			/* PMEVCNTRn_EL0 */
+>    973			idx = ((r->CRm & 3) << 3) | (r->Op2 & 7);
+>    974	
+>  > 975		kvm_pmu_set_counter_value_user(vcpu, idx, val);
+>    976		return 0;
+>    977	}
+>    978	
+> 
 
-> On 6. Mar 2025, at 08:20, kernel test robot <lkp@intel.com> wrote:
->=20
-> kernel test robot noticed the following build warnings:
+Looks like a case of missing stub definitions when
+CONFIG_HW_PERF_EVENTS isn't selected.
 
-Just to make sure I understand the expectations, are you waiting for me =
-to provide a fix and resubmit?
+	M.
 
-I ask because this is generated code. I can replace zeros with NULLs no =
-problem. Not sure about the symbols, but I guess making them static =
-wouldn't hurt.
-
-Thank you very much!
-
-All the best,
-Yury
-
+-- 
+Without deviation from the norm, progress is not possible.
