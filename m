@@ -1,248 +1,137 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3742621ADB9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 07:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7398219A63;
+	Mon, 17 Mar 2025 07:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742197487; cv=none; b=svmb1olLu9WUA+/UY2Qtm5UR/NYVy5r63zAXMqS3HwywMdJhDvps/RMaLcyeS0A8QT7g+JTDgipsZ+4jcYF2+gBwNjnDaFUTIgwTbCz2crKlChddOKjIH36cZtIpHizqOMkA3P1THmCFZ+aJBOsiVZ6AB++SHoqPU8N6HZEACOw=
+	t=1742197692; cv=none; b=jAk13GT4zOsemgmbRgqkHrh1xY5zkfApGAPUkAHwYxvKUGkQ9aboUi87BZogZ3jqR+Ih02F3SvKS7JTIIxTjwW5zW1/A/LdItXWQEVXGhP5LKNMnVrpgX2PNQIQq3gSgMUV3zm1d4CRAoPAq8akWkilZTUxOS8EoCQzjMIJgKBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742197487; c=relaxed/simple;
-	bh=e4gavxXdmgwwBHJB7m3krJGrbLbzsW3XuPJmhcq5zOI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lUP0/jIsq+A1KLXa661l6l8WABxQLgOsPT1JCXJvhdRzK8/RJ7BfvPgLa+RGANOI6V38aZ+nrh2eDEyzzrC7dD/YkDbzY9CD9TDxFZD5awen0OMuafL0Q3y2QCzyMEYlIeo9brk0Yyonu0rueKH1z4gPz2Jgd8gVJWvmy7WRSIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xnt7POZb; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1742197692; c=relaxed/simple;
+	bh=KjEjCRWjGNUgorUM3FO45c9F+8XdtpMQj4ibjxBvrn4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IV4b78rBDGNAAg/8I20hDQy/P85Y4/V2L2r+oajC+6yhftOFffavW5qDDxCp+AwhYCflFqIvWfXGj4KbYKkUFUM3RHHHrY34hzN6WVCAhKkGh76vm21e/U3Zurjg/L3+j/+xecw6qMgyCKSIIjDGNTiepzuxZNSAlUH/VOTD5kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDacJ6RS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xnt7POZb"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e5c9662131so5831533a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 00:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742197483; x=1742802283; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yUE8R4D8seWsEnROssMEJ1/bphw90lqlu9OPwN2yrqc=;
-        b=Xnt7POZb3zph0tR66aCFrcZwPHGMCNgK6Is00LzKCyBQIhUZq5Yccj+gi0sIGB9uB2
-         69FRq5Xhv7XUTaLc2EKm3zgoIrISQrFY6nTcNuGldIxuDBFFFGZECvZix2EbzqwedGDp
-         2k6EgH4ZaJakZAsh2nvHEu0WA0ulQ6QLDsNu1oPJr1N5Bc+bQ4aT9PsXCu2ypuYf4sLA
-         UjaE48A7m1Grk0MEOhMNIbmQZ+8EKduOKWOlIf8Q3eD+MHQtK+auXPey8LKNf5n9B/yP
-         pYTuTJDrcJxITinhvac64u4S+eDurvl28zbws8KUuu/+UlFJ0vZuS+YyrJgZ3oDsPaS2
-         gepQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742197483; x=1742802283;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yUE8R4D8seWsEnROssMEJ1/bphw90lqlu9OPwN2yrqc=;
-        b=KgeiLHrrePXsYDrB25yTItoZILF5TvPdavxBWebRtoM4kpEC6vTvi0BInbxXVZRME7
-         /r31JJIUS04RoxzAZDMRsl5wcGzkZdDTOCdyJwtAqkm7hof7IebfoLvaXh+0MZJg9Qqx
-         NeyaXLeVuFpqFwlma9O8+RiX7+ICNdHi49Bxf+FRSpnY9MsKS1rD8vJYHakJM2ixrNJl
-         7JGwynqEJzMqexHx8TficxVWUkUDCyRoTRuR7+UBRKiZJAb0HmYlgbVdrPrzYk+5oK2m
-         V64htoF4dUid7fjAuAgKo9uTMI6sGZsFWHDP3uy/frZKRVYHDxSeKLsCh3MSG4WDzdnF
-         4deQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWrxgCuhNkXy6LC/vpEZv9vptZaHEU0LTLp6SslYEWj+B24TPn7yvd+fn7YeEp0/pJkTWISK8l+27x7yOU@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrkepjEPCcntHpBiuaXKCzjaZDpq7qcHxZ6CyORSmEkKMoJNRS
-	4pQ0CjJE8CMyXMSddp3zfViatR+ou1GqTBtgOZupQilb8Vet5KVek8LsX1042OUFf3IEDJYIe0+
-	KEVB6kP8K5wNK6Z+7Pnnm64EYve0Ew0cs8IdjrQ==
-X-Gm-Gg: ASbGncso2fI1+ZTvJFxJ/bQk8figeh6kWhaDlNoFUNTUCbvOjULJu/dyIy13dZSgZIa
-	Yv1KbQUWBJ8JO5+Wabmlevjy15Cl+63Z1sjIm3aA2Q0MGXacdBV+LkttJajVXaFZX1ppg1hzgsI
-	LumyS3JexpeuSYJvNSr4ivpIblS7XQ/WCsN6bOpQ==
-X-Google-Smtp-Source: AGHT+IFb96AN9mBCT1uy5xz0tP/MegBeTN5ZXb8NeZYZgjqqksQ/j9r9IGvTWLXSAnudiKHZDOhUhP7feCwMfjOs9c4=
-X-Received: by 2002:a50:cd81:0:b0:5e8:bdb4:2891 with SMTP id
- 4fb4d7f45d1cf-5e8bdb42a54mr7828593a12.30.1742197483416; Mon, 17 Mar 2025
- 00:44:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDacJ6RS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9291C4CEE3;
+	Mon, 17 Mar 2025 07:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742197692;
+	bh=KjEjCRWjGNUgorUM3FO45c9F+8XdtpMQj4ibjxBvrn4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lDacJ6RS7JKBMCBCZNMg/7tXdU990R6/Q6wNzeGwNkVyKu/6mP33IIJ++MCT2Ipch
+	 wiYg7ODYjie0LA0mZBcUD49VpyBHTL7AST/YGjr+BzKSqqwRBA/9EAFtZjR/t96Ae1
+	 Tqq3842wDnqy0NA2QBtSm3YiXNt64bW6Xu0YgFDLAjKyJ4X12dRMLRavQQaamOXyeJ
+	 hFlB0Y/u2108bNEawwotFgltNNs2MnkQ3/irKuOJ9hGhMoy+l875bc666gDIHHzSd+
+	 7V+zOjAoVMqOCnc7TR/Sl5oLOdcaUv2x4NVr5H2NSC24zDVVYdS2wA49tlCP2cxYYE
+	 FC0+GjST0Ykwg==
+Message-ID: <fec0a1c8-251b-491e-893d-11a8186a2128@kernel.org>
+Date: Mon, 17 Mar 2025 08:48:03 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <06bf6c6d-f4f3-4a19-be2e-e8a7f3f6c999@stanley.mountain>
-In-Reply-To: <06bf6c6d-f4f3-4a19-be2e-e8a7f3f6c999@stanley.mountain>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Mon, 17 Mar 2025 08:44:25 +0100
-X-Gm-Features: AQ5f1JqRxMJKDyNsH2RYmCh1FDRej6HUqlbWbthmjJRjAW-vfg9dHr5bjnh-OLk
-Message-ID: <CAHUa44HvaH0YZ0YSKTA-Xrrfy1140c3nVL=eD7gc=ZWG0=LgAQ@mail.gmail.com>
-Subject: Re: [jens-wiklander-tee:testing/tuxbuild 6/10] drivers/tee/tee_shm.c:258
- tee_shm_register_fd() warn: passing zero to 'PTR_ERR'
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Etienne Carriere <etienne.carriere@linaro.org>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Olivier Masse <olivier.masse@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 2/3] i2c: aspeed: support AST2600 i2c new register
+ mode driver
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ kernel test robot <lkp@intel.com>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>, benh@kernel.crashing.org,
+ joel@jms.id.au, andi.shyti@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
+ linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev
+References: <20250224055936.1804279-3-ryan_chen@aspeedtech.com>
+ <202502280902.U0gLDhve-lkp@intel.com> <Z8GuOT5bJL7CdXX6@smile.fi.intel.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <Z8GuOT5bJL7CdXX6@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dan,
+On 28/02/2025 13:38, Andy Shevchenko wrote:
+> On Fri, Feb 28, 2025 at 09:28:59AM +0800, kernel test robot wrote:
+>> Hi Ryan,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on andi-shyti/i2c/i2c-host]
+>> [also build test WARNING on linus/master v6.14-rc4 next-20250227]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-i2c-aspeed-support-for-AST2600-i2cv2/20250224-140221
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+>> patch link:    https://lore.kernel.org/r/20250224055936.1804279-3-ryan_chen%40aspeedtech.com
+>> patch subject: [PATCH v16 2/3] i2c: aspeed: support AST2600 i2c new register mode driver
+>> config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250228/202502280902.U0gLDhve-lkp@intel.com/config)
+>> compiler: mips-linux-gcc (GCC) 14.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280902.U0gLDhve-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202502280902.U0gLDhve-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+> 
+> My gosh, this is valid report. But it looks like a preexisted issue.
+> Can somebody fix this, please?
 
-On Fri, Mar 7, 2025 at 10:35=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tux=
-build
-> head:   f4198d1f9ee51430ec81d02bb21f769cb6fd14c1
-> commit: 7fc3cd07fc7e055deefa3b33ff9f702ccd9f7864 [6/10] tee: new ioctl to=
- a register tee_shm from a dmabuf file descriptor
-> config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/arch=
-ive/20250307/202503071648.ViJVMQTh-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202503071648.ViJVMQTh-lkp@intel.com/
->
-> smatch warnings:
-> drivers/tee/tee_shm.c:258 tee_shm_register_fd() warn: passing zero to 'PT=
-R_ERR'
->
-> vim +/PTR_ERR +258 drivers/tee/tee_shm.c
->
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  210  struct tee_shm *tee_shm_=
-register_fd(struct tee_context *ctx, int fd)
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  211  {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  212         struct tee_shm_dm=
-abuf_ref *ref;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  213         int rc;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  214
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  215         if (!tee_device_g=
-et(ctx->teedev))
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  216                 return ER=
-R_PTR(-EINVAL);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  217
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  218         teedev_ctx_get(ct=
-x);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  219
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  220         ref =3D kzalloc(s=
-izeof(*ref), GFP_KERNEL);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  221         if (!ref) {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  222                 rc =3D -E=
-NOMEM;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  223                 goto err_=
-put_tee;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  224         }
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  225
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  226         refcount_set(&ref=
-->shm.refcount, 1);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  227         ref->shm.ctx =3D =
-ctx;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  228         ref->shm.id =3D -=
-1;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  229         ref->shm.flags =
-=3D TEE_SHM_DMA_BUF;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  230
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  231         ref->dmabuf =3D d=
-ma_buf_get(fd);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  232         if (IS_ERR(ref->d=
-mabuf)) {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  233                 rc =3D PT=
-R_ERR(ref->dmabuf);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  234                 goto err_=
-kfree_ref;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  235         }
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  236
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  237         rc =3D tee_heap_u=
-pdate_from_dma_buf(ctx->teedev, ref->dmabuf,
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  238                          =
-                 &ref->offset, &ref->shm,
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  239                          =
-                 &ref->parent_shm);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  240         if (!rc)
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  241                 goto out;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  242         if (rc !=3D -EINV=
-AL)
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  243                 goto err_=
-put_dmabuf;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  244
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  245         ref->attach =3D d=
-ma_buf_attach(ref->dmabuf, &ctx->teedev->dev);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  246         if (IS_ERR(ref->a=
-ttach)) {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  247                 rc =3D PT=
-R_ERR(ref->attach);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  248                 goto err_=
-put_dmabuf;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  249         }
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  250
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  251         ref->sgt =3D dma_=
-buf_map_attachment(ref->attach, DMA_BIDIRECTIONAL);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  252         if (IS_ERR(ref->s=
-gt)) {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  253                 rc =3D PT=
-R_ERR(ref->sgt);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  254                 goto err_=
-detach;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  255         }
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  256
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  257         if (sg_nents(ref-=
->sgt->sgl) !=3D 1) {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27 @258                 rc =3D PT=
-R_ERR(ref->sgt->sgl);
->
-> This should be "rc =3D -EINVAL;"
 
-You're right, I'll update in the next version.
+That was three weeks ago and still no responses from Aspeed or
+contributors from here.
 
-Thanks,
-Jens
+I think this tells a lot about aspeedtech.com patchsets on the list.
 
->
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  259                 goto err_=
-unmap_attachement;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  260         }
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  261
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  262         ref->shm.paddr =
-=3D page_to_phys(sg_page(ref->sgt->sgl));
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  263         ref->shm.size =3D=
- ref->sgt->sgl->length;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  264
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  265  out:
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  266         mutex_lock(&ref->=
-shm.ctx->teedev->mutex);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  267         ref->shm.id =3D i=
-dr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  268                          =
-       1, 0, GFP_KERNEL);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  269         mutex_unlock(&ref=
-->shm.ctx->teedev->mutex);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  270         if (ref->shm.id <=
- 0) {
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  271                 rc =3D re=
-f->shm.id;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  272                 if (ref->=
-attach)
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  273                         g=
-oto err_unmap_attachement;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  274                 goto err_=
-put_dmabuf;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  275         }
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  276
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  277         return &ref->shm;
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  278
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  279  err_unmap_attachement:
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  280         dma_buf_unmap_att=
-achment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  281  err_detach:
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  282         dma_buf_detach(re=
-f->dmabuf, ref->attach);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  283  err_put_dmabuf:
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  284         dma_buf_put(ref->=
-dmabuf);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  285  err_kfree_ref:
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  286         kfree(ref);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  287  err_put_tee:
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  288         teedev_ctx_put(ct=
-x);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  289         tee_device_put(ct=
-x->teedev);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  290
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  291         return ERR_PTR(rc=
-);
-> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  292  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+Best regards,
+Krzysztof
