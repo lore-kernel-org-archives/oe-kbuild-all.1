@@ -1,147 +1,248 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8CA21ADB9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 07:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3742621ADB9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 07:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742197372; cv=none; b=tvaMNWjIoUTsasRfrk/liSaRKqVECB+ec/adFRYQXVKHhxEHoBouQcTyl7oR/OzdmNmMHzL8lJ9LQz+4LcvkiYtpV4CloZFdfFId/jgjyazYCmFzm+Tr4GOLLXePJXmTO30UzorsOMsay7PJI6/eVW73QkZMmrqPhc/WUZEAaHA=
+	t=1742197487; cv=none; b=svmb1olLu9WUA+/UY2Qtm5UR/NYVy5r63zAXMqS3HwywMdJhDvps/RMaLcyeS0A8QT7g+JTDgipsZ+4jcYF2+gBwNjnDaFUTIgwTbCz2crKlChddOKjIH36cZtIpHizqOMkA3P1THmCFZ+aJBOsiVZ6AB++SHoqPU8N6HZEACOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742197372; c=relaxed/simple;
-	bh=9euAlTr+89hNhK+jUv7jLtGQt7bPB8Fw66H0EtsKMZo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zl8BA5Q6ugnupUCHGp1VKP/aBBTN7VR7uYkJgA+KmHCilIOwikNrASRonp06jzdvzLxD04oZlaNUGMN5TRgEUPSviD7+cqu1cyYn4x/6bcPoYtOu0IXYqW+BIOoyVDAXptYM+b+XCqvovToU5JvpD7fPTVjfwzp3xkVkx+/Zrao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UOSJdLLR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WLrcOzKD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UOSJdLLR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WLrcOzKD; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1742197487; c=relaxed/simple;
+	bh=e4gavxXdmgwwBHJB7m3krJGrbLbzsW3XuPJmhcq5zOI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lUP0/jIsq+A1KLXa661l6l8WABxQLgOsPT1JCXJvhdRzK8/RJ7BfvPgLa+RGANOI6V38aZ+nrh2eDEyzzrC7dD/YkDbzY9CD9TDxFZD5awen0OMuafL0Q3y2QCzyMEYlIeo9brk0Yyonu0rueKH1z4gPz2Jgd8gVJWvmy7WRSIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xnt7POZb; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UOSJdLLR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WLrcOzKD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UOSJdLLR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WLrcOzKD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C6121211A0;
-	Mon, 17 Mar 2025 07:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742197368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s9152dny59GjvNjxSUhjJMpOb1KrsRQzp2vYKKOCddQ=;
-	b=UOSJdLLRdxuI5iMs/sN6qp7G+RPFcZOWpUKRlhFKzY/+mFoQkZplLO5xEXaO9QGzT3osYE
-	/8c5OLHF3pKrbzFdqU7h+H+9nuIpHiJg2A2+zJsxGYsZ/T69rn0MY5g/dFUbjpg7FegR2f
-	eq3W5hZYlt5nWTjWA/TEvOM+aPRItG0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742197368;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s9152dny59GjvNjxSUhjJMpOb1KrsRQzp2vYKKOCddQ=;
-	b=WLrcOzKDWNAy6oMTcgkGB2AqdB4tcPDnnycf5jJJnHIwkdLJKK1UWysDiswXN2nqnZPYG3
-	zpQxePxrsPke4LBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1742197368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s9152dny59GjvNjxSUhjJMpOb1KrsRQzp2vYKKOCddQ=;
-	b=UOSJdLLRdxuI5iMs/sN6qp7G+RPFcZOWpUKRlhFKzY/+mFoQkZplLO5xEXaO9QGzT3osYE
-	/8c5OLHF3pKrbzFdqU7h+H+9nuIpHiJg2A2+zJsxGYsZ/T69rn0MY5g/dFUbjpg7FegR2f
-	eq3W5hZYlt5nWTjWA/TEvOM+aPRItG0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1742197368;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s9152dny59GjvNjxSUhjJMpOb1KrsRQzp2vYKKOCddQ=;
-	b=WLrcOzKDWNAy6oMTcgkGB2AqdB4tcPDnnycf5jJJnHIwkdLJKK1UWysDiswXN2nqnZPYG3
-	zpQxePxrsPke4LBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92D98132CF;
-	Mon, 17 Mar 2025 07:42:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id G/+BInjS12cdbAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Mar 2025 07:42:48 +0000
-Date: Mon, 17 Mar 2025 08:42:48 +0100
-Message-ID: <87h63sf6h3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	oe-kbuild-all@lists.linux.dev,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: Re: [broonie-ci:20250313_tiwai_asoc_convert_to_modern_pm_macros 113/194] sound/soc/codecs/cs35l56.c:949:12: warning: 'cs35l56_runtime_resume_i2c_spi' defined but not used
-In-Reply-To: <202503171139.HSG8dCAn-lkp@intel.com>
-References: <202503171139.HSG8dCAn-lkp@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xnt7POZb"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e5c9662131so5831533a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 00:44:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742197483; x=1742802283; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yUE8R4D8seWsEnROssMEJ1/bphw90lqlu9OPwN2yrqc=;
+        b=Xnt7POZb3zph0tR66aCFrcZwPHGMCNgK6Is00LzKCyBQIhUZq5Yccj+gi0sIGB9uB2
+         69FRq5Xhv7XUTaLc2EKm3zgoIrISQrFY6nTcNuGldIxuDBFFFGZECvZix2EbzqwedGDp
+         2k6EgH4ZaJakZAsh2nvHEu0WA0ulQ6QLDsNu1oPJr1N5Bc+bQ4aT9PsXCu2ypuYf4sLA
+         UjaE48A7m1Grk0MEOhMNIbmQZ+8EKduOKWOlIf8Q3eD+MHQtK+auXPey8LKNf5n9B/yP
+         pYTuTJDrcJxITinhvac64u4S+eDurvl28zbws8KUuu/+UlFJ0vZuS+YyrJgZ3oDsPaS2
+         gepQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742197483; x=1742802283;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yUE8R4D8seWsEnROssMEJ1/bphw90lqlu9OPwN2yrqc=;
+        b=KgeiLHrrePXsYDrB25yTItoZILF5TvPdavxBWebRtoM4kpEC6vTvi0BInbxXVZRME7
+         /r31JJIUS04RoxzAZDMRsl5wcGzkZdDTOCdyJwtAqkm7hof7IebfoLvaXh+0MZJg9Qqx
+         NeyaXLeVuFpqFwlma9O8+RiX7+ICNdHi49Bxf+FRSpnY9MsKS1rD8vJYHakJM2ixrNJl
+         7JGwynqEJzMqexHx8TficxVWUkUDCyRoTRuR7+UBRKiZJAb0HmYlgbVdrPrzYk+5oK2m
+         V64htoF4dUid7fjAuAgKo9uTMI6sGZsFWHDP3uy/frZKRVYHDxSeKLsCh3MSG4WDzdnF
+         4deQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWrxgCuhNkXy6LC/vpEZv9vptZaHEU0LTLp6SslYEWj+B24TPn7yvd+fn7YeEp0/pJkTWISK8l+27x7yOU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrkepjEPCcntHpBiuaXKCzjaZDpq7qcHxZ6CyORSmEkKMoJNRS
+	4pQ0CjJE8CMyXMSddp3zfViatR+ou1GqTBtgOZupQilb8Vet5KVek8LsX1042OUFf3IEDJYIe0+
+	KEVB6kP8K5wNK6Z+7Pnnm64EYve0Ew0cs8IdjrQ==
+X-Gm-Gg: ASbGncso2fI1+ZTvJFxJ/bQk8figeh6kWhaDlNoFUNTUCbvOjULJu/dyIy13dZSgZIa
+	Yv1KbQUWBJ8JO5+Wabmlevjy15Cl+63Z1sjIm3aA2Q0MGXacdBV+LkttJajVXaFZX1ppg1hzgsI
+	LumyS3JexpeuSYJvNSr4ivpIblS7XQ/WCsN6bOpQ==
+X-Google-Smtp-Source: AGHT+IFb96AN9mBCT1uy5xz0tP/MegBeTN5ZXb8NeZYZgjqqksQ/j9r9IGvTWLXSAnudiKHZDOhUhP7feCwMfjOs9c4=
+X-Received: by 2002:a50:cd81:0:b0:5e8:bdb4:2891 with SMTP id
+ 4fb4d7f45d1cf-5e8bdb42a54mr7828593a12.30.1742197483416; Mon, 17 Mar 2025
+ 00:44:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <06bf6c6d-f4f3-4a19-be2e-e8a7f3f6c999@stanley.mountain>
+In-Reply-To: <06bf6c6d-f4f3-4a19-be2e-e8a7f3f6c999@stanley.mountain>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Mon, 17 Mar 2025 08:44:25 +0100
+X-Gm-Features: AQ5f1JqRxMJKDyNsH2RYmCh1FDRej6HUqlbWbthmjJRjAW-vfg9dHr5bjnh-OLk
+Message-ID: <CAHUa44HvaH0YZ0YSKTA-Xrrfy1140c3nVL=eD7gc=ZWG0=LgAQ@mail.gmail.com>
+Subject: Re: [jens-wiklander-tee:testing/tuxbuild 6/10] drivers/tee/tee_shm.c:258
+ tee_shm_register_fd() warn: passing zero to 'PTR_ERR'
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Etienne Carriere <etienne.carriere@linaro.org>, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, Olivier Masse <olivier.masse@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 17 Mar 2025 04:41:39 +0100,
-kernel test robot wrote:
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20250313_tiwai_asoc_convert_to_modern_pm_macros
-> head:   9a2c84a9570fadf5fa15f3e6ca13a7ca23a6fb4c
-> commit: 87d228cc39db9625da9b75daaed25be23ec0a667 [113/194] ASoC: cs35l56: Convert to RUNTIME_PM_OPS()
-> config: csky-randconfig-001-20250317 (https://download.01.org/0day-ci/archive/20250317/202503171139.HSG8dCAn-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250317/202503171139.HSG8dCAn-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+Hi Dan,
+
+On Fri, Mar 7, 2025 at 10:35=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tux=
+build
+> head:   f4198d1f9ee51430ec81d02bb21f769cb6fd14c1
+> commit: 7fc3cd07fc7e055deefa3b33ff9f702ccd9f7864 [6/10] tee: new ioctl to=
+ a register tee_shm from a dmabuf file descriptor
+> config: sh-randconfig-r073-20250307 (https://download.01.org/0day-ci/arch=
+ive/20250307/202503071648.ViJVMQTh-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503171139.HSG8dCAn-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> sound/soc/codecs/cs35l56.c:949:12: warning: 'cs35l56_runtime_resume_i2c_spi' defined but not used [-Wunused-function]
->      949 | static int cs35l56_runtime_resume_i2c_spi(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >> sound/soc/codecs/cs35l56.c:942:12: warning: 'cs35l56_runtime_suspend_i2c_spi' defined but not used [-Wunused-function]
->      942 | static int cs35l56_runtime_suspend_i2c_spi(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202503071648.ViJVMQTh-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/tee/tee_shm.c:258 tee_shm_register_fd() warn: passing zero to 'PT=
+R_ERR'
+>
+> vim +/PTR_ERR +258 drivers/tee/tee_shm.c
+>
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  210  struct tee_shm *tee_shm_=
+register_fd(struct tee_context *ctx, int fd)
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  211  {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  212         struct tee_shm_dm=
+abuf_ref *ref;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  213         int rc;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  214
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  215         if (!tee_device_g=
+et(ctx->teedev))
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  216                 return ER=
+R_PTR(-EINVAL);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  217
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  218         teedev_ctx_get(ct=
+x);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  219
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  220         ref =3D kzalloc(s=
+izeof(*ref), GFP_KERNEL);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  221         if (!ref) {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  222                 rc =3D -E=
+NOMEM;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  223                 goto err_=
+put_tee;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  224         }
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  225
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  226         refcount_set(&ref=
+->shm.refcount, 1);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  227         ref->shm.ctx =3D =
+ctx;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  228         ref->shm.id =3D -=
+1;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  229         ref->shm.flags =
+=3D TEE_SHM_DMA_BUF;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  230
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  231         ref->dmabuf =3D d=
+ma_buf_get(fd);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  232         if (IS_ERR(ref->d=
+mabuf)) {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  233                 rc =3D PT=
+R_ERR(ref->dmabuf);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  234                 goto err_=
+kfree_ref;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  235         }
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  236
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  237         rc =3D tee_heap_u=
+pdate_from_dma_buf(ctx->teedev, ref->dmabuf,
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  238                          =
+                 &ref->offset, &ref->shm,
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  239                          =
+                 &ref->parent_shm);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  240         if (!rc)
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  241                 goto out;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  242         if (rc !=3D -EINV=
+AL)
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  243                 goto err_=
+put_dmabuf;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  244
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  245         ref->attach =3D d=
+ma_buf_attach(ref->dmabuf, &ctx->teedev->dev);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  246         if (IS_ERR(ref->a=
+ttach)) {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  247                 rc =3D PT=
+R_ERR(ref->attach);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  248                 goto err_=
+put_dmabuf;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  249         }
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  250
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  251         ref->sgt =3D dma_=
+buf_map_attachment(ref->attach, DMA_BIDIRECTIONAL);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  252         if (IS_ERR(ref->s=
+gt)) {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  253                 rc =3D PT=
+R_ERR(ref->sgt);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  254                 goto err_=
+detach;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  255         }
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  256
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  257         if (sg_nents(ref-=
+>sgt->sgl) !=3D 1) {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27 @258                 rc =3D PT=
+R_ERR(ref->sgt->sgl);
+>
+> This should be "rc =3D -EINVAL;"
 
-Those are conditionally exported symbols and I overlooked that
-CONFIG_SND_SOC_CS35L56_SDW may still enable CONFIG_SND_SOC_CS35L56
-without i2c/spi.  So please drop the patch
-  [PATCH 08/89] ASoC: cs35l56: Convert to RUNTIME_PM_OPS()
+You're right, I'll update in the next version.
 
-Should I resubmit the series together with the typo corrections?
+Thanks,
+Jens
 
-
-thanks,
-
-Takashi
+>
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  259                 goto err_=
+unmap_attachement;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  260         }
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  261
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  262         ref->shm.paddr =
+=3D page_to_phys(sg_page(ref->sgt->sgl));
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  263         ref->shm.size =3D=
+ ref->sgt->sgl->length;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  264
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  265  out:
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  266         mutex_lock(&ref->=
+shm.ctx->teedev->mutex);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  267         ref->shm.id =3D i=
+dr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  268                          =
+       1, 0, GFP_KERNEL);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  269         mutex_unlock(&ref=
+->shm.ctx->teedev->mutex);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  270         if (ref->shm.id <=
+ 0) {
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  271                 rc =3D re=
+f->shm.id;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  272                 if (ref->=
+attach)
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  273                         g=
+oto err_unmap_attachement;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  274                 goto err_=
+put_dmabuf;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  275         }
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  276
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  277         return &ref->shm;
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  278
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  279  err_unmap_attachement:
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  280         dma_buf_unmap_att=
+achment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  281  err_detach:
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  282         dma_buf_detach(re=
+f->dmabuf, ref->attach);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  283  err_put_dmabuf:
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  284         dma_buf_put(ref->=
+dmabuf);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  285  err_kfree_ref:
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  286         kfree(ref);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  287  err_put_tee:
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  288         teedev_ctx_put(ct=
+x);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  289         tee_device_put(ct=
+x->teedev);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  290
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  291         return ERR_PTR(rc=
+);
+> 7fc3cd07fc7e05 Etienne Carriere 2016-10-27  292  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
