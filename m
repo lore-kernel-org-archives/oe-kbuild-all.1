@@ -1,116 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6621A187876;
-	Mon, 17 Mar 2025 17:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0DB187876
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 17:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742230939; cv=none; b=BP88ZtqLX/Pi/2QQMwo2NRRdzKauGYIkfoljxL0IS/IR7rUh0dFi/YjN2XvKWBHAZ9S2WQUzXydXiiYqPNOUQIXALRky5xqbkH5loNPmTyzPkLduF+h/H08cMOkf8mN+j7iiOnNuBoaKRKTDRwgXfe5AKSBlnDLQirD25YFLyY0=
+	t=1742231737; cv=none; b=CJDJBsUIN3b7Kp6l54vhie0tcnD4/vMYhh0O0oyAUWDRTIKLSphdgJQ6VxflKChQdy6V1VVruCDwOPRRDDc6V8vVvAdqP3qB4r6psQaiUzZmWu750IACQNnWyTbl1V4Pz6zLHib7VcOpQeYpttXrtDu362j9LViTHja7uoBBkO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742230939; c=relaxed/simple;
-	bh=/4xrpSPTVqqhwJKQtTQwsKnSGXWkUrjyG2cKU635uRg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CrqE3KN9mPRN1fMbJJgNn8xMEMKzyUVdTWMI2DBd1g/dT294eg7CVixqntn6K3M+oSD7S3IKAng0DlcGwqdMHdaWUyyhx8fwjCXMkvrkHCyTFE/VeNGYCv1mhJkMvbqzfgPDxjqqTf5pmR0C064s9p2aiL+pD06/cBDFCRrsxqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNCXHSzA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742231737; c=relaxed/simple;
+	bh=MzzuSONMAd0CExtC48D5R9kJc/NUMiqJ6yGSKXSE1IU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i++NP5wjbPQGG4Fs6aRBulwHbpiOJq5EIhSeeR63WdlPanA6lpLbPJlBlF5Vw6yJP7/loJ2oPfJBRsAPNLG+hYVznPKL349VbpH3Yw2pXq+1GwdW9yAfJYjqC+yXVUPzLY1mbmKMG5e7PoAAloQA8jzZ+gFVo3JgCzBzEN+Myuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lxZ3C+IX; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNCXHSzA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D89CC4CEE3;
-	Mon, 17 Mar 2025 17:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742230938;
-	bh=/4xrpSPTVqqhwJKQtTQwsKnSGXWkUrjyG2cKU635uRg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HNCXHSzA33E4CyIgmKFg/JMEJs+pEmeJ45K8If/pZGyhlNqvpTJ+0CvdwrxHXCvSY
-	 B/KBtPBq63N0a3AnS8AmYqpzY4BLxBHHMKRGIWxS9rL8/0Lh99d4ykrRUwm1VahoFE
-	 pq8xCIY4YYvoJ/AD0rHhjA5c7XXwtPp3AOIfd7tx9fLSqgWb41tUZ99JqAASeorf7a
-	 5CH7MdQYP3CBXYn7R4+nnM4KWQy+0fzB9Xvnz3b+3BAAf0otH8jCEeZvT3Nu1iDOD9
-	 bHL2XJW6dbutUKANR2e60Y5A2a6Ft2YpEpCtmoAHb99r7Nc/aR+h5idt8TcV7cyTbp
-	 0Wexjv4Qg4tZA==
-Message-ID: <80b1351d-3860-4849-b18a-0e736fe458fc@kernel.org>
-Date: Mon, 17 Mar 2025 18:02:14 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lxZ3C+IX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742231735; x=1773767735;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MzzuSONMAd0CExtC48D5R9kJc/NUMiqJ6yGSKXSE1IU=;
+  b=lxZ3C+IXsnUIIuNPJ0zGuwaHljMk2NFu8b9C25ah6T/R4BkMsGVL0KFT
+   U9V7OZsBqfNpNNyVp2Lea1dOhrUj+e80T/MsuNKbacSH8NV4jNVIdrjHi
+   E3O7jxJPYRMDUNGZr9wFMEcTBIqLPIA4gVbZdGgd7q9Qd7WuwiJoEE3ig
+   GnQZWJ9+kC88cZEYM1WpohpJGks0tBH5IF+bkLPZTxMfFASu/AmYKh/gC
+   eo9XWJ+NTmgcPKIX/IGbLAWHbJpR/ECNp+ZhRn4IaDlghx4T+qPRL1gHc
+   c2uSL8iq8rOEPGEXv6fzT00XpCkcipSS+aC/1gdHJpMkAtv6a7R9Jvfa0
+   Q==;
+X-CSE-ConnectionGUID: 9RAlxOm8RTWw5PI6u5GeKA==
+X-CSE-MsgGUID: v86BhC0CSI6PTaOOVzU0LA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="54335100"
+X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
+   d="scan'208";a="54335100"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 10:15:35 -0700
+X-CSE-ConnectionGUID: LI5pvT07TaWztxIa8OwNdQ==
+X-CSE-MsgGUID: aSne9piRTdm+gq8TfqSIKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
+   d="scan'208";a="121955450"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 17 Mar 2025 10:15:35 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tuE3o-000Cyd-0d;
+	Mon, 17 Mar 2025 17:15:32 +0000
+Date: Tue, 18 Mar 2025 01:15:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sudeep-holla:b4/plat2faux_dev 3/10] random.c:undefined reference to
+ `smccc_trng_available'
+Message-ID: <202503180105.y2lGKtjw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool:
- .text.wcd934x_slim_irq_handler: unexpected end of section
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-References: <202503180044.oH9gyPeg-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202503180044.oH9gyPeg-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 17/03/2025 17:24, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
-> commit: 9ea22713227397b56a2b36a68c8bda13f0b43d70 ASoC: codecs: wcd934x: Handle nicer probe deferral and simplify with dev_err_probe()
-> date:   9 months ago
-> config: x86_64-randconfig-102-20250317 (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/config)
-> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503180044.oH9gyPeg-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/plat2faux_dev
+head:   311808e89f691de1648385823ca10d4bcdd72ea0
+commit: 956d963234312b4891386248ca1feef218a9fb3b [3/10] hwrng: arm-smccc-trng - transition to the faux device interface
+config: arm64-randconfig-003-20250317 (https://download.01.org/0day-ci/archive/20250318/202503180105.y2lGKtjw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180105.y2lGKtjw-lkp@intel.com/reproduce)
 
-I cannot reproduce it on clang-18 and clang-19 (I do not have clang-20
-in my distros) and I do not see how original commit could trigger this
-warning.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503180105.y2lGKtjw-lkp@intel.com/
 
-Best regards,
-Krzysztof
+All errors (new ones prefixed by >>):
+
+   aarch64-linux-ld: drivers/char/random.o: in function `arch_get_random_seed_longs':
+>> random.c:(.text+0x370): undefined reference to `smccc_trng_available'
+>> random.c:(.text+0x370): relocation truncated to fit: R_AARCH64_ADR_PREL_PG_HI21 against undefined symbol `smccc_trng_available'
+>> aarch64-linux-ld: random.c:(.text+0x380): undefined reference to `smccc_trng_available'
+   aarch64-linux-ld: random.c:(.text+0x388): undefined reference to `smccc_trng_available'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
