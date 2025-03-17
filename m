@@ -1,69 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5801A3A8D;
-	Mon, 17 Mar 2025 17:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1760B146588
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 20:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742231843; cv=none; b=OiqHROlmouc6eNZTYqdtS/NIeiFxGCIwsMox5SaeCWlZ/twC//WIrM/WVvt8j4vdDuKuILFns4FVFHbuRgihTRLBUdL/BDFXKui5YlSts9oH1+gqTIXp3gMk+/802V9LZ/8h7F9ypfuw9v4wh/m09Qdb0fNyGjKzK6rLNMKjTrw=
+	t=1742244154; cv=none; b=gD9XHMBk76CoIuBS4pgkibFPtnQ+bZzPlDfV1STY+bFm6qOIAdIc5APpIdrfzQMv4HDL8Jh3IJmdDV85gsM+aSNLgDiVVTXIAyk8CRXLXFmlCZnhnLeOWq8hTeabocy0X3tgQvh5cMqYaoLpl/pYSxdnYXIHaqTa/NNs/C1phYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742231843; c=relaxed/simple;
-	bh=c93AYaGKcGGVPweNb8RDtJ1JuwFpxuC9VZnWxeTrODY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D1GNhlZeQJmp3KOBGV1MBGFHLCMFNvuAOLGQhJ6xopxwj7gb/4uCwphc93OpDEXDJNrMTtQKeBiLLzN1dblb5m/aKv/YHCCXO7rf/oRbrMxzTF9R81MpI9vfx5nt75JNnzjq5E1UQGFULRQZxwajczUyEzwFNFMbFFV0e2J8LS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IIbO8428; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742244154; c=relaxed/simple;
+	bh=VVgyV/HPiF/auW/re7hncpnEqz3IS0WW8qFMM3qWsyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LI2kwrGmqGo+RQn+L1v+g5FABnVZObkXgFBHTrcML8MmKxVs9tcnA5tBV7+rXLoxRrx0sijglaFWJH3TCNNYCDOQGOw1/amKaG/RfJnVbb06UcTu47m7IMRh6Me4l4TT+9a4m4EcwVigV3T00Ntx0YoQcDYLJcKXZhfVLlmyuck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvhYPxKk; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IIbO8428"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E11C4CEEF;
-	Mon, 17 Mar 2025 17:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742231843;
-	bh=c93AYaGKcGGVPweNb8RDtJ1JuwFpxuC9VZnWxeTrODY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IIbO8428JgCJ9thxuIoO+TNyx+UGkjqiveU+xRlgLFNxvjASvC4NSMzj2GbJT1Fy1
-	 y/ORmUKC79SiAJ4/y+C+DEjukUn8ACBBSNT2tR7nDZnU+lnUeZuQmkBL6yyYKzl+pe
-	 2pvLNoaNLv+la82VcB/uiL4TtrtPlBkuL6RCufAfEzzIu+4CshhyYuuVjnk5Kn+Eyg
-	 O2SOx/mKrqnz8Vg7+ATasXYzKf633w9/eZMHzJ7ab/FLeWhspfhoycSizqMuhosRLS
-	 k1jkaHy5fuRIcGBpLbijcnemJ01ImNsXzu6tqYlun0HYeVdYDIXLgZeIMD6NCwaX9b
-	 pnPdDk9FIPM/Q==
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5499da759e8so6440705e87.0;
-        Mon, 17 Mar 2025 10:17:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUoUrJ7JmXSf4gK+ohLRopx+EYKtKL7OkS8MxzL7x97SfqQY2tT6J2tXA3URzexGpYqFcxL@lists.linux.dev, AJvYcCW/BIW639xkZ7seLxSHQoPW41MIX/xvIiJDdAZ3pk321EwHipYUh1gOoAmqMeWPFvhqx+8tCQafgDiavIkNPQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIEEf8nPPiwrk/j8yEJqHnX0BMVuEpw0PMXpDAnexkBI3/pc19
-	DHamnWeZ/2yY9qudXCh9piDqHZ+uSoj2B3ne0x1vE8bBbGmPgd2RTI77wl5OSqWFLyizyqdTwXC
-	Cets7pq8JTqup7jyp7hPHqieda7E=
-X-Google-Smtp-Source: AGHT+IFwVz6rny4XTNf+dMUt9YOtPc1euUWoDwAYUaVS0ZWLiZSLfxo6hSIMMSV9HIazrsHmFLZWOnibFSiGRw9P0UI=
-X-Received: by 2002:a05:6512:138b:b0:545:5d:a5c7 with SMTP id
- 2adb3069b0e04-54a3734375bmr331908e87.21.1742231841610; Mon, 17 Mar 2025
- 10:17:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvhYPxKk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742244153; x=1773780153;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VVgyV/HPiF/auW/re7hncpnEqz3IS0WW8qFMM3qWsyk=;
+  b=DvhYPxKk1LAovvQjbD5SccgYYHDMPyqZTZto7MIWsEmWip70aKsyTYZa
+   l2/01bBwvs/6IZg1gK5kHkkec6wzfp974459oj298DLr3DBFY5/n0nIVu
+   qLqBkh64hTYNUVChIUNt8za8GKPR5qLniGPAmo8QoN6uFyacPaBqe9+ai
+   UOLliV6l8orLnfpq/XLWi6r+o2S3fFTN/bWv02DBl6RMvcS0lhdAXWmVU
+   pZ8DKw+ESosLKgPMpxJNAcW9H8QFBOkzbw8lDdJ3YWsBOqTT0EsPW/TIv
+   hrIjqmGJSaVvdlVi7PaFJR/IL7EwrwDEA4yRhEYFgzg2HxuLmwseBuynb
+   Q==;
+X-CSE-ConnectionGUID: NR77vdrLSuuCbE6Z6wwQag==
+X-CSE-MsgGUID: nPlytArMTBKdti+x+lMYgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="53986807"
+X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
+   d="scan'208";a="53986807"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 13:42:32 -0700
+X-CSE-ConnectionGUID: 2gVYKdUdT8WxobT+e7pYUw==
+X-CSE-MsgGUID: Jd1sj47nS72LETijQgObDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,254,1736841600"; 
+   d="scan'208";a="127228963"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 17 Mar 2025 13:42:32 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tuHHx-000D9e-2F;
+	Mon, 17 Mar 2025 20:42:24 +0000
+Date: Tue, 18 Mar 2025 04:41:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 10942/11415] arch/mips/include/asm/io.h:550:21:
+ error: static declaration of 'pci_iounmap' follows non-static declaration
+Message-ID: <202503180450.TzH3iiJ6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202503171938.8Qee3VKa-lkp@intel.com> <57e58d07bad1cf890edbf80319a12fde95f30ef1.camel@HansenPartnership.com>
-In-Reply-To: <57e58d07bad1cf890edbf80319a12fde95f30ef1.camel@HansenPartnership.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 17 Mar 2025 18:17:09 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGKOpPVftCGG_53PB9-NO4p-PkgK8KyqvW0nd=ju0TtzQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JoxZ6OUxYntAhq8VxtEjm4L0c0A4s9HsgFL4AWkUfr3petLid1DJklvfvQ
-Message-ID: <CAMj1kXGKOpPVftCGG_53PB9-NO4p-PkgK8KyqvW0nd=ju0TtzQ@mail.gmail.com>
-Subject: Re: [efi:urgent 10/10] fs/efivarfs/super.c:424:27: error: use of
- undeclared identifier 'INODE_CHILD'
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-efi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 17 Mar 2025 at 13:33, James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> On Mon, 2025-03-17 at 19:49 +0800, kernel test robot wrote:
-> >  > 424                inode_lock_nested(inode, INODE_CHILD);
->
-> Sorry, was going to say on the other thread: the flag has to be
-> I_MUTEX_CHILD, Al just had a thinko when he wrote the above.
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e94bd4ec45ac156616da285a0bf03056cd7430fc
+commit: 976bf3aec388331454362b60cd1b5605f99bfe38 [10942/11415] mips: drop GENERIC_IOMAP wrapper
+config: mips-randconfig-r061-20250318 (https://download.01.org/0day-ci/archive/20250318/202503180450.TzH3iiJ6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180450.TzH3iiJ6-lkp@intel.com/reproduce)
 
-Yeah - I might have build tested that myself, so mea culpa.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503180450.TzH3iiJ6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/mips/include/asm/page.h:181,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/uio.h:10,
+                    from include/linux/socket.h:8,
+                    from include/linux/compat.h:15,
+                    from arch/mips/kernel/asm-offsets.c:12:
+>> arch/mips/include/asm/io.h:550:21: error: static declaration of 'pci_iounmap' follows non-static declaration
+     550 | #define pci_iounmap pci_iounmap
+         |                     ^~~~~~~~~~~
+   include/asm-generic/pci_iomap.h:56:20: note: in expansion of macro 'pci_iounmap'
+      56 | static inline void pci_iounmap(struct pci_dev *dev, void __iomem *addr)
+         |                    ^~~~~~~~~~~
+   arch/mips/include/asm/io.h:549:6: note: previous declaration of 'pci_iounmap' with type 'void(struct pci_dev *, void *)'
+     549 | void pci_iounmap(struct pci_dev *dev, void __iomem *addr);
+         |      ^~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:102: arch/mips/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1264: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/pci_iounmap +550 arch/mips/include/asm/io.h
+
+   546	
+   547	#ifdef CONFIG_PCI_DRIVERS_LEGACY
+   548	struct pci_dev;
+   549	void pci_iounmap(struct pci_dev *dev, void __iomem *addr);
+ > 550	#define pci_iounmap pci_iounmap
+   551	#endif
+   552	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
