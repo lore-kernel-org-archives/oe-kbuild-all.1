@@ -1,170 +1,109 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E34E25634;
-	Mon, 17 Mar 2025 03:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C2E2080C1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 03:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742180798; cv=none; b=Bw/leoNKxEOAjL+qJ97tBBoGGC1JGYmjqFYVS9TAuvYIZzcnkk4VB8ynT7Ot6WfImx+w1ual6a6ZE64wCWxlhUDsUQTHHEO7q3gQhBbG2e13tzPoAVmigBMeaO8cvdciA8Y78HKZR0ZyeFbLvrhyrF52Yi3rMfY2O0WfLbtfawc=
+	t=1742182939; cv=none; b=YXb7soIdv1BdQg9YQoshHXvLT6grFn7lpZ2aBxOW02BZPdrWE0yFMS6gCsUfYDoriHq/ZGmIjmgTK9jEyVZ4OnQ8CHPMrMY/hTGkypJiJF5MRaecOIlH/lf/MeqUqSbpO8YER0PDAmQpQMpindsrzs9n9yuQu9GjmrN2fxlyLpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742180798; c=relaxed/simple;
-	bh=QQnyMlWf5vcJZRa+pWRbN92Heo0mXNoO8CyLeuFiGnI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aMcehlFvOQQ6vvzIh4lVB5K4mYvnRS1bMvGgZnmC+EHK+5ZgA0JEBG9EXzZkFsvF2wHVXYzmNhw572ujGwgO23OzL7jzgYSfW/MvxxISdTBPQBIPOCK9Zi0ZyUJ5PlTBeD9SoXekUJmMF5Zlu8dMvUZmx7Qnq61LRT/CHLDuL/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4ZGKcH4qjPz4f3jRC;
-	Mon, 17 Mar 2025 11:06:07 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 3FEC91A10A3;
-	Mon, 17 Mar 2025 11:06:30 +0800 (CST)
-Received: from [10.67.109.184] (unknown [10.67.109.184])
-	by APP4 (Coremail) with SMTP id gCh0CgCnB1ywkddnJjbjGg--.29453S2;
-	Mon, 17 Mar 2025 11:06:26 +0800 (CST)
-Message-ID: <18b3bbb9-0733-4f0a-b859-2aabceefbc67@huaweicloud.com>
-Date: Mon, 17 Mar 2025 11:06:24 +0800
+	s=arc-20240116; t=1742182939; c=relaxed/simple;
+	bh=SN1bNrpzlU7TSHABID9T9Q0IN2dT93nyQ2zY5z4QNUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=U8NKiOflatB8xJv253+neuLkpDN+UIAeSSNoA2oVaKLx312O8crqDJcUGxJnwkxAholTMPBg0k6Gg4IvfrmIYlIqJsakTFRf+iM9kcQxURBGncjG1WByvL5GO7n5KWOVJTIqL8jLSPubQVf0tf9ImCXrletnPAXO5Mi9tQy+T+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8XsTGjJ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8XsTGjJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742182938; x=1773718938;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SN1bNrpzlU7TSHABID9T9Q0IN2dT93nyQ2zY5z4QNUU=;
+  b=O8XsTGjJAzeWL/k43ZpGfTepMD1X4/GwtomW84QA5oifP1ZU/IL1zp/S
+   0fCxRkGTMBs3UlLp51T/rHQuYrKFRD4I3hOFNV70UtO4e6mXGmvVw/+HP
+   kyQrmYxdliS3IsLWcNIyLm0tDuh9pQlCrozalSk+QdDXpwi4tMR6NBgqb
+   jaQcPgJ545Vic6vsIIPS8wmtDq3Wmc1CXBaD4KBbJdQ5wv73o2DqPuHnK
+   NfUUHUzz8zCniCh9PswXIjpwQbwwUePB7MDv7k5vfkm5nOZft87vCOMpu
+   DdqExhk7YlqzXYOqSH1XgDbQ5y9vchWWVOLrCqs0YTcrAhRUYrONVfepe
+   w==;
+X-CSE-ConnectionGUID: BhDJcmCMSo6/K+RQlS7I4w==
+X-CSE-MsgGUID: D1wQQCC0R/qFt2oA0lEKzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11375"; a="42440932"
+X-IronPort-AV: E=Sophos;i="6.14,253,1736841600"; 
+   d="scan'208";a="42440932"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2025 20:42:17 -0700
+X-CSE-ConnectionGUID: 28o7AG1FTb2mNFT09kyIDg==
+X-CSE-MsgGUID: nMoo+rt3TpKd5VZhJYyanQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,253,1736841600"; 
+   d="scan'208";a="121534265"
+Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 16 Mar 2025 20:42:15 -0700
+Received: from kbuild by a4747d147074 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tu1Mj-000CQz-16;
+	Mon, 17 Mar 2025 03:42:13 +0000
+Date: Mon, 17 Mar 2025 11:41:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Subject: [broonie-ci:20250313_tiwai_asoc_convert_to_modern_pm_macros 113/194]
+ sound/soc/codecs/cs35l56.c:949:12: warning: 'cs35l56_runtime_resume_i2c_spi'
+ defined but not used
+Message-ID: <202503171139.HSG8dCAn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] riscv: fgraph: Fix stack layout to match
- __arch_ftrace_regs argument of ftrace_return_to_handler
-To: kernel test robot <lkp@intel.com>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Palmer Dabbelt <palmer@dabbelt.com>, Alexandre Ghiti <alex@ghiti.fr>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- Naresh Kamboju <naresh.kamboju@linaro.org>, Pu Lehui <pulehui@huawei.com>
-References: <20250311132243.2178271-1-pulehui@huaweicloud.com>
- <202503160820.dvqMpH0g-lkp@intel.com>
-Content-Language: en-US
-From: Pu Lehui <pulehui@huaweicloud.com>
-In-Reply-To: <202503160820.dvqMpH0g-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgCnB1ywkddnJjbjGg--.29453S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr4kJFW5Zr13JrWkAw1UWrg_yoWrCFy3pr
-	W8A3WDG3yFkr1Iga4IyrZ7uw4Utw4Duw1rWF93Ars7WF4qvrWIk3Wxtrs0qryvqr40gr9F
-	9ryj9wsFkrWUAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
-	7KsUUUUUU==
-X-CM-SenderInfo: psxovxtxl6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git 20250313_tiwai_asoc_convert_to_modern_pm_macros
+head:   9a2c84a9570fadf5fa15f3e6ca13a7ca23a6fb4c
+commit: 87d228cc39db9625da9b75daaed25be23ec0a667 [113/194] ASoC: cs35l56: Convert to RUNTIME_PM_OPS()
+config: csky-randconfig-001-20250317 (https://download.01.org/0day-ci/archive/20250317/202503171139.HSG8dCAn-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250317/202503171139.HSG8dCAn-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503171139.HSG8dCAn-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> sound/soc/codecs/cs35l56.c:949:12: warning: 'cs35l56_runtime_resume_i2c_spi' defined but not used [-Wunused-function]
+     949 | static int cs35l56_runtime_resume_i2c_spi(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/cs35l56.c:942:12: warning: 'cs35l56_runtime_suspend_i2c_spi' defined but not used [-Wunused-function]
+     942 | static int cs35l56_runtime_suspend_i2c_spi(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-On 2025/3/16 9:16, kernel test robot wrote:
-> Hi Pu,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.14-rc6 next-20250314]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Pu-Lehui/riscv-fgraph-Fix-stack-layout-to-match-__arch_ftrace_regs-argument-of-ftrace_return_to_handler/20250311-212440
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20250311132243.2178271-1-pulehui%40huaweicloud.com
-> patch subject: [PATCH] riscv: fgraph: Fix stack layout to match __arch_ftrace_regs argument of ftrace_return_to_handler
-> config: riscv-randconfig-001-20250316 (https://download.01.org/0day-ci/archive/20250316/202503160820.dvqMpH0g-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250316/202503160820.dvqMpH0g-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503160820.dvqMpH0g-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> <instantiation>:1:14: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->     addi sp, sp, -FREGS_SIZE_ON_STACK
->                  ^
->     arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
->      SAVE_RET_ABI_STATE
->      ^
->>> <instantiation>:2:17: error: unexpected token
->      sw ra, FREGS_RA(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
->      SAVE_RET_ABI_STATE
->      ^
->     <instantiation>:3:17: error: unexpected token
->      sw s0, FREGS_S0(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
->      SAVE_RET_ABI_STATE
->      ^
->     <instantiation>:4:17: error: unexpected token
->      sw a0, FREGS_A0(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
->      SAVE_RET_ABI_STATE
->      ^
->     <instantiation>:5:17: error: unexpected token
->      sw a1, FREGS_A1(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
->      SAVE_RET_ABI_STATE
->      ^
->     <instantiation>:6:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->      addi s0, sp, FREGS_SIZE_ON_STACK
->                   ^
->     arch/riscv/kernel/mcount.S:73:2: note: while in macro instantiation
->      SAVE_RET_ABI_STATE
->      ^
->     <instantiation>:1:16: error: unexpected token
->     lw ra, FREGS_RA(sp)
->                    ^
->     arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
->      RESTORE_RET_ABI_STATE
->      ^
->>> <instantiation>:2:17: error: unexpected token
->      lw s0, FREGS_S0(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
->      RESTORE_RET_ABI_STATE
->      ^
->     <instantiation>:3:17: error: unexpected token
->      lw a0, FREGS_A0(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
->      RESTORE_RET_ABI_STATE
->      ^
->     <instantiation>:4:17: error: unexpected token
->      lw a1, FREGS_A1(sp)
->                     ^
->     arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
->      RESTORE_RET_ABI_STATE
->      ^
->     <instantiation>:5:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->      addi sp, sp, FREGS_SIZE_ON_STACK
->                   ^
->     arch/riscv/kernel/mcount.S:77:2: note: while in macro instantiation
->      RESTORE_RET_ABI_STATE
->      ^
-> 
+vim +/cs35l56_runtime_resume_i2c_spi +949 sound/soc/codecs/cs35l56.c
 
-Nice catch. The reason is that HAVE_DYNAMIC_FTRACE can be diabled when 
-CONFIG_MMU=n, and lead to disable HAVE_DYNAMIC_FTRACE_WITH_ARGS. 
-However, the current fgraph on riscv relies on the infrastructure of 
-DYNAMIC_FTRACE_WITH_ARGS. So let's select HAVE_FUNCTION_GRAPH_TRACER 
-depends on HAVE_DYNAMIC_FTRACE_WITH_ARGS. I will send new soon.
+   941	
+ > 942	static int cs35l56_runtime_suspend_i2c_spi(struct device *dev)
+   943	{
+   944		struct cs35l56_private *cs35l56 = dev_get_drvdata(dev);
+   945	
+   946		return cs35l56_runtime_suspend_common(&cs35l56->base);
+   947	}
+   948	
+ > 949	static int cs35l56_runtime_resume_i2c_spi(struct device *dev)
+   950	{
+   951		struct cs35l56_private *cs35l56 = dev_get_drvdata(dev);
+   952	
+   953		return cs35l56_runtime_resume_common(&cs35l56->base, false);
+   954	}
+   955	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
