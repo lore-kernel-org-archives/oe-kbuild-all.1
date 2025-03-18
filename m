@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E718035280
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 03:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FC41A8409;
+	Tue, 18 Mar 2025 04:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742267979; cv=none; b=h/usoPuujfyQiBh0Mb5JqDmqbJHCRDXg7KSyyjKQfroO7xw/3KxTKEW0h6H/uLNR77Iwtie7hgI64k3T/YXxAv55RcuqsqvIslrLTWvOVnt2DWIgDfxnsFNu/h5PzMvWxCt9HOplQIL+2itvwF16cuihtITncEWcFoapgo34348=
+	t=1742273551; cv=none; b=ovUBXaXEl5/VdLyuBEqGguXOFhS59vxZQSl0d3zhqH8lyGJiL8yHzC6/czihPkl9SUv+/39erLPQLtyH5LF9rwmL29Yes0GprtinKtFhlYqIVQc01weTdJV3yviq9wpfXJkv01uZ2ZE8gzAKLZgIC6B7AWaSkVETVoVxi1rf2j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742267979; c=relaxed/simple;
-	bh=TDsRVl9KzL07D3OaqAY1eCauOShIpPn1bxPJP1LVrPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=McgksgAd9v1lLq5OXJX26LoNbmoLCeV7Xtq1ucm7RrEwGTWbx7v9xzGbWtLPgVAHuwIQeZZaMn46qf3LnhDT6/a0pPiosUZSrYJvvPpBq1afn72ya0dbQnYO4ca4AFAEen/UUBH+IktGjJu3+cHoAvl06dVUCYasg6rWMZmQbmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VCirzMQd; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1742273551; c=relaxed/simple;
+	bh=jwmw579aSYTFXHfMays7upzplpwnyKbHOToaZXX9ttw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PRmqC1IOUFCJNPf3juLDFNuEjN9M5+7FXuiwFguua56x3gkvrc3ZtHeLBJgt0rHVHW92uhfEXfTfUcifrVGMJZkMb29OVXDbn34xasbuZgdP3GawpiIv5uKDZf3oXOXz00zubeqsig4Ph+gRS655TaAEynEXAubIAfFqVEwlJ00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lzrei66P; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VCirzMQd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lzrei66P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742267977; x=1773803977;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TDsRVl9KzL07D3OaqAY1eCauOShIpPn1bxPJP1LVrPE=;
-  b=VCirzMQdSA/0DJvnyrHp9/YTU1y+y4YRLvhxASLs2yzCR2zp/KRvhLea
-   amYXtRk40p/yoWOaqC1qQFSVG8f/wrJIKx2IvTpJypcH+vkWyHlUu8AS5
-   CDCzUOmlxzWHbYKLSYtCxEZM9ElYCS4FuSl0HKB34l9VH6sj4x37aFZVe
-   zRnPzG3Vhfq1RJuJAEHnCkwaaGPVT83pCQXTvDyp789viMWCbC4yPXqJR
-   UCnAmjjLB2ciWL//KjhIdCo+YFds7rXOygjCTv3XUgeTapxYhqQPBlVCW
-   +7TOQGzjEdliXu1q1KqmD3tZ1/cloAvIeJSRNvnMQL6CRw1zh+fXXJ5dK
-   g==;
-X-CSE-ConnectionGUID: j1lBd+KNQdmPPBvP6alH4A==
-X-CSE-MsgGUID: NyTwdyMQSsa0yU9mYijDDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="30971723"
-X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="30971723"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 20:16:17 -0700
-X-CSE-ConnectionGUID: un1CNWDASuezZvPLCz92NA==
-X-CSE-MsgGUID: suDn22W9RKyCCfHmbFfqKA==
+  t=1742273549; x=1773809549;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jwmw579aSYTFXHfMays7upzplpwnyKbHOToaZXX9ttw=;
+  b=lzrei66PjmG5TguPJa69RhUnKFJfMVljKZLjIae3O4m7g3Bv+DXRCNDb
+   MV+eiQeeXHMlK8vh6rPLBEKDzgpVqvh14IvhDADSNjQcl/mS3BhFZkQcn
+   6Z0s225nAmz8HxEeDtuHb1Pik1OVIQC2+F2YU5zrUfafLKIG9ky86YmXz
+   ShrzvRD7u26AUHuv4z1c9nrNlSd7g6WadxNK1bhzVSNE4g1LRq6ens20R
+   t096qbiCs2y00on5upf6BHp4sn91vSjzn+0JKZ7U9j5hRmCinoTmMF33m
+   2jYvRTvqjFGTXCgDjdba1cE3WSikRyKZhRBkFmO55z5h2yzU4qjHN/33w
+   Q==;
+X-CSE-ConnectionGUID: cLvlUMm8Sdmc4vCPjP4Cqg==
+X-CSE-MsgGUID: /g1B6/u0QvmAaECispDGcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43564792"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="43564792"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 21:52:28 -0700
+X-CSE-ConnectionGUID: ncnToWrBQJm/Ljj+am+XsA==
+X-CSE-MsgGUID: Vp4MccrXQnie2/DSFVBfHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="152979025"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="122648535"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 17 Mar 2025 20:16:14 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2025 21:52:26 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuNR5-000DLU-1v;
-	Tue, 18 Mar 2025 03:16:11 +0000
-Date: Tue, 18 Mar 2025 11:16:07 +0800
+	id 1tuOwB-000DPY-1y;
+	Tue, 18 Mar 2025 04:52:23 +0000
+Date: Tue, 18 Mar 2025 12:51:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 21/21]
- drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c:20:13: warning: no previous
- prototype for 'yhgch_drm_interrupt'
-Message-ID: <202503181104.PG4g7AR6-lkp@intel.com>
+To: Potin Lai <potin.lai.pt@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Patrick Williams <patrick@stwcx.xyz>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Cosmo Chou <cosmo.chou@quantatw.com>,
+	Potin Lai <potin.lai@quantatw.com>
+Subject: Re: [PATCH] gpio: pca953x: Add support for level-triggered interrupts
+Message-ID: <202503181231.ZqKVm0Z8-lkp@intel.com>
+References: <20250318-gpio-pca953x-level-triggered-irq-v1-1-0c4943d92425@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,48 +68,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250318-gpio-pca953x-level-triggered-irq-v1-1-0c4943d92425@gmail.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   0e71e11c7c57c6a824d6a2a6d48ef99568a94b3b
-commit: 5beb05c06d06e80489ab0fb616cfbc42b94e19e6 [21/21] anolis: drm/yhgch/yhgch-drm: rename inspur-drm to yhgch-drm
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250318/202503181104.PG4g7AR6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181104.PG4g7AR6-lkp@intel.com/reproduce)
+Hi Potin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Potin-Lai/gpio-pca953x-Add-support-for-level-triggered-interrupts/20250318-004441
+base:   2014c95afecee3e76ca4a56956a936e23283f05b
+patch link:    https://lore.kernel.org/r/20250318-gpio-pca953x-level-triggered-irq-v1-1-0c4943d92425%40gmail.com
+patch subject: [PATCH] gpio: pca953x: Add support for level-triggered interrupts
+config: x86_64-buildonly-randconfig-002-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181231.ZqKVm0Z8-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181231.ZqKVm0Z8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181104.PG4g7AR6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503181231.ZqKVm0Z8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c:20:13: warning: no previous prototype for 'yhgch_drm_interrupt' [-Wmissing-prototypes]
-      20 | irqreturn_t yhgch_drm_interrupt(int irq, void *arg)
-         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpio-pca953x.c:887:43: warning: address of array 'chip->irq_trig_level_low' will always evaluate to 'true' [-Wpointer-bool-conversion]
+     887 |         if (!chip->irq_trig_level_high && !chip->irq_trig_level_low) {
+         |                                           ~~~~~~~^~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpio-pca953x.c:887:13: warning: address of array 'chip->irq_trig_level_high' will always evaluate to 'true' [-Wpointer-bool-conversion]
+     887 |         if (!chip->irq_trig_level_high && !chip->irq_trig_level_low) {
+         |             ~~~~~~~^~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +/yhgch_drm_interrupt +20 drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.c
+vim +887 drivers/gpio/gpio-pca953x.c
 
-    18	
-    19	DEFINE_DRM_GEM_FOPS(yhgch_fops);
-  > 20	irqreturn_t yhgch_drm_interrupt(int irq, void *arg)
-    21	{
-    22		struct drm_device *dev = (struct drm_device *)arg;
-    23		struct yhgch_drm_private *priv =
-    24		    (struct yhgch_drm_private *)dev->dev_private;
-    25		u32 status;
-    26	
-    27		status = readl(priv->mmio + INSPUR_RAW_INTERRUPT);
-    28	
-    29		if (status & INSPUR_RAW_INTERRUPT_VBLANK(1)) {
-    30			writel(INSPUR_RAW_INTERRUPT_VBLANK(1),
-    31			       priv->mmio + INSPUR_RAW_INTERRUPT);
-    32			drm_handle_vblank(dev, 0);
-    33		}
-    34	
-    35		return IRQ_HANDLED;
-    36	}
-    37	
+   841	
+   842	static bool pca953x_irq_pending(struct pca953x_chip *chip, unsigned long *pending)
+   843	{
+   844		struct gpio_chip *gc = &chip->gpio_chip;
+   845		DECLARE_BITMAP(reg_direction, MAX_LINE);
+   846		DECLARE_BITMAP(old_stat, MAX_LINE);
+   847		DECLARE_BITMAP(cur_stat, MAX_LINE);
+   848		DECLARE_BITMAP(new_stat, MAX_LINE);
+   849		DECLARE_BITMAP(trigger, MAX_LINE);
+   850		DECLARE_BITMAP(edges, MAX_LINE);
+   851		int ret;
+   852	
+   853		if (chip->driver_data & PCA_PCAL) {
+   854			/* Read the current interrupt status from the device */
+   855			ret = pca953x_read_regs(chip, PCAL953X_INT_STAT, trigger);
+   856			if (ret)
+   857				return false;
+   858	
+   859			/* Check latched inputs and clear interrupt status */
+   860			ret = pca953x_read_regs(chip, chip->regs->input, cur_stat);
+   861			if (ret)
+   862				return false;
+   863	
+   864			/* Apply filter for rising/falling edge selection */
+   865			bitmap_replace(new_stat, chip->irq_trig_fall, chip->irq_trig_raise, cur_stat, gc->ngpio);
+   866	
+   867			bitmap_and(pending, new_stat, trigger, gc->ngpio);
+   868	
+   869			return !bitmap_empty(pending, gc->ngpio);
+   870		}
+   871	
+   872		ret = pca953x_read_regs(chip, chip->regs->input, cur_stat);
+   873		if (ret)
+   874			return false;
+   875	
+   876		/* Remove output pins from the equation */
+   877		pca953x_read_regs(chip, chip->regs->direction, reg_direction);
+   878	
+   879		bitmap_copy(old_stat, chip->irq_stat, gc->ngpio);
+   880	
+   881		bitmap_and(new_stat, cur_stat, reg_direction, gc->ngpio);
+   882		bitmap_xor(cur_stat, new_stat, old_stat, gc->ngpio);
+   883		bitmap_and(trigger, cur_stat, chip->irq_mask, gc->ngpio);
+   884	
+   885		bitmap_copy(chip->irq_stat, new_stat, gc->ngpio);
+   886	
+ > 887		if (!chip->irq_trig_level_high && !chip->irq_trig_level_low) {
+   888			if (bitmap_empty(trigger, gc->ngpio))
+   889				return false;
+   890		}
+   891	
+   892		bitmap_and(cur_stat, chip->irq_trig_fall, old_stat, gc->ngpio);
+   893		bitmap_and(old_stat, chip->irq_trig_raise, new_stat, gc->ngpio);
+   894		bitmap_or(edges, old_stat, cur_stat, gc->ngpio);
+   895		bitmap_and(pending, edges, trigger, gc->ngpio);
+   896	
+   897		bitmap_and(cur_stat, new_stat, chip->irq_trig_level_high, gc->ngpio);
+   898		bitmap_and(cur_stat, cur_stat, chip->irq_mask, gc->ngpio);
+   899		bitmap_or(pending, pending, cur_stat, gc->ngpio);
+   900	
+   901		bitmap_complement(cur_stat, new_stat, gc->ngpio);
+   902		bitmap_and(cur_stat, cur_stat, reg_direction, gc->ngpio);
+   903		bitmap_and(old_stat, cur_stat, chip->irq_trig_level_low, gc->ngpio);
+   904		bitmap_and(old_stat, old_stat, chip->irq_mask, gc->ngpio);
+   905		bitmap_or(pending, pending, old_stat, gc->ngpio);
+   906	
+   907		return !bitmap_empty(pending, gc->ngpio);
+   908	}
+   909	
 
 -- 
 0-DAY CI Kernel Test Service
