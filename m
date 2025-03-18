@@ -1,235 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8781E5217;
-	Tue, 18 Mar 2025 20:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DD91E1E02
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 20:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742328269; cv=none; b=u8rx5czgah0dr1SqEH/JTH0D1pjneJY2aIu0DBt6UfieTLfhFcYvbjPiuHA5mQzSEKpeGRNsbUMGhN35FVQ+3l/TxpgGQ8mruIn8YdiNZVtp3vj7v7LSopVfpjcdI+zs6ppWG07jrvqORLhka7kU/zBH0p0gu7gl8PzCVnJXjIg=
+	t=1742329800; cv=none; b=BCvl0YnJs07EF/nDGFsE0Wz1oKquqwn6Ng4YCemdI+LIEK3SOc1f1VByEJJh7T2on/aqlotg/VgeKSu+yi1nh5OF24YRo8xwEulxAiu8tVgPgFsvFQ3G2jt91Dvcd3yAbL4BMtbWACZpWV36+7PVbg9mZ6ztkGrSwswMnGbT06I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742328269; c=relaxed/simple;
-	bh=37soqdNIwo61ih+i0FCX+4BP4DmoFdz2n1WQ2XOTnNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qj4hYRxRNsAh1NYHsOzEviAcaS9owMWNv5VJTKwxuzlLomEPhbKNlDruU7O4Ms8lzaIqIXU4+yHDsV0LvLQb+aPS36BqY7iG469v7DLJJDyNK6n2JYeAJroqrcyZa9cobKRWDNVtLKR6ib74l0sc61m0HFOWJdmDz9d3O+wQRFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eC3WK8Gu; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1742329800; c=relaxed/simple;
+	bh=FYqLhIo5QrjyRe1xR2T64rrJDRQzI5b89y4rA9z9WIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eRixWcGJoh7KDE+me6ykAgTaC6Q+agLU3NezkiIjk6XegehJz0xSJbLFGAmuoaZ6r5EdfKqe07zftzFUba3iEy9MgINt68LsdwXQxplV1pY/dea5b8bxDpE3EgTlMp1ZJQ1Uo78hEMWARcEPnh/phccARW7GQQ5coLLmNBVaVwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbB7rOiJ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eC3WK8Gu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbB7rOiJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742328263; x=1773864263;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=37soqdNIwo61ih+i0FCX+4BP4DmoFdz2n1WQ2XOTnNQ=;
-  b=eC3WK8Gu07T2CokYXq2s4C257arXaQ/PlaeyThn+AVCMNGSXh4hQfMH3
-   fEH/479CYCfHyryZtPM/FOF/Byp+Nz8Qhvd9gpw85ITyrlcXmvTAnIVbE
-   4maBa5gi20PCA2x4NpOgnhjFfKw+LM7ZW+byhO7BF2TRi9O70hMPbdUm5
-   dvJVRHrKKABrioV2gdNJAuM+8Bm+iFfj5mHqxU0eJu+wSQMjtWmd0Ljah
-   1kRbyc2wJxOKPIZFHwEteX5U8ai4Kbz+uX2xixUG8W8nWnGLWoMIilabC
-   kGbnGlJGo/6cwcV4tjt1yJoTH6A+dlpHMGKDyY0vWJ7FW+u8yyHSRPNBJ
-   A==;
-X-CSE-ConnectionGUID: l8JyBLh4TNaUUt0Vj8wlvg==
-X-CSE-MsgGUID: eMIuXrnZQOe7kBDCEh2v+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43225948"
-X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
-   d="scan'208";a="43225948"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 13:04:23 -0700
-X-CSE-ConnectionGUID: /+u1TsTWTwGVjxaZv23Nug==
-X-CSE-MsgGUID: wwOAZmyRSvGZrU3rWs3f+Q==
+  t=1742329798; x=1773865798;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FYqLhIo5QrjyRe1xR2T64rrJDRQzI5b89y4rA9z9WIw=;
+  b=lbB7rOiJgP34KeOdrlqbcWNwUr6UFcEraU+ho5aFZrsbf+e1Vxh8l9hn
+   poLrkF+Lh3arzzx471YYBzbrK/GBAceVdE50Zjm4+uoERWBS1ZNBwNcyw
+   S2XvSC1y6sBXE2/mvCtyc+sxtmh22AnN3gw4PDIgiIBZlUq7xcvnDIAlQ
+   Ka7qNrMzmxL9FVLlkZjzXZMTXAHQb/XUNJZTu2dkev/Vefw2HKTbCGs5n
+   gYyMDuH2sOLNjX3S0Wnmz1nSYBbDTmgTaG4RV3UnZas3Ge34igAHX/xv1
+   pvfAYIVZdpFhZ84jVA8Dp8SLEuKmvNl95fNwj+pt5oTf7WRTBVAQyrdQv
+   Q==;
+X-CSE-ConnectionGUID: Dh8kwS9lSVy3/N72g2dLVg==
+X-CSE-MsgGUID: wDKLQDuvQweY05A0NzyZ9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="54166339"
+X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
+   d="scan'208";a="54166339"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 13:29:57 -0700
+X-CSE-ConnectionGUID: Rd596ZyXRx69fPPkLapzwA==
+X-CSE-MsgGUID: jT0nPkaySHWy6wyobYG0tQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
-   d="scan'208";a="159517822"
+X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
+   d="scan'208";a="145556422"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 13:04:20 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Mar 2025 13:29:56 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tudAf-000E90-0Q;
-	Tue, 18 Mar 2025 20:04:17 +0000
-Date: Wed, 19 Mar 2025 04:03:53 +0800
+	id 1tudZR-000EA6-1l;
+	Tue, 18 Mar 2025 20:29:53 +0000
+Date: Wed, 19 Mar 2025 04:26:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Phil Elwell <phil@raspberrypi.com>, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, kernel-dev@igalia.com,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v6 1/5] drm/v3d: Associate a V3D tech revision to all
- supported devices
-Message-ID: <202503190317.nnVNkMGI-lkp@intel.com>
-References: <20250317-v3d-gpu-reset-fixes-v6-1-f3ee7717ed17@igalia.com>
+To: Konrad Knitter <konrad.knitter@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Marcin Szycik <marcin.szycik@linux.intel.com>,
+	Sharon Haroni <sharon.haroni@intel.com>,
+	Nicholas Nunley <nicholas.d.nunley@intel.com>,
+	Brett Creeley <brett.creeley@intel.com>
+Subject: drivers/net/ethernet/intel/ice/devlink/health.c:35:3: error:
+ initializer element is not constant
+Message-ID: <202503190404.sA5CPXty-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250317-v3d-gpu-reset-fixes-v6-1-f3ee7717ed17@igalia.com>
 
-Hi Maíra,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 83a0237859bc5a9e0a716e1db8e7fd3cafd63259]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-v3d-Associate-a-V3D-tech-revision-to-all-supported-devices/20250318-090556
-base:   83a0237859bc5a9e0a716e1db8e7fd3cafd63259
-patch link:    https://lore.kernel.org/r/20250317-v3d-gpu-reset-fixes-v6-1-f3ee7717ed17%40igalia.com
-patch subject: [PATCH v6 1/5] drm/v3d: Associate a V3D tech revision to all supported devices
-config: x86_64-buildonly-randconfig-002-20250318 (https://download.01.org/0day-ci/archive/20250319/202503190317.nnVNkMGI-lkp@intel.com/config)
-compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503190317.nnVNkMGI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   81e4f8d68c66da301bb881862735bd74c6241a19
+commit: 85d6164ec56deef2e5692cf8b132115f9317cdf6 ice: add fw and port health reporters
+date:   9 weeks ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20250319/202503190404.sA5CPXty-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503190404.sA5CPXty-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503190317.nnVNkMGI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503190404.sA5CPXty-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/v3d/v3d_drv.c:292:8: warning: cast to smaller integer type 'enum v3d_gen' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     292 |         gen = (enum v3d_gen)of_device_get_match_data(dev);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> drivers/net/ethernet/intel/ice/devlink/health.c:35:3: error: initializer element is not constant
+      ice_common_port_solutions, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:35:3: note: (near initialization for 'ice_health_status_lookup[0].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:35:31: error: initializer element is not constant
+      ice_common_port_solutions, {ice_port_number_label}},
+                                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:35:31: note: (near initialization for 'ice_health_status_lookup[0].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:37:46: error: initializer element is not constant
+      "Change or replace the module or cable.", {ice_port_number_label}},
+                                                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:37:46: note: (near initialization for 'ice_health_status_lookup[1].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:39:3: error: initializer element is not constant
+      ice_common_port_solutions, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:39:3: note: (near initialization for 'ice_health_status_lookup[2].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:39:31: error: initializer element is not constant
+      ice_common_port_solutions, {ice_port_number_label}},
+                                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:39:31: note: (near initialization for 'ice_health_status_lookup[2].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:43:4: error: initializer element is not constant
+      {ice_port_number_label}},
+       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:43:4: note: (near initialization for 'ice_health_status_lookup[3].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:46:4: error: initializer element is not constant
+      {ice_port_number_label}},
+       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:46:4: note: (near initialization for 'ice_health_status_lookup[4].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:49:4: error: initializer element is not constant
+      {ice_port_number_label}},
+       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:49:4: note: (near initialization for 'ice_health_status_lookup[5].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:52:4: error: initializer element is not constant
+      {ice_port_number_label}},
+       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:52:4: note: (near initialization for 'ice_health_status_lookup[6].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:54:3: error: initializer element is not constant
+      ice_common_port_solutions, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:54:3: note: (near initialization for 'ice_health_status_lookup[7].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:54:31: error: initializer element is not constant
+      ice_common_port_solutions, {ice_port_number_label}},
+                                  ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:54:31: note: (near initialization for 'ice_health_status_lookup[7].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:56:10: error: initializer element is not constant
+      NULL, {ice_port_number_label}},
+             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:56:10: note: (near initialization for 'ice_health_status_lookup[8].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:58:3: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:58:3: note: (near initialization for 'ice_health_status_lookup[9].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:58:29: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:58:29: note: (near initialization for 'ice_health_status_lookup[9].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:63:4: error: initializer element is not constant
+      {ice_port_number_label}},
+       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:63:4: note: (near initialization for 'ice_health_status_lookup[11].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:67:4: error: initializer element is not constant
+      {ice_port_number_label}},
+       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:67:4: note: (near initialization for 'ice_health_status_lookup[12].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:70:50: error: initializer element is not constant
+      "Change the module to align to port option.", {ice_port_number_label}},
+                                                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:70:50: note: (near initialization for 'ice_health_status_lookup[13].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:72:3: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:72:3: note: (near initialization for 'ice_health_status_lookup[14].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:72:29: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:72:29: note: (near initialization for 'ice_health_status_lookup[14].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:74:3: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:74:3: note: (near initialization for 'ice_health_status_lookup[15].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:74:29: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:74:29: note: (near initialization for 'ice_health_status_lookup[15].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:78:3: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:78:3: note: (near initialization for 'ice_health_status_lookup[17].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:78:29: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:78:29: note: (near initialization for 'ice_health_status_lookup[17].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:80:3: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:80:3: note: (near initialization for 'ice_health_status_lookup[18].solution')
+   drivers/net/ethernet/intel/ice/devlink/health.c:80:29: error: initializer element is not constant
+      ice_update_nvm_solution, {ice_port_number_label}},
+                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/devlink/health.c:80:29: note: (near initialization for 'ice_health_status_lookup[18].data_label[0]')
+   drivers/net/ethernet/intel/ice/devlink/health.c:82:3: error: initializer element is not constant
 
 
-vim +292 drivers/gpu/drm/v3d/v3d_drv.c
+vim +35 drivers/net/ethernet/intel/ice/devlink/health.c
 
-   272	
-   273	static int v3d_platform_drm_probe(struct platform_device *pdev)
-   274	{
-   275		struct device *dev = &pdev->dev;
-   276		struct drm_device *drm;
-   277		struct v3d_dev *v3d;
-   278		enum v3d_gen gen;
-   279		int ret;
-   280		u32 mmu_debug;
-   281		u32 ident1, ident3;
-   282		u64 mask;
-   283	
-   284		v3d = devm_drm_dev_alloc(dev, &v3d_drm_driver, struct v3d_dev, drm);
-   285		if (IS_ERR(v3d))
-   286			return PTR_ERR(v3d);
-   287	
-   288		drm = &v3d->drm;
-   289	
-   290		platform_set_drvdata(pdev, drm);
-   291	
- > 292		gen = (enum v3d_gen)of_device_get_match_data(dev);
-   293		v3d->ver = gen;
-   294	
-   295		ret = map_regs(v3d, &v3d->hub_regs, "hub");
-   296		if (ret)
-   297			return ret;
-   298	
-   299		ret = map_regs(v3d, &v3d->core_regs[0], "core0");
-   300		if (ret)
-   301			return ret;
-   302	
-   303		v3d->clk = devm_clk_get_optional(dev, NULL);
-   304		if (IS_ERR(v3d->clk))
-   305			return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
-   306	
-   307		ret = clk_prepare_enable(v3d->clk);
-   308		if (ret) {
-   309			dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
-   310			return ret;
-   311		}
-   312	
-   313		mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
-   314		mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
-   315		ret = dma_set_mask_and_coherent(dev, mask);
-   316		if (ret)
-   317			goto clk_disable;
-   318	
-   319		v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
-   320	
-   321		ident1 = V3D_READ(V3D_HUB_IDENT1);
-   322		v3d->ver = (V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_TVER) * 10 +
-   323			    V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_REV));
-   324		/* Make sure that the V3D tech version retrieved from the HW is equal
-   325		 * to the one advertised by the device tree.
-   326		 */
-   327		WARN_ON(v3d->ver != gen);
-   328	
-   329		v3d->cores = V3D_GET_FIELD(ident1, V3D_HUB_IDENT1_NCORES);
-   330		WARN_ON(v3d->cores > 1); /* multicore not yet implemented */
-   331	
-   332		ident3 = V3D_READ(V3D_HUB_IDENT3);
-   333		v3d->rev = V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPREV);
-   334	
-   335		v3d_perfmon_init(v3d);
-   336	
-   337		v3d->reset = devm_reset_control_get_exclusive(dev, NULL);
-   338		if (IS_ERR(v3d->reset)) {
-   339			ret = PTR_ERR(v3d->reset);
-   340	
-   341			if (ret == -EPROBE_DEFER)
-   342				goto clk_disable;
-   343	
-   344			v3d->reset = NULL;
-   345			ret = map_regs(v3d, &v3d->bridge_regs, "bridge");
-   346			if (ret) {
-   347				dev_err(dev,
-   348					"Failed to get reset control or bridge regs\n");
-   349				goto clk_disable;
-   350			}
-   351		}
-   352	
-   353		if (v3d->ver < V3D_GEN_41) {
-   354			ret = map_regs(v3d, &v3d->gca_regs, "gca");
-   355			if (ret)
-   356				goto clk_disable;
-   357		}
-   358	
-   359		v3d->mmu_scratch = dma_alloc_wc(dev, 4096, &v3d->mmu_scratch_paddr,
-   360						GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
-   361		if (!v3d->mmu_scratch) {
-   362			dev_err(dev, "Failed to allocate MMU scratch page\n");
-   363			ret = -ENOMEM;
-   364			goto clk_disable;
-   365		}
-   366	
-   367		ret = v3d_gem_init(drm);
-   368		if (ret)
-   369			goto dma_free;
-   370	
-   371		ret = v3d_irq_init(v3d);
-   372		if (ret)
-   373			goto gem_destroy;
-   374	
-   375		ret = drm_dev_register(drm, 0);
-   376		if (ret)
-   377			goto irq_disable;
-   378	
-   379		ret = v3d_sysfs_init(dev);
-   380		if (ret)
-   381			goto drm_unregister;
-   382	
-   383		return 0;
-   384	
-   385	drm_unregister:
-   386		drm_dev_unregister(drm);
-   387	irq_disable:
-   388		v3d_irq_disable(v3d);
-   389	gem_destroy:
-   390		v3d_gem_destroy(drm);
-   391	dma_free:
-   392		dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
-   393	clk_disable:
-   394		clk_disable_unprepare(v3d->clk);
-   395		return ret;
-   396	}
-   397	
+    32	
+    33	static const struct ice_health_status ice_health_status_lookup[] = {
+    34		{ICE_AQC_HEALTH_STATUS_ERR_UNKNOWN_MOD_STRICT, "An unsupported module was detected.",
+  > 35			ice_common_port_solutions, {ice_port_number_label}},
+    36		{ICE_AQC_HEALTH_STATUS_ERR_MOD_TYPE, "Module type is not supported.",
+    37			"Change or replace the module or cable.", {ice_port_number_label}},
+    38		{ICE_AQC_HEALTH_STATUS_ERR_MOD_QUAL, "Module is not qualified.",
+    39			ice_common_port_solutions, {ice_port_number_label}},
+    40		{ICE_AQC_HEALTH_STATUS_ERR_MOD_COMM,
+    41			"Device cannot communicate with the module.",
+    42			"Check your cable connection. Change or replace the module or cable. Manually set speed and duplex.",
+    43			{ice_port_number_label}},
+    44		{ICE_AQC_HEALTH_STATUS_ERR_MOD_CONFLICT, "Unresolved module conflict.",
+    45			"Manually set speed/duplex or change the port option. If the problem persists, use a cable/module that is found in the supported modules and cables list for this device.",
+    46			{ice_port_number_label}},
+    47		{ICE_AQC_HEALTH_STATUS_ERR_MOD_NOT_PRESENT, "Module is not present.",
+    48			"Check that the module is inserted correctly. If the problem persists, use a cable/module that is found in the supported modules and cables list for this device.",
+    49			{ice_port_number_label}},
+    50		{ICE_AQC_HEALTH_STATUS_INFO_MOD_UNDERUTILIZED, "Underutilized module.",
+    51			"Change or replace the module or cable. Change the port option.",
+    52			{ice_port_number_label}},
+    53		{ICE_AQC_HEALTH_STATUS_ERR_UNKNOWN_MOD_LENIENT, "An unsupported module was detected.",
+    54			ice_common_port_solutions, {ice_port_number_label}},
+    55		{ICE_AQC_HEALTH_STATUS_ERR_INVALID_LINK_CFG, "Invalid link configuration.",
+    56			NULL, {ice_port_number_label}},
+    57		{ICE_AQC_HEALTH_STATUS_ERR_PORT_ACCESS, "Port hardware access error.",
+    58			ice_update_nvm_solution, {ice_port_number_label}},
+    59		{ICE_AQC_HEALTH_STATUS_ERR_PORT_UNREACHABLE, "A port is unreachable.",
+    60			"Change the port option. Update to the latest NVM image."},
+    61		{ICE_AQC_HEALTH_STATUS_INFO_PORT_SPEED_MOD_LIMITED, "Port speed is limited due to module.",
+    62			"Change the module or configure the port option to match the current module speed. Change the port option.",
+    63			{ice_port_number_label}},
+    64		{ICE_AQC_HEALTH_STATUS_ERR_PARALLEL_FAULT,
+    65			"All configured link modes were attempted but failed to establish link. The device will restart the process to establish link.",
+    66			"Check link partner connection and configuration.",
+    67			{ice_port_number_label}},
+    68		{ICE_AQC_HEALTH_STATUS_INFO_PORT_SPEED_PHY_LIMITED,
+    69			"Port speed is limited by PHY capabilities.",
+    70			"Change the module to align to port option.", {ice_port_number_label}},
+    71		{ICE_AQC_HEALTH_STATUS_ERR_NETLIST_TOPO, "LOM topology netlist is corrupted.",
+    72			ice_update_nvm_solution, {ice_port_number_label}},
+    73		{ICE_AQC_HEALTH_STATUS_ERR_NETLIST, "Unrecoverable netlist error.",
+    74			ice_update_nvm_solution, {ice_port_number_label}},
+    75		{ICE_AQC_HEALTH_STATUS_ERR_TOPO_CONFLICT, "Port topology conflict.",
+    76			"Change the port option. Update to the latest NVM image."},
+    77		{ICE_AQC_HEALTH_STATUS_ERR_LINK_HW_ACCESS, "Unrecoverable hardware access error.",
+    78			ice_update_nvm_solution, {ice_port_number_label}},
+    79		{ICE_AQC_HEALTH_STATUS_ERR_LINK_RUNTIME, "Unrecoverable runtime error.",
+    80			ice_update_nvm_solution, {ice_port_number_label}},
+    81		{ICE_AQC_HEALTH_STATUS_ERR_DNL_INIT, "Link management engine failed to initialize.",
+    82			ice_update_nvm_solution, {ice_port_number_label}},
+    83		{ICE_AQC_HEALTH_STATUS_ERR_PHY_FW_LOAD,
+    84			"Failed to load the firmware image in the external PHY.",
+    85			ice_update_nvm_solution, {ice_port_number_label}},
+    86		{ICE_AQC_HEALTH_STATUS_INFO_RECOVERY, "The device is in firmware recovery mode.",
+    87			ice_update_nvm_solution, {"Extended Error"}},
+    88		{ICE_AQC_HEALTH_STATUS_ERR_FLASH_ACCESS, "The flash chip cannot be accessed.",
+    89			"If issue persists, call customer support.", {"Access Type"}},
+    90		{ICE_AQC_HEALTH_STATUS_ERR_NVM_AUTH, "NVM authentication failed.",
+    91			ice_update_nvm_solution},
+    92		{ICE_AQC_HEALTH_STATUS_ERR_OROM_AUTH, "Option ROM authentication failed.",
+    93			ice_update_nvm_solution},
+    94		{ICE_AQC_HEALTH_STATUS_ERR_DDP_AUTH, "DDP package authentication failed.",
+    95			"Update to latest base driver and DDP package."},
+    96		{ICE_AQC_HEALTH_STATUS_ERR_NVM_COMPAT, "NVM image is incompatible.",
+    97			ice_update_nvm_solution},
+    98		{ICE_AQC_HEALTH_STATUS_ERR_OROM_COMPAT, "Option ROM is incompatible.",
+    99			ice_update_nvm_solution, {"Expected PCI Device ID", "Expected Module ID"}},
+   100		{ICE_AQC_HEALTH_STATUS_ERR_DCB_MIB,
+   101			"Supplied MIB file is invalid. DCB reverted to default configuration.",
+   102			"Disable FW-LLDP and check DCBx system configuration.",
+   103			{ice_port_number_label, "MIB ID"}},
+   104	};
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
