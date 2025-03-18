@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDF41A7249
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 17 Mar 2025 23:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB41A934
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 00:21:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742254601; cv=none; b=Eq+F9W3VvEZXV1Z0F6Uz671BI3VFI2kHvKWIR7wohQ9gSkP9yRP8VVlPc2uHSnX5H/pzNuHoVI8/cxYYIMI0KgvOV+Sp2zNY+eBcfIX3PJqwRkAG8AuIjneRaNv+H2hm8KZLDOH1JheboLyUj2ZqH7WxUd7un1bEMWdL6Z492yU=
+	t=1742257321; cv=none; b=ATMFjVylavC2UV3osbbte3oQUcrhkg3eTFQFcUM4HamnBowaNayx0aA1F/4cC0jfJi5i6XtrdZBjvewTQaqdQx5kdUZU1IMsI3JdX3/o6NUSS3FeqBNLke4UIadtq2utEUis+Eku+g4oAvPH5WwF9HADMaRK4uydXkSMB4YiqcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742254601; c=relaxed/simple;
-	bh=6ZyE6tSnUMEtuF8q3JDtB3fZ17g7DikLXNjyb5xHjWA=;
+	s=arc-20240116; t=1742257321; c=relaxed/simple;
+	bh=D3YepuDREaAWJJHaR0hCvHz3PDJ9QUcKr2Xm+B2N2iA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=APJzfY7K3SbH7awpxSFFLu8ruXinry+e3j8/CuXbGlxFDcL8kWWtCIpS1dgEPVxcXtLmdqBidhhJXdhiNM55YCXSHMdWaoVJtHnsL/pLrGdjCTPF99AHddA7UVbmzymuVYkyweSl/u3/7O4urtDQeN7RVUBob90SvdSe7IiMV70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOlrRq0C; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=kIwnp3Zewok0IOsDJbYqqWvhnJ58tjF9NoPo3Qw4nHMo74xjpb7d/WRWVAQPUt/vmtDOm+BurHql3XMlMp3Pz52l0wNTWmtYbAga3cGubXaBgLsuqNuEH2+eYZ9pkLM8ZWutvrYjIP/t4hgVTt/qprTmpfzaLtyYgEyq/Wc+8NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DLjidgjs; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOlrRq0C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DLjidgjs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742254598; x=1773790598;
+  t=1742257320; x=1773793320;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6ZyE6tSnUMEtuF8q3JDtB3fZ17g7DikLXNjyb5xHjWA=;
-  b=nOlrRq0CqeXl+1oOT24Xm0xDDA5N85pcG7k4mKhvRYY8btExnv0poThL
-   83e5Wi2YsQBmVv7RvHRM8nxZc0Yv+TWuz1bzgCrS6Y3z+orIgUTCvZ+cp
-   uwAK71AdgEiNBTht24jAfHU41jPJtLrYJyeuS0Mk2plzgHUC9l6vErydm
-   WHYt9i7hywBTL713pTsGJHcgSBIaKYX4CaA2dngP07ZtTGm1Mep7bKTby
-   5OeIW8Nq2pmydNdyokCH34CSLKXZQgu2ONwQGKLaySp43gVzLbS16kSgk
-   pinfGNjOJOh9U6Dem7FDS7EkNUOGfIONgtggf42bjbo0+hNfivhWbI1eC
-   g==;
-X-CSE-ConnectionGUID: eg2j/4nGSyaI9qfxGlkVPA==
-X-CSE-MsgGUID: R3S2WzvtQkuP4HZTYct0/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43286252"
+  bh=D3YepuDREaAWJJHaR0hCvHz3PDJ9QUcKr2Xm+B2N2iA=;
+  b=DLjidgjsVUl3ubPFf8+WYwnXrRWJii+FdybFgOBg9BN3SYVYzCUxG8+v
+   lMbrkflIGfKKvhyuRv5Q7WSGNs7oOBhJjRBa9dAg8v1Wpseo5pM3KTDys
+   4LmL20I2Z6s7R/BExn6hf5vO/42rUPR31it3Uj3IzyVgWGASnr0g/+Xyo
+   LrSFvOjArPYKH3tp0134Oz/exG5WtmwrYiPTSBHjrtYp9ZBfIHzYOznGa
+   YTu4b9ajTqFTybmmzb7do1KVjEcglbnwLEIVl4Ak196NkqE/Dxu8R3Zgm
+   8j8IspJn4SLqGIArYtcdrFRnDDjDcA+5W/RHUFN6EVau0/3fIlI7ieTLH
+   A==;
+X-CSE-ConnectionGUID: mvNo4NesRh2WkG5osbAtkw==
+X-CSE-MsgGUID: dEvsokVVQAeBbsukWN49Pw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="42552438"
 X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="43286252"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 16:36:36 -0700
-X-CSE-ConnectionGUID: AB0uUV01Tt+gx2xAjIRV2w==
-X-CSE-MsgGUID: ciEkYkYlSi2q4bKVD6Ma/A==
+   d="scan'208";a="42552438"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 17:21:56 -0700
+X-CSE-ConnectionGUID: tv0+CJLmReOLsEM9iM2Z3w==
+X-CSE-MsgGUID: s6/Roy7uRTG8LgQNjeIcsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,255,1736841600"; 
-   d="scan'208";a="123037093"
+   d="scan'208";a="126753723"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 17 Mar 2025 16:36:35 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Mar 2025 17:21:55 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuK0W-000DE7-2H;
-	Mon, 17 Mar 2025 23:36:32 +0000
-Date: Tue, 18 Mar 2025 07:36:08 +0800
+	id 1tuKiO-000DFd-2n;
+	Tue, 18 Mar 2025 00:21:52 +0000
+Date: Tue, 18 Mar 2025 08:21:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 21/21] versioncheck:
- ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h: 6 linux/version.h not
- needed.
-Message-ID: <202503180732.706kAwH8-lkp@intel.com>
+Subject: [paulmckrcu:dev.2025.03.11a 35/38]
+ drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_pm.c:1686:54: error: incompatible
+ types when assigning to type 'atomic_t' from type 'int'
+Message-ID: <202503180852.q0Z1Zi2B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,48 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   0e71e11c7c57c6a824d6a2a6d48ef99568a94b3b
-commit: 5beb05c06d06e80489ab0fb616cfbc42b94e19e6 [21/21] anolis: drm/yhgch/yhgch-drm: rename inspur-drm to yhgch-drm
-reproduce: (https://download.01.org/0day-ci/archive/20250318/202503180732.706kAwH8-lkp@intel.com/reproduce)
+tree:   https://github.com/paulmckrcu/linux dev.2025.03.11a
+head:   f8336d73124404df2b42d757b8a2c73f70281b97
+commit: 85393d1591b54e5b41e61ec6ca2f2c84bf94351d [35/38] ratelimit: Convert the ->missed field to atomic_t
+config: arc-randconfig-002-20250318 (https://download.01.org/0day-ci/archive/20250318/202503180852.q0Z1Zi2B-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180852.q0Z1Zi2B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503180732.706kAwH8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503180852.q0Z1Zi2B-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
-   ./drivers/crypto/ccp/hygon/hct.c: 6 linux/version.h not needed.
-   ./drivers/crypto/ccp/hygon/tdm-dev.h: 29 linux/version.h not needed.
-   ./drivers/crypto/montage/tsse/tsse_vuart.c: 21 linux/version.h not needed.
-   ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
->> ./drivers/gpu/drm/yhgch/yhgch-drm/yhgch_drm_drv.h: 6 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-zhaoxin.c: 18 linux/version.h not needed.
-   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-ethtool.c: 1114: need linux/version.h
-   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: 6256: need linux/version.h
-   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c: 2329: need linux/version.h
-   ./drivers/net/ethernet/motorcomm/yt6801/fuxi-os.h: 27 linux/version.h not needed.
-   ./drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h: 26 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_pm.c: In function 'amdgpu_set_thermal_throttling_logging':
+>> drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_pm.c:1686:54: error: incompatible types when assigning to type 'atomic_t' from type 'int'
+    1686 |                 adev->throttling_logging_rs.missed = 0;
+         |                                                      ^
+
+
+vim +1686 drivers/gpu/drm/amd/amdgpu/../pm/amdgpu_pm.c
+
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1657  
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1658  static ssize_t amdgpu_set_thermal_throttling_logging(struct device *dev,
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1659  						     struct device_attribute *attr,
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1660  						     const char *buf,
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1661  						     size_t count)
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1662  {
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1663  	struct drm_device *ddev = dev_get_drvdata(dev);
+1348969ab68cb8 drivers/gpu/drm/amd/pm/amdgpu_pm.c     Luben Tuikov 2020-08-24  1664  	struct amdgpu_device *adev = drm_to_adev(ddev);
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1665  	long throttling_logging_interval;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1666  	unsigned long flags;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1667  	int ret = 0;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1668  
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1669  	ret = kstrtol(buf, 0, &throttling_logging_interval);
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1670  	if (ret)
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1671  		return ret;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1672  
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1673  	if (throttling_logging_interval > 3600)
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1674  		return -EINVAL;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1675  
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1676  	if (throttling_logging_interval > 0) {
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1677  		raw_spin_lock_irqsave(&adev->throttling_logging_rs.lock, flags);
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1678  		/*
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1679  		 * Reset the ratelimit timer internals.
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1680  		 * This can effectively restart the timer.
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1681  		 */
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1682  		adev->throttling_logging_rs.interval =
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1683  			(throttling_logging_interval - 1) * HZ;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1684  		adev->throttling_logging_rs.begin = 0;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1685  		adev->throttling_logging_rs.printed = 0;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22 @1686  		adev->throttling_logging_rs.missed = 0;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1687  		raw_spin_unlock_irqrestore(&adev->throttling_logging_rs.lock, flags);
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1688  
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1689  		atomic_set(&adev->throttling_logging_enabled, 1);
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1690  	} else {
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1691  		atomic_set(&adev->throttling_logging_enabled, 0);
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1692  	}
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1693  
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1694  	return count;
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1695  }
+b265bdbd9f2811 drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c Evan Quan    2020-05-22  1696  
+
+:::::: The code at line 1686 was first introduced by commit
+:::::: b265bdbd9f2811c2a674ea9d1161de821923897c drm/amdgpu: added a sysfs interface for thermal throttling related V4
+
+:::::: TO: Evan Quan <evan.quan@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
