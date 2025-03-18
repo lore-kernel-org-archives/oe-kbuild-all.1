@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1626C186A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 05:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412881D6DBC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 05:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742275632; cv=none; b=jpPI/0MMSq4qvVN3dgvg7545PiqCBc4Vl9oF3OcYvPLj7jfckhS/kjnm4mci7lpqo7pVvBS106SgMMiSYju182xvlmXy/1EtyHE3FyIKNrEDxjLShyW/MSax0OV6aQ/zpWuPNTkmlopVSJcH9N+g+Z/aaP1JUtEcntWp/pWVVok=
+	t=1742276409; cv=none; b=pj1jQCRCBM+P/eV3HpNgVwVUq/LKd/ArFSL1dVT6s/vv/FF48nWTVZ7wweiictuqY4cEUntwT8REF2lFbpt4Jz6bbt9zMsFXQiEJ4psOUGwHW/0UUiLOid6vyWpxy3yrsDlvkSLiLj0i7g8p28dkh/eM1jXc+SnmJPRfikiaG00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742275632; c=relaxed/simple;
-	bh=rnCOXBiB6SkL9EQ0o/IZslWVUweBwi0bgWpDfTFQtP0=;
+	s=arc-20240116; t=1742276409; c=relaxed/simple;
+	bh=HFrmONqkVemhA81XFnDlbnbFAvrPsvYETccZw5Mt8Wg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QldhEvQCj26Zk07zuofAQtF4HILR8jj/EaVodAF4qaYaF/OAjHpev3QTg5wk9nnJ1dsUm16dhPXpUoxzI33mPUAYDCrd7QS/V/hJtuKVvC2TmjRhwJTNBcbY7e+pRvYAJUDLZox9qELdsdBshflTcqF2eltm22ylFBpcITbro/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+MFPizZ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=LBFEi1brUmF4bqDNNE/hEQrezTfJkHjnSI/bisOEMoYTaEzXSojLHyp4LXFcIDRb0F7viICacePKY2XzdGlGYXErvTLtsWH8GuXSbyFuZ2fL0sO806KdLQFPNv3yrbzgpRYPjVlqVOSCCOI/IL5S8c8uXS7aSYRX5aSuhbzftRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Huljf++6; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+MFPizZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Huljf++6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742275630; x=1773811630;
+  t=1742276407; x=1773812407;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rnCOXBiB6SkL9EQ0o/IZslWVUweBwi0bgWpDfTFQtP0=;
-  b=J+MFPizZmPFZibCRwk9diReu+SOhcgLb4ammJHvqxRcJyLb0XOpA+xGQ
-   s0QsKNp0QDTCqE9Hb/IR4Y1hc9C+IDd/ydrsZIpunWvy5XPY8h/hi5h8V
-   sn3w38hZSvELFnC7JeKVmkFh0Xv3hIR5/YkvEWpKV8ntO13nwrScO00Qm
-   1mUNjPmwk8s4jIDOEHS3KW4kRob0czTsNXbp/9S3eQGXwaHbD970zM+qV
-   87jzKpJjjdiGggIBjoigfJZJtG8HbT3brWFKLV1xJvVqIQOsDPknfP9hE
-   5L2qafKORmZOEmXYpGeHfMaDqoxDc+DydhST2s8ql5h+hsM7RXqN83C7t
-   A==;
-X-CSE-ConnectionGUID: vt8cxP9JSnGqg3dYBq8dyg==
-X-CSE-MsgGUID: 3xv0cxmERc6zB8G3MeTPGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="54067142"
+  bh=HFrmONqkVemhA81XFnDlbnbFAvrPsvYETccZw5Mt8Wg=;
+  b=Huljf++6z69dfrWx3Xmq74sH1xkbU9jTX5MWStHG/2Fab0zxL29u5Y+g
+   mSTBtVprIJrP4ijbYACHuebNjo0ptwXL01JTF7XuhRGBMTG+VTRJBjmDL
+   OGCZLQxdLi+YWcKwH7+kzFveRLXC5ZhBQ0xjHpc4bNhC9m8naFgfuVGIo
+   LfuHfSXqjri06nE7QbuCTvs8FIEaE0BbpB44A5sN5pGIMnHp8m41Yh67v
+   fxXe2tR1rjQ8eR6VeRIqRPH1CLUlaO8vXIfUkJGtMSeV9EG0/ZKumxbF+
+   mHgU7Y8KpfvPgjxAIaVNjNrRQz59QqIcaBASLjOfopAYL1iYwR1JyMX9D
+   g==;
+X-CSE-ConnectionGUID: 2uc+aoaSTCy4RLGULlWIGw==
+X-CSE-MsgGUID: 8Acn9sTDR/aDiBtyHfq9uA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="42573828"
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="54067142"
+   d="scan'208";a="42573828"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 22:27:09 -0700
-X-CSE-ConnectionGUID: HxTkMewBRCil1uka5Odhkw==
-X-CSE-MsgGUID: rGc//BNBTZyjDfCJYPv9vg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 22:37:35 -0700
+X-CSE-ConnectionGUID: xiwzGKI/SQ2kG2HmKVAE6Q==
+X-CSE-MsgGUID: tkgtoQs3RziekJvll6YR3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="122653565"
+   d="scan'208";a="122655392"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2025 22:27:07 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Mar 2025 22:37:34 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuPTb-000DQp-1Q;
-	Tue, 18 Mar 2025 05:26:59 +0000
-Date: Tue, 18 Mar 2025 13:24:50 +0800
+	id 1tuPdT-000DQy-0p;
+	Tue, 18 Mar 2025 05:37:15 +0000
+Date: Tue, 18 Mar 2025 13:36:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Ambardar <tony.ambardar@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jiri Olsa <jolsa@kernel.org>
-Subject: kernel/crash_core.c:130:1: warning: 'retain' attribute ignored
-Message-ID: <202503181342.ua9nDRGr-lkp@intel.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/mtd/spinand.h:70:6: error: implicit declaration of
+ function '__VA_OPT__'; did you mean '__SSP__'?
+Message-ID: <202503181330.YcDXGy7F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,335 +64,404 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fc444ada131001812c5d10b380837238c9cf7c8c
-commit: 7bdcedd5c8fb88e7176b93812b139eca5fe0aa46 bpf: Harden __bpf_kfunc tag against linker kfunc removal
-date:   9 months ago
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20250318/202503181342.ua9nDRGr-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181342.ua9nDRGr-lkp@intel.com/reproduce)
+commit: 7ce0d16d5802bfde4209e52ee8ad644ca1eab423 mtd: spinand: Add an optional frequency to read from cache macros
+date:   9 weeks ago
+config: xtensa-randconfig-002-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181330.YcDXGy7F-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181330.YcDXGy7F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181342.ua9nDRGr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503181330.YcDXGy7F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/crash_core.c:130:1: warning: 'retain' attribute ignored [-Wattributes]
-     130 | {
-         | ^
+   In file included from drivers/mtd/nand/spi/xtx.c:10:0:
+>> include/linux/mtd/spinand.h:70:6: error: implicit declaration of function '__VA_OPT__'; did you mean '__SSP__'? [-Werror=implicit-function-declaration]
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+         ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   drivers/mtd/nand/spi/xtx.c:31:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/xtx.c:31:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> kernel/cgroup/rstat.c:86:1: warning: 'retain' attribute ignored [-Wattributes]
-      86 | {
-         | ^
-   kernel/cgroup/rstat.c:350:1: warning: 'retain' attribute ignored [-Wattributes]
-     350 | {
-         | ^
+   In file included from drivers/mtd/nand/spi/alliancememory.c:8:0:
+>> include/linux/mtd/spinand.h:70:6: error: implicit declaration of function '__VA_OPT__'; did you mean '__SSP__'? [-Werror=implicit-function-declaration]
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+         ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   drivers/mtd/nand/spi/alliancememory.c:25:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/alliancememory.c:25:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> kernel/trace/bpf_trace.c:1289:1: warning: 'retain' attribute ignored [-Wattributes]
-    1289 | {
-         | ^
-   kernel/trace/bpf_trace.c:1338:1: warning: 'retain' attribute ignored [-Wattributes]
-    1338 | {
-         | ^
-   kernel/trace/bpf_trace.c:1362:1: warning: 'retain' attribute ignored [-Wattributes]
-    1362 | {
-         | ^
-   kernel/trace/bpf_trace.c:1384:1: warning: 'retain' attribute ignored [-Wattributes]
-    1384 | {
-         | ^
-   kernel/trace/bpf_trace.c:1457:1: warning: 'retain' attribute ignored [-Wattributes]
-    1457 | {
-         | ^
-   kernel/trace/bpf_trace.c:3523:1: warning: 'retain' attribute ignored [-Wattributes]
-    3523 | {
-         | ^
-   kernel/trace/bpf_trace.c:3531:1: warning: 'retain' attribute ignored [-Wattributes]
-    3531 | {
-         | ^
+   In file included from drivers/mtd/nand/spi/esmt.c:10:0:
+>> include/linux/mtd/spinand.h:70:6: error: implicit declaration of function '__VA_OPT__'; did you mean '__SSP__'? [-Werror=implicit-function-declaration]
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+         ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   drivers/mtd/nand/spi/esmt.c:19:7: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+          SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/esmt.c:19:7: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+          SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> kernel/bpf/helpers.c:2050:1: warning: 'retain' attribute ignored [-Wattributes]
-    2050 | {
-         | ^
-   kernel/bpf/helpers.c:2064:1: warning: 'retain' attribute ignored [-Wattributes]
-    2064 | {
-         | ^
-   kernel/bpf/helpers.c:2095:1: warning: 'retain' attribute ignored [-Wattributes]
-    2095 | {
-         | ^
-   kernel/bpf/helpers.c:2103:1: warning: 'retain' attribute ignored [-Wattributes]
-    2103 | {
-         | ^
-   kernel/bpf/helpers.c:2109:1: warning: 'retain' attribute ignored [-Wattributes]
-    2109 | {
-         | ^
-   kernel/bpf/helpers.c:2156:1: warning: 'retain' attribute ignored [-Wattributes]
-    2156 | {
-         | ^
-   kernel/bpf/helpers.c:2166:1: warning: 'retain' attribute ignored [-Wattributes]
-    2166 | {
-         | ^
-   kernel/bpf/helpers.c:2197:1: warning: 'retain' attribute ignored [-Wattributes]
-    2197 | {
-         | ^
-   kernel/bpf/helpers.c:2202:1: warning: 'retain' attribute ignored [-Wattributes]
-    2202 | {
-         | ^
-   kernel/bpf/helpers.c:2208:1: warning: 'retain' attribute ignored [-Wattributes]
-    2208 | {
-         | ^
-   kernel/bpf/helpers.c:2265:1: warning: 'retain' attribute ignored [-Wattributes]
-    2265 | {
-         | ^
-   kernel/bpf/helpers.c:2273:1: warning: 'retain' attribute ignored [-Wattributes]
-    2273 | {
-         | ^
-   kernel/bpf/helpers.c:2286:1: warning: 'retain' attribute ignored [-Wattributes]
-    2286 | {
-         | ^
-   kernel/bpf/helpers.c:2297:1: warning: 'retain' attribute ignored [-Wattributes]
-    2297 | {
-         | ^
-   kernel/bpf/helpers.c:2302:1: warning: 'retain' attribute ignored [-Wattributes]
-    2302 | {
-         | ^
-   kernel/bpf/helpers.c:2315:1: warning: 'retain' attribute ignored [-Wattributes]
-    2315 | {
-         | ^
-   kernel/bpf/helpers.c:2327:1: warning: 'retain' attribute ignored [-Wattributes]
-    2327 | {
-         | ^
-   kernel/bpf/helpers.c:2332:1: warning: 'retain' attribute ignored [-Wattributes]
-    2332 | {
-         | ^
-   kernel/bpf/helpers.c:2345:1: warning: 'retain' attribute ignored [-Wattributes]
-    2345 | {
-         | ^
-   kernel/bpf/helpers.c:2365:1: warning: 'retain' attribute ignored [-Wattributes]
-    2365 | {
-         | ^
-   kernel/bpf/helpers.c:2386:1: warning: 'retain' attribute ignored [-Wattributes]
-    2386 | {
-         | ^
-   kernel/bpf/helpers.c:2406:1: warning: 'retain' attribute ignored [-Wattributes]
-    2406 | {
-         | ^
-   kernel/bpf/helpers.c:2422:1: warning: 'retain' attribute ignored [-Wattributes]
-    2422 | {
-         | ^
-   kernel/bpf/helpers.c:2464:1: warning: 'retain' attribute ignored [-Wattributes]
-    2464 | {
-         | ^
-   kernel/bpf/helpers.c:2548:1: warning: 'retain' attribute ignored [-Wattributes]
-    2548 | {
-         | ^
-   kernel/bpf/helpers.c:2578:1: warning: 'retain' attribute ignored [-Wattributes]
-    2578 | {
-         | ^
-   kernel/bpf/helpers.c:2596:1: warning: 'retain' attribute ignored [-Wattributes]
-    2596 | {
-         | ^
-   kernel/bpf/helpers.c:2601:1: warning: 'retain' attribute ignored [-Wattributes]
-    2601 | {
-         | ^
-   kernel/bpf/helpers.c:2609:1: warning: 'retain' attribute ignored [-Wattributes]
-    2609 | {
-         | ^
-   kernel/bpf/helpers.c:2618:1: warning: 'retain' attribute ignored [-Wattributes]
-    2618 | {
-         | ^
-   kernel/bpf/helpers.c:2630:1: warning: 'retain' attribute ignored [-Wattributes]
-    2630 | {
-         | ^
-   kernel/bpf/helpers.c:2635:1: warning: 'retain' attribute ignored [-Wattributes]
-    2635 | {
-         | ^
-   kernel/bpf/helpers.c:2640:1: warning: 'retain' attribute ignored [-Wattributes]
-    2640 | {
-         | ^
-   kernel/bpf/helpers.c:2645:1: warning: 'retain' attribute ignored [-Wattributes]
-    2645 | {
+   In file included from drivers/mtd/nand/spi/skyhigh.c:11:0:
+   include/linux/stddef.h:8:14: warning: initialization makes integer from pointer without a cast [-Wint-conversion]
+    #define NULL ((void *)0)
+                 ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:47: note: in expansion of macro 'NULL'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                                  ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for '(anonymous)[4].data.nbytes')
+    #define NULL ((void *)0)
+                 ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:47: note: in expansion of macro 'NULL'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                                  ^~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:44: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                               ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:44: note: (near initialization for '(anonymous)[4].data.buf.in')
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                               ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/mtd/spinand.h:70:6: error: implicit declaration of function '__VA_OPT__'; did you mean '__SSP__'? [-Werror=implicit-function-declaration]
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+         ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:8:14: warning: initialization makes integer from pointer without a cast [-Wint-conversion]
+    #define NULL ((void *)0)
+                 ^
+   include/linux/mtd/spinand.h:308:41: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) / \
+                                            ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:47: note: in expansion of macro 'NULL'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                                  ^~~~
+   include/linux/stddef.h:8:14: note: (near initialization for '(anonymous)[4].data.nbytes')
+    #define NULL ((void *)0)
+                 ^
+   include/linux/mtd/spinand.h:308:41: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) / \
+                                            ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:47: note: in expansion of macro 'NULL'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                                  ^~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:44: warning: initialization makes pointer from integer without a cast [-Wint-conversion]
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                               ^
+   include/linux/mtd/spinand.h:308:41: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) / \
+                                            ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:44: note: (near initialization for '(anonymous)[4].data.buf.in')
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+                                               ^
+   include/linux/mtd/spinand.h:308:41: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) / \
+                                            ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:69:6: note: in expansion of macro 'SPI_MEM_OP_DATA_IN'
+         SPI_MEM_OP_DATA_IN(len, buf, 1),   \
+         ^~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:308:41: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) / \
+                                            ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/skyhigh.c:24:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> kernel/bpf/bpf_iter.c:788:1: warning: 'retain' attribute ignored [-Wattributes]
-     788 | {
-         | ^
-   kernel/bpf/bpf_iter.c:819:1: warning: 'retain' attribute ignored [-Wattributes]
-     819 | {
-         | ^
-   kernel/bpf/bpf_iter.c:838:1: warning: 'retain' attribute ignored [-Wattributes]
-     838 | {
-         | ^
+   In file included from drivers/mtd/nand/spi/foresee.c:10:0:
+>> include/linux/mtd/spinand.h:70:6: error: implicit declaration of function '__VA_OPT__'; did you mean '__SSP__'? [-Werror=implicit-function-declaration]
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+         ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   drivers/mtd/nand/spi/foresee.c:18:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/foresee.c:18:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 --
->> kernel/bpf/map_iter.c:199:1: warning: 'retain' attribute ignored [-Wattributes]
-     199 | {
-         | ^
---
->> kernel/bpf/task_iter.c:827:1: warning: 'retain' attribute ignored [-Wattributes]
-     827 | {
-         | ^
-   kernel/bpf/task_iter.c:870:1: warning: 'retain' attribute ignored [-Wattributes]
-     870 | {
-         | ^
-   kernel/bpf/task_iter.c:879:1: warning: 'retain' attribute ignored [-Wattributes]
-     879 | {
-         | ^
-   kernel/bpf/task_iter.c:905:1: warning: 'retain' attribute ignored [-Wattributes]
-     905 | {
-         | ^
-   kernel/bpf/task_iter.c:929:1: warning: 'retain' attribute ignored [-Wattributes]
-     929 | {
-         | ^
-   kernel/bpf/task_iter.c:938:1: warning: 'retain' attribute ignored [-Wattributes]
-     938 | {
-         | ^
-   kernel/bpf/task_iter.c:974:1: warning: 'retain' attribute ignored [-Wattributes]
-     974 | {
-         | ^
-   kernel/bpf/task_iter.c:1005:1: warning: 'retain' attribute ignored [-Wattributes]
-    1005 | {
-         | ^
-   kernel/bpf/task_iter.c:1034:1: warning: 'retain' attribute ignored [-Wattributes]
-    1034 | {
-         | ^
---
->> kernel/bpf/cgroup_iter.c:312:1: warning: 'retain' attribute ignored [-Wattributes]
-     312 | {
-         | ^
-   kernel/bpf/cgroup_iter.c:335:1: warning: 'retain' attribute ignored [-Wattributes]
-     335 | {
-         | ^
-   kernel/bpf/cgroup_iter.c:356:1: warning: 'retain' attribute ignored [-Wattributes]
-     356 | {
-         | ^
---
->> kernel/bpf/cpumask.c:50:1: warning: 'retain' attribute ignored [-Wattributes]
-      50 | {
-         | ^
-   kernel/bpf/cpumask.c:76:1: warning: 'retain' attribute ignored [-Wattributes]
-      76 | {
-         | ^
-   kernel/bpf/cpumask.c:90:1: warning: 'retain' attribute ignored [-Wattributes]
-      90 | {
-         | ^
-   kernel/bpf/cpumask.c:100:1: warning: 'retain' attribute ignored [-Wattributes]
-     100 | {
-         | ^
-   kernel/bpf/cpumask.c:113:1: warning: 'retain' attribute ignored [-Wattributes]
-     113 | {
-         | ^
-   kernel/bpf/cpumask.c:126:1: warning: 'retain' attribute ignored [-Wattributes]
-     126 | {
-         | ^
-   kernel/bpf/cpumask.c:141:1: warning: 'retain' attribute ignored [-Wattributes]
-     141 | {
-         | ^
-   kernel/bpf/cpumask.c:151:1: warning: 'retain' attribute ignored [-Wattributes]
-     151 | {
-         | ^
-   kernel/bpf/cpumask.c:164:1: warning: 'retain' attribute ignored [-Wattributes]
-     164 | {
-         | ^
-   kernel/bpf/cpumask.c:181:1: warning: 'retain' attribute ignored [-Wattributes]
-     181 | {
-         | ^
-   kernel/bpf/cpumask.c:198:1: warning: 'retain' attribute ignored [-Wattributes]
-     198 | {
-         | ^
-   kernel/bpf/cpumask.c:216:1: warning: 'retain' attribute ignored [-Wattributes]
-     216 | {
-         | ^
-   kernel/bpf/cpumask.c:228:1: warning: 'retain' attribute ignored [-Wattributes]
-     228 | {
-         | ^
-   kernel/bpf/cpumask.c:237:1: warning: 'retain' attribute ignored [-Wattributes]
-     237 | {
-         | ^
-   kernel/bpf/cpumask.c:256:1: warning: 'retain' attribute ignored [-Wattributes]
-     256 | {
-         | ^
-   kernel/bpf/cpumask.c:271:1: warning: 'retain' attribute ignored [-Wattributes]
-     271 | {
-         | ^
-   kernel/bpf/cpumask.c:286:1: warning: 'retain' attribute ignored [-Wattributes]
-     286 | {
-         | ^
-   kernel/bpf/cpumask.c:302:1: warning: 'retain' attribute ignored [-Wattributes]
-     302 | {
-         | ^
-   kernel/bpf/cpumask.c:318:1: warning: 'retain' attribute ignored [-Wattributes]
-     318 | {
-         | ^
-   kernel/bpf/cpumask.c:334:1: warning: 'retain' attribute ignored [-Wattributes]
-     334 | {
-         | ^
-   kernel/bpf/cpumask.c:349:1: warning: 'retain' attribute ignored [-Wattributes]
-     349 | {
-         | ^
-   kernel/bpf/cpumask.c:364:1: warning: 'retain' attribute ignored [-Wattributes]
-     364 | {
-         | ^
-   kernel/bpf/cpumask.c:376:1: warning: 'retain' attribute ignored [-Wattributes]
-     376 | {
-         | ^
-   kernel/bpf/cpumask.c:391:1: warning: 'retain' attribute ignored [-Wattributes]
-     391 | {
-         | ^
-   kernel/bpf/cpumask.c:410:1: warning: 'retain' attribute ignored [-Wattributes]
-     410 | {
-         | ^
-   kernel/bpf/cpumask.c:421:1: warning: 'retain' attribute ignored [-Wattributes]
-     421 | {
-         | ^
---
->> kernel/bpf/crypto.c:148:1: warning: 'retain' attribute ignored [-Wattributes]
-     148 | {
-         | ^
-   kernel/bpf/crypto.c:244:1: warning: 'retain' attribute ignored [-Wattributes]
-     244 | {
-         | ^
-   kernel/bpf/crypto.c:259:1: warning: 'retain' attribute ignored [-Wattributes]
-     259 | {
-         | ^
-   kernel/bpf/crypto.c:317:1: warning: 'retain' attribute ignored [-Wattributes]
-     317 | {
-         | ^
-   kernel/bpf/crypto.c:334:1: warning: 'retain' attribute ignored [-Wattributes]
-     334 | {
-         | ^
+   In file included from drivers/mtd/nand/spi/winbond.c:12:0:
+>> include/linux/mtd/spinand.h:70:6: error: implicit declaration of function '__VA_OPT__'; did you mean '__SSP__'? [-Werror=implicit-function-declaration]
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+         ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   drivers/mtd/nand/spi/winbond.c:26:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/spi/spi-mem.h:113:2: error: expected expression before '.' token
+     .max_freq = __freq
+     ^
+   include/linux/mtd/spinand.h:307:34: note: in definition of macro 'SPINAND_OP_VARIANTS'
+      .ops = (struct spi_mem_op[]) { __VA_ARGS__ },  \
+                                     ^~~~~~~~~~~
+   include/linux/mtd/spinand.h:66:2: note: in expansion of macro 'SPI_MEM_OP'
+     SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),    \
+     ^~~~~~~~~~
+   include/linux/mtd/spinand.h:70:17: note: in expansion of macro 'SPI_MEM_OP_MAX_FREQ'
+         __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+                    ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/spi/winbond.c:26:3: note: in expansion of macro 'SPINAND_PAGE_READ_FROM_CACHE_OP'
+      SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0));
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+..
 
 
-vim +/retain +130 kernel/crash_core.c
+vim +70 include/linux/mtd/spinand.h
 
-02aff848053381 Baoquan He 2024-01-24  128  
-02aff848053381 Baoquan He 2024-01-24  129  __bpf_kfunc void crash_kexec(struct pt_regs *regs)
-02aff848053381 Baoquan He 2024-01-24 @130  {
-02aff848053381 Baoquan He 2024-01-24  131  	int old_cpu, this_cpu;
-02aff848053381 Baoquan He 2024-01-24  132  
-02aff848053381 Baoquan He 2024-01-24  133  	/*
-02aff848053381 Baoquan He 2024-01-24  134  	 * Only one CPU is allowed to execute the crash_kexec() code as with
-02aff848053381 Baoquan He 2024-01-24  135  	 * panic().  Otherwise parallel calls of panic() and crash_kexec()
-02aff848053381 Baoquan He 2024-01-24  136  	 * may stop each other.  To exclude them, we use panic_cpu here too.
-02aff848053381 Baoquan He 2024-01-24  137  	 */
-02aff848053381 Baoquan He 2024-01-24  138  	old_cpu = PANIC_CPU_INVALID;
-02aff848053381 Baoquan He 2024-01-24  139  	this_cpu = raw_smp_processor_id();
-02aff848053381 Baoquan He 2024-01-24  140  
-02aff848053381 Baoquan He 2024-01-24  141  	if (atomic_try_cmpxchg(&panic_cpu, &old_cpu, this_cpu)) {
-02aff848053381 Baoquan He 2024-01-24  142  		/* This is the 1st CPU which comes here, so go ahead. */
-02aff848053381 Baoquan He 2024-01-24  143  		__crash_kexec(regs);
-02aff848053381 Baoquan He 2024-01-24  144  
-02aff848053381 Baoquan He 2024-01-24  145  		/*
-02aff848053381 Baoquan He 2024-01-24  146  		 * Reset panic_cpu to allow another panic()/crash_kexec()
-02aff848053381 Baoquan He 2024-01-24  147  		 * call.
-02aff848053381 Baoquan He 2024-01-24  148  		 */
-02aff848053381 Baoquan He 2024-01-24  149  		atomic_set(&panic_cpu, PANIC_CPU_INVALID);
-02aff848053381 Baoquan He 2024-01-24  150  	}
-02aff848053381 Baoquan He 2024-01-24  151  }
-02aff848053381 Baoquan He 2024-01-24  152  
-
-:::::: The code at line 130 was first introduced by commit
-:::::: 02aff8480533817a29e820729360866441d7403d crash: split crash dumping code out from kexec_core.c
-
-:::::: TO: Baoquan He <bhe@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    18	
+    19	/**
+    20	 * Standard SPI NAND flash operations
+    21	 */
+    22	
+    23	#define SPINAND_RESET_OP						\
+    24		SPI_MEM_OP(SPI_MEM_OP_CMD(0xff, 1),				\
+    25			   SPI_MEM_OP_NO_ADDR,					\
+    26			   SPI_MEM_OP_NO_DUMMY,					\
+    27			   SPI_MEM_OP_NO_DATA)
+    28	
+    29	#define SPINAND_WR_EN_DIS_OP(enable)					\
+    30		SPI_MEM_OP(SPI_MEM_OP_CMD((enable) ? 0x06 : 0x04, 1),		\
+    31			   SPI_MEM_OP_NO_ADDR,					\
+    32			   SPI_MEM_OP_NO_DUMMY,					\
+    33			   SPI_MEM_OP_NO_DATA)
+    34	
+    35	#define SPINAND_READID_OP(naddr, ndummy, buf, len)			\
+    36		SPI_MEM_OP(SPI_MEM_OP_CMD(0x9f, 1),				\
+    37			   SPI_MEM_OP_ADDR(naddr, 0, 1),			\
+    38			   SPI_MEM_OP_DUMMY(ndummy, 1),				\
+    39			   SPI_MEM_OP_DATA_IN(len, buf, 1))
+    40	
+    41	#define SPINAND_SET_FEATURE_OP(reg, valptr)				\
+    42		SPI_MEM_OP(SPI_MEM_OP_CMD(0x1f, 1),				\
+    43			   SPI_MEM_OP_ADDR(1, reg, 1),				\
+    44			   SPI_MEM_OP_NO_DUMMY,					\
+    45			   SPI_MEM_OP_DATA_OUT(1, valptr, 1))
+    46	
+    47	#define SPINAND_GET_FEATURE_OP(reg, valptr)				\
+    48		SPI_MEM_OP(SPI_MEM_OP_CMD(0x0f, 1),				\
+    49			   SPI_MEM_OP_ADDR(1, reg, 1),				\
+    50			   SPI_MEM_OP_NO_DUMMY,					\
+    51			   SPI_MEM_OP_DATA_IN(1, valptr, 1))
+    52	
+    53	#define SPINAND_BLK_ERASE_OP(addr)					\
+    54		SPI_MEM_OP(SPI_MEM_OP_CMD(0xd8, 1),				\
+    55			   SPI_MEM_OP_ADDR(3, addr, 1),				\
+    56			   SPI_MEM_OP_NO_DUMMY,					\
+    57			   SPI_MEM_OP_NO_DATA)
+    58	
+    59	#define SPINAND_PAGE_READ_OP(addr)					\
+    60		SPI_MEM_OP(SPI_MEM_OP_CMD(0x13, 1),				\
+    61			   SPI_MEM_OP_ADDR(3, addr, 1),				\
+    62			   SPI_MEM_OP_NO_DUMMY,					\
+    63			   SPI_MEM_OP_NO_DATA)
+    64	
+    65	#define SPINAND_PAGE_READ_FROM_CACHE_OP(addr, ndummy, buf, len, ...) \
+    66		SPI_MEM_OP(SPI_MEM_OP_CMD(0x03, 1),				\
+    67			   SPI_MEM_OP_ADDR(2, addr, 1),				\
+    68			   SPI_MEM_OP_DUMMY(ndummy, 1),				\
+    69			   SPI_MEM_OP_DATA_IN(len, buf, 1),			\
+  > 70			   __VA_OPT__(SPI_MEM_OP_MAX_FREQ(__VA_ARGS__)))
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
