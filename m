@@ -1,183 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21531EF39E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 07:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794BF1E98F8;
+	Tue, 18 Mar 2025 08:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742284440; cv=none; b=LfsAcSJU9hb2vwGfo0ofv4bnPLTLdtIFI0yhoYVZ7ys5zS4f5zodo6ah4RZaJ/A1ibKt90ctavVJ/k+V32JfZYmE0LQn+PyjyhVCVThzViwBHt5fuQ3G6qVukPOUDBcVyDIN3GH+kqxAlJ4crZQvdQSD0NsLby15aOHDufy5Elo=
+	t=1742285898; cv=none; b=bkbFxOha/azGTsRj5RJ5pBkRzinqRBd3Tc5YIRnzn4qE+ukQ9zPsLEszd5cB303VaGp/aTdd8jU0H7o9BZREl5eVMrzTxF+Enxrx3flTAgdJgX7GEjkhVQBTBbI2JvPZ+8bb1Q8wjdeuzyMtcHTm+uHEQA8v3kkf98lktKmqq1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742284440; c=relaxed/simple;
-	bh=mLpG53z/+xYRI+C6koH5UavmowUagfMKoYxc/VnZjA4=;
+	s=arc-20240116; t=1742285898; c=relaxed/simple;
+	bh=t04MAH+UhhpC0J5z8qiHct9TTh5qM5An2PgxUxXai5w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=djmbqGUeOvPH5EWlmFDij6M7kiZPNMqMHH4jbjdmCykQO+c/TtuIdE8d3OTayQ6CUkqk+rWy9Mvw5mIOf06qG50kEnpbcW8rEn6LcGHWtzp/XCF974y3Z6UEIeWviBKubXa2FziHia4r3wkx1w5mu2e3WFMItg0AXKuFwC4vaTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlX5DoxL; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYUTvd370f+ARsZUgYFV1fJO09OOxoem0mSuKnfXqcMNVqeKWKdBl03Xz8WX2H+imYG7ivU57g3Ay9onTmjUB/4scO5FqBpr9DrclyTLQqR9SaCquFLABMepbdlrOQFUtIfUo1OHmAvhgi046YXRG3gqrBYWAib2HasJ9JGuddE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CmzPNPa8; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlX5DoxL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742284438; x=1773820438;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mLpG53z/+xYRI+C6koH5UavmowUagfMKoYxc/VnZjA4=;
-  b=QlX5DoxLAJBR4K22jNCY+qiBxe7UtnjVu5Dc6RhNGnYq1eg+brbkOUN5
-   2HFNMFziRjrSfSiB8QJG96cNZPrjISQqxj3plvvqwYfjyp9pZZwqLVcHI
-   2gBubQR1gWbmf2SjIoVy16688ifjqQeoYrJl+c0y1h7t+7iRPybR6wTpT
-   TlryU9CLlmBFVICwpjxS73byYqidCkhispebYuEbxaOXOI/1UIZBAA6th
-   6hREYxopHptMBTdkYxH5nTWoSdKGlpIIfrBgGE8l45CkheoNbQBOkgYnc
-   CK1Sh5JHjnq8fpBtGMFyockoTOfPGeYkcEby19RLfI8NZBS5s9FzVRSF6
-   w==;
-X-CSE-ConnectionGUID: t+KgEvvzQPiPxQggLFfocg==
-X-CSE-MsgGUID: ZyR18KygRtaQnirvsVEopg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43541652"
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="43541652"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 00:53:54 -0700
-X-CSE-ConnectionGUID: grYtw6pDRzqsPrdhUg2U4w==
-X-CSE-MsgGUID: Uo8I6aSzQF6FxPM0Zx+8ag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="122123923"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 18 Mar 2025 00:53:51 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tuRll-000DY0-0U;
-	Tue, 18 Mar 2025 07:53:49 +0000
-Date: Tue, 18 Mar 2025 15:53:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: marius.cristea@microchip.com, jic23@kernel.org, lars@metafoo.de,
-	robh@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, krzk+dt@kernel.org, conor+dt@kernel.org,
-	oskar.andero@gmail.com, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	marius.cristea@microchip.com
-Subject: Re: [PATCH v2 2/2] iio: adc: adding support for PAC194X
-Message-ID: <202503181545.znULdV4G-lkp@intel.com>
-References: <20250317090803.30003-3-marius.cristea@microchip.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CmzPNPa8"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52I0ZVnc022169;
+	Tue, 18 Mar 2025 08:18:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Bnc9Gc
+	ntkEuPFQxxhHvkX3kp/NDGrPSgZwjvt8T+kPo=; b=CmzPNPa8bXgPdnSIy8vBa+
+	l3BJHrplLjQldScjk3Hk/KnRybThKgj7hZlztyJqd0mY7cgWSHC0E8epUND2Pv+I
+	3ttb0E08+19Es7Xi7A8rB3liOBK2wDQD68WEJ2HbSdRMrwDNWxaDoSeDswR9eoKA
+	s8vJY/UeHUSe0S++hQo0FiCXvMSBFmCwM2hNyYFxMzCxs2lk3TrfC9EYY6YW/+w0
+	zbukag+uRafgUxyABhXwmg4Q2yVrlPREh2nM0lRxd6KuByegSy6vqOkOA9oUsEoR
+	Ytq2veLsormhBn0Qr8jdr0Cw+Y1h9GzDsFc9vSWMzoqgsFlAWDWhvdztCNE5+tgA
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45eks9cvfk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 08:18:01 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 52I8B4Gs027486;
+	Tue, 18 Mar 2025 08:18:00 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 45eks9cvff-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 08:18:00 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 52I79v91012347;
+	Tue, 18 Mar 2025 08:17:59 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 45dmvntsg0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Mar 2025 08:17:59 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 52I8HtLw55640324
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 18 Mar 2025 08:17:55 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 890132004D;
+	Tue, 18 Mar 2025 08:17:55 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5A38420043;
+	Tue, 18 Mar 2025 08:17:55 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.60])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 18 Mar 2025 08:17:55 +0000 (GMT)
+Date: Tue, 18 Mar 2025 09:17:53 +0100
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>, kernel test robot <lkp@intel.com>,
+        Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
+        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        Ingo Molnar <mingo@kernel.org>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+        linux-next@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with
+ relocations preserved
+Message-ID: <20250318081753.8448Abd-hca@linux.ibm.com>
+References: <20250311110616.148682-9-ardb+git@google.com>
+ <202503131715.Fb6CfjhT-lkp@intel.com>
+ <CAMj1kXGBLV6W7mJcELmsQuDUi0u-DofyD985znmVoHoZKZTuxA@mail.gmail.com>
+ <CAMj1kXEZccymq1OhXErSK+prS3L7sygm7_5_1v+j2cypncQuzA@mail.gmail.com>
+ <CAK7LNAT_NRio2pkR1Km5Nq8KM38zYF7VCoGP0OjEP_Owg-ukpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250317090803.30003-3-marius.cristea@microchip.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAT_NRio2pkR1Km5Nq8KM38zYF7VCoGP0OjEP_Owg-ukpQ@mail.gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: CTVFYbQKTgOn8pGuvcVrtpB-AeXhCMnM
+X-Proofpoint-ORIG-GUID: t44MaBqoh1vpfI3A1JPRgvZrlaqjnX3B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-18_03,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 clxscore=1011 spamscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503180056
 
-Hi,
+On Thu, Mar 13, 2025 at 07:29:41PM +0900, Masahiro Yamada wrote:
+> On Thu, Mar 13, 2025 at 7:18 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> > On Thu, 13 Mar 2025 at 10:34, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > On Thu, 13 Mar 2025 at 10:21, kernel test robot <lkp@intel.com> wrote:
+> > > > kernel test robot noticed the following build errors:
+> > > >
+> > > > [auto build test ERROR on masahiroy-kbuild/for-next]
+> > > > [also build test ERROR on masahiroy-kbuild/fixes tip/x86/core s390/features linus/master v6.14-rc6 next-20250312]
+> > > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > > And when submitting patch, we suggest to use '--base' as documented in
+> > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > >
+> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/Kbuild-link-vmlinux-sh-Make-output-file-name-configurable/20250311-190926
+> > > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+> > > > patch link:    https://lore.kernel.org/r/20250311110616.148682-9-ardb%2Bgit%40google.com
+> > > > patch subject: [PATCH v2 3/4] Kbuild: Create intermediate vmlinux build with relocations preserved
+> > > > config: x86_64-randconfig-076-20250313 (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/config)
+> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250313/202503131715.Fb6CfjhT-lkp@intel.com/reproduce)
+> > > >
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202503131715.Fb6CfjhT-lkp@intel.com/
+> > > >
+> > > > All errors (new ones prefixed by >>):
+> > > >
+> > > > >> gawk: scripts/generate_builtin_ranges.awk:82: fatal: cannot open file `vmlinux.map' for reading: No such file or directory
+> > > >
+> > >
+> > > Hmm it seems I missed some things in link-vmlinux.sh - I will take a look.
+> >
+> > We'd need something like the below applied on top - shall I send a v3?
+> 
+> I will insert this before you patch set.
+> https://lore.kernel.org/linux-kbuild/20250313102604.1491732-1-masahiroy@kernel.org/T/#u
+...
+> > --- a/scripts/link-vmlinux.sh
+> > +++ b/scripts/link-vmlinux.sh
+...
+> > -vmlinux_link "${VMLINUX}"
+> > +vmlinux_link "${VMLINUX}" vmlinux.map
+> >
+> >  # fill in BTF IDs
+> >  if is_enabled CONFIG_DEBUG_INFO_BTF; then
 
-kernel test robot noticed the following build warnings:
+Building linux-next breaks on s390 with DEBUG_INFO_BTF enabled because
+of this; just where your addon patch ends:
 
-[auto build test WARNING on 577a66e2e634f712384c57a98f504c44ea4b47da]
+  LD      vmlinux.unstripped
+  BTFIDS  vmlinux
+FAILED cannot open vmlinux: No such file or directory
+make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux.unstripped] Error 255
+make[2]: *** Deleting file 'vmlinux.unstripped'
+make[1]: *** [/home/builder/linux-next/Makefile:1239: vmlinux] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
 
-url:    https://github.com/intel-lab-lkp/linux/commits/marius-cristea-microchip-com/dt-bindings-iio-adc-adding-support-for-PAC194X/20250317-171150
-base:   577a66e2e634f712384c57a98f504c44ea4b47da
-patch link:    https://lore.kernel.org/r/20250317090803.30003-3-marius.cristea%40microchip.com
-patch subject: [PATCH v2 2/2] iio: adc: adding support for PAC194X
-config: riscv-randconfig-r072-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181545.znULdV4G-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181545.znULdV4G-lkp@intel.com/reproduce)
+I guess _something_ like below is needed to fix this (works for
+me(tm)):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181545.znULdV4G-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/iio/adc/pac1944.c:20:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/pac1944.c:1689:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1689 |         if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1690 |                        msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/jiffies.h:128:2: note: expanded from macro 'time_after'
-     128 |         (typecheck(unsigned long, a) && \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     129 |          typecheck(unsigned long, b) && \
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     130 |          ((long)((b) - (a)) < 0))
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/pac1944.c:1707:9: note: uninitialized use occurs here
-    1707 |         return ret;
-         |                ^~~
-   drivers/iio/adc/pac1944.c:1689:2: note: remove the 'if' if its condition is always true
-    1689 |         if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1690 |                        msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/pac1944.c:1683:9: note: initialize the variable 'ret' to silence this warning
-    1683 |         int ret;
-         |                ^
-         |                 = 0
-   5 warnings generated.
-
-
-vim +1689 drivers/iio/adc/pac1944.c
-
-  1680	
-  1681	static int pac1944_retrieve_data(struct pac1944_chip_info *info, u32 wait_time)
-  1682	{
-  1683		int ret;
-  1684	
-  1685		/*
-  1686		 * Check if the minimal elapsed time has passed and if so,
-  1687		 * re-read the chip, otherwise the cached info is just fine
-  1688		 */
-> 1689		if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
-  1690			       msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
-  1691			/*
-  1692			 * We need to re-read the chip values
-  1693			 * call the pac1944_reg_snapshot
-  1694			 */
-  1695			ret = pac1944_reg_snapshot(info, true,
-  1696						   PAC1944_REFRESH_REG_ADDR,
-  1697						   wait_time);
-  1698			/*
-  1699			 * Re-schedule the work for the read registers timeout
-  1700			 * (to prevent chip regs saturation)
-  1701			 */
-  1702			cancel_delayed_work_sync(&info->work_chip_rfsh);
-  1703			schedule_delayed_work(&info->work_chip_rfsh,
-  1704					      msecs_to_jiffies(PAC1944_MAX_RFSH_LIMIT_MS));
-  1705		}
-  1706	
-  1707		return ret;
-  1708	}
-  1709	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 4949d0c8c267..51367c2bfc21 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -286,12 +286,12 @@ vmlinux_link "${VMLINUX}"
+ 
+ # fill in BTF IDs
+ if is_enabled CONFIG_DEBUG_INFO_BTF; then
+-	info BTFIDS vmlinux
++	info BTFIDS "${VMLINUX}"
+ 	RESOLVE_BTFIDS_ARGS=""
+ 	if is_enabled CONFIG_WERROR; then
+ 		RESOLVE_BTFIDS_ARGS=" --fatal_warnings "
+ 	fi
+-	${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} vmlinux
++	${RESOLVE_BTFIDS} ${RESOLVE_BTFIDS_ARGS} "${VMLINUX}"
+ fi
+ 
+ mksysmap "${VMLINUX}" System.map
