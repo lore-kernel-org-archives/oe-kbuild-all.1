@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2721DF743;
-	Tue, 18 Mar 2025 22:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EED1F0988;
+	Tue, 18 Mar 2025 22:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742337975; cv=none; b=lw2CUdtdj+NX+LfgOvt/4RUe96Cq9wz/VuV1qiEBpCzBsCxqTnVfhCTqdOd8IWNJuhRUQXfFWTxiCu8IBd4WeV3zpKHo+l187hYIq1jPlD0ut4vvjT9cz8ZM8lbcQM+iOFHotXT98aM3TRyduAi633AUYLGjp98Nl0zRSB/tJEs=
+	t=1742338652; cv=none; b=rxHhe57Byv4A2yHdtmHxj48tDNI87Lz4KKEuPw86us9pVZunCQgqboExWN9OLjZUiff1FFTPDNGoTKfcFqyLzals6N9hRoJX4gI0QzMypzscnofTFDAzdXjEp8ccjsVonzzzd6v6Ch+p7OXC6D3vWF0O1uG2g80v11Q+KuDgV3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742337975; c=relaxed/simple;
-	bh=/ZB048TTxFjGbfSmdaWd7vdz2Zt3EkISdjO8KGqJOk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CB/ID122gb7UHLF1413vHFmAQV66Esp0QUFyEpSd8+Qqp0rYg1CZOoLFStuTj7AFuNd92lw/KH9TNpxt5ZWkJNUGMLHrHM0d643bPRcItG34hq1nqRN0OaIGB2SEWG3n7jZ1NqmLO0uHzbG2fKmUUFPn9TZQrxtngW1Awr3VbS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgCkbOBz; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1742338652; c=relaxed/simple;
+	bh=Ab0mjpny9YV3cDgaOEiBxiCSt5kA5wyfbzdqOnZMbfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tFJt8ZTNluJ9mXZegDQl5jwBrndTglhprbRFtR/9m3gVD4SHx65IglsYDbO4C8NlZ+CM39kBjVLngEoG4oa9UnK5/GbK/gdRENyjU1cLHXSbT/toWRIXDAY4k0xH7hC67QrffRFHIcRNq9NVUrtaSxwrQKDbRVeXCmUWWSyOiJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oLHTmfmk; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgCkbOBz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oLHTmfmk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742337974; x=1773873974;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/ZB048TTxFjGbfSmdaWd7vdz2Zt3EkISdjO8KGqJOk0=;
-  b=OgCkbOBzzmHl2q9T+viGi/7DrW+nfo0pQPVcdw3m7HRkFsHpuCsLS+xJ
-   HhchgJO4zszfyLC0nWGuA2oM8e0QpljaokGCmZB4+EKSoZ1glulljsScb
-   cQBGy8Dnj2wY8vcPQZAE7dp9WyYK+tRPLrlDzNNxEUTq2uMPlidOItnWL
-   CEcmaZXHMq3uDqb0OWCSKHQlMSvyks5HEvxZEfTG/KS4F6KN8I1I9d8jF
-   h7HnBM0sxdDjk9iqJ1GYtmhkdVIkD54PMhPrLXDfjcwKmaBlJV/UTCI3A
-   N+lYEANgY/u92hF2U9JOedr/4gMPSaoEp0YYs3suUsZ7fbrPONe9yadve
-   g==;
-X-CSE-ConnectionGUID: ZQfZulRFRHa+NHgBxDTTUg==
-X-CSE-MsgGUID: oZdHfYE/Q7OFciabEem3+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="47391813"
+  t=1742338650; x=1773874650;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ab0mjpny9YV3cDgaOEiBxiCSt5kA5wyfbzdqOnZMbfM=;
+  b=oLHTmfmkX0WLbrpSr8BDX7nC+CBjtUgivGRbUI3tsf6Zf2A3RnmKI5P3
+   BJWQgaUS2NwllSNvUlrSzC5M0p5BLp8CSiQIx74To1BXifEzjBDOJK9DZ
+   ZvSXMCUkuey67EzZeliDB/ztmFBK3Q3xGs8dVAfe6wPVZbIrWlUjet6mM
+   CfBUHU5URdNjjgTnhJcrozOHJrrcuelxtarYyh3xUqozlA7+f5eMe54Qe
+   NUxeV04jnZ/HU6SYaIh5gsOYazYj1IjhQKBXxWybQ30BnLMGdNZfiIWpr
+   RCjroi5zH4vk5Pdx0IXSx2iCqa4EZBr/SISFCHI4Ay8JREgisOElXOzVi
+   A==;
+X-CSE-ConnectionGUID: r9rwr/YjR7api4tNOTB4GA==
+X-CSE-MsgGUID: QhXyZHI3RDCTmdgmgenaKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="60899293"
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="47391813"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 15:46:14 -0700
-X-CSE-ConnectionGUID: 1fp5lZqDSGqiwiEtY3UZ2g==
-X-CSE-MsgGUID: vT6+gysNQAWzyhONbTBcfg==
+   d="scan'208";a="60899293"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 15:57:29 -0700
+X-CSE-ConnectionGUID: LkmWyGn/TXCsM8/yBE1esg==
+X-CSE-MsgGUID: jjNBGmTXT6Cr8oaTnsh5vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="127509613"
+   d="scan'208";a="159556524"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Mar 2025 15:46:12 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 15:57:25 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tufhK-000EDe-0v;
-	Tue, 18 Mar 2025 22:46:10 +0000
-Date: Wed, 19 Mar 2025 06:45:43 +0800
+	id 1tufs6-000EE2-2N;
+	Tue, 18 Mar 2025 22:57:19 +0000
+Date: Wed, 19 Mar 2025 06:56:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:b4/plat2faux_dev 4/9]
- drivers/char/hw_random/arm_smccc_trng.c:113:56: error: use of undeclared
- identifier 'smccc_trng_available'; did you mean 'smccc_trng_probe'?
-Message-ID: <202503190825.mKnUVJbM-lkp@intel.com>
+To: Peter Hilber <quic_philber@quicinc.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Trilok Soni <quic_tsoni@quicinc.com>,
+	Peter Hilber <quic_philber@quicinc.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	netdev@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+	"Ridoux, Julien" <ridouxj@amazon.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Parav Pandit <parav@nvidia.com>,
+	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>, Simon Horman <horms@kernel.org>,
+	virtio-dev@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 2/4] virtio_rtc: Add PTP clocks
+Message-ID: <202503190602.IElWB74j-lkp@intel.com>
+References: <20250313173707.1492-3-quic_philber@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +78,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250313173707.1492-3-quic_philber@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/plat2faux_dev
-head:   14159d6574e30c1adeaa3460bd0abfae968987b2
-commit: 870bdacafb24f3de9a81a35fc434862313f99ec8 [4/9] hwrng: arm-smccc-trng - transition to the faux device interface
-config: arm-randconfig-002-20250319 (https://download.01.org/0day-ci/archive/20250319/202503190825.mKnUVJbM-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503190825.mKnUVJbM-lkp@intel.com/reproduce)
+Hi Peter,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9d8960672d63db4b3b04542f5622748b345c637a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peter-Hilber/virtio_rtc-Add-module-and-driver-core/20250314-014130
+base:   9d8960672d63db4b3b04542f5622748b345c637a
+patch link:    https://lore.kernel.org/r/20250313173707.1492-3-quic_philber%40quicinc.com
+patch subject: [PATCH v6 2/4] virtio_rtc: Add PTP clocks
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20250319/202503190602.IElWB74j-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503190602.IElWB74j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503190825.mKnUVJbM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503190602.IElWB74j-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/char/hw_random/arm_smccc_trng.c:113:56: error: use of undeclared identifier 'smccc_trng_available'; did you mean 'smccc_trng_probe'?
-     113 | module_faux_driver(smccc_trng, smccc_trng_probe, NULL, smccc_trng_available);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~
-         |                                                        smccc_trng_probe
-   include/linux/device/faux.h:116:49: note: expanded from macro 'module_faux_driver'
-     116 |                       faux_device_unregister, __faux_devname, __init_condition)
-         |                                                               ^
-   include/linux/device/driver.h:260:36: note: expanded from macro 'module_driver'
-     260 |         return __register(&(__driver) , ##__VA_ARGS__); \
-         |                                           ^
-   include/linux/device/faux.h:99:32: note: expanded from macro 'faux_device_register'
-      99 |                                &faux_devname##_ops, init_condition)
-         |                                                     ^
-   drivers/char/hw_random/arm_smccc_trng.c:99:12: note: 'smccc_trng_probe' declared here
-      99 | static int smccc_trng_probe(struct faux_device *fdev)
-         |            ^
-   1 error generated.
+   drivers/virtio/virtio_rtc_driver.c: In function 'viortc_probe':
+>> drivers/virtio/virtio_rtc_driver.c:665:23: warning: '/variant ' directive output may be truncated writing 9 bytes into a region of size between 6 and 15 [-Wformat-truncation=]
+       "Virtio PTP type %d/variant %d", clock_type,
+                          ^~~~~~~~~
+   drivers/virtio/virtio_rtc_driver.c:665:4: note: directive argument in the range [0, 2147483647]
+       "Virtio PTP type %d/variant %d", clock_type,
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/virtio/virtio_rtc_driver.c:664:2: note: 'snprintf' output between 28 and 46 bytes into a destination of size 32
+     snprintf(ptp_clock_name, PTP_CLOCK_NAME_LEN,
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       "Virtio PTP type %d/variant %d", clock_type,
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       leap_second_smearing);
+       ~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +113 drivers/char/hw_random/arm_smccc_trng.c
+vim +665 drivers/virtio/virtio_rtc_driver.c
 
-   112	
- > 113	module_faux_driver(smccc_trng, smccc_trng_probe, NULL, smccc_trng_available);
-   114	
+   641	
+   642	/*
+   643	 * init, deinit
+   644	 */
+   645	
+   646	/**
+   647	 * viortc_init_ptp_clock() - init and register PTP clock
+   648	 * @viortc: device data
+   649	 * @vio_clk_id: virtio_rtc clock id
+   650	 * @clock_type: virtio_rtc clock type
+   651	 * @leap_second_smearing: virtio_rtc leap second smearing
+   652	 *
+   653	 * Context: Process context.
+   654	 * Return: Positive if registered, zero if not supported by configuration,
+   655	 *         negative error code otherwise.
+   656	 */
+   657	static int viortc_init_ptp_clock(struct viortc_dev *viortc, u16 vio_clk_id,
+   658					 u8 clock_type, u8 leap_second_smearing)
+   659	{
+   660		struct device *dev = &viortc->vdev->dev;
+   661		char ptp_clock_name[PTP_CLOCK_NAME_LEN];
+   662		struct viortc_ptp_clock *vio_ptp;
+   663	
+   664		snprintf(ptp_clock_name, PTP_CLOCK_NAME_LEN,
+ > 665			 "Virtio PTP type %d/variant %d", clock_type,
+   666			 leap_second_smearing);
+   667	
+   668		vio_ptp = viortc_ptp_register(viortc, dev, vio_clk_id, ptp_clock_name);
+   669		if (IS_ERR(vio_ptp)) {
+   670			dev_err(dev, "failed to register PTP clock '%s'\n",
+   671				ptp_clock_name);
+   672			return PTR_ERR(vio_ptp);
+   673		}
+   674	
+   675		viortc->clocks_to_unregister[vio_clk_id] = vio_ptp;
+   676	
+   677		return !!vio_ptp;
+   678	}
+   679	
 
 -- 
 0-DAY CI Kernel Test Service
