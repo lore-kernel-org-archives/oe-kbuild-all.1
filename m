@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3C21581EE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 05:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA260175D47;
+	Tue, 18 Mar 2025 06:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742276971; cv=none; b=l2qp0Hfp1mzD1/0ugJ/SzEzGr907MjHZ/bN/McVLvuk4vwnN32yIYbQ3NoDaFb/1Mk/tagrW9YgFkVqKOMVU0ViGguW/fXKFN6wRDY8bu1od7MEb4DBaO+ySyDxR5hun3DlbNnxd568UkFinh1LEGqVpYxxGxAAGBgxeI2x+HjY=
+	t=1742277893; cv=none; b=I6LsWwOzDk1PLKyQeJ2h4YFoMsVM175KvLS4iEIxVf/l5HkL3MCDwlmhiIPSVXuxXVlt5TAP0bMIozsIDch2eeDY4ugC+OzBAe5dePKuIGkFqaviu54b2Ss2tcYne8NI712vxaDZLiII4ls1uR2RaOvT5qVSXURBrHU2qY3dJk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742276971; c=relaxed/simple;
-	bh=cPyLsAymAQCqZAyUD8hKdcXbKrQyYUAdZc6QzZPlsTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ri8b+lQs9obloQp0fxKjwaFjGcwxS53kk6dxtR2YSp+R+SCODMSkj4tBAdw73eC/Hmh2cjGRCBjQqV0O34EAbI4/ilz3jQZTPkbTgqrlIPn34FYGL2GONTyGT9U8gEEDi0jBsbWn4KNgWXP4RHTOV35qL7jSGIHQYrOw5/Xs/7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N4pHdhZR; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1742277893; c=relaxed/simple;
+	bh=BlRLEFdWsuBBz31H/uqbH7HRno/06bxYHJWxTHY3eVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S4bnsE8H+pRkOIZDiLChwKpXsgX47xe/CKCMJVjHFvRB4pAaXG1mFLhkHpRPs81tvPBcChW7C+uX91Tu+qeF6d2Pgyd1O/aya8Qe9VXmLp9kdqkjtnrx6gnCd3FgEWl6s3qh5w3MYRiw2mVzoZsHiX2iOEnxlps3IDYkmvaBBvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fu7sP/YD; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N4pHdhZR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fu7sP/YD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742276970; x=1773812970;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cPyLsAymAQCqZAyUD8hKdcXbKrQyYUAdZc6QzZPlsTI=;
-  b=N4pHdhZR/5jal+cWpDYyL3j2P+rPdd6pMNU6Swrm3p1dmp0Cy/TGyKoF
-   ELwBB5fnv2kSNuufOLNxq64ycNYroO61JrxUbytdSCJsVH5aY9PB7YBmu
-   JXeFGgAUqRiguv41RCIV/RTDy8vT70czgVHlnRZ/v1M772fKmpE7GxEtk
-   3s5d3ndK/S328LHHVqYmAKaROhxqG+JgwH7kXxvQ+YPYFHjoaAfI1IuUR
-   pnSmAvl2txmLcEXUoVjdTZo/QCEMbOhd+YUycpNavq3RzvgnNZg9npLKN
-   ei2KbgWZ8daTAe8vHqCSPTEWuTeodUW/xWGnLqbhuSITS7srumP0Jxhea
-   A==;
-X-CSE-ConnectionGUID: uH5ht4DfQEmQH0DGNNNgzA==
-X-CSE-MsgGUID: apaIcqaSRSCSUOIlVh1+0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="60790235"
+  t=1742277892; x=1773813892;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BlRLEFdWsuBBz31H/uqbH7HRno/06bxYHJWxTHY3eVw=;
+  b=Fu7sP/YDS16rnj4iChj1XZlOB53XMyahm5qFH87M2dnYpgLdS4vI32Cx
+   MW/jOvF1CcTqZVAYp4aJlJHObqm/DytH4ZynsJyrPEubhNR8djObtjN9g
+   MWjZYc1DWv2CT8ELFL/7wysCCARFp/T8atMJFM2Qs3nv1bvdXv5GazPJR
+   wUDdqrGEdYBypO9pd8R1ykE+3GLm9iwWbDtmcgFRRVsgQXqJP3yDkBL8D
+   GKkYhO8Vdyya5rinx4CPv2ORNTSTzOAZT8f3Y01aZ//djoATP+fx2I8tG
+   DgdgOzSzVcCBIJId5b9Y8uv9zHTFMq0KFt7Ogd87guw3+tNXD2dTwqkED
+   w==;
+X-CSE-ConnectionGUID: CnVuH+zXSxy+xQhF2kgiNg==
+X-CSE-MsgGUID: YzHqXcd/QbCHcCRcQw3w1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="54775780"
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="60790235"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 22:49:30 -0700
-X-CSE-ConnectionGUID: ghMZ/yHAQVGgCX0yybpEEw==
-X-CSE-MsgGUID: 0NV8rLOwQ3y0dkmI10VoGw==
+   d="scan'208";a="54775780"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 23:04:51 -0700
+X-CSE-ConnectionGUID: S2bVeloPR7maZM5rrIqknA==
+X-CSE-MsgGUID: n024GdPLR4StpQcDUu0nyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="127001758"
+   d="scan'208";a="122174319"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 17 Mar 2025 22:49:27 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 17 Mar 2025 23:04:50 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuPp3-000DRD-1p;
-	Tue, 18 Mar 2025 05:49:25 +0000
-Date: Tue, 18 Mar 2025 13:47:15 +0800
+	id 1tuQ3A-000DS3-12;
+	Tue, 18 Mar 2025 06:04:05 +0000
+Date: Tue, 18 Mar 2025 14:00:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Anna Schumaker <anna.schumaker@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: include/linux/rcupdate.h:538:9: error: dereferencing pointer to
- incomplete type 'struct nfsd_file'
-Message-ID: <202503181317.eiDzfsM0-lkp@intel.com>
+To: Thomas Richard <thomas.richard@bootlin.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v2 1/6] gpiolib: add gpiochip_add_pin_range_sparse()
+ function
+Message-ID: <202503181221.ubMklVAA-lkp@intel.com>
+References: <20250317-aaeon-up-board-pinctrl-support-v2-1-36126e30aa62@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,104 +63,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250317-aaeon-up-board-pinctrl-support-v2-1-36126e30aa62@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fc444ada131001812c5d10b380837238c9cf7c8c
-commit: 86e00412254a717ffd5d38dc5ec0ee1cce6281b3 nfs: cache all open LOCALIO nfsd_file(s) in client
-date:   9 weeks ago
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250318/202503181317.eiDzfsM0-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181317.eiDzfsM0-lkp@intel.com/reproduce)
+Hi Thomas,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 12b58398bffc23db89e715414399b0533255da51]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Richard/gpiolib-add-gpiochip_add_pin_range_sparse-function/20250317-234321
+base:   12b58398bffc23db89e715414399b0533255da51
+patch link:    https://lore.kernel.org/r/20250317-aaeon-up-board-pinctrl-support-v2-1-36126e30aa62%40bootlin.com
+patch subject: [PATCH RFC v2 1/6] gpiolib: add gpiochip_add_pin_range_sparse() function
+config: i386-buildonly-randconfig-006-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181221.ubMklVAA-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181221.ubMklVAA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181317.eiDzfsM0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503181221.ubMklVAA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/rbtree.h:24,
-                    from include/linux/mm_types.h:11,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from fs/nfs/localio.c:11:
-   fs/nfs/localio.c: In function 'nfs_local_open_fh':
->> include/linux/rcupdate.h:538:9: error: dereferencing pointer to incomplete type 'struct nfsd_file'
-     typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:686:2: note: in expansion of macro '__rcu_dereference_check'
-     __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-     ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:758:28: note: in expansion of macro 'rcu_dereference_check'
-    #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                               ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/localio.c:279:7: note: in expansion of macro 'rcu_dereference'
-     nf = rcu_dereference(*pnf);
-          ^~~~~~~~~~~~~~~
---
-   In file included from include/linux/rbtree.h:24,
-                    from include/linux/mm_types.h:11,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from localio.c:11:
-   localio.c: In function 'nfs_local_open_fh':
->> include/linux/rcupdate.h:538:9: error: dereferencing pointer to incomplete type 'struct nfsd_file'
-     typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:686:2: note: in expansion of macro '__rcu_dereference_check'
-     __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
-     ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:758:28: note: in expansion of macro 'rcu_dereference_check'
-    #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                               ^~~~~~~~~~~~~~~~~~~~~
-   localio.c:279:7: note: in expansion of macro 'rcu_dereference'
-     nf = rcu_dereference(*pnf);
-          ^~~~~~~~~~~~~~~
+>> drivers/gpio/gpiolib.c:2320: warning: Function parameter or struct member 'pins' not described in 'gpiochip_add_pin_range_sparse'
+>> drivers/gpio/gpiolib.c:2320: warning: Excess function parameter 'pin_list' description in 'gpiochip_add_pin_range_sparse'
 
 
-vim +538 include/linux/rcupdate.h
+vim +2320 drivers/gpio/gpiolib.c
 
-76c8eaafe4f061 Paul E. McKenney        2021-04-21  528  
-24ba53017e188e Chun-Hung Tseng         2021-09-15  529  #define __rcu_access_pointer(p, local, space) \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  530  ({ \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  531  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-423a86a610cad1 Joel Fernandes (Google  2018-12-12  532) 	rcu_check_sparse(p, space); \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  533  	((typeof(*p) __force __kernel *)(local)); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  534  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  535  #define __rcu_dereference_check(p, local, c, space) \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  536  ({ \
-ac59853c06993a Pranith Kumar           2014-11-13  537  	/* Dependency order vs. p above. */ \
-24ba53017e188e Chun-Hung Tseng         2021-09-15 @538  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
-f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  539  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
-423a86a610cad1 Joel Fernandes (Google  2018-12-12  540) 	rcu_check_sparse(p, space); \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  541  	((typeof(*p) __force __kernel *)(local)); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  542  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  543  #define __rcu_dereference_protected(p, local, c, space) \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  544  ({ \
-f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  545  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
-423a86a610cad1 Joel Fernandes (Google  2018-12-12  546) 	rcu_check_sparse(p, space); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  547  	((typeof(*p) __force __kernel *)(p)); \
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  548  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  549  #define __rcu_dereference_raw(p, local) \
-995f1405610bd8 Paul E. McKenney        2016-07-01  550  ({ \
-995f1405610bd8 Paul E. McKenney        2016-07-01  551  	/* Dependency order vs. p above. */ \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  552  	typeof(p) local = READ_ONCE(p); \
-24ba53017e188e Chun-Hung Tseng         2021-09-15  553  	((typeof(*p) __force __kernel *)(local)); \
-995f1405610bd8 Paul E. McKenney        2016-07-01  554  })
-24ba53017e188e Chun-Hung Tseng         2021-09-15  555  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
-ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  556  
-
-:::::: The code at line 538 was first introduced by commit
-:::::: 24ba53017e188e031f9cb8b290286fad52d2af00 rcu: Replace ________p1 and _________p1 with __UNIQUE_ID(rcu)
-
-:::::: TO: Chun-Hung Tseng <henrybear327@gmail.com>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+  2300	
+  2301	/**
+  2302	 * gpiochip_add_pin_range_sparse() - add a range for GPIO <-> pin mapping
+  2303	 * @gc: the gpiochip to add the range for
+  2304	 * @pinctl_name: the dev_name() of the pin controller to map to
+  2305	 * @gpio_offset: the start offset in the current gpio_chip number space
+  2306	 * @pin_list: the list of pins to accumulate in this range
+  2307	 * @npins: the number of pins to accumulate in this range
+  2308	 *
+  2309	 * Calling this function directly from a DeviceTree-supported
+  2310	 * pinctrl driver is DEPRECATED. Please see Section 2.1 of
+  2311	 * Documentation/devicetree/bindings/gpio/gpio.txt on how to
+  2312	 * bind pinctrl and gpio drivers via the "gpio-ranges" property.
+  2313	 *
+  2314	 * Returns:
+  2315	 * 0 on success, or a negative errno on failure.
+  2316	 */
+  2317	int gpiochip_add_pin_range_sparse(struct gpio_chip *gc, const char *pinctl_name,
+  2318					  unsigned int gpio_offset, unsigned int const *pins,
+  2319					  unsigned int npins)
+> 2320	{
+  2321		return __gpiochip_add_pin_range(gc, pinctl_name, gpio_offset, 0, pins,
+  2322						npins);
+  2323	}
+  2324	EXPORT_SYMBOL_GPL(gpiochip_add_pin_range_sparse);
+  2325	
 
 -- 
 0-DAY CI Kernel Test Service
