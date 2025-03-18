@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE6C3CF58
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 06:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781E838FA6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 06:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742280920; cv=none; b=IFfhrDDDvDylqugSQRWDz7b2iJoRYHvOAa9O5M8hOUNC1wmGO60K40CC+jQtvZEZQ5V+mJGv79K1D03x7YsXPrT/O8ggFJtniJ++nn4cOC3hCtZeG6RrnO4M4DZCqmn6WvTZOxCwERXKkHVOZKeoCgjrSBRKsnyEAxAWnlNiQh4=
+	t=1742280927; cv=none; b=RSzCT/jxQT8RsSNH4KzaWLncrW497wxk8XEx8P4sEqeZahQVQpVV7EbiXqKQ5iM0I7n0zji2qU3fykoHtYrD5duiPwcZfdQ/hjbLH0KaDlE8K4AolOtHA3y874ZLH4z6UH2WdDd0VZsyI5SvvSCoG/6+RWMGuk40G2cU24I1RWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742280920; c=relaxed/simple;
-	bh=0N/j82ZouFu/LGP3EwteUdy7Yb0BtynVqCMQCIvaUjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBF4iFusKAip1DnSW7nL5dLHWDMkLGKnVWsKqQghObcm86Wgn94qk+uIj5KWYWnfMEgtQfVKLK5PZQov665cTVryEgu+sS81IrmFfOxem/v4B3f4pNXGYUD8kWpU79AUdK2ADqRBZrEbP6C0ShuzMXi3peK/wMsK7yar0/JyHCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QO3QwWRG; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1742280927; c=relaxed/simple;
+	bh=R5w0/YXlLaP6u9r7WtswhOtBaW/Yhi5hVwh+3quRxjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IvFqpEZ5/VXZbMnLeeWZgi3hl7EBOSj7w5S0JgLKmvpaJ0oSEecfa5bjAyuS2StF9QydNtJafXZds3VmQkkmFssWTMuwJqwqiBWwAdNQJG9+/Xd55NTMejUD8kX0Je2dEtIp7vpxhJdZYZwZcOMUHpYyLfrBEKe0fcwjzSo3xEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mX74LXgu; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QO3QwWRG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mX74LXgu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742280918; x=1773816918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0N/j82ZouFu/LGP3EwteUdy7Yb0BtynVqCMQCIvaUjw=;
-  b=QO3QwWRGJHr9wmw86LeMPxR9HDslmwjfgGbHPInGqmyZKSGzTS8QqX2g
-   4ZifTYvjuYQfMx6Dsv2Xc9I+uCME4PjqUWcA6RjhY/7XqeazM+2CGNSY1
-   oHDvC9NUO3KVQyN7chAL4ylMAJIbgo/J7oHeVBl+OorhH7L6O6jFz9CG2
-   /q/hBQKlnoVH1pd5Bwfr7LyniIrTF7M0j2DnoQjUM+0y8kYrvdvQWGbIi
-   zSHI2vGl0xER2ZZFjRcdGRGXnTbR42QsV6DASpf9zJRPwkYAmzuCxG4Cr
-   FIxeK1SKKntHBk8Hd4ukJJH9VTHWMt68YWc8sv5sQkLS048qvYharmGi1
+  t=1742280924; x=1773816924;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R5w0/YXlLaP6u9r7WtswhOtBaW/Yhi5hVwh+3quRxjo=;
+  b=mX74LXguVtnUbEUzsnP60A10kos52j4mtq2zHiAFuUhD3cC/NQV+g0v7
+   sALP4scJIfH/tbUW/C8d39qLoS8kHAioe1p2Uc/+CR/qvLYk5bRb/9BKd
+   n1RR6l4dElg6G8faF5bgvU2ej3HQpfPECo9P9cKNoSbHf9P3cEFPF8C07
+   FfXI3QsfQZp8cNgcnaiBjb8aYwKwlM0hNjNpOfCYplg6AhtDYtXiY5DhB
+   YSoqW2y4914mVTeUSjf08UqADzmOCAxQmp+9TNNfKeI/PFXCJciuQgDyR
+   Dco2cQSwMxLcG2BGqYEELReEn1XANVOShQeBG8RpN4kuLyDzUxrFF4/5d
    g==;
-X-CSE-ConnectionGUID: IvD5UWCOSJW3bFJQD3R2hQ==
-X-CSE-MsgGUID: krjWzIe5TJ66FSd48fGeaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="54397118"
+X-CSE-ConnectionGUID: XLArfTuoS06WSh/qSm+DMg==
+X-CSE-MsgGUID: v/W9K84RR5e3ghIJh2WStw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43319294"
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="54397118"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 23:55:17 -0700
-X-CSE-ConnectionGUID: Jfd9W0seTz+Cr2JlePATaw==
-X-CSE-MsgGUID: D0s5+JOISD6A+CP51OMi6g==
+   d="scan'208";a="43319294"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2025 23:55:24 -0700
+X-CSE-ConnectionGUID: 6tN6YxO/RRKLvrgqmy0LAA==
+X-CSE-MsgGUID: bwkfDwT2T4miEEwJAB8fnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="121996757"
+   d="scan'208";a="126826183"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Mar 2025 23:55:14 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Mar 2025 23:55:22 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuQqx-000DUW-1E;
-	Tue, 18 Mar 2025 06:55:08 +0000
-Date: Tue, 18 Mar 2025 14:54:50 +0800
+	id 1tuQr6-000DUZ-1y;
+	Tue, 18 Mar 2025 06:55:17 +0000
+Date: Tue, 18 Mar 2025 14:54:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Potin Lai <potin.lai.pt@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Patrick Williams <patrick@stwcx.xyz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Cosmo Chou <cosmo.chou@quantatw.com>,
-	Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH] gpio: pca953x: Add support for level-triggered interrupts
-Message-ID: <202503181425.OndgH7Dh-lkp@intel.com>
-References: <20250318-gpio-pca953x-level-triggered-irq-v1-1-0c4943d92425@gmail.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2815/2815] block/blk-mq.c:485:19: sparse:
+ sparse: incorrect type in assignment (different address spaces)
+Message-ID: <202503181406.E4pR441t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,123 +61,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318-gpio-pca953x-level-triggered-irq-v1-1-0c4943d92425@gmail.com>
 
-Hi Potin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2014c95afecee3e76ca4a56956a936e23283f05b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Potin-Lai/gpio-pca953x-Add-support-for-level-triggered-interrupts/20250318-004441
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250318-gpio-pca953x-level-triggered-irq-v1-1-0c4943d92425%40gmail.com
-patch subject: [PATCH] gpio: pca953x: Add support for level-triggered interrupts
-config: arm-randconfig-001-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181425.OndgH7Dh-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181425.OndgH7Dh-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a348aa0315d2a90cde93df922b84ab682459a834
+commit: 8a6bee347626968d467aef07453c4547bc23cb64 [2815/2815] blk-mq: fix potential uaf for 'queue_hw_ctx'
+config: x86_64-randconfig-122-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181406.E4pR441t-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181406.E4pR441t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181425.OndgH7Dh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503181406.E4pR441t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-mq-sysfs.c:339:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   block/blk-mq-sysfs.c:339:55: sparse:     expected struct blk_mq_hw_ctx *hctx
+   block/blk-mq-sysfs.c:339:55: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
+   block/blk-mq-sysfs.c: note: in included file:
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+--
+>> block/blk-mq.c:485:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   block/blk-mq.c:485:19: sparse:     expected struct blk_mq_hw_ctx *hctx
+   block/blk-mq.c:485:19: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu *
+>> block/blk-mq.c:3270:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct blk_mq_hw_ctx **hctxs @@     got struct blk_mq_hw_ctx [noderef] __rcu **queue_hw_ctx @@
+   block/blk-mq.c:3270:41: sparse:     expected struct blk_mq_hw_ctx **hctxs
+   block/blk-mq.c:3270:41: sparse:     got struct blk_mq_hw_ctx [noderef] __rcu **queue_hw_ctx
+   block/blk-mq.c:3284:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   block/blk-mq.c:3284:17: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   block/blk-mq.c:3284:17: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   block/blk-mq.c:4033:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct blk_mq_hw_ctx *hctx @@     got struct blk_mq_hw_ctx [noderef] __rcu * @@
+   block/blk-mq.c: note: in included file:
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
+   include/linux/blk-mq.h:620:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu *[noderef] __rcu *
+   include/linux/blk-mq.h:620:18: sparse:    struct blk_mq_hw_ctx [noderef] __rcu **
 
-   drivers/gpio/gpio-pca953x.c: In function 'pca953x_irq_pending':
->> drivers/gpio/gpio-pca953x.c:887:13: warning: the comparison will always evaluate as 'true' for the address of 'irq_trig_level_high' will never be NULL [-Waddress]
-     887 |         if (!chip->irq_trig_level_high && !chip->irq_trig_level_low) {
-         |             ^
-   In file included from include/linux/atomic.h:5,
-                    from drivers/gpio/gpio-pca953x.c:11:
-   drivers/gpio/gpio-pca953x.c:218:24: note: 'irq_trig_level_high' declared here
-     218 |         DECLARE_BITMAP(irq_trig_level_high, MAX_LINE);
-         |                        ^~~~~~~~~~~~~~~~~~~
-   include/linux/types.h:11:23: note: in definition of macro 'DECLARE_BITMAP'
-      11 |         unsigned long name[BITS_TO_LONGS(bits)]
-         |                       ^~~~
->> drivers/gpio/gpio-pca953x.c:887:43: warning: the comparison will always evaluate as 'true' for the address of 'irq_trig_level_low' will never be NULL [-Waddress]
-     887 |         if (!chip->irq_trig_level_high && !chip->irq_trig_level_low) {
-         |                                           ^
-   drivers/gpio/gpio-pca953x.c:219:24: note: 'irq_trig_level_low' declared here
-     219 |         DECLARE_BITMAP(irq_trig_level_low, MAX_LINE);
-         |                        ^~~~~~~~~~~~~~~~~~
-   include/linux/types.h:11:23: note: in definition of macro 'DECLARE_BITMAP'
-      11 |         unsigned long name[BITS_TO_LONGS(bits)]
-         |                       ^~~~
+vim +485 block/blk-mq.c
 
+320ae51feed5c2 Jens Axboe        2013-10-24  446  
+cd6ce1482fd9e6 Bart Van Assche   2017-06-20  447  struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+9a95e4ef709533 Bart Van Assche   2017-11-09  448  	unsigned int op, blk_mq_req_flags_t flags, unsigned int hctx_idx)
+1f5bd336b91505 Ming Lin          2016-06-13  449  {
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  450  	struct blk_mq_alloc_data data = {
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  451  		.q		= q,
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  452  		.flags		= flags,
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  453  		.cmd_flags	= op,
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  454  	};
+600c3b0cea784a Christoph Hellwig 2020-05-29  455  	u64 alloc_time_ns = 0;
+6d2809d51a5079 Omar Sandoval     2017-02-27  456  	unsigned int cpu;
+600c3b0cea784a Christoph Hellwig 2020-05-29  457  	unsigned int tag;
+1f5bd336b91505 Ming Lin          2016-06-13  458  	int ret;
+1f5bd336b91505 Ming Lin          2016-06-13  459  
+600c3b0cea784a Christoph Hellwig 2020-05-29  460  	/* alloc_time includes depth and tag waits */
+600c3b0cea784a Christoph Hellwig 2020-05-29  461  	if (blk_queue_rq_alloc_time(q))
+600c3b0cea784a Christoph Hellwig 2020-05-29  462  		alloc_time_ns = ktime_get_ns();
+600c3b0cea784a Christoph Hellwig 2020-05-29  463  
+1f5bd336b91505 Ming Lin          2016-06-13  464  	/*
+1f5bd336b91505 Ming Lin          2016-06-13  465  	 * If the tag allocator sleeps we could get an allocation for a
+1f5bd336b91505 Ming Lin          2016-06-13  466  	 * different hardware context.  No need to complicate the low level
+1f5bd336b91505 Ming Lin          2016-06-13  467  	 * allocator for this for the rare use case of a command tied to
+1f5bd336b91505 Ming Lin          2016-06-13  468  	 * a specific queue.
+1f5bd336b91505 Ming Lin          2016-06-13  469  	 */
+600c3b0cea784a Christoph Hellwig 2020-05-29  470  	if (WARN_ON_ONCE(!(flags & (BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED))))
+1f5bd336b91505 Ming Lin          2016-06-13  471  		return ERR_PTR(-EINVAL);
+1f5bd336b91505 Ming Lin          2016-06-13  472  
+1f5bd336b91505 Ming Lin          2016-06-13  473  	if (hctx_idx >= q->nr_hw_queues)
+1f5bd336b91505 Ming Lin          2016-06-13  474  		return ERR_PTR(-EIO);
+1f5bd336b91505 Ming Lin          2016-06-13  475  
+3a0a529971ec4e Bart Van Assche   2017-11-09  476  	ret = blk_queue_enter(q, flags);
+1f5bd336b91505 Ming Lin          2016-06-13  477  	if (ret)
+1f5bd336b91505 Ming Lin          2016-06-13  478  		return ERR_PTR(ret);
+1f5bd336b91505 Ming Lin          2016-06-13  479  
+c8712c6a674e33 Christoph Hellwig 2016-09-23  480  	/*
+c8712c6a674e33 Christoph Hellwig 2016-09-23  481  	 * Check if the hardware context is actually mapped to anything.
+c8712c6a674e33 Christoph Hellwig 2016-09-23  482  	 * If not tell the caller that it should skip this queue.
+c8712c6a674e33 Christoph Hellwig 2016-09-23  483  	 */
+a5ea5811058ddb Christoph Hellwig 2020-05-16  484  	ret = -EXDEV;
+e6e7abffe386b6 Christoph Hellwig 2020-05-29 @485  	data.hctx = q->queue_hw_ctx[hctx_idx];
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  486  	if (!blk_mq_hw_queue_mapped(data.hctx))
+a5ea5811058ddb Christoph Hellwig 2020-05-16  487  		goto out_queue_exit;
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  488  	cpu = cpumask_first_and(data.hctx->cpumask, cpu_online_mask);
+e6e7abffe386b6 Christoph Hellwig 2020-05-29  489  	data.ctx = __blk_mq_get_ctx(q, cpu);
+1f5bd336b91505 Ming Lin          2016-06-13  490  
+42fdc5e49c2be9 Christoph Hellwig 2020-06-29  491  	if (!q->elevator)
+600c3b0cea784a Christoph Hellwig 2020-05-29  492  		blk_mq_tag_busy(data.hctx);
+600c3b0cea784a Christoph Hellwig 2020-05-29  493  
+a5ea5811058ddb Christoph Hellwig 2020-05-16  494  	ret = -EWOULDBLOCK;
+600c3b0cea784a Christoph Hellwig 2020-05-29  495  	tag = blk_mq_get_tag(&data);
+600c3b0cea784a Christoph Hellwig 2020-05-29  496  	if (tag == BLK_MQ_NO_TAG)
+a5ea5811058ddb Christoph Hellwig 2020-05-16  497  		goto out_queue_exit;
+600c3b0cea784a Christoph Hellwig 2020-05-29  498  	return blk_mq_rq_ctx_init(&data, tag, alloc_time_ns);
+600c3b0cea784a Christoph Hellwig 2020-05-29  499  
+a5ea5811058ddb Christoph Hellwig 2020-05-16  500  out_queue_exit:
+a5ea5811058ddb Christoph Hellwig 2020-05-16  501  	blk_queue_exit(q);
+a5ea5811058ddb Christoph Hellwig 2020-05-16  502  	return ERR_PTR(ret);
+1f5bd336b91505 Ming Lin          2016-06-13  503  }
+1f5bd336b91505 Ming Lin          2016-06-13  504  EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
+1f5bd336b91505 Ming Lin          2016-06-13  505  
 
-vim +887 drivers/gpio/gpio-pca953x.c
+:::::: The code at line 485 was first introduced by commit
+:::::: e6e7abffe386b614a194ec32457a00c304c980f4 blk-mq: simplify the blk_mq_get_request calling convention
 
-   841	
-   842	static bool pca953x_irq_pending(struct pca953x_chip *chip, unsigned long *pending)
-   843	{
-   844		struct gpio_chip *gc = &chip->gpio_chip;
-   845		DECLARE_BITMAP(reg_direction, MAX_LINE);
-   846		DECLARE_BITMAP(old_stat, MAX_LINE);
-   847		DECLARE_BITMAP(cur_stat, MAX_LINE);
-   848		DECLARE_BITMAP(new_stat, MAX_LINE);
-   849		DECLARE_BITMAP(trigger, MAX_LINE);
-   850		DECLARE_BITMAP(edges, MAX_LINE);
-   851		int ret;
-   852	
-   853		if (chip->driver_data & PCA_PCAL) {
-   854			/* Read the current interrupt status from the device */
-   855			ret = pca953x_read_regs(chip, PCAL953X_INT_STAT, trigger);
-   856			if (ret)
-   857				return false;
-   858	
-   859			/* Check latched inputs and clear interrupt status */
-   860			ret = pca953x_read_regs(chip, chip->regs->input, cur_stat);
-   861			if (ret)
-   862				return false;
-   863	
-   864			/* Apply filter for rising/falling edge selection */
-   865			bitmap_replace(new_stat, chip->irq_trig_fall, chip->irq_trig_raise, cur_stat, gc->ngpio);
-   866	
-   867			bitmap_and(pending, new_stat, trigger, gc->ngpio);
-   868	
-   869			return !bitmap_empty(pending, gc->ngpio);
-   870		}
-   871	
-   872		ret = pca953x_read_regs(chip, chip->regs->input, cur_stat);
-   873		if (ret)
-   874			return false;
-   875	
-   876		/* Remove output pins from the equation */
-   877		pca953x_read_regs(chip, chip->regs->direction, reg_direction);
-   878	
-   879		bitmap_copy(old_stat, chip->irq_stat, gc->ngpio);
-   880	
-   881		bitmap_and(new_stat, cur_stat, reg_direction, gc->ngpio);
-   882		bitmap_xor(cur_stat, new_stat, old_stat, gc->ngpio);
-   883		bitmap_and(trigger, cur_stat, chip->irq_mask, gc->ngpio);
-   884	
-   885		bitmap_copy(chip->irq_stat, new_stat, gc->ngpio);
-   886	
- > 887		if (!chip->irq_trig_level_high && !chip->irq_trig_level_low) {
-   888			if (bitmap_empty(trigger, gc->ngpio))
-   889				return false;
-   890		}
-   891	
-   892		bitmap_and(cur_stat, chip->irq_trig_fall, old_stat, gc->ngpio);
-   893		bitmap_and(old_stat, chip->irq_trig_raise, new_stat, gc->ngpio);
-   894		bitmap_or(edges, old_stat, cur_stat, gc->ngpio);
-   895		bitmap_and(pending, edges, trigger, gc->ngpio);
-   896	
-   897		bitmap_and(cur_stat, new_stat, chip->irq_trig_level_high, gc->ngpio);
-   898		bitmap_and(cur_stat, cur_stat, chip->irq_mask, gc->ngpio);
-   899		bitmap_or(pending, pending, cur_stat, gc->ngpio);
-   900	
-   901		bitmap_complement(cur_stat, new_stat, gc->ngpio);
-   902		bitmap_and(cur_stat, cur_stat, reg_direction, gc->ngpio);
-   903		bitmap_and(old_stat, cur_stat, chip->irq_trig_level_low, gc->ngpio);
-   904		bitmap_and(old_stat, old_stat, chip->irq_mask, gc->ngpio);
-   905		bitmap_or(pending, pending, old_stat, gc->ngpio);
-   906	
-   907		return !bitmap_empty(pending, gc->ngpio);
-   908	}
-   909	
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
