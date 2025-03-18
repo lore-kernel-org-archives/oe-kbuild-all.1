@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF51943151
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 07:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21531EF39E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 18 Mar 2025 07:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742282266; cv=none; b=kkU9iGCtCtL5uDsEPgwPY56VS1jfHf1F6H7MBgpr2VuTFrN7eiYurO4LGkSCtcD4JO2qfoIC+SVwtufoThWS9Gwx0YCKW3VfEsW2YdzuGhLarAlJk+RmVxIgcFnzDLz0/0f+HWaH9PIMFHXMMT51twstbIeZ/DrCJ+LV4UcfLeg=
+	t=1742284440; cv=none; b=LfsAcSJU9hb2vwGfo0ofv4bnPLTLdtIFI0yhoYVZ7ys5zS4f5zodo6ah4RZaJ/A1ibKt90ctavVJ/k+V32JfZYmE0LQn+PyjyhVCVThzViwBHt5fuQ3G6qVukPOUDBcVyDIN3GH+kqxAlJ4crZQvdQSD0NsLby15aOHDufy5Elo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742282266; c=relaxed/simple;
-	bh=xGvakVQ4I7CIAbFh6Dj+N2h/vlvQZwPGNMNIWGbMvZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H6QfkNzY6GvS7r3vhsbGFKqwpZBLSau7H2M37aBBhLy6nHlUmsq2JHDGpCpLm2qNUyOIH+UKeqD6ghVVUiowfam4c6DinhrM+3qFUvu/AQGgTjSee287q08vB6+KXrcrZbeDrNaMOZ3dE+Qk80WIUyX/SAOucFlP0MomJt2d+RU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PScaWVPs; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1742284440; c=relaxed/simple;
+	bh=mLpG53z/+xYRI+C6koH5UavmowUagfMKoYxc/VnZjA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=djmbqGUeOvPH5EWlmFDij6M7kiZPNMqMHH4jbjdmCykQO+c/TtuIdE8d3OTayQ6CUkqk+rWy9Mvw5mIOf06qG50kEnpbcW8rEn6LcGHWtzp/XCF974y3Z6UEIeWviBKubXa2FziHia4r3wkx1w5mu2e3WFMItg0AXKuFwC4vaTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlX5DoxL; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PScaWVPs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlX5DoxL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742282265; x=1773818265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xGvakVQ4I7CIAbFh6Dj+N2h/vlvQZwPGNMNIWGbMvZg=;
-  b=PScaWVPsOMqAnteIdm1rRSNCp3kgN0WDF85w9MH54a7bHuEJ9eEyk8km
-   HXjewFJ9i0AP6klXrjRpB8zR7Bp/DS5rndmRR+b2NC6FHDxrd+kO1FuOq
-   f8208yzzMl31LiOzmtvviPM/BopbaLEkVw+oBZ0hbi9nXf0RoDPd8jZuM
-   lqmpejqaITTalcwJ7eDh4YtHpDY5t662bjeV7uwdKlaPDyg3oLbLJEPLC
-   Tzs8oGzYZVHy/da0Acy5cKINcTz80a4hU1GmNG62xbSk9W/iAXpk+tnBn
-   fGgJFrZs69d7u/YWzvYK7ACKZqY6KIqNEHBljFQ0hO9GHcw3COZNtg5R5
-   g==;
-X-CSE-ConnectionGUID: MgZDsT98SI6E77zFp5cOZA==
-X-CSE-MsgGUID: TIxK8owUR1+EEef5YZ0I2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="47054520"
+  t=1742284438; x=1773820438;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mLpG53z/+xYRI+C6koH5UavmowUagfMKoYxc/VnZjA4=;
+  b=QlX5DoxLAJBR4K22jNCY+qiBxe7UtnjVu5Dc6RhNGnYq1eg+brbkOUN5
+   2HFNMFziRjrSfSiB8QJG96cNZPrjISQqxj3plvvqwYfjyp9pZZwqLVcHI
+   2gBubQR1gWbmf2SjIoVy16688ifjqQeoYrJl+c0y1h7t+7iRPybR6wTpT
+   TlryU9CLlmBFVICwpjxS73byYqidCkhispebYuEbxaOXOI/1UIZBAA6th
+   6hREYxopHptMBTdkYxH5nTWoSdKGlpIIfrBgGE8l45CkheoNbQBOkgYnc
+   CK1Sh5JHjnq8fpBtGMFyockoTOfPGeYkcEby19RLfI8NZBS5s9FzVRSF6
+   w==;
+X-CSE-ConnectionGUID: t+KgEvvzQPiPxQggLFfocg==
+X-CSE-MsgGUID: ZyR18KygRtaQnirvsVEopg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="43541652"
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="47054520"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 00:17:44 -0700
-X-CSE-ConnectionGUID: e6jCVCkDSyCbPdQ1d6HTmQ==
-X-CSE-MsgGUID: i7sqDo8NRMCF/nlO8e4iGg==
+   d="scan'208";a="43541652"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 00:53:54 -0700
+X-CSE-ConnectionGUID: grYtw6pDRzqsPrdhUg2U4w==
+X-CSE-MsgGUID: Uo8I6aSzQF6FxPM0Zx+8ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="123121590"
+   d="scan'208";a="122123923"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 18 Mar 2025 00:17:43 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Mar 2025 00:53:51 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuRCm-000DVk-2m;
-	Tue, 18 Mar 2025 07:17:40 +0000
-Date: Tue, 18 Mar 2025 15:16:48 +0800
+	id 1tuRll-000DY0-0U;
+	Tue, 18 Mar 2025 07:53:49 +0000
+Date: Tue, 18 Mar 2025 15:53:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namhyung Kim <namhyung@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/kmem_cache_iter.c:25:1: warning: 'retain' attribute
- ignored
-Message-ID: <202503181537.syuSFzVo-lkp@intel.com>
+To: marius.cristea@microchip.com, jic23@kernel.org, lars@metafoo.de,
+	robh@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, krzk+dt@kernel.org, conor+dt@kernel.org,
+	oskar.andero@gmail.com, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	marius.cristea@microchip.com
+Subject: Re: [PATCH v2 2/2] iio: adc: adding support for PAC194X
+Message-ID: <202503181545.znULdV4G-lkp@intel.com>
+References: <20250317090803.30003-3-marius.cristea@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +66,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250317090803.30003-3-marius.cristea@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   76b6905c11fd3c6dc4562aefc3e8c4429fefae1e
-commit: 2e9a548009c2d804e55cdd5b0e9903756cf7d9b3 bpf: Add open coded version of kmem_cache iterator
-date:   5 months ago
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20250318/202503181537.syuSFzVo-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181537.syuSFzVo-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 577a66e2e634f712384c57a98f504c44ea4b47da]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/marius-cristea-microchip-com/dt-bindings-iio-adc-adding-support-for-PAC194X/20250317-171150
+base:   577a66e2e634f712384c57a98f504c44ea4b47da
+patch link:    https://lore.kernel.org/r/20250317090803.30003-3-marius.cristea%40microchip.com
+patch subject: [PATCH v2 2/2] iio: adc: adding support for PAC194X
+config: riscv-randconfig-r072-20250318 (https://download.01.org/0day-ci/archive/20250318/202503181545.znULdV4G-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503181545.znULdV4G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503181537.syuSFzVo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503181545.znULdV4G-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/kmem_cache_iter.c:25:1: warning: 'retain' attribute ignored [-Wattributes]
-      25 | {
-         | ^
-   kernel/bpf/kmem_cache_iter.c:36:1: warning: 'retain' attribute ignored [-Wattributes]
-      36 | {
-         | ^
-   kernel/bpf/kmem_cache_iter.c:81:1: warning: 'retain' attribute ignored [-Wattributes]
-      81 | {
-         | ^
+   In file included from drivers/iio/adc/pac1944.c:20:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:22:
+   In file included from arch/riscv/include/asm/sections.h:9:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/pac1944.c:1689:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1689 |         if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1690 |                        msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/jiffies.h:128:2: note: expanded from macro 'time_after'
+     128 |         (typecheck(unsigned long, a) && \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     129 |          typecheck(unsigned long, b) && \
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     130 |          ((long)((b) - (a)) < 0))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1944.c:1707:9: note: uninitialized use occurs here
+    1707 |         return ret;
+         |                ^~~
+   drivers/iio/adc/pac1944.c:1689:2: note: remove the 'if' if its condition is always true
+    1689 |         if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1690 |                        msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/pac1944.c:1683:9: note: initialize the variable 'ret' to silence this warning
+    1683 |         int ret;
+         |                ^
+         |                 = 0
+   5 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
+vim +1689 drivers/iio/adc/pac1944.c
 
-vim +/retain +25 kernel/bpf/kmem_cache_iter.c
-
-    23	
-    24	__bpf_kfunc int bpf_iter_kmem_cache_new(struct bpf_iter_kmem_cache *it)
-  > 25	{
-    26		struct bpf_iter_kmem_cache_kern *kit = (void *)it;
-    27	
-    28		BUILD_BUG_ON(sizeof(*kit) > sizeof(*it));
-    29		BUILD_BUG_ON(__alignof__(*kit) != __alignof__(*it));
-    30	
-    31		kit->pos = KMEM_CACHE_POS_START;
-    32		return 0;
-    33	}
-    34	
+  1680	
+  1681	static int pac1944_retrieve_data(struct pac1944_chip_info *info, u32 wait_time)
+  1682	{
+  1683		int ret;
+  1684	
+  1685		/*
+  1686		 * Check if the minimal elapsed time has passed and if so,
+  1687		 * re-read the chip, otherwise the cached info is just fine
+  1688		 */
+> 1689		if (time_after(jiffies, info->chip_reg_data.jiffies_tstamp +
+  1690			       msecs_to_jiffies(PAC1944_MIN_POLLING_TIME_MS))) {
+  1691			/*
+  1692			 * We need to re-read the chip values
+  1693			 * call the pac1944_reg_snapshot
+  1694			 */
+  1695			ret = pac1944_reg_snapshot(info, true,
+  1696						   PAC1944_REFRESH_REG_ADDR,
+  1697						   wait_time);
+  1698			/*
+  1699			 * Re-schedule the work for the read registers timeout
+  1700			 * (to prevent chip regs saturation)
+  1701			 */
+  1702			cancel_delayed_work_sync(&info->work_chip_rfsh);
+  1703			schedule_delayed_work(&info->work_chip_rfsh,
+  1704					      msecs_to_jiffies(PAC1944_MAX_RFSH_LIMIT_MS));
+  1705		}
+  1706	
+  1707		return ret;
+  1708	}
+  1709	
 
 -- 
 0-DAY CI Kernel Test Service
