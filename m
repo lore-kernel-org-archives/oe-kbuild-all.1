@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ADE20D4FC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 05:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1774DA29
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 05:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742360832; cv=none; b=rT8Xz3Vq4i+jIYF5zBa5z+fnx2Mh2dUjh58sq7LkERF7Zg6pLY1LP+xh1XXbVK6pcw3idPKhwT+Y7YyCNCvtGBq5++KOkS0BkidcYcPZ/ZMPBEj+W72zWJsLpK5x6UQ84kXrz6XIGPKxQ4f5MvYEzhrxLxshqlXKjXjbHZWLgPI=
+	t=1742360833; cv=none; b=uCuF6KumtkjLbNmylKXHHKKjxmieYvfzgZ0nM+eBU4p9yuuRLl2eEtIPBgACf1WFWpXC8nWHqsXaxPfTsTNds2zd0vXa56EJQu3h6tCjAXdivaCWOnyJj8Jj5SyO+U8EUKXlllra4ZCN7Sh0IBwOyUO0Dwbxev7I4FRYyZWt+g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742360832; c=relaxed/simple;
-	bh=cH7r98RzDbaaU8OlKhJ751vRkoeRdtSKlbBKQb9u7Rc=;
+	s=arc-20240116; t=1742360833; c=relaxed/simple;
+	bh=aCpyJdqLyzvkjOuIKdcGot0j8nlU0JGD1exVqcWMG94=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LuS00lvqyNY1rWRlPBGEkbzNuCcw8gDRUeqMS07b2K5AbibHy1vUxbfFGdmpB7auIJLdG8FBWedweIx+s7OQfaP/tN0InQ80G/L+x5lAf13wIAVQ2k/lXXNdHoBlf4QAOkuE5S3/cJb7JUD491weSSpx7byVTJwPIXJKm68f9OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSG+dM/q; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=OkKHdLmN1qvVb37Lagt2CkgmL/Gj+yFdTKI45PG9v+dDTeTJ5S42yjaEGuuSUxYctLzAoOu5s0Kyz6uXmKH2mrYEZ9AmERzXpHnvoi8FbMKFWXgyiUZWWfozPvK8Dp8vmmsJx1plvaiernANFYUhwS8IOKtFUv+5DExZixqgEno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QT1cuOdj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSG+dM/q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QT1cuOdj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1742360831; x=1773896831;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cH7r98RzDbaaU8OlKhJ751vRkoeRdtSKlbBKQb9u7Rc=;
-  b=VSG+dM/q98Av6xjKW2iqK7snZ/bWjZORM0VbmmyJMMwNZpsotTNc6URr
-   c5yKdbIW6C5fumlloiRfZN6VSR+nOWII4WUBojan05OWYALsx9HJ7Qmiq
-   SpWhmXM0cNj+UNM0ldxudZuwell2Hns/T1cEJ6HbcdoDp9QcQjGUCfSij
-   cgQjgd/kaM/Fwm7v3+6/lCN3IfhcRoWXRZHsbaS0CTXyF31e981BrkaW2
-   j33+ARU8Ib7mPYrI+lmxLePKEUclV683valSpprW696K1l7/+s9Nta9gg
-   Q9Dzfa0GfW3hlk2kHyyikbL9TvnzvxZBae3v4od54IKUIPVDFa8fz5/Eh
-   w==;
-X-CSE-ConnectionGUID: takRo/phS8qPHbzIN+G9vQ==
-X-CSE-MsgGUID: A/ufpcNaRqaKEkwfSkAIIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="54165549"
+  bh=aCpyJdqLyzvkjOuIKdcGot0j8nlU0JGD1exVqcWMG94=;
+  b=QT1cuOdj8jBPRq9wwrnUGlSgFlbCSUeLWJsC6ieXB5jZZOXqc4gOpdE4
+   5hemxgvhrCYai6lulmhwGYEFxk2rB8oTugutNLR97Mzle68D4A26XZH9h
+   M+tVfaO86gL5CHyKCDlaZ2FKGmKOQYjYhms7wVL/SKEWuIivB55iR5P/A
+   s09vJel4hTl7etEIgbY1iTJlAWPzRi6IT+0cZ46m3CKkp9pMAJfdbb0JI
+   RFOgljF+indlBZm4AwitHpbVkES7EiQ5prSmGXojp/x235UTb69qhzNut
+   AAht47qcu6yDTeNJx/W39jrrUpW7d3rAQckcqj6xkEUvSz2U/O3TDyivl
+   g==;
+X-CSE-ConnectionGUID: 2O+M54skTieHcgS4/eFbxw==
+X-CSE-MsgGUID: vVFM661cQ0+3LqmGT9FTrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43265634"
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="54165549"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 22:07:11 -0700
-X-CSE-ConnectionGUID: UMb3RN2zSRObhPJtdCMx4Q==
-X-CSE-MsgGUID: D9z7EaFATg6d62fMkB8t9w==
+   d="scan'208";a="43265634"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 22:07:11 -0700
+X-CSE-ConnectionGUID: qPv2bDi7RSmb3pjdL1vnOA==
+X-CSE-MsgGUID: ysYKOgBPTpSE1wnazadkPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="159614975"
+   d="scan'208";a="127569837"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 22:07:10 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Mar 2025 22:07:09 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuldz-000ENH-0A;
+	id 1tuldz-000ENE-03;
 	Wed, 19 Mar 2025 05:07:07 +0000
-Date: Wed, 19 Mar 2025 13:06:36 +0800
+Date: Wed, 19 Mar 2025 13:06:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Kurapati <quic_kriskura@quicinc.com>
+To: Jisheng Zhang <jszhang@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: drivers/usb/dwc3/core.c:1499:47: warning: '%u' directive output may
- be truncated writing between 1 and 10 bytes into a region of size 4
-Message-ID: <202503191317.9hvDBfeq-lkp@intel.com>
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: cc1: error: cannot load plugin
+ ./scripts/gcc-plugins/stackleak_plugin.so:
+ ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol:
+ _ZN8opt_pass14set_pass_paramEjb
+Message-ID: <202503191250.ZHqkeLVs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,118 +66,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Krishna,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   81e4f8d68c66da301bb881862735bd74c6241a19
-commit: 3f12222a4bebeb13ce06ddecc1610ad32fa835dd usb: dwc3: core: Fix compile warning on s390 gcc in dwc3_get_phy call
-date:   11 months ago
-config: sparc64-randconfig-001-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191317.9hvDBfeq-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191317.9hvDBfeq-lkp@intel.com/reproduce)
+commit: b5db73fb18257cd5d9cb59bc4b779fffa629566a riscv: enable HAVE_ARCH_STACKLEAK
+date:   8 months ago
+config: riscv-randconfig-r064-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191250.ZHqkeLVs-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191250.ZHqkeLVs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503191317.9hvDBfeq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503191250.ZHqkeLVs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/dwc3/core.c: In function 'dwc3_core_init':
->> drivers/usb/dwc3/core.c:1499:47: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 4 [-Wformat-truncation=]
-       snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
-                                                  ^~
-   drivers/usb/dwc3/core.c:1499:41: note: directive argument in the range [0, 2147483647]
-       snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
-                                            ^~~~~~~~~
-   drivers/usb/dwc3/core.c:1499:4: note: 'snprintf' output between 7 and 16 bytes into a destination of size 9
-       snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/dwc3/core.c:1482:48: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 4 [-Wformat-truncation=]
-       snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
-                                                   ^~
-   drivers/usb/dwc3/core.c:1482:42: note: directive argument in the range [0, 2147483647]
-       snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
-                                             ^~~~~~~~~
-   drivers/usb/dwc3/core.c:1482:4: note: 'snprintf' output between 7 and 16 bytes into a destination of size 9
-       snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1499 drivers/usb/dwc3/core.c
-
-  1445	
-  1446	static int dwc3_core_get_phy(struct dwc3 *dwc)
-  1447	{
-  1448		struct device		*dev = dwc->dev;
-  1449		struct device_node	*node = dev->of_node;
-  1450		char phy_name[9];
-  1451		int ret;
-  1452		u8 i;
-  1453	
-  1454		if (node) {
-  1455			dwc->usb2_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 0);
-  1456			dwc->usb3_phy = devm_usb_get_phy_by_phandle(dev, "usb-phy", 1);
-  1457		} else {
-  1458			dwc->usb2_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB2);
-  1459			dwc->usb3_phy = devm_usb_get_phy(dev, USB_PHY_TYPE_USB3);
-  1460		}
-  1461	
-  1462		if (IS_ERR(dwc->usb2_phy)) {
-  1463			ret = PTR_ERR(dwc->usb2_phy);
-  1464			if (ret == -ENXIO || ret == -ENODEV)
-  1465				dwc->usb2_phy = NULL;
-  1466			else
-  1467				return dev_err_probe(dev, ret, "no usb2 phy configured\n");
-  1468		}
-  1469	
-  1470		if (IS_ERR(dwc->usb3_phy)) {
-  1471			ret = PTR_ERR(dwc->usb3_phy);
-  1472			if (ret == -ENXIO || ret == -ENODEV)
-  1473				dwc->usb3_phy = NULL;
-  1474			else
-  1475				return dev_err_probe(dev, ret, "no usb3 phy configured\n");
-  1476		}
-  1477	
-  1478		for (i = 0; i < dwc->num_usb2_ports; i++) {
-  1479			if (dwc->num_usb2_ports == 1)
-  1480				snprintf(phy_name, sizeof(phy_name), "usb2-phy");
-  1481			else
-  1482				snprintf(phy_name, sizeof(phy_name),  "usb2-%u", i);
-  1483	
-  1484			dwc->usb2_generic_phy[i] = devm_phy_get(dev, phy_name);
-  1485			if (IS_ERR(dwc->usb2_generic_phy[i])) {
-  1486				ret = PTR_ERR(dwc->usb2_generic_phy[i]);
-  1487				if (ret == -ENOSYS || ret == -ENODEV)
-  1488					dwc->usb2_generic_phy[i] = NULL;
-  1489				else
-  1490					return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
-  1491								phy_name);
-  1492			}
-  1493		}
-  1494	
-  1495		for (i = 0; i < dwc->num_usb3_ports; i++) {
-  1496			if (dwc->num_usb3_ports == 1)
-  1497				snprintf(phy_name, sizeof(phy_name), "usb3-phy");
-  1498			else
-> 1499				snprintf(phy_name, sizeof(phy_name), "usb3-%u", i);
-  1500	
-  1501			dwc->usb3_generic_phy[i] = devm_phy_get(dev, phy_name);
-  1502			if (IS_ERR(dwc->usb3_generic_phy[i])) {
-  1503				ret = PTR_ERR(dwc->usb3_generic_phy[i]);
-  1504				if (ret == -ENOSYS || ret == -ENODEV)
-  1505					dwc->usb3_generic_phy[i] = NULL;
-  1506				else
-  1507					return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
-  1508								phy_name);
-  1509			}
-  1510		}
-  1511	
-  1512		return 0;
-  1513	}
-  1514	
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so: ./scripts/gcc-plugins/structleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+   cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so: ./scripts/gcc-plugins/randomize_layout_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>> cc1: error: cannot load plugin ./scripts/gcc-plugins/stackleak_plugin.so: ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+   cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so: ./scripts/gcc-plugins/latent_entropy_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+   cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so: ./scripts/gcc-plugins/structleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+   make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Error 1
+   cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so: ./scripts/gcc-plugins/randomize_layout_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>> cc1: error: cannot load plugin ./scripts/gcc-plugins/stackleak_plugin.so: ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+   cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so: ./scripts/gcc-plugins/latent_entropy_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+   make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1207: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:240: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
