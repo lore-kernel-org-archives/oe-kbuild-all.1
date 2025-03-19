@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9B921C17B;
-	Wed, 19 Mar 2025 22:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9920670808
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 22:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742422945; cv=none; b=oyqE+X4oeb0YGzw+vO+4UvgBNm/A9m3lksOSYD5W4GXUvIxgJXJ1C1Ml+Nm9eKc5821M6Bcne9uDM2zSEI5spYKsVuBvi1aWGJOYtB2qOHBlNw3GPYj3X0/dGrFFTSwVzGeS+9SOLILsurgGc2TtRVd+2I225vprJqzQHK4H4kQ=
+	t=1742423678; cv=none; b=lJCafjnxynsCFn5VZa2tD/wG+sFdxaKhpL8wocq7oXNKrgsu+ktuzs2T11pq73aZGNnyU/pywq8oDedU6IPYtDPIefdn5+GNbswv3chVerkSza3Pc8d5JM6k2zrJbq3PkaPcpi+y1w4wKDGhN2ZpaNBQgobEHiad6jfM0uhsvRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742422945; c=relaxed/simple;
-	bh=Rzo3xoOv+immuffrPxNmQWMmO/EwBEuFgzg8kcJOZgo=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WOILTaMrkwfc0PsQZsEbWDhww8W1ezpUW/FTmF4y4xuonskMmZYLs1SyCy8c4Wg2/bY4ZQSWagUUXUhW14ETpWyF+YH3ntcQgZ6J4zgEAvYrD8awE/OnTHz3WBobEn9iHBKjq2s553RjWl0mfsggKENT1DCpMxMmCn7CycjVHkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LX+/d4A3; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1742423678; c=relaxed/simple;
+	bh=b16P64Qh6YhADfVXFxHu2fQFudGhdMa7C2N5XU7lO5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cU8NvxYcxBn3dUBR4kDZ7JR7GGKMVh9Q1IPMF4bIvlsGkG0Romz9voNO6G5a46p9Iwqge0GhKKYZzJzKW2wFi0XNwFZ9MzoH8+G4D+VFsz0be2Rv4Ujc0E4kWBnoCpDwZjoucETzb0z9Z3yucs2T7g3hiE3WU79ytNKupbjxrdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYTp++xL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LX+/d4A3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYTp++xL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742422943; x=1773958943;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Rzo3xoOv+immuffrPxNmQWMmO/EwBEuFgzg8kcJOZgo=;
-  b=LX+/d4A3WamZuqTPs7hlasPFEMkppiwD8sl+Z/JwdXhu583qCiZImCNT
-   2eIeggHSsLf5QzjYpscDQ+hfuKMkUPsVMsQtscYzmenNfddHJx8mijq6x
-   G+Tq7NkkvVLtmDntP5w0x+ccXqusGIfQ90n0N8wyU54WB0j9jiTUVIfHY
-   t/atZo+ioxCtV835rjph4uOook/w6n4fPwpJOIaB9NYsKWKkTMNzLgeul
-   +dTxKFECbu/xd6xW9hhLb2Tnq+c/6mJhNenNv0aLgW0gblWh/N1kLl1U/
-   CpqB+hTbFlf2GUs/1l27NvVSU9CYuIqXK3QcM7NJaaIi3PogeP1TGVA3s
-   g==;
-X-CSE-ConnectionGUID: nTjL7exoQA+ddMozt2rkOQ==
-X-CSE-MsgGUID: IKOocH4rRIyfRyDS8GzmMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="54264347"
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="54264347"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 15:22:23 -0700
-X-CSE-ConnectionGUID: 04ol61cXRSa3QpXzRbqhXQ==
-X-CSE-MsgGUID: sxnDpROKStqy+zOe8a504w==
+  t=1742423677; x=1773959677;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=b16P64Qh6YhADfVXFxHu2fQFudGhdMa7C2N5XU7lO5I=;
+  b=FYTp++xLmkB7/KNhlEuKtfygvnnkLGtKvmcOcQEEHntve5HoomTiGCCF
+   OA8pbtLuJ769nB1gx3GsRk1emtCmZyKKU82NSte5baSk92iiNbgkGTg/y
+   2I5QMFWqIGkbOs2oFLX5RXHoqZZM9Y3EvB3h6QVLMKRTrVBHr0jhqrkEh
+   OF8+f2e9AklShaf8krJ/iJ2G2mFgsweB4mrZaDwzByYreHSHK8SfYmk+w
+   d4AMk4fol81So4ES/tK0Wpyiw9V16YQ23E1qzAgebJrc86xYvOSKHatVf
+   5lCQFlywYCIICJWEC7R9WXOQteREVXio9/helgoeHPFv1dplSGYdRj7jT
+   Q==;
+X-CSE-ConnectionGUID: 0HelnisQROKoNbe6mBlwag==
+X-CSE-MsgGUID: vJzetHKmSAqiGs0+m1Z1WA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43747640"
+X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
+   d="scan'208";a="43747640"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 15:34:36 -0700
+X-CSE-ConnectionGUID: cPEY3hooSZuLjKP5Z4BIIw==
+X-CSE-MsgGUID: epNdSxYzTBe1jSEdJwa9kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="127644614"
+X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
+   d="scan'208";a="128043317"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 19 Mar 2025 15:22:22 -0700
+  by orviesa005.jf.intel.com with ESMTP; 19 Mar 2025 15:34:35 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tv1ng-000FiC-2v;
-	Wed, 19 Mar 2025 22:22:14 +0000
-Date: Thu, 20 Mar 2025 06:22:04 +0800
+	id 1tv1zc-000Fia-0B;
+	Wed, 19 Mar 2025 22:34:32 +0000
+Date: Thu, 20 Mar 2025 06:34:05 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [sailus-media-tree:devel 8/44] ld.lld: error:
- vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open:
- .text+0x28): relocation R_RISCV_HI20 out of range: 535148 is not in
- [-524288, 524287]; references '.L_MergedGlobals.117'
-Message-ID: <202503200630.YHUaE68M-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Subject: [linux-next:master 2350/12447]
+ arch/riscv/include/asm/syscall_wrapper.h:35:14: warning:
+ '__se_sys_open_tree_attr' alias between functions of incompatible types
+ 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long
+ int(long unsigned int,  long unsigned int,  long ...
+Message-ID: <202503200652.fcCCg9qO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,48 +66,258 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linux-media@vger.kernel.org
-TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Jai Luthra <jai.luthra@ideasonboard.com>
-
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   22577ec933050a30b5c7cbdf85c0615da11aaf37
-commit: 60c9efc12e8c102073fde36286a625cca2f4c57e [8/44] media: i2c: ds90ub913: Add error handling to ub913_log_status()
-config: riscv-randconfig-001-20250320 (https://download.01.org/0day-ci/archive/20250320/202503200630.YHUaE68M-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 87916f8c32ebd8e284091db9b70339df57fd1e90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200630.YHUaE68M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ff7f9b199e3f4cc7d61df5a9a26a7cbb5c1492e6
+commit: c4a16820d90199409c9bf01c4f794e1e9e8d8fd8 [2350/12447] fs: add open_tree_attr()
+config: riscv-randconfig-002-20250320 (https://download.01.org/0day-ci/archive/20250320/202503200652.fcCCg9qO-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200652.fcCCg9qO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503200630.YHUaE68M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503200652.fcCCg9qO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open: .text+0x28): relocation R_RISCV_HI20 out of range: 535148 is not in [-524288, 524287]; references '.L_MergedGlobals.117'
-   >>> referenced by dm-cache-metadata.c:865 (drivers/md/dm-cache-metadata.c:865)
-   >>> defined in vmlinux.a(drivers/md/dm-cache-metadata.o)
---
->> ld.lld: error: vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open: .text+0x4e): relocation R_RISCV_HI20 out of range: 536060 is not in [-524288, 524287]; references '.L_MergedGlobals'
-   >>> referenced by dm-cache-metadata.c:823 (drivers/md/dm-cache-metadata.c:823)
-   >>> defined in vmlinux.a(drivers/md/dm-cache-metadata.o)
---
->> ld.lld: error: vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open: .text+0x6e): relocation R_RISCV_HI20 out of range: 532893 is not in [-524288, 524287]; references 'kmalloc_caches'
-   >>> referenced by dm-cache-metadata.c:824 (drivers/md/dm-cache-metadata.c:824)
-   >>> defined in vmlinux.a(mm/slab_common.o)
---
->> ld.lld: error: vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open: .text+0x96): relocation R_RISCV_HI20 out of range: 532638 is not in [-524288, 524287]; references '.L.str.12'
-   >>> referenced by dm-cache-metadata.c:824 (drivers/md/dm-cache-metadata.c:824)
-   >>> defined in vmlinux.a(drivers/md/dm-cache-metadata.o)
---
->> ld.lld: error: vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open: .text+0x9e): relocation R_RISCV_HI20 out of range: 538001 is not in [-524288, 524287]; references 'metadata_open.__key'
-   >>> referenced by dm-cache-metadata.c:824 (drivers/md/dm-cache-metadata.c:824)
-   >>> defined in vmlinux.a(drivers/md/dm-cache-metadata.o)
---
->> ld.lld: error: vmlinux.a(drivers/md/dm-cache-metadata.o):(function dm_cache_metadata_open: .text+0x15e): relocation R_RISCV_HI20 out of range: 531113 is not in [-524288, 524287]; references 'sb_validator'
-   >>> referenced by dm-cache-metadata.c:827 (drivers/md/dm-cache-metadata.c:827)
-   >>> defined in vmlinux.a(drivers/md/dm-cache-metadata.o)
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from include/linux/static_call.h:135,
+                    from include/linux/tracepoint.h:22,
+                    from include/trace/syscall.h:5,
+                    from include/linux/syscalls.h:94,
+                    from fs/namespace.c:11:
+   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_umount' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:2151:1: note: in expansion of macro 'SYSCALL_DEFINE2'
+    SYSCALL_DEFINE2(umount, char __user *, name, int, flags)
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:2151:1: note: in expansion of macro 'SYSCALL_DEFINE2'
+    SYSCALL_DEFINE2(umount, char __user *, name, int, flags)
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_listmount' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:5774:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+    SYSCALL_DEFINE4(listmount, const struct mnt_id_req __user *, req,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:5774:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+    SYSCALL_DEFINE4(listmount, const struct mnt_id_req __user *, req,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_statmount' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:5667:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+    SYSCALL_DEFINE4(statmount, const struct mnt_id_req __user *, req,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:5667:1: note: in expansion of macro 'SYSCALL_DEFINE4'
+    SYSCALL_DEFINE4(statmount, const struct mnt_id_req __user *, req,
+    ^~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_open_tree_attr' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4998:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    SYSCALL_DEFINE5(open_tree_attr, int, dfd, const char __user *, filename,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4998:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    SYSCALL_DEFINE5(open_tree_attr, int, dfd, const char __user *, filename,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_mount_setattr' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4958:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    SYSCALL_DEFINE5(mount_setattr, int, dfd, const char __user *, path,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4958:1: note: in expansion of macro 'SYSCALL_DEFINE5'
+    SYSCALL_DEFINE5(mount_setattr, int, dfd, const char __user *, path,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_pivot_root' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4482:1: note: in expansion of macro 'SYSCALL_DEFINE2'
+    SYSCALL_DEFINE2(pivot_root, const char __user *, new_root,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
+     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+                 ^~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:225:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
+                                       ^~~~~~~~~~~~~~~
+   fs/namespace.c:4482:1: note: in expansion of macro 'SYSCALL_DEFINE2'
+    SYSCALL_DEFINE2(pivot_root, const char __user *, new_root,
+    ^~~~~~~~~~~~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_move_mount' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias]
+     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
+                 ^~~~~
+   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
+     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
+     ^~~~~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
+     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+     ^~~~~~~~~~~~~~~~~
+   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
+    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+
+
+vim +35 arch/riscv/include/asm/syscall_wrapper.h
+
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  16  
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  17  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  18  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__));		\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  19  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  20  
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  21  #define SC_RISCV_REGS_TO_ARGS(x, ...)							\
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  22  	__MAP(x,__SC_ARGS								\
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  23  	      ,,regs->orig_a0,,regs->a1,,regs->a2					\
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  24  	      ,,regs->a3,,regs->a4,,regs->a5,,regs->a6)
+08d0ce30e0e4fc Sami Tolvanen 2023-07-10  25  
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  26  #else
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  27  /*
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  28   * Use type aliasing to ensure registers a0-a6 are correctly passed to the syscall
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  29   * implementation when >word-size arguments are used.
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  30   */
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  31  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  32  	__diag_push();									\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  33  	__diag_ignore(GCC, 8, "-Wattribute-alias",					\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  34  			"Type aliasing is used to sanitize syscall arguments");		\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11 @35  	static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong, 	\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  36  					ulong)						\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  37  			__attribute__((alias(__stringify(___se_##prefix##name))));	\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  38  	__diag_pop();									\
+653650c468be21 Sami Tolvanen 2024-03-26  39  	static long noinline ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
+653650c468be21 Sami Tolvanen 2024-03-26  40  			__used;								\
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  41  	static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
+a9ad73295cc1e3 Sami Tolvanen 2024-03-11  42  
+
+:::::: The code at line 35 was first introduced by commit
+:::::: a9ad73295cc1e3af0253eee7d08943b2419444c4 riscv: Fix syscall wrapper for >word-size arguments
+
+:::::: TO: Sami Tolvanen <samitolvanen@google.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
