@@ -1,147 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A38214225;
-	Wed, 19 Mar 2025 20:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB80216F858
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 20:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742416953; cv=none; b=flRkMvc9k6lUOsx2iaBHAcU0BHiGKVVA9s2oV+7pab29ewx4ntoxMv718luz3NQnaV7CJk2C/S3MNrpb1jo9iU3Lx1gokgV9MtdvKYb6YbVR45cAB75bZB0JwU5i5qphUhAilU5+MeKAKAfHm3GC3MCjugUrb5Zd0myI1IRaK3I=
+	t=1742417494; cv=none; b=YCiKqQRBzZ2BzuNuS9iJ6ucu4M3MKiLUgGqKsuG9NSvvNZ2i7H6R0HOHZFvRA03KcDl9UKydR4fp7+AqY32M+p0I1UbUdNxy/MuKk3mJhkfrhjopw5bT8w6hr/VA7pqIrUJnJw3+YU/eRWw8WmjrcsaBBm4lsMR3sobMDRzvJKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742416953; c=relaxed/simple;
-	bh=PFr45HKKutwFEw7jn6Bw3slxKl9l7TTdnvJ94iSfra8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7GVdBDJbXQBddrhvH7ZWc50Koz5Hh9xZzXfI5pLnjWib6MT5VGbeXcU15wlgolNA1aIcJahmwsTf6yXf/5jFVbcM35n9ULQiXa6hj4oev79fTI2tdMK6DsxmrxEKgdqhZ8fK18bgUwF+Vcnih2f81W2p7kkz6+veX8hRnfhp08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+G9RBJ8; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742417494; c=relaxed/simple;
+	bh=ln/Fr93I2e1jK5J4KMKb29EJlMbEHlggqyA7RS5bT7Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B80nHZVY8kKFRVoY3UDGe9jTboMK2DXadUlbV89Xra7WwLInwF0476mqq65N6CvhD4ul7XJxIF3BI/DHYkJ5n/RHd3+/ruG3L9tVP8ltFP6s+k2D8kaBFigO7ORZwIRoj6NQDJ4dEDzVrqA8vesb0MKYkTWo+cEmrQvk7fDcn9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=rlCtF1AI; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+G9RBJ8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742416952; x=1773952952;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PFr45HKKutwFEw7jn6Bw3slxKl9l7TTdnvJ94iSfra8=;
-  b=V+G9RBJ8UOS0Hb7WHJKvVqJQ15flzjGBSLQAy+nikv76XJi0y4eymwDx
-   kKgZXMGhykvGvkDh/IF3V9GYA++LwmVUjQMLKFeMZRBVaoDXg7XgPYIhl
-   61XpYTnimBsXAFdWMOcGbiKjKNe4Zs6bjifMIiTeVgIvZtukch4AI0CfC
-   qgnvxZiU0Hq1UXOPMpk+BwQMV8PfwdK43M05U2wgmxsvVJSeHJybvXjNB
-   sH2LX1kCIl1VYVk8yZ2PuFzhIs8DiON88RzXq3U61EiAyYcpPEIUUva9m
-   PIcQ82tik4k2l1RHizLJKaYuH1tJV7ouO1gTFIR2RA6bTuXOCIcyzjgU1
-   A==;
-X-CSE-ConnectionGUID: 6NIzYrvvSn2XEvFo9niSow==
-X-CSE-MsgGUID: m8Eu9PaSSpKZU7uDdkaphw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="66085226"
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="66085226"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 13:42:29 -0700
-X-CSE-ConnectionGUID: 4b0/JhOJSJuAE5DnHQWF6w==
-X-CSE-MsgGUID: y8moD0ftS/6BPZeGqXvWGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="122782440"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 19 Mar 2025 13:42:24 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tv0F3-000FeQ-2v;
-	Wed, 19 Mar 2025 20:42:21 +0000
-Date: Thu, 20 Mar 2025 04:41:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, upstream@airoha.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [net-next PATCH 5/6] net: pcs: airoha: add PCS driver for Airoha
- SoC
-Message-ID: <202503200442.3vYzyScu-lkp@intel.com>
-References: <20250318235850.6411-6-ansuelsmth@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="rlCtF1AI"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3d57143ee39so821335ab.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 13:51:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1742417490; x=1743022290; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9e8IJw8LS9/MuZESFGFXisiSkYbyzDl7KEsnzbriAPY=;
+        b=rlCtF1AIeclGwdPCRUJSQMGi5/BSqjHXv45J29rWgjEIf+6D12XjD/sowDh70Xd6e8
+         Nb8gyA+i/UbqO544bf4SkNDW0/kS+P6gByazra93sOjPtq+nrNC2aHvdDHscK9RihQyN
+         /luo5jmDtSarlgv+L6llSSjYzOVPr2faSmB88CU29Q9hDRflq1hgujDHl/vf6+bL/NFn
+         Jw96C3bfIgAGuYyTBTawX2Vu7hEBC6f0Yr5hRcPGPacg08rE67QI2p1PEAlXkz2Hxah1
+         ZHUuN2IiSqYFmHIVlbKvrk7KZr17AqWxB+ZUzERnAqJnX9OFlhVmyZxGxuLOwtCFiWSY
+         U2zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742417490; x=1743022290;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9e8IJw8LS9/MuZESFGFXisiSkYbyzDl7KEsnzbriAPY=;
+        b=ekScjjLZNuBxPkJkfJcha4f9jxfMW8PzgqT2jkXgabUSu7SIeFlcSfwaq1VIwwbSiY
+         +wmu9Qdk4x9n5niC3E7NNhdaWbB8BHWUDC38H5wCwIpp9GkbwfDcFuYIkhfZWUZPFEYr
+         6B3lsP16y+K6ZVgQ1NHrKTrguYFS4AfXJsVlfsHJmukwyQtb39C3MWxS0I2cSq/iyDl9
+         UmzJt+mfqsnMVF7JyW0natVmGV6zi9w/0wtYx5YXeENYgKpWZfKbqe4T025TRKL+yuSm
+         SWwlDRYeFHBqXxswfVt8+L/t64E39O6Vp885byB1rdm5YlU+sIo7rQkHs1xA1o0RGPPB
+         MtSA==
+X-Gm-Message-State: AOJu0Yx5KcIJueRjVCJBnGTXPpDP20YcTd5awqplVG1LZNy29p/pP8bu
+	oKm4ipw5hpn+2BqCOg65ritEomz4fCL7J0/ZAG82WA6al4QSMn4/6B4iMCuypcQ=
+X-Gm-Gg: ASbGncu2K5oqx8bMnMBS7lXcai49mdD4lR8PDA2WuodWMVsrG7zSUOQ6ys2v35M5JDO
+	d4mZRcnOVBbtUZP87wzqGuazRes14OaqLZniFXWW1VYKMbNFjUMqNMYkKOSJISmcjiET59kIewW
+	obPyZr9lRV16L63wA6EwLW97UgZrLPeY8vlYUzuj5ZCz9P2Mv0PHWVxLA4NKLc72/Jec1Px9B3z
+	eljXGqnTizlRGGPC7aofrm+zvy/XjuARneCqNIjdnaZ2Whov3ilVUikXGvmJMEAqnnaEt3sPUCs
+	zkhI1wuOakcirOjSGfAogWB4UFLo94LoIJrG16y6
+X-Google-Smtp-Source: AGHT+IFZFvR4V+qnhwc1Z6vXpQ4nfi7Rzyto6JUn3DP7LUXPLW7XYTm/SsYFaDeMAlAKM9EXl84GnQ==
+X-Received: by 2002:a05:6e02:1fe9:b0:3d4:244b:db20 with SMTP id e9e14a558f8ab-3d586b9eb5amr46201585ab.16.1742417489972;
+        Wed, 19 Mar 2025 13:51:29 -0700 (PDT)
+Received: from [192.168.1.116] ([96.43.243.2])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d47a6475dasm40035755ab.2.2025.03.19.13.51.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Mar 2025 13:51:29 -0700 (PDT)
+Message-ID: <47a8d28a-0d9b-474b-8b4b-e9aa090b798b@kernel.dk>
+Date: Wed, 19 Mar 2025 14:51:28 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250318235850.6411-6-ansuelsmth@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe-block:for-6.15/block 68/68] block/blk-iocost.c:3232:6:
+ warning: variable 'ret' is used uninitialized whenever 'if' condition is true
+To: kernel test robot <lkp@intel.com>, Nilay Shroff <nilay@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202503200454.QWpwKeJu-lkp@intel.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <202503200454.QWpwKeJu-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Christian,
+On 3/19/25 2:17 PM, kernel test robot wrote:
+>   3216	
+>   3217	static ssize_t ioc_qos_write(struct kernfs_open_file *of, char *input,
+>   3218				     size_t nbytes, loff_t off)
+>   3219	{
+>   3220		struct blkg_conf_ctx ctx;
+>   3221		struct gendisk *disk;
+>   3222		struct ioc *ioc;
+>   3223		u32 qos[NR_QOS_PARAMS];
+>   3224		bool enable, user;
+>   3225		char *body, *p;
+>   3226		unsigned long memflags;
+>   3227		int ret;
+>   3228	
+>   3229		blkg_conf_init(&ctx, input);
+>   3230	
+>   3231		memflags = blkg_conf_open_bdev_frozen(&ctx);
+>> 3232		if (IS_ERR_VALUE(memflags))
+>   3233			goto err;
+>   3234	
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phylink-reset-PCS-Phylink-double-reference-on-phylink_stop/20250319-080303
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250318235850.6411-6-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH 5/6] net: pcs: airoha: add PCS driver for Airoha SoC
-config: x86_64-randconfig-001-20250320 (https://download.01.org/0day-ci/archive/20250320/202503200442.3vYzyScu-lkp@intel.com/config)
-compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200442.3vYzyScu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503200442.3vYzyScu-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/net/pcs/pcs-airoha.c:2542:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    2542 |         default:
-         |         ^
-   drivers/net/pcs/pcs-airoha.c:2542:2: note: insert '__attribute__((fallthrough));' to silence this warning
-    2542 |         default:
-         |         ^
-         |         __attribute__((fallthrough)); 
-   drivers/net/pcs/pcs-airoha.c:2542:2: note: insert 'break;' to avoid fall-through
-    2542 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
-
-
-vim +2542 drivers/net/pcs/pcs-airoha.c
-
-  2521	
-  2522	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
-  2523	{
-  2524		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
-  2525	
-  2526		switch (priv->interface) {
-  2527		case PHY_INTERFACE_MODE_SGMII:
-  2528		case PHY_INTERFACE_MODE_1000BASEX:
-  2529		case PHY_INTERFACE_MODE_2500BASEX:
-  2530			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
-  2531					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
-  2532			udelay(3);
-  2533			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
-  2534					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
-  2535			break;
-  2536		case PHY_INTERFACE_MODE_USXGMII:
-  2537			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
-  2538					AIROHA_PCS_USXGMII_AN_RESTART);
-  2539			udelay(3);
-  2540			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
-  2541					  AIROHA_PCS_USXGMII_AN_RESTART);
-> 2542		default:
-  2543			return;
-  2544		}
-  2545	}
-  2546	
+Yep that's broken... I fixed it up, thanks!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
