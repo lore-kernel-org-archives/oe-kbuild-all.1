@@ -1,245 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201E620E316
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 05:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742363479; cv=none; b=HVgjhrAtFnTf++WMUZzE2mHKPMj+D7/mFB6pTiL/A7eUjuR8BiyydmA7TMVw6a9MYI8jQsqdJYMspo5KX2PcHTv2znGo51BvPSHdOSC138theC1p97MjeTQym8Lt2nJMGzFAsjdBjEgmjBO07Kdbkl1eTTFyqSf690qYKMsj5ac=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742363479; c=relaxed/simple;
-	bh=du3za2Tlx3XbP9cB4jI0leMq6FSVwQ5shprz/Y4qleE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=umSU0cKEttnSOh3JfiBmD2TfMQqDVoonZQcjooAQRM+A4UYudQ0qHkyWDw8PSu+hJCYAERqw3FW2APzZKf2Poz0paMNEOqNL4wUCTDlpgjGPe2olbNlVPQEiMA4Wmycr+pU1IbVWE3VNdRP+LA1kMt/Na7arvO/aE/Aw2mhjORs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hl8F+xwI; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CEF211707
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 06:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742364320; cv=fail; b=bIdI8dfX3UGIp4gBW84U0KDlV8Hu6rZmORASi8ubyLYCnebO6oSNM1H+YN6ZsgQVxqDwcvcvcxixOEgS4NC1Kb0emjN6Hu1IsVAA0y7plQwREKsmxv/ySgkP2ITRRQRxwIhBsJUz5TA3YBW8enpy66fKEATHxjuCFBJV8DfuXTo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742364320; c=relaxed/simple;
+	bh=jVZzjo3KvNJf+l02YUp5E0dPJnlKYjTnF7V08gs/sT4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=YhEfDaEkwpy4Jz0fr3qAEOMNJsR7xEFWoxGVKv33rbVpOgwA+mNyC0rox9beA3OJYaW03MrOuay0R7u0K+Op8RTL960qzjX0AIAi3ZG1eItLSQqdiYdK8C+t1kjbV3Ala2wPGpv78onfUa17Ogavrm8CTzOFSN0OhlfWhSKsIYs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRw2uCH6; arc=fail smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hl8F+xwI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRw2uCH6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742363477; x=1773899477;
+  t=1742364319; x=1773900319;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=du3za2Tlx3XbP9cB4jI0leMq6FSVwQ5shprz/Y4qleE=;
-  b=Hl8F+xwIVxJrAaLanNrRiAgf2shrPsrVVYueXE+BEne3O8eykGw5nleM
-   XW1A0cm7BrOBnTXDVzoT3KGGaP7MEb0tZkGggObOt7d7I8z+6ZodZbdt8
-   GVJJ8Nl0iQKzoiP3h36Euqke0wP0xK0VP7kafcGPs2NVBGF1Uoz4XMvMh
-   cic8Jv0Ff8icLmsQOdI/gNGmY/uJyGADFR60WJcgypeGkBfRZp/yQn8px
-   ihPS/aryOOx8crM/ntX3VDqWbt+Q4+ldTCjS4JSHpppd43FqNtSIs5ccX
-   Y6it3Ood7XsH4+xRWGQMzi1oSWb3btoUaxuvDmJMR7WPr1NZ+gtvoHZ85
-   g==;
-X-CSE-ConnectionGUID: Nw3VBHvwQE+x0LS5zntxzw==
-X-CSE-MsgGUID: HdoRFoRsQ/uh0LNEAKP6+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="54528499"
+   in-reply-to:mime-version;
+  bh=jVZzjo3KvNJf+l02YUp5E0dPJnlKYjTnF7V08gs/sT4=;
+  b=kRw2uCH6nhLS0cHn/60BkhsVErJrDrCjcYGe78cNC4n/tgZ8GAXyelib
+   dpws5l4zKwC5FeGEXDO6bxBbH4aFasTRQQ3aiwVHAjpFXR+ckuR9wSiTP
+   f9lvJ+MeZBFE5qKUJYnjJ0k1FtwhccGGEZ7bFoeVThmmFguJqZqEYyoEz
+   keczoXJrOJcCyTd3gRNIKpZUGn/MOYVufVqHnHF7sUjIak5XC9Y0RqD9l
+   VkDucUnj1zwBsHRiiKlLIb05CyNjkdg4tnD7NyituDTanfkrad404gc/f
+   I2Hf5rfQaZajiijyXY6p6y6l+La1ZZK/mq+7x6Nz6gh1IlzrJuj7KFvp7
+   A==;
+X-CSE-ConnectionGUID: o9gxWt/GT2a8GSYcOyXyPQ==
+X-CSE-MsgGUID: IX9TrNiKRiSwayOInduPug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="65998610"
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="54528499"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 22:51:17 -0700
-X-CSE-ConnectionGUID: +xrUdlTNS5S3ENA1TnqL3Q==
-X-CSE-MsgGUID: gixFJNKuSRWyGw+M6A9dUw==
+   d="scan'208";a="65998610"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 23:05:15 -0700
+X-CSE-ConnectionGUID: xl3auYjMRlSDe1tDOxTnwg==
+X-CSE-MsgGUID: CuuI72l2Qe+zMzSczDWBrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="122959656"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2025 22:51:14 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tumKd-000EOU-36;
-	Wed, 19 Mar 2025 05:51:11 +0000
-Date: Wed, 19 Mar 2025 13:50:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: chenchangcheng <ccc194101@163.com>, laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com, mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenchangcheng <chenchangcheng@kylinos.cn>
-Subject: Re: [PATCH v2] media: uvcvideo: Fix bandwidth issue for Alcor camera
-Message-ID: <202503191330.AveQs7tb-lkp@intel.com>
-References: <20250318085724.1151547-1-ccc194101@163.com>
+   d="scan'208";a="123225847"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 23:05:15 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Tue, 18 Mar 2025 23:05:13 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Tue, 18 Mar 2025 23:05:13 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 18 Mar 2025 23:05:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nc51b/i8BHK884kkH/Nxm9eME69LB0XnY3tFK+OD88/pJrSrqGZQbCKOlJaKBZjIrHNAcVrJVPD0MPQlyM4vRQzFnDjXs2+kQ/ClcD5IyiESDu4LB3gJ23BObv1bfce3UaGRO1AMlMTcIih5J3OlawLdQCM1AHOXsxdyAHr6S3pPpVXaO7hpPW3I3+PerFiCCTNFCQXAFGL3uTqNH8f4VcryUBxy3QtxTiq5XCLUQxw6YXKrF9czgv1mOWTDujHcNbx6VXp0ui3SEO5GKaM3ni2+uCIc72uPm7XwWR8hD2QW3NWexutMBnTNd2wnV6kaADrx/0cQTM9UpucJl0t98g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N/5Ri0hOavQtKLW+WpdOrDgDNOBouzvOdhWtKAJdwXc=;
+ b=Ui7KZ4PTOJHbFWF9XFDpJ72PjkeUUdhGnhGBsO46pjccsw7Oz6FbiFJxTrcgxTbK5oWwPZAn3OmEHJnXkjFqEKLPffaiQmSBRoSWcoq+W6O9laRWTRiAiiLZuRXIRCWXoMDRHhWewfyk8ZI3JjO05ab0rSiEwgxsEoNHQmVkYAFgSvVfxjYFe8OsfAOEJsgn1oKUXWuPCW0m7tV6pGrX4MzQfXeHm9bWTUZiGCCW28X96P/CbGOi+kuIbbP1dcaDk5+MCmhzhQInUP4eqGV3xXEGgVi+chfS4zZ3vMWa4XefKW66XqXC5P9tZsdmCSw5ynCCm+lakMjBF3+nUJQb6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by LV2PR11MB6046.namprd11.prod.outlook.com (2603:10b6:408:17a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Wed, 19 Mar
+ 2025 06:04:31 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8534.034; Wed, 19 Mar 2025
+ 06:04:31 +0000
+Date: Wed, 19 Mar 2025 14:04:21 +0800
+From: Philip Li <philip.li@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Jisheng Zhang <jszhang@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@rivosinc.com>,
+	"Charlie Jenkins" <charlie@rivosinc.com>
+Subject: Re: cc1: error: cannot load plugin
+ ./scripts/gcc-plugins/stackleak_plugin.so:
+ ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol:
+ _ZN8opt_pass14set_pass_paramEjb
+Message-ID: <Z9peZf/XKIkGxXGC@rli9-mobl>
+References: <202503191250.ZHqkeLVs-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202503191250.ZHqkeLVs-lkp@intel.com>
+X-ClientProxiedBy: SG2PR04CA0169.apcprd04.prod.outlook.com (2603:1096:4::31)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250318085724.1151547-1-ccc194101@163.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|LV2PR11MB6046:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6c183c4-402d-4b83-1457-08dd66abe9d8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?sL+bC52HQJLOQW7mhr3HyB4g5UTkgL59bxSoffJGYzT6TucC4NObnJTd4H2V?=
+ =?us-ascii?Q?dBKZfJoUGYPwDtvWVid0YQdV7dtoyRUw9nhg6yf6ND/oSDvgRg/lngGmlVV5?=
+ =?us-ascii?Q?ZOC2ag+7h4KBzLySX5gjG0J8stMlBOKHBAFMHw24yY9YF5mCmaBSaIkPYxYb?=
+ =?us-ascii?Q?KgMFeZNoBdM8jhulwMXGbL3bZPst0ksFJkqRQSFj28jeIaOv5BTOCeq1DBqi?=
+ =?us-ascii?Q?+E4qu/D18JvShhQlgW3jHnHgLVH1ZdyLI2nGkYfIke3NHCId3iQf101vrkVr?=
+ =?us-ascii?Q?WnPLWaYIqPA2vj2g1+OTY91dAnPb8VgY7LlY5AcDdM9h/WL07P5/jsWKJLHo?=
+ =?us-ascii?Q?AbsatsI97TX/43FfTN1yBHJLuT/jp8CEqKp3lIE7S3YhnoWKarENb1L/WfmP?=
+ =?us-ascii?Q?MvTTRnkwMxElIzrIDT4In6YLzUQFg8lxXVTPJjzApszhr+JitdwXzXVOnIiy?=
+ =?us-ascii?Q?oyb8sllxQ6yA2l/9qUK+rjIunlHuEb+FjPcMB8wTUwpl9qUTQi+DdeUw4LcH?=
+ =?us-ascii?Q?z7zPjaCdR5zlnqYy/znHJP1AFKuw4SdgqV/ZSqMduD3IgAbQ1ZTwSLbs+dmO?=
+ =?us-ascii?Q?KYA+DMfDsKaJu9nuuZavRzuUZmD5pNURlu+zlwcwYAj8KU0CTCu4vzQ7tAJa?=
+ =?us-ascii?Q?7fJBcj1ArwnAZO4Vn52tSqy+5wNP7yFAgWBg8s2PFVqkNIRxmsZPV4IRIV9j?=
+ =?us-ascii?Q?gkFzv1H/QmG5ylNUn6krYfzELF7dLXY9xkC7s5NZmsRF4uiIc4ZwYEp4iOLG?=
+ =?us-ascii?Q?64hQn/GX7ForUV7eUMyg94qkOAOliAm89G3nJPbm+6CTp5la+WYXMWAaCKUr?=
+ =?us-ascii?Q?Lt+QoW6oqqGAoxCJX8IIBFF4OdawQobjwsBUnlEBwWM0olb+8220U6qxsXdp?=
+ =?us-ascii?Q?bp+9aiid2+7d/hbiX1DPsfwa6MEIXXVePK02qeRWfRCQO5dfnISuE5UrJu+k?=
+ =?us-ascii?Q?uqYW+cOYvE5KBzGPS9sqqakundYF82fYLa/WnlkwRaValgR1cSYhXZml49su?=
+ =?us-ascii?Q?/P6RGUkJXtA1ariDTAeCcfFRN3BtuidG3Oo6fZoLlWb6D0yNteW2HglkSerw?=
+ =?us-ascii?Q?XZCtQjXYVEHauxkDHAx/DF8g1GPvUGHKljKhHLjF6F3wvsmu0zTyvOdj2KWp?=
+ =?us-ascii?Q?Gcb3ZB5V7w/2qQXO2R6f602qgEuKK2o9tI5MlZakVxFp3dIUOF0ToIQgJW0i?=
+ =?us-ascii?Q?LLzTky2vjS8G2CvAVlxqfAooBhzobfJe9wlNpZtJiz9mbHCAmV9Lq3tb+Ig9?=
+ =?us-ascii?Q?d5vJda5nyPPAzVALam7GNr6/tOF0QqfFVhhEaugEl9Omvql0OFaNHlbI/2uT?=
+ =?us-ascii?Q?fmRaK+zbajWFfVHMJgfqH4Vv0xAXtlhrl5uXaNl8c4hwnQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CdEu7yXb3iqPtMNWjTO0GxT/fzqQEjhhodh+K+lC3UGoF0EuehPdRuks2Tyn?=
+ =?us-ascii?Q?Aa06hJPW4sOA/jfvOBwHNHL7hnxq6+WoKB2r7XiLuD+4xKVWm8uSyw3lkSYE?=
+ =?us-ascii?Q?Q+8lbeZ8e4QudvybUnsxp4l2QiW7GN22L0BhZ82wcU9G+0wmUBzR9xnakOmF?=
+ =?us-ascii?Q?GkAqv4hgnvQKbuk2tPTBmfce/lYY876T6OX4qlKev+TzUzLLTFJgT5FAljyZ?=
+ =?us-ascii?Q?VauDULLkHhsULJ1pneS0qwCMjjoXlO1ao6Kt7Mm0tc924oUiw74WOrc1dIDg?=
+ =?us-ascii?Q?kTsjLbasZgqtcI1B/ENyOTtE9Y904531wcSj8uCbihmrm+1EAzI4E5fhdQLP?=
+ =?us-ascii?Q?mF6nNO/4jkuj1tZ8xWMIRAIO2nSb7R698sOg9o9zUNX460LqWtEO9K6iWJ75?=
+ =?us-ascii?Q?XT67KN1Ltrc1YHoVhvg6VFRxPtmV0EPFxPF1SsiWzh7PytpDF1ojedOq6Vcg?=
+ =?us-ascii?Q?TWi8JxKsY1fTrWLtmdVeOBD77qwaJv+WfkBXjvKj6dB90tsbN+zimKUkvbcg?=
+ =?us-ascii?Q?EzX0JVK7XHhen1FYgFrzWeAxeh57jklLgcTPTEUbeXOhV+3dMepe9VDL8ACs?=
+ =?us-ascii?Q?BUNJftJCgz75oBY6d8lBn9Qa0Z8YAWeDl5XvPV7EN200r6GOvrK8LTfg/ZJG?=
+ =?us-ascii?Q?GYutM/0lmKw06+ZBb0q/wvu1Vctd3mAO1pZijO7ln0WP0MrFlfenxK+r9GQr?=
+ =?us-ascii?Q?klGNzy4FnE5aophByaDMDIgL1kuUQMo8nMgGmuvBc9Ix1Bd44weT3fF1sppI?=
+ =?us-ascii?Q?VIgBk33sVQv4dVVgqDlSyCx86+ntMfVZ2wNgR43M5EBnbbDjKHCkxJWJYdFY?=
+ =?us-ascii?Q?0NmKxlPxnxS1LtnX9JuzaEE2W8pf/yUzD8GBreT3OXeuEJvPvXMpRUoQD0KY?=
+ =?us-ascii?Q?LHmf+H/BSLqv81Hipr9IlPOkxABN/U/b/jyQkBaZnj3Clq0Q9b6gIyqIxk0Q?=
+ =?us-ascii?Q?t4RCrOkrfbYeSzeIdHD/UKjnryT1PiGrz8XycKlBFneA/E2H7+9do17G8iCL?=
+ =?us-ascii?Q?rZGntPaW1ReHWk1FUZqqHcz9EKJW+364rfTq7m+kANe5TTuoi8yMOmDe5Bhk?=
+ =?us-ascii?Q?fWSNK3SmvmnfI+Suls3m0GWTkdsIOYqj2GxEqV0d99siav96SBJ1N7VXC8pz?=
+ =?us-ascii?Q?gatT5PkQ8hbr+fLJkv3/moK7GReIcZ6KQ9+cmEgAeKYR51bznQhdoM0DqzUS?=
+ =?us-ascii?Q?MrKS7ixLIebyCsjTmdHbGdktMGid9waxi83TVv4qV1JZXTDPsyPzVTCmTsZN?=
+ =?us-ascii?Q?eBonMK8nP+94cSI1/YpCs5Lmf0x6tcr9cIeZw0v8RrMhS7/Qu+RnWTc/jxif?=
+ =?us-ascii?Q?jKqRQwMskMn4QgDzKuBF3FYHH8VQ9QElkVSzcB35xdlK+fjHfSVVWUK64GO5?=
+ =?us-ascii?Q?/DMfIbp21GHVcmtjm9KCWOu+eAoRm87FQw6BZRcgrls+zV0bo+a0Meg/Tliz?=
+ =?us-ascii?Q?xBj+Daw4HgGaICwwxFyv9uz1ljCErHPpZBChDWSJPJ/9Pf/tyU+VdYV/R6Zy?=
+ =?us-ascii?Q?1ssBiJhKMDoie6z65Y1ehk00UTXL3rcQShE7OJA7xytJ9VI7TFkSBZdtW7BG?=
+ =?us-ascii?Q?AprMQtN2KEbLVv3nk1XCuyoYm8zCa/T1HNm+6kGY?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6c183c4-402d-4b83-1457-08dd66abe9d8
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 06:04:30.9033
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OzOf3YeeN5Ht6E/v41c5MmMimUQt/2G4ulMHxRPjdBZ7RElKImZ2U0oseFX13oMyF/KMKrr5zqhTfXaVREZnEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB6046
+X-OriginatorOrg: intel.com
 
-Hi chenchangcheng,
+On Wed, Mar 19, 2025 at 01:06:35PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   81e4f8d68c66da301bb881862735bd74c6241a19
+> commit: b5db73fb18257cd5d9cb59bc4b779fffa629566a riscv: enable HAVE_ARCH_STACKLEAK
+> date:   8 months ago
+> config: riscv-randconfig-r064-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191250.ZHqkeLVs-lkp@intel.com/config)
+> compiler: riscv32-linux-gcc (GCC) 10.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191250.ZHqkeLVs-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202503191250.ZHqkeLVs-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
 
-kernel test robot noticed the following build errors:
+Sorry, kindly ignore this report, which should be the environment issue in the bot.
 
-[auto build test ERROR on 4701f33a10702d5fc577c32434eb62adde0a1ae1]
+Thanks
 
-url:    https://github.com/intel-lab-lkp/linux/commits/chenchangcheng/media-uvcvideo-Fix-bandwidth-issue-for-Alcor-camera/20250318-165843
-base:   4701f33a10702d5fc577c32434eb62adde0a1ae1
-patch link:    https://lore.kernel.org/r/20250318085724.1151547-1-ccc194101%40163.com
-patch subject: [PATCH v2] media: uvcvideo: Fix bandwidth issue for Alcor camera
-config: sparc-randconfig-r072-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191330.AveQs7tb-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191330.AveQs7tb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503191330.AveQs7tb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/usb/uvc/uvc_video.c: In function 'uvc_fixup_video_ctrl':
->> drivers/media/usb/uvc/uvc_video.c:269:17: error: implicit declaration of function 'uvc_printk'; did you mean '_printk'? [-Werror=implicit-function-declaration]
-     269 |                 uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
-         |                 ^~~~~~~~~~
-         |                 _printk
-   drivers/media/usb/uvc/uvc_video.c:269:42: warning: missing terminating " character
-     269 |                 uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
-         |                                          ^
->> drivers/media/usb/uvc/uvc_video.c:269:42: error: missing terminating " character
-     269 |                 uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/usb/uvc/uvc_video.c:270:28: error: 'exceededs' undeclared (first use in this function)
-     270 |                            exceededs the size of the ep max packet.
-         |                            ^~~~~~~~~
-   drivers/media/usb/uvc/uvc_video.c:270:28: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/media/usb/uvc/uvc_video.c:270:37: error: expected ')' before 'the'
-     270 |                            exceededs the size of the ep max packet.
-         |                                     ^~~~
-         |                                     )
-   drivers/media/usb/uvc/uvc_video.c:269:27: note: to match this '('
-     269 |                 uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
-         |                           ^
->> drivers/media/usb/uvc/uvc_video.c:271:64: error: stray '\' in program
-     271 |                            use the default value of 1024 bytes.\n",
-         |                                                                ^
-   drivers/media/usb/uvc/uvc_video.c:271:66: warning: missing terminating " character
-     271 |                            use the default value of 1024 bytes.\n",
-         |                                                                  ^
-   drivers/media/usb/uvc/uvc_video.c:271:66: error: missing terminating " character
-     271 |                            use the default value of 1024 bytes.\n",
-         |                                                                  ^~
-   cc1: some warnings being treated as errors
-
-
-vim +269 drivers/media/usb/uvc/uvc_video.c
-
-   162	
-   163	static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
-   164		struct uvc_streaming_control *ctrl)
-   165	{
-   166		const struct uvc_format *format = NULL;
-   167		const struct uvc_frame *frame = NULL;
-   168		unsigned int i;
-   169	
-   170		/*
-   171		 * The response of the Elgato Cam Link 4K is incorrect: The second byte
-   172		 * contains bFormatIndex (instead of being the second byte of bmHint).
-   173		 * The first byte is always zero. The third byte is always 1.
-   174		 *
-   175		 * The UVC 1.5 class specification defines the first five bits in the
-   176		 * bmHint bitfield. The remaining bits are reserved and should be zero.
-   177		 * Therefore a valid bmHint will be less than 32.
-   178		 *
-   179		 * Latest Elgato Cam Link 4K firmware as of 2021-03-23 needs this fix.
-   180		 * MCU: 20.02.19, FPGA: 67
-   181		 */
-   182		if (usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k) &&
-   183		    ctrl->bmHint > 255) {
-   184			u8 corrected_format_index = ctrl->bmHint >> 8;
-   185	
-   186			uvc_dbg(stream->dev, VIDEO,
-   187				"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: %u} to {bmHint: 0x%04x, bFormatIndex: %u}\n",
-   188				ctrl->bmHint, ctrl->bFormatIndex,
-   189				1, corrected_format_index);
-   190			ctrl->bmHint = 1;
-   191			ctrl->bFormatIndex = corrected_format_index;
-   192		}
-   193	
-   194		for (i = 0; i < stream->nformats; ++i) {
-   195			if (stream->formats[i].index == ctrl->bFormatIndex) {
-   196				format = &stream->formats[i];
-   197				break;
-   198			}
-   199		}
-   200	
-   201		if (format == NULL)
-   202			return;
-   203	
-   204		for (i = 0; i < format->nframes; ++i) {
-   205			if (format->frames[i].bFrameIndex == ctrl->bFrameIndex) {
-   206				frame = &format->frames[i];
-   207				break;
-   208			}
-   209		}
-   210	
-   211		if (frame == NULL)
-   212			return;
-   213	
-   214		if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) ||
-   215		     (ctrl->dwMaxVideoFrameSize == 0 &&
-   216		      stream->dev->uvc_version < 0x0110))
-   217			ctrl->dwMaxVideoFrameSize =
-   218				frame->dwMaxVideoFrameBufferSize;
-   219	
-   220		/*
-   221		 * The "TOSHIBA Web Camera - 5M" Chicony device (04f2:b50b) seems to
-   222		 * compute the bandwidth on 16 bits and erroneously sign-extend it to
-   223		 * 32 bits, resulting in a huge bandwidth value. Detect and fix that
-   224		 * condition by setting the 16 MSBs to 0 when they're all equal to 1.
-   225		 */
-   226		if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
-   227			ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
-   228	
-   229		if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
-   230		    stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
-   231		    stream->intf->num_altsetting > 1) {
-   232			u32 interval;
-   233			u32 bandwidth;
-   234	
-   235			interval = (ctrl->dwFrameInterval > 100000)
-   236				 ? ctrl->dwFrameInterval
-   237				 : frame->dwFrameInterval[0];
-   238	
-   239			/*
-   240			 * Compute a bandwidth estimation by multiplying the frame
-   241			 * size by the number of video frames per second, divide the
-   242			 * result by the number of USB frames (or micro-frames for
-   243			 * high- and super-speed devices) per second and add the UVC
-   244			 * header size (assumed to be 12 bytes long).
-   245			 */
-   246			bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
-   247			bandwidth *= 10000000 / interval + 1;
-   248			bandwidth /= 1000;
-   249			if (stream->dev->udev->speed >= USB_SPEED_HIGH)
-   250				bandwidth /= 8;
-   251			bandwidth += 12;
-   252	
-   253			/*
-   254			 * The bandwidth estimate is too low for many cameras. Don't use
-   255			 * maximum packet sizes lower than 1024 bytes to try and work
-   256			 * around the problem. According to measurements done on two
-   257			 * different camera models, the value is high enough to get most
-   258			 * resolutions working while not preventing two simultaneous
-   259			 * VGA streams at 15 fps.
-   260			 */
-   261			bandwidth = max_t(u32, bandwidth, 1024);
-   262	
-   263			ctrl->dwMaxPayloadTransferSize = bandwidth;
-   264		}
-   265	
-   266		if (format->flags & UVC_FMT_FLAG_COMPRESSED &&
-   267		    stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH &&
-   268		    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
- > 269			uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
- > 270				   exceededs the size of the ep max packet.
- > 271				   use the default value of 1024 bytes.\n",
-   272				   ctrl->dwMaxPayloadTransferSize);
-   273			ctrl->dwMaxPayloadTransferSize = 1024;
-   274		}
-   275	}
-   276	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>    scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+>    scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+>    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+>    cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so: ./scripts/gcc-plugins/structleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>    cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so: ./scripts/gcc-plugins/randomize_layout_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+> >> cc1: error: cannot load plugin ./scripts/gcc-plugins/stackleak_plugin.so: ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>    cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so: ./scripts/gcc-plugins/latent_entropy_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>    cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so: ./scripts/gcc-plugins/structleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>    make[3]: *** [scripts/Makefile.build:244: scripts/mod/empty.o] Error 1
+>    cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so: ./scripts/gcc-plugins/randomize_layout_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+> >> cc1: error: cannot load plugin ./scripts/gcc-plugins/stackleak_plugin.so: ./scripts/gcc-plugins/stackleak_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>    cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so: ./scripts/gcc-plugins/latent_entropy_plugin.so: undefined symbol: _ZN8opt_pass14set_pass_paramEjb
+>    make[3]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
+>    make[3]: Target 'scripts/mod/' not remade because of errors.
+>    make[2]: *** [Makefile:1207: prepare0] Error 2
+>    make[2]: Target 'prepare' not remade because of errors.
+>    make[1]: *** [Makefile:240: __sub-make] Error 2
+>    make[1]: Target 'prepare' not remade because of errors.
+>    make: *** [Makefile:240: __sub-make] Error 2
+>    make: Target 'prepare' not remade because of errors.
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
