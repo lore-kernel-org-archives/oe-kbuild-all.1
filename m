@@ -1,61 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EC723CB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 16:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A26118FC74
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 16:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742401902; cv=none; b=qLTK/17+umiwpNYrdSDY4N7Oov9mmkdbzkomFePwIHnc54tpZQjNcUiNTMdA/Cqa3fy/PXoi6rKiw6euCurO26i0vc4wfiY7jdtrbDUY/E8aTYMge53tOIQQ/g6XcylytsnffYikUEe/eKMdIhLtJ2zV4VlbXeXbafDVQJqFplU=
+	t=1742401905; cv=none; b=jXcwTdVuybS9Bgj6ywYq6lQyF+PGwe0QHx1pf2RLmJ0D/AG7GlD2PjSnTGiZw5BsjF3bW5CFliiG59rD/v1hxOeIJHxajuRRGvIoDXTR6K5OvyVwQegTqwaFHP/uj/35Lk+Hori9FAFkLgTMlrg1IVc9NoKne6Ue1cm1/6MwZYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742401902; c=relaxed/simple;
-	bh=wJPtvAWURl9Zl61DM86Ux1WDvjGUHCzaWLFOJhSCBEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T7Jpx5GgVGrn5vVU90mUt8JjgzGb2hCb9NnCU7LZ/p2tYSGSXXgkEw446dM/sRGnk5rhisY1Wqe7Dg6fwGlk1qzSE327g38uA/wHowqCL7IYFsdhGGnpq69cTg3bc9GQKelYFbumFb7U4olfLHq7CPJ+ivSHqjMbdzJPko5jGV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U98ixxUg; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1742401905; c=relaxed/simple;
+	bh=5TJ0rtcSY5de4do08OX/lkAVedG/eYjSVbj4z4U3TjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fUIj3pnI8gnf0kfDTkuvVXcme9XMQZqYwUe1kx6p8lAC8U0E8JNhgfW6Ajr5Vnsbpb4nfmgfV2kxltKco4bpOGp9R/zCMowecUlnUz0c+deyQJ2L7uPPUApHZ15L37GMRVkEnJboTZgyOu9LSLI+4N4z1LYKWcPQf92nFesUE8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwzhRaY7; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U98ixxUg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwzhRaY7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742401901; x=1773937901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wJPtvAWURl9Zl61DM86Ux1WDvjGUHCzaWLFOJhSCBEE=;
-  b=U98ixxUgUzV5fEahIx5uIKXADGOWY4J1W4N+jjITiICxhXkshAK60Ve1
-   CoOeaI82waZiBNMfOwe592P4fXMeGBfPYjfSh+rE4w7p3XdC/MXQ6rQFZ
-   JH2ezAh385Vm6FgWVcgkRkoY0PhbwWNa42VLJgkwAHBDtrV62TB5PXes1
-   28tw//9by9GyEPu++dToxSIDZ3ALJQJBFfBuOVyJn5CUKWJHS0TKVXig6
-   K3wNyNJHlR468WnU/iKrSMgz8P+oSPnlgWkJyJ4ih7BWU1r4hcRyZqT0Y
-   BkdagxJpX1y5jCMot7Fhxz3WAR2CVUV03BkFiiZl3AdI9OapKADdrw7K3
-   g==;
-X-CSE-ConnectionGUID: kMU7bv+UQVakfwLSf26YBw==
-X-CSE-MsgGUID: rKzOaJASQVCYKC1SBeurWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43522543"
+  t=1742401904; x=1773937904;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5TJ0rtcSY5de4do08OX/lkAVedG/eYjSVbj4z4U3TjU=;
+  b=fwzhRaY7OXiGadjcKyIlTPA2MNVTf+dNwkRVrxWWgynyo+WtDTtVg3GG
+   H4hf44RPim7ViyQloZ+BVhWQbfyrGICsCv5B/ghBIsa0k9jBsRtwUJam4
+   SjGJJ8nVzlPOdR/NU/4HgTkA9iSYbeMow1pUOscpAxs9OmXAWvsVz5TNZ
+   FiFiUf0jYZU8vozkb+y/1LkbbeEIMchpbBM6wdhm079i5fWnw8xAoZpsx
+   gOX0H8Rv204W0fcgp24/dl+ctmcP8g/GGbX93nTT62WpAzaE7+6WfmmVR
+   IF56z6wNa3swhbRtIu9pwyfPYe3Q9FU9CwZ7P8xHLHFD97vYlC2nBNAZH
+   w==;
+X-CSE-ConnectionGUID: 3+5Z43OQRsaJl4T5ISzL7Q==
+X-CSE-MsgGUID: paVZaf6uS+uwUvkiNNBTeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43522551"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43522543"
+   d="scan'208";a="43522551"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 09:31:40 -0700
-X-CSE-ConnectionGUID: bSj+AH6ARdaOVXexRQi1nA==
-X-CSE-MsgGUID: f58FcP4vSzSTz1PaD5c2Vg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 09:31:44 -0700
+X-CSE-ConnectionGUID: pJHe7nX9Qwe7Wi4H8O6+gA==
+X-CSE-MsgGUID: 6VOIypOxRoms1ZnQK1Q4qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="123204596"
+   d="scan'208";a="123204650"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
   by orviesa007.jf.intel.com with ESMTP; 19 Mar 2025 09:31:38 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuwKN-000FWa-20;
+	id 1tuwKN-000FWY-1w;
 	Wed, 19 Mar 2025 16:31:35 +0000
-Date: Thu, 20 Mar 2025 00:31:28 +0800
+Date: Thu, 20 Mar 2025 00:31:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivan Belokobylskiy <belokobylskij@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	David Heidelberg <david@ixit.cz>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [linux-next:master 10620/12447]
- arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: hwmutex: 'reg' is a
- required property
-Message-ID: <202503200053.dQaSJw7r-lkp@intel.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kamel Bouhara <kamel.bouhara@bootlin.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+	andriy.shevchenko@intel.com,
+	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Subject: Re: [PATCH v5 10/11] input: misc: Add support for MAX7360 rotary
+Message-ID: <202503192326.KOCnEkdj-lkp@intel.com>
+References: <20250318-mdb-max7360-support-v5-10-fb20baf97da0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,42 +80,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250318-mdb-max7360-support-v5-10-fb20baf97da0@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ff7f9b199e3f4cc7d61df5a9a26a7cbb5c1492e6
-commit: f5b7564fedcfd32df68d56781b9d7698343f8fbf [10620/12447] ARM: dts: qcom: Initial dts for LG Nexus 4
-config: arm-randconfig-052-20250318 (https://download.01.org/0day-ci/archive/20250320/202503200053.dQaSJw7r-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-dtschema version: 2025.3.dev5+g0f9dc23
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200053.dQaSJw7r-lkp@intel.com/reproduce)
+Hi Mathieu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-mfd-gpio-Add-MAX7360/20250319-003750
+base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
+patch link:    https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-10-fb20baf97da0%40bootlin.com
+patch subject: [PATCH v5 10/11] input: misc: Add support for MAX7360 rotary
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250319/202503192326.KOCnEkdj-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192326.KOCnEkdj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503200053.dQaSJw7r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503192326.KOCnEkdj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1535.14-1566.5: Warning (simple_bus_reg): /soc/replicator: missing or empty reg/ranges property
-   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1096.21-1144.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@4700000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/qcom/qcom-apq8064.dtsi:1162.21-1216.5: Warning (avoid_unnecessary_addr_size): /soc/dsi@5800000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: hwmutex: 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwlock/qcom-hwspinlock.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: hwmutex: 'syscon' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/hwlock/qcom-hwspinlock.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: soc: replicator: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: syscon@1200000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: timer@200a000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/watchdog/qcom-wdt.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: sps-sic-non-secure@12100000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: rpm@108000: 'clock-controller' does not match any of the regexes: '^regulators(-[01])?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpm.yaml#
-   arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: syscon@5700000: compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm/boot/dts/qcom/qcom-apq8064-lg-nexus4-mako.dtb: replicator: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-replicator.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/input/misc/max7360-rotary.c: In function 'max7360_rotary_hw_init':
+>> drivers/input/misc/max7360-rotary.c:58:8: error: implicit declaration of function 'FIELD_PREP'; did you mean 'EV_REP'? [-Werror=implicit-function-declaration]
+     val = FIELD_PREP(MAX7360_ROT_DEBOUNCE, max7360_rotary->debounce_ms) |
+           ^~~~~~~~~~
+           EV_REP
+   cc1: some warnings being treated as errors
+
+
+vim +58 drivers/input/misc/max7360-rotary.c
+
+    52	
+    53	static int max7360_rotary_hw_init(struct max7360_rotary *max7360_rotary)
+    54	{
+    55		int val;
+    56		int ret;
+    57	
+  > 58		val = FIELD_PREP(MAX7360_ROT_DEBOUNCE, max7360_rotary->debounce_ms) |
+    59			FIELD_PREP(MAX7360_ROT_INTCNT, 1) | MAX7360_ROT_INTCNT_DLY;
+    60		ret = regmap_write(max7360_rotary->regmap, MAX7360_REG_RTRCFG, val);
+    61		if (ret) {
+    62			dev_err(&max7360_rotary->input->dev,
+    63				"Failed to set max7360 rotary encoder configuration\n");
+    64			return ret;
+    65		}
+    66	
+    67		return 0;
+    68	}
+    69	
 
 -- 
 0-DAY CI Kernel Test Service
