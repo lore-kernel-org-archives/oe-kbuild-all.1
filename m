@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCB8210F4D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 05:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4738424EF86;
+	Wed, 19 Mar 2025 05:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742360834; cv=none; b=ZsXSGh2lFRDWan+W2yMWBqMg7RSCj6mY4YCBftdlWu5h+CBrX/bs6qINaxkAORVnejKxeHwdtmz7f51IA5hUGEnJU7HDSLJzeL0D4AhTSPYraD/0nIOMpvX3VV8g/FMXKCQNow8YBuuCagw/tdMuUeTAv3+I7nj27L2f444MyQY=
+	t=1742362148; cv=none; b=S4YVt3K7+tfwE7FbLAehvnqhd4pACLGTOJKhHzpgrUE6cagD0fb/fDkQ4fwZGJ6KkO8rIIXYKKfTH48VDsMWf0PNfYspbqx0t7E+N6331U4i0FWMIqBKGLyr+EGnJ/xBM/1xG2I/9jtuXdwsPLSA2xN03ukgRlobZrJvUZIlSis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742360834; c=relaxed/simple;
-	bh=/pKlRpzrFMOJFvWEfkuVM7VOXk4tiC90+0XLUButK0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rc03uX47s/ZJ2eAWKuVqIdSIqwBLlNZaLBcFWx4AdgPQz6mdLH6A8a69EuvuIfcmGb4e3A3BWV1FMXBFAMDw5yfXGUqMw20U460QmSPemG3RNpXPxcknoJSk0fW+fvHT02m8m5pWTVIRveUgZava2yjB+iIu4qeEQpyXxuRK5m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EuPBTLm2; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1742362148; c=relaxed/simple;
+	bh=dl6cK5TEnuTVjLJCg8igSMXiMO3bRFThDiba1zjklzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QwbLyLMC0WS8WhWsASRkFAMppbT89i/3sD2o4EQG6u28zRxvgLkjBApQxkW0dvrB0Zf+MwIBWA7MVwv5ISgvRR1m3DDkJXnGYmTXcYAecUx/qiNXm1gcrKW6j9oeOoOhSOKBngcsSWsux+GHOyDtzdqsjPBjdVXM+kTYjJAmCYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBZsoEC5; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EuPBTLm2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBZsoEC5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742360833; x=1773896833;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/pKlRpzrFMOJFvWEfkuVM7VOXk4tiC90+0XLUButK0g=;
-  b=EuPBTLm2KbUB/tf2zlF9R1K1Skc2tq/Wk3LvuvTE+OCmviCrzWHWl4cy
-   Q9OoTK3Y8HzaW07N2SJ7QPUY0TieTKEmNRPJnN/6z/URaysCL5oVAkoGi
-   TEcaJSPtjQN3Wj4t+O6VxW+fQEMZT8FJLAg1vA4ngzuU5kHJjlua5zxN0
-   Yp6lzig2brob7cywtIkycQedPXK4qkJJotvN2UF4EH7fR77A4eKlxUVnV
-   AbSWwf/JoZBWtE0Dzpmg5kuXjr5MbRIhM6UOt+s+2QhBZT9BguM06VKzF
-   TogLSaA4+h8+T9GhSpvAmWuXzVj1AqRLOhro7ylf8VQ3Ug5Gp5KRGgnum
-   g==;
-X-CSE-ConnectionGUID: HQlSoXllTPmZO+m/oAWLvA==
-X-CSE-MsgGUID: MuyQoqGESVy9BpIL8ZvmhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="54165553"
+  t=1742362146; x=1773898146;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dl6cK5TEnuTVjLJCg8igSMXiMO3bRFThDiba1zjklzU=;
+  b=mBZsoEC5RBfuSBPKE7tix/UlCyJL975rzdSIphehfv3cdo4dWOF0Ql/V
+   1RrflVxgv3+0mttgBJZvLrZW3ZzJMAAu1BjZOc05kkMvdHmfE74WI+loi
+   E2xtmNgmL8MHW560VWEO2yy2jfznoLo/mK/a/zUR+FtBoo1VconBSvHLv
+   NycdDinGxRfJ1S3cfbr5tkhRqlewv+0dT9uy4Eb+7A9DOnXHaDyHsyI4G
+   3qVcIL8C4VerUWdthPvL2b2usNPLYJiZwtKTi4rEydxl9m7nRAxdmFnJ1
+   29KFjlWKQFiq/JOqiiZtIIgTTJ0pzYxiTWjw5dgZbJSGd3yl6PHpVXfa+
+   w==;
+X-CSE-ConnectionGUID: Vn/dx1DWQjqKjH5AjpC5kg==
+X-CSE-MsgGUID: 9YcI6NrhSgycMGKUKbsN0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="42783175"
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="54165553"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 22:07:11 -0700
-X-CSE-ConnectionGUID: B6fQhWDmQPyhLOh7tmtBNA==
-X-CSE-MsgGUID: +vD10cAgRBOBeqZgl7ds8g==
+   d="scan'208";a="42783175"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 22:29:05 -0700
+X-CSE-ConnectionGUID: GvnVli49SZqiUQkIb/OKVQ==
+X-CSE-MsgGUID: it6V6nnVSqeDs0iGvwHZ+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,258,1736841600"; 
-   d="scan'208";a="159614974"
+   d="scan'208";a="153476189"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 22:07:10 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 18 Mar 2025 22:29:03 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuldy-000ENC-2i;
-	Wed, 19 Mar 2025 05:07:06 +0000
-Date: Wed, 19 Mar 2025 13:06:35 +0800
+	id 1tulz7-000EO6-0Z;
+	Wed, 19 Mar 2025 05:28:58 +0000
+Date: Wed, 19 Mar 2025 13:28:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: arch/arm64/kernel/entry-ftrace.S:333: Error: undefined symbol
- FREGS_SIZE used as an immediate value
-Message-ID: <202503191223.RCdQEebt-lkp@intel.com>
+To: chenchangcheng <ccc194101@163.com>, laurent.pinchart@ideasonboard.com,
+	hdegoede@redhat.com, mchehab@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chenchangcheng <chenchangcheng@kylinos.cn>
+Subject: Re: [PATCH v2] media: uvcvideo: Fix bandwidth issue for Alcor camera
+Message-ID: <202503191353.gaC25wLw-lkp@intel.com>
+References: <20250318085724.1151547-1-ccc194101@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +65,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250318085724.1151547-1-ccc194101@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   81e4f8d68c66da301bb881862735bd74c6241a19
-commit: a3ed4157b7d89800a0008de0c9e46a438a5c3745 fgraph: Replace fgraph_ret_regs with ftrace_regs
-date:   3 months ago
-config: arm64-randconfig-003-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191223.RCdQEebt-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191223.RCdQEebt-lkp@intel.com/reproduce)
+Hi chenchangcheng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4701f33a10702d5fc577c32434eb62adde0a1ae1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/chenchangcheng/media-uvcvideo-Fix-bandwidth-issue-for-Alcor-camera/20250318-165843
+base:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+patch link:    https://lore.kernel.org/r/20250318085724.1151547-1-ccc194101%40163.com
+patch subject: [PATCH v2] media: uvcvideo: Fix bandwidth issue for Alcor camera
+config: i386-buildonly-randconfig-006-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191353.gaC25wLw-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191353.gaC25wLw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503191223.RCdQEebt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503191353.gaC25wLw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm64/kernel/entry-ftrace.S: Assembler messages:
->> arch/arm64/kernel/entry-ftrace.S:333: Error: undefined symbol FREGS_SIZE used as an immediate value
->> arch/arm64/kernel/entry-ftrace.S:336: Error: undefined symbol FREGS_X0 used as an immediate value
->> arch/arm64/kernel/entry-ftrace.S:337: Error: undefined symbol FREGS_X2 used as an immediate value
->> arch/arm64/kernel/entry-ftrace.S:338: Error: undefined symbol FREGS_X4 used as an immediate value
->> arch/arm64/kernel/entry-ftrace.S:339: Error: undefined symbol FREGS_X6 used as an immediate value
->> arch/arm64/kernel/entry-ftrace.S:342: Error: undefined symbol FREGS_FP used as an immediate value
-   arch/arm64/kernel/entry-ftrace.S:349: Error: undefined symbol FREGS_X0 used as an immediate value
-   arch/arm64/kernel/entry-ftrace.S:350: Error: undefined symbol FREGS_X2 used as an immediate value
-   arch/arm64/kernel/entry-ftrace.S:351: Error: undefined symbol FREGS_X4 used as an immediate value
-   arch/arm64/kernel/entry-ftrace.S:352: Error: undefined symbol FREGS_X6 used as an immediate value
-   arch/arm64/kernel/entry-ftrace.S:353: Error: undefined symbol FREGS_SIZE used as an immediate value
+>> drivers/media/usb/uvc/uvc_video.c:269:3: error: call to undeclared function 'uvc_printk'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     269 |                 uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
+         |                 ^
+   drivers/media/usb/uvc/uvc_video.c:269:28: warning: missing terminating '"' character [-Winvalid-pp-token]
+     269 |                 uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
+         |                                          ^
+>> drivers/media/usb/uvc/uvc_video.c:269:28: error: expected expression
+   drivers/media/usb/uvc/uvc_video.c:271:45: warning: missing terminating '"' character [-Winvalid-pp-token]
+     271 |                            use the default value of 1024 bytes.\n",
+         |                                                                  ^
+   2 warnings and 2 errors generated.
 
 
-vim +333 arch/arm64/kernel/entry-ftrace.S
+vim +/uvc_printk +269 drivers/media/usb/uvc/uvc_video.c
 
-   324	
-   325	/*
-   326	 * void return_to_handler(void)
-   327	 *
-   328	 * Run ftrace_return_to_handler() before going back to parent.
-   329	 * @fp is checked against the value passed by ftrace_graph_caller().
-   330	 */
-   331	SYM_CODE_START(return_to_handler)
-   332		/* Make room for ftrace_regs */
- > 333		sub	sp, sp, #FREGS_SIZE
-   334	
-   335		/* Save return value regs */
- > 336		stp	x0, x1, [sp, #FREGS_X0]
- > 337		stp	x2, x3, [sp, #FREGS_X2]
- > 338		stp	x4, x5, [sp, #FREGS_X4]
- > 339		stp	x6, x7, [sp, #FREGS_X6]
-   340	
-   341		/* Save the callsite's FP */
- > 342		str	x29, [sp, #FREGS_FP]
+   162	
+   163	static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+   164		struct uvc_streaming_control *ctrl)
+   165	{
+   166		const struct uvc_format *format = NULL;
+   167		const struct uvc_frame *frame = NULL;
+   168		unsigned int i;
+   169	
+   170		/*
+   171		 * The response of the Elgato Cam Link 4K is incorrect: The second byte
+   172		 * contains bFormatIndex (instead of being the second byte of bmHint).
+   173		 * The first byte is always zero. The third byte is always 1.
+   174		 *
+   175		 * The UVC 1.5 class specification defines the first five bits in the
+   176		 * bmHint bitfield. The remaining bits are reserved and should be zero.
+   177		 * Therefore a valid bmHint will be less than 32.
+   178		 *
+   179		 * Latest Elgato Cam Link 4K firmware as of 2021-03-23 needs this fix.
+   180		 * MCU: 20.02.19, FPGA: 67
+   181		 */
+   182		if (usb_match_one_id(stream->dev->intf, &elgato_cam_link_4k) &&
+   183		    ctrl->bmHint > 255) {
+   184			u8 corrected_format_index = ctrl->bmHint >> 8;
+   185	
+   186			uvc_dbg(stream->dev, VIDEO,
+   187				"Correct USB video probe response from {bmHint: 0x%04x, bFormatIndex: %u} to {bmHint: 0x%04x, bFormatIndex: %u}\n",
+   188				ctrl->bmHint, ctrl->bFormatIndex,
+   189				1, corrected_format_index);
+   190			ctrl->bmHint = 1;
+   191			ctrl->bFormatIndex = corrected_format_index;
+   192		}
+   193	
+   194		for (i = 0; i < stream->nformats; ++i) {
+   195			if (stream->formats[i].index == ctrl->bFormatIndex) {
+   196				format = &stream->formats[i];
+   197				break;
+   198			}
+   199		}
+   200	
+   201		if (format == NULL)
+   202			return;
+   203	
+   204		for (i = 0; i < format->nframes; ++i) {
+   205			if (format->frames[i].bFrameIndex == ctrl->bFrameIndex) {
+   206				frame = &format->frames[i];
+   207				break;
+   208			}
+   209		}
+   210	
+   211		if (frame == NULL)
+   212			return;
+   213	
+   214		if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) ||
+   215		     (ctrl->dwMaxVideoFrameSize == 0 &&
+   216		      stream->dev->uvc_version < 0x0110))
+   217			ctrl->dwMaxVideoFrameSize =
+   218				frame->dwMaxVideoFrameBufferSize;
+   219	
+   220		/*
+   221		 * The "TOSHIBA Web Camera - 5M" Chicony device (04f2:b50b) seems to
+   222		 * compute the bandwidth on 16 bits and erroneously sign-extend it to
+   223		 * 32 bits, resulting in a huge bandwidth value. Detect and fix that
+   224		 * condition by setting the 16 MSBs to 0 when they're all equal to 1.
+   225		 */
+   226		if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
+   227			ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
+   228	
+   229		if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+   230		    stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
+   231		    stream->intf->num_altsetting > 1) {
+   232			u32 interval;
+   233			u32 bandwidth;
+   234	
+   235			interval = (ctrl->dwFrameInterval > 100000)
+   236				 ? ctrl->dwFrameInterval
+   237				 : frame->dwFrameInterval[0];
+   238	
+   239			/*
+   240			 * Compute a bandwidth estimation by multiplying the frame
+   241			 * size by the number of video frames per second, divide the
+   242			 * result by the number of USB frames (or micro-frames for
+   243			 * high- and super-speed devices) per second and add the UVC
+   244			 * header size (assumed to be 12 bytes long).
+   245			 */
+   246			bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
+   247			bandwidth *= 10000000 / interval + 1;
+   248			bandwidth /= 1000;
+   249			if (stream->dev->udev->speed >= USB_SPEED_HIGH)
+   250				bandwidth /= 8;
+   251			bandwidth += 12;
+   252	
+   253			/*
+   254			 * The bandwidth estimate is too low for many cameras. Don't use
+   255			 * maximum packet sizes lower than 1024 bytes to try and work
+   256			 * around the problem. According to measurements done on two
+   257			 * different camera models, the value is high enough to get most
+   258			 * resolutions working while not preventing two simultaneous
+   259			 * VGA streams at 15 fps.
+   260			 */
+   261			bandwidth = max_t(u32, bandwidth, 1024);
+   262	
+   263			ctrl->dwMaxPayloadTransferSize = bandwidth;
+   264		}
+   265	
+   266		if (format->flags & UVC_FMT_FLAG_COMPRESSED &&
+   267		    stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH &&
+   268		    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
+ > 269			uvc_printk(KERN_WARNING, "the max payload transmission size [%d]
+   270				   exceededs the size of the ep max packet.
+   271				   use the default value of 1024 bytes.\n",
+   272				   ctrl->dwMaxPayloadTransferSize);
+   273			ctrl->dwMaxPayloadTransferSize = 1024;
+   274		}
+   275	}
+   276	
 
 -- 
 0-DAY CI Kernel Test Service
