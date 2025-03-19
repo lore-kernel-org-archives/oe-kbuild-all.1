@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E116D8F5A;
-	Wed, 19 Mar 2025 10:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF9A20E31B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 11:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742380084; cv=none; b=sx0mrFJChsn2AFFWMl9PvQe+gHiXj82kRlI8heWSYQfrId6FmBwBrv3/uSA0Uvb/fN5Pk3T0nh43Cbb+dc+pp3+9xm66Eh0tZazlAvPfRdGyqVXwM300h7MDT9WNOiGT+/ZM0q0oDXPJHH66SfpIddAswkdJNgHgM6pu/0SLaCE=
+	t=1742383899; cv=none; b=AQjlHHt3jgcAwmujphesY4eooCEaFdK1ayL0LPMeJqwH7s1r3a+BbrrcRyAj99MaD3jOvYrOqWUbIlJ5wJArGws8WaMgVlhLilwWToYoYVTEd4qaHjrbJcnNU9JP+oYRGkygbv9BQgovXqbBBXTJPloj/5vEkVFkZEMBdJfdCtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742380084; c=relaxed/simple;
-	bh=yClz+7wQMY4xhK1X1tOrbYdjJSZ+csKdKqUy3kmwBuA=;
+	s=arc-20240116; t=1742383899; c=relaxed/simple;
+	bh=JuM0h84X+KQkVl208uOYkXU9G84DGdKrH2blweZ+49c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DJUrD/jkab4F697D58G2aXCMrotgtMAIxU7CAPHDi99zmVaWXXz6Nsh+9WX2Cr+9lN7dYoDCxSaydgvK/LBXxljM+miBuwqwvO8qoOikfVHj+JtSX4nipZUu/c61Ti3/g5fCt4fGlU9lJW1ZqeE3Yz9vuZ5gi80XEo92PAft6o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTp4bpr3; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=BU5i9+G38MsfSAd9BNeviPwdJU3Td125/eBUjecC05lg7vA9NFq7JbJhqYBsf15R7bI5sbZA5TQtgGDVpJvhMNWJr2YTxYwdwZunfdB5WXpQug/3BZWMrf3d6R8u0MJuH4FHeu4Q7G4OXFXFnuWu3RChpx/1nJxQNZsv46Ua1yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLfuGEON; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTp4bpr3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLfuGEON"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742380082; x=1773916082;
+  t=1742383898; x=1773919898;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yClz+7wQMY4xhK1X1tOrbYdjJSZ+csKdKqUy3kmwBuA=;
-  b=CTp4bpr3oJBqB1yrbE9LQVcmIcaiC8Qj2iEDCA+mAq8jcKrwLXgEN1oF
-   djmUFW+na0ZjZMyyR2y290thBs8+y0nEQ8ehWAHo5VcJ14x6o0kulczs2
-   sGwZh0S9xkrrEkQiCbAYgUYRKSjo0I8tKE19QyJ2fCaQ4dlWFw7JnZSP3
-   1vEP2Xr/4+gkSucCgMvhk5w1TC8MRg29HSat7BaJoYl5XLQJAjZSavJ6L
-   twbSwOSYSZySG6EyFVGoHAdTN+3C0SxFKfSINBbbKoaET10JoiXxxwl2O
-   fUysYAgoWnKm8KvkmKUdd8nsLlbRABXqxUdGTF91y4d+bWvyPzRRAoiRo
-   w==;
-X-CSE-ConnectionGUID: w/hrF27STf+NWmDOVFQ+OA==
-X-CSE-MsgGUID: ypmZ7YpZS0yW9Tcde6Rj2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43425619"
+  bh=JuM0h84X+KQkVl208uOYkXU9G84DGdKrH2blweZ+49c=;
+  b=RLfuGEONM12Ac3usuhf3Ks6I7qEZ82ViPMXiNiPU4X8kMiva//Y/Sc0d
+   uw6m49ebZuTZOBEqqkFzUJs6Ukzi+eF3M3GLlw8gWSjdgr5IbxNQCsdvW
+   yOjWrB6FyREUg1DT6Ai9+1pP5YX2689YiIn3Ny4s/Afp5am0DX8k/v1nA
+   q9fXA5/w5Ea87JdNZ/htefkOeoZpyotNr0JvviZJozffKbVfAzNbxyhjS
+   BZ74BAG1682RMwL37a6+cimd7OGsJxrgWcgt2chnkiweYebciEONUmfVl
+   Ccn6wGeGYsMzxmB8FqQnoXEH3RKXgjLZe3mTKbEl4RKyQ6qiLoRvaO+KF
+   Q==;
+X-CSE-ConnectionGUID: mv1fIbM0RuK4p6Prx1YJoA==
+X-CSE-MsgGUID: wdta57hnTheUh4zDbHAfsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="68924390"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43425619"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 03:28:01 -0700
-X-CSE-ConnectionGUID: didUCmgSTLCtrHAU7daE5A==
-X-CSE-MsgGUID: r0tqOrlOQZe4Bfkkq8w0rQ==
+   d="scan'208";a="68924390"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 04:31:37 -0700
+X-CSE-ConnectionGUID: 3JXum0x0Q+S4OQ0bVjecKA==
+X-CSE-MsgGUID: gxgfm4mPRniOAiYU96iAig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="122393877"
+   d="scan'208";a="127780868"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Mar 2025 03:27:58 -0700
+  by orviesa005.jf.intel.com with ESMTP; 19 Mar 2025 04:31:36 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuqeS-000Eak-2F;
-	Wed, 19 Mar 2025 10:27:56 +0000
-Date: Wed, 19 Mar 2025 18:26:58 +0800
+	id 1ture1-000EdU-1J;
+	Wed, 19 Mar 2025 11:31:33 +0000
+Date: Wed, 19 Mar 2025 19:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanley Chu <yschu@nuvoton.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>
-Subject: [i3c:i3c/next 15/15] drivers/i3c/master/svc-i3c-master.c:596:2:
- warning: unannotated fall-through between switch labels
-Message-ID: <202503191809.vEfI0h7u-lkp@intel.com>
+To: Tony Ambardar <tony.ambardar@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jiri Olsa <jolsa@kernel.org>
+Subject: net/bpf/test_run.c:511:1: warning: 'retain' attribute ignored
+Message-ID: <202503191909.SHOCLBzK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,153 +63,181 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
-head:   0430bf9bc1ac068c8b8c540eb93e5751872efc51
-commit: 0430bf9bc1ac068c8b8c540eb93e5751872efc51 [15/15] i3c: master: svc: Fix missing STOP for master request
-config: i386-buildonly-randconfig-004-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191809.vEfI0h7u-lkp@intel.com/config)
-compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191809.vEfI0h7u-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   81e4f8d68c66da301bb881862735bd74c6241a19
+commit: 7bdcedd5c8fb88e7176b93812b139eca5fe0aa46 bpf: Harden __bpf_kfunc tag against linker kfunc removal
+date:   9 months ago
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20250319/202503191909.SHOCLBzK-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191909.SHOCLBzK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503191809.vEfI0h7u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503191909.SHOCLBzK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/i3c/master/svc-i3c-master.c:596:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     596 |         default:
-         |         ^
-   drivers/i3c/master/svc-i3c-master.c:596:2: note: insert 'break;' to avoid fall-through
-     596 |         default:
-         |         ^
-         |         break; 
-   1 warning generated.
+>> net/bpf/test_run.c:511:1: warning: 'retain' attribute ignored [-Wattributes]
+     511 | {
+         | ^
+   net/bpf/test_run.c:557:1: warning: 'retain' attribute ignored [-Wattributes]
+     557 | {
+         | ^
+   net/bpf/test_run.c:566:1: warning: 'retain' attribute ignored [-Wattributes]
+     566 | {
+         | ^
+   net/bpf/test_run.c:573:1: warning: 'retain' attribute ignored [-Wattributes]
+     573 | {
+         | ^
+   net/bpf/test_run.c:579:1: warning: 'retain' attribute ignored [-Wattributes]
+     579 | {
+         | ^
+   net/bpf/test_run.c:608:1: warning: 'retain' attribute ignored [-Wattributes]
+     608 | {
+         | ^
+   net/bpf/test_run.c:613:1: warning: 'retain' attribute ignored [-Wattributes]
+     613 | {
+         | ^
+   net/bpf/test_run.c:619:1: warning: 'retain' attribute ignored [-Wattributes]
+     619 | {
+         | ^
+   net/bpf/test_run.c:623:1: warning: 'retain' attribute ignored [-Wattributes]
+     623 | {
+         | ^
+--
+>> net/core/filter.c:11863:1: warning: 'retain' attribute ignored [-Wattributes]
+   11863 | {
+         | ^
+   net/core/filter.c:11876:1: warning: 'retain' attribute ignored [-Wattributes]
+   11876 | {
+         | ^
+   net/core/filter.c:11889:1: warning: 'retain' attribute ignored [-Wattributes]
+   11889 | {
+         | ^
+   net/core/filter.c:11910:1: warning: 'retain' attribute ignored [-Wattributes]
+   11910 | {
+         | ^
+   net/core/filter.c:12096:1: warning: 'retain' attribute ignored [-Wattributes]
+   12096 | {
+         | ^
+--
+>> net/core/xdp.c:713:1: warning: 'retain' attribute ignored [-Wattributes]
+     713 | {
+         | ^
+   net/core/xdp.c:736:1: warning: 'retain' attribute ignored [-Wattributes]
+     736 | {
+         | ^
+   net/core/xdp.c:769:1: warning: 'retain' attribute ignored [-Wattributes]
+     769 | {
+         | ^
+--
+>> net/ipv4/tcp_cong.c:455:1: warning: 'retain' attribute ignored [-Wattributes]
+     455 | {
+         | ^
+   net/ipv4/tcp_cong.c:469:1: warning: 'retain' attribute ignored [-Wattributes]
+     469 | {
+         | ^
+   net/ipv4/tcp_cong.c:495:1: warning: 'retain' attribute ignored [-Wattributes]
+     495 | {
+         | ^
+   net/ipv4/tcp_cong.c:514:1: warning: 'retain' attribute ignored [-Wattributes]
+     514 | {
+         | ^
+   net/ipv4/tcp_cong.c:522:1: warning: 'retain' attribute ignored [-Wattributes]
+     522 | {
+         | ^
+--
+>> net/ipv4/fou_bpf.c:46:1: warning: 'retain' attribute ignored [-Wattributes]
+      46 | {
+         | ^
+   net/ipv4/fou_bpf.c:88:1: warning: 'retain' attribute ignored [-Wattributes]
+      88 | {
+         | ^
+--
+>> net/ipv4/tcp_bbr.c:300:1: warning: 'retain' attribute ignored [-Wattributes]
+     300 | {
+         | ^
+   net/ipv4/tcp_bbr.c:333:1: warning: 'retain' attribute ignored [-Wattributes]
+     333 | {
+         | ^
+   net/ipv4/tcp_bbr.c:1028:1: warning: 'retain' attribute ignored [-Wattributes]
+    1028 | {
+         | ^
+   net/ipv4/tcp_bbr.c:1040:1: warning: 'retain' attribute ignored [-Wattributes]
+    1040 | {
+         | ^
+   net/ipv4/tcp_bbr.c:1082:1: warning: 'retain' attribute ignored [-Wattributes]
+    1082 | {
+         | ^
+   net/ipv4/tcp_bbr.c:1091:1: warning: 'retain' attribute ignored [-Wattributes]
+    1091 | {
+         | ^
+   net/ipv4/tcp_bbr.c:1102:1: warning: 'retain' attribute ignored [-Wattributes]
+    1102 | {
+         | ^
+   net/ipv4/tcp_bbr.c:1130:1: warning: 'retain' attribute ignored [-Wattributes]
+    1130 | {
+         | ^
+--
+>> net/ipv4/tcp_cubic.c:130:1: warning: 'retain' attribute ignored [-Wattributes]
+     130 | {
+         | ^
+   net/ipv4/tcp_cubic.c:143:1: warning: 'retain' attribute ignored [-Wattributes]
+     143 | {
+         | ^
+   net/ipv4/tcp_cubic.c:325:1: warning: 'retain' attribute ignored [-Wattributes]
+     325 | {
+         | ^
+   net/ipv4/tcp_cubic.c:342:1: warning: 'retain' attribute ignored [-Wattributes]
+     342 | {
+         | ^
+   net/ipv4/tcp_cubic.c:359:1: warning: 'retain' attribute ignored [-Wattributes]
+     359 | {
+         | ^
+   net/ipv4/tcp_cubic.c:449:1: warning: 'retain' attribute ignored [-Wattributes]
+     449 | {
+         | ^
+--
+>> net/ipv4/tcp_dctcp.c:90:1: warning: 'retain' attribute ignored [-Wattributes]
+      90 | {
+         | ^
+   net/ipv4/tcp_dctcp.c:119:1: warning: 'retain' attribute ignored [-Wattributes]
+     119 | {
+         | ^
+   net/ipv4/tcp_dctcp.c:128:1: warning: 'retain' attribute ignored [-Wattributes]
+     128 | {
+         | ^
+   net/ipv4/tcp_dctcp.c:184:1: warning: 'retain' attribute ignored [-Wattributes]
+     184 | {
+         | ^
+   net/ipv4/tcp_dctcp.c:194:1: warning: 'retain' attribute ignored [-Wattributes]
+     194 | {
+         | ^
+   net/ipv4/tcp_dctcp.c:244:1: warning: 'retain' attribute ignored [-Wattributes]
+     244 | {
+         | ^
+--
+>> fs/verity/measure.c:121:1: warning: 'retain' attribute ignored [-Wattributes]
+     121 | {
+         | ^
 
 
-vim +596 drivers/i3c/master/svc-i3c-master.c
+vim +/retain +511 net/bpf/test_run.c
 
-e22405a812a11e Frank Li      2024-10-02  489  
-dd3c52846d5954 Miquel Raynal 2021-01-21  490  static void svc_i3c_master_ibi_work(struct work_struct *work)
-dd3c52846d5954 Miquel Raynal 2021-01-21  491  {
-dd3c52846d5954 Miquel Raynal 2021-01-21  492  	struct svc_i3c_master *master = container_of(work, struct svc_i3c_master, ibi_work);
-dd3c52846d5954 Miquel Raynal 2021-01-21  493  	struct svc_i3c_i2c_dev_data *data;
-dd3c52846d5954 Miquel Raynal 2021-01-21  494  	unsigned int ibitype, ibiaddr;
-dd3c52846d5954 Miquel Raynal 2021-01-21  495  	struct i3c_dev_desc *dev;
-dd3c52846d5954 Miquel Raynal 2021-01-21  496  	u32 status, val;
-dd3c52846d5954 Miquel Raynal 2021-01-21  497  	int ret;
-dd3c52846d5954 Miquel Raynal 2021-01-21  498  
-f36f6624cbacb3 Frank Li      2024-10-02  499  	/*
-f36f6624cbacb3 Frank Li      2024-10-02  500  	 * According to I3C spec ver 1.1, 09-Jun-2021, section 5.1.2.5:
-f36f6624cbacb3 Frank Li      2024-10-02  501  	 *
-f36f6624cbacb3 Frank Li      2024-10-02  502  	 * The I3C Controller shall hold SCL low while the Bus is in ACK/NACK Phase of I3C/I2C
-f36f6624cbacb3 Frank Li      2024-10-02  503  	 * transfer. But maximum stall time is 100us. The IRQs have to be disabled to prevent
-f36f6624cbacb3 Frank Li      2024-10-02  504  	 * schedule during the whole I3C transaction, otherwise, the I3C bus timeout may happen if
-f36f6624cbacb3 Frank Li      2024-10-02  505  	 * any irq or schedule happen during transaction.
-f36f6624cbacb3 Frank Li      2024-10-02  506  	 */
-f36f6624cbacb3 Frank Li      2024-10-02  507  	guard(spinlock_irqsave)(&master->xferqueue.lock);
-f36f6624cbacb3 Frank Li      2024-10-02  508  
-38baed9b860000 Frank Li      2024-05-06  509  	/*
-38baed9b860000 Frank Li      2024-05-06  510  	 * IBIWON may be set before SVC_I3C_MCTRL_REQUEST_AUTO_IBI, causing
-38baed9b860000 Frank Li      2024-05-06  511  	 * readl_relaxed_poll_timeout() to return immediately. Consequently,
-38baed9b860000 Frank Li      2024-05-06  512  	 * ibitype will be 0 since it was last updated only after the 8th SCL
-38baed9b860000 Frank Li      2024-05-06  513  	 * cycle, leading to missed client IBI handlers.
-38baed9b860000 Frank Li      2024-05-06  514  	 *
-38baed9b860000 Frank Li      2024-05-06  515  	 * A typical scenario is when IBIWON occurs and bus arbitration is lost
-38baed9b860000 Frank Li      2024-05-06  516  	 * at svc_i3c_master_priv_xfers().
-38baed9b860000 Frank Li      2024-05-06  517  	 *
-38baed9b860000 Frank Li      2024-05-06  518  	 * Clear SVC_I3C_MINT_IBIWON before sending SVC_I3C_MCTRL_REQUEST_AUTO_IBI.
-38baed9b860000 Frank Li      2024-05-06  519  	 */
-38baed9b860000 Frank Li      2024-05-06  520  	writel(SVC_I3C_MINT_IBIWON, master->regs + SVC_I3C_MSTATUS);
-38baed9b860000 Frank Li      2024-05-06  521  
-dd3c52846d5954 Miquel Raynal 2021-01-21  522  	/* Acknowledge the incoming interrupt with the AUTOIBI mechanism */
-dd3c52846d5954 Miquel Raynal 2021-01-21  523  	writel(SVC_I3C_MCTRL_REQUEST_AUTO_IBI |
-dd3c52846d5954 Miquel Raynal 2021-01-21  524  	       SVC_I3C_MCTRL_IBIRESP_AUTO,
-dd3c52846d5954 Miquel Raynal 2021-01-21  525  	       master->regs + SVC_I3C_MCTRL);
-dd3c52846d5954 Miquel Raynal 2021-01-21  526  
-dd3c52846d5954 Miquel Raynal 2021-01-21  527  	/* Wait for IBIWON, should take approximately 100us */
-f36f6624cbacb3 Frank Li      2024-10-02  528  	ret = readl_relaxed_poll_timeout_atomic(master->regs + SVC_I3C_MSTATUS, val,
-f36f6624cbacb3 Frank Li      2024-10-02  529  					 SVC_I3C_MSTATUS_IBIWON(val), 0, 100);
-dd3c52846d5954 Miquel Raynal 2021-01-21  530  	if (ret) {
-dd3c52846d5954 Miquel Raynal 2021-01-21  531  		dev_err(master->dev, "Timeout when polling for IBIWON\n");
-dfd7cd6aafdb1f Frank Li      2023-10-23  532  		svc_i3c_master_emit_stop(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21  533  		goto reenable_ibis;
-dd3c52846d5954 Miquel Raynal 2021-01-21  534  	}
-dd3c52846d5954 Miquel Raynal 2021-01-21  535  
-dd3c52846d5954 Miquel Raynal 2021-01-21  536  	status = readl(master->regs + SVC_I3C_MSTATUS);
-dd3c52846d5954 Miquel Raynal 2021-01-21  537  	ibitype = SVC_I3C_MSTATUS_IBITYPE(status);
-dd3c52846d5954 Miquel Raynal 2021-01-21  538  	ibiaddr = SVC_I3C_MSTATUS_IBIADDR(status);
-dd3c52846d5954 Miquel Raynal 2021-01-21  539  
-dd3c52846d5954 Miquel Raynal 2021-01-21  540  	/* Handle the critical responses to IBI's */
-dd3c52846d5954 Miquel Raynal 2021-01-21  541  	switch (ibitype) {
-dd3c52846d5954 Miquel Raynal 2021-01-21  542  	case SVC_I3C_MSTATUS_IBITYPE_IBI:
-dd3c52846d5954 Miquel Raynal 2021-01-21  543  		dev = svc_i3c_master_dev_from_addr(master, ibiaddr);
-05b26c31a4859a Frank Li      2023-12-01  544  		if (!dev || !is_events_enabled(master, SVC_I3C_EVENT_IBI))
-dd3c52846d5954 Miquel Raynal 2021-01-21  545  			svc_i3c_master_nack_ibi(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21  546  		else
-dd3c52846d5954 Miquel Raynal 2021-01-21  547  			svc_i3c_master_handle_ibi(master, dev);
-dd3c52846d5954 Miquel Raynal 2021-01-21  548  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  549  	case SVC_I3C_MSTATUS_IBITYPE_HOT_JOIN:
-05b26c31a4859a Frank Li      2023-12-01  550  		if (is_events_enabled(master, SVC_I3C_EVENT_HOTJOIN))
-dd3c52846d5954 Miquel Raynal 2021-01-21  551  			svc_i3c_master_ack_ibi(master, false);
-05b26c31a4859a Frank Li      2023-12-01  552  		else
-05b26c31a4859a Frank Li      2023-12-01  553  			svc_i3c_master_nack_ibi(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21  554  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  555  	case SVC_I3C_MSTATUS_IBITYPE_MASTER_REQUEST:
-dd3c52846d5954 Miquel Raynal 2021-01-21  556  		svc_i3c_master_nack_ibi(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21  557  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  558  	default:
-dd3c52846d5954 Miquel Raynal 2021-01-21  559  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  560  	}
-dd3c52846d5954 Miquel Raynal 2021-01-21  561  
-dd3c52846d5954 Miquel Raynal 2021-01-21  562  	/*
-dd3c52846d5954 Miquel Raynal 2021-01-21  563  	 * If an error happened, we probably got interrupted and the exchange
-dd3c52846d5954 Miquel Raynal 2021-01-21  564  	 * timedout. In this case we just drop everything, emit a stop and wait
-dd3c52846d5954 Miquel Raynal 2021-01-21  565  	 * for the slave to interrupt again.
-dd3c52846d5954 Miquel Raynal 2021-01-21  566  	 */
-dd3c52846d5954 Miquel Raynal 2021-01-21  567  	if (svc_i3c_master_error(master)) {
-dd3c52846d5954 Miquel Raynal 2021-01-21  568  		if (master->ibi.tbq_slot) {
-dd3c52846d5954 Miquel Raynal 2021-01-21  569  			data = i3c_dev_get_master_data(dev);
-dd3c52846d5954 Miquel Raynal 2021-01-21  570  			i3c_generic_ibi_recycle_slot(data->ibi_pool,
-dd3c52846d5954 Miquel Raynal 2021-01-21  571  						     master->ibi.tbq_slot);
-dd3c52846d5954 Miquel Raynal 2021-01-21  572  			master->ibi.tbq_slot = NULL;
-dd3c52846d5954 Miquel Raynal 2021-01-21  573  		}
-dd3c52846d5954 Miquel Raynal 2021-01-21  574  
-dd3c52846d5954 Miquel Raynal 2021-01-21  575  		svc_i3c_master_emit_stop(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21  576  
-dd3c52846d5954 Miquel Raynal 2021-01-21  577  		goto reenable_ibis;
-dd3c52846d5954 Miquel Raynal 2021-01-21  578  	}
-dd3c52846d5954 Miquel Raynal 2021-01-21  579  
-dd3c52846d5954 Miquel Raynal 2021-01-21  580  	/* Handle the non critical tasks */
-dd3c52846d5954 Miquel Raynal 2021-01-21  581  	switch (ibitype) {
-dd3c52846d5954 Miquel Raynal 2021-01-21  582  	case SVC_I3C_MSTATUS_IBITYPE_IBI:
-dd3c52846d5954 Miquel Raynal 2021-01-21  583  		if (dev) {
-dd3c52846d5954 Miquel Raynal 2021-01-21  584  			i3c_master_queue_ibi(dev, master->ibi.tbq_slot);
-dd3c52846d5954 Miquel Raynal 2021-01-21  585  			master->ibi.tbq_slot = NULL;
-dd3c52846d5954 Miquel Raynal 2021-01-21  586  		}
-dd3c52846d5954 Miquel Raynal 2021-01-21  587  		svc_i3c_master_emit_stop(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21  588  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  589  	case SVC_I3C_MSTATUS_IBITYPE_HOT_JOIN:
-05b26c31a4859a Frank Li      2023-12-01  590  		svc_i3c_master_emit_stop(master);
-05b26c31a4859a Frank Li      2023-12-01  591  		if (is_events_enabled(master, SVC_I3C_EVENT_HOTJOIN))
-dd3c52846d5954 Miquel Raynal 2021-01-21  592  			queue_work(master->base.wq, &master->hj_work);
-dd3c52846d5954 Miquel Raynal 2021-01-21  593  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  594  	case SVC_I3C_MSTATUS_IBITYPE_MASTER_REQUEST:
-0430bf9bc1ac06 Stanley Chu   2025-03-18  595  		svc_i3c_master_emit_stop(master);
-dd3c52846d5954 Miquel Raynal 2021-01-21 @596  	default:
-dd3c52846d5954 Miquel Raynal 2021-01-21  597  		break;
-dd3c52846d5954 Miquel Raynal 2021-01-21  598  	}
-dd3c52846d5954 Miquel Raynal 2021-01-21  599  
-dd3c52846d5954 Miquel Raynal 2021-01-21  600  reenable_ibis:
-dd3c52846d5954 Miquel Raynal 2021-01-21  601  	svc_i3c_master_enable_interrupts(master, SVC_I3C_MINT_SLVSTART);
-dd3c52846d5954 Miquel Raynal 2021-01-21  602  }
-dd3c52846d5954 Miquel Raynal 2021-01-21  603  
+391145ba2accc4 Dave Marchevsky         2023-10-31  509  
+400031e05adfce David Vernet            2023-02-01  510  __bpf_kfunc int bpf_fentry_test1(int a)
+faeb2dce084aff Alexei Starovoitov      2019-11-14 @511  {
+faeb2dce084aff Alexei Starovoitov      2019-11-14  512  	return a + 1;
+faeb2dce084aff Alexei Starovoitov      2019-11-14  513  }
+46565696434095 Kumar Kartikeya Dwivedi 2022-01-14  514  EXPORT_SYMBOL_GPL(bpf_fentry_test1);
+faeb2dce084aff Alexei Starovoitov      2019-11-14  515  
 
-:::::: The code at line 596 was first introduced by commit
-:::::: dd3c52846d5954acd43f0e771689302f27dadc28 i3c: master: svc: Add Silvaco I3C master driver
+:::::: The code at line 511 was first introduced by commit
+:::::: faeb2dce084aff92d466c6ce68481989b815435b bpf: Add kernel test functions for fentry testing
 
-:::::: TO: Miquel Raynal <miquel.raynal@bootlin.com>
-:::::: CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+:::::: TO: Alexei Starovoitov <ast@kernel.org>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 -- 
 0-DAY CI Kernel Test Service
