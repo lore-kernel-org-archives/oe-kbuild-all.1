@@ -1,77 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4C81C549F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 15:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5C21D86ED
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 15:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742397394; cv=none; b=ShEUc82VqqcoZPVD+rd3yNPLtapp26zBXISYAQ1TrnlZM2Rp5eOR9S+Vf3SQL/W1zeebf03NzadXw/RiU5sdVxHW3UUvwyx9+uHMgizIsFOhFanqtM52Cd8a8fpo+wLiSGQKuF9XkwmzXwHuliRdBT9GhfsAeHFzm/7GG+wD3hw=
+	t=1742398675; cv=none; b=OE5Rsne//DjnxZQjjuSyUyCyfuzIv5m4w/R2HRz/P3X1GPLkSCDzodlnYVKMAScJCJzJE6qesFPbafGlrlNi44O1wOfA2BnqVWJILRd8U+u+dQ765UcRqgCxohGmqJtj7Rh6X13qHhqgf5ZxLqQ6gW/Or5hXC+6r7zx17/QPMxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742397394; c=relaxed/simple;
-	bh=WVcWVQJpGeDUiTGY9vo3z1CvL7csVDDzGiAEHoJjlHU=;
+	s=arc-20240116; t=1742398675; c=relaxed/simple;
+	bh=sD5fGnYZK30pymvpAu4ycCY+DHO4I697q6Iprb71Lcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMQR4oFiEWJTmdxCk6U3CamEygrBR3ltwunb77Dde7YrQWWCT2HqqFNJLK4RMNaxTHulD/t5hBiGPEHR2hW/VtBYpm+m91cZv5uNO+c6W9yo273obx7zOLBD4LioTIeaYs37nD2E/TcJzyhYVctcPNmpRlYj2z9cDU/DFb3rEBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lc8QL+wu; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=t015VWgfZzlr/64yPanv4Rn+35zqEfIttLcFCxBUsPlgakZVmxUr/zawGsOv2eS6Mw51okPZkKyidHWSY5lg93HJ/SsRT5mgGsAg66gG6xviDZOjnZ4cnAUfmQrS7k+fuAcKbjMjmtGg8JWVzC0Z0/MWBZ4d/Nrj1FIsSl/05yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/PjTTyX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lc8QL+wu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/PjTTyX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742397393; x=1773933393;
+  t=1742398673; x=1773934673;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WVcWVQJpGeDUiTGY9vo3z1CvL7csVDDzGiAEHoJjlHU=;
-  b=Lc8QL+wu9BeVpDsCzf7tx0pSMAkyWYdl+bqmjHG8UlXBelr2AP7AstPV
-   R2N4+W1du9z9Es942lJb64+kqynlnZdAv8WRz40Ok8Gstu26Jhp3Q4KoU
-   PxCuj11N54IXjNn9EXi3JOqHmlLBbj2VVqpAelj8RpP2A5gRcwaHOpefG
-   Ur4CuOFmYzSgViqoYyPnUNWyFdWnyNv3EZwmhUUL33sCinzKxPQjx9w84
-   itpLygWrIYLP2QlAmoVwcN13iH2vhuiNlEhzVSi3m9Uhmyu+lxJz7DnUW
-   YX4D273qjZlWlrUAQPL8GWUfrBpSZgl684NNRnBnObIEKKn7/ePObgelM
+  bh=sD5fGnYZK30pymvpAu4ycCY+DHO4I697q6Iprb71Lcg=;
+  b=X/PjTTyXHXw91Z+lDUAaYEBHx0AcfDFTf2wHvuaDd+74I3RTL6WLHUW6
+   cVh+iWs8zYF5ZP9hnh1sH2v1be9yHq/hKxtd2ti/8MyB7+xt89HYarbo6
+   KfKlD1DsGFQg4z6KU/pW0nJXott5onZHTwTCi+VZE9a3T/qDGrUMsm+Av
+   KD6DaPo2KdrCkVhK7WKb1kOP3PN/4IDAkUNMi1PxLHv6dghOVZ4Mjv1Ar
+   y33n6NIf0Ce1cBl2WIJdzGDkBFOSAv3dDKvbf0ZFiZaEyKDav4aETHUTR
+   yV1coxsxW9D/hAkvR78vyqVsE7WqKW9IPfh212i4CybqD1kxHyNCocjBo
    g==;
-X-CSE-ConnectionGUID: LCocuvkNTaOjCUqogn4UZQ==
-X-CSE-MsgGUID: rckzFG+3ScuNhg4GUb/6PA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43778902"
+X-CSE-ConnectionGUID: 3N7YmAEOT+eROnG6PZxqGQ==
+X-CSE-MsgGUID: 5OjQme9aQr+V/PN+0VVSMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="31177214"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43778902"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 08:16:27 -0700
-X-CSE-ConnectionGUID: 6lWnkvOESRuKL6SPREtqIA==
-X-CSE-MsgGUID: 8vqABt5QTl287LzZrRVQTQ==
+   d="scan'208";a="31177214"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 08:37:48 -0700
+X-CSE-ConnectionGUID: JAepnRHKTCSkdxZE0geb/A==
+X-CSE-MsgGUID: QpKDRUg6T6Kq5OojE9elEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="123150826"
+   d="scan'208";a="153532879"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Mar 2025 08:16:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 19 Mar 2025 08:37:44 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuv9Y-000FP0-0W;
-	Wed, 19 Mar 2025 15:16:20 +0000
-Date: Wed, 19 Mar 2025 23:15:22 +0800
+	id 1tuvUD-000FSQ-0a;
+	Wed, 19 Mar 2025 15:37:41 +0000
+Date: Wed, 19 Mar 2025 23:37:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	andriy.shevchenko@intel.com,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [PATCH v5 09/11] input: keyboard: Add support for MAX7360 keypad
-Message-ID: <202503192258.ULXxG0T4-lkp@intel.com>
-References: <20250318-mdb-max7360-support-v5-9-fb20baf97da0@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH net v2 1/2] net: phy: Fix formatting specifier to avoid
+ potential string cuts
+Message-ID: <202503192340.iVN44lM2-lkp@intel.com>
+References: <20250319105813.3102076-2-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,145 +69,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318-mdb-max7360-support-v5-9-fb20baf97da0@bootlin.com>
+In-Reply-To: <20250319105813.3102076-2-andriy.shevchenko@linux.intel.com>
 
-Hi Mathieu,
+Hi Andy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+[auto build test WARNING on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-mfd-gpio-Add-MAX7360/20250319-003750
-base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-patch link:    https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-9-fb20baf97da0%40bootlin.com
-patch subject: [PATCH v5 09/11] input: keyboard: Add support for MAX7360 keypad
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250319/202503192258.ULXxG0T4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192258.ULXxG0T4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/net-phy-Fix-formatting-specifier-to-avoid-potential-string-cuts/20250319-190433
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250319105813.3102076-2-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH net v2 1/2] net: phy: Fix formatting specifier to avoid potential string cuts
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20250319/202503192340.iVN44lM2-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192340.iVN44lM2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503192258.ULXxG0T4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503192340.iVN44lM2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/input/keyboard/max7360-keypad.c: In function 'max7360_keypad_irq':
->> drivers/input/keyboard/max7360-keypad.c:57:8: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     row = FIELD_GET(MAX7360_FIFO_ROW, val);
-           ^~~~~~~~~
-   drivers/input/keyboard/max7360-keypad.c: In function 'max7360_keypad_hw_init':
->> drivers/input/keyboard/max7360-keypad.c:114:5: error: implicit declaration of function 'FIELD_PREP'; did you mean 'EV_REP'? [-Werror=implicit-function-declaration]
-        FIELD_PREP(MAX7360_DEBOUNCE, val));
-        ^~~~~~~~~~
-        EV_REP
-   cc1: some warnings being treated as errors
+>> drivers/net/usb/ax88172a.c:312:20: warning: format specifies type 'unsigned char' but the argument has type 'u16' (aka 'unsigned short') [-Wformat]
+     311 |         snprintf(priv->phy_name, 20, PHY_ID_FMT,
+         |                                      ~~~~~~~~~~
+     312 |                  priv->mdio->id, priv->phy_addr);
+         |                                  ^~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/FIELD_GET +57 drivers/input/keyboard/max7360-keypad.c
+vim +312 drivers/net/usb/ax88172a.c
 
-    29	
-    30	static irqreturn_t max7360_keypad_irq(int irq, void *data)
-    31	{
-    32		struct max7360_keypad *max7360_keypad = data;
-    33		unsigned int val;
-    34		unsigned int row, col;
-    35		unsigned int release;
-    36		unsigned int code;
-    37		int ret;
-    38	
-    39		do {
-    40			ret = regmap_read(max7360_keypad->regmap, MAX7360_REG_KEYFIFO, &val);
-    41			if (ret) {
-    42				dev_err(&max7360_keypad->input->dev, "Failed to read max7360 FIFO");
-    43				return IRQ_NONE;
-    44			}
-    45	
-    46			/* FIFO overflow: ignore it and get next event. */
-    47			if (val == MAX7360_FIFO_OVERFLOW)
-    48				dev_warn(&max7360_keypad->input->dev, "max7360 FIFO overflow");
-    49		} while (val == MAX7360_FIFO_OVERFLOW);
-    50	
-    51		if (val == MAX7360_FIFO_EMPTY) {
-    52			dev_dbg(&max7360_keypad->input->dev, "Got a spurious interrupt");
-    53	
-    54			return IRQ_NONE;
-    55		}
-    56	
-  > 57		row = FIELD_GET(MAX7360_FIFO_ROW, val);
-    58		col = FIELD_GET(MAX7360_FIFO_COL, val);
-    59		release = val & MAX7360_FIFO_RELEASE;
-    60	
-    61		code = MATRIX_SCAN_CODE(row, col, MAX7360_ROW_SHIFT);
-    62	
-    63		dev_dbg(&max7360_keypad->input->dev, "key[%d:%d] %s\n", row, col,
-    64			release ? "release" : "press");
-    65	
-    66		input_event(max7360_keypad->input, EV_MSC, MSC_SCAN, code);
-    67		input_report_key(max7360_keypad->input, max7360_keypad->keycodes[code], !release);
-    68		input_sync(max7360_keypad->input);
-    69	
-    70		return IRQ_HANDLED;
-    71	}
-    72	
-    73	static int max7360_keypad_open(struct input_dev *pdev)
-    74	{
-    75		struct max7360_keypad *max7360_keypad = input_get_drvdata(pdev);
-    76		int ret;
-    77	
-    78		/*
-    79		 * Somebody is using the device: get out of sleep.
-    80		 */
-    81		ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_CONFIG,
-    82					MAX7360_CFG_SLEEP, MAX7360_CFG_SLEEP);
-    83		if (ret) {
-    84			dev_err(&max7360_keypad->input->dev,
-    85				"Failed to write max7360 configuration\n");
-    86			return ret;
-    87		}
-    88	
-    89		return 0;
-    90	}
-    91	
-    92	static void max7360_keypad_close(struct input_dev *pdev)
-    93	{
-    94		struct max7360_keypad *max7360_keypad = input_get_drvdata(pdev);
-    95		int ret;
-    96	
-    97		/*
-    98		 * Nobody is using the device anymore: go to sleep.
-    99		 */
-   100		ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_CONFIG, MAX7360_CFG_SLEEP, 0);
-   101		if (ret)
-   102			dev_err(&max7360_keypad->input->dev,
-   103				"Failed to write max7360 configuration\n");
-   104	}
-   105	
-   106	static int max7360_keypad_hw_init(struct max7360_keypad *max7360_keypad)
-   107	{
-   108		unsigned int val;
-   109		int ret;
-   110	
-   111		val = max7360_keypad->debounce_ms - MAX7360_DEBOUNCE_MIN;
-   112		ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_DEBOUNCE,
-   113					MAX7360_DEBOUNCE,
- > 114					FIELD_PREP(MAX7360_DEBOUNCE, val));
-   115		if (ret) {
-   116			return dev_err_probe(&max7360_keypad->input->dev, ret,
-   117				"Failed to write max7360 debounce configuration\n");
-   118		}
-   119	
-   120		ret = regmap_write_bits(max7360_keypad->regmap, MAX7360_REG_INTERRUPT,
-   121					MAX7360_INTERRUPT_TIME_MASK,
-   122					FIELD_PREP(MAX7360_INTERRUPT_TIME_MASK, 1));
-   123		if (ret) {
-   124			return dev_err_probe(&max7360_keypad->input->dev, ret,
-   125				"Failed to write max7360 keypad interrupt configuration\n");
-   126		}
-   127	
-   128		return 0;
-   129	}
-   130	
+16626b0cc3d5af Christian Riesch 2012-07-13  260  
+16626b0cc3d5af Christian Riesch 2012-07-13  261  static int ax88172a_reset(struct usbnet *dev)
+16626b0cc3d5af Christian Riesch 2012-07-13  262  {
+16626b0cc3d5af Christian Riesch 2012-07-13  263  	struct asix_data *data = (struct asix_data *)&dev->data;
+16626b0cc3d5af Christian Riesch 2012-07-13  264  	struct ax88172a_private *priv = dev->driver_priv;
+16626b0cc3d5af Christian Riesch 2012-07-13  265  	int ret;
+16626b0cc3d5af Christian Riesch 2012-07-13  266  	u16 rx_ctl;
+16626b0cc3d5af Christian Riesch 2012-07-13  267  
+16626b0cc3d5af Christian Riesch 2012-07-13  268  	ax88172a_reset_phy(dev, priv->use_embdphy);
+16626b0cc3d5af Christian Riesch 2012-07-13  269  
+16626b0cc3d5af Christian Riesch 2012-07-13  270  	msleep(150);
+d9fe64e511144c Robert Foss      2016-08-29  271  	rx_ctl = asix_read_rx_ctl(dev, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  272  	netdev_dbg(dev->net, "RX_CTL is 0x%04x after software reset\n", rx_ctl);
+d9fe64e511144c Robert Foss      2016-08-29  273  	ret = asix_write_rx_ctl(dev, 0x0000, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  274  	if (ret < 0)
+16626b0cc3d5af Christian Riesch 2012-07-13  275  		goto out;
+16626b0cc3d5af Christian Riesch 2012-07-13  276  
+d9fe64e511144c Robert Foss      2016-08-29  277  	rx_ctl = asix_read_rx_ctl(dev, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  278  	netdev_dbg(dev->net, "RX_CTL is 0x%04x setting to 0x0000\n", rx_ctl);
+16626b0cc3d5af Christian Riesch 2012-07-13  279  
+16626b0cc3d5af Christian Riesch 2012-07-13  280  	msleep(150);
+16626b0cc3d5af Christian Riesch 2012-07-13  281  
+16626b0cc3d5af Christian Riesch 2012-07-13  282  	ret = asix_write_cmd(dev, AX_CMD_WRITE_IPG0,
+16626b0cc3d5af Christian Riesch 2012-07-13  283  			     AX88772_IPG0_DEFAULT | AX88772_IPG1_DEFAULT,
+d9fe64e511144c Robert Foss      2016-08-29  284  			     AX88772_IPG2_DEFAULT, 0, NULL, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  285  	if (ret < 0) {
+16626b0cc3d5af Christian Riesch 2012-07-13  286  		netdev_err(dev->net, "Write IPG,IPG1,IPG2 failed: %d\n", ret);
+16626b0cc3d5af Christian Riesch 2012-07-13  287  		goto out;
+16626b0cc3d5af Christian Riesch 2012-07-13  288  	}
+16626b0cc3d5af Christian Riesch 2012-07-13  289  
+16626b0cc3d5af Christian Riesch 2012-07-13  290  	/* Rewrite MAC address */
+16626b0cc3d5af Christian Riesch 2012-07-13  291  	memcpy(data->mac_addr, dev->net->dev_addr, ETH_ALEN);
+16626b0cc3d5af Christian Riesch 2012-07-13  292  	ret = asix_write_cmd(dev, AX_CMD_WRITE_NODE_ID, 0, 0, ETH_ALEN,
+d9fe64e511144c Robert Foss      2016-08-29  293  			     data->mac_addr, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  294  	if (ret < 0)
+16626b0cc3d5af Christian Riesch 2012-07-13  295  		goto out;
+16626b0cc3d5af Christian Riesch 2012-07-13  296  
+16626b0cc3d5af Christian Riesch 2012-07-13  297  	/* Set RX_CTL to default values with 2k buffer, and enable cactus */
+d9fe64e511144c Robert Foss      2016-08-29  298  	ret = asix_write_rx_ctl(dev, AX_DEFAULT_RX_CTL, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  299  	if (ret < 0)
+16626b0cc3d5af Christian Riesch 2012-07-13  300  		goto out;
+16626b0cc3d5af Christian Riesch 2012-07-13  301  
+d9fe64e511144c Robert Foss      2016-08-29  302  	rx_ctl = asix_read_rx_ctl(dev, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  303  	netdev_dbg(dev->net, "RX_CTL is 0x%04x after all initializations\n",
+16626b0cc3d5af Christian Riesch 2012-07-13  304  		   rx_ctl);
+16626b0cc3d5af Christian Riesch 2012-07-13  305  
+d9fe64e511144c Robert Foss      2016-08-29  306  	rx_ctl = asix_read_medium_status(dev, 0);
+16626b0cc3d5af Christian Riesch 2012-07-13  307  	netdev_dbg(dev->net, "Medium Status is 0x%04x after all initializations\n",
+16626b0cc3d5af Christian Riesch 2012-07-13  308  		   rx_ctl);
+16626b0cc3d5af Christian Riesch 2012-07-13  309  
+16626b0cc3d5af Christian Riesch 2012-07-13  310  	/* Connect to PHY */
+16626b0cc3d5af Christian Riesch 2012-07-13  311  	snprintf(priv->phy_name, 20, PHY_ID_FMT,
+16626b0cc3d5af Christian Riesch 2012-07-13 @312  		 priv->mdio->id, priv->phy_addr);
+16626b0cc3d5af Christian Riesch 2012-07-13  313  
+16626b0cc3d5af Christian Riesch 2012-07-13  314  	priv->phydev = phy_connect(dev->net, priv->phy_name,
+16626b0cc3d5af Christian Riesch 2012-07-13  315  				   &ax88172a_adjust_link,
+f9a8f83b04e0c3 Florian Fainelli 2013-01-14  316  				   PHY_INTERFACE_MODE_MII);
+16626b0cc3d5af Christian Riesch 2012-07-13  317  	if (IS_ERR(priv->phydev)) {
+16626b0cc3d5af Christian Riesch 2012-07-13  318  		netdev_err(dev->net, "Could not connect to PHY device %s\n",
+16626b0cc3d5af Christian Riesch 2012-07-13  319  			   priv->phy_name);
+16626b0cc3d5af Christian Riesch 2012-07-13  320  		ret = PTR_ERR(priv->phydev);
+16626b0cc3d5af Christian Riesch 2012-07-13  321  		goto out;
+16626b0cc3d5af Christian Riesch 2012-07-13  322  	}
+16626b0cc3d5af Christian Riesch 2012-07-13  323  
+16626b0cc3d5af Christian Riesch 2012-07-13  324  	netdev_info(dev->net, "Connected to phy %s\n", priv->phy_name);
+16626b0cc3d5af Christian Riesch 2012-07-13  325  
+16626b0cc3d5af Christian Riesch 2012-07-13  326  	/* During power-up, the AX88172A set the power down (BMCR_PDOWN)
+16626b0cc3d5af Christian Riesch 2012-07-13  327  	 * bit of the PHY. Bring the PHY up again.
+16626b0cc3d5af Christian Riesch 2012-07-13  328  	 */
+16626b0cc3d5af Christian Riesch 2012-07-13  329  	genphy_resume(priv->phydev);
+16626b0cc3d5af Christian Riesch 2012-07-13  330  	phy_start(priv->phydev);
+16626b0cc3d5af Christian Riesch 2012-07-13  331  
+16626b0cc3d5af Christian Riesch 2012-07-13  332  	return 0;
+16626b0cc3d5af Christian Riesch 2012-07-13  333  
+16626b0cc3d5af Christian Riesch 2012-07-13  334  out:
+16626b0cc3d5af Christian Riesch 2012-07-13  335  	return ret;
+16626b0cc3d5af Christian Riesch 2012-07-13  336  
 
 -- 
 0-DAY CI Kernel Test Service
