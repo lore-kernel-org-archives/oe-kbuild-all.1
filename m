@@ -1,77 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A26118FC74
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 16:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE92A1D54D6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 17:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742401905; cv=none; b=jXcwTdVuybS9Bgj6ywYq6lQyF+PGwe0QHx1pf2RLmJ0D/AG7GlD2PjSnTGiZw5BsjF3bW5CFliiG59rD/v1hxOeIJHxajuRRGvIoDXTR6K5OvyVwQegTqwaFHP/uj/35Lk+Hori9FAFkLgTMlrg1IVc9NoKne6Ue1cm1/6MwZYo=
+	t=1742403962; cv=none; b=tNcmigvwJ3XMqGqx0MQpUqO4uQVkLA9JZn7WHM1vEWoRL6GXiOjxNUeQliV4hNwqN7xMpIEL+TPc/uGEVJSYiqk4zkywIfTY5DNZZzntY7vnpXPGBwwP4nHs8Uwh1pqtOwSYQWIj0a7BsHvxslE8I1ppPzm9C0bqgVX40H1GXiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742401905; c=relaxed/simple;
-	bh=5TJ0rtcSY5de4do08OX/lkAVedG/eYjSVbj4z4U3TjU=;
+	s=arc-20240116; t=1742403962; c=relaxed/simple;
+	bh=XNw9v104Cv6J/m0lCrnonH70/fqdUx+x7sY45hivCcY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fUIj3pnI8gnf0kfDTkuvVXcme9XMQZqYwUe1kx6p8lAC8U0E8JNhgfW6Ajr5Vnsbpb4nfmgfV2kxltKco4bpOGp9R/zCMowecUlnUz0c+deyQJ2L7uPPUApHZ15L37GMRVkEnJboTZgyOu9LSLI+4N4z1LYKWcPQf92nFesUE8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwzhRaY7; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKyZ/4fSRCWviP74vJ2s1Rh7gfttz8E9v9UW2kB/RrVJNB4jVBHL7NZb6fv82Vnx2Bnk7AWOakpFwMAknPL0/AIVC81ca8fitwUGEQVYNpe0emqbTBAaoUjI9jakuTLImDslmV8zymIhrnThNLce3MVP3pIzaesICGgbKbUfCps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kl1G++Nj; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwzhRaY7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kl1G++Nj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742401904; x=1773937904;
+  t=1742403961; x=1773939961;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5TJ0rtcSY5de4do08OX/lkAVedG/eYjSVbj4z4U3TjU=;
-  b=fwzhRaY7OXiGadjcKyIlTPA2MNVTf+dNwkRVrxWWgynyo+WtDTtVg3GG
-   H4hf44RPim7ViyQloZ+BVhWQbfyrGICsCv5B/ghBIsa0k9jBsRtwUJam4
-   SjGJJ8nVzlPOdR/NU/4HgTkA9iSYbeMow1pUOscpAxs9OmXAWvsVz5TNZ
-   FiFiUf0jYZU8vozkb+y/1LkbbeEIMchpbBM6wdhm079i5fWnw8xAoZpsx
-   gOX0H8Rv204W0fcgp24/dl+ctmcP8g/GGbX93nTT62WpAzaE7+6WfmmVR
-   IF56z6wNa3swhbRtIu9pwyfPYe3Q9FU9CwZ7P8xHLHFD97vYlC2nBNAZH
+  bh=XNw9v104Cv6J/m0lCrnonH70/fqdUx+x7sY45hivCcY=;
+  b=Kl1G++NjXgiz4OWiI9rcC0il1YVz9wyoAF0R5XGTfM5NcSsL0fkCihDv
+   c9WY1qyvyPN04g8fI2Q0MNvgraFPQ49OUAc9Sw6ldDpIVUEUt+IXcEgXN
+   awLEAvTXw4zl1UY++BgiOS/NAwBy3muYmVGe4TQ3TucUWGTewfBXaQKry
+   EeMqemsWUkPqcJjHPtM6ybogTzCXo5LSVJywcz04NrbG1pqsKChBm7JvS
+   F7Q0ki3o8HWfwdRNA5GJsAFETQ539sXbsOfMEOh3FSgPDYaJmNI6wsd+v
+   oL+MfCpVaIIemqjD9jh1YuQg1wvWVlOQquU/3ahx+QZbcxveZjOAfhYpT
    w==;
-X-CSE-ConnectionGUID: 3+5Z43OQRsaJl4T5ISzL7Q==
-X-CSE-MsgGUID: paVZaf6uS+uwUvkiNNBTeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43522551"
+X-CSE-ConnectionGUID: Tv0jLbTZQc6ND5jtQQ0oGA==
+X-CSE-MsgGUID: NGOFa+HwTryoWxVzwnK4dA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="68960325"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43522551"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 09:31:44 -0700
-X-CSE-ConnectionGUID: pJHe7nX9Qwe7Wi4H8O6+gA==
-X-CSE-MsgGUID: 6VOIypOxRoms1ZnQK1Q4qg==
+   d="scan'208";a="68960325"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 10:06:00 -0700
+X-CSE-ConnectionGUID: ZPFUq9aRTv2NWoRz2V8MzQ==
+X-CSE-MsgGUID: GDCkSm1PS0++12vK7fhVkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="123204650"
+   d="scan'208";a="127403489"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 19 Mar 2025 09:31:38 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 19 Mar 2025 10:05:56 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tuwKN-000FWY-1w;
-	Wed, 19 Mar 2025 16:31:35 +0000
-Date: Thu, 20 Mar 2025 00:31:16 +0800
+	id 1tuwra-000FYM-0E;
+	Wed, 19 Mar 2025 17:05:54 +0000
+Date: Thu, 20 Mar 2025 01:05:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Kamel Bouhara <kamel.bouhara@bootlin.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Michael Walle <mwalle@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-	andriy.shevchenko@intel.com,
-	=?iso-8859-1?Q?Gr=E9gory?= Clement <gregory.clement@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: Re: [PATCH v5 10/11] input: misc: Add support for MAX7360 rotary
-Message-ID: <202503192326.KOCnEkdj-lkp@intel.com>
-References: <20250318-mdb-max7360-support-v5-10-fb20baf97da0@bootlin.com>
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, upstream@airoha.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [net-next PATCH 2/6] net: pcs: Implement OF support for PCS
+ driver
+Message-ID: <202503200045.AFf6buBJ-lkp@intel.com>
+References: <20250318235850.6411-3-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,57 +75,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318-mdb-max7360-support-v5-10-fb20baf97da0@bootlin.com>
+In-Reply-To: <20250318235850.6411-3-ansuelsmth@gmail.com>
 
-Hi Mathieu,
+Hi Christian,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a64dcfb451e254085a7daee5fe51bf22959d52d3]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Dubois-Briand/dt-bindings-mfd-gpio-Add-MAX7360/20250319-003750
-base:   a64dcfb451e254085a7daee5fe51bf22959d52d3
-patch link:    https://lore.kernel.org/r/20250318-mdb-max7360-support-v5-10-fb20baf97da0%40bootlin.com
-patch subject: [PATCH v5 10/11] input: misc: Add support for MAX7360 rotary
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250319/202503192326.KOCnEkdj-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192326.KOCnEkdj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phylink-reset-PCS-Phylink-double-reference-on-phylink_stop/20250319-080303
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250318235850.6411-3-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH 2/6] net: pcs: Implement OF support for PCS driver
+config: i386-buildonly-randconfig-002-20250319 (https://download.01.org/0day-ci/archive/20250320/202503200045.AFf6buBJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200045.AFf6buBJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503192326.KOCnEkdj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503200045.AFf6buBJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/input/misc/max7360-rotary.c: In function 'max7360_rotary_hw_init':
->> drivers/input/misc/max7360-rotary.c:58:8: error: implicit declaration of function 'FIELD_PREP'; did you mean 'EV_REP'? [-Werror=implicit-function-declaration]
-     val = FIELD_PREP(MAX7360_ROT_DEBOUNCE, max7360_rotary->debounce_ms) |
-           ^~~~~~~~~~
-           EV_REP
-   cc1: some warnings being treated as errors
+>> drivers/net/phy/phylink.c:989: warning: Function parameter or struct member 'pcs' not described in 'phylink_pcs_release'
+>> drivers/net/phy/phylink.c:989: warning: Excess function parameter 'pl' description in 'phylink_pcs_release'
 
 
-vim +58 drivers/input/misc/max7360-rotary.c
+vim +989 drivers/net/phy/phylink.c
 
-    52	
-    53	static int max7360_rotary_hw_init(struct max7360_rotary *max7360_rotary)
-    54	{
-    55		int val;
-    56		int ret;
-    57	
-  > 58		val = FIELD_PREP(MAX7360_ROT_DEBOUNCE, max7360_rotary->debounce_ms) |
-    59			FIELD_PREP(MAX7360_ROT_INTCNT, 1) | MAX7360_ROT_INTCNT_DLY;
-    60		ret = regmap_write(max7360_rotary->regmap, MAX7360_REG_RTRCFG, val);
-    61		if (ret) {
-    62			dev_err(&max7360_rotary->input->dev,
-    63				"Failed to set max7360 rotary encoder configuration\n");
-    64			return ret;
-    65		}
-    66	
-    67		return 0;
-    68	}
-    69	
+   978	
+   979	/**
+   980	 * phylink_pcs_release() - release a PCS
+   981	 * @pl: a pointer to &struct phylink_pcs
+   982	 *
+   983	 * PCS provider can use this to release a PCS from a phylink
+   984	 * instance by stopping the attached netdev. This is only done
+   985	 * if the PCS is actually attached to a phylink, otherwise is
+   986	 * ignored.
+   987	 */
+   988	void phylink_pcs_release(struct phylink_pcs *pcs)
+ > 989	{
+   990		struct phylink *pl = pcs->phylink;
+   991	
+   992		if (pl) {
+   993			rtnl_lock();
+   994			dev_close(pl->netdev);
+   995			rtnl_unlock();
+   996		}
+   997	}
+   998	EXPORT_SYMBOL_GPL(phylink_pcs_release);
+   999	
 
 -- 
 0-DAY CI Kernel Test Service
