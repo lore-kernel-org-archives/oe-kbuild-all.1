@@ -1,59 +1,73 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067D233985
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 20:42:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A38214225;
+	Wed, 19 Mar 2025 20:42:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742416949; cv=none; b=MXjHnkt9vKHHxGTTbx2EZxIBMMtw0FcQKGuQlPj2oPd8oWAoSQWRkcf6b+UY454wID6wTNz+NVW68uoPI+h8QnFQZVtMj9k3ntLjfAek44DMzN7h/om4TT2BrrfMo6iAeYBrdzuh9j9pxZk2YpCy5Mr1dz/ECZDKEsgByu6NBpU=
+	t=1742416953; cv=none; b=flRkMvc9k6lUOsx2iaBHAcU0BHiGKVVA9s2oV+7pab29ewx4ntoxMv718luz3NQnaV7CJk2C/S3MNrpb1jo9iU3Lx1gokgV9MtdvKYb6YbVR45cAB75bZB0JwU5i5qphUhAilU5+MeKAKAfHm3GC3MCjugUrb5Zd0myI1IRaK3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742416949; c=relaxed/simple;
-	bh=r708IfrKkd3c59+8R4uZLI4R3yJAoseV0DEXXAC1K8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=annfEFTFRIoNmfEm+lTXMCw0n+m/qpDJPkgONQ98iC5uML3C5Sx7zXZ/zaFJ2o4Y3byvXNoIqLBioXhGa5DR4GqNYVMPWIlGW0fXFJozVjPprGrcYG3n/xi3fhisYsc9W3zxyQJ5ztmsBhJOU+eC7NVOZfXKMrNK8PpM9Z0hRZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=junjQD3w; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1742416953; c=relaxed/simple;
+	bh=PFr45HKKutwFEw7jn6Bw3slxKl9l7TTdnvJ94iSfra8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7GVdBDJbXQBddrhvH7ZWc50Koz5Hh9xZzXfI5pLnjWib6MT5VGbeXcU15wlgolNA1aIcJahmwsTf6yXf/5jFVbcM35n9ULQiXa6hj4oev79fTI2tdMK6DsxmrxEKgdqhZ8fK18bgUwF+Vcnih2f81W2p7kkz6+veX8hRnfhp08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+G9RBJ8; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="junjQD3w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+G9RBJ8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742416947; x=1773952947;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r708IfrKkd3c59+8R4uZLI4R3yJAoseV0DEXXAC1K8M=;
-  b=junjQD3wPlgxQp89MC6UjkKk9b/txfv+0sn+kKnJmz+moYihwU/CbbWv
-   NyoT8CMBLQKaK9i9MucQGCyo0af97mKZMgIZ6I/LURVLJYDhaLDvbN2eK
-   sGz32iFRta2wP+Gst6kNS85oE6DxxiEFQEShduszKE+kGwYC4j2OW6yDY
-   /TyQuoNqyfaBqe7JzHTzzbWyy1xSxzRN873DNT62Is0ugj2Q2SV0xPRgd
-   fRpoo66qCErVWgnlDz6Pj+Li7ql6WpdCHML+BtP20U6pgW9va/1ojdOut
-   V4BhB6tVuSFwCpenPve3dn41Geg50zLGmsHpeJgUfVxkBkP+i1hawqF6c
-   Q==;
-X-CSE-ConnectionGUID: 1V0cxg41Txm5+RdgcCtwbQ==
-X-CSE-MsgGUID: 3BYUpxB3QVOaA19MVMGJow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="66085216"
+  t=1742416952; x=1773952952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PFr45HKKutwFEw7jn6Bw3slxKl9l7TTdnvJ94iSfra8=;
+  b=V+G9RBJ8UOS0Hb7WHJKvVqJQ15flzjGBSLQAy+nikv76XJi0y4eymwDx
+   kKgZXMGhykvGvkDh/IF3V9GYA++LwmVUjQMLKFeMZRBVaoDXg7XgPYIhl
+   61XpYTnimBsXAFdWMOcGbiKjKNe4Zs6bjifMIiTeVgIvZtukch4AI0CfC
+   qgnvxZiU0Hq1UXOPMpk+BwQMV8PfwdK43M05U2wgmxsvVJSeHJybvXjNB
+   sH2LX1kCIl1VYVk8yZ2PuFzhIs8DiON88RzXq3U61EiAyYcpPEIUUva9m
+   PIcQ82tik4k2l1RHizLJKaYuH1tJV7ouO1gTFIR2RA6bTuXOCIcyzjgU1
+   A==;
+X-CSE-ConnectionGUID: 6NIzYrvvSn2XEvFo9niSow==
+X-CSE-MsgGUID: m8Eu9PaSSpKZU7uDdkaphw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="66085226"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="66085216"
+   d="scan'208";a="66085226"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 13:42:26 -0700
-X-CSE-ConnectionGUID: yLtqpQWWRT220XUCpcMAQw==
-X-CSE-MsgGUID: IArHm/R/TPaO1ifW9NYN2Q==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 13:42:29 -0700
+X-CSE-ConnectionGUID: 4b0/JhOJSJuAE5DnHQWF6w==
+X-CSE-MsgGUID: y8moD0ftS/6BPZeGqXvWGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="122782443"
+   d="scan'208";a="122782440"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 19 Mar 2025 13:42:25 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Mar 2025 13:42:24 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tv0F4-000FeV-1I;
-	Wed, 19 Mar 2025 20:42:22 +0000
-Date: Thu, 20 Mar 2025 04:41:58 +0800
+	id 1tv0F3-000FeQ-2v;
+	Wed, 19 Mar 2025 20:42:21 +0000
+Date: Thu, 20 Mar 2025 04:41:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:tls_logger 20/39] net/ceph/ceph_san_logger.c:119:
- warning: Function parameter or struct member 'func' not described in
- 'ceph_san_log'
-Message-ID: <202503200418.ZxDBCjuJ-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, upstream@airoha.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [net-next PATCH 5/6] net: pcs: airoha: add PCS driver for Airoha
+ SoC
+Message-ID: <202503200442.3vYzyScu-lkp@intel.com>
+References: <20250318235850.6411-6-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +76,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250318235850.6411-6-ansuelsmth@gmail.com>
 
-tree:   https://github.com/ceph/ceph-client.git tls_logger
-head:   9d7726eb13dd4dbf6bba377991e8c20e18f26dae
-commit: 3fc959eb069b4707f932cd4556c2df2ea91e6a20 [20/39] fixups
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250320/202503200418.ZxDBCjuJ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200418.ZxDBCjuJ-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phylink-reset-PCS-Phylink-double-reference-on-phylink_stop/20250319-080303
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250318235850.6411-6-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH 5/6] net: pcs: airoha: add PCS driver for Airoha SoC
+config: x86_64-randconfig-001-20250320 (https://download.01.org/0day-ci/archive/20250320/202503200442.3vYzyScu-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200442.3vYzyScu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503200418.ZxDBCjuJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503200442.3vYzyScu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/ceph/ceph_san_logger.c:119: warning: Function parameter or struct member 'func' not described in 'ceph_san_log'
+>> drivers/net/pcs/pcs-airoha.c:2542:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    2542 |         default:
+         |         ^
+   drivers/net/pcs/pcs-airoha.c:2542:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    2542 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/net/pcs/pcs-airoha.c:2542:2: note: insert 'break;' to avoid fall-through
+    2542 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
 
 
-vim +119 net/ceph/ceph_san_logger.c
+vim +2542 drivers/net/pcs/pcs-airoha.c
 
-209e15e6548ab5f Alex Markuze 2025-03-16  109  
-209e15e6548ab5f Alex Markuze 2025-03-16  110  /**
-209e15e6548ab5f Alex Markuze 2025-03-16  111   * ceph_san_log - Log a message
-209e15e6548ab5f Alex Markuze 2025-03-16  112   * @file: Source file name
-209e15e6548ab5f Alex Markuze 2025-03-16  113   * @line: Line number
-209e15e6548ab5f Alex Markuze 2025-03-16  114   * @fmt: Format string
-209e15e6548ab5f Alex Markuze 2025-03-16  115   *
-209e15e6548ab5f Alex Markuze 2025-03-16  116   * Logs a message to the current TLS context's log buffer
-209e15e6548ab5f Alex Markuze 2025-03-16  117   */
-3fc959eb069b470 Alex Markuze 2025-03-18  118  void ceph_san_log(const char *file, const char *func, unsigned int line, const char *fmt, ...)
-209e15e6548ab5f Alex Markuze 2025-03-16 @119  {
-209e15e6548ab5f Alex Markuze 2025-03-16  120      /* Format the message into local buffer first */
-209e15e6548ab5f Alex Markuze 2025-03-16  121      char buf[256];
-209e15e6548ab5f Alex Markuze 2025-03-16  122      struct ceph_san_tls_ctx *ctx;
-209e15e6548ab5f Alex Markuze 2025-03-16  123      struct ceph_san_log_entry *entry;
-209e15e6548ab5f Alex Markuze 2025-03-16  124      va_list args;
-b756c73bb29c0ac Alex Markuze 2025-03-16  125      u64 alloc;
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  126      int len, needed_size;
-209e15e6548ab5f Alex Markuze 2025-03-16  127  
-209e15e6548ab5f Alex Markuze 2025-03-16  128      ctx = ceph_san_get_tls_ctx();
-7ef17a741382bcb Alex Markuze 2025-03-17  129      if (!ctx) {
-7ef17a741382bcb Alex Markuze 2025-03-17  130          pr_err("Failed to get TLS context\n");
-209e15e6548ab5f Alex Markuze 2025-03-16  131          return;
-7ef17a741382bcb Alex Markuze 2025-03-17  132      }
-209e15e6548ab5f Alex Markuze 2025-03-16  133  
-209e15e6548ab5f Alex Markuze 2025-03-16  134      va_start(args, fmt);
-209e15e6548ab5f Alex Markuze 2025-03-16  135      len = vsnprintf(buf, sizeof(buf), fmt, args);
-209e15e6548ab5f Alex Markuze 2025-03-16  136      va_end(args);
-209e15e6548ab5f Alex Markuze 2025-03-16  137  
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  138      needed_size = sizeof(*entry) + len + 1;
-f268ba79f69f9e5 Alex Markuze 2025-03-17  139      /* Allocate entry from pagefrag - We need a spinlock here to protect access iterators */
-f268ba79f69f9e5 Alex Markuze 2025-03-17  140      spin_lock(&ctx->pf.lock);
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  141      alloc = cephsan_pagefrag_alloc(&ctx->pf, needed_size);
-b756c73bb29c0ac Alex Markuze 2025-03-16  142      while (!alloc) {
-b756c73bb29c0ac Alex Markuze 2025-03-16  143          entry = cephsan_pagefrag_get_ptr_from_tail(&ctx->pf);
-e49e5f0dc7ce606 Alex Markuze 2025-03-16  144          BUG_ON(entry->debug_poison != CEPH_SAN_LOG_ENTRY_POISON);
-e043972dfcde1e5 Alex Markuze 2025-03-16  145          BUG_ON(entry->len == 0);
-b756c73bb29c0ac Alex Markuze 2025-03-16  146          cephsan_pagefrag_free(&ctx->pf, entry->len);
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  147          alloc = cephsan_pagefrag_alloc(&ctx->pf, needed_size);
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  148          //In case we hit the wrap around, we may get a partial allocation that should be marked as used
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  149          if (alloc && cephsan_pagefrag_get_alloc_size(alloc) < needed_size) {
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  150              entry = cephsan_pagefrag_get_ptr(&ctx->pf, alloc);
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  151              memset(entry->buffer, 0, sizeof(entry->buffer));
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  152              entry->len = cephsan_pagefrag_get_alloc_size(alloc);
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  153              alloc = 0;
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  154          }
-b756c73bb29c0ac Alex Markuze 2025-03-16  155      }
-209e15e6548ab5f Alex Markuze 2025-03-16  156      entry = cephsan_pagefrag_get_ptr(&ctx->pf, alloc);
-209e15e6548ab5f Alex Markuze 2025-03-16  157  
-209e15e6548ab5f Alex Markuze 2025-03-16  158      /* Fill in entry details */
-e49e5f0dc7ce606 Alex Markuze 2025-03-16  159      entry->debug_poison = CEPH_SAN_LOG_ENTRY_POISON;
-209e15e6548ab5f Alex Markuze 2025-03-16  160      entry->ts = jiffies;
-209e15e6548ab5f Alex Markuze 2025-03-16  161      entry->line = line;
-209e15e6548ab5f Alex Markuze 2025-03-16  162      entry->file = file;
-3fc959eb069b470 Alex Markuze 2025-03-18  163      entry->func = func;
-3fc959eb069b470 Alex Markuze 2025-03-18  164      entry->buffer = (char *)(entry + 1);
-ca02ecf6a70fb40 Alex Markuze 2025-03-17  165      entry->len = cephsan_pagefrag_get_alloc_size(alloc);
-f268ba79f69f9e5 Alex Markuze 2025-03-17  166      spin_unlock(&ctx->pf.lock);
-f268ba79f69f9e5 Alex Markuze 2025-03-17  167  
-f268ba79f69f9e5 Alex Markuze 2025-03-17  168      /* Copy to entry buffer */
-f268ba79f69f9e5 Alex Markuze 2025-03-17  169      memcpy(entry->buffer, buf, len + 1);
-f268ba79f69f9e5 Alex Markuze 2025-03-17  170      entry->buffer[len] = '\0';
-209e15e6548ab5f Alex Markuze 2025-03-16  171  }
-209e15e6548ab5f Alex Markuze 2025-03-16  172  EXPORT_SYMBOL(ceph_san_log);
-209e15e6548ab5f Alex Markuze 2025-03-16  173  
-
-:::::: The code at line 119 was first introduced by commit
-:::::: 209e15e6548ab5ff8ab19f7a64868f38f5e6831a cephsan logger: WIP
-
-:::::: TO: Alex Markuze <amarkuze@redhat.com>
-:::::: CC: Alex Markuze <amarkuze@redhat.com>
+  2521	
+  2522	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
+  2523	{
+  2524		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
+  2525	
+  2526		switch (priv->interface) {
+  2527		case PHY_INTERFACE_MODE_SGMII:
+  2528		case PHY_INTERFACE_MODE_1000BASEX:
+  2529		case PHY_INTERFACE_MODE_2500BASEX:
+  2530			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2531					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2532			udelay(3);
+  2533			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2534					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2535			break;
+  2536		case PHY_INTERFACE_MODE_USXGMII:
+  2537			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2538					AIROHA_PCS_USXGMII_AN_RESTART);
+  2539			udelay(3);
+  2540			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2541					  AIROHA_PCS_USXGMII_AN_RESTART);
+> 2542		default:
+  2543			return;
+  2544		}
+  2545	}
+  2546	
 
 -- 
 0-DAY CI Kernel Test Service
