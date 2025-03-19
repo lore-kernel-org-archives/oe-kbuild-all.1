@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C9D255250
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 13:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5101A5B9F;
+	Wed, 19 Mar 2025 14:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742390413; cv=none; b=t0kfta2AO0oAIbmrFMJcw312XM8ZqkYx5IzJgMZpNEzr2Ka6H6Gtq3fgzxC34pZG8ClLq1uXr7vRV1EwpAfzgq2mt1paYsDh0+il4V681tn2FE+yF7gIUkQc6ilo2koaIaNxyHxdV2T1/4FZ3kXeLv1kr3sJiVzH+6lnSyyrdjU=
+	t=1742393631; cv=none; b=hbSYdE0ysf72fSL/2eEjY/eNnZNy+B9SUw9pHrctTusd52tXpFakHP0e8PJURd0s7L600Ps704quh8iC4kKeUOvAoy3S6hTnlO6NMWlFIv/JMQdZnQQMOb6Cr5jiAcj58n5Xo/PxqfLkKR6QfV5qudpqX8znn08VBfP7XBuUp1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742390413; c=relaxed/simple;
-	bh=csDtD+S612wZH5ir8CRxqrH2IyiTpQU+1Qwx8eO6q5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oaJwLp76v6B2Ffp93ktK3mZ7gejt4lmzU6UQ7QrP8nMhqi1Bnxi57L8ePNovAvPWhSXxOU3ia/VrnPYsKXcwjhJttvGFOQX9dBF94Wtyh6yU8d94pZBgVMZxYgzbJCK3OlFZv+ihRvN4GQubXhzG45fRXcLzmuM/kM9W9RZfDSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhjMfts0; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1742393631; c=relaxed/simple;
+	bh=d1MWREdtzbaCDovZLjkEXWp+HndwpoCRn1SJTnJ/uMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BHDZaNKsNwBk+lbxvGZy1a6XlQDZq0aZEBev9nX1nS8xmKJh5XtdAz2PimDHBTcI4rIlp/+88oHnE28RoGKe9K/+pyaSTMRtI8Kw8tKhZb+aMHVjFwR+BpRR2OD/JbR+zsY0dCWVEGKxUkPhHJZMPjRso14PjDSBG6LYZ2uXj7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f53qLrxY; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhjMfts0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f53qLrxY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742390411; x=1773926411;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=csDtD+S612wZH5ir8CRxqrH2IyiTpQU+1Qwx8eO6q5I=;
-  b=OhjMfts0IslxZBveGcZi69y/IwkJE29Op0uWqhKzzvbjtgCYXgMxkJrQ
-   eFPy/v97cGgsnAGoksJcj8b4MDVNIUPeoSsqYLhofXfRjsiGZgr4roE+v
-   UmBzG/K8S66Hoku2sfKaY+MQ2e/fgFTgFUp8G9RXDi0BOK58wK9u9hl0T
-   1MVXsYyzjuII5jqNsVgH/7o8x3cmq8tJfQvEPeRZ+J7xCXUV7gINpkaK5
-   zr2wQVY+dSInQUpRC+0CCZFekwMKFdMUcop9Y5y6ARLC3fqOEaunhxiiX
-   4BeMV/geZI93RZuOLUQkauEBlp3nZQc8mb8AahjMxx4cX1gur8QE2syI3
-   A==;
-X-CSE-ConnectionGUID: TgX/duAQQQaYRZTtZv7g3g==
-X-CSE-MsgGUID: 5s3iBYA1RXi5UhRSL2uuWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="31157604"
+  t=1742393626; x=1773929626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d1MWREdtzbaCDovZLjkEXWp+HndwpoCRn1SJTnJ/uMo=;
+  b=f53qLrxYze4GHv2yzKXcxbqQSHxahSToJWPJm14+E9mQNLOTwFMRkCAm
+   WTNyN579YCsRp3arS5pAXWNgx2JQszkFvKB0FM+zEvcXqGFQs0gaS9Knd
+   ZB5PqZ6T/EMMRDy2TcpmuemNy7xOqa46m5sYgnS+MdNV2rsQewMiqhpbq
+   HA+KALRGZpPikIhRs2Tb1FN8WymbRZI2HW3jyWijblvrI3oAM+yF+hff+
+   fIdqnHkuFhbNr6tcHl6TW8nEDtbzHIwH4EuvaGLguXjYZFcYy4m/Boy9m
+   dAuW+6e9fNE6A/ZhBh0XYYQx2G/tKJ+Soo5lRCDtCCTeWSiKotNbGm3F7
+   g==;
+X-CSE-ConnectionGUID: iU7Bx0iRSOaYGuYJkfCdgw==
+X-CSE-MsgGUID: Bg2uY3DcQq6ZHgmvqCdsKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43601139"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="31157604"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 06:20:07 -0700
-X-CSE-ConnectionGUID: ERYdeZbPQoOcDdzTGFZlDQ==
-X-CSE-MsgGUID: c/Y4WQfRT3eUVUPoG2sfFA==
+   d="scan'208";a="43601139"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 07:13:45 -0700
+X-CSE-ConnectionGUID: GNLzpN9bRTqY6QzqszugxQ==
+X-CSE-MsgGUID: SlLQD+qyR1C3JCVaRA2HlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="127693359"
+   d="scan'208";a="123126308"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 19 Mar 2025 06:20:05 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 19 Mar 2025 07:13:41 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tutL0-000Egm-2o;
-	Wed, 19 Mar 2025 13:20:02 +0000
-Date: Wed, 19 Mar 2025 21:19:10 +0800
+	id 1tuuA0-000Eis-2c;
+	Wed, 19 Mar 2025 14:13:33 +0000
+Date: Wed, 19 Mar 2025 22:11:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: atags_to_fdt.c:undefined reference to `stackleak_track_stack'
-Message-ID: <202503192111.5qN6JR9O-lkp@intel.com>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Borislav Petkov <bp@alien8.de>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
+	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: Re: [PATCH v2 18/29] x86/cacheinfo: Use enums for cache descriptor
+ types
+Message-ID: <202503192150.Vhannmnp-lkp@intel.com>
+References: <20250317164745.4754-19-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +71,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250317164745.4754-19-darwi@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   81e4f8d68c66da301bb881862735bd74c6241a19
-commit: 2335c9cb831faba1a4efcc612886073b6f175fe4 ARM: 9407/1: Add support for STACKLEAK gcc plugin
-date:   9 months ago
-config: arm-randconfig-r054-20250319 (https://download.01.org/0day-ci/archive/20250319/202503192111.5qN6JR9O-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192111.5qN6JR9O-lkp@intel.com/reproduce)
+Hi Ahmed,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6d536cad0d55e71442b6d65500f74eb85544269e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-S-Darwish/x86-treewide-Introduce-x86_vendor_amd_or_hygon/20250318-011153
+base:   6d536cad0d55e71442b6d65500f74eb85544269e
+patch link:    https://lore.kernel.org/r/20250317164745.4754-19-darwi%40linutronix.de
+patch subject: [PATCH v2 18/29] x86/cacheinfo: Use enums for cache descriptor types
+config: i386-randconfig-061-20250319 (https://download.01.org/0day-ci/archive/20250319/202503192150.Vhannmnp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192150.Vhannmnp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503192111.5qN6JR9O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503192150.Vhannmnp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/cpuidle/poll_state.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/cpuidle-haltpoll.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/sysfs.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/governor.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/driver.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/cpuidle.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/governors/menu.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
+--
+   drivers/cpuidle/governors/haltpoll.c: note: in included file (through arch/x86/include/asm/cpuid/api.h, arch/x86/include/asm/cpuid.h, arch/x86/include/asm/processor.h, ...):
+>> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse: static assertion failed: "sizeof(enum _cache_table_type) == 1"
 
-   arm-linux-gnueabi-ld: arch/arm/boot/compressed/atags_to_fdt.o: in function `atags_to_fdt':
->> atags_to_fdt.c:(.text+0x9c): undefined reference to `stackleak_track_stack'
+vim +56 arch/x86/include/asm/cpuid/types.h
+
+    45	
+    46	/*
+    47	 * Leaf 0x2 1-byte descriptors' cache types
+    48	 * To be used for their mappings at cache_table[]
+    49	 */
+    50	enum _cache_table_type {
+    51		CACHE_L1_INST,
+    52		CACHE_L1_DATA,
+    53		CACHE_L2,
+    54		CACHE_L3
+    55	} __packed;
+  > 56	static_assert(sizeof(enum _cache_table_type) == 1);
+    57	
 
 -- 
 0-DAY CI Kernel Test Service
