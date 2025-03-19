@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFDC35972
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 06:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C28191F92;
+	Wed, 19 Mar 2025 06:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742366217; cv=none; b=DQWOkO80T+JXEujtyj6yge+zwr+nDOfAV0nNCCKAG/FBoCdriLPgwf1L1MRBKZMwQBBFnNgxHVjg582zvwAqeUQFnJxYlGjb/kTQ/Wn/GxUpj2t6DJUOxRXaOqk7ghV2n97j75P3SRLO1NEwZC7q2ADA6tj4GexnzpJ/h7SVYww=
+	t=1742366877; cv=none; b=TM5+sNeYyhGt3SauedKwYWKFM2HboJyE22FmMa+8UQr+oCA4raTyhC+MaQe7T8Z9oYzkPcvUV95w7i7yckRv564HF0JvVb5qZLB3gkLRaDclmEmQWI81ZNyV/KpPuaGS6hzsaT06xNjmWbQTMUE3P1Z+QozkwHUGaXPclQoEJDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742366217; c=relaxed/simple;
-	bh=z/EyujpUWB6e9vl1ZeuIwZKyB33HIjfRY8kugGydtIg=;
+	s=arc-20240116; t=1742366877; c=relaxed/simple;
+	bh=aXpwSrXMpTN4xjqFOZzObGNQjtZP/JUauYagQka7Ek4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t1Pj2gQEnm5b7+KHUySVjQNEPnc+0PxusDy5T4iMyRCCvt7Mkf+nu/t4ig1gM9SbQBDtPCt4zbb9erh262OTNpi6ju4xeqHeQqxAFJPbfl1cExPGsJiHKbKWwaL8MQN7Fmrx/TIU7DkYsB7pSpF5xGpyNGC63b1IfCe6ta5dCBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQODUKdL; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=OBR66OqTNotdapWu/x4bOrPu7uO1WEcxE8QoDc8FKU1giIRwlWDKoe83b6CaSMn3RbNYwNh2gYP0RmXtI0L3Ppa+zzkJP3Fhfl+eHY2SqFB28xzM5OX7ERsqdcFV/4XZszR5jiVrUbREQTwG1fjGTKLXmQABBsE5uoWvPr5yxa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQlkWVfZ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQODUKdL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQlkWVfZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742366215; x=1773902215;
+  t=1742366874; x=1773902874;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z/EyujpUWB6e9vl1ZeuIwZKyB33HIjfRY8kugGydtIg=;
-  b=YQODUKdLI7parES5zly4hd40cjJ1GjWj6a2FPL3KcOIlQdJz5fO8kHai
-   iPiVf8QPVFw7BaezX5MzUwHCJO+poNWycd1AZFobmJCuD0uqf561EUMG2
-   KtIsUht8qCkEsUrMyxHm0lSEWb1mxoZwHS9lmLwdI2P3PBkMI4hMPNsUt
-   xTZE2vWVk7VYZ8apojk2FlLDd3GO/r/dQD8wWI+FgnOY8UpsJ/j4fv6Vk
-   AJAvFLHskACbAFDMGsL3xspDmw1Yw1Y9Cpv+GegeIxqyDBDMK2KHIvhg0
-   3s9iTueBgrqNDuTeDN1u4fLL7Shs0c4Vj2S/BiYkK4GipHyyXIF3QJcQA
-   g==;
-X-CSE-ConnectionGUID: ylAoOzwiQUWxJxFKE5RtWw==
-X-CSE-MsgGUID: Iw/E7+WTS9yYDfx0Jg4Vtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43429079"
+  bh=aXpwSrXMpTN4xjqFOZzObGNQjtZP/JUauYagQka7Ek4=;
+  b=gQlkWVfZwFUqowC0/5ZVXywbWHQMZWTiD6qb7Rt9Ygf+IDQA/4KrBsx1
+   ERa8qNo458d9LE8l5gsqWC0WOPqJMTsSetot208Q4zfp0are41YQ6KXw4
+   fiNhzpxvzJvTHUKp3PiXX58sPGg4aDP8KTIG9yj6VfQ2KIf5IeMdMrgp1
+   1r5abDnPOoqc+CI1f2Y79JUCnZdW/VfMb2p0SzvKO8iHzPF9Z2+eZSM/r
+   /xZAUFhzRajjtLn9YHG/IypNWQ9AUcUVwjptOaLzoNsnCMjd+pMQdp1Qw
+   RXQojOzuZbDX7n/9rg7PvQEUKT5VdU6GY1IkkwtD3hF00ga/sHN13CaFd
+   Q==;
+X-CSE-ConnectionGUID: 8PE34QMTSY6lO4OgSlkIRA==
+X-CSE-MsgGUID: erGHHnBhSFOfikBjbu1Uqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43708171"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43429079"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 23:36:53 -0700
-X-CSE-ConnectionGUID: UmUmf/pjSuCDXcCe6bcFMw==
-X-CSE-MsgGUID: X6RJFmKaQWS1wPS+bYc0sQ==
+   d="scan'208";a="43708171"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 23:47:53 -0700
+X-CSE-ConnectionGUID: StrOZa8hQGCV6TRYlIgGOw==
+X-CSE-MsgGUID: F2VV/fkQSHmM4llit9iaGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="122416675"
+   d="scan'208";a="159634600"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 18 Mar 2025 23:36:51 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Mar 2025 23:47:52 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tun2n-000ERH-0V;
-	Wed, 19 Mar 2025 06:36:49 +0000
-Date: Wed, 19 Mar 2025 14:36:10 +0800
+	id 1tunDR-000ERY-2R;
+	Wed, 19 Mar 2025 06:47:49 +0000
+Date: Wed, 19 Mar 2025 14:46:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [steev:lenovo-x13s-v6.14-rc7 57/57] kernel/sched/fair.c:91:50:
- error: initializer element is not constant
-Message-ID: <202503191448.0ta1SveL-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: [tip:objtool/core 5/13] drivers/misc/lkdtm/lkdtm.o: warning:
+ objtool: execute_location+0x39: skipping duplicate warning(s)
+Message-ID: <202503191453.uFfxQy5R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +64,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.14-rc7
-head:   4b6c591051a5416e5e26f5a78c3bf6ddc7fd20e9
-commit: 4b6c591051a5416e5e26f5a78c3bf6ddc7fd20e9 [57/57] linux6.14.y-bore5.9.6
-config: arm64-randconfig-001-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191448.0ta1SveL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191448.0ta1SveL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
+head:   73070466ed3b5e4620e03c159ee12a570b171d08
+commit: 0a7fb6f07e3ad497d31ae9a2082d2cacab43d54a [5/13] objtool: Increase per-function WARN_FUNC() rate limit
+config: x86_64-randconfig-007-20250319 (https://download.01.org/0day-ci/archive/20250319/202503191453.uFfxQy5R-lkp@intel.com/config)
+compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503191453.uFfxQy5R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503191448.0ta1SveL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503191453.uFfxQy5R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/fair.c:91:50: error: initializer element is not constant
-    __read_mostly uint sysctl_sched_base_slice     = nsecs_per_tick;
-                                                     ^~~~~~~~~~~~~~
-
-
-vim +91 kernel/sched/fair.c
-
-    80	
-    81	/*
-    82	 * Minimal preemption granularity for CPU-bound tasks:
-    83	 *
-    84	 * BORE : base_slice = minimum multiple of nsecs_per_tick >= min_base_slice
-    85	 * (default min_base_slice = 2000000 constant, units: nanoseconds)
-    86	 * EEVDF: default 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds
-    87	 */
-    88	#ifdef CONFIG_SCHED_BORE
-    89	static const unsigned int nsecs_per_tick       = 1000000000ULL / HZ;
-    90	unsigned int sysctl_sched_min_base_slice       = CONFIG_MIN_BASE_SLICE_NS;
-  > 91	__read_mostly uint sysctl_sched_base_slice     = nsecs_per_tick;
-    92	#else // !CONFIG_SCHED_BORE
-    93	unsigned int sysctl_sched_base_slice			= 750000ULL;
-    94	static unsigned int normalized_sysctl_sched_base_slice	= 750000ULL;
-    95	#endif // CONFIG_SCHED_BORE
-    96	
+   drivers/misc/lkdtm/lkdtm.o: warning: objtool: execute_location+0x23: relocation to !ENDBR: .text+0x1378
+   drivers/misc/lkdtm/lkdtm.o: warning: objtool: execute_location+0x2e: relocation to !ENDBR: .text+0x1370
+>> drivers/misc/lkdtm/lkdtm.o: warning: objtool: execute_location+0x39: skipping duplicate warning(s)
 
 -- 
 0-DAY CI Kernel Test Service
