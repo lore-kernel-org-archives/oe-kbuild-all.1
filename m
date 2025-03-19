@@ -1,67 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165E817BCE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 19 Mar 2025 15:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534C71CCB4B;
+	Wed, 19 Mar 2025 16:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742399541; cv=none; b=P8sdac4u0sPsEtFsx60Ww1H2OQIjjB1CC2zHYn+oGzaeLFLZ2E4YmBIsS3pD6MDgoiKJgubG+nWreLWAD0CrtmyETq3fsWuac0mm09dImpaeyCHSwkV7Qo/9fUvxD7QD6yMjgHoyKdogggfcOeSzOlYm5a/2EVH2xIBEUWhpiVs=
+	t=1742400595; cv=none; b=LxiuhAJJ6oD2GarDar95hJN+HeUbMtDQQd2lShKTORaDFc/WvVk3pRhGKq8/26v84nQEOYjUlhEZc9CxDL1sBwPAIG2k30APa/toFrdJCLHY8nOm4SD+TSqiTjBLU4voEVlxPmBee0Ac9nffuaUVDlVTzezi8DgIBFrRkOLMGNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742399541; c=relaxed/simple;
-	bh=NGbAHTuhvzBd3gWV5Ye2Nzx6lDdvF9IFw6FYrwoAGCA=;
+	s=arc-20240116; t=1742400595; c=relaxed/simple;
+	bh=G0vg0m0oxHgCnikWHLlyIDDQchsns62NJVtCPtY37Nk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RpmkrN/kZOcML8FBKf1Fo4GLfkbmgo7CHHR6Hi3PdWSiNNfAk+0SQfB8jQ/WpCjc3xqjVxeXwbG+8OytRWz8kVrPaHHxe3+BtW64KZ5gT6rYvPeWOywJcGz/CSpdAgk6OJWgp9MLeZc62q/64EXxBl0/rDTGoeAPYyUQQHlR8Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZTPa0hb; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/idcIzugTuYbxxiDchXP/Ozqt2hxNcKM+1ST5arhgqr6Ij6gCg1lUovPDPhZMXPBGi6RZpGoHzEQmo1R3m0ccczvYLi6Dakvcx2OzUBLmlPUT2ecD3fFRdD21ySbwVjD+rogfHQjEy+ha33hZ/9apvw4msYeubLl75KdySyRrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aykRC7O3; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pSXToEV0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZTPa0hb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742399540; x=1773935540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NGbAHTuhvzBd3gWV5Ye2Nzx6lDdvF9IFw6FYrwoAGCA=;
-  b=LZTPa0hbaMAJC4xeDyoeThQfd4DosHNllRC0+xbVdgoxNzFlY1AeE1+L
-   yFIIVgAjRTUD7dT4IE5DoW2wU+HJgo0aqoQhsXtrpmRo5R3vnd1tAGB1p
-   TQltjgq010MaIFkzFZ2hWsMzhyocvhKg8Hg52mJMzaCspxjTcBFy0Zt9Y
-   wztG3QDtmCWscINKgPLcrYSxANTDjx8Na0L+eVzYnResGreKeHJq2UDUZ
-   1llMIvTIbTuZs5FWPFUPAZlW+XWj+KzSxjx3tY8nzRV1/+1LJySeSs2DT
-   SNcizCbYHJc/vv3thcXBpzMS9L+K6iOy2OmGvRP0S3rgjkOlA2Hc3DU+9
-   Q==;
-X-CSE-ConnectionGUID: PZrPGUSNTReknUt+KQ4Ogg==
-X-CSE-MsgGUID: xAyhEtH4Q1udXhikDDW28g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43329737"
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="43329737"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 08:52:19 -0700
-X-CSE-ConnectionGUID: Jy8p7MkERuK5RMcf/Qoi8A==
-X-CSE-MsgGUID: FnoODpthSLmorvjzmDrRtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="127749013"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 08:52:16 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tuviH-00000003z02-3mIi;
-	Wed, 19 Mar 2025 17:52:13 +0200
-Date: Wed, 19 Mar 2025 17:52:13 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aykRC7O3";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pSXToEV0"
+Date: Wed, 19 Mar 2025 17:09:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1742400592;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f3CF3UdUoe/ySTXFKSKClTZYWcZ5dr4XM27XFgv7WYE=;
+	b=aykRC7O3V3CaIFFQJ4Uqh55u6HeqG/LB+N8Y8l3x8FMmwgZG5tf4s1J6mEgi2tkiR9dRlC
+	/+UMn9BfXZYB+efafnIBv/yQbJpsSCfDSgFqS3WzwZy/GaV4xV49RBlEMRKgJlCubpGuFM
+	L91LSv1CY8tw9V7IJAl0ht0kjPb2Xmk9K55zaUYiKpP7LUGZvaHPxaQnhPop8PF8HtEh76
+	rdgodRXb6JBDoJUc/7j96akVfro3fo8VN9dTe5FyiHJJUc9ocJAMiZ7B/b7mpiQINkm5MQ
+	Uccl0zhGiQanPKI5tB7xC7QnHsNeXecYcCuMToLOCfi14qXZj0JWvgPpKeZpdA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1742400592;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f3CF3UdUoe/ySTXFKSKClTZYWcZ5dr4XM27XFgv7WYE=;
+	b=pSXToEV0KYvqqCQ960nqZtPvNAJl+CSF3Iz3NtlO1nDEaE7KeQ6sFJZjchvDjPd08NcOc2
+	14ECsS0WL1VVA4Bw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
 To: kernel test robot <lkp@intel.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH net v2 1/2] net: phy: Fix formatting specifier to avoid
- potential string cuts
-Message-ID: <Z9roLbRN7Dyf22G2@smile.fi.intel.com>
-References: <20250319105813.3102076-2-andriy.shevchenko@linux.intel.com>
- <202503192340.iVN44lM2-lkp@intel.com>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Borislav Petkov <bp@alien8.de>, oe-kbuild-all@lists.linux.dev,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
+	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 18/29] x86/cacheinfo: Use enums for cache descriptor
+ types
+Message-ID: <Z9rsTirs9lLfEPD9@lx-t490>
+References: <20250317164745.4754-19-darwi@linutronix.de>
+ <202503192150.Vhannmnp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,44 +60,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202503192340.iVN44lM2-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <202503192150.Vhannmnp-lkp@intel.com>
 
-On Wed, Mar 19, 2025 at 11:37:19PM +0800, kernel test robot wrote:
-> Hi Andy,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/net-phy-Fix-formatting-specifier-to-avoid-potential-string-cuts/20250319-190433
-> base:   net/main
-> patch link:    https://lore.kernel.org/r/20250319105813.3102076-2-andriy.shevchenko%40linux.intel.com
-> patch subject: [PATCH net v2 1/2] net: phy: Fix formatting specifier to avoid potential string cuts
-> config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20250319/202503192340.iVN44lM2-lkp@intel.com/config)
-> compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250319/202503192340.iVN44lM2-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503192340.iVN44lM2-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/net/usb/ax88172a.c:312:20: warning: format specifies type 'unsigned char' but the argument has type 'u16' (aka 'unsigned short') [-Wformat]
->      311 |         snprintf(priv->phy_name, 20, PHY_ID_FMT,
->          |                                      ~~~~~~~~~~
->      312 |                  priv->mdio->id, priv->phy_addr);
->          |                                  ^~~~~~~~~~~~~~
->    1 warning generated.
+Hi,
 
-It's fun: while working around GCC complain, clang does not agree with... :-)
-Let's wait more, probably the simplest fix (if this becomes only a single user
-of the non-byte parameter) is to move it to u8.
+On Wed, 19 Mar 2025, kernel test robot wrote:
+>
+> arch/x86/include/asm/cpuid/types.h:56:1: sparse: sparse:
+>   static assertion failed: "sizeof(enum _cache_table_type) == 1"
+>
 
--- 
-With Best Regards,
-Andy Shevchenko
+I've checked the error report and reproduced it on my machine:
 
+    https://download.01.org/0day-ci/archive/20250319/202503192150.Vhannmnp-lkp@intel.com/reproduce
 
+After cloning sparse git repo and playing around with its validation test
+suite, I've realized that it does not understand __attribiute__((packed))
+on enums.
+
+Namely, applying below diff on top of sparse's git repo:
+
+    |  diff --git a/validation/enum-min-size.c b/validation/enum-min-size.c
+    |  index e8bd9fb1..e691b332 100644
+    |  --- a/validation/enum-min-size.c
+    |  +++ b/validation/enum-min-size.c
+    |  @@ -1,5 +1,9 @@
+    |   enum i { I = 1 };
+    |   _Static_assert(sizeof(enum i) == sizeof(int), "int");
+    |  +
+    |  +enum k { X = 0} __attribute__((packed));
+    |  +_Static_assert(sizeof(enum k) == sizeof(char), "char");
+    |  +
+    |   enum u { U = 1U };
+    |   _Static_assert(sizeof(enum u) == sizeof(int), "uint");
+
+Then running the modified test:
+
+    sparse/$ cd validation
+    sparse/validation$ ./test-suite enum-min-size.c
+
+leads to the same error:
+
+    TEST    enum-min-size (enum-min-size.c)
+    +enum-min-size.c:5:31: error: static assertion failed: "char"
+    error: FAIL: test 'enum-min-size.c' failed
+
+After checking other kernel code which have __packed on enums, I found
+this at <linux/rw_hint.h>, which is included by core SCSI code:
+
+    /* Sparse ignores __packed annotations on enums, hence the #ifndef below. */
+    #ifndef __CHECKER__
+    static_assert(sizeof(enum rw_hint) == 1);
+    #endif
+
+So I'll add a similar CPP guard (in v4, since I've already posted v3.)
+
+Thanks!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
