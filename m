@@ -1,58 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5EE33E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 10:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A966C1C6F55
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 10:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742465952; cv=none; b=acT25YBlHD1difvAtso05NIoGu5NHfrxpyNe/JZTFBkRMpqvrTZm1yZ9H0PdXL9B1tDbs+6fKoH6ABMTBcRhGK8vHu1zX2zdrdYpWMWvCHPG/wwpMVwoQh5QohOtjN22kXbBNBoSSXc5bacQRlWx/SdNhu4ugLhw4lI6+PUUzxw=
+	t=1742465953; cv=none; b=RuSXY+qJWOOYDNsAfKPsAMlgaImYFq9P8SAk8hFHsn/jcRikCZL/xotTtH2EG3d2ChksQ3pSABiiQWZtJUoCPLHUWnr01J4uuj7KQHYPjddCeEixNqG5kPycjGQjg22WvQR2v4FGYE48iLzYYnbiRLs8qMdnB0nzeahbeh2Fto0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742465952; c=relaxed/simple;
-	bh=VCbjVFRFKHUQtXh4jUDXLuh9QdrNw/4gUGUKr4Oak5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A38dRYwaSi297po6kRsHZ37PXFGxae1hUnrlmEiGHlesxr1GeZTnisdyZtXj5ZiJpluIyJBbF7f/ziYcuNKxH6BM1d+ZTLOItYeKhCDoUWhJSGlJjAUu2jwVktaVQHeWsd3X8P7GaFilnynNV3lZ9DTj09iuHGBzgZxzYN5FUH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpW2udNP; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1742465953; c=relaxed/simple;
+	bh=8WDPQ7/wmjD0kkZAXaPY1dsidVCmiWqFIXWkKeaRNEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GWeUenCHOpaJz+6vCf3yr3KK3T6Coklp0TSG+/BGAz6tJL8vj/nAy6Ed44zGhkgDrMRMvaO5s7Xd2wJKMFbPVdK8LT6Z7QQfLDiqYnlniSFiSAsukap5R47KI4P4OwWZQ6BS2kd6CuJ/OSvksHA7YeZICphBHwIVEqSS/9x1qCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYb7IQss; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpW2udNP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYb7IQss"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1742465951; x=1774001951;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VCbjVFRFKHUQtXh4jUDXLuh9QdrNw/4gUGUKr4Oak5I=;
-  b=LpW2udNPHclA+PIwPZMFdKsJ30Y27w8kpz/6aVWyWGJTTtZWrP3TRezC
-   I8F26OD4xOUpCEeetzEoh00dt3Ba3WlVcrvHrZ6auSihSNpo4orUkFMio
-   uOIID9tGkgNEieVnEc99lOU2i1Hpi3QpBhrtguFE4U2ZAmfnKbkUHtEM3
-   PSCxEKpo9e6UdJ89cQGQtvbqcEOF81VcboOfdThUT6msCYApFVXJRVrx/
-   WuHOOeOdfjrj8DnVUHSnxoM08M25VwmY9gn280QKl0q36UPjJTf760xGS
-   2QeNXUJg76kqA96ie84TFXkKe3TOEf+Ioke9SuR3bqzLPjyh9ocKTIsKn
-   g==;
-X-CSE-ConnectionGUID: 4Azn197eRz6DPF9T7zHyyw==
-X-CSE-MsgGUID: tBVzTWYwQZODzwfqBCzm8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="66150343"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8WDPQ7/wmjD0kkZAXaPY1dsidVCmiWqFIXWkKeaRNEw=;
+  b=lYb7IQssqh0qk1ZglWu0Veh7Da7utBy2tzSRO/alzxKIcusrljgAh/gX
+   fyiuWrlnFgOYe2S5pPtpGVIYLpOe9mKfr2wIW+FJJ1PqDpZcC7anLHU6f
+   OUiOeDMfcsY54kYt/yfyVRB63Cq/lfIMIZml4cTQJZuTyCCOOGvoMnvCp
+   xSMfANx7oyKSCStL2D1UN4Xs+9Nu+cCFOhbCt+OlrK0em3yhKFm7kjXvh
+   INK4dtbeJp99IapMZuSmY0kBrO7oURPIzS+sETewFpE/q1h3PS0mfj31s
+   ChORNiRhXiqJenQ6rjxKgCeMPzejIO8VmjSNkyhdyOKBTnINidkNp+M81
+   A==;
+X-CSE-ConnectionGUID: rA+fIVPFQtyLo991SloFMQ==
+X-CSE-MsgGUID: oiPrLD/LTViHqEJhuhKOhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="66150345"
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="66150343"
+   d="scan'208";a="66150345"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 03:19:09 -0700
-X-CSE-ConnectionGUID: lSzX0AXsQeONzagg9aBlBw==
-X-CSE-MsgGUID: bTdkHwDmR76rJwYPREMGLQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 03:19:11 -0700
+X-CSE-ConnectionGUID: 2aJi/B0kRWybmQ6SvR0Z9w==
+X-CSE-MsgGUID: Hl5aCehrRqeOZpoxMUZ72g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="128143940"
+   d="scan'208";a="128143941"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
   by fmviesa004.fm.intel.com with ESMTP; 20 Mar 2025 03:19:09 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvCzS-0000Mr-26;
+	id 1tvCzS-0000Mp-22;
 	Thu, 20 Mar 2025 10:19:06 +0000
-Date: Thu, 20 Mar 2025 18:18:37 +0800
+Date: Thu, 20 Mar 2025 18:18:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:for-next 8/17] ld: vmlinux.o:undefined reference to
- `oxygen_pci_pm'
-Message-ID: <202503201853.7kB0BPRw-lkp@intel.com>
+To: Antheas Kapenekakis <lkml@antheas.dev>,
+	platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>
+Subject: Re: [PATCH 11/11] HID: asus: add support for the asus-wmi brightness
+ handler
+Message-ID: <202503201739.4NJJCyeZ-lkp@intel.com>
+References: <20250319191320.10092-12-lkml@antheas.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +71,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250319191320.10092-12-lkml@antheas.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   765fee28fe0e7d6a5ff8f2eeb7990b7d3ad20825
-commit: 5ea0a2206b58356779cc686630b6548a3402991c [8/17] ALSA: oxygen: Convert to EXPORT_SIMPLE_DEV_PM_OPS()
-config: x86_64-buildonly-randconfig-002-20250320 (https://download.01.org/0day-ci/archive/20250320/202503201853.7kB0BPRw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201853.7kB0BPRw-lkp@intel.com/reproduce)
+Hi Antheas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4701f33a10702d5fc577c32434eb62adde0a1ae1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antheas-Kapenekakis/HID-asus-refactor-init-sequence-per-spec/20250320-031740
+base:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+patch link:    https://lore.kernel.org/r/20250319191320.10092-12-lkml%40antheas.dev
+patch subject: [PATCH 11/11] HID: asus: add support for the asus-wmi brightness handler
+config: s390-randconfig-002-20250320 (https://download.01.org/0day-ci/archive/20250320/202503201739.4NJJCyeZ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201739.4NJJCyeZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503201853.7kB0BPRw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503201739.4NJJCyeZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld: vmlinux.o:(.data+0x57d120): undefined reference to `oxygen_pci_pm'
-   ld: vmlinux.o:(.data+0x57d620): undefined reference to `oxygen_pci_pm'
+   drivers/hid/hid-asus.c: In function 'asus_event':
+>> drivers/hid/hid-asus.c:325:11: error: invalid use of void expression
+       return !asus_brt_event(ASUS_BRT_UP);
+              ^
+   drivers/hid/hid-asus.c:327:11: error: invalid use of void expression
+       return !asus_brt_event(ASUS_BRT_DOWN);
+              ^
+   drivers/hid/hid-asus.c:329:11: error: invalid use of void expression
+       return !asus_brt_event(ASUS_BRT_TOGGLE);
+              ^
+
+
+vim +325 drivers/hid/hid-asus.c
+
+   311	
+   312	static int asus_event(struct hid_device *hdev, struct hid_field *field,
+   313			      struct hid_usage *usage, __s32 value)
+   314	{
+   315		if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
+   316		    (usage->hid & HID_USAGE) != 0x00 &&
+   317		    (usage->hid & HID_USAGE) != 0xff && !usage->type) {
+   318			hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
+   319				 usage->hid & HID_USAGE);
+   320		}
+   321	
+   322		if (usage->type == EV_KEY && value) {
+   323			switch (usage->code) {
+   324			case KEY_KBDILLUMUP:
+ > 325				return !asus_brt_event(ASUS_BRT_UP);
+   326			case KEY_KBDILLUMDOWN:
+   327				return !asus_brt_event(ASUS_BRT_DOWN);
+   328			case KEY_KBDILLUMTOGGLE:
+   329				return !asus_brt_event(ASUS_BRT_TOGGLE);
+   330			}
+   331		}
+   332	
+   333		return 0;
+   334	}
+   335	
 
 -- 
 0-DAY CI Kernel Test Service
