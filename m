@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857DD223304
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 14:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A759157A72
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 16:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742480212; cv=none; b=jHs3oPDXyYcTHiRzXf/RkTBjaD/iVxBR4uez8KiEJyNNcHbznSxQiSJBxcZNhGpaEqVr+2ksaYHzXjEdSdqzOreh7VzB5/WyjqI1KlJ8Dh2SEX9FLyr5IhXHTg3KkB/IcVC16PM6PsDyQ3hxLQQ+V/2SaTppWhINFjLXt+0l6aQ=
+	t=1742487237; cv=none; b=E8QYZf5zg4GCbwuEdR0lxukFVOVozDu30DH9tJUAfHMjjFwmaKupLYQcXqcylposOa9xzCsaPscozRIqKaBcCe5XeWPnl4lglvsMp3uDVeBsrnhcfIeuV55akPYGyEVKpABoLKdiww5d9KWJyfxzTXjA2+yu9332PHaKv1shDTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742480212; c=relaxed/simple;
-	bh=c+msm440IrcPReaa2E0gSk07zWOsPtbcidaRPK2HnV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H2dNycgg4iehw6aBL19tZyUPjUOaU0JQdcA/Bjmv4J36jzIgG4UpizlJDnD7NM7vlOqWjatAibakqEr1zuYQVxPsP2awOhC9Xl0VyGBqeOMwwzrIUWTaSMNpM0I5+PHBtwzk6WE1V2ffM76i4l/VTnLXGik6pI7qT5NXsmT0gP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ok9K6LS/; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1742487237; c=relaxed/simple;
+	bh=A03YcV29Mgcr2rKaPyzWSsbf12vj49Zgz++G2QQuW64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dm2dWGyUGJ4BqcHoI6nJ0lYzCY0sUj+hjgHggzymqbC+UmV9JsymVXyk0qp0Sh4liJ15DjXsfhsxmSZk5GU/tT51ul6MD73sfdyIzowuknvtirIqObvC8TmzsTkM2BRPy8x8tm0giForM+hvSf1DacW9LzxazxmvEonIuAOwAxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WirxAWXH; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ok9K6LS/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WirxAWXH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742480210; x=1774016210;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c+msm440IrcPReaa2E0gSk07zWOsPtbcidaRPK2HnV8=;
-  b=Ok9K6LS/Tj5vyyfDUGCheogjoKLQqUzE/IwKL36qz7eUxzluRcA0Mi/w
-   14uACF/xR2eojzOkeAVTDdxoua5tGODro7uDBkn2ci21cEXIMYG1XUAnv
-   y7gPI3Fvc6eYgCl5gY6OJcZYClIRS4FkVLuleoSJlUym4EIAFfWrxiSLF
-   gD3GhTMnCGuCQ0zBvAr2c2ZIAmyMQkylMo9DDaAwlkEgm8oh0shcuK04K
-   /kN4vxLBqPAI3a4tq0XohJ6XsifLuVqLnxqQic4128ix2otjEElP8xey4
-   b7ud1/+VT42jQNnpRw4YYwafgNvU77VbH8oXfg8LlcUZMXSYnlpCXi879
-   A==;
-X-CSE-ConnectionGUID: xWaRjfUsTKu01WGSZVfVyQ==
-X-CSE-MsgGUID: al5U0qd5Tf+kK7XjT/rF9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43827847"
-X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="43827847"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 07:16:50 -0700
-X-CSE-ConnectionGUID: REgbw6zkRDeFemzpAnl4dQ==
-X-CSE-MsgGUID: N1Y8iKsHS3qDTOyCZOYLlA==
+  t=1742487235; x=1774023235;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A03YcV29Mgcr2rKaPyzWSsbf12vj49Zgz++G2QQuW64=;
+  b=WirxAWXHmaRzm//l9h6LcpMFRzr0OBveb9CdkVYiEeWf1LXc0WvM8qtM
+   sL9OKZg3ElGB6np96k0MBYV+ZB5wyWWLxDxCUIClNe1kD0rRWb1/tvlPP
+   KGcbG2aKJ+cspnA7bASGzhFzxrJWU0dlpt9fY3H4z6ZUaurGNfYmSvaHJ
+   IcUn3K0NAxyzo/VqAA1kvI68TG4n/urZi9kWsNQJs2PW9BkFpH+6LERhi
+   ne/cy62mTdNDZloppFPbHB2nAXaRTJ/0+yq1ws2wtCa10YtIisQ9nlcCq
+   NC2Pi9cefle25C3/47m7m3fHy2wthZyFJPicyP5H0UBEePMaNYkbrfHIN
+   g==;
+X-CSE-ConnectionGUID: u4u0Pk0bTwa92FbRHqvBmw==
+X-CSE-MsgGUID: ae5AFDktSSutRhGYrWEfnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43899521"
+X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
+   d="scan'208";a="43899521"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 09:13:55 -0700
+X-CSE-ConnectionGUID: 9IoHnd4OQY+7JNpuWNeaCg==
+X-CSE-MsgGUID: ToR0l3G2R/iGOBy74YyI3g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="123069601"
+X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
+   d="scan'208";a="123155500"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2025 07:16:49 -0700
+  by orviesa006.jf.intel.com with ESMTP; 20 Mar 2025 09:13:51 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvGhS-0000UV-2E;
-	Thu, 20 Mar 2025 14:16:46 +0000
-Date: Thu, 20 Mar 2025 22:15:27 +0800
+	id 1tvIWj-0000aV-2C;
+	Thu, 20 Mar 2025 16:13:49 +0000
+Date: Fri, 21 Mar 2025 00:12:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 1/1]
- drivers/remoteproc/qcom_q6v5_mss.c:1023:41: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202503202241.UKjLw5JU-lkp@intel.com>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/max3440): add support adpm12160
+Message-ID: <202503202311.5PZH0XKm-lkp@intel.com>
+References: <20250320-dev_adpm12160-v1-2-8f7b975eac75@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,201 +69,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250320-dev_adpm12160-v1-2-8f7b975eac75@analog.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   7e39477098b50156535c8f910fee50d6dac2a793
-commit: 2b5e61da68e880ab77c423b007a4df2f7deac8ab [1/1] remoteproc: qcom_q6v5_mss: map/unmap mpss segments before/after use
-config: arm64-randconfig-r123-20250319 (https://download.01.org/0day-ci/archive/20250320/202503202241.UKjLw5JU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250320/202503202241.UKjLw5JU-lkp@intel.com/reproduce)
+Hi Alexis,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on c812cc42f92d3d0b17c01b5db9a1dee5793a1491]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexis-Czezar-Torreno/hwmon-pmbus-max34440-Fix-support-for-max34451/20250320-115905
+base:   c812cc42f92d3d0b17c01b5db9a1dee5793a1491
+patch link:    https://lore.kernel.org/r/20250320-dev_adpm12160-v1-2-8f7b975eac75%40analog.com
+patch subject: [PATCH 2/2] hwmon: (pmbus/max3440): add support adpm12160
+config: i386-buildonly-randconfig-005-20250320 (https://download.01.org/0day-ci/archive/20250320/202503202311.5PZH0XKm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503202311.5PZH0XKm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503202241.UKjLw5JU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503202311.5PZH0XKm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/remoteproc/qcom_q6v5_mss.c:1008:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *ptr @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1008:21: sparse:     expected void *ptr
-   drivers/remoteproc/qcom_q6v5_mss.c:1008:21: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/qcom_q6v5_mss.c:1023:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *ptr @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1023:41: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/remoteproc/qcom_q6v5_mss.c:1023:41: sparse:     got void *ptr
-   drivers/remoteproc/qcom_q6v5_mss.c:1034:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *ptr @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1034:41: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/remoteproc/qcom_q6v5_mss.c:1034:41: sparse:     got void *ptr
-   drivers/remoteproc/qcom_q6v5_mss.c:1047:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *ptr @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1047:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/remoteproc/qcom_q6v5_mss.c:1047:25: sparse:     got void *ptr
-   drivers/remoteproc/qcom_q6v5_mss.c:1103:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *ptr @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1103:21: sparse:     expected void *ptr
-   drivers/remoteproc/qcom_q6v5_mss.c:1103:21: sparse:     got void [noderef] __iomem *
-   drivers/remoteproc/qcom_q6v5_mss.c:1107:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *ptr @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1107:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/remoteproc/qcom_q6v5_mss.c:1107:25: sparse:     got void *ptr
-   drivers/remoteproc/qcom_q6v5_mss.c:1393:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mba_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_mss.c:1393:27: sparse:     expected void *mba_region
-   drivers/remoteproc/qcom_q6v5_mss.c:1393:27: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +1023 drivers/remoteproc/qcom_q6v5_mss.c
+   drivers/hwmon/pmbus/max34440.c: In function 'max34440_read_word_data':
+>> drivers/hwmon/pmbus/max34440.c:97:71: error: expected statement before ')' token
+      97 |                     data->id != max34451_na6 && data->id != adpm12160))
+         |                                                                       ^
+   drivers/hwmon/pmbus/max34440.c: At top level:
+   drivers/hwmon/pmbus/max34440.c:483:37: error: expected expression before ',' token
+     483 |                 MAX34451_COMMON_INFO,
+         |                                     ^
+   drivers/hwmon/pmbus/max34440.c:486:37: error: expected expression before ',' token
+     486 |                 MAX34451_COMMON_INFO,
+         |                                     ^
+   In file included from include/linux/module.h:22,
+                    from drivers/hwmon/pmbus/max34440.c:11:
+   drivers/hwmon/pmbus/max34440.c:603:18: error: expected ',' or ';' before 'PMBUS'
+     603 | MODULE_IMPORT_NS(PMBUS);
+         |                  ^~~~~
+   include/linux/moduleparam.h:26:61: note: in definition of macro '__MODULE_INFO'
+      26 |                 = __MODULE_INFO_PREFIX __stringify(tag) "=" info
+         |                                                             ^~~~
+   include/linux/module.h:299:33: note: in expansion of macro 'MODULE_INFO'
+     299 | #define MODULE_IMPORT_NS(ns)    MODULE_INFO(import_ns, ns)
+         |                                 ^~~~~~~~~~~
+   drivers/hwmon/pmbus/max34440.c:603:1: note: in expansion of macro 'MODULE_IMPORT_NS'
+     603 | MODULE_IMPORT_NS(PMBUS);
+         | ^~~~~~~~~~~~~~~~
 
-   923	
-   924	static int q6v5_mpss_load(struct q6v5 *qproc)
-   925	{
-   926		const struct elf32_phdr *phdrs;
-   927		const struct elf32_phdr *phdr;
-   928		const struct firmware *seg_fw;
-   929		const struct firmware *fw;
-   930		struct elf32_hdr *ehdr;
-   931		phys_addr_t mpss_reloc;
-   932		phys_addr_t boot_addr;
-   933		phys_addr_t min_addr = PHYS_ADDR_MAX;
-   934		phys_addr_t max_addr = 0;
-   935		bool relocate = false;
-   936		char *fw_name;
-   937		size_t fw_name_len;
-   938		ssize_t offset;
-   939		size_t size = 0;
-   940		void *ptr;
-   941		int ret;
-   942		int i;
-   943	
-   944		fw_name_len = strlen(qproc->hexagon_mdt_image);
-   945		if (fw_name_len <= 4)
-   946			return -EINVAL;
-   947	
-   948		fw_name = kstrdup(qproc->hexagon_mdt_image, GFP_KERNEL);
-   949		if (!fw_name)
-   950			return -ENOMEM;
-   951	
-   952		ret = request_firmware(&fw, fw_name, qproc->dev);
-   953		if (ret < 0) {
-   954			dev_err(qproc->dev, "unable to load %s\n", fw_name);
-   955			goto out;
-   956		}
-   957	
-   958		/* Initialize the RMB validator */
-   959		writel(0, qproc->rmb_base + RMB_PMI_CODE_LENGTH_REG);
-   960	
-   961		ret = q6v5_mpss_init_image(qproc, fw);
-   962		if (ret)
-   963			goto release_firmware;
-   964	
-   965		ehdr = (struct elf32_hdr *)fw->data;
-   966		phdrs = (struct elf32_phdr *)(ehdr + 1);
-   967	
-   968		for (i = 0; i < ehdr->e_phnum; i++) {
-   969			phdr = &phdrs[i];
-   970	
-   971			if (!q6v5_phdr_valid(phdr))
-   972				continue;
-   973	
-   974			if (phdr->p_flags & QCOM_MDT_RELOCATABLE)
-   975				relocate = true;
-   976	
-   977			if (phdr->p_paddr < min_addr)
-   978				min_addr = phdr->p_paddr;
-   979	
-   980			if (phdr->p_paddr + phdr->p_memsz > max_addr)
-   981				max_addr = ALIGN(phdr->p_paddr + phdr->p_memsz, SZ_4K);
-   982		}
-   983	
-   984		/**
-   985		 * In case of a modem subsystem restart on secure devices, the modem
-   986		 * memory can be reclaimed only after MBA is loaded. For modem cold
-   987		 * boot this will be a nop
-   988		 */
-   989		q6v5_xfer_mem_ownership(qproc, &qproc->mpss_perm, false,
-   990					qproc->mpss_phys, qproc->mpss_size);
-   991	
-   992		mpss_reloc = relocate ? min_addr : qproc->mpss_phys;
-   993		qproc->mpss_reloc = mpss_reloc;
-   994		/* Load firmware segments */
-   995		for (i = 0; i < ehdr->e_phnum; i++) {
-   996			phdr = &phdrs[i];
-   997	
-   998			if (!q6v5_phdr_valid(phdr))
-   999				continue;
-  1000	
-  1001			offset = phdr->p_paddr - mpss_reloc;
-  1002			if (offset < 0 || offset + phdr->p_memsz > qproc->mpss_size) {
-  1003				dev_err(qproc->dev, "segment outside memory range\n");
-  1004				ret = -EINVAL;
-  1005				goto release_firmware;
-  1006			}
-  1007	
-  1008			ptr = ioremap_wc(qproc->mpss_phys + offset, phdr->p_memsz);
-  1009			if (!ptr) {
-  1010				dev_err(qproc->dev,
-  1011					"unable to map memory region: %pa+%zx-%x\n",
-  1012					&qproc->mpss_phys, offset, phdr->p_memsz);
-  1013				goto release_firmware;
-  1014			}
-  1015	
-  1016			if (phdr->p_filesz && phdr->p_offset < fw->size) {
-  1017				/* Firmware is large enough to be non-split */
-  1018				if (phdr->p_offset + phdr->p_filesz > fw->size) {
-  1019					dev_err(qproc->dev,
-  1020						"failed to load segment %d from truncated file %s\n",
-  1021						i, fw_name);
-  1022					ret = -EINVAL;
-> 1023					iounmap(ptr);
-  1024					goto release_firmware;
-  1025				}
-  1026	
-  1027				memcpy(ptr, fw->data + phdr->p_offset, phdr->p_filesz);
-  1028			} else if (phdr->p_filesz) {
-  1029				/* Replace "xxx.xxx" with "xxx.bxx" */
-  1030				sprintf(fw_name + fw_name_len - 3, "b%02d", i);
-  1031				ret = request_firmware(&seg_fw, fw_name, qproc->dev);
-  1032				if (ret) {
-  1033					dev_err(qproc->dev, "failed to load %s\n", fw_name);
-  1034					iounmap(ptr);
-  1035					goto release_firmware;
-  1036				}
-  1037	
-  1038				memcpy(ptr, seg_fw->data, seg_fw->size);
-  1039	
-  1040				release_firmware(seg_fw);
-  1041			}
-  1042	
-  1043			if (phdr->p_memsz > phdr->p_filesz) {
-  1044				memset(ptr + phdr->p_filesz, 0,
-  1045				       phdr->p_memsz - phdr->p_filesz);
-  1046			}
-  1047			iounmap(ptr);
-  1048			size += phdr->p_memsz;
-  1049		}
-  1050	
-  1051		/* Transfer ownership of modem ddr region to q6 */
-  1052		ret = q6v5_xfer_mem_ownership(qproc, &qproc->mpss_perm, true,
-  1053					      qproc->mpss_phys, qproc->mpss_size);
-  1054		if (ret) {
-  1055			dev_err(qproc->dev,
-  1056				"assigning Q6 access to mpss memory failed: %d\n", ret);
-  1057			ret = -EAGAIN;
-  1058			goto release_firmware;
-  1059		}
-  1060	
-  1061		boot_addr = relocate ? qproc->mpss_phys : min_addr;
-  1062		writel(boot_addr, qproc->rmb_base + RMB_PMI_CODE_START_REG);
-  1063		writel(RMB_CMD_LOAD_READY, qproc->rmb_base + RMB_MBA_COMMAND_REG);
-  1064		writel(size, qproc->rmb_base + RMB_PMI_CODE_LENGTH_REG);
-  1065	
-  1066		ret = q6v5_rmb_mba_wait(qproc, RMB_MBA_AUTH_COMPLETE, 10000);
-  1067		if (ret == -ETIMEDOUT)
-  1068			dev_err(qproc->dev, "MPSS authentication timed out\n");
-  1069		else if (ret < 0)
-  1070			dev_err(qproc->dev, "MPSS authentication failed: %d\n", ret);
-  1071	
-  1072	release_firmware:
-  1073		release_firmware(fw);
-  1074	out:
-  1075		kfree(fw_name);
-  1076	
-  1077		return ret < 0 ? ret : 0;
-  1078	}
-  1079	
+
+vim +97 drivers/hwmon/pmbus/max34440.c
+
+    62	
+    63	static int max34440_read_word_data(struct i2c_client *client, int page,
+    64					   int phase, int reg)
+    65	{
+    66		int ret;
+    67		const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+    68		const struct max34440_data *data = to_max34440_data(info);
+    69	
+    70		switch (reg) {
+    71		case PMBUS_IOUT_OC_FAULT_LIMIT:
+    72			if (data->id == max34451_na6 || data->id == adpm12160)
+    73				ret = pmbus_read_word_data(client, page, phase,
+    74							   PMBUS_IOUT_OC_FAULT_LIMIT);
+    75			else
+    76				ret = pmbus_read_word_data(client, page, phase,
+    77							   MAX34440_IOUT_OC_FAULT_LIMIT);
+    78			break;
+    79		case PMBUS_IOUT_OC_WARN_LIMIT:
+    80			if (data->id == max34451_na6 || data->id == adpm12160)
+    81				ret = pmbus_read_word_data(client, page, phase,
+    82							   PMBUS_IOUT_OC_WARN_LIMIT);
+    83			else
+    84				ret = pmbus_read_word_data(client, page, phase,
+    85							   MAX34440_IOUT_OC_WARN_LIMIT);
+    86			break;
+    87		case PMBUS_VIRT_READ_VOUT_MIN:
+    88			ret = pmbus_read_word_data(client, page, phase,
+    89						   MAX34440_MFR_VOUT_MIN);
+    90			break;
+    91		case PMBUS_VIRT_READ_VOUT_MAX:
+    92			ret = pmbus_read_word_data(client, page, phase,
+    93						   MAX34440_MFR_VOUT_PEAK);
+    94			break;
+    95		case PMBUS_VIRT_READ_IOUT_AVG:
+    96			if (data->id != max34446 && data->id != max34451 &&
+  > 97			    data->id != max34451_na6 && data->id != adpm12160))
+    98				return -ENXIO;
+    99			ret = pmbus_read_word_data(client, page, phase,
+   100						   MAX34446_MFR_IOUT_AVG);
+   101			break;
+   102		case PMBUS_VIRT_READ_IOUT_MAX:
+   103			ret = pmbus_read_word_data(client, page, phase,
+   104						   MAX34440_MFR_IOUT_PEAK);
+   105			break;
+   106		case PMBUS_VIRT_READ_POUT_AVG:
+   107			if (data->id != max34446)
+   108				return -ENXIO;
+   109			ret = pmbus_read_word_data(client, page, phase,
+   110						   MAX34446_MFR_POUT_AVG);
+   111			break;
+   112		case PMBUS_VIRT_READ_POUT_MAX:
+   113			if (data->id != max34446)
+   114				return -ENXIO;
+   115			ret = pmbus_read_word_data(client, page, phase,
+   116						   MAX34446_MFR_POUT_PEAK);
+   117			break;
+   118		case PMBUS_VIRT_READ_TEMP_AVG:
+   119			if (data->id != max34446 && data->id != max34460 &&
+   120			    data->id != max34461)
+   121				return -ENXIO;
+   122			ret = pmbus_read_word_data(client, page, phase,
+   123						   MAX34446_MFR_TEMPERATURE_AVG);
+   124			break;
+   125		case PMBUS_VIRT_READ_TEMP_MAX:
+   126			ret = pmbus_read_word_data(client, page, phase,
+   127						   MAX34440_MFR_TEMPERATURE_PEAK);
+   128			break;
+   129		case PMBUS_VIRT_RESET_POUT_HISTORY:
+   130			if (data->id != max34446)
+   131				return -ENXIO;
+   132			ret = 0;
+   133			break;
+   134		case PMBUS_VIRT_RESET_VOUT_HISTORY:
+   135		case PMBUS_VIRT_RESET_IOUT_HISTORY:
+   136		case PMBUS_VIRT_RESET_TEMP_HISTORY:
+   137			ret = 0;
+   138			break;
+   139		default:
+   140			ret = -ENODATA;
+   141			break;
+   142		}
+   143		return ret;
+   144	}
+   145	
 
 -- 
 0-DAY CI Kernel Test Service
