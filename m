@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D73C22A7F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 22:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFA81EDA2F;
+	Thu, 20 Mar 2025 22:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742509899; cv=none; b=M2cU86YjAwOYdymOJgo35NSmMs1rjdfXCEJxC8G33teoeHz811F6xEYrvSYtouKjvAu8Nc5bx0ZpiCdsi1Q0fb3CJwErxiCZzs0/zCXmD3Gdo3E+rxrZGgKOdA3Ao9hRZ5l5mkhzXFpLOMcyo29LtH0mQKExV+C2gv4svUtWH+U=
+	t=1742510638; cv=none; b=YZbS3I7G5HQ9gC3v3BU114ej5p7n7J5wyFW0pn3dr40WF942EHcdMMGCPKtWd0w5cHMha/hsEDGBFrwncgelm+BU4+L4pZKRkusei0ozq5e7Mmi4AZq01g21WI/aor4G7t4mw1pNzXSmEtD9boYPdqEENGKLDZNNVQXPKix2RTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742509899; c=relaxed/simple;
-	bh=0zzuDeUkEcxA9mfMgWrmQTo6mesEwDgulzSR6SmF5LY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K9bpAozdjXQ05fPSMIdNp3x6cg8UyZihl3JEmIwPd0GhGV/2PCc9iwmaIRgya3l53xwdVcgGlGbFfY/WOTVGGkj6Yu5/geEdykE8EHWsDFmGNsqWYSjzC84ndvud80KBNkGTtk8xMbOP5VVMqOrRMrpwq0d8eq01SBRv5q+7K/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVeKqLaa; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1742510638; c=relaxed/simple;
+	bh=auxEEuY+xDpirUEPyxYSNf0pr+NS+Jjo/6xqZzmpriI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJX5aY9oE6NV9h0ZY2OpHoAh54I8b9zRCAwh9Ii1aj4NxpjgoAISTH4isfcrkdgp0z2jtxx9HYSH2IFHDzSFhAhhLXI6LLuulE9hmBzA6d7qpnrNbFu6VOli9pi8AnrJxsuFgmlFY+0wSuIstxTbV3KdcjToBKJ8dkp5KDzCrdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NcsmhJUo; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVeKqLaa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NcsmhJUo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742509898; x=1774045898;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0zzuDeUkEcxA9mfMgWrmQTo6mesEwDgulzSR6SmF5LY=;
-  b=JVeKqLaaNVy6QWPEU7rjUS2DR/VCPbslTGY0pAXdbDfecdfV5ZTLbSEe
-   uOjLl9kU/tsZ6cG+2ClP7H2WnXM30BOg5i+KHp91P5lM4SlL38jcZ4XkV
-   JgtPa7QLjTO7K5qlrBzFgaX/kRDVe3EObZnmOA0azWeR5XSIsLrIkvbRT
-   66NLasINlS/2Fm/XnnblaChdRZMHtiV0AI2udCghXfcZ26SFncms1b1WT
-   8RCCw+SoHCE3at/X/JJWb/f4Yf1Epatke4bepV09k1/UVDb0/tWYcAeTO
-   cR83a0rhD5soT1mIV/cOVoue63uBvwDl0o6BljbndCwQcaCzxeuZmEB+J
-   Q==;
-X-CSE-ConnectionGUID: Jxz6R5ylRjac79Hkqs0kHg==
-X-CSE-MsgGUID: zkAzPtiZR7aV5kkveLqnRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43651969"
+  t=1742510638; x=1774046638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=auxEEuY+xDpirUEPyxYSNf0pr+NS+Jjo/6xqZzmpriI=;
+  b=NcsmhJUolzkoEPAOwUPHowmcneTYiJwlOWrXXe/jVgLnfDfyLZMNZ7x7
+   oaYLhETVZvQMWrgJGhONyYct1LSDhdwMuHjYxr1ktfNDFbLGEvtmYTFr4
+   +IQXXraI+uveGBVGpsITo51pxEyUjxKsZOdzytWWpZArZ/hZwkYO8l4/T
+   1CFf1yavXTDag0SMUNv2wqdB1ud5jceIbdM/yo8CewEPh1zSC1JbNhZGP
+   OoXXC0z4YsOjyT34vlpMw1vzkdlCAsdQZYBj+5Pqpf6NGBGNg8dAtj/+O
+   Qurm40hFoa2m5bUOV4osoKXGntWlVWjm02MqlfKTrWFmHWJthuU+TR2zl
+   A==;
+X-CSE-ConnectionGUID: XMaBS1u/SoCWpoxWkrll1w==
+X-CSE-MsgGUID: AnidX/huSi+xA22BfXKHLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="47543833"
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="43651969"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:31:37 -0700
-X-CSE-ConnectionGUID: pdrleajFS+WuobMGKkHOSw==
-X-CSE-MsgGUID: q8sNW5NXTYeu3EG54AfYfA==
+   d="scan'208";a="47543833"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:43:57 -0700
+X-CSE-ConnectionGUID: VJgZY0yFScicTmekw+cYPw==
+X-CSE-MsgGUID: SVQIDu9UQeWEHUtds+YQZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="128291980"
+   d="scan'208";a="154124462"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 20 Mar 2025 15:31:36 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Mar 2025 15:43:55 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvOQH-0000pB-1g;
-	Thu, 20 Mar 2025 22:31:33 +0000
-Date: Fri, 21 Mar 2025 06:31:28 +0800
+	id 1tvOc7-0000q7-1O;
+	Thu, 20 Mar 2025 22:43:49 +0000
+Date: Fri, 21 Mar 2025 06:43:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:v2_20250319_ckeepax_tidy_up_asoc_control_get_and_put_handlers
- 237/251] sound/soc/soc-ops-test.c:450:9: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202503210611.lDqWoKN0-lkp@intel.com>
+To: Baochen Qiang <quic_bqiang@quicinc.com>, ath11k@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-wireless@vger.kernel.org, quic_bqiang@quicinc.com
+Subject: Re: [PATCH ath-next 1/5] wifi: ath11k: determine PM policy based on
+ machine model
+Message-ID: <202503210624.I3zealnl-lkp@intel.com>
+References: <20250320023003.65028-2-quic_bqiang@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +64,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250320023003.65028-2-quic_bqiang@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20250319_ckeepax_tidy_up_asoc_control_get_and_put_handlers
-head:   502a668fad12b6ca10bcbb615d62e61d3b669c99
-commit: 7a24b876ad8cdd56457e881d384a038922b508c3 [237/251] ASoC: ops-test: Add some basic kunit tests for soc-ops
-config: csky-randconfig-r131-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210611.lDqWoKN0-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250321/202503210611.lDqWoKN0-lkp@intel.com/reproduce)
+Hi Baochen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on b6f473c96421b8b451a8df8ccb620bcd71d4b3f4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baochen-Qiang/wifi-ath11k-determine-PM-policy-based-on-machine-model/20250320-103536
+base:   b6f473c96421b8b451a8df8ccb620bcd71d4b3f4
+patch link:    https://lore.kernel.org/r/20250320023003.65028-2-quic_bqiang%40quicinc.com
+patch subject: [PATCH ath-next 1/5] wifi: ath11k: determine PM policy based on machine model
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250321/202503210624.I3zealnl-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210624.I3zealnl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503210611.lDqWoKN0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503210624.I3zealnl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/soc-ops-test.c:450:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted snd_ctl_elem_type_t const __left @@
-   sound/soc/soc-ops-test.c:450:9: sparse:     expected long long left_value
-   sound/soc/soc-ops-test.c:450:9: sparse:     got restricted snd_ctl_elem_type_t const __left
->> sound/soc/soc-ops-test.c:450:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted snd_ctl_elem_type_t const __right @@
-   sound/soc/soc-ops-test.c:450:9: sparse:     expected long long right_value
-   sound/soc/soc-ops-test.c:450:9: sparse:     got restricted snd_ctl_elem_type_t const __right
+All warnings (new ones prefixed by >>):
 
-vim +450 sound/soc/soc-ops-test.c
+>> drivers/net/wireless/ath/ath11k/core.c:2381:19: warning: cast to smaller integer type 'enum ath11k_pm_policy' from 'void *' [-Wvoid-pointer-to-enum-cast]
+    2381 |                 ab->pm_policy = (enum ath11k_pm_policy)dmi_id->driver_data;
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-   431	
-   432	static void soc_ops_test_info(struct kunit *test)
-   433	{
-   434		struct soc_ops_test_priv *priv = test->priv;
-   435		const struct info_test_param *param = test->param_value;
-   436		const struct snd_ctl_elem_info *target = &param->uinfo;
-   437		struct snd_ctl_elem_info result;
-   438		struct snd_kcontrol kctl = {
-   439			.private_data = &priv->component,
-   440			.private_value = (unsigned long)&param->mc,
-   441		};
-   442		int ret;
-   443	
-   444		strscpy(kctl.id.name, param->name, sizeof(kctl.id.name));
-   445	
-   446		ret = param->info(&kctl, &result);
-   447		KUNIT_ASSERT_FALSE(test, ret);
-   448	
-   449		KUNIT_EXPECT_EQ(test, result.count, target->count);
- > 450		KUNIT_EXPECT_EQ(test, result.type, target->type);
-   451		KUNIT_EXPECT_EQ(test, result.value.integer.min, target->value.integer.min);
-   452		KUNIT_EXPECT_EQ(test, result.value.integer.max, target->value.integer.max);
-   453	}
-   454	
+
+vim +2381 drivers/net/wireless/ath/ath11k/core.c
+
+  2373	
+  2374	int ath11k_core_init(struct ath11k_base *ab)
+  2375	{
+  2376		const struct dmi_system_id *dmi_id;
+  2377		int ret;
+  2378	
+  2379		dmi_id = dmi_first_match(ath11k_pm_quirk_table);
+  2380		if (dmi_id)
+> 2381			ab->pm_policy = (enum ath11k_pm_policy)dmi_id->driver_data;
+  2382		else
+  2383			ab->pm_policy = ATH11K_PM_DEFAULT;
+  2384	
+  2385		ath11k_dbg(ab, ATH11K_DBG_BOOT, "pm policy %u\n", ab->pm_policy);
+  2386	
+  2387		ret = ath11k_core_soc_create(ab);
+  2388		if (ret) {
+  2389			ath11k_err(ab, "failed to create soc core: %d\n", ret);
+  2390			return ret;
+  2391		}
+  2392	
+  2393		return 0;
+  2394	}
+  2395	EXPORT_SYMBOL(ath11k_core_init);
+  2396	
 
 -- 
 0-DAY CI Kernel Test Service
