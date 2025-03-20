@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D5521D3D2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 11:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B398821C9F4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 11:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742471038; cv=none; b=VMJmZRm+sZQZgi1t8+RcqZNd25wZpKUi/hyF5brOCbQVA1YlpX11UiofaM09WLFUhr9ng57mos6dGlGq/e4SRRU/BuSOpSAJiZgFuT8AR+Rlg3/Fq0H+zIyF5ibahJoj80HtVpHTiWHjxh1wdOKbRUdwI+Ikl5jCvs5ArM6aDEk=
+	t=1742471732; cv=none; b=O954Himy4d/XiXL6vhjrHO6SgXFrJ3PWN+laFWa1zR5jm174D5L6D9NPGeYWF+9BMCjowv7rzc+58aysAcEWwcpe45J8Q8EGcjDdWt1mhQugI321EjdS7d+Xeq67S4S3DvZYL8yc2ReA95mFXtlNbWqC8EkXRbB4wNKxdsPBl7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742471038; c=relaxed/simple;
-	bh=x1FjIm2sR6fm6v9GgwTVda7TyMxPpdzkgR6i2Ye0dHI=;
+	s=arc-20240116; t=1742471732; c=relaxed/simple;
+	bh=ADYB0ifPc1dppNXb6D+Ghx0brlysISC9VNRTPBcVwzA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BVz7RZPbr199Hig1mv9nv/NrMVH1S4anlClR3SaS1KHbmSSAF4hs9zgiRSPocb5xP4ty5kZtE3cHL491yhsSTkPTR7WxkjYtCX/JG6dXIO6ldm/9qL8xVKJMaaKK1i+0zUU9lTRRMW/sxAChFpt6Q3A68IivpciG6SFdEWbl1II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMCaHFbn; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=PZ/5ndHtUv/SU9vfsVrClJORRBWd+W2i3v1ihytv7Q8QDgdi+0Pl5hyAd2YvJBH8YiGt+PrQfgGHei0z6l19dyEqmiCz8ND4L3cy8euOQm7Gmkjy5ae6h1/MfIyXWKxrW1pnvbBwzyu2+IoWg/5VXTDFa5M/KFGjiItPw9kpWaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDEtmQVL; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMCaHFbn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDEtmQVL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742471036; x=1774007036;
+  t=1742471731; x=1774007731;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x1FjIm2sR6fm6v9GgwTVda7TyMxPpdzkgR6i2Ye0dHI=;
-  b=HMCaHFbnrZuYUTjfMlbNLKFE9FFYL9l1eH4RD2Faz3UyMWY+ZNKc58yx
-   W81ULckvWCNbIyux5OrnpO3tOfzGtJGs5cfosTvg7pgm2w5XAq9uKD6fo
-   Ub9iKE7A0wUOZC6k4IZMIAv119IJ/1xrKjrMce6mTTopbXhG1ZE1gJ7fO
-   W6JYTNmmPIv2kN0zTMasxfALmPhfkRCCKZQBhU6ZC3RVcdRSRB36ndPn8
-   7N2sVh5QbNWgVSuxVhSYbvnaRFW+VXe/mDB4Njs8awgmxRznUtFWjsCL+
-   9RPV0cRyseoYKMEyBP4JvdlQlvY4jGj81s/U8QJe6lTeBuE51bapAzBEa
-   w==;
-X-CSE-ConnectionGUID: U/z0+cC6TguxXCEUPL3njw==
-X-CSE-MsgGUID: 7iGqS7KWQYS+0egpqp7Jeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="42865822"
+  bh=ADYB0ifPc1dppNXb6D+Ghx0brlysISC9VNRTPBcVwzA=;
+  b=FDEtmQVLifmPk73oCtyBzt8lgCC3ZX9TbLjGrutkhhf3J8zfOZeaLS9Z
+   Pja5to9g1nkniHSlP7Ntn0SiF5+Sw5TLQsw8x2Cdaelbzn4O+/R7lXm0I
+   nAlZ+i/bpbwk87vG8AOHtbCW7Nf3kklSq5QbzQcsNLwpNcWga0+lVS7xZ
+   +oZjg2htan9fbwvQNrGibmLq9ZbCzAmnHHGw1Dlsa8v+pnpc2JFX92aFq
+   MtdvOAOwluzww1drwks00hlQ3GdVOfxAR0APnfmJm67MydfKD48p90oQC
+   VYy8p/soAHv4xzP9EnwctNCsdura0fy39iLECWT2jolRp94vAxkQOodow
+   A==;
+X-CSE-ConnectionGUID: Q3YsZHoxRi6+PhNGi+ze8Q==
+X-CSE-MsgGUID: nyfzA7i0TdKiUc1kWD67yA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="54687301"
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="42865822"
+   d="scan'208";a="54687301"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 04:43:55 -0700
-X-CSE-ConnectionGUID: rjHJaDVlSyS9faHjqTYZQw==
-X-CSE-MsgGUID: i0yqi/lhTBGNUkT84yh5xw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 04:55:29 -0700
+X-CSE-ConnectionGUID: 4qcOwSZTRF+3DZPMssnE2A==
+X-CSE-MsgGUID: MhqGnwY/SAeo1CrROjT7TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,261,1736841600"; 
-   d="scan'208";a="123075605"
+   d="scan'208";a="123078471"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Mar 2025 04:43:54 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 Mar 2025 04:55:27 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvEJT-0000PH-2m;
-	Thu, 20 Mar 2025 11:43:51 +0000
-Date: Thu, 20 Mar 2025 19:43:21 +0800
+	id 1tvEUe-0000Pf-2E;
+	Thu, 20 Mar 2025 11:55:24 +0000
+Date: Thu, 20 Mar 2025 19:54:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2816/2816]
- drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:898:37: warning: implicit
- truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1
-Message-ID: <202503201925.S7VuFUSk-lkp@intel.com>
+Subject: [iwlwifi-chromeos:bugfix_6_6 1/1]
+ drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1219:37: error: use of
+ undeclared identifier 'fwrt'; did you mean 'for'?
+Message-ID: <202503201915.Zsv0WbeC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,361 +67,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   762816c3c07e052877c68911685e3700fe073298
-commit: e53494b741272933726616122ea77143d9742631 [2816/2816] drivers: initial support for rnp drivers from Mucse Technology
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250320/202503201925.S7VuFUSk-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201925.S7VuFUSk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git bugfix_6_6
+head:   7f86f1180df0f18a6911806a3177c6d3c401699f
+commit: 7f86f1180df0f18a6911806a3177c6d3c401699f [1/1] wifi: iwlwifi: support BIOS override for 5G9 in CA also in LARI version 8
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250320/202503201915.Zsv0WbeC-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201915.Zsv0WbeC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503201925.S7VuFUSk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503201915.Zsv0WbeC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_main.c:34:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_tc_u32_parse.h:6:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:20:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_type.h:960:
->> drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:898:37: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     898 |                 req->set_phy_reg.recall_qsfp_page = 1;
-         |                                                   ^ ~
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:1068:45: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    1068 |                 req->loopback.loopback_force_speed_enable = 1;
-         |                                                           ^ ~
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_main.c:34:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_tc_u32_parse.h:6:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21:
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:7: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |              ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:16: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:6: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:16: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:174:6: warning: no previous prototype for function 'rnp_unmap_and_free_tx_resource' [-Wmissing-prototypes]
-     174 | void rnp_unmap_and_free_tx_resource(struct rnp_ring *ring,
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:174:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     174 | void rnp_unmap_and_free_tx_resource(struct rnp_ring *ring,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:669:5: warning: no previous prototype for function 'rnp_rx_ring_reinit' [-Wmissing-prototypes]
-     669 | int rnp_rx_ring_reinit(struct rnp_adapter *adapter,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:669:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     669 | int rnp_rx_ring_reinit(struct rnp_adapter *adapter,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:1777:7: warning: variable 'xdp_xmit' set but not used [-Wunused-but-set-variable]
-    1777 |         bool xdp_xmit = false;
-         |              ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:2012:6: warning: no previous prototype for function 'rnp_write_eitr_rx' [-Wmissing-prototypes]
-    2012 | void rnp_write_eitr_rx(struct rnp_q_vector *q_vector)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:2012:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2012 | void rnp_write_eitr_rx(struct rnp_q_vector *q_vector)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:2818:6: warning: variable 'rxctrl' set but not used [-Wunused-but-set-variable]
-    2818 |         u32 rxctrl = 0, dma_axi_ctl;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:3152:6: warning: no previous prototype for function 'rnp_vlan_stags_flag' [-Wmissing-prototypes]
-    3152 | void rnp_vlan_stags_flag(struct rnp_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:3152:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3152 | void rnp_vlan_stags_flag(struct rnp_adapter *adapter)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:3558:5: warning: no previous prototype for function 'rnp_xmit_nop_frame_ring' [-Wmissing-prototypes]
-    3558 | int rnp_xmit_nop_frame_ring(struct rnp_adapter *adapter,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:3558:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3558 | int rnp_xmit_nop_frame_ring(struct rnp_adapter *adapter,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:4811:6: warning: no previous prototype for function 'rnp_service_timer' [-Wmissing-prototypes]
-    4811 | void rnp_service_timer(struct timer_list *t)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:4811:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4811 | void rnp_service_timer(struct timer_list *t)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:4919:6: warning: no previous prototype for function 'rnp_service_task' [-Wmissing-prototypes]
-    4919 | void rnp_service_task(struct work_struct *work)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:4919:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4919 | void rnp_service_task(struct work_struct *work)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:5941:5: warning: no previous prototype for function 'rnp_delete_knode' [-Wmissing-prototypes]
-    5941 | int rnp_delete_knode(struct net_device *dev,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:5941:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5941 | int rnp_delete_knode(struct net_device *dev,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:6030:5: warning: no previous prototype for function 'rnp_config_knode' [-Wmissing-prototypes]
-    6030 | int rnp_config_knode(struct net_device *dev, __be16 protocol,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:6030:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    6030 | int rnp_config_knode(struct net_device *dev, __be16 protocol,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:6089:5: warning: no previous prototype for function 'rnp_setup_tc_cls_u32' [-Wmissing-prototypes]
-    6089 | int rnp_setup_tc_cls_u32(struct net_device *dev,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:6089:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    6089 | int rnp_setup_tc_cls_u32(struct net_device *dev,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:6166:6: warning: no previous prototype for function 'rnp_do_reset' [-Wmissing-prototypes]
-    6166 | void rnp_do_reset(struct net_device *netdev)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_main.c:6166:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
---
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_common.c:10:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:20:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_type.h:960:
->> drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:898:37: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     898 |                 req->set_phy_reg.recall_qsfp_page = 1;
-         |                                                   ^ ~
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:1068:45: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    1068 |                 req->loopback.loopback_force_speed_enable = 1;
-         |                                                           ^ ~
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_common.c:10:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21:
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:7: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |              ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:16: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:6: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:16: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |                       ^
-   6 warnings generated.
---
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_lib.c:4:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:20:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_type.h:960:
->> drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:898:37: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     898 |                 req->set_phy_reg.recall_qsfp_page = 1;
-         |                                                   ^ ~
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:1068:45: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    1068 |                 req->loopback.loopback_force_speed_enable = 1;
-         |                                                           ^ ~
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_lib.c:4:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21:
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:7: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |              ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:16: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:6: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:16: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_lib.c:439:5: warning: no previous prototype for function 'rnp_acquire_msix_vectors' [-Wmissing-prototypes]
-     439 | int rnp_acquire_msix_vectors(struct rnp_adapter *adapter, int vectors)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_lib.c:439:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     439 | int rnp_acquire_msix_vectors(struct rnp_adapter *adapter, int vectors)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_lib.c:985:6: warning: no previous prototype for function 'rnp_print_ring_info' [-Wmissing-prototypes]
-     985 | void rnp_print_ring_info(struct rnp_adapter *adapter)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_lib.c:985:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     985 | void rnp_print_ring_info(struct rnp_adapter *adapter)
-         | ^
-         | static 
-   8 warnings generated.
---
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_n10.c:8:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:20:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_type.h:960:
->> drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:898:37: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     898 |                 req->set_phy_reg.recall_qsfp_page = 1;
-         |                                                   ^ ~
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:1068:45: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    1068 |                 req->loopback.loopback_force_speed_enable = 1;
-         |                                                           ^ ~
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_n10.c:8:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21:
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:7: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |              ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:16: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:6: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:16: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:122:5: warning: no previous prototype for function 'rnp_eth_set_rar_n10' [-Wmissing-prototypes]
-     122 | s32 rnp_eth_set_rar_n10(struct rnp_eth_info *eth, u32 index, u8 *addr,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:122:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     122 | s32 rnp_eth_set_rar_n10(struct rnp_eth_info *eth, u32 index, u8 *addr,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:179:5: warning: no previous prototype for function 'rnp_eth_clear_rar_n10' [-Wmissing-prototypes]
-     179 | s32 rnp_eth_clear_rar_n10(struct rnp_eth_info *eth, u32 index)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     179 | s32 rnp_eth_clear_rar_n10(struct rnp_eth_info *eth, u32 index)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:214:5: warning: no previous prototype for function 'rnp_eth_set_vmdq_n10' [-Wmissing-prototypes]
-     214 | s32 rnp_eth_set_vmdq_n10(struct rnp_eth_info *eth, u32 rar, u32 vmdq)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:214:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     214 | s32 rnp_eth_set_vmdq_n10(struct rnp_eth_info *eth, u32 rar, u32 vmdq)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:244:5: warning: no previous prototype for function 'rnp_eth_clear_vmdq_n10' [-Wmissing-prototypes]
-     244 | s32 rnp_eth_clear_vmdq_n10(struct rnp_eth_info *eth, u32 rar, u32 vmdq)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:244:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     244 | s32 rnp_eth_clear_vmdq_n10(struct rnp_eth_info *eth, u32 rar, u32 vmdq)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:328:5: warning: no previous prototype for function 'rnp_addr_list_itr' [-Wmissing-prototypes]
-     328 | u8 *rnp_addr_list_itr(struct rnp_hw __maybe_unused *hw, u8 **mc_addr_ptr)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:328:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     328 | u8 *rnp_addr_list_itr(struct rnp_hw __maybe_unused *hw, u8 **mc_addr_ptr)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:359:5: warning: no previous prototype for function 'rnp_eth_update_mc_addr_list_n10' [-Wmissing-prototypes]
-     359 | s32 rnp_eth_update_mc_addr_list_n10(struct rnp_eth_info *eth,
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:359:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     359 | s32 rnp_eth_update_mc_addr_list_n10(struct rnp_eth_info *eth,
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:442:6: warning: no previous prototype for function 'rnp_eth_clr_mc_addr_n10' [-Wmissing-prototypes]
-     442 | void rnp_eth_clr_mc_addr_n10(struct rnp_eth_info *eth)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:442:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     442 | void rnp_eth_clr_mc_addr_n10(struct rnp_eth_info *eth)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:457:6: warning: no previous prototype for function 'rnp_eth_update_rss_key_n10' [-Wmissing-prototypes]
-     457 | void rnp_eth_update_rss_key_n10(struct rnp_eth_info *eth, bool sriov_flag)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:457:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     457 | void rnp_eth_update_rss_key_n10(struct rnp_eth_info *eth, bool sriov_flag)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:486:6: warning: no previous prototype for function 'rnp_eth_update_rss_table_n10' [-Wmissing-prototypes]
-     486 | void rnp_eth_update_rss_table_n10(struct rnp_eth_info *eth)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:486:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     486 | void rnp_eth_update_rss_table_n10(struct rnp_eth_info *eth)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:511:5: warning: no previous prototype for function 'rnp_eth_set_vfta_n10' [-Wmissing-prototypes]
-     511 | s32 rnp_eth_set_vfta_n10(struct rnp_eth_info *eth, u32 vlan, bool vlan_on)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:511:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     511 | s32 rnp_eth_set_vfta_n10(struct rnp_eth_info *eth, u32 vlan, bool vlan_on)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:551:6: warning: no previous prototype for function 'rnp_eth_clr_vfta_n10' [-Wmissing-prototypes]
-     551 | void rnp_eth_clr_vfta_n10(struct rnp_eth_info *eth)
-         |      ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:551:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     551 | void rnp_eth_clr_vfta_n10(struct rnp_eth_info *eth)
-         | ^
-         | static 
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:577:5: warning: no previous prototype for function 'rnp_layer2_pritologic_n10' [-Wmissing-prototypes]
-     577 | u16 rnp_layer2_pritologic_n10(u16 hw_id)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_n10.c:577:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
---
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:9:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:20:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_type.h:960:
->> drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:898:37: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-     898 |                 req->set_phy_reg.recall_qsfp_page = 1;
-         |                                                   ^ ~
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h:1068:45: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    1068 |                 req->loopback.loopback_force_speed_enable = 1;
-         |                                                           ^ ~
-   In file included from drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:9:
-   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21:
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:7: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |              ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:16: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
-     298 |         bool has_mac, has_trans;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:6: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:16: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
-     299 |         int headroom, tailroom;
-         |                       ^
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:1100:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1100 |         int err;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:1140:6: warning: variable 'value' set but not used [-Wunused-but-set-variable]
-    1140 |         int value;
-         |             ^
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:1136:5: warning: no previous prototype for function 'rnp_fw_reg_read' [-Wmissing-prototypes]
-    1136 | int rnp_fw_reg_read(struct rnp_hw *hw, int addr, int sz)
-         |     ^
-   drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.c:1136:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1136 | int rnp_fw_reg_read(struct rnp_hw *hw, int addr, int sz)
-         | ^
-         | static 
-   9 warnings generated.
-..
+>> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1219:37: error: use of undeclared identifier 'fwrt'; did you mean 'for'?
+    1219 |         u8 cmd_ver = iwl_fw_lookup_cmd_ver(fwrt->fw,
+         |                                            ^~~~
+         |                                            for
+>> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1219:37: error: expected expression
+   drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1242:21: error: use of undeclared identifier 'fwrt'; did you mean 'for'?
+    1242 |                     !fw_has_capa(&fwrt->fw->ucode_capa,
+         |                                   ^~~~
+         |                                   for
+   drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1242:21: error: expected expression
+>> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1247:6: error: member reference type 'struct iwl_lari_config_change_cmd_v6' is not a pointer; did you mean to use '.'?
+    1247 |                 cmd->oem_unii4_allow_bitmap = cpu_to_le32(_value);
+         |                 ~~~^~
+         |                    .
+>> drivers/net/wireless/intel/iwlwifi/mvm/fw.c:1247:31: error: expression is not assignable
+    1247 |                 cmd->oem_unii4_allow_bitmap = cpu_to_le32(_value);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   6 errors generated.
 
 
-vim +/int +898 drivers/net/ethernet/mucse/rnp/rnp_mbx_fw.h
+vim +1219 drivers/net/wireless/intel/iwlwifi/mvm/fw.c
 
-   879	
-   880	static inline void build_set_phy_reg(struct mbx_fw_cmd_req *req,
-   881					     void *cookie,
-   882					     enum PHY_INTERFACE phy_inf,
-   883					     char nr_lane, int reg, int w_data,
-   884					     int recall_qsfp_page)
-   885	{
-   886		req->flags = 0;
-   887		req->opcode = SET_PHY_REG;
-   888		req->datalen = sizeof(req->set_phy_reg);
-   889		req->cookie = cookie;
-   890		req->reply_lo = 0;
-   891		req->reply_hi = 0;
-   892		req->set_phy_reg.phy_interface = phy_inf;
-   893		req->set_phy_reg.nr_lane = nr_lane;
-   894		req->set_phy_reg.phy_reg_addr = reg;
-   895		req->set_phy_reg.phy_w_data = w_data;
-   896	
-   897		if (recall_qsfp_page)
- > 898			req->set_phy_reg.recall_qsfp_page = 1;
-   899		else
-   900			req->set_phy_reg.recall_qsfp_page = 0;
-   901	}
-   902	
+  1206	
+  1207	#define DSM_UNII4_ALLOW_BITMAP (DSM_VALUE_UNII4_US_OVERRIDE_MSK		|\
+  1208					DSM_VALUE_UNII4_US_EN_MSK		|\
+  1209					DSM_VALUE_UNII4_ETSI_OVERRIDE_MSK	|\
+  1210					DSM_VALUE_UNII4_ETSI_EN_MSK		|\
+  1211					DSM_VALUE_UNII4_CANADA_OVERRIDE_MSK	|\
+  1212					DSM_VALUE_UNII4_CANADA_EN_MSK)
+  1213	
+  1214	static void iwl_mvm_lari_cfg(struct iwl_mvm *mvm)
+  1215	{
+  1216		int ret;
+  1217		u32 value;
+  1218		struct iwl_lari_config_change_cmd_v6 cmd = {};
+> 1219		u8 cmd_ver = iwl_fw_lookup_cmd_ver(fwrt->fw,
+  1220						   WIDE_ID(REGULATORY_AND_NVM_GROUP,
+  1221							   LARI_CONFIG_CHANGE), 1);
+  1222	
+  1223		cmd.config_bitmap = iwl_acpi_get_lari_config_bitmap(&mvm->fwrt);
+  1224	
+  1225		ret = iwl_acpi_get_dsm_u32(mvm->fwrt.dev, 0, DSM_FUNC_11AX_ENABLEMENT,
+  1226					   &iwl_guid, &value);
+  1227		if (!ret)
+  1228			cmd.oem_11ax_allow_bitmap = cpu_to_le32(value);
+  1229	
+  1230		ret = iwl_acpi_get_dsm_u32(mvm->fwrt.dev, 0,
+  1231					   DSM_FUNC_ENABLE_UNII4_CHAN,
+  1232					   &iwl_guid, &value);
+  1233		if (!ret) {
+  1234			u32 _value = cpu_to_le32(value);
+  1235	
+  1236			_value &= DSM_UNII4_ALLOW_BITMAP;
+  1237	
+  1238			/* Since version 9, bits 4 and 5 are supported
+  1239			 * regardless of this capability.
+  1240			 */
+  1241			if (cmd_ver < 9 &&
+  1242			    !fw_has_capa(&fwrt->fw->ucode_capa,
+  1243					 IWL_UCODE_TLV_CAPA_BIOS_OVERRIDE_5G9_FOR_CA))
+  1244				_value &= ~(DSM_VALUE_UNII4_CANADA_OVERRIDE_MSK |
+  1245					   DSM_VALUE_UNII4_CANADA_EN_MSK);
+  1246	
+> 1247			cmd->oem_unii4_allow_bitmap = cpu_to_le32(_value);
+  1248		}
+  1249	
+  1250		ret = iwl_acpi_get_dsm_u32(mvm->fwrt.dev, 0,
+  1251					   DSM_FUNC_ACTIVATE_CHANNEL,
+  1252					   &iwl_guid, &value);
+  1253		if (!ret)
+  1254			cmd.chan_state_active_bitmap = cpu_to_le32(value);
+  1255	
+  1256		ret = iwl_acpi_get_dsm_u32(mvm->fwrt.dev, 0,
+  1257					   DSM_FUNC_ENABLE_6E,
+  1258					   &iwl_guid, &value);
+  1259		if (!ret)
+  1260			cmd.oem_uhb_allow_bitmap = cpu_to_le32(value);
+  1261	
+  1262		ret = iwl_acpi_get_dsm_u32(mvm->fwrt.dev, 0,
+  1263					   DSM_FUNC_FORCE_DISABLE_CHANNELS,
+  1264					   &iwl_guid, &value);
+  1265		if (!ret)
+  1266			cmd.force_disable_channels_bitmap = cpu_to_le32(value);
+  1267	
+  1268		if (cmd.config_bitmap ||
+  1269		    cmd.oem_uhb_allow_bitmap ||
+  1270		    cmd.oem_11ax_allow_bitmap ||
+  1271		    cmd.oem_unii4_allow_bitmap ||
+  1272		    cmd.chan_state_active_bitmap ||
+  1273		    cmd.force_disable_channels_bitmap) {
+  1274			size_t cmd_size;
+  1275			u8 cmd_ver = iwl_fw_lookup_cmd_ver(mvm->fw,
+  1276							   WIDE_ID(REGULATORY_AND_NVM_GROUP,
+  1277								   LARI_CONFIG_CHANGE),
+  1278							   1);
+  1279			switch (cmd_ver) {
+  1280			case 6:
+  1281				cmd_size = sizeof(struct iwl_lari_config_change_cmd_v6);
+  1282				break;
+  1283			case 5:
+  1284				cmd_size = sizeof(struct iwl_lari_config_change_cmd_v5);
+  1285				break;
+  1286			case 4:
+  1287				cmd_size = sizeof(struct iwl_lari_config_change_cmd_v4);
+  1288				break;
+  1289			case 3:
+  1290				cmd_size = sizeof(struct iwl_lari_config_change_cmd_v3);
+  1291				break;
+  1292			case 2:
+  1293				cmd_size = sizeof(struct iwl_lari_config_change_cmd_v2);
+  1294				break;
+  1295			default:
+  1296				cmd_size = sizeof(struct iwl_lari_config_change_cmd_v1);
+  1297				break;
+  1298			}
+  1299	
+  1300			IWL_DEBUG_RADIO(mvm,
+  1301					"sending LARI_CONFIG_CHANGE, config_bitmap=0x%x, oem_11ax_allow_bitmap=0x%x\n",
+  1302					le32_to_cpu(cmd.config_bitmap),
+  1303					le32_to_cpu(cmd.oem_11ax_allow_bitmap));
+  1304			IWL_DEBUG_RADIO(mvm,
+  1305					"sending LARI_CONFIG_CHANGE, oem_unii4_allow_bitmap=0x%x, chan_state_active_bitmap=0x%x, cmd_ver=%d\n",
+  1306					le32_to_cpu(cmd.oem_unii4_allow_bitmap),
+  1307					le32_to_cpu(cmd.chan_state_active_bitmap),
+  1308					cmd_ver);
+  1309			IWL_DEBUG_RADIO(mvm,
+  1310					"sending LARI_CONFIG_CHANGE, oem_uhb_allow_bitmap=0x%x, force_disable_channels_bitmap=0x%x\n",
+  1311					le32_to_cpu(cmd.oem_uhb_allow_bitmap),
+  1312					le32_to_cpu(cmd.force_disable_channels_bitmap));
+  1313			ret = iwl_mvm_send_cmd_pdu(mvm,
+  1314						   WIDE_ID(REGULATORY_AND_NVM_GROUP,
+  1315							   LARI_CONFIG_CHANGE),
+  1316						   0, cmd_size, &cmd);
+  1317			if (ret < 0)
+  1318				IWL_DEBUG_RADIO(mvm,
+  1319						"Failed to send LARI_CONFIG_CHANGE (%d)\n",
+  1320						ret);
+  1321		}
+  1322	}
+  1323	
 
 -- 
 0-DAY CI Kernel Test Service
