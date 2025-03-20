@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDAF28EA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 02:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39478F6F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 04:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742438913; cv=none; b=KHtVgxpxs3wGSYKNo1/pYPy+hcWJHu+a9/CUPINQT0Uv0hESUYsNfUHmI4K9287XlcFFDAthBeQAux/sWi6yzawcWPlzeGgIS74EMfgs11fwuvlSqEmdARI0qbG3K/IX4ghSqTivcViKeiD3yRjeb7NwY7eQq89qSMS+Z0a/Vu8=
+	t=1742443670; cv=none; b=Ji3liLxtw4m7GWzgUiqbM1q3lZwCHwS+fqSgmqj80NoLa8SvLoyKTdWCzW/d90DU7r3IjS5+Mcvemo5/4ix5DRXqaQkw4CRk/Qu0oeKtUrQLkLWax/uE3MjPWyA+3z1nbCuUNgvpgF8fWctLIXpbRAnLjv4Ns6USffUQYThDS4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742438913; c=relaxed/simple;
-	bh=vwIS90KTAYpOv4j0HefuuVcmkKpAKknjXKXSf6SidZc=;
+	s=arc-20240116; t=1742443670; c=relaxed/simple;
+	bh=HhUPj+6CHoORJOPeSrROpdDhFffmAw1/d5cxWw8emj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gO+gqpk1fGqGQarldITRlzBxq1bjPzMciU7EuzwGyAFXV0+04YdSgLOPTFQNt7yxzgvoqAygyDerLkBl8hh/3DAx3aFrNigGe3/6+OdCXEAhCvCMtNv/+XTusyODVfC2FIoHjOsS/dtsRZRMELQ+aD9ukWp8TCmTDnBl8qk5vfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bW5MbEO0; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=uvbINE1SQ954IEcN+BGhV//ElAODSSNzY7j49E552lQZPgzsQgRhfQ9/JhAEcCu2ndZcAtJBoZBQ1UD8aJxBKh7cXWqn+Dr7f8Fo5a6VhX+k9d9Qpx6oGfblnqsJC5xjug3KDJbJg9R2Kz5nGB8DwaZ69C2v9iACF3gxsrNS4ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMDlmNbe; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bW5MbEO0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMDlmNbe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742438912; x=1773974912;
+  t=1742443668; x=1773979668;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vwIS90KTAYpOv4j0HefuuVcmkKpAKknjXKXSf6SidZc=;
-  b=bW5MbEO04+WRWUG7+0AtCwswUw6/aJTU3KYCFqgX9Hc/LSlHtv+eopbZ
-   89FKIiZZSJYDw3Y5On74bgCr+0tBc+dEGUjzhZ8tGCmyQonSilufQ8DNN
-   2gRlJXcBj66VgQyJHKldsJs4T6DSAlWegjP5wonAj6FCqX99uXYEkW6+H
-   IijPZF6t0eNYjSIYQpXYxz7S4v/MkFnThBM5CHWIiIbOvphdw8+UYpBfb
-   ylbPCdqvziYm5nbK+yMjCwg0pkB4GXGjt/On8+qIwgdutJh0zeJ1xwHuc
-   6OzGePVN39UCWSBldfR43zQeAXIn/16gMELERl6QPE3thLDvDEwxJ/8ok
-   w==;
-X-CSE-ConnectionGUID: DiUjVxRGSOifga8dRqtgLg==
-X-CSE-MsgGUID: fHcaOcsySriQkC8btK9klQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="46410634"
+  bh=HhUPj+6CHoORJOPeSrROpdDhFffmAw1/d5cxWw8emj0=;
+  b=eMDlmNbeYSIzJO3jhtpTrA4vYaabsecrEoGkgfb519BdknhQ0yGgjzJi
+   2//JCCu8QarA1o0TbanL+hVp+66jtM/3JrOQfCHWi+j7n2azYAoWdUlLz
+   ZOZh64ELUAxCDZzH3Gm81V3wPJ52nc6Q84ln2NQIlemXkVu8Bquf6Wbmf
+   CwjjOnXwgfxLLxB8XImodnh7FuVoD86NQZYhlCpBEDYqMkxJXgvwuXr/h
+   PujSu9iMbhPAeQLDo6f76kY/QPNfGX8ubS12D1Hkf5FRBvNDL18pIfqNe
+   OR8WWmws+sm5HVsR+KAWH8K6ir/LQ1Aa5Mk/F8i7/5Q+JCY00RGIFeq47
+   g==;
+X-CSE-ConnectionGUID: fM+3fBOERNePODvHTl9I+g==
+X-CSE-MsgGUID: JTiDh4g0RVmLGq+Cd3KLbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="55040530"
 X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
-   d="scan'208";a="46410634"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 19:48:31 -0700
-X-CSE-ConnectionGUID: zXq1QhBfRf6e7e1FGLR5bA==
-X-CSE-MsgGUID: HXRbWvNLSgiJt7xnO11Cyw==
+   d="scan'208";a="55040530"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 21:07:47 -0700
+X-CSE-ConnectionGUID: 8JCQGTlsRzWequHkxBRrmg==
+X-CSE-MsgGUID: Hy41Y46DTh+k919CWAujvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
-   d="scan'208";a="123376605"
+   d="scan'208";a="122741265"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Mar 2025 19:48:30 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Mar 2025 21:07:46 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tv5xM-00008p-0y;
-	Thu, 20 Mar 2025 02:48:28 +0000
-Date: Thu, 20 Mar 2025 10:47:34 +0800
+	id 1tv7Af-0000Br-0G;
+	Thu, 20 Mar 2025 04:07:09 +0000
+Date: Thu, 20 Mar 2025 12:01:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2045/2045] arch/arm64/kvm/virtcca_cvm.c:810:5:
- warning: no previous prototype for function 'virtcca_get_tmi_version'
-Message-ID: <202503201027.i8HE43EJ-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
+Subject: [ceph-client:tls_logger 21/39] fs/ceph/debugfs.c:413:25: error: no
+ member named 'cgroups' in 'struct task_struct'
+Message-ID: <202503201109.rmiFfk3H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,75 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   961f596cd0017f5f254fb4b0ab9f5b9975177b84
-commit: 86b9cab8c4752eb46e3ec038325aee5686805c69 [2045/2045] VirtCCA: an interface to retrieve the TMI version is added
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250320/202503201027.i8HE43EJ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201027.i8HE43EJ-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git tls_logger
+head:   9d7726eb13dd4dbf6bba377991e8c20e18f26dae
+commit: 150b41eb9654d09e993407ae522128f5af588e04 [21/39] debugfs: fixups
+config: s390-randconfig-r062-20250320 (https://download.01.org/0day-ci/archive/20250320/202503201109.rmiFfk3H-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503201109.rmiFfk3H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503201027.i8HE43EJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503201109.rmiFfk3H-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/virtcca_cvm.c:5:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/virtcca_cvm.c:810:5: warning: no previous prototype for function 'virtcca_get_tmi_version' [-Wmissing-prototypes]
-     810 | u64 virtcca_get_tmi_version(void)
-         |     ^
-   arch/arm64/kvm/virtcca_cvm.c:810:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     810 | u64 virtcca_get_tmi_version(void)
-         | ^
-         | static 
-   arch/arm64/kvm/virtcca_cvm.c:1274:5: warning: no previous prototype for function 'cvm_arm_smmu_domain_set_kvm' [-Wmissing-prototypes]
-    1274 | int cvm_arm_smmu_domain_set_kvm(struct device *dev, void *data)
-         |     ^
-   arch/arm64/kvm/virtcca_cvm.c:1274:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1274 | int cvm_arm_smmu_domain_set_kvm(struct device *dev, void *data)
-         | ^
-         | static 
-   7 warnings generated.
+>> fs/ceph/debugfs.c:413:25: error: no member named 'cgroups' in 'struct task_struct'
+       if (!task || !task->cgroups)
+                     ~~~~  ^
+   fs/ceph/debugfs.c:416:17: error: no member named 'cgroups' in 'struct task_struct'
+       css = task->cgroups->subsys[0];
+             ~~~~  ^
+>> fs/ceph/debugfs.c:418:39: error: incomplete definition of type 'struct cgroup_subsys_state'
+           cgroup_path_from_kernfs_id(css->cgroup->kn->id, cgroup_path, size);
+                                      ~~~^
+   include/linux/kthread.h:219:8: note: forward declaration of 'struct cgroup_subsys_state'
+   struct cgroup_subsys_state;
+          ^
+   3 errors generated.
 
 
-vim +/virtcca_get_tmi_version +810 arch/arm64/kvm/virtcca_cvm.c
+vim +413 fs/ceph/debugfs.c
 
-   809	
- > 810	u64 virtcca_get_tmi_version(void)
-   811	{
-   812		u64 res = tmi_version();
-   813	
-   814		if (res == SMCCC_RET_NOT_SUPPORTED)
-   815			return 0;
-   816		return res;
-   817	}
-   818	
+   409	
+   410	static int print_task_cgroup(struct task_struct *task, char *cgroup_path, size_t size)
+   411	{
+   412	    struct cgroup_subsys_state *css;
+ > 413	    if (!task || !task->cgroups)
+   414	        return 0;
+   415	
+   416	    css = task->cgroups->subsys[0];
+   417	    if (css) {
+ > 418	        cgroup_path_from_kernfs_id(css->cgroup->kn->id, cgroup_path, size);
+   419	    }
+   420	    return 1;
+   421	}
+   422	
 
 -- 
 0-DAY CI Kernel Test Service
