@@ -1,147 +1,90 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E411E9B02;
-	Thu, 20 Mar 2025 16:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD9B22756A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 18:07:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742489741; cv=none; b=u0LMuG8F+B3ANlymjCowbsS4vOFGs8W975CtxS/sHAKvrpKRv0bSYBBGelYnBJXTQuRgQIZQNXjk7CJTfy8WDXBdmZ+7J7f1L0aSP1zJ4qWHutaQakw2YSskCDHhjfhaltJQL/xp7O8tQXdTC1qAb7wtoBSPDTNOibwExpAEu+8=
+	t=1742494055; cv=none; b=s8M0igygtfZImgvS2GQ5iD41T/OwBVSP20f3OCyMaVzrrV5AKyJB8Dzj+Qi6tR8zwDignAOXuT5nOU8hWRi8XxMOKmPGxZw8MXkRkVk3cEbtJysxiEG1xNKWDYVHvL3nBww3onpfoGKcEvyJr4LUaadGTNgKtay6gXBhuMOW0DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742489741; c=relaxed/simple;
-	bh=cESvC4LT0egAIOny8aWYQ6lxbETK/HKS0OTbS1TOsqM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=no/H2Qv//5cRHvkYFVjoBU9lDpk7gGSEhpPiIDRMVy2qzr1+aRqzPQtHG0p2oq+bjqLvY+dp+6Sio6CDLNCggnvjQzo3ZX7ffQXnE/NMorODHtVrACgqi0LtoKxzGr4OoquULLw70uxPUH0XjOc36PtbmR+aLJqYrT9t+lGECGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=shelob.surriel.com; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shelob.surriel.com
-Received: from fangorn.home.surriel.com ([10.0.13.7])
-	by shelob.surriel.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.97.1)
-	(envelope-from <riel@shelob.surriel.com>)
-	id 1tvJAp-000000001zx-13kX;
-	Thu, 20 Mar 2025 12:55:15 -0400
-Message-ID: <8b5e03015a5783ed4c80ad0bd57e09e651d890d3.camel@surriel.com>
-Subject: Re: [PATCH] mm/vmscan: batch TLB flush during memory reclaim
-From: Rik van Riel <riel@surriel.com>
-To: kernel test robot <lkp@intel.com>, Vinay Banakar <vny@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton
- <akpm@linux-foundation.org>,  Linux Memory Management List	
- <linux-mm@kvack.org>, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- Bharata B Rao <bharata@amd.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- Peter Zijlstra	 <peterz@infradead.org>, Borislav Petkov <bp@alien8.de>,
- SeongJae Park	 <sj@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Byungchul Park	 <byungchul@sk.com>, Brendan Jackman <jackmanb@google.com>
-Date: Thu, 20 Mar 2025 12:55:15 -0400
-In-Reply-To: <202503201810.9JxSMo0Q-lkp@intel.com>
-References: <20250319132818.1003878b@fangorn>
-	 <202503201810.9JxSMo0Q-lkp@intel.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1742494055; c=relaxed/simple;
+	bh=A9gqEINbwa1vlJINmcf218CB2euavGtGsCataZ4WuQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fvtgCDLUR2U3jd0RIOzga9R7D2rxcppZ/WuHIhn2Hkf6ylmcveG8m9xWHFNXr4DXXILlQ0NFBwhhvuNY3V0i+ZAm+lUnz++OPM7myb01rueXm6aHwZpOH4mY2ubUS8++LuJ9aDwDFAh4srwoPT4iABSeL8ykQcFVR63z0lDG6wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4kfmH6r; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4kfmH6r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742494046; x=1774030046;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=A9gqEINbwa1vlJINmcf218CB2euavGtGsCataZ4WuQ8=;
+  b=S4kfmH6ruhpvw/EmHZxfbDgX3NP8bIR2EPle5etpHriGb2l8rU/M+qb6
+   VqFoOyj2mwx79FBK7JZaXCBLqz5FQyHQ6QyCazBkG9A9m7mlH7uSrvYyA
+   uVJcrKv9S9RspQ5JtTU63nYFz9nLt0yI/PGpQGCogp+qdfYRymoeHW62l
+   /PSws0H3eswToVLcbjjl6GIcoRm8iITpBthrn+zzCiGfP8s2qqM4GbSh9
+   V2UYbAKL1RcFaUaM+2ZqJNPSv+iFt+qmMgNjzWto7O+O6/26VrMu3c59p
+   0HNt7d0eq6uj+Ywx3KSg1a82t3kHpvFOxLLYSxWHCLFMAt5g8QayRozzQ
+   w==;
+X-CSE-ConnectionGUID: yE5P0la9ShuHs8ye3XUoSw==
+X-CSE-MsgGUID: bV1OvirAQNO7werHjx2V1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43913089"
+X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
+   d="scan'208";a="43913089"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 11:07:25 -0700
+X-CSE-ConnectionGUID: jEQ4lMjSSK+Twapq/z+NzA==
+X-CSE-MsgGUID: zI1nn8cIT5eLiwzLWo+oBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
+   d="scan'208";a="123140000"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 20 Mar 2025 11:07:24 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tvKIc-0000el-0m;
+	Thu, 20 Mar 2025 18:07:22 +0000
+Date: Fri, 21 Mar 2025 02:07:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 1/1] ERROR: modpost:
+ "__aeabi_uldivmod" [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
+Message-ID: <202503210246.BFI5Oj48-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Sender: riel@surriel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 2025-03-20 at 19:42 +0800, kernel test robot wrote:
-> Hi Rik,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on akpm-mm/mm-everything]
->=20
-> url:=C2=A0=C2=A0=C2=A0
-> https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/mm-vmscan-bat=
-ch-TLB-flush-during-memory-reclaim/20250320-013150
-> base:=C2=A0=C2=A0
-> https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git=C2=A0mm-
-> everything
-> patch link:=C2=A0=C2=A0=C2=A0
-> https://lore.kernel.org/r/20250319132818.1003878b%40fangorn
-> patch subject: [PATCH] mm/vmscan: batch TLB flush during memory
-> reclaim
-> config: sh-randconfig-001-20250320
-> (https://download.01.org/0day-ci/archive/20250320/202503201810.9JxSMo
-> 0Q-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=3D1 build):
-> (https://download.01.org/0day-ci/archive/20250320/202503201810.9JxSMo
-> 0Q-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of
-> the same patch/commit), kindly add following tags
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202503201810.9JxSMo0Q-lkp@intel.c=
-om/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> =C2=A0=C2=A0 mm/vmscan.c: In function 'shrink_folio_list':
-> > > mm/vmscan.c:1560:53: error: implicit declaration of function
-> > > 'folio_test_young'; did you mean 'folio_set_count'? [-Wimplicit-
-> > > function-declaration]
-> =C2=A0=C2=A0=C2=A0 1560 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (folio_mapped(folio) &&
-> folio_test_young(folio)))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> ^~~~~~~~~~~~~~~~
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> folio_set_count
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   7b65a6d404ec082697bd8150d890e65b9e24164c
+commit: 00a31dd3acea0f88f947fc71e268ebb34b59f218 [1/1] asm-generic/div64: optimize/simplify __div64_const32()
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250321/202503210246.BFI5Oj48-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210246.BFI5Oj48-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503210246.BFI5Oj48-lkp@intel.com/
 
-This is a fun one, because there appear to be several=C2=A0
-instances of folio_test_young sprinkled through mm/*.c
-in the current mm tree.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-I guess some combination of config options and a previous
-change to the tree broke this?
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/dvb-frontends/cxd2841er.ko] undefined!
 
-It looks like this failing compile is on sh, without
-CONFIG_64BIT, but with CONFIG_PAGE_IDLE_FLAG set.
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
-In that case, page_idle.h has an inline folio_test_young().
-
-Does vmscan.c simply need to #include <linux/page_idle.h>
-or should the code be using folio_test_clear_referenced()
-instead of folio_test_young() ?
-
---=20
-All Rights Reversed.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
