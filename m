@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1693F1F7074
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 22:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D73C22A7F7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 22:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742508510; cv=none; b=VeZD9AIFfReYsHFhv170rzsbnHeTWW4BBwmr9mx1JvdbDYMVa0h64EUk4KgtomySCFeKbQeBiJa3Tb76Ed2BhAf1sj74Cto89ULxGbeIKM9QxxgsxY7HERNBzzXQLTTaNmy64gcPe9jzyEUUg7nJRnrcpCSV6+UvfaglWVU78qw=
+	t=1742509899; cv=none; b=M2cU86YjAwOYdymOJgo35NSmMs1rjdfXCEJxC8G33teoeHz811F6xEYrvSYtouKjvAu8Nc5bx0ZpiCdsi1Q0fb3CJwErxiCZzs0/zCXmD3Gdo3E+rxrZGgKOdA3Ao9hRZ5l5mkhzXFpLOMcyo29LtH0mQKExV+C2gv4svUtWH+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742508510; c=relaxed/simple;
-	bh=663gcOFwkwRPcgJfgUo1lbojiZAPOuhRheA1XInAKVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fQAPtkGnQIN7sDvfV8+baBHb2bILAaL3Mfnzw29h8MTTgvcnlAMgUugkm5sQC9reDm5+Ry/yaeSv889q2YxAVeOU0P+Sluv/4qLHnxiXbt3noxl3Sie15slru6v5ywY3RI8cvhSqrB5nBdHjFDUr4HDXdeCMftMT8YHfp1yIMXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TO8MxZ28; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1742509899; c=relaxed/simple;
+	bh=0zzuDeUkEcxA9mfMgWrmQTo6mesEwDgulzSR6SmF5LY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K9bpAozdjXQ05fPSMIdNp3x6cg8UyZihl3JEmIwPd0GhGV/2PCc9iwmaIRgya3l53xwdVcgGlGbFfY/WOTVGGkj6Yu5/geEdykE8EHWsDFmGNsqWYSjzC84ndvud80KBNkGTtk8xMbOP5VVMqOrRMrpwq0d8eq01SBRv5q+7K/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JVeKqLaa; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TO8MxZ28"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JVeKqLaa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742508508; x=1774044508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=663gcOFwkwRPcgJfgUo1lbojiZAPOuhRheA1XInAKVk=;
-  b=TO8MxZ28oNWG20H13a1ai03KnqZrYyhzIbWsjfupWob91AQiSGiRqIPG
-   zdPDjmabhP5fWZiKf3385IunKzXY7cvnYg5EZSyOEtMoNVOfakWEV/5ZD
-   HJQhmjkL3kf1SjNCZPr234zF+EYchzjbLquAyGOAlzXbfRlNz+mA74CX9
-   B4+Fa8PMZx2BymvVERyi2RHB6btSdK8Im8uDjopt29CBWEbw2TFauF8Ah
-   WsABvSBk05Kx4a+QG2NeEi5yZudiAto6Pz7thOaXC81DEQMhor/ftF2bT
-   jqWFGWOGOt9foKDkYA+MVV4F6SM+kR7SlpNDr7/9HqJIIZojlbXOBvoK2
+  t=1742509898; x=1774045898;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0zzuDeUkEcxA9mfMgWrmQTo6mesEwDgulzSR6SmF5LY=;
+  b=JVeKqLaaNVy6QWPEU7rjUS2DR/VCPbslTGY0pAXdbDfecdfV5ZTLbSEe
+   uOjLl9kU/tsZ6cG+2ClP7H2WnXM30BOg5i+KHp91P5lM4SlL38jcZ4XkV
+   JgtPa7QLjTO7K5qlrBzFgaX/kRDVe3EObZnmOA0azWeR5XSIsLrIkvbRT
+   66NLasINlS/2Fm/XnnblaChdRZMHtiV0AI2udCghXfcZ26SFncms1b1WT
+   8RCCw+SoHCE3at/X/JJWb/f4Yf1Epatke4bepV09k1/UVDb0/tWYcAeTO
+   cR83a0rhD5soT1mIV/cOVoue63uBvwDl0o6BljbndCwQcaCzxeuZmEB+J
    Q==;
-X-CSE-ConnectionGUID: rnSxMA6AQzm8Wj/jeUmmpQ==
-X-CSE-MsgGUID: T7/kDjeNQnC9FNBcNAVgwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="66229465"
+X-CSE-ConnectionGUID: Jxz6R5ylRjac79Hkqs0kHg==
+X-CSE-MsgGUID: zkAzPtiZR7aV5kkveLqnRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43651969"
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="66229465"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:08:27 -0700
-X-CSE-ConnectionGUID: z9/ir06NSD2C25UMgMpeqw==
-X-CSE-MsgGUID: ItkH32rjT/GfYhazN4CjyQ==
+   d="scan'208";a="43651969"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:31:37 -0700
+X-CSE-ConnectionGUID: pdrleajFS+WuobMGKkHOSw==
+X-CSE-MsgGUID: q8sNW5NXTYeu3EG54AfYfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="123674982"
+   d="scan'208";a="128291980"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Mar 2025 15:08:25 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Mar 2025 15:31:36 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvO3q-0000oB-2e;
-	Thu, 20 Mar 2025 22:08:22 +0000
-Date: Fri, 21 Mar 2025 06:08:08 +0800
+	id 1tvOQH-0000pB-1g;
+	Thu, 20 Mar 2025 22:31:33 +0000
+Date: Fri, 21 Mar 2025 06:31:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kim Seer Paller <kimseer.paller@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Kim Seer Paller <kimseer.paller@analog.com>
-Subject: Re: [PATCH 4/4] iio: dac: ad3530r: Add driver for AD3530R and AD3531R
-Message-ID: <202503210537.KxDNeihS-lkp@intel.com>
-References: <20250319-togreg-v1-4-d8244a502f2c@analog.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:v2_20250319_ckeepax_tidy_up_asoc_control_get_and_put_handlers
+ 237/251] sound/soc/soc-ops-test.c:450:9: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202503210611.lDqWoKN0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,97 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250319-togreg-v1-4-d8244a502f2c@analog.com>
 
-Hi Kim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8dbeb413806f9f810d97d25284f585b201aa3bdc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kim-Seer-Paller/iio-ABI-add-new-DAC-powerdown-mode/20250319-115119
-base:   8dbeb413806f9f810d97d25284f585b201aa3bdc
-patch link:    https://lore.kernel.org/r/20250319-togreg-v1-4-d8244a502f2c%40analog.com
-patch subject: [PATCH 4/4] iio: dac: ad3530r: Add driver for AD3530R and AD3531R
-config: alpha-randconfig-r121-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210537.KxDNeihS-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250321/202503210537.KxDNeihS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20250319_ckeepax_tidy_up_asoc_control_get_and_put_handlers
+head:   502a668fad12b6ca10bcbb615d62e61d3b669c99
+commit: 7a24b876ad8cdd56457e881d384a038922b508c3 [237/251] ASoC: ops-test: Add some basic kunit tests for soc-ops
+config: csky-randconfig-r131-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210611.lDqWoKN0-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250321/202503210611.lDqWoKN0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503210537.KxDNeihS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503210611.lDqWoKN0-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/iio/dac/ad3530r.c:286:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int reg_val @@     got restricted __be16 [usertype] @@
-   drivers/iio/dac/ad3530r.c:286:17: sparse:     expected unsigned int reg_val
-   drivers/iio/dac/ad3530r.c:286:17: sparse:     got restricted __be16 [usertype]
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
->> drivers/iio/dac/ad3530r.c:316:24: sparse: sparse: cast to restricted __be16
+>> sound/soc/soc-ops-test.c:450:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted snd_ctl_elem_type_t const __left @@
+   sound/soc/soc-ops-test.c:450:9: sparse:     expected long long left_value
+   sound/soc/soc-ops-test.c:450:9: sparse:     got restricted snd_ctl_elem_type_t const __left
+>> sound/soc/soc-ops-test.c:450:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted snd_ctl_elem_type_t const __right @@
+   sound/soc/soc-ops-test.c:450:9: sparse:     expected long long right_value
+   sound/soc/soc-ops-test.c:450:9: sparse:     got restricted snd_ctl_elem_type_t const __right
 
-vim +286 drivers/iio/dac/ad3530r.c
+vim +450 sound/soc/soc-ops-test.c
 
-   278	
-   279	static int ad3530r_dac_write(struct ad3530r_state *st, unsigned int chan,
-   280				     unsigned int val)
-   281	{
-   282		int ret;
-   283		unsigned int reg_val;
-   284	
-   285		guard(mutex)(&st->lock);
- > 286		reg_val = cpu_to_be16(val);
-   287	
-   288		ret = regmap_bulk_write(st->regmap, st->chip_info->input_ch_reg(chan),
-   289					&reg_val, 2);
-   290		if (ret)
-   291			return ret;
-   292	
-   293		if (st->ldac_gpio)
-   294			return ad3530r_trigger_hw_ldac(st->ldac_gpio);
-   295	
-   296		return regmap_update_bits(st->regmap, st->chip_info->sw_ldac_trig_reg,
-   297					  AD3530R_SW_LDAC_TRIG_MASK,
-   298					  FIELD_PREP(AD3530R_SW_LDAC_TRIG_MASK, 1));
-   299	}
-   300	
-   301	static int ad3530r_read_raw(struct iio_dev *indio_dev,
-   302				    struct iio_chan_spec const *chan,
-   303				    int *val, int *val2, long info)
-   304	{
-   305		struct ad3530r_state *st = iio_priv(indio_dev);
-   306		int ret;
-   307	
-   308		switch (info) {
-   309		case IIO_CHAN_INFO_RAW:
-   310			ret = regmap_bulk_read(st->regmap,
-   311					       st->chip_info->input_ch_reg(chan->channel),
-   312					       val, 2);
-   313			if (ret)
-   314				return ret;
-   315	
- > 316			*val = FIELD_GET(AD3530R_REG_VAL_MASK, be16_to_cpu(*val));
-   317	
-   318			return IIO_VAL_INT;
-   319		case IIO_CHAN_INFO_SCALE:
-   320			*val = st->vref_mv;
-   321			*val2 = 16;
-   322	
-   323			return IIO_VAL_FRACTIONAL_LOG2;
-   324		case IIO_CHAN_INFO_OFFSET:
-   325			*val = 0;
-   326	
-   327			return IIO_VAL_INT;
-   328		default:
-   329			return -EINVAL;
-   330		}
-   331	}
-   332	
+   431	
+   432	static void soc_ops_test_info(struct kunit *test)
+   433	{
+   434		struct soc_ops_test_priv *priv = test->priv;
+   435		const struct info_test_param *param = test->param_value;
+   436		const struct snd_ctl_elem_info *target = &param->uinfo;
+   437		struct snd_ctl_elem_info result;
+   438		struct snd_kcontrol kctl = {
+   439			.private_data = &priv->component,
+   440			.private_value = (unsigned long)&param->mc,
+   441		};
+   442		int ret;
+   443	
+   444		strscpy(kctl.id.name, param->name, sizeof(kctl.id.name));
+   445	
+   446		ret = param->info(&kctl, &result);
+   447		KUNIT_ASSERT_FALSE(test, ret);
+   448	
+   449		KUNIT_EXPECT_EQ(test, result.count, target->count);
+ > 450		KUNIT_EXPECT_EQ(test, result.type, target->type);
+   451		KUNIT_EXPECT_EQ(test, result.value.integer.min, target->value.integer.min);
+   452		KUNIT_EXPECT_EQ(test, result.value.integer.max, target->value.integer.max);
+   453	}
+   454	
 
 -- 
 0-DAY CI Kernel Test Service
