@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B41A154457
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 00:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D6CA932
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 00:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742431263; cv=none; b=YNf348tpU6zWVBkfY/reQoknDYTo78e1Nmxk+WqqXVOdJfVlWexzJRN2pYVwroJYGlNgZLXVLTGQeX3V6/kNyl8kjAo1JqVqqzTKntqt7IS2aJrfWDjdhmwiRX3b9TwYovicb7QGzmrZswOLuoexWvRHtW1QaN7yycnyKEAokF8=
+	t=1742431926; cv=none; b=SUAYr9PKxtu5+ynnp7ipyJHdrcv3Ib5T3ed5y8WalJObeJOGyQJn93ty1ScA7Ez8C/maKV+A8UQacvnYiiWBauBfC7aHzH251lzPM9QFC9d8dOBnOVTYGHbI7rWAOKlGzTGqZK9VxZRNurM7/SLKBIFtcfC9EwtCTrRA2p4Aepc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742431263; c=relaxed/simple;
-	bh=ysQw320U92fcc9RGXquOyxSNTHhFjedhAcF++YjZQNQ=;
+	s=arc-20240116; t=1742431926; c=relaxed/simple;
+	bh=oJ4XPcrmie1kikJkOL0sH31sWUW2bxbCzpTmKk8FgJw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RfBrl1YRJGj7wZe14kFiRfhPbXItoJK8qWSREe9olpU8j25X2hx+cFZ2XJazCEqS/tlkRVcehtUh/jGkmo4eC34XWNXbnFsI393eLDAHHgrpiZhVmCXfXCbxIYs8lasgUMJpmuE7AanNrH54cPf0XGuOE1opSZm11BqVQ5DFqcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C833fhWT; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=slu1FO+KcPIIlsWkmHk3vpEaCPVlDtXSWyEqRDac8gQMcy4lSTIh7L9TjaKi2YY9bv0tAifFtAPHkBQvp7FgV6/bcbgFSvkeC2E4AY6ytPXSvHSVuWwzJXrH0x6/7R2kbVIJyCmnJ2KRM4XcOFREyvDOQr1EHtXXIatABOHwuNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHDU+Xgj; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C833fhWT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHDU+Xgj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742431261; x=1773967261;
+  t=1742431923; x=1773967923;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ysQw320U92fcc9RGXquOyxSNTHhFjedhAcF++YjZQNQ=;
-  b=C833fhWTpg8IuodyxRx0d9cP9I+vIW9lI2YCr7ylyAN1IGXq7/j4h0v2
-   6bjKr05TN1ud2keiDF56ff41c4JV7MYQfE5yi9C+kG7pXWkarK8vMQYsY
-   bpRSBRomDKXYaiuP22Wi7wtcS9fG3hhqCJ5XzxdxBIpEqT3VLzOhIhMh/
-   2mEF8GIsYSlcSicOptBgQOFKtzqYOhXKIiX6uUFlf9+nLvDcJu2UNnKaU
-   AYB91eAwjqGSkjRTPgJ1GAPBLClfweCWiX6D0XhOUH1StodXeM3Gy0SD2
-   ep4SdOQgQQGe3rC4dLe3NYvuYgXFEo+tvwws5ifaqSpF4Pd8N/joCy5+i
-   Q==;
-X-CSE-ConnectionGUID: 9LRuIS3mSaGZuNleByNeSg==
-X-CSE-MsgGUID: N2Ttv0gTRxOwai6T5rqiLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="43567465"
+  bh=oJ4XPcrmie1kikJkOL0sH31sWUW2bxbCzpTmKk8FgJw=;
+  b=AHDU+XgjpmOcXEf851ZZxVwcwDDAXyre4Z2hHrr0piI6YACFfMLiifIB
+   nJqnCEvDg8DLgCxMrvtutJQmRojezfJ2Xbm60iQvVUEl0f/eXTYwoHVZn
+   1xdJG/oCfUSNJAGe1OmUE35ovJ7jmZXgSjv7xBtxgpoHCY27jf7W6tYew
+   5ItQTHIbGEund1f4X3u0VfFoE5j3jZyuTP2DIUq9+pACjTTxB0faf7wmz
+   t1Kx0/ohNQdCv7cgzFFrend/+nk47w12qziAV8lhRzuSG6v2sRtlMXqvd
+   YEHQ2mpvTyAWIp19H7S0jL9Dg5lNnF7Febp07fTh+ZFZkEhYZ3oxXwtpZ
+   A==;
+X-CSE-ConnectionGUID: A/6zUx+3RbW97QXiVhWE3g==
+X-CSE-MsgGUID: 8ATt7vArSgOdxiFruFJrMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11378"; a="55022865"
 X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
-   d="scan'208";a="43567465"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 17:41:00 -0700
-X-CSE-ConnectionGUID: nRCKdlVxQK6/bP3tctZMtg==
-X-CSE-MsgGUID: KoJlZznZRXam17ka+IpQqA==
+   d="scan'208";a="55022865"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 17:52:03 -0700
+X-CSE-ConnectionGUID: 4bbyf0rBTSCUBz6leTXfDQ==
+X-CSE-MsgGUID: rCR2LQNhTES0QIcCbOy5AA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,260,1736841600"; 
-   d="scan'208";a="160069288"
+   d="scan'208";a="127062210"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 19 Mar 2025 17:40:59 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 19 Mar 2025 17:52:01 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tv3xw-000031-2t;
-	Thu, 20 Mar 2025 00:40:56 +0000
-Date: Thu, 20 Mar 2025 08:40:48 +0800
+	id 1tv48d-00003r-1r;
+	Thu, 20 Mar 2025 00:51:59 +0000
+Date: Thu, 20 Mar 2025 08:51:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alessandro Carminati <acarmina@redhat.com>
-Subject: [linux-next:master 11820/12094]
- include/linux/compiler_types.h:477:20: error: impossible constraint in 'asm'
-Message-ID: <202503200847.LbkIJIXa-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2045/2045] drivers/coda/coda_pci.c:228: warning:
+ Function parameter or member 'p' not described in 'virtcca_pci_get_rom_size'
+Message-ID: <202503200858.XSvAPfQM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,477 +62,228 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ff7f9b199e3f4cc7d61df5a9a26a7cbb5c1492e6
-commit: 0c4c159b80695260bf24d51dd27f61188bbd919c [11820/12094] s390: add support for suppressing warning backtraces
-config: s390-randconfig-002-20250320 (https://download.01.org/0day-ci/archive/20250320/202503200847.LbkIJIXa-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200847.LbkIJIXa-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   961f596cd0017f5f254fb4b0ab9f5b9975177b84
+commit: 67773feaf933058b9e64a9089345b3c64f823acd [2045/2045] VirtCCA: cvm support UEFI boot
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250320/202503200858.XSvAPfQM-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250320/202503200858.XSvAPfQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503200847.LbkIJIXa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503200858.XSvAPfQM-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <command-line>:0:0:
-   include/linux/mm.h: In function 'folio_put':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   include/linux/mmdebug.h:26:4: note: in expansion of macro 'BUG'
-       BUG();      \
-       ^~~
-   include/linux/mm.h:1153:2: note: in expansion of macro 'VM_BUG_ON_PAGE'
-     VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
-     ^~~~~~~~~~~~~~
->> include/linux/compiler_types.h:477:20: error: impossible constraint in 'asm'
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   include/linux/mmdebug.h:26:4: note: in expansion of macro 'BUG'
-       BUG();      \
-       ^~~
-   include/linux/mm.h:1153:2: note: in expansion of macro 'VM_BUG_ON_PAGE'
-     VM_BUG_ON_PAGE(page_ref_count(page) == 0, page);
-     ^~~~~~~~~~~~~~
-   fs/btrfs/file.c: In function 'btrfs_drop_folio':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:50:2: note: in expansion of macro 'ASSERT'
-     ASSERT(block_len <= U32_MAX);
-     ^~~~~~
-   include/linux/page-flags.h: In function 'const_folio_flags.constprop':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   include/linux/mmdebug.h:26:4: note: in expansion of macro 'BUG'
-       BUG();      \
-       ^~~
-   include/linux/mmdebug.h:136:39: note: in expansion of macro 'VM_BUG_ON_PAGE'
-    #define VM_BUG_ON_PGFLAGS(cond, page) VM_BUG_ON_PAGE(cond, page)
-                                          ^~~~~~~~~~~~~~
-   include/linux/page-flags.h:347:2: note: in expansion of macro 'VM_BUG_ON_PGFLAGS'
-     VM_BUG_ON_PGFLAGS(page->compound_head & 1, page);
-     ^~~~~~~~~~~~~~~~~
-   include/linux/page-flags.h: In function 'folio_lock':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   include/linux/mmdebug.h:26:4: note: in expansion of macro 'BUG'
-       BUG();      \
-       ^~~
-   include/linux/mmdebug.h:136:39: note: in expansion of macro 'VM_BUG_ON_PAGE'
-    #define VM_BUG_ON_PGFLAGS(cond, page) VM_BUG_ON_PAGE(cond, page)
-                                          ^~~~~~~~~~~~~~
-   include/linux/page-flags.h:356:2: note: in expansion of macro 'VM_BUG_ON_PGFLAGS'
-     VM_BUG_ON_PGFLAGS(page->compound_head & 1, page);
-     ^~~~~~~~~~~~~~~~~
-   fs/btrfs/file.c: In function 'prepare_one_folio.constprop':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:879:2: note: in expansion of macro 'ASSERT'
-     ASSERT(folio_order(folio) == 0);
-     ^~~~~~
-   fs/btrfs/file.c: In function 'lock_and_cleanup_extent_if_need':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:111:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:71:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   fs/btrfs/file.c:962:2: note: in expansion of macro 'WARN_ON'
-     WARN_ON(!folio_test_locked(folio));
-     ^~~~~~~
-   fs/btrfs/file.c: In function 'btrfs_insert_replace_extent':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:2174:2: note: in expansion of macro 'ASSERT'
-     ASSERT(btrfs_file_extent_type(leaf, extent) != BTRFS_FILE_EXTENT_INLINE);
-     ^~~~~~
-   fs/btrfs/file.c: In function 'btrfs_page_mkwrite':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:1794:2: note: in expansion of macro 'ASSERT'
-     ASSERT(folio_order(folio) == 0);
-     ^~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:78:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   include/linux/highmem.h:275:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(end1 > page_size(page) || end2 > page_size(page));
-     ^~~~~~
-   fs/btrfs/file.c: In function 'btrfs_dirty_folio':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:91:2: note: in expansion of macro 'ASSERT'
-     ASSERT(num_bytes <= U32_MAX);
-     ^~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:92:2: note: in expansion of macro 'ASSERT'
-     ASSERT(folio_pos(folio) <= pos &&
-     ^~~~~~
-   fs/btrfs/file.c: In function 'btrfs_drop_extents':
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:169:2: note: in expansion of macro 'ASSERT'
-     ASSERT(!(args->replace_extent && !args->path));
-     ^~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:111:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:71:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   fs/btrfs/file.c:203:8: note: in expansion of macro 'WARN_ON'
-       if (WARN_ON(del_nr > 0)) {
-           ^~~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:123:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS(BUGFLAG_ONCE |   \
-      ^~~~~~~~~~~~
-   fs/btrfs/file.c:223:7: note: in expansion of macro 'WARN_ON_ONCE'
-      if (WARN_ON_ONCE(key.objectid < ino) ||
-          ^~~~~~~~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/messages.h:175:2: note: in expansion of macro 'BUG'
-     BUG();        \
-     ^~~
-   fs/btrfs/messages.h:179:28: note: in expansion of macro 'btrfs_assertfail'
-     (likely(expr) ? (void)0 : btrfs_assertfail(#expr, __FILE__, __LINE__))
-                               ^~~~~~~~~~~~~~~~
-   fs/btrfs/file.c:225:4: note: in expansion of macro 'ASSERT'
-       ASSERT(del_nr == 0);
-       ^~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/file.c:248:4: note: in expansion of macro 'BUG'
-       BUG();
-       ^~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:111:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:71:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   fs/btrfs/file.c:283:8: note: in expansion of macro 'WARN_ON'
-       if (WARN_ON(del_nr > 0)) {
-           ^~~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:116:4: note: in expansion of macro '__WARN_FLAGS'
-       __WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
-       ^~~~~~~~~~~~
-   include/asm-generic/bug.h:144:3: note: in expansion of macro '__WARN_printf'
-      __WARN_printf(TAINT_WARN, format);   \
-      ^~~~~~~~~~~~~
-   fs/btrfs/transaction.h:257:7: note: in expansion of macro 'WARN'
-      if (WARN(btrfs_abort_should_print_stack(error), \
-          ^~~~
-   fs/btrfs/file.c:332:6: note: in expansion of macro 'btrfs_abort_transaction'
-         btrfs_abort_transaction(trans, ret);
-         ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:111:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:71:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   fs/btrfs/file.c:373:8: note: in expansion of macro 'WARN_ON'
-       if (WARN_ON(del_nr > 0)) {
-           ^~~~~~~
-   include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:111:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:71:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   fs/btrfs/file.c:404:9: note: in expansion of macro 'WARN_ON'
-        if (WARN_ON(del_slot + del_nr != path->slots[0])) {
-            ^~~~~~~
-   include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:116:4: note: in expansion of macro '__WARN_FLAGS'
-       __WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
-       ^~~~~~~~~~~~
-   include/asm-generic/bug.h:144:3: note: in expansion of macro '__WARN_printf'
-      __WARN_printf(TAINT_WARN, format);   \
-      ^~~~~~~~~~~~~
-   fs/btrfs/transaction.h:257:7: note: in expansion of macro 'WARN'
-      if (WARN(btrfs_abort_should_print_stack(error), \
-          ^~~~
-   fs/btrfs/file.c:431:6: note: in expansion of macro 'btrfs_abort_transaction'
-         btrfs_abort_transaction(trans, ret);
-         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:116:4: note: in expansion of macro '__WARN_FLAGS'
-       __WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
-       ^~~~~~~~~~~~
-   include/asm-generic/bug.h:144:3: note: in expansion of macro '__WARN_printf'
-      __WARN_printf(TAINT_WARN, format);   \
-      ^~~~~~~~~~~~~
-   fs/btrfs/transaction.h:257:7: note: in expansion of macro 'WARN'
-      if (WARN(btrfs_abort_should_print_stack(error), \
-          ^~~~
-   fs/btrfs/file.c:448:5: note: in expansion of macro 'btrfs_abort_transaction'
-        btrfs_abort_transaction(trans, ret);
-        ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:56:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(0);     \
-     ^~~~~~~~~~
-   fs/btrfs/file.c:459:3: note: in expansion of macro 'BUG'
-      BUG();
-      ^~~
-   include/linux/compiler_types.h:477:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^
-   arch/s390/include/asm/bug.h:21:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:61:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(BUGFLAG_WARNING|(flags));  \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:116:4: note: in expansion of macro '__WARN_FLAGS'
-       __WARN_FLAGS(BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
-..
+   drivers/coda/coda_pci.c:36: warning: expecting prototype for virtcca_pci_write_msi_msg(). Prototype was for virtcca_pci_write_msg_msi() instead
+>> drivers/coda/coda_pci.c:228: warning: Function parameter or member 'p' not described in 'virtcca_pci_get_rom_size'
+>> drivers/coda/coda_pci.c:228: warning: Excess function parameter 'pdev' description in 'virtcca_pci_get_rom_size'
 
 
-vim +/asm +477 include/linux/compiler_types.h
+vim +228 drivers/coda/coda_pci.c
 
-dbaaabd60e1662 Linus Torvalds   2024-04-08  475  
-eb111869301e15 Rasmus Villemoes 2019-09-13  476  #ifdef CONFIG_CC_HAS_ASM_INLINE
-eb111869301e15 Rasmus Villemoes 2019-09-13 @477  #define asm_inline asm __inline
-eb111869301e15 Rasmus Villemoes 2019-09-13  478  #else
-eb111869301e15 Rasmus Villemoes 2019-09-13  479  #define asm_inline asm
-eb111869301e15 Rasmus Villemoes 2019-09-13  480  #endif
-eb111869301e15 Rasmus Villemoes 2019-09-13  481  
-
-:::::: The code at line 477 was first introduced by commit
-:::::: eb111869301e15b737315a46c913ae82bd19eb9d compiler-types.h: add asm_inline definition
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+    28	
+    29	/**
+    30	 * virtcca_pci_write_msi_msg - secure dev write msi msg
+    31	 * @desc: MSI-X description
+    32	 * @msg: Msg information
+    33	 *
+    34	 **/
+    35	bool virtcca_pci_write_msg_msi(struct msi_desc *desc, struct msi_msg *msg)
+  > 36	{
+    37		if (!is_virtcca_cvm_enable())
+    38			return false;
+    39	
+    40		void __iomem *base = pci_msix_desc_addr(desc);
+    41		u32 ctrl = desc->pci.msix_ctrl;
+    42		bool unmasked = !(ctrl & PCI_MSIX_ENTRY_CTRL_MASKBIT);
+    43		u64 pbase = mmio_va_to_pa(base);
+    44		struct pci_dev *pdev = (desc->dev != NULL &&
+    45			dev_is_pci(desc->dev)) ? to_pci_dev(desc->dev) : NULL;
+    46	
+    47		if (!is_cc_dev(pci_dev_id(pdev)))
+    48			return false;
+    49	
+    50		u64 addr = (u64)msg->address_lo | ((u64)msg->address_hi << 32);
+    51	
+    52		if (addr) {
+    53			/* Get the offset of the its register of a specific device */
+    54			u64 offset = addr - CVM_MSI_ORIG_IOVA;
+    55	
+    56			addr = get_g_cc_dev_msi_addr(pci_dev_id(pdev));
+    57			addr += offset;
+    58			if (!addr)
+    59				return true;
+    60		}
+    61		tmi_mmio_write(pbase + PCI_MSIX_ENTRY_LOWER_ADDR,
+    62			lower_32_bits(addr), CVM_RW_32_BIT, pci_dev_id(pdev));
+    63		tmi_mmio_write(pbase + PCI_MSIX_ENTRY_UPPER_ADDR,
+    64			upper_32_bits(addr), CVM_RW_32_BIT, pci_dev_id(pdev));
+    65		tmi_mmio_write(pbase + PCI_MSIX_ENTRY_DATA,
+    66			msg->data, CVM_RW_32_BIT, pci_dev_id(pdev));
+    67	
+    68		if (unmasked)
+    69			pci_msix_write_vector_ctrl(desc, ctrl);
+    70		tmi_mmio_read(pbase + PCI_MSIX_ENTRY_DATA,
+    71			CVM_RW_32_BIT, pci_dev_id(pdev));
+    72	
+    73		return true;
+    74	}
+    75	
+    76	void virtcca_msix_prepare_msi_desc(struct pci_dev *dev,
+    77		struct msi_desc *desc, void __iomem *addr)
+    78	{
+    79		desc->pci.msix_ctrl = tmi_mmio_read(mmio_va_to_pa(addr + PCI_MSIX_ENTRY_VECTOR_CTRL),
+    80			CVM_RW_32_BIT, pci_dev_id(dev));
+    81	}
+    82	
+    83	/*
+    84	 * If it is a safety device, write vector ctrl need
+    85	 * use tmi interface
+    86	 */
+    87	bool virtcca_pci_msix_write_vector_ctrl(struct msi_desc *desc, u32 ctrl)
+    88	{
+    89		if (!is_virtcca_cvm_enable())
+    90			return false;
+    91	
+    92		void __iomem *desc_addr = pci_msix_desc_addr(desc);
+    93		struct pci_dev *pdev = (desc->dev != NULL &&
+    94			dev_is_pci(desc->dev)) ? to_pci_dev(desc->dev) : NULL;
+    95	
+    96		if (pdev == NULL || !is_cc_dev(pci_dev_id(pdev)))
+    97			return false;
+    98	
+    99		if (desc->pci.msi_attrib.can_mask)
+   100			tmi_mmio_write(mmio_va_to_pa(desc_addr + PCI_MSIX_ENTRY_VECTOR_CTRL),
+   101				ctrl, CVM_RW_32_BIT, pci_dev_id(pdev));
+   102		return true;
+   103	}
+   104	
+   105	/*
+   106	 * If it is a safety device, read msix need
+   107	 * use tmi interface
+   108	 */
+   109	bool virtcca_pci_msix_mask(struct msi_desc *desc)
+   110	{
+   111		if (!is_virtcca_cvm_enable())
+   112			return false;
+   113	
+   114		struct pci_dev *pdev = (desc->dev != NULL &&
+   115			dev_is_pci(desc->dev)) ? to_pci_dev(desc->dev) : NULL;
+   116	
+   117		if (pdev == NULL || !is_cc_dev(pci_dev_id(pdev)))
+   118			return false;
+   119	
+   120		/* Flush write to device */
+   121		tmi_mmio_read(mmio_va_to_pa(desc->pci.mask_base), CVM_RW_32_BIT, pci_dev_id(pdev));
+   122		return true;
+   123	}
+   124	
+   125	/**
+   126	 * virtcca_msix_mask_all_cc - mask all secure dev msix c
+   127	 * @dev: Pointer to the pci_dev data structure of MSI-X device function
+   128	 * @base: Io address
+   129	 * @tsize: Number of entry
+   130	 * @dev_num: Dev number
+   131	 *
+   132	 * Returns:
+   133	 * %0 if msix mask all cc device success
+   134	 **/
+   135	int virtcca_msix_mask_all_cc(struct pci_dev *dev, void __iomem *base, int tsize, u64 dev_num)
+   136	{
+   137		int i;
+   138		u16 rw_ctrl;
+   139		u32 ctrl = PCI_MSIX_ENTRY_CTRL_MASKBIT;
+   140		u64 pbase = mmio_va_to_pa(base);
+   141	
+   142		if (pci_msi_ignore_mask)
+   143			goto out;
+   144	
+   145		for (i = 0; i < tsize; i++, base += PCI_MSIX_ENTRY_SIZE) {
+   146			tmi_mmio_write(pbase + PCI_MSIX_ENTRY_VECTOR_CTRL,
+   147				ctrl, CVM_RW_32_BIT, dev_num);
+   148		}
+   149	
+   150	out:
+   151		pci_read_config_word(dev, dev->msix_cap + PCI_MSIX_FLAGS, &rw_ctrl);
+   152		rw_ctrl &= ~PCI_MSIX_FLAGS_MASKALL;
+   153		rw_ctrl |= 0;
+   154		pci_write_config_word(dev, dev->msix_cap + PCI_MSIX_FLAGS, rw_ctrl);
+   155	
+   156		pcibios_free_irq(dev);
+   157		return 0;
+   158	}
+   159	
+   160	/* If device is secure dev, read config need transfer to tmm module */
+   161	int virtcca_pci_generic_config_read(void __iomem *addr, unsigned char bus_num,
+   162		unsigned int devfn, int size, u32 *val)
+   163	{
+   164		u32 cvm_bit = size == 1 ? CVM_RW_8_BIT : size == 2 ? CVM_RW_16_BIT : CVM_RW_32_BIT;
+   165	
+   166		*val = tmi_mmio_read(mmio_va_to_pa(addr), cvm_bit, PCI_DEVID(bus_num, devfn));
+   167		return 0;
+   168	}
+   169	
+   170	/* If device is secure dev, write config need transfer to tmm module */
+   171	int virtcca_pci_generic_config_write(void __iomem *addr, unsigned char bus_num,
+   172		unsigned int devfn, int size, u32 val)
+   173	{
+   174		u32 cvm_bit = size == 1 ? CVM_RW_8_BIT : size == 2 ? CVM_RW_16_BIT : CVM_RW_32_BIT;
+   175	
+   176		tmi_mmio_write(mmio_va_to_pa(addr), val, cvm_bit, PCI_DEVID(bus_num, devfn));
+   177		return 0;
+   178	}
+   179	
+   180	/* Judge startup virtcca_cvm_host is enable and device is secure or not */
+   181	bool is_virtcca_pci_io_rw(struct vfio_pci_core_device *vdev)
+   182	{
+   183		if (!is_virtcca_cvm_enable())
+   184			return false;
+   185	
+   186		struct pci_dev *pdev = vdev->pdev;
+   187		bool cc_dev = pdev == NULL ? false : is_cc_dev(pci_dev_id(pdev));
+   188	
+   189		if (cc_dev)
+   190			return true;
+   191	
+   192		return false;
+   193	}
+   194	EXPORT_SYMBOL_GPL(is_virtcca_pci_io_rw);
+   195	
+   196	/* Transfer to tmm write io value */
+   197	void virtcca_pci_io_write(struct vfio_pci_core_device *vdev, u64 val,
+   198		u64 size, void __iomem *io)
+   199	{
+   200		struct pci_dev *pdev = vdev->pdev;
+   201	
+   202		WARN_ON(tmi_mmio_write(mmio_va_to_pa(io), val, size, pci_dev_id(pdev)));
+   203	}
+   204	EXPORT_SYMBOL_GPL(virtcca_pci_io_write);
+   205	
+   206	/* Transfer to tmm read io value */
+   207	u64 virtcca_pci_io_read(struct vfio_pci_core_device *vdev,
+   208		u64 size, void __iomem *io)
+   209	{
+   210		struct pci_dev *pdev = vdev->pdev;
+   211	
+   212		return tmi_mmio_read(mmio_va_to_pa(io), size, pci_dev_id(pdev));
+   213	}
+   214	EXPORT_SYMBOL_GPL(virtcca_pci_io_read);
+   215	
+   216	/**
+   217	 * virtcca_pci_get_rom_size - obtain the actual size of the ROM image
+   218	 * @pdev: target PCI device
+   219	 * @rom: kernel virtual pointer to image of ROM
+   220	 * @size: size of PCI window
+   221	 *  return: size of actual ROM image
+   222	 *
+   223	 * Determine the actual length of the ROM image.
+   224	 * The PCI window size could be much larger than the
+   225	 * actual image size.
+   226	 */
+   227	size_t virtcca_pci_get_rom_size(void *p, void __iomem *rom, size_t size)
+ > 228	{
 
 -- 
 0-DAY CI Kernel Test Service
