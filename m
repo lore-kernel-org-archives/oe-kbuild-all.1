@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6007227E9F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 22:57:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D19821C17B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 20 Mar 2025 23:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742511444; cv=none; b=KZkD5Q2zrj0lfttkIz1YCJJ3pG32KvQgQ7r+aIEe+k8OLYmBKOU1JQscVM9ISgJHyvbnF38UeyFXyF2XZDPK/FxAcNhD+9BM6rIIfnrbkxhdhFdTMi1K4PrnDBiMo++QRMNnoSUei4KxutOBUgNyqfRJBstWl6zltGjs2WdK+OI=
+	t=1742512168; cv=none; b=MYA4N2uSVWRHlw65clPbZPVBFK3/dlFkfO6v/6ninoYplJ/QQQsH1Ma8/K7HecxBe+rthWQ2jYXuVMvy3arrngz/BDVDCkjGr/NtrxtSUlXBmBrBt58nqLi+FJ60CuY59htaiDBj8c45eELDSUYTJCOh9JLcsF1cCX+5SCJMUzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742511444; c=relaxed/simple;
-	bh=jZoKxj5+UpyOE+1wQxvyce1SsOE/Sr1DevRce9Tjntg=;
+	s=arc-20240116; t=1742512168; c=relaxed/simple;
+	bh=rKZ/0GBEY72soB28V0yhs5liOwKSqYq4oTYpMCnZtGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZO3H6hUe49Gm9PoACYMkFIHlGvKzbz8QwhCQaUmk6y+g4JTY08HShKI8NEFoTtjZ1G6xMp0cRo9X4pnbOe2zBJx7f9KYRzH5gaRj++v1f3qr0j2Hkcj0wGtSETQAIRnRdnXEa1IKv5hCk1/pNSaGFVOpP2t9htp0dOVHV1Cp5Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mpa5PyCc; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=FksmGZ3vL/S/19Oj7Agj/sEVo4/9LxIm7wrNXK/K5enuZ8MWpfrVZvEtgSQ4Z+fJTtQhRQmQT8uzByfLF7NVIqOzliKikjPRoq9ggqoAfaEW8CT9A4iuefYj94PXiqkakaasU0Nehjx5h194NukYGconSHF+F7a15F39G1D2+Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GUaLR5R6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mpa5PyCc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GUaLR5R6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742511443; x=1774047443;
+  t=1742512167; x=1774048167;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jZoKxj5+UpyOE+1wQxvyce1SsOE/Sr1DevRce9Tjntg=;
-  b=Mpa5PyCc0u34hDzKM3zFT7eQmw+7Ypnhyc4odOmuma+LsoG2pE/+Khwj
-   xSXZqJ7iLhK8REXdiUiNoUDAvFkloe32UEgEnpH5Xvd78yShVgCyV72mO
-   7IoJgVZM9Tsbfa0TdHmW7owIRhe5u6bW3Lm8uOGUYT1JNTGl11S5UH4lp
-   UMj91F1TnDBG3fnILgLQvtdDj9KA1lV5LSZnfqk3kvm7a1rcHHkbmoFKp
-   YBrJjQk9g5R0qrYrh4PUD0b2bnW3oSHycGxDRrjOqQNxlOHlxsBpku5Nf
-   GY10px4AGCLwdhUqUFRZ825c9kjZiNRsHB+YROlT/m9J8qfwSLdpPdx4H
-   Q==;
-X-CSE-ConnectionGUID: DcVXUpj4QJyMkf0BtozURA==
-X-CSE-MsgGUID: tJXkolKDQC2jXhuhSnpthA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43881988"
+  bh=rKZ/0GBEY72soB28V0yhs5liOwKSqYq4oTYpMCnZtGU=;
+  b=GUaLR5R6EgfpQj6wgrwpdwbfi1sIwT8wQtZi4nx70Rk5Jldl1LGos5d3
+   q68jEvS7M+vh2ydNzmh49MSgKsfviqzBOby2cXXiDD3338OF64GdGRfrl
+   UCUm5dgz6Jk/RXIPghlUZ6wqj9ghmSrZ7VVig480+RDgen79oYItia2JK
+   mat9JQzH8UBlCqVomF7gvyP5XNCBIEQlI+ttWAGVGAB+9APrDYfDXetA1
+   I7iR/1XdFifdt/sXfTBDmN8wp8C0N+tSNuHb1R5EULmjfl035RxnABMQe
+   ND5eESHWR206Rac/ilFEEQxrrDnhG+3gCeQh//iFB2PZYodE41mPt4LY+
+   w==;
+X-CSE-ConnectionGUID: KKMLaqvHQ0GmI6Tjboxv0g==
+X-CSE-MsgGUID: J5BJwNhWQuiL+23cMgwJ5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43779645"
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="43881988"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 15:57:23 -0700
-X-CSE-ConnectionGUID: RctdBIdlR1W87EbP98NIZw==
-X-CSE-MsgGUID: 6OncBKvfT0SL2NB3ac2I5g==
+   d="scan'208";a="43779645"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 16:09:26 -0700
+X-CSE-ConnectionGUID: 2dBgRgqySuC0z/FpndqpSg==
+X-CSE-MsgGUID: KV3FdsFfTXyJgtNjkrnXVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,262,1736841600"; 
-   d="scan'208";a="123407730"
+   d="scan'208";a="123224106"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Mar 2025 15:57:21 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 Mar 2025 16:09:25 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvOpC-0000qu-22;
-	Thu, 20 Mar 2025 22:57:18 +0000
-Date: Fri, 21 Mar 2025 06:56:55 +0800
+	id 1tvP0s-0000rX-32;
+	Thu, 20 Mar 2025 23:09:22 +0000
+Date: Fri, 21 Mar 2025 07:09:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: [pci:controller/dwc-cpu-addr-fixup 6/14]
- drivers/pci/controller/dwc/pcie-designware.c:1130:55: sparse: sparse: Using
- plain integer as NULL pointer
-Message-ID: <202503210649.lau9JEgG-lkp@intel.com>
+To: Sherry Sun <sherry.sun@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [tty:tty-testing 47/58] drivers/tty/serial/fsl_lpuart.c:642:29:
+ warning: unused variable 'sport'
+Message-ID: <202503210614.2qGlnbIq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,50 +63,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc-cpu-addr-fixup
-head:   94d1d26431c0e4c845e9e9ee5f23bcc9a53d95ec
-commit: c1154a3218325a03cd07df51a7076a353a723589 [6/14] PCI: dwc: Add dw_pcie_parent_bus_offset() checking and debug
-config: alpha-randconfig-r121-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210649.lau9JEgG-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.4.0
-reproduce: (https://download.01.org/0day-ci/archive/20250321/202503210649.lau9JEgG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+head:   2790ce23951f0c497810c44ad60a126a59c8d84c
+commit: 3cc16ae096f164ae0c6b98416c25a01db5f3a529 [47/58] tty: serial: fsl_lpuart: use port struct directly to simply code
+config: x86_64-buildonly-randconfig-003-20250321 (https://download.01.org/0day-ci/archive/20250321/202503210614.2qGlnbIq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210614.2qGlnbIq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503210649.lau9JEgG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503210614.2qGlnbIq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pci/controller/dwc/pcie-designware.c:1130:55: sparse: sparse: Using plain integer as NULL pointer
-   drivers/pci/controller/dwc/pcie-designware.c: note: in included file (through arch/alpha/include/asm/core_tsunami.h, arch/alpha/include/asm/io.h, include/linux/scatterlist.h, ...):
-   arch/alpha/include/asm/io_trivial.h:70:16: sparse: sparse: undefined identifier '__kernel_ldwu'
-   arch/alpha/include/asm/io_trivial.h:64:16: sparse: sparse: undefined identifier '__kernel_ldbu'
-   arch/alpha/include/asm/io_trivial.h:82:9: sparse: sparse: undefined identifier '__kernel_stw'
-   arch/alpha/include/asm/io_trivial.h:76:9: sparse: sparse: undefined identifier '__kernel_stb'
+All warnings (new ones prefixed by >>):
 
-vim +1130 drivers/pci/controller/dwc/pcie-designware.c
+   drivers/tty/serial/fsl_lpuart.c: In function 'lpuart_poll_init':
+>> drivers/tty/serial/fsl_lpuart.c:642:29: warning: unused variable 'sport' [-Wunused-variable]
+     642 |         struct lpuart_port *sport = container_of(port,
+         |                             ^~~~~
+   drivers/tty/serial/fsl_lpuart.c: In function 'lpuart32_poll_init':
+   drivers/tty/serial/fsl_lpuart.c:696:29: warning: unused variable 'sport' [-Wunused-variable]
+     696 |         struct lpuart_port *sport = container_of(port, struct lpuart_port, port);
+         |                             ^~~~~
 
-  1109	
-  1110	resource_size_t dw_pcie_parent_bus_offset(struct dw_pcie *pci,
-  1111						  const char *reg_name,
-  1112						  resource_size_t cpu_phy_addr)
-  1113	{
-  1114		struct device *dev = pci->dev;
-  1115		struct device_node *np = dev->of_node;
-  1116		int index;
-  1117		u64 reg_addr, fixup_addr;
-  1118		u64 (*fixup)(struct dw_pcie *pcie, u64 cpu_addr);
-  1119	
-  1120		/* Look up reg_name address on parent bus */
-  1121		index = of_property_match_string(np, "reg-names", reg_name);
-  1122	
-  1123		if (index < 0) {
-  1124			dev_err(dev, "No %s in devicetree \"reg\" property\n", reg_name);
-  1125			return 0;
-  1126		}
-  1127	
-  1128		of_property_read_reg(np, index, &reg_addr, NULL);
-  1129	
-> 1130		fixup = pci->ops ? pci->ops->cpu_addr_fixup : 0;
+
+vim +/sport +642 drivers/tty/serial/fsl_lpuart.c
+
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  639  
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  640  static int lpuart_poll_init(struct uart_port *port)
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  641  {
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04 @642  	struct lpuart_port *sport = container_of(port,
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  643  					struct lpuart_port, port);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  644  	unsigned long flags;
+b6a8f6ab2c53e5 Sherry Sun    2025-03-12  645  	u8 temp;
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  646  
+3cc16ae096f164 Sherry Sun    2025-03-12  647  	port->fifosize = 0;
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  648  
+3cc16ae096f164 Sherry Sun    2025-03-12  649  	uart_port_lock_irqsave(port, &flags);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  650  	/* Disable Rx & Tx */
+3cc16ae096f164 Sherry Sun    2025-03-12  651  	writeb(0, port->membase + UARTCR2);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  652  
+3cc16ae096f164 Sherry Sun    2025-03-12  653  	temp = readb(port->membase + UARTPFIFO);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  654  	/* Enable Rx and Tx FIFO */
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  655  	writeb(temp | UARTPFIFO_RXFE | UARTPFIFO_TXFE,
+3cc16ae096f164 Sherry Sun    2025-03-12  656  			port->membase + UARTPFIFO);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  657  
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  658  	/* flush Tx and Rx FIFO */
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  659  	writeb(UARTCFIFO_TXFLUSH | UARTCFIFO_RXFLUSH,
+3cc16ae096f164 Sherry Sun    2025-03-12  660  			port->membase + UARTCFIFO);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  661  
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  662  	/* explicitly clear RDRF */
+3cc16ae096f164 Sherry Sun    2025-03-12  663  	if (readb(port->membase + UARTSR1) & UARTSR1_RDRF) {
+3cc16ae096f164 Sherry Sun    2025-03-12  664  		readb(port->membase + UARTDR);
+3cc16ae096f164 Sherry Sun    2025-03-12  665  		writeb(UARTSFIFO_RXUF, port->membase + UARTSFIFO);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  666  	}
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  667  
+3cc16ae096f164 Sherry Sun    2025-03-12  668  	writeb(0, port->membase + UARTTWFIFO);
+3cc16ae096f164 Sherry Sun    2025-03-12  669  	writeb(1, port->membase + UARTRWFIFO);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  670  
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  671  	/* Enable Rx and Tx */
+3cc16ae096f164 Sherry Sun    2025-03-12  672  	writeb(UARTCR2_RE | UARTCR2_TE, port->membase + UARTCR2);
+3cc16ae096f164 Sherry Sun    2025-03-12  673  	uart_port_unlock_irqrestore(port, flags);
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  674  
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  675  	return 0;
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  676  }
+2a41bc2a2b0533 Nicolae Rosia 2016-10-04  677  
+
+:::::: The code at line 642 was first introduced by commit
+:::::: 2a41bc2a2b0533afca11335ed7e636c62623d7c6 tty: serial: fsl_lpuart: add polled console functions
+
+:::::: TO: Nicolae Rosia <nicolae_rosia@mentor.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
