@@ -1,78 +1,76 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A721EF0A9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 08:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368B31EFFBB;
+	Fri, 21 Mar 2025 08:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742546455; cv=none; b=HBnEylT6GZZDT98J70hoJ35ZtMW0Y4vOrtpbkvwfFFhbLYy4r+9dZbaK1JOV2P+/sJ8os8ViB55sUvW1opdl3SQvoCf3cRMDFSov9lVN03PVGeJWXetUbzWZe4rOlo9fqS4XffZi757ValIbmkWWgg+JSi/7IHUWWjgbsN/xBA8=
+	t=1742547206; cv=none; b=Mv7sJpIf9rgm7dBMms5KNTGgKQoJUkCXJSPoTe6Qg3Dh0PWBCQbsov5eOK/b1VCWzHPZkvfoFEMqHAfx9QaNb5ZRiADXnhyYdf8M/baH27LMixnRfFMcnt6Zv4dpDGUl5B9aEOPlV4CFaEo+qODoVNYd+Xsy7JRopv+CjUAwE5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742546455; c=relaxed/simple;
-	bh=5RejYsgA1dYS5iBnoejsKhPUElSGo2MqPd+4+ruo9Kg=;
+	s=arc-20240116; t=1742547206; c=relaxed/simple;
+	bh=OcWQ5THCVYNw46yJhiczAJFOz5dDR3HDog5uBWJtLPo=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=l7S9TG0d8ZjeDBE0P6TvMSE9LTll+Z5+yPSOpP9XzXDWYbzUyODSTf84kRqYaVa9va434vrri1OAIlcRK9MEO1xoSVPm+7i3FHSY08GF8wj2275SObAG8P4g7+qA/mynlEjDCgQ9Dg+h4zEzOiYKPKxFHxcmMSoXOoIdfneWQTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Bv2WSF4B; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jcSWqsws; arc=none smtp.client-ip=103.168.172.146
+	 Subject:Content-Type; b=qTrndC53YpU8C0iLsm8JLTUpFcQu4HidSBrrCj27yLoKW80iHBW/gt1e6eCcYzG7mEUGelm5BvvvtA0UC+GV+Y6holO/Ket+iojTiptcr397x8uYSPUA31JBY28lbLDI9uwKsMNO3FxvjUzMPSWIF+ljQoU8yrtYm4nSf+nM9v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=iBq2ERFK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=3VL44u0x; arc=none smtp.client-ip=103.168.172.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Bv2WSF4B";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jcSWqsws"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="iBq2ERFK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="3VL44u0x"
 Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6FE2D13833D1;
-	Fri, 21 Mar 2025 04:40:52 -0400 (EDT)
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 2609B114013F;
+	Fri, 21 Mar 2025 04:53:23 -0400 (EDT)
 Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-07.internal (MEProxy); Fri, 21 Mar 2025 04:40:52 -0400
+  by phl-compute-07.internal (MEProxy); Fri, 21 Mar 2025 04:53:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1742546452;
-	 x=1742632852; bh=FlrvUHjPtm7RRko7Fp3K7MJsnfsffCKW3XDJhv9Uud4=; b=
-	Bv2WSF4BcRAEoe+VP+ODENa9rgu8xV6VBw+Mn/meVPMge7R2Mq53x0MXP+qlMUn7
-	xzt65UxdHvUs+tuBURMPqMIsN6sl9W/Iblv23Tu3+nmfPj7Tuxr46dj8cpQqkbLB
-	9IK0fZwozhfu1jH30s0xRTLP93DhtyICGSE3mYe9ZY46O1b4uNvQ6z8LiYGBQb3R
-	Yxe2xKsGqjZtZgQ9gYHrLMtCAEtB6oUlzma9jf5Gvmw7oprgjJZz95MYw3t3AMr5
-	cBr+VjsZLolB8QNr7Oe+pf/az4wENvH0l4+2N4OZrr7YccyKLO42khaBnNNoMcsl
-	HXS2FgCtEi1AUxvCu4V/Ow==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1742547203;
+	 x=1742633603; bh=+aayfzE7jgJlc50bcARK1+tQmGPggXiqzYcB0Ie7pLE=; b=
+	iBq2ERFK4oLW/f/OZuSBg4fs5BrZAXfLimVU4wv4uRwZa41AQspkXOfTVTz9zJqb
+	cwUlpfhTonWpHTK+orK05gVkcX0xDictVg5W1apIghevrOr2lt1xS3ZoNhEOvsSC
+	q3aaUmyXPUNmNcL6bgMpEoj7QQV5d0GmHFAkNK3M/TRXnvpc0uPy6EpyTFy4Jvls
+	6T3QWkiCQCwaxScGfOq9ZFHvJLyvGzlIwUzpVy7LGreYpQMtTJDXpbRFY1sW8Z3m
+	DWtYLqC6F9DseK4qT64k1HFHErssawJb4xLeg/gCyqqEmMEOB40yU+whOsmA1dja
+	eI0ZK2InftNm9PFt5Jr5cw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742546452; x=
-	1742632852; bh=FlrvUHjPtm7RRko7Fp3K7MJsnfsffCKW3XDJhv9Uud4=; b=j
-	cSWqswsE2ah0NiIYFfh7dV9GXvK+kdq3kKps26v4YTSDfeQmiOWmp5d7fzFHXnEX
-	X1gVbDRaDNVo2E+84Sv3vZBo0LSJdmIiDwuLsvS204qe0PJwufyfdI4AyCn16fX/
-	eV3+XdkZpnQE5od3rM26pfajAL46NdHtGP9XJ/Nm3+X00lUmYlZ67XC1fTXFUttL
-	yA2Zrwuh8UKPUXBHTjkjt95ugsoiXIO1uDV/if3x3MMGAVo5OJpJabPUsendBnS9
-	eofn0o1sadKIfj+aF5965Sofx3hZpiWu16A8ZVRM+TtysiVk9sKtbw323GoJ15s1
-	y41dGyzF5u5qpaJqrpchQ==
-X-ME-Sender: <xms:EybdZ0L4wDtPXjwO3NRkkd0NZxcVLY2amSNt4hRZlXtgbIohK_4cpA>
-    <xme:EybdZ0IcAzGmC799sMLS6D-Qwbs1qeTyDVYcJ5yD0TI-l465y2ajiiX-dBzSWVjkC
-    V2c3KQACe3lH0MFKvc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedtieefucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742547203; x=
+	1742633603; bh=+aayfzE7jgJlc50bcARK1+tQmGPggXiqzYcB0Ie7pLE=; b=3
+	VL44u0xa/wlJpz0PO7/pndRGKPUuIn6xnUVtUEnmQgizCNLZmyOX5U5kvFEyg2VQ
+	LJBTH2lmqHdvFIwAX6swoVzzwFbOQ6IhlXAqxkAFWiAsn5ZHjIjvRcBGN8CiB5pT
+	k6GRr61abQx8YxE+TD/GEAdYWxCbrtl15VulItIDEUgdxfgn/kr3q65VBqf3lstf
+	T3qUygwZtd4/ZYYlDHmEgllaNmapy9kWvD1FId8BWhA496KBR/nuIUXcYbPY4YAW
+	Q9UTHSHm3GMpEQP6KZITq4l8SJADVG1LohoCusN+ni+s4VhEs8BFdwg3kEf4epoG
+	EPH5ff9BNyTJsnV7bo5yw==
+X-ME-Sender: <xms:AindZ1fxbCSaPNodVLmM0WUdyJN6U7PS_im8aCCha8l1_DdfTxCPsg>
+    <xme:AindZzMIYZmlGshRfqW31ptbxwqceNCIBQCRpFCv8cb8dYXYQE2cniV26q2f7UErS
+    SS_oTeHUlF1hHi-mBE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedtieeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhepfefgleekvdffffehffeileeghffgkeetieev
-    vedtfedvheekkedvudehjeejkeefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptd
-    durdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
-    mheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmh
-    htphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegr
-    rhhmsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrggsvghlsehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhn
-    fhhrrgguvggrugdrohhrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlih
-    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepghhlrghusghithiisehphhihshhi
-    khdrfhhuqdgsvghrlhhinhdruggvpdhrtghpthhtoheplhhinhhugidqshhhsehvghgvrh
-    drkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:EybdZ0us7unIApHnViXZWiQ_VqSMooYFil83Z3X8Il7zYzkR0ApZAA>
-    <xmx:EybdZxYqci1K_3IercNBHfTee8gfouPTI45SFo9Sq1Bfi0cBn_aCtg>
-    <xmx:EybdZ7Zz9weaM4uLwRxLu6dh92V3lHyJ8CE_u7a3pfcqnrZZwY84gA>
-    <xmx:EybdZ9BkALepjoM-AlEL7abthhdbsGcgMV8eCE28CEefa_Au789KjQ>
-    <xmx:FCbdZwPyRJdgaOdfMvKed9rWhVB3_I9eTmbiz98ZX6bpYYpzTLZIl1EW>
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefogg
+    ffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcuuegvrhhg
+    mhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpeefhf
+    ehteffuddvgfeigefhjeetvdekteekjeefkeekleffjeetvedvgefhhfeihfenucffohhm
+    rghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
+    iedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomh
+    dprhgtphhtthhopegrrhhmsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrggsvghl
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlh
+    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehllhhvmheslhhi
+    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlse
+    hlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:AindZ-inEjxWvS3EfnJoR6OgW9sR8ESayHBZl6l3Hyhrzj8OauVF_g>
+    <xmx:AindZ-9Zj5UC7QmN1XEh3_ydNJM_1SFxHsFZxGXei01cuLD26cOv0A>
+    <xmx:AindZxvJbd9yVrfP6EMq9GUdOMphfApmalv5k9sT5Y1K1AzDDy0wcg>
+    <xmx:AindZ9F-NxTRRMBl54RMbDbyuLcevtCGeymO1LwrpcAI9uBoCmYJ4A>
+    <xmx:AyndZ_XXYQcK97jQmBg4zTjuE1eqdvWcnqcN-RrSOKAkWO8BUtkEXK1a>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B24F42220072; Fri, 21 Mar 2025 04:40:51 -0400 (EDT)
+	id 8DB2E2220072; Fri, 21 Mar 2025 04:53:22 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -80,68 +78,48 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Tcf25c5c4b21ac15d
-Date: Fri, 21 Mar 2025 09:40:31 +0100
+X-ThreadId: T1182011179345e0e
+Date: Fri, 21 Mar 2025 09:53:01 +0100
 From: "Arnd Bergmann" <arnd@arndb.de>
 To: "kernel test robot" <lkp@intel.com>,
  =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- arm <arm@kernel.org>, linux-sh@vger.kernel.org,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>
-Message-Id: <927105f8-4aa8-4579-ac2e-bce4bce12b1e@app.fastmail.com>
-In-Reply-To: <202503211029.DnQpqsJs-lkp@intel.com>
-References: <202503211029.DnQpqsJs-lkp@intel.com>
-Subject: Re: [soc:soc/drivers 20/24] ERROR: modpost: "__ffsdi2"
- [drivers/platform/cznic/turris-omnia-mcu.ko] undefined!
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, arm <arm@kernel.org>
+Message-Id: <e4c87dd0-1648-4453-9a0a-f38f0045cac9@app.fastmail.com>
+In-Reply-To: <202503211042.Uf5Ln7hI-lkp@intel.com>
+References: <202503211042.Uf5Ln7hI-lkp@intel.com>
+Subject: Re: [soc:soc/drivers 22/24] drivers/platform/cznic/turris-signing-key.c:25:55:
+ warning: omitting the parameter name in a function definition is a C2x
+ extension
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 On Fri, Mar 21, 2025, at 03:41, kernel test robot wrote:
-> Hi Marek,
->
-> First bad commit (maybe != root cause):
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git 
-> soc/drivers
-> head:   ba8755ab541fc629948233125db870d4dbf00a75
-> commit: ee7f8ed72990f28657b5bf598e695fcf4633f4ed [20/24] platform: 
-> cznic: turris-omnia-mcu: Refactor requesting MCU interrupt
-> config: sh-allmodconfig 
-> (https://download.01.org/0day-ci/archive/20250321/202503211029.DnQpqsJs-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20250321/202503211029.DnQpqsJs-lkp@intel.com/reproduce)
->
+
 > If you fix the issue in a separate patch/commit (i.e. not just a new 
 > version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
 > | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202503211029.DnQpqsJs-lkp@intel.com/
+> https://lore.kernel.org/oe-kbuild-all/202503211042.Uf5Ln7hI-lkp@intel.com/
 >
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> All warnings (new ones prefixed by >>):
 >
-> ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
-> ERROR: modpost: "devm_of_clk_add_hw_provider" 
-> [drivers/media/i2c/tc358746.ko] undefined!
-> ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] 
-> undefined!
-> ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] 
-> undefined!
->>> ERROR: modpost: "__ffsdi2" [drivers/platform/cznic/turris-omnia-mcu.ko] undefined!
+>>> drivers/platform/cznic/turris-signing-key.c:25:55: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+>       25 | static int turris_signing_key_instantiate(struct key *, 
+> struct key_preparsed_payload *)
+>          |                                                       ^
+>    drivers/platform/cznic/turris-signing-key.c:25:87: warning: omitting 
+> the parameter name in a function definition is a C2x extension 
+> [-Wc2x-extensions]
+>       25 | static int turris_signing_key_instantiate(struct key *, 
+> struct key_preparsed_payload *)
+>          |                                                              
+>                          ^
+>    2 warnings generated.
 
-This comes from __bf_shf(spec) in omnia_mcu_request_irq().
+I've added a fix for this to the tree now. I was surprised that clang
+warns about it but gcc does not, and apparently this was changed with
+gcc-12 no longer warning about it.
 
-As far as I can tell, this is not your problem but in the
-SH architecture missing one of the libgcc functions that are
-called by gcc.
-
-Since this is only for compile-testing sh allmodconfig, and
-that is already broken because of other bugs, I'm not going
-to care either.
-
-Adding the linux-sh list to Cc, it would be nice to get a clean
-build again. All four problems should be trivial to address,
-and some of these have been broken for many years.
-
-      Arnd
+     Arnd
