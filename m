@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE3E41C64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83D11E47B3
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 19:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742586318; cv=none; b=ii8Lb37R+So42A2SRevo2AGj+I3MTGL88+LTHS1j/jEPjur4KXQNpzo+MGai8ugJu5+3LTmNHrVGx95MmXqXEAqLuV6wukUwpXpJ+PB8IceyARC7ZQCayERbUYTr6zAp0C5bMRhuuWGaHB1eXxFhZUfVW03rysrPWBqws70k2uk=
+	t=1742586318; cv=none; b=inB3l1PKUq6ZtsVsmUVnhOrKVFpWe/VBHIqhyqAFr1cFdOwK23keL1n6qCX+nVz4mZyV/vtOafbjCcp9fw3dC/ou82HL1iHPncyURJtp8op/LYuibEDOn9sda41IW+MhsnYQ3cuVV5tM/egviWhjbxpt09So6HxMspHGzqnMs8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1742586318; c=relaxed/simple;
-	bh=1IHm7SEdaZ84vjsplqaQBVwZqgB23zKIT4EuZr5kdjM=;
+	bh=ZjzcgWtcRVfPbYtEgLzi1XbD/ZWsTv4NDRcUdgsn2Bk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AFKCAHWHyCgnjduLkECkD9111uU2w27OIR5rqiuNbiovQHjBlqiljZ8A+O0F+e3vo0+PQtjP3/mXa8wmJTEnYmMVI6AhbNVpVWmMtnoMMWUBfNMu53ImLmKEaugWAgeowzWrmwFIgAJ7fm35VTRLxQ1GiatODwSIeNLfLXdM+bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLYTC8Io; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=Wrnjo3hKuJWMHPJTKBiN5IiYwTwZGr2FHlyC07ofyZhrG2Wty6CoXYjDT0ZNBU12FTFK7Y+CS6HSmVycLlPyVUQoZj5ozJAGEc6D/8h6Qp1BPPzgSVuvp3AL/HjkkGNaYZpP6X7jBcluCyDQx94z4mAq+4YrDzaEJ4M8r3n+v8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmEUnfR4; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLYTC8Io"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmEUnfR4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742586317; x=1774122317;
+  t=1742586316; x=1774122316;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1IHm7SEdaZ84vjsplqaQBVwZqgB23zKIT4EuZr5kdjM=;
-  b=bLYTC8IoXZndGIgoRb5CT4GdgQ565BEMSBMksDe2Y5n272QkBA9ZQraN
-   sUQTjBjfeVFKzIhfsI/4RCVO4zbZboSXr4UDPUDN4vqsuEzci+V41MDeJ
-   4ZToAsZ9B6lYzcLoxcYUDFmMEB/MYDagNGzY++NMv3NsyCWrjWUIjb9/6
-   JQ54WMxCxKSyrf+Yy+yrsVj7qq/ieRJbfEDOGjzfrVrzXE0NB1QrGcWxT
-   sxBDmq1QFBcRzLJrjjo1yZrrAD5VlLXOPHDUC2IvJ3KD4Bp7pcpwLb+hj
-   baC/TFvX2PasAbfUoqwj6doJ8cka3yAEbl4bhs+VfOS3buvqqbGNlSOWw
-   w==;
-X-CSE-ConnectionGUID: qFXVe4FRQg6EO9o0ZK8LJg==
-X-CSE-MsgGUID: IzrDILM8Ti+GideCxwYVTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="47521550"
+  bh=ZjzcgWtcRVfPbYtEgLzi1XbD/ZWsTv4NDRcUdgsn2Bk=;
+  b=UmEUnfR46Z9mG34OrlqDCivgBsQ9OGl+dtCGRRMjYf+jbWj4Dkc4cPn+
+   EmnmCsf4RSbd4EYWjubpYN1IRdVRPh+UyOXj7NBwNyOrGDlxUerrLbrHs
+   bBfnPT902uPL0d8QXEskY8Ouw4poqD8GfNjLuoYkLHdPiy/PaWHFrA9Bb
+   nWhtvNqyKatBTL7f0Eu1HtxueMCYwK9EUqPpyK+1Nv5LXBIwAsy/ykhuq
+   aytFSp/rUaFg4Hpd3izav9QENOEIcIajUDf8MdGeNgO8L1zhu9i/BRORO
+   3RMsu91XDfFksSTjYz3fIMYMZY0lx/kTRKSWHtIdhNBro6zAWJNZYGkvJ
+   A==;
+X-CSE-ConnectionGUID: 2taPNyx5TEq0vQuUBPfetA==
+X-CSE-MsgGUID: 0sd25MtYS4WL/N75Eu18cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="54079201"
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="47521550"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 12:45:16 -0700
-X-CSE-ConnectionGUID: JnCFprnHT6SgUU7eylWyTQ==
-X-CSE-MsgGUID: y/DWdXYWRsivOrqN9wg2Ug==
+   d="scan'208";a="54079201"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 12:45:16 -0700
+X-CSE-ConnectionGUID: vLYR6P2ZTnauR/Y3unP/fA==
+X-CSE-MsgGUID: kzgzstI5TZi0peEFq9p0uw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="123948994"
+   d="scan'208";a="124266808"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Mar 2025 12:45:15 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 21 Mar 2025 12:45:14 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tviIr-0001dd-0U;
+	id 1tviIr-0001db-0P;
 	Fri, 21 Mar 2025 19:45:13 +0000
-Date: Sat, 22 Mar 2025 03:45:08 +0800
+Date: Sat, 22 Mar 2025 03:45:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
-Subject: [cilium:pr/netkit-xdp 6/8] drivers/net/netkit.c:218:39: error:
- 'struct netdev_rx_queue' has no member named 'pool'
-Message-ID: <202503220355.oWbqoLu6-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 11/11]
+ drivers/gpu/drm/mediatek/mtk_dpi_v2.c:182: warning: Function parameter or
+ member 'pol_positive_default' not described in 'mtk_dpi_conf'
+Message-ID: <202503220347.ztgEZ5XR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/cilium/linux.git pr/netkit-xdp
-head:   6f1df43931ef06ffe83eaa6a0d3df5d4c9a53786
-commit: 65332eb9360ea7f0f0bcea9de6c4b2ec7a8ca936 [6/8] netkit: implement ndos
-config: arm-randconfig-002-20250322 (https://download.01.org/0day-ci/archive/20250322/202503220355.oWbqoLu6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220355.oWbqoLu6-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   e55920c8505b7880384227f53e8193da2ef3d64c
+commit: e55920c8505b7880384227f53e8193da2ef3d64c [11/11] CHROMIUM: drm/mediatek: fix wrong setting for polarity
+config: x86_64-buildonly-randconfig-004-20250322 (https://download.01.org/0day-ci/archive/20250322/202503220347.ztgEZ5XR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220347.ztgEZ5XR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503220355.oWbqoLu6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503220347.ztgEZ5XR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/netkit.c: In function 'netkit_xsk_get_pool_from_qid':
->> drivers/net/netkit.c:218:39: error: 'struct netdev_rx_queue' has no member named 'pool'
-      return nk->lower->dev->_rx[queue_id].pool;
-                                          ^
->> drivers/net/netkit.c:220:39: error: 'struct netdev_queue' has no member named 'pool'
-      return nk->lower->dev->_tx[queue_id].pool;
-                                          ^
-   drivers/net/netkit.c: In function 'netkit_xsk_reg_pool_at_qid':
-   drivers/net/netkit.c:245:32: error: 'struct netdev_rx_queue' has no member named 'pool'
-      nk->lower->dev->_rx[queue_id].pool = pool;
-                                   ^
-   drivers/net/netkit.c:247:32: error: 'struct netdev_queue' has no member named 'pool'
-      nk->lower->dev->_tx[queue_id].pool = pool;
-                                   ^
-   drivers/net/netkit.c: In function 'netkit_xsk_clear_pool_at_qid':
-   drivers/net/netkit.c:261:32: error: 'struct netdev_rx_queue' has no member named 'pool'
-      nk->lower->dev->_rx[queue_id].pool = NULL;
-                                   ^
-   drivers/net/netkit.c:263:32: error: 'struct netdev_queue' has no member named 'pool'
-      nk->lower->dev->_tx[queue_id].pool = NULL;
-                                   ^
+   drivers/gpu/drm/mediatek/mtk_dpi_v2.c:182: warning: Function parameter or member 'dsc_support' not described in 'mtk_dpi_conf'
+   drivers/gpu/drm/mediatek/mtk_dpi_v2.c:182: warning: Function parameter or member 'use_version_2' not described in 'mtk_dpi_conf'
+>> drivers/gpu/drm/mediatek/mtk_dpi_v2.c:182: warning: Function parameter or member 'pol_positive_default' not described in 'mtk_dpi_conf'
 
 
-vim +218 drivers/net/netkit.c
+vim +182 drivers/gpu/drm/mediatek/mtk_dpi_v2.c
 
-   207	
-   208	static struct xsk_buff_pool *
-   209	netkit_xsk_get_pool_from_qid(struct net_device *dev, u16 queue_id)
-   210	{
-   211		struct netkit *nk = netkit_priv(dev);
-   212	
-   213		if (!nk->lower || nk->primary)
-   214			return NULL;
-   215		if (!netkit_queue_valid(dev, queue_id))
-   216			return NULL;
-   217		if (queue_id < nk->lower->dev->real_num_rx_queues)
- > 218			return nk->lower->dev->_rx[queue_id].pool;
-   219		if (queue_id < nk->lower->dev->real_num_tx_queues)
- > 220			return nk->lower->dev->_tx[queue_id].pool;
-   221		return NULL;
-   222	}
-   223	
+8fd26707ff2ec98 mac.shen  2025-01-27  138  
+8fd26707ff2ec98 mac.shen  2025-01-27  139  /**
+8fd26707ff2ec98 mac.shen  2025-01-27  140   * struct mtk_dpi_conf - Configuration of mediatek dpi.
+8fd26707ff2ec98 mac.shen  2025-01-27  141   * @cal_factor: Callback function to calculate factor value.
+8fd26707ff2ec98 mac.shen  2025-01-27  142   * @reg_h_fre_con: Register address of frequency control.
+8fd26707ff2ec98 mac.shen  2025-01-27  143   * @max_clock_khz: Max clock frequency supported for this SoCs in khz units.
+8fd26707ff2ec98 mac.shen  2025-01-27  144   * @edge_sel_en: Enable of edge selection.
+8fd26707ff2ec98 mac.shen  2025-01-27  145   * @output_fmts: Array of supported output formats.
+8fd26707ff2ec98 mac.shen  2025-01-27  146   * @num_output_fmts: Quantity of supported output formats.
+8fd26707ff2ec98 mac.shen  2025-01-27  147   * @is_ck_de_pol: Support CK/DE polarity.
+8fd26707ff2ec98 mac.shen  2025-01-27  148   * @swap_input_support: Support input swap function.
+8fd26707ff2ec98 mac.shen  2025-01-27  149   * @support_direct_pin: IP supports direct connection to dpi panels.
+8fd26707ff2ec98 mac.shen  2025-01-27  150   * @input_2pixel: Input pixel of dp_intf is 2 pixel per round, so enable this
+8fd26707ff2ec98 mac.shen  2025-01-27  151   *		  config to enable this feature.
+8fd26707ff2ec98 mac.shen  2025-01-27  152   * @dimension_mask: Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH
+8fd26707ff2ec98 mac.shen  2025-01-27  153   *		    (no shift).
+8fd26707ff2ec98 mac.shen  2025-01-27  154   * @hvsize_mask: Mask of HSIZE and VSIZE mask (no shift).
+8fd26707ff2ec98 mac.shen  2025-01-27  155   * @channel_swap_shift: Shift value of channel swap.
+8fd26707ff2ec98 mac.shen  2025-01-27  156   * @yuv422_en_bit: Enable bit of yuv422.
+8fd26707ff2ec98 mac.shen  2025-01-27  157   * @csc_enable_bit: Enable bit of CSC.
+8fd26707ff2ec98 mac.shen  2025-01-27  158   * @pixels_per_iter: Quantity of transferred pixels per iteration.
+8fd26707ff2ec98 mac.shen  2025-01-27  159   * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs to be set in MMSYS.
+8fd26707ff2ec98 mac.shen  2025-01-27  160   */
+8fd26707ff2ec98 mac.shen  2025-01-27  161  struct mtk_dpi_conf {
+8fd26707ff2ec98 mac.shen  2025-01-27  162  	unsigned int (*cal_factor)(int clock);
+8fd26707ff2ec98 mac.shen  2025-01-27  163  	u32 reg_h_fre_con;
+8fd26707ff2ec98 mac.shen  2025-01-27  164  	u32 max_clock_khz;
+8fd26707ff2ec98 mac.shen  2025-01-27  165  	bool edge_sel_en;
+8fd26707ff2ec98 mac.shen  2025-01-27  166  	const u32 *output_fmts;
+8fd26707ff2ec98 mac.shen  2025-01-27  167  	u32 num_output_fmts;
+8fd26707ff2ec98 mac.shen  2025-01-27  168  	bool is_ck_de_pol;
+8fd26707ff2ec98 mac.shen  2025-01-27  169  	bool swap_input_support;
+8fd26707ff2ec98 mac.shen  2025-01-27  170  	bool support_direct_pin;
+8fd26707ff2ec98 mac.shen  2025-01-27  171  	bool input_2pixel;
+8fd26707ff2ec98 mac.shen  2025-01-27  172  	u32 dimension_mask;
+8fd26707ff2ec98 mac.shen  2025-01-27  173  	u32 hvsize_mask;
+8fd26707ff2ec98 mac.shen  2025-01-27  174  	u32 channel_swap_shift;
+8fd26707ff2ec98 mac.shen  2025-01-27  175  	u32 yuv422_en_bit;
+8fd26707ff2ec98 mac.shen  2025-01-27  176  	u32 csc_enable_bit;
+8fd26707ff2ec98 mac.shen  2025-01-27  177  	u32 pixels_per_iter;
+8fd26707ff2ec98 mac.shen  2025-01-27  178  	bool edge_cfg_in_mmsys;
+85764b2d1983291 mac.shen  2025-01-27  179  	bool dsc_support;
+8fd26707ff2ec98 mac.shen  2025-01-27  180  	bool use_version_2;
+e55920c8505b788 macshen27 2025-03-11  181  	bool pol_positive_default;
+8fd26707ff2ec98 mac.shen  2025-01-27 @182  };
+8fd26707ff2ec98 mac.shen  2025-01-27  183  
+
+:::::: The code at line 182 was first introduced by commit
+:::::: 8fd26707ff2ec98f3a31cafc54c74a1399171b24 CHROMIUM: drm/mediatek: Add dp and dp_intf base
+
+:::::: TO: mac.shen <mac.shen@mediatek.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
