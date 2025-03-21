@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED931A841F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 22:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6191C462D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 22:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742596218; cv=none; b=SiGZg+AEQJX3Iq7YzBHb9pRQMR/CkYio8EUKqBzsOPnhpctAoLj477+tHECR5vxrYrPFxuVuY+EmVEDAaBBiirizHa9bHWoVJvmq5TUjhmK6I98jDcB6ltCBN0q3T72x8+JYjXnNA85uZPwlC9yECxRzycRUg1EmT+ymwQDnd6s=
+	t=1742596819; cv=none; b=FrKQ+n2V+WpbaA4zYx7YmG9CLtFGSACmN1DsJERTFwUaQVzCw+xODpSUDiZ7PfkBK2Y+swf4Qwd48fyAtuQgivLI+wf86A/X/3H2RUm7M7+Y2vdjN+CiPBlwS0K+chGPl9bhhSmtdiVexEuhuSDaQI57Onf88xONAM3yYWsf4kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742596218; c=relaxed/simple;
-	bh=lZr87N48coA6/icVF2rk4kKeRZ0BA7rOoCMcSiycrOs=;
+	s=arc-20240116; t=1742596819; c=relaxed/simple;
+	bh=GvzF43dQJVeJR8yp9lzeCXCXgeXXTaBshKMa+OGoPfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QTCsOUu99CtwLlap9Z3EI+odpUSxyFJ8RDbHu5Bc/fgXUY/2yaxRi+UcihxrTRiPDpakxQ+OD0N6J7nsxTGeDJOWAnnIIG9CwT/tmQPCrXMH1fzB8AZKMFSvglM5bjyVRqIkKNOKjPfheXYIpiOj5N/ffmSk7O8FNwBDwds+TOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNdzg1vF; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=M5P5KvLWmMww65K7ImTrCMc/n5SZN1QuNiXtz8U/UZrppi6fx7F5webC41LP9jVqPfxPZzIML/HPjWuraMKCGvLflvgkZGK6yPYnbaKKVMBBbBoLsssb8ou//NSEo1J+t+tYp1UqjLRDrl0wfhIalYCTDw5eWP+eTU6tEamHNHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVv2Y4pm; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNdzg1vF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVv2Y4pm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742596217; x=1774132217;
+  t=1742596817; x=1774132817;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lZr87N48coA6/icVF2rk4kKeRZ0BA7rOoCMcSiycrOs=;
-  b=lNdzg1vFfeIkq8RymkntZxuTkjKDwmhB2Ai8UUPHkLX4PqgCAWQ4eDEN
-   JRaJ0jT/VjDdDRysdEa2Hqo8anCgkGXusXT+eGGEhgFulFaCb80C/ATpi
-   8tBzSljYveYnd+r41OE0FdTwXELuUlJnft+BpWS+/Jsyu+wKt4YV7wVbR
-   tj1yxqFsad1WwNnGItqECUoUyvjQQhj7tvXs9OQo8vEXh8bZQOdyL1lsA
-   9YtIMlT5BFAr+7HChYicHp9Ai7Wfy7Kyk2cPya4fVG4eeL6vh1k+9vOLP
-   d2w4TtjKDDhEQwFuRBH4ycMdAjEq+TY2AVGxPP56GgS6sc6QBIPHDOVFr
-   g==;
-X-CSE-ConnectionGUID: nx1ETIreQGOw+g/vIZrUNw==
-X-CSE-MsgGUID: UTwRxVJqRWGLfO6VhIwTtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="66337686"
+  bh=GvzF43dQJVeJR8yp9lzeCXCXgeXXTaBshKMa+OGoPfs=;
+  b=XVv2Y4pmZlcfgWblRFh9I1FGOV6moA8YTTVOeqTZtBnvMojHRrUatTvb
+   7o7EP5q+ig4+jOffFEHIEPKGwJtOp7eJ+j/gPwa/1bhhrRrmKmIhR0g8J
+   yCcme4XO0HOX1t7Pkby/xOAcly/txUXxE3MFKWaCcpcMI5C8kS+4to7hS
+   q+5s60v5oFy7jLHw5OSWsoS9RNJI/q6Mu/8IapHQwyZxKxBVH0Qjtu7F+
+   BZDV3DRvEEq4bs2vbg7XLL2H22kl+PT3eQGbTudYYjfHLYtm/ME/paw7V
+   04z5SmnU21o69oYIwACCwGsz2dQRxk62E7JvFkroHwTxv3JtJ2nWuP5BG
+   w==;
+X-CSE-ConnectionGUID: N+43F7RlSRuZhpItES5RXg==
+X-CSE-MsgGUID: /cjKNmF4Tu6EwVjg01PaOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="69229045"
 X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
-   d="scan'208";a="66337686"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 15:30:16 -0700
-X-CSE-ConnectionGUID: tBavJOKWRRSKi4rJl+TTNQ==
-X-CSE-MsgGUID: 2RFCFsvISl23H3AOAyax0g==
+   d="scan'208";a="69229045"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 15:40:17 -0700
+X-CSE-ConnectionGUID: /EfTYZLqTtGJaLBXx5JaXg==
+X-CSE-MsgGUID: ESlzrTY9QXGrtuLPTovIAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
-   d="scan'208";a="123227882"
+   d="scan'208";a="124043563"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2025 15:30:16 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 Mar 2025 15:40:16 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvksW-0001k1-2m;
-	Fri, 21 Mar 2025 22:30:12 +0000
-Date: Sat, 22 Mar 2025 06:29:12 +0800
+	id 1tvl2D-0001kJ-1s;
+	Fri, 21 Mar 2025 22:40:13 +0000
+Date: Sat, 22 Mar 2025 06:39:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-exit-cancel.2 7/7] io_uring/refs.h:56:26:
- warning: overflow in conversion from 'long long unsigned int' to 'long int'
- changes value from '9223372036854775808' to '0'
-Message-ID: <202503220605.4IjGXw3X-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:gourry_pagecache 5/5] mm/migrate.c:2779: warning:
+ Function parameter or struct member 'folio' not described in
+ 'promotion_candidate'
+Message-ID: <202503220608.cRFEllb9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-exit-cancel.2
-head:   a1a70bee1b2c37bb587ad61d479cab938c861a75
-commit: 153b8b496f7892d39c356d0f94f4ffaa7159e9f8 [7/7] io_uring: switch away from percpu refcounts
-config: sh-randconfig-001-20250322 (https://download.01.org/0day-ci/archive/20250322/202503220605.4IjGXw3X-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220605.4IjGXw3X-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux gourry_pagecache
+head:   a83d4b477373194ebc680bcd0123bfbbc010dddb
+commit: a83d4b477373194ebc680bcd0123bfbbc010dddb [5/5] migrate,sysfs: add pagecache promotion
+config: csky-randconfig-001-20250322 (https://download.01.org/0day-ci/archive/20250322/202503220608.cRFEllb9-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220608.cRFEllb9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503220605.4IjGXw3X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503220608.cRFEllb9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.h:16,
-                    from io_uring/splice.c:14:
-   io_uring/refs.h: In function 'io_ring_ref_kill':
->> io_uring/refs.h:56:26: warning: overflow in conversion from 'long long unsigned int' to 'long int' changes value from '9223372036854775808' to '0' [-Woverflow]
-      56 | #define IO_RING_REF_DEAD (1ULL << 63)
-         |                          ^~~~~~~~~~~~
-   io_uring/refs.h:80:18: note: in expansion of macro 'IO_RING_REF_DEAD'
-      80 |  atomic_long_xor(IO_RING_REF_DEAD, &ctx->refs);
-         |                  ^~~~~~~~~~~~~~~~
+>> mm/migrate.c:2779: warning: Function parameter or struct member 'folio' not described in 'promotion_candidate'
 
 
-vim +56 io_uring/refs.h
+vim +2779 mm/migrate.c
 
-    55	
-  > 56	#define IO_RING_REF_DEAD	(1ULL << 63)
-    57	#define IO_RING_REF_MASK	(~IO_RING_REF_DEAD)
-    58	
+  2767	
+  2768	/**
+  2769	 * promotion_candidate: report a promotion candidate folio
+  2770	 *
+  2771	 * The folio will be isolated from LRU if selected, and task_work will
+  2772	 * putback the folio on promotion failure.
+  2773	 *
+  2774	 * Candidates may not be promoted and may be returned to the LRU.
+  2775	 *
+  2776	 * Takes a folio reference that will be released in task work.
+  2777	 */
+  2778	void promotion_candidate(struct folio *folio)
+> 2779	{
 
 -- 
 0-DAY CI Kernel Test Service
