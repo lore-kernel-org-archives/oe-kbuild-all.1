@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EBB1DFF7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 12:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC28B1D5174
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 14:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742561242; cv=none; b=HSyRmdUtqbGG4ZYGj7uFG4py1Pf/PIsIo4GsrLCOsTGR8uvOIrChOxOfkpDlOP9WR+1KY7WCM6r0kS+9AxCGRpJMO31a8/huyaF8VRRmdy7wnNpLLIhlnsC6qFb/KgkwMCf9r5N+ViFOefMjkkK6eiPfQWSzNSehsnIM8mlaPs4=
+	t=1742569043; cv=none; b=t9isqaAQWljHwkXmweEScCf/u0dH+9W6+1UVqnDS2MMuyV9wJmbPGbbPvhU1ilGKfyf4EVYjg5lzhn44ohL5xqx8VzQOmej/dCHb3uIJ8x7RJ6lKoKgrfPO9SSOFugCL/1DDIsWhIl0RvS0m7wMtV8+5ejo6vIT5JDznU/RG4rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742561242; c=relaxed/simple;
-	bh=tTaG9GkIaJ9CMdxBHO+TL0Je1vznFWj2Qm2pbu1XDLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H2EJv/b2EyfmkSaGc0a8/HrnUDJ45edWYVl9FoVzNGgi4AW4YWoJU8I2NgivVJNY861AwEyMn1FICo8Lc5gz4HCWcQHu8DsumOTDtv1EbaQVLDlEq282TvRL3sdj+Xl92m0J+eKLaPg7dFUuT/TztWQpPW8UYX4vYJEhfDDZxo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KP2YmPdj; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742569043; c=relaxed/simple;
+	bh=d2f3oi3MmO1YYqKjtahZR6ldRtLwx+gUGvQpzNg7T5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Nu6+sFecms7IKHVqmCmDdybyZ9KUs4L1G5ah2TKcgPHyis02+B9is1LO266xrqBNzue22PUq4BlOlO1bQUlBxZ589Cz1zGBnux1CG5+CaXy7mG7RYPnQmkSj1rj4UIwAvpE5CB1G+q2piVC7KHt3sDhxECniSUsS62dpODmbPHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RrBG4T5q; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KP2YmPdj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742561241; x=1774097241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tTaG9GkIaJ9CMdxBHO+TL0Je1vznFWj2Qm2pbu1XDLY=;
-  b=KP2YmPdj2Ntjy/akGinlIA/pJfBmt4tHEdduQKgF4WXtSvED26GEW98I
-   DbLhWsZuuiVdsYDvkG3CGKxZyQptNwsMo+5ijHNHNBGk4L20MbERcASWj
-   CiRc7z7f/zlgd6F0g6XmuMxwhRTANX4H4+JaEEhF0PMglXBwQCyyPr9sv
-   m0QdPVcISWEjoYyX1MGAlcHsYQImlZyTzS+XVkD3fZAQe6F/1zMYWWQVd
-   Ascs38fdqQfQ3FlXqoo6aXXrD1AbBJhq789QE1R4a9MoxtE/tz/vCQIIp
-   7Z8xQkuuFpj/J6nQNwbx9JAwiO19smq6R7kirPB0voyqXsDuSo9OVy8CI
-   A==;
-X-CSE-ConnectionGUID: Bz6qQopdSyKpXHspmQgoOg==
-X-CSE-MsgGUID: ylacmGHSTr2K3Js38dak9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="47705034"
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="47705034"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 05:47:20 -0700
-X-CSE-ConnectionGUID: brNW0UPFSoeuiUDNYhgLQQ==
-X-CSE-MsgGUID: jrvsMQgyQAi8l63xjp8O6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="123909529"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 21 Mar 2025 05:47:17 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvbmM-0001Kd-2Y;
-	Fri, 21 Mar 2025 12:47:14 +0000
-Date: Fri, 21 Mar 2025 20:46:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	bhelgaas@google.com, jingoohan1@gmail.com,
-	thomas.richard@bootlin.com, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
-Subject: Re: [v4 1/4] PCI: Introduce generic capability search functions
-Message-ID: <202503212059.oxvxSlCc-lkp@intel.com>
-References: <20250321101710.371480-2-18255117159@163.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RrBG4T5q"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43d0618746bso14588965e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 07:57:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742569039; x=1743173839; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YVU+8wyEyR4gvjUtR5JGAcHvI0H2gDW7w5hm4UuGxrM=;
+        b=RrBG4T5qewqBER+x3mvO4riNauzAyfDeVXGGesm2CAuH4xZlD32D4HcR2v4E2MskaX
+         PwXhnNN4IXTW2vSRDHqyE2rU7A7lKYc/5eRN4Ft5Lm85YZ3qUeENoi369U03+6Js8RZt
+         SaH80rugLtLH98ww0LLLGTbgO3/pk22MSxALAdebneNuP/kpiJdt/0CuielRN3kA9Hxo
+         XfYvdKFx5mle2e3ejbrjH+IOtsMUsf8xxrTz4/Y1RlHetyiic9IvFC+2PeAJtDoArOiH
+         GPavfZ1wEVJMtvyZF6ewno/MhkEAQ8g2DPClEBoI+wWqsfsKxRa7oENyw7kovBhbElYl
+         c1Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742569039; x=1743173839;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YVU+8wyEyR4gvjUtR5JGAcHvI0H2gDW7w5hm4UuGxrM=;
+        b=MZYU07CvjvG/qqcIguFLdB1eBVRs6n9WC7YUqFst1VMwEcvL8aVhkrIFbhhj7ytyp2
+         9zqNFsZURp3Hkvnem4RNwNioP6LrcizoG3N8xr7GTlgpwrh0+yU6/MFwJXLpzN28cDan
+         kqdrhGp9mu1tEurHcSs+veY/U1Q7WfuPtXur2bE9UD+8XRi5WvwDApajJveaNBrAb4xu
+         hg5L0ZG75BLR1zkK4KktXlTs9cvcahROsbGVrsFrq3e2Wgj5UP7kw9iuPHBAJgwnGi3q
+         XZ1xn1+8Qr7wC9JNExwSTyxVspbBjZnv4Y/revKxUT3vsySJu+LbaPAyKoBivcyaIW+h
+         VIKA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRvCUaGhxB4vNP/i3xBSxBuZhkEUt3aYeoVTILK1Og+E1hLHRRBwWEncrYWN7PLakvffamcUTA6BqTBd3e@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLFwHGu/x9OGNv5Zl8zUq2O9DHHEMoUSQWq7Cbc3xf8yYTm2Eu
+	V7o7q3ok9QsBGuEDBArTixfuO2VZY9vrtDnfae8u4X9kgolojJ+QgRq9gL/D3dk=
+X-Gm-Gg: ASbGncs8cXroR1Pdp3CX3ZKFEkJYoXVdzAuYJxdGUbZp7JXY+PcqIY2tRmevN+fJnGn
+	GYg0ZusVTcVAqJCKuLtRntMc15riVuX1ctJdUk2hVnZKtlrCW9XHPcUbj3g1cOENZQ7wp4OTnXs
+	woGukE+PF9q6RbWHoyn40odZPpZ//OrN+T4dtry4Qt+95VXnteoV4a22QkzmDODaZlIgXAmVQsf
+	MWQhBvypHH806FbLCvUUBNchmRcGbchalcV5Z/9XFC+97X7+gNP6K94yQak3ENUgg8bWHR40ot/
+	t+gSOyHcli6hyMd0XnxqDS5eEk5RCqfFuwrDq52TxbRWz5V9Og==
+X-Google-Smtp-Source: AGHT+IHJnXSty5OUVaj93k/po/+f0ESsH2vo/jE/7l6uYic0nkIZH0rmmfKo6umCpM51cQsx5Lb7Mw==
+X-Received: by 2002:a5d:598c:0:b0:391:3aaf:1d5f with SMTP id ffacd0b85a97d-3997f9595f6mr3549853f8f.52.1742569038919;
+        Fri, 21 Mar 2025 07:57:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f9ef155sm2517974f8f.89.2025.03.21.07.57.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Mar 2025 07:57:18 -0700 (PDT)
+Date: Fri, 21 Mar 2025 17:57:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] dmaengine: pxa: Enable compile test
+Message-ID: <171f0c41-b88e-4e27-8819-4195417136fa@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,74 +70,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250321101710.371480-2-18255117159@163.com>
+In-Reply-To: <20250114191316.857154-1-krzysztof.kozlowski@linaro.org>
 
-Hi Hans,
+[ Ancient email got eaten by msmtp. Resending.  -dan ]
+
+Hi Krzysztof,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on a1cffe8cc8aef85f1b07c4464f0998b9785b795a]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-capability-search-functions/20250321-182140
-base:   a1cffe8cc8aef85f1b07c4464f0998b9785b795a
-patch link:    https://lore.kernel.org/r/20250321101710.371480-2-18255117159%40163.com
-patch subject: [v4 1/4] PCI: Introduce generic capability search functions
-config: arc-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250321/202503212059.oxvxSlCc-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503212059.oxvxSlCc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/dmaengine-pxa-Enable-compile-test/20250115-031547
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20250114191316.857154-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH v2 2/2] dmaengine: pxa: Enable compile test
+config: parisc-randconfig-r072-20250124 (https://download.01.org/0day-ci/archive/20250125/202501252153.wCMpgWlF-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503212059.oxvxSlCc-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202501252153.wCMpgWlF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/dma/pxa_dma.c:595 clear_chan_irq() warn: variable dereferenced before check 'phy->vchan' (see line 593)
 
-   In file included from drivers/nvme/host/nvme.h:11,
-                    from drivers/nvme/host/fc.c:13:
->> include/linux/pci.h:2024:12: warning: 'pci_generic_find_ext_capability' defined but not used [-Wunused-function]
-    2024 | static u16 pci_generic_find_ext_capability(void *priv,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pci.h:2021:11: warning: 'pci_generic_find_capability' defined but not used [-Wunused-function]
-    2021 | static u8 pci_generic_find_capability(void *priv, pci_generic_read_cfg read_cfg,
-         |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +595 drivers/dma/pxa_dma.c
 
+a57e16cf03339c Robert Jarzmik 2015-05-25  584  static unsigned int clear_chan_irq(struct pxad_phy *phy)
+a57e16cf03339c Robert Jarzmik 2015-05-25  585  {
+a57e16cf03339c Robert Jarzmik 2015-05-25  586  	u32 dcsr;
+a57e16cf03339c Robert Jarzmik 2015-05-25  587  	u32 dint = readl(phy->base + DINT);
+a57e16cf03339c Robert Jarzmik 2015-05-25  588  
+a57e16cf03339c Robert Jarzmik 2015-05-25  589  	if (!(dint & BIT(phy->idx)))
+a57e16cf03339c Robert Jarzmik 2015-05-25  590  		return PXA_DCSR_RUN;
+a57e16cf03339c Robert Jarzmik 2015-05-25  591  
+a57e16cf03339c Robert Jarzmik 2015-05-25  592  	/* clear irq */
+a57e16cf03339c Robert Jarzmik 2015-05-25 @593  	dcsr = phy_readl_relaxed(phy, DCSR);
+                                                                         ^^^
+if phy->vchan is NULL this will crash
 
-vim +/pci_generic_find_ext_capability +2024 include/linux/pci.h
+a57e16cf03339c Robert Jarzmik 2015-05-25  594  	phy_writel(phy, dcsr, DCSR);
+a57e16cf03339c Robert Jarzmik 2015-05-25 @595  	if ((dcsr & PXA_DCSR_BUSERR) && (phy->vchan))
+                                                                                 ^^^^^^^^^^
+Checked too late.
 
-  1999	
-  2000	static inline void pci_set_master(struct pci_dev *dev) { }
-  2001	static inline void pci_clear_master(struct pci_dev *dev) { }
-  2002	static inline int pci_enable_device(struct pci_dev *dev) { return -EIO; }
-  2003	static inline void pci_disable_device(struct pci_dev *dev) { }
-  2004	static inline int pcim_enable_device(struct pci_dev *pdev) { return -EIO; }
-  2005	static inline int pci_assign_resource(struct pci_dev *dev, int i)
-  2006	{ return -EBUSY; }
-  2007	static inline int __must_check __pci_register_driver(struct pci_driver *drv,
-  2008							     struct module *owner,
-  2009							     const char *mod_name)
-  2010	{ return 0; }
-  2011	static inline int pci_register_driver(struct pci_driver *drv)
-  2012	{ return 0; }
-  2013	static inline void pci_unregister_driver(struct pci_driver *drv) { }
-  2014	static inline u8 pci_find_capability(struct pci_dev *dev, int cap)
-  2015	{ return 0; }
-  2016	static inline u8 pci_find_next_capability(struct pci_dev *dev, u8 post, int cap)
-  2017	{ return 0; }
-  2018	static inline u16 pci_find_ext_capability(struct pci_dev *dev, int cap)
-  2019	{ return 0; }
-  2020	typedef u32 (*pci_generic_read_cfg)(void *priv, int where, int size);
-> 2021	static u8 pci_generic_find_capability(void *priv, pci_generic_read_cfg read_cfg,
-  2022					      u8 cap)
-  2023	{ return 0; }
-> 2024	static u16 pci_generic_find_ext_capability(void *priv,
-  2025						   pci_generic_read_cfg read_cfg,
-  2026						   u8 cap)
-  2027	{ return 0; }
-  2028	static inline u64 pci_get_dsn(struct pci_dev *dev)
-  2029	{ return 0; }
-  2030	
+a57e16cf03339c Robert Jarzmik 2015-05-25  596  		dev_warn(&phy->vchan->vc.chan.dev->device,
+a57e16cf03339c Robert Jarzmik 2015-05-25  597  			 "%s(chan=%p): PXA_DCSR_BUSERR\n",
+a57e16cf03339c Robert Jarzmik 2015-05-25  598  			 __func__, &phy->vchan);
+a57e16cf03339c Robert Jarzmik 2015-05-25  599  
+a57e16cf03339c Robert Jarzmik 2015-05-25  600  	return dcsr & ~PXA_DCSR_RUN;
+a57e16cf03339c Robert Jarzmik 2015-05-25  601  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
