@@ -1,125 +1,85 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368B31EFFBB;
-	Fri, 21 Mar 2025 08:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E578BEE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 09:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742547206; cv=none; b=Mv7sJpIf9rgm7dBMms5KNTGgKQoJUkCXJSPoTe6Qg3Dh0PWBCQbsov5eOK/b1VCWzHPZkvfoFEMqHAfx9QaNb5ZRiADXnhyYdf8M/baH27LMixnRfFMcnt6Zv4dpDGUl5B9aEOPlV4CFaEo+qODoVNYd+Xsy7JRopv+CjUAwE5o=
+	t=1742548022; cv=none; b=Y9m3sX20GvOH4Pi0UbtOOXrJhJhFSHo056xehrR7aZd6tPfZNkuWRgyq0KWFYbGzLEJi089V3dS3PdML46eDUmw5WoHgoF1v4DDL4sFzO1TIt4CLna8sA+IoUzINKEBvNwP5ZcwAiAeW2craZXQLWBiK1LKh/7ja45luLh/LF4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742547206; c=relaxed/simple;
-	bh=OcWQ5THCVYNw46yJhiczAJFOz5dDR3HDog5uBWJtLPo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=qTrndC53YpU8C0iLsm8JLTUpFcQu4HidSBrrCj27yLoKW80iHBW/gt1e6eCcYzG7mEUGelm5BvvvtA0UC+GV+Y6holO/Ket+iojTiptcr397x8uYSPUA31JBY28lbLDI9uwKsMNO3FxvjUzMPSWIF+ljQoU8yrtYm4nSf+nM9v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=iBq2ERFK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=3VL44u0x; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1742548022; c=relaxed/simple;
+	bh=ul7CfSeUaWuBtceyuR/J8GsjwNrCXI8nP0Rj5T3ooAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FilW9drQg4a958IhlM+UsR522KkzI6//4ZeSJEqsa8g6XYP04ZiO+hYaG1kHGgtRVceEzEchepKcOZ9fwrWKJV766djMy7IhY7yVqz/ab2P1bsgBzlyYuqmBsRcwLOM18Brx4nGZ8h7E303LSRN7ngkxbXF5eL7RpBVwedHNXE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPS+mzts; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="iBq2ERFK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="3VL44u0x"
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 2609B114013F;
-	Fri, 21 Mar 2025 04:53:23 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-07.internal (MEProxy); Fri, 21 Mar 2025 04:53:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1742547203;
-	 x=1742633603; bh=+aayfzE7jgJlc50bcARK1+tQmGPggXiqzYcB0Ie7pLE=; b=
-	iBq2ERFK4oLW/f/OZuSBg4fs5BrZAXfLimVU4wv4uRwZa41AQspkXOfTVTz9zJqb
-	cwUlpfhTonWpHTK+orK05gVkcX0xDictVg5W1apIghevrOr2lt1xS3ZoNhEOvsSC
-	q3aaUmyXPUNmNcL6bgMpEoj7QQV5d0GmHFAkNK3M/TRXnvpc0uPy6EpyTFy4Jvls
-	6T3QWkiCQCwaxScGfOq9ZFHvJLyvGzlIwUzpVy7LGreYpQMtTJDXpbRFY1sW8Z3m
-	DWtYLqC6F9DseK4qT64k1HFHErssawJb4xLeg/gCyqqEmMEOB40yU+whOsmA1dja
-	eI0ZK2InftNm9PFt5Jr5cw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742547203; x=
-	1742633603; bh=+aayfzE7jgJlc50bcARK1+tQmGPggXiqzYcB0Ie7pLE=; b=3
-	VL44u0xa/wlJpz0PO7/pndRGKPUuIn6xnUVtUEnmQgizCNLZmyOX5U5kvFEyg2VQ
-	LJBTH2lmqHdvFIwAX6swoVzzwFbOQ6IhlXAqxkAFWiAsn5ZHjIjvRcBGN8CiB5pT
-	k6GRr61abQx8YxE+TD/GEAdYWxCbrtl15VulItIDEUgdxfgn/kr3q65VBqf3lstf
-	T3qUygwZtd4/ZYYlDHmEgllaNmapy9kWvD1FId8BWhA496KBR/nuIUXcYbPY4YAW
-	Q9UTHSHm3GMpEQP6KZITq4l8SJADVG1LohoCusN+ni+s4VhEs8BFdwg3kEf4epoG
-	EPH5ff9BNyTJsnV7bo5yw==
-X-ME-Sender: <xms:AindZ1fxbCSaPNodVLmM0WUdyJN6U7PS_im8aCCha8l1_DdfTxCPsg>
-    <xme:AindZzMIYZmlGshRfqW31ptbxwqceNCIBQCRpFCv8cb8dYXYQE2cniV26q2f7UErS
-    SS_oTeHUlF1hHi-mBE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedtieeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefogg
-    ffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcuuegvrhhg
-    mhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrhhnpeefhf
-    ehteffuddvgfeigefhjeetvdekteekjeefkeekleffjeetvedvgefhhfeihfenucffohhm
-    rghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    iedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomh
-    dprhgtphhtthhopegrrhhmsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrggsvghl
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlh
-    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehllhhvmheslhhi
-    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlse
-    hlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:AindZ-inEjxWvS3EfnJoR6OgW9sR8ESayHBZl6l3Hyhrzj8OauVF_g>
-    <xmx:AindZ-9Zj5UC7QmN1XEh3_ydNJM_1SFxHsFZxGXei01cuLD26cOv0A>
-    <xmx:AindZxvJbd9yVrfP6EMq9GUdOMphfApmalv5k9sT5Y1K1AzDDy0wcg>
-    <xmx:AindZ9F-NxTRRMBl54RMbDbyuLcevtCGeymO1LwrpcAI9uBoCmYJ4A>
-    <xmx:AyndZ_XXYQcK97jQmBg4zTjuE1eqdvWcnqcN-RrSOKAkWO8BUtkEXK1a>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 8DB2E2220072; Fri, 21 Mar 2025 04:53:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPS+mzts"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742548021; x=1774084021;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ul7CfSeUaWuBtceyuR/J8GsjwNrCXI8nP0Rj5T3ooAg=;
+  b=UPS+mztsHaWDAhoVbFWzTTtaE/DrJHmOqd/f2Z9YubtkYvNhxVNYAR9S
+   T0CAJmTWjBBDWQNwtxZ1FKFvHQw6jYKWhAqZP6YGM4oNx8ARdbqnRXa17
+   heyXp8giiQLucjaTgIAUZVWIQFdfC+Z+lbELx0YBNJQB6LwGFKdqGMpYC
+   2sL8Qtn5RGCt60O7bLUnHIvDDWOfXSAeXuVPzZeuul3pXz4A2scP/2ELt
+   fcCGbet5COk7vyhuIFlklC61oHSmtMHEvuqv9S5yIVJGUmH4rM74YbzF6
+   ujge+idRRC+0HEM+7qFhYUeB3cyNEmbkuvnnuBe8gyV8YLFv0pxAIac6c
+   w==;
+X-CSE-ConnectionGUID: d4DMqVMjSteGLJN19Cztqg==
+X-CSE-MsgGUID: U9Q05jqFSkW144zioL6KFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="47583921"
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
+   d="scan'208";a="47583921"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:07:00 -0700
+X-CSE-ConnectionGUID: NLm5nu8kRa2bHPPy2QjZGw==
+X-CSE-MsgGUID: wPJkXU+wTAy/Byg6qJHEnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
+   d="scan'208";a="123866876"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 21 Mar 2025 02:06:58 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tvYKx-0001CN-1v;
+	Fri, 21 Mar 2025 09:06:45 +0000
+Date: Fri, 21 Mar 2025 17:06:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	arm@kernel.org, Arnd Bergmann <arnd@arndb.de>
+Subject: [soc:soc/drivers 20/24] undefined reference to `__ffsdi2'
+Message-ID: <202503211748.QH9oyt9m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: T1182011179345e0e
-Date: Fri, 21 Mar 2025 09:53:01 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, arm <arm@kernel.org>
-Message-Id: <e4c87dd0-1648-4453-9a0a-f38f0045cac9@app.fastmail.com>
-In-Reply-To: <202503211042.Uf5Ln7hI-lkp@intel.com>
-References: <202503211042.Uf5Ln7hI-lkp@intel.com>
-Subject: Re: [soc:soc/drivers 22/24] drivers/platform/cznic/turris-signing-key.c:25:55:
- warning: omitting the parameter name in a function definition is a C2x
- extension
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Mar 21, 2025, at 03:41, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git soc/drivers
+head:   ba8755ab541fc629948233125db870d4dbf00a75
+commit: ee7f8ed72990f28657b5bf598e695fcf4633f4ed [20/24] platform: cznic: turris-omnia-mcu: Refactor requesting MCU interrupt
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250321/202503211748.QH9oyt9m-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211748.QH9oyt9m-lkp@intel.com/reproduce)
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202503211042.Uf5Ln7hI-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> drivers/platform/cznic/turris-signing-key.c:25:55: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
->       25 | static int turris_signing_key_instantiate(struct key *, 
-> struct key_preparsed_payload *)
->          |                                                       ^
->    drivers/platform/cznic/turris-signing-key.c:25:87: warning: omitting 
-> the parameter name in a function definition is a C2x extension 
-> [-Wc2x-extensions]
->       25 | static int turris_signing_key_instantiate(struct key *, 
-> struct key_preparsed_payload *)
->          |                                                              
->                          ^
->    2 warnings generated.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503211748.QH9oyt9m-lkp@intel.com/
 
-I've added a fix for this to the tree now. I was surprised that clang
-warns about it but gcc does not, and apparently this was changed with
-gcc-12 no longer warning about it.
+All errors (new ones prefixed by >>):
 
-     Arnd
+   alpha-linux-ld: drivers/platform/cznic/turris-omnia-mcu-gpio.o: in function `omnia_mcu_request_irq':
+>> (.text+0x2660): undefined reference to `__ffsdi2'
+>> alpha-linux-ld: (.text+0x2668): undefined reference to `__ffsdi2'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
