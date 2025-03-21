@@ -1,59 +1,73 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E6E1E4929
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 06:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C78F1E0E0D;
+	Fri, 21 Mar 2025 06:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742537727; cv=none; b=qgYL+KEByOoz7WB8kk6xVonxn+gLWoLhR1JtJr/ElR40Xx2VQhI0T4RGTyz0xAbePRD9YGT219AeoyTluPfMFIonleffGxSasPHI/kk2LLKgj+0EEbXCUooWgnbWHlSUVvs7s8NQFfsguUEBVMk8bj/dPhIhHVsx38QAwirgP00=
+	t=1742538972; cv=none; b=o3I3MeGr9YMZ/dSB+2AK5E+sdbODl+7zuPlAsSeES6c5oB/nsOkG5MXyneBrqggWx36E1b5UcinvnInX5dUxg1NnTKUkiXdVcsc2NDfPqoJtA3hKMZybto7/LZOrWxsTM0IN3C1dP6igM+kCDhyPlBE6+SUJp/0KoVzcfs39jtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742537727; c=relaxed/simple;
-	bh=izCCY+JUOv8XIPhPZ529CQx8d2SH7XHgsWIx8qUdB4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yxzlj4Va+synxfoBPivah6HH931QkeTgA/mqvdT4GhrFsbLuToMQUG1pGzH1MARt5cMxh79RHGW+TjFGDbT5TnY4AYqS5DgDShUZ7s6pyYM/8NbCRZdwLUSpfqcbrxWhyr28EWp7u6BHfgyKHr2LAeDR1eX+pOJfe0FJ0GCt89s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5vMrqOK; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1742538972; c=relaxed/simple;
+	bh=HaWvwtYJ/oU8MJuWlBp9GYIsMVjPAUFk2f+KucFWzzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S3ooDmtCYgvWHyAJIPKh4eXz5bIIcyolO01y5lJSfDIeN79Mr+yF88SFx2nxM8S+fVZ5BGkXXbGfrtivARybusfLWAWJtGoL3jao0yc6GcmiKyZ2rrwPbQ1iFm8+8lPADtuZpqjepp0deof9d27ueTsaZEEGD8BcqAjSLERbW1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsOwUOPV; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5vMrqOK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsOwUOPV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742537726; x=1774073726;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=izCCY+JUOv8XIPhPZ529CQx8d2SH7XHgsWIx8qUdB4s=;
-  b=W5vMrqOKlKt8Uq9mS0yTAkhVjzMQE3ZnITPWhClKMzEjOPg73dSjQkV0
-   wyiuHRMGtjs1cfBD8cmU9Pgv7rEBr4Ht+Zu56Y+iJpG51kwshIhAuM75G
-   Wu/Cr4pF6UAJ100qluNVRWjpFjlpozsTgvPNhfCgyvzb/jAIli31KWbdR
-   QRjcTQH/0UB4LFG1IqTEi2ZIJj7CwNENJj0h5fwdpwIh4M5/6slq37lj5
-   zOI0x3xJspxHxwJ/OhjDBECT8oBy07BrA/Y4Q8EKxidf8NopLWwoNqKCl
-   si3UkETExYt1Cf0dH+NILk1aO+hcrjKUl+D4SarxjG5sEe9jDLnKJ1bEG
+  t=1742538970; x=1774074970;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HaWvwtYJ/oU8MJuWlBp9GYIsMVjPAUFk2f+KucFWzzI=;
+  b=TsOwUOPVbJm6EL7zw9ZjdVBlo4UDIrrI0/a5OIbfwJyYebBGkfOXx0NQ
+   puB2nsiAwMXrUh7miIX89QTuGv6OobbzH2zYWRpYomQChgaeTf6T6+qxC
+   k2kyEJ4D1OwQ78oGWoj2osi5VVhQkHTlT0wwojGcRLbPZER3SyC197cL/
+   ynThNNfXBV9djq1Q61W5uZFE9A2kdXNXyaLnzwMsmmVzoF3paPTcyNSMU
+   EL9/YosGN1Bd5rgEp8BCLeKFRnPgzMPyUw/Ycp44ANMRicAKFx5JzfX8s
+   TZYeDCoebSChl+egmz4t1UMEfWKRZSS6vo4BI3om/Ts945Gf/EwwOgsQZ
    A==;
-X-CSE-ConnectionGUID: ZuNrqqR0T0OWLFC22MFjLA==
-X-CSE-MsgGUID: zVzgqskkSNScE/Xql5Yezg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43983564"
+X-CSE-ConnectionGUID: 4rBmWs3fSIaXJfuoOod+DQ==
+X-CSE-MsgGUID: KeBfjwT8Tx2+4NfX844T9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43985022"
 X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="43983564"
+   d="scan'208";a="43985022"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 23:15:25 -0700
-X-CSE-ConnectionGUID: ljjPuSgVSD2XdB/i7OYOzw==
-X-CSE-MsgGUID: 7PJOydRKRFSy0djP18Uewg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 23:36:09 -0700
+X-CSE-ConnectionGUID: YaSh7HXlQ+OnX5jNfa5gzA==
+X-CSE-MsgGUID: h72+9HCnRUyhlf7lh60ncg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="123824441"
+   d="scan'208";a="123830796"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 20 Mar 2025 23:15:23 -0700
+  by orviesa007.jf.intel.com with ESMTP; 20 Mar 2025 23:36:05 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvVf7-00015f-2L;
-	Fri, 21 Mar 2025 06:15:21 +0000
-Date: Fri, 21 Mar 2025 14:12:53 +0800
+	id 1tvVz8-00016A-2R;
+	Fri, 21 Mar 2025 06:36:02 +0000
+Date: Fri, 21 Mar 2025 14:35:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nirmoy Das <nirmoy.das@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Matthew Auld <matthew.auld@intel.com>
-Subject: drivers/gpu/drm/xe/xe_gt.h:27:undefined reference to
- `gt_reset_failure'
-Message-ID: <202503211455.NEkMGJB4-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Daniel Golle <daniel@makrotopia.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, upstream@airoha.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [net-next PATCH 5/6] net: pcs: airoha: add PCS driver for Airoha
+ SoC
+Message-ID: <202503211416.eZCW1LF6-lkp@intel.com>
+References: <20250318235850.6411-6-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +76,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250318235850.6411-6-ansuelsmth@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a1cffe8cc8aef85f1b07c4464f0998b9785b795a
-commit: 649f533b7aa2bda13d9ef0a6ef4b0a622b226d2b drm/xe: Add caller info to xe_gt_reset_async
-date:   5 months ago
-config: sparc64-randconfig-r053-20250319 (https://download.01.org/0day-ci/archive/20250321/202503211455.NEkMGJB4-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211455.NEkMGJB4-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phylink-reset-PCS-Phylink-double-reference-on-phylink_stop/20250319-080303
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250318235850.6411-6-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH 5/6] net: pcs: airoha: add PCS driver for Airoha SoC
+config: i386-randconfig-007-20250321 (https://download.01.org/0day-ci/archive/20250321/202503211416.eZCW1LF6-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211416.eZCW1LF6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503211455.NEkMGJB4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503211416.eZCW1LF6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.o: in function `xe_gt_reset_async':
->> drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x24f0): undefined reference to `gt_reset_failure'
->> sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x24fc): undefined reference to `gt_reset_failure'
-   sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.o: in function `gt_reset.isra.0':
-   drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x2e10): undefined reference to `gt_reset_failure'
-   sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x2e1c): undefined reference to `gt_reset_failure'
-
-
-vim +27 drivers/gpu/drm/xe/xe_gt.h
-
-0d97ecce16bd26 Niranjana Vishwanathapura 2023-10-09  23  
-8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  24  extern struct fault_attr gt_reset_failure;
-8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  25  static inline bool xe_fault_inject_gt_reset(void)
-8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  26  {
-8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27 @27  	return should_fail(&gt_reset_failure, 1);
-8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  28  }
-8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  29  
-
-:::::: The code at line 27 was first introduced by commit
-:::::: 8f3013e0b22206b27f37dcf1b96ce68df3393040 drm/xe: Introduce fault injection for gt reset
-
-:::::: TO: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> ld.lld: error: undefined symbol: of_pcs_simple_get
+   >>> referenced by pcs-airoha.c:2818 (drivers/net/pcs/pcs-airoha.c:2818)
+   >>>               drivers/net/pcs/pcs-airoha.o:(airoha_pcs_probe) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: of_pcs_add_provider
+   >>> referenced by pcs-airoha.c:2818 (drivers/net/pcs/pcs-airoha.c:2818)
+   >>>               drivers/net/pcs/pcs-airoha.o:(airoha_pcs_probe) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: of_pcs_del_provider
+   >>> referenced by pcs-airoha.c:2828 (drivers/net/pcs/pcs-airoha.c:2828)
+   >>>               drivers/net/pcs/pcs-airoha.o:(airoha_pcs_remove) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
