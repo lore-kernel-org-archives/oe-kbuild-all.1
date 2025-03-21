@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4881E990E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 06:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E6E1E4929
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 06:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742537659; cv=none; b=jQNVXlJALsCmh0sIULMVkwUyLlNW5JaTEoLt9PVuBqp2SUtsXU3CcYlMhwpcgz//Px3RswHf8qbi74ziILAQwtEl0IpXBMBzvaBhsy9+Z6xmj8YnxK+e0PzJQjUJ4xhetTx6YZ29eTsSqF+ytTfaxquQJyHE8KNHAQaoCQ6o9Lk=
+	t=1742537727; cv=none; b=qgYL+KEByOoz7WB8kk6xVonxn+gLWoLhR1JtJr/ElR40Xx2VQhI0T4RGTyz0xAbePRD9YGT219AeoyTluPfMFIonleffGxSasPHI/kk2LLKgj+0EEbXCUooWgnbWHlSUVvs7s8NQFfsguUEBVMk8bj/dPhIhHVsx38QAwirgP00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742537659; c=relaxed/simple;
-	bh=HLEaxKvE4atjVNnvk1DK3mXeuEpJjws2WJUHQpfgQ/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VRP1aCJSH7F1aWyRdW3EPaEXRCvlM+Dxa6PzBpnS9y8lZhRkRCWbFJYJ6zdklRutwa3Db3FUUXewRRyctmwgvUXe/IhpuT1BS/Ac55dAIqcERjUzw4ThvhDKu2Pm3BUFtk8v96lqFD2cx+cT1YkXAbTsS2UN8mrPYAdZPar5qLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkEDYJVp; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1742537727; c=relaxed/simple;
+	bh=izCCY+JUOv8XIPhPZ529CQx8d2SH7XHgsWIx8qUdB4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yxzlj4Va+synxfoBPivah6HH931QkeTgA/mqvdT4GhrFsbLuToMQUG1pGzH1MARt5cMxh79RHGW+TjFGDbT5TnY4AYqS5DgDShUZ7s6pyYM/8NbCRZdwLUSpfqcbrxWhyr28EWp7u6BHfgyKHr2LAeDR1eX+pOJfe0FJ0GCt89s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5vMrqOK; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkEDYJVp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5vMrqOK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742537658; x=1774073658;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HLEaxKvE4atjVNnvk1DK3mXeuEpJjws2WJUHQpfgQ/4=;
-  b=YkEDYJVpqvsK5ESqU2BZkEjnx/jyo/Mv8w40NXribZPwwtCMVL7zdZHO
-   O7H/PlfFAWg4WbqxK2AUZet1UbP0vgQjVrM389jrPKOTEa+YR4hfUTM9Z
-   IN04MOwPtYjB4EhMyQOI64I19yWIC0TLOF9P8DZvXOWEMhMbHNNMhEHR8
-   lHmUspUXJYQrMiVbO2dubCs4uqnTqyYxoW2FALwFZhf/B1qSAjWuOS+TF
-   Uye8+CP+Sg7B4GoeVqupACQ2wOWrHeMpeRtjqSe2OE49DbF4wmXxCsFQO
-   OjdUMI8ABwzkieEvKtkzTbAaxqMOEo/CI1UCqcfIGI/eeLJZgmTeE+lXG
+  t=1742537726; x=1774073726;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=izCCY+JUOv8XIPhPZ529CQx8d2SH7XHgsWIx8qUdB4s=;
+  b=W5vMrqOKlKt8Uq9mS0yTAkhVjzMQE3ZnITPWhClKMzEjOPg73dSjQkV0
+   wyiuHRMGtjs1cfBD8cmU9Pgv7rEBr4Ht+Zu56Y+iJpG51kwshIhAuM75G
+   Wu/Cr4pF6UAJ100qluNVRWjpFjlpozsTgvPNhfCgyvzb/jAIli31KWbdR
+   QRjcTQH/0UB4LFG1IqTEi2ZIJj7CwNENJj0h5fwdpwIh4M5/6slq37lj5
+   zOI0x3xJspxHxwJ/OhjDBECT8oBy07BrA/Y4Q8EKxidf8NopLWwoNqKCl
+   si3UkETExYt1Cf0dH+NILk1aO+hcrjKUl+D4SarxjG5sEe9jDLnKJ1bEG
    A==;
-X-CSE-ConnectionGUID: MsE3Yh5SSSql4Dn20X+twA==
-X-CSE-MsgGUID: hR9R85s0TPWLyRlQjSE4mg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="54013382"
+X-CSE-ConnectionGUID: ZuNrqqR0T0OWLFC22MFjLA==
+X-CSE-MsgGUID: zVzgqskkSNScE/Xql5Yezg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43983564"
 X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="54013382"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 23:14:17 -0700
-X-CSE-ConnectionGUID: dm1rutLFR82EWWTmbhyLZA==
-X-CSE-MsgGUID: Hhys1a/5RT+disyeTze/Ug==
+   d="scan'208";a="43983564"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 23:15:25 -0700
+X-CSE-ConnectionGUID: ljjPuSgVSD2XdB/i7OYOzw==
+X-CSE-MsgGUID: 7PJOydRKRFSy0djP18Uewg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="123331923"
+   d="scan'208";a="123824441"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 20 Mar 2025 23:14:11 -0700
+  by orviesa007.jf.intel.com with ESMTP; 20 Mar 2025 23:15:23 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvVdt-00015Q-16;
-	Fri, 21 Mar 2025 06:14:06 +0000
-Date: Fri, 21 Mar 2025 14:12:55 +0800
+	id 1tvVf7-00015f-2L;
+	Fri, 21 Mar 2025 06:15:21 +0000
+Date: Fri, 21 Mar 2025 14:12:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, upstream@airoha.com
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [net-next PATCH v13 10/14] mfd: an8855: Add support for Airoha
- AN8855 Switch MFD
-Message-ID: <202503211428.H4VdWHco-lkp@intel.com>
-References: <20250315154407.26304-11-ansuelsmth@gmail.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Matthew Auld <matthew.auld@intel.com>
+Subject: drivers/gpu/drm/xe/xe_gt.h:27:undefined reference to
+ `gt_reset_failure'
+Message-ID: <202503211455.NEkMGJB4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,95 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250315154407.26304-11-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-nvmem-Document-support-for-Airoha-AN8855-Switch-EFUSE/20250315-235040
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250315154407.26304-11-ansuelsmth%40gmail.com
-patch subject: [net-next PATCH v13 10/14] mfd: an8855: Add support for Airoha AN8855 Switch MFD
-config: i386-randconfig-006-20250321 (https://download.01.org/0day-ci/archive/20250321/202503211428.H4VdWHco-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211428.H4VdWHco-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a1cffe8cc8aef85f1b07c4464f0998b9785b795a
+commit: 649f533b7aa2bda13d9ef0a6ef4b0a622b226d2b drm/xe: Add caller info to xe_gt_reset_async
+date:   5 months ago
+config: sparc64-randconfig-r053-20250319 (https://download.01.org/0day-ci/archive/20250321/202503211455.NEkMGJB4-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211455.NEkMGJB4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503211428.H4VdWHco-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503211455.NEkMGJB4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/mfd/airoha-an8855.o: in function `an8855_core_probe':
->> drivers/mfd/airoha-an8855.c:376: undefined reference to `devm_mdio_regmap_init'
+   sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.o: in function `xe_gt_reset_async':
+>> drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x24f0): undefined reference to `gt_reset_failure'
+>> sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x24fc): undefined reference to `gt_reset_failure'
+   sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.o: in function `gt_reset.isra.0':
+   drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x2e10): undefined reference to `gt_reset_failure'
+   sparc64-linux-ld: drivers/gpu/drm/xe/xe_gt.h:27:(.text+0x2e1c): undefined reference to `gt_reset_failure'
 
 
-vim +376 drivers/mfd/airoha-an8855.c
+vim +27 drivers/gpu/drm/xe/xe_gt.h
 
-   352	
-   353	static int an8855_core_probe(struct mdio_device *mdiodev)
-   354	{
-   355		struct regmap *regmap, *regmap_phy;
-   356		struct device *dev = &mdiodev->dev;
-   357		struct an8855_core_priv *priv;
-   358		struct gpio_desc *reset_gpio;
-   359		u32 val;
-   360		int ret;
-   361	
-   362		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   363		if (!priv)
-   364			return -ENOMEM;
-   365	
-   366		priv->bus = mdiodev->bus;
-   367		priv->switch_addr = mdiodev->addr;
-   368		/* No DMA for mdiobus, mute warning for DMA mask not set */
-   369		dev->dma_mask = &dev->coherent_dma_mask;
-   370	
-   371		regmap = devm_regmap_init(dev, NULL, priv, &an8855_regmap_config);
-   372		if (IS_ERR(regmap))
-   373			return dev_err_probe(dev, PTR_ERR(regmap),
-   374					     "regmap initialization failed\n");
-   375	
- > 376		regmap_phy = devm_mdio_regmap_init(dev, priv, &an8855_regmap_phy_config);
-   377		if (IS_ERR(regmap_phy))
-   378			return dev_err_probe(dev, PTR_ERR(regmap_phy),
-   379					     "regmap phy initialization failed\n");
-   380	
-   381		reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-   382		if (IS_ERR(reset_gpio))
-   383			return PTR_ERR(reset_gpio);
-   384	
-   385		if (reset_gpio) {
-   386			usleep_range(100000, 150000);
-   387			gpiod_set_value_cansleep(reset_gpio, 0);
-   388			usleep_range(100000, 150000);
-   389			gpiod_set_value_cansleep(reset_gpio, 1);
-   390	
-   391			/* Poll HWTRAP reg to wait for Switch to fully Init */
-   392			ret = regmap_read_poll_timeout(regmap, AN8855_HWTRAP, val,
-   393						       val, 20, 200000);
-   394			if (ret)
-   395				return ret;
-   396		}
-   397	
-   398		ret = an8855_read_switch_id(dev, regmap);
-   399		if (ret)
-   400			return ret;
-   401	
-   402		/* Release global PHY power down */
-   403		ret = regmap_write(regmap, AN8855_RG_GPHY_AFE_PWD, 0x0);
-   404		if (ret)
-   405			return ret;
-   406	
-   407		return devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, an8855_core_childs,
-   408					    ARRAY_SIZE(an8855_core_childs), NULL, 0,
-   409					    NULL);
-   410	}
-   411	
+0d97ecce16bd26 Niranjana Vishwanathapura 2023-10-09  23  
+8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  24  extern struct fault_attr gt_reset_failure;
+8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  25  static inline bool xe_fault_inject_gt_reset(void)
+8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  26  {
+8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27 @27  	return should_fail(&gt_reset_failure, 1);
+8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  28  }
+8f3013e0b22206 Himal Prasad Ghimiray     2023-07-27  29  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: 8f3013e0b22206b27f37dcf1b96ce68df3393040 drm/xe: Introduce fault injection for gt reset
+
+:::::: TO: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
