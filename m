@@ -1,206 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186941E9B1C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 07:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A741E98ED
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 08:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742541398; cv=none; b=pbvtvbRMB5bkdrR5oJsAm/VBk85FKnIBlEUu5nlurhpTqvG0bZ07JEn+qjeCDzOxtzA6Roy2ArvCENW/2lVoTu2EDb0ROx4O3xArJMhQM7YzRoA60sn+YrMC4HvKrqe5xgwIuc5et3efhaDltehpU9PPRZ/Lj5aAdkDRqQPeNoQ=
+	t=1742545337; cv=none; b=L7GXLgUvtnGSfaTnb3GX+Z2HodLfpZ8RdPb4vDON7/hKtl4aoSBf8M3f1lD5UDEfEcVeMVkLpFakqHibNFSCmTDfX4FM0eENISXGg5NhV6KVsEuEaLSeXERJuagMocbQcl8JFWA6onXRYHBur0ABukzUJ3cLUeLBSAPBCEIhVHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742541398; c=relaxed/simple;
-	bh=iq6akNmba4UrevX/Ge7EUSx3B4vjmxXjsPdCCePXTkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K9uR0noyGGw7KNb4+8rwExPoRm3+hIwOTtGRxGjBRMhWPVssuJ2Xt0z/NGZ24oy87R51qduZdmxoDQE3JlNmGxfWDZ3RYylCj2TCFji0aGzRZ59pd28HIf003z8eAWthCXw99QgJNDUYg50uxar5I6hgKJmGx7NAEEKVnxHpZPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnWbLTmR; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742545337; c=relaxed/simple;
+	bh=NI4SSaUlP1UDt5cqUAU9n/PBzvJ0LROsQFOhehroFF8=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=lKHZs6z520mVL5HQ9dV1X0UHKCdEZBE9Psva96hXKLqscHrfUJYP8qEDQ5m/jQIF4ESgVE/FvUWl8uMPJF0eG86bIhX1F8YGsbn73dwqWB046TPnepIV9ZhJwDRBpi8qvbEXTUaQwg8D9htFSb4bQzAi7/Twkt9fkodmY9NgUvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=XNNnZVIa; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnWbLTmR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742541396; x=1774077396;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="XNNnZVIa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iq6akNmba4UrevX/Ge7EUSx3B4vjmxXjsPdCCePXTkI=;
-  b=WnWbLTmRAyVNwKLVEF6TUqd+37L0afQr5XYb/LVkdRH5cpeqILceGVD+
-   slrM8oaPDqXFy2pw36bAF9rlJGCcMtrrLTFg79SNSNam/HXf8Q8z+y8QO
-   gPizPGTVa2mXzW1HjRHK2MENb9utl64LZhse+GCy5CAGMZFhsbO9r6cre
-   AVkCQs/Eka50lB+XYfHTUVAfEasaL4tlBxiSD8MvTMZWiUiO09m7U3Kv2
-   6QZ216X/n4j4je3XUWRJWNJwbLsLyDcv6EY197mScvPiTVmbClRQvKVMR
-   ycqKYpjIB3hZrxc5l2Op3KS647xfzQVNFi7SMsHZavELM3InKLWPS9hPv
-   w==;
-X-CSE-ConnectionGUID: V9z3hjaZTa25N1mMa1np8A==
-X-CSE-MsgGUID: N0x5aPDdSXadxF8CD8t1eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43917233"
-X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="43917233"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 00:16:35 -0700
-X-CSE-ConnectionGUID: Fs6gdYEURXypiOeITCJLsQ==
-X-CSE-MsgGUID: yX88vMs5R7aWvvGjLt5rFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="123296265"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 21 Mar 2025 00:16:35 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvWcB-00017F-2D;
-	Fri, 21 Mar 2025 07:16:26 +0000
-Date: Fri, 21 Mar 2025 15:15:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2818/2818]
- ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field
- 'call_used' has incomplete type 'pt_solution'
-Message-ID: <202503211559.QGNruzVY-lkp@intel.com>
+  bh=HBGwdKDA+28388iTMyzeAvqzVtL260Gpw3TDslq5458=;
+  b=XNNnZVIaK4oOQgLHFYPeDxXR45FNwjwfdmsj/81nY8k9z2gA04ZG1jmc
+   kI1E+2a6lZX3kkv88SCblNdKWb4rRfpksrSRhDIXTATSYljg5NAkzx5Wk
+   ajcU0G9NC1L4vZ/OJkUVZaWsLBEXJs2H+75k37QsK/ifm6m8EKk97capm
+   A=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.14,264,1736809200"; 
+   d="scan'208";a="112217475"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 09:22:06 +0100
+Date: Fri, 21 Mar 2025 09:22:05 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: cros-kernel-buildreports@googlegroups.com
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 0/8] drivers/md/dm-user.c:364:9-12:
+ WARNING: Unsigned expression compared with zero: out < 0 (fwd)
+Message-ID: <1626c5fb-11a0-ce54-e4d9-fd5cc2ec6c9@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   a7973281031cedabf6c66de13ffc2c313a71695f
-commit: f72cad446f70dd9383453a5ef36ada358c589f8f [2818/2818] gcc-plugins: Reorganize gimple includes for GCC 13
-config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250321/202503211559.QGNruzVY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 5.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211559.QGNruzVY-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Fri, 21 Mar 2025 16:18:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android-mainline 0/8] drivers/md/dm-user.c:364:9-12:
+    WARNING: Unsigned expression compared with zero: out < 0
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   cae6b5eff8e8b7af4f2440cbb4d25fb48a7cb95c
+commit: 83bf345abc0bc06b98e906bfbb120a52446e1c43 [0/8] ANDROID: dm: dm-user: New target that proxies BIOs to userspace
+:::::: branch date: 28 hours ago
+:::::: commit date: 4 years, 3 months ago
+config: x86_64-randconfig-101-20250321 (https://download.01.org/0day-ci/archive/20250321/202503211650.krjaQ6IT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503211559.QGNruzVY-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503211650.krjaQ6IT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/md/dm-user.c:364:9-12: WARNING: Unsigned expression compared with zero: out < 0
 
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/sancov_plugin.c:22:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/stackleak_plugin.c:30:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from scripts/gcc-plugins/gcc-common.h:113:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
-     283 |   struct pt_solution call_used;
-         |                      ^~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
-     284 |   struct pt_solution call_clobbered;
-         |                      ^~~~~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
-    2556 |   return lhs && !is_gimple_reg (lhs);
-         |                  ^~~~~~~~~~~~~
-         |                  is_gimple_assign
-   In file included from scripts/gcc-plugins/gcc-common.h:113:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
-     283 |   struct pt_solution call_used;
-         |                      ^~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
-     284 |   struct pt_solution call_clobbered;
-         |                      ^~~~~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
-    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          gimple_call_set_fndecl
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
-    2556 |   return lhs && !is_gimple_reg (lhs);
-         |                  ^~~~~~~~~~~~~
-         |                  is_gimple_assign
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
-    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          gimple_call_set_fndecl
-   In file included from scripts/gcc-plugins/gcc-common.h:113:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:22: error: field 'call_used' has incomplete type 'pt_solution'
-     283 |   struct pt_solution call_used;
-         |                      ^~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:284:22: error: field 'call_clobbered' has incomplete type 'pt_solution'
-     284 |   struct pt_solution call_clobbered;
-         |                      ^~~~~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:283:10: note: forward declaration of 'struct pt_solution'
-     283 |   struct pt_solution call_used;
-         |          ^~~~~~~~~~~
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'bool gimple_store_p(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2556:18: error: 'is_gimple_reg' was not declared in this scope; did you mean 'is_gimple_assign'?
-    2556 |   return lhs && !is_gimple_reg (lhs);
-         |                  ^~~~~~~~~~~~~
-         |                  is_gimple_assign
-   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/sancov_plugin.so] Error 1 shuffle=1096673560
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h: In function 'tree_node* gimple_call_fndecl(const_gimple)':
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gimple.h:2790:10: error: 'gimple_call_addr_fndecl' was not declared in this scope; did you mean 'gimple_call_set_fndecl'?
-    2790 |   return gimple_call_addr_fndecl (gimple_call_fn (gs));
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          gimple_call_set_fndecl
-   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/stackleak_plugin.so] Error 1 shuffle=1096673560
-   make[3]: *** [scripts/gcc-plugins/Makefile:47: scripts/gcc-plugins/randomize_layout_plugin.so] Error 1 shuffle=1096673560
-   make[3]: Target '__build' not remade because of errors.
-   make[2]: *** [scripts/Makefile.build:503: scripts/gcc-plugins] Error 2 shuffle=1096673560
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1235: scripts] Error 2 shuffle=1096673560
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:194: __sub-make] Error 2 shuffle=1096673560
-   make: Target 'prepare' not remade because of errors.
+vim +364 drivers/md/dm-user.c
+
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  279
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  280  static inline long bio_flags_to_user_flags(struct bio *bio)
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  281  {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  282  	u64 out = 0;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  283  	typeof(bio->bi_opf) opf = bio->bi_opf & ~REQ_OP_MASK;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  284
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  285  	if (opf & REQ_FAILFAST_DEV) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  286  		opf &= ~REQ_FAILFAST_DEV;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  287  		out |= DM_USER_REQ_MAP_FLAG_FAILFAST_DEV;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  288  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  289
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  290  	if (opf & REQ_FAILFAST_TRANSPORT) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  291  		opf &= ~REQ_FAILFAST_TRANSPORT;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  292  		out |= DM_USER_REQ_MAP_FLAG_FAILFAST_TRANSPORT;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  293  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  294
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  295  	if (opf & REQ_FAILFAST_DRIVER) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  296  		opf &= ~REQ_FAILFAST_DRIVER;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  297  		out |= DM_USER_REQ_MAP_FLAG_FAILFAST_DRIVER;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  298  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  299
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  300  	if (opf & REQ_SYNC) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  301  		opf &= ~REQ_SYNC;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  302  		out |= DM_USER_REQ_MAP_FLAG_SYNC;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  303  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  304
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  305  	if (opf & REQ_META) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  306  		opf &= ~REQ_META;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  307  		out |= DM_USER_REQ_MAP_FLAG_META;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  308  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  309
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  310  	if (opf & REQ_PRIO) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  311  		opf &= ~REQ_PRIO;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  312  		out |= DM_USER_REQ_MAP_FLAG_PRIO;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  313  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  314
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  315  	if (opf & REQ_NOMERGE) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  316  		opf &= ~REQ_NOMERGE;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  317  		out |= DM_USER_REQ_MAP_FLAG_NOMERGE;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  318  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  319
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  320  	if (opf & REQ_IDLE) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  321  		opf &= ~REQ_IDLE;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  322  		out |= DM_USER_REQ_MAP_FLAG_IDLE;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  323  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  324
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  325  	if (opf & REQ_INTEGRITY) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  326  		opf &= ~REQ_INTEGRITY;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  327  		out |= DM_USER_REQ_MAP_FLAG_INTEGRITY;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  328  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  329
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  330  	if (opf & REQ_FUA) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  331  		opf &= ~REQ_FUA;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  332  		out |= DM_USER_REQ_MAP_FLAG_FUA;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  333  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  334
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  335  	if (opf & REQ_PREFLUSH) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  336  		opf &= ~REQ_PREFLUSH;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  337  		out |= DM_USER_REQ_MAP_FLAG_PREFLUSH;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  338  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  339
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  340  	if (opf & REQ_RAHEAD) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  341  		opf &= ~REQ_RAHEAD;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  342  		out |= DM_USER_REQ_MAP_FLAG_RAHEAD;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  343  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  344
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  345  	if (opf & REQ_BACKGROUND) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  346  		opf &= ~REQ_BACKGROUND;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  347  		out |= DM_USER_REQ_MAP_FLAG_BACKGROUND;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  348  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  349
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  350  	if (opf & REQ_NOWAIT) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  351  		opf &= ~REQ_NOWAIT;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  352  		out |= DM_USER_REQ_MAP_FLAG_NOWAIT;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  353  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  354
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  355  	if (opf & REQ_NOUNMAP) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  356  		opf &= ~REQ_NOUNMAP;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  357  		out |= DM_USER_REQ_MAP_FLAG_NOUNMAP;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  358  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  359
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  360  	if (unlikely(opf)) {
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  361  		pr_warn("unsupported BIO type %x\n", opf);
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  362  		return -EOPNOTSUPP;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  363  	}
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29 @364  	WARN_ON(out < 0);
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  365  	return out;
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  366  }
+83bf345abc0bc0 Palmer Dabbelt 2020-09-29  367
 
 -- 
 0-DAY CI Kernel Test Service
