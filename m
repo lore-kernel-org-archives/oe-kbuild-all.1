@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B489F1F1906
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 09:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9D31F1531
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 09:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742550607; cv=none; b=mD9O2yCNDCc+fgYHjQGNVD0bPxakCEZo5ww9xGDfsHud/phveoQZip8BsFQlYdw/8WFopLw2FTGxYsxUmxIf+kqN8NGrhzCTvJod5rTzbU6dlqTK5l9UOIIVORuRDn3llC50HTz9VIC6bBt5WDuqGDzFIow2B6DRhGC6GAnBsQY=
+	t=1742550999; cv=none; b=Cj/46dwmst/J605LCa0n4ZOU08KH1oxtagvrStnJPPD7M5Yz4Hmf2nC3xoflgigz/FhncsNmi/6M5m4ajjdueWqF/iYrPEeTAJMPwBEvohnqGO57wc+gxRNQtDT8R5uJTXUnJ2ZEClTtsSndEvNRZBCmUyq6eqlvzwI2EMK2tp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742550607; c=relaxed/simple;
-	bh=3YG+DczV632k/slGK52ohCebjqt0NGwK/ts86iP6w6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dr1vpSYAV8fP4MU0EhcIRAf7oqBpFJFwKj3nW4xoNFpXwpZIGBkb4AIXjo37bDlcmIQdBwe9QYMBwsSCOCWVOPA2mb24uND28dBsXGVtONBz4zQDJc/ttS6mhWadztSJV6X1oJbJZdeJSU1IrWxTNCe9i6DOepfYme5ldYcVFOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcfeoHQa; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1742550999; c=relaxed/simple;
+	bh=xWatFwpngzVeM+HdADz7k+Xx6TBXz0dAa0QBt3NgBk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=IgGwL3/HAJRykro84aD4XxNvo1rDOLUiJmREgOhcURKQTGJvlD+FYu/b/WWgP2GwagHI9JAPLiTbxEsNk5PPgef9zWsEJZRsuT368hiMaC9MhxL6XSgMUiKsJWOYtxkEdi+8dj95XeRG5cNx87K5tyj5mLcahK7JMPua8MqSr18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mG15eRAP; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcfeoHQa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mG15eRAP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742550606; x=1774086606;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3YG+DczV632k/slGK52ohCebjqt0NGwK/ts86iP6w6A=;
-  b=BcfeoHQapQgfMcRCDKlGhJaX1HKmEs8SCnE1uyDSqARD38CRdJ5WnnHm
-   u/MvuBUIQXD7NcA78iv4I+p42ZFKL6i9EVSnDHTVNaRU86H6IO1NNewaZ
-   g9kCsEXE7J4gZdtlNzURunh0vKrM3MYLyaH79crdXXz+MkP3Z2K/WZxT0
-   xXzhZH5GtTzgSG51V77l1DuZQUU6Dvwjomy/AZ6j0WaK27W7ZeBOSTamZ
-   kUWdp3Hfd3CloAZzbaVRUGw40g95sf8For4YdymZF/qKhHN/IjwgJnY5Y
-   JPDPXLJ6rq2nCrKKibnVpwaB70qzcHu8ZgxjNrcHzXWmq66B4O07GN7AT
+  t=1742550998; x=1774086998;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=xWatFwpngzVeM+HdADz7k+Xx6TBXz0dAa0QBt3NgBk4=;
+  b=mG15eRAPt8z3EGUrUo6dQdy/rS0tx99wRQrEXQwguH0C9IwqT2HdrIQB
+   S33PjjA754sRt/a/tp+JBC5PnASYeRG8ppfusNfprOHliK14aeBoAfvXM
+   V9ejrYXtSz+p0xwDiFj6pfY6ST3mUd9rmpSgVejVUYyyKKvR5XoyXBm35
+   bPm0iY0dLmVJ4xvhXiFw4b/5WIpd63PwaD3bdRL0Tn383E3UxuRfmcpIN
+   Ua5wuT8cYR2Mjzo+RI9uoM0ZmxLCiTEYQEJaSpyjQEQwbZC9LN2tHKI6J
+   /FJMvfFoNXoDXzEUnmIQzJ2/ORHtUu7h5NrSfeEcwAiirps18sW8xS/eX
    w==;
-X-CSE-ConnectionGUID: 9tFwQKhsRxyxcbt/DBr5qQ==
-X-CSE-MsgGUID: Djsa6SlgS86FREOvHAEbVw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43825222"
+X-CSE-ConnectionGUID: Vy3IchPtRA+DHIqgTTwRqA==
+X-CSE-MsgGUID: qh8qXBVUT12+cDw1R69XvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="54479292"
 X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="43825222"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:50:06 -0700
-X-CSE-ConnectionGUID: TXGJfUADThyc287pgEfijQ==
-X-CSE-MsgGUID: pAtjGjIhSGiEC4g0ma5+AA==
+   d="scan'208";a="54479292"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:56:37 -0700
+X-CSE-ConnectionGUID: dzpQIuGhQuGnq1DOBcEopA==
+X-CSE-MsgGUID: Oz8hbjUPRxSdcNJ/sxDNGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="123379760"
+   d="scan'208";a="123530879"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 21 Mar 2025 02:50:03 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 21 Mar 2025 02:56:36 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvZ0q-0001F1-1K;
-	Fri, 21 Mar 2025 09:50:00 +0000
-Date: Fri, 21 Mar 2025 17:49:35 +0800
+	id 1tvZ6z-0001FP-2x;
+	Fri, 21 Mar 2025 09:56:26 +0000
+Date: Fri, 21 Mar 2025 17:55:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	bhelgaas@google.com, jingoohan1@gmail.com,
-	thomas.richard@bootlin.com, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
-Subject: Re: [v3 1/4] PCI: Introduce generic capability search functions
-Message-ID: <202503211714.tv7E2QkK-lkp@intel.com>
-References: <20250321040358.360755-2-18255117159@163.com>
+To: Ran Xiaokai <ranxiaokai627@163.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V2] tracing/osnoise: Fix possible recursive locking for
+ cpus_read_lock()
+Message-ID: <Z903jcd6JTJ7DH2-@f921524d7199>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,73 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250321040358.360755-2-18255117159@163.com>
+In-Reply-To: <20250321095249.2739397-1-ranxiaokai627@163.com>
 
-Hi Hans,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on a1cffe8cc8aef85f1b07c4464f0998b9785b795a]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-capability-search-functions/20250321-120748
-base:   a1cffe8cc8aef85f1b07c4464f0998b9785b795a
-patch link:    https://lore.kernel.org/r/20250321040358.360755-2-18255117159%40163.com
-patch subject: [v3 1/4] PCI: Introduce generic capability search functions
-config: arc-randconfig-001-20250321 (https://download.01.org/0day-ci/archive/20250321/202503211714.tv7E2QkK-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211714.tv7E2QkK-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503211714.tv7E2QkK-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/pci/pci.c:691:5: error: conflicting types for 'pci_generic_find_ext_capability'; have 'u16(void *, u32 (*)(void *, int,  int), int)' {aka 'short unsigned int(void *, unsigned int (*)(void *, int,  int), int)'}
-     691 | u16 pci_generic_find_ext_capability(void *priv, pci_generic_read_cfg read_cfg,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/pci/pci.c:18:
-   include/linux/pci.h:1211:5: note: previous declaration of 'pci_generic_find_ext_capability' with type 'u16(void *, u32 (*)(void *, int,  int), u8)' {aka 'short unsigned int(void *, unsigned int (*)(void *, int,  int), unsigned char)'}
-    1211 | u16 pci_generic_find_ext_capability(void *priv, pci_generic_read_cfg read_cfg,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/preempt.h:10,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/pci/pci.c:11:
-   drivers/pci/pci.c:696:19: error: conflicting types for 'pci_generic_find_ext_capability'; have 'u16(void *, u32 (*)(void *, int,  int), int)' {aka 'short unsigned int(void *, unsigned int (*)(void *, int,  int), int)'}
-     696 | EXPORT_SYMBOL_GPL(pci_generic_find_ext_capability);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:70:28: note: in definition of macro '__EXPORT_SYMBOL'
-      70 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:84:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      84 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
-         |                                         ^~~~~~~~~~~~~~
-   drivers/pci/pci.c:696:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
-     696 | EXPORT_SYMBOL_GPL(pci_generic_find_ext_capability);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/pci.h:1211:5: note: previous declaration of 'pci_generic_find_ext_capability' with type 'u16(void *, u32 (*)(void *, int,  int), u8)' {aka 'short unsigned int(void *, unsigned int (*)(void *, int,  int), unsigned char)'}
-    1211 | u16 pci_generic_find_ext_capability(void *priv, pci_generic_read_cfg read_cfg,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +691 drivers/pci/pci.c
-
-   690	
- > 691	u16 pci_generic_find_ext_capability(void *priv, pci_generic_read_cfg read_cfg,
-   692					    int cap)
-   693	{
-   694		return pci_generic_find_next_ext_capability(priv, read_cfg, 0, cap);
-   695	}
-   696	EXPORT_SYMBOL_GPL(pci_generic_find_ext_capability);
-   697	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH V2] tracing/osnoise: Fix possible recursive locking for cpus_read_lock()
+Link: https://lore.kernel.org/stable/20250321095249.2739397-1-ranxiaokai627%40163.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
