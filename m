@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469BF1EEA31
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 20:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF5B232785
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 20:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742587568; cv=none; b=msnTQ67DsDXmzXblh7y0GRu0pPTgPsFlfmBGt5RFX7nLyoyKWFky+28hjGFyvUepQIxF5GPyylJbQBolBQp6YtNWvPMkAhrZ0fzIi8T4idz9UWyGN+v+1QxbzR9sl6EMNHyvg+VsmZuY1Nb85d1wkgpzTClzBnfhNVs+6pKeRPA=
+	t=1742590658; cv=none; b=KJlMgDbNbjb5p4EQhv2a1r3NAo+qU97c4Svx37ugoCeBM911rBXWeqrDPrU6Xtmi+a2DvBha+mzRidlHBASXx/Q7WQWLLvyCcAtCzLxQwRuPo0yn+iDtXfePJzvUFpD1AzEgw/zW3ic7pZ35ed/nzI9r9e+tNVXT8ka76mQb5Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742587568; c=relaxed/simple;
-	bh=V2PQ1B96+LOOx9jmCYATmDQGnJZ+JVZ5BSmL2n6WdDw=;
+	s=arc-20240116; t=1742590658; c=relaxed/simple;
+	bh=ZXz1lCeNrvjVJLRs04XWZoMrQXMdrcjG9uS7WXXyp9k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u81u6TTjO9636xpykWwcWniHxJGsEAbHUx1belOWB1SaftKKgpWZGOjjcyEr7nbpunE3uT1NrMMOmhJei6JGZC2YQIBE7qLlC1F95xRH3ipg1urwcDMy+uy5bPQ6qr9IqSpqS8TRYQaqrLw3utLr2kh+IIp2ChsGWCDlqRV/MpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQw1UpSo; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9bY3kaYWwAuam91WAeB+RNT7X6/0dAHg7HTuu0XzL1ZHkW7hYTDNuSHJyKKjj1U9mbcGiQoFkVaGHBehnH4ebX0pFZdKP3Lr65w0cxc4X09iq1CYTTdGaHYmbU2poqrETJ8fdsG5+B/1r+R6D3cu9OW+cep8V29XlcW6gnhKYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ym2bZEUT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQw1UpSo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ym2bZEUT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742587565; x=1774123565;
+  t=1742590657; x=1774126657;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=V2PQ1B96+LOOx9jmCYATmDQGnJZ+JVZ5BSmL2n6WdDw=;
-  b=fQw1UpSoEJ1PEL14saM52fgS2rf/EORV8GU4jVvjif3vpo/tXRgYzooA
-   Za/av+kanLOqfQ9kSYDRsbr0QCJkuMjBLIpfdFtLkG7oUjXhcWgA4KWGx
-   MdnU6V1RRl16kvli3AH153kY/U52WVvqZfcVlHmCc8EvkytqN4GcKKbou
-   Tf1Zh/1ewddLMDCf1TNex0VjiDsINFBmlZIidXyLkFdQK1c6OugfYVR2R
-   D8YDDghTfryudck+hM9rYzUgT+7qrDnP98Zu8WauY4Cz0YVgP2JS+9IjN
-   RClNVu4i6r//ZNHxIUyBSGLyaOUTbx0t5CCBr82l3IM2Yn6attYOJw2Js
+  bh=ZXz1lCeNrvjVJLRs04XWZoMrQXMdrcjG9uS7WXXyp9k=;
+  b=Ym2bZEUTWag0A2F3TzGt+bOdtOzt704uckulqFjHJWPOMN9+mpQaWmty
+   Ish8nLKBkyjxUkYJ3Toq1dEEY/6V13YJ3oX8FASrgrtfCE+e/AOBqRIsx
+   bZWye+/LLNwrvpDy6ENMVChryxyfBMetg+Lm42/Ilwm2R2NHW+HsCE8rz
+   +h+ADDCIX3Qfj3OaTrh4IJIocu7Jbkd3loMbgk+2Bzdr0eGxkXdc0D70D
+   HuEP/doZDIZFnhlBqhLD/K8yQgqQUE5FI7ZeZzr0RkPgQHWOAcUGuwJXU
+   9XRvPOpGdRlCuoGRiJVk1e+YYE5wJxF+nQJefg5FdcmfOtwzB5dHUPui0
    A==;
-X-CSE-ConnectionGUID: hmR2pVKDSmKN0+v0BdCP/Q==
-X-CSE-MsgGUID: 4/6aV47ORq6yBvMtITe+EA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43030662"
+X-CSE-ConnectionGUID: xNYiYNa8SHGjwoSBId0IMA==
+X-CSE-MsgGUID: ubGFaAhSSwiSDcRHvHeR9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="44057304"
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="43030662"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 13:06:04 -0700
-X-CSE-ConnectionGUID: cs+1kr6VShuVyPbwE3Ut7Q==
-X-CSE-MsgGUID: 2HHFYUrfQumOA+E7tI8GRg==
+   d="scan'208";a="44057304"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 13:57:36 -0700
+X-CSE-ConnectionGUID: t1NdUEubT1Wto0n2pc9WMw==
+X-CSE-MsgGUID: N6WEr2ixShCQQD6FioBq5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="123201454"
+   d="scan'208";a="128179654"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2025 13:06:02 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 21 Mar 2025 13:57:33 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvicx-0001ep-0Z;
-	Fri, 21 Mar 2025 20:05:59 +0000
-Date: Sat, 22 Mar 2025 04:05:39 +0800
+	id 1tvjQo-0001gn-2m;
+	Fri, 21 Mar 2025 20:57:30 +0000
+Date: Sat, 22 Mar 2025 04:57:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
@@ -56,7 +56,7 @@ Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
 	thomas.richard@bootlin.com, linux-pci@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
 Subject: Re: [v5 1/4] PCI: Introduce generic capability search functions
-Message-ID: <202503220356.59PxEhDx-lkp@intel.com>
+Message-ID: <202503220416.dfoSTxfs-lkp@intel.com>
 References: <20250321163803.391056-2-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -70,42 +70,42 @@ In-Reply-To: <20250321163803.391056-2-18255117159@163.com>
 
 Hi Hans,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on a1cffe8cc8aef85f1b07c4464f0998b9785b795a]
+[auto build test ERROR on a1cffe8cc8aef85f1b07c4464f0998b9785b795a]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-capability-search-functions/20250322-004312
 base:   a1cffe8cc8aef85f1b07c4464f0998b9785b795a
 patch link:    https://lore.kernel.org/r/20250321163803.391056-2-18255117159%40163.com
 patch subject: [v5 1/4] PCI: Introduce generic capability search functions
-config: arm-randconfig-001-20250322 (https://download.01.org/0day-ci/archive/20250322/202503220356.59PxEhDx-lkp@intel.com/config)
+config: arm-randconfig-001-20250322 (https://download.01.org/0day-ci/archive/20250322/202503220416.dfoSTxfs-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220356.59PxEhDx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220416.dfoSTxfs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503220356.59PxEhDx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503220416.dfoSTxfs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from arch/arm/mm/iomap.c:9:0:
-   include/linux/pci.h:2025:1: error: expected identifier or '(' before '{' token
+>> include/linux/pci.h:2025:1: error: expected identifier or '(' before '{' token
     { return 0; }
     ^
    include/linux/pci.h:2029:1: error: expected identifier or '(' before '{' token
     { return 0; }
     ^
    In file included from arch/arm/mm/iomap.c:9:0:
->> include/linux/pci.h:2023:1: warning: 'pci_host_bridge_find_capability' declared 'static' but never defined [-Wunused-function]
+   include/linux/pci.h:2023:1: warning: 'pci_host_bridge_find_capability' declared 'static' but never defined [-Wunused-function]
     pci_host_bridge_find_capability(void *priv, pci_host_bridge_read_cfg read_cfg,
     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pci.h:2027:1: warning: 'pci_host_bridge_find_ext_capability' declared 'static' but never defined [-Wunused-function]
+   include/linux/pci.h:2027:1: warning: 'pci_host_bridge_find_ext_capability' declared 'static' but never defined [-Wunused-function]
     pci_host_bridge_find_ext_capability(void *priv,
     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2023 include/linux/pci.h
+vim +2025 include/linux/pci.h
 
   2000	
   2001	static inline void pci_set_master(struct pci_dev *dev) { }
@@ -130,13 +130,13 @@ vim +2023 include/linux/pci.h
   2020	{ return 0; }
   2021	typedef u32 (*pci_host_bridge_read_cfg)(void *priv, int where, int size);
   2022	static inline u8
-> 2023	pci_host_bridge_find_capability(void *priv, pci_host_bridge_read_cfg read_cfg,
+  2023	pci_host_bridge_find_capability(void *priv, pci_host_bridge_read_cfg read_cfg,
   2024					u8 cap);
 > 2025	{ return 0; }
   2026	static inline u16
-> 2027	pci_host_bridge_find_ext_capability(void *priv,
+  2027	pci_host_bridge_find_ext_capability(void *priv,
   2028					    pci_host_bridge_read_cfg read_cfg, u8 cap);
-> 2029	{ return 0; }
+  2029	{ return 0; }
   2030	static inline u64 pci_get_dsn(struct pci_dev *dev)
   2031	{ return 0; }
   2032	
