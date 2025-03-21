@@ -1,142 +1,141 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136BA1F1524
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 09:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2C81F30B3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 09:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742549811; cv=none; b=HQA1Y9m0VvdmttMcKwMM6HcRhvQp0XPUmaUsUP1+lg+u/evIKbp0OMNvcKlGwIDloQBpIeOoaoFUjjlTpvzPeXjAFYHlxIoK2r9db0wt0sVPbu9hBqKOVu/lDErvUM6VrOFOZ7yD6ZK/koMpoiVnAJJsvygB6Kqk4zNZgZRHj00=
+	t=1742549886; cv=none; b=BlgiYhaMbrgVlimGg1MnCkAY9T6aztA/dJz01aHG/ic4nyWuq8xyWUOLbTv3Ffgv22tArqwwPsSjT18ctesCEXTZlZl0OYmFJmEQ/aREgV0iNnNprZYGDlvgj5mWA7tX0qRcCWupRwF3Zf3FFqzUJWVIsCfS78jiH6h5/fDUR3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742549811; c=relaxed/simple;
-	bh=/pOwpvz3SSNp8c5scminz/oXZnWulPynBd16kMIEiW8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pvYO9cGe4sAALj9Eh0m9awr6UcwvZlDzEncgH98V9nioAFvX0+AYOltjQKM2UX5Y4y75FsND/YdBLkcrMHZXMuOIqidqkXHjXQ/gxxrjylK8WGbsej6QzZ5+/t6E83RdirSwDrTOpFh3ZHYPeBeZTNM+0BsMNCtR+BUODkew2OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-86718c2c3b9so773824241.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 02:36:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742549807; x=1743154607;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gpI2ZDWuq3G6Uk5QSQZYNIovPpchlt6ElQHUEbJygfM=;
-        b=FL9CiMUlyey0HXBldicjgLLA1K1sEsfGfG82IqfYeGUTBvMaasNhH9d637mIWfi8R+
-         UjN0E4YNSbI+GBsl6v+rbv1KpQZn8O6pcAADQCUfU8r5T1oxGP9NiK1mDnhehzEVjXnE
-         ff/wjV0/isLn05K6C55drmhJsSZTuT4O9HAhAGtOPGzRzYjtoaAWq/zKAOubuqCmzqKP
-         KVISUx4vHIlwSGpoE8pMKEwIayjgZeSYvYSaS0vGqmVIJqUx1rnhiLNVDf+6kJHy3Rz8
-         J227+CZP53DhU6H8v9Zyce6+9bHuqLH4TL5hUTCE9km9vUR/vBWLh5xfH97/6YhqJ9aY
-         sz2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVvXF6+R3kTiLb1WogQCgzUJ+FmSJWmPyEj9Uvc5uyCGuCy/CUW8RNMzWLWFAvPKIUBt0RznDSxMVukNweq@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfiFgvtocLJHaixpk3XVPi1cgQSQAVXbR+CflhWJ/i3yop6KE4
-	IHTkXdxC10+qAkskgF8gYCrQjyDeKkQ8peHd84FLnSsJrGOzeHaeeQn2ZUxt
-X-Gm-Gg: ASbGncsfRlUwU2PLwWeJr7YjA5PBhbrY3GE22hm+bql/k+Lf/u1n98OMJtB+U6IGkPp
-	pBGfAk3gk2+jIX3ne2kz/AIusJ4MKuUeg1vnoAJXoO+T7e7vKAcEXOvBydwQpau09IyV3S+YJNn
-	uWN9qqFxccvwBhybg+qRjSrRs/p7eVUSLxRY6zvKl/TkZktp73eaYu1nCbKxZYKVcCuf5eZDOmi
-	HweBIf/gg3LvFQmGNDuI4ASSufRmeePSx81fXaU/dRVvE0oi1J0Oo3xl50GYSc1/B6GxbdkYLWc
-	WsaS7lN7UMU2+gLJ05n5LGsk3st8dP+S++vl4nl9Uue8BETg4mx1VuG+tDpP9fIFcFKYUwitvP5
-	GLl9lmEE=
-X-Google-Smtp-Source: AGHT+IGe/mkew9dVlBsp3cH4IqKvWObyH/9Iz+pXuqAy/ySSSTOB0MceJyrfpawTCHE2y2eu0JnBlw==
-X-Received: by 2002:a05:6102:2ad5:b0:4c4:e42c:38ba with SMTP id ada2fe7eead31-4c50d4fa2a8mr1644138137.13.1742549807153;
-        Fri, 21 Mar 2025 02:36:47 -0700 (PDT)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-86f9f3c2c6fsm310603241.17.2025.03.21.02.36.46
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 02:36:46 -0700 (PDT)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86dddba7e0eso798756241.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 02:36:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWqcaJlJTeKIZtkkQGACek+lTqdpl04GU7MShi4Td3x8M9uJFyCipg2ULeP/TvN8GOWpVlpJT8eqOPCdjSN@lists.linux.dev
-X-Received: by 2002:a05:6102:54a4:b0:4c1:8b8e:e9f7 with SMTP id
- ada2fe7eead31-4c50d4b370emr1929888137.8.1742549805933; Fri, 21 Mar 2025
- 02:36:45 -0700 (PDT)
+	s=arc-20240116; t=1742549886; c=relaxed/simple;
+	bh=R358JVjnvOlnGRXDLx0jNulZXye12NrgAdhLVQkGcbI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OlZN7MOY1c6b55NWpCf+xb+hhAHApcmvfQyhY1cvsF5YMvZpLz7G9rBbLrUAdM0FmbTE2PqpdNtCObc2ahksSlHRmf84UxvivrRZ7VYlmivvryBhD9smkVXcNx1hKN0zH3QqcE/wH2v61oCJWuJfJtVwuhPT0SwW4NYQyTFWNQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSzHHFaz; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSzHHFaz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742549885; x=1774085885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R358JVjnvOlnGRXDLx0jNulZXye12NrgAdhLVQkGcbI=;
+  b=nSzHHFaztkW9ElYW8hXQM5oYRahpJ1zFQtgquu6/OnXWouuQMkULwJ7n
+   scL9KTH6aOjHNge9Acw3U8Q4/0IbCAnBmaafL0tdAPyamcew6YPrUQh0a
+   fdWK9eTsw3Ybaf35k2FO57Zy3pGYGpyXmoPE6x8FyygsWZHMXaLnNBxKQ
+   6MpJ7cqK4DpPMn7zd3IXNcCPWW0XjidXcuqevUvXM1E0rEEWBPa6Zj+X6
+   B1SAm3brJUgWja/OlYb8VkHi3voUkMGZrcqLFcAEjWVzjIkWH3oT+nUcQ
+   xwhYGT+U2MY8a5tRjfgIrm4STerA5i2UFTloVriroPp8aSfXPBvHTuSjj
+   g==;
+X-CSE-ConnectionGUID: U+ES4MDaQ2qqTly7vUdeiQ==
+X-CSE-MsgGUID: RmOXppX4RVWQo3/T/5BUOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="47692786"
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
+   d="scan'208";a="47692786"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:38:04 -0700
+X-CSE-ConnectionGUID: 30JKucJ7T0mfLiiKPP80lA==
+X-CSE-MsgGUID: k0ToPpVGQ927T+xzT4r9Fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
+   d="scan'208";a="124131266"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 21 Mar 2025 02:38:01 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tvYpD-0001ER-1V;
+	Fri, 21 Mar 2025 09:37:59 +0000
+Date: Fri, 21 Mar 2025 17:37:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kw@linux.com,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	bhelgaas@google.com, jingoohan1@gmail.com,
+	thomas.richard@bootlin.com, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Zhang <18255117159@163.com>
+Subject: Re: [v3 1/4] PCI: Introduce generic capability search functions
+Message-ID: <202503211726.DEvDBGk8-lkp@intel.com>
+References: <20250321040358.360755-2-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202503211029.DnQpqsJs-lkp@intel.com> <927105f8-4aa8-4579-ac2e-bce4bce12b1e@app.fastmail.com>
-In-Reply-To: <927105f8-4aa8-4579-ac2e-bce4bce12b1e@app.fastmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 Mar 2025 10:36:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUeynpmUUmZPViEBttANFmEhpjFn0wqNc1wQB6wRbd0rQ@mail.gmail.com>
-X-Gm-Features: AQ5f1JqEvbttQ-lKLZf8npFjdUhrt-aqV_OwYka3KjE3DchYx8eW7jqUyLFbARM
-Message-ID: <CAMuHMdUeynpmUUmZPViEBttANFmEhpjFn0wqNc1wQB6wRbd0rQ@mail.gmail.com>
-Subject: Re: [soc:soc/drivers 20/24] ERROR: modpost: "__ffsdi2"
- [drivers/platform/cznic/turris-omnia-mcu.ko] undefined!
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>, 
-	oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	arm <arm@kernel.org>, linux-sh@vger.kernel.org, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250321040358.360755-2-18255117159@163.com>
 
-Hi Arnd,
+Hi Hans,
 
-On Fri, 21 Mar 2025 at 09:41, Arnd Bergmann <arnd@arndb.de> wrote:
-> On Fri, Mar 21, 2025, at 03:41, kernel test robot wrote:
-> > First bad commit (maybe != root cause):
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git
-> > soc/drivers
-> > head:   ba8755ab541fc629948233125db870d4dbf00a75
-> > commit: ee7f8ed72990f28657b5bf598e695fcf4633f4ed [20/24] platform:
-> > cznic: turris-omnia-mcu: Refactor requesting MCU interrupt
-> > config: sh-allmodconfig
-> > (https://download.01.org/0day-ci/archive/20250321/202503211029.DnQpqsJs-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 14.2.0
-> > reproduce (this is a W=1 build):
-> > (https://download.01.org/0day-ci/archive/20250321/202503211029.DnQpqsJs-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes:
-> > https://lore.kernel.org/oe-kbuild-all/202503211029.DnQpqsJs-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> >
-> > ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+kernel test robot noticed the following build errors:
 
-Bug in driver (must not use __delay() directly).
+[auto build test ERROR on a1cffe8cc8aef85f1b07c4464f0998b9785b795a]
 
-> > ERROR: modpost: "devm_of_clk_add_hw_provider"
-> > [drivers/media/i2c/tc358746.ko] undefined!
-> > ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko]
-> > undefined!
-> > ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko]
-> > undefined!
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-Introduce-generic-capability-search-functions/20250321-120748
+base:   a1cffe8cc8aef85f1b07c4464f0998b9785b795a
+patch link:    https://lore.kernel.org/r/20250321040358.360755-2-18255117159%40163.com
+patch subject: [v3 1/4] PCI: Introduce generic capability search functions
+config: arc-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250321/202503211726.DEvDBGk8-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503211726.DEvDBGk8-lkp@intel.com/reproduce)
 
-Missing dependencies for driver.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503211726.DEvDBGk8-lkp@intel.com/
 
-> >>> ERROR: modpost: "__ffsdi2" [drivers/platform/cznic/turris-omnia-mcu.ko] undefined!
->
-> This comes from __bf_shf(spec) in omnia_mcu_request_irq().
->
-> As far as I can tell, this is not your problem but in the
-> SH architecture missing one of the libgcc functions that are
-> called by gcc.
->
-> Since this is only for compile-testing sh allmodconfig, and
-> that is already broken because of other bugs, I'm not going
-> to care either.
->
-> Adding the linux-sh list to Cc, it would be nice to get a clean
-> build again. All four problems should be trivial to address,
-> and some of these have been broken for many years.
+All error/warnings (new ones prefixed by >>):
 
-So one SH-specific issue to fix...
-
-Gr{oetje,eeting}s,
-
-                        Geert
+   In file included from drivers/nvme/host/nvme.h:11,
+                    from drivers/nvme/host/fc.c:13:
+>> include/linux/pci.h:2021:4: warning: no previous prototype for 'pci_generic_find_capability' [-Wmissing-prototypes]
+    2021 | u8 pci_generic_find_capability(void *priv, pci_generic_read_cfg read_cfg,
+         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pci.h:2024:5: warning: no previous prototype for 'pci_generic_find_ext_capability' [-Wmissing-prototypes]
+    2024 | u16 pci_generic_find_ext_capability(void *priv, pci_generic_read_cfg read_cfg,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   arc-linux-ld: drivers/scsi/libsas/sas_phy.o: in function `pci_generic_find_capability':
+>> sas_phy.c:(.text+0x148): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_phy.o: in function `pci_generic_find_ext_capability':
+>> sas_phy.c:(.text+0x150): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_port.o: in function `pci_generic_find_capability':
+   sas_port.c:(.text+0x1c8): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_port.o: in function `pci_generic_find_ext_capability':
+   sas_port.c:(.text+0x1d0): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_event.o: in function `pci_generic_find_capability':
+   sas_event.c:(.text+0xf8): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_event.o: in function `pci_generic_find_ext_capability':
+   sas_event.c:(.text+0x100): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_discover.o: in function `pci_generic_find_capability':
+   sas_discover.c:(.text+0x874): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_discover.o: in function `pci_generic_find_ext_capability':
+   sas_discover.c:(.text+0x87c): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_expander.o: in function `pci_generic_find_capability':
+   sas_expander.c:(.text+0x2378): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_expander.o: in function `pci_generic_find_ext_capability':
+   sas_expander.c:(.text+0x2380): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_scsi_host.o: in function `pci_generic_find_capability':
+   sas_scsi_host.c:(.text+0x17c0): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_scsi_host.o: in function `pci_generic_find_ext_capability':
+   sas_scsi_host.c:(.text+0x17c8): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_task.o: in function `pci_generic_find_capability':
+   sas_task.c:(.text+0xd4): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_task.o: in function `pci_generic_find_ext_capability':
+   sas_task.c:(.text+0xdc): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_host_smp.o: in function `pci_generic_find_capability':
+   sas_host_smp.c:(.text+0x48): multiple definition of `pci_generic_find_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd18): first defined here
+   arc-linux-ld: drivers/scsi/libsas/sas_host_smp.o: in function `pci_generic_find_ext_capability':
+   sas_host_smp.c:(.text+0x50): multiple definition of `pci_generic_find_ext_capability'; drivers/scsi/libsas/sas_init.o:sas_init.c:(.text+0xd20): first defined here
+--
+   arc-linux-ld: drivers/pcmcia/cistpl.o: in function `pci_generic_find_capability':
+>> cistpl.c:(.text+0xfac): multiple definition of `pci_generic_find_capability'; drivers/pcmcia/pcmcia_resource.o:pcmcia_resource.c:(.text+0x1244): first defined here
+   arc-linux-ld: drivers/pcmcia/cistpl.o: in function `pci_generic_find_ext_capability':
+>> cistpl.c:(.text+0xfb4): multiple definition of `pci_generic_find_ext_capability'; drivers/pcmcia/pcmcia_resource.o:pcmcia_resource.c:(.text+0x124c): first defined here
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
