@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16BE78F51
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 15:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89D6542A94
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 15:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742572545; cv=none; b=Poa6+Ned6EuYPMN9cRblWkr8U89RtjS3Wz/vij45PuXcv4xiksRBNpBz5Rmu7+OeM+bnIuvzsOxMpioLSygTLOsJcwvQ5MX+JyslYfSVDDSF9iKekLsXclkiQfafnGefwHemTleO1i2Wxfau8hy3JinbZcaFKZIPPh6v2Smrr2I=
+	t=1742572557; cv=none; b=XScsKDnzrEZvCm9X1kJHF9MaTo3DxfCmbodNP/N6fopznj457PtRtIXRkkLxVJMXWg0BTWt05UGFvxMpl8L7kH4o4TTGo3hYid7aPxemjy1IN2RrxSDXBflmbwCO9xmVHn/WunYvdwTJ9GFWRqPiClS39+PS7jQVH3H1YF5yhR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742572545; c=relaxed/simple;
-	bh=IcrukAlRHyoGRVNIrrGhW4F5Rh8/PjiDwyDtM13WFKc=;
+	s=arc-20240116; t=1742572557; c=relaxed/simple;
+	bh=vQnCikzxwnaqeqF+Y3cBEBMNGEZaPJLE+R+RGfgHmFU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lulEj0qDL2XNRcd8POWqgr+gINSln+65TWUENp+4k6exXYGXkJkJLGrBriQp8iQbqiqOHhd+Icancsk0pF6rveGBab0HaiSbUNkccoB5ji1+kvCUCpfc0Md/J1eSiEFaijL91LPIEpos7C71wXAZwCljvLVwTOV68JOpfN+iJ70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBvPRE46; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=O6zg2eZFOY5dmuJLTaFygH/XHFpxf95Xa3K98CWdkGnxCgAXb5A4PxLLQwOmDtBxCvQup5ZPj5w5mT89CAdgSmr57sTfzCWtSTyYVpokHPKYTDzwcsCYen8T1TXw43R9TW5p3TQfIi7lsqSJlRjtvMPECYns8BDyq2euhm0Zpc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVxc3JCV; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBvPRE46"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVxc3JCV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742572544; x=1774108544;
+  t=1742572556; x=1774108556;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IcrukAlRHyoGRVNIrrGhW4F5Rh8/PjiDwyDtM13WFKc=;
-  b=YBvPRE46daKkTgoVe+DJaGsbTp14Li5EuJhh4gZgfcKNtUc4clWc6jze
-   nfY9fwxj4TFWnu9jOsqZlmFxGcpfPPdcCvjUnWmRN1achGRp6CFJKOG8j
-   YbLnE6qK18xlGzLLCR9Mgzinv0l/NZydTvnoPfxQ0Xox9vGn3FSoIOEH/
-   nO7s/Wc8Cggt96OrYKBI4QSrFYOOsoNx0Ou9n5JVz1baA1ndmQEKfXfg/
-   7SQvFgHMho9wgizfz8+pt2GgI7enV8ImxBzh1GkRnF4niOJGq1PDqD3TJ
-   VabIRBXYDHV311AQqwlRdIylDzJW9S2gTVRvmk9unpknHsmZ5zKoPziBR
-   w==;
-X-CSE-ConnectionGUID: i6mLSQ3lRkeBGKKxpCZK7g==
-X-CSE-MsgGUID: kKKOvTwtQgGQgDj0u2I50Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="44032978"
+  bh=vQnCikzxwnaqeqF+Y3cBEBMNGEZaPJLE+R+RGfgHmFU=;
+  b=aVxc3JCVW3RcUomVQTjPabi26Yx0QXiJCThvdqO9XWTXjbkTrGN3NcUs
+   jiMpbnwXD2cDE23qMOCTzOjHBlllSwjF6YAZ866Ncem6M3tthHHiAlaoZ
+   X1DCuaivHo2KqkC05P86pKFS5mJ6b6VB+HjyDbA05Y16sq1wxqhCfack6
+   4JP6UuFC7ey0MAUiIMcUAPsnNQyQcphBl89mIQ5sZ5w2UDiypkkYXk4w5
+   w7UpwoLMnos8fa/Xu1AXZF2msHCxm9/LxbM/0FcbfU4Uw3Rgxbna0tB9z
+   7lh8ax1xULujPlwBYam/pAEgOemh4t6JQOkbGBeYunxZq3qKWaf2HYMFq
+   A==;
+X-CSE-ConnectionGUID: D6Um8ikIQFutzxvy06WA4Q==
+X-CSE-MsgGUID: HlFwTUr1Rf6kOER9XCl/hA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="46590968"
 X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="44032978"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 08:55:43 -0700
-X-CSE-ConnectionGUID: RYJswtZFRHu/m6axkT9Ggw==
-X-CSE-MsgGUID: B4eKmWx/QLKvylsF0VXeCA==
+   d="scan'208";a="46590968"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 08:55:55 -0700
+X-CSE-ConnectionGUID: HxeCHtJ+QI2hYrPtdxmtFw==
+X-CSE-MsgGUID: TkiRYomaRtqj8Aa0uFQB4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="128549432"
+   d="scan'208";a="160667141"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Mar 2025 08:55:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Mar 2025 08:55:53 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tveiL-0001Rt-2j;
-	Fri, 21 Mar 2025 15:55:37 +0000
-Date: Fri, 21 Mar 2025 23:54:06 +0800
+	id 1tveir-0001S0-0V;
+	Fri, 21 Mar 2025 15:55:49 +0000
+Date: Fri, 21 Mar 2025 23:54:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xianwei Zhao <xianwei.zhao@amlogic.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
-Subject: [linux-next:master 5979/13068]
- drivers/pinctrl/meson/pinctrl-amlogic-a4.c:859:2-3: Unneeded semicolon
-Message-ID: <202503212354.Hx2qaDRe-lkp@intel.com>
+To: Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: [tip:master 10/26] vmlinux.o: error: objtool: handle_bug+0x160: call
+ to ftrace_likely_update() leaves .noinstr.text section
+Message-ID: <202503212305.DYXE8Njq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +63,155 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9388ec571cb1adba59d1cded2300eeb11827679c
-commit: 6e9be3abb78c2f6c97a51070004a5165702f0ed9 [5979/13068] pinctrl: Add driver support for Amlogic SoCs
-config: arm64-randconfig-r051-20250321 (https://download.01.org/0day-ci/archive/20250321/202503212354.Hx2qaDRe-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
+head:   0ad3bae1c2d2da72845bae5e8703c86425ef7e43
+commit: 3e87b3b74e9c3ee3b978d1371fcdb67d42c54b60 [10/26] Merge branch into tip/master: 'objtool/core'
+config: x86_64-randconfig-077-20250321 (https://download.01.org/0day-ci/archive/20250321/202503212305.DYXE8Njq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503212305.DYXE8Njq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503212354.Hx2qaDRe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503212305.DYXE8Njq-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pinctrl/meson/pinctrl-amlogic-a4.c:859:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +859 drivers/pinctrl/meson/pinctrl-amlogic-a4.c
-
-   842	
-   843	static void init_bank_register_bit(struct aml_pinctrl *info,
-   844					   struct aml_gpio_bank *bank)
-   845	{
-   846		const struct aml_pctl_data *data = info->data;
-   847		const struct aml_reg_bit *aml_rb;
-   848		bool def_offs = true;
-   849		int i;
-   850	
-   851		if (data) {
-   852			for (i = 0; i < data->number; i++) {
-   853				aml_rb = &data->rb_offs[i];
-   854				if (bank->bank_id == aml_rb->bank_id) {
-   855					def_offs = false;
-   856					break;
-   857				}
-   858			}
- > 859		};
-   860	
-   861		if (def_offs) {
-   862			for (i = 0; i < AML_NUM_REG; i++) {
-   863				bank->pc.reg_offset[i] = aml_def_regoffs[i];
-   864				bank->pc.bit_offset[i] = 0;
-   865			}
-   866		} else {
-   867			for (i = 0; i < AML_NUM_REG; i++) {
-   868				bank->pc.reg_offset[i] = aml_rb->reg_offs[i];
-   869				bank->pc.bit_offset[i] = aml_rb->bit_offs[i];
-   870			}
-   871		}
-   872	}
-   873	
+   vmlinux.o: error: objtool: do_syscall_64+0x4b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   do_syscall_64+0x25: (alt)
+   vmlinux.o: error: objtool:   do_syscall_64+0x349: (branch)
+   vmlinux.o: error: objtool:   do_syscall_64+0x1b: (alt)
+   vmlinux.o: error: objtool:   do_syscall_64+0x0: <=== (sym)
+   vmlinux.o: error: objtool: do_int80_emulation+0x30: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   do_int80_emulation+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_int80_emulation+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_int80_emulation+0x14: (alt)
+   vmlinux.o: error: objtool:   fred_int80_emulation+0x0: <=== (sym)
+   vmlinux.o: error: objtool: do_fast_syscall_32+0x59: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   do_fast_syscall_32+0x35: (branch)
+   vmlinux.o: error: objtool:   do_fast_syscall_32+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_hwexc.constprop.0+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_hwexc.constprop.0+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_extint.constprop.0+0x35: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_extint.constprop.0+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_entry_from_user+0xd3: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_entry_from_user+0x4d: (branch)
+   vmlinux.o: error: objtool:   fred_entry_from_user+0x29: (branch)
+   vmlinux.o: error: objtool:   fred_entry_from_user+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_entry_from_kernel+0x63: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_entry_from_kernel+0x25: (branch)
+   vmlinux.o: error: objtool:   fred_entry_from_kernel+0x0: <=== (sym)
+   vmlinux.o: error: objtool: __wrgsbase_inactive+0x76: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   __wrgsbase_inactive+0xd: (branch)
+   vmlinux.o: error: objtool:   __wrgsbase_inactive+0x0: <=== (sym)
+   vmlinux.o: error: objtool: __rdgsbase_inactive+0x77: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   __rdgsbase_inactive+0xd: (branch)
+   vmlinux.o: error: objtool:   __rdgsbase_inactive+0x0: <=== (sym)
+>> vmlinux.o: error: objtool: handle_bug+0x160: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: error: objtool:   handle_bug+0x4d: (branch)
+   vmlinux.o: error: objtool:   handle_bug+0x13d: (branch)
+   vmlinux.o: error: objtool:   handle_bug+0x33: (branch)
+>> vmlinux.o: error: objtool:   handle_bug+0x0: <=== (sym)
+   vmlinux.o: error: objtool: exc_debug_user+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   exc_debug_user+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fixup_bad_iret+0x92: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fixup_bad_iret+0x0: <=== (sym)
+   vmlinux.o: error: objtool: exc_nmi+0x27: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   exc_nmi+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_exc_nmi+0x23: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_exc_nmi+0x0: <=== (sym)
+   vmlinux.o: error: objtool: poke_int3_handler+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   poke_int3_handler+0x0: <=== (sym)
+   vmlinux.o: error: objtool: native_sched_clock+0x76: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   native_sched_clock+0x4: (alt)
+   vmlinux.o: error: objtool:   native_sched_clock+0x0: <=== (sym)
+   vmlinux.o: error: objtool: __static_call_update_early+0x27: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   __static_call_update_early+0x0: <=== (sym)
+   vmlinux.o: error: objtool: mce_check_crashing_cpu+0x1b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   mce_check_crashing_cpu+0x0: <=== (sym)
+   vmlinux.o: error: objtool: do_machine_check+0x68: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   do_machine_check+0x0: <=== (sym)
+   vmlinux.o: error: objtool: exc_machine_check+0x5b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   exc_machine_check+0x2b: (branch)
+   vmlinux.o: error: objtool:   exc_machine_check+0xd: (alt)
+   vmlinux.o: error: objtool:   exc_machine_check+0x0: <=== (sym)
+   vmlinux.o: error: objtool: fred_exc_machine_check+0x76: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   fred_exc_machine_check+0x42: (branch)
+   vmlinux.o: error: objtool:   fred_exc_machine_check+0x29: (branch)
+   vmlinux.o: error: objtool:   fred_exc_machine_check+0xb: (alt)
+   vmlinux.o: error: objtool:   fred_exc_machine_check+0x0: <=== (sym)
+   vmlinux.o: error: objtool: pvclock_clocksource_read_nowd+0x7f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   pvclock_clocksource_read_nowd+0x10c: (branch)
+   vmlinux.o: error: objtool:   pvclock_clocksource_read_nowd+0x140: (branch)
+   vmlinux.o: error: objtool:   pvclock_clocksource_read_nowd+0x107: (branch)
+   vmlinux.o: error: objtool:   pvclock_clocksource_read_nowd+0x3c: (branch)
+   vmlinux.o: error: objtool:   pvclock_clocksource_read_nowd+0x1d: (alt)
+   vmlinux.o: error: objtool:   pvclock_clocksource_read_nowd+0x0: <=== (sym)
+   vmlinux.o: error: objtool: local_clock_noinstr+0x43: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   local_clock_noinstr+0x1d: (alt)
+   vmlinux.o: error: objtool:   local_clock_noinstr+0x6: (branch)
+   vmlinux.o: error: objtool:   local_clock_noinstr+0x0: <=== (sym)
+   vmlinux.o: error: objtool: irqentry_nmi_enter+0x48: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   irqentry_nmi_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: irqentry_nmi_exit+0x4e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   irqentry_nmi_exit+0x95: (branch)
+   vmlinux.o: error: objtool:   irqentry_nmi_exit+0x2f: (branch)
+   vmlinux.o: error: objtool:   irqentry_nmi_exit+0x7d: (branch)
+   vmlinux.o: error: objtool:   irqentry_nmi_exit+0xf: (branch)
+   vmlinux.o: error: objtool:   irqentry_nmi_exit+0x0: <=== (sym)
+   vmlinux.o: error: objtool: syscall_enter_from_user_mode_prepare+0x33: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   syscall_enter_from_user_mode_prepare+0xd: (alt)
+   vmlinux.o: error: objtool:   syscall_enter_from_user_mode_prepare+0x0: <=== (sym)
+   vmlinux.o: error: objtool: irqentry_enter_from_user_mode+0x33: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   irqentry_enter_from_user_mode+0xd: (alt)
+   vmlinux.o: error: objtool:   irqentry_enter_from_user_mode+0x0: <=== (sym)
+   vmlinux.o: error: objtool: irqentry_exit+0x8d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   irqentry_exit+0x15: (branch)
+   vmlinux.o: error: objtool:   irqentry_exit+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_kernel_exit_state+0x25: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_kernel_exit_state+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_kernel_enter_state+0x25: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_kernel_enter_state+0x0: <=== (sym)
+   vmlinux.o: error: objtool: context_tracking_recursion_enter+0x9c: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   context_tracking_recursion_enter+0x2d: (branch)
+   vmlinux.o: error: objtool:   context_tracking_recursion_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_kernel_enter.constprop.0+0x14: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_kernel_enter.constprop.0+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_idle_exit+0x30: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_idle_exit+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_kernel_exit.constprop.0+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_kernel_exit.constprop.0+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_idle_enter+0x14: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_idle_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: __ct_user_enter+0xf6: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   __ct_user_enter+0x14: (branch)
+   vmlinux.o: error: objtool:   __ct_user_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_nmi_enter+0x32: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_nmi_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_irq_enter+0x60: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_irq_enter+0xd: (branch)
+   vmlinux.o: error: objtool:   ct_irq_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: ct_irq_exit+0x60: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   ct_irq_exit+0xd: (branch)
+   vmlinux.o: error: objtool:   ct_irq_exit+0x0: <=== (sym)
+   vmlinux.o: error: objtool: check_preemption_disabled.constprop.0+0x21: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   check_preemption_disabled.constprop.0+0x0: <=== (sym)
+   vmlinux.o: error: objtool: mwait_idle+0x28: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   mwait_idle+0x0: <=== (sym)
+   vmlinux.o: error: objtool: acpi_processor_ffh_cstate_enter+0x78: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x4c: (alt)
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x40: (alt)
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x10f: (branch)
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x35: (branch)
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x123: (branch)
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x23: (branch)
+   vmlinux.o: error: objtool:   acpi_processor_ffh_cstate_enter+0x0: <=== (sym)
+   vmlinux.o: error: objtool: intel_idle+0x63: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: error: objtool:   intel_idle+0x37: (alt)
+   vmlinux.o: error: objtool:   intel_idle+0x2b: (alt)
+   vmlinux.o: error: objtool:   intel_idle+0xe1: (branch)
+   vmlinux.o: error: objtool:   intel_idle+0x17: (branch)
+   vmlinux.o: error: objtool:   intel_idle+0x0: <=== (sym)
 
 -- 
 0-DAY CI Kernel Test Service
