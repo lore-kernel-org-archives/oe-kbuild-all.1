@@ -1,84 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9D31F1531
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 09:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9896C21D018
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 10:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742550999; cv=none; b=Cj/46dwmst/J605LCa0n4ZOU08KH1oxtagvrStnJPPD7M5Yz4Hmf2nC3xoflgigz/FhncsNmi/6M5m4ajjdueWqF/iYrPEeTAJMPwBEvohnqGO57wc+gxRNQtDT8R5uJTXUnJ2ZEClTtsSndEvNRZBCmUyq6eqlvzwI2EMK2tp4=
+	t=1742553743; cv=none; b=u3oowxpYNi2JuZsvNDfbNO8xhOV7n7MJDTJOVEIH1dq6ivxFtjKz6Mo1VAYEZv4ufDZzCPbxuKKhv1AawGXGmTLK2jSJhjuObxRiJO9/31twPMpY86LBYFkLpOd1P36rcdCstmlALCrVfxxStkhG6sJ4TTVulbDxXOJZNBes7Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742550999; c=relaxed/simple;
-	bh=xWatFwpngzVeM+HdADz7k+Xx6TBXz0dAa0QBt3NgBk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IgGwL3/HAJRykro84aD4XxNvo1rDOLUiJmREgOhcURKQTGJvlD+FYu/b/WWgP2GwagHI9JAPLiTbxEsNk5PPgef9zWsEJZRsuT368hiMaC9MhxL6XSgMUiKsJWOYtxkEdi+8dj95XeRG5cNx87K5tyj5mLcahK7JMPua8MqSr18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mG15eRAP; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742553743; c=relaxed/simple;
+	bh=kbwc2dMi8DGC6dfEKkduthhnqPrjCNhv9qJ/tCphYTA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=WG/aFn34OasV9Pjd0gS8NBzd0v7ZFJvXRwn7kg7ztVsoWfU89m1/RKlNwdjxNjXFQIjDEJ7F3tG0IkfANDSrbqUxxV9AR5UZjmtZcRen94Dfl3JOoRANqvsg+jJrX/pHH/kpUSumXbEVHYO4lXWliQkf5WSNl/c5RHopSY+zqsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=XjnjdZcg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ggxomf2o; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mG15eRAP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742550998; x=1774086998;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=xWatFwpngzVeM+HdADz7k+Xx6TBXz0dAa0QBt3NgBk4=;
-  b=mG15eRAPt8z3EGUrUo6dQdy/rS0tx99wRQrEXQwguH0C9IwqT2HdrIQB
-   S33PjjA754sRt/a/tp+JBC5PnASYeRG8ppfusNfprOHliK14aeBoAfvXM
-   V9ejrYXtSz+p0xwDiFj6pfY6ST3mUd9rmpSgVejVUYyyKKvR5XoyXBm35
-   bPm0iY0dLmVJ4xvhXiFw4b/5WIpd63PwaD3bdRL0Tn383E3UxuRfmcpIN
-   Ua5wuT8cYR2Mjzo+RI9uoM0ZmxLCiTEYQEJaSpyjQEQwbZC9LN2tHKI6J
-   /FJMvfFoNXoDXzEUnmIQzJ2/ORHtUu7h5NrSfeEcwAiirps18sW8xS/eX
-   w==;
-X-CSE-ConnectionGUID: Vy3IchPtRA+DHIqgTTwRqA==
-X-CSE-MsgGUID: qh8qXBVUT12+cDw1R69XvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="54479292"
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="54479292"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:56:37 -0700
-X-CSE-ConnectionGUID: dzpQIuGhQuGnq1DOBcEopA==
-X-CSE-MsgGUID: Oz8hbjUPRxSdcNJ/sxDNGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="123530879"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Mar 2025 02:56:36 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvZ6z-0001FP-2x;
-	Fri, 21 Mar 2025 09:56:26 +0000
-Date: Fri, 21 Mar 2025 17:55:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ran Xiaokai <ranxiaokai627@163.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH V2] tracing/osnoise: Fix possible recursive locking for
- cpus_read_lock()
-Message-ID: <Z903jcd6JTJ7DH2-@f921524d7199>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="XjnjdZcg";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ggxomf2o"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id B4292114010D;
+	Fri, 21 Mar 2025 06:42:20 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-07.internal (MEProxy); Fri, 21 Mar 2025 06:42:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1742553740;
+	 x=1742640140; bh=68U2xOJN0FdMowzUkCY1aIhi5big7bilZhbRnPyI3bA=; b=
+	XjnjdZcg53TQoWY6DbowpGSf6Ma4/nsFtY8lkgM2pEJsZCUXCKKwcIm7QdV7M4Bf
+	2yM/xCCXpwT3VCW/Nf9a/BX5QIhRI8DG6QFz0DYU5i+JJjSMcsuSwvkAiL2im1/B
+	QUptqhaFFJMriuw9uGO3DvCvSVZBNlMR98m+YkVFJqKLF4NvSZBKjcgEnRsAB/tQ
+	GA+u373L0rT8LwfZDfN7IoF8Ae7CpZXBhKthdAo373/RsGSTPT+8lljNoe/2pxZW
+	qmLXa/EfmC/hpqNMa2nvBUIZRSnZ5Ij5kEXUNkbgs9aVIg6/D2HQSrEvWZgqjqP+
+	354rucCqNwBj7TNoacjEgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742553740; x=
+	1742640140; bh=68U2xOJN0FdMowzUkCY1aIhi5big7bilZhbRnPyI3bA=; b=g
+	gxomf2o2Tzd8VqwlKhcjQellV0+NwxdKBaE8avhS5rYKhDZa0Ghdtmqk737JgchC
+	hOzMB+Mqa0XBnoWrLhvB0iXiVdTvFODyXMi+zZ5OxvSZsWps8Rq108K4//zyzO3F
+	eiH70PU+qr5b18HI0fxDKjhdm62raRMh4jNwz3AVz/jG02/G7Cv9xMLW7yqji8/T
+	M859M1V666xCrodf5rK91YQJ80iJENomW9W1LIJu/CiZ2+CIjNqJeK63099zJU0c
+	UY2kzKmZ00WbGH31yXB8ARjAJq3PjPWLO0lP8GRVoY/h4fpdMiu25xlhdEhALANe
+	CUAEDcYfu4f6wfHRj291w==
+X-ME-Sender: <xms:jELdZ3Qub_8dm9XOH3yQjxa06hPdPSXZkUYGDPZhLOyeo-2A6Nk_Yw>
+    <xme:jELdZ4wb-VhBLRDtRTQgYrx28aExpsmKbLRcj1mPXYv6xEC-Nt5etqa7R-KnIBLPi
+    Nq4Z6LCF6f0-9-qB_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduhedtkeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
+    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
+    kedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomh
+    dprhgtphhtthhopegrrhhmsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrggsvghl
+    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtsehlihhnuhigqdhmieekkh
+    drohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdr
+    ihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlse
+    hlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepghhlrghusghithiisehphhih
+    shhikhdrfhhuqdgsvghrlhhinhdruggvpdhrtghpthhtoheplhhinhhugidqshhhsehvgh
+    gvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:jELdZ83aQHV9LtOryKkIY-LnH0PwTwyEk09Enz43tjsIsJiEDDKD8w>
+    <xmx:jELdZ3DDEPGE55RY2nfpDjDUc_c3w6BK6D87xaXuBcNEG6F60073Fg>
+    <xmx:jELdZwibPTszLGO-UHzIzm2F1Ncl2_meCfYni2K7DYg2cqM7epW0cQ>
+    <xmx:jELdZ7rOyu6iqfshT38zNgtCmoZfQTkaiFvSUeK8RI94N64sk42t-Q>
+    <xmx:jELdZ8igUHd-95sRvIhWoI_NxZI-x8VCjyjdp2II0S9JiCsqKfZLABYb>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3C61E2220072; Fri, 21 Mar 2025 06:42:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321095249.2739397-1-ranxiaokai627@163.com>
+X-ThreadId: Tcf25c5c4b21ac15d
+Date: Fri, 21 Mar 2025 11:41:59 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>
+Cc: "kernel test robot" <lkp@intel.com>,
+ =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
+ oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm <arm@kernel.org>, linux-sh@vger.kernel.org,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>
+Message-Id: <86813d50-d4c2-4220-a5a8-2a264b37f7d4@app.fastmail.com>
+In-Reply-To: 
+ <CAMuHMdUeynpmUUmZPViEBttANFmEhpjFn0wqNc1wQB6wRbd0rQ@mail.gmail.com>
+References: <202503211029.DnQpqsJs-lkp@intel.com>
+ <927105f8-4aa8-4579-ac2e-bce4bce12b1e@app.fastmail.com>
+ <CAMuHMdUeynpmUUmZPViEBttANFmEhpjFn0wqNc1wQB6wRbd0rQ@mail.gmail.com>
+Subject: Re: [soc:soc/drivers 20/24] ERROR: modpost: "__ffsdi2"
+ [drivers/platform/cznic/turris-omnia-mcu.ko] undefined!
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Fri, Mar 21, 2025, at 10:36, Geert Uytterhoeven wrote:
+>> >
+>> > ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+>
+> Bug in driver (must not use __delay() directly).
+>
+>> > ERROR: modpost: "devm_of_clk_add_hw_provider"
+>> > [drivers/media/i2c/tc358746.ko] undefined!
+>> > ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko]
+>> > undefined!
+>> > ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko]
+>> > undefined!
+>
+> Missing dependencies for driver.
 
-Thanks for your patch.
+Agreed, but both of these only break the build on sh because
+the architecture code is different from the others. It's obviously
+best to fix these in the drivers, I just wouldn't expect the
+driver maintainers to care unless someone sends them a patch/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+>> >>> ERROR: modpost: "__ffsdi2" [drivers/platform/cznic/turris-omnia-mcu.ko] undefined!
+>>
+>> This comes from __bf_shf(spec) in omnia_mcu_request_irq().
+>>
+>> As far as I can tell, this is not your problem but in the
+>> SH architecture missing one of the libgcc functions that are
+>> called by gcc.
+>>
+>> Since this is only for compile-testing sh allmodconfig, and
+>> that is already broken because of other bugs, I'm not going
+>> to care either.
+>>
+>> Adding the linux-sh list to Cc, it would be nice to get a clean
+>> build again. All four problems should be trivial to address,
+>> and some of these have been broken for many years.
+>
+> So one SH-specific issue to fix...
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+There is also the missing clone3 syscall that has been
+causing a warning for many years.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH V2] tracing/osnoise: Fix possible recursive locking for cpus_read_lock()
-Link: https://lore.kernel.org/stable/20250321095249.2739397-1-ranxiaokai627%40163.com
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+      Arnd
