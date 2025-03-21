@@ -1,99 +1,220 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E1A23DE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 01:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742519386; cv=none; b=L5MJIZ6kzaeXCkRIhlvTRXrYqyBULq6TLEinxlqrLw1dSay1fib6n1falhqH8DlNWD87wbGrtNPlOJo+CAKbuin2BNUiZrSMGgFjYmZbKs4pqQKd/FBR+ICvrUXfHXAvEfB+0yKF9XivDq0kiXP39IOdVaWgsLJilGuIUXan8tg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742519386; c=relaxed/simple;
-	bh=eS7zxS4kkPgRemu144NaoUBrIIvWfgD/s90Ambvmu/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XB1WnF3SKdGzeZKbUgesMJhowPkmME1s8YZiIA36hsuc8FtuKxV7ERfaAYJkWuUZp77B54GOs/bqcOc1OIWDsuRZEGW38g65nj33lQ/RlPQPXk+Yzn1mpOIYF7Hk26QlUOo3goLPHSMNsDc9X6gug8zCLJuFCniTmO/eULwVvD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FvqkhPEK; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC3018B46E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 01:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742520295; cv=fail; b=pHa0qnotPMN5lF0BpF9enDNMB9Komm9/6K/rITRRBKXIuOJ3gJxRYJ6XKXc/0NEqt02a87GammYFitepkAnU2nrpxBGYZ6/r5hYKwerzfH3CE0G+T0iM+Hr4qcmXxzqYjG08JnlWP5dk29TAm2b2Cbgz/KZuhJ/PC2AY1Eso/Q8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742520295; c=relaxed/simple;
+	bh=mngooqWEgKcvdSLkcxhbPvmd53SV3zIxhtX0fvaggZQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=FQkTvJqgZnSszp/Tm70NUfmrPR9nlruY4ixDZ2eKJjczyryzacBnJ30qUD/v2psGNnuhQ2H5N5POhe1zcItkL9jCkkUepeWbEDCYLRh/X458NEYACaKiJAi/Fbl2iCZ0jxlkq6kpLLquwaljQLUAGqDjQrN0P4Mv8jmQmiPMc1k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gebQM3WL; arc=fail smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FvqkhPEK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gebQM3WL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742519383; x=1774055383;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eS7zxS4kkPgRemu144NaoUBrIIvWfgD/s90Ambvmu/U=;
-  b=FvqkhPEKvB+2n/ii5jcDR4orlUgvpKksfXFyacn6xTHC/+H6uAjpuFkC
-   45ymO/iwFfg0vtGyVRTxtuviWyvIkE+7o4GCsSZNGAkErvQTUqkV6/51Y
-   j22FEHRc098rRNOziYJXdDdc22GdM01F0hQhT9JeRxmsFgP9ulJBi8cyD
-   j/qQ3PFyEANk4SaYWsEeV7ojC/NReb55m15Ny9t/bfzqo5UZV/I+GR6mJ
-   BEqcgwcmVJJ4GlyvF3Ap7ktlvrVeVQ6vKV4RRoXZxvkpZAhcLsUz3ECJO
-   8h2Q4qiskMuQHZfhqU4JkuUnRw2QYyEXtpAZAmqJtASPd4sal5+FZnzpY
-   g==;
-X-CSE-ConnectionGUID: QM9d/Si0TcKYXUydcPn15w==
-X-CSE-MsgGUID: bLsX7PupStKe/oRO5lD0tQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43657106"
+  t=1742520293; x=1774056293;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=mngooqWEgKcvdSLkcxhbPvmd53SV3zIxhtX0fvaggZQ=;
+  b=gebQM3WLLevkr5vUrzX/EZWFyyFtm7GSn3ts2MDrc0R4b9RvHiE8oF5S
+   gu0Ov0ecE0LjuW81ddXSMfs9UhtqZJNVkVrYF7RWTnfKUxAqHYJ942k/7
+   MpaLrKcpiJ3i1ao1Czf9j5oJDzfDTt/uiZL8KskICMMkwN2nlBbVSD3t6
+   T1LKvBWxqTdL4UEUqdemIBwjnH1TDuDsJbIb+BdhySyGK83wJGzBGd+RS
+   p/YXYnuR6O0HuS9pcLDBVlrG4/jNtFjgwHdEVabbzi4RzueRJV9r1cqQ4
+   SA2cgCtDVDF+TNgEh7OVc66oqYAEHRwIBTlvrDalX9GfK/0u8XzOwDKJt
+   A==;
+X-CSE-ConnectionGUID: WUvSfUUQRxuikrijtL9ruQ==
+X-CSE-MsgGUID: CwFFo/dFQ5CpFzoE1EfP3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="43894440"
 X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="43657106"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 18:09:42 -0700
-X-CSE-ConnectionGUID: ksUp3nt/SaC1F6kbU91crA==
-X-CSE-MsgGUID: wzJFk4ePQTSd0Birym7WRQ==
+   d="scan'208";a="43894440"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 18:24:52 -0700
+X-CSE-ConnectionGUID: vcJaQScFTlycEKNTxULFnw==
+X-CSE-MsgGUID: Vbng0oYJT761J4fDbWJ85w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,263,1736841600"; 
-   d="scan'208";a="146485059"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Mar 2025 18:09:41 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tvQtG-0000up-2Y;
-	Fri, 21 Mar 2025 01:09:38 +0000
-Date: Fri, 21 Mar 2025 09:08:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Huisong Li <lihuisong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>
-Subject: [linux-next:master 12598/12769]
- drivers/hwmon/acpi_power_meter.c:618: undefined reference to `__udivmoddi4'
-Message-ID: <202503210903.kUr36x1C-lkp@intel.com>
+   d="scan'208";a="124027892"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2025 18:24:52 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.14; Thu, 20 Mar 2025 18:24:51 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 20 Mar 2025 18:24:51 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 20 Mar 2025 18:24:51 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QURJcrPZ6nirDvS864It7ICBp9ElIccxRh2t6rJ5WhS2BuN+uox6aLcT+vK8Zz/iY27MHnsiLGtwQNwCqMTNinmBjj0v8dfslMcSAK6YrE3faRDAOyb0PKVD//7hUlSnt7pCDIfi/1Q4EOQH6oqWJ7fUBhVG4bLYWGj0hOqHZa21Ejc1a+eHNWUsU8c1AqtD9aE1MAfkKR1L7Q3F0vuFMJQcJxGI63Wz3esPL4I7irexu+UuXa2UU81yazj/HdhMVlryTOay9F/wcQT6utbYhrlypgIIx6VZ7kAHV0pQCACrMnyDxYhGl2DTK5AmL2Vf8oRCExlh+XUfjX8L35BiWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rsLnHVgBS0YZNAVj8jWLSIaL/5H4DGtO3vqOwJJ80Xg=;
+ b=Q+Qg6dxQcAM2ITjHNDQB9mdPDc4Sus+CILmMna54VNs1wevjFJ3aTNBT9k5SfcbNI+Q4pv3qvjEeYj7qlbU6wAsJeOf7HLeHZKWxdxBqHrRGDsB5tTXI8o+vOGztG01iua/oUL64p3RlBrKuWnjMJXOrTWpMN2QiAy0fSCo9CQY1RsiWKcJej6HjWcOQH9KeF4HSNJSjksWbMBbyp7mqMsV+7a+u2fG8KwKgPS5Ju7GyOv3wiLmYAP9tCXFZ9F0XhMHJotO7kNDHSnCUvK++86tiGz/RVScLSdp/kh2n9138bW+3s3qJ/tVaO9F8AEIFYCnJRlNoQF/a0byzDWFjmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by MW4PR11MB6887.namprd11.prod.outlook.com (2603:10b6:303:225::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.34; Fri, 21 Mar
+ 2025 01:24:48 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%4]) with mapi id 15.20.8534.034; Fri, 21 Mar 2025
+ 01:24:48 +0000
+Date: Fri, 21 Mar 2025 09:24:39 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+	<oliver.sang@intel.com>
+Subject: Re: sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool:
+ .text.wcd934x_slim_irq_handler: unexpected end of section
+Message-ID: <Z9y/1xAN/08UFp9h@xsang-OptiPlex-9020>
+References: <202503180044.oH9gyPeg-lkp@intel.com>
+ <80b1351d-3860-4849-b18a-0e736fe458fc@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <80b1351d-3860-4849-b18a-0e736fe458fc@kernel.org>
+X-ClientProxiedBy: KL1PR0401CA0009.apcprd04.prod.outlook.com
+ (2603:1096:820:f::14) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|MW4PR11MB6887:EE_
+X-MS-Office365-Filtering-Correlation-Id: 878bd6a5-1519-49d0-810d-08dd68172b76
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Z+hA2ozDi/Ltav8kOKezLRgCJpYCE3WjkIu2mQTmYJkCh3wr62+2ZtVRLngr?=
+ =?us-ascii?Q?KXvrl1jN7YYchJSihCtows7Vty9Dt6c01EashG+rLiWnpBH8pFaMm9UjiDP9?=
+ =?us-ascii?Q?r3z6IRBfPeW/8UXRrO/Mxq69HfCOo8+9LGXNdHnsQW4QwUKEr6XMKjPoDI7M?=
+ =?us-ascii?Q?8RS5bDZMB9l7c9EAcE+QWKmLAU6TLSZ5GSocxx8L+14gJo+BBU6d0NlxpxJQ?=
+ =?us-ascii?Q?qZCC9uZRS3Wphw9E4n0XmZ9SGOeWRNw26icJvojL/2yhmoZKWtc0lEvW+UQ4?=
+ =?us-ascii?Q?XNcUirvJ8LKGuo+RYMN/E9nkdi8QYQMg9mCsqpP83B69yJw3OiTA3iLu+JAN?=
+ =?us-ascii?Q?0tsrPirT+bOZfCHoPSdFO+kKx4YHJ0mWsDKbCxkgA0wIGGxUnJbir8Kw6dw9?=
+ =?us-ascii?Q?4iDJwqE4ss6X8azD8K5SDiJHhPbdxJZyTqfE/pf2PDzbztdzgWOpvGuhX7hE?=
+ =?us-ascii?Q?nCKIwwGtsuvwj9n6RNOqZW4KizxlOQOpKwCw+u/nizk9OKpUFQihUeC3yfm2?=
+ =?us-ascii?Q?32aHFSfLE8jM5CIswFnYA7ou/7QzHoVr1x45ZK+n1XFmK0DnfDhuNiIEpzy4?=
+ =?us-ascii?Q?R83MfTv9/841xv6L6GLkkJ/NMM5m/vFunBp/mSTjYEr8p8VpAFBq2u3VunDI?=
+ =?us-ascii?Q?mcdTs9f+dk5DSwoyICT8Epb3sWD0C5YNwBBYNqH3DxBdG+W//rVDgSg8vwEx?=
+ =?us-ascii?Q?CdkopYgie7ftkSg8/fLvBjo+ZHxizmGNAKbG2OkuD7xjZ7za4seZrbOUxc5j?=
+ =?us-ascii?Q?DMaZDQ02eot0ixCgOoPXzPu+Hvoxxyr8jGMirs+j3GvtdPdlvSIr6e/pzxRn?=
+ =?us-ascii?Q?KUafUnhxlV6gbemTILamMLNNpsfqjPaQQNoo7vaF4zoBAT2/IAeBlKJrBCc7?=
+ =?us-ascii?Q?x2RijgPhRgTbuMXlwGdkns4h/qHZ0pdI/b6FPWG49529SqssdoSkwJBcf2Ff?=
+ =?us-ascii?Q?V6SIimXaIMbUAdqlAei3jMtFecwNWgzl8iYZvwh0SF5HCsXyD+J00YxMoiGo?=
+ =?us-ascii?Q?jsOBQSfyiAVRWelMW7MgHhqlNxKlsCkhqoIGYbxM1DF4qU9Y+fv9LqYxvDwp?=
+ =?us-ascii?Q?Gp7Hw+FiduPfWfL/B40JbletrDwNgFWoAEsHd0nkJlLqcphVKTjOdUpseyxD?=
+ =?us-ascii?Q?JRD7MC79Tplfa6jQkgg2wdNXyMezSTw+phU01PH2C4A20zo5VBZrjoPWeYFA?=
+ =?us-ascii?Q?2QELmIrjqzziWh0nUFpVHBEGJEhJbke5qFUgThqv8dZr7qdiAJ8BsuA0hYbi?=
+ =?us-ascii?Q?VNNKDeoyBBTQ79duhpApAkher040rDi/rISepkoLhPFrWpZ+hoyN2XXtZ+34?=
+ =?us-ascii?Q?J1enBX4rXgjvrRKcaVE/6tpJt58YOWXPjiTqMtIHkFBdkA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GKBwDz5A9jdj61xmEVNI5EM2A/Crb9rLO3414KTgDobUqMOFcHLbjheSZV+7?=
+ =?us-ascii?Q?9FQ5lvr6Q+vDBTwkeoH6NPioKPtsepVWkGr6GOBWmtROMxeAvkwWtpFVKQl+?=
+ =?us-ascii?Q?YfMsgybZfKMz6plbymPCKWPqmyncOMUM9o++bf2iU766ZWA3vKWRNPM0y6qV?=
+ =?us-ascii?Q?P+ScewHR81+CN4Jz8a8cNB4KfWXmMoQFsUSuqvPc1Dh1XwYMf5+SRDt7WejC?=
+ =?us-ascii?Q?VQjOntZPRchI6g4H0sJtDM4VXCHSTTZb+H7v9Pxk7wKy+9Mz737QPqgkCjTB?=
+ =?us-ascii?Q?1X3bt9kuQaIhn4esYtdgi8uIWniWz6cru5BCnIRo55r8RtUWI0LH2/gz1Vtz?=
+ =?us-ascii?Q?RAxVooPFLszIm1MxHwcfaPfaVNIo8NH3IS58txYzOMwzTCSckwPst3wfiUbv?=
+ =?us-ascii?Q?tCxdMtqRNQ5AzJwhYAvCKZj76TVzclOKA+BdCAnzvK1YiLMRRliOhsEX1zW6?=
+ =?us-ascii?Q?iBDdKjBUz4XsninWwXE7FxbWFmTBpyv+vAHE/9LC/VSgoZH2WRxpcmYo8HeC?=
+ =?us-ascii?Q?P8TToJG4+0BNA8dwwbgZIrkelShJpMlbicT9cDl5WLLOkqxsRtb/QQPvQJE1?=
+ =?us-ascii?Q?4yXnGLb+CAFL+tJMOia12PLT9SpsJkXIwFdZuxoCh+g+64NCopSH2wWf2dEg?=
+ =?us-ascii?Q?4j0OgUWGKVBs7NqTi660lXNyqvnuWKRuqN1ob3morAAQhva8y28i8H7SiHMt?=
+ =?us-ascii?Q?e2/BIwtmpHyN0RGVu0sT6N1aDexzh2DyOVngNVuZPSVY+z8ozjmIS1g/sXMD?=
+ =?us-ascii?Q?9XtHI7n43e0fceokF9OdUp0HbpPGS0J95Ku7mjM1RdLVi2g94FjXNdR6O4j+?=
+ =?us-ascii?Q?xrJxaYSRqWktOxfEDKo/+D8TjCAzIUssX7sc4y5Gdx2CGji/QTxPAmEdARGj?=
+ =?us-ascii?Q?xnCgtrRiM6Fe/j1s2gvbB/7VvMtgkGKDgBEOaFnKmhBP6gMcTh7nmo///omb?=
+ =?us-ascii?Q?x9qHHsET/ab9iZoGifxlhjsWidRqEM4AI9NIphRo9G+JoWD2ERtijZ5GNtYn?=
+ =?us-ascii?Q?YMmd6L6QAQBaVql3z5ybQCd+rEVEgR2H26yYwZt8tkTVYwWTxYFG7CFIQJAA?=
+ =?us-ascii?Q?c8er7eI76C3ObD35XA6WCoyFCyx9tNAIkEhrqJ6E830H6yedPI88wX2AgSTl?=
+ =?us-ascii?Q?dU1eZoH80jv9cZpb+F4qmZbNKfgsdF/CUtV0kyBwD5xUgvXdq4/uiTgnXfVM?=
+ =?us-ascii?Q?8HRW+WUZwkkYfo/5kyZZ0HUbW/qXGNUvBR1/lJuC9B90N62p6n8YYRzG9rpp?=
+ =?us-ascii?Q?kMCZ9OW4p5XNHue/TmWLw8Mwbejwhj+k7zeU/6MyhaSgXKVsWXjQInlup1DN?=
+ =?us-ascii?Q?oKAnPyU3MrV+s6YqqTBteDaBVxFer/KX2s7YNta42bfdXpppE32ocFUeG53O?=
+ =?us-ascii?Q?V63UpG8yTG9TSzwS6UYb9VQIUiN20v0fKxhJ2RxBJpa3b3yG4ahAIjNvGahU?=
+ =?us-ascii?Q?t0RL/kamwrkhF7Piz5JD4egcmG4YnBO4IACVvhZmB9OvGnCDN0DMWGBdpMSL?=
+ =?us-ascii?Q?qZ0efNvkcj+G1OZos90DGVnMmiliWtIKF8Xx5hftWFH/st9rsSaktsbXimLX?=
+ =?us-ascii?Q?XOhqS/V1Bs1fZRurItYiuQn/l0sB3+fiICmAurxOlEG41xNuM5GiMxHCZHz0?=
+ =?us-ascii?Q?Dw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 878bd6a5-1519-49d0-810d-08dd68172b76
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 01:24:48.1243
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sOykcSHOmZDNdPZFv/XRO/LfVIhFGIauLfjCaDVSJZyOzE/ce5QztQ91Ope3l2sjIadysv4vqv+fX3dJ4xV6gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6887
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   73b8c1dbc2508188e383023080ce6a582ff5f279
-commit: c812cc42f92d3d0b17c01b5db9a1dee5793a1491 [12598/12769] hwmon: (acpi_power_meter) Replace the deprecated hwmon_device_register
-config: i386-randconfig-061-20250320 (https://download.01.org/0day-ci/archive/20250321/202503210903.kUr36x1C-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250321/202503210903.kUr36x1C-lkp@intel.com/reproduce)
+hi, Krzysztof,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503210903.kUr36x1C-lkp@intel.com/
+On Mon, Mar 17, 2025 at 06:02:14PM +0100, Krzysztof Kozlowski wrote:
+> On 17/03/2025 17:24, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   4701f33a10702d5fc577c32434eb62adde0a1ae1
+> > commit: 9ea22713227397b56a2b36a68c8bda13f0b43d70 ASoC: codecs: wcd934x: Handle nicer probe deferral and simplify with dev_err_probe()
+> > date:   9 months ago
+> > config: x86_64-randconfig-102-20250317 (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/config)
+> > compiler: clang version 20.1.0 (https://github.com/llvm/llvm-project 24a30daaa559829ad079f2ff7f73eb4e18095f88)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250318/202503180044.oH9gyPeg-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202503180044.oH9gyPeg-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >>> sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section
+> 
+> I cannot reproduce it on clang-18 and clang-19 (I do not have clang-20
+> in my distros) and I do not see how original commit could trigger this
+> warning.
 
-All errors (new ones prefixed by >>):
+we double confirmed, the issue is really only reproduced on clang-20
 
-   ld: drivers/hwmon/acpi_power_meter.o: in function `power1_accuracy_show':
->> drivers/hwmon/acpi_power_meter.c:618: undefined reference to `__udivmoddi4'
+linux$make W=1 LLVM=1 -j32 ARCH=x86_64
+
+...
+
+  LD [M]  sound/soc/codecs/snd-soc-lpass-va-macro.o
+sound/soc/codecs/snd-soc-wcd934x.o: warning: objtool: .text.wcd934x_slim_irq_handler: unexpected end of section   <----
 
 
-vim +618 drivers/hwmon/acpi_power_meter.c
+but cannot be reproduced on clang-19
 
-   610	
-   611	static ssize_t power1_accuracy_show(struct device *dev,
-   612					    struct device_attribute *attr,
-   613					    char *buf)
-   614	{
-   615		struct acpi_power_meter_resource *res = dev_get_drvdata(dev);
-   616	
-   617		return sysfs_emit(buf, "%llu.%llu%%\n",
- > 618				  res->caps.accuracy / 1000, res->caps.accuracy % 1000);
-   619	}
-   620	
+linux$make W=1 LLVM=1 -j32 ARCH=x86_64
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+...
+
+  LD [M]  sound/soc/codecs/snd-soc-wcd9335.o
+  LD [M]  sound/soc/codecs/snd-soc-wcd934x.o     <----
+  LD [M]  sound/soc/codecs/snd-soc-wcd937x.o
+
+> 
+> Best regards,
+> Krzysztof
