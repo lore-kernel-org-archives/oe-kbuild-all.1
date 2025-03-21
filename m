@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6042F43
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 17:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D040E22DF83
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 21 Mar 2025 17:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742576909; cv=none; b=jiaMAjVQIJtzZpafP3LtcGnICPeMfl3AvscpUo5TAJawVgV/SCposHsBFLfnfKcFzJrBD7FT3Ek0LpRLnlxqKC1sO7fWvPqQjfMwyUbkZWUfrx9Ew7daUxz+8eoLdIjnNEchJ4+OWjpG36GaMyCbncmq7Nuf7L7Q4DcUkFmm2pg=
+	t=1742577565; cv=none; b=Ux+JqGR13M8W8d8qSzqyUmRvlSH8v4lzjDrUrR2BfAvt29gTL0WdLIq/FeosD8l8n98llgBBU34sJQN5CJDU0HXdMh4/LEaItSPccCDV+K7jXf4kSTUQI9er6ODVmBbeJisAE5Xp3bzYJ1AFjTp4fI/mil5TD283N75dxuqoDNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742576909; c=relaxed/simple;
-	bh=ff1vtFQmwJFSBThUgGaVAUQTo/aZU8cpQXdlTxuWQxE=;
+	s=arc-20240116; t=1742577565; c=relaxed/simple;
+	bh=zXhHLtsC4zG/YUavuyZmsJupi0VNGo0Lfu9Nt+OtFaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cGgkne76SQh5i1cCnQWkrvqoqBYYaMlnA71E8oaGbv9R/818DbRU6jhP4ccT5BTGoccUJ/ttIXj3uPEjdCtBhoLzjdagCqe1TThM1Vyg0nMgAQNdBVkU2NigVVrPZ0sU3OrDWcm12B7SpK1OMD0GQTwckcwLF9PtqTFqFazsFF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgBVceNs; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=DBZNuRb6fPpT2RNFE9xb6T++PYb5Plxs8W9AlLDC1LMA8ZCNznMSm8p91gqZhwOOvInWwVRPrZHVX3TUJPCyWpuZgs/NkSGpgmSBztx51dEtKe/7DEovCPY8O+jgPXlsYbq7+XcifEmeeD0iB52vcBXPnb8EXu/eRdJIPXL2K9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euFikx0J; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgBVceNs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euFikx0J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742576905; x=1774112905;
+  t=1742577563; x=1774113563;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ff1vtFQmwJFSBThUgGaVAUQTo/aZU8cpQXdlTxuWQxE=;
-  b=WgBVceNsSraQd7vlISV105pMxrvciOYEeRVmUR0Iwr3MNba+idw4XP9o
-   GX+SXpMwidC6NUS1AxaSPNfJl/pfIVAhPkZPvE+mNbBWBixDTpp4K4cLV
-   /n8XI1X2E2WmHqe75K3y+nZT8IEo50trmAnOL534DX5UNNMjq6bgjOhBi
-   5cjv/f9g8tK73fixp+ZsROLmM9PMNQ4+4ra0NOuUxyD06TGNndw5SxZbP
-   kfeA9ep4kWGxsKFmEwqFAr3bY70ujqjU7JTu9DR1me+22sJcx1H6I6f5h
-   E1xtjV1tSZUQR0M1/iC/3iulMapgVHNQJ/COm/BEMczClmKuihqgxdqBj
-   Q==;
-X-CSE-ConnectionGUID: 2CLfMSxMSO2Xu7zW/mAoZw==
-X-CSE-MsgGUID: bA2bud8sRYSpOn/Rfi940A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="54064650"
+  bh=zXhHLtsC4zG/YUavuyZmsJupi0VNGo0Lfu9Nt+OtFaM=;
+  b=euFikx0JXakdWzMkIZpjXaG6azdcrlVQ5ECi7Ck2sTyjX7RoEssQsD/8
+   I2cVeM3DzorBFFWexSDTnQfQGE22FTpM6n+dd8dXeWu48z66lvsxb7O/f
+   ALPN1P2uDhQlXj/atISejIEJ2V8dbpE+Bs8dzqz4MSB+yVKVZ+5U1GHAE
+   qAA891slYm5cnVsL60uscfQyN+uNjqDwa+bCHGqgy7Itb5BkPoWJ9oIc3
+   CAAnkd9UmjqBHPwN+67JJ2fwo7U7J2eHyCdogdoL/j7qCS/WbPxfZAAsy
+   atJkAM7lXh/k5S1wtAM7ZrgmceYS3QN1Nh4xcFZ9pJWbj5gmRsG5o22PX
+   g==;
+X-CSE-ConnectionGUID: JBuqNby6TtKVmyXu/orY0w==
+X-CSE-MsgGUID: w+7YnBheSHSxoRVhQJcSsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="54065515"
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="54064650"
+   d="scan'208";a="54065515"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 10:08:22 -0700
-X-CSE-ConnectionGUID: c/mcqXFWQ4a/QLib/2b3sw==
-X-CSE-MsgGUID: KEWJQbPUQsOCLBhuc+i1xA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 10:19:22 -0700
+X-CSE-ConnectionGUID: zkqWA7NeQn2/o13aJoN1sA==
+X-CSE-MsgGUID: 43NZvZyPQuKbPjW7GPugOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,265,1736841600"; 
-   d="scan'208";a="123257942"
+   d="scan'208";a="123261981"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Mar 2025 10:08:20 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 21 Mar 2025 10:19:20 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvfqz-0001Wl-23;
-	Fri, 21 Mar 2025 17:08:17 +0000
-Date: Sat, 22 Mar 2025 01:07:43 +0800
+	id 1tvg1e-0001XT-2K;
+	Fri, 21 Mar 2025 17:19:18 +0000
+Date: Sat, 22 Mar 2025 01:18:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 24/24]
- drivers/virt/gunyah/vm_mgr.c:117:6: warning: no previous prototype for
- function 'gunyah_generic_vm_start_fail'
-Message-ID: <202503220156.P5xBR1pG-lkp@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org
+Subject: [driver-core:gregkh-rust 1/1] Diff in drivers/greybus/gregkh_hack.rs
+ at line 5:
+Message-ID: <202503220134.8TKc76Zf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +62,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   fb42336fc7a1e10a24fa1bab0f58b716dec031e6
-commit: 67d7d75278b34154c001ddfb435beae6bf2cd315 [24/24] ANDROID: gunyah: vm_mgr: Use auth_mgr_ops for a generic VM setup
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250322/202503220156.P5xBR1pG-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220156.P5xBR1pG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git gregkh-rust
+head:   de02bd98ce95437ae810960cbfb9d500b2b5bb46
+commit: de02bd98ce95437ae810960cbfb9d500b2b5bb46 [1/1] gregkh_hack.rs
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250322/202503220134.8TKc76Zf-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503220134.8TKc76Zf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503220156.P5xBR1pG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503220134.8TKc76Zf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/virt/gunyah/vm_mgr.c:117:6: warning: no previous prototype for function 'gunyah_generic_vm_start_fail' [-Wmissing-prototypes]
-     117 | void gunyah_generic_vm_start_fail(struct gunyah_vm *ghvm)
-         |      ^
-   drivers/virt/gunyah/vm_mgr.c:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     117 | void gunyah_generic_vm_start_fail(struct gunyah_vm *ghvm)
-         | ^
-         | static 
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-
-
-vim +/gunyah_generic_vm_start_fail +117 drivers/virt/gunyah/vm_mgr.c
-
-   116	
- > 117	void gunyah_generic_vm_start_fail(struct gunyah_vm *ghvm)
-   118	{
-   119		/**
-   120		 * need to rollback parcel_to_paged because RM is still
-   121		 * tracking the parcel
-   122		 */
-   123		gunyah_vm_mm_erase_range(ghvm,
-   124			ghvm->config_image.parcel.start,
-   125			ghvm->config_image.parcel.pages);
-   126	}
-   127	
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/greybus/gregkh_hack.rs at line 5:
+    //!
+    //!
+    
+   -use kernel::prelude::*;
+    use kernel::pr_info;
+   +use kernel::prelude::*;
+    
+    module! {
+        type:       GregKHHackModule,
+   make[2]: *** [Makefile:1816: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:251: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:251: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
