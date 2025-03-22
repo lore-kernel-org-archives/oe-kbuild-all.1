@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303DC25776
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 04:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D382AD2D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 04:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742617571; cv=none; b=VREijnsB5nAbYkL8oG7SR5RVuLhVItjzyT/Dc92stmB14g2yjLdaqtWES1NA1n/UZNDhSOAlO1jk8ykLx9l7I8zthgZz9GJEkZTjZ4n2WXtswXHypj+JgYkVCjsOyn9J/GPSeG9ylL3W35hpRxtavaHIBarnPXrGyY2VZKvlUvE=
+	t=1742618173; cv=none; b=jLtlhil5nsB+MTXnNNqc2UWRe6EyYo8rvl4Q0n/KUFiM6juNBZ4r9QEldqSqSJzRQLm/auRqtSPcoLlivtPVkc+VNUAAAcSgjrfIt/PKn5U/GvMxrHfNeDamDJuez0+9eLp1/bxoIZ5rbQltlIQztrg+6HpYCY/J+Hm8zho2bGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742617571; c=relaxed/simple;
-	bh=l6gLWnT6/12qsoTDy2FceFIUC2G5PMom7qnN2lEPN3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7lRRVfRYiIquTNUuLcUv6ggBouGf/zfkOr2TIu1347plSDQpQbV1DQE4IymdtF6cA/ehbac2j25hHq0onRlRaXrPdP7IXt5JdOwySHZQwnh6KYnQVj0BfGsSg0H+ahhSEFz6l7oMVGB/nD0o9o2VKWUa3+Q/eihPJjUbA1n/ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VLMIAtjz; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1742618173; c=relaxed/simple;
+	bh=BiMnDbQhnN5LvUldNwXCwD9cjH5U8hBF96SlaYKPYno=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cXmrW4wUwOBj28SZm9WUIQygiA+9Fh1uoyWTxaq88a1+KxXrSjLQG1tl9PWQU287c1QcGGvQyH7FDp0y9Rg+1GZCG0xlDu4VqatWkfMBs20mXcf0KLqHdfrHPuf914Emt0S2ulYy2q6hkgmB0T58+qD7lJ3DrKyd3NImYY6nmZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dppLPh9b; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VLMIAtjz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dppLPh9b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742617569; x=1774153569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=l6gLWnT6/12qsoTDy2FceFIUC2G5PMom7qnN2lEPN3k=;
-  b=VLMIAtjz0EjdO0QWLuUuLKMO39YJiAeIB9N08twTCLo8VIz1W+9JZKN0
-   C9CEgIR9rSX7zz3BgKgpPa8HGTuprlah3i0ar0SYn9wz7BndU6SfY9bFv
-   /9PV7WvN1JIxlF/AhqBm5j7Wp83OoK7Bb6i02VRJXlVR8mvZdqTnnVE2B
-   Yik/m+LlLPYtNplCw+T8V60+Gf51i3Qf7IzmQL/1E7Aro2OFIOY0747rI
-   Q1gdveOVQv1xN8A0/jnzQuaqcsm9yTmfZbBOwFbPbmjPARbZOjj4RLwCG
-   QPZa+gWcxFesHTGbj3AMH8bKYxqvhnIV1szQQd/kraBt9onRXwo+x4jvg
+  t=1742618172; x=1774154172;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BiMnDbQhnN5LvUldNwXCwD9cjH5U8hBF96SlaYKPYno=;
+  b=dppLPh9bG6QxjRAtnJigEY5zFG+r3yPMmN1LAGK5hOWiLLjDkfpY+5LP
+   H3Id+xZt+VIDm3XJLw3t3xrlgsaF6HbgWlYFHchLlGij5U0Ed+hxLfPfM
+   QQwxoHU5RFoZjwkiRQHMPkumX0+r4a7ygEr6F26LOJkO9Kbf7PZEK6TD5
+   03UXzln1rdpGzPNuAH7OLZfIqOEgSW1BOsRzZq/mXnCX0lhndYlyFgOyt
+   IOqgN8Zby7sXKX5Cl7cftlm9slE1eqxsurL3mNrJ5gXCO/2XOctLrlz/A
+   9qCWATd9Cruhpvz6EfFhm4qECsi3cvplBCATOGuuEQcWWOFDcsgL7nEnf
    A==;
-X-CSE-ConnectionGUID: JmKZue+QQcKMDkdc0skd4w==
-X-CSE-MsgGUID: HJDv79DcSgGyv911d0ZP+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="61412187"
+X-CSE-ConnectionGUID: iNH3mZBFRCqGJFkrk85tbA==
+X-CSE-MsgGUID: k9ZQS3ShROec6z3KyMLyWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="46634240"
 X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
-   d="scan'208";a="61412187"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 21:26:08 -0700
-X-CSE-ConnectionGUID: BDa8yezbSx6cDg3x6ouRdw==
-X-CSE-MsgGUID: zZHs0fnYTTWhNsfWtpN6Ig==
+   d="scan'208";a="46634240"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 21:36:09 -0700
+X-CSE-ConnectionGUID: PjC8pSbxSNGAkbRLQVrx4Q==
+X-CSE-MsgGUID: /XUqO162SXK+/x7H8+tStQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
-   d="scan'208";a="154578188"
+   d="scan'208";a="128241428"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Mar 2025 21:26:05 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 21 Mar 2025 21:36:08 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvqQt-0001vL-1q;
-	Sat, 22 Mar 2025 04:26:03 +0000
-Date: Sat, 22 Mar 2025 12:25:12 +0800
+	id 1tvqac-0001vf-1B;
+	Sat, 22 Mar 2025 04:36:06 +0000
+Date: Sat, 22 Mar 2025 12:35:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chukun Pan <amadeus@jmu.edu.cn>, Heiko Stuebner <heiko@sntech.de>
-Cc: oe-kbuild-all@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dragan Simic <dsimic@manjaro.org>, Rob Herring <robh@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Chukun Pan <amadeus@jmu.edu.cn>
-Subject: Re: [PATCH 1/1] arm64: dts: rockchip: rk3568: Move PCIe3 MSI to use
- GIC ITS
-Message-ID: <202503221203.7E0Oa0zG-lkp@intel.com>
-References: <20250308093008.568437-2-amadeus@jmu.edu.cn>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 48/48] mm/unevictable.c:496:1:
+ warning: 'static' is not at beginning of declaration
+Message-ID: <202503221210.y0KG9XmZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,65 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250308093008.568437-2-amadeus@jmu.edu.cn>
 
-Hi Chukun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rockchip/for-next]
-[also build test ERROR on linus/master v6.14-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chukun-Pan/arm64-dts-rockchip-rk3568-Move-PCIe3-MSI-to-use-GIC-ITS/20250308-173422
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20250308093008.568437-2-amadeus%40jmu.edu.cn
-patch subject: [PATCH 1/1] arm64: dts: rockchip: rk3568: Move PCIe3 MSI to use GIC ITS
-config: arm64-randconfig-r071-20250321 (https://download.01.org/0day-ci/archive/20250322/202503221203.7E0Oa0zG-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503221203.7E0Oa0zG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   a6e1fc54eea205af6a2968fa3399a828517a7dc1
+commit: 9eee07ca21b4bcb78a9e0092696f13a0b3db291a [48/48] ck: mm: Pin code section of process in memory
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250322/202503221210.y0KG9XmZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503221210.y0KG9XmZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503221203.7E0Oa0zG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503221210.y0KG9XmZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dts:597.10-605.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-fastrhino-r66s.dtsi:368.10-373.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-lubancat-2.dts:518.10-522.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-mecsbc.dts:273.10-279.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5c.dts:75.10-80.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-nanopi-r5s.dts:103.10-110.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dts:503.10-509.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-photonicat.dts:361.10-369.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-qnap-ts433.dts:551.10-556.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
---
-   also defined at arch/arm64/boot/dts/rockchip/rk3568-radxa-e25.dts:133.10-140.3
->> ERROR: Input tree has errors, aborting (use -f to force output)
-..
+>> mm/unevictable.c:496:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     496 | const static struct proc_ops add_proc_fops = {
+         | ^~~~~
+   mm/unevictable.c:501:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+     501 | const static struct proc_ops del_proc_fops = {
+         | ^~~~~
+   mm/unevictable.c:501:30: warning: 'del_proc_fops' defined but not used [-Wunused-const-variable=]
+     501 | const static struct proc_ops del_proc_fops = {
+         |                              ^~~~~~~~~~~~~
+   mm/unevictable.c:496:30: warning: 'add_proc_fops' defined but not used [-Wunused-const-variable=]
+     496 | const static struct proc_ops add_proc_fops = {
+         |                              ^~~~~~~~~~~~~
+
+
+vim +/static +496 mm/unevictable.c
+
+   495	
+ > 496	const static struct proc_ops add_proc_fops = {
+   497		.proc_read  = proc_read_add_pid,
+   498		.proc_write = proc_write_add_pid,
+   499	};
+   500	
 
 -- 
 0-DAY CI Kernel Test Service
