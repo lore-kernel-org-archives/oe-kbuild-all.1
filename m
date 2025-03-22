@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69042B9AA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 03:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA9D2C80
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 04:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742615038; cv=none; b=NUldDeWdo86KZOA6qQtSdCcJpik45WRuciVJ4BB4Bjdfc8l7phipX0ar8GvtmeUNwOak1nxGJre+3YCcxTtyP5ef5CbCE4rblCNZ5h92wtrq5ZTVrYsKNzMl3N1uEpE3vItBeXg2+lQA780WYBOO8JGBCi/2D6vj4189Fzc8lXo=
+	t=1742617571; cv=none; b=Wk6U3EZFq1bn8+FW7LIEHLBlAzzwUkom2q88U7qXrXSZAhA0GwKiX4Vh2MNX1sGt0FRNqMCnYU0Q5xI/vOaG6bZvRsu4RoeHkKUERXR3I0PtkKIhM6fMolV82yAho+V0EZrRPa4YyszzRbbHl6bJlECFhhl1imMmjai2vYpzgN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742615038; c=relaxed/simple;
-	bh=+Xm4tlSMtMO60gV3x8fi5XUT7H975ov/B5iwJWBR6wo=;
+	s=arc-20240116; t=1742617571; c=relaxed/simple;
+	bh=XmTrMB7lQ2k6tMMwT2kJuwjw0xL4o+6secgs4zmdqoU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h5aZoblm1iMJdmpI0TTNYbmEI8MuYgtrvLMJPhMKwfpTSlbd0Z9y+ijEbQRclAwVf+4DSPu0VsmTgGHHulmcf5Lq20ux8rg3ZQ9z/WEpEJ0fef4KniFbE9QZ7FQcPLwNzm498gFjGRw7OGIQ4zz1bGiukGnkV0Tw3GoDB9Tc100=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QId0zSAO; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=M2WUEdS3V42iT7hx7tQ1kIYGsRcUcnWKaY3lRGzRX+yZEQaz5GCb5HbsfF+9Db6R8KVryeeKYw88/rCBe8K0RR0o+XdTYzd2DGMeHQsHfNgTLOeutCGB7ODzkj3F4nHbXJI+2CpyFc5gMydtIrUuGujNsZI2RYoPk2SIRY7OJ/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhCccVGO; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QId0zSAO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhCccVGO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742615037; x=1774151037;
+  t=1742617568; x=1774153568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Xm4tlSMtMO60gV3x8fi5XUT7H975ov/B5iwJWBR6wo=;
-  b=QId0zSAOcGFtM3n1TxFlLAdXs1VUt3FBNVWq85ApGt9IjSe4K4eGLozV
-   OEhpjtyvyl87jGsY40sv+ixa5O6Udtr+FKy3be1j42bRpIAB+odRJoEAu
-   8ZEQQwQJyTora001MuFhKEOWds65Evm2SgZLl55AgBasf/YbMPgfuQE91
-   KXp1wf3pneUrgd/IqC3nwXy458urOlDgic847DhjvjNotFdCRQ8HgNDDE
-   GITW5vVJSDRUqQAMb7FtsDHswuJ3fHy5JOvYahFmz+6LlT1x3S3skHbf7
-   kqr57mnsQJADyOpODke/5pFy5odxg8C2GJeJ/HOPUmmdvUsTDRtTnlFMU
+  bh=XmTrMB7lQ2k6tMMwT2kJuwjw0xL4o+6secgs4zmdqoU=;
+  b=JhCccVGOnB3aiKZ83BJphdUfERae8QQKSNrhTQ82ajDEv6r7cxMb/R9M
+   2tjZmvMjHfSWGJthK87Rh42O95CHDZr0d2+QJGYIWMvmMlb8oEE2U8hOs
+   Mq+OSH9mp+z2CXxjlJ0TcE35Mdm0o162kw36e4gcja2eL0Ii27P7SfJRb
+   3zjvLtTanTQSUAfAdSmfw5ciBy3RhCuoPI8B1nnHu6Vgp1gnUiMVZUTaC
+   OzkEbmN9G1UUXgxe7xXV9pMqFCNwnWyF7mg/NSuZdx1NHRa5i3gvuZ1c0
+   O2XRQKn5qLO77oRlT+3o02MDtHJP2BPE815lRRpB8B7GOzpCdAanonRo2
    g==;
-X-CSE-ConnectionGUID: 09My1DeUQSmojt+jM9WYRw==
-X-CSE-MsgGUID: 570HkV/+SuScQ5nnMR6YXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="66352146"
+X-CSE-ConnectionGUID: P0yX0l3wTziOMguIQyKIJg==
+X-CSE-MsgGUID: YjV0ZFapSAmFLl06b0u/IA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11380"; a="43769927"
 X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
-   d="scan'208";a="66352146"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 20:43:56 -0700
-X-CSE-ConnectionGUID: zrb3K/ueTo6o1R4CxBZKgQ==
-X-CSE-MsgGUID: voPuKtqzQ4eQEFf0TYHb/Q==
+   d="scan'208";a="43769927"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 21:26:07 -0700
+X-CSE-ConnectionGUID: 3Mc6q5XWTNSWXghpcJZsbQ==
+X-CSE-MsgGUID: EkgwLECqT5SoqH2efZq1qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,266,1736841600"; 
-   d="scan'208";a="123275185"
+   d="scan'208";a="154466369"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 21 Mar 2025 20:43:54 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 Mar 2025 21:26:05 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tvpm4-0001uZ-12;
-	Sat, 22 Mar 2025 03:43:52 +0000
-Date: Sat, 22 Mar 2025 11:43:40 +0800
+	id 1tvqQt-0001vN-1u;
+	Sat, 22 Mar 2025 04:26:03 +0000
+Date: Sat, 22 Mar 2025 12:25:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Marc Zyngier <maz@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: [arm-platforms:arm64/tlbi-range-hacks 12/17]
- drivers/pci/controller/pcie-apple.c:460:40: error: implicit declaration of
- function 'FIELD_PREP'
-Message-ID: <202503221117.9esJe5iq-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 23/23] mm/unevictable.c:160:6:
+ warning: no previous prototype for 'del_unevict_task'
+Message-ID: <202503221253.6RqFjOeb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,77 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git arm64/tlbi-range-hacks
-head:   89a08aa9682594d44c11df1b6e168e38bdb7f0c3
-commit: b2817638e680079b58e1bf67c6d9fa1d5f48b636 [12/17] PCI: apple: Add T602x PCIe support
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20250322/202503221117.9esJe5iq-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503221117.9esJe5iq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   9d36b4378df3cc927440d10047334d1fc9d4ff69
+commit: ab529700975d02849891ec86b73465f443bc885d [23/23] anolis: mm: unevictable: adjust three key functions
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250322/202503221253.6RqFjOeb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250322/202503221253.6RqFjOeb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503221117.9esJe5iq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503221253.6RqFjOeb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-apple.c: In function 'apple_pcie_port_setup_irq':
->> drivers/pci/controller/pcie-apple.c:460:40: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     460 |                         writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-         |                                        ^~~~~~~~~~
+>> mm/unevictable.c:160:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
+     160 | void del_unevict_task(struct task_struct *tsk)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/FIELD_PREP +460 drivers/pci/controller/pcie-apple.c
+vim +/del_unevict_task +160 mm/unevictable.c
 
-   423	
-   424	static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
-   425	{
-   426		struct fwnode_handle *fwnode = &port->np->fwnode;
-   427		struct apple_pcie *pcie = port->pcie;
-   428		unsigned int irq;
-   429		u32 val = 0;
-   430	
-   431		/* FIXME: consider moving each interrupt under each port */
-   432		irq = irq_of_parse_and_map(to_of_node(dev_fwnode(port->pcie->dev)),
-   433					   port->idx);
-   434		if (!irq)
-   435			return -ENXIO;
-   436	
-   437		port->domain = irq_domain_create_linear(fwnode, 32,
-   438							&apple_port_irq_domain_ops,
-   439							port);
-   440		if (!port->domain)
-   441			return -ENOMEM;
-   442	
-   443		/* Disable all interrupts */
-   444		writel_relaxed(~0, port->base + PORT_INTMSK);
-   445		writel_relaxed(~0, port->base + PORT_INTSTAT);
-   446		writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
-   447	
-   448		irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
-   449	
-   450		/* Configure MSI base address */
-   451		BUILD_BUG_ON(upper_32_bits(DOORBELL_ADDR));
-   452		writel_relaxed(lower_32_bits(DOORBELL_ADDR),
-   453			       port->base + pcie->hw->port_msiaddr);
-   454		if (pcie->hw->port_msiaddr_hi)
-   455			writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
-   456	
-   457		/* Enable MSIs, shared between all ports */
-   458		if (pcie->hw->port_msimap) {
-   459			for (int i = 0; i < pcie->nvecs; i++)
- > 460				writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-   461					       PORT_MSIMAP_ENABLE,
-   462					       port->base + pcie->hw->port_msimap + 4 * i);
-   463		} else {
-   464			writel_relaxed(0, port->base + PORT_MSIBASE);
-   465			val = ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT;
-   466		}
-   467	
-   468		writel_relaxed(val | PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   469		return 0;
-   470	}
-   471	
+   159	
+ > 160	void del_unevict_task(struct task_struct *tsk)
+   161	{
+   162		struct evict_pid_entry *result;
+   163	
+   164		if (!tsk) {
+   165			struct evict_pid_entry *pid_entry, *tmp;
+   166	
+   167			mutex_lock(&pid_mutex);
+   168			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
+   169				rcu_read_lock();
+   170				tsk = find_task_by_pid_ns(pid_entry->rootpid,
+   171						&init_pid_ns);
+   172				rcu_read_unlock();
+   173				if (!tsk) {
+   174					list_del(&pid_entry->list);
+   175					__remove_entry(pid_entry);
+   176					kfree(pid_entry);
+   177				}
+   178			}
+   179			mutex_unlock(&pid_mutex);
+   180			return;
+   181		}
+   182	
+   183		mutex_lock(&pid_mutex);
+   184		result = lookup_unevict_entry(tsk);
+   185		if (result) {
+   186			list_del(&result->list);
+   187			__remove_entry(result);
+   188			mutex_unlock(&pid_mutex);
+   189			__evict_pid(result);
+   190			kfree(result);
+   191		} else
+   192			mutex_unlock(&pid_mutex);
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
