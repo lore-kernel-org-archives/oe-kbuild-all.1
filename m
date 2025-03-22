@@ -1,165 +1,191 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A29015855C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 17:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A61742AB0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 17:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742664189; cv=none; b=hlvPnSxXoXYnNDl6VHMKdD9CtAi4DQJekT4aCttKCazjVzQEGL6g1grDbS5JqEk+6GkCXLcDkWWN1o4KV8u69FZ27wGonAUy4ZvAvjIiAfMwKIf+vLEBXQgi2v+lrx4dS4STixBY5pHPHJaWdRduJvOw8DqC00KZqt893/WSiBI=
+	t=1742664347; cv=none; b=Juh9bQrGlKjdiRAM5AfnNzIc+c28127oQavWCcRFcAVky6xlss3wyD4Mz4w2DLLjdUgMWekGIpsIIgy0shkC6rhWnd1EnebMnJcsBgRJ8YKlOuHEQhwpP8omw8jDJWEP54m+4xqRVFQiQL4QtnFgSeNPMS8/kAskNANEOWycRR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742664189; c=relaxed/simple;
-	bh=AlSQwxeFSvZ/eH6sNlsPVVY8Sc3bDvwMirQr0L2Rzlg=;
+	s=arc-20240116; t=1742664347; c=relaxed/simple;
+	bh=KVVLbJ1zXJko3vgx6YQzBovfOIgGOqxXxDsSp81uYyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=NqdeVXvOfG+sskuOqdLU1osIKiTPdb1yaLIgL7y2qBHtlHnxnYJUuyJsVov+hwxWJ7X85ZDG6W3/C8x45SqlFgVRzGXq1dF06LMdXula9nJxn6PlGJCG9AwilU6pwbMQD2FenVsUHH5keZQ/5o+qRHBCK6eoE0i231F5RJIgUC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mrLSQASb; arc=none smtp.client-ip=209.85.128.49
+	 Content-Disposition:In-Reply-To; b=l+7A331+d73fSFXkZ8rBHSn+rHgUsUbsVsBErSHzHM0MrxoSbZq6mJ/klNPdzjPhr8fByJw1Zf0Cg1r7WhmKKSgJ55VPgSCg5rUXcBAeaSvmxh+vhn3j1xUpJxaeKZxWjVpneVQvrgeFzTwlP8M33KKSIdRWa+M+4xP+bDV5Jxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eALqMrbk; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mrLSQASb"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43d0618746bso20250185e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 10:23:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eALqMrbk"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso30233115e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 22 Mar 2025 10:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742664186; x=1743268986; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=KLBM96GK8Vo2bxF4XJ5k9cl07rF/cnDeLjPmLmQH8R8=;
-        b=mrLSQASbxXVH2+pXAgs/NBdTRxl9S68OlljzdxkEZKFCw9Xd9OiBSQa5wS8yeQF+Yh
-         Xoq4FRto1JEYyWd7kNkw7rAWDtWnVfwpicF/ahBXMIr9dN63URTneIlcsgSHElwx9fvc
-         hM5MEdFCGGxYBQUeu6QajY32pZzLMqMpT0jiUAhvW4Ndj8m+XqZp2qmZ/DhTKD8+uYQ9
-         6f9QfO+b5pnx/gKWnannpzGvekzLBDnbdVkB31vpW4kPrNlRuCI2lK+XDVnadKWFd4hP
-         Kcw/HvjlvaTSy8qo6xtXTfrxwuJ1qI2fDPcdFbLhxo9YAXN+MCulPCpMPnLpXY+2Dzqi
-         uI2g==
+        d=linaro.org; s=google; t=1742664343; x=1743269143; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=F6maXy0URBuJqvOhBuuvKx2+7wYA7mqrbNOfziAWZLY=;
+        b=eALqMrbkobl7K1ekbqj5vV3cE76oD4OPWuzR9pFcpnrvNngDIxrs8XQkoRqcmIYX64
+         jPBnOpYAIAf9GkPJB3Dk4ZA6Nre0qiYc2iUNVmgyPcLNdHZ9Q0kfQIUye8kUCwYhTT6S
+         lFeOUDtgvzOaiKh4ic5T4pQCTrF5obCYYsXl+gIdyyCZ96h+suxmQhljByg4Lpzl95Qr
+         cE+CDLHbiRtitmnNPdGHrZ1e4AahfLFxvodDRX3r/IyIHmcIHaUS3dXyPa41Un/XJCE3
+         vdKxg+VIPZn28Pb+IEEjWajvXlrWj7Qzk4Aq489HAy+BKNKkiHCbyjaP/stKJU5X6TeY
+         cRdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742664186; x=1743268986;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KLBM96GK8Vo2bxF4XJ5k9cl07rF/cnDeLjPmLmQH8R8=;
-        b=KS9dhmpJKi7qANlv0b79VaF0VXEIM2ZA2Wc9kBawuj/IWJy8GsIa6d8d3TSNITNV+y
-         2DsN2tNtzqSA1XPtdmHo9IsiMoOVyCY9ibX+6129D9ZYDNPlMWHPbQIGfTSZAlp/7rkC
-         3l2v7ZeTyVa9dkiGSvqVobePNlOU/SqEQZ9dakoQw4t6UDcCYKbQj62Lne4s48s0Qz3R
-         YdIYTXe1qDZhpCF+Pi6l+eNrU+acMEm7W7OybuJnpz6tj2HuTSQScZBRUuHu+JJ/mPqy
-         LLMpOmyEHv5IxQYtIDZccqJs15cduj5l2lHWZp+CFOkkfL1cTo5H00xIKy/Gx88lw5As
-         wHKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVqSiCW5UmGckHmi1h26sAmMuNc0L4FgAew9gALCESV36UnA4dqVb+eLGzUIQCWtc9oCFXSd1n93/vJ5LzV@lists.linux.dev
-X-Gm-Message-State: AOJu0YzwNpPc+dl1rNBFl2BUsJtkdYqp5UUnQ3HHvhPt7uurSBC+9qwn
-	chNDcwcuyYDl/PpTg8gm/kIMUituK7qBXu5ecjcbUICBwj3Ia+Xe4Jazd9lGLYA=
-X-Gm-Gg: ASbGncvqq2VhJFvo09Ua+PmSkg3JX7Amp007DRVjz7IQfvKzx8FOrvdKirnMm4IwbF6
-	d+1dSr2/Jsv2fW2cHDwZIzNtzL5HiXHJL9ZEQEC2t5FVhs6oJZqZT3r8sVZMS+j9glvcuDdxhRI
-	T7D64CO2uFl2AKXZgbaTMIqXD2ueCs5XMvctsndjky+5c8b7asRlCFAuUg+oCHp2nWw5zVwINoc
-	O8Rn2TatfX7MJa9eDFq2EeMsE5I0fcVKsGSOefFo42dy63U8A6W/Gdr1ZOY08qPvChxhVLi5tU3
-	or7RQiZi/Qxymx8xOxbV2yHr0XX4Ymw3HJJczcH35hRo7S9xgw==
-X-Google-Smtp-Source: AGHT+IFIxrSX1h4lb/P7EJ1WT0XnDe4ratVjsi8oj/rTNnzAaf8kaqG7dznaMIlHFsUSHtkmsXQDlg==
-X-Received: by 2002:a05:600c:83c4:b0:43c:fffc:7886 with SMTP id 5b1f17b1804b1-43d509ec52fmr66809825e9.8.1742664185409;
-        Sat, 22 Mar 2025 10:23:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742664343; x=1743269143;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F6maXy0URBuJqvOhBuuvKx2+7wYA7mqrbNOfziAWZLY=;
+        b=lU9xkk53nHJCsuIgkNt39QfdMDOtpqDDQj1MB4J7PEitx0ANPWU+j15QAI+fKh30yP
+         tJ5kFDCvG6y72CKDsjPRsm9us6RkMWjONc7X0i5hiJtxJvS1EywDCwKcMy+F+UB6S+bI
+         KdmlaOOdYlwgHNmnsVZY6HjLP9thC3ehuj+aWpALAoYkRRNf/C2fiZkLRxiq1KHIIsF+
+         hhXjbrINOTm94bzwoIf7rVjps0mR8OFI1AhexyTXKdaSLueke5Qr3sSo4d9C62QAZr6I
+         5COdbjw4sva4CyDepefQCoDy9peCUQKpZJz73v0ga1mZyGGiKABh2W/XmTi3ZgFQ09eD
+         Iurg==
+X-Forwarded-Encrypted: i=1; AJvYcCXzCLyEnf562wn1OzrSZZCTncVRaLbx0uzrp6XN+kHZ8VkYBrwwu2vHX2lKMeluNz0zzdU6k7H811yzQsOS@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDiG158xsTf/YOKVw7LfPoufIT6bVR+E/dIVH5WCMS7wQXoIsY
+	iP2P01paoW1BMd2iFrMxj6uSL1q3Naaiht4wSf5j06IlcpC82GBmCvLzYvg8Zpw=
+X-Gm-Gg: ASbGncttTCM7DhbqZsQ/3tUR5ANns+svXWDwm/06MXKQf9HdMXSjIdgIGkOt9ogWIe1
+	/mCt34ta/I9VSOV62WowN2ZWf8KWNUhYWITqMepS0rTjAPjgMdhQtkidDlYmRVSgGTIkwaSV+qs
+	q112lTMLyVnLBqdq2bbyQ1b71fIuR3jlSitVhzzEa7XwIyatHWSVQI9fl0AKQhBJHY5gQClJje7
+	b0GILiCQcttbWk/g0xsNfczQ+I6Zcgyp9JMEAoVf8PoNJVoQZrb2WUCC6Y9sEMC7DghR777hr/h
+	RigiukJi90rt2bC2ocaP4puqFrMFb++/oJ/50BZ//PA3au1r7w==
+X-Google-Smtp-Source: AGHT+IHwieQKergX1rC+mWOvJOQ5sn9Ft8OV5mIRdJ/Pxfgl8ge9rxEOgVtIeqtby3893whER7DmRQ==
+X-Received: by 2002:a05:600c:5742:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-43d510fff60mr50928825e9.19.1742664342720;
+        Sat, 22 Mar 2025 10:25:42 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d4fd17cfesm62340695e9.10.2025.03.22.10.23.04
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d4fd26cecsm61977195e9.17.2025.03.22.10.25.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Mar 2025 10:23:04 -0700 (PDT)
-Date: Sat, 22 Mar 2025 20:23:02 +0300
+        Sat, 22 Mar 2025 10:25:42 -0700 (PDT)
+Date: Sat, 22 Mar 2025 20:25:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth
- before & after link re-training
-Message-ID: <9e956655-8ec6-4279-93db-9d12f6fa8d28@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Angelo Dureghello <adureghello@baylibre.com>,
+	Alexandru Ardelean <aardelean@baylibre.com>,
+	Beniamin Bia <beniamin.bia@analog.com>,
+	Stefan Popa <stefan.popa@analog.com>, linux-kernel@vger.kernel.org,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Subject: Re: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel
+ info
+Message-ID: <72d776ae-4373-4a78-ba00-fa809478b453@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250313-mhi_bw_up-v2-2-869ca32170bf@oss.qualcomm.com>
+In-Reply-To: <20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c@baylibre.com>
 
-Hi Krishna,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Chaitanya-Chundru/PCI-update-current-bus-speed-as-part-of-pci_bus_add_devices/20250313-195014
-base:   80e54e84911a923c40d7bee33a34c1b4be148d7a
-patch link:    https://lore.kernel.org/r/20250313-mhi_bw_up-v2-2-869ca32170bf%40oss.qualcomm.com
-patch subject: [PATCH v2 02/10] PCI/bwctrl: Add support to scale bandwidth before & after link re-training
-config: openrisc-randconfig-r073-20250321 (https://download.01.org/0day-ci/archive/20250322/202503222212.TmaQlYi5-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/iio-adc-ad7606-check-for-NULL-before-calling-sw_mode_config/20250319-065737
+base:   9f36acefb2621d980734a5bb7d74e0e24e0af166
+patch link:    https://lore.kernel.org/r/20250318-iio-adc-ad7606-improvements-v2-9-4b605427774c%40baylibre.com
+patch subject: [PATCH v2 09/10] iio: adc: ad7606: dynamically allocate channel info
+config: arm64-randconfig-r071-20250322 (https://download.01.org/0day-ci/archive/20250322/202503222246.RafigmhQ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503222212.TmaQlYi5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503222246.RafigmhQ-lkp@intel.com/
 
 smatch warnings:
-drivers/pci/pcie/bwctrl.c:213 pcie_set_target_speed() error: we previously assumed 'bus' could be null (see line 173)
+drivers/iio/adc/ad7606.c:1270 ad7606_probe_channels() warn: potentially one past the end of array 'channels[i]'
 
-vim +/bus +213 drivers/pci/pcie/bwctrl.c
+vim +1270 drivers/iio/adc/ad7606.c
 
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  161  int pcie_set_target_speed(struct pci_dev *port, enum pci_bus_speed speed_req,
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  162  			  bool use_lt)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  163  {
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  164  	struct pci_host_bridge *host = pci_find_host_bridge(port->bus);
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  165  	bool is_rootport = pci_is_root_bus(port->bus);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  166  	struct pci_bus *bus = port->subordinate;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  167  	u16 target_speed;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  168  	int ret;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  169  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  170  	if (WARN_ON_ONCE(!pcie_valid_speed(speed_req)))
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  171  		return -EINVAL;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  172  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18 @173  	if (bus && bus->cur_bus_speed == speed_req)
-                                                                    ^^^^
-This code assumes bus can be NULL
+87cf5705725eeb David Lechner      2025-03-18  1196  static int ad7606_probe_channels(struct iio_dev *indio_dev)
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1197  {
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1198  	struct ad7606_state *st = iio_priv(indio_dev);
+87cf5705725eeb David Lechner      2025-03-18  1199  	struct device *dev = indio_dev->dev.parent;
+87cf5705725eeb David Lechner      2025-03-18  1200  	struct iio_chan_spec *channels;
+87cf5705725eeb David Lechner      2025-03-18  1201  	bool slow_bus;
+87cf5705725eeb David Lechner      2025-03-18  1202  	int ret, i;
+87cf5705725eeb David Lechner      2025-03-18  1203  
+87cf5705725eeb David Lechner      2025-03-18  1204  	slow_bus = !st->bops->iio_backend_config;
+87cf5705725eeb David Lechner      2025-03-18  1205  	indio_dev->num_channels = st->chip_info->num_adc_channels;
+87cf5705725eeb David Lechner      2025-03-18  1206  
+87cf5705725eeb David Lechner      2025-03-18  1207  	/* Slow buses also get 1 more channel for soft timestamp */
+87cf5705725eeb David Lechner      2025-03-18  1208  	if (slow_bus)
+87cf5705725eeb David Lechner      2025-03-18  1209  		indio_dev->num_channels++;
+87cf5705725eeb David Lechner      2025-03-18  1210  
+87cf5705725eeb David Lechner      2025-03-18  1211  	channels = devm_kcalloc(dev, indio_dev->num_channels, sizeof(*channels),
+87cf5705725eeb David Lechner      2025-03-18  1212  				GFP_KERNEL);
+87cf5705725eeb David Lechner      2025-03-18  1213  	if (!channels)
+f3838e934dfff2 Alexandru Ardelean 2024-09-19  1214  		return -ENOMEM;
+f3838e934dfff2 Alexandru Ardelean 2024-09-19  1215  
+87cf5705725eeb David Lechner      2025-03-18  1216  	for (i = 0; i < indio_dev->num_channels; i++) {
+87cf5705725eeb David Lechner      2025-03-18  1217  		struct iio_chan_spec *chan = &channels[i];
+87cf5705725eeb David Lechner      2025-03-18  1218  
+87cf5705725eeb David Lechner      2025-03-18  1219  		chan->type = IIO_VOLTAGE;
+87cf5705725eeb David Lechner      2025-03-18  1220  		chan->indexed = 1;
+87cf5705725eeb David Lechner      2025-03-18  1221  		chan->channel = i;
+87cf5705725eeb David Lechner      2025-03-18  1222  		chan->scan_index = i;
+87cf5705725eeb David Lechner      2025-03-18  1223  		chan->scan_type.sign = 's';
+87cf5705725eeb David Lechner      2025-03-18  1224  		chan->scan_type.realbits = st->chip_info->bits;
+87cf5705725eeb David Lechner      2025-03-18  1225  		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
+87cf5705725eeb David Lechner      2025-03-18  1226  		chan->scan_type.endianness = IIO_CPU;
+f3838e934dfff2 Alexandru Ardelean 2024-09-19  1227  
+87cf5705725eeb David Lechner      2025-03-18  1228  		if (indio_dev->modes & INDIO_DIRECT_MODE)
+87cf5705725eeb David Lechner      2025-03-18  1229  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_RAW);
+87cf5705725eeb David Lechner      2025-03-18  1230  
+87cf5705725eeb David Lechner      2025-03-18  1231  		if (st->sw_mode_en) {
+87cf5705725eeb David Lechner      2025-03-18  1232  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_SCALE);
+87cf5705725eeb David Lechner      2025-03-18  1233  			chan->info_mask_separate_available |=
+87cf5705725eeb David Lechner      2025-03-18  1234  				BIT(IIO_CHAN_INFO_SCALE);
+87cf5705725eeb David Lechner      2025-03-18  1235  
+87cf5705725eeb David Lechner      2025-03-18  1236  			/*
+87cf5705725eeb David Lechner      2025-03-18  1237  			 * All chips with software mode support oversampling,
+87cf5705725eeb David Lechner      2025-03-18  1238  			 * so we skip the oversampling_available check. And the
+87cf5705725eeb David Lechner      2025-03-18  1239  			 * shared_by_type instead of shared_by_all on slow
+87cf5705725eeb David Lechner      2025-03-18  1240  			 * buses is for backward compatibility.
+87cf5705725eeb David Lechner      2025-03-18  1241  			 */
+87cf5705725eeb David Lechner      2025-03-18  1242  			if (slow_bus)
+87cf5705725eeb David Lechner      2025-03-18  1243  				chan->info_mask_shared_by_type |=
+87cf5705725eeb David Lechner      2025-03-18  1244  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1245  			else
+87cf5705725eeb David Lechner      2025-03-18  1246  				chan->info_mask_shared_by_all |=
+87cf5705725eeb David Lechner      2025-03-18  1247  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1248  
+87cf5705725eeb David Lechner      2025-03-18  1249  			chan->info_mask_shared_by_all_available |=
+87cf5705725eeb David Lechner      2025-03-18  1250  				BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1251  		} else {
+87cf5705725eeb David Lechner      2025-03-18  1252  			chan->info_mask_shared_by_type |=
+87cf5705725eeb David Lechner      2025-03-18  1253  				BIT(IIO_CHAN_INFO_SCALE);
+87cf5705725eeb David Lechner      2025-03-18  1254  
+87cf5705725eeb David Lechner      2025-03-18  1255  			if (st->chip_info->oversampling_avail)
+87cf5705725eeb David Lechner      2025-03-18  1256  				chan->info_mask_shared_by_all |=
+87cf5705725eeb David Lechner      2025-03-18  1257  					BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO);
+87cf5705725eeb David Lechner      2025-03-18  1258  		}
+87cf5705725eeb David Lechner      2025-03-18  1259  
+87cf5705725eeb David Lechner      2025-03-18  1260  		if (!slow_bus)
+87cf5705725eeb David Lechner      2025-03-18  1261  			chan->info_mask_shared_by_all |=
+87cf5705725eeb David Lechner      2025-03-18  1262  				BIT(IIO_CHAN_INFO_SAMP_FREQ);
+87cf5705725eeb David Lechner      2025-03-18  1263  
+87cf5705725eeb David Lechner      2025-03-18  1264  		ret = st->chip_info->scale_setup_cb(indio_dev, chan);
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1265  		if (ret)
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1266  			return ret;
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1267  	}
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1268  
+87cf5705725eeb David Lechner      2025-03-18  1269  	if (slow_bus)
+87cf5705725eeb David Lechner      2025-03-18 @1270  		channels[i] = (struct iio_chan_spec)IIO_CHAN_SOFT_TIMESTAMP(i);
+                                                                ^^^^^^^^^^^
+i is == indio_dev->num_channels so this is out of bounds by one element.
 
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  174  		return 0;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  175  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  176  	target_speed = pcie_bwctrl_select_speed(port, speed_req);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  177  
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  178  	/*
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  179  	 * The controller driver may need to be scaled for targeted speed
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  180  	 * otherwise link might not come up at requested speed.
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  181  	 */
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  182  	if (is_rootport && host->ops->pre_scale_bus_bw) {
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  183  		ret = host->ops->pre_scale_bus_bw(host->bus, target_speed);
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  184  		if (ret)
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  185  			return ret;
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  186  	}
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  187  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  188  	scoped_guard(rwsem_read, &pcie_bwctrl_setspeed_rwsem) {
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  189  		struct pcie_bwctrl_data *data = port->link_bwctrl;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  190  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  191  		/*
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  192  		 * port->link_bwctrl is NULL during initial scan when called
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  193  		 * e.g. from the Target Speed quirk.
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  194  		 */
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  195  		if (data)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  196  			mutex_lock(&data->set_speed_mutex);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  197  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  198  		ret = pcie_bwctrl_change_speed(port, target_speed, use_lt);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  199  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  200  		if (data)
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  201  			mutex_unlock(&data->set_speed_mutex);
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  202  	}
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  203  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  204  	/*
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  205  	 * Despite setting higher speed into the Target Link Speed, empty
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  206  	 * bus won't train to 5GT+ speeds.
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  207  	 */
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  208  	if (!ret && bus && bus->cur_bus_speed != speed_req &&
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  209  	    !list_empty(&bus->devices))
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  210  		ret = -EAGAIN;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  211  
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  212  	if (is_rootport && host->ops->post_scale_bus_bw)
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13 @213  		host->ops->post_scale_bus_bw(host->bus, pci_bus_speed2lnkctl2(bus->cur_bus_speed));
-                                                                                                                                      ^^^^^^^^^^^^^^^^^^
-But here it's dereferenced without checking.
-
-8c931dc2b370da Krishna Chaitanya Chundru 2025-03-13  214  
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  215  	return ret;
-de9a6c8d5dbfed Ilpo Järvinen             2024-10-18  216  }
+87cf5705725eeb David Lechner      2025-03-18  1271  
+87cf5705725eeb David Lechner      2025-03-18  1272  	indio_dev->channels = channels;
+87cf5705725eeb David Lechner      2025-03-18  1273  
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1274  	return 0;
+e571c1902116a3 Alexandru Ardelean 2024-09-19  1275  }
 
 -- 
 0-DAY CI Kernel Test Service
