@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2E0291E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 22:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089A61A7253
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 22:53:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742770393; cv=none; b=uVFRa25PjhGA0p3ouCA3z/jeNrq7niEZFNlY9DRYwFSasMK+LXcxKEkGXkIjOWiT93uU9pmFAt2VLXLlV0pRRYWqJHYbLFaABZ/B2AspuUO3I3uMUo9b0oVx7HxkM2ZrInuP3zqZ4l+4k21pdRWrlwoWgJQ/zzHXJkzYnkgnKaA=
+	t=1742770395; cv=none; b=nL6gS2AWOydkRvq0TpS0J1if3dlk3o9nb5bXcEaQa2SjZGlfUgcX9RLQkCb3LnbXckyfSO/fHCwl5HN5mjdffRcqpqFG/mrvNyToHJNd3h2FPfDXVdoYghKVKBzHD1VxeUUZ8072Wu7N7G/sZzuHAvzscbCe6y8IUvbv4Tn6I9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742770393; c=relaxed/simple;
-	bh=MBx622sc6v86GHi0MZLWf09RRQXd5k/PqVML0S8q+vM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=atDR0B7Mjg9Fk2lR2T3o9vAQV8pqUH/EoxDmRPYfVXKC3EeMa/CND2zlAxxj3CdYx508ocvrF2EIV8x7q+vGb+NxG0UdUWAetMtFi/EmrPyqpSdGk7+YNIMjCYiaJC3N5RH7+TZ6KqnZkUFpv0Epv1W1yPiygDuEfxAOmye336M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fu2otU2Y; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1742770395; c=relaxed/simple;
+	bh=KhSk1Wvn41RLE8OuIrS/dgnj4mzOEt2b86JUmA1AdQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IFE/ERShXjzutXMegza1ExhVgdvjKvi+GR7PRbHDCsm7RSq0cF83TrajsGi/aufFV/GoNsdbfSxiC9nym5kGvfDKmjPUUV+xkAfpgiOgSBmfNs8S00j94FbxL3iAzg+sex1tRrGzHw18bbx7YxxHh37VWm+iRXJaOTPW5znkP+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jrlzl7/w; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fu2otU2Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jrlzl7/w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742770391; x=1774306391;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MBx622sc6v86GHi0MZLWf09RRQXd5k/PqVML0S8q+vM=;
-  b=Fu2otU2Y3pVsP1LaFkcFPou3jOS5Dw30UzIhP3WDy5XSf155RORRFLGR
-   uspSJhYgPpX5HZVpH6H7beyoQZjHNZ36f2FLVaWBDudBY+nbiKpCJLDIk
-   hpEh/FxkbLOjQ1ZnE3Q2iM0QnXUNoDymaj0EjlRMMErAYL7AHKx4nlh7g
-   MTHtUjjbqGOrPNRzCjslSk7x8aiQgxdO+00l3zGAC8iiHgCxVkqWC0LVU
-   GAj1Tk+IXcZ+iyhRZpLzxTrouYdTx46B1sfoFNV2USFd91Cq941VbpGfr
-   ItdmJuyF8Q/lgs/iWrx9538RW1VsnXtmSITiAo/9zZPIFz2wCfgANxCgD
-   w==;
-X-CSE-ConnectionGUID: JSNqx0WnQuS0UaStvMMc2g==
-X-CSE-MsgGUID: GMKIi36VRiGVmj7c6n5ihg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="43126622"
+  t=1742770394; x=1774306394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KhSk1Wvn41RLE8OuIrS/dgnj4mzOEt2b86JUmA1AdQU=;
+  b=Jrlzl7/wMcpm8t9xkDupmIc05NQ0wkz1BpS0GB6WgxQqOWTGloCJgNgh
+   cQAr7O1SNXa8UaDVT73n2KAwDPwjIYIPLorBL5gz3ZU0vT+N2rnZJf+L9
+   yTB/ORKeWPa0QVvu8smi9+tG28gspizeZbYwhBWFEtJ9j08BPdf7bhxKz
+   GU/NDmGxP7meEc4K/xtLGbqYtrzmqSiqmwUuLA3awKREUG9C6eMeQp5Tf
+   0yMew1clWkHfaUH5k+FlIbSalfNCg95r9VCrGfJuCR/bCrIPTKmvBBPuv
+   wbfsNdD0xXQVwkb4uw17qBeVoLhPvOBHh4sfzm9zjXG4QIGXwOu3HViAF
+   Q==;
+X-CSE-ConnectionGUID: n1MaN8z+RJq4bGUbATo0Iw==
+X-CSE-MsgGUID: eU/HCoxuQEe+28Iv5BWGcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="43126623"
 X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="43126622"
+   d="scan'208";a="43126623"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 15:53:10 -0700
-X-CSE-ConnectionGUID: 678aseSmRWqY3C9apfkLiQ==
-X-CSE-MsgGUID: 64Vj/jMeRI+/A/gYE7MU2g==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 15:53:11 -0700
+X-CSE-ConnectionGUID: +0cn+hIKQ8iIclIM6QNmXg==
+X-CSE-MsgGUID: Fg+EMCiuSdiFWevV8B18Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="154783742"
+   d="scan'208";a="154783741"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
   by orviesa002.jf.intel.com with ESMTP; 23 Mar 2025 15:53:09 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twUBm-0002zs-0o;
+	id 1twUBm-0002zq-0f;
 	Sun, 23 Mar 2025 22:53:06 +0000
-Date: Mon, 24 Mar 2025 06:52:22 +0800
+Date: Mon, 24 Mar 2025 06:52:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Subject: [axboe-block:for-6.15/block 75/76] drivers/block/loop.c:388:6-25:
- WARNING: atomic_dec_and_test variation before object free at line 395.
-Message-ID: <202503240625.LfSMQqA2-lkp@intel.com>
+To: Sahil Siddiq <icegambit91@gmail.com>, jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi, shorne@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, sahilcdq@proton.me,
+	linux-openrisc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] openrisc: Add cacheinfo support
+Message-ID: <202503240635.ir63jqTI-lkp@intel.com>
+References: <20250323195544.152948-4-sahilcdq@proton.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,50 +64,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250323195544.152948-4-sahilcdq@proton.me>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/block
-head:   4c3f4bad7a6e9022489a9f8392f7147ed3ce74b1
-commit: dfc77a934a3acdb13dadf237b7417c6a31b19da8 [75/76] loop: try to handle loop aio command via NOWAIT IO first
-config: i386-randconfig-052-20250323 (https://download.01.org/0day-ci/archive/20250324/202503240625.LfSMQqA2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Sahil,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ea1413e5b53a8dd4fa7675edb23cdf828bbdce1e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sahil-Siddiq/openrisc-Refactor-struct-cpuinfo_or1k-to-reduce-duplication/20250324-035738
+base:   ea1413e5b53a8dd4fa7675edb23cdf828bbdce1e
+patch link:    https://lore.kernel.org/r/20250323195544.152948-4-sahilcdq%40proton.me
+patch subject: [PATCH v3 3/3] openrisc: Add cacheinfo support
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250324/202503240635.ir63jqTI-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503240635.ir63jqTI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503240625.LfSMQqA2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503240635.ir63jqTI-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/block/loop.c:388:6-25: WARNING: atomic_dec_and_test variation before object free at line 395.
+All warnings (new ones prefixed by >>):
 
-vim +388 drivers/block/loop.c
+   arch/openrisc/kernel/setup.c: In function 'show_cpuinfo':
+>> arch/openrisc/kernel/setup.c:266:30: warning: unused variable 'cpuinfo' [-Wunused-variable]
+     266 |         struct cpuinfo_or1k *cpuinfo = v;
+         |                              ^~~~~~~
 
-bc07c10a3603a5 Ming Lei          2015-08-17  383  
-92d773324b7edb Shaohua Li        2017-09-01  384  static void lo_rw_aio_do_completion(struct loop_cmd *cmd)
-92d773324b7edb Shaohua Li        2017-09-01  385  {
-1894e916546df0 Jens Axboe        2018-04-13  386  	struct request *rq = blk_mq_rq_from_pdu(cmd);
-1894e916546df0 Jens Axboe        2018-04-13  387  
-92d773324b7edb Shaohua Li        2017-09-01 @388  	if (!atomic_dec_and_test(&cmd->ref))
-92d773324b7edb Shaohua Li        2017-09-01  389  		return;
-dfc77a934a3acd Ming Lei          2025-03-22  390  
-dfc77a934a3acd Ming Lei          2025-03-22  391  	/* -EAGAIN could be returned from bdev's ->ki_complete */
-dfc77a934a3acd Ming Lei          2025-03-22  392  	if (cmd->ret == -EAGAIN) {
-dfc77a934a3acd Ming Lei          2025-03-22  393  		struct loop_device *lo = rq->q->queuedata;
-dfc77a934a3acd Ming Lei          2025-03-22  394  
-dfc77a934a3acd Ming Lei          2025-03-22 @395  		loop_queue_work(lo, cmd);
-dfc77a934a3acd Ming Lei          2025-03-22  396  		return;
-dfc77a934a3acd Ming Lei          2025-03-22  397  	}
-dfc77a934a3acd Ming Lei          2025-03-22  398  
-92d773324b7edb Shaohua Li        2017-09-01  399  	kfree(cmd->bvec);
-15f73f5b3e5958 Christoph Hellwig 2020-06-11  400  	if (likely(!blk_should_fake_timeout(rq->q)))
-1894e916546df0 Jens Axboe        2018-04-13  401  		blk_mq_complete_request(rq);
-92d773324b7edb Shaohua Li        2017-09-01  402  }
-92d773324b7edb Shaohua Li        2017-09-01  403  
 
-:::::: The code at line 388 was first introduced by commit
-:::::: 92d773324b7edbd36bf0c28c1e0157763aeccc92 block/loop: fix use after free
+vim +/cpuinfo +266 arch/openrisc/kernel/setup.c
 
-:::::: TO: Shaohua Li <shli@fb.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+9d02a4283e9ce4 Jonas Bonn          2011-06-04  260  
+9d02a4283e9ce4 Jonas Bonn          2011-06-04  261  static int show_cpuinfo(struct seq_file *m, void *v)
+9d02a4283e9ce4 Jonas Bonn          2011-06-04  262  {
+8e6d08e0a15e7d Stefan Kristiansson 2014-05-11  263  	unsigned int vr, cpucfgr;
+8e6d08e0a15e7d Stefan Kristiansson 2014-05-11  264  	unsigned int avr;
+8e6d08e0a15e7d Stefan Kristiansson 2014-05-11  265  	unsigned int version;
+8e6d08e0a15e7d Stefan Kristiansson 2014-05-11 @266  	struct cpuinfo_or1k *cpuinfo = v;
+9d02a4283e9ce4 Jonas Bonn          2011-06-04  267  
+9d02a4283e9ce4 Jonas Bonn          2011-06-04  268  	vr = mfspr(SPR_VR);
+8e6d08e0a15e7d Stefan Kristiansson 2014-05-11  269  	cpucfgr = mfspr(SPR_CPUCFGR);
+8e6d08e0a15e7d Stefan Kristiansson 2014-05-11  270  
 
 -- 
 0-DAY CI Kernel Test Service
