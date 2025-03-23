@@ -1,157 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C643273FD;
-	Sun, 23 Mar 2025 10:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BEA19007D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 11:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742726640; cv=none; b=F0fP2jaXJ2gym0o9sQ8ADvfx1xViDy+RGy/EBxUaURVujjG+Ixnfm45j03SBuYxopO4sXp+Zs+rLZN2TFDGPuWIYlMM6RGOvcgbsKmZmMvI35RJam7/AfM2vc0IUgCQYq7TcI3lnGTWjqLbYVQYACUSXFYJ36hvTXTicYBJNACY=
+	t=1742727750; cv=none; b=THfHUOHTZPKRidkPxUFeOXqk1YOVpV5zgLn0G54HB+aK870CqA83YIBdgMRLn7dEpp3Tp23ivxWz1tMqRhg8AgazKQZ7RUe98TWvMFgINiE7xE1BLCMS/WGIvDA1sSih3doGUd0Tb9w0e/Bo3DyXtaS21XhdqDnHemqEnHPkKhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742726640; c=relaxed/simple;
-	bh=56fghpzNcXcuJRMxoGiBZ6btoUwmvBYYxwm2FKh3Rbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qwsue3E1ixtRa7+M4S4D5rrhnu21rYKccIA66q7sGe2hVtEjp/ZJaQTERjy8HrDt2/N9t9IrX5ry+Pjy34J7E5KDQBzFqUQRKYy9cmuceh3N0eeT1EakYVbFQi0spFyV0XyEm3CBJF5y+wkkvJQgriy55vRA9e0rFEUhjPsAlPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LCXMYm2w; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742727750; c=relaxed/simple;
+	bh=J+9cR69L2WU9lUl5YVuwPwabvwrGNPgXx09GSxtGME0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=tJDbBY8Fp3MVw0zYKKSgi6huIgbEDLpwK9mjkqt/aVCuAQZkyrd5DVtDCvrK+uI/JTy9Ion3rctW4g+a9N51Jhv5AU2KPaI0qM45/qfFp+nvR+wnjDiDdRT8M0pMhieVYYw662PEASrAbvm6OXjlU6PoVqD1qCsWunjiQZb/rLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=I+YF5bZX; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LCXMYm2w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742726639; x=1774262639;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=56fghpzNcXcuJRMxoGiBZ6btoUwmvBYYxwm2FKh3Rbw=;
-  b=LCXMYm2wucP8i/vy/vDMIYn4QDBkWqGfj9K9AzSQDbgZFZuqJND2uDBN
-   FIjabAouno7SFLtv9IOwYRH6rLTf6YHS5Hc+mo39jnFRcwpFb3F8uEwA1
-   UqHW6MPGsCISzwLqcxrJA4cMiweVZdPlXAlOfaO9NRIHXpWyhBkdpQmE+
-   ypLEZAJ51EPmnZQQ0CKnApJ+KqqWOsVLADSGZynZoH5HMGqD3d7RUF5Mi
-   N1x1dtJE4+m/RkyDjcG5v0Dv7At03Ew9BcIXDRkjvj3tXmg5vPhy3xWP0
-   RQ9sFY+IsnGiFLY1wZXs8AVbmpUNeyjg9X750uTyIWqLA8zlTfBjmxPKZ
-   g==;
-X-CSE-ConnectionGUID: Mo+yhjRvSqGweXqLkcyF8w==
-X-CSE-MsgGUID: Ks01B4/kT+e2t0iciyOzEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43817036"
-X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="43817036"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 03:43:58 -0700
-X-CSE-ConnectionGUID: 6B7X1+YSTsa8njkp9SL7Ag==
-X-CSE-MsgGUID: 5DUaBCn0TUK9zWq1dItmzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="124253735"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Mar 2025 03:43:57 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1twIo6-0002iJ-2a;
-	Sun, 23 Mar 2025 10:43:54 +0000
-Date: Sun, 23 Mar 2025 18:43:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:objtool-werror 9/21] drivers/pwm/pwm-mediatek.c:142:34:
- error: incompatible integer to pointer conversion passing 'unsigned long' to
- parameter of type 'struct clk *'
-Message-ID: <202503231837.DYHg04BB-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="I+YF5bZX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=GtsTt2lXk513adp1qj13k4k6lRvCGqifb1NcecQCiw0=;
+  b=I+YF5bZXvyoegBY7fus3uajh/UiUFIvAEIAvZKcdeVQL7dXdcg4f4XWZ
+   cPdCyN3uFCseTzNKmCHq/qh7aHFTCAawY1KoSuG/icYZTzcSuuEkcrfX+
+   xzOdd9wGSdud2FVgGDVhRD1mCr3qA8mW3hMZpN65c4nBBkAgKlcBmcTd+
+   E=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.14,269,1736809200"; 
+   d="scan'208";a="112345889"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 12:02:24 +0100
+Date: Sun, 23 Mar 2025 12:02:24 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: cros-kernel-buildreports@googlegroups.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-rust 2/2] drivers/usb/gadget/configfs.c:2050:7-46:
+ ERROR: reference preceded by free on line 2048 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2503231201540.3562@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: multipart/mixed; boundary="8323329-1777761949-1742727744=:3562"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-werror
-head:   aecd65419533fc7a9eb88c055189d4ec4c9fbdca
-commit: 38fca6d9fa6497b95c4b53427d3e83908b807cf3 [9/21] pwm: mediatek: Prevent divide-by-zero in pwm_mediatek_config()
-config: i386-buildonly-randconfig-004-20250323 (https://download.01.org/0day-ci/archive/20250323/202503231837.DYHg04BB-lkp@intel.com/config)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-1777761949-1742727744=:3562
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
+
+Please check lines 2049-2051
+
+---------- Forwarded message ----------
+Date: Sun, 23 Mar 2025 06:15:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android-mainline-rust 2/2]
+    drivers/usb/gadget/configfs.c:2050:7-46: ERROR: reference preceded by free
+    on line 2048
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android-mainline-rust
+head:   69e641afed13f4ee53e66be0464646d326f9b5b1
+commit: 957b40b3b769bc23db3d6491db267e3166f91316 [2/2] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-103-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230650.8qAKzUnQ-lkp@intel.com/config)
 compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503231837.DYHg04BB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503231837.DYHg04BB-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503230650.8qAKzUnQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/usb/gadget/configfs.c:2050:7-46: ERROR: reference preceded by free on line 2048
 
->> drivers/pwm/pwm-mediatek.c:142:34: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'struct clk *' [-Wint-conversion]
-     142 |         do_div(resolution, clk_get_rate(clk_rate));
-         |                                         ^~~~~~~~
-   arch/x86/include/asm/div64.h:25:12: note: expanded from macro 'do_div'
-      25 |         __base = (base);                                        \
-         |                   ^~~~
-   include/linux/clk.h:751:40: note: passing argument to parameter 'clk' here
-     751 | unsigned long clk_get_rate(struct clk *clk);
-         |                                        ^
-   1 error generated.
+vim +2050 drivers/usb/gadget/configfs.c
 
-
-vim +142 drivers/pwm/pwm-mediatek.c
-
-   117	
-   118	static int pwm_mediatek_config(struct pwm_chip *chip, struct pwm_device *pwm,
-   119				       int duty_ns, int period_ns)
-   120	{
-   121		struct pwm_mediatek_chip *pc = to_pwm_mediatek_chip(chip);
-   122		u32 clkdiv = 0, cnt_period, cnt_duty, reg_width = PWMDWIDTH,
-   123		    reg_thres = PWMTHRES;
-   124		unsigned long clk_rate;
-   125		u64 resolution;
-   126		int ret;
-   127	
-   128		ret = pwm_mediatek_clk_enable(chip, pwm);
-   129		if (ret < 0)
-   130			return ret;
-   131	
-   132		clk_rate = clk_get_rate(pc->clk_pwms[pwm->hwpwm]);
-   133		if (!clk_rate)
-   134			return -EINVAL;
-   135	
-   136		/* Make sure we use the bus clock and not the 26MHz clock */
-   137		if (pc->soc->has_ck_26m_sel)
-   138			writel(0, pc->regs + PWM_CK_26M_SEL);
-   139	
-   140		/* Using resolution in picosecond gets accuracy higher */
-   141		resolution = (u64)NSEC_PER_SEC * 1000;
- > 142		do_div(resolution, clk_get_rate(clk_rate));
-   143	
-   144		cnt_period = DIV_ROUND_CLOSEST_ULL((u64)period_ns * 1000, resolution);
-   145		while (cnt_period > 8191) {
-   146			resolution *= 2;
-   147			clkdiv++;
-   148			cnt_period = DIV_ROUND_CLOSEST_ULL((u64)period_ns * 1000,
-   149							   resolution);
-   150		}
-   151	
-   152		if (clkdiv > PWM_CLK_DIV_MAX) {
-   153			pwm_mediatek_clk_disable(chip, pwm);
-   154			dev_err(pwmchip_parent(chip), "period of %d ns not supported\n", period_ns);
-   155			return -EINVAL;
-   156		}
-   157	
-   158		if (pc->soc->pwm45_fixup && pwm->hwpwm > 2) {
-   159			/*
-   160			 * PWM[4,5] has distinct offset for PWMDWIDTH and PWMTHRES
-   161			 * from the other PWMs on MT7623.
-   162			 */
-   163			reg_width = PWM45DWIDTH_FIXUP;
-   164			reg_thres = PWM45THRES_FIXUP;
-   165		}
-   166	
-   167		cnt_duty = DIV_ROUND_CLOSEST_ULL((u64)duty_ns * 1000, resolution);
-   168		pwm_mediatek_writel(pc, pwm->hwpwm, PWMCON, BIT(15) | clkdiv);
-   169		pwm_mediatek_writel(pc, pwm->hwpwm, reg_width, cnt_period);
-   170		pwm_mediatek_writel(pc, pwm->hwpwm, reg_thres, cnt_duty);
-   171	
-   172		pwm_mediatek_clk_disable(chip, pwm);
-   173	
-   174		return 0;
-   175	}
-   176	
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1980
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1981  static struct config_group *gadgets_make(
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1982  		struct config_group *group,
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1983  		const char *name)
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1984  {
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1985  	struct gadget_info *gi;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1986
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1987  	gi = kzalloc(sizeof(*gi), GFP_KERNEL);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1988  	if (!gi)
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1989  		return ERR_PTR(-ENOMEM);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1990
+1ae1602de028ac Christoph Hellwig         2016-02-26  1991  	config_group_init_type_name(&gi->group, name, &gadget_root_type);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1992
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1993  	config_group_init_type_name(&gi->functions_group, "functions",
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1994  			&functions_type);
+1ae1602de028ac Christoph Hellwig         2016-02-26  1995  	configfs_add_default_group(&gi->functions_group, &gi->group);
+1ae1602de028ac Christoph Hellwig         2016-02-26  1996
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1997  	config_group_init_type_name(&gi->configs_group, "configs",
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1998  			&config_desc_type);
+1ae1602de028ac Christoph Hellwig         2016-02-26  1999  	configfs_add_default_group(&gi->configs_group, &gi->group);
+1ae1602de028ac Christoph Hellwig         2016-02-26  2000
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2001  	config_group_init_type_name(&gi->strings_group, "strings",
+6e2a512d9532c5 Daniel Scally             2023-02-06  2002  			&gadget_language_strings_type);
+1ae1602de028ac Christoph Hellwig         2016-02-26  2003  	configfs_add_default_group(&gi->strings_group, &gi->group);
+1ae1602de028ac Christoph Hellwig         2016-02-26  2004
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2005  	config_group_init_type_name(&gi->os_desc_group, "os_desc",
+87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2006  			&os_desc_type);
+1ae1602de028ac Christoph Hellwig         2016-02-26  2007  	configfs_add_default_group(&gi->os_desc_group, &gi->group);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2008
+93c473948c5889 Jó Ágila Bitsch           2023-01-13  2009  	config_group_init_type_name(&gi->webusb_group, "webusb",
+93c473948c5889 Jó Ágila Bitsch           2023-01-13  2010  			&webusb_type);
+93c473948c5889 Jó Ágila Bitsch           2023-01-13  2011  	configfs_add_default_group(&gi->webusb_group, &gi->group);
+93c473948c5889 Jó Ágila Bitsch           2023-01-13  2012
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2013  	gi->composite.bind = configfs_do_nothing;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2014  	gi->composite.unbind = configfs_do_nothing;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2015  	gi->composite.suspend = NULL;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2016  	gi->composite.resume = NULL;
+e2459108b5a060 taehyun.cho               2021-01-07  2017  	gi->composite.max_speed = USB_SPEED_SUPER_PLUS;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2018
+093edc2baad2c2 Wei Yongjun               2019-10-30  2019  	spin_lock_init(&gi->spinlock);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2020  	mutex_init(&gi->lock);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2021  	INIT_LIST_HEAD(&gi->string_list);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2022  	INIT_LIST_HEAD(&gi->available_func);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2023
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2024  	composite_init_dev(&gi->cdev);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2025  	gi->cdev.desc.bLength = USB_DT_DEVICE_SIZE;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2026  	gi->cdev.desc.bDescriptorType = USB_DT_DEVICE;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2027  	gi->cdev.desc.bcdDevice = cpu_to_le16(get_default_bcdDevice());
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2028
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2029  	gi->composite.gadget_driver = configfs_driver_template;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2030
+7c07553807c512 Chanh Nguyen              2023-01-11  2031  	gi->composite.gadget_driver.driver.name = kasprintf(GFP_KERNEL,
+7c07553807c512 Chanh Nguyen              2023-01-11  2032  							    "configfs-gadget.%s", name);
+7c07553807c512 Chanh Nguyen              2023-01-11  2033  	if (!gi->composite.gadget_driver.driver.name)
+7c07553807c512 Chanh Nguyen              2023-01-11  2034  		goto err;
+7c07553807c512 Chanh Nguyen              2023-01-11  2035
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2036  	gi->composite.gadget_driver.function = kstrdup(name, GFP_KERNEL);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2037  	gi->composite.name = gi->composite.gadget_driver.function;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2038
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2039  	if (!gi->composite.gadget_driver.function)
+7c07553807c512 Chanh Nguyen              2023-01-11  2040  		goto out_free_driver_name;
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2041
+957b40b3b769bc Neill Kapron              2024-02-01  2042  	if (android_device_create(&gi->cdev.android_opts))
+957b40b3b769bc Neill Kapron              2024-02-01  2043  		goto out_free_driver_name_and_function;
+957b40b3b769bc Neill Kapron              2024-02-01  2044
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2045  	return &gi->group;
+7c07553807c512 Chanh Nguyen              2023-01-11  2046
+7c07553807c512 Chanh Nguyen              2023-01-11  2047  out_free_driver_name:
+7c07553807c512 Chanh Nguyen              2023-01-11 @2048  	kfree(gi->composite.gadget_driver.driver.name);
+957b40b3b769bc Neill Kapron              2024-02-01  2049  out_free_driver_name_and_function:
+957b40b3b769bc Neill Kapron              2024-02-01 @2050  	kfree(gi->composite.gadget_driver.driver.name);
+957b40b3b769bc Neill Kapron              2024-02-01  2051  	kfree(gi->composite.gadget_driver.function);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2052  err:
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2053  	kfree(gi);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2054  	return ERR_PTR(-ENOMEM);
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2055  }
+88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2056
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+--8323329-1777761949-1742727744=:3562--
