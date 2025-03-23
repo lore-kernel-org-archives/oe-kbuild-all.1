@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D7B172BD5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 04:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F68C2E3380
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 05:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742705733; cv=none; b=Dq+8e+7tk6tfbME013ytC25S48+qO2TAN69toPk2hjV862ThLzAGc04w3kyyBWvBI+TAYcrkkGhi4NStZkpMtRvRCOMqpviz5A1vf5kr+0GISw/pS1x5RQUkHdBuoq2rJO7HexqkpX5CmWO2Zb7BMEN1OnXzByjxGLNNgnS5JZE=
+	t=1742706393; cv=none; b=JTl/WpS3uqDQmFm1y8GcxpHL1FDBM2nskcmW5iRZdabAyK29+nC/DZ/yo4/PKQ4K2IxminZRQUgzALh8+kjHGHrg1X4HTHiHT57+HDaf1vnxRtZfAU5a5citGsDinB+43u6nr3ey7dbqYKFQKnhFNR8U0gSVQ8Tzs3YNJeuKqnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742705733; c=relaxed/simple;
-	bh=HD+CH3uyoV3zEXq2luunY+hCX9hydDuLCLmev3Qti8I=;
+	s=arc-20240116; t=1742706393; c=relaxed/simple;
+	bh=jL+BpofRkNF7/SZkcrlOQH8NGjL0tFfAB6LAO0HWH3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KYTTgxXyo0WcO0NfxO6nj+v7ELOc5WtA2Zlllw0ZOOJ4ITb4QOrTbfO0pZdoybn44p976DREYr8lD2bSbRBa9k92nfEletGefVRnCn2qWVENBd/kmwka2zDoFYyWvEb2gejjypQKM60Wf9dL3Cak+uJPl2tO+H1uk8MikOvY9bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb0wRBIP; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=KcKumOGQ+kaUdNhQYJhTATWYX9jCllLzwdWro4xhClmLOi9swEa070uHlxt1lMEDw7zJMsT3J7C5bMGP7ZBELJZ5FzjPekdIa5r0XWd68nzroNvJi57DGG8XJYum+mkWWligfH6mxrApLYT+qmEuF+PzCXsTz9qLOFNXt/P0oYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GLPhUmxu; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb0wRBIP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GLPhUmxu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742705730; x=1774241730;
+  t=1742706391; x=1774242391;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HD+CH3uyoV3zEXq2luunY+hCX9hydDuLCLmev3Qti8I=;
-  b=Yb0wRBIPyYfovaoDPMDzR2iCLxarViOKhPVGhWUb9D+jQjjid2QY1PIf
-   RBvTawJdEhe0Bj0J6SwWXk+98KlVPiHoFWo0nK3R7ocC473VyGX8k51wp
-   WnJoE7oq6zLyJc370jc9xM1Rk5+VCb8919087QFYoyodfj5u4UgPqMuta
-   eWdvF0neXwy7rUKi1BKNxCxp4U2xXPTN8Zw9XxYdco+HZhVrz8+OrBVSP
-   AF7+tNeid6o48pIPoG9Cuay2AeBync1Ois880neNQvOmuCSQQUbmYEEgs
-   GLzhJ0sM2811I3v5egU+9/q2jnE9KdgF+NvYpDmyOH7D5LBlFscOgYhvk
-   g==;
-X-CSE-ConnectionGUID: dTQ+PuVSSFmUQf8Ut3eDAQ==
-X-CSE-MsgGUID: j41DbLNAQEqsGCkcmkXRcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43807657"
+  bh=jL+BpofRkNF7/SZkcrlOQH8NGjL0tFfAB6LAO0HWH3g=;
+  b=GLPhUmxuRZj8pGSq0LVBZ9Ra0z6mahqDpxkQjc2JRbKnsXtIh0p8JroH
+   XzGsdKmUBiMWsAhHEk0j5W2tbUeMVEj8aV4RczkNl7Mvp9dA5Kv4yVeoM
+   4BCv4CEcxyX7KAkQN5dOUmV10OGIiivsn9hMp9OFr1XjNlpYMcWw6LD5t
+   qUgs83Kdn9muTJHsnW0M2LzaQKmEbJVLuC+dS+669BsoEcQmetpn6lrYF
+   6CqFi2Krg/sFDcToOtwLvB6SGJ7srQ18k1SBdQqP8CyzO18/OYQaG9Y9C
+   DpLurXu1m4H6MMAS+3D3CUwiaSju3jI+6DesHIVWkX1AnImcfVroxb5Fh
+   A==;
+X-CSE-ConnectionGUID: 96uhet5xRRmLo0+MXMtH5w==
+X-CSE-MsgGUID: qcDWz5MdSpaAzB4K4nSqdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="44115632"
 X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="43807657"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 21:55:29 -0700
-X-CSE-ConnectionGUID: iKHBFDG6Ry+hWJuERzvFFg==
-X-CSE-MsgGUID: OuxJT6QFRkuR6qQX8fsT+A==
+   d="scan'208";a="44115632"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 22:06:30 -0700
+X-CSE-ConnectionGUID: HfcgX55JQgqcrNkVF0uCcA==
+X-CSE-MsgGUID: +UKJn2UFS2ueEMrxpFei6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="127889609"
+   d="scan'208";a="123549782"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Mar 2025 21:55:28 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 Mar 2025 22:06:29 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twDMs-0002al-22;
-	Sun, 23 Mar 2025 04:55:26 +0000
-Date: Sun, 23 Mar 2025 12:55:22 +0800
+	id 1twDXX-0002b9-1p;
+	Sun, 23 Mar 2025 05:06:27 +0000
+Date: Sun, 23 Mar 2025 13:05:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2051/2051] drivers/irqchip/irq-gic-v3.c:1086:43:
- warning: passing argument 3 of 'single_open' makes pointer from integer
- without a cast
-Message-ID: <202503231209.3Hgyvn46-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1424/1424] mm/page_alloc.c:1645:3:
+ warning: cast from 'int (*)(unsigned long, unsigned long, struct
+ deferred_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void
+ *)') converts to incompatible function type
+Message-ID: <202503231236.qN1C5HOM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,155 +64,168 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   6f6f173b2b8fa65e1ef7ebc6e43b0b02c2a52759
-commit: 63f9ef213a477c796c6b343010762513f6315f83 [2051/2051] arm64: Add debugfs dir for xint
-config: arm64-randconfig-r111-20250323 (https://download.01.org/0day-ci/archive/20250323/202503231209.3Hgyvn46-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250323/202503231209.3Hgyvn46-lkp@intel.com/reproduce)
+Hi Daniel,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   abf385ef625e6aeb4923da42fef9ebce788f4ecf
+commit: eb761d6521c32c006a4987260394a61c6684fb35 [1424/1424] mm: parallelize deferred struct page initialization within each node
+config: x86_64-buildonly-randconfig-003-20250217 (https://download.01.org/0day-ci/archive/20250323/202503231236.qN1C5HOM-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503231236.qN1C5HOM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503231209.3Hgyvn46-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503231236.qN1C5HOM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/irqchip/irq-gic-v3.c: In function 'xint_proc_write':
-   drivers/irqchip/irq-gic-v3.c:1042:23: error: implicit declaration of function 'pde_data' [-Werror=implicit-function-declaration]
-    1042 |  int irq = (int)(long)pde_data(file_inode(file));
-         |                       ^~~~~~~~
-   drivers/irqchip/irq-gic-v3.c: In function 'xint_proc_open':
->> drivers/irqchip/irq-gic-v3.c:1086:43: warning: passing argument 3 of 'single_open' makes pointer from integer without a cast [-Wint-conversion]
-    1086 |  return single_open(file, xint_proc_show, pde_data(inode));
-         |                                           ^~~~~~~~~~~~~~~
-         |                                           |
-         |                                           int
-   In file included from include/linux/debugfs.h:16,
-                    from arch/arm64/include/../../../kernel/irq/internals.h:495,
-                    from drivers/irqchip/irq-gic-v3.c:39:
-   include/linux/seq_file.h:166:68: note: expected 'void *' but argument is of type 'int'
-     166 | int single_open(struct file *, int (*)(struct seq_file *, void *), void *);
-         |                                                                    ^~~~~~
-   drivers/irqchip/irq-gic-v3.c: At top level:
-   drivers/irqchip/irq-gic-v3.c:1089:21: error: variable 'xint_proc_ops' has initializer but incomplete type
-    1089 | static const struct proc_ops xint_proc_ops = {
-         |                     ^~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1090:3: error: 'const struct proc_ops' has no member named 'proc_open'
-    1090 |  .proc_open = xint_proc_open,
-         |   ^~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1090:15: warning: excess elements in struct initializer
-    1090 |  .proc_open = xint_proc_open,
-         |               ^~~~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1090:15: note: (near initialization for 'xint_proc_ops')
-   drivers/irqchip/irq-gic-v3.c:1091:3: error: 'const struct proc_ops' has no member named 'proc_read'
-    1091 |  .proc_read = seq_read,
-         |   ^~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1091:15: warning: excess elements in struct initializer
-    1091 |  .proc_read = seq_read,
-         |               ^~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1091:15: note: (near initialization for 'xint_proc_ops')
-   drivers/irqchip/irq-gic-v3.c:1092:3: error: 'const struct proc_ops' has no member named 'proc_lseek'
-    1092 |  .proc_lseek = seq_lseek,
-         |   ^~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1092:16: warning: excess elements in struct initializer
-    1092 |  .proc_lseek = seq_lseek,
-         |                ^~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1092:16: note: (near initialization for 'xint_proc_ops')
-   drivers/irqchip/irq-gic-v3.c:1093:3: error: 'const struct proc_ops' has no member named 'proc_release'
-    1093 |  .proc_release = single_release,
-         |   ^~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1093:18: warning: excess elements in struct initializer
-    1093 |  .proc_release = single_release,
-         |                  ^~~~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1093:18: note: (near initialization for 'xint_proc_ops')
-   drivers/irqchip/irq-gic-v3.c:1094:3: error: 'const struct proc_ops' has no member named 'proc_write'
-    1094 |  .proc_write = xint_proc_write,
-         |   ^~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1094:16: warning: excess elements in struct initializer
-    1094 |  .proc_write = xint_proc_write,
-         |                ^~~~~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c:1094:16: note: (near initialization for 'xint_proc_ops')
-   drivers/irqchip/irq-gic-v3.c: In function 'register_irqchip_proc':
-   drivers/irqchip/irq-gic-v3.c:1103:2: error: implicit declaration of function 'proc_create_data' [-Werror=implicit-function-declaration]
-    1103 |  proc_create_data("xint", 0644, desc->dir, &xint_proc_ops, irqp);
-         |  ^~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c: In function 'unregister_irqchip_proc':
-   drivers/irqchip/irq-gic-v3.c:1111:2: error: implicit declaration of function 'remove_proc_entry' [-Werror=implicit-function-declaration]
-    1111 |  remove_proc_entry("xint", desc->dir);
-         |  ^~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-gic-v3.c: At top level:
-   drivers/irqchip/irq-gic-v3.c:1089:30: error: storage size of 'xint_proc_ops' isn't known
-    1089 | static const struct proc_ops xint_proc_ops = {
-         |                              ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
+   mm/page_alloc.c:1412:6: warning: no previous prototype for function 'set_zone_contiguous' [-Wmissing-prototypes]
+    1412 | void set_zone_contiguous(struct zone *zone)
+         |      ^
+   mm/page_alloc.c:1412:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1412 | void set_zone_contiguous(struct zone *zone)
+         | ^
+         | static 
+   mm/page_alloc.c:1433:6: warning: no previous prototype for function 'clear_zone_contiguous' [-Wmissing-prototypes]
+    1433 | void clear_zone_contiguous(struct zone *zone)
+         |      ^
+   mm/page_alloc.c:1433:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1433 | void clear_zone_contiguous(struct zone *zone)
+         | ^
+         | static 
+>> mm/page_alloc.c:1645:3: warning: cast from 'int (*)(unsigned long, unsigned long, struct deferred_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void *)') converts to incompatible function type [-Wcast-function-type-mismatch]
+    1645 |                 DEFINE_KTASK_CTL(ctl, deferred_init_chunk, &args,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1646 |                                  KTASK_PTE_MINCHUNK);
+         |                                  ~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:139:3: note: expanded from macro 'DEFINE_KTASK_CTL'
+     139 |                 KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:123:21: note: expanded from macro 'KTASK_CTL_INITIALIZER'
+     123 |                 .kc_thread_func = (ktask_thread_func)(thread_func),          \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:1661:3: warning: cast from 'int (*)(unsigned long, unsigned long, struct deferred_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void *)') converts to incompatible function type [-Wcast-function-type-mismatch]
+    1661 |                 DEFINE_KTASK_CTL(ctl, deferred_free_chunk, &args,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1662 |                                  KTASK_PTE_MINCHUNK);
+         |                                  ~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:139:3: note: expanded from macro 'DEFINE_KTASK_CTL'
+     139 |                 KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:123:21: note: expanded from macro 'KTASK_CTL_INITIALIZER'
+     123 |                 .kc_thread_func = (ktask_thread_func)(thread_func),          \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
 
-vim +/single_open +1086 drivers/irqchip/irq-gic-v3.c
+vim +1645 mm/page_alloc.c
 
-3053668e6b2119 Jinjie Ruan 2024-11-25  1038  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1039  static ssize_t xint_proc_write(struct file *file,
-3053668e6b2119 Jinjie Ruan 2024-11-25  1040  		const char __user *buffer, size_t count, loff_t *pos)
-3053668e6b2119 Jinjie Ruan 2024-11-25  1041  {
-3053668e6b2119 Jinjie Ruan 2024-11-25 @1042  	int irq = (int)(long)pde_data(file_inode(file));
-3053668e6b2119 Jinjie Ruan 2024-11-25  1043  	bool xint_state = false;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1044  	unsigned long val;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1045  	char *buf = NULL;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1046  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1047  	if (!xint_transform(irq, XINT_RANGE_CHECK))
-3053668e6b2119 Jinjie Ruan 2024-11-25  1048  		return -EPERM;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1049  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1050  	buf = memdup_user_nul(buffer, count);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1051  	if (IS_ERR(buf))
-3053668e6b2119 Jinjie Ruan 2024-11-25  1052  		return PTR_ERR(buf);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1053  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1054  	if (kstrtoul(buf, 0, &val) || (val != 0 && val != 1)) {
-3053668e6b2119 Jinjie Ruan 2024-11-25  1055  		kfree(buf);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1056  		return -EINVAL;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1057  	}
-3053668e6b2119 Jinjie Ruan 2024-11-25  1058  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1059  	xint_state = xint_transform(irq, XINT_SET_CHECK);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1060  	if (xint_state == val) {
-3053668e6b2119 Jinjie Ruan 2024-11-25  1061  		kfree(buf);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1062  		return -EBUSY;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1063  	}
-3053668e6b2119 Jinjie Ruan 2024-11-25  1064  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1065  	local_irq_disable();
-3053668e6b2119 Jinjie Ruan 2024-11-25  1066  	disable_irq(irq);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1067  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1068  	xint_transform(irq, xint_state ? XINT_TO_IRQ : IRQ_TO_XINT);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1069  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1070  	enable_irq(irq);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1071  	local_irq_enable();
-3053668e6b2119 Jinjie Ruan 2024-11-25  1072  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1073  	kfree(buf);
-3053668e6b2119 Jinjie Ruan 2024-11-25  1074  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1075  	return count;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1076  }
-3053668e6b2119 Jinjie Ruan 2024-11-25  1077  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1078  static int xint_proc_show(struct seq_file *m, void *v)
-3053668e6b2119 Jinjie Ruan 2024-11-25  1079  {
-3053668e6b2119 Jinjie Ruan 2024-11-25  1080  	seq_printf(m, "%d\n", xint_transform((long)m->private, XINT_SET_CHECK));
-3053668e6b2119 Jinjie Ruan 2024-11-25  1081  	return 0;
-3053668e6b2119 Jinjie Ruan 2024-11-25  1082  }
-3053668e6b2119 Jinjie Ruan 2024-11-25  1083  
-3053668e6b2119 Jinjie Ruan 2024-11-25  1084  static int xint_proc_open(struct inode *inode, struct file *file)
-3053668e6b2119 Jinjie Ruan 2024-11-25  1085  {
-3053668e6b2119 Jinjie Ruan 2024-11-25 @1086  	return single_open(file, xint_proc_show, pde_data(inode));
-3053668e6b2119 Jinjie Ruan 2024-11-25  1087  }
-3053668e6b2119 Jinjie Ruan 2024-11-25  1088  
-
-:::::: The code at line 1086 was first introduced by commit
-:::::: 3053668e6b211924bb67c19d791a5a532eca2ad8 arm64: Introduce Xint software solution
-
-:::::: TO: Jinjie Ruan <ruanjinjie@huawei.com>
-:::::: CC: Jinjie Ruan <ruanjinjie@huawei.com>
+  1587	
+  1588	/* Initialise remaining memory on a node */
+  1589	static int __init deferred_init_memmap(void *data)
+  1590	{
+  1591		pg_data_t *pgdat = data;
+  1592		int nid = pgdat->node_id;
+  1593		unsigned long start = jiffies;
+  1594		unsigned long nr_init = 0, nr_free = 0;
+  1595		unsigned long spfn, epfn, first_init_pfn, flags;
+  1596		phys_addr_t spa, epa;
+  1597		int zid;
+  1598		struct zone *zone;
+  1599		const struct cpumask *cpumask = cpumask_of_node(pgdat->node_id);
+  1600		u64 i;
+  1601		unsigned long nr_node_cpus;
+  1602		struct ktask_node kn;
+  1603	
+  1604		/* Bind memory initialisation thread to a local node if possible */
+  1605		if (!cpumask_empty(cpumask))
+  1606			set_cpus_allowed_ptr(current, cpumask);
+  1607	
+  1608		pgdat_resize_lock(pgdat, &flags);
+  1609		first_init_pfn = pgdat->first_deferred_pfn;
+  1610		if (first_init_pfn == ULONG_MAX) {
+  1611			pgdat_resize_unlock(pgdat, &flags);
+  1612			pgdat_init_report_one_done();
+  1613			return 0;
+  1614		}
+  1615	
+  1616		/*
+  1617		 * We'd like to know the memory bandwidth of the chip to calculate the
+  1618		 * most efficient number of threads to start, but we can't.  In
+  1619		 * testing, a good value for a variety of systems was a quarter of the
+  1620		 * CPUs on the node.
+  1621		 */
+  1622		nr_node_cpus = DIV_ROUND_UP(cpumask_weight(cpumask), 4);
+  1623	
+  1624		/* Sanity check boundaries */
+  1625		BUG_ON(pgdat->first_deferred_pfn < pgdat->node_start_pfn);
+  1626		BUG_ON(pgdat->first_deferred_pfn > pgdat_end_pfn(pgdat));
+  1627		pgdat->first_deferred_pfn = ULONG_MAX;
+  1628	
+  1629		/* Only the highest zone is deferred so find it */
+  1630		for (zid = 0; zid < MAX_NR_ZONES; zid++) {
+  1631			zone = pgdat->node_zones + zid;
+  1632			if (first_init_pfn < zone_end_pfn(zone))
+  1633				break;
+  1634		}
+  1635		first_init_pfn = max(zone->zone_start_pfn, first_init_pfn);
+  1636	
+  1637		/*
+  1638		 * Initialize and free pages. We do it in two loops: first we initialize
+  1639		 * struct page, than free to buddy allocator, because while we are
+  1640		 * freeing pages we can access pages that are ahead (computing buddy
+  1641		 * page in __free_one_page()).
+  1642		 */
+  1643		for_each_free_mem_range(i, nid, MEMBLOCK_NONE, &spa, &epa, NULL) {
+  1644			struct deferred_args args = { nid, zid, ATOMIC64_INIT(0) };
+> 1645			DEFINE_KTASK_CTL(ctl, deferred_init_chunk, &args,
+  1646					 KTASK_PTE_MINCHUNK);
+  1647			ktask_ctl_set_max_threads(&ctl, nr_node_cpus);
+  1648	
+  1649			spfn = max_t(unsigned long, first_init_pfn, PFN_UP(spa));
+  1650			epfn = min_t(unsigned long, zone_end_pfn(zone), PFN_DOWN(epa));
+  1651	
+  1652			kn.kn_start	= (void *)spfn;
+  1653			kn.kn_task_size	= (spfn < epfn) ? epfn - spfn : 0;
+  1654			kn.kn_nid	= nid;
+  1655			(void) ktask_run_numa(&kn, 1, &ctl);
+  1656	
+  1657			nr_init += atomic64_read(&args.nr_pages);
+  1658		}
+  1659		for_each_free_mem_range(i, nid, MEMBLOCK_NONE, &spa, &epa, NULL) {
+  1660			struct deferred_args args = { nid, zid, ATOMIC64_INIT(0) };
+  1661			DEFINE_KTASK_CTL(ctl, deferred_free_chunk, &args,
+  1662					 KTASK_PTE_MINCHUNK);
+  1663			ktask_ctl_set_max_threads(&ctl, nr_node_cpus);
+  1664	
+  1665			spfn = max_t(unsigned long, first_init_pfn, PFN_UP(spa));
+  1666			epfn = min_t(unsigned long, zone_end_pfn(zone), PFN_DOWN(epa));
+  1667	
+  1668			kn.kn_start	= (void *)spfn;
+  1669			kn.kn_task_size	= (spfn < epfn) ? epfn - spfn : 0;
+  1670			kn.kn_nid	= nid;
+  1671			(void) ktask_run_numa(&kn, 1, &ctl);
+  1672	
+  1673			nr_free += atomic64_read(&args.nr_pages);
+  1674		}
+  1675		pgdat_resize_unlock(pgdat, &flags);
+  1676	
+  1677		/* Sanity check that the next zone really is unpopulated */
+  1678		WARN_ON(++zid < MAX_NR_ZONES && populated_zone(++zone));
+  1679		VM_BUG_ON(nr_init != nr_free);
+  1680	
+  1681		zone->managed_pages += nr_free;
+  1682	
+  1683		pr_info("node %d initialised, %lu pages in %ums\n", nid, nr_free,
+  1684						jiffies_to_msecs(jiffies - start));
+  1685	
+  1686		pgdat_init_report_one_done();
+  1687		return 0;
+  1688	}
+  1689	
 
 -- 
 0-DAY CI Kernel Test Service
