@@ -1,274 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDA841C6A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 05:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AE71F099D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 08:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742708257; cv=none; b=p7n5W8dGisoK15ovZUSCvonR+4A2LbXZ/6hEfr7Xi327+Lx2wQlplDvK/NSoPi4YHPT2feyukpEHFFo5gSTI5FXiZyFiW86meRLGblyFY4IjctJACXMiJCufqBqDAC99pmogfsNAlohZQcWmJesEYCj1GZluLx91K0a9nh7FiIQ=
+	t=1742719728; cv=none; b=OtVo7dJ7Sk3PwL7lSt3PiUbjxyn9dr3BWEkEAnBv3+cF3q1PGTsaZH9tQNJ2330cA6C8Bfui+sQYwDdJhq8fzDwmWbB1IdgMARI7255gmsXH5pe3XyGmKdlSw5kQmIAyQ64WHEW1f1rYcRg67jmPizyQs5sssjKZxxmmmWEpyrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742708257; c=relaxed/simple;
-	bh=fwE1E/QYKgjufISKPsmwWZtXPUyX2x+JaTd7f0mM8LA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kv9YSOnTfWm3ZcTAAiwGkJfpeFJTy7yRly150zGLJHbAUcRbLUlEt89mIyB6DPo7RRrp5juuaCuz4mNYXTVTBUdioF+wUK9r7EpZL19lQAkdXIBdAdwz7a++MU75J69dZFOuJtcTXg0jeWQj8VgjanS1IcuAeO7SHgbsD5+CEUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iw5K7LNy; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742719728; c=relaxed/simple;
+	bh=YLoYIddIY8boU6Kna3t+CkDUn4OJV1sbrxjKmcHzd/c=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=oZuIcegU4ZtCLYsEn2iO3XN4wu7/hlpi/zvZMIX1aRcWaSp5pm9NYRcmWLZeKgG3FX6x7g8l+x7PnXYWXBulMZLLlolveC94BagIYaC7QALJmxv6xW+J86EGcFgFtuOMgbObZUfq/uBy3oHPskADpwtgKgegnWOMsa1rDeAS15I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=O65lF+sL; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iw5K7LNy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742708254; x=1774244254;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fwE1E/QYKgjufISKPsmwWZtXPUyX2x+JaTd7f0mM8LA=;
-  b=iw5K7LNywH/VE5undljIi9kqGHwxkVKo9GG9Qdv3ycxL8RB+WkIClh8L
-   5Jj9Cjk/H/UsBS2t4C4qCpQ8A5GO/8FcbiNly0AxIBm9NyUJ3fkjU5BTz
-   a+MW8dl2zmK5yYGCN7U6D0jvwUfWjVPfvlo+s/tFLdbXKsGE1M1I5xyB4
-   68DAuqBiYDEvEbM5DKo+x+petLPXOG5Hvy5+szEfFJP52jtvhNoXNKRs2
-   +Qwj5lB7I8xKjZ++xLp7b+hAr7iccMSdvPuIewwgyBS+xKeybMTvWRvEO
-   Lrj5VYifZP3HZ9kOp9lmBrg+p1KAuTxtcAzWXKezdqItCW99y0wBnYzzT
-   Q==;
-X-CSE-ConnectionGUID: 16NU9GA9Th2g8s4ygToumg==
-X-CSE-MsgGUID: SI2q+Lv/Rmy+WNqN5xMQJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="54924756"
-X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="54924756"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 22:37:34 -0700
-X-CSE-ConnectionGUID: aWKYx6UKR7WdXfIQ15dTgg==
-X-CSE-MsgGUID: WS9AT9kvS3SBLgBRmVS+aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
-   d="scan'208";a="128421912"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Mar 2025 22:37:32 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1twE1a-0002cF-0J;
-	Sun, 23 Mar 2025 05:37:30 +0000
-Date: Sun, 23 Mar 2025 13:37:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1425/1425] kernel/sched/debug.c:990:17:
- error: no member named 'nr_wakeups_preferred_cpus' in 'struct
- dyn_affinity_stats'
-Message-ID: <202503231358.Xv9EXuDB-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="O65lF+sL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=ntqBCbUCpr/Mtgxw0QT/3YSOXMeDt68ZvHwK5MyDT90=;
+  b=O65lF+sLOlPKmEsaQJgVTxAAAN64A4GxVJMCX7vhylWT0kwZR77IrvZU
+   8qehLqKPgVccXniR9SXYx09WC+BLErKcJmWjLte8ZBKO5med4o+RMTyjm
+   cRj0uZSd64glCYhY5bJ7XDo5k7SUc0wIx2hU/6rzam948lW+gYca1+5Ao
+   c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.14,269,1736809200"; 
+   d="scan'208";a="214279116"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 09:48:36 +0100
+Date: Sun, 23 Mar 2025 09:48:35 +0100 (CET)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: cros-kernel-buildreports@googlegroups.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-rust 2/2] mm/shmem.c:4277:6-13:
+ WARNING: Unsigned expression compared with zero: version < 0 (fwd)
+Message-ID: <alpine.DEB.2.22.394.2503230948200.3562@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: multipart/mixed; boundary="8323329-1985051817-1742719715=:3562"
 
-Hi Hui,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-FYI, the error/warning still remains.
+--8323329-1985051817-1742719715=:3562
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   abf385ef625e6aeb4923da42fef9ebce788f4ecf
-commit: ebca52abe099caa97d7669d0acc71209ea80cfec [1425/1425] sched: Add statistics for scheduler dynamic affinity
-config: x86_64-randconfig-103-20250219 (https://download.01.org/0day-ci/archive/20250323/202503231358.Xv9EXuDB-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503231358.Xv9EXuDB-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Sun, 23 Mar 2025 09:08:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android-mainline-rust 2/2] mm/shmem.c:4277:6-13:
+    WARNING: Unsigned expression compared with zero: version < 0
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android-mainline-rust
+head:   69e641afed13f4ee53e66be0464646d326f9b5b1
+commit: 58e55efd6c72cbc3e76423a1086f7b4d6c2ae9c2 [2/2] tmpfs: Add casefold lookup support
+:::::: branch date: 2 days ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-103-20250322 (https://download.01.org/0day-ci/archive/20250323/202503230810.79D4qmtG-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503231358.Xv9EXuDB-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202503230810.79D4qmtG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> mm/shmem.c:4277:6-13: WARNING: Unsigned expression compared with zero: version < 0
 
-   kernel/sched/debug.c:815:6: warning: no previous prototype for function 'sysrq_sched_debug_tidy' [-Wmissing-prototypes]
-     815 | void sysrq_sched_debug_tidy(void)
-         |      ^
-   kernel/sched/debug.c:815:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     815 | void sysrq_sched_debug_tidy(void)
-         | ^
-         | static 
->> kernel/sched/debug.c:990:17: error: no member named 'nr_wakeups_preferred_cpus' in 'struct dyn_affinity_stats'
-     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
-         |                     ~~~~~~~~  ^
-   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
-     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-         |                                                       ^
-   kernel/sched/debug.c:21:17: note: expanded from macro 'SEQ_printf'
-      21 |                 seq_printf(m, x);               \
-         |                               ^
->> kernel/sched/debug.c:990:17: error: no member named 'nr_wakeups_preferred_cpus' in 'struct dyn_affinity_stats'
-     990 |                 __P(dyn_affi->nr_wakeups_preferred_cpus);
-         |                     ~~~~~~~~  ^
-   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
-     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-         |                                                       ^
-   kernel/sched/debug.c:23:11: note: expanded from macro 'SEQ_printf'
-      23 |                 pr_cont(x);                     \
-         |                         ^
-   include/linux/printk.h:362:26: note: expanded from macro 'pr_cont'
-     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~
->> kernel/sched/debug.c:991:17: error: no member named 'nr_wakeups_force_preferred_cpus' in 'struct dyn_affinity_stats'
-     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
-         |                     ~~~~~~~~  ^
-   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
-     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-         |                                                       ^
-   kernel/sched/debug.c:21:17: note: expanded from macro 'SEQ_printf'
-      21 |                 seq_printf(m, x);               \
-         |                               ^
->> kernel/sched/debug.c:991:17: error: no member named 'nr_wakeups_force_preferred_cpus' in 'struct dyn_affinity_stats'
-     991 |                 __P(dyn_affi->nr_wakeups_force_preferred_cpus);
-         |                     ~~~~~~~~  ^
-   kernel/sched/debug.c:939:48: note: expanded from macro '__P'
-     939 |         SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-         |                                                       ^
-   kernel/sched/debug.c:23:11: note: expanded from macro 'SEQ_printf'
-      23 |                 pr_cont(x);                     \
-         |                         ^
-   include/linux/printk.h:362:26: note: expanded from macro 'pr_cont'
-     362 |         printk(KERN_CONT fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~
-   1 warning and 4 errors generated.
+vim +4277 mm/shmem.c
 
-
-vim +990 kernel/sched/debug.c
-
-   924	
-   925	void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
-   926							  struct seq_file *m)
-   927	{
-   928	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
-   929		struct dyn_affinity_stats	*dyn_affi = p->se.dyn_affi_stats;
-   930	#endif
-   931		unsigned long nr_switches;
-   932	
-   933		SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
-   934							get_nr_threads(p));
-   935		SEQ_printf(m,
-   936			"---------------------------------------------------------"
-   937			"----------\n");
-   938	#define __P(F) \
-   939		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)F)
-   940	#define P(F) \
-   941		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)p->F)
-   942	#define P_SCHEDSTAT(F) \
-   943		SEQ_printf(m, "%-45s:%21Ld\n", #F, (long long)schedstat_val(p->F))
-   944	#define __PN(F) \
-   945		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)F))
-   946	#define PN(F) \
-   947		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)p->F))
-   948	#define PN_SCHEDSTAT(F) \
-   949		SEQ_printf(m, "%-45s:%14Ld.%06ld\n", #F, SPLIT_NS((long long)schedstat_val(p->F)))
-   950	
-   951		PN(se.exec_start);
-   952		PN(se.vruntime);
-   953		PN(se.sum_exec_runtime);
-   954	
-   955		nr_switches = p->nvcsw + p->nivcsw;
-   956	
-   957		P(se.nr_migrations);
-   958	
-   959		if (schedstat_enabled()) {
-   960			u64 avg_atom, avg_per_cpu;
-   961	
-   962			PN_SCHEDSTAT(se.statistics.sum_sleep_runtime);
-   963			PN_SCHEDSTAT(se.statistics.wait_start);
-   964			PN_SCHEDSTAT(se.statistics.sleep_start);
-   965			PN_SCHEDSTAT(se.statistics.block_start);
-   966			PN_SCHEDSTAT(se.statistics.sleep_max);
-   967			PN_SCHEDSTAT(se.statistics.block_max);
-   968			PN_SCHEDSTAT(se.statistics.exec_max);
-   969			PN_SCHEDSTAT(se.statistics.slice_max);
-   970			PN_SCHEDSTAT(se.statistics.wait_max);
-   971			PN_SCHEDSTAT(se.statistics.wait_sum);
-   972			P_SCHEDSTAT(se.statistics.wait_count);
-   973			PN_SCHEDSTAT(se.statistics.iowait_sum);
-   974			P_SCHEDSTAT(se.statistics.iowait_count);
-   975			P_SCHEDSTAT(se.statistics.nr_migrations_cold);
-   976			P_SCHEDSTAT(se.statistics.nr_failed_migrations_affine);
-   977			P_SCHEDSTAT(se.statistics.nr_failed_migrations_running);
-   978			P_SCHEDSTAT(se.statistics.nr_failed_migrations_hot);
-   979			P_SCHEDSTAT(se.statistics.nr_forced_migrations);
-   980			P_SCHEDSTAT(se.statistics.nr_wakeups);
-   981			P_SCHEDSTAT(se.statistics.nr_wakeups_sync);
-   982			P_SCHEDSTAT(se.statistics.nr_wakeups_migrate);
-   983			P_SCHEDSTAT(se.statistics.nr_wakeups_local);
-   984			P_SCHEDSTAT(se.statistics.nr_wakeups_remote);
-   985			P_SCHEDSTAT(se.statistics.nr_wakeups_affine);
-   986			P_SCHEDSTAT(se.statistics.nr_wakeups_affine_attempts);
-   987			P_SCHEDSTAT(se.statistics.nr_wakeups_passive);
-   988			P_SCHEDSTAT(se.statistics.nr_wakeups_idle);
-   989	#ifdef CONFIG_QOS_SCHED_DYNAMIC_AFFINITY
- > 990			__P(dyn_affi->nr_wakeups_preferred_cpus);
- > 991			__P(dyn_affi->nr_wakeups_force_preferred_cpus);
-   992	#endif
-   993	
-   994			avg_atom = p->se.sum_exec_runtime;
-   995			if (nr_switches)
-   996				avg_atom = div64_ul(avg_atom, nr_switches);
-   997			else
-   998				avg_atom = -1LL;
-   999	
-  1000			avg_per_cpu = p->se.sum_exec_runtime;
-  1001			if (p->se.nr_migrations) {
-  1002				avg_per_cpu = div64_u64(avg_per_cpu,
-  1003							p->se.nr_migrations);
-  1004			} else {
-  1005				avg_per_cpu = -1LL;
-  1006			}
-  1007	
-  1008			__PN(avg_atom);
-  1009			__PN(avg_per_cpu);
-  1010		}
-  1011	
-  1012		__P(nr_switches);
-  1013		SEQ_printf(m, "%-45s:%21Ld\n",
-  1014			   "nr_voluntary_switches", (long long)p->nvcsw);
-  1015		SEQ_printf(m, "%-45s:%21Ld\n",
-  1016			   "nr_involuntary_switches", (long long)p->nivcsw);
-  1017	
-  1018		P(se.load.weight);
-  1019		P(se.runnable_weight);
-  1020	#ifdef CONFIG_SMP
-  1021		P(se.avg.load_sum);
-  1022		P(se.avg.runnable_load_sum);
-  1023		P(se.avg.util_sum);
-  1024		P(se.avg.load_avg);
-  1025		P(se.avg.runnable_load_avg);
-  1026		P(se.avg.util_avg);
-  1027		P(se.avg.last_update_time);
-  1028		P(se.avg.util_est.ewma);
-  1029		P(se.avg.util_est.enqueued);
-  1030	#endif
-  1031		P(policy);
-  1032		P(prio);
-  1033		if (task_has_dl_policy(p)) {
-  1034			P(dl.runtime);
-  1035			P(dl.deadline);
-  1036		}
-  1037	#undef PN_SCHEDSTAT
-  1038	#undef PN
-  1039	#undef __PN
-  1040	#undef P_SCHEDSTAT
-  1041	#undef P
-  1042	#undef __P
-  1043	
-  1044		{
-  1045			unsigned int this_cpu = raw_smp_processor_id();
-  1046			u64 t0, t1;
-  1047	
-  1048			t0 = cpu_clock(this_cpu);
-  1049			t1 = cpu_clock(this_cpu);
-  1050			SEQ_printf(m, "%-45s:%21Ld\n",
-  1051				   "clock-delta", (long long)(t1-t0));
-  1052		}
-  1053	
-  1054		sched_show_numa(p, m);
-  1055	}
-  1056	
+626c3920aeb457 Al Viro       2019-09-08  4261
+58e55efd6c72cb André Almeida 2024-10-21  4262  #if IS_ENABLED(CONFIG_UNICODE)
+58e55efd6c72cb André Almeida 2024-10-21  4263  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
+58e55efd6c72cb André Almeida 2024-10-21  4264  				    bool latest_version)
+58e55efd6c72cb André Almeida 2024-10-21  4265  {
+58e55efd6c72cb André Almeida 2024-10-21  4266  	struct shmem_options *ctx = fc->fs_private;
+58e55efd6c72cb André Almeida 2024-10-21  4267  	unsigned int version = UTF8_LATEST;
+58e55efd6c72cb André Almeida 2024-10-21  4268  	struct unicode_map *encoding;
+58e55efd6c72cb André Almeida 2024-10-21  4269  	char *version_str = param->string + 5;
+58e55efd6c72cb André Almeida 2024-10-21  4270
+58e55efd6c72cb André Almeida 2024-10-21  4271  	if (!latest_version) {
+58e55efd6c72cb André Almeida 2024-10-21  4272  		if (strncmp(param->string, "utf8-", 5))
+58e55efd6c72cb André Almeida 2024-10-21  4273  			return invalfc(fc, "Only UTF-8 encodings are supported "
+58e55efd6c72cb André Almeida 2024-10-21  4274  				       "in the format: utf8-<version number>");
+58e55efd6c72cb André Almeida 2024-10-21  4275
+58e55efd6c72cb André Almeida 2024-10-21  4276  		version = utf8_parse_version(version_str);
+58e55efd6c72cb André Almeida 2024-10-21 @4277  		if (version < 0)
+58e55efd6c72cb André Almeida 2024-10-21  4278  			return invalfc(fc, "Invalid UTF-8 version: %s", version_str);
+58e55efd6c72cb André Almeida 2024-10-21  4279  	}
+58e55efd6c72cb André Almeida 2024-10-21  4280
+58e55efd6c72cb André Almeida 2024-10-21  4281  	encoding = utf8_load(version);
+58e55efd6c72cb André Almeida 2024-10-21  4282
+58e55efd6c72cb André Almeida 2024-10-21  4283  	if (IS_ERR(encoding)) {
+58e55efd6c72cb André Almeida 2024-10-21  4284  		return invalfc(fc, "Failed loading UTF-8 version: utf8-%u.%u.%u\n",
+58e55efd6c72cb André Almeida 2024-10-21  4285  			       unicode_major(version), unicode_minor(version),
+58e55efd6c72cb André Almeida 2024-10-21  4286  			       unicode_rev(version));
+58e55efd6c72cb André Almeida 2024-10-21  4287  	}
+58e55efd6c72cb André Almeida 2024-10-21  4288
+58e55efd6c72cb André Almeida 2024-10-21  4289  	pr_info("tmpfs: Using encoding : utf8-%u.%u.%u\n",
+58e55efd6c72cb André Almeida 2024-10-21  4290  		unicode_major(version), unicode_minor(version), unicode_rev(version));
+58e55efd6c72cb André Almeida 2024-10-21  4291
+58e55efd6c72cb André Almeida 2024-10-21  4292  	ctx->encoding = encoding;
+58e55efd6c72cb André Almeida 2024-10-21  4293
+58e55efd6c72cb André Almeida 2024-10-21  4294  	return 0;
+58e55efd6c72cb André Almeida 2024-10-21  4295  }
+58e55efd6c72cb André Almeida 2024-10-21  4296  #else
+58e55efd6c72cb André Almeida 2024-10-21  4297  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param,
+58e55efd6c72cb André Almeida 2024-10-21  4298  				    bool latest_version)
+58e55efd6c72cb André Almeida 2024-10-21  4299  {
+58e55efd6c72cb André Almeida 2024-10-21  4300  	return invalfc(fc, "tmpfs: Kernel not built with CONFIG_UNICODE\n");
+58e55efd6c72cb André Almeida 2024-10-21  4301  }
+58e55efd6c72cb André Almeida 2024-10-21  4302  #endif
+58e55efd6c72cb André Almeida 2024-10-21  4303
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+--8323329-1985051817-1742719715=:3562--
