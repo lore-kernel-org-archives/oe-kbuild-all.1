@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD60225D6
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 20:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ED3225D6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 20:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742763019; cv=none; b=rKrY4ix6NwNnMGk37lpzSYiHrTBomFOIo1WtcmJdMcF2IKspMUSuw3KSZBfiBflEeF+PRyr2teaRQ8YyHOhdOEK2T/KSEBJUeJSUCKbJcae6qmNq2n5H0eS5XEwz/h3qoMj8Hy7oFw4fHcL1+sGW2KeaCLYl46cN2RmrYqABIqI=
+	t=1742763023; cv=none; b=R1E/T6oj7khO4UQx5yCiY/Tztx2lRH7uR6YvtEiJsbzu/NMhXaGMPve1c+G/5DbGJJ10EoH4hf46KY1EfH9/v5SuT1prX9ckcP35OsfrtAYgmUau/chhuj1iJYEwT/vq+kX/bqzcvaOYffu9BepiZPxCfOWFJeLh8RmdLTZAYDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742763019; c=relaxed/simple;
-	bh=BUgEwUKHwym24LK6VRrPMBGCPH9+QzwtbSzqSXVLOmk=;
+	s=arc-20240116; t=1742763023; c=relaxed/simple;
+	bh=8yTCyl+p4cMuo/EX/NiU+yqzHPzbIaxuluHufQmUzVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I+R0OrindINfTrURWpp7WKUYJP1Fvb8qsHVIDsHnV6kbuxQmfbm7Xrd8McEsELZDs1fNnqxtcDrJ+ADHWA2kewNfwqbDWhRhUrLFN3edwsNI9p0hJI9NEKPs4ZEeduMdguFLstthC4RZ7U+75xTw3dg01lAiUsx111yfvXx3Gik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gml9dbzH; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=b6ihmapIuehri4ZH1J1FNSY99aXUpTCJW1G3PvqShG7qsBH0l+/jnNIOW+JR3Hf5u7Y2npYNRIgfFAqf0szl5LHgTu8NlhN7klzsLW6pibgUh3uFX/TBrk87hgb+iZzfgWOmIOmhrEImT4s1NWMb71p74thoD/JBbriOXbzI5ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfgqcbe7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gml9dbzH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfgqcbe7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742763017; x=1774299017;
+  t=1742763022; x=1774299022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BUgEwUKHwym24LK6VRrPMBGCPH9+QzwtbSzqSXVLOmk=;
-  b=gml9dbzHy34nbTlD5O7FCIj62mnwrTu/37caHLbe3Bc0vagBA6rwE6Bq
-   CL+Q69+g5laOAlWZpn4UONIjpyvwSGJ5UDjbUXfrW/pWGDHwfaI+ZgEPW
-   qrcNhWaRcxeYTc75AlsfbjvT+EkrhRVWGKmo4ikKC/fJprV1MOjlLoVJS
-   DiFhypGl9/lZGRHLPesz7jGJy/01OZZrwQ9tvQXkDvU3VDBnGMX8gXIaT
-   lEQa6/rOwG8xop4hLrF6MgSygrQNJgn05lIDJPBGCdjv9FzB6qC3kWLe/
-   LtDnP9EfaUu8uMKp7KtPrvHPxhcTIE6hFPpe+gYcxKByOGFwakmwH2JG/
-   g==;
-X-CSE-ConnectionGUID: uPNSOmg+R4Wgsog7nW1t0w==
-X-CSE-MsgGUID: yoGEkgupRaW0jwjUl8YZKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="44123167"
+  bh=8yTCyl+p4cMuo/EX/NiU+yqzHPzbIaxuluHufQmUzVs=;
+  b=hfgqcbe7RPVGpUMdNVplDkFKA7MdqYQ46pGU1QScpguV8x0xviNCfdgP
+   3Bp1MUkDKV1pSBgWmyCHmcXwnlsDpSgeidTd1LBG5Grs9GKbqdz9//6xa
+   08N5wjdgh8IbjILLGqMwtNeIo0NilUYO9Z0rtdFb97n8wZsVoM9BTgxhC
+   jDZeVKFX9nZENUM1/rxgzgJbm9nPQw12P/DO/N0NnYGtx9HD5/L+Eeeh8
+   Vf3VduZTprpvnYf1iMJClMu8BSkqCyIbD1kPlKuiYfoR1rogm00lJSIS/
+   P1SIkE6Zm2MlytbPg2URfGFQKDRwS/C4xSBaGtPhMQfhguasD7Q6Te2LG
+   Q==;
+X-CSE-ConnectionGUID: q19L9MfwSfKCm13wbBmRIg==
+X-CSE-MsgGUID: ZTW9iFCiRM6gy1HyZW7nSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="44070813"
 X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="44123167"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 13:50:16 -0700
-X-CSE-ConnectionGUID: yFcDCaQHS9yLUNfXjCCn4w==
-X-CSE-MsgGUID: eUPY67IJTOSXtBKFVmz4aA==
+   d="scan'208";a="44070813"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2025 13:50:21 -0700
+X-CSE-ConnectionGUID: LqDjuVWoQ7WFYYqVz37nZw==
+X-CSE-MsgGUID: 8mb4+vijRlKUPf7LIZV7VQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="128554126"
+   d="scan'208";a="123883719"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Mar 2025 13:50:15 -0700
+  by orviesa006.jf.intel.com with ESMTP; 23 Mar 2025 13:50:20 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twSGl-0002x6-1F;
-	Sun, 23 Mar 2025 20:50:09 +0000
-Date: Mon, 24 Mar 2025 04:49:10 +0800
+	id 1twSGq-0002xA-2v;
+	Sun, 23 Mar 2025 20:50:14 +0000
+Date: Mon, 24 Mar 2025 04:49:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Patrisious Haddad <phaddad@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
-Subject: [linux-next:master 11542/13068]
- drivers/infiniband/hw/mlx5/fs.c:26:28: warning:
- 'mlx5_ib_object_MLX5_IB_OBJECT_STEERING_ANCHOR' defined but not used
-Message-ID: <202503240432.5h2dqbfN-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.13/prjc 24/26] kernel/sched/alt_core.c:4492:6: error: call to
+ undeclared function 'preempt_mask_check'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202503240437.VvxCjkss-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +63,177 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Patrisious,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9388ec571cb1adba59d1cded2300eeb11827679c
-commit: 36e0d433672f1e65400d69e7eaf7150752c45e29 [11542/13068] RDMA/mlx5: Compile fs.c regardless of INFINIBAND_USER_ACCESS config
-config: openrisc-randconfig-r061-20250323 (https://download.01.org/0day-ci/archive/20250324/202503240432.5h2dqbfN-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503240432.5h2dqbfN-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.13/prjc
+head:   ad6915f02da42c21c68f996604a88583afe258cf
+commit: f6e4e5191cff5f87f3e907894608cd747a81f10c [24/26] sched/alt: Fix priority inversion for overloaded queues
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250324/202503240437.VvxCjkss-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503240437.VvxCjkss-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503240432.5h2dqbfN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503240437.VvxCjkss-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/infiniband/hw/mlx5/fs.c:27:
->> drivers/infiniband/hw/mlx5/fs.c:26:28: warning: 'mlx5_ib_object_MLX5_IB_OBJECT_STEERING_ANCHOR' defined but not used [-Wunused-const-variable=]
-      26 | #define UVERBS_MODULE_NAME mlx5_ib
-         |                            ^~~~~~~
-   include/rdma/uverbs_named_ioctl.h:15:33: note: in definition of macro '_UVERBS_PASTE'
-      15 | #define _UVERBS_PASTE(x, y)     x ## y
-         |                                 ^
-   include/rdma/uverbs_named_ioctl.h:19:33: note: in expansion of macro '_UVERBS_NAME'
-      19 | #define UVERBS_OBJECT(id)       _UVERBS_NAME(UVERBS_MODULE_NAME, _object_##id)
-         |                                 ^~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:19:46: note: in expansion of macro 'UVERBS_MODULE_NAME'
-      19 | #define UVERBS_OBJECT(id)       _UVERBS_NAME(UVERBS_MODULE_NAME, _object_##id)
-         |                                              ^~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:52:47: note: in expansion of macro 'UVERBS_OBJECT'
-      52 |         static const struct uverbs_object_def UVERBS_OBJECT(_object_id) = {    \
-         |                                               ^~~~~~~~~~~~~
-   drivers/infiniband/hw/mlx5/fs.c:3026:1: note: in expansion of macro 'DECLARE_UVERBS_NAMED_OBJECT'
-    3026 | DECLARE_UVERBS_NAMED_OBJECT(
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/infiniband/hw/mlx5/fs.c:26:28: warning: 'mlx5_ib_object_MLX5_IB_OBJECT_FLOW_MATCHER' defined but not used [-Wunused-const-variable=]
-      26 | #define UVERBS_MODULE_NAME mlx5_ib
-         |                            ^~~~~~~
-   include/rdma/uverbs_named_ioctl.h:15:33: note: in definition of macro '_UVERBS_PASTE'
-      15 | #define _UVERBS_PASTE(x, y)     x ## y
-         |                                 ^
-   include/rdma/uverbs_named_ioctl.h:19:33: note: in expansion of macro '_UVERBS_NAME'
-      19 | #define UVERBS_OBJECT(id)       _UVERBS_NAME(UVERBS_MODULE_NAME, _object_##id)
-         |                                 ^~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:19:46: note: in expansion of macro 'UVERBS_MODULE_NAME'
-      19 | #define UVERBS_OBJECT(id)       _UVERBS_NAME(UVERBS_MODULE_NAME, _object_##id)
-         |                                              ^~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:52:47: note: in expansion of macro 'UVERBS_OBJECT'
-      52 |         static const struct uverbs_object_def UVERBS_OBJECT(_object_id) = {    \
-         |                                               ^~~~~~~~~~~~~
-   drivers/infiniband/hw/mlx5/fs.c:2998:1: note: in expansion of macro 'DECLARE_UVERBS_NAMED_OBJECT'
-    2998 | DECLARE_UVERBS_NAMED_OBJECT(MLX5_IB_OBJECT_FLOW_MATCHER,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/infiniband/hw/mlx5/fs.c:2960:9: warning: 'mlx5_ib_flow_actions' defined but not used [-Wunused-const-variable=]
-    2960 |         mlx5_ib_flow_actions,
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:78:47: note: in definition of macro 'ADD_UVERBS_METHODS'
-      78 |         static const struct uverbs_object_def _name = {                        \
-         |                                               ^~~~~
->> drivers/infiniband/hw/mlx5/fs.c:2922:20: warning: 'mlx5_ib_fs' defined but not used [-Wunused-const-variable=]
-    2922 | ADD_UVERBS_METHODS(mlx5_ib_fs,
-         |                    ^~~~~~~~~~
-   include/rdma/uverbs_named_ioctl.h:78:47: note: in definition of macro 'ADD_UVERBS_METHODS'
-      78 |         static const struct uverbs_object_def _name = {                        \
-         |                                               ^~~~~
+   In file included from kernel/sched/alt_core.c:19:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     549 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from kernel/sched/alt_core.c:19:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from kernel/sched/alt_core.c:19:
+   In file included from include/linux/sched/isolation.h:7:
+   In file included from include/linux/tick.h:8:
+   In file included from include/linux/clockchips.h:14:
+   In file included from include/linux/clocksource.h:22:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     601 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     724 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     737 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     750 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     764 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     778 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     792 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> kernel/sched/alt_core.c:4492:6: error: call to undeclared function 'preempt_mask_check'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4492 |             preempt_mask_check(&mask, &mask, task_sched_prio(p))) {
+         |             ^
+>> kernel/sched/alt_core.c:4493:10: error: call to undeclared function 'best_mask_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4493 |                 return best_mask_cpu(cpu, &mask);
+         |                        ^
+   kernel/sched/alt_core.c:4493:10: note: did you mean 'set_task_cpu'?
+   include/linux/sched.h:2190:20: note: 'set_task_cpu' declared here
+    2190 | static inline void set_task_cpu(struct task_struct *p, unsigned int cpu)
+         |                    ^
+>> kernel/sched/alt_core.c:4519:11: error: no member named 'online' in 'struct rq'
+    4519 |         if (!rq->online)
+         |              ~~  ^
+   kernel/sched/alt_core.c:4592:2: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4592 |         hrtick_start(rq, next->time_slice);
+         |         ^
+   kernel/sched/alt_core.c:4592:2: note: did you mean 'hrtimer_start'?
+   include/linux/hrtimer.h:257:20: note: 'hrtimer_start' declared here
+     257 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
+         |                    ^
+   12 warnings and 4 errors generated.
 
 
-vim +/mlx5_ib_object_MLX5_IB_OBJECT_STEERING_ANCHOR +26 drivers/infiniband/hw/mlx5/fs.c
+vim +/preempt_mask_check +4492 kernel/sched/alt_core.c
 
-f7c4ffda0cbf782 Leon Romanovsky 2020-07-02  25  
-f7c4ffda0cbf782 Leon Romanovsky 2020-07-02 @26  #define UVERBS_MODULE_NAME mlx5_ib
-f7c4ffda0cbf782 Leon Romanovsky 2020-07-02  27  #include <rdma/uverbs_named_ioctl.h>
-f7c4ffda0cbf782 Leon Romanovsky 2020-07-02  28  
-
-:::::: The code at line 26 was first introduced by commit
-:::::: f7c4ffda0cbf7823915cbfebdbbe8460e7eeca67 RDMA/mlx5: Separate flow steering logic from main.c
-
-:::::: TO: Leon Romanovsky <leonro@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+  4484	
+  4485	static inline int balance_select_task_rq(struct task_struct *p)
+  4486	{
+  4487		cpumask_t mask;
+  4488		int cpu = task_cpu(p);
+  4489	
+  4490		if (cpumask_empty(sched_idle_mask) &&
+  4491		    cpumask_and(&mask, p->cpus_ptr, cpu_active_mask) &&
+> 4492		    preempt_mask_check(&mask, &mask, task_sched_prio(p))) {
+> 4493			return best_mask_cpu(cpu, &mask);
+  4494		}
+  4495	
+  4496		return cpu;
+  4497	}
+  4498	
+  4499	static inline void
+  4500	__move_queued_task(struct rq *rq, struct task_struct *p, struct rq *dest_rq, int dest_cpu)
+  4501	{
+  4502		WRITE_ONCE(p->on_rq, TASK_ON_RQ_MIGRATING);
+  4503		dequeue_task(p, rq, 0);
+  4504		set_task_cpu(p, dest_cpu);
+  4505	
+  4506		sched_mm_cid_migrate_to(dest_rq, p);
+  4507	
+  4508		sched_task_sanity_check(p, dest_rq);
+  4509		enqueue_task(p, dest_rq, 0);
+  4510		WRITE_ONCE(p->on_rq, TASK_ON_RQ_QUEUED);
+  4511		wakeup_preempt(dest_rq);
+  4512	}
+  4513	
+  4514	static inline void prio_balance(struct rq *rq)
+  4515	{
+  4516		struct task_struct *p, *next;
+  4517		int cpu, dest_cpu;
+  4518	
+> 4519		if (!rq->online)
+  4520			return;
+  4521	
+  4522		if (0 == rq->prio_balance_time)
+  4523			return;
+  4524	
+  4525		if (rq->clock - rq->prio_balance_time < sysctl_sched_base_slice << 2)
+  4526			return;
+  4527	
+  4528		rq->prio_balance_time = rq->clock;
+  4529		cpu = cpu_of(rq);
+  4530	
+  4531		if (!cpumask_empty(sched_idle_mask))
+  4532			return;
+  4533	
+  4534		p = sched_rq_next_task(rq->curr, rq);
+  4535		while (p != rq->idle) {
+  4536			next = sched_rq_next_task(p, rq);
+  4537			if (!is_migration_disabled(p) && (dest_cpu = balance_select_task_rq(p)) != cpu) {
+  4538				struct rq *dest_rq;
+  4539	
+  4540				dest_rq = cpu_rq(dest_cpu);
+  4541	
+  4542				if (do_raw_spin_trylock(&dest_rq->lock)) {
+  4543					spin_acquire(&dest_rq->lock.dep_map,
+  4544						     SINGLE_DEPTH_NESTING, 1, _RET_IP_);
+  4545	
+  4546					__move_queued_task(rq, p, dest_rq, dest_cpu);
+  4547	
+  4548					spin_release(&dest_rq->lock.dep_map, _RET_IP_);
+  4549					do_raw_spin_unlock(&dest_rq->lock);
+  4550				}
+  4551			}
+  4552			p = next;
+  4553		}
+  4554	}
+  4555	
 
 -- 
 0-DAY CI Kernel Test Service
