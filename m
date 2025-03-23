@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D4E1EBFE4;
-	Sat, 22 Mar 2025 23:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95171FC0E9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 01:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742686638; cv=none; b=NhnQuNdFrkiobRz5L0LYT6M5BmjFH+kt4XySQziU967wS0VDVqgYHqw4uEfBWON3/ZMGNkmoqfQQajWQJCP3FIFGSA2dbDfcXniflSc2wV9CU/Px7pNXSZse6/eZ9K+0s6YRcS4LcHD8ZZmhulLVqjWdzHS3eNC5VNhBG9SbVEg=
+	t=1742692174; cv=none; b=T3k2zLMNI3JAYl5TOJ9NUb3NKjzYzpvLEAToW0U/ae6dOjfanY8aW5ciuP3oirQs7mGnAVaFXkgd97EL9Xw6BrVaqZKotXm1hKOOzT58o/ZDvngoximSYEiwef915fPVQJUfvVf4V7HuGkC1yABPz6ha4F3BCpkDHkjNHUhYQWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742686638; c=relaxed/simple;
-	bh=/fL38PohfZNzoYeO4e3wD60/qTiXOlKjNyMjNKu+IRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P8xzqmP9/BhcsiH/JJUgjaHjvv5VlNzI2lO74knovG94MI+xsbUfIczYUQL7wBr/QhN7YKIgD8sI9pg7Ux1O55mDARYJufFLK3seZYHQcdOdVP8sijVYN7mJ6Z669I0EpB0YG7y5lFiMdLFWklu1MZf1RkXFjVdu87pvwA0HLkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGbs2Tlk; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1742692174; c=relaxed/simple;
+	bh=Qhyc/RAAYI2BPBQ60qyyhcNjc+Xr++f3JYr8LDfMIIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e+wAgXg6htjkpgKj529qWr2v8CIe/G/hLR7fxTGgzf+cU6JKYe/vbbPDZaNXdo9rLfW+VDIzERzruOX37su7+H1/JZco7kaTCaGDO0V0iAXaeBbrYpsMPDIVh0RBbAYWPUlTJGmlN7a7Uu1fATcuKbmSQVcpfdx6/ijUzcELEeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eIBTpY8K; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGbs2Tlk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eIBTpY8K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742686636; x=1774222636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/fL38PohfZNzoYeO4e3wD60/qTiXOlKjNyMjNKu+IRc=;
-  b=IGbs2Tlk3Y5kngOGHK+DRtMRydCzJ7gAAQDRbgI4KBdifMEgXIF4IiZM
-   vJ+X9fvlUgMvUXKGoY/vO/4quD2+ByDwglS/zsZZM+z+egSg3bZNiY1uJ
-   lWsFD/VVltjHc4/VjXOrJZzUzt1A7tQz7XON1Ltqo4JknZEjRHg51BquP
-   fo1iKwkqp/3gWufL9Aoc+qHVea6IOVebbCmtKQ/eng+diQ7pYZ6AmyjTu
-   zmBfgcOPuhMWTHqhYb3S5C5tYfvl2Rj/oLD2NcjHudTeoaiyUvCaBOV3I
-   RSqyj3QbuWgXypMn/fp0fcs5dRHSnpGFcnU4AOP4stDZ75G+Z0wgVcYh1
-   Q==;
-X-CSE-ConnectionGUID: xBI7AumrSAqbP/enE4bENA==
-X-CSE-MsgGUID: 2PvzA+i7QqelDgWqlXBlww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="54553321"
+  t=1742692173; x=1774228173;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qhyc/RAAYI2BPBQ60qyyhcNjc+Xr++f3JYr8LDfMIIw=;
+  b=eIBTpY8KPZeVA3hd8nyBg3punQnAERpJf5zrSCppwx3uCh9r19GhpirB
+   wxad6K/+iLyJ4KfnM84xYOMgsbcPsE7MsJEa8ZSN0W2E1wmnLV3GAmM/y
+   cX4wj+qd7jNwsmk20aG+Upsp8VGNlcrYdbb5NFF+ATCuLVLJpwbMKbNmF
+   hIhvRdtsyA/v1zSUl4V/HGmuR4IhnQxJfx92nTsOmqfbb58LH1P9y5kuo
+   wx+oIUoV7+1c9rmvZGMavnKfZ4tO+NJ/4xrVGQkPlWUEBEud6l4AS/qdO
+   3tYd69LwV9EXWG+wOU1Fh9/7r95Vltv7vNRMBBQKwqB3aQydfqteI+l0S
+   w==;
+X-CSE-ConnectionGUID: nHuo/6U/SgqmN5TAhjYzRA==
+X-CSE-MsgGUID: QFm5WxBSS7GiVcjlLOg81Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="55303356"
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="54553321"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 16:37:11 -0700
-X-CSE-ConnectionGUID: Q4gcij9bRf6YlCYCu1aUrA==
-X-CSE-MsgGUID: T10ovpUaTTKIen4JafwWaA==
+   d="scan'208";a="55303356"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 18:09:32 -0700
+X-CSE-ConnectionGUID: H9HcYnagS92eIwvGedpXmw==
+X-CSE-MsgGUID: vqxBytAzQA65VS1WSjE52g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="128530006"
+   d="scan'208";a="127866025"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Mar 2025 16:37:08 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 22 Mar 2025 18:09:31 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tw8On-0002SR-1u;
-	Sat, 22 Mar 2025 23:37:05 +0000
-Date: Sun, 23 Mar 2025 07:36:57 +0800
+	id 1tw9qA-0002VM-26;
+	Sun, 23 Mar 2025 01:09:27 +0000
+Date: Sun, 23 Mar 2025 09:08:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Stecklina via B4 Relay <devnull+julian.stecklina.cyberus-technology.de@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Gao Xiang <xiang@kernel.org>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Subject: Re: [PATCH v2 8/9] fs: ext2, ext4: register an initrd fs detector
-Message-ID: <202503230718.5DYAbNZO-lkp@intel.com>
-References: <20250322-initrd-erofs-v2-8-d66ee4a2c756@cyberus-technology.de>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2051/2051] mm/mem_reliable.c:345:2: error:
+ implicit declaration of function 'mem_reliable_ctrl_bit_disable' is invalid
+ in C99
+Message-ID: <202503230912.NNxJbHgI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,46 +62,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250322-initrd-erofs-v2-8-d66ee4a2c756@cyberus-technology.de>
 
-Hi Julian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 88d324e69ea9f3ae1c1905ea75d717c08bdb8e15]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Stecklina-via-B4-Relay/initrd-remove-ASCII-spinner/20250323-043649
-base:   88d324e69ea9f3ae1c1905ea75d717c08bdb8e15
-patch link:    https://lore.kernel.org/r/20250322-initrd-erofs-v2-8-d66ee4a2c756%40cyberus-technology.de
-patch subject: [PATCH v2 8/9] fs: ext2, ext4: register an initrd fs detector
-config: i386-buildonly-randconfig-001-20250323 (https://download.01.org/0day-ci/archive/20250323/202503230718.5DYAbNZO-lkp@intel.com/config)
-compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503230718.5DYAbNZO-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   6f6f173b2b8fa65e1ef7ebc6e43b0b02c2a52759
+commit: 425771499c0742a996ab28df143d7a5123102686 [2051/2051] mm: mem_reliable: Introduce proc interface to disable memory reliable features
+config: arm64-randconfig-r061-20250323 (https://download.01.org/0day-ci/archive/20250323/202503230912.NNxJbHgI-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503230912.NNxJbHgI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503230718.5DYAbNZO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503230912.NNxJbHgI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/ext2/initrd.c:27:33: error: too many arguments provided to function-like macro invocation
-      27 | initrd_fs_detect(detect_ext2fs, BLOCK_SIZE);
-         |                                 ^
-   include/linux/initrd.h:63:9: note: macro 'initrd_fs_detect' defined here
-      63 | #define initrd_fs_detect(detectfn)
-         |         ^
->> fs/ext2/initrd.c:27:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-      27 | initrd_fs_detect(detect_ext2fs, BLOCK_SIZE);
-         | ^
-         | int
-   2 errors generated.
+>> mm/mem_reliable.c:345:2: error: implicit declaration of function 'mem_reliable_ctrl_bit_disable' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           mem_reliable_ctrl_bit_disable(idx);
+           ^
+   mm/mem_reliable.c:345:2: note: did you mean 'mem_reliable_ctrl_bit_disabled'?
+   mm/mem_reliable.c:320:13: note: 'mem_reliable_ctrl_bit_disabled' declared here
+   static void mem_reliable_ctrl_bit_disabled(int idx) {}
+               ^
+   1 error generated.
 
 
-vim +27 fs/ext2/initrd.c
+vim +/mem_reliable_ctrl_bit_disable +345 mm/mem_reliable.c
 
-    26	
-  > 27	initrd_fs_detect(detect_ext2fs, BLOCK_SIZE);
+   322	
+   323	static void mem_reliable_feature_disable(int idx)
+   324	{
+   325		char *str = NULL;
+   326	
+   327		switch (idx) {
+   328		case MEM_RELIABLE_FALLBACK:
+   329			reliable_allow_fallback = false;
+   330			str = "fallback";
+   331			break;
+   332		case MEM_RELIABLE_SHMEM:
+   333			shmem_reliable = false;
+   334			str = "shmem";
+   335			break;
+   336		case MEM_RELIABLE_PAGECACHE:
+   337			pagecache_reliable = false;
+   338			str = "pagecache";
+   339			break;
+   340		default:
+   341			pr_err("unknown index: %d", idx);
+   342			return;
+   343		}
+   344	
+ > 345		mem_reliable_ctrl_bit_disable(idx);
+   346		pr_info("%s is disabled\n", str);
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
