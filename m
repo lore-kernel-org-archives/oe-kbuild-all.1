@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCD71FC0E9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 01:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78667136E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 01:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742692190; cv=none; b=YKqtZHUJVk9L3I7IRlitHtsWYhE77dMkZ0xSyWYhM6sOWlmIrGE88KWROjf0x4FDMMwI1o92F1oidLXPAu3kxx1/wDQQDKLjQppsGftP6EEIy3GYtZAD38jFi5SbY0p335t1xTCsOQM/H91kL05reUOvXGqnURqq/xVTbUU97LI=
+	t=1742692804; cv=none; b=fgh5AnJtC6w3twzYDr8QJxRuNUqUYqWDQM0/LDRG3rnMqzqRljtfFXxnlpyqeSJa8n29QfaIq/MmklSbtzHeqc9G4gTeO+8ITTHkrNc/wWD6DltCF/9X6m46L8vWSSB+jqr4jSsfWUwo6lbA8TaIpenktJMzjhpUrOgEI+yVs4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742692190; c=relaxed/simple;
-	bh=xPZhOtDyNHDQulBJo4zLbjG+7r7kuiq34iiYhZ5hh8I=;
+	s=arc-20240116; t=1742692804; c=relaxed/simple;
+	bh=P8+6BNTB9CSPDQS97PGpeQ3UZ0chzDRwadYHMEuGaTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uum2VdjXGw68mm8paLrrfE+GMN8HkybcCnS0mSo/smO4ZDQOnhKh+SeNUO7ICFZKN/CKfOKhmMAcdjKNGyM5cz1UrJFtv1OINraYSEcxRejvu8IH7RAHbfcIvvEpJbDIjUFmZ5CR1bG89WoKONDHX/tYys5pvwrTFq5kI21MaSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CrZHxb+5; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Uuy/HCuREgGzwapEqLkMHoFRGDtRxfdhQDesOJdEN05TxvS2VHxnOjvXwPfCDuQ5OKuaGlzvGydLTUDf6ZuRSoP1HB1Pf4NARSr+wfMqIMBIOdQTb+XRbIXV9HMABJZgDRPCj8fZC2itfuSzV/jBa2fuBqezj077L4DMdKdI/g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWHjN0ch; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CrZHxb+5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWHjN0ch"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742692189; x=1774228189;
+  t=1742692803; x=1774228803;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xPZhOtDyNHDQulBJo4zLbjG+7r7kuiq34iiYhZ5hh8I=;
-  b=CrZHxb+5Wb3F257Sl4DQfwsX27ZIL4joSEYwhYuCR+jXmW3nE29VV8+n
-   TBAvU2FxonK/+qIOs5ASJfAGKb3xnJLwy2eoFFQopWRPRz0l0DE8hhTev
-   nygKMd9bNB5aN8G2clCKsbif6GItSGc9UX0+6D8O0hykT/qtRzDMrac3C
-   LCODoww3+MWAoTXajtrbb0wOeq3zlXgnP9q/z6KEB+zWfU8MLz+4+gBBS
-   V8pD8G+SeJEA0ws8xLxJ3MtAm/x8uuEm41CB6dRWrJKkVYh6bJWNQaXvy
-   xCMXEgc61F+o1/XSKCAef8NleqeCqGLeLiZPIUIEoYmpPDoEom4MfA5eZ
+  bh=P8+6BNTB9CSPDQS97PGpeQ3UZ0chzDRwadYHMEuGaTE=;
+  b=HWHjN0chEKGJMRtAG3O6dvLFbZyHRI5scM+mCbQjjpem+IJFvLbpcbIe
+   Vv0EMHCWFqxCOIXGCDh+ChCX4lR5Ja1C3RmdmTtH/Mes7IiOFZS60bcZ+
+   J9V2Gyv+7snfW8yPWe2fAEMAH5/VEa+8xeKdZPa+R7R7Dwk2Y7FBsaUyh
+   7ZvkMCGrpGeKZ63zG6AGBZjURiy0IQixbY3f9o3Eb7gYBQ4Fhcdlb75ku
+   UaYiV4dKhGFJBq1UnMaEM/En+YyeyOQhw1jwlKQZgOSZsEP3+s/Hjj4e5
+   9jSohzgCpnlwrOqPN0EmmIdUgjcyqaqx7qHkZhujLXT8O/rUKh6uHbO9K
    A==;
-X-CSE-ConnectionGUID: 8pV9/XNmT9SrWrPzEQ+Z1g==
-X-CSE-MsgGUID: j2fDwmK4S+q8mTbIqr2aig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="43855989"
+X-CSE-ConnectionGUID: 8hHOdTsvRM+ULQZE6Gsamg==
+X-CSE-MsgGUID: nIL7szaVRxedeD+d+sDYag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="31520966"
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="43855989"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 18:09:48 -0700
-X-CSE-ConnectionGUID: yIwGH+d6Q22fbGFENGz1hA==
-X-CSE-MsgGUID: wVs9l92CTECrF2/FPmGZvQ==
+   d="scan'208";a="31520966"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 18:20:02 -0700
+X-CSE-ConnectionGUID: WMw1jZOJQ5CZLR1H1e/vYw==
+X-CSE-MsgGUID: 49kCeUZZT32A7BfLZfUPKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,268,1736841600"; 
-   d="scan'208";a="128539737"
+   d="scan'208";a="124495841"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Mar 2025 18:09:47 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 22 Mar 2025 18:20:00 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tw9qD-0002VQ-0L;
-	Sun, 23 Mar 2025 01:09:29 +0000
-Date: Sun, 23 Mar 2025 09:08:39 +0800
+	id 1twA0K-0002Vj-1H;
+	Sun, 23 Mar 2025 01:19:56 +0000
+Date: Sun, 23 Mar 2025 09:18:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yuan Can <yuancan@huawei.com>
+To: kernel@openeuler.org, zhangchangzhong <zhangchangzhong@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2051/2051] mm/memcontrol.c:3147:6: warning: no
- previous prototype for 'hisi_oom_recover'
-Message-ID: <202503230914.IDoSqyA4-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1512/1512]
+ kernel/sched/grid/qos.c:84:31: error: 'struct mempolicy' has no member named
+ 'v'
+Message-ID: <202503230934.Ug2Wd8BQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,74 +63,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Weilong,
+Hi Wang,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   6f6f173b2b8fa65e1ef7ebc6e43b0b02c2a52759
-commit: b498d9f1bacd40d583c0970cab02ad522127a7e7 [2051/2051] arm64/ascend: Add new enable_oom_killer interface for oom contrl
-config: arm64-randconfig-r111-20250323 (https://download.01.org/0day-ci/archive/20250323/202503230914.IDoSqyA4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250323/202503230914.IDoSqyA4-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   abf385ef625e6aeb4923da42fef9ebce788f4ecf
+commit: ce35ded5d5774f055f6850b15032066ff4936414 [1512/1512] sched: smart grid: init sched_grid_qos structure on QOS purpose
+config: arm64-randconfig-r061-20250323 (https://download.01.org/0day-ci/archive/20250323/202503230934.Ug2Wd8BQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503230934.Ug2Wd8BQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503230914.IDoSqyA4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503230934.Ug2Wd8BQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/memcontrol.c:3147:6: warning: no previous prototype for 'hisi_oom_recover' [-Wmissing-prototypes]
-    3147 | void hisi_oom_recover(struct obj_cgroup *objcg)
-         |      ^~~~~~~~~~~~~~~~
+   In file included from kernel/sched/grid/qos.c:19:
+   kernel/sched/grid/qos.c: In function 'sched_grid_preferred_interleave_nid':
+>> kernel/sched/grid/qos.c:84:31: error: 'struct mempolicy' has no member named 'v'
+      84 |         if (nodes_equal(policy->v.nodes, *preferred_nmask))
+         |                               ^~
+   include/linux/nodemask.h:202:41: note: in definition of macro 'nodes_equal'
+     202 |                         __nodes_equal(&(src1), &(src2), MAX_NUMNODES)
+         |                                         ^~~~
+   kernel/sched/grid/qos.c:91:32: error: 'struct mempolicy' has no member named 'v'
+      91 |         nodes_and(nmask, policy->v.nodes, *preferred_nmask);
+         |                                ^~
+   include/linux/nodemask.h:162:47: note: in definition of macro 'nodes_and'
+     162 |                         __nodes_and(&(dst), &(src1), &(src2), MAX_NUMNODES)
+         |                                               ^~~~
+>> kernel/sched/grid/qos.c:95:31: error: 'struct task_struct' has no member named 'il_prev'
+      95 |         next = next_node_in(me->il_prev, nmask);
+         |                               ^~
+   include/linux/nodemask.h:278:46: note: in definition of macro 'next_node_in'
+     278 | #define next_node_in(n, src) __next_node_in((n), &(src))
+         |                                              ^
+   kernel/sched/grid/qos.c:97:19: error: 'struct task_struct' has no member named 'il_prev'
+      97 |                 me->il_prev = next;
+         |                   ^~
+   In file included from kernel/sched/grid/qos.c:20:
+   At top level:
+   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
 
-sparse warnings: (new ones prefixed by >>)
->> mm/memcontrol.c:3147:6: sparse: sparse: symbol 'hisi_oom_recover' was not declared. Should it be static?
-   mm/memcontrol.c:4228:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4228:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4230:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4230:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4386:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4386:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:4480:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol.c:4480:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol.c:6198:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:6198:23: sparse:    struct task_struct [noderef] __rcu *
-   mm/memcontrol.c:6198:23: sparse:    struct task_struct *
-   mm/memcontrol.c:6415:52: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol.c:6415:52: sparse:    struct task_struct [noderef] __rcu *
-   mm/memcontrol.c:6415:52: sparse:    struct task_struct *
-   mm/memcontrol.c:1320:18: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
-   mm/memcontrol.c:1343:22: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
-   mm/memcontrol.c: note: in included file (through include/linux/spinlock.h, include/linux/wait.h, include/linux/pid.h, ...):
-   include/linux/spinlock_api_smp.h:111:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
-   mm/memcontrol.c:2111:6: sparse: sparse: context imbalance in 'folio_memcg_lock' - wrong count at exit
-   mm/memcontrol.c:2158:17: sparse: sparse: context imbalance in '__folio_memcg_unlock' - unexpected unlock
-   mm/memcontrol.c:6058:9: sparse: sparse: context imbalance in 'mem_cgroup_count_precharge_pte_range' - unexpected unlock
-   mm/memcontrol.c:6326:9: sparse: sparse: context imbalance in 'mem_cgroup_move_charge_pte_range' - unexpected unlock
 
-vim +/hisi_oom_recover +3147 mm/memcontrol.c
+vim +84 kernel/sched/grid/qos.c
 
-  3145	
-  3146	#ifdef CONFIG_ASCEND_OOM
-> 3147	void hisi_oom_recover(struct obj_cgroup *objcg)
-  3148	{
-  3149		struct mem_cgroup *memcg;
-  3150	
-  3151		memcg = get_mem_cgroup_from_objcg(objcg);
-  3152		if (!mem_cgroup_is_root(memcg))
-  3153			memcg_oom_recover(memcg);
-  3154		css_put(&memcg->css);
-  3155	}
-  3156	#else
-  3157	static inline void hisi_oom_recover(struct obj_cgroup *objcg) { }
-  3158	#endif
-  3159	
+  > 19	#include <linux/nodemask.h>
+    20	#include <linux/mempolicy.h>
+    21	#include <linux/slab.h>
+    22	#include <linux/sched.h>
+    23	#include <linux/sched/grid_qos.h>
+    24	#include "internal.h"
+    25	
+    26	static int qos_affinity_set(struct task_struct *p)
+    27	{
+    28		int n;
+    29		struct sched_grid_qos_affinity *affinity = &p->grid_qos->affinity;
+    30	
+    31		nodes_clear(affinity->mem_preferred_node_mask);
+    32		/*
+    33		 * We want the memory allocation to be as close to the CPU
+    34		 * as possible, and adjust after getting memory bandwidth usage.
+    35		 */
+    36		for (n = 0; n < nr_node_ids; n++)
+    37			if (cpumask_intersects(cpumask_of_node(n), p->prefer_cpus))
+    38				node_set(n, affinity->mem_preferred_node_mask);
+    39	
+    40		return 0;
+    41	}
+    42	
+    43	int sched_grid_qos_fork(struct task_struct *p, struct task_struct *orig)
+    44	{
+    45		struct sched_grid_qos *qos;
+    46	
+    47		qos = kzalloc(sizeof(*qos), GFP_KERNEL);
+    48		if (!qos)
+    49			return -ENOMEM;
+    50	
+    51		qos_power_init(&qos->power);
+    52		qos_stat_init(&qos->stat);
+    53	
+    54		nodes_clear(qos->affinity.mem_preferred_node_mask);
+    55		if (likely(orig->grid_qos))
+    56			qos->affinity = orig->grid_qos->affinity;
+    57		qos->affinity_set = qos_affinity_set;
+    58		p->grid_qos = qos;
+    59	
+    60		return 0;
+    61	}
+    62	
+    63	void sched_grid_qos_free(struct task_struct *p)
+    64	{
+    65		kfree(p->grid_qos);
+    66		p->grid_qos = NULL;
+    67	}
+    68	
+    69	/* dynamic select a more appropriate preferred interleave nid for process */
+    70	int sched_grid_preferred_interleave_nid(struct mempolicy *policy)
+    71	{
+    72		nodemask_t nmask;
+    73		unsigned int next;
+    74		struct task_struct *me = current;
+    75		nodemask_t *preferred_nmask = NULL;
+    76	
+    77		if (likely(me->grid_qos))
+    78			preferred_nmask =
+    79				&me->grid_qos->affinity.mem_preferred_node_mask;
+    80	
+    81		if (!preferred_nmask || !policy)
+    82			return NUMA_NO_NODE;
+    83	
+  > 84		if (nodes_equal(policy->v.nodes, *preferred_nmask))
+    85			return NUMA_NO_NODE;
+    86		/*
+    87		 * We perceive the actual consumption of memory bandwidth
+    88		 * in each node and post a preferred interleave nid in
+    89		 * more appropriate range.
+    90		 */
+  > 91		nodes_and(nmask, policy->v.nodes, *preferred_nmask);
+    92		if (nodes_empty(nmask))
+    93			return NUMA_NO_NODE;
+    94	
+  > 95		next = next_node_in(me->il_prev, nmask);
+    96		if (next < MAX_NUMNODES)
+    97			me->il_prev = next;
+    98		return next;
+    99	}
+   100	
 
 -- 
 0-DAY CI Kernel Test Service
