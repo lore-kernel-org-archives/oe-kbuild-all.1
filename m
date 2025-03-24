@@ -1,106 +1,145 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53F828E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 11:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0E225E444
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 13:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742816806; cv=none; b=ZOZGJmR3k1dRF3S0DGBZd4v6YvWfBiWbEaxHeoYc9c68t+e8mopPuMeWRk7Az48dTYnpWpPP2fQ13bjd4gDnI/TmDdWJlmRVIWe0B/UOuLR/NRxBy9DEFiz9HPhCewLuDsgw1A2PUwz97mghoJK5Hn12uWJDbStNzafFrMYKdbY=
+	t=1742823837; cv=none; b=SBnOretNb/BE2jTruTbsd92i1+99Q4fmJE5hegUHzYJ4B3sCpN8fAqeyLTVXcsuBgc+o7p+skGWgddFT4IXlEI/pqCxLhopAXPRTiLNvjTTf8CRoYR/ZWzyNlTgloU9g+4U6vHikPUwL3mkWX63tLt0kwxyS0Xu6MHzBDH0ZWpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742816806; c=relaxed/simple;
-	bh=zSuENPiPbtaDwuaQQdXV+mtt2nFje5kEv1tHKaAxAcY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AAs96l5edJJlpEOPni23r8+j/mU9BmtQWIPdeTZMT+m3qUGBffcZVfYc9AIgNEsnqAg6Q9v0dyXZc/nGE0mzHi/dRrhx2SUI+V5Zx6ch3Mp24ujQvA19Odgrvs64VlifRgBLEQuioyR2t8J1pYlPVmTG5scnF8odzCs/4Rqj2nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=KcZNS0sE; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1742823837; c=relaxed/simple;
+	bh=+P/WT2cvNcq4MrEdHKMVPe4vc5/k8h+eg0ME/bhPKyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Uxx0mrHYRn/TobpPSrvgqLxYJYKMRRFB6okyPfZsER3dMwkDJkUvG4mWKAHASHaYwsZNac5mxEeg+oEDXI/sywmjzihLYMJLUJPa1Cdu8nL5Oc61wHqktCC2ayLi30ncpn4wkzOPpFls0Fo087UJoGvllbmgzSEPh4UZ1sdhYiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uj1RAheN; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="KcZNS0sE"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e900a7ce55so66166986d6.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 04:46:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1742816801; x=1743421601; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G3Pvd4lSSpF3DnIXoRvCoKbkh9+iG8O+meKIYL5SonY=;
-        b=KcZNS0sE/ZtCbQOAz1UdYTzGZWRGOKlgGvWgmso//1pqmN0GGHC9UD10aUqEYbjHr6
-         JnFh/JuymeCCJEBa5GzzRrLAjQteYEIndvkL7zp58tdl+B+LQnhdwuqfqW7vegI6dx0e
-         WwMM2kz56DHVQCAC757TWzIP/MjP2PuNpJS0gOwc6J1up50gwfSPoMNhD2Khz7LedlyA
-         FH20IJqjGK2kNUejmQPqdRaMz9m5pNDhmkWEqiOeG+pNa1D/dzeHP6+11mFDrvFvS316
-         ugrsho9+Cx2/Qej8/iqqs9Mny9VKLynNljrkpHNs1Nl6pl2A/U5awnABPkec5OuiTTcf
-         2gpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742816801; x=1743421601;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G3Pvd4lSSpF3DnIXoRvCoKbkh9+iG8O+meKIYL5SonY=;
-        b=hw6mPI7DFxLqvO+4jeUhmUx1lTlkYzv/6ognzzk+JmZwZ6mORz0A7vu8gwRWwBgI8q
-         HJ31F8QfeWNi4rqG4Do9mdhcHE65SujwOpKaiPfOnGgi1eMNWjzGEBTA/GruHOF6hvCn
-         ljjVGDbK92Wv3AkCYKJgrYhbf5sGdZZV7SlMCXK20itU/OQHowWMgqAVje12t96FRr2u
-         eK/aIFUumM+jHPyNut68E0Hq3iXOnDkMBZ7yx85jUXWonpYVZbxTSp3cNcsrbxIXqqGm
-         nF0SeiBa3670DBsAIZC2Ffw43mru7KM2Z9fCC5afunbBIOqJjv53TWatv9aOtCAZew8d
-         e7GQ==
-X-Gm-Message-State: AOJu0YwGoZZyvmkOCp9aQnNcmgkPpmPnqT474UMWloeVaiR/+aCN/K/a
-	hTxYC8vRB5K53kUqLbFCR7XL4cw5HajnIn+9qZ2xXVdjspyGPDNtGP4Pxe813A8=
-X-Gm-Gg: ASbGncvtMoJC8EDpwacc+Mr5xeQS+LZ/ID6fVCie34IbThBz117Z6qRZpSW5hGhYWFt
-	SVLSB2i6KGh4wjd4+lr9PjHsW5oJYMzMFpBPkiMal3rl5q7afGR8gI0XrSp+0Pzb/G+6qNaHSj4
-	Rr22x/4rfVh+CgZcRU3teOY+0tyE5CoFKQLtRbtFju0mL9nWSZHP3sjGbBEGJ7GuD02BT3tqNlB
-	+x1RGE7pTqI9LcYLqXYKdheqGWuI8Y4RyQXpTw8Gih3+UCpRWwYMENU5mHtAP3BPAnSQ9Z3RUXD
-	iS+G48T7smhYmJulr0MlLx704l+CCKVf0S2/1iQ=
-X-Google-Smtp-Source: AGHT+IGB3SXDh5vupaRLjd3wYSCUcTm788Z1i+qNbZf+XMtVSLWO58zJ2BYSTwGnMhxtsq9ZVc/jzQ==
-X-Received: by 2002:a05:6214:202b:b0:6e8:9843:ec99 with SMTP id 6a1803df08f44-6eb3f3af7fdmr165618456d6.41.1742816801148;
-        Mon, 24 Mar 2025 04:46:41 -0700 (PDT)
-Received: from [172.20.6.96] ([99.209.85.25])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eb3ef0e777sm43592136d6.8.2025.03.24.04.46.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Mar 2025 04:46:40 -0700 (PDT)
-Message-ID: <e27c19fe-6d42-4875-b918-8cacbe8daa6d@kernel.dk>
-Date: Mon, 24 Mar 2025 05:46:39 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uj1RAheN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742823835; x=1774359835;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+P/WT2cvNcq4MrEdHKMVPe4vc5/k8h+eg0ME/bhPKyY=;
+  b=Uj1RAheNX3/Oo7Ck0aZiwuaYji48CD5ww352wsDsIsd3tQDMzXZx3Nl4
+   nD450JZ02JxIQXNtSJYG07SbJrzk8ei+/4M65OkD3zZtCTDWBbWLiWpIh
+   tTHKMFBD7PpVP7bLJ4Gt5CezlfOMVTugZkaYYNAfqq8sx/rARm88Qv5iP
+   DEEcA9ZA/1kiZjSEvx+n4S5ClCsZm6OaYzzyWWaZRGEvBEgNlkISWfyF6
+   C5BljtSFRht2KUuORwTDPxFXqjV3RjY0SNJ3WPFOVttWzpJERo2q3UQ53
+   22vwsaC5B/LVBhwI+8PUHe/krE6gkFxWnKvnc2pmz+qOEZbDHXJpJwAtX
+   Q==;
+X-CSE-ConnectionGUID: uixWU9NHST+mbt5mogTzEQ==
+X-CSE-MsgGUID: KAzJBOmjTkiqQNiOgGipIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44192761"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
+   d="scan'208";a="44192761"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 06:43:53 -0700
+X-CSE-ConnectionGUID: 2tSsMt8dTJ+knizt8ewVUw==
+X-CSE-MsgGUID: Oy0WZTr+T5mKFT3wlm2e9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
+   d="scan'208";a="128228975"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 24 Mar 2025 06:43:52 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1twi5m-0003cT-1u;
+	Mon, 24 Mar 2025 13:43:50 +0000
+Date: Mon, 24 Mar 2025 21:43:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:objtool-werror 21/22] drivers/pwm/pwm-mediatek.c:142:1-7:
+ WARNING: do_div() does a 64-by-32 division, please consider using div64_ul
+ instead.
+Message-ID: <202503242136.gWSwF8Bh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [axboe-block:for-6.15/block 75/76] drivers/block/loop.c:388:6-25:
- WARNING: atomic_dec_and_test variation before object free at line 395.
-To: Ming Lei <ming.lei@redhat.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <202503240625.LfSMQqA2-lkp@intel.com> <Z-CpA6YVKLc2zxfb@fedora>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <Z-CpA6YVKLc2zxfb@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 3/23/25 6:36 PM, Ming Lei wrote:
-> On Mon, Mar 24, 2025 at 06:52:22AM +0800, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/block
->> head:   4c3f4bad7a6e9022489a9f8392f7147ed3ce74b1
->> commit: dfc77a934a3acdb13dadf237b7417c6a31b19da8 [75/76] loop: try to handle loop aio command via NOWAIT IO first
->> config: i386-randconfig-052-20250323 (https://download.01.org/0day-ci/archive/20250324/202503240625.LfSMQqA2-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202503240625.LfSMQqA2-lkp@intel.com/
->>
->> cocci warnings: (new ones prefixed by >>)
->>>> drivers/block/loop.c:388:6-25: WARNING: atomic_dec_and_test variation before object free at line 395.
-> 
-> The code itself is safe. Event through the atomic counter drops to zero,
-> the object isn't freed, and the counter can be re-initialized & requeued
-> internally.
-> 
-> This cocci rule should be 'wrong', or anyone can explain the exact risk
-> here?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-werror
+head:   a83027487e43186e3eb3dd0a39733ee2eb102d30
+commit: b31869ae7173a6350b6b764f36a90003dedd8902 [21/22] pwm: mediatek: Prevent divide-by-zero in pwm_mediatek_config()
+config: parisc-randconfig-r052-20250324 (https://download.01.org/0day-ci/archive/20250324/202503242136.gWSwF8Bh-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
 
-It's just a generic thing that it always reports, in case atomic_t is
-used where a refcount_t would be "safer". You can just ignore it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503242136.gWSwF8Bh-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pwm/pwm-mediatek.c:142:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+
+vim +142 drivers/pwm/pwm-mediatek.c
+
+   117	
+   118	static int pwm_mediatek_config(struct pwm_chip *chip, struct pwm_device *pwm,
+   119				       int duty_ns, int period_ns)
+   120	{
+   121		struct pwm_mediatek_chip *pc = to_pwm_mediatek_chip(chip);
+   122		u32 clkdiv = 0, cnt_period, cnt_duty, reg_width = PWMDWIDTH,
+   123		    reg_thres = PWMTHRES;
+   124		unsigned long clk_rate;
+   125		u64 resolution;
+   126		int ret;
+   127	
+   128		ret = pwm_mediatek_clk_enable(chip, pwm);
+   129		if (ret < 0)
+   130			return ret;
+   131	
+   132		clk_rate = clk_get_rate(pc->clk_pwms[pwm->hwpwm]);
+   133		if (!clk_rate)
+   134			return -EINVAL;
+   135	
+   136		/* Make sure we use the bus clock and not the 26MHz clock */
+   137		if (pc->soc->has_ck_26m_sel)
+   138			writel(0, pc->regs + PWM_CK_26M_SEL);
+   139	
+   140		/* Using resolution in picosecond gets accuracy higher */
+   141		resolution = (u64)NSEC_PER_SEC * 1000;
+ > 142		do_div(resolution, clk_rate);
+   143	
+   144		cnt_period = DIV_ROUND_CLOSEST_ULL((u64)period_ns * 1000, resolution);
+   145		while (cnt_period > 8191) {
+   146			resolution *= 2;
+   147			clkdiv++;
+   148			cnt_period = DIV_ROUND_CLOSEST_ULL((u64)period_ns * 1000,
+   149							   resolution);
+   150		}
+   151	
+   152		if (clkdiv > PWM_CLK_DIV_MAX) {
+   153			pwm_mediatek_clk_disable(chip, pwm);
+   154			dev_err(pwmchip_parent(chip), "period of %d ns not supported\n", period_ns);
+   155			return -EINVAL;
+   156		}
+   157	
+   158		if (pc->soc->pwm45_fixup && pwm->hwpwm > 2) {
+   159			/*
+   160			 * PWM[4,5] has distinct offset for PWMDWIDTH and PWMTHRES
+   161			 * from the other PWMs on MT7623.
+   162			 */
+   163			reg_width = PWM45DWIDTH_FIXUP;
+   164			reg_thres = PWM45THRES_FIXUP;
+   165		}
+   166	
+   167		cnt_duty = DIV_ROUND_CLOSEST_ULL((u64)duty_ns * 1000, resolution);
+   168		pwm_mediatek_writel(pc, pwm->hwpwm, PWMCON, BIT(15) | clkdiv);
+   169		pwm_mediatek_writel(pc, pwm->hwpwm, reg_width, cnt_period);
+   170		pwm_mediatek_writel(pc, pwm->hwpwm, reg_thres, cnt_duty);
+   171	
+   172		pwm_mediatek_clk_disable(chip, pwm);
+   173	
+   174		return 0;
+   175	}
+   176	
 
 -- 
-Jens Axboe
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
