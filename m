@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA1C469D;
-	Mon, 24 Mar 2025 14:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBEB25E460
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 14:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742826565; cv=none; b=f7KwKdKbm6jtfAiKDdGeymXGi2VjAIeP9SPdI1FjsXInzTHJTMFKORZBo0PMmR+RNO2e/2f7sVUGedmSgvhklmuk4EJ0z0QCTyXmhAYrkH7q0a67mXmLqAjEMvHCXCnb7dQfxOYNqqH7xu8P9PqthioGoLqDw07CL+C1w1PLOgo=
+	t=1742827961; cv=none; b=ZMdSGM6X4KL4mdXa/xK284Sgg12rIBEIF/tWmutl+j5yztOKZ13dA0ZTUz3aOwwKcFqrvc9shY3Hll3UzGvHqwGWZIrvd5DWIuxDP+LLQ8XmIA+0Y3/uwMo9/N49lkdv3YEACL1G5V6xheoPnZQx+JAejppVukm6BckZW7t7l1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742826565; c=relaxed/simple;
-	bh=IrJCE533bpLX0w710o4ZD6QiLFPV4AKCegDXn9WCy2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Udp20JMHpO5XswamKNWkVFtieBrOb5KGqzI0qf+JvuDf3FFiEAU5WznhFFORRrr9qU5hr+itf/rx8O9D99om09VUhwxoglKCfUeAhkTx2Y/55qXWUeLgQZSLrXwXxzKawbt7k2Gklnh3qfNvm8p40bDBs6F9aIwRS7f9jT30bUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzZ7Od81; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1742827961; c=relaxed/simple;
+	bh=vyerLS2nK/+sahdMm+wrUFJJjSkkeduq+vimHspjwjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XBpvWUYVZsuE+lZ47P1UduokWs0fJSX3UOCom9z+ON42esgniGte7KjweTTlA8lWTjkqaPz4oN3X1X3AbXBWIfBL2KTVPquyfMYGrGz0TYr0VSMB9pA35938V+pFtu4/ZT950l60fzCPN0Wpom1/dCGi/BBvp3ZR/N6j0yjBDEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZbHSbRs; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzZ7Od81"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZbHSbRs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742826562; x=1774362562;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IrJCE533bpLX0w710o4ZD6QiLFPV4AKCegDXn9WCy2w=;
-  b=DzZ7Od81Wa7tqulYy/fVE4iURe9fMTPKOvgV9wCToEuTDn0IRmU4tN7/
-   wwJYz70P/4kizqoTKONUAIhQh9+YRG3MVszNacOP905cGwZp/BEelSdZU
-   A0EFXXQ06ABNIFOkJtXldQ4z/Rn0uAOuucO0ObO+JhxxyE+lhooiGdCcd
-   2yiGBUptHCJIhqc16tgWOlSPEtIpDgrp6GfzttZE/tZk05qnaVQHy1e5N
-   JhUaiPdJ2pf7AU7VtNtiClIu3XwviTP7OkZLsrBxZwZbJ4S4yxD3hJIho
-   euT0mi95Vwsss7T0J+r+RDvO1WSVhBXDd5j4V63lzgefgS2A93DT8y8AP
+  t=1742827960; x=1774363960;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vyerLS2nK/+sahdMm+wrUFJJjSkkeduq+vimHspjwjk=;
+  b=cZbHSbRsNQtFPQ4/5fPZntpX/STaTUdrkail3DOAahURacI/pU3F1W5R
+   Uduq1zl7Co16St6/4bAdBs/GhZO6fsVLMCGQFnhfQUOTLTZtTYlJSlZP8
+   2qeaDyXVhvFvWtruR+8yVOufUq/geDv2Qi5MY9Wk4aE6w+0Lgt1cqK89w
+   FkyijB0GA4NlEY2OMXlZ8LwRBeJfjF1Un7cOP45xaY5T9Cb1MC8uVGzU1
+   YI/jn9nZAEl0lCcQ7evgVcWyUP8lKBEUvOLTZje3wdpmhSxEnlb+Iopkq
+   26GS7hVri3O++sCpwnqm3doiu82MaTK1W/zq2r3VuRHBX8HrsuDreh48m
    w==;
-X-CSE-ConnectionGUID: KEjdRNsQQyKZ3lL1xlStYQ==
-X-CSE-MsgGUID: OGSnrnOeQkKYaM+BSJoBbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="54698027"
+X-CSE-ConnectionGUID: q7TY8WQMSUi6OW19t0BDpw==
+X-CSE-MsgGUID: adMGRm0bTPimiXKvpNnjyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="43274265"
 X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="54698027"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 07:29:22 -0700
-X-CSE-ConnectionGUID: xBm2a4uAQY2zH91q2+uYzA==
-X-CSE-MsgGUID: gmRyu11+Ts+9epruHOkTUA==
+   d="scan'208";a="43274265"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 07:52:39 -0700
+X-CSE-ConnectionGUID: 2aNNZ2yeT7eIJLpzaGHCXw==
+X-CSE-MsgGUID: auTTer+JQ5ymGpXb0jvFXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="129256485"
+   d="scan'208";a="128762378"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 24 Mar 2025 07:29:19 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Mar 2025 07:52:38 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twinj-0003fR-1z;
-	Mon, 24 Mar 2025 14:29:15 +0000
-Date: Mon, 24 Mar 2025 22:28:17 +0800
+	id 1twjAA-0003gI-1S;
+	Mon, 24 Mar 2025 14:52:28 +0000
+Date: Mon, 24 Mar 2025 22:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
-	Jai Luthra <jai.luthra@linux.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>,
-	Vaishnav Achath <vaishnav.a@ti.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] media: cadence: cdns-csi2rx: Support multiple pixels
- per clock cycle
-Message-ID: <202503242153.Yn1DfnS5-lkp@intel.com>
-References: <20250324-probe_fixes-v1-5-5cd5b9e1cfac@ideasonboard.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/hrtick 3/4] kernel/time/hrtimer.c:1991:27:
+ error: 'TIF_REARM' undeclared
+Message-ID: <202503242207.v0uuLg8d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,156 +61,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250324-probe_fixes-v1-5-5cd5b9e1cfac@ideasonboard.com>
 
-Hi Jai,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 586de92313fcab8ed84ac5f78f4d2aae2db92c59]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jai-Luthra/media-ti-j721e-csi2rx-Use-devm_of_platform_populate/20250324-200457
-base:   586de92313fcab8ed84ac5f78f4d2aae2db92c59
-patch link:    https://lore.kernel.org/r/20250324-probe_fixes-v1-5-5cd5b9e1cfac%40ideasonboard.com
-patch subject: [PATCH 5/6] media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
-config: hexagon-randconfig-001-20250324 (https://download.01.org/0day-ci/archive/20250324/202503242153.Yn1DfnS5-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project c2692afc0a92cd5da140dfcdfff7818a5b8ce997)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503242153.Yn1DfnS5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/hrtick
+head:   adf71785ae176daaf2d8c0de6cac055d18c35d96
+commit: a88605da40649a8343a20b492a5ebed89e25fcb8 [3/4] entry,hrtimer,x86: Push reprogramming timers into the interrupt return path
+config: csky-randconfig-002-20250324 (https://download.01.org/0day-ci/archive/20250324/202503242207.v0uuLg8d-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503242207.v0uuLg8d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503242153.Yn1DfnS5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503242207.v0uuLg8d-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/platform/cadence/cdns-csi2rx.c:286:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     286 |                 reg |= FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
-         |                        ^
-   1 error generated.
+   In file included from include/asm-generic/current.h:6,
+                    from ./arch/csky/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from kernel/time/hrtimer.c:25:
+   kernel/time/hrtimer.c: In function 'hrtimer_rearm':
+>> kernel/time/hrtimer.c:1991:27: error: 'TIF_REARM' undeclared (first use in this function)
+    1991 |         clear_thread_flag(TIF_REARM);
+         |                           ^~~~~~~~~
+   include/linux/thread_info.h:141:53: note: in definition of macro 'clear_thread_flag'
+     141 |         clear_ti_thread_flag(current_thread_info(), flag)
+         |                                                     ^~~~
+   kernel/time/hrtimer.c:1991:27: note: each undeclared identifier is reported only once for each function it appears in
+    1991 |         clear_thread_flag(TIF_REARM);
+         |                           ^~~~~~~~~
+   include/linux/thread_info.h:141:53: note: in definition of macro 'clear_thread_flag'
+     141 |         clear_ti_thread_flag(current_thread_info(), flag)
+         |                                                     ^~~~
 
 
-vim +/FIELD_PREP +286 drivers/media/platform/cadence/cdns-csi2rx.c
+vim +/TIF_REARM +1991 kernel/time/hrtimer.c
 
-   214	
-   215	static int csi2rx_start(struct csi2rx_priv *csi2rx)
-   216	{
-   217		unsigned int i;
-   218		unsigned long lanes_used = 0;
-   219		u32 reg;
-   220		int ret;
-   221	
-   222		ret = clk_prepare_enable(csi2rx->p_clk);
-   223		if (ret)
-   224			return ret;
-   225	
-   226		reset_control_deassert(csi2rx->p_rst);
-   227		csi2rx_reset(csi2rx);
-   228	
-   229		reg = csi2rx->num_lanes << 8;
-   230		for (i = 0; i < csi2rx->num_lanes; i++) {
-   231			reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, csi2rx->lanes[i]);
-   232			set_bit(csi2rx->lanes[i], &lanes_used);
-   233		}
-   234	
-   235		/*
-   236		 * Even the unused lanes need to be mapped. In order to avoid
-   237		 * to map twice to the same physical lane, keep the lanes used
-   238		 * in the previous loop, and only map unused physical lanes to
-   239		 * the rest of our logical lanes.
-   240		 */
-   241		for (i = csi2rx->num_lanes; i < csi2rx->max_lanes; i++) {
-   242			unsigned int idx = find_first_zero_bit(&lanes_used,
-   243							       csi2rx->max_lanes);
-   244			set_bit(idx, &lanes_used);
-   245			reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, i + 1);
-   246		}
-   247	
-   248		writel(reg, csi2rx->base + CSI2RX_STATIC_CFG_REG);
-   249	
-   250		/* Enable DPHY clk and data lanes. */
-   251		if (csi2rx->dphy) {
-   252			reg = CSI2RX_DPHY_CL_EN | CSI2RX_DPHY_CL_RST;
-   253			for (i = 0; i < csi2rx->num_lanes; i++) {
-   254				reg |= CSI2RX_DPHY_DL_EN(csi2rx->lanes[i] - 1);
-   255				reg |= CSI2RX_DPHY_DL_RST(csi2rx->lanes[i] - 1);
-   256			}
-   257	
-   258			writel(reg, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
-   259	
-   260			ret = csi2rx_configure_ext_dphy(csi2rx);
-   261			if (ret) {
-   262				dev_err(csi2rx->dev,
-   263					"Failed to configure external DPHY: %d\n", ret);
-   264				goto err_disable_pclk;
-   265			}
-   266		}
-   267	
-   268		/*
-   269		 * Create a static mapping between the CSI virtual channels
-   270		 * and the output stream.
-   271		 *
-   272		 * This should be enhanced, but v4l2 lacks the support for
-   273		 * changing that mapping dynamically.
-   274		 *
-   275		 * We also cannot enable and disable independent streams here,
-   276		 * hence the reference counting.
-   277		 */
-   278		for (i = 0; i < csi2rx->max_streams; i++) {
-   279			ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
-   280			if (ret)
-   281				goto err_disable_pixclk;
-   282	
-   283			reset_control_deassert(csi2rx->pixel_rst[i]);
-   284	
-   285			reg = CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF;
- > 286			reg |= FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
-   287					  csi2rx->num_pixels[i]);
-   288			writel(reg, csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
-   289	
-   290			/*
-   291			 * Enable one virtual channel. When multiple virtual channels
-   292			 * are supported this will have to be changed.
-   293			 */
-   294			writel(CSI2RX_STREAM_DATA_CFG_VC_SELECT(0),
-   295			       csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i));
-   296	
-   297			writel(CSI2RX_STREAM_CTRL_START,
-   298			       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
-   299		}
-   300	
-   301		ret = clk_prepare_enable(csi2rx->sys_clk);
-   302		if (ret)
-   303			goto err_disable_pixclk;
-   304	
-   305		reset_control_deassert(csi2rx->sys_rst);
-   306	
-   307		ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
-   308		if (ret)
-   309			goto err_disable_sysclk;
-   310	
-   311		clk_disable_unprepare(csi2rx->p_clk);
-   312	
-   313		return 0;
-   314	
-   315	err_disable_sysclk:
-   316		clk_disable_unprepare(csi2rx->sys_clk);
-   317	err_disable_pixclk:
-   318		for (; i > 0; i--) {
-   319			reset_control_assert(csi2rx->pixel_rst[i - 1]);
-   320			clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
-   321		}
-   322	
-   323		if (csi2rx->dphy) {
-   324			writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
-   325			phy_power_off(csi2rx->dphy);
-   326		}
-   327	err_disable_pclk:
-   328		clk_disable_unprepare(csi2rx->p_clk);
-   329	
-   330		return ret;
-   331	}
-   332	
+  1980	
+  1981	void hrtimer_rearm(void)
+  1982	{
+  1983		struct hrtimer_cpu_base *cpu_base = this_cpu_ptr(&hrtimer_bases);
+  1984		unsigned long flags;
+  1985		ktime_t now;
+  1986	
+  1987		raw_spin_lock_irqsave(&cpu_base->lock, flags);
+  1988		now = hrtimer_update_base(cpu_base);
+  1989		__hrtimer_rearm(cpu_base, now);
+  1990		raw_spin_unlock_irqrestore(&cpu_base->lock, flags);
+> 1991		clear_thread_flag(TIF_REARM);
+  1992	}
+  1993	#endif /* !CONFIG_HIGH_RES_TIMERS */
+  1994	
 
 -- 
 0-DAY CI Kernel Test Service
