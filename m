@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CC133C5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 16:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB9F2620C9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 18:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742835400; cv=none; b=XdkxED14Ss1w4B4tSvEc/8Wy937Dh52wCM6MUMEP2xJAmOtjmGrz+o87GzqDuCSZOlH9nq2XQ7qlYmeyIf7gMPOXg2PHxBV0OllmjVzLBktvAnq1rwTzJXYKMtpp+Ce0GA4vLxSGRgGrp5z2nGZoqHpCKxlWq11PZNYpBasPiO4=
+	t=1742840531; cv=none; b=EOzbm1MlquVv1Z2bM1XYmov3yt9cmqDIQmzs2NNr311M5yS/nE/QQ5xkoKuypOuhNpOoariaQEdtTn0crxNfuSBKoKoANl/XCksCWDQwKDvNL8HtSmmIdoLWntRGOYZR9dFDIhHzeCn9P6YwOd5Aw4hF7I0jQoMD+voVIklK9Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742835400; c=relaxed/simple;
-	bh=Z6n6JfoT7nEbhUv8JBwouVcimTlZLa6SFQB6/TY1IrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P+kjytT87ozxKMVMPWNYwDxt1Soi9Dkl7Oec+uwTWqJT4bqi5BpMPWz2bk/8WweRiqJGD+HZSYCfxAtw5LbuqpcHdpOMy1ne+ifICnOrpUP2u3JFXQGCYhOy7nESUq5fpC/I0NF1qrohE74sBvpjImCQypy4w2MAaQegQJzsovY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HL/d/I2I; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1742840531; c=relaxed/simple;
+	bh=Vp9Vb+EnT3y9QyflxOjJ4zdpm+Iip8GTmt0L7VxcHDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hgnXFz1DHalmdRtVoLQBHpcTmnCZHJhUY2BfGkXJ31eqDXkrW9JY1S0/8rW4ZOyXgjbVKhauyPphauYCPeSTT+JIN/S3aEgRbif+ACzKkpsyHogXU4reVn/imeEGyw9JSqqxvy597rxfG6z+dp1yxXqt2shvVehtM0/4iN4fR8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EO7pkUX5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HL/d/I2I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EO7pkUX5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742835396; x=1774371396;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z6n6JfoT7nEbhUv8JBwouVcimTlZLa6SFQB6/TY1IrU=;
-  b=HL/d/I2IqZNDrnqQF5c4JzuIgNFdW5MCM21nD/DAcGnyl+WGCX5AOh1w
-   /6Z0YmHOP4R/p4wWIbWKce8HQtztzzS6JviFxHdwLEQSkt8/QeBLRdJXF
-   xtF0/c7JKWK+lNuw5IopAOC/DpWhfC5zi0yKMedpZ1wmiT1eMAh+RFPWA
-   5tDF38Wh0FqFJ04VWv8dMziynhs28Bss3bYwMulIJ8SCteSRFRflz7iBH
-   PAfeZHTAgHrQqY/k85XzQHRF89pqXbEjIe1Kl3mfd3LJOKqNOLeiQ5Yyy
-   g714KGzb3wb4f08ghCE4SpbwEMYT5R9xLTfiA274V0/1SeNaHPEw6UUhC
+  t=1742840529; x=1774376529;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vp9Vb+EnT3y9QyflxOjJ4zdpm+Iip8GTmt0L7VxcHDQ=;
+  b=EO7pkUX5jt4XQOrMiQhV0TV7V1xNfPwHYU6JU6ib9VPybCX+prTDWcU3
+   W6As0bKjEbzi0EnObdaSwcU/RC5vgDbuz5P1XDbHFTw1N00WnUyfTMr5L
+   jcLK9X8oAUHgowdep+0g6byCf4KXXtLGB5QPFMyjhXVf9of9iGELPGtgE
+   TSX9lR3LLL38hoeLNcEJsN4F5jXGaWgZSYYCfIeUpBruJg4NnjMzDOBAb
+   dc18lzVOFTGvX8PJWj4zD/kheMEWmh20mIKbwJA4nOFvlxolziwAiXfb/
+   ggjGf5WJs62uSXMv8FaQUrlGbLWFhRuALXVVAnqmAm0ffKaziOp2uom7n
    A==;
-X-CSE-ConnectionGUID: +ahasXIUTYSMDVyc/8WT3w==
-X-CSE-MsgGUID: 2LNIqFmlRXK0/hfEEolgGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47710575"
+X-CSE-ConnectionGUID: F9OLkLAETFCZbQ/Uy+AUFw==
+X-CSE-MsgGUID: RaABgJ4lRRmp45gxlX/IBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="47937434"
 X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="47710575"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 09:56:35 -0700
-X-CSE-ConnectionGUID: pzWHP1UsRmWRGZk53C05jg==
-X-CSE-MsgGUID: wUbAZzJxQiiVcjqm2U43GQ==
+   d="scan'208";a="47937434"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 11:21:52 -0700
+X-CSE-ConnectionGUID: XiLhMqERQseZujl4hhWaZg==
+X-CSE-MsgGUID: R/BwO3NIQ+CrgRHxCeMTjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
-   d="scan'208";a="124132812"
+   d="scan'208";a="129322151"
 Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 24 Mar 2025 09:56:34 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Mar 2025 11:21:49 -0700
 Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1twl6F-0003m1-36;
-	Mon, 24 Mar 2025 16:56:31 +0000
-Date: Tue, 25 Mar 2025 00:56:16 +0800
+	id 1twmQk-0003rR-1n;
+	Mon, 24 Mar 2025 18:21:46 +0000
+Date: Tue, 25 Mar 2025 02:21:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1]
- include/linux/userfaultfd_k.h:82:1: error: control reaches end of non-void
- function
-Message-ID: <202503250020.w9z35NlP-lkp@intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>,
+	Jai Luthra <jai.luthra@linux.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Devarsh Thakkar <devarsht@ti.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>,
+	Vaishnav Achath <vaishnav.a@ti.com>,
+	Changhuang Liang <changhuang.liang@starfivetech.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] media: cadence: cdns-csi2rx: Support multiple pixels
+ per clock cycle
+Message-ID: <202503250056.MfBrAipQ-lkp@intel.com>
+References: <20250324-probe_fixes-v1-5-5cd5b9e1cfac@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +74,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250324-probe_fixes-v1-5-5cd5b9e1cfac@ideasonboard.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   79690c1514e424a9e114b551db43e02068191cf0
-commit: 9b613572d6246da9b616f34e4a0e0b5ac74b2dd0 [1/1] ANDROID: userfaultfd: allow SPF for UFFD_FEATURE_SIGBUS on private+anon
-config: arm-randconfig-002-20250324 (https://download.01.org/0day-ci/archive/20250325/202503250020.w9z35NlP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503250020.w9z35NlP-lkp@intel.com/reproduce)
+Hi Jai,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 586de92313fcab8ed84ac5f78f4d2aae2db92c59]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jai-Luthra/media-ti-j721e-csi2rx-Use-devm_of_platform_populate/20250324-200457
+base:   586de92313fcab8ed84ac5f78f4d2aae2db92c59
+patch link:    https://lore.kernel.org/r/20250324-probe_fixes-v1-5-5cd5b9e1cfac%40ideasonboard.com
+patch subject: [PATCH 5/6] media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
+config: sparc-randconfig-002-20250324 (https://download.01.org/0day-ci/archive/20250325/202503250056.MfBrAipQ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503250056.MfBrAipQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503250020.w9z35NlP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503250056.MfBrAipQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/rculist.h:11:0,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/mm_types.h:6,
-                    from include/linux/mmzone.h:21,
-                    from include/linux/gfp.h:6,
-                    from include/linux/slab.h:15,
-                    from mm/mmap.c:13:
-   include/linux/userfaultfd_k.h: In function 'is_mergeable_vm_userfaultfd_ctx':
-   include/linux/rcupdate.h:391:9: error: dereferencing pointer to incomplete type 'struct userfaultfd_ctx'
-     typeof(*p) *_________p1 = (typeof(*p) *__force)READ_ONCE(p); \
-            ^
-   include/linux/rcupdate.h:501:31: note: in expansion of macro '__rcu_access_pointer'
-    #define rcu_access_pointer(p) __rcu_access_pointer((p), __rcu)
-                                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/userfaultfd_k.h:81:9: note: in expansion of macro 'rcu_access_pointer'
-     return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-            ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/hugetlb.h:15:0,
-                    from mm/mmap.c:29:
->> include/linux/userfaultfd_k.h:82:1: error: control reaches end of non-void function [-Werror=return-type]
-    }
-    ^
+   drivers/media/platform/cadence/cdns-csi2rx.c: In function 'csi2rx_start':
+>> drivers/media/platform/cadence/cdns-csi2rx.c:286:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     286 |                 reg |= FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
+         |                        ^~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +82 include/linux/userfaultfd_k.h
+vim +/FIELD_PREP +286 drivers/media/platform/cadence/cdns-csi2rx.c
 
-f619147104c8ea Axel Rasmussen   2021-05-04  58  
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  59  extern int mfill_atomic_install_pte(struct mm_struct *dst_mm, pmd_t *dst_pmd,
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  60  				    struct vm_area_struct *dst_vma,
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  61  				    unsigned long dst_addr, struct page *page,
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  62  				    bool newly_allocated, bool wp_copy);
-7d64ae3ab648a9 Axel Rasmussen   2021-06-30  63  
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  64  extern ssize_t mcopy_atomic(struct mm_struct *dst_mm, unsigned long dst_start,
-df2cc96e77011c Mike Rapoport    2018-06-07  65  			    unsigned long src_start, unsigned long len,
-a759a909d42d72 Nadav Amit       2021-09-02  66  			    atomic_t *mmap_changing, __u64 mode);
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  67  extern ssize_t mfill_zeropage(struct mm_struct *dst_mm,
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  68  			      unsigned long dst_start,
-df2cc96e77011c Mike Rapoport    2018-06-07  69  			      unsigned long len,
-a759a909d42d72 Nadav Amit       2021-09-02  70  			      atomic_t *mmap_changing);
-f619147104c8ea Axel Rasmussen   2021-05-04  71  extern ssize_t mcopy_continue(struct mm_struct *dst_mm, unsigned long dst_start,
-a759a909d42d72 Nadav Amit       2021-09-02  72  			      unsigned long len, atomic_t *mmap_changing);
-ffd05793963a44 Shaohua Li       2020-04-06  73  extern int mwriteprotect_range(struct mm_struct *dst_mm,
-ffd05793963a44 Shaohua Li       2020-04-06  74  			       unsigned long start, unsigned long len,
-a759a909d42d72 Nadav Amit       2021-09-02  75  			       bool enable_wp, atomic_t *mmap_changing);
-c1a4de99fada21 Andrea Arcangeli 2015-09-04  76  
-932b18e0aec65a Andrea Arcangeli 2015-09-04  77  /* mm helpers */
-932b18e0aec65a Andrea Arcangeli 2015-09-04  78  static inline bool is_mergeable_vm_userfaultfd_ctx(struct vm_area_struct *vma,
-932b18e0aec65a Andrea Arcangeli 2015-09-04  79  					struct vm_userfaultfd_ctx vm_ctx)
-932b18e0aec65a Andrea Arcangeli 2015-09-04  80  {
-9b613572d6246d Lokesh Gidra     2024-01-16  81  	return rcu_access_pointer(vma->vm_userfaultfd_ctx.ctx) == vm_ctx.ctx;
-932b18e0aec65a Andrea Arcangeli 2015-09-04 @82  }
-932b18e0aec65a Andrea Arcangeli 2015-09-04  83  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 932b18e0aec65acb089f4bd8761ee85e70f8eb6a userfaultfd: linux/userfaultfd_k.h
-
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   214	
+   215	static int csi2rx_start(struct csi2rx_priv *csi2rx)
+   216	{
+   217		unsigned int i;
+   218		unsigned long lanes_used = 0;
+   219		u32 reg;
+   220		int ret;
+   221	
+   222		ret = clk_prepare_enable(csi2rx->p_clk);
+   223		if (ret)
+   224			return ret;
+   225	
+   226		reset_control_deassert(csi2rx->p_rst);
+   227		csi2rx_reset(csi2rx);
+   228	
+   229		reg = csi2rx->num_lanes << 8;
+   230		for (i = 0; i < csi2rx->num_lanes; i++) {
+   231			reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, csi2rx->lanes[i]);
+   232			set_bit(csi2rx->lanes[i], &lanes_used);
+   233		}
+   234	
+   235		/*
+   236		 * Even the unused lanes need to be mapped. In order to avoid
+   237		 * to map twice to the same physical lane, keep the lanes used
+   238		 * in the previous loop, and only map unused physical lanes to
+   239		 * the rest of our logical lanes.
+   240		 */
+   241		for (i = csi2rx->num_lanes; i < csi2rx->max_lanes; i++) {
+   242			unsigned int idx = find_first_zero_bit(&lanes_used,
+   243							       csi2rx->max_lanes);
+   244			set_bit(idx, &lanes_used);
+   245			reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, i + 1);
+   246		}
+   247	
+   248		writel(reg, csi2rx->base + CSI2RX_STATIC_CFG_REG);
+   249	
+   250		/* Enable DPHY clk and data lanes. */
+   251		if (csi2rx->dphy) {
+   252			reg = CSI2RX_DPHY_CL_EN | CSI2RX_DPHY_CL_RST;
+   253			for (i = 0; i < csi2rx->num_lanes; i++) {
+   254				reg |= CSI2RX_DPHY_DL_EN(csi2rx->lanes[i] - 1);
+   255				reg |= CSI2RX_DPHY_DL_RST(csi2rx->lanes[i] - 1);
+   256			}
+   257	
+   258			writel(reg, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+   259	
+   260			ret = csi2rx_configure_ext_dphy(csi2rx);
+   261			if (ret) {
+   262				dev_err(csi2rx->dev,
+   263					"Failed to configure external DPHY: %d\n", ret);
+   264				goto err_disable_pclk;
+   265			}
+   266		}
+   267	
+   268		/*
+   269		 * Create a static mapping between the CSI virtual channels
+   270		 * and the output stream.
+   271		 *
+   272		 * This should be enhanced, but v4l2 lacks the support for
+   273		 * changing that mapping dynamically.
+   274		 *
+   275		 * We also cannot enable and disable independent streams here,
+   276		 * hence the reference counting.
+   277		 */
+   278		for (i = 0; i < csi2rx->max_streams; i++) {
+   279			ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
+   280			if (ret)
+   281				goto err_disable_pixclk;
+   282	
+   283			reset_control_deassert(csi2rx->pixel_rst[i]);
+   284	
+   285			reg = CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF;
+ > 286			reg |= FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
+   287					  csi2rx->num_pixels[i]);
+   288			writel(reg, csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
+   289	
+   290			/*
+   291			 * Enable one virtual channel. When multiple virtual channels
+   292			 * are supported this will have to be changed.
+   293			 */
+   294			writel(CSI2RX_STREAM_DATA_CFG_VC_SELECT(0),
+   295			       csi2rx->base + CSI2RX_STREAM_DATA_CFG_REG(i));
+   296	
+   297			writel(CSI2RX_STREAM_CTRL_START,
+   298			       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+   299		}
+   300	
+   301		ret = clk_prepare_enable(csi2rx->sys_clk);
+   302		if (ret)
+   303			goto err_disable_pixclk;
+   304	
+   305		reset_control_deassert(csi2rx->sys_rst);
+   306	
+   307		ret = v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, true);
+   308		if (ret)
+   309			goto err_disable_sysclk;
+   310	
+   311		clk_disable_unprepare(csi2rx->p_clk);
+   312	
+   313		return 0;
+   314	
+   315	err_disable_sysclk:
+   316		clk_disable_unprepare(csi2rx->sys_clk);
+   317	err_disable_pixclk:
+   318		for (; i > 0; i--) {
+   319			reset_control_assert(csi2rx->pixel_rst[i - 1]);
+   320			clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
+   321		}
+   322	
+   323		if (csi2rx->dphy) {
+   324			writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
+   325			phy_power_off(csi2rx->dphy);
+   326		}
+   327	err_disable_pclk:
+   328		clk_disable_unprepare(csi2rx->p_clk);
+   329	
+   330		return ret;
+   331	}
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
