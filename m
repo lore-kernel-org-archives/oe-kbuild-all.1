@@ -1,70 +1,69 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED399645
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 06:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481D2204C3B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 06:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742798966; cv=none; b=GCZxQZ7L23MmJ4WCAUNh1Bky6hanevreAfHASCyUvaLk9478UZTOvHPC52S0DHcrK/fIwOPPplST82z6j0t2NJWFnhBd3iPQyxIHbBtdCxztNKjCyLiZlE2uhGFLTw/I35PuVBkPZvWb9VTmHYJC/2gAE91nKlPBCTKoQeMHJdU=
+	t=1742799109; cv=none; b=h+nO/KZqwv3TmWUdOBt0kMW25hDewJlu4NkeOpnWrWBbsf6k/eQwT/3zNmL+JthTV708Sulo+y8bzuIM1HrLJSz6uVhPBjys6KrRtbEZ/JrPO9C7cRVDMXruxeHDUOs0Z5mgtAq1++MAIH2hogwhtBp6Es/e/cq+BDIoTP3TSRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742798966; c=relaxed/simple;
-	bh=MeBCltGop41WBqugBNpPQKxAaBr5naKJJrxh4qA/ICg=;
+	s=arc-20240116; t=1742799109; c=relaxed/simple;
+	bh=DoNq7mL0WX4FCM+tE0Bum0x/YvU+JeSeY8Am7PowGR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g6Zja+vdgimIGsQSKY7uYBmOjL00aGXN1ndVm6W6ozLwY4Wd1Mi89gc00IrAxb3/XhZNZ5F3MwBISkVy3wx/tN0EFajIj/MYTS4VB5+QVIyL5cxR5YgxQznFWAJzbQce6eeew/C3h2ukzsOWRJInEHg63/KbvaJatvfUX6dBKco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZDYqN4BD; arc=none smtp.client-ip=209.85.221.44
+	 Content-Disposition; b=HVqdAJhIPjsgj7eBqRu2qwk1XvOHoKgi+iVfLjvlvIVK+stjrHVfVftN8fLyHFxRQLXzqoBHUB08MGiFCqjnbTg5Llteva8mTgm0KWM66ihtAt/3B4m6a2H7QegpjFO4bt9ONfffKyge6WsJD7shbll6I2x5v0w+8wPwYkyOlRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U7XeUN7C; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDYqN4BD"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso3026788f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 23:49:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U7XeUN7C"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso28631575e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 23:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742798962; x=1743403762; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1742799105; x=1743403905; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+dDZsz4UIUxmPWUxqRvwlmJXMsHW01F5Vt73n6SdVvk=;
-        b=ZDYqN4BD0fDexloLYYpP6XDg4AMFItaH3KXq4fdC3AVTA5FdJJN8qFs4VhBFkvFo6i
-         bF8mubBxDXvn+n7ZerDBSmNV25huDpWw36D2bcqO/4jJfgU4XEczw+f3nFn27kk+Isc6
-         wOfGV+JApoFxv+o6eevz+Ng5HK5RbEvIRw872Hu7/24Ab4qbjM8zt1CwQb5dghMvwljQ
-         SJg/akDYvA3+VkNJckD5XJE0sEIp9fnlqhBYCDmM4NcozUT5RUHyc6qZvwxdNQ9UKnOI
-         MchIQaxchc6Hy9nDLBo5PHbh5ZdMVegdNTL55Ff4xlPzZ+J3FvGWWLsN7ut4eC7EqBuR
-         zeTg==
+        bh=y2HYgulQwPxEnOb3mWh0TIcqunnJLO/LyYSHwrTZdsY=;
+        b=U7XeUN7CbL9TPOU5f3YMpLe+IqJdmOLWnoivO/Jf5knpamYyR3dg5QtoUNbPFXOeuy
+         orIuDNoxlrKyCJVL8bdUEGh9qemFU7LI1UmZ8af6E6SSOuGBRZDKpqO/pzsmdCAQ2QB5
+         07TvG39AGmkqZSPdzHv8GqAefzhC1giPidjAaLupNwI86s7HoPttR/FZsCEnx35ZT4xo
+         dQfK5DXSaB5tNBDRUfM5MP2GHaXYED7VWoOA5Ehpm159Bh6gqoNKyW1NLu78sH4O92zS
+         RcHN0DrAWZxRZ1Pzp8yI1aC2JkIhdzAMsFXv9SgBl905qMX3Cv1x3c95bsRLUpiuqE87
+         T3Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742798962; x=1743403762;
+        d=1e100.net; s=20230601; t=1742799105; x=1743403905;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+dDZsz4UIUxmPWUxqRvwlmJXMsHW01F5Vt73n6SdVvk=;
-        b=YEvlHdasjciROGGUIMt+lOhEvyEQGwPF4faLCmEE6vPx6mawFQYsICmdrVy6hpJDCZ
-         690ZsUikjcTwcNAFYnira8BUt99oRx0Rw+6sWgCcqRfZudUDSfb+mbliNxTC55y5OpWD
-         DAqQgQw9k4bX54wM4fhiqynN9vpfya6zctdwI2/jPnM3QhohHKQejwyT/3dZ0mpUYbNb
-         UWXc/EzwC4ztM35JJPinRFr7kjbvqeHJPHuw10In6cgrxUCIDano8J7HnAEzBLhLWrBx
-         7N8qoGUkbvCNXPKUCirtjUjnkzUf8Z9gdQxJi28AucZnu5xjx/fYV8gPbt7QYDMaRlat
-         MkWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvwLqC0LFyMB8g2PJR0b2XOLbPBWT/rc2/qdyu9MVB7PzbAKHj5KugKrZaiVAW7s59ZKRJVxbsH1N/gbuS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxw6a6dQhHIwh939ZCE2znPX3QkQUSjtIP9gmYrI5Ub4jdEzW4/
-	9z61m1He4u2Qwtv8O+Bg4cRD3DbcZqQbF+2LMfT7eDM4sjfMkEsyen/eRoh8Qxs=
-X-Gm-Gg: ASbGnctsLJ2fUOJiSUyQVVDplZd93Nr2L1G4D3Nhvpl9Xl0rueWPxZ6KICHQU2j5uaK
-	n/MU19k8Fr9Kj62e3SqhkYqYzpAh5+1gdT8f2LhSu8slBpc5xv5RbYmoghrGQRzv8NrC77IztBX
-	x2YPo3bUKCoXLz+8CdKB0QYBOSGnI7gMskc6R6CtrMHlM+pAyJC3LFPwokBlrKfNQoCX5rgQ9h5
-	aSuzI98oe348nTs0XA8USKEMryu7lv9gYtOAgzFE0fCfs4fJtTv78zXn2tw8Bq730b1EDJVn9ub
-	waiqukB/+wUyrlDlwP9lU2wV4xu3fLyhevVgWmJk/HOkOFSHJhZfI6biRjf7
-X-Google-Smtp-Source: AGHT+IH/O+SxW/A6tHLl66luw0B3Q+UY6WxKotJgS9M1+9fv6/xBCkqaJIgLc48RFD0NzvhjcR8KOg==
-X-Received: by 2002:a05:6000:1565:b0:38d:b028:d906 with SMTP id ffacd0b85a97d-3997f933816mr9868262f8f.21.1742798962016;
-        Sun, 23 Mar 2025 23:49:22 -0700 (PDT)
+        bh=y2HYgulQwPxEnOb3mWh0TIcqunnJLO/LyYSHwrTZdsY=;
+        b=ZCP+8FVw/Xcd3ctnjZtT0PA8bd4jbWSaAJijNp8PSoEt7ioTpO1mEEcle3rOBNIYgF
+         JwD6zkgeWeoP1Ao5YNdOtr47EKkhnttSAo6udSujkQ4uEGKnWr2l5qgG5aSd2UDXSBG7
+         PN8fvXmv17ikLUNj3S34oamBeWEUP8NKMNER+mVcYk1eG/qV/gFCg8edaGk4uVUZi6CX
+         91QqZKEI3nBUGPtWr6RDOQbBU0BDq3NzH/xOYQUx0ns2V9ZSJVNXR1Q7bvgUFKUZqoBA
+         v4ftdD/hpM50wMoW5a9+RoZ3cschDVK2fdEsWAywqP65coDCC5Tn6CHOEvWGfnSraZ3b
+         FeUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVgSNXdQbjXHRf3IfijggIM/kEMkKGIzPtmFMO9TxZO/ku8UYDand4ho3sX11fQ/V4wqeu6RuGYLGWNCuEE@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3fXZ5JJo5wCHJrqZDkb6dNx3QWyWgwx8cDJPmmebSKOx12piK
+	Z8/YiK+nB9g7HWE+IKGCpdZO4+bEJ5BdDxLrk5GtU7Rr+U54Yg3Du/Fp44dlaQE=
+X-Gm-Gg: ASbGncuIjWSguJMUdiRSdpjK+ZaxbQsZFTwdONmXbZY3S3qu75znMWzcZ7KwdmHJWAF
+	e8eMmbSCIh2s/i+pRvQCjp7WW5PBln5fd7ozSzwVprAdmf3kzZEVFR4nPlfJYpK3ph6O0vM3jM8
+	rTdASRFPfVAv3TUgAH4k9x3IX8Wd2is5auQg5gTKrSc3mFpzSsbMi/4D6BtRB60+7eiVBzYMo49
+	aK58vohtA2w7HgjDOx4MHDmIX2b8+Bknccr49b0m2dtKGk2iXmdwgPULJzSQqA0Mo2U6BLLxq6E
+	dFbYSiwWvxHTR+I2E4UufhokpVm/Au1ADJ1XtwciMQjiIGqXIg==
+X-Google-Smtp-Source: AGHT+IGqbBeMGSdr0jl/CMLk9FKN2M7Nueoy8Q8p2ZdyOZBftLTXR6LTDzG3e7k9YDISs845CQ162w==
+X-Received: by 2002:a05:600c:5488:b0:43c:fe5e:f040 with SMTP id 5b1f17b1804b1-43d50a219a4mr113894885e9.23.1742799105479;
+        Sun, 23 Mar 2025 23:51:45 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f995606sm10128335f8f.13.2025.03.23.23.49.21
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d43f47196sm159921835e9.16.2025.03.23.23.51.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Mar 2025 23:49:21 -0700 (PDT)
-Date: Mon, 24 Mar 2025 09:49:19 +0300
+        Sun, 23 Mar 2025 23:51:45 -0700 (PDT)
+Date: Mon, 24 Mar 2025 09:51:42 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 9040/13068]
- drivers/dma/amd/ptdma/ptdma-dmaengine.c:358 pt_cmd_callback_work() warn:
- variable dereferenced before check 'desc' (see line 345)
-Message-ID: <aa29df80-cb5b-48df-a95b-cd8e55cd301a@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Yizhen Fan <fanyizhen@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2818/2818]
+ drivers/ub/urma/ubcore/ubcore_cmd.h:134 ubcore_copy_to_user() warn: maybe
+ return -EFAULT instead of the bytes remaining?
+Message-ID: <aac718c5-880e-4763-8b31-12b66f4bb3cb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,71 +73,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9388ec571cb1adba59d1cded2300eeb11827679c
-commit: 6565439894570a07b00dba0b739729fe6b56fba4 [9040/13068] dmaengine: ptdma: Utilize the AE4DMA engine's multi-queue functionality
-config: x86_64-randconfig-161-20250323 (https://download.01.org/0day-ci/archive/20250323/202503231648.IEt8P4U5-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a7973281031cedabf6c66de13ffc2c313a71695f
+commit: aeda8188894b2ed9ecf04dabaf5e147bce811725 [2818/2818] ub: change name in kconfig, and kconfig content of ub
+config: x86_64-randconfig-161-20250322 (https://download.01.org/0day-ci/archive/20250323/202503232011.rximxwnv-lkp@intel.com/config)
 compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503231648.IEt8P4U5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503232011.rximxwnv-lkp@intel.com/
 
-smatch warnings:
-drivers/dma/amd/ptdma/ptdma-dmaengine.c:358 pt_cmd_callback_work() warn: variable dereferenced before check 'desc' (see line 345)
+New smatch warnings:
+drivers/ub/urma/ubcore/ubcore_cmd.h:134 ubcore_copy_to_user() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +/desc +358 drivers/dma/amd/ptdma/ptdma-dmaengine.c
+Old smatch warnings:
+drivers/ub/urma/ubcore/ubcore_main.c:506 ubcore_query_res_arg() warn: returning -1 instead of -ENOMEM is sloppy
 
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  336  static void pt_cmd_callback_work(void *data, int err)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  337  {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  338  	struct dma_async_tx_descriptor *tx_desc;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  339  	struct pt_dma_desc *desc = data;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  340  	struct dma_chan *dma_chan;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  341  	struct virt_dma_desc *vd;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  342  	struct pt_dma_chan *chan;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  343  	unsigned long flags;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  344  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03 @345  	dma_chan = desc->vd.tx.chan;
-                                                                                                           ^^^^^^
-Most of the function assumes "desc" is a valid non-NULL pointer.
+vim +134 drivers/ub/urma/ubcore/ubcore_cmd.h
 
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  346  	chan = to_pt_chan(dma_chan);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  347  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  348  	if (err == -EINPROGRESS)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  349  		return;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  350  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  351  	tx_desc = &desc->vd.tx;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  352  	vd = &desc->vd;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  353  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  354  	if (err)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  355  		desc->status = DMA_ERROR;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  356  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  357  	spin_lock_irqsave(&chan->vc.lock, flags);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03 @358  	if (desc) {
-                                                                                                    ^^^^
-Checked too late.
+95c713224477ac Yizhen Fan 2023-09-09  128  static inline int ubcore_copy_to_user(void *args_addr, const void *args, unsigned long args_size)
+95c713224477ac Yizhen Fan 2023-09-09  129  {
+95c713224477ac Yizhen Fan 2023-09-09  130  	int ret = (int)copy_to_user(args_addr, args, args_size);
+95c713224477ac Yizhen Fan 2023-09-09  131  
+95c713224477ac Yizhen Fan 2023-09-09  132  	if (ret != 0)
+95c713224477ac Yizhen Fan 2023-09-09  133  		ubcore_log_err("copy to user failed ret:%d.\n", ret);
+95c713224477ac Yizhen Fan 2023-09-09 @134  	return ret;
 
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  359  		if (desc->status != DMA_COMPLETE) {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  360  			if (desc->status != DMA_ERROR)
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  361  				desc->status = DMA_COMPLETE;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  362  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  363  			dma_cookie_complete(tx_desc);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  364  			dma_descriptor_unmap(tx_desc);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  365  		} else {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  366  			tx_desc = NULL;
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  367  		}
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  368  	}
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  369  	spin_unlock_irqrestore(&chan->vc.lock, flags);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  370  
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  371  	if (tx_desc) {
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  372  		dmaengine_desc_get_callback_invoke(tx_desc, NULL);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  373  		dma_run_dependencies(tx_desc);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  374  		list_del(&desc->vd.node);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  375  		vchan_vdesc_fini(vd);
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  376  	}
-6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  377  }
+copy_to_user returns positive values, should we return negative error
+codes?
 
 -- 
 0-DAY CI Kernel Test Service
