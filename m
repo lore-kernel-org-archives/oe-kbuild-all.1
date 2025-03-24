@@ -1,180 +1,403 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B700267390
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 19:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BBF1C54AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 20:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742842905; cv=none; b=GU8q6iXiIqpLU7U1Zu0dMBFbzNqnYSfEDr7Gwx1XreJy/rz85mqm08BcbrApQoT5mO2jS6EBwl89j3ajnR9cjrGAomptowcjvG0UHffxT1Q29p4gxt6AO0aeFVUf4OVqfFg2oTSuavq1gZHGd8nr95Vx1YnimDE/8vXoH4JxoHM=
+	t=1742848028; cv=none; b=l4qRVkE6kHAi7YvU5Rmr9nWjBoEAjiwMyfFubESsyZuOPpQSzx5b2jSRtiERQEVW262R+JhNhY3ncK8DR7gqx3Sc9agt40wU1IYOuE7oKBdZ0e81TtXAbkN7hwnkvikkROXb/8uu4L1SXjUnKTeN5iZpyicBhh/qDn8spHF7uk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742842905; c=relaxed/simple;
-	bh=g7I9zs14TzJ9Q7NxvG/b7PfoqGP8O7udKxGBbnVd19E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L7OoPUyU7NyTmLIbGET3H5DCUpHN7ZT82WBLi4Wl7oM2bkOnE+jwDoLhSwWgj7G3/oe5/S1+3Aty/f9GrcqFX6TSvyjfixsXUepztGHctbPIRYh0WfMnQCUCctB21KNyECwglxlv3zZDYmkonj3V8Lz+KvE+bqQoBn+m0oeLpGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ewCnNs0v; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1742848028; c=relaxed/simple;
+	bh=Buh+4cAHFBLA324tkCz+LZgyzZZFtQgY8OLyehSzPJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z3smy435RhdyaJnTVXD8cTRATYGl0SO7q95qfcxbz2GIKYdJdMUfOp5IqhX1cdQ/3dLkP83m54qEgNqT9Dcork58rK1/fwVRf6wAPn/MlTE24MzeaM+1CHXczIRtveSsR45IF+sK/AEif+xcMF7YLc5kf+TXNA0SNrvL4JDx1mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSaHBEii; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ewCnNs0v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742842902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=XUMdZ7FUAfrnrQy5VGkYNfYePW/HGcvwjcpf5IdbmVo=;
-	b=ewCnNs0v3/ICNDKJEFkMCwZwXFecrnRF4SUkNnhdNDhRkaUrDUsdDSajDILHu5VTArmX0s
-	Y2BjToOG85UaIQC1Rnb8x+RsWqLZAm9xh3svAZfTNqxnEWspfTmQneI21DzFqf7eYszuU7
-	/j8a20u/uwZawAKMHpC4aUaUuF6f1FM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-86-5LBoj81PM9i2mdsZoxpPYQ-1; Mon, 24 Mar 2025 15:01:38 -0400
-X-MC-Unique: 5LBoj81PM9i2mdsZoxpPYQ-1
-X-Mimecast-MFC-AGG-ID: 5LBoj81PM9i2mdsZoxpPYQ_1742842898
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e917965e3eso64452476d6.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 12:01:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742842898; x=1743447698;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XUMdZ7FUAfrnrQy5VGkYNfYePW/HGcvwjcpf5IdbmVo=;
-        b=G8Dym7vTVlWs3kc7oDk4DRgpQ40+cWmI8uuXyWZAs8eXtiPEAgY1fQ48sjrU5jkY+l
-         m6AjV1GvVkF0SErlXl5P5ceOSh8wtfG0XxhMRhqRWZEl8QVzlFD8TR1PfMVA/BLVPvoV
-         fj6shF5VcBv0RdPIYRB7Jm9FCg1qw71pP0Hqlo31kB3qZknGVMuv1h2HBlXkKnHFA3LC
-         hm/cyQs8+SUkS5401TG7qy3lBBhP2wB/swCOhnd83XUUsmRyIvWgZJo5cYWQ2qd7CWdZ
-         VhZjwBeFbM18JwB7KOdskgvnZCv9bWfgmkf35EU3PQGcv+sh9hmlEJ5wyAbGHPh1SAQF
-         xSUw==
-X-Gm-Message-State: AOJu0Yy6d/L0llabfqcvOf81yln0lIXLro5V702oGNyp/ZkGAZzO/TLm
-	qwggu/7pIHPvhd5msj5XnOKQaIPFnGdt/Pxps6Vcv0vfDuh1cId+F/eaH+SfH1C8/w3F3+tzpg6
-	BkyrwvTUxYBgCrWooafZ244Gp6/MvvJCc6ANwC8dO2KJbMEpf0Kf5/19zqyOhE2Y=
-X-Gm-Gg: ASbGncu6Y4YgRg8ak4+NSvujI314isPKP9zvX/VHwDkEznZeR2KNjUFLltbmAOkMB/4
-	i8s7Uy5h5fcb2u9BsziJXYQS+OF+Go4i2WUsJ4acw1/Tm5MmpiV0eM3L2yZKyUGGmCBx6JFrgbH
-	lOOj2CngEOzxNVJE0jHgx/y4IiyBmcq4N9qcpEv2CYiADh5lr5qH7FqM3AjHPt2+7TZwziUomBP
-	I03obhGl49qN2T1ic5xp7Eijo4PNTWy66d6TlJqSvhOrsleKpwoVMEL1SJCjhNe25VUOMh/HHpQ
-	wqN2oXsHPx1j
-X-Received: by 2002:a05:6214:d6b:b0:6e8:f949:38c6 with SMTP id 6a1803df08f44-6eb3f3302b0mr254247726d6.33.1742842898175;
-        Mon, 24 Mar 2025 12:01:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtCb/NO+kqUMFpxeegHjsiW2QGDq3ij4AYLtyta28Al7q+A6goLA8S7aRoz0fVWXEESA3+aA==
-X-Received: by 2002:a05:6214:d6b:b0:6e8:f949:38c6 with SMTP id 6a1803df08f44-6eb3f3302b0mr254247066d6.33.1742842897683;
-        Mon, 24 Mar 2025 12:01:37 -0700 (PDT)
-Received: from [172.22.33.10] ([99.209.85.25])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eb3efdc043sm47397506d6.104.2025.03.24.12.01.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Mar 2025 12:01:37 -0700 (PDT)
-Message-ID: <856f7be5-ec71-45b2-bd42-f34e3beb6540@redhat.com>
-Date: Mon, 24 Mar 2025 20:01:36 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSaHBEii"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742848025; x=1774384025;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Buh+4cAHFBLA324tkCz+LZgyzZZFtQgY8OLyehSzPJA=;
+  b=LSaHBEiizUBn/KHnt0L4ufy7ldnRbih1kk87o8o+6WAQnyLVTMYHD1bL
+   T5ixV2Tkupjvq1m9pL32T47Rg7maxte+sBzEIykDmPQj8lVSLszGupRux
+   TUP6N40zHJg8rHBe7MgUwe38GsUTlJfL7qNmYoKhjsKJtrU2EivpfNI3y
+   JffqO4L2Zs3pBiPGCVO5dcY44dMw8w5TqhYBNIqc7GdyrF1/N8h0OIFZn
+   dbYBhaT4yw9EhHnwftE0ksspVfeX8UZbNFgn6mFWJ3CkWIX2X82SvrCKs
+   g2aXmNDnwd2SYgsNJN9un34ajc8wB9AiOHncmpcCoa/ZvgX/OSyoZwMp1
+   A==;
+X-CSE-ConnectionGUID: 8E5ZZQ86QiSpTW+dJsE/pw==
+X-CSE-MsgGUID: 7KPJNsPeRQuKsNNbHGMbwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11383"; a="44259255"
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
+   d="scan'208";a="44259255"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 13:27:04 -0700
+X-CSE-ConnectionGUID: CWDxDA5FRaW7azNP8VGw2A==
+X-CSE-MsgGUID: JDmvBRWHRXqL8A2AKPnPtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,272,1736841600"; 
+   d="scan'208";a="129253880"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Mar 2025 13:27:03 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1twoNT-0003uP-2h;
+	Mon, 24 Mar 2025 20:26:35 +0000
+Date: Tue, 25 Mar 2025 04:26:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] include/trace/hooks/mm.h:316:1:
+ sparse: sparse: incorrect type in argument 4 (different base types)
+Message-ID: <202503250446.Ut8WazLS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] x86/mm/pat: Fix VM_PAT handling when fork() fails in
- copy_page_range()
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <20250321112323.153741-1-david@redhat.com>
- <202503241546.BdUEsLMd-lkp@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <202503241546.BdUEsLMd-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Mx9mSJ_6ohndcMkLoJVO3oFD-MerQ2azOjy8IgR5UGs_1742842898
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 24.03.25 08:28, kernel test robot wrote:
-> Hi David,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on b3ee1e4609512dfff642a96b34d7e5dfcdc92d05]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Hildenbrand/x86-mm-pat-Fix-VM_PAT-handling-when-fork-fails-in-copy_page_range/20250321-192604
-> base:   b3ee1e4609512dfff642a96b34d7e5dfcdc92d05
-> patch link:    https://lore.kernel.org/r/20250321112323.153741-1-david%40redhat.com
-> patch subject: [PATCH v2] x86/mm/pat: Fix VM_PAT handling when fork() fails in copy_page_range()
-> config: xtensa-nommu_kc705_defconfig (https://download.01.org/0day-ci/archive/20250324/202503241546.BdUEsLMd-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503241546.BdUEsLMd-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202503241546.BdUEsLMd-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from arch/xtensa/include/asm/io.h:19,
->                      from include/linux/io.h:14,
->                      from lib/iomem_copy.c:8:
->     include/linux/pgtable.h: In function 'untrack_pfn_copy':
->>> include/linux/pgtable.h:1561:42: error: invalid use of undefined type 'struct vm_area_struct'
->      1561 |         untrack_pfn(dst_vma, pfn, dst_vma->vm_end - dst_vma->vm_start, true);
->           |                                          ^~
->     include/linux/pgtable.h:1561:60: error: invalid use of undefined type 'struct vm_area_struct'
->      1561 |         untrack_pfn(dst_vma, pfn, dst_vma->vm_end - dst_vma->vm_start, true);
->           |                                                            ^~
-> 
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   8a625f475caa4e029dfbbe7fa253e895f71c08a3
+commit: a85227c886b7a22cd53bdfcf0740b6e0bd623351 [1/1] ANDROID: page_alloc: add vendor hook to bypass free_pages_prepare
+config: i386-randconfig-r113-20250325 (https://download.01.org/0day-ci/archive/20250325/202503250446.Ut8WazLS-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250325/202503250446.Ut8WazLS-lkp@intel.com/reproduce)
 
-Interesting (I did a bunch of cross-compiles even with some NOMMU 
-targerts), but looks like we just want to move that under the CONFIG_MMU 
-part.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503250446.Ut8WazLS-lkp@intel.com/
 
-Will retest and resend.
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:194:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
+   mm/page_alloc.c:1363:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1363:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1363:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+   mm/page_alloc.c:1392:6: sparse: sparse: symbol 'free_hpage' redeclared with different type (incompatible argument 2 (different base types)):
+   mm/page_alloc.c:1392:6: sparse:    void extern [addressable] [toplevel] free_hpage( ... )
+   mm/page_alloc.c: note: in included file:
+   include/linux/mm.h:4125:6: sparse: note: previously declared as:
+   include/linux/mm.h:4125:6: sparse:    void extern [addressable] [toplevel] free_hpage( ... )
+   mm/page_alloc.c: note: in included file (through include/linux/mm_inline.h):
+>> include/trace/hooks/mm.h:316:1: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted int flags @@     got restricted int flags @@
+   include/trace/hooks/mm.h:316:1: sparse:     expected restricted int flags
+   include/trace/hooks/mm.h:316:1: sparse:     got restricted int flags
+   mm/page_alloc.c:2539:6: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
+   mm/page_alloc.c:2670:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
+   mm/page_alloc.c:2904:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
+   mm/page_alloc.c:4641:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
+
+vim +316 include/trace/hooks/mm.h
+
+    19	
+    20	DECLARE_RESTRICTED_HOOK(android_rvh_shmem_get_folio,
+    21				TP_PROTO(struct shmem_inode_info *info, struct folio **folio),
+    22				TP_ARGS(info, folio), 2);
+    23	
+    24	DECLARE_RESTRICTED_HOOK(android_rvh_set_gfp_zone_flags,
+    25				TP_PROTO(unsigned int *flags),	/* gfp_t *flags */
+    26				TP_ARGS(flags), 1);
+    27	DECLARE_RESTRICTED_HOOK(android_rvh_set_readahead_gfp_mask,
+    28				TP_PROTO(unsigned int *flags),	/* gfp_t *flags */
+    29				TP_ARGS(flags), 1);
+    30	DECLARE_HOOK(android_vh_slab_alloc_node,
+    31		TP_PROTO(void *object, unsigned long addr, struct kmem_cache *s),
+    32		TP_ARGS(object, addr, s));
+    33	DECLARE_HOOK(android_vh_slab_free,
+    34		TP_PROTO(unsigned long addr, struct kmem_cache *s),
+    35		TP_ARGS(addr, s));
+    36	DECLARE_HOOK(android_vh_meminfo_cache_adjust,
+    37		TP_PROTO(unsigned long *cached),
+    38		TP_ARGS(cached));
+    39	DECLARE_HOOK(android_vh_si_mem_available_adjust,
+    40		TP_PROTO(unsigned long *available),
+    41		TP_ARGS(available));
+    42	DECLARE_HOOK(android_vh_si_meminfo_adjust,
+    43		TP_PROTO(unsigned long *totalram, unsigned long *freeram),
+    44		TP_ARGS(totalram, freeram));
+    45	DECLARE_HOOK(android_vh_slab_folio_alloced,
+    46		TP_PROTO(unsigned int order, gfp_t flags),
+    47		TP_ARGS(order, flags));
+    48	DECLARE_HOOK(android_vh_kmalloc_large_alloced,
+    49		TP_PROTO(struct page *page, unsigned int order, gfp_t flags),
+    50		TP_ARGS(page, order, flags));
+    51	DECLARE_RESTRICTED_HOOK(android_rvh_ctl_dirty_rate,
+    52		TP_PROTO(struct inode *inode),
+    53		TP_ARGS(inode), 1);
+    54	DECLARE_HOOK(android_vh_test_clear_look_around_ref,
+    55		TP_PROTO(struct page *page),
+    56		TP_ARGS(page));
+    57	DECLARE_HOOK(android_vh_look_around_migrate_folio,
+    58		TP_PROTO(struct folio *old_folio, struct folio *new_folio),
+    59		TP_ARGS(old_folio, new_folio));
+    60	DECLARE_HOOK(android_vh_look_around,
+    61		TP_PROTO(struct page_vma_mapped_walk *pvmw, struct folio *folio,
+    62			struct vm_area_struct *vma, int *referenced),
+    63		TP_ARGS(pvmw, folio, vma, referenced));
+    64	DECLARE_HOOK(android_vh_free_unref_page_bypass,
+    65		TP_PROTO(struct page *page, int order, int migratetype, bool *bypass),
+    66		TP_ARGS(page, order, migratetype, bypass));
+    67	DECLARE_HOOK(android_vh_kvmalloc_node_use_vmalloc,
+    68		TP_PROTO(size_t size, gfp_t *kmalloc_flags, bool *use_vmalloc),
+    69		TP_ARGS(size, kmalloc_flags, use_vmalloc));
+    70	DECLARE_HOOK(android_vh_should_alloc_pages_retry,
+    71		TP_PROTO(gfp_t gfp_mask, int order, int *alloc_flags,
+    72		int migratetype, struct zone *preferred_zone, struct page **page, bool *should_alloc_retry),
+    73		TP_ARGS(gfp_mask, order, alloc_flags,
+    74			migratetype, preferred_zone, page, should_alloc_retry));
+    75	DECLARE_HOOK(android_vh_alloc_pages_adjust_wmark,
+    76		TP_PROTO(gfp_t gfp_mask, int order, int *alloc_flags),
+    77		TP_ARGS(gfp_mask, order, alloc_flags));
+    78	DECLARE_HOOK(android_vh_alloc_pages_reset_wmark,
+    79		TP_PROTO(gfp_t gfp_mask, int order, int *alloc_flags,
+    80		unsigned long *did_some_progress, int *no_progress_loops,
+    81		unsigned long direct_reclaim_retries),
+    82		TP_ARGS(gfp_mask, order, alloc_flags, did_some_progress,
+    83		no_progress_loops, direct_reclaim_retries));
+    84	DECLARE_HOOK(android_vh_unreserve_highatomic_bypass,
+    85		TP_PROTO(bool force, struct zone *zone, bool *skip_unreserve_highatomic),
+    86		TP_ARGS(force, zone, skip_unreserve_highatomic));
+    87	DECLARE_HOOK(android_vh_rmqueue_bulk_bypass,
+    88		TP_PROTO(unsigned int order, struct per_cpu_pages *pcp, int migratetype,
+    89			struct list_head *list),
+    90		TP_ARGS(order, pcp, migratetype, list));
+    91	DECLARE_HOOK(android_vh_ra_tuning_max_page,
+    92		TP_PROTO(struct readahead_control *ractl, unsigned long *max_page),
+    93		TP_ARGS(ractl, max_page));
+    94	DECLARE_HOOK(android_vh_tune_mmap_readaround,
+    95		TP_PROTO(unsigned int ra_pages, pgoff_t pgoff,
+    96			pgoff_t *start, unsigned int *size, unsigned int *async_size),
+    97		TP_ARGS(ra_pages, pgoff, start, size, async_size));
+    98	DECLARE_HOOK(android_vh_madvise_cold_pageout_skip,
+    99		TP_PROTO(struct vm_area_struct *vma, struct folio *folio, bool pageout, bool *need_skip),
+   100		TP_ARGS(vma, folio, pageout, need_skip));
+   101	struct mem_cgroup;
+   102	DECLARE_HOOK(android_vh_mem_cgroup_alloc,
+   103		TP_PROTO(struct mem_cgroup *memcg),
+   104		TP_ARGS(memcg));
+   105	DECLARE_HOOK(android_vh_mem_cgroup_free,
+   106		TP_PROTO(struct mem_cgroup *memcg),
+   107		TP_ARGS(memcg));
+   108	DECLARE_HOOK(android_vh_mem_cgroup_id_remove,
+   109		TP_PROTO(struct mem_cgroup *memcg),
+   110		TP_ARGS(memcg));
+   111	struct cgroup_subsys_state;
+   112	DECLARE_HOOK(android_vh_mem_cgroup_css_online,
+   113		TP_PROTO(struct cgroup_subsys_state *css, struct mem_cgroup *memcg),
+   114		TP_ARGS(css, memcg));
+   115	DECLARE_HOOK(android_vh_mem_cgroup_css_offline,
+   116		TP_PROTO(struct cgroup_subsys_state *css, struct mem_cgroup *memcg),
+   117		TP_ARGS(css, memcg));
+   118	DECLARE_HOOK(android_vh_save_track_hash,
+   119		TP_PROTO(bool alloc, struct track *p),
+   120		TP_ARGS(alloc, p));
+   121	DECLARE_HOOK(android_vh_kmalloc_slab,
+   122		TP_PROTO(unsigned int index, gfp_t flags, struct kmem_cache **s),
+   123		TP_ARGS(index, flags, s));
+   124	DECLARE_HOOK(android_vh_adjust_kvmalloc_flags,
+   125		TP_PROTO(unsigned int order, gfp_t *alloc_flags),
+   126		TP_ARGS(order, alloc_flags));
+   127	DECLARE_HOOK(android_vh_alloc_pages_slowpath,
+   128		TP_PROTO(gfp_t gfp_mask, unsigned int order, unsigned long delta),
+   129		TP_ARGS(gfp_mask, order, delta));
+   130	DECLARE_HOOK(android_vh_alloc_pages_slowpath_start,
+   131		TP_PROTO(u64 *stime),
+   132		TP_ARGS(stime));
+   133	DECLARE_HOOK(android_vh_alloc_pages_slowpath_end,
+   134		TP_PROTO(gfp_t *gfp_mask, unsigned int order, unsigned long alloc_start,
+   135			u64 stime, unsigned long did_some_progress,
+   136			unsigned long pages_reclaimed, int retry_loop_count),
+   137		TP_ARGS(gfp_mask, order, alloc_start, stime, did_some_progress,
+   138			pages_reclaimed, retry_loop_count));
+   139	DECLARE_HOOK(android_vh_dm_bufio_shrink_scan_bypass,
+   140		TP_PROTO(unsigned long dm_bufio_current_allocated, bool *bypass),
+   141		TP_ARGS(dm_bufio_current_allocated, bypass));
+   142	DECLARE_HOOK(android_vh_cleanup_old_buffers_bypass,
+   143		TP_PROTO(unsigned long dm_bufio_current_allocated,
+   144			unsigned long *max_age_hz,
+   145			bool *bypass),
+   146		TP_ARGS(dm_bufio_current_allocated, max_age_hz, bypass));
+   147	DECLARE_HOOK(android_vh_mmap_region,
+   148		TP_PROTO(struct vm_area_struct *vma, unsigned long addr),
+   149		TP_ARGS(vma, addr));
+   150	DECLARE_HOOK(android_vh_try_to_unmap_one,
+   151		TP_PROTO(struct folio *folio, struct vm_area_struct *vma,
+   152			unsigned long addr, void *arg, bool ret),
+   153		TP_ARGS(folio, vma, addr, arg, ret));
+   154	DECLARE_HOOK(android_vh_mm_direct_reclaim_enter,
+   155		TP_PROTO(unsigned int order),
+   156		TP_ARGS(order));
+   157	DECLARE_HOOK(android_vh_mm_direct_reclaim_exit,
+   158		TP_PROTO(unsigned long did_some_progress, int retry_times),
+   159		TP_ARGS(did_some_progress, retry_times));
+   160	struct oom_control;
+   161	DECLARE_HOOK(android_vh_mm_may_oom_exit,
+   162		TP_PROTO(struct oom_control *oc, unsigned long did_some_progress),
+   163		TP_ARGS(oc, did_some_progress));
+   164	DECLARE_HOOK(android_vh_do_anonymous_page,
+   165		TP_PROTO(struct vm_area_struct *vma, struct folio *folio),
+   166		TP_ARGS(vma, folio));
+   167	DECLARE_HOOK(android_vh_do_swap_page,
+   168		TP_PROTO(struct folio *folio, pte_t *pte, struct vm_fault *vmf,
+   169			swp_entry_t entry),
+   170		TP_ARGS(folio, pte, vmf, entry));
+   171	DECLARE_HOOK(android_vh_do_wp_page,
+   172		TP_PROTO(struct folio *folio),
+   173		TP_ARGS(folio));
+   174	DECLARE_HOOK(android_vh_uprobes_replace_page,
+   175		TP_PROTO(struct folio *new_folio, struct folio *old_folio),
+   176		TP_ARGS(new_folio, old_folio));
+   177	DECLARE_HOOK(android_vh_shmem_swapin_folio,
+   178		TP_PROTO(struct folio *folio),
+   179		TP_ARGS(folio));
+   180	DECLARE_HOOK(android_vh_get_page_wmark,
+   181		TP_PROTO(unsigned int alloc_flags, unsigned long *page_wmark),
+   182		TP_ARGS(alloc_flags, page_wmark));
+   183	DECLARE_HOOK(android_vh_page_add_new_anon_rmap,
+   184		TP_PROTO(struct page *page, struct vm_area_struct *vma,
+   185			unsigned long address),
+   186		TP_ARGS(page, vma, address));
+   187	DECLARE_HOOK(android_vh_meminfo_proc_show,
+   188		TP_PROTO(struct seq_file *m),
+   189		TP_ARGS(m));
+   190	DECLARE_HOOK(android_vh_exit_mm,
+   191		TP_PROTO(struct mm_struct *mm),
+   192		TP_ARGS(mm));
+   193	DECLARE_HOOK(android_vh_show_mem,
+   194		TP_PROTO(unsigned int filter, nodemask_t *nodemask),
+   195		TP_ARGS(filter, nodemask));
+   196	DECLARE_HOOK(android_vh_print_slabinfo_header,
+   197		TP_PROTO(struct seq_file *m),
+   198		TP_ARGS(m));
+   199	struct slabinfo;
+   200	DECLARE_HOOK(android_vh_cache_show,
+   201		TP_PROTO(struct seq_file *m, struct slabinfo *sinfo, struct kmem_cache *s),
+   202		TP_ARGS(m, sinfo, s));
+   203	DECLARE_HOOK(android_vh_customize_alloc_gfp,
+   204		TP_PROTO(gfp_t *alloc_gfp, unsigned int order),
+   205		TP_ARGS(alloc_gfp, order));
+   206	DECLARE_HOOK(android_vh_madvise_pageout_swap_entry,
+   207		TP_PROTO(swp_entry_t entry, int swapcount, void *priv),
+   208		TP_ARGS(entry, swapcount, priv));
+   209	DECLARE_HOOK(android_vh_madvise_swapin_walk_pmd_entry,
+   210		TP_PROTO(swp_entry_t entry),
+   211		TP_ARGS(entry));
+   212	DECLARE_HOOK(android_vh_process_madvise,
+   213		TP_PROTO(int behavior, ssize_t *ret, void *priv),
+   214		TP_ARGS(behavior, ret, priv));
+   215	DECLARE_HOOK(android_vh_smaps_pte_entry,
+   216		TP_PROTO(swp_entry_t entry, unsigned long *writeback,
+   217			unsigned long *same, unsigned long *huge),
+   218		TP_ARGS(entry, writeback, same, huge));
+   219	DECLARE_HOOK(android_vh_show_smap,
+   220		TP_PROTO(struct seq_file *m, unsigned long writeback,
+   221			unsigned long same, unsigned long huge),
+   222		TP_ARGS(m, writeback, same, huge));
+   223	DECLARE_HOOK(android_vh_smaps_swap_shared,
+   224		TP_PROTO(unsigned long *swap_shared),
+   225		TP_ARGS(swap_shared));
+   226	DECLARE_HOOK(android_vh_show_smap_swap_shared,
+   227		TP_PROTO(struct seq_file *m, unsigned long swap_shared),
+   228		TP_ARGS(m, swap_shared));
+   229	DECLARE_HOOK(android_vh_count_workingset_refault,
+   230		TP_PROTO(struct folio *folio),
+   231		TP_ARGS(folio));
+   232	DECLARE_HOOK(android_vh_alloc_pages_reclaim_bypass,
+   233	    TP_PROTO(gfp_t gfp_mask, int order, int alloc_flags,
+   234		int migratetype, struct page **page),
+   235		TP_ARGS(gfp_mask, order, alloc_flags, migratetype, page));
+   236	DECLARE_HOOK(android_vh_alloc_pages_failure_bypass,
+   237		TP_PROTO(gfp_t gfp_mask, int order, int alloc_flags,
+   238		int migratetype, struct page **page),
+   239		TP_ARGS(gfp_mask, order, alloc_flags, migratetype, page));
+   240	DECLARE_HOOK(android_vh_swapmem_gather_init,
+   241		TP_PROTO(struct mm_struct *mm),
+   242		TP_ARGS(mm));
+   243	DECLARE_HOOK(android_vh_swapmem_gather_add_bypass,
+   244		TP_PROTO(struct mm_struct *mm, swp_entry_t entry, int nr, bool *bypass),
+   245		TP_ARGS(mm, entry, nr, bypass));
+   246	DECLARE_HOOK(android_vh_swapmem_gather_finish,
+   247		TP_PROTO(struct mm_struct *mm),
+   248		TP_ARGS(mm));
+   249	DECLARE_HOOK(android_vh_oom_swapmem_gather_init,
+   250		TP_PROTO(struct mm_struct *mm),
+   251		TP_ARGS(mm));
+   252	DECLARE_HOOK(android_vh_oom_swapmem_gather_finish,
+   253		TP_PROTO(struct mm_struct *mm),
+   254		TP_ARGS(mm));
+   255	DECLARE_HOOK(android_vh_drain_all_pages_bypass,
+   256		TP_PROTO(gfp_t gfp_mask, unsigned int order, unsigned long alloc_flags,
+   257			int migratetype, unsigned long did_some_progress,
+   258			bool *bypass),
+   259		TP_ARGS(gfp_mask, order, alloc_flags, migratetype, did_some_progress, bypass));
+   260	DECLARE_HOOK(android_vh_save_vmalloc_stack,
+   261		TP_PROTO(unsigned long flags, struct vm_struct *vm),
+   262		TP_ARGS(flags, vm));
+   263	DECLARE_HOOK(android_vh_show_stack_hash,
+   264		TP_PROTO(struct seq_file *m, struct vm_struct *v),
+   265		TP_ARGS(m, v));
+   266	DECLARE_HOOK(android_vh_update_page_mapcount,
+   267		TP_PROTO(struct page *page, bool inc_size, bool compound,
+   268				int *first_mapping, bool *success),
+   269		TP_ARGS(page, inc_size, compound, first_mapping, success));
+   270	DECLARE_HOOK(android_vh_add_page_to_lrulist,
+   271		TP_PROTO(struct folio *folio, bool compound, enum lru_list lru),
+   272		TP_ARGS(folio, compound, lru));
+   273	DECLARE_HOOK(android_vh_del_page_from_lrulist,
+   274		TP_PROTO(struct folio *folio, bool compound, enum lru_list lru),
+   275		TP_ARGS(folio, compound, lru));
+   276	DECLARE_HOOK(android_vh_show_mapcount_pages,
+   277		TP_PROTO(void *unused),
+   278		TP_ARGS(unused));
+   279	DECLARE_HOOK(android_vh_do_traversal_lruvec,
+   280		TP_PROTO(struct lruvec *lruvec),
+   281		TP_ARGS(lruvec));
+   282	DECLARE_HOOK(android_vh_page_should_be_protected,
+   283		TP_PROTO(struct folio *folio, unsigned long nr_scanned,
+   284		s8 priority, u64 *ext, int *should_protect),
+   285		TP_ARGS(folio, nr_scanned, priority, ext, should_protect));
+   286	DECLARE_HOOK(android_vh_mark_page_accessed,
+   287		TP_PROTO(struct folio *folio),
+   288		TP_ARGS(folio));
+   289	
+   290	DECLARE_HOOK(android_vh_lock_folio_drop_mmap_start,
+   291		TP_PROTO(struct task_struct **tsk, struct vm_fault *vmf,
+   292			struct folio *folio, struct file *file),
+   293		TP_ARGS(tsk, vmf, folio, file));
+   294	
+   295	DECLARE_HOOK(android_vh_lock_folio_drop_mmap_end,
+   296		TP_PROTO(bool success, struct task_struct **tsk, struct vm_fault *vmf,
+   297			struct folio *folio, struct file *file),
+   298		TP_ARGS(success, tsk, vmf, folio, file));
+   299	
+   300	DECLARE_HOOK(android_vh_filemap_update_page,
+   301		TP_PROTO(struct address_space *mapping, struct folio *folio,
+   302			struct file *file),
+   303		TP_ARGS(mapping, folio, file));
+   304	DECLARE_HOOK(android_vh_cma_debug_show_areas,
+   305		TP_PROTO(bool *show),
+   306		TP_ARGS(show));
+   307	DECLARE_HOOK(android_vh_alloc_contig_range_not_isolated,
+   308		TP_PROTO(unsigned long start, unsigned end),
+   309		TP_ARGS(start, end));
+   310	DECLARE_HOOK(android_vh_warn_alloc_tune_ratelimit,
+   311		TP_PROTO(struct ratelimit_state *rs),
+   312		TP_ARGS(rs));
+   313	DECLARE_HOOK(android_vh_warn_alloc_show_mem_bypass,
+   314		TP_PROTO(bool *bypass),
+   315		TP_ARGS(bypass));
+ > 316	DECLARE_HOOK(android_vh_free_pages_prepare_bypass,
+   317		TP_PROTO(struct page *page, unsigned int order,
+   318			int __bitwise flags, bool *skip_free_pages_prepare),
+   319		TP_ARGS(page, order, flags, skip_free_pages_prepare));
+   320	
 
 -- 
-Cheers,
-
-David / dhildenb
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
