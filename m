@@ -1,117 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2E9200CB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 08:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53F828E7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 11:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742804661; cv=none; b=CSREXt9TUgx6+pxu4W9xCzSib/mRNCo0cVWTG5vEnD7w2gPyUYRUwKIZ1Dy5QqwNxqsDuFL7PQPvSSSxroUD8yFS3I07zgE45zhRHbQa5kgejMk0JzhsypABexveOaHOfCxKExJgdkq13Oybdz+P7l+GvSkGHwpsypLF/4xetVw=
+	t=1742816806; cv=none; b=ZOZGJmR3k1dRF3S0DGBZd4v6YvWfBiWbEaxHeoYc9c68t+e8mopPuMeWRk7Az48dTYnpWpPP2fQ13bjd4gDnI/TmDdWJlmRVIWe0B/UOuLR/NRxBy9DEFiz9HPhCewLuDsgw1A2PUwz97mghoJK5Hn12uWJDbStNzafFrMYKdbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742804661; c=relaxed/simple;
-	bh=kCjt67n1elIzQ6tsGtdVaiR+3psoeyWzMWC6W7/lCJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OT/acHl5UCr1GSEw8K/kaT/JqtmEtqS1mL7Guk9A+k/KxqGQmqYAiMeW+3cixRSz3ViOO8CyC5iQc3jr79ErrQAuHdGr7yeF6cZz6QaCHaj6F0eraZD3XTzT0xv0k7AjacHA1UNuo2LRUytjNPRNVjkCtFDl60v3LoycVp1NuCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h5w0VJT6; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1742816806; c=relaxed/simple;
+	bh=zSuENPiPbtaDwuaQQdXV+mtt2nFje5kEv1tHKaAxAcY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AAs96l5edJJlpEOPni23r8+j/mU9BmtQWIPdeTZMT+m3qUGBffcZVfYc9AIgNEsnqAg6Q9v0dyXZc/nGE0mzHi/dRrhx2SUI+V5Zx6ch3Mp24ujQvA19Odgrvs64VlifRgBLEQuioyR2t8J1pYlPVmTG5scnF8odzCs/4Rqj2nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=KcZNS0sE; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h5w0VJT6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742804660; x=1774340660;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kCjt67n1elIzQ6tsGtdVaiR+3psoeyWzMWC6W7/lCJ8=;
-  b=h5w0VJT6t0tq/OkPdw7wW8ahwumRg7peXkm8wIOYYp4BsYkjmbmIuUv5
-   DGFJs3irHJhjqCPBLGkIz6JZteMAqGYhXsdaDwAnVXRPVZJ1nnG/KVSuj
-   6u1rrLcyKOKQWLukj7hdsrNNTt27EnKWJ4RXWikRK3x70uHUTnCdFAk/m
-   xFfDBh20bwZp8eXuPe19y3e3sHtb2ttKtwWh05o4Z2wf2RKpth1NAne1a
-   rJPjI+Sx1f+c4FZ/f84LaJZTdRdqOcmsz9Q9pVPf2Cig638UmidbC7i/g
-   fr3hPhFWlpeoxzFKib2RJABksExQu5QpckXRjeI/tg9CHRR1o/iPyy+B4
-   A==;
-X-CSE-ConnectionGUID: PRXBpWZMRb2J3FK4mzuVww==
-X-CSE-MsgGUID: rYZk/giJTOaaSMVvP1Rbbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="44011190"
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="44011190"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 01:24:19 -0700
-X-CSE-ConnectionGUID: 0/zlCd/+QZOTL7QO351QJw==
-X-CSE-MsgGUID: zgQUYkTPQiOw7fmV0K7ytA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="123697242"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 24 Mar 2025 01:24:18 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1twd6V-0003PE-2Y;
-	Mon, 24 Mar 2025 08:24:15 +0000
-Date: Mon, 24 Mar 2025 16:23:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1513/1513]
- include/scsi/scsi_cmnd.h:327:12: warning: 'scsi_cmnd' may be used
- uninitialized in this function
-Message-ID: <202503241626.r5trN0HW-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="KcZNS0sE"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e900a7ce55so66166986d6.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 04:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1742816801; x=1743421601; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G3Pvd4lSSpF3DnIXoRvCoKbkh9+iG8O+meKIYL5SonY=;
+        b=KcZNS0sE/ZtCbQOAz1UdYTzGZWRGOKlgGvWgmso//1pqmN0GGHC9UD10aUqEYbjHr6
+         JnFh/JuymeCCJEBa5GzzRrLAjQteYEIndvkL7zp58tdl+B+LQnhdwuqfqW7vegI6dx0e
+         WwMM2kz56DHVQCAC757TWzIP/MjP2PuNpJS0gOwc6J1up50gwfSPoMNhD2Khz7LedlyA
+         FH20IJqjGK2kNUejmQPqdRaMz9m5pNDhmkWEqiOeG+pNa1D/dzeHP6+11mFDrvFvS316
+         ugrsho9+Cx2/Qej8/iqqs9Mny9VKLynNljrkpHNs1Nl6pl2A/U5awnABPkec5OuiTTcf
+         2gpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742816801; x=1743421601;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G3Pvd4lSSpF3DnIXoRvCoKbkh9+iG8O+meKIYL5SonY=;
+        b=hw6mPI7DFxLqvO+4jeUhmUx1lTlkYzv/6ognzzk+JmZwZ6mORz0A7vu8gwRWwBgI8q
+         HJ31F8QfeWNi4rqG4Do9mdhcHE65SujwOpKaiPfOnGgi1eMNWjzGEBTA/GruHOF6hvCn
+         ljjVGDbK92Wv3AkCYKJgrYhbf5sGdZZV7SlMCXK20itU/OQHowWMgqAVje12t96FRr2u
+         eK/aIFUumM+jHPyNut68E0Hq3iXOnDkMBZ7yx85jUXWonpYVZbxTSp3cNcsrbxIXqqGm
+         nF0SeiBa3670DBsAIZC2Ffw43mru7KM2Z9fCC5afunbBIOqJjv53TWatv9aOtCAZew8d
+         e7GQ==
+X-Gm-Message-State: AOJu0YwGoZZyvmkOCp9aQnNcmgkPpmPnqT474UMWloeVaiR/+aCN/K/a
+	hTxYC8vRB5K53kUqLbFCR7XL4cw5HajnIn+9qZ2xXVdjspyGPDNtGP4Pxe813A8=
+X-Gm-Gg: ASbGncvtMoJC8EDpwacc+Mr5xeQS+LZ/ID6fVCie34IbThBz117Z6qRZpSW5hGhYWFt
+	SVLSB2i6KGh4wjd4+lr9PjHsW5oJYMzMFpBPkiMal3rl5q7afGR8gI0XrSp+0Pzb/G+6qNaHSj4
+	Rr22x/4rfVh+CgZcRU3teOY+0tyE5CoFKQLtRbtFju0mL9nWSZHP3sjGbBEGJ7GuD02BT3tqNlB
+	+x1RGE7pTqI9LcYLqXYKdheqGWuI8Y4RyQXpTw8Gih3+UCpRWwYMENU5mHtAP3BPAnSQ9Z3RUXD
+	iS+G48T7smhYmJulr0MlLx704l+CCKVf0S2/1iQ=
+X-Google-Smtp-Source: AGHT+IGB3SXDh5vupaRLjd3wYSCUcTm788Z1i+qNbZf+XMtVSLWO58zJ2BYSTwGnMhxtsq9ZVc/jzQ==
+X-Received: by 2002:a05:6214:202b:b0:6e8:9843:ec99 with SMTP id 6a1803df08f44-6eb3f3af7fdmr165618456d6.41.1742816801148;
+        Mon, 24 Mar 2025 04:46:41 -0700 (PDT)
+Received: from [172.20.6.96] ([99.209.85.25])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eb3ef0e777sm43592136d6.8.2025.03.24.04.46.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Mar 2025 04:46:40 -0700 (PDT)
+Message-ID: <e27c19fe-6d42-4875-b918-8cacbe8daa6d@kernel.dk>
+Date: Mon, 24 Mar 2025 05:46:39 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [axboe-block:for-6.15/block 75/76] drivers/block/loop.c:388:6-25:
+ WARNING: atomic_dec_and_test variation before object free at line 395.
+To: Ming Lei <ming.lei@redhat.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202503240625.LfSMQqA2-lkp@intel.com> <Z-CpA6YVKLc2zxfb@fedora>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <Z-CpA6YVKLc2zxfb@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi chenxiang,
+On 3/23/25 6:36 PM, Ming Lei wrote:
+> On Mon, Mar 24, 2025 at 06:52:22AM +0800, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.15/block
+>> head:   4c3f4bad7a6e9022489a9f8392f7147ed3ce74b1
+>> commit: dfc77a934a3acdb13dadf237b7417c6a31b19da8 [75/76] loop: try to handle loop aio command via NOWAIT IO first
+>> config: i386-randconfig-052-20250323 (https://download.01.org/0day-ci/archive/20250324/202503240625.LfSMQqA2-lkp@intel.com/config)
+>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202503240625.LfSMQqA2-lkp@intel.com/
+>>
+>> cocci warnings: (new ones prefixed by >>)
+>>>> drivers/block/loop.c:388:6-25: WARNING: atomic_dec_and_test variation before object free at line 395.
+> 
+> The code itself is safe. Event through the atomic counter drops to zero,
+> the object isn't freed, and the counter can be re-initialized & requeued
+> internally.
+> 
+> This cocci rule should be 'wrong', or anyone can explain the exact risk
+> here?
 
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   256df080c8e0f3a9c8a5cc997ffc10fd5075dc6d
-commit: b4adbc622b73d2bc61e6d712e0a916e568f0ce3f [1513/1513] scsi: hisi_sas: add support for DIF/DIX feature of v3 hw
-config: arm64-randconfig-002-20250324 (https://download.01.org/0day-ci/archive/20250324/202503241626.r5trN0HW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250324/202503241626.r5trN0HW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503241626.r5trN0HW-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/scsi/libsas.h:36,
-                    from include/scsi/sas_ata.h:29,
-                    from drivers/scsi/hisi_sas/hisi_sas.h:27,
-                    from drivers/scsi/hisi_sas/hisi_sas_main.c:12:
-   drivers/scsi/hisi_sas/hisi_sas_main.c: In function 'hisi_sas_dif_dma_map':
->> include/scsi/scsi_cmnd.h:327:12: warning: 'scsi_cmnd' may be used uninitialized in this function [-Wmaybe-uninitialized]
-     327 |  return cmd->prot_sdb ? cmd->prot_sdb->table.sgl : NULL;
-         |         ~~~^~~~~~~~~~
-   drivers/scsi/hisi_sas/hisi_sas_main.c:412:20: note: 'scsi_cmnd' was declared here
-     412 |  struct scsi_cmnd *scsi_cmnd;
-         |                    ^~~~~~~~~
-
-
-vim +/scsi_cmnd +327 include/scsi/scsi_cmnd.h
-
-7027ad72a68979 Martin K. Petersen 2008-07-17  324  
-7027ad72a68979 Martin K. Petersen 2008-07-17  325  static inline struct scatterlist *scsi_prot_sglist(struct scsi_cmnd *cmd)
-7027ad72a68979 Martin K. Petersen 2008-07-17  326  {
-7027ad72a68979 Martin K. Petersen 2008-07-17 @327  	return cmd->prot_sdb ? cmd->prot_sdb->table.sgl : NULL;
-7027ad72a68979 Martin K. Petersen 2008-07-17  328  }
-7027ad72a68979 Martin K. Petersen 2008-07-17  329  
-
-:::::: The code at line 327 was first introduced by commit
-:::::: 7027ad72a689797475973c6feb5f0b673382f779 [SCSI] Support devices with protection information
-
-:::::: TO: Martin K. Petersen <martin.petersen@oracle.com>
-:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
+It's just a generic thing that it always reports, in case atomic_t is
+used where a refcount_t would be "safer". You can just ignore it.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
