@@ -1,71 +1,70 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B061E50B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 05:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED399645
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Mar 2025 06:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742795910; cv=none; b=XSXZUJJi7jsfHTDwSpMthDl8M0FI8FXs/dTFzBGuLffDYMM5BJaXPQuXZoVAJnem/Pqs/rBWuiTBKTps7cxN7phARa/zmmFAt+NDSNE0OOj3gba17xrouXryh0PerGsscJMca+uvh8FZUGgYW6n5S8G2QpVUgBafxiGmTbs/AnY=
+	t=1742798966; cv=none; b=GCZxQZ7L23MmJ4WCAUNh1Bky6hanevreAfHASCyUvaLk9478UZTOvHPC52S0DHcrK/fIwOPPplST82z6j0t2NJWFnhBd3iPQyxIHbBtdCxztNKjCyLiZlE2uhGFLTw/I35PuVBkPZvWb9VTmHYJC/2gAE91nKlPBCTKoQeMHJdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742795910; c=relaxed/simple;
-	bh=yNIZquMF38bk2rHy+xtDADdE3FvhUO+NFPf+AFkX9Rs=;
+	s=arc-20240116; t=1742798966; c=relaxed/simple;
+	bh=MeBCltGop41WBqugBNpPQKxAaBr5naKJJrxh4qA/ICg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=lXAfQaRoQhhhRFTl3QQuAzulsaSyDSbJu07nAwygmUiGOV9wlXzdaMzxHeZMFLGUOOMPQqA7S9nSp9Ws+5sS5hGIMGpMtL1aOIzGRrAbN7Fco9GbEb8iWEGhSyMnI7d/6WaEroZaIfJT4ABzgDcTLWQHaa78E0yy5EoTUuDweeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NwP2FanC; arc=none smtp.client-ip=209.85.128.47
+	 Content-Disposition; b=g6Zja+vdgimIGsQSKY7uYBmOjL00aGXN1ndVm6W6ozLwY4Wd1Mi89gc00IrAxb3/XhZNZ5F3MwBISkVy3wx/tN0EFajIj/MYTS4VB5+QVIyL5cxR5YgxQznFWAJzbQce6eeew/C3h2ukzsOWRJInEHg63/KbvaJatvfUX6dBKco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZDYqN4BD; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NwP2FanC"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so38153145e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 22:58:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDYqN4BD"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3912fdddf8fso3026788f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 23 Mar 2025 23:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742795907; x=1743400707; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K8xlcuEIxJivxRfeLiEVKTBTLzbQUtLbKH23ujGL7u8=;
-        b=NwP2FanCDHG78iouLYDvZ/mS4Lhu+qrbnYCOBow2mpWfUuCNxpHfoE+DEqJqRk8x6u
-         usGDC7StcWH7XpOsg/B0B2oKxI8SXEuKpegLFSPPwtBYNxG5qzvcYFjOVLNGCmkoo+8e
-         9Z2COfEQzrO3QP0He8plMU2zhTho+eWh2O52eaGT3UKXwhYYHYFNT9XxVms/SeKRxLwy
-         Mbu4b8MfjFBIrXffzeas0sK2rt7WvRjdXxVWRom2SDIk2dKX/JecPfbCmaDrWMa3NGAe
-         p+9ZwLAsbds2QJfs+K8XU03RlyKM8My1xy+q41WMryLusMkItDsOSZNTPnDx49GhVLjQ
-         NF2w==
+        d=linaro.org; s=google; t=1742798962; x=1743403762; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+dDZsz4UIUxmPWUxqRvwlmJXMsHW01F5Vt73n6SdVvk=;
+        b=ZDYqN4BD0fDexloLYYpP6XDg4AMFItaH3KXq4fdC3AVTA5FdJJN8qFs4VhBFkvFo6i
+         bF8mubBxDXvn+n7ZerDBSmNV25huDpWw36D2bcqO/4jJfgU4XEczw+f3nFn27kk+Isc6
+         wOfGV+JApoFxv+o6eevz+Ng5HK5RbEvIRw872Hu7/24Ab4qbjM8zt1CwQb5dghMvwljQ
+         SJg/akDYvA3+VkNJckD5XJE0sEIp9fnlqhBYCDmM4NcozUT5RUHyc6qZvwxdNQ9UKnOI
+         MchIQaxchc6Hy9nDLBo5PHbh5ZdMVegdNTL55Ff4xlPzZ+J3FvGWWLsN7ut4eC7EqBuR
+         zeTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742795907; x=1743400707;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K8xlcuEIxJivxRfeLiEVKTBTLzbQUtLbKH23ujGL7u8=;
-        b=p/DLa3hrdvZczLc45DAESBF1Lw++AS34QZJIIZsmRJzgXTu7Q3sd0mxioqD4HZeTor
-         W9cIYdyxZFkkaR2ASFHsYG84bXfzppZr+gvZ6sX0BlRyYSgj08Xm4+rslCqqeZ/ydlrn
-         0Vkhx4UjdHotBSb4+a2faYEnfoTutT61ejXZg2v59UAcTh3y+VTqQfn41Pqe1NXO6uvK
-         ESJQqd0Nqu3tYLNep7hONIzN2t9oHAOFgWZUZ3eI/2cxPqx58WbaZ4uFLZA+GipSiCvn
-         ThUsosG6dvSILa9V4WenP4rT875h/5bzB8QzKyfOYlFMz+sslBqN0h6QnmyzZLPRMLAG
-         81mg==
-X-Forwarded-Encrypted: i=1; AJvYcCX9eT/pcfZqOpgQ8Yb90L0tY5sBCxyOk1qLBH0qg3EQ6LPAxTDMRRAjAilZ2b1pEkV3eezmlDKJL91+MZw9@lists.linux.dev
-X-Gm-Message-State: AOJu0YyERdwKw4aHOLckZQltpwLm1DIwgpKpDQdsiMSj3MAoIMjSJup1
-	8Wmq7ncElDGv4yuhh2K/ngsj+WuR/IEeYPbhbJwZUIhvryoEiAFyaukJRhpn0zM=
-X-Gm-Gg: ASbGncu+m7zw2SUqHUUJZBxVWeX6+EPGgzpFf+qkupEOgAAd15z7uhuJ7TMlks3tdUJ
-	Ow1UEXkb1DpKusBTZs4C+2LkivtZ4sWfjjE4rstQm7BAqaR+liMv8ZYqPZRpJ4mIgt+ZN5oOss4
-	9fsbaUjDGMXdabZnURnuaY+MO8VtAdhmBqno6urBtWk4GYl4XzMNPsPAJ2Y9ef07A1A0qbrmNTJ
-	Y510iGI+E8703ZwN9JFoG/rgLxzXdyFQ40U++gmOQN/T+0EohN/jg2pq28NJALTBEWGDHv1oOD2
-	tGxPrTXl76IBO4hTkcp98FuWKXyIkvqgc5BbadchXJbL+n+Fyg==
-X-Google-Smtp-Source: AGHT+IEYCDGg3jXqt5Yod2eTSaSNqRti/PGIBrxXvgqe4swkYucOlNorgl+9aHFa/LpSmyufPn6xuA==
-X-Received: by 2002:a05:600c:1e0d:b0:43c:f689:88ce with SMTP id 5b1f17b1804b1-43d50a1d1b4mr110427565e9.20.1742795906839;
-        Sun, 23 Mar 2025 22:58:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742798962; x=1743403762;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+dDZsz4UIUxmPWUxqRvwlmJXMsHW01F5Vt73n6SdVvk=;
+        b=YEvlHdasjciROGGUIMt+lOhEvyEQGwPF4faLCmEE6vPx6mawFQYsICmdrVy6hpJDCZ
+         690ZsUikjcTwcNAFYnira8BUt99oRx0Rw+6sWgCcqRfZudUDSfb+mbliNxTC55y5OpWD
+         DAqQgQw9k4bX54wM4fhiqynN9vpfya6zctdwI2/jPnM3QhohHKQejwyT/3dZ0mpUYbNb
+         UWXc/EzwC4ztM35JJPinRFr7kjbvqeHJPHuw10In6cgrxUCIDano8J7HnAEzBLhLWrBx
+         7N8qoGUkbvCNXPKUCirtjUjnkzUf8Z9gdQxJi28AucZnu5xjx/fYV8gPbt7QYDMaRlat
+         MkWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVvwLqC0LFyMB8g2PJR0b2XOLbPBWT/rc2/qdyu9MVB7PzbAKHj5KugKrZaiVAW7s59ZKRJVxbsH1N/gbuS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxw6a6dQhHIwh939ZCE2znPX3QkQUSjtIP9gmYrI5Ub4jdEzW4/
+	9z61m1He4u2Qwtv8O+Bg4cRD3DbcZqQbF+2LMfT7eDM4sjfMkEsyen/eRoh8Qxs=
+X-Gm-Gg: ASbGnctsLJ2fUOJiSUyQVVDplZd93Nr2L1G4D3Nhvpl9Xl0rueWPxZ6KICHQU2j5uaK
+	n/MU19k8Fr9Kj62e3SqhkYqYzpAh5+1gdT8f2LhSu8slBpc5xv5RbYmoghrGQRzv8NrC77IztBX
+	x2YPo3bUKCoXLz+8CdKB0QYBOSGnI7gMskc6R6CtrMHlM+pAyJC3LFPwokBlrKfNQoCX5rgQ9h5
+	aSuzI98oe348nTs0XA8USKEMryu7lv9gYtOAgzFE0fCfs4fJtTv78zXn2tw8Bq730b1EDJVn9ub
+	waiqukB/+wUyrlDlwP9lU2wV4xu3fLyhevVgWmJk/HOkOFSHJhZfI6biRjf7
+X-Google-Smtp-Source: AGHT+IH/O+SxW/A6tHLl66luw0B3Q+UY6WxKotJgS9M1+9fv6/xBCkqaJIgLc48RFD0NzvhjcR8KOg==
+X-Received: by 2002:a05:6000:1565:b0:38d:b028:d906 with SMTP id ffacd0b85a97d-3997f933816mr9868262f8f.21.1742798962016;
+        Sun, 23 Mar 2025 23:49:22 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f9955c0sm9752903f8f.3.2025.03.23.22.58.26
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3997f995606sm10128335f8f.13.2025.03.23.23.49.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Mar 2025 22:58:26 -0700 (PDT)
-Date: Mon, 24 Mar 2025 08:58:24 +0300
+        Sun, 23 Mar 2025 23:49:21 -0700 (PDT)
+Date: Mon, 24 Mar 2025 09:49:19 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Tomasz Lis <tomasz.lis@intel.com>,
-	intel-xe@lists.freedesktop.org
+To: oe-kbuild@lists.linux.dev,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	=?utf-8?Q?Micha=C5=82?= Wajdeczko <michal.wajdeczko@intel.com>,
-	Piotr =?iso-8859-1?Q?Pi=F3rkowski?= <piotr.piorkowski@intel.com>
-Subject: Re: [PATCH v4 2/3] drm/xe/sriov: Shifting GGTT area post migration
-Message-ID: <71bb454a-e61a-43d7-9eba-646ebf9e16da@stanley.mountain>
+	Vinod Koul <vkoul@kernel.org>
+Subject: [linux-next:master 9040/13068]
+ drivers/dma/amd/ptdma/ptdma-dmaengine.c:358 pt_cmd_callback_work() warn:
+ variable dereferenced before check 'desc' (see line 345)
+Message-ID: <aa29df80-cb5b-48df-a95b-cd8e55cd301a@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,54 +73,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250306222126.3382322-3-tomasz.lis@intel.com>
 
-Hi Tomasz,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Lis/drm-drm_mm-Safe-macro-for-iterating-through-nodes-in-range/20250307-102511
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250306222126.3382322-3-tomasz.lis%40intel.com
-patch subject: [PATCH v4 2/3] drm/xe/sriov: Shifting GGTT area post migration
-config: openrisc-randconfig-r073-20250321 (https://download.01.org/0day-ci/archive/20250323/202503231159.himCw1Ch-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9388ec571cb1adba59d1cded2300eeb11827679c
+commit: 6565439894570a07b00dba0b739729fe6b56fba4 [9040/13068] dmaengine: ptdma: Utilize the AE4DMA engine's multi-queue functionality
+config: x86_64-randconfig-161-20250323 (https://download.01.org/0day-ci/archive/20250323/202503231648.IEt8P4U5-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202503231159.himCw1Ch-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202503231648.IEt8P4U5-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/xe/xe_sriov_vf.c:191 vf_post_migration_fixup_ggtt_nodes() error: uninitialized symbol 'err'.
+drivers/dma/amd/ptdma/ptdma-dmaengine.c:358 pt_cmd_callback_work() warn: variable dereferenced before check 'desc' (see line 345)
 
-vim +/err +191 drivers/gpu/drm/xe/xe_sriov_vf.c
+vim +/desc +358 drivers/dma/amd/ptdma/ptdma-dmaengine.c
 
-253478de2cb134 Tomasz Lis 2025-03-06  174  static int vf_post_migration_fixup_ggtt_nodes(struct xe_device *xe)
-253478de2cb134 Tomasz Lis 2025-03-06  175  {
-253478de2cb134 Tomasz Lis 2025-03-06  176  	struct xe_tile *tile;
-253478de2cb134 Tomasz Lis 2025-03-06  177  	unsigned int id;
-253478de2cb134 Tomasz Lis 2025-03-06  178  	int err;
-253478de2cb134 Tomasz Lis 2025-03-06  179  
-253478de2cb134 Tomasz Lis 2025-03-06  180  	for_each_tile(tile, xe, id) {
-253478de2cb134 Tomasz Lis 2025-03-06  181  		struct xe_gt *gt = tile->primary_gt;
-253478de2cb134 Tomasz Lis 2025-03-06  182  		int ret;
-253478de2cb134 Tomasz Lis 2025-03-06  183  
-253478de2cb134 Tomasz Lis 2025-03-06  184  		/* media doesn't have its own ggtt */
-253478de2cb134 Tomasz Lis 2025-03-06  185  		if (xe_gt_is_media_type(gt))
-253478de2cb134 Tomasz Lis 2025-03-06  186  			continue;
-253478de2cb134 Tomasz Lis 2025-03-06  187  		ret = xe_gt_sriov_vf_fixup_ggtt_nodes(gt);
-253478de2cb134 Tomasz Lis 2025-03-06  188  		if (ret != ENODATA)
-253478de2cb134 Tomasz Lis 2025-03-06  189  			err = ret;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  336  static void pt_cmd_callback_work(void *data, int err)
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  337  {
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  338  	struct dma_async_tx_descriptor *tx_desc;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  339  	struct pt_dma_desc *desc = data;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  340  	struct dma_chan *dma_chan;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  341  	struct virt_dma_desc *vd;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  342  	struct pt_dma_chan *chan;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  343  	unsigned long flags;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  344  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03 @345  	dma_chan = desc->vd.tx.chan;
+                                                                                                           ^^^^^^
+Most of the function assumes "desc" is a valid non-NULL pointer.
 
-err isn't initialized on else path.
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  346  	chan = to_pt_chan(dma_chan);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  347  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  348  	if (err == -EINPROGRESS)
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  349  		return;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  350  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  351  	tx_desc = &desc->vd.tx;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  352  	vd = &desc->vd;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  353  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  354  	if (err)
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  355  		desc->status = DMA_ERROR;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  356  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  357  	spin_lock_irqsave(&chan->vc.lock, flags);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03 @358  	if (desc) {
+                                                                                                    ^^^^
+Checked too late.
 
-253478de2cb134 Tomasz Lis 2025-03-06  190  	}
-253478de2cb134 Tomasz Lis 2025-03-06 @191  	return err;
-253478de2cb134 Tomasz Lis 2025-03-06  192  }
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  359  		if (desc->status != DMA_COMPLETE) {
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  360  			if (desc->status != DMA_ERROR)
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  361  				desc->status = DMA_COMPLETE;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  362  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  363  			dma_cookie_complete(tx_desc);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  364  			dma_descriptor_unmap(tx_desc);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  365  		} else {
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  366  			tx_desc = NULL;
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  367  		}
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  368  	}
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  369  	spin_unlock_irqrestore(&chan->vc.lock, flags);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  370  
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  371  	if (tx_desc) {
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  372  		dmaengine_desc_get_callback_invoke(tx_desc, NULL);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  373  		dma_run_dependencies(tx_desc);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  374  		list_del(&desc->vd.node);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  375  		vchan_vdesc_fini(vd);
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  376  	}
+6565439894570a drivers/dma/amd/ptdma/ptdma-dmaengine.c Basavaraj Natikar 2025-02-03  377  }
 
 -- 
 0-DAY CI Kernel Test Service
